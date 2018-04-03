@@ -1,0 +1,226 @@
+=={{header|C sharp|C#}}==
+'''Recursive'''
+<lang csharp>namespace Search {
+  using System;
+
+  public static partial class Extensions {
+    /// <summary>Use Binary Search to find index of GLB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of GLB for value</returns>
+    public static int RecursiveBinarySearchForGLB<T>(this T[] entries, T value)
+      where T : IComparable {
+      return entries.RecursiveBinarySearchForGLB(value, 0, entries.Length - 1);
+    }
+
+    /// <summary>Use Binary Search to find index of GLB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <param name="left">leftmost index to search</param>
+    /// <param name="right">rightmost index to search</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of GLB for value</returns>
+    public static int RecursiveBinarySearchForGLB<T>(this T[] entries, T value, int left, int right)
+      where T : IComparable {
+      if (left <= right) {
+        var middle = left + (right - left) / 2;
+        return entries[middle].CompareTo(value) < 0 ?
+          entries.RecursiveBinarySearchForGLB(value, middle + 1, right) :
+          entries.RecursiveBinarySearchForGLB(value, left, middle - 1);
+      }
+
+      //[Assert]left == right + 1
+      // GLB: entries[right] < value && value <= entries[right + 1]
+      return right;
+    }
+
+    /// <summary>Use Binary Search to find index of LUB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of LUB for value</returns>
+    public static int RecursiveBinarySearchForLUB<T>(this T[] entries, T value)
+      where T : IComparable {
+      return entries.RecursiveBinarySearchForLUB(value, 0, entries.Length - 1);
+    }
+
+    /// <summary>Use Binary Search to find index of LUB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <param name="left">leftmost index to search</param>
+    /// <param name="right">rightmost index to search</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of LUB for value</returns>
+    public static int RecursiveBinarySearchForLUB<T>(this T[] entries, T value, int left, int right)
+      where T : IComparable {
+      if (left <= right) {
+        var middle = left + (right - left) / 2;
+        return entries[middle].CompareTo(value) <= 0 ?
+          entries.RecursiveBinarySearchForLUB(value, middle + 1, right) :
+          entries.RecursiveBinarySearchForLUB(value, left, middle - 1);
+      }
+
+      //[Assert]left == right + 1
+      // LUB: entries[left] > value && value >= entries[left - 1]
+      return left;
+    }
+  }
+}</lang>
+'''Iterative'''
+<lang csharp>namespace Search {
+  using System;
+
+  public static partial class Extensions {
+    /// <summary>Use Binary Search to find index of GLB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of GLB for value</returns>
+    public static int BinarySearchForGLB<T>(this T[] entries, T value)
+      where T : IComparable {
+      return entries.BinarySearchForGLB(value, 0, entries.Length - 1);
+    }
+
+    /// <summary>Use Binary Search to find index of GLB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <param name="left">leftmost index to search</param>
+    /// <param name="right">rightmost index to search</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of GLB for value</returns>
+    public static int BinarySearchForGLB<T>(this T[] entries, T value, int left, int right)
+      where T : IComparable {
+      while (left <= right) {
+        var middle = left + (right - left) / 2;
+        if (entries[middle].CompareTo(value) < 0)
+          left = middle + 1;
+        else
+          right = middle - 1;
+      }
+
+      //[Assert]left == right + 1
+      // GLB: entries[right] < value && value <= entries[right + 1]
+      return right;
+    }
+
+    /// <summary>Use Binary Search to find index of LUB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of LUB for value</returns>
+    public static int BinarySearchForLUB<T>(this T[] entries, T value)
+      where T : IComparable {
+      return entries.BinarySearchForLUB(value, 0, entries.Length - 1);
+    }
+
+    /// <summary>Use Binary Search to find index of LUB for value</summary>
+    /// <typeparam name="T">type of entries and value</typeparam>
+    /// <param name="entries">array of entries</param>
+    /// <param name="value">search value</param>
+    /// <param name="left">leftmost index to search</param>
+    /// <param name="right">rightmost index to search</param>
+    /// <remarks>entries must be in ascending order</remarks>
+    /// <returns>index into entries of LUB for value</returns>
+    public static int BinarySearchForLUB<T>(this T[] entries, T value, int left, int right)
+      where T : IComparable {
+      while (left <= right) {
+        var middle = left + (right - left) / 2;
+        if (entries[middle].CompareTo(value) <= 0)
+          left = middle + 1;
+        else
+          right = middle - 1;
+      }
+
+      //[Assert]left == right + 1
+      // LUB: entries[left] > value && value >= entries[left - 1]
+      return left;
+    }
+  }
+}</lang>
+'''Example'''
+<lang csharp>//#define UseRecursiveSearch
+
+using System;
+using Search;
+
+class Program {
+  static readonly int[][] tests = {
+    new int[] { },
+    new int[] { 2 },
+    new int[] { 2, 2 },
+    new int[] { 2, 2, 2, 2 },
+    new int[] { 3, 3, 4, 4 },
+    new int[] { 0, 1, 3, 3, 4, 4 },
+    new int[] { 0, 1, 2, 2, 2, 3, 3, 4, 4},
+    new int[] { 0, 1, 1, 2, 2, 2, 3, 3, 4, 4 },
+    new int[] { 0, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4 },
+    new int[] { 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4 },
+    new int[] { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4 },
+  };
+
+  static void Main(string[] args) {
+    var index = 0;
+    foreach (var test in tests) {
+      var join = String.Join(" ", test);
+      Console.WriteLine($"test[{index}]: {join}");
+#if UseRecursiveSearch
+      var glb = test.RecursiveBinarySearchForGLB(2);
+      var lub = test.RecursiveBinarySearchForLUB(2);
+#else
+      var glb = test.BinarySearchForGLB(2);
+      var lub = test.BinarySearchForLUB(2);
+#endif
+      Console.WriteLine($"glb = {glb}");
+      Console.WriteLine($"lub = {lub}");
+
+      index++;
+    }
+#if DEBUG
+    Console.Write("Press Enter");
+    Console.ReadLine();
+#endif
+  }
+}</lang>
+
+'''Output'''
+<pre>test[0]:
+glb = -1
+lub = 0
+test[1]: 2
+glb = -1
+lub = 1
+test[2]: 2 2
+glb = -1
+lub = 2
+test[3]: 2 2 2 2
+glb = -1
+lub = 4
+test[4]: 3 3 4 4
+glb = -1
+lub = 0
+test[5]: 0 1 3 3 4 4
+glb = 1
+lub = 2
+test[6]: 0 1 2 2 2 3 3 4 4
+glb = 1
+lub = 5
+test[7]: 0 1 1 2 2 2 3 3 4 4
+glb = 2
+lub = 6
+test[8]: 0 1 1 1 1 2 2 3 3 4 4
+glb = 4
+lub = 7
+test[9]: 0 1 1 1 1 2 2 2 2 2 2 2 3 3 4 4
+glb = 4
+lub = 12
+test[10]: 0 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 3 3 4 4
+glb = 13
+lub = 21</pre>
