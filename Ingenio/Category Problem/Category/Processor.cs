@@ -37,7 +37,7 @@ namespace IngenioSample {
         var id = (int)cmd.CategoryId;
         var category = Dataset.FindCategoryById(id);
         if (category == null)
-          throw new ArgumentException($"Category Id = {id} not found");
+          throw new ArgumentException($"CategoryId = {id} not found");
 
         Console.WriteLine($@"CategoryId = {category.Id},
 ParentCategoryId = {category.ParentId},

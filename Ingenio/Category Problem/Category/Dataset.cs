@@ -41,7 +41,7 @@ namespace IngenioSample {
     /// </summary>
     private Dictionary<int, Category> CategoryMap { get; set; }
     private List<Category> RootSet { get; set; }
-    private List<List<Category>> Levels { get; set; }
+    private List<IEnumerable<Category>> Levels { get; set; }
     #endregion
 
     #region Initialization
@@ -61,7 +61,7 @@ namespace IngenioSample {
 
     private void EnsureLevels() {
       if (Levels == null)
-        Levels = new List<List<Category>>();
+        Levels = new List<IEnumerable<Category>>();
       else
         Levels.Clear();
     }
@@ -82,11 +82,11 @@ namespace IngenioSample {
     private void AddLevels(IEnumerable<Category> categories) {
       EnsureLevels();
       for (; categories.Any(); categories = NextGeneration(categories))
-        Levels.Add(categories.ToList());
+        Levels.Add(categories);
     }
 
     private IEnumerable<Category> NextGeneration(IEnumerable<Category> categories) {
-      return categories.SelectMany(c => CategoryMap[c.Id].Children);
+      return categories.SelectMany(cat => CategoryMap[cat.Id].Children);
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ namespace IngenioSample {
     public Category FindCategoryById(int id) {
       if (CategoryMap.TryGetValue(id, out Category result)) {
         var category = result;
-        for (; category != null && string.IsNullOrEmpty(category.Keywords); category = result.Parent) { }
+        for (; category != null && string.IsNullOrEmpty(category.Keywords); category = category.Parent) { }
 
         if (category != null && category != result)
           result = new Category(result) { Keywords = category.Keywords };
@@ -143,20 +143,20 @@ namespace IngenioSample {
     }
 
     /// <summary>
-    /// Find the list of Category Id values appearing at a given level
+    /// Enumerate the Category Id values appearing at a given level
     /// </summary>
     /// <param name="level">distance from root set</param>
     /// <returns>List of Category Id values</returns>
     public IOrderedEnumerable<int> FindCategoryIdsByLevel(int level) {
-      return FindCategoriesByLevel(level).Select(c => c.Id).OrderBy(id => id);
+      return FindCategoriesByLevel(level).Select(cat => cat.Id).OrderBy(id => id);
     }
 
     /// <summary>
-    /// Find the list of Categories appearing at a given level
+    /// Enumerate the Categories appearing at a given level
     /// </summary>
     /// <param name="level">distance from root set</param>
     /// <returns>List of Categories</returns>
-    public List<Category> FindCategoriesByLevel(int level) {
+    public IEnumerable<Category> FindCategoriesByLevel(int level) {
       return Levels[level];
     }
     #endregion
