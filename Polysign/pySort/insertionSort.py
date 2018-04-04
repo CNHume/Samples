@@ -11,13 +11,12 @@ def customSort(input):
         counts[value] = counts[value] + 1 if value in counts else 1
 
     #
-    # Entries contain each original array element
-    # followed by the frequency of its occurrence
+    # Each pair is (k: input value, v: count)
     #
-    entries = [(v, k) for k, v in counts.items()]
-    insertionSort(entries)
+    pairs = [(k, v) for k, v in counts.items()]
+    insertionSort(pairs)
 
-    return [entry[0] for entry in entries]
+    return [pair[0] for pair in pairs]
 
 def insertionSort(entries):
     insertionSortSlice(entries, 0, len(entries) - 1)
@@ -35,15 +34,15 @@ def insertionSortEntry(entries, first, index):
 
 # Compound Comparison
 def compare(entry1, entry2):
-    # Compare frequency first
-    if entry1[0] < entry2[0]:
-        return -1
-    elif entry1[0] > entry2[0]:
-        return 1
-    # Compare array elements
-    elif entry1[1] < entry2[1]:
+    # Compare count first
+    if entry1[1] < entry2[1]:
         return -1
     elif entry1[1] > entry2[1]:
+        return 1
+    # Compare input value
+    elif entry1[0] < entry2[0]:
+        return -1
+    elif entry1[0] > entry2[0]:
         return 1
     else:
         return 0
