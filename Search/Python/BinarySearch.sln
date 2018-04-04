@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "BinarySearch", "BinarySearch\BinarySearch.pyproj", "{691E2842-2341-4D61-B2A3-B45C9C6BB874}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{691E2842-2341-4D61-B2A3-B45C9C6BB874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691E2842-2341-4D61-B2A3-B45C9C6BB874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {099822DE-4B5D-44CB-B68E-3D49C7B5F2C4}
+	EndGlobalSection
+EndGlobal
