@@ -92,8 +92,8 @@ namespace Sort {
     }
 
     private void partition(T[] entries) {
-      var first = Left;
-      var last = Right;
+      //var first = Left;
+      //var last = Right;
       while (true) {
         //[Assert]There exists some index >= Left where entries[index] >= Median
         //[Assert]There exists some index <= Right where entries[index] <= Median
