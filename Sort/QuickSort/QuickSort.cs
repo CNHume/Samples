@@ -40,9 +40,9 @@ namespace Sort {
     public static UInt64 PartCount { get; set; }
 #endif
     public Int32 InsertionLimit { get; set; }
-    protected Random Random { get; set; }
-
+    private Random Random { get; set; }
     private T Median { get; set; }
+
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
     private Int32 LeftMedian { get; set; }
@@ -51,8 +51,8 @@ namespace Sort {
 
     #region Constructors
     public QuickSort(Int32 insertionLimit, Random random) {
-      InsertionLimit = insertionLimit;
-      Random = random;
+      this.InsertionLimit = insertionLimit;
+      this.Random = random;
     }
 
     public QuickSort(Int32 insertionLimit)

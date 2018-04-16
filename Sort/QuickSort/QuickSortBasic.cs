@@ -8,17 +8,17 @@ namespace Sort {
 
     #region Properties
     public Int32 InsertionLimit { get; set; }
-    protected Random Random { get; set; }
-
+    private Random Random { get; set; }
     private T Median { get; set; }
+
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
     #endregion
 
     #region Constructors
     public QuickSort(Int32 insertionLimit, Random random) {
-      InsertionLimit = insertionLimit;
-      Random = random;
+      this.InsertionLimit = insertionLimit;
+      this.Random = random;
     }
 
     public QuickSort(Int32 insertionLimit)
