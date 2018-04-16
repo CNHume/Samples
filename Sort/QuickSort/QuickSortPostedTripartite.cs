@@ -1,6 +1,7 @@
 //
-// The Tripartite conditional performs additional compares to isolate islands equal
-// to the pivot value.  Use when key-equivalence classes may be of substantial size.
+// The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
+// This performs additional compares to isolate islands of keys equal to
+// the pivot value.  Use unless key-equivalent classes are of small size.
 //
 #define Tripartite
 
@@ -30,8 +31,12 @@ namespace Sort {
       Random = random;
     }
 
+    public QuickSort(Int32 insertionLimit)
+      : this(insertionLimit, new Random()) {
+    }
+
     public QuickSort()
-      : this(INSERTION_LIMIT_DEFAULT, new Random()) {
+      : this(INSERTION_LIMIT_DEFAULT) {
     }
     #endregion
 
