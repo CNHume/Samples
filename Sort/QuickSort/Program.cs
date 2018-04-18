@@ -57,6 +57,10 @@ namespace Sort {
         entries[index] = index;
     }
 
+    //
+    //[Note]fillRandom ran about four times faster on
+    // 108 M entries under the Tripartite conditional
+    //
     private static void fillRandom(Int32[] entries) {
       var length = entries.Length;
       const Int32 scale = 120;

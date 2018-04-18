@@ -52,7 +52,13 @@ namespace Sort {
 
       var n = entries.Length;
       var dNLogN = n * Math.Log(n);
-      var rate = dNLogN / msec; // 50 MHz over 108 M entries on an i7-4702HQ @ 2.2 GHz in Release Mode
+      var rate = dNLogN / msec;
+
+      //
+      // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
+      // For Random Fill with scale = 120
+      // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
+      //
       Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, n * Log(n) Rate = {2:0.0##} KHz",
                         n, msec / 1000, rate);
 #if CountCompare
