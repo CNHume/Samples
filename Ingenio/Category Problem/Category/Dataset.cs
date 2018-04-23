@@ -74,7 +74,6 @@ namespace IngenioSample {
     /// </summary>
     /// <param name="categories">Categories to be included in the list of lists</param>
     public void Load(IEnumerable<Category> categories) {
-      BuildCategoryMap(categories);
       AddChildren(categories);
       AddLevels(RootSet);
     }
@@ -106,6 +105,7 @@ namespace IngenioSample {
     /// </summary>
     /// <param name="categories">Categories to be included as Children</param>
     private void AddChildren(IEnumerable<Category> categories) {
+      BuildCategoryMap(categories);
       EnsureRootSet();
       foreach (var category in categories) {
         var id = category.Id;
