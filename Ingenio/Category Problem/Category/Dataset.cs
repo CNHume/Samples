@@ -68,16 +68,16 @@ namespace IngenioSample {
     #endregion
 
     #region Methods
-    /// <summary>
-    /// Build a list of sub-lists where each sub-list appears at a position in the outer list
-    /// corresponding to the Level of those Categories contained in the sub-list.
-    /// </summary>
-    /// <param name="categories">Categories to be included in the list of lists</param>
     public void Load(IEnumerable<Category> categories) {
       AddChildren(categories);
       AddLevels(RootSet);
     }
 
+    /// <summary>
+    /// Build a list of sub-lists where each sub-list appears at a position in the outer list
+    /// corresponding to the Level of those Categories contained in the sub-list.
+    /// </summary>
+    /// <param name="categories">Categories to be included in the list of lists</param>
     private void AddLevels(IEnumerable<Category> categories) {
       EnsureLevels();
       for (; categories.Any(); categories = NextGeneration(categories))
