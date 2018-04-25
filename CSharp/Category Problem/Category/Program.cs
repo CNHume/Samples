@@ -1,11 +1,9 @@
 ﻿//
 // Copyright (C) 2018, Christopher N. Hume
 //
-// Code Sample to solve the Category Problem posed by Ingenio, LLC
-//
 // 2018-03-28 CNHume    Created Console Application
 //
-namespace IngenioSample {
+namespace CategoryProblem {
   using System;
   using System.Diagnostics;
 

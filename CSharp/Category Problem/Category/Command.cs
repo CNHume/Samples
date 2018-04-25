@@ -1,8 +1,6 @@
 ﻿//
 // Copyright (C) 2018, Christopher N. Hume
 //
-// Code Sample to solve the Category Problem posed by Ingenio, LLC
-//
 // 2018-03-28 CNHume    Added Command class
 //
 // Usage Notes:
@@ -15,7 +13,7 @@
 //
 // The -d command line switch is intended to enable debugging output; but is currently unused.
 //
-namespace IngenioSample {
+namespace CategoryProblem {
   using System;
 
   public class Command {

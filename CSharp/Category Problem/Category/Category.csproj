@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8FC7C0CD-C8B0-454A-93B4-4F15DA29F8BF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IngenioSample</RootNamespace>
+    <RootNamespace>CategoryProblem</RootNamespace>
     <AssemblyName>Category</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
