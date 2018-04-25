@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pySort", "pySort.pyproj", "{D00443F3-29B8-4B7A-A0B6-B8EAFF6CBBCA}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "pySort", "pySort\pySort.pyproj", "{D00443F3-29B8-4B7A-A0B6-B8EAFF6CBBCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
