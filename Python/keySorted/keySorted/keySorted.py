@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2018, Christopher N. Hume
 #
-# Code Sample to solve a Sorting Propblem posed by Polysign, Inc.
+# Explorations into Python Sorting Protocols
 #
 # 2018-04-03  CNHume  Created File
 #
