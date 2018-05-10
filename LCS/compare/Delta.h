@@ -1,5 +1,6 @@
 // Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
 //
+// 2018-05-10 CNHume  Removed combined Complement()/Context() method.
 // 2017-06-25 CNHume  Refactored Lengths()
 // 2015-04-18 CNHume  Converted prefix, suffix and join to uint32
 // 2015-01-25 CNHume  Added Delta::Count()
@@ -45,9 +46,6 @@ public:
   static shared_ptr<Delta> Coalesce(const shared_ptr<Delta> deltas, uint32_t join = 0);
   static shared_ptr<Delta> Complement(const shared_ptr<Delta> deltas,
     size_t size1, size_t size2);
-  //[Deprecated]Full Complement()
-  static shared_ptr<Delta> Complement(const shared_ptr<Delta> deltas,
-    size_t size1, size_t size2, uint32_t prefix, uint32_t suffix);
   static void Context(shared_ptr<Delta> deltas,
     size_t size1, size_t size2, uint32_t prefix, uint32_t suffix);
 };

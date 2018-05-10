@@ -1,5 +1,6 @@
 // Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
 //
+// 2018-05-10 CNHume  Removed combined Complement()/Context() method.
 // 2017-06-25 CNHume  Refactored Lengths()
 // 2015-04-18 CNHume  Converted prefix, suffix and join to uint32
 // 2015-01-25 CNHume  Added Delta::Count()
@@ -185,57 +186,6 @@ shared_ptr<Delta> Delta::Complement(shared_ptr<Delta> deltas,
   // empty final delta
   if (prior1 < size1 || prior2 < size2) {
     auto last = make_shared<Delta>(prior1, prior2, size1, size2);
-    rest = rest == nullptr ? head = last : static_pointer_cast<Delta>(rest->next = last);
-  }
-
-  //prior1 = size1;
-  //prior2 = size2;
-  return head;
-}
-
-//
-//[Deprecated]Full Complement() concatenates prefix and suffix matching records onto each Delta
-//
-shared_ptr<Delta> Delta::Complement(shared_ptr<Delta> deltas,
-  size_t size1, size_t size2, uint32_t prefix, uint32_t suffix) {
-  uint32_t prior1 = 0;                  // end of prior Delta
-  uint32_t prior2 = 0;
-  uint32_t first1 = 0;                  // first of next delta context
-  uint32_t first2 = 0;
-
-  shared_ptr<Delta> head = nullptr;
-  shared_ptr<Delta> rest = nullptr;
-
-  for (auto next = deltas; next != nullptr; next = dynamic_pointer_cast<Delta>(next->next)) {
-    auto begin1 = next->begin1;         // beginning of current Delta
-    auto begin2 = next->begin2;
-    auto end1 = next->end1;             // end of current Delta
-    auto end2 = next->end2;
-
-    if (prior1 < begin1 || prior2 < begin2) {
-      // delta suffix may include context from the beginning of the current Delta
-      auto last1 = begin1 + (uint64_t)suffix <  end1 ? begin1 + suffix : end1;
-      auto last2 = begin2 + (uint64_t)suffix <  end2 ? begin2 + suffix : end2;
-      auto last = make_shared<Delta>(first1, first2, last1, last2);
-      rest = rest == nullptr ? head = last : static_pointer_cast<Delta>(rest->next = last);
-
-      // next delta prefix may include context from the end of the current Delta
-      first1 = last1 + (uint64_t)prefix > end1 ? last1 : end1 - prefix;
-      first2 = last2 + (uint64_t)prefix > end2 ? last2 : end2 - prefix;
-    }
-    else {                              // initial delta may be empty
-      first1 = end1;
-      first2 = end2;
-    }
-
-    prior1 = end1;
-    prior2 = end2;
-  }
-
-  // empty final delta
-  if (prior1 < size1 || prior2 < size2) {
-    // no suffix provided by final delta
-    auto last = make_shared<Delta>(first1, first2, size1, size2);
     rest = rest == nullptr ? head = last : static_pointer_cast<Delta>(rest->next = last);
   }
 
