@@ -14,7 +14,7 @@
 //
 // Usage:
 //
-// delta [-b][-i][-p <prefix>][-s <suffix>] f1 f2
+// delta [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2
 //
 #include "LCSFile.h"
 #include <iostream>                     // for cout
