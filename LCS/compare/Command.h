@@ -1,9 +1,6 @@
 //
 // Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
 //
-// You should have received a copy of the MIT License along with this program.
-// If not, see https://opensource.org/licenses/MIT.
-//
 // 2017-06-29 CNHume  Created file
 //
 #pragma once
@@ -23,6 +20,7 @@ public:
   uint32_t suffix;
   bool ignorecase;
   bool ignorespace;
+  bool isword;
 
 protected:
   static const uint32_t joinDefault = 0, affixDefault = 0;
@@ -37,7 +35,8 @@ public:
     suffix(affixDefault),
     isjoin(false),
     ignorecase(false),
-    ignorespace(false) {
+    ignorespace(false),
+    isword(false) {
   }
 
   void Parse(int argc, char* argv[]);

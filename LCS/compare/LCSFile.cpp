@@ -1,12 +1,13 @@
 // Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
 //
+// 2018-05-11 CNHume  Added word switch
 // 2017-07-09 CNHume  Created LCSFile subclass
 //
 #include "LCSFile.h"
 
 void LCSFile::Correspondence(const Command command) {
-  auto r1 = Read(command.f1);
-  auto r2 = Read(command.f2);
+  auto r1 = Read(command.f1, command.isword);
+  auto r2 = Read(command.f2, command.isword);
   auto size1 = r1.size();           // empty final delta
   auto size2 = r2.size();
 
@@ -19,8 +20,8 @@ void LCSFile::Correspondence(const Command command) {
 }
 
 void LCSFile::Difference(const Command command) {
-  auto r1 = Read(command.f1);
-  auto r2 = Read(command.f2);
+  auto r1 = Read(command.f1, command.isword);
+  auto r2 = Read(command.f2, command.isword);
   auto intervals = Compare(r1, r2, command.ignorecase, command.ignorespace);
 
   auto size1 = r1.size();           // empty final delta
@@ -37,7 +38,7 @@ void LCSFile::Difference(const Command command) {
 //
 // file reader
 //
-LCSFile::RECORDS LCSFile::Read(const string& filename) {
+LCSFile::RECORDS LCSFile::Read(const string& filename, bool isword) {
   ifstream input;
   input.open(filename, ios::in);
 
@@ -48,8 +49,18 @@ LCSFile::RECORDS LCSFile::Read(const string& filename) {
 
   RECORDS records;
   string buffer;
-  while (getline(input, buffer))
-    records.push_back(buffer);
+  while (getline(input, buffer)) {
+    if (isword) {
+      istringstream iss(buffer);
+      string token;
+      while (!iss.eof()) {
+        iss >> token;
+        records.push_back(token);
+      }
+    }
+    else
+      records.push_back(buffer);
+  }
 
   input.close();
 #ifdef SHOW_COUNTS
