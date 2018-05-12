@@ -80,6 +80,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
+      case 'w':                         // the word switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isword = true;
+        break;
+
       default:                          // switch unknown
         usage = true;
         break;
@@ -101,5 +108,5 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error("Usage: compare [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2");
+    throw runtime_error("Usage: compare [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2");
 }
