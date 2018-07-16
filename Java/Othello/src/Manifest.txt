@@ -1,0 +1,14 @@
+LICENSE.txt
+othello/
+  Board.java
+  BoardData.java
+  Command.java [interface]
+  Factory.java [interface]
+  FriendFoe.java
+  Game.java
+  Logger.java
+  MoveException.java
+  Othello.java [main class]
+  Pool.java
+  Twiddle.java
+  Writer.java
