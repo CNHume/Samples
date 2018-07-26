@@ -1,11 +1,15 @@
+assiduous
 awkward
 bagpipes
 banjo
 behavior
+belie
 bungler
 croquet
 crypt
+denouement
 dwarves
+extensional
 fervid
 fishhook
 fjord
@@ -13,7 +17,10 @@ gazebo
 gypsy
 haiku
 haphazard
+hubris
 hyphen
+intensional
+inuendo
 ivory
 jazzy
 jiffy
@@ -42,6 +49,7 @@ squawk
 swivel
 toady
 twelfth
+umbrage
 unzip
 waxy
 wildebeest
