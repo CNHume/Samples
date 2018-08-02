@@ -107,6 +107,14 @@ protected:
   // reduce the time bound to O(n*s + min(p*m, p*(n-p))), where
   // the alphabet is of size s and the LCS is of length p.
   //
+  // Legend:
+  //
+  // x, y are the input strings labelled such that m <= n where m, n are their respective lengths
+  // p is the length (to be found) of the LCS
+  // M is the set of match pairs (i, j) such that x[i] = y[j]
+  // r is the magnitude of M
+  // s is the magnitude of the alphabet Sigma of distinct symbols in x, y
+  //
   // References:
   //
   //"A linear space algorithm for computing maximal common subsequences"
