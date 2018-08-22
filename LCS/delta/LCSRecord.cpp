@@ -56,7 +56,7 @@ uint32_t LCSRecord::Match(STRING2INDEXES& indexes, MATCHES& matches,
   string buffer;
   for (const auto& it : r2) {
     Normal(it, buffer, ignorecase, ignorespace);
-    indexes[buffer].push_front(index++);
+    indexes[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {

@@ -84,7 +84,7 @@
 //
 //"A linear space algorithm for computing maximal common subsequences"
 // by Daniel S. Hirschberg, published June 1975
-// Communications of the ACM [Volume 18, Number 6, pp. 341–343]
+// Communications of the ACM [Volume 18, Number 6, pp. 341-343]
 //
 //"An Algorithm for Differential File Comparison"
 // by James W. Hunt and M. Douglas McIlroy, June 1976
@@ -124,14 +124,14 @@ uint64_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
     if (!it1->empty()) {
       auto dq2 = *it1;
       auto limit = threshold.end();
-      for (auto it2 = dq2.begin(); it2 != dq2.end(); it2++) {
+      for (auto it2 = dq2.rbegin(); it2 != dq2.rend(); it2++) {
         // Each of the index1, index2 pairs considered here correspond to a match
         auto index2 = *it2;
 
         //
-        // Note: The index2 values are monotonically decreasing, which allows the
-        // thresholds to be updated in-place.  Monotonicity allows a binary search,
-        // implemented here by std::lower_bound().
+        // Note: The reverse iterator it2 visits index2 values in descending order,
+        // allowing thresholds to be updated in-place.  std::lower_bound() is used
+        // to perform a binary search.
         //
         limit = lower_bound(threshold.begin(), limit, index2);
         auto index3 = distance(threshold.begin(), limit);
@@ -145,7 +145,7 @@ uint64_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
         // Depending on match redundancy, the number of Pair constructions may be
         // divided by factors ranging from 2 up to 10 or more.
         //
-        auto skip = next(it2) != dq2.end() &&
+        auto skip = next(it2) != dq2.rend() &&
           (limit == threshold.begin() || *prev(limit) < *next(it2));
         if (skip) continue;
 

@@ -30,7 +30,7 @@ uint32_t LCSString::Match(CHAR2INDEXES& indexes, MATCHES& matches,
   uint32_t count = 0;
   uint32_t index = 0;
   for (const auto& it : s2)
-    indexes[it].push_front(index++);
+    indexes[it].push_back(index++);
 
   for (const auto& it : s1) {
     auto& dq2 = indexes[it];
