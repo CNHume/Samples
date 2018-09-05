@@ -11,6 +11,7 @@
 // 2014-12-19 CNHume  Created file
 //
 #pragma once
+//#define SHOW_PAIRS
 //#define SHOW_COUNTS
 //#define SHOW_DELTAS
 //#define SHOW_MATCHES
@@ -37,5 +38,5 @@ protected:
   typedef map<string, INDEXES> STRING2INDEXES;
   typedef deque<INDEXES*> MATCHES;
 
-  uint64_t Pairs(MATCHES& matches, shared_ptr<Pair> *pairs);
+  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair> *pairs);
 };

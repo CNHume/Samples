@@ -116,7 +116,7 @@
 #include <iterator>                     // for next() and prev()
 
 // return the LCS as a linked list of matched index pairs
-uint64_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
+uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
   auto trace = pairs != nullptr;
   PAIRS traces;
   THRESHOLD threshold;

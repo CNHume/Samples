@@ -147,7 +147,7 @@ protected:
   typedef deque<INDEXES*> MATCHES;
 
   // return the LCS as a linked list of matched index pairs
-  uint64_t Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
+  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
     auto trace = pairs != nullptr;
     PAIRS traces;
     THRESHOLD threshold;
@@ -243,10 +243,10 @@ protected:
     }
   }
 
-  string Select(shared_ptr<Pair> pairs, uint64_t length,
+  string Select(shared_ptr<Pair> pairs, uint32_t length,
     bool right, const string& s1, const string& s2) {
     string buffer;
-    buffer.reserve((uint32_t)length);
+    buffer.reserve(length);
     for (auto next = pairs; next != nullptr; next = next->next) {
       auto c = right ? s2[next->index2] : s1[next->index1];
       buffer.push_back(c);
