@@ -73,7 +73,7 @@ class Player(object):
 
   @staticmethod
   def spaced(letters):
-    return Player.SPACE.join([letter for letter in letters])
+    return Player.SPACE.join(letters)
 
   @staticmethod
   def prompt(prompt):
