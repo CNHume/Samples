@@ -23,6 +23,7 @@ class Player(object):
     guesses = set()
     length = len(self.word)
     template = u''.rjust(length, Player.UNDERSCORE)
+    # Mutable status:
     status = list(template)
 
     print(u"You have {} guesses".format(trials))
@@ -56,8 +57,7 @@ class Player(object):
     # Player Lost
     if show:
       Player.show(self.figures[trial])
-    answer = list(self.word)
-    Player.display(answer)
+    Player.display(self.word)
     return False
 
   @staticmethod
