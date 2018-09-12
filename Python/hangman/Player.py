@@ -12,7 +12,7 @@ import string
 class Player(object):
   """Hangman Player"""
   SPACE = u' '
-  UNDERSCORE = u'_'
+  BLANK = u'_'
 
   def __init__(self, word, figures):
     self.word = word.upper()
@@ -22,7 +22,7 @@ class Player(object):
     show = self.figures and len(self.figures) == trials + 1
     guesses = set()
     length = len(self.word)
-    template = u''.rjust(length, Player.UNDERSCORE)
+    template = Player.BLANK * length
     # Mutable status:
     status = list(template)
 
@@ -46,7 +46,7 @@ class Player(object):
 
       if found:
         print(u"Correct!")
-        if Player.UNDERSCORE not in status:
+        if Player.BLANK not in status:
           # Player Won
           Player.display(status)
           return True

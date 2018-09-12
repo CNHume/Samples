@@ -74,7 +74,7 @@ public class Game implements Command {
       moveBoard = moveBoard.parseMoves(commandLower);
       if (moveBoard.MoreMoves)
 	show = true;
-      else {				/// Adjudicate
+      else {				// Adjudicate
 	moveBoard.showBoard();
 	moveBoard.showScore();
       }
