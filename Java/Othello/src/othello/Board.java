@@ -40,11 +40,11 @@ public class Board extends BoardData {
   protected long WhiteA8H1Disc;
   protected long BlackA8H1Disc;
 
-  public boolean WTM;
+  public boolean WTM;			// White To Move
   public boolean MoreMoves;
 
   // Thread Specific state
-  private final FriendFoe ffState;	// Shared by the four game methods
+  private final FriendFoe ffState;	// Shared by the four state methods
   private final Twiddle tw;		// Shared Twiddle instance
 
   // inner static class for Factory<T>
