@@ -26,8 +26,8 @@ class FileManager(object):
     # Mark load start time
     load_dt0 = datetime.now()
     if self.verbose:
-      print(u"{0} starting load".format(str(load_dt0)[:-3]))
-      print(u"{0}: {1}".format(u"filename", self.filename))
+      print(u'{0} starting load'.format(str(load_dt0)[:-3]))
+      print(u'{0}: {1}'.format(u'filename', self.filename))
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
@@ -48,14 +48,14 @@ class FileManager(object):
 
     if self.verbose:
       # Report counts and times
-      print(u"{0} finished load".format(str(load_dt1)[:-3]))
-      print(u"{0:.3f} sec elapsed".format(round(elapsed_delta, 3)))
+      print(u'{0} finished load'.format(str(load_dt1)[:-3]))
+      print(u'{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
       if elapsed_delta > 0:
         rate = self.length / elapsed_delta
         scale = 1e3
-        print(u"Loaded {0} records at {1:.3f} KHz".format(self.length, round(rate / scale, 3)))
+        print(u'Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
-        print(u"Loaded {0} records".format(self.length))
+        print(u'Loaded {0} records'.format(self.length))
         
   def paragraphs(self):
     return FileManager.splitter(self.records)
@@ -78,10 +78,10 @@ class FileManager(object):
   def expanded_filename(file_path, file_ext):
     expanded_path = os.path.expanduser(file_path)
     (root, ext) = os.path.splitext(expanded_path)
-    filename = expanded_path if ext else u"{0}.{1}"\
+    filename = expanded_path if ext else u'{0}.{1}'\
       .format(expanded_path, file_ext)
     return filename
   
   @staticmethod
   def isfile(filename):
-    return True if os.path.isfile(filename) else False
+    return os.path.isfile(filename)

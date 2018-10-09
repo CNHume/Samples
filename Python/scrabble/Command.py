@@ -10,6 +10,7 @@ import sys
 
 class Command(object):
   """Command Class"""
+  UTF8 = u'utf-8'
   VERSION = 1.0
 
   def __init__(self, bonus_path, tiles_path, words_path, file_ext, players, size):
@@ -64,10 +65,10 @@ class Command(object):
             self.verbose = True
         elif token[1] == 'b':           # the bonus_path switch
           if token_len > 2:             # whitespace optional
-            self.bonus_path = token[2:].decode("utf-8")
+            self.bonus_path = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.bonus_path = argv[n].decode("utf-8")
+            self.bonus_path = argv[n].decode(Command.UTF8)
         elif token[1] == 'p':           # the players switch
           if token_len > 2:             # whitespace optional
             players = token[2:]
@@ -86,16 +87,16 @@ class Command(object):
             self.size_y = self.size_x
         elif token[1] == 't':           # the tiles_path switch
           if token_len > 2:             # whitespace optional
-            self.tiles_path = token[2:].decode("utf-8")
+            self.tiles_path = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.tiles_path = argv[n].decode("utf-8")
+            self.tiles_path = argv[n].decode(Command.UTF8)
         elif token[1] == 'w':           # the words_path switch
           if token_len > 2:             # whitespace optional
-            self.words_path = token[2:].decode("utf-8")
+            self.words_path = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.words_path = argv[n].decode("utf-8")
+            self.words_path = argv[n].decode(Command.UTF8)
         elif token[1] == 'x':           # the file_ext switch
           if token_len > 2:             # whitespace optional
             self.file_ext = token[2:]

@@ -10,6 +10,7 @@ import sys
 
 class Command(object):
   """Command Class"""
+  UTF8 = u'utf-8'
   VERSION = 1.0
 
   def __init__(self, art_path, file_ext, trials):
@@ -20,10 +21,10 @@ class Command(object):
     self.file_ext = file_ext
 
   @staticmethod
-  def arg_msg(s, name="argument"):
-    msg = "Invalid "
+  def arg_msg(s, name=u'argument'):
+    msg = u'Invalid '
     msg += name
-    msg += ": "
+    msg += u': '
     msg += s
     return msg
 
@@ -67,26 +68,29 @@ class Command(object):
       n += 1
 
     if n < argc:                        # parse file_path to be searched
-      self.file_path = argv[n].decode("utf-8")
+      self.file_path = argv[n].decode(Command.UTF8)
       n += 1
     else:                               # file_path is required
       usage = True
 
     if n < argc:                        # parse art_path
-      self.art_path = argv[n].decode("utf-8")
+      self.art_path = argv[n].decode(Command.UTF8)
       n += 1                            # art_path is optional
 
     if n < argc:                        # superfluous argument specified
       usage = True
 
+    if self.verbose:
+      self.Log()
+
     if usage:                           # throw usage line if parse failed
-      print(u"Usage: python {0} [-t trials] [-v] [-x file_ext] file_path [art_path]"\
+      print(u'Usage: python {0} [-t trials] [-v] [-x file_ext] file_path [art_path]'\
         .format(script_name))
 
     return not usage
 
   def Log(self):
-    print(u"{0}: {1}".format(u"art_path", self.file_path))
-    print(u"{0}: {1}".format(u"file_path", self.file_path))
-    print(u"{0}: {1}".format(u"file_ext", self.file_ext))
-    print(u"{0}: {1}".format(u"verbose", self.verbose))
+    print(u'{0}: {1}'.format(u'verbose', self.verbose))
+    print(u'{0}: {1}'.format(u'art_path', self.file_path))
+    print(u'{0}: {1}'.format(u'file_path', self.file_path))
+    print(u'{0}: {1}'.format(u'file_ext', self.file_ext))

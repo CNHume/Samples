@@ -26,15 +26,15 @@ class Player(object):
     # Mutable status:
     status = list(template)
 
-    print(u"You have {} guesses".format(trials))
+    print(u'You have {} guesses'.format(trials))
     trial = 0
     while trial < trials:
       if show:
         Player.show(self.figures[trial])
       Player.display(status)
-      guess = Player.prompt(u"Player Guess: ")
+      guess = Player.prompt(u'Player Guess: ')
       if guess in guesses:
-          print(u"You have already tried {}".format(guess))
+          print(u'You have already tried {}'.format(guess))
           continue
 
       guesses.add(guess)
@@ -45,14 +45,14 @@ class Player(object):
            status[index] = guess
 
       if found:
-        print(u"Correct!")
+        print(u'Correct!')
         if Player.BLANK not in status:
           # Player Won
           Player.display(status)
           return True
       else:
         trial += 1
-        print(u"{}/{} incorrect guesses".format(trial, trials))
+        print(u'{}/{} incorrect guesses'.format(trial, trials))
 
     # Player Lost
     if show:
@@ -62,14 +62,14 @@ class Player(object):
 
   @staticmethod
   def show(records):
-    print(u"")
+    print
     for record in records:
       print(record)
-    print(u"")
+    print
 
   @staticmethod
   def display(letters):
-    print(u"Word: {}".format(Player.spaced(letters)))
+    print(u'Word: {}'.format(Player.spaced(letters)))
 
   @staticmethod
   def spaced(letters):
@@ -82,4 +82,4 @@ class Player(object):
       if len(input) == 1 and input in string.letters:
          return input.upper()
       else:
-        print(u"Please enter a single letter")
+        print(u'Please enter a single letter')
