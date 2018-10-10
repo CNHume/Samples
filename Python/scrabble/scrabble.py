@@ -8,6 +8,9 @@
 # Outside these two countries it is a trademark of Mattel.
 # See https://en.wikipedia.org/wiki/Scrabble
 #
+# Regarding NSA Tournament Rules (1995)
+# See http://www.poslarchive.com/math/scrabble/rules/nsa.html
+#
 # 2018-09-09 CNHume Created File
 #
 import sys

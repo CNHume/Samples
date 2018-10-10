@@ -267,7 +267,6 @@ class Player(object):
 
     square = self.board.parseSquare(squareName)
     if not square:
-      print(u'{} is not the name of a square'.format(squareName))
       return empty
 
     return square, letter.lower() if blank else letter.upper()

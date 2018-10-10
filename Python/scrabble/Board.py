@@ -69,17 +69,16 @@ class Board(object):
 
   def parseBonuses(self, bonusRecords):
     #
+    #[Note]The normal() method below only enforces 4-fold symmetry about the center-lines.
+    # The standard set of Bonus Squares are actually 8-fold symmetric about the diagonals.
+    # There are a total of 61 = 8 * 3 + 4 * 9 + 1 bonus squares.
+    #
     # The Bonus File will specify the following Lower Quadrant Squares:
     #
     # L2: d1, g3, a4, h4 * 2, c7, g7, d8 * 2
     # L3: f2, b6, f6
     # W2: b2, c3, d4, e5, h8 * 1
     # W3: a1, h1 * 2, a8 * 2
-    #
-    # There are a total of 61 = 13 * 4 + 4 * 2 + 1 bonus squares.
-    # Bonus Squares are 4-fold symmetric about (center_x, center_y)
-    # except where they fall on a center-line.  These automorphisms
-    # are denoted by an (*) asterisk.
     #
     for record in bonusRecords:
       terms = record.split(Board.COLON)
@@ -88,28 +87,36 @@ class Board(object):
         return
 
       bonusName = terms[0].strip().upper()
-      squareNames = terms[1].split(Board.COMMA)
+      names = terms[1].split(Board.COMMA)
 
       if bonusName in self.bonusMap:
         bonusSquares = self.bonusMap[bonusName]
 
-        for squareName in squareNames:
-          square = self.parseSquare(squareName.strip())
-          bonusSquares.add(square)
+        for name in names:
+          squareName = name.strip()
+          square = self.parseSquare(squareName)
+          if square:
+            bonusSquares.add(square)
       else:
         print(u'{} is not a valid bonus name'.format(bonusName))
-  
-  def parseSquare(self, sq):
-    square = sq.lower()
 
-    if (len(square) < 1):
+  def parseSquare(self, squareName):
+    square = self.parseSquare1(squareName)
+    if not square:
+      print(u'{} is not a valid square name'.format(squareName))
+    return square
+  
+  def parseSquare1(self, squareName):
+    sq = squareName.lower()
+
+    if (len(sq) < 1):
       return None
 
-    file = ord(square[0])
+    file = ord(sq[0])
     if file < Board.FILEA or Board.FILEA + self.size_x <= file:
       return None
 
-    digits = square[1:]
+    digits = sq[1:]
     if not digits.isdigit():
       return None
 
