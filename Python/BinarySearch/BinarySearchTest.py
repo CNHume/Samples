@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2017, Christopher Hume.  All rights reserved.
+# Copyright (C) 2018, Christopher Hume.  All rights reserved.
 # 2018-03-21  CNHume  Created File
 
 import sys

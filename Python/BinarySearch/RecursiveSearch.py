@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2017, Christopher Hume.  All rights reserved.
+# Copyright (C) 2018, Christopher Hume.  All rights reserved.
 # 2018-03-21  CNHume  Created File
 
 class RecursiveBinarySearch:
@@ -18,7 +18,7 @@ class RecursiveBinarySearch:
         return RecursiveBinarySearch.glbSlice(entries, value, left, middle - 1)
 
     #[Assert]left == right + 1
-    # glb: entries[right] < value && value <= entries[right + 1]
+    # glb: entries[right] < value and value <= entries[right + 1]
     return right
 
   @staticmethod
@@ -35,5 +35,5 @@ class RecursiveBinarySearch:
         return RecursiveBinarySearch.lubSlice(entries, value, left, middle - 1)
 
     #[Assert]left == right + 1
-    # lub: entries[left] > value && value >= entries[left - 1]
+    # lub: entries[left] > value and value >= entries[left - 1]
     return left
