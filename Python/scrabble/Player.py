@@ -42,7 +42,7 @@ class Player(object):
     pass
 
   def Test(self):
-    #Len  Count
+    #Len Count
     #  1: 2
     #  2: 5
     #  3: 16
@@ -123,7 +123,8 @@ class Player(object):
       return True
     elif verb == u'pass':
       if self.first_pass_turn_player == turn_player:
-        print(u'All Players passed; and Player {} has passed twice.'.format(turn_player + 1))
+        print(u'All Players passed; and Player {} has passed twice.'
+              .format(turn_player + 1))
         return False
       
       if self.first_pass_turn_player is None:
@@ -147,11 +148,12 @@ class Player(object):
         self.last_score_turn = self.turn
 
         if len(rack) == 0:
-          print(u'Player {}, Rack Empty and Bag Empty.'.format(turn_player + 1))
+          print(u'Player {}, Rack Empty and Bag Empty.'
+                .format(turn_player + 1))
           return False
 
-      self.turn += 1
-      # Test for Scoreless Turn below
+        self.turn += 1
+        # Test for Scoreless Turn below
       pass
     elif verb == u'score':
       Player.showScores(self.scores)
@@ -161,7 +163,8 @@ class Player(object):
       return True
 
     if self.last_score_turn + Player.SCORELESS_TURN_MAX <= self.turn:
-      print(u'The limit of {} Scoreless Turns has been reached.'.format(Player.SCORELESS_TURN_MAX))
+      print(u'The limit of {} Scoreless Turns has been reached.'
+            .format(Player.SCORELESS_TURN_MAX))
       return False
 
     return True
@@ -172,11 +175,12 @@ class Player(object):
     turn_player = self.turn % self.players
     rack = self.racks[turn_player]
     if not Tile.hasLetters(rack, letters):
-      print(u'Player {}, Rack: {} missing some of the letters: {}'.format(turn_player + 1, Tile.spaced(rack), Tile.spaced(letters)))
+      print(u'Player {}, Rack: {} missing some of the letters: {}'
+            .format(turn_player + 1, Tile.spaced(rack), Tile.spaced(letters)))
       if not self.testing:
         return False
 
-    # It is possible for Two Blanks played on the first turn to result in a valid total of zero
+    # Two Blanks played on the first turn can result in a valid total of zero
     valid, total = self.evaluatePlacements(placements, word)
     if valid:
       for placement in placements:
@@ -213,7 +217,8 @@ class Player(object):
           return empty
     elif not self.board.contact(placements):
       letters = [letter for square, letter in placements]
-      print(u'The letters: {} are not in contact with an existing word'.format(Tile.spaced(letters)))
+      print(u'The letters: {} are not in contact with an existing word'
+            .format(Tile.spaced(letters)))
       if not self.testing:
         return empty
 
@@ -222,7 +227,8 @@ class Player(object):
     word = self.board.tiled(placements, horizontal)
     if not word:
       squareNames = [Board.squareName(square) for square, letter in placements]
-      print(u'Illegal Tile Placement: {}'.format(Tile.spaced(squareNames)))
+      print(u'Illegal Tile Placement: {}'
+            .format(Tile.spaced(squareNames)))
 
     return word
 
@@ -288,7 +294,8 @@ class Player(object):
     alphas = [letter for letter in letters if letter.isalpha()]
     length = len(alphas)
     if length > Player.PERMUTE_LEN_MAX:
-      print(u'Length of {} exceeds Maximum of {}'.format(length, Player.PERMUTE_LEN_MAX))
+      print(u'Length of {} exceeds Maximum of {}'
+            .format(length, Player.PERMUTE_LEN_MAX))
       if not self.testing:
         return
 
