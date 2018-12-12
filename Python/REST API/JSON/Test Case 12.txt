@@ -1,0 +1,11 @@
+Test Case 12: pairs category, single entry, no selector
+http://localhost:2001/mvapi/v1/pairs/353?filter={%22wordset%22:[%22love%22,%22sex%22]}
+
+[
+  {
+    "wordset": [
+      "love",
+      "sex"
+    ]
+  }
+]

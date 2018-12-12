@@ -1,0 +1,125 @@
+Test Case 3: thesaurus category, single entry, multiple selector
+http://localhost:2001/mvapi/v1/thesaurus/hc/in?projection={%22wordSenses.synonyms%22:1,%22phraseSenses.synonyms%22:1}
+
+[
+  [
+    [
+      [
+        "inside",
+        "within",
+        "in the interior of"
+      ],
+      [
+        "into",
+        "within",
+        "inside"
+      ],
+      [
+        "with",
+        "by",
+        "within"
+      ],
+      [
+        "during",
+        "in the year of",
+        "in the period of"
+      ],
+      [
+        "after",
+        "following",
+        "subsequent to"
+      ],
+      [
+        "per",
+        "out of",
+        "of"
+      ],
+      [
+        "at home"
+      ],
+      [
+        "inside",
+        "within",
+        "indoors",
+        "under cover"
+      ],
+      [
+        "arrived",
+        "here"
+      ],
+      [
+        "high",
+        "rising"
+      ],
+      [
+        "fashionable",
+        "current",
+        "popular",
+        "cool",
+        "hip",
+        "happening",
+        "stylish",
+        "trendy",
+        "chic",
+        "up-to-date",
+        "in vogue",
+        "all the rage",
+        "up-to-the-minute",
+        "modish",
+        "à la mode",
+        "schmick"
+      ]
+    ],
+    [
+      [
+        "due for",
+        "likely to get",
+        "in line for",
+        "a candidate for"
+      ],
+      [
+        "in trouble",
+        "for it",
+        "in deep water",
+        "for the high jump"
+      ],
+      [
+        "aware of",
+        "familiar with",
+        "conscious of",
+        "wise to",
+        "mindful of",
+        "acquainted with",
+        "alive to",
+        "hip to",
+        "appreciative of",
+        "attentive to",
+        "conversant with",
+        "apprised of",
+        "cognizant of",
+        "sensible of"
+      ],
+      [
+        "friendly with",
+        "popular with",
+        "accepted by",
+        "liked by",
+        "admired by",
+        "intimate with",
+        "in favour with"
+      ],
+      [
+        "details",
+        "facts",
+        "particulars",
+        "features",
+        "factors",
+        "elements",
+        "aspects",
+        "specifics",
+        "components",
+        "technicalities"
+      ]
+    ]
+  ]
+]

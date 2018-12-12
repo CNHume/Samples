@@ -1,0 +1,257 @@
+Test Case 1: thesaurus category, single entry, no selector
+http://localhost:2001/mvapi/v1/thesaurus/hc/in
+
+[
+  {
+    "entry": "in",
+    "mv_version": 1.0,
+    "phraseSenses": [
+      {
+        "examples": [
+          "When you go outside, you are in for a shock."
+        ],
+        "phrases": [
+          "in for"
+        ],
+        "synonyms": [
+          "due for",
+          "likely to get",
+          "in line for",
+          "a candidate for"
+        ]
+      },
+      {
+        "examples": [
+          "He knew he was in for it."
+        ],
+        "phrases": [
+          "in for it"
+        ],
+        "phrgrp_type_attr": "idiom",
+        "synonyms": [
+          "in trouble",
+          "for it",
+          "in deep water",
+          "for the high jump"
+        ]
+      },
+      {
+        "examples": [
+          "I wasn't in on that particular discussion."
+        ],
+        "phrases": [
+          "in on"
+        ],
+        "synonyms": [
+          "aware of",
+          "familiar with",
+          "conscious of",
+          "wise to",
+          "mindful of",
+          "acquainted with",
+          "alive to",
+          "hip to",
+          "appreciative of",
+          "attentive to",
+          "conversant with",
+          "apprised of",
+          "cognizant of",
+          "sensible of"
+        ]
+      },
+      {
+        "examples": [
+          "She seems to have got in with the right crowd."
+        ],
+        "phrases": [
+          "in with"
+        ],
+        "synonyms": [
+          "friendly with",
+          "popular with",
+          "accepted by",
+          "liked by",
+          "admired by",
+          "intimate with",
+          "in favour with"
+        ]
+      },
+      {
+        "examples": [
+          "Experts can advise on the ins and outs of dieting."
+        ],
+        "phrases": [
+          "the ins and outs of something"
+        ],
+        "phrgrp_type_attr": "idiom",
+        "synonyms": [
+          "details",
+          "facts",
+          "particulars",
+          "features",
+          "factors",
+          "elements",
+          "aspects",
+          "specifics",
+          "components",
+          "technicalities"
+        ]
+      }
+    ],
+    "wordSenses": [
+      {
+        "examples": [
+          "He was in his car."
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "inside",
+          "within",
+          "in the interior of"
+        ]
+      },
+      {
+        "examples": [
+          "Put the knives in the kitchen drawer."
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "into",
+          "within",
+          "inside"
+        ]
+      },
+      {
+        "examples": [
+          "carrots wrapped in newspaper"
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "with",
+          "by",
+          "within"
+        ]
+      },
+      {
+        "examples": [
+          "that early spring day in April 1949"
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "during",
+          "in the year of",
+          "in the period of"
+        ]
+      },
+      {
+        "examples": [
+          "I'll have some breakfast ready in a few minutes."
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "after",
+          "following",
+          "subsequent to"
+        ]
+      },
+      {
+        "examples": [
+          "One in five boys left school without a qualification."
+        ],
+        "posps": [
+          "preposition"
+        ],
+        "synonyms": [
+          "per",
+          "out of",
+          "of"
+        ]
+      },
+      {
+        "examples": [
+          "My flatmate was in at the time."
+        ],
+        "posps": [
+          "adverb"
+        ],
+        "synonyms": [
+          "at home"
+        ]
+      },
+      {
+        "examples": [
+          "They shook hands and went in."
+        ],
+        "posps": [
+          "adverb"
+        ],
+        "synonyms": [
+          "inside",
+          "within",
+          "indoors",
+          "under cover"
+        ]
+      },
+      {
+        "examples": [
+          "The train's in. We'll have to run for it."
+        ],
+        "posps": [
+          "adverb"
+        ],
+        "synonyms": [
+          "arrived",
+          "here"
+        ]
+      },
+      {
+        "examples": [
+          "If the tide was in, they went swimming."
+        ],
+        "posps": [
+          "adverb"
+        ],
+        "synonyms": [
+          "high",
+          "rising"
+        ]
+      },
+      {
+        "examples": [
+          "A few years ago, jogging was in."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "fashionable",
+          "current",
+          "popular",
+          "cool",
+          "hip",
+          "happening",
+          "stylish",
+          "trendy",
+          "chic",
+          "up-to-date",
+          "in vogue",
+          "all the rage",
+          "up-to-the-minute",
+          "modish",
+          "à la mode",
+          "schmick"
+        ]
+      }
+    ]
+  }
+]

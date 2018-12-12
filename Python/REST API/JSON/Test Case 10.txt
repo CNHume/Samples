@@ -1,0 +1,18 @@
+Test Case 10: dictionary category, single entry, single selector
+http://localhost:2001/mvapi/v1/dictionary/hc/abba/wordSenses/definitions
+
+[
+  [
+    [
+      "Swedish pop group (1972–82): comprised Benny Andersson (born 1946), Agnetha Faltskog (born 1950), Anni-Frid Lyngstad (born 1945), and Bjorn Ulvaeus (born 1945); numerous hit singles included \"Waterloo\" (1974), \"Dancing Queen\" (1977), and \"The Winner Takes It All\" (1980)"
+    ]
+  ],
+  [
+    [
+      "father (used of God)"
+    ],
+    [
+      "a title given to bishops and patriarchs in the Syrian, Coptic, and Ethiopian Churches"
+    ]
+  ]
+]

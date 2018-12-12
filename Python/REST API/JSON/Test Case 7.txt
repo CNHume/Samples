@@ -1,0 +1,15 @@
+Test Case 7: songs category, songs by an artist
+http://localhost:2001/mvapi/v1/songs/mv/Ben%20E.%20King
+
+[
+  {
+    "artist": "Ben E. King",
+    "genre": null,
+    "language": null,
+    "lyric": "There is a rose in Spanish Harlem\nA red rose up in Spanish Harlem\nIt is the special one, it's never seen the sun\nIt only comes out when the moon is on the run\nAnd all the stars are gleaming\nIt's growing in the street\nRight up through the concrete\nBut soft and sweet and dreaming\n\nThere is a rose in Spanish Harlem\nA red rose up in Spanish Harlem\nWith eyes as black as coal\nThat looks down in my soul\nAnd starts a fire there and then I lose control\nI have to beg your pardon\nI'm going to pick that rose\nAnd watch her as she grows in my garden\n\nI'm going to pick that rose\nAnd watch her as she grows in my garden\n\n(There is a rose in Spanish Harlem)\nLa la la, la la la, la la la la\n(There is a rose in Spanish Harlem)\nLa la la, la la la, la la la la\n(There is a rose in Spanish Harlem)\n",
+    "mv_version": 1.0,
+    "title": "Spanish Harlem",
+    "writer": null,
+    "year": null
+  }
+]

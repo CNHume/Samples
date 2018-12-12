@@ -1,0 +1,56 @@
+Test Case 2: thesaurus category, single entry, single selector
+http://localhost:2001/mvapi/v1/thesaurus/hc/in/phraseSenses/synonyms
+
+[
+  [
+    [
+      "due for",
+      "likely to get",
+      "in line for",
+      "a candidate for"
+    ],
+    [
+      "in trouble",
+      "for it",
+      "in deep water",
+      "for the high jump"
+    ],
+    [
+      "aware of",
+      "familiar with",
+      "conscious of",
+      "wise to",
+      "mindful of",
+      "acquainted with",
+      "alive to",
+      "hip to",
+      "appreciative of",
+      "attentive to",
+      "conversant with",
+      "apprised of",
+      "cognizant of",
+      "sensible of"
+    ],
+    [
+      "friendly with",
+      "popular with",
+      "accepted by",
+      "liked by",
+      "admired by",
+      "intimate with",
+      "in favour with"
+    ],
+    [
+      "details",
+      "facts",
+      "particulars",
+      "features",
+      "factors",
+      "elements",
+      "aspects",
+      "specifics",
+      "components",
+      "technicalities"
+    ]
+  ]
+]

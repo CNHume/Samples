@@ -1,0 +1,2434 @@
+Test Case 4: thesaurus category, multiple entry, no selector
+http://localhost:2001/mvapi/v1/thesaurus/hc?filter={%22entry%22:{%22$regex%22:%22^inv%22}}
+
+[
+  {
+    "entry": "invade",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "In 1944 the allies invaded the Italian mainland."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "attack",
+          "storm",
+          "assault",
+          "capture",
+          "occupy",
+          "seize",
+          "raid",
+          "overwhelm",
+          "violate",
+          "conquer",
+          "overrun",
+          "annex",
+          "march into",
+          "assail",
+          "descend upon",
+          "infringe on",
+          "burst in on",
+          "make inroads on"
+        ]
+      },
+      {
+        "examples": [
+          "Every so often the kitchen would be invaded by ants."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "infest",
+          "swarm",
+          "overrun",
+          "flood",
+          "infect",
+          "ravage",
+          "beset",
+          "pervade",
+          "permeate",
+          "overspread"
+        ]
+      },
+      {
+        "examples": [
+          "I don't want to invade your privacy, but this is my job."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "intrude on",
+          "disturb",
+          "interrupt",
+          "violate",
+          "disrupt",
+          "encroach on",
+          "trespass on",
+          "infringe on",
+          "burst in on",
+          "obtrude on"
+        ]
+      },
+      {
+        "examples": [
+          "She felt that he had invaded her whole subconscious."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "penetrate",
+          "enter",
+          "probe",
+          "pervade",
+          "permeate"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invader",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "The invaders were finally crushed in June 1719."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "attacker",
+          "raider",
+          "plunderer",
+          "aggressor",
+          "looter",
+          "trespasser"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invalid",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "I hate being treated as an invalid."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "patient",
+          "sufferer",
+          "convalescent",
+          "valetudinarian"
+        ]
+      },
+      {
+        "examples": [
+          "I have an invalid wife and am labelled as a carer."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "disabled",
+          "challenged",
+          "ill",
+          "sick",
+          "poorly",
+          "weak",
+          "ailing",
+          "frail",
+          "feeble",
+          "sickly",
+          "infirm",
+          "bedridden",
+          "valetudinarian"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invalid",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "valid",
+          "operative",
+          "viable"
+        ],
+        "examples": [
+          "The trial was stopped and the results declared invalid."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "null and void",
+          "void",
+          "worthless",
+          "untrue",
+          "null",
+          "not binding",
+          "inoperative",
+          "nugatory"
+        ]
+      },
+      {
+        "antonyms": [
+          "valid",
+          "sound",
+          "true",
+          "solid",
+          "rational",
+          "logical"
+        ],
+        "examples": [
+          "Those arguments are rendered invalid by the hard facts."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "unfounded",
+          "false",
+          "untrue",
+          "illogical",
+          "irrational",
+          "unsound",
+          "unscientific",
+          "baseless",
+          "fallacious",
+          "untenable",
+          "ill-founded"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invalidate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "validate",
+          "sanction",
+          "authorize",
+          "strengthen",
+          "ratify",
+          "empower"
+        ],
+        "examples": [
+          "An official decree invalidated the vote."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "nullify",
+          "cancel",
+          "annul",
+          "undermine",
+          "weaken",
+          "overthrow",
+          "undo",
+          "quash",
+          "overrule",
+          "rescind",
+          "abrogate",
+          "render null and void"
+        ]
+      },
+      {
+        "examples": [
+          "Neither point invalidates my argument."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "disprove",
+          "refute",
+          "negate",
+          "discredit",
+          "contradict",
+          "rebut",
+          "give the lie to",
+          "make a nonsense of",
+          "prove false",
+          "blow out of the water",
+          "controvert",
+          "confute"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invalidism",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "chronic illness",
+          "valetudinarianism"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invalidity",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He brushed aside claims about the invalidity of a means test."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "falsity",
+          "fallacy",
+          "unsoundness",
+          "inconsistency",
+          "irrationality",
+          "illogicality",
+          "speciousness",
+          "sophism",
+          "fallaciousness"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invaluable",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "cheap",
+          "worthless",
+          "valueless",
+          "rubbishy"
+        ],
+        "examples": [
+          "Their advice was invaluable to me at that stage of my work."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "precious",
+          "valuable",
+          "priceless",
+          "costly",
+          "inestimable",
+          "beyond price",
+          "worth your <i>or</i> its weight in gold"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invariable",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "variable",
+          "changing",
+          "varying",
+          "differing",
+          "flexible",
+          "irregular",
+          "inconsistent",
+          "uneven",
+          "changeable",
+          "alterable"
+        ],
+        "examples": [
+          "It was his invariable custom to have one whisky before supper."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "regular",
+          "set",
+          "fixed",
+          "constant",
+          "uniform",
+          "consistent",
+          "rigid",
+          "inflexible",
+          "unchanging",
+          "immutable",
+          "unwavering",
+          "unfailing",
+          "unalterable",
+          "unchangeable",
+          "unvarying",
+          "changeless"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invariably",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "They almost invariably get it wrong."
+        ],
+        "posps": [
+          "adverb"
+        ],
+        "synonyms": [
+          "always",
+          "regularly",
+          "constantly",
+          "every time",
+          "inevitably",
+          "repeatedly",
+          "consistently",
+          "ever",
+          "continually",
+          "aye",
+          "eternally",
+          "habitually",
+          "perpetually",
+          "without exception",
+          "customarily",
+          "unfailingly",
+          "on every occasion",
+          "unceasingly",
+          "twenty-four-seven",
+          "day in, day out"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invasion",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "seven years after the Roman invasion of Britain"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "attack",
+          "assault",
+          "capture",
+          "takeover",
+          "raid",
+          "offensive",
+          "occupation",
+          "conquering",
+          "seizure",
+          "onslaught",
+          "foray",
+          "appropriation",
+          "sortie",
+          "annexation",
+          "incursion",
+          "expropriation",
+          "inroad",
+          "irruption",
+          "arrogation"
+        ]
+      },
+      {
+        "examples": [
+          "Seaside resorts are preparing for an invasion of tourists."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "flood",
+          "flow",
+          "rush",
+          "arrival",
+          "influx",
+          "convergence",
+          "inflow",
+          "incursion",
+          "inundation",
+          "inrush"
+        ]
+      },
+      {
+        "examples": [
+          "Is reading a child's diary a gross invasion of privacy?"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "intrusion",
+          "breach",
+          "violation",
+          "disturbance",
+          "disruption",
+          "infringement",
+          "overstepping",
+          "infiltration",
+          "encroachment",
+          "infraction",
+          "usurpation"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invective",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "A woman had hurled racist invective at the family."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "abuse",
+          "censure",
+          "tirade",
+          "reproach",
+          "berating",
+          "denunciation",
+          "diatribe",
+          "vilification",
+          "tongue-lashing",
+          "billingsgate",
+          "vituperation",
+          "castigation",
+          "obloquy",
+          "contumely",
+          "philippic(s)",
+          "revilement"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inveigh against",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "A lot of his writings inveigh against luxury and riches."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "condemn",
+          "denounce",
+          "censure",
+          "reproach",
+          "berate",
+          "castigate",
+          "rail at",
+          "blame",
+          "tongue-lash",
+          "upbraid",
+          "lambast(e)",
+          "expostulate",
+          "excoriate",
+          "sound off at",
+          "recriminate",
+          "vituperate"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inveigle",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "She inveigles him into a plot to swindle the old lady."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "coax",
+          "persuade",
+          "lure",
+          "manipulate",
+          "manoeuvre",
+          "seduce",
+          "entice",
+          "lead on",
+          "beguile",
+          "allure",
+          "cajole",
+          "ensnare",
+          "bamboozle",
+          "entrap",
+          "wheedle",
+          "sweet-talk"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invent",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He invented the first electric clock."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "create",
+          "make",
+          "produce",
+          "develop",
+          "design",
+          "discover",
+          "imagine",
+          "manufacture",
+          "generate",
+          "come up with",
+          "coin",
+          "devise",
+          "conceive",
+          "originate",
+          "formulate",
+          "spawn",
+          "contrive",
+          "improvise",
+          "dream up",
+          "concoct",
+          "think up"
+        ]
+      },
+      {
+        "examples": [
+          "I stood there, trying to invent a plausible excuse."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "make up",
+          "devise",
+          "concoct",
+          "forge",
+          "fake",
+          "fabricate",
+          "feign",
+          "falsify",
+          "cook up",
+          "trump up"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invention",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "It's been tricky marketing his new invention."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "creation",
+          "machine",
+          "device",
+          "design",
+          "development",
+          "instrument",
+          "discovery",
+          "innovation",
+          "gadget",
+          "brainchild",
+          "contraption",
+          "contrivance",
+          "waldo"
+        ]
+      },
+      {
+        "examples": [
+          "fifty years after the invention of the printing press"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "development",
+          "design",
+          "production",
+          "setting up",
+          "foundation",
+          "construction",
+          "constitution",
+          "creation",
+          "discovery",
+          "introduction",
+          "establishment",
+          "pioneering",
+          "formation",
+          "innovation",
+          "conception",
+          "masterminding",
+          "formulation",
+          "inception",
+          "contrivance",
+          "origination",
+          "institution"
+        ]
+      },
+      {
+        "examples": [
+          "The story was undoubtedly pure invention."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "fiction",
+          "story",
+          "fantasy",
+          "lie",
+          "yarn",
+          "fabrication",
+          "concoction",
+          "falsehood",
+          "fib",
+          "untruth",
+          "urban myth",
+          "prevarication",
+          "tall story",
+          "urban legend",
+          "figment <i>or</i> product of (someone's) imagination"
+        ]
+      },
+      {
+        "examples": [
+          "powers of invention and mathematical ability"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "creativity",
+          "vision",
+          "imagination",
+          "initiative",
+          "enterprise",
+          "inspiration",
+          "genius",
+          "brilliance",
+          "ingenuity",
+          "originality",
+          "inventiveness",
+          "resourcefulness",
+          "creativeness",
+          "ingeniousness",
+          "imaginativeness"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inventive",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "pedestrian",
+          "trite",
+          "unimaginative",
+          "uninspired",
+          "imitative",
+          "uninventive"
+        ],
+        "examples": [
+          "It inspired me to be more inventive with my cooking."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "creative",
+          "original",
+          "innovative",
+          "imaginative",
+          "gifted",
+          "inspired",
+          "fertile",
+          "ingenious",
+          "ground-breaking",
+          "resourceful"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inventiveness",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He has surprised us before with his inventiveness."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "creativity",
+          "vision",
+          "initiative",
+          "enterprise",
+          "imagination",
+          "inspiration",
+          "genius",
+          "invention",
+          "brilliance",
+          "ingenuity",
+          "originality",
+          "resourcefulness",
+          "creativeness",
+          "ingeniousness",
+          "imaginativeness"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inventor",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "the inventor of the telephone"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "creator",
+          "father",
+          "maker",
+          "author",
+          "framer",
+          "designer",
+          "architect",
+          "coiner",
+          "originator"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inventory",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He made an inventory of everything that was to stay."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "list",
+          "record",
+          "catalogue",
+          "listing",
+          "account",
+          "roll",
+          "file",
+          "schedule",
+          "register",
+          "description",
+          "log",
+          "directory",
+          "tally",
+          "roster",
+          "stock book"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inverse",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "The tension grew in inverse proportion to the distance from their destination."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "opposite",
+          "reverse",
+          "reversed",
+          "contrary",
+          "inverted",
+          "converse",
+          "transposed"
+        ]
+      },
+      {
+        "examples": [
+          "The hologram can be flipped to show the inverse image."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "reverse",
+          "opposite",
+          "reversed",
+          "inverted",
+          "transposed"
+        ]
+      },
+      {
+        "examples": [
+          "There is no sign that you bothered to consider the inverse of your logic."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "converse",
+          "opposite",
+          "reverse",
+          "contrary",
+          "contradiction",
+          "antithesis"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inversion",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "a strange inversion of priorities"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "reversal",
+          "opposite",
+          "antithesis",
+          "transposition",
+          "contrary",
+          "contrariety",
+          "contraposition",
+          "transposal",
+          "antipode"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invert",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "Invert the cake onto a cooling rack."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "overturn",
+          "upturn",
+          "turn upside down",
+          "upset",
+          "reverse",
+          "capsize",
+          "transpose",
+          "introvert",
+          "turn inside out",
+          "turn turtle",
+          "invaginate",
+          "overset",
+          "intussuscept"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invertebrate",
+    "mv_version": 1.0,
+    "superid_attr": "u583c10bfdbd326ba.62be53e5.11f1d781010.-3c61"
+  },
+  {
+    "entry": "invest",
+    "mv_version": 1.0,
+    "phraseSenses": [
+      {
+        "examples": [
+          "Why don't you invest in an ice cream machine?"
+        ],
+        "phrases": [
+          "invest in something"
+        ],
+        "phrgrp_type_attr": "phrasalverb",
+        "synonyms": [
+          "buy",
+          "get",
+          "purchase",
+          "score",
+          "pay for",
+          "obtain",
+          "acquire",
+          "procure"
+        ]
+      }
+    ],
+    "wordSenses": [
+      {
+        "examples": [
+          "When people buy houses they're investing a lot of money."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "spend",
+          "expend",
+          "advance",
+          "venture",
+          "put in",
+          "devote",
+          "lay out",
+          "sink in",
+          "use up",
+          "plough in"
+        ]
+      },
+      {
+        "examples": [
+          "The buildings are invested with a nations's history."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "charge",
+          "fill",
+          "steep",
+          "saturate",
+          "endow",
+          "pervade",
+          "infuse",
+          "imbue",
+          "suffuse",
+          "endue"
+        ]
+      },
+      {
+        "examples": [
+          "The constitution had invested him with certain powers."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "empower",
+          "provide",
+          "charge",
+          "sanction",
+          "license",
+          "authorize",
+          "vest"
+        ]
+      },
+      {
+        "examples": [
+          "He was invested as a paramount chief of a district tribe."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "install",
+          "establish",
+          "ordain",
+          "crown",
+          "inaugurate",
+          "anoint",
+          "consecrate",
+          "adopt",
+          "induct",
+          "enthrone",
+          "instate"
+        ]
+      },
+      {
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "besiege",
+          "surround",
+          "enclose",
+          "beset",
+          "lay siege to",
+          "beleaguer"
+        ]
+      },
+      {
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "clothe",
+          "dress",
+          "deck",
+          "array",
+          "robe",
+          "drape",
+          "bedeck",
+          "bedizen"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investigate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "Gas officials are investigating the cause of the explosion."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "examine",
+          "study",
+          "research",
+          "consider",
+          "go into",
+          "explore",
+          "search for",
+          "analyse",
+          "look into",
+          "inspect",
+          "look over",
+          "sift",
+          "probe into",
+          "work over",
+          "scrutinize",
+          "inquire into",
+          "make inquiries about",
+          "enquire into"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investigation",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He ordered an investigation into the affair."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "examination",
+          "study",
+          "inquiry",
+          "hearing",
+          "research",
+          "review",
+          "search",
+          "survey",
+          "analysis",
+          "probe",
+          "inspection",
+          "exploration",
+          "scrutiny",
+          "inquest",
+          "fact finding",
+          "recce"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investigative",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "an investigative reporter"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "fact-finding",
+          "researching",
+          "investigating",
+          "research",
+          "inspecting"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investigator",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "'She was badly beaten,' said one investigator."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "examiner",
+          "researcher",
+          "inspector",
+          "monitor",
+          "detective",
+          "analyser",
+          "explorer",
+          "reviewer",
+          "scrutinizer",
+          "checker",
+          "inquirer",
+          "scrutineer",
+          "dick",
+          "private eye",
+          "sleuth",
+          "gumshoe"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investiture",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "Edward VIII's investiture as Prince of Wales in 1911"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "installation",
+          "ordination",
+          "inauguration",
+          "investment",
+          "investing",
+          "admission",
+          "induction",
+          "enthronement",
+          "instatement"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "investment",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "The government introduced tax incentives to encourage investment."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "investing",
+          "backing",
+          "funding",
+          "financing",
+          "contribution",
+          "speculation",
+          "transaction",
+          "expenditure",
+          "outlay"
+        ]
+      },
+      {
+        "examples": [
+          "an investment of £28 million"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "stake",
+          "interest",
+          "share",
+          "concern",
+          "portion",
+          "ante"
+        ]
+      },
+      {
+        "examples": [
+          "A small-screen portable TV can be a good investment."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "buy",
+          "asset",
+          "acquisition",
+          "venture",
+          "risk",
+          "speculation",
+          "gamble"
+        ]
+      },
+      {
+        "examples": [
+          "I worry about this big investment of time and effort not working."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "sacrifice",
+          "surrender",
+          "relinquishment"
+        ]
+      },
+      {
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "sacrifice",
+          "surrounding",
+          "siege",
+          "blockading",
+          "besieging",
+          "beleaguering"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inveterate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "an inveterate gambler"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "chronic",
+          "confirmed",
+          "incurable",
+          "hardened",
+          "established",
+          "long-standing",
+          "hard-core",
+          "habitual",
+          "obstinate",
+          "incorrigible",
+          "dyed-in-the-wool",
+          "ineradicable",
+          "deep-dyed"
+        ]
+      },
+      {
+        "examples": [
+          "the inveterate laziness of these boys"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "deep-rooted",
+          "entrenched",
+          "ingrained",
+          "deep-seated",
+          "incurable",
+          "established"
+        ]
+      },
+      {
+        "examples": [
+          "the spirit of an inveterate Tory"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "staunch",
+          "long-standing",
+          "dyed-in-the-wool",
+          "deep-dyed"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invidious",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "pleasant",
+          "desirable",
+          "pleasing"
+        ],
+        "examples": [
+          "He's in the invidious position of having to break the bad news."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "undesirable",
+          "unpleasant",
+          "hateful",
+          "thankless"
+        ]
+      },
+      {
+        "examples": [
+          "It is invidious to make a selection."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "unfair",
+          "unjust",
+          "unjustified",
+          "inequitable"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invigilate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "I've taught sixth formers and invigilated exams."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "watch over",
+          "run",
+          "conduct",
+          "oversee",
+          "supervise",
+          "preside over",
+          "keep an eye on",
+          "superintend"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invigorate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "Take a deep breath in to invigorate you."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "refresh",
+          "stimulate",
+          "brace",
+          "strengthen",
+          "animate",
+          "exhilarate",
+          "fortify",
+          "quicken",
+          "rejuvenate",
+          "enliven",
+          "perk up",
+          "freshen (up)",
+          "energize",
+          "revitalize",
+          "galvanize",
+          "liven up",
+          "pep up",
+          "buck up",
+          "put new heart into",
+          "nerve"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invigorating",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "the bright sun and invigorating northern air"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "refreshing",
+          "stimulating",
+          "bracing",
+          "fresh",
+          "tonic",
+          "uplifting",
+          "exhilarating",
+          "rejuvenating",
+          "energizing",
+          "healthful",
+          "restorative",
+          "salubrious",
+          "rejuvenative"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invincible",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "weak",
+          "vulnerable",
+          "powerless",
+          "yielding",
+          "unprotected",
+          "defenceless",
+          "beatable",
+          "assailable",
+          "conquerable"
+        ],
+        "examples": [
+          "When he is on form he is virtually invincible."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "unbeatable",
+          "unassailable",
+          "indomitable",
+          "unyielding",
+          "indestructible",
+          "impregnable",
+          "insuperable",
+          "invulnerable",
+          "unconquerable",
+          "unsurmountable"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inviolability",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "a motion recognising the inviolability of the country's border"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "sanctity",
+          "holiness",
+          "sacredness",
+          "invulnerability",
+          "inalienability",
+          "inviolacy"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inviolable",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "The game had a single inviolable rule"
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "sacrosanct",
+          "sacred",
+          "hallowed",
+          "holy",
+          "inalienable",
+          "unalterable"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inviolate",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "violated",
+          "polluted",
+          "sullied",
+          "defiled",
+          "broken",
+          "abused",
+          "stained"
+        ],
+        "examples": [
+          "We believed our love was inviolate."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "intact",
+          "whole",
+          "untouched",
+          "entire",
+          "pure",
+          "virgin",
+          "sacred",
+          "stainless",
+          "unbroken",
+          "unhurt",
+          "undisturbed",
+          "unsullied",
+          "unpolluted",
+          "unstained",
+          "undefiled"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invisible",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "seen",
+          "obvious",
+          "visible",
+          "distinct",
+          "discernible",
+          "perceptible"
+        ],
+        "examples": [
+          "The lines were so fine as to be nearly invisible."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "unseen",
+          "imperceptible",
+          "indiscernible",
+          "unseeable",
+          "unperceivable"
+        ]
+      },
+      {
+        "examples": [
+          "The problems of the poor are largely invisible."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "hidden",
+          "concealed",
+          "obscured",
+          "secret",
+          "disguised",
+          "inconspicuous",
+          "unobserved",
+          "unnoticeable",
+          "inappreciable"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invitation",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "He received an invitation to lunch."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "request",
+          "call",
+          "invite",
+          "bidding",
+          "summons"
+        ]
+      },
+      {
+        "examples": [
+          "Don't leave your bag there - it's an invitation to a thief."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "inducement",
+          "come-on",
+          "temptation",
+          "challenge",
+          "provocation",
+          "open door",
+          "overture",
+          "incitement",
+          "enticement",
+          "allurement"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invite",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "She invited him to her birthday party."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "ask",
+          "bid",
+          "summon",
+          "request the pleasure of (someone's) company"
+        ]
+      },
+      {
+        "examples": [
+          "The Department is inviting applications from local groups."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "request",
+          "seek",
+          "look for",
+          "call for",
+          "ask for",
+          "bid for",
+          "appeal for",
+          "petition",
+          "solicit"
+        ]
+      },
+      {
+        "examples": [
+          "Their refusal to compromise will invite more criticism from the UN."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "encourage",
+          "attract",
+          "cause",
+          "draw",
+          "lead to",
+          "court",
+          "ask for",
+          "generate",
+          "foster",
+          "tempt",
+          "provoke",
+          "induce",
+          "bring on",
+          "solicit",
+          "engender",
+          "allure",
+          "call forth",
+          "leave the door open to"
+        ]
+      },
+      {
+        "examples": [
+          "They haven't got an invite to the wedding."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "invitation",
+          "call",
+          "request",
+          "bidding",
+          "summons"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "inviting",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "unattractive",
+          "repellent",
+          "off-putting",
+          "unpleasant",
+          "undesirable",
+          "disagreeable",
+          "unappealing",
+          "uninviting"
+        ],
+        "examples": [
+          "The February air was soft, cool and inviting."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "tempting",
+          "appealing",
+          "attractive",
+          "pleasing",
+          "welcoming",
+          "warm",
+          "engaging",
+          "fascinating",
+          "intriguing",
+          "magnetic",
+          "delightful",
+          "enticing",
+          "seductive",
+          "captivating",
+          "beguiling",
+          "alluring",
+          "mouthwatering"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invocation",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "an invocation for divine guidance"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "appeal",
+          "request",
+          "petition",
+          "beseeching",
+          "solicitation",
+          "entreaty"
+        ]
+      },
+      {
+        "examples": [
+          "Please stand for the invocation."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "prayer",
+          "chant",
+          "supplication",
+          "orison",
+          "karakia"
+        ]
+      },
+      {
+        "examples": [
+          "the invocation of 301 legislation"
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "citation",
+          "mention",
+          "appeal to",
+          "calling on",
+          "reference to",
+          "allusion to"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invoice",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "We will send you an invoice for the total course fees."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "account",
+          "charge",
+          "bill",
+          "statement",
+          "balance",
+          "register",
+          "reckoning",
+          "tally",
+          "inventory",
+          "computation"
+        ]
+      },
+      {
+        "examples": [
+          "The agency invoices the client who then pays the full amount."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "charge",
+          "bill",
+          "record",
+          "figure",
+          "reckon",
+          "debit"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invoke",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "The judge invoked an international law that protects refugees."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "apply",
+          "use",
+          "implement",
+          "call in",
+          "initiate",
+          "resort to",
+          "put into effect",
+          "have recourse to"
+        ]
+      },
+      {
+        "examples": [
+          "He invoked memories of previous disasters to argue against postponement."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "cite",
+          "mention",
+          "refer to",
+          "name",
+          "evidence",
+          "quote",
+          "specify",
+          "allude to"
+        ]
+      },
+      {
+        "examples": [
+          "The work invoked the atmosphere of the open spaces of the prairies."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "bring out",
+          "conjure up",
+          "summon up"
+        ]
+      },
+      {
+        "examples": [
+          "The great magicians of old invoked their gods with sacrifice."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "call upon",
+          "appeal to",
+          "pray to",
+          "petition",
+          "conjure",
+          "solicit",
+          "beseech",
+          "entreat",
+          "adjure",
+          "supplicate"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "involuntary",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "voluntary",
+          "deliberate",
+          "intentional",
+          "planned",
+          "purposed",
+          "calculated",
+          "wilful",
+          "volitional"
+        ],
+        "examples": [
+          "A surge of pain caused me to give an involuntary shudder."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "unintentional",
+          "automatic",
+          "unconscious",
+          "spontaneous",
+          "reflex",
+          "instinctive",
+          "uncontrolled",
+          "unthinking",
+          "instinctual",
+          "blind",
+          "unconditioned"
+        ]
+      },
+      {
+        "examples": [
+          "Involuntary repatriations began this week."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "compulsory",
+          "forced",
+          "mandatory",
+          "required",
+          "binding",
+          "imperative",
+          "obligatory",
+          "requisite",
+          "de rigueur"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "involve",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "Running a kitchen involves a great deal of discipline and speed."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "entail",
+          "mean",
+          "demand",
+          "require",
+          "call for",
+          "occasion",
+          "result in",
+          "imply",
+          "give rise to",
+          "encompass",
+          "necessitate",
+          "take",
+          "require",
+          "presuppose"
+        ]
+      },
+      {
+        "examples": [
+          "The cover-up involved people at the very highest level."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "include",
+          "contain",
+          "take in",
+          "embrace",
+          "cover",
+          "incorporate",
+          "draw in",
+          "comprise",
+          "number among"
+        ]
+      },
+      {
+        "examples": [
+          "I seem to have involved myself in something I don't understand."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "implicate",
+          "tangle",
+          "mix up",
+          "embroil",
+          "link",
+          "entangle",
+          "incriminate",
+          "mire",
+          "stitch up",
+          "enmesh",
+          "inculpate",
+          "compromise",
+          "complicate",
+          "snarl up"
+        ]
+      },
+      {
+        "examples": [
+          "He started involving me in the more confidential aspects of the job."
+        ],
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "concern",
+          "draw in",
+          "associate",
+          "connect",
+          "bear on"
+        ]
+      },
+      {
+        "posps": [
+          "verb"
+        ],
+        "synonyms": [
+          "preoccupy",
+          "hold",
+          "commit",
+          "bind",
+          "engage",
+          "grip",
+          "absorb",
+          "wrap up",
+          "rivet",
+          "engross"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "involved",
+    "mv_version": 1.0,
+    "phraseSenses": [
+      {
+        "examples": [
+          "She was so involved in her career she had no time for fun."
+        ],
+        "phrases": [
+          "involved in something"
+        ],
+        "synonyms": [
+          "absorbed in",
+          "caught up in",
+          "lost in",
+          "deep in",
+          "fascinated by",
+          "immersed in",
+          "gripped by",
+          "engrossed in",
+          "captivated by",
+          "enthralled by",
+          "preoccupied by",
+          "up to your ears in",
+          "wrapped up in"
+        ]
+      },
+      {
+        "examples": [
+          "It's an organisation for people involved in agriculture."
+        ],
+        "phrases": [
+          "involved in something"
+        ],
+        "synonyms": [
+          "concerned with",
+          "associated with",
+          "participating in",
+          "connected with",
+          "caught up in",
+          "occupied by"
+        ]
+      }
+    ],
+    "wordSenses": [
+      {
+        "antonyms": [
+          "easy",
+          "simple",
+          "straightforward",
+          "elementary",
+          "simplified",
+          "uncomplicated",
+          "unsophisticated",
+          "easy-peasy"
+        ],
+        "examples": [
+          "The operation can be quite involved, requiring special procedures."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "complicated",
+          "complex",
+          "intricate",
+          "hard",
+          "difficult",
+          "confused",
+          "confusing",
+          "sophisticated",
+          "elaborate",
+          "tangled",
+          "bewildering",
+          "jumbled",
+          "entangled",
+          "tortuous",
+          "Byzantine",
+          "convoluted",
+          "knotty",
+          "unfathomable",
+          "labyrinthine"
+        ]
+      },
+      {
+        "examples": [
+          "She became involved with the group soon after the Chernobyl disaster."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "implicated",
+          "taking part",
+          "caught up",
+          "mixed up",
+          "embroiled",
+          "entangled",
+          "enmeshed",
+          "ensnared"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "involvement",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "You have no proof of my involvement in anything."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "collaboration",
+          "implication",
+          "participation",
+          "hand",
+          "association",
+          "partnership",
+          "cooperation",
+          "inclusion",
+          "liaison",
+          "collusion",
+          "complicity",
+          "entanglement",
+          "connivance",
+          "incrimination",
+          "inculpation"
+        ]
+      },
+      {
+        "examples": [
+          "He has always felt a deep involvement with animals."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "connection",
+          "interest",
+          "relationship",
+          "concern",
+          "association",
+          "commitment",
+          "friendship",
+          "attachment"
+        ]
+      },
+      {
+        "examples": [
+          "They were good friends but there was no romantic involvement."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "intimacy",
+          "attachment",
+          "closeness",
+          "familiarity",
+          "fraternization"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invulnerability",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "examples": [
+          "They have a sense of invulnerability to disease."
+        ],
+        "posps": [
+          "noun"
+        ],
+        "synonyms": [
+          "safety",
+          "security",
+          "strength",
+          "inviolability",
+          "impenetrability",
+          "untouchability",
+          "unassailability"
+        ]
+      }
+    ]
+  },
+  {
+    "entry": "invulnerable",
+    "mv_version": 1.0,
+    "wordSenses": [
+      {
+        "antonyms": [
+          "weak",
+          "vulnerable",
+          "susceptible",
+          "insecure",
+          "unprotected",
+          "defenceless",
+          "assailable"
+        ],
+        "examples": [
+          "She assumed that her mother was invulnerable and all-powerful."
+        ],
+        "posps": [
+          "adjective"
+        ],
+        "synonyms": [
+          "safe",
+          "secure",
+          "invincible",
+          "impenetrable",
+          "unassailable",
+          "indestructible",
+          "insusceptible"
+        ]
+      }
+    ]
+  }
+]

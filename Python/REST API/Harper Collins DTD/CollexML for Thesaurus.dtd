@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ant: antonym -->
+<!ELEMENT ant (#PCDATA | i)*>
+<!-- antgrp: antonym grp -->
+<!ELEMENT antgrp (antunit+)>
+<!-- antunit: antonym unit -->
+<!ELEMENT antunit (ant, (lbmod?, (lbgeo | lbregister))*, (lbcoll | lblang | lbsubjfld)*)>
+<!ATTLIST antunit
+	type (key) #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!-- b: bold -->
+<!ELEMENT b (#PCDATA)>
+
+<!-- br: line break -->
+<!ELEMENT br EMPTY>
+
+<!-- caption: table caption -->
+<!ELEMENT caption (#PCDATA)>
+
+<!-- datablk: main blk of dictionary data -->
+<!ELEMENT datablk ((gramcat+, phrgrp*, relwgrp*, xrefgrp?, exmplgrp*) | xrefgrp)>
+
+<!-- entry: dictionary/thesaurus entry -->
+<!ELEMENT entry (hwblk, ((datablk, infoblk?) | infoblk))>
+<!ATTLIST entry
+    id ID #IMPLIED
+    publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+    homonym NMTOKEN #IMPLIED
+>
+
+<!-- exmpl -->
+<!ELEMENT exmpl (#PCDATA | br | i | timestamp)*>
+<!-- exmplgrp: exmpl grp -->
+<!ELEMENT exmplgrp (exmplunit)>
+<!ATTLIST exmplgrp
+    publevel (0 | 1 | 2 | 3 | 4| 8) #REQUIRED
+	type (proverb | quotation) #IMPLIED
+>
+<!-- exmplunit: exmpl unit -->
+<!ELEMENT exmplunit (ulgeo*, exmpl, ((lbauthor?, lbsrc?) | lbregister))>
+
+<!-- gramcat: grammatical category -->
+<!ELEMENT gramcat (pospgrp, uldate?, (sensecat+ | note+ | ((phrgrp+, relwgrp*, xrefgrp?, exmplgrp*) | (relwgrp+, xrefgrp?, exmplgrp*) | (xrefgrp, exmplgrp*) | exmplgrp+)))>
+<!ATTLIST gramcat
+	id ID #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4| 8) #REQUIRED
+>
+
+<!-- groupintro: grp introductory text -->
+<!ELEMENT groupintro (#PCDATA)>
+
+<!-- head: header within note or floatbox -->
+<!ELEMENT head (#PCDATA | i)*>
+<!ATTLIST head
+	id ID #IMPLIED
+>
+
+<!-- hw: headword -->
+<!ELEMENT hw (#PCDATA)>
+<!-- hwblk: headword blk -->
+<!ELEMENT hwblk (hwgrp)>
+<!-- hwgrp: headword grp -->
+<!ELEMENT hwgrp (hwunit+, lbgeo*, lbregister?)>
+<!-- hwunit: headword unit -->
+<!ELEMENT hwunit ((lbmod?, lbgeo)?, hw, uldate?, (lbmod?, (lbgeo | lbregister))*, (lbgramdesc | lblang | lbsubjfld)*)>
+<!ATTLIST hwunit
+	form (altform) #IMPLIED
+>
+
+<!-- i: italic -->
+<!ELEMENT i (#PCDATA)>
+
+<!-- infoblk: information blk -->
+<!ELEMENT infoblk (note+)>
+
+<!ELEMENT lbauthor (#PCDATA | i)*>
+
+<!-- lbcoll: collocate label -->
+<!ELEMENT lbcoll (#PCDATA)>
+<!ATTLIST lbcoll
+	type (adjective | misc | noun_of_adjective | noun_of_noun | object | subject) #REQUIRED
+>
+
+<!-- lbgeo: geographical label -->
+<!ELEMENT lbgeo EMPTY>
+<!ATTLIST lbgeo
+    value ( Africa:South_Africa | Australia | Britain | Britain:England:East | Britain:England:Lancashire | Britain:England:North | Britain:England:Northwest | Britain:England:South | Britain:England:West | Britain:Scotland | Canada | Caribbean | Ireland | New_Zealand | US | US:East | US:South | US:Southwest | US:West ) #REQUIRED
+	publevel (4 | 8) #IMPLIED
+>
+
+<!-- lbgramdesc: grammatical description, other than lbgram -->
+<!ELEMENT lbgramdesc (#PCDATA | b)*>
+
+<!-- lblang: language label -->
+<!ELEMENT lblang EMPTY>
+<!ATTLIST lblang
+    value ( Arabic | French | Gaelic | German | Italian | Latin | Russian | Spanish | Turkish | Welsh ) #REQUIRED
+	publevel (4 | 8) #IMPLIED
+>
+
+<!-- lbmisc: indicator label -->
+<!ELEMENT lbmisc (#PCDATA)>
+
+<!-- lbmod: modifier label -->
+<!ELEMENT lbmod EMPTY>
+<!ATTLIST lbmod
+    value ( especially | generally | mainly | often | sometimes ) #REQUIRED
+	publevel (4 | 8) #IMPLIED
+>
+
+<!-- lbregister: register label -->
+<!ELEMENT lbregister EMPTY>
+<!ATTLIST lbregister
+    value ( archaic | biblical | derogatory | dialect | euphemistic | facetious | formal | humorous | informal | ironic | literary | non-technical | obsolete | offensive | old-fashioned | poetic | rare | slang | taboo | technical_term ) #REQUIRED
+	publevel (4 | 8) #IMPLIED
+	output (digital_only | print_only) #IMPLIED
+>
+
+<!-- lbsrc: exmpl source label -->
+<!ELEMENT lbsrc (#PCDATA)>
+
+<!-- lbsubjfld: general subject field -->
+<!ELEMENT lbsubjfld EMPTY>
+<!ATTLIST lbsubjfld
+    value ( Biz:Accounting | Biz:Business | Biz:Economics | Biz:Stock_Exchange | Edu:Education | Farm_and_Hunt:Agriculture | Food:Cookery | Hist:Archeology | Hist:French | Hist:History | Hist:Legal:English | Hist:Medieval | Hist:Roman | Lang_and_Arts:Grammar | Lang_and_Arts:Logic | Lang_and_Arts:Philosophy | Lang_and_Arts:Prosody | Lang_and_Arts:Rhetoric | Lang_and_Arts:Science_Fiction | Lang_and_Arts:Text_Messaging | Law:Civil | Law:Commercial | Law:Company | Law:Contract | Law:Criminal | Law:Criminal:English | Law:English | Law:Family | Law:French | Law:Insurance | Law:Law | Law:Mercantile | Law:Property | Law:Roman | Law:Scots | Law:US | Leisure:Bridge | Leisure:Cards | Leisure:Dice | Leisure:Heraldry | Leisure:Photography | Leisure:Theatre | Leisure:Whist | Media:Radio | Media:Television | Medic:Anatomy | Medic:Medicine | Medic:Pathology | Medic:Psychiatry | Medic:Psychoanalysis | Medic:Psychology | Medic:Surgery | Medic:Veterinary_Science | Mil:Military | Mil:Navy | Mus:Music | Rel:Bible | Rel:Bible:New_Testament | Rel:Buddhism | Rel:Christianity | Rel:Church:Presbyterian | Rel:Church:Roman_Catholic | Rel:Hinduism | Rel:Islam | Rel:Judaism | Rel:Mythology | Rel:Mythology:Greek | Rel:Mythology:Norse | Rel:Mythology:Roman | Rel:Theology | Sci:Astronomy | Sci:Biology | Sci:Botany | Sci:Chemistry | Sci:Ecology | Sci:Entomology | Sci:Geography | Sci:Geometry | Sci:Physiology | Sci:Zoology | Sport:Boxing | Sport:Rugby:League | Sport:Rugby:Union | Sport:Sailing | Sport:Sport | Tech:Architecture | Tech:Computing | Tech:Printing | Tech:Technical | Transp:Nautical ) #REQUIRED
+	publevel (4 | 8) #IMPLIED
+>
+
+<!-- lbtm: registered trademark -->
+<!ELEMENT lbtm EMPTY>
+<!ATTLIST lbtm
+	value (trademark) #REQUIRED
+>
+
+<!-- 2017-09-05  CNHume  Added lexdataset element -->
+<!-- lexical dataset: ROOT ELEMENT -->
+<!ELEMENT lexdataset (superentry+)>
+
+<!-- note -->
+<!ELEMENT note (text | (head, (text | table+)))>
+<!ATTLIST note
+	id ID #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+	type (figurative | language | thesaurus | usage | wordpower) #REQUIRED
+>
+
+<!-- phr: set phrase -->
+<!ELEMENT phr (#PCDATA | i)*>
+<!-- phrgrp: set phrase grp -->
+<!ELEMENT phrgrp (phrunit+, sense+)>
+<!ATTLIST phrgrp
+    type (idiom | phrasalverb) #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+<!-- phrunit: set phrase unit -->
+<!ELEMENT phrunit (phr, (lbmod?, (lbgeo | lbregister))*, (lbcoll | lbgramdesc | lbmisc | lbsubjfld)*)>
+<!ATTLIST phrunit
+    id ID #IMPLIED
+>
+
+<!-- posp: part of speech -->
+<!ELEMENT posp EMPTY>
+<!ATTLIST posp
+    value ( abbreviation | adjective | adverb | combining_form | conjunction | determiner | interjection | modifier | noun | noun:plural | prefix | preposition | pronoun | sentence_connector | sentence_substitute | suffix | verb ) #REQUIRED
+>
+<!-- pospgrp: part of speech group -->
+<!ELEMENT pospgrp (pospunit+)>
+<!ELEMENT pospunit (posp)>
+
+<!-- related words -->
+<!ELEMENT relwgrp (groupintro, relwunit+)>
+<!ELEMENT relword (#PCDATA)> 
+<!ELEMENT relwunit (relword, (lbgeo | lbmisc)?)>
+<!ATTLIST relwunit
+    form (altform) #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!-- sc: small caps -->
+<!ELEMENT sc (#PCDATA)>
+
+<!-- sense: trangrp holder -->
+<!ELEMENT sense ((lbgeo | lbregister | lbsubjfld)*, lbgramdesc?, syngrp, exmplgrp*, antgrp?)>
+<!ATTLIST sense
+	id ID #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!-- sensecat: semantic category -->
+<!ELEMENT sensecat (uldate?, (antgrp | ((lbmod?, (lbgeo | lbregister | lbsubjfld))*, (lbgramdesc | lbcoll | lblang | lbmisc)*, lbtm?, syngrp, exmplgrp*, antgrp?)))>
+<!ATTLIST sensecat
+	id ID #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!ELEMENT specialchar EMPTY>
+<!ATTLIST specialchar
+	name CDATA #REQUIRED
+>
+
+<!-- sub: subscript -->
+<!ELEMENT sub (#PCDATA)>
+
+<!-- superentry: to hold entry for an easier treatment of homographs with different publevels -->
+<!ELEMENT superentry (entry+)>
+<!ATTLIST superentry
+	id ID #IMPLIED
+>
+
+<!-- syn: synonym -->
+<!ELEMENT syn (#PCDATA | i | sub)*>
+<!-- syngrp: synonym grp -->
+<!ELEMENT syngrp (synunit+)>
+<!-- synunit: synonym unit -->
+<!ELEMENT synunit (syn, (lbmod?, (lbgeo | lbsubjfld | lbregister))*, (lbcoll | lbgramdesc | lblang | lbmisc)*, lbtm?, uldate?)>
+<!ATTLIST synunit
+	type (key) #IMPLIED
+    form (altform) #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!-- table: table -->
+<!ELEMENT table (caption?, tr+)>
+<!ATTLIST table
+	id ID #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+<!-- td: table data -->
+<!ELEMENT td (#PCDATA | i | sc | specialchar)*>
+
+<!-- timestamp (needed for Free dictionary website) -->
+<!ELEMENT timestamp EMPTY>
+
+<!-- text: text in notes -->
+<!ELEMENT text (#PCDATA | b | br | i)* >
+
+<!-- th: table header -->
+<!ELEMENT th (#PCDATA)>
+<!-- tr: table row -->
+<!ELEMENT tr (th+ | (td+, (lbmod?, (lbgeo | lbregister))*, (lbsubjfld | lblang | lbmisc)*, lbtm?, xrefgrp?))>
+
+<!-- uldate: usually specifies the year in which the entry, etc was added-->
+<!ELEMENT uldate (#PCDATA)>
+<!ELEMENT ulgeo (#PCDATA)>
+
+<!-- xref: cross-reference -->
+<!ELEMENT xref (xrhw, xrhn*, (xrparent, xrhn*)?)>
+<!ATTLIST xref
+	xrefid CDATA #IMPLIED
+	type (theslist) #IMPLIED
+	xrefproject CDATA #IMPLIED
+	superentryid CDATA #IMPLIED
+>
+<!-- xrhw, xrhn and xrparent are filled in by DPS to enable the previewer to display cross references -->
+<!ELEMENT xrhw (#PCDATA | i)*>
+<!ATTLIST xrhw
+        publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+<!ELEMENT xrhn (#PCDATA)>
+<!ATTLIST xrhn
+        publevel (a | b | c | d) #REQUIRED
+>
+<!ELEMENT xrparent (#PCDATA)>
+<!ATTLIST xrparent
+        publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+<!-- xrefgrp: cross-reference grp -->
+<!ELEMENT xrefgrp (groupintro, xrefunit+)>
+<!ELEMENT xrefunit (xref)>
+<!ATTLIST xrefunit
+        publevel (0 | 1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+
+<!-- DTD PARAMETERS: large thesaurus -->

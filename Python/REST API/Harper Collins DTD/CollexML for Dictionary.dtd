@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- audio: audio tag -->
+<!ELEMENT audio EMPTY>
+<!ATTLIST audio
+      lang (en-gb | es-419 | en-us | de | fr | it)  #REQUIRED
+      mainSoundFile NMTOKEN #IMPLIED
+      variantSoundFile NMTOKEN #IMPLIED
+      type (human | tts) #IMPLIED
+      mediaDBmatch (pron | spelling | verified) #IMPLIED
+      publevel (9) #IMPLIED
+>
+
+<!-- b: bold -->
+<!ELEMENT b (#PCDATA | sup)*>
+
+<!-- datablk: main blk of dictionary data -->
+<!ELEMENT datablk (gramcat+, vargrp*, xrefgrp*, relwgrp*)>
+
+<!-- def: dictionary definition -->
+<!ELEMENT def (#PCDATA | b | i | fraction | pronunit | sc | specialchar | sub | sup | xrefgrp)*>
+<!-- defgrp: definition grp -->
+<!ELEMENT defgrp (defunit)>
+<!-- defunit: definition unit -->
+<!ELEMENT defunit (def)>
+
+<!-- entry: dictionary/thesaurus entry -->
+<!ELEMENT entry (hwblk, datablk, etym*, subentryblk?, note?)>
+<!ATTLIST entry
+      id ID #IMPLIED
+      publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+      homonym (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) #IMPLIED
+      main CDATA #IMPLIED
+      mainhomonym (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9) #IMPLIED
+      type (potentialrunon) #IMPLIED
+      output (digital_only | print_only) #IMPLIED
+      origin (UGC) #IMPLIED
+      source (CED | Framework | Scrabble) #REQUIRED
+>
+
+<!-- etym: etymology -->
+<!ELEMENT etym (#PCDATA | fraction | i | sc | sub | sup)*>
+<!ATTLIST etym
+	publevel NMTOKEN #IMPLIED
+>
+
+<!-- exmpl -->
+<!ELEMENT exmpl (#PCDATA | b | fraction | r | pronunit | sc | sub | sup | timestamp)*>
+<!-- exmplgrp: exmpl grp -->
+<!ELEMENT exmplgrp (exmplunit+)>
+<!-- exmplunit: exmpl unit -->
+<!ELEMENT exmplunit (exmpl, lbsrc?)>
+<!ATTLIST exmplunit
+	output (digital_only) #IMPLIED
+    publevel (1 | 2 | 3 | 4 | 8 | 9) #IMPLIED
+	status (underlying) #IMPLIED
+>
+
+<!-- fraction: for encoding all fractions -->
+<!ELEMENT fraction EMPTY>
+<!ATTLIST fraction
+    numerator NMTOKEN #REQUIRED
+	denominator NMTOKEN #REQUIRED
+>
+
+<!-- gramcat: grammatical category -->
+<!-- NB: Could move inflgrp into pospunit -->
+<!ELEMENT gramcat (inflgrp*, (pospgrp, prongrp?, inflgrp*)+, idmgrp?, (vargrp, inflgrp*)?, patterngrp?, lbtm?, ((lbmod?, (lbgeo | lbregister | lbsubjfld)) | lbgramdesc | lbmisc)*, sensecat+)>
+<!ATTLIST gramcat
+	id ID #IMPLIED
+	publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+
+<!-- groupintro: grp introductory text -->
+<!ELEMENT groupintro (#PCDATA | b | i | sc)*>
+
+<!-- hw: headword -->
+<!ELEMENT hw (#PCDATA | i | sub)*>
+<!-- hwblk: headword blk -->
+<!ELEMENT hwblk (hwgrp+, prongrp?)>
+<!-- hwgrp: headword grp -->
+<!ELEMENT hwgrp (ulsrc?, uldate?, ((lbmod?, lbgeo) | lbgramdesc)?, hwunit+, lblang?, prongrp?, ((lbmod?, (lbgeo | lbregister | lbsubjfld)) | lbgramdesc | lbmisc)*)>
+<!-- hwunit: headword unit -->
+<!ELEMENT hwunit (((lbmisc?, lbmod?, (lbgeo | lbregister | lbsubjfld)) | lbgramdesc)*, hw, audio*, lblang?, prongrp*, ((lbmod?, (lbgeo | lbregister | lbsubjfld)) | lbgramdesc)*)>
+<!-- NB: should have something better for foreign headwords than @type="foreign" ... -->
+<!ATTLIST hwunit
+	form (altform | altspelling) #IMPLIED
+	type (foreign) #IMPLIED
+>
+
+<!-- i: italic -->
+<!ELEMENT i (#PCDATA | b | r | sc | sub | sup)*>
+
+<!-- idm: idiom -->
+<!ELEMENT idm (#PCDATA)>
+<!-- idmgrp: idiomgrp -->
+<!ELEMENT idmgrp (idmunit+)>
+<!-- idmunit: idiom unit -->
+<!ELEMENT idmunit (((lbmod?, (lbgeo | lbregister)) | lbgramdesc)*, idm, prongrp?)>
+<!ATTLIST idmunit
+    form (alt) #IMPLIED
+>
+
+<!-- infl: inflection -->
+<!ELEMENT infl (#PCDATA)>
+<!ATTLIST infl
+	type (partial) #IMPLIED
+>
+<!-- inflgrp: inflection grp -->
+<!ELEMENT inflgrp (((lbmod?, (lbgeo | lbregister | lbsubjfld))+ | (lbgram, lbgramdesc?))?, influnit+, prongrp?)>
+<!-- influnit: inflection unit -->
+<!ELEMENT influnit ((lbgramdesc | lblang | lbmisc | (lbmod?, (lbgeo | lbregister))+)?, infl, prongrp?)>
+<!ATTLIST influnit
+	form (alt) #IMPLIED
+    type (foreign) #IMPLIED
+>
+
+<!-- lbgeo: geographical label -->
+<!ELEMENT lbgeo EMPTY>
+<!ATTLIST lbgeo
+        value
+	( Africa | Africa:East | Africa:Ghana | Africa:South_Africa | Africa:West | Africa:Zimbabwe | Australia | Australia:Queensland | Australia:Western | Britain | Britain:England:Cockney | Britain:England:Cornwall | Britain:England:Derbyshire | Britain:England:Durham | Britain:England:East_Anglia | Britain:England:East | Britain:England | Britain:England:Lancashire | Britain:England:Liverpool | Britain:England:London | Britain:England:Manchester | Britain:England:Midlands | Britain:England:Northeast | Britain:England:North | Britain:England:Northumbria | Britain:England:Northwest | Britain:England:Southeast | Britain:England:South | Britain:England:Southwest | Britain:England:South_Yorkshire | Britain:England:Tyneside | Britain:England:West_Midlands | Britain:England:West | Britain:England:West_Yorkshire | Britain:England:Yorkshire | Britain:Northern_Ireland | Britain:Scotland:Central | Britain:Scotland:Edinburgh | Britain:Scotland:Glasgow | Britain:Scotland:Northeast | Britain:Scotland:Orkney_and_Shetland | Britain:Scotland | Britain:Wales:South | Britain:Wales | Canada | Canada:East | Canada:North | Canada:Northwest | Canada:West | Caribbean | Caribbean:East | Caribbean:Jamaica | Hinglish | India | Ireland:Dublin | Ireland | New_Zealand | US:African-American | US_and_Canadian | US:East | US:North | US:South | US:Southwest | US | US:West )
+        #REQUIRED
+>
+
+<!-- lbgram: grammatical label -->
+<!ELEMENT lbgram EMPTY>
+<!ATTLIST lbgram
+        value
+	( 2nd_person | 3rd_person | comparative | feminine | genitive:Latin | participle:past | participle:present | past | past:plural | past:singular:1st_person | plural | present:plural | present:singular:1st_person | present:singular:3rd_person | singular | superlative )
+        #REQUIRED
+>
+
+<!-- lbgramdesc: grammatical description, other than lbgram -->
+<!ELEMENT lbgramdesc (#PCDATA | b | r)*>
+
+<!-- lblang: language label -->
+<!ELEMENT lblang EMPTY>
+<!ATTLIST lblang
+        value
+	( aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | bs | ca | co | cs | cy | da | de | dz | el | en_AU | en_CA | en | en_NZ | en_SA | en_US | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | in | is | it | ja | ji | jw | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | nl_flemish | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sco | sd | sg | sh | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | uk | ur | uz | vi | vo | wo | xh | yo | zh | zu )
+        #REQUIRED
+>
+
+<!-- lbmisc: indicator label -->
+<!ELEMENT lbmisc (#PCDATA | i)*>
+
+<!-- lbmod: modifier label -->
+<!ELEMENT lbmod EMPTY>
+<!ATTLIST lbmod
+        value
+	( especially | generally | mainly | often | or | sometimes )
+        #REQUIRED
+>
+
+<!-- lbregister: register label -->
+<!ELEMENT lbregister EMPTY>
+<!ATTLIST lbregister
+        value
+	( approving | archaic | baby_talk | biblical | derogatory | dialect | euphemistic | facetious | formal | humorous | informal | ironic | literary | non-technical | not_standard | obsolete | offensive | old-fashioned | pejorative | poetic | rare | slang:Black | slang:childrens | slang:Cockney_rhyming | slang:drugs | slang:homosexual | slang:military | slang:police | slang:prison | slang:public_school | slang:rhyming | slang:school | slang | taboo | technical_term )
+        #REQUIRED
+	output (digital_only | print_only) #IMPLIED
+>
+
+<!-- lbsrc: exmpl source label -->
+<!ELEMENT lbsrc (#PCDATA)>
+
+<!-- lbsubjfld: general subject field -->
+<!ELEMENT lbsubjfld EMPTY>
+<!ATTLIST lbsubjfld
+        value
+	( Art:Art | Art:Art:Hindu_and_Buddhist | Art:Ceramics | Art:Drawing | Art:Engraving | Art:Fine_Arts | Art:Painting | Art:Sculpture | Biz:Accounting | Biz:Advertising | Biz:Banking | Biz:Business | Biz:Currency | Biz:Economics | Biz:Email | Biz:Finance | Biz:Internet | Biz:Marketing | Biz:Stock_Exchange | Edu:Education | Farm_and_Hunt:Agriculture | Farm_and_Hunt:Animal_Husbandry | Farm_and_Hunt:Farming:Poultry | Farm_and_Hunt:Fishing | Farm_and_Hunt:Fishing:Sea | Farm_and_Hunt:Forestry | Farm_and_Hunt:Horticulture | Farm_and_Hunt:Hunting | Farm_and_Hunt:Stockbreeding | Farm_and_Hunt:Whaling | Food:Brewing | Food:Cookery:Chinese | Food:Cookery | Food:Cookery:French | Food:Cookery:Indian | Food:Cookery:Japanese | Food:Cookery:Jewish | Food:Cookery:Mexican | Food:Cookery:Russian | Food:Winemaking | Gov_and_Adm:Civil_Defence | Gov_and_Adm:Diplomacy | Gov_and_Adm:Government:Canada | Gov_and_Adm:Government | Gov_and_Adm:Government:Local | Gov_and_Adm:Industrial_Relations | Gov_and_Adm:Inland_Revenue | Gov_and_Adm:Insurance | Gov_and_Adm:Parliamentary_Procedure | Gov_and_Adm:Parliament | Gov_and_Adm:Police | Gov_and_Adm:Politics:French | Gov_and_Adm:Politics:Irish | Gov_and_Adm:Politics:Political_Theory | Gov_and_Adm:Politics | Gov_and_Adm:Social_Welfare | Gov_and_Adm:Sociology | Gov_and_Adm:Tax_Accounting | Gov_and_Adm:Tax | Groom:Clothing | Groom:Cosmetics | Groom:Dressmaking | Groom:Fashion | Groom:Hairdressing | Groom:Jewellery | Groom:Sewing | Hist:Archeology | Hist:British | Hist:Canadian | Hist:English | Hist:European | Hist:Feudal | Hist:French | Hist:German | Hist:Greek | Hist:History | Hist:Irish | Hist:Japanese | Hist:Legal:English | Hist:Legal | Hist:Medieval | Hist:Nautical | Hist:Roman | Hist:Russian | Hist:Spanish | Hist:US | Lang_and_Arts:Aesthetics | Lang_and_Arts:Arts | Lang_and_Arts:Epistemology | Lang_and_Arts:Ethics | Lang_and_Arts:Ethology | Lang_and_Arts:Folklore | Lang_and_Arts:Grammar:Generative | Lang_and_Arts:Grammar | Lang_and_Arts:Grammar:Greek | Lang_and_Arts:Grammar:Transformational | Lang_and_Arts:Library_Science | Lang_and_Arts:Linguistics | Lang_and_Arts:Literature | Lang_and_Arts:Logic | Lang_and_Arts:Marxism | Lang_and_Arts:Metaphysics | Lang_and_Arts:Philosophy | Lang_and_Arts:Phonetics | Lang_and_Arts:Poetry | Lang_and_Arts:Prosody:Classical | Lang_and_Arts:Prosody:Greek | Lang_and_Arts:Prosody | Lang_and_Arts:Rhetoric | Lang_and_Arts:Science_Fiction | Lang_and_Arts:Taxonomy | Lang_and_Arts:Text_Messaging | Lang_and_Arts:Zoroastrianism | Law:Civil | Law:Commercial | Law:Company | Law:Contract | Law:Criminal | Law:Criminal:English | Law:Ecclesiastical | Law:Ecclesiastical:English | Law:English | Law:Family | Law:Feudal | Law:French | Law:Insurance | Law:International | Law:Law | Law:Maritime | Law:Mercantile | Law:Papal | Law:Patent | Law:Property | Law:Roman | Law:Scots | Leisure:Alchemy | Leisure:Angling | Leisure:Antiques | Leisure:Astrology | Leisure:Backgammon | Leisure:Ballet | Leisure:Bell-ringing | Leisure:Billiards | Leisure:Bridge | Leisure:Bridge:Contract | Leisure:Cards | Leisure:Chess | Leisure:Cinema | Leisure:Cribbage | Leisure:Dancing | Leisure:Darts | Leisure:Draughts | Leisure:Drugs | Leisure:Embroidery | Leisure:Falconry | Leisure:Gambling | Leisure:Games | Leisure:Genealogy | Leisure:Heraldry | Leisure:Knitting | Leisure:Lacemaking | Leisure:Needlework | Leisure:Palmistry | Leisure:Philately | Leisure:Photography | Leisure:Pinochle | Leisure:Poker | Leisure:Pontoon | Leisure:Pottery | Leisure:Theatre | Leisure:Whist | Leisure:Yoga | Media:Journalism | Media:Publishing | Media:Radio | Media:Television | Medic:Anatomy | Medic:Cytology | Medic:Dentistry | Medic:Health | Medic:Medicine | Medic:Obstetrics | Medic:Ophthalmology | Medic:Pathology | Medic:Psychiatry | Medic:Psychoanalysis | Medic:Psycholinguistics | Medic:Psychology | Medic:Psychology:Social | Medic:Surgery | Medic:Veterinary_Science | Mil:Air_Force | Mil:Air_Force:US | Mil:Armour | Mil:Army | Mil:Army:France | Mil:Artillery | Mil:Fortifications | Mil:Fortifications:Medieval | Mil:Military | Mil:Navy | Mus:Jazz | Mus:Music | Nautical | Rel:Bible:Apocrypha | Rel:Bible | Rel:Bible:New_Testament | Rel:Bible:Old_Testament | Rel:Buddhism | Rel:Buddhism:Japan | Rel:Buddhism:Zen | Rel:Christianity | Rel:Christianity:Eastern | Rel:Church:Anglican | Rel:Church:Christian | Rel:Church:Christian_Orthodox | Rel:Church:Christian_Science | Rel:Church:Dutch_Reformed | Rel:Church:Early_Christian | Rel:Church:Eastern_Christian | Rel:Church:Episcopal | Rel:Church:Greek_Orthodox | Rel:Church:Methodist | Rel:Church:Mormon | Rel:Church_of_England | Rel:Church:Presbyterian | Rel:Church:Roman_Catholic | Rel:Church:Scottish_Episcopal | Rel:Ecclesiastical | Rel:Freemasonry | Rel:Gnosticism | Rel:Hinduism | Rel:Islam | Rel:Judaism | Rel:Koran | Rel:Legend:English | Rel:Legend:Finnish | Rel:Legend:German | Rel:Legend:Greek | Rel:Legend | Rel:Legend:Medieval | Rel:Liturgy | Rel:Mythology:Arabian | Rel:Mythology:Babylonian | Rel:Mythology:Celtic | Rel:Mythology:Classical | Rel:Mythology:Egyptian | Rel:Mythology:German | Rel:Mythology:Greek | Rel:Mythology:Hindu | Rel:Mythology:Indian | Rel:Mythology:Irish | Rel:Mythology | Rel:Mythology:Norse | Rel:Mythology:Persian | Rel:Mythology:Phoenician | Rel:Mythology:Roman | Rel:Occultism | Rel:Protestantism | Rel:Quakerism | Rel:Sikhism | Rel:Spiritualism | Rel:Theology:Calvinist | Rel:Theology:Christian | Rel:Theology:Christian:Medieval | Rel:Theology:Protestant | Rel:Theology:Roman_Catholic | Rel:Theology | Rel:Theosophy | Sci:Acoustics | Sci:Aerodynamics | Sci:Aeronautics | Sci:Anthropology | Sci:Astronautics | Sci:Astronomy | Sci:Bacteriology | Sci:Biochemistry | Sci:Biology | Sci:Biotechnology | Sci:Botany | Sci:Chemistry | Sci:Crystallography | Sci:Ecology | Sci:Embryology | Sci:Entomology | Sci:Genetics | Sci:Geography | Sci:Geography:Physical | Sci:Geology | Sci:Geometry | Sci:Histology | Sci:Horology | Sci:Ichthyology | Sci:Immunology | Sci:Mathematics | Sci:Measurement | Sci:Meteorology | Sci:Microscopy | Sci:Mineralogy | Sci:Nuclear_Industry | Sci:Nuclear_Physics | Sci:Optics | Sci:Ornithology | Sci:Palaeontology | Sci:Pharmacology | Sci:Physics | Sci:Physiology | Sci:Plant_Pathology | Sci:Science | Sci:Statistics | Sci:Thermodynamics | Sci:Zoology | Sport:Archery | Sport:Athletics | Sport:Badminton | Sport:Ball_Games | Sport:Baseball | Sport:Basketball | Sport:Bowling | Sport:Bowling:Tenpin | Sport:Boxing | Sport:Bullfighting | Sport:Climbing | Sport:Cricket | Sport:Croquet | Sport:Curling | Sport:Cycling:Cycle_Racing | Sport:Diving | Sport:Dressage | Sport:Fencing | Sport:Football:American | Sport:Football:Australian_Rules | Sport:Football:Canadian | Sport:Football | Sport:Football:Gaelic | Sport:Football:Soccer | Sport:Golf | Sport:Gymnastics | Sport:Hockey | Sport:Hockey:Ice | Sport:Horse_Racing | Sport:Hurling | Sport:Judo | Sport:Karate | Sport:Lacrosse | Sport:Martial_Arts | Sport:Motor_Racing | Sport:Mountaineering | Sport:Parachuting | Sport:Piquet | Sport:Polo | Sport:Rounders | Sport:Rowing | Sport:Rugby:League | Sport:Rugby | Sport:Rugby:Union | Sport:Sailing | Sport:Shinty | Sport:Shooting | Sport:Showjumping | Sport:Skating | Sport:Skiing | Sport:Snooker | Sport:Sport | Sport:Squash | Sport:Surfing | Sport:Swimming | Sport:Tennis:Real | Sport:Tennis | Sport:Volleyball | Sport:Weightlifting | Sport:Wrestling | Sport:Yachting | Tech:Architecture | Tech:Audio | Tech:Bookbinding | Tech:Bookmaking | Tech:Building | Tech:Cabinetmaking | Tech:Carpentry | Tech:Cartography | Tech:Communications | Tech:Computing | Tech:Dyeing | Tech:Electrical | Tech:Electronics | Tech:Engineering:Chemical | Tech:Engineering:Civil | Tech:Engineering:Electrical | Tech:Engineering | Tech:Engineering:Mechanical | Tech:Machinery | Tech:Manufacturing | Tech:Metallurgy | Tech:Mining | Tech:Papermaking | Tech:Plumbing | Tech:Printing | Tech:Quarrying | Tech:Radar | Tech:Recording | Tech:Shipbuilding | Tech:Shoemaking | Tech:Surveying | Tech:Tanning | Tech:Technical | Tech:Telecommunications | Tech:Telegraphy | Tech:Telephony | Tech:Textiles | Tech:Topography | Tech:Typography | Tech:Video | Tech:Weaving | Tech:Welding | Transp:Automobiles | Transp:Aviation | Transp:Motorcycling | Transp:Nautical | Transp:Navy:Merchant | Transp:Railways | Transp:Space | Transp:Tourism | Transp:Transport:Road | Transp:Transport )
+        #REQUIRED
+>
+
+<!-- lbtm: registered trademark -->
+<!ELEMENT lbtm EMPTY>
+<!ATTLIST lbtm
+	value (trademark) #REQUIRED
+>
+
+<!-- lexical dataset: ROOT ELEMENT -->
+<!ELEMENT lexdataset (superentry+)>
+
+<!-- note -->
+<!ELEMENT note (text | xrefgrp)>
+<!ATTLIST note
+	id ID #IMPLIED
+	output (digital_only) #IMPLIED
+	publevel NMTOKEN #IMPLIED
+	type (usage | xref | confusable) #REQUIRED
+>
+
+<!ELEMENT pattern (#PCDATA | r)*>
+<!-- patterngrp: pattern grp -->
+<!ELEMENT patterngrp (lbgramdesc?, groupintro, patternunit)>
+<!-- patternunit: pattern unit -->
+<!ELEMENT patternunit (pattern, lbgramdesc?)>
+
+<!-- posp: part of speech -->
+<!ELEMENT posp EMPTY>
+<!ATTLIST posp
+        value ( abbreviation | abbreviation:international_car_registration | abbreviation:Internet_domain_name | abbreviation:modifier | abbreviation:noun | acronym | acronym:adjective | acronym:noun | adjective | adjective:comparative | adjective:superlative | adverb | combining_form | combining_form:in_adjective | combining_form:in_adverb | combining_form:in_noun_and_adjective | combining_form:in_noun:countable | conjunction | connective_vowel | contraction | determiner | interjection | modifier | noun:feminine | noun:genitive:Latin | noun | noun:plural | noun:singular | numeral:Roman | prefix:forming_verbs | prefix | preposition | pronoun | sentence_connector | sentence_substitute | suffix:forming_adjectives | suffix:forming_adverbs | suffix:forming_nouns:plural:proper | suffix:forming_nouns | suffix:forming_ordinal_numbers | suffix:forming_verbs | suffix | symbol:chemical | symbol | unknown | verb:modal | verb:participle:past | verb:participle:present | verb:past | verb:present:singular:3rd_person | verb ) #REQUIRED
+>
+<!-- pospgrp: part of speech group -->
+<!ELEMENT pospgrp (pospunit+)>
+<!ELEMENT pospunit (posp)>
+<!ATTLIST pospunit
+	publevel (9) #IMPLIED
+>
+
+<!-- pron: pronunciation -->
+<!ELEMENT pron (#PCDATA | sup)*>
+<!-- prongrp: pronunciation grp -->
+<!ELEMENT prongrp (lblang?, pronunit+)>
+<!-- pronunit: pronunciation unit -->
+<!ELEMENT pronunit (((lbmod?, (lbgeo | lbsubjfld)) | lbgramdesc | lblang)*, pron, audio*)>
+<!ATTLIST pronunit
+	output (digital_only) #IMPLIED
+	type (partial) #IMPLIED
+>
+
+<!-- r: roman -->
+<!ELEMENT r (#PCDATA)>
+
+<!-- related words -->
+<!ELEMENT relwgrp (relwunit+)>
+<!ATTLIST relwgrp
+        type ( adjective |
+               adjectives |
+               collective_noun |
+               combining_form |
+               combining_forms |
+               enthusiast |
+               female |
+               home |
+               male |
+               mania |
+               manias |
+               noun |
+               phobia |
+               phobias |
+               prefix |
+               prefixes |
+               suffix |
+               technical_name |
+               word |
+               young ) #REQUIRED
+>
+<!ELEMENT relword (#PCDATA)>
+<!ELEMENT relwunit (relword)>
+<!ATTLIST relwunit
+	publevel NMTOKEN #REQUIRED
+>
+
+<!-- sc: small caps -->
+<!ELEMENT sc (#PCDATA)>
+
+<!-- sensecat: semantic category -->
+<!ELEMENT sensecat (prongrp?, idmgrp?, ulsrc*, uldate*, ulsubjfld*, vargrp*, inflgrp?, ((lbmod?, (lbgeo | lbregister | lbsubjfld | lbtm)) | lbgramdesc | lblang | lbmisc | patterngrp)*, biography*, ((defgrp, exmplgrp?, vargrp*, xrefgrp*, relwgrp*) | (sensecat+, exmplgrp?, vargrp*, xrefgrp?, relwgrp*) | (xrefgrp+, exmplgrp?, vargrp*, relwgrp*)))>
+<!ATTLIST sensecat
+	id ID #IMPLIED
+	output (digital_only | print_only) #IMPLIED
+	publevel (0 | 1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+
+<!ELEMENT specialchar EMPTY>
+<!ATTLIST specialchar
+	name CDATA #REQUIRED
+>
+
+<!-- sub: subscript -->
+<!ELEMENT sub (#PCDATA | i)*>
+
+<!-- subentry: sub-entry -->
+<!ELEMENT subentry (hwblk, pospgrp, (lbgramdesc | lbregister)*, xrefgrp?, etym?)>
+<!ATTLIST subentry
+	id ID #IMPLIED
+	output (digital_only | print_only) #IMPLIED
+	publevel (1 | 2 | 3 | 4 | 8) #REQUIRED
+>
+<!-- subentryblk: sub-entry blk -->
+<!ELEMENT subentryblk (subentry+)>
+<!ATTLIST subentryblk
+	type (drv) #REQUIRED
+>
+
+<!-- sup: superscript -->
+<!ELEMENT sup (#PCDATA | i)*>
+
+<!-- superentry: to hold entry for an easier treatment of homographs with different publevels -->
+<!ELEMENT superentry (entry+)>
+<!ATTLIST superentry
+	id ID #IMPLIED
+>
+
+<!-- text: text in notes -->
+<!ELEMENT text (#PCDATA | b | i | prongrp | sc | sup)*>
+
+<!ELEMENT timestamp EMPTY>
+
+<!-- u: underline -->
+<!ELEMENT u (#PCDATA)>
+
+<!-- uldate: usually specifies the year in which the entry, etc was added-->
+<!ELEMENT uldate (#PCDATA)>
+
+<!-- ulsrc: underlying exmpl source label -->
+<!ELEMENT ulsrc (#PCDATA)>
+
+<!-- ulsubjfld: underlying subject label -->
+<!ELEMENT ulsubjfld EMPTY>
+<!ATTLIST ulsubjfld
+        value
+	( Arts:Clothing_Personal_Arts_and_Crafts:Clothing_and_Fashion | Arts:Clothing_Personal_Arts_and_Crafts:Crafts | Arts:Clothing_Personal_Arts_and_Crafts:Dyeing | Arts:Clothing_Personal_Arts_and_Crafts:Hairdressing_and_Grooming | Arts:Clothing_Personal_Arts_and_Crafts:Jewellery | Arts:Clothing_Personal_Arts_and_Crafts:Knitting_and_Sewing | Arts:Clothing_Personal_Arts_and_Crafts:Tanning | Arts:Clothing_Personal_Arts_and_Crafts:Textiles | Arts:Communication_Arts:Broadcasting | Arts:Communication_Arts:Journalism_and_Publishing | Arts:Communication_Arts:Printing_Lithography_and_Bookbinding | Arts:Cooking:Cookery | Arts:Cooking | Arts:Fine_Arts_and_Visual_Arts:Antiques | Arts:Fine_Arts_and_Visual_Arts:Architecture | Arts:Fine_Arts_and_Visual_Arts:Art_Movements | Arts:Fine_Arts_and_Visual_Arts:Art_Terms | Arts:Fine_Arts_and_Visual_Arts:Ceramics | Arts:Fine_Arts_and_Visual_Arts:Colours | Arts:Fine_Arts_and_Visual_Arts:Furniture | Arts:Linguistics:Grammar | Arts:Linguistics:Languages | Arts:Linguistics:Letters_of_the_Alphabet_Foreign | Arts:Linguistics | Arts:Linguistics:Phonetics_and_Phonology | Arts:Literature:Library_Science_and_Bibliography | Arts:Literature:Literary_and_Literary_Critical_Movements | Arts:Literature:Literary_and_Literary_Critical_Terms | Arts:Literature:Poetry | Arts:Literature:Rhetoric | Arts:Music:Classical_Music | Arts:Music:Instruments | Arts:Music:Jazz | Arts:Music:Music_other | Arts:Music:Pop_Music | Arts:Performing_Arts:Ballet | Arts:Performing_Arts:Dancing | Arts:Performing_Arts:Film | Arts:Performing_Arts:Theatre | Biographical_entry:Biographies:Biography | Business_and_Economics:Business:Commerce | Business_and_Economics:Business:Industrial_Relations_and_HR_Terms | Business_and_Economics:Business:Insurance | Business_and_Economics:Business:Marketing | Business_and_Economics:Business:Professions | Business_and_Economics:Economics_Accounting_and_Finance:Accounting_and_Book-keeping | Business_and_Economics:Economics_Accounting_and_Finance:Banking_and_Finance | Business_and_Economics:Economics_Accounting_and_Finance:Currencies | Business_and_Economics:Economics_Accounting_and_Finance:Economics | Business_and_Economics:Economics_Accounting_and_Finance:Stock_Exchange | General:General_Language:General_Language_Term | Geographical_entry:Placenames:Named_Buildings | Geographical_entry:Placenames:Placename | Recreation_and_Sport:General_Sports:General_Sporting_Terms | Recreation_and_Sport:Group_Games:Billiards_and_Snooker | Recreation_and_Sport:Group_Games:Bridge | Recreation_and_Sport:Group_Games:Card_Games | Recreation_and_Sport:Group_Games:Chess_and_Draughts | Recreation_and_Sport:Group_Games:Gambling_except_Cards | Recreation_and_Sport:Group_Games:Games_other_than_specified | Recreation_and_Sport:Individual_Sports_and_Recreations:Angling | Recreation_and_Sport:Individual_Sports_and_Recreations:Archery | Recreation_and_Sport:Individual_Sports_and_Recreations:Athletics_Track_and_Field | Recreation_and_Sport:Individual_Sports_and_Recreations:Badminton | Recreation_and_Sport:Individual_Sports_and_Recreations:Ball_Games_other_than_specified | Recreation_and_Sport:Individual_Sports_and_Recreations:Bowls_and_Bowling | Recreation_and_Sport:Individual_Sports_and_Recreations:Boxing | Recreation_and_Sport:Individual_Sports_and_Recreations:Bullfighting | Recreation_and_Sport:Individual_Sports_and_Recreations:Croquet | Recreation_and_Sport:Individual_Sports_and_Recreations:Cycle_Racing | Recreation_and_Sport:Individual_Sports_and_Recreations:Extreme_Sports | Recreation_and_Sport:Individual_Sports_and_Recreations:Falconry | Recreation_and_Sport:Individual_Sports_and_Recreations:Fencing | Recreation_and_Sport:Individual_Sports_and_Recreations:Golf | Recreation_and_Sport:Individual_Sports_and_Recreations:Gymnastics | Recreation_and_Sport:Individual_Sports_and_Recreations:Horse_Racing | Recreation_and_Sport:Individual_Sports_and_Recreations:Horse_Training_Riding_and_Manège | Recreation_and_Sport:Individual_Sports_and_Recreations:Hunting | Recreation_and_Sport:Individual_Sports_and_Recreations:Ice_Skating | Recreation_and_Sport:Individual_Sports_and_Recreations:Individual_Sports_other_than_specified | Recreation_and_Sport:Individual_Sports_and_Recreations:Judo_and_Karate | Recreation_and_Sport:Individual_Sports_and_Recreations:Martial_Arts_other_than_Judo_and_Karate_and_Combat_Sports | Recreation_and_Sport:Individual_Sports_and_Recreations:Motor_Racing | Recreation_and_Sport:Individual_Sports_and_Recreations:Mountaineering | Recreation_and_Sport:Individual_Sports_and_Recreations:Sailing | Recreation_and_Sport:Individual_Sports_and_Recreations:Shooting | Recreation_and_Sport:Individual_Sports_and_Recreations:Skateboarding | Recreation_and_Sport:Individual_Sports_and_Recreations:Skiing | Recreation_and_Sport:Individual_Sports_and_Recreations:Squash_and_Fives | Recreation_and_Sport:Individual_Sports_and_Recreations:Swimming_Water_Sports_and_Surfing | Recreation_and_Sport:Individual_Sports_and_Recreations:Tennis | Recreation_and_Sport:Individual_Sports_and_Recreations:Weightlifting | Recreation_and_Sport:Individual_Sports_and_Recreations:Wrestling | Recreation_and_Sport:Non-sporting_Hobbies:DIY | Recreation_and_Sport:Non-sporting_Hobbies:Modelmaking_and_Model_Railways | Recreation_and_Sport:Non-sporting_Hobbies | Recreation_and_Sport:Non-sporting_Hobbies:Other_Non-sporting_Hobbies | Recreation_and_Sport:Non-sporting_Hobbies:Philately | Recreation_and_Sport:Non-sporting_Hobbies:Trainspotting | Recreation_and_Sport:Team_Sports:American_Football | Recreation_and_Sport:Team_Sports:Australian_Rules_Football | Recreation_and_Sport:Team_Sports:Baseball | Recreation_and_Sport:Team_Sports:Basketball | Recreation_and_Sport:Team_Sports:Cricket | Recreation_and_Sport:Team_Sports:Curling | Recreation_and_Sport:Team_Sports:Gaelic_Football | Recreation_and_Sport:Team_Sports:Hockey_Field_and_Ice | Recreation_and_Sport:Team_Sports:Lacrosse | Recreation_and_Sport:Team_Sports:Polo | Recreation_and_Sport:Team_Sports:Rowing | Recreation_and_Sport:Team_Sports:Rugby | Recreation_and_Sport:Team_Sports:Soccer | Recreation_and_Sport:Team_Sports:Team_Sports_other_than_specified | Religion_and_Philosophy:Christianity:Anglicanism | Religion_and_Philosophy:Christianity:Christian_Churches_other | Religion_and_Philosophy:Christianity:Eastern_Church_Greek_and_Russian_Orthodox | Religion_and_Philosophy:Christianity:Ecclesiastical_Terms | Religion_and_Philosophy:Christianity:Protestantism | Religion_and_Philosophy:Christianity:Roman_Catholic_Church | Religion_and_Philosophy:Christian_Religious_Writings:Bible | Religion_and_Philosophy:Christian_Religious_Writings:Theology | Religion_and_Philosophy:Myth_and_Legend:Classical_Myth_and_Legend | Religion_and_Philosophy:Myth_and_Legend:European_Myth_and_Legend | Religion_and_Philosophy:Myth_and_Legend:Non-European_Myth_and_Legend | Religion_and_Philosophy:Myth_and_Legend:Norse_Myth_and_Legend | Religion_and_Philosophy:Non-Christian_Religions:Buddhism | Religion_and_Philosophy:Non-Christian_Religions:Hinduism | Religion_and_Philosophy:Non-Christian_Religions:Islam | Religion_and_Philosophy:Non-Christian_Religions:Judaism | Religion_and_Philosophy:Non-Christian_Religions:Other_Non-Christian_Religions | Religion_and_Philosophy:Non-Christian_Religious_Writings:Koran | Religion_and_Philosophy:Non-Christian_Religious_Writings:Other_Non-Christian_Religious_Writings | Religion_and_Philosophy:Philosophy:Logic | Religion_and_Philosophy:Philosophy | Religion_and_Philosophy:Spirituality_New_Age_Astrology_and_Self-help:Alternative_Belief_Systems | Religion_and_Philosophy:Spirituality_New_Age_Astrology_and_Self-help:Astrology | Religion_and_Philosophy:Spirituality_New_Age_Astrology_and_Self-help:Self-help | Science_and_Technology:Astronomy_and_Space:Astronautics | Science_and_Technology:Astronomy_and_Space:Astronomy | Science_and_Technology:Astronomy_and_Space:Celestial_Objects | Science_and_Technology:Chemistry:Alchemy | Science_and_Technology:Chemistry | Science_and_Technology:Chemistry:Elements_and_Compounds | Science_and_Technology:Earth_Sciences:Geological_Science | Science_and_Technology:Earth_Sciences:Minerals | Science_and_Technology:Earth_Sciences:Palaeontology | Science_and_Technology:Earth_Sciences:Physical_Geography | Science_and_Technology:Electronics_and_Computer_Science:Communications_and_Information | Science_and_Technology:Electronics_and_Computer_Science:Computer_Science | Science_and_Technology:Electronics_and_Computer_Science:Electronics | Science_and_Technology:Electronics_and_Computer_Science:Telecommunications | Science_and_Technology:Engineering:Aeronautics | Science_and_Technology:Engineering:Automotive_Engineering | Science_and_Technology:Engineering:Chemical_Engineering | Science_and_Technology:Engineering:Civil_Engineering | Science_and_Technology:Engineering:Electrical_Engineering | Science_and_Technology:Engineering:General_Engineering | Science_and_Technology:Engineering:Mechanical_Engineering | Science_and_Technology:Engineering:Metallurgy | Science_and_Technology:Engineering:Tools | Science_and_Technology:Life_Sciences_and_Allied_Applications:Agriculture | Science_and_Technology:Life_Sciences_and_Allied_Applications:Anatomy | Science_and_Technology:Life_Sciences_and_Allied_Applications:Animals | Science_and_Technology:Life_Sciences_and_Allied_Applications:Biochemistry | Science_and_Technology:Life_Sciences_and_Allied_Applications:Biology | Science_and_Technology:Life_Sciences_and_Allied_Applications:Botany | Science_and_Technology:Life_Sciences_and_Allied_Applications:Breeds | Science_and_Technology:Life_Sciences_and_Allied_Applications:Environmental_Science | Science_and_Technology:Life_Sciences_and_Allied_Applications:Fishing | Science_and_Technology:Life_Sciences_and_Allied_Applications:Forestry | Science_and_Technology:Life_Sciences_and_Allied_Applications:Genetics | Science_and_Technology:Life_Sciences_and_Allied_Applications:Horticulture | Science_and_Technology:Life_Sciences_and_Allied_Applications:Microbiology | Science_and_Technology:Life_Sciences_and_Allied_Applications:Physiology | Science_and_Technology:Life_Sciences_and_Allied_Applications:Plant_Pathology | Science_and_Technology:Life_Sciences_and_Allied_Applications:Plants | Science_and_Technology:Life_Sciences_and_Allied_Applications:Veterinary_Science | Science_and_Technology:Life_Sciences_and_Allied_Applications:Zoology | Science_and_Technology:Mathematics_and_Measurements:Mathematics | Science_and_Technology:Mathematics_and_Measurements:Navigation | Science_and_Technology:Mathematics_and_Measurements:Statistics | Science_and_Technology:Mathematics_and_Measurements:Surveying | Science_and_Technology:Mathematics_and_Measurements:Units | Science_and_Technology:Medicine:Complementary_Medicine | Science_and_Technology:Medicine:Dentistry | Science_and_Technology:Medicine:Gynaecology_and_Obstetrics | Science_and_Technology:Medicine | Science_and_Technology:Medicine:Pathology | Science_and_Technology:Medicine:Pharmacology | Science_and_Technology:Medicine:Surgery | Science_and_Technology:Miscellaneous_Technologies:Brewing | Science_and_Technology:Miscellaneous_Technologies:Building | Science_and_Technology:Miscellaneous_Technologies:Horology | Science_and_Technology:Miscellaneous_Technologies:Knots | Science_and_Technology:Miscellaneous_Technologies:Mining_and_Quarrying | Science_and_Technology:Miscellaneous_Technologies:Photography | Science_and_Technology:Physics:Atomic_Physics | Science_and_Technology:Physics:General_Physics | Science_and_Technology:Physics:Nuclear_Physics | Science_and_Technology:Psychology_and_Psychiatry:Psychiatry | Science_and_Technology:Psychology_and_Psychiatry:Psychoanalysis | Science_and_Technology:Psychology_and_Psychiatry:Psychology | Science_and_Technology:Transport:Nautical_Terms | Science_and_Technology:Transport:Railways | Science_and_Technology:Transport | Social_Science_and_History:Government_and_Politics:Government_Politics_and_Diplomacy | Social_Science_and_History:History:Heraldry | Social_Science_and_History:History:Historical_Terms | Social_Science_and_History:Law | Social_Science_and_History:Law:Parliamentary_Procedure | Social_Science_and_History:Law:Recreational_Drugs | Social_Science_and_History:Military:Arms_and_Armour_excluding_Firearms | Social_Science_and_History:Military:Firearms_Gunnery_Ordnance_and_Artillery | Social_Science_and_History:Military:Fortifications | Social_Science_and_History:Military | Social_Science_and_History:Social_Science:Anthropology_and_Ethnology | Social_Science_and_History:Social_Science:Archaeology | Social_Science_and_History:Social_Science:Education | Social_Science_and_History:Social_Science:Human_Geography | Social_Science_and_History:Social_Science:Peoples | Social_Science_and_History:Social_Science:Social_Welfare | Social_Science_and_History:Social_Science:Sociology )
+        #REQUIRED
+>
+
+<!-- var: variant of headword -->
+<!ELEMENT var (#PCDATA | i | r | specialchar | sub | sup)*>
+<!-- vargrp: variant grp -->
+<!ELEMENT vargrp (ulsrc?, uldate?, groupintro?, varunit+)>
+<!ATTLIST vargrp
+	type (posp) #IMPLIED
+>
+<!-- varunit: variant unit -->
+<!ELEMENT varunit (((lbmod?, (lbgeo | lbregister)) | lblang | lbmisc)*, var, (lblang | lbmisc)?, prongrp?)>
+<!-- NB: need better handling of foreign forms than @type="foreign" ... -->
+<!ATTLIST varunit
+	form (alt) #IMPLIED
+	type (foreign | abbr | symbol) #IMPLIED
+	publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+
+<!-- xref: cross-reference -->
+<!ELEMENT xref (xrhw, xrparent?, xrhn*, xrpos*, xrsns*, lbregister?)>
+<!ATTLIST xref
+	xrefid CDATA #IMPLIED
+	xrefproject CDATA #IMPLIED
+	superentryid CDATA #IMPLIED
+>
+<!-- xrhw, xrpos and xrsns are filled in by DPS to enable the previewer to display cross references -->
+<!ELEMENT xrhw (#PCDATA | i)*>
+<!ATTLIST xrhw
+	output (digital_only | print_only) #IMPLIED
+    publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+<!ELEMENT xrpos (#PCDATA)>
+<!ATTLIST xrpos
+        publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+<!ELEMENT xrsns (#PCDATA)>
+<!ATTLIST xrsns
+        publevel (a | b) #REQUIRED
+>
+<!ELEMENT xrhn (#PCDATA)>
+<!ATTLIST xrhn
+        publevel (a | b) #REQUIRED
+>
+<!ELEMENT xrparent (#PCDATA)>
+<!ATTLIST xrparent
+        publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+<!-- xrefgrp: cross-reference grp -->
+<!ELEMENT xrefgrp (groupintro?, xrefunit+)>
+<!ELEMENT xrefunit (lbmisc?, (lbmod?, lbgeo)?, xref)>
+<!ATTLIST xrefunit
+	publevel (1 | 2 | 3 | 4 | 8) #IMPLIED
+>
+
+<!ELEMENT biography (surname, givenname, birth?, death?, gender?, nationality?, nationalitybirth?, occupation1?, occupation2?, occupation3?, occupation4?)>
+<!ELEMENT surname (#PCDATA)>
+<!ELEMENT givenname (#PCDATA | b | i)*>
+<!ELEMENT birth (#PCDATA | i | sc)*>
+<!ELEMENT death (#PCDATA | i | sc)*>
+<!ELEMENT gender (#PCDATA)>
+<!ELEMENT nationality (#PCDATA)>
+<!ELEMENT nationalitybirth (#PCDATA)>
+<!ELEMENT occupation1 (#PCDATA)>
+<!ELEMENT occupation2 (#PCDATA)>
+<!ELEMENT occupation3 (#PCDATA)>
+<!ELEMENT occupation4 (#PCDATA)>
+
+<!-- DTD PARAMETERS: CED monolingual -->
