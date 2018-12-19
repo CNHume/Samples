@@ -13,15 +13,7 @@ if len(sys.argv) > 0:
   inputs = sys.argv
   verb = inputs.pop(0)
 
-  #intIT = map(int, inputs)
-  #ints = list(intIT)
-
-  #rints = reversed(ints)
-  #strIT = map(str, rints)
-  #strs = list(strIT)
-  #print("Strings: {0}".format(strs))
-
-  phi = (1 + math.sqrt(5.0)) / 2
+  #phi = (1 + math.sqrt(5.0)) / 2
   #cf = ContinuedFraction.from_float(phi)
 
   #fraction = Fraction.from_float(3.14159)
