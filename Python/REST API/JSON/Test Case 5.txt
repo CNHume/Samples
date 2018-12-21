@@ -1,5 +1,5 @@
 Test Case 5: thesaurus category, multiple entry, single selector
-http://localhost:2001/mvapi/v1/thesaurus/hc?filter={%22entry%22:{%22$regex%22:%22^inv%22}}&projection={%22wordSenses.synonyms%22:1}
+http://localhost:2001/restapi/v1/thesaurus/hc?filter={%22entry%22:{%22$regex%22:%22^inv%22}}&projection={%22wordSenses.synonyms%22:1}
 
 [
   [

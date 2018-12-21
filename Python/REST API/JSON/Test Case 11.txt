@@ -1,13 +1,13 @@
 Test Case 11: dictionary category, multiple entry, no selector
-http://localhost:2001/mvapi/v1/dictionary/hc?filter={%22entry%22:{%22$regex%22:%22^abj%22}}
+http://localhost:2001/restapi/v1/dictionary/hc?filter={%22entry%22:{%22$regex%22:%22^abj%22}}
 
 [
   {
+    "api_version": 1.0,
     "entry": "abject",
     "etymologies": [
       "C14: (in the sense: rejected, cast out): from Latin <i>abjectus</i> thrown or cast away, from <i>abjicere,</i> from <i>ab-</i> away + <i>jacere</i> to throw"
     ],
-    "mv_version": 1.0,
     "source_attr": "CED",
     "subEntries": [
       {
@@ -83,8 +83,8 @@ http://localhost:2001/mvapi/v1/dictionary/hc?filter={%22entry%22:{%22$regex%22:%
     ]
   },
   {
+    "api_version": 1.0,
     "entry": "abjoint",
-    "mv_version": 1.0,
     "source_attr": "Framework",
     "wordSenses": [
       {
@@ -107,9 +107,9 @@ http://localhost:2001/mvapi/v1/dictionary/hc?filter={%22entry%22:{%22$regex%22:%
     ]
   },
   {
+    "api_version": 1.0,
     "entry": "abjunction",
     "main_attr": "abjoint",
-    "mv_version": 1.0,
     "source_attr": "Framework",
     "wordSenses": [
       {
@@ -129,11 +129,11 @@ http://localhost:2001/mvapi/v1/dictionary/hc?filter={%22entry%22:{%22$regex%22:%
     ]
   },
   {
+    "api_version": 1.0,
     "entry": "abjure",
     "etymologies": [
       "C15: from Old French <i>abjurer</i> or Latin <i>abjurāre</i> to deny on oath"
     ],
-    "mv_version": 1.0,
     "source_attr": "CED",
     "subEntries": [
       {

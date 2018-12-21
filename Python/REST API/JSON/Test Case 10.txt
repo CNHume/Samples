@@ -1,5 +1,5 @@
 Test Case 10: dictionary category, single entry, single selector
-http://localhost:2001/mvapi/v1/dictionary/hc/abba/wordSenses/definitions
+http://localhost:2001/restapi/v1/dictionary/hc/abba/wordSenses/definitions
 
 [
   [

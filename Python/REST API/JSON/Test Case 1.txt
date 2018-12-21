@@ -1,10 +1,10 @@
 Test Case 1: thesaurus category, single entry, no selector
-http://localhost:2001/mvapi/v1/thesaurus/hc/in
+http://localhost:2001/restapi/v1/thesaurus/hc/in
 
 [
   {
+    "api_version": 1.0,
     "entry": "in",
-    "mv_version": 1.0,
     "phraseSenses": [
       {
         "examples": [

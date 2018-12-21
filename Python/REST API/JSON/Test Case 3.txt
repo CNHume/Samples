@@ -1,5 +1,5 @@
 Test Case 3: thesaurus category, single entry, multiple selector
-http://localhost:2001/mvapi/v1/thesaurus/hc/in?projection={%22wordSenses.synonyms%22:1,%22phraseSenses.synonyms%22:1}
+http://localhost:2001/restapi/v1/thesaurus/hc/in?projection={%22wordSenses.synonyms%22:1,%22phraseSenses.synonyms%22:1}
 
 [
   [

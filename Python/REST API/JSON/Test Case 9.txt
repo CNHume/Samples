@@ -1,9 +1,10 @@
 Test Case 9: songs category, rosa song metadata by artist and title
-http://localhost:2001/mvapi/v1/songs/rosa/beyonce/Be%20With%20You?flat
+http://localhost:2001/restapi/v1/songs/rosa/beyonce/Be%20With%20You?flat
 
 [
   {
     "analysis_sample_rate": 22050,
+    "api_version": 1.0,
     "artist_7digitalid": 21453,
     "artist_familiarity": 0.8894607253481954,
     "artist_hotttnesss": 0.6120672682978017,
@@ -118,7 +119,6 @@ http://localhost:2001/mvapi/v1/songs/rosa/beyonce/Be%20With%20You?flat
     "key_confidence": 0.041,
     "loudness": -6.259,
     "mode_confidence": 0.415,
-    "mv_version": 1.0,
     "release": "Dangerously In Love",
     "release_7digitalid": 287352,
     "similar_artists": [
