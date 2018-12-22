@@ -302,7 +302,7 @@ class Player(object):
       if not self.testing:
         return
 
-    permutations = Player.anagram(alphas, True)
+    permutations = Player.anagram(Player.EMPTY.join(alphas), True)
     words = [word for word in permutations if word.lower() in self.dictionary] if self.dictionary else permutations
 
     for index, word in enumerate(sorted(words)):
@@ -355,7 +355,7 @@ class Player(object):
     if length < 1:
       pass
     elif length < 2:
-      words.append(letters)
+      words.append(letters[0])
     else:
       chosen = set()
       for choice in range(length):
