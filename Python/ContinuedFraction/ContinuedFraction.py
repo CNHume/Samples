@@ -53,13 +53,16 @@ class ContinuedFraction:
     numerator = self.fraction.numerator
     denominator = self.fraction.denominator
     while True:
-      (quotient, remainder) = divmod(numerator, denominator)
+      quotient, remainder = divmod(numerator, denominator)
       terms.append(quotient)
+      # Preclude division by zero
+      if remainder == 0:
+        break
       ratio = ContinuedFraction.discontinued(terms)
       error = abs(self.fraction - ratio)
       if error <= threshhold:
         break
-      (numerator, denominator) = (denominator, remainder)
+      numerator, denominator = denominator, remainder
     return terms
 
   @staticmethod
