@@ -16,6 +16,7 @@ class FileManager(object):
   """FileManager Class"""
 
   def __init__(self, file_path, file_ext, verbose=False):
+    self.records = []
     self.file_path = file_path
     self.file_ext = file_ext
     self.verbose = verbose
@@ -37,8 +38,6 @@ class FileManager(object):
         # Deserialize records from the file, removing newlines
         newlines = text_file.readlines()
         self.records = map(lambda line: line.splitlines()[0], newlines)
-    else:
-      self.records = []
 
     self.length = len(self.records)
 

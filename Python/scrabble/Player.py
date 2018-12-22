@@ -347,12 +347,15 @@ class Player(object):
   @staticmethod
   def permute(letters):
     """Return every permutation of letters"""
-    words = {Player.EMPTY}
+    chosen = set()
+    words = [Player.EMPTY]
     for choice in range(len(letters)):
       letter = letters[choice]
-      unused = letters[:choice] + letters[choice + 1:]
-      for suffix in Player.permute(unused):
-        words.add(letter + suffix)
+      if letter not in chosen:
+        chosen.add(letter)
+        unused = letters[:choice] + letters[choice + 1:]
+        for suffix in Player.permute(unused):
+          words.append(letter + suffix)
     return words
   
   @staticmethod
