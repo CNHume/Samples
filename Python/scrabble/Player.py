@@ -56,7 +56,7 @@ class Player(object):
 
     cases = [u'a', u'ab', u'abc', u'abcd', u'abcde', u'abcdef', u'abcdefg', u'abcdefgh', u'abcdefghi']
     for case in cases:
-      words = self.permute(case)
+      words = Player.anagram(case, True)
       print(Board.KVP.format(len(case), len(words)))
 
   def perform(self, commands):
@@ -299,7 +299,7 @@ class Player(object):
       if not self.testing:
         return
 
-    permutations = self.permute(alphas)
+    permutations = Player.anagram(alphas, True)
     words = [word for word in permutations if word.lower() in self.dictionary] if self.dictionary else permutations
 
     for index, word in enumerate(sorted(words)):
@@ -345,17 +345,22 @@ class Player(object):
     return raw_input(prompt)
 
   @staticmethod
-  def permute(letters):
+  def anagram(letters, subset=False):
     """Return every permutation of letters"""
+    words = []
+    if subset:
+      words.append(Player.EMPTY)
     chosen = set()
-    words = [Player.EMPTY]
     for choice in range(len(letters)):
       letter = letters[choice]
       if letter not in chosen:
         chosen.add(letter)
         unused = letters[:choice] + letters[choice + 1:]
-        for suffix in Player.permute(unused):
-          words.append(letter + suffix)
+        if unused:
+          for suffix in Player.anagram(unused, subset):
+            words.append(letter + suffix)
+        else:
+          words.append(letter)
     return words
   
   @staticmethod
