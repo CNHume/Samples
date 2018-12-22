@@ -54,10 +54,13 @@ class Player(object):
     #  9: 986410
     # 10: 9864101
 
-    cases = [u'a', u'ab', u'abc', u'abcd', u'abcde', u'abcdef', u'abcdefg', u'abcdefgh', u'abcdefghi']
+    #cases = [u'a', u'ab', u'abc', u'abcd', u'abcde', u'abcdef', u'abcdefg', u'abcdefgh', u'abcdefghi']
+    cases = [u'', u'aa', u'aab', u'aabc', u'aabcd']
     for case in cases:
       words = Player.anagram(case, True)
       print(Board.KVP.format(len(case), len(words)))
+      #print(Player.COMMA.join(words))
+      pass
 
   def perform(self, commands):
     for command in commands:
@@ -347,20 +350,19 @@ class Player(object):
   @staticmethod
   def anagram(letters, subset=False):
     """Return every permutation of letters"""
-    words = []
-    if subset:
-      words.append(Player.EMPTY)
-    chosen = set()
-    for choice in range(len(letters)):
-      letter = letters[choice]
-      if letter not in chosen:
-        chosen.add(letter)
-        unused = letters[:choice] + letters[choice + 1:]
-        if unused:
+    words = [Player.EMPTY] if subset else []
+    length = len(letters)
+    if length == 1:
+      words.append(letters)
+    else:
+      chosen = set()
+      for choice in range(length):
+        letter = letters[choice]
+        if letter not in chosen:
+          chosen.add(letter)
+          unused = letters[:choice] + letters[choice + 1:]
           for suffix in Player.anagram(unused, subset):
             words.append(letter + suffix)
-        else:
-          words.append(letter)
     return words
   
   @staticmethod
