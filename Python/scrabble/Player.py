@@ -59,7 +59,7 @@ class Player(object):
     for case in cases:
       words = Player.anagram(case, True)
       print(Board.KVP.format(len(case), len(words)))
-      #print(Player.COMMA.join(words))
+      print(Player.COMMA.join(words))
       pass
 
   def perform(self, commands):
@@ -352,7 +352,9 @@ class Player(object):
     """Return every permutation of letters"""
     words = [Player.EMPTY] if subset else []
     length = len(letters)
-    if length == 1:
+    if length < 1:
+      pass
+    elif length < 2:
       words.append(letters)
     else:
       chosen = set()
@@ -361,7 +363,8 @@ class Player(object):
         if letter not in chosen:
           chosen.add(letter)
           unused = letters[:choice] + letters[choice + 1:]
-          for suffix in Player.anagram(unused, subset):
+          suffixes = Player.anagram(unused, subset)
+          for suffix in suffixes:
             words.append(letter + suffix)
     return words
   
