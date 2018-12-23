@@ -3,6 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Copyright>Copyright (C) 2018, Christopher N. Hume.  All rights reserved.</Copyright>
+    <Description>Anagram Console Application</Description>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Search</RepositoryUrl>
+    <Authors>CNHume</Authors>
+    <Company>Truth</Company>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
 </Project>
