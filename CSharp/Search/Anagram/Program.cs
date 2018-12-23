@@ -25,13 +25,12 @@ namespace Anagram {
         var cmd = new Command();
         cmd.Parse(args);
 
-        Console.WriteLine($"Leters: {cmd.Letters}");
+        Console.WriteLine($"Letters: {cmd.Letters}");
         var words = Anagram(cmd.Letters, cmd.Subset);
 
         Console.WriteLine($"{words.Count} anagrams found:");
-        foreach (var word in words) {
+        foreach (var word in words)
           Console.WriteLine(word);
-        }
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);
