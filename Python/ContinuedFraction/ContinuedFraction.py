@@ -40,7 +40,7 @@ class ContinuedFraction:
     return " ".join(strIT)
 
   def dump(self):
-    print("fraction: {0}\nterms: {1}".format(self.fraction, self))
+    print("fraction: {}\nterms: {}".format(self.fraction, self))
 
   def coerce_ratio(self):
     """Represent any real valued input as a ratio"""
@@ -68,7 +68,7 @@ class ContinuedFraction:
   @staticmethod
   def discontinued(terms):
     """Convert continued fraction to a rational number"""
-    return functools.reduce(ContinuedFraction.reducer, reversed(terms), Fraction(0, 1))
+    return functools.reduce(ContinuedFraction.reducer, reversed(terms), Fraction(0))
 
   @staticmethod
   def reducer(reduction: Fraction, term) -> Fraction:

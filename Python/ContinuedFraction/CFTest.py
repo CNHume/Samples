@@ -29,4 +29,4 @@ if len(sys.argv) > 0:
     cf.dump()
   
     ratio = cf.coerce_ratio()
-    print("ratio: {0}".format(ratio))
+    print("ratio: {}".format(ratio))
