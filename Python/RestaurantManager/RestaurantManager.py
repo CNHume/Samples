@@ -86,7 +86,9 @@ class RestaurantManager:
 
     def seat(self, group_size):
         seating = self.getTables(group_size)
-        self.seatings.append(seating)
+        if seating:
+            self.tsc.sub(seating)
+            self.seatings.append(seating)
         return seating
 
     def getSizes(self):
@@ -120,9 +122,6 @@ class RestaurantManager:
         best = BestCandidate()
         for candidate in self.getCandidates():
             best.compare(group_size, candidate)
-
-        if best.candidate:
-            self.tsc.sub(best.candidate)
         return best.candidate
 
     def dump(self):
