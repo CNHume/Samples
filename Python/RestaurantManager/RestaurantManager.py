@@ -24,12 +24,12 @@ class TableSizeCounter:
     def seatCount(self):
         return TableSizeCounter.seatCount1(self.counter.items())
 
+    def tableCount(self):
+        return TableSizeCounter.tableCount1(self.counter.items())
+
     @staticmethod
     def seatCount1(size_count_pairs):
         return sum([size * count for size, count in size_count_pairs])
-
-    def tableCount(self):
-        return TableSizeCounter.tableCount1(self.counter.items())
 
     @staticmethod
     def tableCount1(size_count_pairs):
@@ -88,12 +88,12 @@ class RestaurantManager:
     def getCandidateCount(self, counts):
         return reduce(mul, counts, 1)
 
-    def getSizeCounts(self, counts, n):
-        size_count_pairs = []
-        for count in counts:
-            n, size_count = divmod(n, count)
-            size_count_pairs.append(size_count)
-        return size_count_pairs
+    def getSizeCounts(self, count_limits, n):
+        size_counts = []
+        for count_limit in count_limits:
+            n, size_count = divmod(n, count_limit)
+            size_counts.append(size_count)
+        return size_counts
     
     def getCandidates(self):
         candidates = []
@@ -106,7 +106,7 @@ class RestaurantManager:
         return candidates
     
     def getTables(self, group_size):
-        #should return the optiminal table(s) for this group size
+        # Return the optimal table(s) for group_size
         best = BestCandidate()
         for candidate in self.getCandidates():
             best.compare(group_size, candidate)
