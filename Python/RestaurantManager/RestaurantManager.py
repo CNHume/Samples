@@ -82,8 +82,8 @@ class RestaurantManager:
     def seatingCount(self):
         return len(self.seatings)
 
-    def getCountLimits(self, offset = 1):
-        return [count + offset for size, count in self.tsc.counter.items()]
+    def getCountLimits(self):
+        return [count + 1 for size, count in self.tsc.counter.items()]
 
     def getCandidateCount(self, counts):
         return reduce(mul, counts, 1)
@@ -95,20 +95,18 @@ class RestaurantManager:
             size_counts.append(size_count)
         return size_counts
     
-    def getCandidates(self):
-        candidates = []
+    def genCandidates(self):
         sizes = self.getSizes()
         count_limits = self.getCountLimits()
         for n in range(self.getCandidateCount(count_limits)):
             counts = self.getSizeCounts(count_limits, n)
             candidate = zip(sizes, counts)
-            candidates.append(candidate)
-        return candidates
+            yield candidate
     
     def getTables(self, group_size):
-        # Return the optimal table(s) for group_size
+        # Return optimal seating for group_size
         best = BestCandidate()
-        for candidate in self.getCandidates():
+        for candidate in self.genCandidates():
             best.compare(group_size, candidate)
         return best.candidate
 
@@ -137,18 +135,22 @@ class RestaurantManager:
 
     def test1(self):
         print("sizes = {}".format(self.getSizes()))
-        # for candidate in self.getCandidates():
+        # for candidate in self.genCandidates():
         #     print("candidate = {}".format(candidate))
+
         self.dump()
         print
         s1 = self.seat(5)
         print("s1 = {}".format(s1))
         s2 = self.seat(6)
         print("s2 = {}".format(s2))
+        s3 = self.seat(7)
+        print("s3 = {}".format(s3))
         self.dump()
 
         self.unseat(s1)
         self.unseat(s2)
+        self.unseat(s3)
         self.dump()
 
 def main():
