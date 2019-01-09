@@ -70,6 +70,9 @@ class RestaurantManager:
         self.tsc = TableSizeCounter(size_count_pairs)
         self.seatings = []
 
+    def getSizes(self):
+        return [size for size in self.tsc.counter]
+
     def freeSeatCount(self):
         return self.tsc.seatCount()
 
@@ -78,21 +81,6 @@ class RestaurantManager:
 
     def seatingCount(self):
         return len(self.seatings)
-    
-    def unseat(self, seating):
-        if seating in self.seatings:
-            self.seatings.remove(seating)
-            self.tsc.add(seating)
-
-    def seat(self, group_size):
-        seating = self.getTables(group_size)
-        if seating:
-            self.tsc.sub(seating)
-            self.seatings.append(seating)
-        return seating
-
-    def getSizes(self):
-        return [size for size in self.tsc.counter]
 
     def getCountLimits(self, offset = 1):
         return [count + offset for size, count in self.tsc.counter.items()]
@@ -123,6 +111,18 @@ class RestaurantManager:
         for candidate in self.getCandidates():
             best.compare(group_size, candidate)
         return best.candidate
+
+    def seat(self, group_size):
+        seating = self.getTables(group_size)
+        if seating:
+            self.tsc.sub(seating)
+            self.seatings.append(seating)
+        return seating
+    
+    def unseat(self, seating):
+        if seating in self.seatings:
+            self.seatings.remove(seating)
+            self.tsc.add(seating)
 
     def dump(self):
         print
