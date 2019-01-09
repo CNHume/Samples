@@ -13,6 +13,10 @@ class TableSizeCounter:
         self.counter = {}
         self.add(size_count_pairs)
 
+    def __iter__(self):
+        # Replace iteritems() with items() under Python 3:
+        return self.counter.iteritems()
+
     def add(self, size_count_pairs):
         for size, count in size_count_pairs:
             self.counter[size] = self.counter[size] + count if size in self.counter else count
@@ -21,11 +25,14 @@ class TableSizeCounter:
         for size, count in size_count_pairs:
             self.counter[size] = self.counter[size] - count if size in self.counter and self.counter[size] > count else 0
 
+    def sizes(self):
+        return [size for size in self.counter]
+
     def seatCount(self):
-        return TableSizeCounter.seatCount1(self.counter.items())
+        return TableSizeCounter.seatCount1(self)
 
     def tableCount(self):
-        return TableSizeCounter.tableCount1(self.counter.items())
+        return TableSizeCounter.tableCount1(self)
 
     @staticmethod
     def seatCount1(size_count_pairs):
@@ -40,25 +47,31 @@ class BestCandidate:
     Maintains the best among a series of candidate seatings.
     A candidate consists of a list of table size, count pairs.
     """
-    def __init__(self):
+    def __init__(self, group_size):
+        self.group_size = group_size
+        self.clear()
+
+    def clear(self):
         self.candidate = None
         self.seat_count = 0
         self.table_count = 0
 
-    def compare(self, group_size, candidate):
+    def update(self, candidate):
         seat_count = TableSizeCounter.seatCount1(candidate)
-        if seat_count < group_size:
+        if seat_count < self.group_size:
             return
 
         table_count = TableSizeCounter.tableCount1(candidate)
 
         # The following relation controls the optimization policy:
-        update = not self.candidate or table_count < self.table_count or table_count == self.table_count and seat_count < self.seat_count
+        updated = not self.candidate or table_count < self.table_count or table_count == self.table_count and seat_count < self.seat_count
 
-        if update:
+        if updated:
             self.candidate = candidate
             self.seat_count = seat_count
             self.table_count = table_count
+
+        return updated
 
 class RestaurantManager:
     """
@@ -70,20 +83,11 @@ class RestaurantManager:
         self.tsc = TableSizeCounter(size_count_pairs)
         self.seatings = []
 
-    def getSizes(self):
-        return [size for size in self.tsc.counter]
-
-    def freeSeatCount(self):
-        return self.tsc.seatCount()
-
-    def freeTableCount(self):
-        return self.tsc.tableCount()
-
     def seatingCount(self):
         return len(self.seatings)
 
     def getCountLimits(self):
-        return [count + 1 for size, count in self.tsc.counter.items()]
+        return [count + 1 for size, count in self.tsc]
 
     def getCandidateCount(self, counts):
         return reduce(mul, counts, 1)
@@ -96,7 +100,7 @@ class RestaurantManager:
         return size_counts
     
     def genCandidates(self):
-        sizes = self.getSizes()
+        sizes = self.tsc.sizes()
         count_limits = self.getCountLimits()
         for n in range(self.getCandidateCount(count_limits)):
             counts = self.getSizeCounts(count_limits, n)
@@ -105,9 +109,9 @@ class RestaurantManager:
     
     def getTables(self, group_size):
         # Return optimal seating for group_size
-        best = BestCandidate()
+        best = BestCandidate(group_size)
         for candidate in self.genCandidates():
-            best.compare(group_size, candidate)
+            best.update(candidate)
         return best.candidate
 
     def seat(self, group_size):
@@ -124,20 +128,21 @@ class RestaurantManager:
 
     def dump(self):
         print
-        # print("TableSizeCounter = {}".format(self.tsc.counter.items()))
-        for size, count in self.tsc.counter.items():
+        for size, count in self.tsc:
             print("size = {}, count = {}".format(size, count))
 
         print
-        print("# tables = {}".format(self.freeTableCount()))
-        print("# seats = {}".format(self.freeSeatCount()))
+        print("# tables = {}".format(self.tsc.tableCount()))
+        print("# seats = {}".format(self.tsc.seatCount()))
         print("# seatings = {}".format(self.seatingCount()))
 
-    def test1(self):
-        print("sizes = {}".format(self.getSizes()))
-        # for candidate in self.genCandidates():
-        #     print("candidate = {}".format(candidate))
+    def test0(self):
+        print("sizes = {}".format(self.tsc.sizes()))
+        print
+        for candidate in self.genCandidates():
+            print("candidate = {}".format(candidate))
 
+    def test1(self):
         self.dump()
         print
         s1 = self.seat(5)
