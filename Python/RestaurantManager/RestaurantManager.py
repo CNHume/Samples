@@ -7,15 +7,22 @@ class TableSizeCounter:
     """
     Maintains a dictionary of counts for tables of a given size.
     """
-    # size_count_pairs is a list of tuples which consist of a size (or seat count) and a count of tables of that size
+    # size_count_pairs is a list of tuples which consist of a size (or seat count) and a count of tables of that size.
     def __init__(self, size_count_pairs):
         # Python allows dict(size_count_pairs) here; but we want to add, rather than replace, tables of the same size:
         self.counter = {}
         self.add(size_count_pairs)
 
     def __iter__(self):
-        #[Version]Replace iteritems() with items() under Python 3:
+        #[Version]Replace the following call to iteritems() with items() under Python 3:
         return self.counter.iteritems()
+
+    def dump(self):
+        print("# tables = {}".format(self.tableCount()))
+        print("# seats = {}".format(self.seatCount()))
+        print
+        for size, count in self:
+            print("size = {}, count = {}".format(size, count))
 
     def add(self, size_count_pairs):
         for size, count in size_count_pairs:
@@ -44,8 +51,7 @@ class TableSizeCounter:
 
 class BestCandidate:
     """
-    Maintains the best among a series of candidate seatings.
-    A candidate consists of a list of table size, count pairs.
+    Identify the best seating when presented a series of candidates.  Each candidate is a list of size_count_pairs.
     """
     def __init__(self, group_size):
         self.group_size = group_size
@@ -83,6 +89,11 @@ class RestaurantManager:
         self.tsc = TableSizeCounter(size_count_pairs)
         self.seatings = []
 
+    def dump(self):
+        print
+        print("# seatings = {}".format(self.seatingCount()))
+        self.tsc.dump()
+
     def seatingCount(self):
         return len(self.seatings)
 
@@ -93,6 +104,7 @@ class RestaurantManager:
         return reduce(mul, moduli, 1)
 
     def getSizeCounts(self, moduli, n):
+        """Decode a candidate index into the list of table counts that it represents."""
         counts = []
         for modulus in moduli:
             n, count = divmod(n, modulus)
@@ -100,16 +112,16 @@ class RestaurantManager:
         return counts
 
     def genCandidates(self):
-        # Return all size, count permutations over the free tables
+        """Return all size, count permutations over the free tables"""
         sizes = self.tsc.sizes()
         moduli = self.getCountModuli()
         for n in range(self.getCandidateCount(moduli)):
             counts = self.getSizeCounts(moduli, n)
-            candidate = zip(sizes, counts)
-            yield candidate
+            size_count_pairs = zip(sizes, counts)
+            yield size_count_pairs
     
     def getTables(self, group_size):
-        # Return optimal seating for group_size
+        """Return optimal seating for group_size"""
         best = BestCandidate(group_size)
         for candidate in self.genCandidates():
             best.update(candidate)
@@ -126,17 +138,7 @@ class RestaurantManager:
         if seating in self.seatings:
             self.seatings.remove(seating)
             self.tsc.add(seating)
-
-    def dump(self):
-        print
-        for size, count in self.tsc:
-            print("size = {}, count = {}".format(size, count))
-
-        print
-        print("# tables = {}".format(self.tsc.tableCount()))
-        print("# seats = {}".format(self.tsc.seatCount()))
-        print("# seatings = {}".format(self.seatingCount()))
-
+ 
     def test0(self):
         print("sizes = {}".format(self.tsc.sizes()))
         print
