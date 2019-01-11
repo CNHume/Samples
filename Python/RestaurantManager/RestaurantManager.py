@@ -14,7 +14,7 @@ class TableSizeCounter:
         self.add(size_count_pairs)
 
     def __iter__(self):
-        # Replace iteritems() with items() under Python 3:
+        #[Version]Replace iteritems() with items() under Python 3:
         return self.counter.iteritems()
 
     def add(self, size_count_pairs):
@@ -77,7 +77,7 @@ class RestaurantManager:
     """
     Manages a restaurant with tables of different sizes that can seat 2, 4 or 6 people.
     Tables can be grouped together to form larger tables in any configuration,
-    i.e., you can put two 4 seat tables together to get a 8 seat table.
+    i.e., you can put two 4 seat tables together to get an 8 seat table.
     """
     def __init__(self, size_count_pairs):
         self.tsc = TableSizeCounter(size_count_pairs)
@@ -86,24 +86,24 @@ class RestaurantManager:
     def seatingCount(self):
         return len(self.seatings)
 
-    def getCountLimits(self):
+    def getCountModuli(self):
         return [count + 1 for size, count in self.tsc]
 
-    def getCandidateCount(self, counts):
-        return reduce(mul, counts, 1)
+    def getCandidateCount(self, moduli):
+        return reduce(mul, moduli, 1)
 
-    def getSizeCounts(self, count_limits, n):
+    def getSizeCounts(self, moduli, n):
         size_counts = []
-        for count_limit in count_limits:
-            n, size_count = divmod(n, count_limit)
+        for modulus in moduli:
+            n, size_count = divmod(n, modulus)
             size_counts.append(size_count)
         return size_counts
     
     def genCandidates(self):
         sizes = self.tsc.sizes()
-        count_limits = self.getCountLimits()
-        for n in range(self.getCandidateCount(count_limits)):
-            counts = self.getSizeCounts(count_limits, n)
+        moduli = self.getCountModuli()
+        for n in range(self.getCandidateCount(moduli)):
+            counts = self.getSizeCounts(moduli, n)
             candidate = zip(sizes, counts)
             yield candidate
     
@@ -161,6 +161,7 @@ class RestaurantManager:
 def main():
     size_count_pairs = [ (2, 4), (4, 2), (6, 1) ]
     rm = RestaurantManager(size_count_pairs)
+    # rm.test0()
     rm.test1()
 
 main()
