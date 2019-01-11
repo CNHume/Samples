@@ -29,17 +29,17 @@ class TableSizeCounter:
         return [size for size in self.counter]
 
     def seatCount(self):
-        return TableSizeCounter.seatCount1(self)
+        return TableSizeCounter.seatSum(self)
 
     def tableCount(self):
-        return TableSizeCounter.tableCount1(self)
+        return TableSizeCounter.tableSum(self)
 
     @staticmethod
-    def seatCount1(size_count_pairs):
+    def seatSum(size_count_pairs):
         return sum([size * count for size, count in size_count_pairs])
 
     @staticmethod
-    def tableCount1(size_count_pairs):
+    def tableSum(size_count_pairs):
         return sum([count for size, count in size_count_pairs])
 
 class BestCandidate:
@@ -53,23 +53,23 @@ class BestCandidate:
 
     def clear(self):
         self.candidate = None
-        self.seat_count = 0
-        self.table_count = 0
+        self.seat_sum = 0
+        self.table_sum = 0
 
     def update(self, candidate):
-        seat_count = TableSizeCounter.seatCount1(candidate)
-        if seat_count < self.group_size:
+        seat_sum = TableSizeCounter.seatSum(candidate)
+        if seat_sum < self.group_size:
             return
 
-        table_count = TableSizeCounter.tableCount1(candidate)
+        table_sum = TableSizeCounter.tableSum(candidate)
 
         # The following relation controls the optimization policy:
-        updated = not self.candidate or table_count < self.table_count or table_count == self.table_count and seat_count < self.seat_count
+        updated = not self.candidate or table_sum < self.table_sum or table_sum == self.table_sum and seat_sum < self.seat_sum
 
         if updated:
             self.candidate = candidate
-            self.seat_count = seat_count
-            self.table_count = table_count
+            self.seat_sum = seat_sum
+            self.table_sum = table_sum
 
         return updated
 
@@ -93,13 +93,14 @@ class RestaurantManager:
         return reduce(mul, moduli, 1)
 
     def getSizeCounts(self, moduli, n):
-        size_counts = []
+        counts = []
         for modulus in moduli:
-            n, size_count = divmod(n, modulus)
-            size_counts.append(size_count)
-        return size_counts
-    
+            n, count = divmod(n, modulus)
+            counts.append(count)
+        return counts
+
     def genCandidates(self):
+        # Return all size, count permutations over the free tables
         sizes = self.tsc.sizes()
         moduli = self.getCountModuli()
         for n in range(self.getCandidateCount(moduli)):
