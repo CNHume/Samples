@@ -61,22 +61,21 @@ class BestCandidate:
         self.seat_sum = 0
         self.table_sum = 0
 
+    def compare(self, table_sum, seat_sum):
+        """Does candidate improve the optimal seating?"""
+        return table_sum < self.table_sum or table_sum == self.table_sum and seat_sum < self.seat_sum
+
     def update(self, candidate):
         seat_sum = TableSizeCounter.seatSum(candidate)
         if seat_sum < self.group_size:
             return
 
         table_sum = TableSizeCounter.tableSum(candidate)
-
-        # The following relation controls the optimization policy:
-        updated = not self.candidate or table_sum < self.table_sum or table_sum == self.table_sum and seat_sum < self.seat_sum
-
-        if updated:
+        update = not self.candidate or self.compare(table_sum, seat_sum)
+        if update:
             self.candidate = candidate
             self.seat_sum = seat_sum
             self.table_sum = table_sum
-
-        return updated
 
     def best(self, candidates):
         """Find optimal candidate for group_size"""
