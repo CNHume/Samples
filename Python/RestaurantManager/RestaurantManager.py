@@ -55,7 +55,6 @@ class BestCandidate:
     """
     def __init__(self, group_size):
         self.group_size = group_size
-        self.clear()
 
     def clear(self):
         self.candidate = None
@@ -78,6 +77,13 @@ class BestCandidate:
             self.table_sum = table_sum
 
         return updated
+
+    def best(self, candidates):
+        """Find optimal candidate for group_size"""
+        self.clear()
+        for candidate in candidates:
+            self.update(candidate)
+        return self.candidate
 
 class RestaurantManager:
     """
@@ -112,7 +118,7 @@ class RestaurantManager:
         return counts
 
     def genCandidates(self):
-        """Return all size, count permutations over the free tables"""
+        """Generate all size, count permutations over the free tables"""
         sizes = self.tsc.sizes()
         moduli = self.getCountModuli()
         for n in range(self.getCandidateCount(moduli)):
@@ -122,12 +128,11 @@ class RestaurantManager:
     
     def getTables(self, group_size):
         """Return optimal seating for group_size"""
-        best = BestCandidate(group_size)
-        for candidate in self.genCandidates():
-            best.update(candidate)
-        return best.candidate
+        bc = BestCandidate(group_size)
+        return bc.best(self.genCandidates())
 
     def seat(self, group_size):
+        """Allocate tables needed to seat a group"""
         seating = self.getTables(group_size)
         if seating:
             self.tsc.sub(seating)
@@ -135,6 +140,7 @@ class RestaurantManager:
         return seating
     
     def unseat(self, seating):
+        """Free the tables when a group is unseated"""
         if seating in self.seatings:
             self.seatings.remove(seating)
             self.tsc.add(seating)
