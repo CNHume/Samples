@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # (C) Copyright 2019, Christopher N. Hume.  All rights reserved.
-# 2019-01-07  CNHume  Simple Restaurant Manager written for Dan Dodd of Numerator
+# 2019-01-07  CNHume  Restaurant Manager to allocate tables and seat groups of varying size
+from __future__ import division
 from operator import mul
 
 class TableSizeCounter:
@@ -53,17 +54,24 @@ class BestCandidate:
     """
     Identify the best seating when presented a series of candidates.  Each candidate is a list of size_count_pairs.
     """
-    def __init__(self, group_size):
+    def __init__(self, group_size, table_count, seat_count):
         self.group_size = group_size
+        self.table_count = table_count
+        self.seat_count = seat_count
+        self.clear()
 
     def clear(self):
         self.candidate = None
-        self.seat_sum = 0
-        self.table_sum = 0
+        self.loss = 0
 
-    def compare(self, table_sum, seat_sum):
-        """Does candidate improve the optimal seating?"""
-        return table_sum < self.table_sum or table_sum == self.table_sum and seat_sum < self.seat_sum
+    def loss0(self, table_sum, seat_sum):
+        return table_sum * self.seat_count + seat_sum
+
+    def loss1(self, table_sum, seat_sum):
+        return seat_sum * self.table_count + table_sum
+
+    def loss2(self, table_sum, seat_sum):
+        return (table_sum / self.table_count)**2 + (seat_sum / self.seat_count)**2
 
     def update(self, candidate):
         seat_sum = TableSizeCounter.seatSum(candidate)
@@ -71,11 +79,13 @@ class BestCandidate:
             return
 
         table_sum = TableSizeCounter.tableSum(candidate)
-        update = not self.candidate or self.compare(table_sum, seat_sum)
+        loss = self.loss0(table_sum, seat_sum)
+
+        # Does candidate improve the optimal seating?
+        update = not self.candidate or loss < self.loss
         if update:
             self.candidate = candidate
-            self.seat_sum = seat_sum
-            self.table_sum = table_sum
+            self.loss = loss
 
     def best(self, candidates):
         """Find optimal candidate for group_size"""
@@ -127,7 +137,7 @@ class RestaurantManager:
     
     def getTables(self, group_size):
         """Return optimal seating for group_size"""
-        bc = BestCandidate(group_size)
+        bc = BestCandidate(group_size, self.tsc.tableCount(), self.tsc.seatCount())
         return bc.best(self.genCandidates())
 
     def seat(self, group_size):
