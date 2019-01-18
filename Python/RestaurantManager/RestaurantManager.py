@@ -64,13 +64,16 @@ class BestCandidate:
         self.candidate = None
         self.loss = 0
 
-    def loss0(self, table_sum, seat_sum):
+    def orderByTablesThenSeats(self, table_sum, seat_sum):
+        """Order by table_sum then seat_sum"""
         return table_sum * self.seat_count + seat_sum
 
-    def loss1(self, table_sum, seat_sum):
+    def orderBySeatsThenTables(self, table_sum, seat_sum):
+        """Order by seat_sum then table_sum"""
         return seat_sum * self.table_count + table_sum
 
-    def loss2(self, table_sum, seat_sum):
+    def orderByDistance(self, table_sum, seat_sum):
+        """Order by normalized Euclidean distance of (table_sum, seat_sum) from the Origin"""
         return (table_sum / self.table_count)**2 + (seat_sum / self.seat_count)**2
 
     def update(self, candidate):
@@ -79,7 +82,7 @@ class BestCandidate:
             return
 
         table_sum = TableSizeCounter.tableSum(candidate)
-        loss = self.loss0(table_sum, seat_sum)
+        loss = self.orderByDistance(table_sum, seat_sum)
 
         # Does candidate improve the optimal seating?
         update = not self.candidate or loss < self.loss
@@ -153,33 +156,42 @@ class RestaurantManager:
         if seating in self.seatings:
             self.seatings.remove(seating)
             self.tsc.add(seating)
+
+    def seatGroups(self, group_sizes):
+        return [self.seat(group_size) for group_size in group_sizes]
+
+    def unseatGroups(self, seatings):
+        for seating in seatings:
+            self.unseat(seating)
  
-    def test0(self):
+    def generate(self):
         print("sizes = {}".format(self.tsc.sizes()))
         print
         for candidate in self.genCandidates():
             print("candidate = {}".format(candidate))
 
-    def test1(self):
+    def test(self, group_sizes):
+        # self.generate()
         self.dump()
         print
-        s1 = self.seat(5)
-        print("s1 = {}".format(s1))
-        s2 = self.seat(6)
-        print("s2 = {}".format(s2))
-        s3 = self.seat(7)
-        print("s3 = {}".format(s3))
+        seatings = self.seatGroups(group_sizes)
+        for group_size, seating in zip(group_sizes, seatings):
+            print("seated {} at {}".format(group_size, seating))
         self.dump()
 
-        self.unseat(s1)
-        self.unseat(s2)
-        self.unseat(s3)
+        self.unseatGroups(seatings)
         self.dump()
+
+def runTestCase(size_count_pairs, group_sizes):
+    rm = RestaurantManager(size_count_pairs)
+    rm.test(group_sizes)
 
 def main():
     size_count_pairs = [ (2, 4), (4, 2), (6, 1) ]
-    rm = RestaurantManager(size_count_pairs)
-    # rm.test0()
-    rm.test1()
+    # size_count_pairs = [ (2, 2), (4, 4), (6, 2), (10, 1) ]
+
+    group_sizes = [5, 6, 7]
+    # group_sizes = [6, 7, 9, 4, 5]
+    runTestCase(size_count_pairs, group_sizes)
 
 main()
