@@ -7,6 +7,7 @@ from RestaurantManager import RestaurantManager
 
 def runTestCase(size_count_pairs, group_sizes):
     rm = RestaurantManager(size_count_pairs)
+    # rm.showPermutations()
     rm.test(group_sizes)
 
 def main():

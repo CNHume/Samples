@@ -4,7 +4,7 @@
 
 class TableSizeCounter:
     """
-    Maintains a dictionary of counts for tables of a given size.
+    Maintain a dictionary of counts for tables of a given size.
     """
     # size_count_pairs is a list of tuples which consist of a size (or seat count) and a count of tables of that size.
     def __init__(self, size_count_pairs):
@@ -13,6 +13,7 @@ class TableSizeCounter:
         self.add(size_count_pairs)
 
     def __iter__(self):
+        "Return size, count pairs"
         #[Version]Replace the following call to iteritems() with items() under Python 3:
         return self.counter.iteritems()
 

@@ -8,7 +8,7 @@ from BestCandidate import BestCandidate
 
 class RestaurantManager:
     """
-    Manages a restaurant with tables of different sizes that can seat 2, 4 or 6 people.
+    Manage a restaurant with tables of different sizes that can seat 2, 4 or 6 people.
     Tables can be grouped together to form larger tables in any configuration,
     i.e., you can put two 4 seat tables together to get an 8 seat table.
     """
@@ -46,6 +46,13 @@ class RestaurantManager:
             counts = self.getSizeCounts(moduli, n)
             size_count_pairs = zip(sizes, counts)
             yield size_count_pairs
+ 
+    def showPermutations(self):
+        print("sizes = {}".format(self.tsc.sizes()))
+        print
+        print("size, count permutations:")
+        for candidate in self.genCandidates():
+            print(candidate)
     
     def getTables(self, group_size):
         """Return optimal seating for group_size"""
@@ -72,15 +79,8 @@ class RestaurantManager:
     def unseatGroups(self, seatings):
         for seating in seatings:
             self.unseat(seating)
- 
-    def generate(self):
-        print("sizes = {}".format(self.tsc.sizes()))
-        print
-        for candidate in self.genCandidates():
-            print("candidate = {}".format(candidate))
 
     def test(self, group_sizes):
-        # self.generate()
         self.dump()
         print
         seatings = self.seatGroups(group_sizes)
