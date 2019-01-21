@@ -1,101 +1,10 @@
 # -*- coding: utf-8 -*-
 # (C) Copyright 2019, Christopher N. Hume.  All rights reserved.
-# 2019-01-07  CNHume  Restaurant Manager to allocate tables and seat groups of varying size
-from __future__ import division
+# 2019-01-21  CNHume  Created RestaurantManager module
+
 from operator import mul
-
-class TableSizeCounter:
-    """
-    Maintains a dictionary of counts for tables of a given size.
-    """
-    # size_count_pairs is a list of tuples which consist of a size (or seat count) and a count of tables of that size.
-    def __init__(self, size_count_pairs):
-        # Python allows dict(size_count_pairs) here; but we want to add, rather than replace, tables of the same size:
-        self.counter = {}
-        self.add(size_count_pairs)
-
-    def __iter__(self):
-        #[Version]Replace the following call to iteritems() with items() under Python 3:
-        return self.counter.iteritems()
-
-    def dump(self):
-        print("# tables = {}".format(self.tableCount()))
-        print("# seats = {}".format(self.seatCount()))
-        print
-        for size, count in self:
-            print("size = {}, count = {}".format(size, count))
-
-    def add(self, size_count_pairs):
-        for size, count in size_count_pairs:
-            self.counter[size] = self.counter[size] + count if size in self.counter else count
-
-    def sub(self, size_count_pairs):
-        for size, count in size_count_pairs:
-            self.counter[size] = self.counter[size] - count if size in self.counter and self.counter[size] > count else 0
-
-    def sizes(self):
-        return [size for size in self.counter]
-
-    def seatCount(self):
-        return TableSizeCounter.seatSum(self)
-
-    def tableCount(self):
-        return TableSizeCounter.tableSum(self)
-
-    @staticmethod
-    def seatSum(size_count_pairs):
-        return sum([size * count for size, count in size_count_pairs])
-
-    @staticmethod
-    def tableSum(size_count_pairs):
-        return sum([count for size, count in size_count_pairs])
-
-class BestCandidate:
-    """
-    Identify the best seating when presented a series of candidates.  Each candidate is a list of size_count_pairs.
-    """
-    def __init__(self, group_size, table_count, seat_count):
-        self.group_size = group_size
-        self.table_count = table_count
-        self.seat_count = seat_count
-        self.clear()
-
-    def clear(self):
-        self.candidate = None
-        self.loss = 0
-
-    def orderByTablesThenSeats(self, table_sum, seat_sum):
-        """Order by table_sum then seat_sum"""
-        return table_sum * self.seat_count + seat_sum
-
-    def orderBySeatsThenTables(self, table_sum, seat_sum):
-        """Order by seat_sum then table_sum"""
-        return seat_sum * self.table_count + table_sum
-
-    def orderByDistance(self, table_sum, seat_sum):
-        """Order by normalized Euclidean distance of (table_sum, seat_sum) from the Origin"""
-        return (table_sum / self.table_count)**2 + (seat_sum / self.seat_count)**2
-
-    def update(self, candidate):
-        seat_sum = TableSizeCounter.seatSum(candidate)
-        if seat_sum < self.group_size:
-            return
-
-        table_sum = TableSizeCounter.tableSum(candidate)
-        loss = self.orderByDistance(table_sum, seat_sum)
-
-        # Does candidate improve the optimal seating?
-        update = not self.candidate or loss < self.loss
-        if update:
-            self.candidate = candidate
-            self.loss = loss
-
-    def best(self, candidates):
-        """Find optimal candidate for group_size"""
-        self.clear()
-        for candidate in candidates:
-            self.update(candidate)
-        return self.candidate
+from TableSizeCounter import TableSizeCounter
+from BestCandidate import BestCandidate
 
 class RestaurantManager:
     """
@@ -181,17 +90,3 @@ class RestaurantManager:
 
         self.unseatGroups(seatings)
         self.dump()
-
-def runTestCase(size_count_pairs, group_sizes):
-    rm = RestaurantManager(size_count_pairs)
-    rm.test(group_sizes)
-
-def main():
-    size_count_pairs = [ (2, 4), (4, 2), (6, 1) ]
-    # size_count_pairs = [ (2, 2), (4, 4), (6, 2), (10, 1) ]
-
-    group_sizes = [5, 6, 7]
-    # group_sizes = [6, 7, 9, 4, 5]
-    runTestCase(size_count_pairs, group_sizes)
-
-main()
