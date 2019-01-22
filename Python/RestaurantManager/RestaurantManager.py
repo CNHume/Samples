@@ -27,22 +27,22 @@ class RestaurantManager:
     def getCountModuli(self):
         return [count + 1 for size, count in self.tsc]
 
-    def getCandidateCount(self, moduli):
+    def getPermutationCount(self, moduli):
         return reduce(mul, moduli, 1)
 
     def getSizeCounts(self, moduli, n):
-        """Decode a candidate index into the list of table counts that it represents."""
+        """Decode an index into the table count permutation it represents."""
         counts = []
         for modulus in moduli:
             n, count = divmod(n, modulus)
             counts.append(count)
         return counts
 
-    def genCandidates(self):
+    def generatePermutations(self):
         """Generate all size, count permutations over the free tables"""
         sizes = self.tsc.sizes()
         moduli = self.getCountModuli()
-        for n in range(self.getCandidateCount(moduli)):
+        for n in range(self.getPermutationCount(moduli)):
             counts = self.getSizeCounts(moduli, n)
             size_count_pairs = zip(sizes, counts)
             yield size_count_pairs
@@ -51,13 +51,13 @@ class RestaurantManager:
         print("sizes = {}".format(self.tsc.sizes()))
         print
         print("size, count permutations:")
-        for candidate in self.genCandidates():
-            print(candidate)
+        for permutation in self.generatePermutations():
+            print(permutation)
     
     def getTables(self, group_size):
         """Return optimal seating for group_size"""
         bc = BestCandidate(group_size, self.tsc.tableCount(), self.tsc.seatCount())
-        return bc.best(self.genCandidates())
+        return bc.best(self.generatePermutations())
 
     def seat(self, group_size):
         """Allocate tables needed to seat a group"""
