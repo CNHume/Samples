@@ -47,7 +47,10 @@ namespace InsertionSort {
       }
 
       // length is required
-      usage |= count <= n || !TryParse(args[n++], out Length);
+      if (n < count)
+        Length = TryParse(args[n++]);
+
+      usage |= !Length.HasValue;
 
       usage |= n < count;               // superfluous argument specified
 
@@ -55,10 +58,8 @@ namespace InsertionSort {
         throw new ApplicationException("Usage: InsertionSort [-p] length");
     }
 
-    private static Boolean TryParse(String s, out Int32? value) {
-      var valid = Int32.TryParse(s, out Int32 result);
-      value = valid ? (Int32?)result : null;
-      return valid;
+    private static Int32? TryParse(String s) {
+      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
   }
