@@ -36,11 +36,11 @@ namespace Sort {
           switch (token[1]) {
           case 'i':                     // the insertion-limit switch
             if (len > 2)                // whitespace optional
-              usage = !TryParse(token.Substring(2, len - 2), out InsertionLimit);
+              InsertionLimit = TryParse(token.Substring(2, len - 2));
             else if (n < count)         // whitespace allowed
-              usage = !TryParse(args[++n], out InsertionLimit);
-            else
-              usage = true;
+              InsertionLimit = TryParse(args[++n]);
+
+            usage = !InsertionLimit.HasValue;
             break;
 
           case 'p':                     // the print switch
@@ -58,7 +58,10 @@ namespace Sort {
       }
 
       // length is required
-      usage |= count <= n || !TryParse(args[n++], out Length);
+      if (n < count)
+        Length = TryParse(args[n++]);
+
+      usage |= !Length.HasValue;
 
       usage |= n < count;               // superfluous argument specified
 
@@ -66,10 +69,8 @@ namespace Sort {
         throw new ApplicationException("Usage: quicksort [-p] [-i <insertion-limit>] length");
     }
 
-    private static Boolean TryParse(String s, out Int32? value) {
-      var valid = Int32.TryParse(s, out Int32 result);
-      value = valid ? (Int32?)result : null;
-      return valid;
+    private static Int32? TryParse(String s) {
+      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
   }
