@@ -71,7 +71,7 @@ namespace Search {
       }
 
       //[Assert]left == right + 1
-      // LUB: entries[left] > value && value >= entries[left - 1]
+      // LUB: entries[left - 1] <= value && value < entries[left]
       return left;
     }
   }

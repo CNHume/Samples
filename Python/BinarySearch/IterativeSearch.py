@@ -35,5 +35,5 @@ class BinarySearch:
         right = middle - 1
 
     #[Assert]left == right + 1
-    # lub: entries[left] > value and value >= entries[left - 1]
+    # lub: entries[left - 1] <= value and value < entries[left]
     return left
