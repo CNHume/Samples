@@ -13,16 +13,16 @@ class Command(object):
   UTF8 = u'utf-8'
   VERSION = 1.0
 
-  def __init__(self, bonus_path, tiles_path, words_path, file_ext, players, size):
+  def __init__(self, bonus_file, tiles_file, words_file, file_ext, players, size):
     self.debug = False                  # -d run in debug mode
     self.verbose = False                # -v emit verbose data
     self.reverse = False                # -r allow reversed words (right to left or below to above)
     self.players = players
     self.size_x = size
     self.size_y = size
-    self.bonus_path = bonus_path
-    self.tiles_path = tiles_path
-    self.words_path = words_path
+    self.bonus_file = bonus_file
+    self.tiles_file = tiles_file
+    self.words_file = words_file
     self.file_ext = file_ext
 
   @staticmethod
@@ -63,12 +63,12 @@ class Command(object):
             usage = True
           else:
             self.verbose = True
-        elif token[1] == 'b':           # the bonus_path switch
+        elif token[1] == 'b':           # the bonus_file switch
           if token_len > 2:             # whitespace optional
-            self.bonus_path = token[2:].decode(Command.UTF8)
+            self.bonus_file = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.bonus_path = argv[n].decode(Command.UTF8)
+            self.bonus_file = argv[n].decode(Command.UTF8)
         elif token[1] == 'p':           # the players switch
           if token_len > 2:             # whitespace optional
             players = token[2:]
@@ -85,18 +85,18 @@ class Command(object):
           if size.isdigit():
             self.size_x = int(size)
             self.size_y = self.size_x
-        elif token[1] == 't':           # the tiles_path switch
+        elif token[1] == 't':           # the tiles_file switch
           if token_len > 2:             # whitespace optional
-            self.tiles_path = token[2:].decode(Command.UTF8)
+            self.tiles_file = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.tiles_path = argv[n].decode(Command.UTF8)
-        elif token[1] == 'w':           # the words_path switch
+            self.tiles_file = argv[n].decode(Command.UTF8)
+        elif token[1] == 'w':           # the words_file switch
           if token_len > 2:             # whitespace optional
-            self.words_path = token[2:].decode(Command.UTF8)
+            self.words_file = token[2:].decode(Command.UTF8)
           elif n < argc:                # whitespace allowed
             n += 1
-            self.words_path = argv[n].decode(Command.UTF8)
+            self.words_file = argv[n].decode(Command.UTF8)
         elif token[1] == 'x':           # the file_ext switch
           if token_len > 2:             # whitespace optional
             self.file_ext = token[2:]
@@ -116,7 +116,7 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print(u'Usage: python {0} [-d] [-v] [-r] [-b bonus_path] [-s size] [-t tiles_path] [-w words_path] [-x file_ext]'\
+      print(u'Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'\
         .format(script_name))
 
     return not usage
@@ -125,9 +125,9 @@ class Command(object):
     print(u'{0}: {1}'.format(u'debug', self.debug))
     print(u'{0}: {1}'.format(u'verbose', self.verbose))
     print(u'{0}: {1}'.format(u'reverse', self.reverse))
-    print(u'{0}: {1}'.format(u'bonus_path', self.bonus_path))
-    print(u'{0}: {1}'.format(u'tiles_path', self.tiles_path))
-    print(u'{0}: {1}'.format(u'words_path', self.words_path))
+    print(u'{0}: {1}'.format(u'bonus_file', self.bonus_file))
+    print(u'{0}: {1}'.format(u'tiles_file', self.tiles_file))
+    print(u'{0}: {1}'.format(u'words_file', self.words_file))
     print(u'{0}: {1}'.format(u'file_ext', self.file_ext))
     print(u'{0}: {1}'.format(u'players', self.players))
     print(u'{0}: {1}'.format(u'size_x', self.size_x))

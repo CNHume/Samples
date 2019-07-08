@@ -24,15 +24,16 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  BONUS_PATH = u'bonus'
-  TILES_PATH = u'tiles'
-  WORDS_PATH = u'words'
+  SETUP_PATH = u''
+  BONUS_FILE = u'bonus'
+  TILES_FILE = u'tiles'
+  WORDS_FILE = u'words'
   FILE_EXT = u'txt'                     # Default File Extension
   PLAYERS = 2
   BOARD_SIZE = 15
 
   try:
-    command = Command(BONUS_PATH, TILES_PATH, WORDS_PATH, FILE_EXT, PLAYERS, BOARD_SIZE)
+    command = Command(BONUS_FILE, TILES_FILE, WORDS_FILE, FILE_EXT, PLAYERS, BOARD_SIZE)
     if command.Parse(sys.argv):
       verbose = command.verbose
 
@@ -40,12 +41,12 @@ def main():
         print(u'The # of players must be greater than 0')
         return
 
-      tileManager = FileManager(command.tiles_path, command.file_ext, verbose)
-      tileManager.load()
+      tileManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      tileManager.load(command.tiles_file)
       tiles = Tile(tileManager.records)
 
-      bonusManager = FileManager(command.bonus_path, command.file_ext, verbose)
-      bonusManager.load()
+      bonusManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      bonusManager.load(command.bonus_file)
 
       #
       # Test Board
@@ -55,8 +56,8 @@ def main():
 
       board = Board(command.size_x, command.size_y, bonusManager.records, tiles)
 
-      wordManager = FileManager(command.words_path, command.file_ext, verbose)
-      wordManager.load()
+      wordManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      wordManager.load(command.words_file)
       player = Player(command.players, wordManager.records, board, command.reverse, command.debug)
       #player.Test()
 
