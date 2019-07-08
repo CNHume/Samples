@@ -13,11 +13,11 @@ class Command(object):
   UTF8 = u'utf-8'
   VERSION = 1.0
 
-  def __init__(self, art_path, file_ext, trials):
+  def __init__(self, word_file, art_file, file_ext, trials):
     self.trials = trials
     self.verbose = False                # -v emit debugging information
-    self.art_path = art_path
-    self.file_path = None
+    self.art_file = art_file
+    self.word_file = word_file
     self.file_ext = file_ext
 
   @staticmethod
@@ -67,14 +67,12 @@ class Command(object):
           usage = True
       n += 1
 
-    if n < argc:                        # parse file_path to be searched
-      self.file_path = argv[n].decode(Command.UTF8)
+    if n < argc:                        # parse word_file to be searched
+      self.word_file = argv[n].decode(Command.UTF8)
       n += 1
-    else:                               # file_path is required
-      usage = True
 
     if n < argc:                        # parse art_path
-      self.art_path = argv[n].decode(Command.UTF8)
+      self.art_file = argv[n].decode(Command.UTF8)
       n += 1                            # art_path is optional
 
     if n < argc:                        # superfluous argument specified
@@ -84,13 +82,13 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print(u'Usage: python {0} [-t trials] [-v] [-x file_ext] file_path [art_path]'\
+      print(u'Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'\
         .format(script_name))
 
     return not usage
 
   def Log(self):
-    print(u'{0}: {1}'.format(u'verbose', self.verbose))
-    print(u'{0}: {1}'.format(u'art_path', self.file_path))
-    print(u'{0}: {1}'.format(u'file_path', self.file_path))
+    print(u'{0}: {1}'.format(u'word_file', self.word_file))
+    print(u'{0}: {1}'.format(u'art_file', self.art_file))
     print(u'{0}: {1}'.format(u'file_ext', self.file_ext))
+    print(u'{0}: {1}'.format(u'verbose', self.verbose))

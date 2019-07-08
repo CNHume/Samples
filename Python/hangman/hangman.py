@@ -25,20 +25,22 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  ART_PATH = u'art'                     # Hangman ASCII Art
+  SETUP_PATH = u''
+  ART_FILE = u'art'                     # Hangman ASCII Art
+  WORD_FILE = u'words'                  # Word File (Hangman Dictionary)
   FILE_EXT = u'txt'                     # Word File Extension
   TRIALS = 6                            # Head, Body, 2 Arms, 2 Legs
 
   try:
-    command = Command(ART_PATH, FILE_EXT, TRIALS)
+    command = Command(WORD_FILE, ART_FILE, FILE_EXT, TRIALS)
     if command.Parse(sys.argv):
       verbose = command.verbose
-      artManager = FileManager(command.art_path, command.file_ext, verbose)
-      artManager.load()
+      artManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      artManager.load(command.art_file)
       figures = artManager.paragraphs()
 
-      wordManager = FileManager(command.file_path, command.file_ext, verbose)
-      wordManager.load()
+      wordManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      wordManager.load(command.word_file)
   
       if wordManager.length > 0:
         choice = random.randrange(0, wordManager.length)
