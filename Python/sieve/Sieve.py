@@ -3,13 +3,21 @@
 # 2015-05-04  CNHume  Created File
 class Sieve:
   '''Sieve of Eratosthenes'''
-  def __init__(self, limit):
+  def __init__(self):
     '''Obtain indexes for the odd composites such that n = 2 * index + 1 < limit'''
-    self.limit = limit
-    self.sieve = self.sift(limit)
-    self.primes = list(self.genPrimes(limit))
+    self.limit = 0
+    self.sieve = None
+    self.primeList = []
 
+  def primes(self, limit):
+    '''Return Primes less than limit'''
+    if self.limit < limit:
+      self.sieve = self.sift(limit)
+      self.primeList = list(self.genPrimes(limit))
+    return self.primeList
+  
   def sift(self, limit):
+    '''Sift Composites less than limit'''
     sieve = set()
     if limit > 1:
       limit2 = limit // 2
@@ -38,7 +46,7 @@ class Sieve:
     return sieve
 
   def genPrimes(self, limit):
-    '''Generates Primes less than limit'''
+    '''Generate Primes less than limit'''
     if limit > 1:
       limit2 = limit // 2
       for oddIndex in range(0, limit2):
