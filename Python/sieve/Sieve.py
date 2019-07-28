@@ -6,15 +6,7 @@ class Sieve:
   def __init__(self):
     '''Obtain indexes for the odd composites such that n = 2 * index + 1 < limit'''
     self.limit = 0
-    self.sieve = None
     self.primeList = []
-
-  def primes(self, limit):
-    '''Return Primes less than limit'''
-    if self.limit < limit:
-      self.sieve = self.sift(limit)
-      self.primeList = list(self.genPrimes(limit))
-    return self.primeList
   
   def sift(self, limit):
     '''Sift Composites less than limit'''
@@ -41,16 +33,27 @@ class Sieve:
         # Test whether odd is Prime
         if oddIndex not in sieve:
           # Sift odd multiples of odd
-          for oddIndex2 in range(squareIndex, limit2, odd):
+          oddIndex2 = squareIndex
+          while oddIndex2 < limit2:
             sieve.add(oddIndex2)
+            oddIndex2 += odd
     return sieve
 
   def genPrimes(self, limit):
     '''Generate Primes less than limit'''
     if limit > 1:
       limit2 = limit // 2
-      for oddIndex in range(0, limit2):
+      oddIndex = 0
+      self.sieve = self.sift(limit)
+      while oddIndex < limit2:
         if oddIndex not in self.sieve:
           # Repurpose the index corresponding to 1 to represent 2 instead,
 	        # replacing the multiplicative identity with the sole even Prime
           yield 2 * oddIndex + 1 if oddIndex > 0 else 2
+        oddIndex += 1
+
+  def primes(self, limit):
+    '''Return Primes less than limit'''
+    if self.limit < limit:
+      self.primeList = list(self.genPrimes(limit))
+    return self.primeList
