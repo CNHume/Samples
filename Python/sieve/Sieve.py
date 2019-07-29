@@ -5,46 +5,43 @@ class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self):
     '''Obtain indexes for the odd composites such that n = 2 * index + 1 < limit'''
-    self.limit = 0
+    self.sieve = set()
+    self.limit = 1
+    self.oddIndex = 0
+    self.odd = 1
+    self.delta = 0
+    self.squareIndex = 0
+    self.square = 1
     self.primeList = []
   
-  def sift(self, limit):
+  def sift(self):
     '''Sift Composites less than limit'''
-    sieve = set()
-    if limit > 1:
-      limit2 = limit // 2
-      oddIndex = 0
-      odd = 1
-      delta = 0
-      squareIndex = 0
-      # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
-      # The difference between the nth odd square and its successor is 8*n
-      # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
-      square = 1
+    self.oddIndex += 1
+    self.odd += 2
+    self.delta += 4
+    self.squareIndex += self.delta
 
-      while square < limit:
-        oddIndex += 1
-        odd += 2
-        delta += 4
-        delta2 = delta + delta
+    # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
+    # The difference between the nth odd square and its successor is 8*n
+    # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
+    self.square += self.delta + self.delta
 
-        squareIndex += delta
-        square += delta2
-        # Test whether odd is Prime
-        if oddIndex not in sieve:
-          # Sift odd multiples of odd
-          oddIndex2 = squareIndex
-          while oddIndex2 < limit2:
-            sieve.add(oddIndex2)
-            oddIndex2 += odd
-    return sieve
+    # Test whether odd is Prime
+    if self.oddIndex not in self.sieve:
+      # Sift odd multiples of odd
+      for oddIndex2 in range(self.squareIndex, self.limit // 2, self.odd):
+        self.sieve.add(oddIndex2)
 
   def genPrimes(self, limit):
     '''Generate Primes less than limit'''
+    self.limit = limit
     if limit > 1:
       limit2 = limit // 2
       oddIndex = 0
-      self.sieve = self.sift(limit)
+
+      while self.square < self.limit:
+        self.sift()
+
       while oddIndex < limit2:
         if oddIndex not in self.sieve:
           # Repurpose the index corresponding to 1 to represent 2 instead,
