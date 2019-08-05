@@ -34,9 +34,8 @@ class Sieve:
 
     # Test whether odd is Prime
     if self.oddIndex not in self.sieveIndexes:
-      p = 2 * self.oddIndex + 1
-      #[Test]print('Appending {}'.format(p))
-      self.sievePrimes.append(p)
+      #[Test]print('Appending {}'.format(self.odd))
+      self.sievePrimes.append(self.odd)
       # Sift odd multiples of odd
       for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
         self.sieveIndexes.add(oddIndex2)
@@ -54,6 +53,7 @@ class Sieve:
     return p, start
 
   def raiseLimit(self, limit):
+    #[Note]rangeStart() uses prior value of sieveLimit
     pairs = map(self.rangeStart, self.sievePrimes)
     for p, start in pairs:
       for oddIndex2 in range(start // 2, limit // 2, p):
