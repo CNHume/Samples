@@ -5,14 +5,16 @@ class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self):
     '''Obtain indexes for the odd composites such that n = 2 * index + 1 < limit'''
-    self.sieve = set()
     self.limit = 1
     self.oddIndex = 0
     self.odd = 1
     self.delta = 0
     self.squareIndex = 0
     self.square = 1
-    self.primeList = []
+
+    self.sieve = set()
+    self.siftPrimes = []
+    self.listPrimes = []
   
   def sift(self):
     '''Sift Composites less than limit'''
@@ -28,29 +30,49 @@ class Sieve:
 
     # Test whether odd is Prime
     if self.oddIndex not in self.sieve:
+      p = 2 * self.oddIndex + 1
+      print('Appending {}'.format(p))
+      self.siftPrimes.append(p)
       # Sift odd multiples of odd
       for oddIndex2 in range(self.squareIndex, self.limit // 2, self.odd):
         self.sieve.add(oddIndex2)
 
+  def rangeStart(self, p):
+    limit = self.limit
+    pp = p * p
+    if pp < limit:
+      p2 = p + p
+      delta = limit - pp
+      r = delta % p2
+      start = limit + p2 - r
+    else:
+       start = pp
+    return p, start
+
+  def raiseLimit(self, limit):
+    pairs = map(self.rangeStart, self.siftPrimes)
+    for p, start in pairs:
+      for oddIndex2 in range(start // 2, limit // 2, p):
+        self.sieve.add(oddIndex2)
+    self.limit = limit
+
   def genPrimes(self, limit):
     '''Generate Primes less than limit'''
-    self.limit = limit
-    if limit > 1:
-      limit2 = limit // 2
-      oddIndex = 0
+    if self.limit < limit:
+      self.listPrimes = []
+      self.raiseLimit(limit)
 
-      while self.square < self.limit:
-        self.sift()
+    while self.square < self.limit:
+      self.sift()
 
-      while oddIndex < limit2:
-        if oddIndex not in self.sieve:
-          # Repurpose the index corresponding to 1 to represent 2 instead,
-	        # replacing the multiplicative identity with the sole even Prime
-          yield 2 * oddIndex + 1 if oddIndex > 0 else 2
-        oddIndex += 1
+    for oddIndex in range(self.limit // 2):
+      if oddIndex not in self.sieve:
+        # Repurpose the index corresponding to 1 to represent 2 instead,
+        # replacing the multiplicative identity with the sole even Prime
+        yield 2 * oddIndex + 1 if oddIndex > 0 else 2
 
   def primes(self, limit):
     '''Return Primes less than limit'''
     if self.limit < limit:
-      self.primeList = list(self.genPrimes(limit))
-    return self.primeList
+      self.listPrimes = list(self.genPrimes(limit))
+    return self.listPrimes

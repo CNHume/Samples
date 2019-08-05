@@ -15,8 +15,19 @@ def main():
       raise ValueError('limit must be positive')
 
     sieve = Sieve()
-    # printIt(sieve.primes(100))
-    # print('sum = {}'.format(sum(sieve.primes(100))))
+    # printIt(sieve.primes(6))
+    # print('sum = {}'.format(sum(sieve.primes(6))))
+    printIt(sieve.primes(8))
+    print('sum = {}'.format(sum(sieve.primes(8))))
+    # printIt(sieve.primes(10))
+    # print('sum = {}'.format(sum(sieve.primes(10))))
+    printIt(sieve.primes(12))
+    print('sum = {}'.format(sum(sieve.primes(12))))
+
+    # 24 primes summing to 1060
+    printIt(sieve.primes(100))
+    print('sum = {}'.format(sum(sieve.primes(100))))
+    # 302 primes summing to 277050
     printIt(sieve.primes(limit))
     print('sum = {}'.format(sum(sieve.primes(limit))))
 
