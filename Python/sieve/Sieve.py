@@ -42,14 +42,9 @@ class Sieve:
 
   def rangeStart(self, p):
     limit = self.sieveLimit
-    pp = p * p
-    if pp < limit:
-      p2 = p + p
-      delta = limit - pp
-      r = delta % p2
-      start = limit + p2 - r
-    else:
-       start = pp
+    p2 = p + p
+    r = (limit - p * p) % p2
+    start = limit + p2 - r
     return p, start
 
   def raiseLimit(self, limit):
