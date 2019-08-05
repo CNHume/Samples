@@ -42,9 +42,9 @@ class Sieve:
 
   def rangeStart(self, p):
     limit = self.sieveLimit
-    p2 = p + p
-    r = (limit - p * p) % p2
-    start = limit + p2 - r
+    m = p + p
+    r = (limit - p * p) % m
+    start = limit + m - r
     return p, start
 
   def raiseLimit(self, limit):
@@ -71,8 +71,12 @@ class Sieve:
 
   def primes(self, limit):
     '''Return Primes less than limit'''
+    if limit < self.primeLimit:
+      return [p for p in self.limitPrimes if p < limit]
+    
     if self.primeLimit < limit:
       for p in self.genPrimes(self.primeLimit, limit):
         self.limitPrimes.append(p)
       self.primeLimit = limit
+
     return self.limitPrimes
