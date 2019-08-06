@@ -21,7 +21,7 @@ class Sieve:
     self.square = 1
   
   def sift(self):
-    '''Sift Composites less than limit'''
+    '''Sift Composites less than or equal to limit'''
     self.oddIndex += 1
     self.odd += 2
     self.delta += 4
@@ -40,23 +40,25 @@ class Sieve:
       for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
         self.sieveIndexes.add(oddIndex2)
 
-  def rangeStart(self, p):
+  def nextMuliple(self, p):
     limit = self.sieveLimit
+    # Skip Even Numbers
     m = p + p
     r = (limit - p * p) % m
-    start = limit + m - r
-    return p, start
+    offset = (m - r) % m
+    next = limit + offset
+    return p, next
 
   def raiseLimit(self, limit):
     #[Note]rangeStart() uses prior value of sieveLimit
-    pairs = map(self.rangeStart, self.sievePrimes)
-    for p, start in pairs:
-      for oddIndex2 in range(start // 2, limit // 2, p):
+    pairs = map(self.nextMuliple, self.sievePrimes)
+    for p, next in pairs:
+      for oddIndex2 in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(oddIndex2)
     self.sieveLimit = limit
 
   def genPrimes(self, start, limit):
-    '''Generate Primes less than limit'''
+    '''Generate Primes less than or equal to limit'''
     if self.sieveLimit < limit:
       self.raiseLimit(limit)
 
@@ -70,7 +72,7 @@ class Sieve:
         yield 2 * oddIndex + 1 if oddIndex > 0 else 2
 
   def primes(self, limit):
-    '''Return Primes less than limit'''
+    '''Return Primes less than or equal to limit'''
     if limit < self.primeLimit:
       return [p for p in self.limitPrimes if p < limit]
     
