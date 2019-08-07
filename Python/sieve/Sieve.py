@@ -44,10 +44,8 @@ class Sieve:
     limit = self.sieveLimit
     # Skip Even Numbers
     m = p + p
-    r = (limit - p * p) % m
-    offset = (m - r) % m
-    next = limit + offset
-    return p, next
+    offset = (p * p - limit) % m
+    return p, limit + offset
 
   def raiseLimit(self, limit):
     #[Note]nextMuliple() relies on prior value of self.sieveLimit
