@@ -2,6 +2,8 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
+from functools import partial
+
 class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self):
@@ -40,20 +42,23 @@ class Sieve:
       for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
         self.sieveIndexes.add(oddIndex2)
 
-  def nextMuliple(self, p):
-    limit = self.sieveLimit
-    # Skip Even Numbers
+  @staticmethod
+  def nextMuliple(limit, p):
+    '''Return next odd multiple of p greater than or equal to limit'''
+    # Skip even multiples of p
     m = p + p
-    offset = (p * p - limit) % m
-    return p, limit + offset
+    # The next multiple is congruent delta mod m
+    delta = p * p - limit
+    next = limit + delta % m
+    return p, next
 
   def raiseLimit(self, limit):
-    #[Note]nextMuliple() relies on prior value of self.sieveLimit
-    pairs = map(self.nextMuliple, self.sievePrimes)
+    boundNext = partial(self.nextMuliple, self.sieveLimit)
+    self.sieveLimit = limit
+    pairs = map(boundNext, self.sievePrimes)
     for p, next in pairs:
       for oddIndex2 in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(oddIndex2)
-    self.sieveLimit = limit
 
   def genPrimes(self, start, limit):
     '''Generate Primes less than limit'''
