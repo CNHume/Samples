@@ -59,16 +59,15 @@ class Sieve:
     for p, next in pairs:
       for oddIndex2 in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(oddIndex2)
-
+    while self.square < limit:
+      self.sift()
+  
   def genPrimes(self, start, limit):
     '''Generate Primes less than limit'''
     if self.sieveLimit < limit:
       self.raiseLimit(limit)
 
-    while self.square < self.sieveLimit:
-      self.sift()
-
-    for oddIndex in range(start // 2, self.sieveLimit // 2):
+    for oddIndex in range(start // 2, limit // 2):
       if oddIndex not in self.sieveIndexes:
         # Repurpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
