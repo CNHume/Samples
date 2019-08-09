@@ -24,6 +24,14 @@ class Sieve:
   
   def sift(self):
     '''Sift Composites less than limit'''
+    # Test whether odd is Prime
+    if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
+      #[Test]print('Appending {}'.format(self.odd))
+      self.sievePrimes.append(self.odd)
+      # Sift odd multiples of odd
+      for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
+        self.sieveIndexes.add(oddIndex2)
+
     self.oddIndex += 1
     self.odd += 2
     self.delta += 4
@@ -33,14 +41,6 @@ class Sieve:
     # The difference between the nth odd square and its successor is 8*n
     # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
     self.square += self.delta + self.delta
-
-    # Test whether odd is Prime
-    if self.oddIndex not in self.sieveIndexes:
-      #[Test]print('Appending {}'.format(self.odd))
-      self.sievePrimes.append(self.odd)
-      # Sift odd multiples of odd
-      for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
-        self.sieveIndexes.add(oddIndex2)
 
   @staticmethod
   def nextMuliple(limit, p):
