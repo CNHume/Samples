@@ -84,3 +84,17 @@ class Sieve:
       self.primeLimit = limit
 
     return self.limitPrimes
+
+  def test(self, limit):
+    '''Perform test case'''
+    primes = self.primes(limit)
+    print('limit = {}'.format(limit))
+    print('count = {}'.format(len(primes)))
+    # self.printList(primes)
+    print('total = {}'.format(sum(primes)))
+    print
+
+  @staticmethod
+  def printList(elements):
+    for index, element in enumerate(elements):
+      print('P[{0}] = {1}'.format(index, element))
