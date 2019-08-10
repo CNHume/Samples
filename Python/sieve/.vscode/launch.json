@@ -7,7 +7,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/sumPrimes.py",
       "console": "integratedTerminal",
-      "args": ["2001"]
+      "args": ["1000000"]
     }
   ]
 }

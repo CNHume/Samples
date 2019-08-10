@@ -3,6 +3,8 @@
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
 from functools import partial
+# from datetime import datetime
+import time
 
 class Sieve:
   '''Sieve of Eratosthenes'''
@@ -87,11 +89,24 @@ class Sieve:
 
   def test(self, limit):
     '''Perform test case'''
+    # start time
+    elapsed_t0 = time.time()
     primes = self.primes(limit)
+    # end time
+    elapsed_t1 = time.time()
+    elapsed_delta = elapsed_t1 - elapsed_t0
+    print(u'{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
     print('limit = {}'.format(limit))
-    print('count = {}'.format(len(primes)))
+    count = len(primes)
+    if elapsed_delta > 0:
+      rate = count / elapsed_delta
+      scale = 1e3
+      print(u'count = {0} at {1:.3f} KHz'.format(count, round(rate / scale, 3)))
+    else:
+      print(u'count = {0}'.format(count))
     # self.printList(primes)
-    print('total = {}'.format(sum(primes)))
+    # print('total = {}'.format(sum(primes)))
+    print('final = {}'.format(primes[-1]))
     print
 
   @staticmethod
