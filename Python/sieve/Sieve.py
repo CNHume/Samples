@@ -61,16 +61,17 @@ class Sieve:
     while self.square < limit:
       self.sift()
   
-  def genPrimes(self, start, limit):
+  def genPrimes(self, limit, start=0):
     '''Generate Primes less than limit'''
     if self.sieveLimit < limit:
       self.raiseLimit(limit)
 
     for oddIndex in range(start // 2, limit // 2):
       if oddIndex not in self.sieveIndexes:
-        # Repurpose the index corresponding to 1 to represent 2 instead,
+        # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        yield 2 * oddIndex + 1 if oddIndex > 0 else 2
+        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
+        yield p
 
   def primes(self, limit):
     '''Return Primes less than limit'''
@@ -78,7 +79,7 @@ class Sieve:
       return [p for p in self.limitPrimes if p < limit]
     
     if self.primeLimit < limit:
-      for p in self.genPrimes(self.primeLimit, limit):
+      for p in self.genPrimes(limit, self.primeLimit):
         self.limitPrimes.append(p)
       self.primeLimit = limit
 
@@ -89,21 +90,23 @@ class Sieve:
     # start time
     elapsed_t0 = time.time()
     primes = self.primes(limit)
-    # end time
+    # gen = self.genPrimes(limit)
+    # result = gen.next()
+    # # end time
     elapsed_t1 = time.time()
     elapsed_delta = elapsed_t1 - elapsed_t0
-    print(u'{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
-    print('limit = {}'.format(limit))
-    count = len(primes)
+    print('{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
     if elapsed_delta > 0:
-      rate = count / elapsed_delta
-      scale = 1e3
-      print(u'count = {0} at {1:.3f} KHz'.format(count, round(rate / scale, 3)))
+      rate = limit / elapsed_delta
+      rounded = round(rate / 1e3, 3)
+      print('limit = {0} at {1:.3f} KHz'.format(limit, rounded))
     else:
-      print(u'count = {0}'.format(count))
+      print('limit = {0}'.format(limit))
+    count = len(primes)
+    print('count = {}'.format(count))
+    print('final = {}'.format(primes[-1]))
     # self.printList(primes)
     # print('total = {}'.format(sum(primes)))
-    print('final = {}'.format(primes[-1]))
     print
 
   @staticmethod
