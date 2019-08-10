@@ -7,7 +7,6 @@ import time
 class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self):
-    '''Incremental Prime Number Generator'''
     self.sieveIndexes = set()           
 
     self.limitPrimes = []
@@ -22,7 +21,7 @@ class Sieve:
     self.square = 1
   
   def sift(self):
-    '''Sift Odd Composite Indexes such that n = 2 * index + 1 < limit'''
+    '''Sift Odd Composite Indexes where n = 2 * index + 1 < limit'''
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       #[Test]print('Appending {}'.format(self.odd))
@@ -62,7 +61,7 @@ class Sieve:
       self.sift()
   
   def genPrimes(self, limit, start=0):
-    '''Generate Primes less than limit'''
+    '''Generate Primes less than limit, incrementally'''
     if self.sieveLimit < limit:
       self.raiseLimit(limit)
 
