@@ -2,15 +2,12 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
-from functools import partial
-# from datetime import datetime
 import time
 
 class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self):
     '''Incremental Prime Number Generator'''
-    # Odd Composite Indexes such that n = 2 * index + 1 < limit
     self.sieveIndexes = set()           
 
     self.limitPrimes = []
@@ -25,7 +22,7 @@ class Sieve:
     self.square = 1
   
   def sift(self):
-    '''Sift Composites less than limit'''
+    '''Sift Odd Composite Indexes such that n = 2 * index + 1 < limit'''
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       #[Test]print('Appending {}'.format(self.odd))
@@ -44,9 +41,9 @@ class Sieve:
     # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
     self.square += self.delta + self.delta
 
-  @staticmethod
-  def nextMuliple(limit, p):
+  def nextMuliple(self, p):
     '''Return next odd multiple of p greater than or equal to limit'''
+    limit = self.sieveLimit
     # Skip even multiples of p
     m = p + p
     # The next multiple is congruent delta mod m
@@ -55,12 +52,12 @@ class Sieve:
     return p, next
 
   def raiseLimit(self, limit):
-    boundNext = partial(self.nextMuliple, self.sieveLimit)
-    self.sieveLimit = limit
-    pairs = map(boundNext, self.sievePrimes)
+    #[Note]nextMuliple() uses prior value of sieveLimit
+    pairs = map(self.nextMuliple, self.sievePrimes)
     for p, next in pairs:
       for oddIndex2 in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(oddIndex2)
+    self.sieveLimit = limit
     while self.square < limit:
       self.sift()
   
