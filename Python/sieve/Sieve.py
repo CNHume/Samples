@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
+# 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
 import time
@@ -9,10 +10,11 @@ class Sieve:
   def __init__(self):
     self.sieveIndexes = set()           
 
-    self.limitPrimes = []
+    # sievePrimes are used in raiseLimit() to find nextMuliple()
     self.sievePrimes = []
-    self.primeLimit = 1
+    self.limitPrimes = []
     self.sieveLimit = 1
+    self.primeLimit = 1
 
     self.oddIndex = 0
     self.odd = 1
@@ -60,12 +62,12 @@ class Sieve:
     while self.square < limit:
       self.sift()
   
-  def genPrimes(self, limit, start=0):
+  def genPrimes(self, limit, lastLimit=0):
     '''Generate Primes less than limit, incrementally'''
     if self.sieveLimit < limit:
       self.raiseLimit(limit)
 
-    for oddIndex in range(start // 2, limit // 2):
+    for oddIndex in range(lastLimit // 2, limit // 2):
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
@@ -74,15 +76,11 @@ class Sieve:
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    if limit < self.primeLimit:
-      return [p for p in self.limitPrimes if p < limit]
-    
     if self.primeLimit < limit:
       for p in self.genPrimes(limit, self.primeLimit):
         self.limitPrimes.append(p)
       self.primeLimit = limit
-
-    return self.limitPrimes
+    return [p for p in self.limitPrimes if p < limit] if limit < self.primeLimit else self.limitPrimes
 
   def test(self, limit):
     '''Perform test case'''
@@ -104,8 +102,8 @@ class Sieve:
     count = len(primes)
     print('count = {}'.format(count))
     print('final = {}'.format(primes[-1]))
-    # self.printList(primes)
-    # print('total = {}'.format(sum(primes)))
+    self.printList(primes)
+    print('total = {}'.format(sum(primes)))
     print
 
   @staticmethod
