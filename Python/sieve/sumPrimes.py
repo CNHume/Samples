@@ -10,7 +10,7 @@ def main():
     if limit <= 0:
       raise ValueError('limit must be positive')
 
-    sieve = Sieve()
+    sieve = Sieve(True)
 
     # sieve.test(3)
     sieve.test(11)

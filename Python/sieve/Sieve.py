@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
+# 2019-08-25  CNHume  Added siftPrimes().  Refactored sift(), genPrimes() and primes()
 # 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
@@ -7,7 +8,8 @@ import time
 
 class Sieve:
   '''Sieve of Eratosthenes'''
-  def __init__(self):
+  def __init__(self, debug=False):
+    self.debug = debug
     self.sieveIndexes = set()           
 
     # sievePrimes are used in raiseLimit() to find nextMuliple()
@@ -26,11 +28,9 @@ class Sieve:
     '''Sift Odd Composite Indexes where n = 2 * index + 1 < limit'''
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      #[Test]print('Appending {}'.format(self.odd))
+      if self.debug:
+        print('sievePrimes.append({})'.format(self.odd))
       self.sievePrimes.append(self.odd)
-      # Sift odd multiples of odd
-      for oddIndex2 in range(self.squareIndex, self.sieveLimit // 2, self.odd):
-        self.sieveIndexes.add(oddIndex2)
 
     self.oddIndex += 1
     self.odd += 2
@@ -41,6 +41,10 @@ class Sieve:
     # The difference between the nth odd square and its successor is 8*n
     # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
     self.square += self.delta + self.delta
+
+    if self.debug:
+      print('raiseLimit({})'.format(self.square))
+    self.raiseLimit(self.square)
 
   def nextMuliple(self, p):
     '''Return next odd multiple of p greater than or equal to limit'''
@@ -75,9 +79,6 @@ class Sieve:
     if self.square <= self.odd2 + 2:
       self.lastLimit = self.square
       self.sift()
-      #[Test]
-      print('Raising limit from {} to {}'.format(self.lastLimit, self.square))
-      self.raiseLimit(self.square)
 
     return self.siftPrimes(self.square, self.lastLimit)
 
@@ -93,9 +94,7 @@ class Sieve:
     # start time
     elapsed_t0 = time.time()
     primes = self.primes(limit)
-    # gen = self.genPrimes(limit)
-    # result = gen.next()
-    # # end time
+    # end time
     elapsed_t1 = time.time()
     elapsed_delta = elapsed_t1 - elapsed_t0
     print('{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
