@@ -14,10 +14,10 @@ class Sieve:
     self.sievePrimes = []
     self.limitPrimes = []
     self.sieveLimit = 1
-    self.primeLimit = 1
 
     self.oddIndex = 0
     self.odd = 1
+    self.odd2 = 1
     self.delta = 0
     self.squareIndex = 0
     self.square = 1
@@ -59,28 +59,34 @@ class Sieve:
       for oddIndex2 in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(oddIndex2)
     self.sieveLimit = limit
-    while self.square < limit:
-      self.sift()
   
-  def genPrimes(self, limit, lastLimit=0):
-    '''Generate Primes less than limit, incrementally'''
-    if self.sieveLimit < limit:
-      self.raiseLimit(limit)
-
+  def siftPrimes(self, limit, lastLimit):
+    '''Sift Primes less than the limit'''
     for oddIndex in range(lastLimit // 2, limit // 2):
+      self.odd2 = 2 * oddIndex + 1
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
+        p = self.odd2 if oddIndex > 0 else 2
         yield p
+
+  def genPrimes(self):
+    '''Generate Primes, incrementally'''
+    if self.square <= self.odd2 + 2:
+      self.lastLimit = self.square
+      self.sift()
+      #[Test]
+      print('Raising limit from {} to {}'.format(self.lastLimit, self.square))
+      self.raiseLimit(self.square)
+
+    return self.siftPrimes(self.square, self.lastLimit)
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    if self.primeLimit < limit:
-      for p in self.genPrimes(limit, self.primeLimit):
+    while self.sieveLimit < limit:
+      for p in self.genPrimes():
         self.limitPrimes.append(p)
-      self.primeLimit = limit
-    return [p for p in self.limitPrimes if p < limit] if limit < self.primeLimit else self.limitPrimes
+    return [p for p in self.limitPrimes if p < limit] if limit < self.sieveLimit else self.limitPrimes
 
   def test(self, limit):
     '''Perform test case'''
