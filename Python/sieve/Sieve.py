@@ -13,7 +13,7 @@ class Sieve:
     self.debug = debug
     self.sieveIndexes = set()           
 
-    # sievePrimes are used in raiseLimit() to find nextMuliple()
+    # sievePrimes are used in addComposites() to find nextMuliple()
     self.sievePrimes = []
     self.limitPrimes = []
     self.lastSquare = None
@@ -34,7 +34,7 @@ class Sieve:
     multiple = self.lastSquare + delta % m
     return p, multiple
 
-  def raiseLimit(self):
+  def addComposites(self):
     '''Sift Odd Composite Indexes where n = 2 * index + 1 < square'''
     pairs = map(self.nextMuliple, self.sievePrimes)
     for p, multiple in pairs:
@@ -61,7 +61,7 @@ class Sieve:
 
     if self.debug:
       print('raiseLimit({})'.format(self.square))
-    self.raiseLimit()
+    self.addComposites()
 
   def siftPrimes(self, lastLimit, nextLimit):
     '''Sift next set of Primes'''
