@@ -15,7 +15,7 @@ class Sieve:
 
     # sievePrimes are used in addComposites() to find nextMuliple()
     self.sievePrimes = []
-    self.limitPrimes = []
+    self.squarePrimes = []
     self.lastSquare = None
 
     self.oddIndex = 0
@@ -60,7 +60,7 @@ class Sieve:
     self.square += self.delta + self.delta
 
     if self.debug:
-      print('raiseLimit({})'.format(self.square))
+      print('square = {}'.format(self.square))
     self.addComposites()
 
   def siftPrimes(self, lastLimit, nextLimit):
@@ -85,8 +85,8 @@ class Sieve:
   def primes(self, limit):
     '''Return Primes less than limit'''
     for p in self.nextPrime(limit):
-      self.limitPrimes.append(p)
-    return [p for p in self.limitPrimes if p < limit] if limit < self.square else self.limitPrimes
+      self.squarePrimes.append(p)
+    return [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
 
   def test(self, limit):
     '''Perform test case'''
