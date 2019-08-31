@@ -10,18 +10,25 @@ def main():
     if limit <= 0:
       raise ValueError('limit must be positive')
 
-    sieve = Sieve(True)
+    sieve = Sieve()
 
+    # 1 prime summing to 2
     # sieve.test(3)
-    sieve.test(11)
+    # 4 primes summing to 17
+    # sieve.test(11)
     # 9 primes summing to 100
-    sieve.test(25)
-    # 25 primes summing to 1060
-    sieve.test(100)
-    # 303 primes summing to 277050
-    sieve.test(2000)
+    # sieve.test(25)
+    # 25 primes summing to 1,060
+    # sieve.test(100)
+    # 303 primes summing to 277,050
+    # sieve.test(2000)
+    # 78498 primes summing to 37,550,402,023
+    # sieve.test(1000000)
+    # 148933 primes summing to 142,913,828,922
+    # sieve.test(2000000)
 
-    # sieve.test(limit)
+    # rate can be 800 KHz
+    sieve.test(limit)
 
 main()
 pass

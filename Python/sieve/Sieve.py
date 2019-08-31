@@ -35,11 +35,11 @@ class Sieve:
     return p, multiple
 
   def addComposites(self):
-    '''Sift Odd Composite Indexes where n = 2 * index + 1 < square'''
+    '''Add indexes for odd composites | lastSquare < n = 2 * index + 1 < square'''
     pairs = map(self.nextMuliple, self.sievePrimes)
     for p, multiple in pairs:
-      for oddIndex in range(multiple // 2, self.square // 2, p):
-        self.sieveIndexes.add(oddIndex)
+      for index in range(multiple // 2, self.square // 2, p):
+        self.sieveIndexes.add(index)
     
   def nextSquare(self):
     # Test whether odd is Prime
@@ -55,12 +55,12 @@ class Sieve:
 
     # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
     # The difference between the nth odd square and its successor is 8*n
-    # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
+    # because odd n increase by 2 and (n + 2)**2 - n**2 = 4*n + 4
     self.lastSquare = self.square
     self.square += self.delta + self.delta
-
     if self.debug:
       print('square = {}'.format(self.square))
+
     self.addComposites()
 
   def siftPrimes(self, lastLimit, nextLimit):
@@ -105,8 +105,9 @@ class Sieve:
       print('limit = {0}'.format(limit))
     count = len(primes)
     print('count = {}'.format(count))
-    print('final = {}'.format(primes[-1]))
-    self.printList(primes)
+    if primes:
+      print('final = {}'.format(primes[-1]))
+    # self.printList(primes)
     print('total = {}'.format(sum(primes)))
     print
 
