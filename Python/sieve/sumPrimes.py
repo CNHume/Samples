@@ -27,7 +27,7 @@ def main():
     # 148933 primes summing to 142,913,828,922
     # sieve.test(2000000)
 
-    # rate can be 800 KHz
+    # rate can be 1.5 MHz
     sieve.test(limit)
 
 main()

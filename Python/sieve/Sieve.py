@@ -20,7 +20,7 @@ class Sieve:
 
     self.oddIndex = 0
     self.odd = 1
-    self.oddSifted = 1
+    self.oddTested = 1
     self.delta = 0
     self.squareIndex = 0
     self.square = 1
@@ -34,14 +34,15 @@ class Sieve:
     multiple = self.lastSquare + delta % m
     return p, multiple
 
-  def addComposites(self):
-    '''Add indexes for odd composites | lastSquare < n = 2 * index + 1 < square'''
+  def sift(self):
+    '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
     pairs = map(self.nextMuliple, self.sievePrimes)
     for p, multiple in pairs:
       for index in range(multiple // 2, self.square // 2, p):
         self.sieveIndexes.add(index)
     
   def nextSquare(self):
+    '''Advance to next Square, extending sievePrimes'''
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       if self.debug:
@@ -61,31 +62,28 @@ class Sieve:
     if self.debug:
       print('square = {}'.format(self.square))
 
-    self.addComposites()
-
-  def siftPrimes(self, lastLimit, nextLimit):
-    '''Sift next set of Primes'''
+  def siftedPrime(self, lastLimit, nextLimit):
+    '''Next sifted Prime'''
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
-      self.oddSifted = 2 * oddIndex + 1
+      self.oddTested = 2 * oddIndex + 1
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = self.oddSifted if oddIndex > 0 else 2
+        p = self.oddTested if oddIndex > 0 else 2
         yield p
 
-  def nextPrime(self, limit):
-    '''Generate Primes, incrementally'''
-    while self.square < limit:
-      oddNext = self.oddSifted + 2
-      if not oddNext < self.square:
-        self.nextSquare()
-      for p in self.siftPrimes(self.lastSquare, self.square):
-        yield p
+  def nextPrime(self):
+    '''Next square Prime'''
+    if not self.oddTested + 2 < self.square:
+      self.nextSquare()
+      self.sift()
+    return self.siftedPrime(self.lastSquare, self.square)
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    for p in self.nextPrime(limit):
-      self.squarePrimes.append(p)
+    while self.square < limit:
+      for p in self.nextPrime():
+        self.squarePrimes.append(p)
     return [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
 
   def test(self, limit):
