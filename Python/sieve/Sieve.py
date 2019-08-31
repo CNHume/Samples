@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
+# 2019-08-30  CNHume  Renamed global variables, refactoring their use.
 # 2019-08-25  CNHume  Added siftPrimes().  Refactored nextLimit(), nextPrimes() and primes()
 # 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
@@ -15,35 +16,32 @@ class Sieve:
     # sievePrimes are used in raiseLimit() to find nextMuliple()
     self.sievePrimes = []
     self.limitPrimes = []
-    self.sieveLimit = 1
+    self.lastSquare = None
 
     self.oddIndex = 0
     self.odd = 1
-    self.odd2 = 1
+    self.oddSifted = 1
     self.delta = 0
     self.squareIndex = 0
     self.square = 1
   
   def nextMuliple(self, p):
-    '''Return next odd multiple of p greater than or equal to limit'''
-    limit = self.sieveLimit
+    '''Return next odd multiple of p greater than or equal to lastSquare'''
     # Skip even multiples of p
     m = p + p
     # The next multiple is congruent delta mod m
-    delta = p * p - limit
-    next = limit + delta % m
-    return p, next
+    delta = p * p - self.lastSquare
+    multiple = self.lastSquare + delta % m
+    return p, multiple
 
-  def raiseLimit(self, limit):
-    #[Note]nextMuliple() uses prior value of sieveLimit
+  def raiseLimit(self):
+    '''Sift Odd Composite Indexes where n = 2 * index + 1 < square'''
     pairs = map(self.nextMuliple, self.sievePrimes)
-    for p, next in pairs:
-      for oddIndex2 in range(next // 2, limit // 2, p):
-        self.sieveIndexes.add(oddIndex2)
-    self.sieveLimit = limit
+    for p, multiple in pairs:
+      for oddIndex in range(multiple // 2, self.square // 2, p):
+        self.sieveIndexes.add(oddIndex)
     
-  def nextLimit(self):
-    '''Sift Odd Composite Indexes where n = 2 * index + 1 < limit'''
+  def nextSquare(self):
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       if self.debug:
@@ -58,36 +56,37 @@ class Sieve:
     # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
     # The difference between the nth odd square and its successor is 8*n
     # because odd x increase by 2 and (x + 2)**2 - x**2 = 4*x + 4
-    self.lastLimit = self.square
+    self.lastSquare = self.square
     self.square += self.delta + self.delta
 
     if self.debug:
       print('raiseLimit({})'.format(self.square))
-    self.raiseLimit(self.square)
+    self.raiseLimit()
 
-  def siftPrimes(self, limit, lastLimit):
-    '''Sift Primes less than the limit'''
-    for oddIndex in range(lastLimit // 2, limit // 2):
-      self.odd2 = 2 * oddIndex + 1
+  def siftPrimes(self, lastLimit, nextLimit):
+    '''Sift next set of Primes'''
+    for oddIndex in range(lastLimit // 2, nextLimit // 2):
+      self.oddSifted = 2 * oddIndex + 1
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = self.odd2 if oddIndex > 0 else 2
+        p = self.oddSifted if oddIndex > 0 else 2
         yield p
 
-  def nextPrimes(self, limit):
+  def nextPrime(self, limit):
     '''Generate Primes, incrementally'''
-    while self.sieveLimit < limit:
-      if self.square <= self.odd2 + 2:
-        self.nextLimit()
-      for p in self.siftPrimes(self.square, self.lastLimit):
+    while self.square < limit:
+      oddNext = self.oddSifted + 2
+      if not oddNext < self.square:
+        self.nextSquare()
+      for p in self.siftPrimes(self.lastSquare, self.square):
         yield p
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    for p in self.nextPrimes(limit):
+    for p in self.nextPrime(limit):
       self.limitPrimes.append(p)
-    return [p for p in self.limitPrimes if p < limit] if limit < self.sieveLimit else self.limitPrimes
+    return [p for p in self.limitPrimes if p < limit] if limit < self.square else self.limitPrimes
 
   def test(self, limit):
     '''Perform test case'''
