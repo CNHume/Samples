@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-30  CNHume  Renamed global variables, refactoring their use.
-# 2019-08-25  CNHume  Added siftPrimes().  Refactored nextLimit(), nextPrimes() and primes()
 # 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
@@ -20,9 +19,8 @@ class Sieve:
 
     self.oddIndex = 0
     self.odd = 1
-    self.oddTested = 1
+    self.oddSifted = 1
     self.delta = 0
-    self.squareIndex = 0
     self.square = 1
   
   def nextMuliple(self, p):
@@ -31,14 +29,14 @@ class Sieve:
     m = p + p
     # The next multiple is congruent delta mod m
     delta = p * p - self.lastSquare
-    multiple = self.lastSquare + delta % m
-    return p, multiple
+    next = self.lastSquare + delta % m
+    return p, next
 
   def sift(self):
     '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
     pairs = map(self.nextMuliple, self.sievePrimes)
-    for p, multiple in pairs:
-      for index in range(multiple // 2, self.square // 2, p):
+    for p, next in pairs:
+      for index in range(next // 2, self.square // 2, p):
         self.sieveIndexes.add(index)
     
   def nextSquare(self):
@@ -52,7 +50,6 @@ class Sieve:
     self.oddIndex += 1
     self.odd += 2
     self.delta += 4
-    self.squareIndex += self.delta
 
     # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
     # The difference between the nth odd square and its successor is 8*n
@@ -62,27 +59,23 @@ class Sieve:
     if self.debug:
       print('square = {}'.format(self.square))
 
-  def siftedPrime(self, lastLimit, nextLimit):
+  def sifted(self):
     '''Next sifted Prime'''
-    for oddIndex in range(lastLimit // 2, nextLimit // 2):
-      self.oddTested = 2 * oddIndex + 1
+    for oddIndex in range(self.lastSquare // 2, self.square // 2):
+      self.oddSifted = 2 * oddIndex + 1
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = self.oddTested if oddIndex > 0 else 2
+        p = self.oddSifted if oddIndex > 0 else 2
         yield p
-
-  def nextPrime(self):
-    '''Next square Prime'''
-    if not self.oddTested + 2 < self.square:
-      self.nextSquare()
-      self.sift()
-    return self.siftedPrime(self.lastSquare, self.square)
 
   def primes(self, limit):
     '''Return Primes less than limit'''
     while self.square < limit:
-      for p in self.nextPrime():
+      if not self.oddSifted + 2 < self.square:
+          self.nextSquare()
+          self.sift()
+      for p in self.sifted():
         self.squarePrimes.append(p)
     return [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
 
