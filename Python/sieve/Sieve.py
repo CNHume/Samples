@@ -22,22 +22,6 @@ class Sieve:
     self.oddSifted = 1
     self.delta = 0
     self.square = 1
-  
-  def nextMuliple(self, p):
-    '''Return next odd multiple of p greater than or equal to lastSquare'''
-    # Skip even multiples of p
-    m = p + p
-    # The next multiple is congruent delta mod m
-    delta = p * p - self.lastSquare
-    next = self.lastSquare + delta % m
-    return p, next
-
-  def sift(self):
-    '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
-    pairs = map(self.nextMuliple, self.sievePrimes)
-    for p, next in pairs:
-      for index in range(next // 2, self.square // 2, p):
-        self.sieveIndexes.add(index)
     
   def nextSquare(self):
     '''Advance to next Square, extending sievePrimes'''
@@ -58,6 +42,23 @@ class Sieve:
     self.square += self.delta + self.delta
     if self.debug:
       print('square = {}'.format(self.square))
+  
+  def nextMuliple(self, p):
+    '''Return next odd multiple of p greater than or equal to lastSquare'''
+    # Skip even multiples of p
+    m = p + p
+    # The next multiple is congruent delta mod m
+    delta = p * p - self.lastSquare
+    next = self.lastSquare + delta % m
+    return p, next
+
+  def sift(self):
+    '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
+    self.nextSquare()
+    pairs = map(self.nextMuliple, self.sievePrimes)
+    for p, next in pairs:
+      for index in range(next // 2, self.square // 2, p):
+        self.sieveIndexes.add(index)
 
   def sifted(self):
     '''Next sifted Prime'''
@@ -73,8 +74,7 @@ class Sieve:
     '''Return Primes less than limit'''
     while self.square < limit:
       if not self.oddSifted + 2 < self.square:
-          self.nextSquare()
-          self.sift()
+        self.sift()
       for p in self.sifted():
         self.squarePrimes.append(p)
     return [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
