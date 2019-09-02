@@ -10,18 +10,17 @@ class Sieve:
   '''Sieve of Eratosthenes'''
   def __init__(self, debug=False):
     self.debug = debug
-    self.sieveIndexes = set()           
-
+    self.sieveIndexes = set()
     # sievePrimes are used in addComposites() to find nextMuliple()
     self.sievePrimes = []
     self.squarePrimes = []
-    self.lastSquare = None
 
     self.oddIndex = 0
     self.odd = 1
     self.oddSifted = 1
     self.delta = 0
     self.square = 1
+    self.lastSquare = None
     
   def nextSquare(self):
     '''Advance to next Square, extending sievePrimes'''
@@ -38,7 +37,6 @@ class Sieve:
     # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
     # The difference between the nth odd square and its successor is 8*n
     # because odd n increase by 2 and (n + 2)**2 - n**2 = 4*n + 4
-    self.lastSquare = self.square
     self.square += self.delta + self.delta
     if self.debug:
       print('square = {}'.format(self.square))
@@ -54,6 +52,8 @@ class Sieve:
 
   def sift(self):
     '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
+    # lastSquare is used by nextMuliple()
+    self.lastSquare = self.square
     self.nextSquare()
     pairs = map(self.nextMuliple, self.sievePrimes)
     for p, next in pairs:
@@ -72,8 +72,9 @@ class Sieve:
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    while self.square < limit:
-      if not self.oddSifted + 2 < self.square:
+    while self.oddSifted < limit:
+      oddNext = self.oddSifted + 2
+      if not oddNext < self.square:
         self.sift()
       for p in self.sifted():
         self.squarePrimes.append(p)
