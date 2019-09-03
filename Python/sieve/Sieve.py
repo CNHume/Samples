@@ -71,19 +71,18 @@ class Sieve:
         yield p
 
   def setSquare(self, limit):
-    nextOdd = Sieve.isqrt(limit) + 1 | 1
+    nextRoot = Sieve.isqrt(limit - 1) + 1
+    nextOdd = nextRoot | 1
     nextSquare = nextOdd * nextOdd
     self.sift(nextSquare)
     while self.square < nextSquare:
       self.nextSquare(nextSquare)
-    pass
 
   def primes(self, limit):
     '''Return Primes less than limit'''
     self.setSquare(limit)
-    while self.oddSifted < limit:
-      for p in self.sifted():
-        self.squarePrimes.append(p)
+    for p in self.sifted():
+      self.squarePrimes.append(p)
     # lastSquare is used by nextMuliple()
     self.lastSquare = self.square
     result = [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
