@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
+# 2019-09-03  CNHume  Added setSquare() method for faster reentry.
 # 2019-08-30  CNHume  Renamed global variables, refactoring their use.
 # 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
@@ -20,15 +21,17 @@ class Sieve:
     self.oddSifted = 1
     self.delta = 0
     self.square = 1
-    self.lastSquare = None
+    self.lastSquare = 1
     
-  def nextSquare(self):
+  def nextSquare(self, limit):
     '''Advance to next Square, extending sievePrimes'''
     # Test whether odd is Prime
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       if self.debug:
         print('sievePrimes.append({})'.format(self.odd))
       self.sievePrimes.append(self.odd)
+      for index in range(self.square // 2, limit // 2, self.odd):
+        self.sieveIndexes.add(index)
 
     self.oddIndex += 1
     self.odd += 2
@@ -50,14 +53,11 @@ class Sieve:
     next = self.lastSquare + delta % m
     return p, next
 
-  def sift(self):
-    '''Sift out odd composites | lastSquare < n = 2 * index + 1 < square'''
-    # lastSquare is used by nextMuliple()
-    self.lastSquare = self.square
-    self.nextSquare()
+  def sift(self, limit):
+    '''Sift out odd composites | lastSquare < n = 2 * index + 1 < limit'''
     pairs = map(self.nextMuliple, self.sievePrimes)
     for p, next in pairs:
-      for index in range(next // 2, self.square // 2, p):
+      for index in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(index)
 
   def sifted(self):
@@ -70,15 +70,24 @@ class Sieve:
         p = self.oddSifted if oddIndex > 0 else 2
         yield p
 
+  def setSquare(self, limit):
+    nextOdd = Sieve.isqrt(limit) + 1 | 1
+    nextSquare = nextOdd * nextOdd
+    self.sift(nextSquare)
+    while self.square < nextSquare:
+      self.nextSquare(nextSquare)
+    pass
+
   def primes(self, limit):
     '''Return Primes less than limit'''
+    self.setSquare(limit)
     while self.oddSifted < limit:
-      oddNext = self.oddSifted + 2
-      if not oddNext < self.square:
-        self.sift()
       for p in self.sifted():
         self.squarePrimes.append(p)
-    return [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
+    # lastSquare is used by nextMuliple()
+    self.lastSquare = self.square
+    result = [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
+    return result
 
   def test(self, limit):
     '''Perform test case'''
@@ -107,3 +116,12 @@ class Sieve:
   def printList(elements):
     for index, element in enumerate(elements):
       print('P[{0}] = {1}'.format(index, element))
+
+  @staticmethod
+  def isqrt(n):
+    x = n
+    y = (x + 1) // 2
+    while y < x:
+      x = y
+      y = (x + n // x) // 2
+    return x
