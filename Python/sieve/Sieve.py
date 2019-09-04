@@ -23,7 +23,7 @@ class Sieve:
     self.square = 1
     
   def expand(self, limit):
-    '''Advance over successive squares, expanding sievePrimes'''
+    '''Expand sieve while square < limit'''
     while self.square < limit:
       # Test whether odd is Prime
       if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
@@ -44,8 +44,8 @@ class Sieve:
       if self.debug:
         print('square = {}'.format(self.square))
   
-  def nextMuliple(self, limit, p):
-    '''Return next odd multiple of p greater than or equal to square'''
+  def leastMuliple(self, limit, p):
+    '''Least odd multiple of p greater than or equal to limit'''
     # Skip even multiples of p
     m = p + p
     # The next multiple is congruent delta mod m
@@ -53,17 +53,18 @@ class Sieve:
     next = limit + delta % m
     return p, next
 
-  def extend(self, lastLimit, limit):
-    '''Sift out odd composites | lastLimit < n = 2 * index + 1 < limit'''
-    boundNext = partial(self.nextMuliple, lastLimit)
-    pairs = map(boundNext, self.sievePrimes)
-    for p, next in pairs:
-      for index in range(next // 2, limit // 2, p):
-        self.sieveIndexes.add(index)
+  def extend(self, lastLimit, nextLimit):
+    '''Sift odd composites | lastLimit < n = 2 * index + 1 < nextLimit'''
+    if lastLimit < nextLimit:
+      multiple = partial(self.leastMuliple, lastLimit)
+      pairs = map(multiple, self.sievePrimes)
+      for p, next in pairs:
+        for index in range(next // 2, nextLimit // 2, p):
+          self.sieveIndexes.add(index)
 
-  def sifted(self, lastLimit, limit):
-    '''Next sifted Prime'''
-    for oddIndex in range(lastLimit // 2, limit // 2):
+  def sifted(self, lastLimit, nextLimit):
+    '''Generate sifted Primes'''
+    for oddIndex in range(lastLimit // 2, nextLimit // 2):
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
@@ -71,6 +72,7 @@ class Sieve:
         yield p
 
   def sift(self, limit):
+    '''Extend and expand sieve to new limit'''
     nextRoot = Sieve.isqrt(limit - 1) + 1
     nextOdd = nextRoot | 1
     nextSquare = nextOdd * nextOdd
