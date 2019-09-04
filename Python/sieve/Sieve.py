@@ -18,7 +18,6 @@ class Sieve:
 
     self.oddIndex = 0
     self.odd = 1
-    self.oddSifted = 1
     self.delta = 0
     self.square = 1
     
@@ -63,11 +62,10 @@ class Sieve:
   def sifted(self, lastLimit, limit):
     '''Next sifted Prime'''
     for oddIndex in range(lastLimit // 2, limit // 2):
-      self.oddSifted = 2 * oddIndex + 1
       if oddIndex not in self.sieveIndexes:
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = self.oddSifted if oddIndex > 0 else 2
+        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
   def sift(self, limit):
