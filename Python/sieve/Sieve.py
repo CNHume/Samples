@@ -5,6 +5,7 @@
 # 2019-08-10  CNHume  Completed test() method
 # 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
+from functools import partial
 import time
 
 class Sieve:
@@ -12,7 +13,7 @@ class Sieve:
   def __init__(self, debug=False):
     self.debug = debug
     self.sieveIndexes = set()
-    # sievePrimes are used in addComposites() to find nextMuliple()
+    # sievePrimes are used by extend() to find nextMuliple()
     self.sievePrimes = []
     self.squarePrimes = []
 
@@ -43,18 +44,19 @@ class Sieve:
       if self.debug:
         print('square = {}'.format(self.square))
   
-  def nextMuliple(self, p):
+  def nextMuliple(self, limit, p):
     '''Return next odd multiple of p greater than or equal to square'''
     # Skip even multiples of p
     m = p + p
     # The next multiple is congruent delta mod m
-    delta = p * p - self.square
-    next = self.square + delta % m
+    delta = p * p - limit
+    next = limit + delta % m
     return p, next
 
-  def extend(self, limit):
-    '''Sift out odd composites | square < n = 2 * index + 1 < limit'''
-    pairs = map(self.nextMuliple, self.sievePrimes)
+  def extend(self, lastLimit, limit):
+    '''Sift out odd composites | lastLimit < n = 2 * index + 1 < limit'''
+    boundNext = partial(self.nextMuliple, lastLimit)
+    pairs = map(boundNext, self.sievePrimes)
     for p, next in pairs:
       for index in range(next // 2, limit // 2, p):
         self.sieveIndexes.add(index)
@@ -72,7 +74,7 @@ class Sieve:
     nextRoot = Sieve.isqrt(limit - 1) + 1
     nextOdd = nextRoot | 1
     nextSquare = nextOdd * nextOdd
-    self.extend(nextSquare)
+    self.extend(self.square, nextSquare)
     self.expand(nextSquare)
 
   def primes(self, limit):
