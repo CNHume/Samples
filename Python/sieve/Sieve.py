@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
-# 2019-09-03  CNHume  Added setSquare() method for faster reentry.
-# 2019-08-30  CNHume  Renamed global variables, refactoring their use.
 # 2019-08-10  CNHume  Completed test() method
-# 2019-08-04  CNHume  Completed Incremental Generation
 # 2015-05-04  CNHume  Created Prime Number Generator
 from functools import partial
 import time
@@ -73,20 +70,38 @@ class Sieve:
 
   def sift(self, limit):
     '''Extend and expand sieve to new limit'''
-    nextRoot = Sieve.isqrt(limit - 1) + 1
-    nextOdd = nextRoot | 1
-    nextSquare = nextOdd * nextOdd
-    self.extend(self.square, nextSquare)
-    self.expand(nextSquare)
+    self.extend(self.square, limit)
+    self.expand(limit)
 
   def primes(self, limit):
     '''Return Primes less than limit'''
     lastSquare = self.square
-    self.sift(limit)
-    for p in self.sifted(lastSquare, self.square):
+    nextSquare = Sieve.nextSquare(limit)
+    self.sift(nextSquare)
+    for p in self.sifted(lastSquare, nextSquare):
       self.squarePrimes.append(p)
-    result = [p for p in self.squarePrimes if p < limit] if limit < self.square else self.squarePrimes
+    result = [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
     return result
+
+  @staticmethod
+  def nextSquare(n):
+    nextRoot = Sieve.isqrt(n - 1) + 1
+    nextOdd = nextRoot | 1
+    return nextOdd * nextOdd
+
+  @staticmethod
+  def isqrt(n):
+    x = n
+    y = (x + 1) // 2
+    while y < x:
+      x = y
+      y = (x + n // x) // 2
+    return x
+
+  @staticmethod
+  def printList(elements):
+    for index, element in enumerate(elements):
+      print('P[{0}] = {1}'.format(index, element))
 
   def test(self, limit):
     '''Perform test case'''
@@ -110,17 +125,3 @@ class Sieve:
     # self.printList(primes)
     print('total = {}'.format(sum(primes)))
     print
-
-  @staticmethod
-  def printList(elements):
-    for index, element in enumerate(elements):
-      print('P[{0}] = {1}'.format(index, element))
-
-  @staticmethod
-  def isqrt(n):
-    x = n
-    y = (x + 1) // 2
-    while y < x:
-      x = y
-      y = (x + n // x) // 2
-    return x
