@@ -79,8 +79,7 @@ class Sieve:
       self.nextSquare()
     for p in self.sifted(lastSquare, nextSquare):
       self.squarePrimes.append(p)
-    result = [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
-    return result
+    return [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
 
   def nextPrime(self):
     '''Generate next Prime'''
@@ -92,6 +91,13 @@ class Sieve:
       self.expand(nextSquare)
       for p in self.sifted(lastSquare, nextSquare):
         yield p
+
+  def nprimes(self, n):
+    '''Generate n Primes'''
+    for p in self.nextPrime():
+      yield p
+      if n <= self.count:
+        break
 
   @staticmethod
   def leastUpperSquare(n):
