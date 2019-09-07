@@ -30,6 +30,11 @@ class Sieve:
     self.square += self.delta + self.delta
     if self.debug:
       print('square = {}'.format(self.square))
+
+  def expand(self, lastLimit, nextLimit, p):
+    '''Expand Sieve of Composites | lastLimit < n = 2 * index + 1 < nextLimit'''
+    for index in range(lastLimit // 2, nextLimit // 2, p):
+      self.sieveIndexes.add(index)
   
   def leastMuliple(self, limit, p):
     '''Least odd multiple of p greater than or equal to limit'''
@@ -37,27 +42,21 @@ class Sieve:
     m = p + p
     # The next multiple is congruent delta mod m
     delta = p * p - limit
-    next = limit + delta % m
-    return p, next
+    lub = limit + delta % m
+    return p, lub
 
   def extend(self, lastLimit, nextLimit):
-    '''Sift odd composites | lastLimit < n = 2 * index + 1 < nextLimit'''
+    '''Extend Sieve of Composites using sievePrimes'''
     if lastLimit < nextLimit:
       multiple = partial(self.leastMuliple, lastLimit)
       pairs = map(multiple, self.sievePrimes)
-      for p, next in pairs:
-        for index in range(next // 2, nextLimit // 2, p):
-          self.sieveIndexes.add(index)
-    
-  def expand(self, limit):
-    '''Expand sieve to next limit'''
-    # Test whether odd is Prime
-    if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      if self.debug:
-        print('sievePrimes.append({})'.format(self.odd))
-      self.sievePrimes.append(self.odd)
-      for index in range(self.square // 2, limit // 2, self.odd):
-        self.sieveIndexes.add(index)
+      for p, lub in pairs:
+        self.expand(lub, nextLimit, p)
+
+  def sievePrime(self, p):
+    if self.debug:
+      print('sievePrimes.append({})'.format(p))
+    self.sievePrimes.append(p)
 
   def sifted(self, lastLimit, nextLimit):
     '''Generate sifted Primes'''
@@ -75,7 +74,10 @@ class Sieve:
     nextSquare = Sieve.lubSquare(limit)
     self.extend(lastSquare, nextSquare)
     while self.square < nextSquare:
-      self.expand(nextSquare)
+      # Test whether odd is Prime
+      if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
+        self.expand(self.square, nextSquare, self.odd)
+        self.sievePrime(self.odd)
       self.nextSquare()
     for p in self.sifted(lastSquare, nextSquare):
       self.squarePrimes.append(p)
@@ -88,7 +90,8 @@ class Sieve:
       self.nextSquare()
       nextSquare = self.square
       self.extend(lastSquare, nextSquare)
-      self.expand(nextSquare)
+      if self.oddIndex not in self.sieveIndexes:
+        self.sievePrime(self.odd)
       for p in self.sifted(lastSquare, nextSquare):
         yield p
 
