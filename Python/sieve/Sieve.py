@@ -72,7 +72,7 @@ class Sieve:
   def primes(self, limit):
     '''Return Primes less than limit'''
     lastSquare = self.square
-    nextSquare = Sieve.leastUpperSquare(limit)
+    nextSquare = Sieve.lubSquare(limit)
     self.extend(lastSquare, nextSquare)
     while self.square < nextSquare:
       self.expand(nextSquare)
@@ -93,20 +93,25 @@ class Sieve:
         yield p
 
   def nprimes(self, n):
-    '''Generate n Primes'''
-    for p in self.nextPrime():
-      yield p
-      if n <= self.count:
-        break
+    '''Generate the first n Primes'''
+    primes = self.nextPrime()
+    while self.count < n:
+      yield primes.next()
+
+  def nprimesList(self, n):
+    '''List of the first n Primes'''
+    return list(self.nprimes(n))
 
   @staticmethod
-  def leastUpperSquare(n):
+  def lubSquare(n):
+    '''Least square that is an upper bound for n'''
     nextRoot = Sieve.isqrt(n - 1) + 1
     nextOdd = nextRoot | 1
     return nextOdd * nextOdd
 
   @staticmethod
   def isqrt(n):
+    '''Integer square root, using Newton's method'''
     x = n
     y = (x + 1) // 2
     while y < x:
@@ -116,24 +121,25 @@ class Sieve:
 
   @staticmethod
   def printList(elements):
+    '''Print enumeration of elements'''
     for index, element in enumerate(elements):
       print('P[{0}] = {1}'.format(index, element))
 
-  def test(self, limit):
+  def testFun(self, fun, n):
     '''Perform test case'''
     # start time
     elapsed_t0 = time.time()
-    primes = self.primes(limit)
+    primes = fun(n)
     # end time
     elapsed_t1 = time.time()
     elapsed_delta = elapsed_t1 - elapsed_t0
     print('{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
     if elapsed_delta > 0:
-      rate = limit / elapsed_delta
+      rate = n / elapsed_delta
       rounded = round(rate / 1e3, 3)
-      print('limit = {0} at {1:.3f} KHz'.format(limit, rounded))
+      print('limit = {0} at {1:.3f} KHz'.format(n, rounded))
     else:
-      print('limit = {0}'.format(limit))
+      print('limit = {0}'.format(n))
     count = len(primes)
     print('count = {}'.format(count))
     if primes:
@@ -141,3 +147,10 @@ class Sieve:
     # self.printList(primes)
     print('total = {}'.format(sum(primes)))
     print
+
+  def test(self, n):
+    self.testFun(self.primes, n)
+  
+  def ntest(self, n):
+    self.testFun(self.nprimesList, n)
+  
