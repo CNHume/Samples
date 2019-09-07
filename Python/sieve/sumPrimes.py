@@ -11,6 +11,7 @@ def main():
       raise ValueError('limit must be positive')
 
     sieve = Sieve()
+    # 80 KHz
     # sieve.ntest(78498)
 
     # 1 prime summing to 2

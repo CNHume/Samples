@@ -92,15 +92,15 @@ class Sieve:
       for p in self.sifted(lastSquare, nextSquare):
         yield p
 
-  def nprimes(self, n):
+  def genPrimes(self, n):
     '''Generate the first n Primes'''
     primes = self.nextPrime()
     while self.count < n:
       yield primes.next()
 
-  def nprimesList(self, n):
+  def nprimes(self, n):
     '''List of the first n Primes'''
-    return list(self.nprimes(n))
+    return list(self.genPrimes(n))
 
   @staticmethod
   def lubSquare(n):
@@ -152,5 +152,5 @@ class Sieve:
     self.testFun(self.primes, n)
   
   def ntest(self, n):
-    self.testFun(self.nprimesList, n)
+    self.testFun(self.nprimes, n)
   
