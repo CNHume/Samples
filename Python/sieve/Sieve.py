@@ -68,31 +68,37 @@ class Sieve:
         p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
+  def testOdd(self, nextSquare):
+    '''Test whether odd is Prime and expand'''
+    if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
+      self.expand(self.square, nextSquare, self.odd)
+      self.sievePrime(self.odd)
+
   def primes(self, limit):
     '''Return Primes less than limit'''
     lastSquare = self.square
     nextSquare = Sieve.lubSquare(limit)
     self.extend(lastSquare, nextSquare)
     while self.square < nextSquare:
-      # Test whether odd is Prime
-      if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-        self.expand(self.square, nextSquare, self.odd)
-        self.sievePrime(self.odd)
+      self.testOdd(nextSquare)
       self.nextSquare()
     for p in self.sifted(lastSquare, nextSquare):
       self.squarePrimes.append(p)
     return [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
+
+  def nextOdd(self):
+    '''Test whether odd is Prime'''
+    if self.oddIndex not in self.sieveIndexes:
+      self.sievePrime(self.odd)
 
   def nextPrime(self):
     '''Generate next Prime'''
     while True:
       lastSquare = self.square
       self.nextSquare()
-      nextSquare = self.square
-      self.extend(lastSquare, nextSquare)
-      if self.oddIndex not in self.sieveIndexes:
-        self.sievePrime(self.odd)
-      for p in self.sifted(lastSquare, nextSquare):
+      self.extend(lastSquare, self.square)
+      self.nextOdd()
+      for p in self.sifted(lastSquare, self.square):
         yield p
 
   def genPrimes(self, n):
