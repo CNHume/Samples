@@ -91,6 +91,20 @@ class Sieve:
     if self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
 
+  def nextPrime2(self):
+    '''Generate next Prime'''
+    while True:
+      lastSquare = self.square
+      limit = 5 * lastSquare
+      print('limit = {}'.format(limit))
+      nextSquare = Sieve.lubSquare(limit)
+      self.extend(lastSquare, nextSquare)
+      while self.square < nextSquare:
+        self.nextOdd(nextSquare)
+        self.nextSquare()
+      for p in self.sifted(lastSquare, nextSquare):
+        yield p
+
   def nextPrime(self):
     '''Generate next Prime'''
     while True:
@@ -103,7 +117,7 @@ class Sieve:
 
   def genPrimes(self, n):
     '''Generate the first n Primes'''
-    primes = self.nextPrime()
+    primes = self.nextPrime2()
     while self.count < n:
       yield primes.next()
 
