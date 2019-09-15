@@ -86,26 +86,26 @@ class Sieve:
       self.squarePrimes.append(p)
     return [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
 
-  def nextSifted(self):
-    '''Generate next set of sifted Primes'''
-    while True:
-      lastSquare = self.square
-      limit = 5 * lastSquare
-      print('limit = {}'.format(limit))
-      nextSquare = Sieve.lubSquare(limit)
-      self.extend(lastSquare, nextSquare)
-      while self.square < nextSquare:
-        self.nextOdd(nextSquare)
-        self.nextSquare()
-      yield self.sifted(lastSquare, nextSquare)
+  # def nextSifted(self, growth=2):
+  #   '''Generate next set of sifted Primes'''
+  #   while True:
+  #     lastSquare = self.square
+  #     limit = growth * lastSquare
+  #     print('limit = {}'.format(limit))
+  #     nextSquare = Sieve.lubSquare(limit)
+  #     self.extend(lastSquare, nextSquare)
+  #     while self.square < nextSquare:
+  #       self.nextOdd(nextSquare)
+  #       self.nextSquare()
+  #     yield self.sifted(lastSquare, nextSquare)
 
-  def genPrimes2(self, n):
-    '''Generate the first n Primes'''
-    for sifted in self.nextSifted():
-      for p in sifted:
-        if n < self.count:
-          return
-        yield p
+  # def genPrimes2(self, n):
+  #   '''Generate the first n Primes'''
+  #   for sifted in self.nextSifted():
+  #     for p in sifted:
+  #       if n < self.count:
+  #         return
+  #       yield p
 
   def testOdd(self):
     '''Test whether odd is Prime'''
