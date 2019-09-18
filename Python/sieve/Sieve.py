@@ -36,7 +36,7 @@ class Sieve:
     for index in range(lastLimit // 2, nextLimit // 2, p):
       self.sieveIndexes.add(index)
   
-  def leastMuliple(self, limit, p):
+  def leastOddMuliple(self, limit, p):
     '''Least odd multiple of p greater than or equal to limit'''
     # Skip even multiples of p
     m = p + p
@@ -47,11 +47,10 @@ class Sieve:
 
   def extend(self, lastLimit, nextLimit):
     '''Extend Sieve of Composites using sievePrimes'''
-    if lastLimit < nextLimit:
-      multiple = partial(self.leastMuliple, lastLimit)
-      pairs = map(multiple, self.sievePrimes)
-      for p, lub in pairs:
-        self.expand(lub, nextLimit, p)
+    lom = partial(self.leastOddMuliple, lastLimit)
+    pairs = map(lom, self.sievePrimes)
+    for p, lub in pairs:
+      self.expand(lub, nextLimit, p)
 
   def sievePrime(self, p):
     if self.debug:
