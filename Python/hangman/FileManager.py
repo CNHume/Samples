@@ -23,18 +23,18 @@ class FileManager(object):
     self.file_ext = file_ext
     self.verbose = verbose
 
-  def filename(self, filename):
+  def expand_filename(self, filename):
     expanded_path = os.path.expanduser(self.file_path)
     full_path = os.path.join(expanded_path, filename)
-    (root, ext) = os.path.splitext(full_path)
+    root, ext = os.path.splitext(full_path)
     filename = full_path if ext else FileManager.DOT.join([full_path, self.file_ext])
     return filename
 
   def load(self, file_name):
-    """Load records from the file indicated by file_name and file_ext"""
+    """Load records from the file indicated by file_path and file_ext"""
+    filename = self.expand_filename(file_name)
     # Mark load start time
     load_dt0 = datetime.now()
-    filename = self.filename(file_name)
     if self.verbose:
       print(u'{0} starting load'.format(str(load_dt0)[:-3]))
       print(u'{0}: {1}'.format(u'filename', filename))
@@ -51,27 +51,27 @@ class FileManager(object):
     self.length = len(self.records)
 
     elapsed_t1 = time.time()
-    elapsed_delta = elapsed_t1 - elapsed_t0
+    elapsed_time = elapsed_t1 - elapsed_t0
     load_dt1 = datetime.now()
 
     if self.verbose:
       # Report counts and times
       print(u'{0} finished load'.format(str(load_dt1)[:-3]))
-      print(u'{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
-      if elapsed_delta > 0:
-        rate = self.length / elapsed_delta
+      print(u'{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      if elapsed_time > 0:
+        rate = self.length / elapsed_time
         scale = 1e3
         print(u'Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
         print(u'Loaded {0} records'.format(self.length))
         
   def save(self, records, file_name):
-    """Save records into the file indicated by file_name and file_ext"""
-    # Mark save start time
-    save_dt0 = datetime.now()
+    """Save records into the file indicated by file_path and file_ext"""
     self.records = records
     self.length = len(self.records)
-    filename = self.filename(file_name)
+    filename = self.expand_filename(file_name)
+    # Mark save start time
+    save_dt0 = datetime.now()
 
     if self.verbose:
       print(u'{0} starting save'.format(str(save_dt0)[:-3]))
@@ -86,15 +86,15 @@ class FileManager(object):
         output_file.writelines()
 
     elapsed_t1 = time.time()
-    elapsed_delta = elapsed_t1 - elapsed_t0
+    elapsed_time = elapsed_t1 - elapsed_t0
     save_dt1 = datetime.now()
 
     if self.verbose:
       # Report counts and times
       print(u'{0} finished save'.format(str(save_dt1)[:-3]))
-      print(u'{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
-      if elapsed_delta > 0:
-        rate = self.length / elapsed_delta
+      print(u'{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      if elapsed_time > 0:
+        rate = self.length / elapsed_time
         scale = 1e3
         print(u'Saved {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
@@ -120,3 +120,9 @@ class FileManager(object):
   @staticmethod
   def isfile(filename):
     return os.path.isfile(filename)
+
+  @staticmethod
+  def filestem(filename):
+    basename = os.path.basename(filename) 
+    root, ext = os.path.splitext(basename)
+    return root
