@@ -12,7 +12,7 @@ class Sieve:
     self.sieveIndexes = set()
     # sievePrimes are used by extend() to find nextMuliple()
     self.sievePrimes = []
-    self.squarePrimes = []
+    self.siftedPrimes = []
     self.count = 0
     self.oddIndex = 0
     self.odd = 1
@@ -71,7 +71,7 @@ class Sieve:
         yield p
 
   def testOddAndExpand(self, nextSquare):
-    '''Test whether odd is Prime and expand'''
+    '''Test whether odd is Prime and expand the Sieve'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
       self.expand(self.square, nextSquare, self.odd)
@@ -79,15 +79,14 @@ class Sieve:
   def primes(self, limit):
     '''Return Primes less than limit'''
     nextOdd = self.nextOdd
-    lastSquare = self.square
     nextSquare = Sieve.lubSquare(limit)
-    self.extend(lastSquare, nextSquare)
+    self.extend(self.square, nextSquare)
     while self.square < nextSquare:
       self.testOddAndExpand(nextSquare)
       self.nextSquare()
     for p in self.sifted(nextOdd, limit):
-      self.squarePrimes.append(p)
-    return [p for p in self.squarePrimes if p < limit] if limit < self.nextOdd else self.squarePrimes
+      self.siftedPrimes.append(p)
+    return [p for p in self.siftedPrimes if p < limit] if limit < self.nextOdd else self.siftedPrimes
 
   def testOdd(self):
     '''Test whether odd is Prime'''
