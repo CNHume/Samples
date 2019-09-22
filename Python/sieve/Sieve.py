@@ -18,6 +18,7 @@ class Sieve:
     self.odd = 1
     self.delta = 0
     self.square = 1
+    self.nextOdd = 1
 
   def nextSquare(self):
     '''Advance to next square'''
@@ -60,14 +61,16 @@ class Sieve:
   def sifted(self, lastLimit, nextLimit):
     '''Generate sifted Primes'''
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
+      odd = 2 * oddIndex + 1
+      self.nextOdd = odd + 2
       if oddIndex not in self.sieveIndexes:
         self.count += 1
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
+        p = odd if oddIndex > 0 else 2
         yield p
 
-  def nextOdd(self, nextSquare):
+  def testOddAndExpand(self, nextSquare):
     '''Test whether odd is Prime and expand'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
@@ -75,36 +78,16 @@ class Sieve:
 
   def primes(self, limit):
     '''Return Primes less than limit'''
+    nextOdd = self.nextOdd
     lastSquare = self.square
     nextSquare = Sieve.lubSquare(limit)
     self.extend(lastSquare, nextSquare)
     while self.square < nextSquare:
-      self.nextOdd(nextSquare)
+      self.testOddAndExpand(nextSquare)
       self.nextSquare()
-    for p in self.sifted(lastSquare, nextSquare):
+    for p in self.sifted(nextOdd, limit):
       self.squarePrimes.append(p)
-    return [p for p in self.squarePrimes if p < limit] if limit < nextSquare else self.squarePrimes
-
-  # def nextSifted(self, growth=2):
-  #   '''Generate next set of sifted Primes'''
-  #   while True:
-  #     lastSquare = self.square
-  #     limit = growth * lastSquare
-  #     print('limit = {}'.format(limit))
-  #     nextSquare = Sieve.lubSquare(limit)
-  #     self.extend(lastSquare, nextSquare)
-  #     while self.square < nextSquare:
-  #       self.nextOdd(nextSquare)
-  #       self.nextSquare()
-  #     yield self.sifted(lastSquare, nextSquare)
-
-  # def genPrimes2(self, n):
-  #   '''Generate the first n Primes'''
-  #   for sifted in self.nextSifted():
-  #     for p in sifted:
-  #       if n < self.count:
-  #         return
-  #       yield p
+    return [p for p in self.squarePrimes if p < limit] if limit < self.nextOdd else self.squarePrimes
 
   def testOdd(self):
     '''Test whether odd is Prime'''
