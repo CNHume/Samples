@@ -47,12 +47,14 @@ class Sieve:
     lub = limit + delta % m
     return p, lub
 
-  def extend(self, lastLimit, nextLimit):
+  def extend(self, limit):
     '''Extend Sieve of Composites using sievePrimes'''
-    lom = partial(self.leastOddMuliple, lastLimit)
-    pairs = map(lom, self.sievePrimes)
-    for p, lub in pairs:
-      self.expand(lub, nextLimit, p)
+    if self.lastLimit < limit:
+      lom = partial(self.leastOddMuliple, self.lastLimit)
+      self.lastLimit = limit
+      pairs = map(lom, self.sievePrimes)
+      for p, lub in pairs:
+        self.expand(lub, limit, p)
 
   def sievePrime(self, p):
     if self.debug:
@@ -81,18 +83,17 @@ class Sieve:
       self.sievePrime(self.odd)
       self.expand(self.square, nextSquare, self.odd)
 
-  def loopLUB(self, lub):
-    while self.square < lub:
-      self.testOddAndExpand(lub)
+  def loopLimit(self, limit):
+    '''Test whether odd is Prime and expand while square < limit'''
+    while self.square < limit:
+      self.testOddAndExpand(limit)
       self.nextSquare()
 
   def primes(self, limit):
     '''Return Primes less than limit'''
     nextOdd = self.nextOdd
-    if self.lastLimit < limit:
-      self.extend(self.lastLimit, limit)
-      self.lastLimit = limit
-    self.loopLUB(limit)
+    self.extend(limit)
+    self.loopLimit(limit)
     for p in self.sifted(nextOdd, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < self.nextOdd else self.siftedPrimes
@@ -105,11 +106,10 @@ class Sieve:
   def nextPrime(self):
     '''Generate next Prime'''
     while True:
-      lastLimit = self.square
       self.nextSquare()
-      self.extend(lastLimit, self.square)
+      self.extend(self.square)
       self.testOdd()
-      for p in self.sifted(lastLimit, self.square):
+      for p in self.sifted(self.nextOdd, self.square):
         yield p
 
   def genPrimes(self, n):
@@ -121,23 +121,6 @@ class Sieve:
   def nprimes(self, n):
     '''List of the first n Primes'''
     return list(self.genPrimes(n))
-
-  # @staticmethod
-  # def lubSquare(n):
-  #   '''Least square that is an upper bound for n'''
-  #   nextRoot = Sieve.isqrt(n - 1) + 1
-  #   nextOdd = nextRoot | 1
-  #   return nextOdd * nextOdd
-
-  # @staticmethod
-  # def isqrt(n):
-  #   '''Integer square root, using Newton's method'''
-  #   x = n
-  #   y = (x + 1) // 2
-  #   while y < x:
-  #     x = y
-  #     y = (x + n // x) // 2
-  #   return x
 
   @staticmethod
   def printList(elements):
