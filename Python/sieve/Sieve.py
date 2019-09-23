@@ -19,6 +19,7 @@ class Sieve:
     self.delta = 0
     self.square = 1
     self.nextOdd = 1
+    self.lastLimit = 1
 
   def nextSquare(self):
     '''Advance to next square'''
@@ -88,9 +89,10 @@ class Sieve:
   def primes(self, limit):
     '''Return Primes less than limit'''
     nextOdd = self.nextOdd
-    lub = Sieve.lubSquare(limit)
-    self.extend(self.square, lub)
-    self.loopLUB(lub)
+    if self.lastLimit < limit:
+      self.extend(self.lastLimit, limit)
+      self.lastLimit = limit
+    self.loopLUB(limit)
     for p in self.sifted(nextOdd, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < self.nextOdd else self.siftedPrimes
@@ -103,11 +105,11 @@ class Sieve:
   def nextPrime(self):
     '''Generate next Prime'''
     while True:
-      lastSquare = self.square
+      lastLimit = self.square
       self.nextSquare()
-      self.extend(lastSquare, self.square)
+      self.extend(lastLimit, self.square)
       self.testOdd()
-      for p in self.sifted(lastSquare, self.square):
+      for p in self.sifted(lastLimit, self.square):
         yield p
 
   def genPrimes(self, n):
@@ -120,22 +122,22 @@ class Sieve:
     '''List of the first n Primes'''
     return list(self.genPrimes(n))
 
-  @staticmethod
-  def lubSquare(n):
-    '''Least square that is an upper bound for n'''
-    nextRoot = Sieve.isqrt(n - 1) + 1
-    nextOdd = nextRoot | 1
-    return nextOdd * nextOdd
+  # @staticmethod
+  # def lubSquare(n):
+  #   '''Least square that is an upper bound for n'''
+  #   nextRoot = Sieve.isqrt(n - 1) + 1
+  #   nextOdd = nextRoot | 1
+  #   return nextOdd * nextOdd
 
-  @staticmethod
-  def isqrt(n):
-    '''Integer square root, using Newton's method'''
-    x = n
-    y = (x + 1) // 2
-    while y < x:
-      x = y
-      y = (x + n // x) // 2
-    return x
+  # @staticmethod
+  # def isqrt(n):
+  #   '''Integer square root, using Newton's method'''
+  #   x = n
+  #   y = (x + 1) // 2
+  #   while y < x:
+  #     x = y
+  #     y = (x + n // x) // 2
+  #   return x
 
   @staticmethod
   def printList(elements):
