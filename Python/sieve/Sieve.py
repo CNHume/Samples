@@ -63,7 +63,11 @@ class Sieve:
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
       odd = 2 * oddIndex + 1
       self.nextOdd = odd + 2
-      if oddIndex not in self.sieveIndexes:
+      if oddIndex in self.sieveIndexes:
+        #[Note]Freeing memory may reduce speed by 15%
+        # self.sieveIndexes.remove(oddIndex)
+        pass
+      else:
         self.count += 1
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
@@ -76,14 +80,17 @@ class Sieve:
       self.sievePrime(self.odd)
       self.expand(self.square, nextSquare, self.odd)
 
+  def loopLUB(self, lub):
+    while self.square < lub:
+      self.testOddAndExpand(lub)
+      self.nextSquare()
+
   def primes(self, limit):
     '''Return Primes less than limit'''
     nextOdd = self.nextOdd
-    nextSquare = Sieve.lubSquare(limit)
-    self.extend(self.square, nextSquare)
-    while self.square < nextSquare:
-      self.testOddAndExpand(nextSquare)
-      self.nextSquare()
+    lub = Sieve.lubSquare(limit)
+    self.extend(self.square, lub)
+    self.loopLUB(lub)
     for p in self.sifted(nextOdd, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < self.nextOdd else self.siftedPrimes
