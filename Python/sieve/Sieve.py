@@ -10,7 +10,7 @@ class Sieve:
   def __init__(self, debug=False):
     self.debug = debug
     self.sieveIndexes = set()
-    # sievePrimes are used by extend() to find nextMuliple()
+    # sievePrimes are used by extend() to find leastOddMuliple()
     self.sievePrimes = []
     self.siftedPrimes = []
     self.count = 0
@@ -32,8 +32,8 @@ class Sieve:
     if self.debug:
       print('square = {}'.format(self.square))
 
-  def expand(self, lastLimit, nextLimit, p):
-    '''Expand Sieve of Composites | lastLimit < n = 2 * index + 1 < nextLimit'''
+  def sift(self, lastLimit, nextLimit, p):
+    '''Sift multiples of p'''
     for index in range(lastLimit // 2, nextLimit // 2, p):
       self.sieveIndexes.add(index)
   
@@ -53,9 +53,10 @@ class Sieve:
       self.lastLimit = limit
       pairs = map(lom, self.sievePrimes)
       for p, lub in pairs:
-        self.expand(lub, limit, p)
+        self.sift(lub, limit, p)
 
   def sievePrime(self, p):
+    '''Add new sievePrime'''
     if self.debug:
       print('sievePrimes.append({})'.format(p))
     self.sievePrimes.append(p)
@@ -74,25 +75,27 @@ class Sieve:
         p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
-  def testOddAndExpand(self, nextSquare):
-    '''Test whether odd is Prime and expand the Sieve'''
+  def testOddAndSift(self, nextSquare):
+    '''Test whether odd is Prime and sift, if so'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
-      self.expand(self.square, nextSquare, self.odd)
+      self.sift(self.square, nextSquare, self.odd)
 
-  def loopLimit(self, limit):
-    '''Test whether odd is Prime and expand while square < limit'''
+  def expand(self, limit):
+    '''Test whether odd is Prime and sift, while square < limit'''
     while self.square < limit:
-      self.testOddAndExpand(limit)
+      self.testOddAndSift(limit)
       self.nextSquare()
 
   def primes(self, limit):
     '''Return Primes less than limit'''
+    # Though the first odd number 1, is not a Prime,
+    # it is used to represent the sole even prime 2.
     if limit == 2:
       limit = 1
     lastLimit = self.lastLimit
     self.extend(limit)
-    self.loopLimit(limit)
+    self.expand(limit)
     for p in self.sifted(lastLimit, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
