@@ -18,7 +18,6 @@ class Sieve:
     self.odd = 1
     self.delta = 0
     self.square = 1
-    self.nextOdd = 1
     self.lastLimit = 1
 
   def nextSquare(self):
@@ -64,8 +63,6 @@ class Sieve:
   def sifted(self, lastLimit, nextLimit):
     '''Generate sifted Primes'''
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
-      odd = 2 * oddIndex + 1
-      self.nextOdd = odd + 2
       if oddIndex in self.sieveIndexes:
         #[Note]Freeing memory may reduce speed by 15%
         # self.sieveIndexes.remove(oddIndex)
@@ -74,7 +71,7 @@ class Sieve:
         self.count += 1
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
-        p = odd if oddIndex > 0 else 2
+        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
   def testOddAndExpand(self, nextSquare):
@@ -91,12 +88,14 @@ class Sieve:
 
   def primes(self, limit):
     '''Return Primes less than limit'''
-    nextOdd = self.nextOdd
+    if limit == 2:
+      limit = 1
+    lastLimit = self.lastLimit
     self.extend(limit)
     self.loopLimit(limit)
-    for p in self.sifted(nextOdd, limit):
+    for p in self.sifted(lastLimit, limit):
       self.siftedPrimes.append(p)
-    return [p for p in self.siftedPrimes if p < limit] if limit < self.nextOdd else self.siftedPrimes
+    return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
   def testOdd(self):
     '''Test whether odd is Prime'''
@@ -107,9 +106,10 @@ class Sieve:
     '''Generate next Prime'''
     while True:
       self.nextSquare()
+      lastLimit = self.lastLimit
       self.extend(self.square)
       self.testOdd()
-      for p in self.sifted(self.nextOdd, self.square):
+      for p in self.sifted(lastLimit, self.square):
         yield p
 
   def genPrimes(self, n):

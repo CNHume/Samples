@@ -11,7 +11,7 @@ def main():
       raise ValueError('limit must be positive')
 
     sieve = Sieve()
-    # 83 KHz
+    # rate can be 83 KHz
     # sieve.ntest(78498)
 
     # 1 prime summing to 2
@@ -35,7 +35,7 @@ def main():
     # 5,761,455 summing to 279,209,790,387,276
     # sieve.test(100000000)
 
-    # rate can be 1.66 MHz
+    # rate can be 1.872 MHz
     sieve.test(limit)
 
 main()
