@@ -3,7 +3,7 @@
 # 2019-08-10  CNHume  Completed test() method
 # 2015-05-04  CNHume  Created Prime Number Generator
 from functools import partial
-import time
+from Perform import Perform
 
 class Sieve:
   '''Sieve of Eratosthenes'''
@@ -64,11 +64,7 @@ class Sieve:
   def sifted(self, lastLimit, nextLimit):
     '''Generate sifted Primes'''
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
-      if oddIndex in self.sieveIndexes:
-        #[Note]Freeing memory may reduce speed by 15%
-        # self.sieveIndexes.remove(oddIndex)
-        pass
-      else:
+      if oddIndex not in self.sieveIndexes:
         self.count += 1
         # Re-purpose the index corresponding to 1 to represent 2 instead,
         # replacing the multiplicative identity with the sole even Prime
@@ -105,7 +101,7 @@ class Sieve:
     if self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
 
-  def nextPrime(self):
+  def nextPrime(self, clearIndexes=False):
     '''Generate next Prime'''
     while True:
       self.nextSquare()
@@ -114,49 +110,22 @@ class Sieve:
       self.testOdd()
       for p in self.sifted(lastLimit, self.square):
         yield p
+      #[Note]Freeing memory may reduce speed by 37.5%
+      if clearIndexes:
+        self.sieveIndexes.clear()
 
-  def genPrimes(self, n):
+  def genPrimes(self, n, clearIndexes=False):
     '''Generate the first n Primes'''
-    primes = self.nextPrime()
+    primes = self.nextPrime(clearIndexes)
     while self.count < n:
       yield primes.next()
 
-  def nprimes(self, n):
+  def nprimes(self, n, clearIndexes=False):
     '''List of the first n Primes'''
-    return list(self.genPrimes(n))
-
-  @staticmethod
-  def printList(elements):
-    '''Print enumeration of elements'''
-    for index, element in enumerate(elements):
-      print('P[{0}] = {1}'.format(index, element))
-
-  def testFun(self, fun, n):
-    '''Perform test case'''
-    # start time
-    elapsed_t0 = time.time()
-    primes = fun(n)
-    # end time
-    elapsed_t1 = time.time()
-    elapsed_delta = elapsed_t1 - elapsed_t0
-    print('{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
-    if elapsed_delta > 0:
-      rate = n / elapsed_delta
-      rounded = round(rate / 1e3, 3)
-      print('limit = {0} at {1:.3f} KHz'.format(n, rounded))
-    else:
-      print('limit = {0}'.format(n))
-    count = len(primes)
-    print('count = {}'.format(count))
-    if primes:
-      print('final = {}'.format(primes[-1]))
-    # self.printList(primes)
-    print('total = {}'.format(sum(primes)))
-    print
-
-  def test(self, n):
-    self.testFun(self.primes, n)
+    return list(self.genPrimes(n, clearIndexes))
   
   def ntest(self, n):
-    self.testFun(self.nprimes, n)
-  
+    Perform.testFun(self.nprimes, n)
+
+  def test(self, n):
+    Perform.testFun(self.primes, n)

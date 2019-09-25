@@ -35,7 +35,7 @@ def main():
     # 5,761,455 summing to 279,209,790,387,276
     # sieve.test(100000000)
 
-    # rate can be 1.872 MHz
+    # rate can be 2 MHz
     sieve.test(limit)
 
 main()
