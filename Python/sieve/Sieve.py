@@ -101,7 +101,22 @@ class Sieve:
     if self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
 
-  def nextPrime(self, clearIndexes=False):
+  def nPrimes(self, n):
+    '''Return the first n Primes'''
+    if n <= self.count:
+      return self.siftedPrimes[:n]
+
+    while True:
+      self.nextSquare()
+      lastLimit = self.lastLimit
+      self.extend(self.square)
+      self.testOdd()
+      for p in self.sifted(lastLimit, self.square):
+        self.siftedPrimes.append(p)
+        if n <= self.count:
+          return self.siftedPrimes
+
+  def nextPrime(self, clear=False):
     '''Generate next Prime'''
     while True:
       self.nextSquare()
@@ -111,18 +126,22 @@ class Sieve:
       for p in self.sifted(lastLimit, self.square):
         yield p
       #[Note]Freeing memory may reduce speed by 37.5%
-      if clearIndexes:
+      if clear:
         self.sieveIndexes.clear()
 
-  def genPrimes(self, n, clearIndexes=False):
+  def genPrimes(self, n, clear=False):
     '''Generate the first n Primes'''
-    primes = self.nextPrime(clearIndexes)
+    primes = self.nextPrime(clear)
     while self.count < n:
       yield primes.next()
 
-  def nprimes(self, n, clearIndexes=False):
+  def nGenPrimes(self, n, clear=False):
+    '''List of the first n Generated Primes'''
+    return list(self.genPrimes(n, clear))
+
+  def nprimes(self, n):
     '''List of the first n Primes'''
-    return list(self.genPrimes(n, clearIndexes))
+    return list(self.nPrimes(n))
   
   def ntest(self, n):
     Perform.testFun(self.nprimes, n)
