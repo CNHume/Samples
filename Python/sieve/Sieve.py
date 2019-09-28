@@ -40,9 +40,9 @@ class Sieve:
   def leastOddMuliple(self, limit, p):
     '''Least odd multiple of p greater than or equal to limit'''
     # Skip even multiples of p
-    m = p + p
+    m, square = p + p, p * p
     # The next multiple is congruent delta mod m
-    delta = p * p - limit
+    delta = square - limit
     lub = limit + delta % m
     return p, lub
 
@@ -66,11 +66,11 @@ class Sieve:
     if self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
 
-  def testOddAndSift(self, nextSquare):
+  def testOddAndSift(self, limit):
     '''Test whether odd is Prime and sift, if so'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
       self.sievePrime(self.odd)
-      self.sift(self.square, nextSquare, self.odd)
+      self.sift(self.square, limit, self.odd)
 
   def expand(self, limit):
     '''Test whether odd is Prime and sift, while square < limit'''
@@ -84,7 +84,7 @@ class Sieve:
       if oddIndex not in self.sieveIndexes:
         self.count += 1
         # Re-purpose the index corresponding to 1 to represent 2 instead,
-        # replacing the multiplicative identity with the sole even Prime
+        # replacing the multiplicative identity with the sole even Prime.
         p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
@@ -101,6 +101,22 @@ class Sieve:
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
+  # rate can be 150 KHz
+  def nPrimes2(self, n):
+    '''Return the first n Primes'''
+    if n <= self.count:
+      return self.siftedPrimes[:n]
+
+    while True:
+      limit, lastLimit = 4 * self.lastLimit, self.lastLimit
+      self.extend(limit)
+      self.expand(limit)
+      for p in self.sifted(lastLimit, limit):
+        self.siftedPrimes.append(p)
+        if n <= self.count:
+          return self.siftedPrimes
+
+  # rate can be 120 KHz
   def nPrimes(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
@@ -108,10 +124,10 @@ class Sieve:
 
     while True:
       self.nextSquare()
-      lastLimit = self.lastLimit
-      self.extend(self.square)
+      limit, lastLimit = self.square, self.lastLimit
+      self.extend(limit)
       self.testOdd()
-      for p in self.sifted(lastLimit, self.square):
+      for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
         if n <= self.count:
           return self.siftedPrimes
@@ -120,10 +136,10 @@ class Sieve:
     '''Generate next Prime'''
     while True:
       self.nextSquare()
-      lastLimit = self.lastLimit
-      self.extend(self.square)
+      limit, lastLimit = self.square, self.lastLimit
+      self.extend(limit)
       self.testOdd()
-      for p in self.sifted(lastLimit, self.square):
+      for p in self.sifted(lastLimit, limit):
         yield p
       #[Note]Freeing memory may reduce speed by 37.5%
       if clear:
