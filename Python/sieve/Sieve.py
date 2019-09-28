@@ -61,15 +61,10 @@ class Sieve:
       print('sievePrimes.append({})'.format(p))
     self.sievePrimes.append(p)
 
-  def sifted(self, lastLimit, nextLimit):
-    '''Generate sifted Primes'''
-    for oddIndex in range(lastLimit // 2, nextLimit // 2):
-      if oddIndex not in self.sieveIndexes:
-        self.count += 1
-        # Re-purpose the index corresponding to 1 to represent 2 instead,
-        # replacing the multiplicative identity with the sole even Prime
-        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
-        yield p
+  def testOdd(self):
+    '''Test whether odd is Prime'''
+    if self.oddIndex not in self.sieveIndexes:
+      self.sievePrime(self.odd)
 
   def testOddAndSift(self, nextSquare):
     '''Test whether odd is Prime and sift, if so'''
@@ -83,6 +78,16 @@ class Sieve:
       self.testOddAndSift(limit)
       self.nextSquare()
 
+  def sifted(self, lastLimit, nextLimit):
+    '''Generate sifted Primes'''
+    for oddIndex in range(lastLimit // 2, nextLimit // 2):
+      if oddIndex not in self.sieveIndexes:
+        self.count += 1
+        # Re-purpose the index corresponding to 1 to represent 2 instead,
+        # replacing the multiplicative identity with the sole even Prime
+        p = 2 * oddIndex + 1 if oddIndex > 0 else 2
+        yield p
+
   def primes(self, limit):
     '''Return Primes less than limit'''
     # Though the first odd number 1, is not a Prime,
@@ -95,11 +100,6 @@ class Sieve:
     for p in self.sifted(lastLimit, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
-
-  def testOdd(self):
-    '''Test whether odd is Prime'''
-    if self.oddIndex not in self.sieveIndexes:
-      self.sievePrime(self.odd)
 
   def nPrimes(self, n):
     '''Return the first n Primes'''
@@ -128,16 +128,6 @@ class Sieve:
       #[Note]Freeing memory may reduce speed by 37.5%
       if clear:
         self.sieveIndexes.clear()
-
-  def genPrimes(self, n, clear=False):
-    '''Generate the first n Primes'''
-    primes = self.nextPrime(clear)
-    while self.count < n:
-      yield primes.next()
-
-  def nGenPrimes(self, n, clear=False):
-    '''List of the first n Generated Primes'''
-    return list(self.genPrimes(n, clear))
 
   def nprimes(self, n):
     '''List of the first n Primes'''
