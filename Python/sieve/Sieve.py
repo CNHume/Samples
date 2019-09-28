@@ -55,21 +55,15 @@ class Sieve:
       for p, lub in pairs:
         self.sift(lub, limit, p)
 
-  def sievePrime(self, p):
-    '''Add new sievePrime'''
-    if self.debug:
-      print('sievePrimes.append({})'.format(p))
-    self.sievePrimes.append(p)
-
   def testOdd(self):
     '''Test whether odd is Prime'''
     if self.oddIndex not in self.sieveIndexes:
-      self.sievePrime(self.odd)
+      self.siftedPrimes.append(self.odd)
 
   def testOddAndSift(self, limit):
     '''Test whether odd is Prime and sift, if so'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      self.sievePrime(self.odd)
+      self.siftedPrimes.append(self.odd)
       self.sift(self.square, limit, self.odd)
 
   def expand(self, limit):
@@ -101,14 +95,14 @@ class Sieve:
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
-  # rate can be 150 KHz
+  # rate can be 380 KHz
   def nPrimes2(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
       return self.siftedPrimes[:n]
 
     while True:
-      limit, lastLimit = 4 * self.lastLimit, self.lastLimit
+      lastLimit, limit = self.lastLimit, 4 * self.lastLimit
       self.extend(limit)
       self.expand(limit)
       for p in self.sifted(lastLimit, limit):
@@ -116,7 +110,7 @@ class Sieve:
         if n <= self.count:
           return self.siftedPrimes
 
-  # rate can be 120 KHz
+  # rate can be 392 KHz
   def nPrimes(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
@@ -124,7 +118,7 @@ class Sieve:
 
     while True:
       self.nextSquare()
-      limit, lastLimit = self.square, self.lastLimit
+      lastLimit, limit = self.lastLimit, self.square
       self.extend(limit)
       self.testOdd()
       for p in self.sifted(lastLimit, limit):
@@ -136,7 +130,7 @@ class Sieve:
     '''Generate next Prime'''
     while True:
       self.nextSquare()
-      limit, lastLimit = self.square, self.lastLimit
+      lastLimit, limit = self.lastLimit, self.square
       self.extend(limit)
       self.testOdd()
       for p in self.sifted(lastLimit, limit):
