@@ -55,15 +55,11 @@ class Sieve:
         self.sift(lub, limit, p)
       self.lastLimit = limit
 
-  def siftPrime(self, limit):
-    '''Test whether odd is Prime and sift, if so'''
-    if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      self.sift(self.square, limit, self.odd)
-
   def expand(self, limit):
     '''Test whether odd is Prime and sift, while square < limit'''
     while self.square < limit:
-      self.siftPrime(limit)
+      if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
+        self.sift(self.square, limit, self.odd)
       self.nextSquare()
 
   def sifted(self, lastLimit, nextLimit):
@@ -76,6 +72,7 @@ class Sieve:
         p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
+  # Rate can be 1.8 MHz
   def primes(self, limit):
     '''Return Primes less than limit'''
     # Though the first odd number 1, is not a Prime,
@@ -89,7 +86,7 @@ class Sieve:
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
-  # rate can be 387 KHz
+  # rate can be 140 KHz
   def nPrimes2(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
@@ -104,7 +101,7 @@ class Sieve:
         if n <= self.count:
           return self.siftedPrimes
 
-  # rate can be 409 KHz
+  # rate can be 120 KHz
   def nPrimes(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
