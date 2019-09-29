@@ -58,12 +58,12 @@ class Sieve:
   def testOdd(self):
     '''Test whether odd is Prime'''
     if self.oddIndex not in self.sieveIndexes:
-      self.siftedPrimes.append(self.odd)
+      self.sievePrimes.append(self.odd)
 
   def testOddAndSift(self, limit):
     '''Test whether odd is Prime and sift, if so'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      self.siftedPrimes.append(self.odd)
+      self.sievePrimes.append(self.odd)
       self.sift(self.square, limit, self.odd)
 
   def expand(self, limit):
