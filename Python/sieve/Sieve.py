@@ -2,7 +2,6 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-10  CNHume  Completed test() method
 # 2015-05-04  CNHume  Created Prime Number Generator
-from functools import partial
 from Perform import Perform
 
 class Sieve:
@@ -10,8 +9,6 @@ class Sieve:
   def __init__(self, debug=False):
     self.debug = debug
     self.sieveIndexes = set()
-    # sievePrimes are used by extend() to find leastOddMuliple()
-    self.sievePrimes = []
     self.siftedPrimes = []
     self.count = 0
     self.oddIndex = 0
@@ -44,32 +41,29 @@ class Sieve:
     # The next multiple is congruent delta mod m
     delta = square - limit
     lub = limit + delta % m
-    return p, lub
+    return lub
 
   def extend(self, limit):
-    '''Extend Sieve of Composites using sievePrimes'''
+    '''Extend Sieve of Composites'''
     if self.lastLimit < limit:
-      lom = partial(self.leastOddMuliple, self.lastLimit)
-      self.lastLimit = limit
-      pairs = map(lom, self.sievePrimes)
-      for p, lub in pairs:
+      for p in self.siftedPrimes:
+        if p == 2:
+          continue
+        if self.odd <= p:
+          break
+        lub = self.leastOddMuliple(self.lastLimit, p)
         self.sift(lub, limit, p)
+      self.lastLimit = limit
 
-  def testOdd(self):
-    '''Test whether odd is Prime'''
-    if self.oddIndex not in self.sieveIndexes:
-      self.sievePrimes.append(self.odd)
-
-  def testOddAndSift(self, limit):
+  def siftPrime(self, limit):
     '''Test whether odd is Prime and sift, if so'''
     if self.odd > 1 and self.oddIndex not in self.sieveIndexes:
-      self.sievePrimes.append(self.odd)
       self.sift(self.square, limit, self.odd)
 
   def expand(self, limit):
     '''Test whether odd is Prime and sift, while square < limit'''
     while self.square < limit:
-      self.testOddAndSift(limit)
+      self.siftPrime(limit)
       self.nextSquare()
 
   def sifted(self, lastLimit, nextLimit):
@@ -95,7 +89,7 @@ class Sieve:
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
-  # rate can be 380 KHz
+  # rate can be 387 KHz
   def nPrimes2(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
@@ -110,7 +104,7 @@ class Sieve:
         if n <= self.count:
           return self.siftedPrimes
 
-  # rate can be 392 KHz
+  # rate can be 409 KHz
   def nPrimes(self, n):
     '''Return the first n Primes'''
     if n <= self.count:
@@ -120,7 +114,6 @@ class Sieve:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
       self.extend(limit)
-      self.testOdd()
       for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
         if n <= self.count:
@@ -132,7 +125,6 @@ class Sieve:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
       self.extend(limit)
-      self.testOdd()
       for p in self.sifted(lastLimit, limit):
         yield p
       #[Note]Freeing memory may reduce speed by 37.5%
