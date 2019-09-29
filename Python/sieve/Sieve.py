@@ -115,6 +115,7 @@ class Sieve:
         if not self.count < n:
           return self.siftedPrimes
 
+  # rate can be 252 KHz
   def nextPrime(self, clear=False):
     '''Generate next Prime'''
     while True:
@@ -122,14 +123,20 @@ class Sieve:
       lastLimit, limit = self.lastLimit, self.square
       self.extend(limit)
       for p in self.sifted(lastLimit, limit):
+        self.siftedPrimes.append(p)
         yield p
-      #[Note]Freeing memory may reduce speed by 37.5%
       if clear:
         self.sieveIndexes.clear()
 
+  def genPrimes(self, n, clear=False):
+    '''Generate the first n Primes'''
+    primes = self.nextPrime(clear)
+    while self.count < n:
+      yield primes.next()
+
   def nprimes(self, n):
     '''List of the first n Primes'''
-    return list(self.nPrimes2(n))
+    return list(self.nPrimes(n))
   
   def ntest(self, n):
     Perform.testFun(self.nprimes, n)
