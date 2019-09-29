@@ -47,12 +47,11 @@ class Sieve:
     '''Extend Sieve of Composites'''
     if self.lastLimit < limit:
       for p in self.siftedPrimes:
-        if p == 2:
-          continue
-        if self.odd <= p:
-          break
-        lub = self.leastOddMuliple(self.lastLimit, p)
-        self.sift(lub, limit, p)
+        if p > 2:
+          if not p < self.odd:
+            break
+          lub = self.leastOddMuliple(self.lastLimit, p)
+          self.sift(lub, limit, p)
       self.lastLimit = limit
 
   def expand(self, limit):
@@ -72,7 +71,7 @@ class Sieve:
         p = 2 * oddIndex + 1 if oddIndex > 0 else 2
         yield p
 
-  # Rate can be 1.8 MHz
+  # Rate can be 2.9 MHz
   def primes(self, limit):
     '''Return Primes less than limit'''
     # Though the first odd number 1, is not a Prime,
@@ -86,10 +85,10 @@ class Sieve:
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
-  # rate can be 140 KHz
+  # rate can be 240 KHz
   def nPrimes2(self, n):
     '''Return the first n Primes'''
-    if n <= self.count:
+    if not self.count < n:
       return self.siftedPrimes[:n]
 
     while True:
@@ -98,13 +97,13 @@ class Sieve:
       self.expand(limit)
       for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
-        if n <= self.count:
+        if not self.count < n:
           return self.siftedPrimes
 
-  # rate can be 120 KHz
+  # rate can be 280 KHz
   def nPrimes(self, n):
     '''Return the first n Primes'''
-    if n <= self.count:
+    if not self.count < n:
       return self.siftedPrimes[:n]
 
     while True:
@@ -113,7 +112,7 @@ class Sieve:
       self.extend(limit)
       for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
-        if n <= self.count:
+        if not self.count < n:
           return self.siftedPrimes
 
   def nextPrime(self, clear=False):
@@ -130,7 +129,7 @@ class Sieve:
 
   def nprimes(self, n):
     '''List of the first n Primes'''
-    return list(self.nPrimes(n))
+    return list(self.nPrimes2(n))
   
   def ntest(self, n):
     Perform.testFun(self.nprimes, n)
