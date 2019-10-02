@@ -44,15 +44,23 @@ class Sieve:
     lub = limit + delta % m
     return lub
 
-  def extend(self, limit, primes):
-    '''Extend Sieve of Composites'''
+  def extend(self, limit):
+    '''Extend Sieve of Composites using siftedPrimes'''
     if self.lastLimit < limit:
-      for p in primes:
+      for p in self.siftedPrimes:
         if p > 2:
           if not p < self.odd:
             break
           lub = self.leastOddMuliple(self.lastLimit, p)
           self.sift(lub, limit, p)
+      self.lastLimit = limit
+
+  def extend2(self, limit):
+    '''Extend Sieve of Composites using sievePrimes'''
+    if self.lastLimit < limit:
+      for p in self.sievePrimes:
+        lub = self.leastOddMuliple(self.lastLimit, p)
+        self.sift(lub, limit, p)
       self.lastLimit = limit
 
   def expand(self, limit):
@@ -80,26 +88,11 @@ class Sieve:
     if limit == 2:
       limit = 1
     lastLimit = self.lastLimit
-    self.extend(limit, self.siftedPrimes)
+    self.extend(limit)
     self.expand(limit)
     for p in self.sifted(lastLimit, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
-
-  # rate can be 240 KHz
-  # def nPrimes2(self, n):
-  #   '''Return the first n Primes'''
-  #   if not self.count < n:
-  #     return self.siftedPrimes[:n]
-
-  #   while True:
-  #     lastLimit, limit = self.lastLimit, 4 * self.lastLimit
-  #     self.extend(limit, self.siftedPrimes)
-  #     self.expand(limit)
-  #     for p in self.sifted(lastLimit, limit):
-  #       self.siftedPrimes.append(p)
-  #       if not self.count < n:
-  #         return self.siftedPrimes
 
   # rate can be 280 KHz
   def nPrimes(self, n):
@@ -110,7 +103,8 @@ class Sieve:
     while True:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
-      self.extend(limit, self.siftedPrimes)
+      self.extend(limit)
+      # self.expand(limit)
       for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
         if not self.count < n:
@@ -122,7 +116,7 @@ class Sieve:
     while True:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
-      self.extend(limit, self.sievePrimes)
+      self.extend2(limit)
       if self.oddIndex not in self.sieveIndexes:
         self.sievePrimes.append(self.odd)
         self.sift(self.square, limit, self.odd)
