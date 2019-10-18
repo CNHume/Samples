@@ -24,8 +24,8 @@ class Sieve:
     self.odd += 2
     self.delta += 4
     # Note: square receives the value of odd squares: 1, 9, 25, 49, 81...
-    # The difference between the square of the nth odd and its successor is 8*n
-    # because (odd + 2)**2 - odd**2 = 4*odd + 4 and odd = 2*n + 1
+    # The difference between the square of the nth odd and its successor is
+    # 8*(n + 1) where odd = 2*n + 1 because (odd + 2)**2 - odd**2 = 4*odd + 4
     self.square += self.delta + self.delta
     if self.debug:
       print('square = {}'.format(self.square))
@@ -52,7 +52,7 @@ class Sieve:
         self.sift(lub, limit, p)
       self.lastLimit = limit
 
-  def extendLoop(self, limit):
+  def extend(self, limit):
     '''Extend Sieve of Composites using siftedPrimes, while p < odd'''
     if self.lastLimit < limit:
       for p in self.siftedPrimes:
@@ -69,7 +69,7 @@ class Sieve:
       self.sift(self.square, limit, self.odd)
       self.sievePrimes.append(self.odd)
 
-  def expandLoop(self, limit):
+  def expand(self, limit):
     '''Test whether odd is Prime and sift, while square < limit'''
     while self.square < limit:
       if self.oddIndex not in self.sieveIndexes and self.odd > 1:
@@ -94,8 +94,8 @@ class Sieve:
     if limit == 2:
       limit = 1
     lastLimit = self.lastLimit
-    self.extendLoop(limit)
-    self.expandLoop(limit)
+    self.extend(limit)
+    self.expand(limit)
     for p in self.sifted(lastLimit, limit):
       self.siftedPrimes.append(p)
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
@@ -109,8 +109,8 @@ class Sieve:
     while True:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
-      self.extendLoop(limit)
-      # self.expandLoop(limit)
+      self.extend(limit)
+      # self.expand(limit)
       for p in self.sifted(lastLimit, limit):
         self.siftedPrimes.append(p)
         if not self.count < n:

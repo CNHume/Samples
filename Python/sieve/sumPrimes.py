@@ -11,7 +11,8 @@ def main():
       raise ValueError('limit must be positive')
 
     sieve = Sieve()
-    # sieve.ntest(78498)
+    sieve.ntest(78498)
+    return
 
     # 1 prime summing to 2
     # sieve.test(3)
