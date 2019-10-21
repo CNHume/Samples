@@ -140,7 +140,7 @@ class Sieve:
     return list(self.nPrimes(n))
   
   def ntest(self, n):
-    Perform.testFun(self.nprimes, n)
+    return Perform.testList(self.nprimes, n)
 
   def test(self, n):
-    Perform.testFun(self.primes, n)
+    return Perform.testList(self.primes, n)

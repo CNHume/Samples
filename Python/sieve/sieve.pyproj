@@ -27,6 +27,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Numeric.py" />
+    <Compile Include="Perform.py" />
+    <Compile Include="Polynomial.py" />
     <Compile Include="Sieve.py" />
     <Compile Include="sumPrimes.py" />
   </ItemGroup>

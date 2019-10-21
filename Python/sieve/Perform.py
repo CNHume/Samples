@@ -13,13 +13,14 @@ class Perform:
 
   @staticmethod
   def testFun(fun, n):
-    '''Perform test case'''
+    '''Test and return scalar result'''
     # start time
     elapsed_t0 = time.time()
-    primes = fun(n)
+    result = fun(n)
     # end time
     elapsed_t1 = time.time()
     elapsed_delta = elapsed_t1 - elapsed_t0
+    print
     print('{0:.3f} sec elapsed'.format(round(elapsed_delta, 3)))
     if elapsed_delta > 0:
       rate = n / elapsed_delta
@@ -27,11 +28,16 @@ class Perform:
       print('limit = {0} at {1:.3f} KHz'.format(n, rounded))
     else:
       print('limit = {0}'.format(n))
-    count = len(primes)
+    return result
+
+  @staticmethod
+  def testList(fun, n):
+    '''Test and summarize list result'''
+    list = Perform.testFun(fun, n)
+    count = len(list)
     print('count = {}'.format(count))
-    if primes:
-      print('final = {}'.format(primes[-1]))
-    # Perform.printList(primes)
-    print('total = {}'.format(sum(primes)))
-    print
-  
+    if list:
+      print('final = {}'.format(list[-1]))
+    # Perform.printList(list)
+    print('total = {}'.format(sum(list)))
+    return list
