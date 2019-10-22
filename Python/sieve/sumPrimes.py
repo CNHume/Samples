@@ -35,7 +35,7 @@ def main():
     # 303 primes summing to 277,050
     sieve.test(2000)
     # 78,498 primes summing to 37,550,402,023
-    sieve.ntest(78498)
+    sieve.test(78498)
     # 148,933 primes summing to 142,913,828,922
     # sieve.test(2000000)
 
