@@ -9,11 +9,14 @@ class Poly:
   # See https://stackoverflow.com/questions/15580291/how-to-efficiently-calculate-a-row-in-pascals-triangle
   @staticmethod
   def pascal(n):
+    '''Generate coefficients for the nth row of Pascal's Triangle'''
     c = 1
     yield c
     #[Note]The kth coefficient is used to generate the k + 1st
     for k in range(n):
-      c = c * (n - k) // (k + 1)
+      num = n - k
+      den = k + 1
+      c = c * num // den
       yield c
 
   @staticmethod
@@ -29,6 +32,10 @@ class Poly:
       if c % n:
         return False
     return True
+  
+  @staticmethod
+  def pascalTest(n):
+    return Perform.testList(Poly.pascal, n)
   
   @staticmethod
   def isPrimeTest(n):

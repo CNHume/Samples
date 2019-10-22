@@ -11,9 +11,11 @@ def main():
   n = 999983
   n = 113
 
+  # results = Poly.pascalTest(n)
+
   isPrime = Poly.isPrimeTest(n)
   print('isPrime({}) = {}'.format(n, isPrime))
-  # return
+  return
 
   if len(sys.argv) > 1:
     limit = int(sys.argv[1])
