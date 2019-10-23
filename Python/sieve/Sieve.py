@@ -134,13 +134,9 @@ class Sieve:
     primes = self.nextPrime(clear)
     while self.count < n:
       yield primes.next()
-
-  def nprimes(self, n):
-    '''List of the first n Primes'''
-    return list(self.nPrimes(n))
   
   def ntest(self, n):
-    return Perform.testList(self.nprimes, n)
+    return Perform.testList(lambda m: list(self.nPrimes(m)), n)
 
   def test(self, n):
     return Perform.testList(self.primes, n)
