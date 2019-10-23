@@ -11,7 +11,9 @@ def main():
   n = 999983
   n = 113
 
-  # results = Poly.pascalTest(n)
+  results = Poly.pascalTest(n)
+  # print(results)
+  return
 
   isPrime = Poly.isPrimeTest(n)
   print('isPrime({}) = {}'.format(n, isPrime))

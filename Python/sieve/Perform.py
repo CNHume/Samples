@@ -33,7 +33,7 @@ class Perform:
   @staticmethod
   def testList(fun, n):
     '''Test and summarize list result'''
-    results = list(Perform.testFun(fun, n))
+    results = Perform.testFun(fun, n)
     count = len(results)
     print('count = {}'.format(count))
     if results:

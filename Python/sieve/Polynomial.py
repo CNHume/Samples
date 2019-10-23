@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-10-19  CNHume  Created File
-from fractions import Fraction
+# from fractions import Fraction
 from Perform import Perform
 
 class Poly:
@@ -32,10 +32,10 @@ class Poly:
       if c % n:
         return False
     return True
-  
+
   @staticmethod
   def pascalTest(n):
-    return Perform.testList(Poly.pascal, n)
+    return Perform.testList(lambda m: list(Poly.pascal(m)), n)
   
   @staticmethod
   def isPrimeTest(n):
