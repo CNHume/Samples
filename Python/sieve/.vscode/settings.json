@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "C:\\Anaconda2\\python.exe",
+  "python.pythonPath": "C:\\ProgramData\\Anaconda2\\python.exe",
   "python.terminal.activateEnvironment": false,
   "python.linting.pylintEnabled": false
 }
