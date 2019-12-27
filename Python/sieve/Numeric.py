@@ -2,7 +2,9 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-09-21  CNHume  Created class
 
+
 class Numeric:
+    
   @staticmethod
   def lubSquare(n):
     '''Least square that is an upper bound for n'''

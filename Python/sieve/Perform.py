@@ -1,10 +1,11 @@
-
 # -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-09-24  CNHume  Created class
 import time
 
+
 class Perform:
+
   @staticmethod
   def printList(elements):
     '''Print enumeration of elements'''

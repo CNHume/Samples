@@ -11,13 +11,13 @@ def main():
   n = 999983
   n = 113
 
-  results = Poly.pascalTest(n)
+  # results = Poly.pascalTest(n)
   # print(results)
-  return
+  # return
 
-  isPrime = Poly.isPrimeTest(n)
-  print('isPrime({}) = {}'.format(n, isPrime))
-  return
+  # isPrime = Poly.isPrimeTest(n)
+  # print('isPrime({}) = {}'.format(n, isPrime))
+  # return
 
   if len(sys.argv) > 1:
     limit = int(sys.argv[1])
@@ -39,7 +39,7 @@ def main():
     # 303 primes summing to 277,050
     sieve.test(2000)
     # 78,498 primes summing to 37,550,402,023
-    sieve.test(78498)
+    sieve.test(1000000)
     # 148,933 primes summing to 142,913,828,922
     # sieve.test(2000000)
 
