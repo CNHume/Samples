@@ -6,6 +6,10 @@ from Perform import Perform
 
 class Sieve:
   '''Sieve of Eratosthenes'''
+  # Three versions of the Sieve of Eratosthenes (SoE) are implemented:
+  # primesEvery() - generates every Prime in succession
+  # primesFirst(n) - returns the first n Primes
+  # primesLimit(limit) - returns Primes < limit - about 10x faster than primesFirst(n)
   def __init__(self, debug=False):
     self.debug = debug
     self.sieveIndexes = set()
@@ -44,6 +48,7 @@ class Sieve:
     lub = limit + delta % m
     return lub
 
+  # Incremental variation on extend() used by primesEvery()
   def extendNext(self, limit):
     '''Extend Sieve of Composites using sievePrimes'''
     if self.lastLimit < limit:
@@ -63,14 +68,15 @@ class Sieve:
           self.sift(lub, limit, p)
       self.lastLimit = limit
 
+  # Incremental variation on expand() used by primesEvery()
   def expandNext(self, limit):
-    '''Test whether odd is Prime and sift, appending sievePrimes'''
+    '''Test whether odd is prime and sift, appending sievePrimes'''
     if self.oddIndex not in self.sieveIndexes:
       self.sift(self.square, limit, self.odd)
       self.sievePrimes.append(self.odd)
 
   def expand(self, limit):
-    '''Test whether odd is Prime and sift, while square < limit'''
+    '''Test whether odd is prime and sift, while square < limit'''
     while self.square < limit:
       if self.oddIndex not in self.sieveIndexes and self.odd > 1:
         self.sift(self.square, limit, self.odd)
@@ -87,7 +93,7 @@ class Sieve:
         yield p
 
   # Rate can be 2.9 MHz
-  def primes(self, limit):
+  def primesLimit(self, limit):
     '''Return Primes less than limit'''
     # Though the first odd number 1, is not a Prime,
     # it is used to represent the sole even prime 2.
@@ -101,7 +107,7 @@ class Sieve:
     return [p for p in self.siftedPrimes if p < limit] if limit < lastLimit else self.siftedPrimes
 
   # rate can be 280 KHz
-  def nPrimes(self, n):
+  def primesFirst(self, n):
     '''Return the first n Primes'''
     if not self.count < n:
       return self.siftedPrimes[:n]
@@ -117,7 +123,7 @@ class Sieve:
           return self.siftedPrimes
 
   # rate can be 252 KHz
-  def nextPrime(self, clear=False):
+  def primesEvery(self, clear=False):
     '''Generate next Prime'''
     while True:
       self.nextSquare()
@@ -131,12 +137,12 @@ class Sieve:
 
   def genPrimes(self, n, clear=False):
     '''Generate the first n Primes'''
-    primes = self.nextPrime(clear)
+    pg = self.primesEvery(clear)
     while self.count < n:
-      yield primes.next()
+      yield pg.next()
   
   def ntest(self, n):
-    return Perform.testList(lambda m: list(self.nPrimes(m)), n)
+    return Perform.testList(lambda m: list(self.primesFirst(m)), n)
 
   def test(self, n):
-    return Perform.testList(self.primes, n)
+    return Perform.testList(self.primesLimit, n)
