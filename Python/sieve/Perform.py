@@ -39,6 +39,6 @@ class Perform:
     print('count = {}'.format(count))
     if results:
       print('final = {}'.format(results[-1]))
-    # Perform.printList(list)
+    # Perform.printList(results)
     print('total = {}'.format(sum(results)))
     return results
