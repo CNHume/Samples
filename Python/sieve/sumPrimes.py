@@ -24,7 +24,16 @@ def main():
     if limit <= 0:
       raise ValueError('limit must be positive')
 
-    sieve = Sieve()
+    # sieve = Sieve()
+
+    if len(sys.argv) > 2:
+      last = int(sys.argv[2])
+      if last < 0:
+        raise ValueError('limit must not be negative')
+      sieve = Sieve()
+      primes10 = sieve.testLast(limit, last)
+    return
+
     # sieve.ntest(9)
     # return
 

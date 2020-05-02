@@ -42,3 +42,14 @@ class Perform:
     # Perform.printList(results)
     print('total = {}'.format(sum(results)))
     return results
+
+  @staticmethod
+  def testLast(fun, n, m):
+    '''Test and summarize list result'''
+    results = Perform.testFun(fun, n)
+    count = len(results)
+    print('count = {}'.format(count))
+    if results:
+      last = results[-m:]
+      Perform.printList(last[::-1])
+    return results

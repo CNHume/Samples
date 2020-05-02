@@ -146,3 +146,6 @@ class Sieve:
 
   def test(self, n):
     return Perform.testList(self.primesLimit, n)
+
+  def testLast(self, n, m):
+    return Perform.testLast(self.primesLimit, n, m)
