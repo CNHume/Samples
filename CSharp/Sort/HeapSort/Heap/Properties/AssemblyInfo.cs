@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Heap")]
-[assembly: AssemblyCopyright("Copyright (C) 2017, Christopher N. Hume.  All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2020, Christopher N. Hume.  All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

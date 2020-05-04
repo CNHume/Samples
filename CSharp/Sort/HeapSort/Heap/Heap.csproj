@@ -42,12 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command.cs" />
-    <Compile Include="Heap.cs" />
-    <Compile Include="HeapException.cs" />
+    <Compile Include="Command\Command.cs" />
+    <Compile Include="Exceptions\CommandException.cs" />
+    <Compile Include="Sort\Heap.cs" />
+    <Compile Include="Exceptions\HeapException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SortTest.cs" />
+    <Compile Include="Sort\SortTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -19,8 +19,7 @@ namespace Sort {
   class Program {
     static void Main(String[] args) {
       try {
-        var cmd = new Command();
-        cmd.Parse(args);
+        var cmd = new Command(args);
 #if LinearEntries
         var entries = linearEntries(cmd.Length.Value);
 #else
@@ -28,7 +27,7 @@ namespace Sort {
 #endif
         SortTest<Int32>.TestSort(entries, cmd.Print);
       }
-      catch (Exception ex) {
+      catch (ApplicationException ex) {
 	Console.WriteLine(ex.Message);
       }
 #if DEBUG

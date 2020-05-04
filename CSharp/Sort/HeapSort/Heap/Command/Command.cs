@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -7,12 +7,19 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
+  using Sort.Exceptions;
   using System;
 
   public class Command {
     #region Virtual Fields
     public Int32? Length;
     public Boolean Print;
+    #endregion
+
+    #region Constructors
+    public Command(string[] args) {
+      Parse(args);
+    }
     #endregion
 
     #region Methods
@@ -48,17 +55,28 @@ namespace Sort {
 
       // length is required
       if (n < count)
-        Length = TryParse(args[n++]);
+        Length = TryParseInt32(args[n++]);
 
       usage |= !Length.HasValue;
 
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: HeapSort [-p] length");
+        throw new CommandException("Usage: HeapSort [-p] length");
     }
 
-    private static Int32? TryParse(String s) {
+    #endregion
+
+    #region Parsers
+    private static DateTime? TryParseDateTime(String s) {
+      return DateTime.TryParse(s, out DateTime result) ? (DateTime?)result : null;
+    }
+
+    private static decimal? TryParseDecimal(String s) {
+      return decimal.TryParse(s, out decimal result) ? (decimal?)result : null;
+    }
+
+    private static Int32? TryParseInt32(String s) {
       return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
