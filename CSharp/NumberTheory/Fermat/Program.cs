@@ -1,8 +1,6 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
-using Fermat.Commands;
-
 using Microsoft.Extensions.Logging;
 
 using System;

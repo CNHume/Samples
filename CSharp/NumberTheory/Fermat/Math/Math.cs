@@ -1,13 +1,26 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
-using Fermat.Commands;
 using Fermat.Exceptions;
 
 using System;
 
 namespace Fermat {
   public static class Math {
+    #region Properties
+    public static Rule[] Rules { get; set; }
+    #endregion
+
+    #region Constructors
+    static Math() {
+      Rules = new Rule[] {
+        new Rule(Token.NavigatorID, @"\d{3} \d{3} \d{4}"),
+        new Rule(Token.NavigatorID, @"\d{3}-\d{3}-\d{4}"),
+        new Rule(Token.NavigatorID, @"\d{10}"),
+      };
+    }
+    #endregion
+
     #region Methods
     public static void TestModPower(Command cmd) {
       var input = cmd.Input.Value;
@@ -23,6 +36,12 @@ namespace Fermat {
       var decoded = (encoded * inverse) % mod;
 
       Console.WriteLine($"{decoded} = {encoded} * {inverse}");
+
+      var foo = 31459;
+      var number = $"{foo:0000000000}";
+      var text = "123 456 7890";
+
+      Parser.ParseNavigatorID(text);
     }
 
     /// <summary>
