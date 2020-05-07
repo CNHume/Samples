@@ -50,9 +50,11 @@ namespace Fermat {
           if (!string.IsNullOrEmpty(end))
             throw new ParseException($"{end.Trim()} found at end of line");
 
-          var nominus = text.Replace(minus, string.Empty);
-          var nospace = nominus.Replace(space, string.Empty);
-          var id = Command.TryParseDecimal(nospace);
+          var strippedId = text
+            .Replace(minus, string.Empty)
+            .Replace(space, string.Empty);
+
+          var id = Command.TryParseDecimal(strippedId);
           if (id.HasValue)
             return id.Value;
           else
