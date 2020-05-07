@@ -9,7 +9,7 @@ using System.Text;
 namespace Fermat {
   public static class Parser {
     #region Constants
-    const string space = " ";
+    const string minus = "=", space = " ";
     const char zero = '0';
     #endregion
 
@@ -37,22 +37,26 @@ namespace Fermat {
       var padded = id.ToString().PadLeft(width, zero);
       var index = 0;
       for (var n = 0; n < 2; n++, index += grouping)
-        sb.Append(padded.Substring(index, grouping))
-          .Append(space);
+        sb.Append(padded.Substring(index, grouping)).Append(space);
       return sb.Append(padded.Substring(index));
     }
 
-    public static void ParseNavigatorID(string text) {
+    public static decimal ParseNavigatorID(string text) {
       foreach (var rule in NavigatorIDRules) {
         var match = rule.Match(text);
         if (match.Success) {
-#if DEBUG
-          Console.WriteLine($"Parsed {match.Value}");
-#endif
+          //[Debug]Console.WriteLine($"Parsed {match.Value}");
           var end = text.Substring(match.Length);
           if (!string.IsNullOrEmpty(end))
             throw new ParseException($"{end.Trim()} found at end of line");
-          return;
+
+          var nominus = text.Replace(minus, string.Empty);
+          var nospace = nominus.Replace(space, string.Empty);
+          var id = Command.TryParseDecimal(nospace);
+          if (id.HasValue)
+            return id.Value;
+          else
+            break;
         }
       }
       throw new ParseException($"Could not parse {text}");

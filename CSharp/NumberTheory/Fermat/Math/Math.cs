@@ -37,8 +37,10 @@ namespace Fermat {
 
       Console.WriteLine($"{decoded} = {encoded} * {inverse}");
 
-      var text = Parser.FormatNavigatorId(encoded);
-      Parser.ParseNavigatorID(text);
+      var formattedId = Parser.FormatNavigatorId(encoded);
+      var navigatorId = Parser.ParseNavigatorID(formattedId);
+
+      Console.WriteLine($"{navigatorId} = {formattedId}");
     }
 
     /// <summary>

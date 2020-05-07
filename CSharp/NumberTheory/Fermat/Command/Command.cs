@@ -76,15 +76,15 @@ namespace Fermat {
     #endregion
 
     #region Parsers
-    private static DateTime? TryParseDateTime(String s) {
+    public static DateTime? TryParseDateTime(String s) {
       return DateTime.TryParse(s, out DateTime result) ? (DateTime?)result : null;
     }
 
-    private static decimal? TryParseDecimal(String s) {
+    public static decimal? TryParseDecimal(String s) {
       return decimal.TryParse(s, out decimal result) ? (decimal?)result : null;
     }
 
-    private static Int32? TryParseInt32(String s) {
+    public static Int32? TryParseInt32(String s) {
       return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
