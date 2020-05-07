@@ -37,10 +37,7 @@ namespace Fermat {
 
       Console.WriteLine($"{decoded} = {encoded} * {inverse}");
 
-      var foo = 31459;
-      var number = $"{foo:0000000000}";
-      var text = "123 456 7890";
-
+      var text = Parser.FormatNavigatorId(encoded);
       Parser.ParseNavigatorID(text);
     }
 

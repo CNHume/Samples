@@ -4,9 +4,15 @@
 using Fermat.Exceptions;
 
 using System;
+using System.Text;
 
 namespace Fermat {
   public static class Parser {
+    #region Constants
+    const string space = " ";
+    const char zero = '0';
+    #endregion
+
     #region Properties
     public static Rule[] NavigatorIDRules { get; set; }
     #endregion
@@ -22,6 +28,20 @@ namespace Fermat {
     #endregion
 
     #region Methods
+    public static string FormatNavigatorId(decimal id) {
+      var sb = new StringBuilder().AppendId(id);
+      return sb.ToString();
+    }
+
+    public static StringBuilder AppendId(this StringBuilder sb, decimal id, int width = 10, int grouping = 3) {
+      var padded = id.ToString().PadLeft(width, zero);
+      var index = 0;
+      for (var n = 0; n < 2; n++, index += grouping)
+        sb.Append(padded.Substring(index, grouping))
+          .Append(space);
+      return sb.Append(padded.Substring(index));
+    }
+
     public static void ParseNavigatorID(string text) {
       foreach (var rule in NavigatorIDRules) {
         var match = rule.Match(text);
