@@ -4,6 +4,7 @@
 using Fermat.Exceptions;
 
 using System;
+using System.Diagnostics;
 
 namespace Fermat {
   public static class Math {
@@ -22,20 +23,26 @@ namespace Fermat {
     #endregion
 
     #region Methods
+    // The following is based on Fermat's Little Theorem
     public static void TestModPower(Command cmd) {
       var input = cmd.Input.Value;
-      var exp = cmd.Phi.Value;
+      var phi = cmd.Phi.Value;
       var mod = cmd.Modulus.Value;
-      //[Test]Console.WriteLine($"input = {input}, exp = {exp}, mod = {mod}");
+      //[Test]Console.WriteLine($"input = {input}, phi = {phi}, mod = {mod}");
 
       var encode = 29m;
-      var decode = exp - encode + 1;
+      var decode = ModInverse(encode, phi);
+      Console.WriteLine($"encode = {encode}");
+      Console.WriteLine($"decode = {decode}");
+
+      var product = (encode * decode) % phi;
+      Console.WriteLine($"encode * decode % mod = {product}");
 
       var encoded = ModPower(input, encode, mod);
-      var inverse = ModPower(input, decode, mod);
-      var decoded = (encoded * inverse) % mod;
+      var decoded = ModPower(encoded, decode, mod);
 
-      Console.WriteLine($"{decoded} = {encoded} * {inverse}");
+      Console.WriteLine($"encoded = {encoded}");
+      Console.WriteLine($"decoded = {decoded}");
 
       var formattedId = Parser.FormatNavigatorId(encoded);
       var navigatorId = Parser.ParseNavigatorID(formattedId);
@@ -43,50 +50,83 @@ namespace Fermat {
       Console.WriteLine($"{navigatorId} = {formattedId}");
     }
 
-    /// <summary>
-    /// Calculates (input ^ exp) % mod
-    /// </summary>
-    /// <remarks>Based on Fermat's Little Theorem</remarks>
-    /// <param name="input">the base</param>
-    /// <param name="exp">the exponent</param>
-    /// <param name="mod">the modulus</param>
-    /// <returns></returns>
-    public static decimal ModPower(decimal input, decimal exp, decimal mod) {
-      validate(input, exp, mod);
-      var output = 1m;
-      var bit = 1m;
-      var n = 0;                        // pbl(exp) the bit-width
-      for (; bit <= exp; n++) bit *= 2;
+    public static decimal ModInverse(decimal input, decimal mod) {
+      var output = 0m;
+      var inverse = 1m;
+      var numerator = mod;
+      var denominator = input;
 
-      var mask = exp;
-      for (; bit > 1;) {
-        bit /= 2;
-        output = (output * output) % mod;
-        if (bit <= mask) {
-          mask -= bit;
-          output = (input * output) % mod;
-        }
+      while (denominator != 0) {
+        var remainder = numerator % denominator;
+        var quotient = (numerator - remainder) / denominator;
+        Debug.Assert(!hasFraction(quotient), $"Non-integral quotient = {quotient}");
+
+        var previous = output;
+        output = inverse;
+        inverse = modulo(previous - inverse * quotient, mod);
+
+        numerator = denominator;
+        denominator = remainder;
       }
 
       return output;
     }
 
-    private static void validate(decimal input, decimal exp, decimal mod) {
+    /// <summary>
+    /// Returns n mod m
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    public static decimal modulo(decimal n, decimal m) {
+      var remainder = n % m;
+      return remainder < 0 ? remainder + m : remainder;
+    }
+
+    /// <summary>
+    /// Returns n ^ exp mod m
+    /// </summary>
+    /// <remarks>Implelements modular exponentiation</remarks>
+    /// <param name="n">the base</param>
+    /// <param name="exp">the exponent</param>
+    /// <param name="m">the modulus</param>
+    /// <returns></returns>
+    public static decimal ModPower(decimal n, decimal exp, decimal m) {
+      validate(n, exp, m);
+      var product = 1m;
+      var bit = 1m;
+      var pbl = 0;                      // bit-width of exp
+      for (; bit <= exp; pbl++) bit *= 2;
+
+      var mask = exp;
+      for (; bit > 1;) {
+        bit /= 2;
+        product = (product * product) % m;
+        if (bit <= mask) {
+          mask -= bit;
+          product = (n * product) % m;
+        }
+      }
+
+      return product;
+    }
+
+    private static void validate(decimal n, decimal exp, decimal m) {
       string message = null;
-      if (hasFraction(input))
-        message = $"whole input = {input}";
+      if (hasFraction(n))
+        message = $"whole n = {n}";
       else if (hasFraction(exp))
         message = $"natural exp = {exp}";
-      else if (hasFraction(mod))
-        message = $"whole mod = {mod}";
+      else if (hasFraction(m))
+        message = $"whole m = {m}";
       else if (exp < 0)
         message = $"0 <= exp = {exp}";
-      else if (mod <= 1)
-        message = $"1 < mod = {mod}";
-      else if (input <= 1)
-        message = $"1 < input = {input}";
-      else if (mod <= input)
-        message = $"input = {input} < mod = {mod}";
+      else if (m <= 1)
+        message = $"1 < m = {m}";
+      else if (n <= 1)
+        message = $"1 < n = {n}";
+      else if (m <= n)
+        message = $"n = {n} < m = {m}";
 
       if (!string.IsNullOrEmpty(message))
         throw new ValidationException($"Invalid: {message}");
