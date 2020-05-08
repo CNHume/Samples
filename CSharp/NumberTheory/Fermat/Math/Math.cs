@@ -30,7 +30,7 @@ namespace Fermat {
       var modulus = cmd.Modulus.Value;
 
       //[Note]totient is assumed equal to totient(modulus)
-      Console.WriteLine($"input = {input}, totient = {totient}, mod = {modulus}");
+      //[Test]Console.WriteLine($"input = {input}, totient = {totient}, modulus = {modulus}");
 
       var encoder = 29m;                // Must be relatively prime to totient
       var inverse = ModInverse(encoder, totient);
