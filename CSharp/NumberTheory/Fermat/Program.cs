@@ -21,8 +21,10 @@ namespace Fermat {
         var serviceProvider = serviceCollection.BuildServiceProvider();
         Logger = serviceProvider.GetService<ILogger<Program>>();
 
-        var cmd = new Command(args);
-        Math.TestModPower(cmd);
+        var command = new Command(args);
+
+        var test = new MathTest(command);
+        test.TestModPower();
       }
       catch (ApplicationException ex) {
         Logger.LogError(ex, "Fermat Error");

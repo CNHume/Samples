@@ -24,35 +24,6 @@ namespace Fermat {
 
     #region Methods
     // The following is based on Fermat's Little Theorem
-    public static void TestModPower(Command cmd) {
-      var input = cmd.Input.Value;
-      var totient = cmd.Totient.Value;
-      var modulus = cmd.Modulus.Value;
-
-      //[Note]totient is assumed equal to totient(modulus)
-      //[Test]Console.WriteLine($"input = {input}, totient = {totient}, modulus = {modulus}");
-
-      var encoder = 29m;                // Must be relatively prime to totient
-      var inverse = ModInverse(encoder, totient);
-
-      Console.WriteLine($"encoder = {encoder}");
-      Console.WriteLine($"inverse = {inverse}");
-
-      var product = encoder * inverse % totient;
-      Console.WriteLine($"encoder * inverse % totient = {product}");
-
-      var encoded = ModPower(input, encoder, modulus);
-      var decoded = ModPower(encoded, inverse, modulus);
-
-      Console.WriteLine($"encoded = {encoded}");
-      Console.WriteLine($"decoded = {decoded}");
-
-      var formattedId = Parser.FormatNavigatorId(encoded);
-      var navigatorId = Parser.ParseNavigatorID(formattedId);
-
-      Console.WriteLine($"{navigatorId} = {formattedId}");
-    }
-
     /// <summary>
     /// Returns the multiplicative inverse of n mod m
     /// </summary>
