@@ -9,7 +9,7 @@ namespace Fermat {
   public class Command {
     #region Properties
     public decimal? Input { get; set; }
-    public decimal? Phi { get; set; }
+    public decimal? Totient { get; set; }
     public decimal? Modulus { get; set; }
     public bool IsVerbose { get; set; }
     #endregion
@@ -55,9 +55,9 @@ namespace Fermat {
       if (n < count) {
         Input = TryParseDecimal(args[n++]);
 
-        // phi is required
+        // totient is required
         if (n < count) {
-          Phi = TryParseDecimal(args[n++]);
+          Totient = TryParseDecimal(args[n++]);
 
           // modulus is required
           if (n < count)
@@ -65,14 +65,13 @@ namespace Fermat {
         }
       }
 
-      usage |= !(Input.HasValue && Phi.HasValue && Modulus.HasValue);
+      usage |= !(Input.HasValue && Totient.HasValue && Modulus.HasValue);
 
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new CommandException("Usage: Fermat [-v] input phi modulus");
+        throw new CommandException("Usage: Fermat [-v] input totient modulus");
     }
-
     #endregion
 
     #region Parsers

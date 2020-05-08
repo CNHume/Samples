@@ -26,20 +26,23 @@ namespace Fermat {
     // The following is based on Fermat's Little Theorem
     public static void TestModPower(Command cmd) {
       var input = cmd.Input.Value;
-      var phi = cmd.Phi.Value;
-      var mod = cmd.Modulus.Value;
-      //[Test]Console.WriteLine($"input = {input}, phi = {phi}, mod = {mod}");
+      var totient = cmd.Totient.Value;
+      var modulus = cmd.Modulus.Value;
 
-      var encode = 29m;
-      var decode = ModInverse(encode, phi);
-      Console.WriteLine($"encode = {encode}");
-      Console.WriteLine($"decode = {decode}");
+      //[Note]totient is assumed equal to totient(modulus)
+      Console.WriteLine($"input = {input}, totient = {totient}, mod = {modulus}");
 
-      var product = (encode * decode) % phi;
-      Console.WriteLine($"encode * decode % mod = {product}");
+      var encoder = 29m;                // Must be relatively prime to totient
+      var inverse = ModInverse(encoder, totient);
 
-      var encoded = ModPower(input, encode, mod);
-      var decoded = ModPower(encoded, decode, mod);
+      Console.WriteLine($"encoder = {encoder}");
+      Console.WriteLine($"inverse = {inverse}");
+
+      var product = encoder * inverse % totient;
+      Console.WriteLine($"encoder * inverse % totient = {product}");
+
+      var encoded = ModPower(input, encoder, modulus);
+      var decoded = ModPower(encoded, inverse, modulus);
 
       Console.WriteLine($"encoded = {encoded}");
       Console.WriteLine($"decoded = {decoded}");
@@ -50,26 +53,32 @@ namespace Fermat {
       Console.WriteLine($"{navigatorId} = {formattedId}");
     }
 
-    public static decimal ModInverse(decimal input, decimal mod) {
-      var output = 0m;
-      var inverse = 1m;
-      var numerator = mod;
-      var denominator = input;
+    /// <summary>
+    /// Returns the multiplicative inverse of n mod m
+    /// </summary>
+    /// <param name="n"></param>
+    /// <param name="m"></param>
+    /// <returns></returns>
+    public static decimal ModInverse(decimal n, decimal m) {
+      var inverse = 0m;
+      var next = 1m;
+      var numerator = m;
+      var denominator = n;
 
       while (denominator != 0) {
         var remainder = numerator % denominator;
         var quotient = (numerator - remainder) / denominator;
         Debug.Assert(!hasFraction(quotient), $"Non-integral quotient = {quotient}");
 
-        var previous = output;
-        output = inverse;
-        inverse = modulo(previous - inverse * quotient, mod);
+        var last = inverse;
+        inverse = next;
+        next = modulo(last - inverse * quotient, m);
 
         numerator = denominator;
         denominator = remainder;
       }
 
-      return output;
+      return inverse;
     }
 
     /// <summary>
@@ -132,8 +141,8 @@ namespace Fermat {
         throw new ValidationException($"Invalid: {message}");
     }
 
-    private static bool hasFraction(decimal number) {
-      return number != decimal.Truncate(number);
+    private static bool hasFraction(decimal n) {
+      return n != decimal.Truncate(n);
     }
     #endregion
   }
