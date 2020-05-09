@@ -2,18 +2,18 @@
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
 using Fermat.Exceptions;
+using Fermat.Parsing;
 
-using System;
 using System.Diagnostics;
 
-namespace Fermat {
-  public static class Math {
+namespace Fermat.Math {
+  public static class Modular {
     #region Properties
     public static Rule[] Rules { get; set; }
     #endregion
 
     #region Constructors
-    static Math() {
+    static Modular() {
       Rules = new Rule[] {
         new Rule(Token.NavigatorID, @"\d{3} \d{3} \d{4}"),
         new Rule(Token.NavigatorID, @"\d{3}-\d{3}-\d{4}"),

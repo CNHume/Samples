@@ -1,20 +1,26 @@
-﻿using System;
+﻿using Fermat.Parsing;
+using Fermat.Settings;
 
-using static Fermat.Math;
+using System;
 
-namespace Fermat {
-  public class MathTest {
+using static Fermat.Math.Modular;
+
+namespace Fermat.Math {
+  public class ModularTest {
     #region Properties
     public decimal Input { get; set; }
     public decimal Totient { get; set; }
     public decimal Modulus { get; set; }
+    public static TestSettings Settings { get; set; }
     #endregion
 
     #region Constructors
-    public MathTest(Command command) {
+    public ModularTest(Command command, TestSettings settings) {
       Input = command.Input.Value;
       Totient = command.Totient.Value;
       Modulus = command.Modulus.Value;
+
+      Settings = settings;
     }
     #endregion
 
@@ -24,7 +30,7 @@ namespace Fermat {
       //[Test]
       Console.WriteLine($"input = {Input}, totient = {Totient}, modulus = {Modulus}");
 
-      var encoder = 29m;                // Must be relatively prime to totient
+      var encoder = Settings.FermatEncoder;     // Must be relatively prime to totient
       var inverse = ModInverse(encoder, Totient);
 
       Console.WriteLine($"encoder = {encoder}");

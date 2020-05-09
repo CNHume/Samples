@@ -3,7 +3,7 @@
 //
 using System.Text.RegularExpressions;
 
-namespace Fermat {
+namespace Fermat.Parsing {
   #region Enumerations
   public enum Token : byte {
     NavigatorID,

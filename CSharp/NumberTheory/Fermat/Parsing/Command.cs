@@ -5,7 +5,7 @@ using Fermat.Exceptions;
 
 using System;
 
-namespace Fermat {
+namespace Fermat.Parsing {
   public class Command {
     #region Properties
     public decimal? Input { get; set; }

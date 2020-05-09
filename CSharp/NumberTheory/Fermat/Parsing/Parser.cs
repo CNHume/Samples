@@ -3,10 +3,9 @@
 //
 using Fermat.Exceptions;
 
-using System;
 using System.Text;
 
-namespace Fermat {
+namespace Fermat.Parsing {
   public static class Parser {
     #region Constants
     const string minus = "=", space = " ";
