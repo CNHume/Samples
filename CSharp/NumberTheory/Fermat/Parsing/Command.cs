@@ -12,7 +12,7 @@ namespace Fermat.Parsing {
   public class Command {
     #region Properties
     public decimal? Input { get; set; }
-    public decimal? Totient { get; set; }
+    public decimal? Encoder { get; set; }
     public decimal? Modulus { get; set; }
     public bool IsVerbose { get; set; }
     #endregion
@@ -58,9 +58,9 @@ namespace Fermat.Parsing {
       if (n < count) {
         Input = TryParseDecimal(args[n++]);
 
-        // totient is required
+        // encoder is required
         if (n < count) {
-          Totient = TryParseDecimal(args[n++]);
+          Encoder = TryParseDecimal(args[n++]);
 
           // modulus is required
           if (n < count)
@@ -68,12 +68,12 @@ namespace Fermat.Parsing {
         }
       }
 
-      usage |= !(Input.HasValue && Totient.HasValue && Modulus.HasValue);
+      usage |= !(Input.HasValue && Encoder.HasValue && Modulus.HasValue);
 
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new CommandException("Usage: Fermat [-v] input totient modulus");
+        throw new CommandException("Usage: Fermat [-v] input encoder modulus");
     }
     #endregion
 

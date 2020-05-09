@@ -25,7 +25,7 @@ namespace Fermat.Math {
   public class ModularTest {
     #region Properties
     public decimal Input { get; set; }
-    public decimal Totient { get; set; }
+    public decimal Encoder { get; set; }
     public decimal Modulus { get; set; }
     public static TestSettings Settings { get; set; }
     #endregion
@@ -33,7 +33,7 @@ namespace Fermat.Math {
     #region Constructors
     public ModularTest(Command command, TestSettings settings) {
       Input = command.Input.Value;
-      Totient = command.Totient.Value;
+      Encoder = command.Encoder.Value;
       Modulus = command.Modulus.Value;
 
       Settings = settings;
@@ -42,20 +42,23 @@ namespace Fermat.Math {
 
     #region Methods
     public void TestModPower() {
-      //[Note]totient is assumed equal to totient(modulus)
       //[Test]
-      Console.WriteLine($"input = {Input}, totient = {Totient}, modulus = {Modulus}");
+      Console.WriteLine($"input = {Input}, encoder = {Encoder}, modulus = {Modulus}");
 
-      var encoder = Settings.FermatEncoder;     // Must be relatively prime to totient
-      var inverse = ModInverse(encoder, Totient);
+      //[Note]totient is kept secret; but must be equal to totient(modulus)
+      // Although modulus is public, totient(modulus) is hard to calculate.
+      var totient = Settings.Totient;
 
-      Console.WriteLine($"encoder = {encoder}");
+      //[Note]Encoder must be relatively prime to Totient
+      var inverse = ModInverse(Encoder, totient);
+
+      Console.WriteLine($"encoder = {totient}");
       Console.WriteLine($"inverse = {inverse}");
 
-      var product = encoder * inverse % Totient;
+      var product = Encoder * inverse % totient;
       Console.WriteLine($"encoder * inverse % totient = {product}");
 
-      var encoded = ModPower(Input, encoder, Modulus);
+      var encoded = ModPower(Input, Encoder, Modulus);
       var decoded = ModPower(encoded, inverse, Modulus);
 
       Console.WriteLine($"encoded = {encoded}");
