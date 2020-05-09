@@ -61,6 +61,8 @@ namespace Fermat.Math {
     /// <returns></returns>
     public static decimal ModPower(decimal n, decimal exp, decimal m) {
       validate(n, exp, m);
+      n %= m;                           //[Safe]Reduce chance of overflow
+
       var product = 1m;
       var bit = 1m;
       var pbl = 0;                      // bit-width of exp
@@ -81,6 +83,14 @@ namespace Fermat.Math {
 
     private static void validate(decimal n, decimal exp, decimal m) {
       string message = null;
+      //
+      //[Note]m-1 must be less than 281,474,976,710,656 = 2.8e14
+      // because oveflow can occur when the square of m-1 exceeds
+      // decimal.MaxValue = 79,228,162,514,264,337,593,543,950,335 = 7.9e28
+      //
+      var limit = 281474976710656m;
+      //[Test]var overflow = limit * limit;
+
       if (!IsInteger(n))
         message = $"whole n = {n}";
       else if (!IsInteger(exp))
@@ -95,6 +105,8 @@ namespace Fermat.Math {
         message = $"1 < n = {n}";
       else if (m <= n)
         message = $"n = {n} < m = {m}";
+      else if (limit < m)
+        message = $"limit = {limit} < m = {m}";
 
       if (!string.IsNullOrEmpty(message))
         throw new ValidationException($"Invalid: {message}");
