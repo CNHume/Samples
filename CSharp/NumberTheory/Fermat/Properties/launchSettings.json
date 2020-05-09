@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Fermat": {
+      "commandName": "Project",
+      "commandLineArgs": "1001 29 9999999929"
+    }
+  }
+}
