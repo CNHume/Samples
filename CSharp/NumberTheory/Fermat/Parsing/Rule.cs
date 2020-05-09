@@ -1,12 +1,15 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
+// You should have received a copy of the MIT License along with this program.
+// If not, see https://opensource.org/licenses/MIT.
+//
 using System.Text.RegularExpressions;
 
 namespace Fermat.Parsing {
   #region Enumerations
   public enum Token : byte {
-    NavigatorID,
+    TelephoneID,
   }
   #endregion
 

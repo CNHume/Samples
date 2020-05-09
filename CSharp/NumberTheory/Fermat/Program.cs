@@ -1,6 +1,9 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
+// You should have received a copy of the MIT License along with this program.
+// If not, see https://opensource.org/licenses/MIT.
+//
 using Fermat.Math;
 using Fermat.Parsing;
 using Fermat.Settings;

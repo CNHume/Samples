@@ -1,4 +1,7 @@
-﻿using System;
+﻿//
+// Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
+//
+using System;
 using System.Runtime.Serialization;
 
 namespace Fermat.Exceptions {

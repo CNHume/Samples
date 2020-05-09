@@ -1,6 +1,9 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
+// You should have received a copy of the MIT License along with this program.
+// If not, see https://opensource.org/licenses/MIT.
+//
 using Fermat.Exceptions;
 
 using System.Text;
@@ -13,15 +16,15 @@ namespace Fermat.Parsing {
     #endregion
 
     #region Properties
-    public static Rule[] NavigatorIDRules { get; set; }
+    public static Rule[] TelephoneIDRules { get; set; }
     #endregion
 
     #region Constructors
     static Parser() {
-      NavigatorIDRules = new Rule[] {
-        new Rule(Token.NavigatorID, @"\d{3} \d{3} \d{4}"),
-        new Rule(Token.NavigatorID, @"\d{3}-\d{3}-\d{4}"),
-        new Rule(Token.NavigatorID, @"\d{10}"),
+      TelephoneIDRules = new Rule[] {
+        new Rule(Token.TelephoneID, @"\d{3} \d{3} \d{4}"),
+        new Rule(Token.TelephoneID, @"\d{3}-\d{3}-\d{4}"),
+        new Rule(Token.TelephoneID, @"\d{10}"),
       };
     }
     #endregion
@@ -40,8 +43,8 @@ namespace Fermat.Parsing {
       return sb.Append(padded.Substring(index));
     }
 
-    public static decimal ParseNavigatorID(string text) {
-      foreach (var rule in NavigatorIDRules) {
+    public static decimal ParseTelephoneID(string text) {
+      foreach (var rule in TelephoneIDRules) {
         var match = rule.Match(text);
         if (match.Success) {
           //[Debug]Console.WriteLine($"Parsed {match.Value}");

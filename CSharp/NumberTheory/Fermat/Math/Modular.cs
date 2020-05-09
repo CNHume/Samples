@@ -1,6 +1,9 @@
 ﻿//
 // Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
 //
+// You should have received a copy of the MIT License along with this program.
+// If not, see https://opensource.org/licenses/MIT.
+//
 using Fermat.Exceptions;
 using Fermat.Parsing;
 
@@ -15,9 +18,9 @@ namespace Fermat.Math {
     #region Constructors
     static Modular() {
       Rules = new Rule[] {
-        new Rule(Token.NavigatorID, @"\d{3} \d{3} \d{4}"),
-        new Rule(Token.NavigatorID, @"\d{3}-\d{3}-\d{4}"),
-        new Rule(Token.NavigatorID, @"\d{10}"),
+        new Rule(Token.TelephoneID, @"\d{3} \d{3} \d{4}"),
+        new Rule(Token.TelephoneID, @"\d{3}-\d{3}-\d{4}"),
+        new Rule(Token.TelephoneID, @"\d{10}"),
       };
     }
     #endregion

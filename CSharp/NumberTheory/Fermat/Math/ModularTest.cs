@@ -1,4 +1,20 @@
-﻿using Fermat.Parsing;
+﻿//
+// Copyright (C) 2020, Christopher N. Hume.  All rights reserved.
+//
+// You should have received a copy of the MIT License along with this program.
+// If not, see https://opensource.org/licenses/MIT.
+//
+// The following is based on the RSA Public-Key Encryption Algorithm described in
+// "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems"
+// by R.L. Rivest, A. Shamir, and L. Adleman
+// published February 1978, Communications of the ACM (Vol. 21, No. 2, pp. 120-126)
+//
+// See https://people.csail.mit.edu/rivest/Rsapaper.pdf
+//
+// The method is based on fundamental properties of Finite Cyclic Groups,
+// which arise in modular arithmetc.
+//
+using Fermat.Parsing;
 using Fermat.Settings;
 
 using System;
@@ -46,7 +62,7 @@ namespace Fermat.Math {
       Console.WriteLine($"decoded = {decoded}");
 
       var formattedId = Parser.FormatNavigatorId(encoded);
-      var navigatorId = Parser.ParseNavigatorID(formattedId);
+      var navigatorId = Parser.ParseTelephoneID(formattedId);
 
       Console.WriteLine($"{navigatorId} = {formattedId}");
     }
