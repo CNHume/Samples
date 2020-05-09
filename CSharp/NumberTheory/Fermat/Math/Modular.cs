@@ -5,26 +5,11 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 using Fermat.Exceptions;
-using Fermat.Parsing;
 
 using System.Diagnostics;
 
 namespace Fermat.Math {
   public static class Modular {
-    #region Properties
-    public static Rule[] Rules { get; set; }
-    #endregion
-
-    #region Constructors
-    static Modular() {
-      Rules = new Rule[] {
-        new Rule(Token.TelephoneID, @"\d{3} \d{3} \d{4}"),
-        new Rule(Token.TelephoneID, @"\d{3}-\d{3}-\d{4}"),
-        new Rule(Token.TelephoneID, @"\d{10}"),
-      };
-    }
-    #endregion
-
     #region Methods
     // The following is based on Fermat's Little Theorem
     /// <summary>
@@ -42,7 +27,7 @@ namespace Fermat.Math {
       while (denominator != 0) {
         var remainder = numerator % denominator;
         var quotient = (numerator - remainder) / denominator;
-        Debug.Assert(!hasFraction(quotient), $"Non-integral quotient = {quotient}");
+        Debug.Assert(IsInteger(quotient), $"Non-integral quotient = {quotient}");
 
         var last = inverse;
         inverse = next;
@@ -96,11 +81,11 @@ namespace Fermat.Math {
 
     private static void validate(decimal n, decimal exp, decimal m) {
       string message = null;
-      if (hasFraction(n))
+      if (!IsInteger(n))
         message = $"whole n = {n}";
-      else if (hasFraction(exp))
+      else if (!IsInteger(exp))
         message = $"natural exp = {exp}";
-      else if (hasFraction(m))
+      else if (!IsInteger(m))
         message = $"whole m = {m}";
       else if (exp < 0)
         message = $"0 <= exp = {exp}";
@@ -115,8 +100,8 @@ namespace Fermat.Math {
         throw new ValidationException($"Invalid: {message}");
     }
 
-    private static bool hasFraction(decimal n) {
-      return n != decimal.Truncate(n);
+    public static bool IsInteger(decimal n) {
+      return n == decimal.Truncate(n);
     }
     #endregion
   }
