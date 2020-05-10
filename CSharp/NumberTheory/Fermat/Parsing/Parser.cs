@@ -5,14 +5,14 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 using Fermat.Exceptions;
+using Fermat.Extensions;
 
 using System.Text;
 
 namespace Fermat.Parsing {
-  public static class Parser {
+  public class Parser {
     #region Constants
-    const string minus = "=", space = " ";
-    const char zero = '0';
+    private const string minus = "=", space = " ";
     #endregion
 
     #region Properties
@@ -33,14 +33,6 @@ namespace Fermat.Parsing {
     public static string FormatNavigatorId(decimal id) {
       var sb = new StringBuilder().AppendId(id);
       return sb.ToString();
-    }
-
-    public static StringBuilder AppendId(this StringBuilder sb, decimal id, int width = 10, int grouping = 3) {
-      var padded = id.ToString().PadLeft(width, zero);
-      var index = 0;
-      for (var n = 0; n < 2; n++, index += grouping)
-        sb.Append(padded.Substring(index, grouping)).Append(space);
-      return sb.Append(padded.Substring(index));
     }
 
     public static decimal ParseTelephoneID(string text) {
