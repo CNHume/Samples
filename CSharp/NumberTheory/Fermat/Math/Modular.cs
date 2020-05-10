@@ -52,7 +52,7 @@ namespace Fermat.Math {
     }
 
     /// <summary>
-    /// Returns n ^ exp mod m
+    /// Returns n^exp mod m
     /// </summary>
     /// <remarks>Implelements modular exponentiation</remarks>
     /// <param name="n">the base</param>
@@ -84,9 +84,9 @@ namespace Fermat.Math {
     private static void validate(decimal n, decimal exp, decimal m) {
       string message = null;
       //
-      //[Note]m-1 must be less than 281,474,976,710,656 = 2.8e14
-      // because oveflow can occur when the square of m-1 exceeds
-      // decimal.MaxValue = 79,228,162,514,264,337,593,543,950,335 = 7.9e28
+      //[Note]The modulus m must not be greater than 2^48 = 281,474,976,710,656 = 2.8e14
+      // because overflow will occur if the square of any n mod m exceeds
+      // decimal.MaxValue = 2^96 - 1 = 79,228,162,514,264,337,593,543,950,335 = 7.9e28
       //
       var limit = 281474976710656m;
       //[Test]var overflow = limit * limit;
