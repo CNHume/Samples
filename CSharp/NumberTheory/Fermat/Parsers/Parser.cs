@@ -9,7 +9,7 @@ using Fermat.Extensions;
 
 using System.Text;
 
-namespace Fermat.Parsing {
+namespace Fermat.Parsers {
   public class Parser {
     #region Constants
     private const string minus = "=", space = " ";

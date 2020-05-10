@@ -6,7 +6,7 @@
 //
 using System.Text.RegularExpressions;
 
-namespace Fermat.Parsing {
+namespace Fermat.Parsers {
   #region Enumerations
   public enum Token : byte {
     TelephoneID,

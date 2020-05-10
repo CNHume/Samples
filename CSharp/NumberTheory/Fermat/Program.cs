@@ -5,7 +5,7 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 using Fermat.Math;
-using Fermat.Parsing;
+using Fermat.Parsers;
 using Fermat.Settings;
 
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ namespace Fermat {
   class Program {
     #region Properties
     public static Command Command { get; set; }
-    public static TestSettings Settings { get; set; }
+    public static TestSetting Settings { get; set; }
     public static ILogger<Program> Logger { get; set; }
     #endregion
 
@@ -30,7 +30,7 @@ namespace Fermat {
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
         Logger = serviceProvider.GetService<ILogger<Program>>();
-        Settings = serviceProvider.GetService<TestSettings>();
+        Settings = serviceProvider.GetService<TestSetting>();
         Command = serviceProvider.GetService<Command>();
 
         var test = new ModularTest(Command, Settings);
@@ -50,7 +50,7 @@ namespace Fermat {
 
     private static void ConfigureServices(string[] args, IServiceCollection services) {
       var command = new Command(args);
-      var testSettings = new TestSettings();
+      var testSettings = new TestSetting();
       var settings = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false).Build();
       settings.GetSection("TestSettings").Bind(testSettings);
 

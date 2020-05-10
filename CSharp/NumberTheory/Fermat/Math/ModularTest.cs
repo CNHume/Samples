@@ -14,7 +14,7 @@
 // The method is based on fundamental properties of Finite Cyclic Groups,
 // which arise in modular arithmetc.
 //
-using Fermat.Parsing;
+using Fermat.Parsers;
 using Fermat.Settings;
 
 using System;
@@ -27,11 +27,11 @@ namespace Fermat.Math {
     public decimal Input { get; set; }
     public decimal Encoder { get; set; }
     public decimal Modulus { get; set; }
-    public static TestSettings Settings { get; set; }
+    public static TestSetting Settings { get; set; }
     #endregion
 
     #region Constructors
-    public ModularTest(Command command, TestSettings settings) {
+    public ModularTest(Command command, TestSetting settings) {
       Input = command.Input.Value;
       Encoder = command.Encoder.Value;
       Modulus = command.Modulus.Value;
