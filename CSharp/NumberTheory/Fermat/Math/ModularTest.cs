@@ -52,7 +52,7 @@ namespace Fermat.Math {
       //[Note]Encoder must be relatively prime to Totient
       var inverse = ModInverse(Encoder, totient);
 
-      Console.WriteLine($"encoder = {totient}");
+      Console.WriteLine($"totient = {totient}");
       Console.WriteLine($"inverse = {inverse}");
 
       var product = Encoder * inverse % totient;
