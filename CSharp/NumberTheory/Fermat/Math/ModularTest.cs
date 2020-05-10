@@ -18,6 +18,7 @@ using Fermat.Parsers;
 using Fermat.Settings;
 
 using System;
+using System.Diagnostics;
 
 using static Fermat.Math.Modular;
 
@@ -41,8 +42,7 @@ namespace Fermat.Math {
     #endregion
 
     #region Methods
-    public void TestModPower() {
-      //[Test]
+    public decimal TestModPower() {
       Console.WriteLine($"input = {Input}, encoder = {Encoder}, modulus = {Modulus}");
 
       //[Note]totient is kept secret; but must be equal to totient(modulus)
@@ -51,23 +51,22 @@ namespace Fermat.Math {
 
       //[Note]Encoder must be relatively prime to Totient
       var inverse = ModInverse(Encoder, totient);
-
+#if DEBUG
       Console.WriteLine($"totient = {totient}");
       Console.WriteLine($"inverse = {inverse}");
-
+#endif
       var product = Encoder * inverse % totient;
+#if DEBUG
       Console.WriteLine($"encoder * inverse % totient = {product}");
-
+#endif
       var encoded = ModPower(Input, Encoder, Modulus);
       var decoded = ModPower(encoded, inverse, Modulus);
 
       Console.WriteLine($"encoded = {encoded}");
       Console.WriteLine($"decoded = {decoded}");
+      Debug.Assert(decoded == Input, $"decoded = {decoded} != Input = {Input}");
 
-      var formattedId = Parser.FormatNavigatorId(encoded);
-      var navigatorId = Parser.ParseTelephoneID(formattedId);
-
-      Console.WriteLine($"{navigatorId} = {formattedId}");
+      return encoded;
     }
     #endregion
   }

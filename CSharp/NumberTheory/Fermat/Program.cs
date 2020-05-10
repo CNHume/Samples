@@ -34,7 +34,9 @@ namespace Fermat {
         Command = serviceProvider.GetService<Command>();
 
         var test = new ModularTest(Command, Settings);
-        test.TestModPower();
+        var encoded = test.TestModPower();
+
+        Parser.TestFormatAndParse(encoded);
       }
       catch (ApplicationException ex) {
         Logger.LogError(ex, "Fermat Error");
