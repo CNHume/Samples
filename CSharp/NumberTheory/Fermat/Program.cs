@@ -33,10 +33,10 @@ namespace Fermat {
         Settings = serviceProvider.GetService<TestSetting>();
         Command = serviceProvider.GetService<Command>();
 
-        var test = new ModularTest(Command, Settings);
-        var encoded = test.TestModPower();
+        var modularTest = new ModularTest(Command, Settings);
+        var encoded = modularTest.TestModPower();
 
-        Parser.TestFormatAndParse(encoded);
+        ParserTest.TestFormatAndParse(encoded);
       }
       catch (ApplicationException ex) {
         Logger.LogError(ex, "Fermat Error");

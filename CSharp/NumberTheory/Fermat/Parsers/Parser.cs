@@ -7,8 +7,6 @@
 using Fermat.Exceptions;
 using Fermat.Extensions;
 
-using System;
-using System.Diagnostics;
 using System.Text;
 
 namespace Fermat.Parsers {
@@ -32,13 +30,6 @@ namespace Fermat.Parsers {
     #endregion
 
     #region Methods
-    public static void TestFormatAndParse(decimal id) {
-      var formattedId = FormatNavigatorId(id);
-      var telephoneId = ParseTelephoneID(formattedId);
-      Debug.Assert(telephoneId == id, $"telephoneId = {telephoneId} != id = {id}");
-      Console.WriteLine($"{telephoneId} = {formattedId}");
-    }
-
     public static string FormatNavigatorId(decimal id) {
       var sb = new StringBuilder().AppendId(id);
       return sb.ToString();
