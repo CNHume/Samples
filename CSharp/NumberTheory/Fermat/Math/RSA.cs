@@ -50,13 +50,11 @@ namespace Fermat.Math {
     // Although modulus is public, totient(modulus) is hard to calculate.
     //
     public decimal Encode(decimal input) {
-      var encoded = ModPower(input, EncodePower, Modulus);
-      return encoded;
+      return ModPower(input, EncodePower, Modulus);
     }
 
     public decimal Decode(decimal encoded) {
-      var decoded = ModPower(encoded, DecodePower, Modulus);
-      return decoded;
+      return ModPower(encoded, DecodePower, Modulus);
     }
     #endregion
   }

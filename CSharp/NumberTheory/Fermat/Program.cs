@@ -36,6 +36,8 @@ namespace Fermat {
         var rsa = new RSA(Command.Power.Value, Command.Modulus.Value, Settings.Totient);
         var input = Command.Input.Value;
         var encoded = rsa.TestEncodeAndDecode(input);
+
+        Console.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {rsa.EncodePower}, modulus = {rsa.Modulus})");
       }
       catch (ApplicationException ex) {
         Logger.LogError(ex, "Fermat Error");

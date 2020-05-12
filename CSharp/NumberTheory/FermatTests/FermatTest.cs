@@ -26,6 +26,8 @@ namespace FermatTests {
     #region Methods
     [Theory]
     [InlineData(1001, 29, 9999999929, 9999999928)]
+    [InlineData(1001, 29, 99999999999997, 99880810487836)]
+    [InlineData(1001, 29, 99999999999989, 99999956900556)]
     public void TestRSA(decimal input, decimal encodePower, decimal modulus, decimal totient) {
       var rsa = new RSA(encodePower, modulus, totient);
       var _decodePower = rsa.DecodePower;
