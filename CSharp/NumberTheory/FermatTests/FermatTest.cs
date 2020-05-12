@@ -4,36 +4,36 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-using Fermat.Parsers;
-using Fermat.Settings;
-
-using System;
-
+using Fermat.Math;
 using Xunit;
 using Xunit.Abstractions;
+
 using static Fermat.Math.Modular;
 using static Fermat.Parsers.Parser;
 
 namespace FermatTests {
   public class ModularTestFixture {
-    public ModularTestFixture() {
+    public ModularTestFixture(ITestOutputHelper outputHelper) {
+      var test = new ModularTest(1001, 29, 9999999929, 9999999928, outputHelper);
     }
   }
 
+  [CollectionDefinition("ModularTestCollection")]
+  [Collection("ModularTestCollection")]
   public class ModularTest : IClassFixture<ModularTestFixture> {
     #region Properties
     public decimal Input { get; set; }
-    public decimal Encoder { get; set; }
+    public decimal EncodePower { get; set; }
     public decimal Modulus { get; set; }
     public decimal Totient { get; set; }
     public ITestOutputHelper OutputHelper { get; set; }
     #endregion
 
     #region Constructors
-    //[InlineData(1001, 29, 9999999929, 9999999928)]
-    public ModularTest(decimal input, decimal encoder, decimal modulus, decimal totient, ITestOutputHelper outputHelper) {
+    public ModularTest(
+      decimal input, decimal encodePower, decimal modulus, decimal totient, ITestOutputHelper outputHelper) {
       Input = input;
-      Encoder = encoder;
+      EncodePower = encodePower;
       Modulus = modulus;
       Totient = totient;
       OutputHelper = outputHelper;
@@ -42,23 +42,23 @@ namespace FermatTests {
 
     #region Methods
     [Fact]
-    public void TestModPower() {
-      //[Note]Totient is kept secret; but must be equal to totient(modulus)
+    public void Encoder() {
+      //[Note]Totient is kept secret but must be equal to totient(modulus).
       // Although modulus is public, totient(modulus) is hard to calculate.
-      OutputHelper.WriteLine($"input = {Input}, encoder = {Encoder}, modulus = {Modulus}, totient = {Totient}");
+      OutputHelper.WriteLine($"input = {Input}, encodePower = {EncodePower}, modulus = {Modulus}, totient = {Totient}");
 
-      //[Note]Encoder must be relatively prime to Totient
-      var inverse = ModInverse(Encoder, Totient);
+      //[Note]EncodePower must be relatively prime to Totient
+      var decodePower = ModInverse(EncodePower, Totient);
 #if DEBUG
       OutputHelper.WriteLine($"totient = {Totient}");
-      OutputHelper.WriteLine($"inverse = {inverse}");
+      OutputHelper.WriteLine($"decodePower = {decodePower}");
 #endif
-      var product = Encoder * inverse % Totient;
+      var product = EncodePower * decodePower % Totient;
 #if DEBUG
-      OutputHelper.WriteLine($"encoder * inverse % totient = {product}");
+      OutputHelper.WriteLine($"encodePower * decodePower % totient = {product}");
 #endif
-      var encoded = ModPower(Input, Encoder, Modulus);
-      var decoded = ModPower(encoded, inverse, Modulus);
+      var encoded = ModPower(Input, EncodePower, Modulus);
+      var decoded = ModPower(encoded, decodePower, Modulus);
 #if DEBUG
       OutputHelper.WriteLine($"encoded = {encoded}");
       OutputHelper.WriteLine($"decoded = {decoded}");

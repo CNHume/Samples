@@ -33,10 +33,9 @@ namespace Fermat {
         Command = serviceProvider.GetService<Command>();
         Settings = serviceProvider.GetService<TestSetting>();
 
-        var modularTest = new ModularTest(
-          Command.Input.Value, Command.Encoder.Value, Command.Modulus.Value, Settings.Totient);
-
-        modularTest.TestModPower();
+        var rsa = new RSA(Command.Power.Value, Command.Modulus.Value, Settings.Totient);
+        var input = Command.Input.Value;
+        var encoded = rsa.TestEncodeAndDecode(input);
       }
       catch (ApplicationException ex) {
         Logger.LogError(ex, "Fermat Error");
