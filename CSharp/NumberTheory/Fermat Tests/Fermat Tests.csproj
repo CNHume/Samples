@@ -6,6 +6,10 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x64</Platforms>
+
+    <RootNamespace>FermatTests</RootNamespace>
+
+    <AssemblyName>FermatTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
