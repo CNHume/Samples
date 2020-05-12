@@ -5,65 +5,48 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 using Fermat.Math;
+
 using Xunit;
 using Xunit.Abstractions;
 
-using static Fermat.Math.Modular;
 using static Fermat.Parsers.Parser;
 
 namespace FermatTests {
-  public class ModularTestFixture {
-    public ModularTestFixture(ITestOutputHelper outputHelper) {
-      var test = new ModularTest(1001, 29, 9999999929, 9999999928, outputHelper);
-    }
-  }
-
-  [CollectionDefinition("ModularTestCollection")]
-  [Collection("ModularTestCollection")]
-  public class ModularTest : IClassFixture<ModularTestFixture> {
+  public class RSATest {
     #region Properties
-    public decimal Input { get; set; }
-    public decimal EncodePower { get; set; }
-    public decimal Modulus { get; set; }
-    public decimal Totient { get; set; }
     public ITestOutputHelper OutputHelper { get; set; }
     #endregion
 
     #region Constructors
-    public ModularTest(
-      decimal input, decimal encodePower, decimal modulus, decimal totient, ITestOutputHelper outputHelper) {
-      Input = input;
-      EncodePower = encodePower;
-      Modulus = modulus;
-      Totient = totient;
+    public RSATest(ITestOutputHelper outputHelper) {
       OutputHelper = outputHelper;
     }
     #endregion
 
     #region Methods
-    [Fact]
-    public void Encoder() {
-      //[Note]Totient is kept secret but must be equal to totient(modulus).
-      // Although modulus is public, totient(modulus) is hard to calculate.
-      OutputHelper.WriteLine($"input = {Input}, encodePower = {EncodePower}, modulus = {Modulus}, totient = {Totient}");
-
-      //[Note]EncodePower must be relatively prime to Totient
-      var decodePower = ModInverse(EncodePower, Totient);
+    [Theory]
+    [InlineData(1001, 29, 9999999929, 9999999928)]
+    public void TestRSA(decimal input, decimal encodePower, decimal modulus, decimal totient) {
+      var rsa = new RSA(encodePower, modulus, totient);
+      var _decodePower = rsa.DecodePower;
+      var _encodePower = rsa.EncodePower;
+      var _modulus = rsa.Modulus;
+      var _totient = rsa.Totient;
 #if DEBUG
-      OutputHelper.WriteLine($"totient = {Totient}");
-      OutputHelper.WriteLine($"decodePower = {decodePower}");
+      OutputHelper.WriteLine($"decodePower = {_decodePower} = ModInverse(encodePower = {_encodePower}, totient = {_totient})");
+      var product = _encodePower * _decodePower % _totient;
+      Assert.True(product == 1,
+        $"1 != {product} = encodePower = {_encodePower} * decodePower = {_decodePower} % totient = {_totient}");
 #endif
-      var product = EncodePower * decodePower % Totient;
+      var encoded = rsa.Encode(input);
 #if DEBUG
-      OutputHelper.WriteLine($"encodePower * decodePower % totient = {product}");
+      OutputHelper.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {_encodePower}, modulus = {_modulus})");
 #endif
-      var encoded = ModPower(Input, EncodePower, Modulus);
-      var decoded = ModPower(encoded, decodePower, Modulus);
+      var decoded = rsa.Decode(encoded);
 #if DEBUG
-      OutputHelper.WriteLine($"encoded = {encoded}");
-      OutputHelper.WriteLine($"decoded = {decoded}");
+      OutputHelper.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {_decodePower}, modulus = {_modulus})");
 #endif
-      Assert.True(decoded == Input, $"decoded = {decoded} != Input = {Input}");
+      Assert.True(decoded == input, $"decoded = {decoded} != Input = {input}");
     }
     #endregion
   }

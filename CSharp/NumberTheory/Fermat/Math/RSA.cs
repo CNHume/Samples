@@ -14,7 +14,6 @@
 // The method is based on fundamental properties of Finite Cyclic Groups,
 // which arise in modular arithmetc.
 //
-using System;
 using System.Diagnostics;
 
 using static Fermat.Math.Modular;
@@ -35,11 +34,6 @@ namespace Fermat.Math {
       //[Note]EncodePower must be relatively prime to Totient
       EncodePower = encodePower;
       DecodePower = ModInverse(EncodePower, Totient);
-#if DEBUG
-      Console.WriteLine($"decodePower = {DecodePower} = ModInverse(encodePower = {EncodePower}, totient = {Totient})");
-      var product = EncodePower * DecodePower % Totient;
-      Debug.Assert(product == 1, $"1 != {product} = encodePower = {EncodePower} * decodePower = {DecodePower} % totient = {Totient}");
-#endif
     }
     #endregion
 
@@ -47,7 +41,7 @@ namespace Fermat.Math {
     public decimal TestEncodeAndDecode(decimal input) {
       var encoded = Encode(input);
       var decoded = Decode(encoded);
-      Debug.Assert(decoded == input, $"decoded = {decoded} != Input = {input}");
+      Debug.Assert(decoded == input, $"decoded = {decoded} != input = {input}");
       return encoded;
     }
 
@@ -57,17 +51,11 @@ namespace Fermat.Math {
     //
     public decimal Encode(decimal input) {
       var encoded = ModPower(input, EncodePower, Modulus);
-#if DEBUG
-      Console.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {EncodePower}, modulus = {Modulus})");
-#endif
       return encoded;
     }
 
     public decimal Decode(decimal encoded) {
       var decoded = ModPower(encoded, DecodePower, Modulus);
-#if DEBUG
-      Console.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {DecodePower}, modulus = {Modulus})");
-#endif
       return decoded;
     }
     #endregion
