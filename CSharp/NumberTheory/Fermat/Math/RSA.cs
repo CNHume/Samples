@@ -23,15 +23,23 @@ namespace Fermat.Math {
   public class RSA {
     #region Properties
     public decimal EncodePower { get; set; }
+    public decimal DecodePower { get; set; }
     public decimal Modulus { get; set; }
     public decimal Totient { get; set; }
     #endregion
 
     #region Constructors
     public RSA(decimal encodePower, decimal modulus, decimal totient) {
-      EncodePower = encodePower;
       Modulus = modulus;
       Totient = totient;
+      //[Note]EncodePower must be relatively prime to Totient
+      EncodePower = encodePower;
+      DecodePower = ModInverse(EncodePower, Totient);
+#if DEBUG
+      Console.WriteLine($"decodePower = {DecodePower} = ModInverse(encodePower = {EncodePower}, totient = {Totient})");
+      var product = EncodePower * DecodePower % Totient;
+      Debug.Assert(product == 1, $"1 != {product} = encodePower = {EncodePower} * decodePower = {DecodePower} % totient = {Totient}");
+#endif
     }
     #endregion
 
@@ -49,21 +57,17 @@ namespace Fermat.Math {
     //
     public decimal Encode(decimal input) {
       var encoded = ModPower(input, EncodePower, Modulus);
+#if DEBUG
       Console.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {EncodePower}, modulus = {Modulus})");
+#endif
       return encoded;
     }
 
     public decimal Decode(decimal encoded) {
-      //[Note]EncodePower must be relatively prime to Totient
-      var decodePower = ModInverse(EncodePower, Totient);
+      var decoded = ModPower(encoded, DecodePower, Modulus);
 #if DEBUG
-      Console.WriteLine($"decodePower = {decodePower} = ModInverse(encodePower = {EncodePower}, totient = {Totient})");
-
-      var product = EncodePower * decodePower % Totient;
-      Debug.Assert(product == 1, $"1 != {product} = encodePower = {EncodePower} * decodePower = {decodePower} % totient = {Totient}");
+      Console.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {DecodePower}, modulus = {Modulus})");
 #endif
-      var decoded = ModPower(encoded, decodePower, Modulus);
-      Console.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {decodePower}, modulus = {Modulus})");
       return decoded;
     }
     #endregion
