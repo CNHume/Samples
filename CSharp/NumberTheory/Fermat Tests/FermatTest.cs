@@ -38,11 +38,11 @@ namespace FermatTests {
 #endif
       var encoded = rsa.Encode(input);
 #if DEBUG
-      OutputHelper.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {rsa.EncodePower}, modulus = {modulus})");
+      OutputHelper.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {rsa.EncodePower}, modulus = {rsa.Modulus})");
 #endif
       var decoded = rsa.Decode(encoded, totient);
 #if DEBUG
-      OutputHelper.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {decodePower}, modulus = {modulus})");
+      OutputHelper.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {decodePower}, modulus = {rsa.Modulus})");
 #endif
       Assert.True(decoded == input, $"decoded = {decoded} != input = {input}");
     }
