@@ -29,26 +29,22 @@ namespace FermatTests {
     [InlineData(1001, 29, 99999999999997, 99880810487836)]
     [InlineData(1001, 29, 99999999999989, 99999956900556)]
     public void TestRSA(decimal input, decimal encodePower, decimal modulus, decimal totient) {
-      var rsa = new RSA(encodePower, modulus, totient);
-      var _decodePower = rsa.DecodePower;
-      var _encodePower = rsa.EncodePower;
-      var _modulus = rsa.Modulus;
-      var _totient = rsa.Totient;
+      var rsa = new RSA(encodePower, modulus);
+      var decodePower = Modular.ModInverse(rsa.EncodePower, totient);
 #if DEBUG
-      OutputHelper.WriteLine($"decodePower = {_decodePower} = ModInverse(encodePower = {_encodePower}, totient = {_totient})");
-      var product = _encodePower * _decodePower % _totient;
-      Assert.True(product == 1,
-        $"1 != {product} = encodePower = {_encodePower} * decodePower = {_decodePower} % totient = {_totient}");
+      OutputHelper.WriteLine($"decodePower = {decodePower} = ModInverse(encodePower = {rsa.EncodePower}, totient = {totient})");
+      var product = rsa.EncodePower * decodePower % totient;
+      Assert.True(product == 1, $"1 != {product} = encodePower = {rsa.EncodePower} * decodePower = {decodePower} % totient = {totient}");
 #endif
       var encoded = rsa.Encode(input);
 #if DEBUG
-      OutputHelper.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {_encodePower}, modulus = {_modulus})");
+      OutputHelper.WriteLine($"{encoded} = Encode(input = {input}, encodePower = {rsa.EncodePower}, modulus = {modulus})");
 #endif
-      var decoded = rsa.Decode(encoded);
+      var decoded = rsa.Decode(encoded, totient);
 #if DEBUG
-      OutputHelper.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {_decodePower}, modulus = {_modulus})");
+      OutputHelper.WriteLine($"{decoded} = Decode(encoded = {encoded}, decodePower = {decodePower}, modulus = {modulus})");
 #endif
-      Assert.True(decoded == input, $"decoded = {decoded} != Input = {input}");
+      Assert.True(decoded == input, $"decoded = {decoded} != input = {input}");
     }
     #endregion
   }
