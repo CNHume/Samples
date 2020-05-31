@@ -21,9 +21,15 @@
 ;;;	This file demonstrates uses of a Continuation
 ;;;	Passing Style (CPS) of Functional Programming.
 ;;;
+
+;;;
+;;; Module Prologue:
+;;;
+(in-package :sk)
+
 ;;; No Requirements.
 ;;; No Shadows.
-(eval-when (compile) (use-package 'sk))
+(eval-when (compile) (use-package :sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 

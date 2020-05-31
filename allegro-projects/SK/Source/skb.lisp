@@ -69,9 +69,9 @@
 ;;;
 
 ;;;
-;;; Resume Module Context:
+;;; Module Prologue:
 ;;;
-(in-package sk)
+(in-package :sk)
 
 ;;; No Requirements.
 ;;; No Shadows.

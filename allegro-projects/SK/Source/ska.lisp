@@ -85,7 +85,7 @@
 ;;;
 ;;; Module Prologue:
 ;;;
-(in-package sk)
+(in-package :sk)
 
 ;;; No Requirements.
 ;;; No Shadows.
@@ -96,9 +96,10 @@
 ;;; Exported Interfaces:
 ;;;
 (eval-when (compile load eval)
-  (defparameter *COMBINATORS*			; Abstractions are in terms
-    '(b c e h i k keta knil pair s u v w y	;of these Primitives.  They
-      false true)				;are internal: not EXPORTed.
+  (defparameter *COMBINATORS*
+    ;; Abstractions are in terms of the following Primitives,
+    ;; which are internal (not EXPORTed):
+    '(b c e h i k keta knil pair s u v w y false true)
     "The Combinatory Primitives")
   
   (defparameter *INTERFACES*

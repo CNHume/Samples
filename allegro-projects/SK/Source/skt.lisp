@@ -39,9 +39,15 @@
 ;;;	This file demonstrates a number of higher order
 ;;;	utility functions for the S-K Reduction Engine.
 ;;;
+
+;;;
+;;; Module Prologue:
+;;;
+(in-package :sk)
+
 ;;; No Requirements.
 ;;; No Shadows.
-(eval-when (compile) (use-package 'sk))
+(eval-when (compile) (use-package :sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 

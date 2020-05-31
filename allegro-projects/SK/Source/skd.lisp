@@ -31,9 +31,15 @@
 ;;;	This test file for the S-K Reduction Engine, contains
 ;;;	renditions of D.A. Turner's "SASL Test Programs".
 ;;;
+
+;;;
+;;; Module Prologue:
+;;;
+(in-package :sk)
+
 ;;; No Requirements.
 ;;; No Shadows.
-(eval-when (compile) (use-package 'sk))
+(eval-when (compile) (use-package :sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 
