@@ -20,10 +20,9 @@
 ;;;
 ;;;	Demonstrate operation of the S-K Reduction Engine.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "sk:sk;skc.lisp")
+;;; Compile:	(compile-file "SK/Source/skc.lisp")
 ;;;
 ;;; Contents:
 ;;;

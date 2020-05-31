@@ -49,10 +49,9 @@
 ;;;
 ;;;	Implement elements of an elementary S-K Reduction Engine.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "sk:sk;skb.lisp")
+;;; Compile:	(compile-file "SK/Source/skb.lisp")
 ;;;
 ;;; Contents:
 ;;;

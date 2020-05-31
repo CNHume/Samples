@@ -29,10 +29,9 @@
 ;;;
 ;;;	Illustrate extension of the S-K Reduction Engine, in SASL itself.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "sk:sk;skt.lisp")
+;;; Compile:	(compile-file "SK/Source/skt.lisp")
 ;;;
 ;;; Contents:
 ;;;

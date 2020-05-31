@@ -44,10 +44,9 @@
 ;;;	This code was developed in connection with ASU's CSE 555
 ;;;	"Automata Theory" taught by Prof. Ed Ashcroft, Fall 1991.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "sk:sk;ska.lisp")
+;;; Compile:	(compile-file "SK/Source/ska.lisp")
 ;;;
 ;;; Contents:
 ;;;
