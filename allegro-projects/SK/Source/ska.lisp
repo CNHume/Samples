@@ -1,84 +1,84 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: SK; Base: 10 -*-
 ;;;
-;;; Source: ska.lisp		Module: sk		Status:	operational
+;;; Source: ska.lisp            Module: sk              Status: operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 2.10	 9-Jan-94	Added KETA (:EXPERIMENAL optimization).
-;;; Chris Hume	 2.9	25-Nov-93	Added ?-READER.
-;;; Chris Hume	 2.8	24-Nov-93	Corrected use of W in ABBREV-S.
-;;; Chris Hume	 3.1	29-Mar-92	Added H.
-;;; Chris Hume	 3.0	25-Mar-92	Added TRUE and FALSE, obviating IF.
-;;; Chris Hume	 2.8	11-Jan-92	Added W.
-;;; Chris Hume	 2.7	10-Jan-92	Cleaned up peripheral Combinator Names.
-;;; Chris Hume	 2.6	31-Dec-91	Prepared for :STRONG Abstraction.
-;;; Chris Hume	 2.5	20-Dec-91	Added DEFINE-PRIMITIVES.
-;;; Chris Hume	 2.4	19-Dec-91	SK Version 1.0.3, beyond ASU's CSE 555.
-;;; Chris Hume	 2.3	 7-Dec-91	Don't count Association as Abstraction.
-;;; Chris Hume	 2.2	 6-Dec-91	Count Reduction Recursion Levels.
-;;; Chris Hume	 2.1	 4-Dec-91	DIV is more Interface, than Combinator.
-;;; Chris Hume	 2.0	 1-Dec-91	SK Version 1.0, Released December 1991.
-;;; Chris Hume	 1.18	 1-Dec-91	Added Combinator Abstraction Warning.
-;;; Chris Hume	 1.17	30-Nov-91	Count Abstractions and Reductions.
-;;; Chris Hume	 1.16	28-Nov-91	Added recursion support to DEFC.
-;;; Chris Hume	 1.15	28-Nov-91	Added SK-IMPLEMENTATION-VERSION.
-;;; Chris Hume	 1.14	27-Nov-91	Added DIV and [] Syntax Diagnostic.
-;;; Chris Hume	 1.13	24-Nov-91	Allowed for :STANDARD abbreviation.
-;;; Chris Hume	 1.12	23-Nov-91	Added E, finishing ABBREV-S series.
-;;; Chris Hume	 1.11	23-Nov-91	Added V-Combinator for: (S I I).
-;;; Chris Hume	 1.10	23-Nov-91	Reworked CDEFINITION into Accessor.
-;;; Chris Hume	 1.9	11-Nov-91	Added Combinator Definition Macros.
-;;; Chris Hume	 1.8	 9-Nov-91	Added QUOTE.
-;;; Chris Hume	 1.7	 7-Nov-91	Generalized abstraction, suitably.
-;;; Chris Hume	 1.6	 6-Nov-91	Messed about with the Keyword Passing.
-;;; Chris Hume	 1.5	 5-Nov-91	Renamed a few symbols for consistency.
-;;; Chris Hume	 1.4	31-Oct-91	Removed Beta Reduction from this file.
-;;; Chris Hume	 1.3	25-Oct-91	Coded the Combinators: (S K I B C).
-;;; Chris Hume	 1.2	24-Oct-91	Began Reduction.
-;;; Chris Hume	 1.1	22-Oct-91	Finished Abstraction.
-;;; Chris Hume	 1.0	20-Oct-91	Created file.
+;;; Author     Version  Edit Date       Purpose of Edit
+;;; ------     -------  ---------       ---------------
+;;; Chris Hume   2.10    9-Jan-94       Added KETA (:EXPERIMENAL optimization).
+;;; Chris Hume   2.9    25-Nov-93       Added ?-READER.
+;;; Chris Hume   2.8    24-Nov-93       Corrected use of W in ABBREV-S.
+;;; Chris Hume   3.1    29-Mar-92       Added H.
+;;; Chris Hume   3.0    25-Mar-92       Added TRUE and FALSE, obviating IF.
+;;; Chris Hume   2.8    11-Jan-92       Added W.
+;;; Chris Hume   2.7    10-Jan-92       Cleaned up peripheral Combinator Names.
+;;; Chris Hume   2.6    31-Dec-91       Prepared for :STRONG Abstraction.
+;;; Chris Hume   2.5    20-Dec-91       Added DEFINE-PRIMITIVES.
+;;; Chris Hume   2.4    19-Dec-91       SK Version 1.0.3, beyond ASU's CSE 555.
+;;; Chris Hume   2.3     7-Dec-91       Don't count Association as Abstraction.
+;;; Chris Hume   2.2     6-Dec-91       Count Reduction Recursion Levels.
+;;; Chris Hume   2.1     4-Dec-91       DIV is more Interface, than Combinator.
+;;; Chris Hume   2.0     1-Dec-91       SK Version 1.0, Released December 1991.
+;;; Chris Hume   1.18    1-Dec-91       Added Combinator Abstraction Warning.
+;;; Chris Hume   1.17   30-Nov-91       Count Abstractions and Reductions.
+;;; Chris Hume   1.16   28-Nov-91       Added recursion support to DEFC.
+;;; Chris Hume   1.15   28-Nov-91       Added SK-IMPLEMENTATION-VERSION.
+;;; Chris Hume   1.14   27-Nov-91       Added DIV and [] Syntax Diagnostic.
+;;; Chris Hume   1.13   24-Nov-91       Allowed for :STANDARD abbreviation.
+;;; Chris Hume   1.12   23-Nov-91       Added E, finishing ABBREV-S series.
+;;; Chris Hume   1.11   23-Nov-91       Added V-Combinator for: (S I I).
+;;; Chris Hume   1.10   23-Nov-91       Reworked CDEFINITION into Accessor.
+;;; Chris Hume   1.9    11-Nov-91       Added Combinator Definition Macros.
+;;; Chris Hume   1.8     9-Nov-91       Added QUOTE.
+;;; Chris Hume   1.7     7-Nov-91       Generalized abstraction, suitably.
+;;; Chris Hume   1.6     6-Nov-91       Messed about with the Keyword Passing.
+;;; Chris Hume   1.5     5-Nov-91       Renamed a few symbols for consistency.
+;;; Chris Hume   1.4    31-Oct-91       Removed Beta Reduction from this file.
+;;; Chris Hume   1.3    25-Oct-91       Coded the Combinators: (S K I B C).
+;;; Chris Hume   1.2    24-Oct-91       Began Reduction.
+;;; Chris Hume   1.1    22-Oct-91       Finished Abstraction.
+;;; Chris Hume   1.0    20-Oct-91       Created file.
 ;;;
 ;;; Purpose:
 ;;;
-;;;	Implement elements of an elementary S-K Reduction Engine.
-;;;	This code was developed in connection with ASU's CSE 555
-;;;	"Automata Theory" taught by Prof. Ed Ashcroft, Fall 1991.
+;;;     Implement elements of an elementary S-K Reduction Engine.
+;;;     This code was developed in connection with ASU's CSE 555
+;;;     "Automata Theory" taught by Prof. Ed Ashcroft, Fall 1991.
 ;;;
-;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "SK/Source/ska.lisp")
+;;; Compile:    (compile-file "SK/Source/ska.lisp")
 ;;;
 ;;; Contents:
 ;;;
-;;;	This file implements the S-K Reduction Abstraction Interfaces.
+;;;     This file implements the S-K Reduction Abstraction Interfaces.
 ;;;
 ;;; References:
 ;;;
-;;;	"A New Implementation Technique for Applicative Languages" by
-;;;	D.A. Turner, published 1979, Software-Practice and Experience
-;;;	[vol.9, pp.31-49] John Wiley & Sons, Ltd.
+;;;     "A New Implementation Technique for Applicative Languages" by
+;;;     D.A. Turner, published 1979, Software-Practice and Experience
+;;;     [vol.9, pp.31-49] John Wiley & Sons, Ltd.
 ;;;
 ;;; External Macros:
 ;;;
-;;;	defc			c def	
+;;;     defc                    c def   
 ;;;
 ;;; The Abstraction Operator:
 ;;;
-;;;	[var] expr		= (lambda* var expr)
+;;;     [var] expr              = (lambda* var expr)
 ;;;
 ;;; External Procedures:
 ;;;
-;;;	cboundp			c
-;;;	cdefinition		c
-;;;	define-primitives	&optional package
+;;;     cboundp                 c
+;;;     cdefinition             c
+;;;     define-primitives       &optional package
 ;;;
 ;;; Internal Procedures:
 ;;;
-;;;	abstract		var expr &keys count trace warn optimize strong
-;;;	abbrev-s		term-1 term-2
+;;;     abstract                var expr &keys count trace warn optimize strong
+;;;     abbrev-s                term-1 term-2
 ;;;
-;;;	[-reader		stream char
-;;;	]-reader		stream char
+;;;     [-reader                stream char
+;;;     ]-reader                stream char
 ;;;
 
 ;;;
@@ -115,10 +115,10 @@
 
 ;;;
 ;;; NOTE: To support Abstraction of Variables that happen to name
-;;;	  Primitive Combinators the symbols associated with these
-;;;	  primitives should not be EXPORTed!  Seperate definition
-;;;	  of Primitive Combinators, in a User Specifiable Package,
-;;;	  should be obtained via: (DEFINE-PRIMITIVES).  See below.
+;;;       Primitive Combinators the symbols associated with these
+;;;       primitives should not be EXPORTed!  Seperate definition
+;;;       of Primitive Combinators, in a User Specifiable Package,
+;;;       should be obtained via: (DEFINE-PRIMITIVES).  See below.
 ;;;
 ;;;(export *interfaces*)
 ;;;(export *parameters*)
@@ -126,44 +126,44 @@
 ;;;
 ;;; Special Variables and Constants:
 ;;;
-(defparameter *VERSION-MAJOR* 1			; Obtain the SK Version via
-  "SK Major Version Number")			;SK-IMPLEMENTATION-VERSION.
+(defparameter *VERSION-MAJOR* 1                 ; Obtain the SK Version via
+  "SK Major Version Number")                    ;SK-IMPLEMENTATION-VERSION.
 (defparameter *VERSION-MINOR* 0
   "SK Minor Version Number")
 (defparameter *VERSION-EDIT* 5
   "SK Version Edit Number")
 
-(defparameter *ABSTRACTION-COUNT* nil		; Bind to a Number.
+(defparameter *ABSTRACTION-COUNT* nil           ; Bind to a Number.
   "The Abstraction Counter")
 
-(defparameter *REDUCTION-COUNT* nil		; Bind to a Number.
+(defparameter *REDUCTION-COUNT* nil             ; Bind to a Number.
   "The Reduction Counter")
 
-(defparameter *REDUCTION-LEVEL* nil		; Bind to a Number.
+(defparameter *REDUCTION-LEVEL* nil             ; Bind to a Number.
   "The Reduction Recursion Depth")
 
-(defparameter *DEFAULT-PRINT-CIRCLE* t		; Takes NIL, or T.
+(defparameter *DEFAULT-PRINT-CIRCLE* t          ; Takes NIL, or T.
   "Tracer *PRINT-CIRCLE* Default")
 #+:ccl
-(defparameter *DEFAULT-PRINT-LEVEL* 16		; Takes NIL, or an Integer.
+(defparameter *DEFAULT-PRINT-LEVEL* 16          ; Takes NIL, or an Integer.
   "Tracer *PRINT-LEVEL* Default")
 
-(defparameter *COUNT* nil			; Takes NIL, or T.
+(defparameter *COUNT* nil                       ; Takes NIL, or T.
   "The Default Counter Display Setting")
 
-(defparameter *TRACE* nil			; Takes NIL, or T.
+(defparameter *TRACE* nil                       ; Takes NIL, or T.
   "The Default Tracer Setting")
 
-(defparameter *WARN* t				; Takes NIL, or T.
+(defparameter *WARN* t                          ; Takes NIL, or T.
   "The Default Warnings Setting")
 
-(defparameter *NORMAL* nil			; Takes NIL, or T.
+(defparameter *NORMAL* nil                      ; Takes NIL, or T.
   "Disposition of Operand Redices, interior to an Irreducible Redex")
 
-(defparameter *OPTIMIZE* t			; Takes NIL, :STANDARD, or T.
+(defparameter *OPTIMIZE* t                      ; Takes NIL, :STANDARD, or T.
   "The Default Optimizer Setting")
 
-(defparameter *STRONG* nil			; Takes NIL, or T.
+(defparameter *STRONG* nil                      ; Takes NIL, or T.
   "The Abstraction Strength")
 
 ;;;
@@ -208,7 +208,7 @@
 ;;;
 ;;; Now for the Code:
 ;;;
-(defun SK-IMPLEMENTATION-VERSION ()		; Anticipate Support.
+(defun SK-IMPLEMENTATION-VERSION ()             ; Anticipate Support.
   "Obtain the SK Version string."
   (format nil "Version ~D.~D~@[.~D~]"
           *version-major*
@@ -220,8 +220,8 @@
   "Does the specified symbol name a Combinator?"
   (if (not (symbolp c))
     (error "~S is not a valid argument to ~S." c 'cboundp)
-    (let ((plist (symbol-plist c)))		; This awkward interface
-      (multiple-value-bind			;admits NIL CDEFINITIONs.
+    (let ((plist (symbol-plist c)))             ; This awkward interface
+      (multiple-value-bind                      ;admits NIL CDEFINITIONs.
         (indicator value prest) (get-properties plist '(combinatorp))
         (declare (ignore indicator value))
         (not (endp prest))
@@ -266,11 +266,11 @@
     ;;
     ;; Abstraction Dispatcher:
     ;;
-    (cond					; Generalize Abstraction.
+    (cond                                       ; Generalize Abstraction.
      ((null var) `(knil ,expr))
      ((consp var) `(u (lambda* ,(first var) (lambda* ,(rest var) ,expr))))
      (t (cond
-         ((consp expr)				; NIL is handled as an Atom.
+         ((consp expr)                          ; NIL is handled as an Atom.
           (let ((ap-first (first expr))
                 (ap-rest (rest expr)))
             (if (endp ap-rest)
@@ -280,20 +280,20 @@
               ;;
               (progn
                 (when warn (warn "Parenthesized CL-Term: ~S." expr))
-                (when *abstraction-count*	; Doesn't count as Abstraction.
+                (when *abstraction-count*       ; Doesn't count as Abstraction.
                   (decf *abstraction-count*))
                 (abstract var ap-first))
               (let ((ap-second (second expr))
                     (ap-more (rest ap-rest)))
                 (cond
-                 ((eq ap-first 'lambda*)	; Resolve Inner Abstractions.
-                  (abstract var (eval expr)))	; Recurse from LAMBDA* Macro.
+                 ((eq ap-first 'lambda*)        ; Resolve Inner Abstractions.
+                  (abstract var (eval expr)))   ; Recurse from LAMBDA* Macro.
                  ;;
                  ;; Perform Implicit Left Association, AFTER
                  ;; recognizing Internal Abstractions (above).
                  ;;
                  (ap-more
-                  (when *abstraction-count*	; Doesn't count as Abstraction.
+                  (when *abstraction-count*     ; Doesn't count as Abstraction.
                     (decf *abstraction-count*))
                   (abstract var (reduce #'list expr)))
                  ;;
@@ -312,7 +312,7 @@
                       ))
                  )))
             ))
-         ((eql var expr) 'i)			; Allow Numeric Variables.
+         ((eql var expr) 'i)                    ; Allow Numeric Variables.
          ((and *optimize* (not (eq *optimize* :standard)) (eq expr 'i)) 'h)
          ((eq *optimize* :experimental) `(keta ,expr))
          (t `(k ,expr))
@@ -322,7 +322,7 @@
 (defun ABBREV-S (term-1 term-2)
   "Produce an S-Combinator, or an Abbreviation, given its first two Terms."
   (declare (special *optimize*))
-  (let ((anyp (not (eq *optimize* :standard)))	; Permit any abbreviation?
+  (let ((anyp (not (eq *optimize* :standard)))  ; Permit any abbreviation?
         (term-1-listp (listp term-1))
         (term-2-listp (listp term-2)))
     (let ((term-1-kp (and term-1-listp (eq (first term-1) 'k)))

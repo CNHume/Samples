@@ -1,34 +1,34 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
 ;;;
-;;; Source: skd.lisp		Module: sk	Status:	operational
+;;; Source: skd.lisp            Module: sk      Status: operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 3.3	14-Dec-92	Added FBUTFIRSTN.
-;;; Chris Hume	 3.2	 9-Dec-92	Added FBUTFIRSTM, FIB.
-;;; Chris Hume	 3.1	 7-Dec-92	Added FIBEXP, FIBDAT.
-;;; Chris Hume	 3.0	30-May-92	Adjusted FACTORIAL, FOR, and TWICE.
-;;; Chris Hume	 2.4	31-Jan-92	Shortened SIEVE.
-;;; Chris Hume	 2.3	10-Jan-92	Cleaned up peripheral Combinator Names.
-;;; Chris Hume	 2.2	18-Dec-91	Renamed file from SK-DEMO to SKD.
-;;; Chris Hume	 2.1	 6-Dec-91	Cleaned up some variable names.
-;;; Chris Hume	 2.0	 1-Dec-91	SK Version 1.0, Released December 1991.
-;;; Chris Hume	 1.2	 1-Dec-91	Moved TIMES into this file.
-;;; Chris Hume	 1.1	 1-Dec-91	Demonstrated Lazy Evaluation.
-;;; Chris Hume	 1.0	30-Nov-91	Created file.
+;;; Author     Version  Edit Date       Purpose of Edit
+;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.3    14-Dec-92       Added FBUTFIRSTN.
+;;; Chris Hume   3.2     9-Dec-92       Added FBUTFIRSTM, FIB.
+;;; Chris Hume   3.1     7-Dec-92       Added FIBEXP, FIBDAT.
+;;; Chris Hume   3.0    30-May-92       Adjusted FACTORIAL, FOR, and TWICE.
+;;; Chris Hume   2.4    31-Jan-92       Shortened SIEVE.
+;;; Chris Hume   2.3    10-Jan-92       Cleaned up peripheral Combinator Names.
+;;; Chris Hume   2.2    18-Dec-91       Renamed file from SK-DEMO to SKD.
+;;; Chris Hume   2.1     6-Dec-91       Cleaned up some variable names.
+;;; Chris Hume   2.0     1-Dec-91       SK Version 1.0, Released December 1991.
+;;; Chris Hume   1.2     1-Dec-91       Moved TIMES into this file.
+;;; Chris Hume   1.1     1-Dec-91       Demonstrated Lazy Evaluation.
+;;; Chris Hume   1.0    30-Nov-91       Created file.
 ;;;
 ;;; Purpose:
 ;;;
-;;;	Demonstrate correct operation of the S-K Reduction Engine.
+;;;     Demonstrate correct operation of the S-K Reduction Engine.
 ;;;
-;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "SK/Source/skd.lisp")
+;;; Compile:    (compile-file "SK/Source/skd.lisp")
 ;;;
 ;;; Contents:
 ;;;
-;;;	This test file for the S-K Reduction Engine, contains
-;;;	renditions of D.A. Turner's "SASL Test Programs".
+;;;     This test file for the S-K Reduction Engine, contains
+;;;     renditions of D.A. Turner's "SASL Test Programs".
 ;;;
 
 ;;; No Requirements.
@@ -103,7 +103,7 @@
         (- n 1))
     ))
 
-(defc FBUTFIRSTN [n]	; This is just a "fool proof" version of FBUTFIRSTM.
+(defc FBUTFIRSTN [n]    ; This is just a "fool proof" version of FBUTFIRSTM.
   (if (zerop n)
     (pair 0 (fbutfirstn 1))
     ([m](if (zerop m)

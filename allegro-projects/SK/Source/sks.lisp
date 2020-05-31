@@ -1,24 +1,24 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
 ;;;
-;;; Source: sks.lisp		Module: sk	Status:	operational
+;;; Source: sks.lisp            Module: sk      Status: operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 1.1	26-Sep-93	First Working Version
-;;; Chris Hume	 1.0	29-Aug-93	Created file.
+;;; Author     Version  Edit Date       Purpose of Edit
+;;; ------     -------  ---------       ---------------
+;;; Chris Hume   1.1    26-Sep-93       First Working Version
+;;; Chris Hume   1.0    29-Aug-93       Created file.
 ;;;
 ;;; Purpose:
 ;;;
-;;;	Illustrate extension of the S-K Reduction Engine, in SASL itself.
+;;;     Illustrate extension of the S-K Reduction Engine, in SASL itself.
 ;;;
-;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "SK/Source/sks.lisp")
+;;; Compile:    (compile-file "SK/Source/sks.lisp")
 ;;;
 ;;; Contents:
 ;;;
-;;;	This file demonstrates uses of a Continuation
-;;;	Passing Style (CPS) of Functional Programming.
+;;;     This file demonstrates uses of a Continuation
+;;;     Passing Style (CPS) of Functional Programming.
 ;;;
 
 ;;; No Requirements.

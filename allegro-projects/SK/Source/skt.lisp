@@ -1,42 +1,42 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
 ;;;
-;;; Source: skt.lisp		Module: sk	Status:	operational
+;;; Source: skt.lisp            Module: sk      Status: operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 3.6	 9-Dec-92	Added MAP2.
-;;; Chris Hume	 3.5	 1-Jun-92	Incorporated Boolean Primitives.
-;;; Chris Hume	 3.4	 1-Jun-92	Added MASK, POSITIONS, and MAP*.
-;;; Chris Hume	 3.3	31-May-92	Added SUBSEQ, FIRSTN and BUTFIRSTN.
-;;; Chris Hume	 3.2	30-May-92	Added NTH, MAX and MIN.
-;;; Chris Hume	 3.1	30-May-92	Added NEXT, explored its application.
-;;; Chris Hume	 3.0	27-Mar-92	Added LENGTH.
-;;; Chris Hume	 2.6	18-Dec-91	Removed Combinator Laboratory to SKC.
-;;; Chris Hume	 2.5	16-Dec-91	Added Boolean Primitives.
-;;; Chris Hume	 2.4	10-Dec-91	Added Y-Combinator Laboratory.
-;;; Chris Hume	 2.3	10-Dec-91	Added Conditionality Implementation.
-;;; Chris Hume	 2.2	 6-Dec-91	Renamed List Operations.
-;;; Chris Hume	 2.1	 2-Dec-91	Added REVERSE.
-;;; Chris Hume	 2.0	 1-Dec-91	SK Version 1.0, Released December 1991.
-;;; Chris Hume	 1.5	 1-Dec-91	Removed TIMES from this file.
-;;; Chris Hume	 1.4	 1-Dec-91	Cleaned up REDUCEL vs. REDUCER.
-;;; Chris Hume	 1.3	29-Nov-91	Reduced REDUCER.
-;;; Chris Hume	 1.2	27-Nov-91	Added REDUCER.
-;;; Chris Hume	 1.1	24-Nov-91	Reduced TIMES.
-;;; Chris Hume	 1.0	11-Nov-91	Created file.
+;;; Author     Version  Edit Date       Purpose of Edit
+;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.6     9-Dec-92       Added MAP2.
+;;; Chris Hume   3.5     1-Jun-92       Incorporated Boolean Primitives.
+;;; Chris Hume   3.4     1-Jun-92       Added MASK, POSITIONS, and MAP*.
+;;; Chris Hume   3.3    31-May-92       Added SUBSEQ, FIRSTN and BUTFIRSTN.
+;;; Chris Hume   3.2    30-May-92       Added NTH, MAX and MIN.
+;;; Chris Hume   3.1    30-May-92       Added NEXT, explored its application.
+;;; Chris Hume   3.0    27-Mar-92       Added LENGTH.
+;;; Chris Hume   2.6    18-Dec-91       Removed Combinator Laboratory to SKC.
+;;; Chris Hume   2.5    16-Dec-91       Added Boolean Primitives.
+;;; Chris Hume   2.4    10-Dec-91       Added Y-Combinator Laboratory.
+;;; Chris Hume   2.3    10-Dec-91       Added Conditionality Implementation.
+;;; Chris Hume   2.2     6-Dec-91       Renamed List Operations.
+;;; Chris Hume   2.1     2-Dec-91       Added REVERSE.
+;;; Chris Hume   2.0     1-Dec-91       SK Version 1.0, Released December 1991.
+;;; Chris Hume   1.5     1-Dec-91       Removed TIMES from this file.
+;;; Chris Hume   1.4     1-Dec-91       Cleaned up REDUCEL vs. REDUCER.
+;;; Chris Hume   1.3    29-Nov-91       Reduced REDUCER.
+;;; Chris Hume   1.2    27-Nov-91       Added REDUCER.
+;;; Chris Hume   1.1    24-Nov-91       Reduced TIMES.
+;;; Chris Hume   1.0    11-Nov-91       Created file.
 ;;;
 ;;; Purpose:
 ;;;
-;;;	Illustrate extension of the S-K Reduction Engine, in SASL itself.
+;;;     Illustrate extension of the S-K Reduction Engine, in SASL itself.
 ;;;
-;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "SK/Source/skt.lisp")
+;;; Compile:    (compile-file "SK/Source/skt.lisp")
 ;;;
 ;;; Contents:
 ;;;
-;;;	This file demonstrates a number of higher order
-;;;	utility functions for the S-K Reduction Engine.
+;;;     This file demonstrates a number of higher order
+;;;     utility functions for the S-K Reduction Engine.
 ;;;
 
 ;;; No Requirements.

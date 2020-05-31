@@ -1,32 +1,32 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
 ;;;
-;;; Source: skc.lisp		Module: sk	Status:	operational
+;;; Source: skc.lisp            Module: sk      Status: operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 3.0	 1-Jun-92	Removed the Boolean Primitives, to SKT.
-;;; Chris Hume	 2.2	27-Mar-92	Included Ackermann's Function.
-;;; Chris Hume	 2.1	26-Mar-92	Added Church Pairing Combinator.
-;;; Chris Hume	 2.0	25-Mar-92	Implemented TRUE and FALSE, internally.
-;;; Chris Hume	 1.6	19-Jan-92	Added T and P.
-;;; Chris Hume	 1.5	19-Jan-92	Added Q and R.
-;;; Chris Hume	 1.4	13-Jan-92	Straightened out CASE.
-;;; Chris Hume	 1.3	10-Jan-92	Cleaned up peripheral Combinator Names.
-;;; Chris Hume	 1.2	19-Dec-91	Demonstrated Integer Arithmetic.
-;;; Chris Hume	 1.1	19-Dec-91	Defined Primitive Combinators in USER.
-;;; Chris Hume	 1.0	18-Dec-91	Created file.
+;;; Author     Version  Edit Date       Purpose of Edit
+;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.0     1-Jun-92       Removed the Boolean Primitives, to SKT.
+;;; Chris Hume   2.2    27-Mar-92       Included Ackermann's Function.
+;;; Chris Hume   2.1    26-Mar-92       Added Church Pairing Combinator.
+;;; Chris Hume   2.0    25-Mar-92       Implemented TRUE and FALSE, internally.
+;;; Chris Hume   1.6    19-Jan-92       Added T and P.
+;;; Chris Hume   1.5    19-Jan-92       Added Q and R.
+;;; Chris Hume   1.4    13-Jan-92       Straightened out CASE.
+;;; Chris Hume   1.3    10-Jan-92       Cleaned up peripheral Combinator Names.
+;;; Chris Hume   1.2    19-Dec-91       Demonstrated Integer Arithmetic.
+;;; Chris Hume   1.1    19-Dec-91       Defined Primitive Combinators in USER.
+;;; Chris Hume   1.0    18-Dec-91       Created file.
 ;;;
 ;;; Purpose:
 ;;;
-;;;	Demonstrate operation of the S-K Reduction Engine.
+;;;     Demonstrate operation of the S-K Reduction Engine.
 ;;;
-;;; Usage:	This file is intended to be portable to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	(compile-file "SK/Source/skc.lisp")
+;;; Compile:    (compile-file "SK/Source/skc.lisp")
 ;;;
 ;;; Contents:
 ;;;
-;;;	This file is a Laboratory for experimental Combinators.
+;;;     This file is a Laboratory for experimental Combinators.
 ;;;
 
 ;;; No Requirements.
