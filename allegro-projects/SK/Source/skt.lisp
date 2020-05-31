@@ -40,11 +40,6 @@
 ;;;	utility functions for the S-K Reduction Engine.
 ;;;
 
-;;;
-;;; Module Prologue:
-;;;
-(in-package sk)
-
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile) (use-package 'sk))

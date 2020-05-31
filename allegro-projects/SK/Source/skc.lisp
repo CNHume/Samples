@@ -30,11 +30,6 @@
 ;;;	This file is a Laboratory for experimental Combinators.
 ;;;
 
-;;;
-;;; Module Prologue:
-;;;
-(in-package sk)
-
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile) (use-package 'sk))

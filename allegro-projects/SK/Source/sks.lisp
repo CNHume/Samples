@@ -22,11 +22,6 @@
 ;;;	Passing Style (CPS) of Functional Programming.
 ;;;
 
-;;;
-;;; Module Prologue:
-;;;
-(in-package sk)
-
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile) (use-package 'sk))

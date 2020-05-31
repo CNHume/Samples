@@ -32,11 +32,6 @@
 ;;;	renditions of D.A. Turner's "SASL Test Programs".
 ;;;
 
-;;;
-;;; Module Prologue:
-;;;
-(in-package sk)
-
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile) (use-package 'sk))
