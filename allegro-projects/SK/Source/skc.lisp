@@ -33,11 +33,11 @@
 ;;;
 ;;; Module Prologue:
 ;;;
-(in-package :sk)
+(in-package sk)
 
 ;;; No Requirements.
 ;;; No Shadows.
-(eval-when (compile) (use-package :sk))
+(eval-when (compile) (use-package 'sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 
