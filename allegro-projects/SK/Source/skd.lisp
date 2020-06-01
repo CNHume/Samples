@@ -38,7 +38,7 @@
 
 ;;; No Requirements.
 ;;; No Shadows.
-(eval-when (compile) (use-package 'sk))
+(eval-when (compile load) (use-package 'sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 

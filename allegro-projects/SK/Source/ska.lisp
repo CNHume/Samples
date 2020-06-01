@@ -110,7 +110,7 @@
     '(*count* *normal* *optimize* *strong* *trace* *warn*)
     "The Keyword Defaults"))
 
-(eval-when (compile)
+(eval-when (compile load)
   (export '(*combinators* *interfaces* *parameters*)))
 
 ;;;

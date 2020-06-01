@@ -4,6 +4,6 @@
   (format t "~&Loading \"~A\"~%" (enough-namestring (truename lisp) ".lisp"))
   (load lisp))
 
-(eval-when (compile) (use-package 'sk))
+(eval-when (compile load) (use-package 'sk))
 
 ;;;(shiftf *print-circle* t)
