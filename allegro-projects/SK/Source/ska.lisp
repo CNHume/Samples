@@ -84,7 +84,7 @@
 ;;;
 ;;; Module Prologue:
 ;;;
-;;;(in-package sk)
+(in-package sk)
 
 ;;; No Requirements.
 ;;; No Shadows.
@@ -120,8 +120,8 @@
 ;;;       of Primitive Combinators, in a User Specifiable Package,
 ;;;       should be obtained via: (DEFINE-PRIMITIVES).  See below.
 ;;;
-;;;(export *interfaces*)
-;;;(export *parameters*)
+(export *interfaces*)
+(export *parameters*)
 
 ;;;
 ;;; Special Variables and Constants:

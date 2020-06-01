@@ -1,4 +1,4 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
 ;;;
 ;;; Source: sks.lisp            Module: sk      Status: operational
 ;;;
@@ -26,6 +26,11 @@
 (eval-when (compile) (use-package 'sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
+
+;;;
+;;; Module Prologue:
+;;;
+(in-package cg-user)
 
 ;;;
 ;;; Now for the Code:

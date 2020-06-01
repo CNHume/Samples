@@ -5,4 +5,5 @@
   (load lisp))
 
 (eval-when (compile) (use-package 'sk))
-(shiftf *print-circle* t)
+
+;;;(shiftf *print-circle* t)

@@ -1,4 +1,4 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
 ;;;
 ;;; Source: skt.lisp            Module: sk      Status: operational
 ;;;
@@ -38,6 +38,11 @@
 ;;;     This file demonstrates a number of higher order
 ;;;     utility functions for the S-K Reduction Engine.
 ;;;
+
+;;;
+;;; Module Prologue:
+;;;
+(in-package cg-user)
 
 ;;; No Requirements.
 ;;; No Shadows.

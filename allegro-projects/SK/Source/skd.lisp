@@ -1,4 +1,4 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: USER; Base: 10 -*-
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
 ;;;
 ;;; Source: skd.lisp            Module: sk      Status: operational
 ;;;
@@ -31,6 +31,11 @@
 ;;;     renditions of D.A. Turner's "SASL Test Programs".
 ;;;
 
+;;;
+;;; Module Prologue:
+;;;
+(in-package cg-user)
+
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile) (use-package 'sk))
@@ -49,6 +54,10 @@
                                 (cons b (hanoi (- n 1) c b a)
                                       )))))
     ))
+
+;;;
+;;; Try: (beta (hanoi 4 a b c))
+;;;
 
 (defc FACTORIAL [n](if (plusp n) (* (factorial (- n 1)) n) 1))
 
