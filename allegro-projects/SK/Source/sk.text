@@ -5,6 +5,13 @@ Basic Survival Guide
 Chris Hume 29-Mar-92
 
 
+Purpose
+-------
+Implement elements of an elementary S-K Reduction Engine.
+This code was developed in connection with ASU's CSE 555
+"Automata Theory" taught by Prof. Ed Ashcroft, Fall 1991.
+
+
 Background
 ----------
 The user is assumed familiar with the contents of:
@@ -45,12 +52,12 @@ Operating Environment and Source Files
 The files you will need to demonstrate operation
 of the S-K Reduction Engine are as follows:
 
-     SK.TEXT,	which contains the text you are now reading,
-    SKA.LISP,	which implements Lambda* Abstraction,
-    SKB.LISP,	which implements Beta Reduction,
-    SKC.LISP,	is the Laboratory for new, experimental Combinators.
-    SKD.LISP,	renders Turner's Test Programs in a dialect of SASL.
-    SKT.LISP,	provides various extensions to SASL, in SASL itself.
+     SK.TEXT,   which contains the text you are now reading,
+    SKA.LISP,   which implements Lambda* Abstraction,
+    SKB.LISP,   which implements Beta Reduction,
+    SKC.LISP,   is the Laboratory for new, experimental Combinators.
+    SKD.LISP,   renders Turner's Test Programs in a dialect of SASL.
+    SKT.LISP,   provides various extensions to SASL, in SASL itself.
 
 Once in a (more or less) Common Lisp environment,
 one would exit, normally, by evaluating the form:
@@ -63,7 +70,7 @@ Loading the S-K Reduction Engine into the Lisp Environment
 Compilation is optional in Common Lisp, but will improve
 performance of the S-K Reduction Engine.
 
-If SKA.FAS and SKB.FAS are not present, or if you need
+If SKA.FASL and SKB.FASL are not present, or if you need
 to recompile them, enter the following sequence of forms:
 
 Lisp> (compile-file "SKA.LISP")
@@ -211,14 +218,14 @@ Counting, Tracing, and Warnings
 The LAMBDA* Abstraction Macro and the BETA Reduction
 Macro each take the three additional keywords below:
 
-    Keyword	Parameter	Values
-    -------	---------	------
-    :count	*count*		Non-NIL enables Abstraction
-				and Reduction Counting.
-    :trace	*trace*		Non-NIL enables Abstraction
-				and Reduction Tracing.
-    :warn	*warn*		Non-NIL (the default value)
-				enables Usage Warnings.
+    Keyword     Parameter       Values
+    -------     ---------       ------
+    :count      *count*         Non-NIL enables Abstraction
+                                and Reduction Counting.
+    :trace      *trace*         Non-NIL enables Abstraction
+                                and Reduction Tracing.
+    :warn       *warn*          Non-NIL (the default value)
+                                enables Usage Warnings.
 
 
 Beta Reduction vs. Lisp Evaluation
@@ -237,10 +244,3 @@ meaningful results.
 The BETA Macro establishes the S-K Reduction context:
 
 Lisp> (beta ([cdr][car](cons car cdr) foo bar))
-
-
-To Exit
--------
-When you are all done, enter the incantation:
-
-Lisp> (exit)
