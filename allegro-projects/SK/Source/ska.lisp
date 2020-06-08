@@ -144,7 +144,18 @@
 
 (defparameter *DEFAULT-PRINT-CIRCLE* t          ; Takes NIL, or T.
   "Tracer *PRINT-CIRCLE* Default")
-#+:ccl
+
+;;;
+;;; This code was originally implemented on Allegro CL for the Apple Macintosh
+;;; and later ported to Allegro Common Lisp for Windows when *print-level*
+;;; needed to be placed under the #+:ccl conditional.  This was when the ANSI
+;;; Common Lisp Standard was being defined.
+;;;
+;;; Franz now uses the #+:allegro conditional for Allegro specific features;
+;;; but *print-level* should be supported by any ANSI Common Lisp compliant
+;;; implementations.
+;;;
+;;;#+:ccl
 (defparameter *DEFAULT-PRINT-LEVEL* 16          ; Takes NIL, or an Integer.
   "Tracer *PRINT-LEVEL* Default")
 

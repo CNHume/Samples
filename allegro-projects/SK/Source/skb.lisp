@@ -162,14 +162,15 @@
 (defun SK-EVAL (expr &rest keys
                      &key
                      (print-circle *default-print-circle*)
-                     #+:ccl
+                     ;;;#+:ccl
                      (print-level *default-print-level*)
                      (count *count*) (trace *trace*) (warn *warn*)
                      (normal *normal*)          ; Interior Redex Disposition
                      &allow-other-keys)
   "Evaluate the specified CL Term, fully, employing normal order reduction."
-  (declare (special *reduction-count* *reduction-level*
-                    *default-print-circle* #+:ccl *default-print-level*
+  (declare (special *reduction-count* *reduction-level* *default-print-circle*
+                    ;;;#+:ccl
+                    *default-print-level*
                     *count* *trace* *warn* *normal*))
   (when *reduction-level*
     (incf *reduction-level*)
@@ -205,7 +206,7 @@
          (when trace
            (format t "~&[End the reduction at level ~D.]" *reduction-level*)
            (let ((*print-circle* print-circle)  ; Cf. Diagnostics below.
-                 #+:ccl
+                 ;;;#+:ccl
                  (*print-level* print-level))
              (pprint expr)))
          (decf *reduction-level*))
@@ -223,7 +224,7 @@
         (when *reduction-count* (format t "Redex ~2D, " *reduction-count*))
         (format t "Left ~2D]" (length lefts)))  ; Show stack depth.
       (let ((*print-circle* print-circle)       ; Show circularity.
-            #+:ccl                              ; Allegro CL needs this:
+            ;;;#+:ccl                           ; Allegro CL needed this:
             (*print-level* print-level))        ; Handle (Y QUOTE).
         (pprint `(beta ,expr))
         ))
