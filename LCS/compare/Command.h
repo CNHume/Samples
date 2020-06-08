@@ -1,10 +1,10 @@
-//
 // Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
 //
 // 2017-06-29 CNHume  Created file
 //
 #pragma once
 
+#include <stdexcept>
 #include <stdint.h>
 #include <string>
 
