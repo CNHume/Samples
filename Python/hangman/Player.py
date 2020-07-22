@@ -78,8 +78,9 @@ class Player(object):
   @staticmethod
   def prompt(prompt):
     while True:
-      input = raw_input(prompt)
-      if len(input) == 1 and input in string.letters:
-         return input.upper()
+      raw = raw_input(prompt)
+      line = raw.splitlines()[0]
+      if len(line) == 1 and line in string.letters:
+         return line.upper()
       else:
         print(u'Please enter a single letter')
