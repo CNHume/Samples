@@ -7,6 +7,7 @@
 # 2018-07-11 CNHume Created FileManager class
 #
 import os
+import errno
 from datetime import datetime
 import time
 import string
@@ -16,12 +17,14 @@ from Command import Command
 class FileManager(object):
   """FileManager Class"""
   DOT = u'.'
+  NEWLINE = u'\n'
 
   def __init__(self, file_path, file_ext, verbose=False):
-    self.records = []
     self.file_path = file_path
     self.file_ext = file_ext
     self.verbose = verbose
+    self.records = None
+    self.length = None
 
   def expand_filename(self, filename):
     expanded_path = os.path.expanduser(self.file_path)
@@ -65,10 +68,11 @@ class FileManager(object):
       else:
         print(u'Loaded {0} records'.format(self.length))
         
-  def save(self, records, file_name):
+  def save(self, file_name, records):
     """Save records into the file indicated by file_path and file_ext"""
     self.records = records
     self.length = len(self.records)
+
     filename = self.expand_filename(file_name)
     # Mark save start time
     save_dt0 = datetime.now()
@@ -80,10 +84,14 @@ class FileManager(object):
     # Mark elapsed start time
     elapsed_t0 = time.time()
 
-    if FileManager.isfile(filename):
+    if records:
+      FileManager.ensureDirectory(filename)
+
       with open(filename, 'w') as output_file:
         # Serialize records to the file
-        output_file.writelines()
+        line = FileManager.NEWLINE.join(records)
+        output_file.write(line)
+        output_file.write(FileManager.NEWLINE)
 
     elapsed_t1 = time.time()
     elapsed_time = elapsed_t1 - elapsed_t0
@@ -120,6 +128,16 @@ class FileManager(object):
   @staticmethod
   def isfile(filename):
     return os.path.isfile(filename)
+
+  @staticmethod
+  def ensureDirectory(filename):
+    if not os.path.exists(os.path.dirname(filename)):
+      try:
+        os.makedirs(os.path.dirname(filename))
+      except OSError as ex:
+        # Guard against race condition
+        if ex.errno != errno.EEXIST:
+          raise
 
   @staticmethod
   def filestem(filename):
