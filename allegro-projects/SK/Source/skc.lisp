@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.1     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   3.0     1-Jun-92       Removed the Boolean Primitives, to SKT.
 ;;; Chris Hume   2.2    27-Mar-92       Included Ackermann's Function.
 ;;; Chris Hume   2.1    26-Mar-92       Added Church Pairing Combinator.
@@ -52,66 +53,66 @@
 ;;;  of "Functional Programming" by Anthony Field and Peter Harrison,
 ;;;  Imperial College of London Press, 1988]
 ;;;
-(defc Y-CURRY1 [h]([z](h (z z)) [z](h (z z))))
-(defc Y-CURRY2 [h]([z](h [x](z z x)) [z](h [x](z z x))))
-(defc Y-GNIRUT [h]([z](h (z z h)) [z](h (z z h))))
-;;;(defc Y-TURING ([z][h](h (z z h)) [z][h](h (z z h))))
-(defc Z [z][h](h (z z h)))
+(defc Y-CURRY1 ?h (?z (h (z z)) ?z (h (z z))))
+(defc Y-CURRY2 ?h (?z (h ?x (z z x)) ?z (h ?x (z z x))))
+(defc Y-GNIRUT ?h (?z (h (z z h)) ?z (h (z z h))))
+;;;(defc Y-TURING (?z ?h (h (z z h)) ?z ?h (h (z z h))))
+(defc Z ?z ?h (h (z z h)))
 (defc Y-TURING (Z Z))
 
 ;;;
 ;;; Church Pairing Combinator:
 ;;;
-(defc dc [x][y][z](z x y))
-(defc hd [u](u [a][b]a))
-(defc tl [u](u [a][b]b))
+(defc dc ?x ?y ?z (z x y))
+(defc hd ?u (u ?a ?b a))
+(defc tl ?u (u ?a ?b b))
 
 ;;;
 ;;; Pairing Combinator [for Recursions below]:
 ;;;
-(defc DASE [x][y][z](z (k y) x))
+(defc DASE ?x ?y ?z (z (k y) x))
 
 ;;;
 ;;; Distribution Operators:
 ;;;
-(defc PHI [f][g][h][x](f (g x) (h x)))
-(defc PSI [f][g][m][n](f (g m) (g n)))
+(defc PHI ?f ?g ?h ?x (f (g x) (h x)))
+(defc PSI ?f ?g ?m ?n (f (g m) (g n)))
 
 ;;;
 ;;; Integer Arithmetic
 ;;;
 ;;; Note: A is addition, B is multiplication, and E is exponentiation.
 ;;;
-(defc A [x][y][z][u](x z (y z u)))
+(defc A ?x ?y ?z ?u (x z (y z u)))
 
-(defc ZERO [x][y]y)
-(defc SUCC [x][y][z](y (x y z)))
+(defc ZERO ?x ?y y)
+(defc SUCC ?x ?y ?z (y (x y z)))
 
-(defc XZERO [x](dase (succ (x zero)) (x zero)))
-(defc PRED [y](y xzero (k zero) (succ zero)))
-(defc DEMINUS [x][y](y pred x))
+(defc XZERO ?x (dase (succ (x zero)) (x zero)))
+(defc PRED ?y (y xzero (k zero) (succ zero)))
+(defc DEMINUS ?x ?y (y pred x))
 
-(defc Q [u][v](dase (succ (v zero))
+(defc Q ?u ?v (dase (succ (v zero))
                     (u (v zero) (v (succ zero)))
                     ))
 
-(defc R [x][y][z](z (q y) (dase zero x) (succ zero)))
+(defc R ?x ?y ?z (z (q y) (dase zero x) (succ zero)))
 
-(defc T [x](dase zero
-                 [u][v](u (x (succ v)) u (succ v))
+(defc T ?x (dase zero
+                 ?u ?v (u (x (succ v)) u (succ v))
                  ))
 
-(defc P [x][y](t x (x y) (t x) y))
+(defc P ?x ?y (t x (x y) (t x) y))
 
 ;;;
 ;;; Ackermann's Total [yet non-Primitive] Recursive Function:
 ;;;
-(defc AM [x](an x x))
+(defc AM ?x (an x x))
 
-(defc AN [x][y](zerop x (inc y)
+(defc AN ?x ?y (zerop x (inc y)
                       (zerop y (an (dec x) 1)
                              (an (dec x) (an x (dec y)))
                              )))
 
-(defc DEC [z](- z 1))
-(defc INC [z](+ z 1))
+(defc DEC ?z (- z 1))
+(defc INC ?z (+ z 1))

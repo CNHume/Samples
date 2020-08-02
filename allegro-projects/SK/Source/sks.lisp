@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   1.2     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   1.1    26-Sep-93       First Working Version
 ;;; Chris Hume   1.0    29-Aug-93       Created file.
 ;;;
@@ -35,39 +36,38 @@
 ;;;
 ;;; Now for the Code:
 ;;;
-(defc EQLP [left][right](zerop (- left right)))
-
-(defc SAME-FRINGEP (everyp2-tree eqlp))
-
-(defc EOF [con](con nil FALSE beyond-the-fringe))
-
-(defc GEN-TREE [tree][consumer][genrest]
-  (if (consp tree)
-    (Y [yme][branch][consume](if (endp branch)
-                               (genrest consume)
-                               (gen-tree (head branch)
-                                         consume
-                                         [con](yme (tail branch) con)))
-       tree
-       consumer)
-    (consumer tree TRUE genrest)
-    ))
-
-(defc EVERYP2-TREE [fun][xtree][ytree]
-  (Y [yme][xgen][ygen]
-     (xgen [xtree][more-x][xg]
-           (ygen [ytree][more-y][yg]
-                 (if (or2 more-x more-y)
-                   (and2 (and2 more-x more-y)
-                         (and2 (fun xtree ytree) (yme xg yg)))
-                   TRUE)
-                 ))
-     [con](gen-tree xtree con eof)
-     [con](gen-tree ytree con eof)
-     ))
+(defc EQLP ?left ?right (zerop (- left right)))
 
 ;;;
 ;;; Try: (same-fringep
 ;;;         (pair 1 (pair (pair 2 (pair 3 nil)) (pair 4 nil)))
 ;;;         (pair (pair 1 (pair 2 nil)) (pair (pair 3 (pair 4 nil)) nil)))
 ;;;
+(defc SAME-FRINGEP (everyp2-tree eqlp))
+
+(defc EOF ?con (con nil FALSE beyond-the-fringe))
+
+(defc GEN-TREE ?tree ?consumer ?genrest
+  (if (consp tree)
+    (Y ?yme ?branch ?consume (if (endp branch)
+                               (genrest consume)
+                               (gen-tree (head branch)
+                                         consume
+                                         ?con (yme (tail branch) con)))
+       tree
+       consumer)
+    (consumer tree TRUE genrest)
+    ))
+
+(defc EVERYP2-TREE ?fun ?xtree ?ytree
+  (Y ?yme ?xgen ?ygen
+     (xgen ?xtree [more-x]?xg
+           (ygen ?ytree [more-y]?yg
+                 (if (or2 more-x more-y)
+                   (and2 (and2 more-x more-y)
+                         (and2 (fun xtree ytree) (yme xg yg)))
+                   TRUE)
+                 ))
+     ?con (gen-tree xtree con eof)
+     ?con (gen-tree ytree con eof)
+     ))

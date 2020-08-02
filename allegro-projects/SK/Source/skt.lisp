@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.7     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   3.6     9-Dec-92       Added MAP2.
 ;;; Chris Hume   3.5     1-Jun-92       Incorporated Boolean Primitives.
 ;;; Chris Hume   3.4     1-Jun-92       Added MASK, POSITIONS, and MAP*.
@@ -56,23 +57,23 @@
 (defc HEAD [head tail]head)
 (defc TAIL [head tail]tail)
 
-(defc NEXT [id][fn][args](if (endp args) id (fn args)))
+(defc NEXT ?id ?fn ?args (if (endp args) id (fn args)))
 
 (defc UNTIL0
   (next nil [head tail](if (zerop head) nil (pair head (until0 tail)))))
 
-(defc NTH [n](next nil [head tail](if (zerop n) head (nth (- n 1) tail))))
+(defc NTH ?n (next nil [head tail](if (zerop n) head (nth (- n 1) tail))))
 
-(defc PREFER [old][fn]
+(defc PREFER ?old ?fn
   (next old [new tail](prefer (if (fn (- new old)) new old) fn tail)))
 
 (defc MAX [head tail](prefer head plusp tail))
 (defc MIN [head tail](prefer head minusp tail))
 
-(defc BUTFIRSTN [n][args]
+(defc BUTFIRSTN ?n ?args
   (next nil [head tail](if (zerop n) args (butfirstn (- n 1) tail)) args))
 
-(defc REDUCENR [id][fn][n]
+(defc REDUCENR ?id ?fn ?n
   (next id [head tail](if (zerop n)
                         id
                         (fn head (reducenr id fn (- n 1) tail))
@@ -80,10 +81,10 @@
 
 (defc FIRSTN (reducenr nil pair))
 
-(defc SUBSEQ [start][stop][args](firstn (- stop start) (butfirstn start args)))
+(defc SUBSEQ ?start ?stop ?args (firstn (- stop start) (butfirstn start args)))
 
-(defc REDUCEL [id][fn](next id [head tail](reducel (fn id head) fn tail)))
-(defc REDUCER [id][fn](next id [head tail](fn head (reducer id fn tail))))
+(defc REDUCEL ?id ?fn (next id [head tail](reducel (fn id head) fn tail)))
+(defc REDUCER ?id ?fn (next id [head tail](fn head (reducer id fn tail))))
 
 ;;;
 ;;; Try: (beta (difference (pair 5 (pair 2 (pair 4 nil)))))
@@ -92,47 +93,47 @@
 
 (defc SUM (reducer 0 +))
 
-(defc LENGTH (reducer 0 [head](+ 1)))
+(defc LENGTH (reducer 0 ?head (+ 1)))
 
 (defc EVALIST (reducer nil cons))
-(defc REVERSE (reducel nil [tail][head](pair head tail)))
+(defc REVERSE (reducel nil ?tail ?head (pair head tail)))
 
-(defc APPEND [prefix][suffix](reducer suffix pair prefix))
+(defc APPEND ?prefix ?suffix (reducer suffix pair prefix))
 
 ;;;
 ;;; Boolean Primitives:
 ;;;
-(defc AND2 [one][two](if one two false))
-(defc  OR2 [one][two](if one true two))
+(defc AND2 ?one ?two (if one two false))
+(defc  OR2 ?one ?two (if one true two))
 
 (defc  OR* (reducel false or2))
 (defc AND* (reducel true and2))
 
-(defc MAP [fn](reducer nil [head](pair (fn head))))
+(defc MAP ?fn (reducer nil ?head (pair (fn head))))
 
-(defc MAP2 [fn][args1][args2]
+(defc MAP2 ?fn ?args1 ?args2
   (if (or2 (endp args1) (endp args2))
     nil
     ([head1 tail1][head2 tail2](pair (fn head1 head2) (map2 fn tail1 tail2))
             args1 args2)
     ))
 
-(defc MAP* [fn][arglists]
+(defc MAP* ?fn ?arglists
   (if (or (map endp arglists))
     nil
-    ([heads][tails](pair (fn heads) (map* fn tails))
+    (?heads ?tails (pair (fn heads) (map* fn tails))
                    (map head arglists) (map tail arglists))
     ))
 
 (defc DOUBLES (map (* 2)))
 
 (defc MASK (masker 0))
-(defc MASKER [n][args]
+(defc MASKER ?n ?args
   (next nil
-        [head tail]([ep](pair ep (masker (+ n 1) (if ep tail args)))
+        [head tail](?ep (pair ep (masker (+ n 1) (if ep tail args)))
                         (zerop (- head n)))
         args))
 
 (defc POSITIONS (positioner 0))
-(defc POSITIONER [n](next nil [head tail]([ns](if head (pair n ns) ns)
+(defc POSITIONER ?n (next nil [head tail](?ns (if head (pair n ns) ns)
                                               (positioner (+ n 1) tail))))

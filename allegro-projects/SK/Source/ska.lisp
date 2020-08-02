@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   2.11    2-Aug-20       Allowed empty list in [-READER.
 ;;; Chris Hume   2.10    9-Jan-94       Added KETA (:EXPERIMENAL optimization).
 ;;; Chris Hume   2.9    25-Nov-93       Added ?-READER.
 ;;; Chris Hume   2.8    24-Nov-93       Corrected use of W in ABBREV-S.
@@ -60,11 +61,14 @@
 ;;;
 ;;; External Macros:
 ;;;
-;;;     defc                    c def   
+;;;     defc                    c def
 ;;;
 ;;; The Abstraction Operator:
 ;;;
-;;;     [var] expr              = (lambda* var expr)
+;;;     ?var expr              = (lambda* var expr)
+;;;
+;;; The Currying Operator:
+;;;     [t1, t2...] expr       = (lambda* (t1, t2...) expr)
 ;;;
 ;;; External Procedures:
 ;;;
@@ -100,12 +104,12 @@
     ;; which are internal (not EXPORTed):
     '(b c e h i k keta knil pair s u v w y false true)
     "The Combinatory Primitives")
-  
+
   (defparameter *INTERFACES*
     '(beta cboundp cdefinition defc define-primitives div lambda*
       sk-implementation-version)
     "The S-K Reduction Engine Interfaces")
-  
+
   (defparameter *PARAMETERS*
     '(*count* *normal* *optimize* *strong* *trace* *warn*)
     "The Keyword Defaults"))
@@ -371,26 +375,22 @@
       )))
 
 ;;;
-;;; The following conforms to Common Lisp, but variation in local
-;;; policies regarding modification of the Reader's Syntax Tables
-;;; may lead to unanticipated environmental consequences.
+;;; Read "template expr" as "(lambda* template expr)".
 ;;;
-;;; Read "[var] expr" as "(lambda* var expr)":
+;;; Templates have the form "[t1, t2...]" where each t1, t2...
+;;; is a term which may either be a symbol or a list of terms.
 ;;;
 (defun \[-READER (stream char)
   "Read in a Generalized Abstraction Variable."
   (declare (ignore char))
   (let ((var (read-delimited-list #\] stream t)))
     ;;
-    ;; Note that specification of more than one variable on var
-    ;; corresponds to "a suitably generalized Law of Abstraction."
-    ;; Cf. the "uncurry", U-combinator of [Turner 1979].
+    ;; Templates are processed according to "a suitably generalized Law
+    ;; of Abstraction." Cf. the "uncurry", U-combinator of [Turner 1979].
     ;;
-    (if (endp var)
-      (error "Abstraction variable missing in '[]'.")
-      (let ((expr (read stream t nil t)))
-        `(lambda* ,(reduce #'cons var :from-end t) ,expr)
-        ))
+    (let ((expr (read stream t nil t))
+          (template (unless (endp var) (reduce #'cons var :from-end t))))
+        `(lambda* ,template ,expr))
     ))
 
 (defun \]-READER (stream char)

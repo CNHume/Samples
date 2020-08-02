@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.4     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   3.3    14-Dec-92       Added FBUTFIRSTN.
 ;;; Chris Hume   3.2     9-Dec-92       Added FBUTFIRSTM, FIB.
 ;;; Chris Hume   3.1     7-Dec-92       Added FIBEXP, FIBDAT.
@@ -45,7 +46,11 @@
 ;;;
 ;;; Now for the Code:
 ;;;
-(defc HANOI [n][a][b][c]
+
+;;;
+;;; Try: (beta (hanoi 4 a b c))
+;;;
+(defc HANOI ?n ?a ?b ?c
   (if (zerop n)
     nil (cons (hanoi (- n 1) a c b)
               (cons "Move a disc from"
@@ -55,13 +60,9 @@
                                       )))))
     ))
 
-;;;
-;;; Try: (beta (hanoi 4 a b c))
-;;;
+(defc FACTORIAL ?n (if (plusp n) (* (factorial (- n 1)) n) 1))
 
-(defc FACTORIAL [n](if (plusp n) (* (factorial (- n 1)) n) 1))
-
-(defc FOR [from][to][op]
+(defc FOR ?from ?to ?op
   (if (plusp (- from to))
     nil (cons (op from) (for (+ 1 from) to op))
     ))
@@ -69,58 +70,57 @@
 ;;;
 ;;; Try: (beta (twice twice twice (+ 1) 0))
 ;;;
-(defc TWICE [op][arg](op (op arg)))
+(defc TWICE ?op ?arg (op (op arg)))
 
 ;;;
 ;;; Demonstrate Lazy Evaluation:
 ;;;
-(defc FROM [integer](pair integer (from (+ 1 integer))))
+(defc FROM ?n (pair n (from (+ 1 n))))
 
-(defc FILTER [divisor][dividends]
+(defc FILTER ?divisor ?dividends
   ([head tail](if (zerop (rem head divisor))
                 (filter divisor tail) (pair head (filter divisor tail)))
          dividends))
 
-(defc SIEVE [integers]
-  ([divisor dividends](pair divisor (sieve (filter divisor dividends)))
-            integers))
-
 ;;;
 ;;; Try: (beta (head (tail (tail (tail (sieve (from 2)))))))
 ;;;
+(defc SIEVE ?ns
+  ([divisor dividends](pair divisor (sieve (filter divisor dividends)))
+            ns))
 
-(defc FIBEXP [n]
+(defc FIBEXP ?n
   (if (zerop n)
-    0 ([m](if (zerop m)
+    0 (?m (if (zerop m)
             1 (+ (fibexp m) (fibexp (- m 1))))
           (- n 1))))
 
-(defc FIBDAT [n]
+(defc FIBDAT ?n
   (if (zerop n)
-    0 ([m](if (zerop m)
-            1 ([es](+ (head (tail es)) (head es))
+    0 (?m (if (zerop m)
+            1 (?es (+ (head (tail es)) (head es))
                    (butfirstn (- m 1) (map fibdat (from 0)))
                    ))
           (- n 1))))
 
-(defc FBUTFIRSTM [n]
+(defc FBUTFIRSTM ?n
   (if (zerop n)
     (pair 0 (fbutfirstm 1))
-    ([m](if (zerop m)
+    (?m (if (zerop m)
           (pair 1 (fbutfirstm 2))
           (map2 + (fbutfirstm (- m 1)) (fbutfirstm m)))
         (- n 1))
     ))
 
-(defc FBUTFIRSTN [n]    ; This is just a "fool proof" version of FBUTFIRSTM.
+(defc FBUTFIRSTN ?n     ; This is just a "fool proof" version of FBUTFIRSTM.
   (if (zerop n)
     (pair 0 (fbutfirstn 1))
-    ([m](if (zerop m)
+    (?m (if (zerop m)
           (pair 1 (fbutfirstn 2))
-          ([o](if (zerop o)
+          (?o (if (zerop o)
                 (map2 + (fbutfirstn 0) (fbutfirstn 1))
                 (butfirstn o (fbutfirstn 2)))
               (- m 1)))
         (- n 1))))
 
-(defc FIB [n](nth n (fbutfirstm 0)))
+(defc FIB ?n (nth n (fbutfirstm 0)))
