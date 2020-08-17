@@ -240,193 +240,183 @@
           (decf *reduction-count*)))
       (let ((ap-first (first expr))
             (ap-rest (rest expr)))
-        (if (endp ap-rest)
-          ;;
-          ;; A CL-Term is not supposed to be wrapped in gratuitous
-          ;; parentheses, but traverse any that may be encountered:
-          ;;
-          (progn
-            (when warn (warn "Parenthesized CL-Term: ~S." expr))
-            (setq expr ap-first)
-            (when *reduction-count*             ; Doesn't count as Reduction.
-              (decf *reduction-count*)))
-          (let ((ap-second (second expr))
-                (ap-more (rest ap-rest)))
-            (if ap-more
+        (let ((ap-second (second expr))
+              (ap-more (rest ap-rest)))
+          (if ap-more
+            ;;
+            ;; This performs Implicit Left Association, but
+            ;; without diagnosing ill-formed (dotted) tails:
+            ;;
+            (let ((ap (reduce #'list expr)))
+              (setf (first expr) (first ap)     ; Maintain Shared Evaluation.
+                    (rest expr) (rest ap))
+              (when *reduction-count*           ; Doesn't count as Reduction.
+                (decf *reduction-count*)))
+            (case ap-first
               ;;
-              ;; This performs Implicit Left Association, but
-              ;; without diagnosing ill-formed (dotted) tails:
+              ;; If the head corresponds to a known combinator
+              ;; ensure there are enough elements on the Left
+              ;; Ancestors Stack, LEFTS, that reduction can be
+              ;; performed.  Where there are not sufficient
+              ;; ancestors stacked, to supply the arguments an
+              ;; outer reduction requires, internal reductions
+              ;; will be performed only if NORMAL was asserted:
               ;;
-              (let ((ap (reduce #'list expr)))
-                (setf (first expr) (first ap)   ; Maintain Shared Evaluation.
-                      (rest expr) (rest ap))
-                (when *reduction-count*         ; Doesn't count as Reduction.
-                  (decf *reduction-count*)))
-              (case ap-first
-                ;;
-                ;; If the head corresponds to a known combinator
-                ;; ensure there are enough elements on the Left
-                ;; Ancestors Stack, LEFTS, that reduction can be
-                ;; performed.  Where there are not sufficient
-                ;; ancestors stacked, to supply the arguments an
-                ;; outer reduction requires, internal reductions
-                ;; will be performed only if NORMAL was asserted:
-                ;;
-                ((S B C KETA)
-                 (if (endp (rest lefts))        ; Require 3 Arguments.
-                   (progn (push expr lefts) (setq expr (first expr)))
-                   (let ((term-2 (second (pop lefts))))
-                     (setq expr (pop lefts))
-                     (let ((last-3 (rest expr)))
-                       ;;
-                       ;; In order to benefit from evaluation of common
-                       ;; sub-terms, the LAST-3 CONS must survive until
-                       ;; the first such evaluation occurs.
-                       ;;
-                       (setf (first expr) (case ap-first
-                                            ((S C) `(,ap-second . ,last-3))
-                                            (otherwise ap-second)))
-                       (unless (eq ap-first 'KETA)
-                         (setf (rest expr) `(,(if (eq ap-first 'C)
-                                                term-2 `(,term-2 . ,last-3))))
-                         ))
-                     )))
-                ;;
-                ;; I-combinators will be handled below, as "Forwarding
-                ;; Pointers".  The top-level CONS must remain consistent,
-                ;; in case the S-combinator introduces shared sub-terms.
-                ;;
-                ((E FALSE H K KNIL TRUE)
-                 (if (endp lefts)               ; Require 2 Arguments.
-                   (progn (push expr lefts) (setq expr (first expr)))
-                   (progn
-                     (setq expr (pop lefts))    ; KNIL will only discard NIL.
-                     (if (or (not (eq ap-first 'KNIL))
-                             (null (apply #'sk-eval (second expr) keys)))
-                       (setf (first expr) (if (eq ap-first 'E) (second expr) 'i)
-                             (rest expr) (case ap-first
-                                           ((FALSE H) (rest expr))
-                                           (otherwise ap-rest)))
-                       (progn (push expr lefts)
-                              (setq expr (first expr))
-                              (push expr lefts)
-                              (setq expr (first expr))
-                              ))
-                     )))
-                (W  (if (endp lefts)            ; Require 2 Arguments.
-                      (progn (push expr lefts) (setq expr (first expr)))
-                      (setf (first expr) (second expr)
-                            (rest expr) (rest (first lefts))
-                            )))
-                ((PAIR CONS)                    ; PAIR is Lazy & CONS is Eager.
-                 (if (endp lefts)               ; Require 2 Arguments.
-                   (progn (push expr lefts) (setq expr (first expr)))
-                   (progn
-                     (setq expr (pop lefts))
-                     (let ((arg-1 ap-second) (arg-2 (second expr)))
-                       (if (eq ap-first 'PAIR)
-                         (setq expr `(,arg-1 . ,arg-2) stop t)
-                         (setf (first expr) 'quote
-                               (rest expr) `((,(apply #'sk-eval arg-1 keys) .
-                                              ,(apply #'sk-eval arg-2 keys)))
-                               )))
-                     )))
-                ((QUOTE) (setq expr ap-second   ; Leave value on Stack.
-                               stop t))
-                ((I IF)
-                 (if (endp lefts)
-                   (setq expr ap-second)        ; Leave value on Stack or
-                   (progn                       ;elide Forwarding Pointer.
-                     (setq expr (pop lefts))
-                     (setf (first expr) ap-second))
-                   ))
-                (V (setf (first expr) ap-second))
-                (Y (setf (first expr) ap-second ; The Fixed Point Combinator
-                         (rest expr) `(,expr)))
-                (U (if (endp lefts)             ; Require 2 Arguments.
-                     (progn (push expr lefts) (setq expr (first expr)))
-                     (progn
-                       (setq expr (pop lefts))
-                       (let ((args (apply #'sk-eval (second expr) keys)))
-                         (if (atom args)
-                           (progn (push expr lefts)
-                                  (setq expr (first expr))
-                                  (push expr lefts)
-                                  (setq expr (first expr)))
-                           ;;
-                           ;; Pop an argument and apply AP-SECOND to it:
-                           ;;
-                           (let ((arg (pop args)))
-                             (setf (first expr) ap-second
-                                   (rest expr) `(,arg ,args))
-                             )))
-                       )))
-                (LAMBDA*                        ; Reduce Internal Abstractions.
-                 (if (endp lefts)               ; Require 2 Arguments.
-                   (setq stop t)
-                   (progn
-                     (setq expr (pop lefts))
-                     (setf (first expr) 'i      ; Preserve Abstraction.
-                           (rest expr)          ; Implement via LAMBDA* Macro.
-                           `(,(eval `(lambda* ,ap-second ,(second expr) . ,keys)
-                                    )))
-                     )))
-                ;;
-                ;; An "Interpretive Domain" of elementary operations
-                ;; in Integer Arithmetic is included, to demonstrate
-                ;; practical application of the S-K Reduction Engine:
-                ;;
-                ((ZEROP PLUSP MINUSP CONSP ENDP);(Using Common LISP symbols.)
-                 (let ((arg (apply #'sk-eval ap-second keys)))
-                   (if (or (eq ap-first 'CONSP)
-                           (funcall (case ap-first
-                                      (ENDP #'listp)
-                                      (otherwise #'rationalp))
-                                    arg))
-                     (setf (first expr) 'i      ; Form Combinatory Equivalent:
-                           (rest expr) `(,(if (funcall ap-first arg)
-                                            'TRUE 'FALSE)))
-                     (progn (push expr lefts) (setq expr (first expr)))
-                     )))
-                ((ISQRT)                        ;(Using Common LISP symbols.)
-                 (let ((arg (apply #'sk-eval ap-second keys)))
-                   (if (and (rationalp arg) (not (minusp arg)))
-                     (setf (first expr) 'i      ; Preserve Evaluated Atom.
-                           (rest expr) `(,(isqrt (floor arg))))
-                     (progn (push expr lefts) (setq expr (first expr)))
-                     )))
-                ((+ - * / DIV REM)
-                 (if (endp lefts)               ; Require 2 Arguments.
-                   (progn (push expr lefts) (setq expr (first expr)))
-                   (progn
-                     (setq expr (pop lefts))
-                     (let ((arg-1 (apply #'sk-eval ap-second keys))
-                           (arg-2 (apply #'sk-eval (second expr) keys)))
-                       (if (and (rationalp arg-1)
-                                (rationalp arg-2)
-                                (not (case ap-first ((/ DIV REM) (zerop arg-2))
-                                           )))
-                         (setf (first expr) 'i  ; Preserve Evaluated Atom.
-                               (rest expr) `(,(funcall (if (eq ap-first 'DIV)
-                                                         #'truncate ap-first)
-                                                       arg-1 arg-2)))
-                         (progn (push expr lefts)
+              ((S B C KETA)
+                (if (endp (rest lefts))        ; Require 3 Arguments.
+                  (progn (push expr lefts) (setq expr (first expr)))
+                  (let ((term-2 (second (pop lefts))))
+                    (setq expr (pop lefts))
+                    (let ((last-3 (rest expr)))
+                      ;;
+                      ;; In order to benefit from evaluation of common
+                      ;; sub-terms, the LAST-3 CONS must survive until
+                      ;; the first such evaluation occurs.
+                      ;;
+                      (setf (first expr) (case ap-first
+                                          ((S C) `(,ap-second . ,last-3))
+                                          (otherwise ap-second)))
+                      (unless (eq ap-first 'KETA)
+                        (setf (rest expr) `(,(if (eq ap-first 'C)
+                                              term-2 `(,term-2 . ,last-3))))
+                        ))
+                    )))
+              ;;
+              ;; I-combinators will be handled below, as "Forwarding
+              ;; Pointers".  The top-level CONS must remain consistent,
+              ;; in case the S-combinator introduces shared sub-terms.
+              ;;
+              ((E FALSE H K KNIL TRUE)
+                (if (endp lefts)                ; Require 2 Arguments.
+                  (progn (push expr lefts) (setq expr (first expr)))
+                  (progn
+                    (setq expr (pop lefts))     ; KNIL will only discard NIL.
+                    (if (or (not (eq ap-first 'KNIL))
+                            (null (apply #'sk-eval (second expr) keys)))
+                      (setf (first expr) (if (eq ap-first 'E) (second expr) 'i)
+                            (rest expr) (case ap-first
+                                          ((FALSE H) (rest expr))
+                                          (otherwise ap-rest)))
+                      (progn (push expr lefts)
+                            (setq expr (first expr))
+                            (push expr lefts)
+                            (setq expr (first expr))
+                            ))
+                    )))
+              (W  (if (endp lefts)              ; Require 2 Arguments.
+                    (progn (push expr lefts) (setq expr (first expr)))
+                    (setf (first expr) (second expr)
+                          (rest expr) (rest (first lefts))
+                          )))
+              ((PAIR CONS)                      ; PAIR is Lazy & CONS is Eager.
+                (if (endp lefts)                ; Require 2 Arguments.
+                  (progn (push expr lefts) (setq expr (first expr)))
+                  (progn
+                    (setq expr (pop lefts))
+                    (let ((arg-1 ap-second) (arg-2 (second expr)))
+                      (if (eq ap-first 'PAIR)
+                        (setq expr `(,arg-1 . ,arg-2) stop t)
+                        (setf (first expr) 'quote
+                              (rest expr) `((,(apply #'sk-eval arg-1 keys) .
+                                            ,(apply #'sk-eval arg-2 keys)))
+                              )))
+                    )))
+              ((QUOTE) (setq expr ap-second     ; Leave value on Stack.
+                              stop t))
+              ((I IF)
+                (if (endp lefts)
+                  (setq expr ap-second)         ; Leave value on Stack or
+                  (progn                        ;elide Forwarding Pointer.
+                    (setq expr (pop lefts))
+                    (setf (first expr) ap-second))
+                  ))
+              (V (setf (first expr) ap-second))
+              (Y (setf (first expr) ap-second   ; The Fixed Point Combinator
+                        (rest expr) `(,expr)))
+              (U (if (endp lefts)               ; Require 2 Arguments.
+                    (progn (push expr lefts) (setq expr (first expr)))
+                    (progn
+                      (setq expr (pop lefts))
+                      (let ((args (apply #'sk-eval (second expr) keys)))
+                        (if (atom args)
+                          (progn (push expr lefts)
                                 (setq expr (first expr))
                                 (push expr lefts)
                                 (setq expr (first expr)))
-                         )))
-                   ))
-                (otherwise                      ; Reduce a compound Left Term.
-                 (if (and (symbolp ap-first) (cboundp ap-first))
-                   ;;
-                   ;; Attempts to redefine Primitive Combinators were ignored.
-                   ;;
-                   (setf (first expr) (cdefinition ap-first))
-                   (progn (push expr lefts) (setq expr ap-first)))
-                 (when *reduction-count*        ; Doesn't count as Reduction.
-                   (decf *reduction-count*)))
-                ))
-            ))
+                          ;;
+                          ;; Pop an argument and apply AP-SECOND to it:
+                          ;;
+                          (let ((arg (pop args)))
+                            (setf (first expr) ap-second
+                                  (rest expr) `(,arg ,args))
+                            )))
+                      )))
+              (LAMBDA*                          ; Reduce Internal Abstractions.
+                (if (endp lefts)                ; Require 2 Arguments.
+                  (setq stop t)
+                  (progn
+                    (setq expr (pop lefts))
+                    (setf (first expr) 'i       ; Preserve Abstraction.
+                          (rest expr)           ; Implement via LAMBDA* Macro.
+                          `(,(eval `(lambda* ,ap-second ,(second expr) . ,keys)
+                                  )))
+                    )))
+              ;;
+              ;; An "Interpretive Domain" of elementary operations
+              ;; in Integer Arithmetic is included, to demonstrate
+              ;; practical application of the S-K Reduction Engine:
+              ;;
+              ((ZEROP PLUSP MINUSP CONSP ENDP)  ;(Using Common LISP symbols.)
+                (let ((arg (apply #'sk-eval ap-second keys)))
+                  (if (or (eq ap-first 'CONSP)
+                          (funcall (case ap-first
+                                    (ENDP #'listp)
+                                    (otherwise #'rationalp))
+                                  arg))
+                    (setf (first expr) 'i       ; Form Combinatory Equivalent:
+                          (rest expr) `(,(if (funcall ap-first arg)
+                                          'TRUE 'FALSE)))
+                    (progn (push expr lefts) (setq expr (first expr)))
+                    )))
+              ((ISQRT)                          ;(Using Common LISP symbols.)
+                (let ((arg (apply #'sk-eval ap-second keys)))
+                  (if (and (rationalp arg) (not (minusp arg)))
+                    (setf (first expr) 'i       ; Preserve Evaluated Atom.
+                          (rest expr) `(,(isqrt (floor arg))))
+                    (progn (push expr lefts) (setq expr (first expr)))
+                    )))
+              ((+ - * / DIV REM)
+                (if (endp lefts)                ; Require 2 Arguments.
+                  (progn (push expr lefts) (setq expr (first expr)))
+                  (progn
+                    (setq expr (pop lefts))
+                    (let ((arg-1 (apply #'sk-eval ap-second keys))
+                          (arg-2 (apply #'sk-eval (second expr) keys)))
+                      (if (and (rationalp arg-1)
+                              (rationalp arg-2)
+                              (not (case ap-first ((/ DIV REM) (zerop arg-2))
+                                          )))
+                        (setf (first expr) 'i   ; Preserve Evaluated Atom.
+                              (rest expr) `(,(funcall (if (eq ap-first 'DIV)
+                                                        #'truncate ap-first)
+                                                      arg-1 arg-2)))
+                        (progn (push expr lefts)
+                              (setq expr (first expr))
+                              (push expr lefts)
+                              (setq expr (first expr)))
+                        )))
+                  ))
+              (otherwise                        ; Reduce a compound Left Term.
+                (if (and (symbolp ap-first) (cboundp ap-first))
+                  ;;
+                  ;; Attempts to redefine Primitive Combinators were ignored.
+                  ;;
+                  (setf (first expr) (cdefinition ap-first))
+                  (progn (push expr lefts) (setq expr ap-first)))
+                (when *reduction-count*         ; Doesn't count as Reduction.
+                  (decf *reduction-count*)))
+              ))
+          )
         ))                                      ; End of Redex Dispatcher
     ))
 

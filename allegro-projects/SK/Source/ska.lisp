@@ -288,51 +288,41 @@
          ((consp expr)                          ; NIL is handled as an Atom.
           (let ((ap-first (first expr))
                 (ap-rest (rest expr)))
-            (if (endp ap-rest)
-              ;;
-              ;; A CL-Term is not supposed to be wrapped in gratuitous
-              ;; parentheses, but traverse any that may be encountered.
-              ;;
-              (progn
-                (when warn (warn "Parenthesized CL-Term: ~S." expr))
+            (let ((ap-second (second expr))
+                  (ap-more (rest ap-rest)))
+              (cond
+                ((eq ap-first 'lambda*)         ; Resolve Inner Abstractions.
+                (abstract var (eval expr)))     ; Recurse from LAMBDA* Macro.
+                ;;
+                ;; Perform Implicit Left Association, AFTER
+                ;; recognizing Internal Abstractions (above).
+                ;;
+                (ap-more
                 (when *abstraction-count*       ; Doesn't count as Abstraction.
                   (decf *abstraction-count*))
-                (abstract var ap-first))
-              (let ((ap-second (second expr))
-                    (ap-more (rest ap-rest)))
-                (cond
-                 ((eq ap-first 'lambda*)        ; Resolve Inner Abstractions.
-                  (abstract var (eval expr)))   ; Recurse from LAMBDA* Macro.
-                 ;;
-                 ;; Perform Implicit Left Association, AFTER
-                 ;; recognizing Internal Abstractions (above).
-                 ;;
-                 (ap-more
-                  (when *abstraction-count*     ; Doesn't count as Abstraction.
-                    (decf *abstraction-count*))
-                  (abstract var (reduce #'list expr)))
-                 ;;
-                 ;; The S-K implementation of QUOTE is "curried", and
-                 ;; can be abbreviated just like any other combinator.
-                 ;;
-                 ((eq ap-first 'quote) (if (eq *optimize* :experimental)
-                                         `(keta ,expr) `(k ,expr)))
-                 ;;
-                 ;; Abstract the Application:
-                 ;;
-                 (t (let ((term-1 (abstract var ap-first))
-                          (term-2 (abstract var ap-second)))
-                      (if optimize
-                        (abbrev-s term-1 term-2) `(s ,term-1 ,term-2))
-                      ))
-                 )))
+                (abstract var (reduce #'list expr)))
+                ;;
+                ;; The S-K implementation of QUOTE is "curried", and
+                ;; can be abbreviated just like any other combinator.
+                ;;
+                ((eq ap-first 'quote) (if (eq *optimize* :experimental)
+                                        `(keta ,expr) `(k ,expr)))
+                ;;
+                ;; Abstract the Application:
+                ;;
+                (t (let ((term-1 (abstract var ap-first))
+                        (term-2 (abstract var ap-second)))
+                    (if optimize
+                      (abbrev-s term-1 term-2) `(s ,term-1 ,term-2))
+                    ))
+                ))
             ))
          ((eql var expr) 'i)                    ; Allow Numeric Variables.
          ((and *optimize* (not (eq *optimize* :standard)) (eq expr 'i)) 'h)
          ((eq *optimize* :experimental) `(keta ,expr))
          (t `(k ,expr))
          ))
-     )))
+      )))
 
 (defun ABBREV-S (term-1 term-2)
   "Produce an S-Combinator, or an Abbreviation, given its first two Terms."

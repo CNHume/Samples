@@ -1,3 +1,9 @@
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
+;;;
+;;; Module Prologue:
+;;;
+(in-package cg-user)
+
 (defpackage sk)
 
 (eval-when (compile load) (use-package 'sk))
