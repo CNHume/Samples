@@ -3,8 +3,8 @@
 ;;; Module Prologue:
 ;;;
 (in-package cg-user)
-
 (defpackage sk)
+(push :sk-traverse *features*)
 
 (eval-when (compile load) (use-package 'sk))
 
