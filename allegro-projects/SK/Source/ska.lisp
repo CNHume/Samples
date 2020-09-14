@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   2.12   14-Sep-20       Removed [-Reader template reduction.
 ;;; Chris Hume   2.11    2-Aug-20       Allowed empty list in [-READER.
 ;;; Chris Hume   2.10    9-Jan-94       Added KETA (:EXPERIMENAL optimization).
 ;;; Chris Hume   2.9    25-Nov-93       Added ?-READER.
@@ -375,6 +376,14 @@
       )))
 
 ;;;
+;;; Templates are processed according to "a suitably generalized Law
+;;; of Abstraction." Cf. the "uncurry" U-combinator of [Turner 1979].
+;;;
+;;; Test cases:
+;;;
+;;; (beta (?(love light) (om love light) (pair namah (pair shivaya nil))))
+;;; (beta ([love light] (light love om) (pair namah (pair shivaya nil))))
+;;;
 ;;; Read "template expr" as "(lambda* template expr)".
 ;;;
 ;;; Templates have the form "[t1, t2...]" where each t1, t2...
@@ -384,14 +393,9 @@
   "Read in a Generalized Abstraction Variable."
   (declare (ignore char))
   (let ((var (read-delimited-list #\] stream t)))
-    ;;
-    ;; Templates are processed according to "a suitably generalized Law
-    ;; of Abstraction." Cf. the "uncurry", U-combinator of [Turner 1979].
-    ;;
-    (let ((expr (read stream t nil t))
-          (template (unless (endp var) (reduce #'cons var :from-end t))))
-        `(lambda* ,template ,expr))
-    ))
+    (let ((expr (read stream t nil t)))
+      `(lambda* ,var ,expr)
+      )))
 
 (defun \]-READER (stream char)
   "Indicate an Abstraction Operator Syntax Error."
