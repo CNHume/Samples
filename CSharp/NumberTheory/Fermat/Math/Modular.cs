@@ -82,7 +82,7 @@ namespace Fermat.Math {
     }
 
     private static void validate(decimal n, decimal exp, decimal m) {
-      string message = null;
+      string message = default;
       //
       //[Note]The modulus m must not be greater than 2^48 = 281,474,976,710,656 = 2.8e14
       // because overflow will occur if the square of any n mod m exceeds

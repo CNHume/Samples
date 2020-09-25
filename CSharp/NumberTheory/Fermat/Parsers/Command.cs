@@ -25,7 +25,7 @@ namespace Fermat.Parsers {
 
     #region Methods
     public void Parse(string[] args) {
-      Input = null;
+      Input = default;
       IsVerbose = false;
 
       var usage = false;
