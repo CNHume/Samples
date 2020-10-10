@@ -71,6 +71,11 @@
 ;;; The Currying Operator:
 ;;;     [t1, t2...] expr       = (lambda* (t1, t2...) expr)
 ;;;
+;;; Currying:
+;;;
+;;;     (lambda* (head . tail) expr) = U (lambda* head (lambda* tail expr))
+;;;     (lambda* nil expr) = knil expr
+;;;
 ;;; External Procedures:
 ;;;
 ;;;     cboundp                 c
@@ -167,7 +172,7 @@
 (defparameter *COUNT* nil                       ; Takes NIL, or T.
   "The Default Counter Display Setting")
 
-(defparameter *TRACE* T                       ; Takes NIL, or T.
+(defparameter *TRACE* nil                       ; Takes NIL, or T.
   "The Default Tracer Setting")
 
 (defparameter *WARN* t                          ; Takes NIL, or T.
