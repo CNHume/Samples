@@ -64,12 +64,14 @@
 ;;;
 ;;;     defc                    c def
 ;;;
-;;; The Abstraction Operator:
+;;; Templates:
 ;;;
+;;;     [t1, t2...]expr        = ?(t1, t2...) expr
+;;;
+;;; Abstraction:
+;;;
+;;;     ?(t1, t2...) expr      = (lambda* (t1, t2...) expr)
 ;;;     ?var expr              = (lambda* var expr)
-;;;
-;;; The Currying Operator:
-;;;     [t1, t2...] expr       = (lambda* (t1, t2...) expr)
 ;;;
 ;;; Currying:
 ;;;
