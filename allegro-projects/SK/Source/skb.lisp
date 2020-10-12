@@ -325,10 +325,10 @@
                       (setq expr (pop lefts))
                       (let ((arg-1 ap-second) (arg-2 (second expr)))
                         (if (eq ap-first 'PAIR)
-                          (setq expr `(,arg-1 . ,arg-2) stop t)
+                          (setq expr `(,arg-1 ,arg-2) stop t)
                           (setf (first expr) 'quote
                                 (rest expr) `((,(apply #'sk-eval arg-1 keys) .
-                                              ,(apply #'sk-eval arg-2 keys)))
+                                               ,(apply #'sk-eval arg-2 keys)))
                                 )))
                       )))
                 ((QUOTE) (setq expr ap-second     ; Leave value on Stack.
