@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.4     4-Jan-21       Fixed U.
 ;;; Chris Hume   3.3     9-Jan-94       Added KETA.
 ;;; Chris Hume   3.2    26-Sep-93       Added CONSP (fixing 29-Aug-93 version).
 ;;; Chris Hume   3.1    29-Mar-92       Added H.
@@ -358,7 +359,7 @@
                             ;;
                             (let ((arg (pop args)))
                               (setf (first expr) ap-second
-                                    (rest expr) `(,arg ,args))
+                                    (rest expr) `(,arg ,@args))
                               )))
                         )))
                 (LAMBDA*                          ; Reduce Internal Abstractions.

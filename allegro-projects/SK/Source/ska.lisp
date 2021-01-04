@@ -310,15 +310,16 @@
                     (ap-more (rest ap-rest)))
                 (cond
                   ((eq ap-first 'lambda*)         ; Resolve Inner Abstractions.
-                  (abstract var (eval expr)))     ; Recurse from LAMBDA* Macro.
+                   (abstract var (eval expr)))    ; Recurse from LAMBDA* Macro.
                   ;;
                   ;; Perform Implicit Left Association, AFTER
                   ;; recognizing Internal Abstractions (above).
                   ;;
                   (ap-more
-                  (when *abstraction-count*       ; Doesn't count as Abstraction.
-                    (decf *abstraction-count*))
-                  (abstract var (reduce #'list expr)))
+                    (when warn (warn "Implicit Left Association: ~S." expr))
+                    (when *abstraction-count*       ; Doesn't count as Abstraction.
+                      (decf *abstraction-count*))
+                    (abstract var (reduce #'list expr)))
                   ;;
                   ;; The S-K implementation of QUOTE is "curried", and
                   ;; can be abbreviated just like any other combinator.

@@ -1,12 +1,12 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CL-USER; Base: 10 -*-
 ;;;
 ;;; Module Prologue:
 ;;;
-(in-package cg-user)
-(defpackage sk)
+(in-package cl-user)
+;; (eval-when (:load-toplevel) #-sk-traverse(push :sk-traverse *features*))
 
-(eval-when (compile load) (use-package 'sk))
-(eval-when (load) #-sk-traverse(push :sk-traverse *features*))
+(defpackage sk)
+(eval-when (:compile-toplevel :load-toplevel) (use-package 'sk))
 
 (dolist (lisp (directory "D:/Documents/Sourcetree/Samples/allegro-projects/SK/Source/*.lisp"))
   (format t "~&Loading \"~A\"~%" (enough-namestring (truename lisp) ".lisp"))

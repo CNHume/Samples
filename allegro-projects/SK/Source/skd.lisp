@@ -1,4 +1,4 @@
-;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CG-USER; Base: 10 -*-
+;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: CL-USER; Base: 10 -*-
 ;;;
 ;;; Source: skd.lisp            Module: sk      Status: operational
 ;;;
@@ -35,7 +35,7 @@
 ;;;
 ;;; Module Prologue:
 ;;;
-(in-package cg-user)
+(in-package cl-user)
 
 ;;; No Requirements.
 ;;; No Shadows.
