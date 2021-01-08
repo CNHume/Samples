@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   2.13    8-Jan-21       Added *DEFAULT-PRINT-LENGTH* parameter.
 ;;; Chris Hume   2.12   14-Sep-20       Removed [-Reader template reduction.
 ;;; Chris Hume   2.11    2-Aug-20       Allowed empty list in [-READER.
 ;;; Chris Hume   2.10    9-Jan-94       Added KETA (:EXPERIMENAL optimization).
@@ -139,7 +140,7 @@
 ;;; Special Variables and Constants:
 ;;;
 (defparameter *VERSION-MAJOR* 1                 ; Obtain the SK Version via
-  "SK Major Version Number")                    ;SK-IMPLEMENTATION-VERSION.
+  "SK Major Version Number")                    ; SK-IMPLEMENTATION-VERSION.
 (defparameter *VERSION-MINOR* 0
   "SK Minor Version Number")
 (defparameter *VERSION-EDIT* 5
@@ -154,7 +155,7 @@
 (defparameter *REDUCTION-LEVEL* nil             ; Bind to a Number.
   "The Reduction Recursion Depth")
 
-(defparameter *DEFAULT-PRINT-CIRCLE* t          ; Takes NIL, or T.
+(defparameter *DEFAULT-PRINT-CIRCLE* nil        ; Takes NIL, or T.
   "Tracer *PRINT-CIRCLE* Default")
 
 ;;;
@@ -168,8 +169,12 @@
 ;;; implementations.
 ;;;
 ;;;#+:ccl
-(defparameter *DEFAULT-PRINT-LEVEL* 16          ; Takes NIL, or an Integer.
+(defparameter *DEFAULT-PRINT-LEVEL* nil         ; Takes NIL, or an Integer.
   "Tracer *PRINT-LEVEL* Default")
+
+;;;#+:ccl
+(defparameter *DEFAULT-PRINT-LENGTH* nil        ; Takes NIL, or an Integer.
+  "Tracer *PRINT-LENGTH* Default")
 
 (defparameter *COUNT* nil                       ; Takes NIL, or T.
   "The Default Counter Display Setting")

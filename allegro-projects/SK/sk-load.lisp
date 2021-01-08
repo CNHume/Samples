@@ -12,4 +12,4 @@
   (format t "~&Loading \"~A\"~%" (enough-namestring (truename lisp) ".lisp"))
   (load lisp))
 
-(shiftf *print-circle* t)
+;;;(shiftf *print-circle* t)

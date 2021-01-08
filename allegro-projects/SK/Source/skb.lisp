@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.5     8-Jan-21       Added print-length keyword to SK-EVAL.
 ;;; Chris Hume   3.4     4-Jan-21       Fixed U.
 ;;; Chris Hume   3.3     9-Jan-94       Added KETA.
 ;;; Chris Hume   3.2    26-Sep-93       Added CONSP (fixing 29-Aug-93 version).
@@ -165,6 +166,8 @@
                      (print-circle *default-print-circle*)
                      ;;;#+:ccl
                      (print-level *default-print-level*)
+                     ;;;#+:ccl
+                     (print-length *default-print-length*)
                      (count *count*) (trace *trace*) (warn *warn*)
                      (normal *normal*)          ; Interior Redex Disposition
                      &allow-other-keys)
@@ -172,6 +175,8 @@
   (declare (special *reduction-count* *reduction-level* *default-print-circle*
                     ;;;#+:ccl
                     *default-print-level*
+                    ;;;#+:ccl
+                    *default-print-length*
                     *count* *trace* *warn* *normal*))
   (when *reduction-level*
     (incf *reduction-level*)
@@ -208,7 +213,9 @@
            (format t "~&[End the reduction at level ~D.]" *reduction-level*)
            (let ((*print-circle* print-circle)  ; Cf. Diagnostics below.
                  ;;;#+:ccl
-                 (*print-level* print-level))
+                 (*print-level* print-level)
+                 ;;;#+:ccl
+                 (*print-length* print-length))
              (pprint expr)))
          (decf *reduction-level*))
        ;;
@@ -226,7 +233,9 @@
         (format t "Left ~2D]" (length lefts)))  ; Show stack depth.
       (let ((*print-circle* print-circle)       ; Show circularity.
             ;;;#+:ccl                           ; Allegro CL needed this:
-            (*print-level* print-level))        ; Handle (Y QUOTE).
+            (*print-level* print-level)         ; Handle (Y QUOTE).
+            ;;;#+:ccl
+            (*print-length* print-length))
         (pprint `(beta ,expr))
         ))
     ;;

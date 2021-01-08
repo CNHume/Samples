@@ -52,7 +52,7 @@ Operating Environment and Source Files
 The files you will need to demonstrate operation
 of the S-K Reduction Engine are as follows:
 
-     SK.TEXT,   which contains the text you are now reading,
+    README.MD,  the text you are now reading,
     SKA.LISP,   which implements Lambda* Abstraction,
     SKB.LISP,   which implements Beta Reduction,
     SKC.LISP,   is the Laboratory for new, experimental Combinators.
