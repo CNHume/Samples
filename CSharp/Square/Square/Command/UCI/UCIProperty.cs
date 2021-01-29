@@ -51,13 +51,13 @@ namespace Command {
     //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
     //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
-    "4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply in 47.8 sec]
+    //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 21.3 sec, formerly 47.8 sec]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply in 4.27 sec]
     //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Grenke Chess Classic R6 2018-04-06 [14-ply in 18.5 sec to find 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2]
     // Deeper line: 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Bd7 Nb3+ 71. Kb1 Kd2
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [24-ply in 52:12 min to see win]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 4"; // R v B Philidor from Rc3 #17 [17-ply in 1:16:33]
+    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 4"; // R v B Philidor from Rc3 #17 [17-ply @1.167 MHz in 26:32.5, formerly 1:16:33]
     // 4. Rg7 (4. Be6! Rd3+ 5. Bd5 Rc3 6. Rd7+ Kc8 7. Rg7 Kb8 8. Rb7+ Kc8 9. Rb4 Rd3 10. Ra4)
     // 4... Re3 5. Be6 Rd3+ 6. Bd5 Re3 7. Rd7+ Ke8 8. Rb7 Kf8 9. Rf7+ Ke8 10. Rf4 Rd3 11. Rg4
     //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 4:21 to find 37. g4 Qc6]
@@ -139,7 +139,7 @@ namespace Command {
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line, 13-ply in 2:26:24
     //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8, 13-ply in 37 sec
-    //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply in 5:40:54, 10.9 Gnode] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
+    "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply @1.079 MHz in 21:23, formerly 5:40:54 over 10.9 Gnode] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
     //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 20.08 sec]

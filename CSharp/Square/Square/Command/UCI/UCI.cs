@@ -477,7 +477,7 @@ namespace Command {
 
     protected static void showId() {
       LogLine("id name {0} {1}", Product.ProductName, Product.ProductVersion);
-      LogLine("id author {0}", Product.Author);
+      LogLine("id author {0}", Product.CompanyName);
       LogLine("id copyright {0}", Product.Copyright);
       LogLine("id description {0}", Product.Description);
     }

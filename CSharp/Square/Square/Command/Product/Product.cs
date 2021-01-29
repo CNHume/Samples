@@ -31,7 +31,7 @@ namespace Command {
       var fvi = FileVersionInfo.GetVersionInfo(assy.Location);
 
       Title = getTitle(assy);           // Name for display purposes
-      Author = fvi.CompanyName;
+      CompanyName = fvi.CompanyName;
       Copyright = fvi.LegalCopyright;
       Description = descriptionAttribute?.Description;
       ProductName = fvi.ProductName;
@@ -54,7 +54,7 @@ namespace Command {
 
     #region Properties
     public static String Title { get; private set; }
-    public static String Author { get; private set; }
+    public static String CompanyName { get; private set; }
     public static String Copyright { get; private set; }
     public static String Description { get; private set; }
     public static String ProductName { get; private set; }
