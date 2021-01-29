@@ -1,0 +1,21 @@
+int jamboree(CNode n, int a, int ß) {
+   if (n is leaf) return static_eval(n);
+   c[] = the childen of n;
+   b = -jamboree(c[0], -ß, -a); 
+   if (b >= ß) return b;
+   if (b >  a) a = b;
+   In Parallel: for (i=1; i < |c[]|; i++) {
+      s = -jamboree(c[i], -a - 1, -a);
+      if (s >  b) b = s;
+      if (s >= ß) abort_and_return s;
+      if (s >  a) {
+          /* Wait for the completion of all previous iterations of the parallel loop */
+          s = -jamboree(c[i], -ß, -a);
+          if (s >= ß) abort_and_return s;
+          if (s >  a) a = s;
+          if (s >  b) b = s;
+      }
+      /* Note the completion of the ith iteration of the parallel loop */
+   }
+   return b;
+}

@@ -1,0 +1,112 @@
+# Alpha/Beta NegaMax w Quiesecence
+int search(int depth, int alpha, int beta)
+    if (depth <= 0)
+	return quiescent(alpha, beta)
+    else
+	Board child
+	foreach (Move move in generate())
+	    if (!child.tryMove(move)) continue
+
+	    int value = -child.search(depth, -beta, -alpha)
+	    if (beta <= value)
+		return value
+	    else if (alpha < value)
+		alpha = value
+	return alpha
+
+
+# PVS
+int search(int depth, int alpha, int beta)
+    if (depth <= 0)
+	return quiescent(alpha, beta)
+    else
+	Board child
+	bool bPVS = alpha + 1 < beta
+	bool bTryZWS = false
+	foreach (Move move in generate())
+	    if (!child.tryMove(move)) continue
+
+	    int value = -child.PVS(depth, alpha, beta, bTryZWS)
+	    if (beta <= value)
+		return value
+	    else if (alpha < value)
+		alpha = value
+		if (bPVS) bTryZWS = true
+	return alpha
+
+
+int PVS(int depth, int alpha, int beta, bool bTryZWS)
+    if (bTryZWS)
+	int R = reduction(depth)
+	int alpha1 = alpha + 1
+	int value = -search(depth - 1 - R, -alpha1, -alpha)
+	if (value <= alpha || beta <= value) return value
+    return -search(depth - 1, -beta, -alpha)
+
+
+# probe/store
+int search(int depth, int alpha, int beta)
+    int value = probe(depth, alpha, beta)
+    if (isDefined(value)) return value
+
+    if (depth <= 0)
+	return quiescent(alpha, beta)
+    else
+	Board child
+	EvalType et = EvalType.Upper
+	int moveCount = 0
+	foreach (Move move in generate())
+	    if (!child.tryMove(move)) continue
+	    moveCount++
+
+	    int value = child.PVS(depth, alpha, beta, bTryZWS)
+	    if (beta <= value)
+		return store(depth, value, EvalType.Lower)
+	    else if (alpha < value)
+		et = EvalType.Exact
+		alpha = value
+
+	if (moveCount == 0)
+	    et = EvalType.Exact
+	    alpha = final()
+
+	return store(depth, alpha, et)
+
+
+# LMR
+int search(int depth, int alpha, int beta)
+    int value = probe(depth, alpha, beta)
+    if (isDefined(value)) return value
+
+    if (depth <= 0)
+	return quiescent(alpha, beta)
+    else
+	Board child
+	EvalType et = EvalType.Upper
+	int moveCount = 0
+	bool bZWS = alpha + 1 == beta
+	bool bTryZWS = false
+	foreach (Move move in generate())
+	    if (!child.tryMove(move)) continue
+	    moveCount++
+
+	    if (moveCount < LMR_LIMIT || interesting(move))
+		value = child.PVS(depth, alpha, beta, bTryZWS)
+	    else
+		int R = reduction(depth, moveCount)
+		value = -child.search(depth - 1 - R, -beta, -alpha)
+		if (alpha < value)
+		    value = -child.search(depth - 1, -beta, -alpha)
+		
+	    if (beta <= value)
+		return store(depth, value, EvalType.Lower)
+	    else if (alpha < value)
+		et = EvalType.Exact
+		alpha = value
+		if (!bZWS) bTryZWS = true
+
+	if (moveCount == 0)
+	    et = EvalType.Exact
+	    alpha = final()
+
+	return store(depth, alpha, et)
