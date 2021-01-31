@@ -29,45 +29,44 @@ namespace Engine {
   using Plane = System.UInt64;
 
   partial class Position : Board {
-    /*
-     * Attack Methods:
-     * 
-      restrictPiece - Called once a pin is detected
-      checkers - Find pieces giving check
-      pieceAtxTo - Used by Abbreviate to detect potential move ambiguity
-
-      interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
-      //pinRestrictions - Expedited version of interpositions
-
-
-      attacks - Thorough version of isAttacked, used to preempt Illegal King Moves
-      //isAttacked - Disallow castling through check
-      isAttackedRay - Used by tryEP to determine whether EP is legal
-      rankPath - Returns mask for squares that must not be obstructed (or attacked)
-
-      pieceAtx - Called by buildMove on behalf of parsePACNMove to verify From and To
-      pawnAtx - Called by pieceAtx
-
-      getPiece - Returns Piece at any square
-     */
-    /*
-     * Move Generators:
-     *
-      addCastles
-      addPieceMoves
-      addPieceCaptures
-      addPawnMoves
-      addPawnCaptures
-     */
-    /*
-     * Move Methods:
-     *
-      movePiece and its related methods:
-      lowerPiece which is called by placePiece
-      raisePiece which is called by removePiece
-
-      [set|clr][Piece|Rotations]
-     */
+    //
+    // Attack Methods:
+    //
+    // restrictPiece - Called once a pin is detected
+    // checkers - Find pieces giving check
+    // pieceAtxTo - Used by abbreviate to detect potential move ambiguity
+    //
+    // interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
+    //*pinRestrictions - Expedited version of interpositions
+    //
+    // attacks - Thorough version of isAttacked, used to preempt Illegal King Moves
+    //*isAttacked - Disallow castling through check
+    // isAttackedRay - Used by tryEP to determine whether EP is legal
+    // rankPath - Returns mask for squares that must not be obstructed (or attacked)
+    //
+    // pieceAtx - Called by buildMove on behalf of parsePACNMove to verify From and To
+    // pawnAtx - Called by pieceAtx
+    //
+    // getPiece - Returns Piece at any square
+    //
+    // Move Generators:
+    //
+    // addCastles
+    // addPieceMoves
+    // addPieceCaptures
+    // addPawnMoves
+    // addPawnCaptures
+    //
+    // Move Methods:
+    //
+    // movePiece and its related methods:
+    // lowerPiece which is called by placePiece
+    // raisePiece which is called by removePiece
+    //
+    // Rotation Methods:
+    //
+    // [set|clr][Piece|Rotations]
+    //
     #region Attacks
     //
     // Distinct AtxTo[] and AtxFrom[] may be of help in evaluating Piece

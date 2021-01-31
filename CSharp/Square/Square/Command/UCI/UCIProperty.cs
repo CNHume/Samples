@@ -28,6 +28,7 @@ namespace Command {
     //"8/1KQ5/8/8/8/5p2/6k1/8 w - - 0 1";  // Q v RP loss for b
     //"8/6K1/5P2/8/8/8/1kq5/8 b - - 0 1";  // Q v RP loss for w
     //"8/8/8/6Q1/4K3/7k/5p2/8 w - - 0 8";  // Q v RP stalemate
+    "2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.  [14-ply to find 1. f5!]
     //"3k4/1P6/2K5/8/4N3/8/7b/8 b - - 0 1"; // Magnus Carlsen vs. Ian Nepomniachtchi - MC Invitational (2020)
     // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
     // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {transposing}) 3. Ne6+ 1-0
@@ -139,7 +140,7 @@ namespace Command {
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line, 13-ply in 2:26:24
     //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8, 13-ply in 37 sec
-    "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply @1.079 MHz in 21:23, formerly 5:40:54 over 10.9 Gnode] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
+    //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply @1.079 MHz in 21:23, formerly 5:40:54 over 10.9 Gnode] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
     //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 20.08 sec]
