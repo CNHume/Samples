@@ -14,13 +14,12 @@
 #define SaveCapture
 
 namespace Engine {
+  using System;
+  using System.Diagnostics;
+  using System.Runtime.CompilerServices;// for MethodImplAttribute
+
   using static Board.BoardSide;
   using static CastleRule;
-
-  using System;
-  using System.Runtime.CompilerServices;// for MethodImplAttribute
-  using System.Diagnostics;
-
   //
   // Type Aliases:
   //
@@ -38,8 +37,23 @@ namespace Engine {
       return bWTM ? castle.RuleSide[White] : castle.RuleSide[Black];
     }
 
+    protected Tuple<CastleRuleSide, CastleRuleSide> getRules(Boolean bWTM) {
+      var castle = State.Rule;
+      (CastleRuleSide friendRule, CastleRuleSide foeRule) = bWTM ?
+        (castle.RuleSide[White], castle.RuleSide[Black]) :
+        (castle.RuleSide[Black], castle.RuleSide[White]);
+      return new Tuple<CastleRuleSide, CastleRuleSide>(friendRule, foeRule);
+    }
+
     protected BoardSide getSide(Boolean bWTM) {
       return bWTM ? Side[White] : Side[Black];
+    }
+
+    protected Tuple<BoardSide, BoardSide> getSides(Boolean bWTM) {
+      (BoardSide friend, BoardSide foe) = bWTM ?
+        (Side[White], Side[Black]) :
+        (Side[Black], Side[White]);
+      return new Tuple<BoardSide, BoardSide>(friend, foe);
     }
 
     protected Byte getKingPos(Boolean bWTM) {
@@ -290,10 +304,8 @@ namespace Engine {
 
       // Record Castling Abilities prior to removePiece()
       var bWTM = WTM();
-      var friend = getSide(bWTM);
-      var friendRule = getRule(bWTM);
-      var foe = getSide(!bWTM);
-      var foeRule = getRule(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
+      (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
 
       var fhiCanCastleOld = friend.FlagsHi & HiFlags.CanCastleMask;
 

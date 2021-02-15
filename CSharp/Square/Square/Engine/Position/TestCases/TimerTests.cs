@@ -11,15 +11,17 @@
 #define TestOutsideSquare
 
 namespace Engine {
-  using static Board.BoardSide;
   using CacheValue;
-  using static Logging.Logger;
   using MoveOrder;
 
   using System;
   using System.Diagnostics;
   using System.Collections.Generic;
   using System.Text;
+
+  using static Board.BoardSide;
+  using static CastleRule;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -305,10 +307,8 @@ namespace Engine {
         resetMove();
         var move = mov;
         var bWTM = WTM();
-        var friend = getSide(bWTM);
-        var friendRule = getRule(bWTM);
-        var foe = getSide(!bWTM);
-        var foeRule = getRule(!bWTM);
+        (BoardSide friend, BoardSide foe) = getSides(bWTM);
+        (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
         movePiece(friend, friendRule, foe, foeRule, ref move);

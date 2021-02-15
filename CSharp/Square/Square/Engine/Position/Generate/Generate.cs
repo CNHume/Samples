@@ -11,11 +11,12 @@
 
 namespace Engine {
   using Exceptions;
-  using static MoveOrder.TypedMove;
-  using static MoveOrder.TypedMove.MoveType;
 
   using System;
   using System.Collections.Generic;
+
+  using static MoveOrder.TypedMove;
+  using static MoveOrder.TypedMove.MoveType;
 
   //
   // Type Aliases:
@@ -102,7 +103,7 @@ namespace Engine {
     protected Int32 generate(List<Move> moves, Boolean bSwap) {         // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
       var bWTM = WTM();
       var bInCheck = InCheck();
-      var friend = getSide(bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
       var vKingPos = getKingPos(bWTM);
 
@@ -141,7 +142,6 @@ namespace Engine {
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~qpFriend, qpFriend);
 
-        var foe = getSide(!bWTM);
         var qpFoe = foe.Piece;
         var qpPawnCapture = qpFoe;
         if (IsPassed())
@@ -171,7 +171,7 @@ namespace Engine {
     protected Int32 generateMaterialMoves(List<Move> moves) {
       var bWTM = WTM();
       var bInCheck = InCheck();
-      var friend = getSide(bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
       var vKingPos = getKingPos(bWTM);
 
@@ -204,7 +204,6 @@ namespace Engine {
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
-        var foe = getSide(!bWTM);
         var qpFoe = foe.Piece;
         addPieceCaptures(qpFoe, qpFriend);
 

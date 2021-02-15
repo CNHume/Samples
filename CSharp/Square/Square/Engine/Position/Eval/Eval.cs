@@ -26,29 +26,31 @@
 //#define VerifyIBV
 
 namespace Engine {
-  using static Board.BoardSide;
   using CacheValue;
-  using static CacheValue.PawnPosition;
-  using static Logging.Logger;
 
   using System;
   using System.Diagnostics;
-  using static System.Math;
   using System.Runtime.CompilerServices;
   using System.Text;
+
+  using static Board.BoardSide;
+  using static CacheValue.PawnPosition;
+  using static Logging.Logger;
+
+  using static System.Math;
 
   //
   // Type Aliases:
   //
+  using Bval = System.Int16;
   using CompositionCounter = System.UInt16;
-  using Ply = System.UInt16;
   using Depth = System.UInt16;
   using Draft = System.UInt16;
-  using Bval = System.Int16;
   using Eval = System.Int16;
-  using MemoHashcode = System.UInt32;
   using Hashcode = System.UInt64;
+  using MemoHashcode = System.UInt32;
   using Plane = System.UInt64;
+  using Ply = System.UInt16;
 
   partial class Position : Board {
     #region Constants
@@ -327,9 +329,8 @@ namespace Engine {
     //
     protected Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
       var mBehind = (Eval)0;
+      (BoardSide offence, BoardSide defence) = getSides(bWhiteRook);
 
-      var offence = getSide(bWhiteRook);
-      var defence = getSide(!bWhiteRook);
       var qpOffence = offence.Piece;
       var qpDefence = defence.Piece;
 

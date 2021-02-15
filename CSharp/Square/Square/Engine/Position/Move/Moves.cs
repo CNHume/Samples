@@ -108,8 +108,7 @@ namespace Engine {
       var bWhiteTurn = (GamePly & 1) != 0;
       Debug.Assert(bWhiteMoved == bWhiteTurn, "Skipped Turn");
 #endif
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       //[Assume]Restricted Moves are Legal
       var bLegal = bRestricted || !isAttacked(friend, King & foe.Piece);

@@ -10,12 +10,13 @@
 namespace Engine {
   using Command;                        // For TokenScanner, Lexeme
   using Command.Exceptions;
-  using static Logging.Logger;
 
   using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
+
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -165,9 +166,7 @@ namespace Engine {
       var vPieceFrom = getPiece(nFrom);
       var vPieceTo = getPiece(nTo);
 
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
-
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
       var qpFoe = foe.Piece;
 

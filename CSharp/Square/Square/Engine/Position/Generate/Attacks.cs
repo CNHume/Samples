@@ -14,13 +14,14 @@
 //#define Controlled
 
 namespace Engine {
-  using static Board.BoardSide;
-  using static Engine.CastleRule;
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
   using System.Diagnostics;
+
+  using static Board.BoardSide;
+  using static CastleRule;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -363,8 +364,7 @@ namespace Engine {
     // pieces and the attacks generated for their type.
     //
     protected Plane checkers(Boolean bWTM) {
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpFrom = 0UL;
       var vTo = friend.KingPos.Value;
@@ -453,8 +453,7 @@ namespace Engine {
       var bLegal = false;
       if (InCheck()) return bLegal;
 
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var friendRule = getRule(bWTM);
 
       //
@@ -470,8 +469,7 @@ namespace Engine {
 
     public Boolean canPromote() {
       var bWTM = WTM();
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpPawn = friend.Piece & Pawn;
       var qpAdvance1 = qpPawn << friend.Rank & ~RankPiece & friend.RankLast;

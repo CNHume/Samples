@@ -8,17 +8,21 @@
 //#define Magic
 
 namespace Engine {
-  using static Board.BoardSide;
   using Command;                        // For Scanner
-  using static Command.Parser;
+
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
-  using static System.Char;
   using System.Collections.Generic;
-  using static System.String;
   using System.Text;
+
+  using static Board.BoardSide;
+  using static CastleRule;
+  using static Command.Parser;
+  using static Logging.Logger;
+
+  using static System.Char;
+  using static System.String;
 
   //
   // Type Aliases:
@@ -266,8 +270,7 @@ namespace Engine {
         throw new ParsePositionException($"Invalid En Passant Rank = {sqPassed}");
 
       var bValid = false;
-      var friend = getSide(bWTM);
-      var foe = getSide(!bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpFoe = foe.Piece;
       var nTo = nPassedTo - friend.Rank;
@@ -284,10 +287,8 @@ namespace Engine {
       if (!bValid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqPassed}");
 
-      var rule = getRule(bWTM);
-      var foeRule = getRule(!bWTM);
-
-      tryEP(friend, rule, foe, foeRule, nTo, nPassedTo);
+      (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
+      tryEP(friend, friendRule, foe, foeRule, nTo, nPassedTo);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqPassed}");

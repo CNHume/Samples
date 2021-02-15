@@ -12,12 +12,12 @@
 //#define TestPawnFeatures
 
 namespace Engine {
-  using static Logging.Logger;
-  using static CacheValue.PawnPosition;
-
   using System;
   using System.Diagnostics;
   using System.Text;
+
+  using static CacheValue.PawnPosition;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -299,11 +299,10 @@ namespace Engine {
     //
     public FeatureCounter CountPawnFeatures(Boolean bWhiteCount, out Plane qpPassers, out PRPFlags fprp) {
       fprp = PRPFlags.None;//[Init]
-      var side = getSide(bWhiteCount);
-      var foe = getSide(!bWhiteCount);
-      var qpFriendPawnAtx = side.PawnA1H8Atx | side.PawnA8H1Atx;
+      (BoardSide friend, BoardSide foe) = getSides(bWhiteCount);
+      var qpFriendPawnAtx = friend.PawnA1H8Atx | friend.PawnA8H1Atx;
       var qpFoePawnAtx = foe.PawnA1H8Atx | foe.PawnA8H1Atx;
-      var qpFriend = side.Piece;
+      var qpFriend = friend.Piece;
       var qpFoe = foe.Piece;
       var qpFriendPawn = Pawn & qpFriend;
       var qpFoePawn = Pawn & qpFoe;
