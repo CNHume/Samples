@@ -42,7 +42,6 @@ namespace Engine {
     //
     // attacks - Thorough version of isAttacked, used to preempt Illegal King Moves
     //*isAttacked - Disallow castling through check
-    // isAttackedRay - Used by tryEP to determine whether EP is legal
     // rankPath - Returns mask for squares that must not be obstructed (or attacked)
     //
     // pieceAtx - Called by buildMove on behalf of parsePACNMove to verify From and To

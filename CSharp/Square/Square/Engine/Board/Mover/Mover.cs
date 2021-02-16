@@ -172,22 +172,6 @@ namespace Engine {
     }
 
     //
-    // isAttackedRay() is only used here to determine whether an EP is legal:
-    //
-    private Boolean isAttackedRay(BoardSide foe, Plane qpFriend) {
-      Boolean bAttacked = false;
-
-      while (!bAttacked && qpFriend != 0) {
-        var n = RemoveLo(ref qpFriend);
-        bAttacked =
-          (foe.Piece & DiagPiece & diagAtx(n)) != 0 ||
-          (foe.Piece & RectPiece & rectAtx(n)) != 0;
-      }
-
-      return bAttacked;
-    }
-
-    //
     // Set EP flags only if an EP would be legal
     //
     private void tryEP(
@@ -195,6 +179,7 @@ namespace Engine {
       BoardSide foe, CastleRuleSide foeRule,
       Int32 nTo, Int32 nPassedTo) {
       var bLegal = false;
+      var vKing = friend.KingPos.Value;
       var qpPassedFrom = passed(friend, nPassedTo);
       while (qpPassedFrom != 0) {
         var nFrom = RemoveLo(ref qpPassedFrom);
@@ -215,7 +200,9 @@ namespace Engine {
         lowerPiece(friend, vP6, nPassedTo);
         raisePiece(foe, foeRule, vP6, nTo);     //[Speed]Remove Not Needed: Material balance restored below
                                                 //[Note]buildPawnAtx() is not needed for this pin determination
-        bLegal = !isAttackedRay(foe, King & friend.Piece);
+        bLegal =
+          (foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
+          (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
         lowerPiece(foe, vP6, nTo);              //[Speed]placePiece Not Needed
         raisePiece(friend, friendRule, vP6, nPassedTo);
