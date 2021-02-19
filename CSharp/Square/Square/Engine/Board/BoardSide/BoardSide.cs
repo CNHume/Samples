@@ -92,14 +92,14 @@ namespace Engine {
       #endregion
 
       #region Pawn Advancement Fields
-      public Plane Above;
-      public Int32 A1H8;
-      public Int32 A8H1;
-      public Int32 Rank;
-      public Plane RankLast;
-      public Plane RankPass;
-      public Plane FileLeft;
-      public Plane FileRight;
+      public readonly Plane Above;
+      public readonly Int32 A1H8;
+      public readonly Int32 A8H1;
+      public readonly Int32 Rank;
+      public readonly Plane RankLast;
+      public readonly Plane RankPass;
+      public readonly Plane FileLeft;
+      public readonly Plane FileRight;
       #endregion
 
       #region Virtual Fields
