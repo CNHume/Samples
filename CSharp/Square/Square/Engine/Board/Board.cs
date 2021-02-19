@@ -77,7 +77,10 @@ namespace Engine {
                    "LimitMask does not preserve Undefined Move");
       #endregion
 
-      initBoard();
+      //
+      // Initialize static data used to find attacks:
+      //
+      initStatic();
     }
 
     public Board() {
@@ -175,7 +178,7 @@ namespace Engine {
       }
     }
 
-    protected static void initBoard() {
+    protected static void initStatic() {
       //
       // Whether the Ray Atx planes are Magic or Rotated,
       // rotateRank() will be needed by [rank|rect]Atx().

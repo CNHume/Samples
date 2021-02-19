@@ -169,7 +169,7 @@ namespace Engine {
     }
 
     //
-    //[Chess 960]parseCastleRights() and initCastleRules() allow for Chess 960 castling
+    //[Chess 960]parseCastleRights() and InitCastleRules() allow for Chess 960 castling
     //
     private Boolean parseCastleRights(String sRights) {
       var bOrthodox = false;
@@ -346,7 +346,7 @@ namespace Engine {
       return bWTM;
     }
 
-    protected void InitPosition(
+    protected void Init(
       Boolean bWTM, String sPassed, String sHalfMoveClock, String sFullMoveNumber,
       Dictionary<String, List<String>> operations = default) {
       // Preserve EPD Operations passed via ParseEPD()
@@ -371,12 +371,7 @@ namespace Engine {
         if (State.Rule is null)
           throw new BoardException("Null CastleRule Instance");
 
-        foreach (var ruleSide in State.Rule.RuleSide) {
-          if (ruleSide is null)
-            throw new BoardException("Null CastleRuleSide Instance");
-
-          ruleSide.InitCastleRules();
-        }
+        State.Rule.Init();
       }
       else {
         Display(sInvalid);

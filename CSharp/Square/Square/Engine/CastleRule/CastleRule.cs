@@ -26,6 +26,15 @@ namespace Engine {
     #endregion
 
     #region Methods
+    public void Init() {
+      foreach (var ruleSide in RuleSide) {
+        if (ruleSide is null)
+          throw new BoardException("Null CastleRuleSide Instance");
+
+        ruleSide.Init();
+      }
+    }
+
     public void Clear() {
       foreach (var ruleSide in RuleSide)
         ruleSide.Clear();
@@ -50,10 +59,10 @@ namespace Engine {
     #endregion
 
     #region Fields
-    public CastleRuleSide[] RuleSide;
+    public readonly CastleRuleSide[] RuleSide;
 
     //
-    //[Chess 960]The following are derived in initCastleRules():
+    //[Chess 960]The following are derived in InitCastleRules():
     //
     public Boolean IsChess960;
     #endregion

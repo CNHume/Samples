@@ -28,9 +28,10 @@ namespace Engine {
 
       #region Constructors
       public BoardSide(SideName sideName, Hashcode[][] zobrist) {
-        this.SideName = sideName;
-        this.Zobrist = zobrist;
-        switch (this.SideName) {
+        SideName = sideName;
+        Zobrist = zobrist;
+
+        switch (SideName) {
         case SideName.Black:
           Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
           A1H8 = -nA1H8;
@@ -41,6 +42,7 @@ namespace Engine {
           FileLeft = qpFileH;
           FileRight = qpFileA;
           break;
+
         case SideName.White:
           Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
           A1H8 = nA1H8;

@@ -73,7 +73,7 @@ namespace Engine {
         var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
         var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
         var bWTM = ParsePosition(scanner, out String sPassed);
-        InitPosition(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber, operations);
+        Init(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber, operations);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
@@ -93,7 +93,7 @@ namespace Engine {
       var scanner = new Scanner(sPrefix);
       try {
         var bWTM = ParsePosition(scanner, out String sPassed);
-        InitPosition(bWTM, sPassed, sHalfMoveClock, sFullMoveNumber);
+        Init(bWTM, sPassed, sHalfMoveClock, sFullMoveNumber);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
@@ -214,7 +214,7 @@ namespace Engine {
       var sPassed = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
-      InitPosition(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber);
+      Init(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber);
     }
 
     private void setupPawns() {
@@ -250,7 +250,7 @@ namespace Engine {
       return nEmpty;
     }
 
-    private void grantCastling(Int32 nRookOOO, Int32 nRookOO, Boolean bChess960 = true) {
+    private void grantCastling(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960 = true) {
       var castle = State.Rule;
       if (castle is null)
         throw new BoardException("Null Castle Instance");
@@ -268,8 +268,8 @@ namespace Engine {
         // so extra validation is performed here.
         //
         side.FlagsHi &= ~HiFlags.CanCastleMask;
-        side.FlagsHi |= castle.RuleSide[nSide].GrantCastling(side.KingPos, nRookOOO + nRank, qpRook, castle.IsChess960);
-        side.FlagsHi |= castle.RuleSide[nSide].GrantCastling(side.KingPos, nRookOO + nRank, qpRook, castle.IsChess960);
+        side.FlagsHi |= castle.RuleSide[nSide].GrantCastling(side.KingPos, nRookFromOOO + nRank, qpRook, bChess960);
+        side.FlagsHi |= castle.RuleSide[nSide].GrantCastling(side.KingPos, nRookFromOO + nRank, qpRook, bChess960);
       }
     }
 
