@@ -6,14 +6,16 @@
 
 namespace Command {
   using Engine;
+
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using static System.String;
   using System.Text.RegularExpressions;
+
+  using static Logging.Logger;
+  using static System.String;
 
   partial class Parser : IDisposable {
     #region Constants
@@ -50,27 +52,27 @@ namespace Command {
     protected static readonly Rule[] valueKeywordRules;
     protected static readonly Rule[] verbRules;
 
-    protected Lexeme codeLexeme;
-    protected Lexeme delimiterLexeme;
-    protected Lexeme eolLexeme;
-    protected Lexeme lineLexeme;
-    public Lexeme SpaceLexeme;
+    protected readonly Lexeme codeLexeme;
+    protected readonly Lexeme delimiterLexeme;
+    protected readonly Lexeme eolLexeme;
+    protected readonly Lexeme lineLexeme;
+    public readonly Lexeme SpaceLexeme;
 
-    protected Lexeme enableKeywordLexeme;
-    public Lexeme GoKeywordLexeme;
-    protected Lexeme movesKeywordLexeme;
-    protected Lexeme nameKeywordLexeme;
-    protected Lexeme opcodeLexeme;
-    protected Lexeme operandLexeme;
-    protected Lexeme optionLexeme;
-    public Lexeme PACNMoveLexeme;
-    public Lexeme RegisterKeywordLexeme;
-    public Lexeme SetupLexeme;
-    protected Lexeme setupTypeLexeme;
-    public Lexeme CountLexeme;
-    public Lexeme UnsignedLexeme;
-    protected Lexeme valueKeywordLexeme;
-    protected Lexeme verbLexeme;
+    protected readonly Lexeme enableKeywordLexeme;
+    public readonly Lexeme GoKeywordLexeme;
+    protected readonly Lexeme movesKeywordLexeme;
+    protected readonly Lexeme nameKeywordLexeme;
+    protected readonly Lexeme opcodeLexeme;
+    protected readonly Lexeme operandLexeme;
+    protected readonly Lexeme optionLexeme;
+    public readonly Lexeme PACNMoveLexeme;
+    public readonly Lexeme RegisterKeywordLexeme;
+    public readonly Lexeme SetupLexeme;
+    protected readonly Lexeme setupTypeLexeme;
+    public readonly Lexeme CountLexeme;
+    public readonly Lexeme UnsignedLexeme;
+    protected readonly Lexeme valueKeywordLexeme;
+    protected readonly Lexeme verbLexeme;
     #endregion
 
     #region Properties
@@ -89,7 +91,29 @@ namespace Command {
 
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
-      Init();
+
+      codeLexeme = new Lexeme(this, codeRules, "code");
+      delimiterLexeme = new Lexeme(this, delimiterRule, "delimiter");
+      eolLexeme = new Lexeme(this, eolRules, "eol");
+
+      lineLexeme = new Lexeme(this, lineRules, "line");
+      SpaceLexeme = new Lexeme(this, spaceRule, "space");
+
+      GoKeywordLexeme = new Lexeme(this, goKeywordRules, "goKeyword");
+      enableKeywordLexeme = new Lexeme(this, enableKeywordRules, "enableKeyword");
+      movesKeywordLexeme = new Lexeme(this, movesKeywordRules, "moveKeyword");
+      nameKeywordLexeme = new Lexeme(this, nameKeywordRules, "nameKeyword");
+      opcodeLexeme = new Lexeme(this, opcodeRules, "opcode");
+      operandLexeme = new Lexeme(this, operandRules, "operand");
+      optionLexeme = new Lexeme(this, optionRules, "option");
+      PACNMoveLexeme = new Lexeme(this, pacnMoveRules, "pacnMove");
+      RegisterKeywordLexeme = new Lexeme(this, registerKeywordRules, "registerKeyword");
+      SetupLexeme = new Lexeme(this, setupRules, "setup");
+      setupTypeLexeme = new Lexeme(this, setupTypeRules, "setupType");
+      CountLexeme = new Lexeme(this, countRules, "counter");
+      UnsignedLexeme = new Lexeme(this, unsignedRules, "unsigned");
+      valueKeywordLexeme = new Lexeme(this, valueKeywordRules, "valueKeyword");
+      verbLexeme = new Lexeme(this, verbRules, "verb");
     }
 
     public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
@@ -178,31 +202,6 @@ namespace Command {
       valueKeywordRules = new Rule[] {
           new Rule(RuleType.valueKeyword, @"(=|value\b)", RegexOptions.IgnoreCase)
       };
-    }
-
-    protected void Init() {
-      codeLexeme = new Lexeme(this, codeRules, "code");
-      delimiterLexeme = new Lexeme(this, delimiterRule, "delimiter");
-      eolLexeme = new Lexeme(this, eolRules, "eol");
-
-      lineLexeme = new Lexeme(this, lineRules, "line");
-      SpaceLexeme = new Lexeme(this, spaceRule, "space");
-
-      GoKeywordLexeme = new Lexeme(this, goKeywordRules, "goKeyword");
-      enableKeywordLexeme = new Lexeme(this, enableKeywordRules, "enableKeyword");
-      movesKeywordLexeme = new Lexeme(this, movesKeywordRules, "moveKeyword");
-      nameKeywordLexeme = new Lexeme(this, nameKeywordRules, "nameKeyword");
-      opcodeLexeme = new Lexeme(this, opcodeRules, "opcode");
-      operandLexeme = new Lexeme(this, operandRules, "operand");
-      optionLexeme = new Lexeme(this, optionRules, "option");
-      PACNMoveLexeme = new Lexeme(this, pacnMoveRules, "pacnMove");
-      RegisterKeywordLexeme = new Lexeme(this, registerKeywordRules, "registerKeyword");
-      SetupLexeme = new Lexeme(this, setupRules, "setup");
-      setupTypeLexeme = new Lexeme(this, setupTypeRules, "setupType");
-      CountLexeme = new Lexeme(this, countRules, "counter");
-      UnsignedLexeme = new Lexeme(this, unsignedRules, "unsigned");
-      valueKeywordLexeme = new Lexeme(this, valueKeywordRules, "valueKeyword");
-      verbLexeme = new Lexeme(this, verbRules, "verb");
     }
     #endregion
 
@@ -393,8 +392,20 @@ namespace Command {
         position = parseMoves(position);
         break;
       case "random":
-        position.SetRandom();
-        //[Note]A list of moves is not allowed, because the position is non-deterministic
+        UInt16 wChess960;
+        if (SpaceLexeme.Accept() && UnsignedLexeme.Accept()) {
+          wChess960 = ParseUInt16("Chess960 Index", UnsignedLexeme.Value);
+          position.SetFischerRandom(wChess960);
+          position = parseMoves(position);
+        }
+        else {
+          //
+          // The following generates a random Chess960 Index using a SeededRandom instance:
+          //
+          wChess960 = (UInt16)position.State.SeededRandom.Next(960);
+          position.SetFischerRandom(wChess960);
+          //[Note]A list of moves is disallowed here, because the choice of position is random
+        }
         break;
       case "startpos":
         position.SetFEN();
@@ -420,10 +431,8 @@ namespace Command {
     }
 
     private Position parseMoves(Position position) {
-      if (SpaceLexeme.Accept()) {
-        if (movesKeywordLexeme.Accept()) {
-          position = position.ParsePACNMakeMoves(this);
-        }
+      if (SpaceLexeme.Accept() && movesKeywordLexeme.Accept()) {
+        position = position.ParsePACNMakeMoves(this);
       }
       return position;
     }

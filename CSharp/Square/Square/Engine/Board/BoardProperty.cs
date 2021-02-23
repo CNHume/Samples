@@ -72,7 +72,6 @@ namespace Engine {
     protected static Byte[] deBruijnFull;
 #endif
 #endif
-    protected static Random SeededRandom;
 #if CryptoServiceProvider
     protected static RNGCryptoServiceProvider ZobristRNG;
 #else

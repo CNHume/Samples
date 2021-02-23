@@ -12,15 +12,16 @@
 //#define DisplayPieceHash
 
 namespace Engine {
-  using static Board.BoardSide;
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using static System.String;
   using System.Text;
+
+  using static Board.BoardSide;
+  using static Logging.Logger;
+  using static System.String;
 
   //
   // Type Aliases:
@@ -210,7 +211,32 @@ namespace Engine {
       return sPiece;
     }
 
-    private void appendPiece(StringBuilder sb, Int32 n, Plane qp) {
+    private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {
+      const String sLite = "-";
+      const String sDark = "*";
+      var vPiece = getPiece(n);
+      if (vPiece > vK6)
+        sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
+      else
+        sb.Append(PieceSymbol(vPiece));
+    }
+
+    private void append960(StringBuilder sb, Boolean bFlip = false) {
+      const Int32 rank = 0;
+      var qp = BIT0 << sqr(0, rank);
+      for (var x = 0; x < nFiles; x++, qp <<= 1) {
+        var file = bFlip ? invertFile(x) : x;
+        appendPiece1(sb, sqr(file, rank), qp);
+      }
+    }
+
+    public String PositionSetup(Boolean bFlip = false) {
+      var sb = new StringBuilder();
+      append960(sb, bFlip);
+      return sb.ToString();
+    }
+
+    private void appendPiece2(StringBuilder sb, Int32 n, Plane qp) {
       const String sLite = "--";
       const String sDark = "**";
       var vPiece = getPiece(n);
@@ -229,7 +255,7 @@ namespace Engine {
         var file = bFlip ? invertFile(x) : x;
         if (!bRightRuler)               // Left Pad
           sb.Append(sSpace);
-        appendPiece(sb, sqr(file, rank), qp);
+        appendPiece2(sb, sqr(file, rank), qp);
         if (bRightRuler)                // Right Pad
           sb.Append(sSpace);
       }

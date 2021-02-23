@@ -230,14 +230,19 @@ namespace Sort {
         Swap(Entries, left, right);
     }
 
+    /// <summary>Swap two entities of type T.</summary>
+    protected static void Swap<T>(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
+    }
+
     /// <summary>Swap entries at the left and right indicies.</summary>
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
     protected static void Swap(T[] entries, int left, int right) {
-      var entry = entries[left];
-      entries[left] = entries[right];
-      entries[right] = entry;
+      Swap(ref entries[left], ref entries[right]);
     }
     #endregion
 

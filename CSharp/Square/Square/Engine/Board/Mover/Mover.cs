@@ -20,6 +20,7 @@ namespace Engine {
 
   using static Board.BoardSide;
   using static CastleRule;
+
   //
   // Type Aliases:
   //
@@ -274,8 +275,15 @@ namespace Engine {
     }
 
     protected Boolean ColorParity(Ply wPly) {
-      var bEvenPly = (wPly & 1) == 0;
-      return WTM() == bEvenPly;
+      return WTM() == IsEven(wPly);
+    }
+
+    public static Boolean IsEven(UInt32 u) {
+      return (u & 1) == 0;
+    }
+
+    public static Boolean IsOdd(UInt32 u) {
+      return (u & 1) != 0;
     }
 
     //

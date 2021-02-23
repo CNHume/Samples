@@ -105,7 +105,7 @@ namespace Engine {
       var bWTM = WTM();
 #if TurnTest
       var bWhiteMoved = !bWTM;
-      var bWhiteTurn = (GamePly & 1) != 0;
+      var bWhiteTurn = IsOdd(GamePly);
       Debug.Assert(bWhiteMoved == bWhiteTurn, "Skipped Turn");
 #endif
       (BoardSide friend, BoardSide foe) = getSides(bWTM);

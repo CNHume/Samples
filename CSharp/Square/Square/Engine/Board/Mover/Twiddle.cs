@@ -19,12 +19,13 @@
 //#define FindHi
 
 namespace Engine {
-  using static Logging.Logger;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Runtime.InteropServices; // for [DllImport]
+
+  using static Logging.Logger;
+
   using static System.Math;
   using static System.String;
 
@@ -186,7 +187,7 @@ namespace Engine {
 #if FindHi
     protected static sq sqHi(UInt64 r) {
       for (var n = 0; n < nSquares; n++, r <<= 1)
-        if ((r & BIT63) != 0) return (sq)(63 - n);
+        if ((r & BITHI) != 0) return (sq)(63 - n);
 
       throw new ApplicationException("Empty Bit Mask");
     }

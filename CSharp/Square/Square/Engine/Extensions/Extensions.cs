@@ -33,6 +33,7 @@ namespace Engine {
   //
   using Eval = System.Int16;
   using PieceCounter = System.UInt32;
+
   //
   // Instead of storing the Pawn Count (mod 4) the least significant bit pair
   // represents EventFlag bits marking which of two Bishop colors are held by
@@ -451,7 +452,7 @@ namespace Engine {
       var sbLine = new StringBuilder().Append(sb);
       sb.Clear();
 
-      if (!bPure && (wGamePly & 1) == 1)        // Odd Ply => Number Black Move
+      if (IsOdd(wGamePly) && !bPure)    // Odd Ply => Number Black Move
         sbLine.Wrap(sb).appendMoveNumber(sb, wGamePly, sElipsis);
 
       const Int32 nCapacity = 1;
@@ -483,13 +484,14 @@ namespace Engine {
             sbLine.Wrap(sb);
         }
 
-        if (!bPure && (wGamePly & 1) == 0)      // Even Ply => Number White Move
-          sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber).Wrap(sb);
-
         if (bPure)
           sbLine.AppendPACN(move, castle);
-        else
+        else {
+          if (IsEven(wGamePly))         // Even Ply => Number White Move
+            sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber).Wrap(sb);
+
           sbLine.AppendAN(move, castle);
+        }
 
         wGamePly++;
       }

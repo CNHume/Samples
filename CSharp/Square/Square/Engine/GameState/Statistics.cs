@@ -212,7 +212,7 @@ namespace Engine {
     protected static String bar(Double percent, Int32 scale = 100) {
       var v2 = (Byte)Round(2 * scale * percent / 100.0);
       var s = Empty.PadRight(v2 / 2, '@');
-      var bHalf = (v2 & 1) != 0;
+      var bHalf = Board.IsOdd(v2);
       return bHalf ? s + "&" : s;
     }
 

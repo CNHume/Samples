@@ -49,19 +49,24 @@
 //#define QXPHash128
 
 namespace Engine {
-  using static Board;
   using Command;                        // For Scanner
+
   using Exceptions;
+
   using MoveOrder;                      // For MoveBottle
-  using static Position;
+
   using Resource;
-  using Test;
 
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using static System.String;
   using System.Text;
+
+  using Test;
+
+  using static Board;
+  using static Position;
+  using static System.String;
 
   //
   // Type Aliases:
@@ -97,6 +102,7 @@ namespace Engine {
 
       newBestMoves(wDepthMax);
       newTimers();
+      SeededRandom = new Random();      // Variable seed based on Environment.TickCount
 
       loadEndgameValue();
       loadExtensionLimit();
@@ -108,7 +114,7 @@ namespace Engine {
 #if UseKillers
       Bottle = new MoveBottle(uBottleLength);
 #endif                                  // UseKillers
-      initControls();
+      wireControls();
 
       newNodeDelta(wDepthMax);
       newEarlyMoveCounts(wPlyHistory);
@@ -133,7 +139,7 @@ namespace Engine {
     #endregion
 
     #region Init Methods
-    protected void initControls() {
+    protected void wireControls() {
       Opponent = default;
 
       //

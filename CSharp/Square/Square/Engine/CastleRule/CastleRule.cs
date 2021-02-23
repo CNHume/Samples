@@ -4,10 +4,12 @@
 //[2013-06-22 CNHume]Created Class
 //
 namespace Engine {
+  using Exceptions;
+
+  using System;
+
   using static Board;
   using static Board.BoardSide;
-  using Exceptions;
-  using System;
 
   //
   // Type Aliases:

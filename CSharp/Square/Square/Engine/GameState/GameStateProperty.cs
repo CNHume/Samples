@@ -12,14 +12,15 @@
 //#define MaterialBalance
 
 namespace Engine {
-  using static Board;
   using Cache;
+
   using CacheValue;
+
   using Command;                        // For SearchBound
+
   using MoveOrder;                      // For Variation
-  using static Position;
+
   using Resource;
-  using Test;
 
   using System;
   using System.Collections.Generic;
@@ -27,12 +28,17 @@ namespace Engine {
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Test;
+
+  using static Board;
+  using static Position;
+
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
   using Eval = System.Int16;
   using Ply = System.UInt16;
+  using PlyDepth = System.Byte;
 
   partial class GameState {
     #region Thread Management Fields
@@ -155,6 +161,7 @@ namespace Engine {
     public String Opponent;             //[UCI Option]
     public static String Language;
     public List<Move> BestMoves;
+    public Random SeededRandom;
     #endregion
 
     #region Properties

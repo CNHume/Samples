@@ -72,7 +72,6 @@ namespace Engine {
 #else
       ZobristRandom = new Random(0);    // Fixed, repeatable seed
 #endif
-      SeededRandom = new Random();      // Variable seed based on Environment.TickCount
     }
 
     protected static void loadZobrist() {
