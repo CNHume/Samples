@@ -44,6 +44,7 @@
 //
 namespace Sort {
   using Exceptions;
+
   using System;
   using System.Collections;        // For non-generic IEnumerable
   using System.Collections.Generic;
@@ -231,7 +232,7 @@ namespace Sort {
     }
 
     /// <summary>Swap two entities of type T.</summary>
-    protected static void Swap<T>(ref T e1, ref T e2) {
+    public static void Swap(ref T e1, ref T e2) {
       var e = e1;
       e1 = e2;
       e2 = e;
