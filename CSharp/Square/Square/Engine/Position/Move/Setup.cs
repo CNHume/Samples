@@ -5,8 +5,9 @@
 //
 // Conditionals:
 //
-//#define Flip960
 #define TestFEN
+//#define TestBinomials
+//#define Flip960
 
 namespace Engine {
   using Command;
@@ -182,6 +183,46 @@ namespace Engine {
         }
     }
 
+    public static UInt64 Binom(UInt32 N, UInt32 k) {
+      if (N == 0)
+        throw new ArgumentException("must be greater than zero", nameof(N));
+
+      if (N < k)
+        throw new ArgumentException($"N = {N} < k = {k}", nameof(k));
+
+      if (k > N - k)
+        k = N - k;
+
+      var c = 1UL;
+      for (var i = 0UL; i < k; i++) {
+        c *= (N - i);
+        c /= (i + 1);
+      }
+
+      return c;
+    }
+
+    public static Boolean BinomCase(UInt32 N, UInt32 k, UInt64 uExpected) {
+      var c = Binom(N, k);
+      var bEqual = c == uExpected;
+      Debug.Assert(bEqual, $"Binom({N}, {k}) != {uExpected}");
+      return bEqual;
+    }
+
+    [Conditional("TestBinomials")]
+    public static void TestBinomials() {
+      BinomCase(1, 0, 1);
+      BinomCase(1, 1, 1);
+      BinomCase(4, 2, 6);
+      BinomCase(5, 2, 10);
+      BinomCase(6, 2, 15);
+      BinomCase(6, 3, 20);
+      BinomCase(7, 2, 21);
+      BinomCase(7, 3, 35);
+      BinomCase(8, 3, 56);
+      BinomCase(8, 4, 70);
+    }
+
     /// <summary>Swap two entities of type T.</summary>
     protected static void Swap<T>(ref T e1, ref T e2) {
       var e = e1;
@@ -245,12 +286,14 @@ namespace Engine {
 #if DEBUG
       LogLine($"setup960(Queen: {nQueen}, KnightPair: {nKnights}, BishopLite: {nBishopLite}, BishopDark: {nBishopDark})");
 #endif
+      TestBinomials();
+
       Clear();                          // Clear Board
 
       #region Setup the Dark and Lite-Squared Bishops
       if (bFlip) {
-        nBishopDark = 3 - nBishopDark;
-        nBishopLite = 3 - nBishopLite;
+        nBishopDark = nPerNibble - 1 - nBishopDark;
+        nBishopLite = nPerNibble - 1 - nBishopLite;
         Swap(ref nBishopDark, ref nBishopLite);
       }
 

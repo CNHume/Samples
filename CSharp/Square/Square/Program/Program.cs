@@ -70,6 +70,10 @@ namespace Square {
           LogInfo(Level.error, ex.ToString());
         }
       }
+#if DEBUG
+      Console.Write("Press Enter");
+      Console.ReadLine();
+#endif
     }
     #endregion
   }
