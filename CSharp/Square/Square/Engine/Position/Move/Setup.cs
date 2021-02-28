@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define Flip960
+//#define Flip960
 #define TestFEN
 
 namespace Engine {
@@ -163,16 +163,9 @@ namespace Engine {
       wChess960 /= 10;
       var nQueen = wChess960 % 3;
       wChess960 /= 3;
-      var bFlip = IsEven(wChess960);
+      var bFlip = IsOdd(wChess960);
 
       setup960(bFlip, nQueen, nKnights, nBishopDark, nBishopLite);
-    }
-
-    /// <summary>Swap two entities of type T.</summary>
-    protected static void Swap<T>(ref T e1, ref T e2) {
-      var e = e1;
-      e1 = e2;
-      e2 = e;
     }
 
     //
@@ -189,15 +182,53 @@ namespace Engine {
         }
     }
 
+    /// <summary>Swap two entities of type T.</summary>
+    protected static void Swap<T>(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
+    }
+
     //
     // Return the last of nEmpty squares:
     //
-    private Int32 findEmpty(Boolean bFlip, Int32 nEmpty = 0, Boolean bSkip = false) {
-      var nBy = bSkip ? 2 : 1;
+    private Int32 findEmpty(Boolean bFlip = false, Int32 nEmpty = 0) {
       var qpPiece = Side[White].Piece;
       var qp = bFlip ? BIT7 : BIT0;
 
-      for (var n = 0; n <= nEmpty; n += nBy) {
+      for (var n = 0; n <= nEmpty; n++) {
+        if ((qp & qpPiece) != 0)
+          nEmpty++;                     // Extend the search
+
+        if (bFlip)
+          qp >>= 1;
+        else
+          qp <<= 1;
+      }
+
+      return bFlip ? nFiles - 1 - nEmpty : nEmpty;
+    }
+
+    //
+    // The following variation on findEmpty() limits the choice to squares of the same color:
+    //
+    private Int32 findEmpty2(Boolean bFlip = false, Int32 nEmpty = 0, Boolean bOdd = true) {
+      const Int32 nBy = 2;
+      var qpPiece = Side[White].Piece;
+      var qp = bFlip ? BIT7 : BIT0;
+      var n = 0;
+
+      if (bOdd) {
+        nEmpty++;
+        n++;
+
+        if (bFlip)
+          qp >>= 1;
+        else
+          qp <<= 1;
+      }
+
+      for (; n <= nEmpty; n += nBy) {
         if ((qp & qpPiece) != 0)
           nEmpty += nBy;                // Extend the search
 
@@ -207,65 +238,72 @@ namespace Engine {
           qp <<= nBy;
       }
 
-      return bFlip ? 7 - nEmpty : nEmpty;
-    }
-
-    private static string has(Boolean bHas) {
-      return bHas ? "has" : "does not have";
+      return bFlip ? nFiles - 1 - nEmpty : nEmpty;
     }
 
     private void setup960(Boolean bFlip, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
-      const Boolean bSkip = true;
-      const Int32 nKnightEmpty = 5;
-      choose2(nKnightEmpty, nKnights, out Int32 nKnight1, out Int32 nKnight2);
 #if DEBUG
       LogLine($"setup960(Queen: {nQueen}, KnightPair: {nKnights}, BishopLite: {nBishopLite}, BishopDark: {nBishopDark})");
-      LogLine($"choose2(N1: {nKnight1}, N2: {nKnight2})");
 #endif
       Clear();                          // Clear Board
 
-      //
-      // Set up the Pieces:
-      //
+      #region Setup the Dark and Lite-Squared Bishops
       if (bFlip) {
         nBishopDark = 3 - nBishopDark;
         nBishopLite = 3 - nBishopLite;
         Swap(ref nBishopDark, ref nBishopLite);
       }
 
-      var nBishopDarkSquare = 2 * nBishopDark;
-      var nBishopLiteSquare = 2 * nBishopLite + 1;
+      var nBishopDark2 = 2 * nBishopDark;
+      var nBishopLite2 = 2 * nBishopLite + 1;
 #if DEBUG
-      var qpBishopDark = BIT0 << nBishopDarkSquare;
-      var qpBishopLite = BIT0 << nBishopLiteSquare;
-      var bBishopDarkHasColor = (DarkSquare & qpBishopDark) != 0;
-      var bBishopLiteHasColor = (LiteSquare & qpBishopLite) != 0;
-      var sBishopDarkHasColor = has(bBishopDarkHasColor);
-      var sBishopLiteHasColor = has(bBishopLiteHasColor);
-      var sqBishopDark = (sq)nBishopDarkSquare;
-      var sqBishopLite = (sq)nBishopLiteSquare;
-      LogLine($"The Dark Bishop at {sqBishopDark} {sBishopDarkHasColor} its color.");
-      LogLine($"The Lite Bishop at {sqBishopLite} {sBishopLiteHasColor} its color.");
+      hasColor(nBishopDark2, DarkSquare, "Dark Bishop");
+      hasColor(nBishopLite2, LiteSquare, "Lite Bishop");
 #endif
-      setupPiece(vB6, nBishopDarkSquare);
-      setupPiece(vB6, nBishopLiteSquare);
+      setupPiece(vB6, nBishopDark2);
+      setupPiece(vB6, nBishopLite2);
+      #endregion
 
-      var nQueenSquare = findEmpty(bFlip, 2 * nQueen, bSkip);
-      var qpQueen = BIT0 << nQueenSquare;
-      var bHasHerColor = (LiteSquare & qpQueen) != 0;
+      #region Setup the Queen
+      var nQueen2 = 2 * nQueen;
+      var nQueenSquare = findEmpty2(bFlip, nQueen2);
 #if DEBUG
-      var sqQueen = (sq)nQueenSquare;
-      var sHasHerColor = has(bHasHerColor);
-      LogLine($"The Queen at {sqQueen} {sHasHerColor} her color.");
+      hasColor(nQueenSquare, LiteSquare, "Queen", "her");
 #endif
       setupPiece(vQ6, nQueenSquare);
+      #endregion
 
+      #region Setup the Knights
+      const Int32 nKnightEmpty = 5;
+      choose2(nKnightEmpty, nKnights, out Int32 nKnight1, out Int32 nKnight2);
+#if DEBUG
+      LogLine($"choose2(N1: {nKnight1}, N2: {nKnight2})");
+#endif
       //
-      // Find empty square for the larger value first:
+      // Find square for the wider choice first:
       //
-      setupPiece(vN6, findEmpty(bFlip, nKnight2));
-      setupPiece(vN6, findEmpty(bFlip, nKnight1));
+      if (bFlip) {
+        nKnight1 = 3 - nKnight1;
+        nKnight2 = 4 - nKnight2;
+      }
 
+      var nKnight2Square = findEmpty(false, nKnight2);
+#if DEBUG
+      var sqKnight2 = (sq)nKnight2Square;
+#endif
+      //
+      // Occupy square before making the second choice:
+      //
+      setupPiece(vN6, nKnight2Square);
+
+      var nKnight1Square = findEmpty(false, nKnight1);
+#if DEBUG
+      var sqKnight1 = (sq)nKnight1Square;
+#endif
+      setupPiece(vN6, nKnight1Square);
+      #endregion
+
+      #region Setup Queenside Rook, King, and Kingside Rook
       var nRookOOO = findEmpty(bFlip);
       setupPiece(vR6, nRookOOO);
 
@@ -273,11 +311,11 @@ namespace Engine {
 
       var nRookOO = findEmpty(bFlip);
       setupPiece(vR6, nRookOO);
+      #endregion
 
-      //
-      // Set up the Pawns:
-      //
+      #region Setup the Pawns
       setupPawns();
+      #endregion
 #if DEBUG
 #if Flip960
       var setup = PositionSetup(bFlip);
@@ -288,6 +326,7 @@ namespace Engine {
       LogLine($"Setup = {setup}");
 #endif
 #endif
+      #region Grant Castling Rights and Init the Position
       //
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
@@ -297,13 +336,14 @@ namespace Engine {
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
       Init(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber);
+      #endregion
     }
 
     private void setupPawns() {
       var vPiece = vP6;
-      for (sq sqWhite = sq.a2, sqBlack = sq.a7; sqWhite <= sq.h2; sqWhite++, sqBlack++) {
-        var nWhite = (Int32)sqWhite;
-        var nBlack = (Int32)sqBlack;
+      var nWhite = (Int32)sq.a2;
+      var nBlack = (Int32)sq.a7;
+      for (; nWhite < nFiles; nWhite++, nBlack++) {
         placePiece(Side[White], vPiece, nWhite);
         placePiece(Side[Black], vPiece, nBlack);
       }
@@ -343,6 +383,14 @@ namespace Engine {
         side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nRank, qpRook, bChess960);
       }
     }
+
+    #region Chess960 Setup Diagnostics
+    private static void hasColor(Int32 n, Plane qpColor, String sName, String sPossessive = "its") {
+      var qp = BIT0 << n;
+      var sHas = (qpColor & qp) != 0 ? "has" : "does not have";
+      LogLine($"The {sName} at {(sq)n} {sHas} {sPossessive} color.");
+    }
+    #endregion
 
     public void SetFEN(String sFEN = sOrthodoxStartFEN) {
       if (IsNullOrEmpty(sFEN)) sFEN = sOrthodoxStartFEN;
