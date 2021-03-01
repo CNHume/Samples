@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define TestFEN
-//#define TestBinomials
+#define TestBinomials
 //#define Flip960
 
 namespace Engine {
@@ -183,44 +183,47 @@ namespace Engine {
         }
     }
 
-    public static UInt64 Binom(UInt32 N, UInt32 k) {
-      if (N == 0)
-        throw new ArgumentException("must be greater than zero", nameof(N));
-
+    /// <summary>N choose k</summary>
+    /// <remarks>The number of ways k unordered items can be chosen from a set of N elements without replacement.</remarks>
+    /// <param name="N">Magnitude of the set of elements</param>
+    /// <param name="k">Number of items to be chosen</param>
+    public static UInt64 Binomial(UInt32 N, UInt32 k) {
       if (N < k)
         throw new ArgumentException($"N = {N} < k = {k}", nameof(k));
 
       if (k > N - k)
         k = N - k;
 
-      var c = 1UL;
+      var C = 1UL;
       for (var i = 0UL; i < k; i++) {
-        c *= (N - i);
-        c /= (i + 1);
+        C *= (N - i);
+        C /= (i + 1);
       }
 
-      return c;
+      return C;
     }
 
-    public static Boolean BinomCase(UInt32 N, UInt32 k, UInt64 uExpected) {
-      var c = Binom(N, k);
-      var bEqual = c == uExpected;
-      Debug.Assert(bEqual, $"Binom({N}, {k}) != {uExpected}");
+    public static Boolean BinomialCase(UInt32 N, UInt32 k, UInt64 qAssert) {
+      var C = Binomial(N, k);
+      var bEqual = C == qAssert;
+      Debug.Assert(bEqual, $"Binom({N}, {k}) = {C} != {qAssert}");
       return bEqual;
     }
 
     [Conditional("TestBinomials")]
     public static void TestBinomials() {
-      BinomCase(1, 0, 1);
-      BinomCase(1, 1, 1);
-      BinomCase(4, 2, 6);
-      BinomCase(5, 2, 10);
-      BinomCase(6, 2, 15);
-      BinomCase(6, 3, 20);
-      BinomCase(7, 2, 21);
-      BinomCase(7, 3, 35);
-      BinomCase(8, 3, 56);
-      BinomCase(8, 4, 70);
+      BinomialCase(0, 0, 1);
+      BinomialCase(1, 0, 1);
+      BinomialCase(1, 1, 1);
+      BinomialCase(2, 1, 2);
+      BinomialCase(4, 2, 6);
+      BinomialCase(5, 2, 10);
+      BinomialCase(6, 2, 15);
+      BinomialCase(6, 3, 20);
+      BinomialCase(7, 2, 21);
+      BinomialCase(7, 3, 35);
+      BinomialCase(8, 3, 56);
+      BinomialCase(8, 4, 70);
     }
 
     /// <summary>Swap two entities of type T.</summary>
