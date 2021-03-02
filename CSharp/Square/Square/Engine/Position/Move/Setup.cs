@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define TestFEN
-#define TestBinomials
+//#define TestBinomials
 //#define Flip960
 
 namespace Engine {

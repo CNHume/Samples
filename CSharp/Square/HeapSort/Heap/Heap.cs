@@ -1,5 +1,5 @@
 ﻿//
-// (C) Copyright 2012, Christopher N. Hume.  All rights reserved.
+// (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 // 2017-03-19 CNHume  Added Intellisense
 // 2017-03-18 CNHume  Renamed IsInverted to IsAscending; simplified control flow
@@ -42,7 +42,7 @@
 //
 //  sorter.Sort();
 //
-namespace Sort {
+namespace HeapSort {
   using Exceptions;
 
   using System;
@@ -242,7 +242,7 @@ namespace Sort {
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
-    protected static void Swap(T[] entries, int left, int right) {
+    protected static void Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
     }
     #endregion

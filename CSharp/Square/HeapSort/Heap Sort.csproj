@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>HeapSort</RootNamespace>
+    <AssemblyName>HeapSort</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Heap\Heap with Enumerator.cs" />
+  </ItemGroup>
+
+</Project>

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Square", "Square\Square.csproj", "{EA214FC3-F996-4474-9832-D7BD35A0F904}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap", "Heap\Heap.csproj", "{DCB0EEC5-1FC4-4CE1-A19C-D2A9364B3943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap Sort", "HeapSort\Heap Sort.csproj", "{DCB0EEC5-1FC4-4CE1-A19C-D2A9364B3943}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap Tests", "HeapTests\Heap Tests.csproj", "{1351A40C-4C40-474E-A094-64943758AE8A}"
 EndProject

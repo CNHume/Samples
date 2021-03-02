@@ -1,8 +1,8 @@
 ﻿//
-// (C) Copyright 2014, Christopher N. Hume.  All rights reserved.
+// (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-namespace SortTest {
-  using Sort;
+namespace HeapTests {
+  using HeapSort;
 
   using Xunit;
   using Xunit.Abstractions;

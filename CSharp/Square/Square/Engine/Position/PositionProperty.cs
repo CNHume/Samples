@@ -13,13 +13,15 @@
 //#define InitHelp                        //[Test]
 
 namespace Engine {
+  using HeapSort;                           // for Heap
+
   using MoveOrder;
-  using static MoveOrder.TypedMove;
-  using Sort;                           // for Heap
 
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+
+  using static MoveOrder.TypedMove;
 
   //
   // Type Aliases:

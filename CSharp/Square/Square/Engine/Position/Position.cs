@@ -38,22 +38,24 @@
 //#define TestImportance
 
 namespace Engine {
-  using static Logging.Logger;
+  using HeapSort;                           // for Heap
+
   using MoveOrder;
-  using static MoveOrder.TypedMove;
-  using Sort;                           // for Heap
 
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
 
+  using static Logging.Logger;
+  using static MoveOrder.TypedMove;
+
   //
   // Type Aliases:
   //
+  using Bval = System.Int16;
+  using Depth = System.UInt16;
   using Plane = System.UInt64;
   using PlyDepth = System.Byte;
-  using Depth = System.UInt16;
-  using Bval = System.Int16;
 
   #region Enumerations
   //
