@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Heap": {
+      "commandName": "Project",
+      "commandLineArgs": "-p 24"
+    }
+  }
+}
