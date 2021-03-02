@@ -12,7 +12,7 @@
 //
 //#define LinearEntries
 
-namespace Sort {
+namespace HeapSort {
   using System;
 
   class Program {

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Heap\Heap.csproj" />
+    <ProjectReference Include="..\HeapSort\Heap Sort.csproj" />
   </ItemGroup>
 
 </Project>

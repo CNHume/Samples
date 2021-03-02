@@ -6,18 +6,20 @@
 //#define TestRuntimeSort
 //#define PrintLists
 
-namespace Sort {
+namespace HeapSort {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
+
+  using static System.String;
 
   static class SortTest<T> where T : IComparable {
     public static void TestSort(T[] entries, Boolean print) {
       const String sDelimiter = ", ";
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(String.Join<T>(sDelimiter, entries));
+        Console.WriteLine(Join<T>(sDelimiter, entries));
       }
       var timer = new Stopwatch();
       for (var n = 0; n < 3; n++) {
@@ -34,7 +36,7 @@ namespace Sort {
         Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries, sorter.IsAscending));
         if (print) {
           Console.WriteLine("output:");
-          Console.WriteLine(String.Join<T>(sDelimiter, entries));
+          Console.WriteLine(Join<T>(sDelimiter, entries));
         }
         var rate = entries.Length / msec; // From 1.4 to 2.5 MHz on an i7-4702HQ @ 2.2 GHz
         Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",

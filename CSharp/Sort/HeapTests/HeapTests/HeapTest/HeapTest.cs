@@ -1,13 +1,15 @@
 ﻿//
 // (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-namespace SortTests {
-  using Sort;
+namespace HeapTests {
+  using HeapSort;
+
+  using System;
 
   using Xunit;
   using Xunit.Abstractions;
 
-  using System;
+  using static System.String;
 
   public class HeapTest {
     #region Properties
@@ -30,8 +32,8 @@ namespace SortTests {
       var heap = new Heap<Int32>(entries);
       //heap.Sort();
 #if DEBUG
-      OutputHelper.WriteLine(String.Join(" ", heap));
-      OutputHelper.WriteLine(String.Join(" ", heap));
+      OutputHelper.WriteLine(Join(" ", heap));
+      OutputHelper.WriteLine(Join(" ", heap));
 #endif
     }
 
@@ -45,8 +47,8 @@ namespace SortTests {
       var heap2 = (Heap<Int32>)heap.Clone();
       //heap.Sort();
 #if DEBUG
-      OutputHelper.WriteLine(String.Join(" ", heap));
-      OutputHelper.WriteLine(String.Join(" ", heap2));
+      OutputHelper.WriteLine(Join(" ", heap));
+      OutputHelper.WriteLine(Join(" ", heap2));
 #endif
     }
     #endregion

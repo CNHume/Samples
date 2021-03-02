@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Sort.Exceptions {
+namespace HeapSort.Exceptions {
   [Serializable]
   class CommandException : ApplicationException, ISerializable {
     #region Constructors
