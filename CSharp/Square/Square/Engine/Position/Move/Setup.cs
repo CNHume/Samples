@@ -389,7 +389,7 @@ namespace Engine {
       var vPiece = vP6;
       var nWhite = (Int32)sq.a2;
       var nBlack = (Int32)sq.a7;
-      for (; nWhite < nFiles; nWhite++, nBlack++) {
+      for (var nFile = 0; nFile < nFiles; nFile++, nWhite++, nBlack++) {
         placePiece(Side[White], vPiece, nWhite);
         placePiece(Side[Black], vPiece, nBlack);
       }
