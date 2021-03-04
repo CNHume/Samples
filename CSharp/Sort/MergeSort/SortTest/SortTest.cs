@@ -61,11 +61,22 @@ namespace Sort {
 
       return true;
     }
+    #endregion
 
+    #region Swap Methods
+    /// <summary>Swap two entities of type T.</summary>
+    public static void Swap(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
+    }
+
+    /// <summary>Swap entries at the left and right indicies.</summary>
+    /// <param name="entries"></param>
+    /// <param name="left">Left index</param>
+    /// <param name="right">Right index</param>
     public static void Swap(T[] entries, Int32 index1, Int32 index2) {
-      var entry = entries[index1];
-      entries[index1] = entries[index2];
-      entries[index2] = entry;
+      Swap(ref entries[index1], ref entries[index2]);
     }
 
     public static void Reverse(T[] entries) {
