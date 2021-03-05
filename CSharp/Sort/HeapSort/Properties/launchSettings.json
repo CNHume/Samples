@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Heap": {
+    "HeapSort": {
       "commandName": "Project",
       "commandLineArgs": "-p 24"
     }
