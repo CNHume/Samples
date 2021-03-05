@@ -77,7 +77,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: MergeSort [-i <insertion-limit>] [-m <merges>] [-p] length");
+        throw new ApplicationException("Usage: MergeList [-i <insertion-limit>] [-m <merges>] [-p] length");
     }
 
     private static Int32? TryParse(String s) {
