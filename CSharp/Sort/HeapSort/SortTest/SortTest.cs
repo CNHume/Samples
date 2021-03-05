@@ -22,25 +22,36 @@ namespace HeapSort {
         Console.WriteLine(Join<T>(sDelimiter, entries));
       }
       var timer = new Stopwatch();
+      var length = entries.Length;
       for (var n = 0; n < 3; n++) {
         Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
         timer.Start();
 #if TestRuntimeSort
-        Array.Sort<Int32>(input);
+        var ascending = true;
+        Array.Sort(entries);
 #else
-        var sorter = new Heap<T>(entries, entries.Length);
+        var sorter = new Heap<T>(entries, length);
+        var ascending = sorter.IsAscending;
         sorter.Sort();
 #endif
         timer.Stop();
-        var msec = (Double)timer.ElapsedMilliseconds;
-        Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries, sorter.IsAscending));
+        //
+        // There are 10,000 ticks per msec
+        //
+        var msec = (Double)timer.ElapsedTicks / 10000;
+        Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries, ascending));
         if (print) {
           Console.WriteLine("output:");
           Console.WriteLine(Join<T>(sDelimiter, entries));
         }
-        var rate = entries.Length / msec; // From 1.4 to 2.5 MHz on an i7-4702HQ @ 2.2 GHz
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                          entries.Length, msec / 1000, rate);
+        if (msec == 0)
+          Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
+                            length, msec / 1000);
+        else {
+          var rate = length / msec; // From 1.4 to 2.5 MHz on an i7-4702HQ @ 2.2 GHz
+          Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
+                            length, msec / 1000, rate);
+        }
       }
     }
 

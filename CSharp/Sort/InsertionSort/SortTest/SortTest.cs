@@ -23,20 +23,30 @@ namespace Sort {
       Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
       timer.Start();
 #if TestRuntimeSort
-      Array.Sort<T>(entries);
+      Array.Sort(entries);
 #else
       InsertionSort<T>.Sort(entries);
 #endif
       timer.Stop();
-      var msec = (Double)timer.ElapsedMilliseconds;
+      //
+      // There are 10,000 ticks per msec
+      //
+      var msec = (Double)timer.ElapsedTicks / 10000;
       Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries));
       if (print) {
         Console.WriteLine("output:");
         Console.WriteLine(String.Join(sDelimiter, entries));
       }
-      var rate = entries.Length / msec; // ~3.3 MHz over 10 M entries on an i7-4702HQ @ 2.2 GHz
-      Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                        entries.Length, msec / 1000, rate);
+
+      var length = entries.Length;
+      if (msec == 0)
+        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
+                          length, msec / 1000);
+      else {
+        var rate = length / msec; // ~3.3 MHz over 10 M entries on an i7-4702HQ @ 2.2 GHz
+        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
+                          length, msec / 1000, rate);
+      }
     }
 
     public static Boolean IsSorted(IEnumerable<T> en) {

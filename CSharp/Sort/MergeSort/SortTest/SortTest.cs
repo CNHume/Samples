@@ -35,7 +35,10 @@ namespace Sort {
       sorter.Sort(entries);
 #endif
       timer.Stop();
-      var msec = (Double)timer.ElapsedMilliseconds;
+      //
+      // There are 10,000 ticks per msec
+      //
+      var msec = (Double)timer.ElapsedTicks / 10000;
       Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}",
                         DateTime.Now, IsSorted(entries));
       if (print) {
@@ -43,9 +46,14 @@ namespace Sort {
         Console.WriteLine(String.Join<T>(sDelimiter, entries));
       }
       var length = entries.Length;
-      var rate = length / msec; // ~2.9 MHz on an i7-4702HQ @ 2.2 GHz
-      Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                        length, msec / 1000, rate);
+      if (msec == 0)
+        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
+                          length, msec / 1000);
+      else {
+        var rate = length / msec; // ~2.9 MHz on an i7-4702HQ @ 2.2 GHz
+        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
+                          length, msec / 1000, rate);
+      }
     }
 
     #region Test Methods
