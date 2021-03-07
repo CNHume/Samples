@@ -9,6 +9,12 @@
 //#define CountMove
 //#define CountPart
 
+//
+// Use ScaleWork to compare performance of a given algorithm at increasing scales.
+// Do not use ScaleWork to compare different Sort Algorithms at the same scale.
+//
+//#define ScaleWork
+
 namespace Sort {
   using System;
   using System.Collections.Generic;
@@ -58,15 +64,21 @@ namespace Sort {
         Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
                           length, msec / 1000);
       else {
+#if ScaleWork
         //
         // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
         // For Random Fill with scale = 120
         // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
         //
-        var dNLogN = length * Math.Log(length);
+        var dNLogN = scaleLog10(length);
         var rate = dNLogN / msec;
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, n * Log(n) Rate = {2:0.0##} KHz",
+        Console.WriteLine("Sorted a total of {0:n0} * log10(n) = {1:0.0##} entries in {2:0.0##} sec, Rate = {3:0.0##} KHz",
+                          length, dNLogN, msec / 1000, rate);
+#else
+        var rate = length / msec;
+        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
                           length, msec / 1000, rate);
+#endif
       }
 #if CountCompare
       Console.WriteLine("CompareCount = {0:n0}", QuickSort<T>.CompareCount);
@@ -80,6 +92,10 @@ namespace Sort {
     }
 
     #region Test Methods
+    private static double scaleLog10(Int32 length) {
+      return length * Math.Log10(length);
+    }
+
     public static Boolean IsSorted(IEnumerable<T> en) {
       if (en.Any()) {
         var last = en.First();
