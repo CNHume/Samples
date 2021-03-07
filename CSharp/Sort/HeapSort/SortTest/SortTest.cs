@@ -23,23 +23,26 @@ namespace HeapSort {
       }
       var timer = new Stopwatch();
       var length = entries.Length;
-      for (var n = 0; n < 3; n++) {
+      var sorter = new Heap<T>(entries, length);
+      for (var n = 0; n < 4; n++) {
+        timer.Reset();
         Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
         timer.Start();
 #if TestRuntimeSort
         var ascending = true;
         Array.Sort(entries);
 #else
-        var sorter = new Heap<T>(entries, length);
         var ascending = sorter.IsAscending;
         sorter.Sort();
 #endif
         timer.Stop();
+        sorter.Reverse();
         //
         // There are 10,000 ticks per msec
         //
         var msec = (Double)timer.ElapsedTicks / 10000;
-        Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries, ascending));
+        var sorted = IsSorted(entries, ascending);
+        Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, sorted);
         if (print) {
           Console.WriteLine("output:");
           Console.WriteLine(Join<T>(sDelimiter, entries));
@@ -55,11 +58,13 @@ namespace HeapSort {
       }
     }
 
-    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending) {
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();
         foreach (var next in en.Skip(1)) {
-          if (next.CompareTo(last) < 0 != ascending)
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
             return false;
 
           last = next;
