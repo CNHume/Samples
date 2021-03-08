@@ -29,9 +29,13 @@ namespace Sort {
 #if LinearFill
         fillLinear(entries);
 #if Reverse
-        SortTest<Int32>.Reverse(entries);
+        QuickSort<Int32>.Reverse(entries);
 #endif
 #else
+        //
+        //[Note]fillRandom() case ran about four times faster
+        // over 108M entries under the Tripartite conditional
+        //
         fillRandom(entries);
 #endif
         SortTest<Int32>.TestSort(entries, cmd.InsertionLimit, cmd.Print);
@@ -57,10 +61,6 @@ namespace Sort {
         entries[index] = index;
     }
 
-    //
-    //[Note]fillRandom ran about four times faster on
-    // 108 M entries under the Tripartite conditional
-    //
     private static void fillRandom(Int32[] entries) {
       var length = entries.Length;
       const Int32 scale = 120;

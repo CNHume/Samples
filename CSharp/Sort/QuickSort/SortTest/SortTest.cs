@@ -3,11 +3,11 @@
 //
 // Conditionals:
 //
-//#define TestRuntimeSort
 #define Tripartite
 //#define CountCompare
 //#define CountMove
 //#define CountPart
+//#define TestRuntimeSort
 
 //
 // Use ScaleWork to compare performance of a given algorithm at increasing scales.
@@ -21,7 +21,22 @@ namespace Sort {
   using System.Diagnostics;
   using System.Linq;
 
+  using static System.String;
+
   static class SortTest<T> where T : IComparable {
+    #region Properties
+#if CountCompare
+    public static UInt64 CompareCount { get; set; }
+#endif
+#if CountMove
+    public static UInt64 MoveCount { get; set; }
+#endif
+#if CountPart
+    public static UInt64 PartCount { get; set; }
+#endif
+    #endregion
+
+    #region Test Methods
     public static void TestSort(T[] entries, Int32? insertionLimit, Boolean print) {
       const String sDelimiter = ", ";
 
@@ -30,12 +45,12 @@ namespace Sort {
 
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(String.Join(sDelimiter, entries));
+        Console.WriteLine(Join(sDelimiter, entries));
       }
 #if TestRuntimeSort
       Console.WriteLine("TestRuntimeSort");
 #endif
-      var sMode = String.Empty;
+      var sMode = Empty;
 #if Tripartite
       sMode += " Tripartite";
 #endif
@@ -56,7 +71,7 @@ namespace Sort {
       Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries));
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(String.Join(sDelimiter, entries));
+        Console.WriteLine(Join(sDelimiter, entries));
       }
 
       var length = entries.Length;
@@ -81,37 +96,36 @@ namespace Sort {
 #endif
       }
 #if CountCompare
-      Console.WriteLine("CompareCount = {0:n0}", QuickSort<T>.CompareCount);
+      Console.WriteLine("CompareCount = {0:n0}", CompareCount);
 #endif
 #if CountMove
-      Console.WriteLine("MoveCount = {0:n0}", QuickSort<T>.MoveCount);
+      Console.WriteLine("MoveCount = {0:n0}", MoveCount);
 #endif
 #if CountPart
-      Console.WriteLine("PartCount = {0:n0}", QuickSort<T>.PartCount);
+      Console.WriteLine("PartCount = {0:n0}", PartCount);
 #endif
     }
 
-    #region Test Methods
-    private static double scaleLog10(Int32 length) {
-      return length * Math.Log10(length);
-    }
-
-    public static Boolean IsSorted(IEnumerable<T> en) {
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();
-        foreach (var next in en.Skip(1))
-          if (last.CompareTo(next) > 0)
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
             return false;
-          else
-            last = next;
+
+          last = next;
+        }
       }
 
       return true;
     }
+    #endregion
 
-    public static void Reverse(T[] entries) {
-      for (Int32 left = 0, right = entries.Length - 1; left < right; left++, right--)
-        QuickSort<T>.Swap(entries, left, right);
+    #region Math Methods
+    private static double scaleLog10(Int32 length) {
+      return length * Math.Log10(length);
     }
     #endregion
   }

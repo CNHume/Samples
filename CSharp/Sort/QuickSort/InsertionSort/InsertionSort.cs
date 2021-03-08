@@ -27,19 +27,19 @@ namespace Sort {
 
       while (index > first) {
 #if CountCompare
-        QuickSort<T>.CompareCount++;
+        SortTest<T>.CompareCount++;
 #endif
         if (entries[index - 1].CompareTo(entry) <= 0) break;
 
         entries[index] = entries[--index];
 #if CountMove
-        QuickSort<T>.MoveCount++;
+        SortTest<T>.MoveCount++;
 #endif
       }
 
       entries[index] = entry;
 #if CountMove
-      QuickSort<T>.MoveCount++;
+      SortTest<T>.MoveCount++;
 #endif
     }
   }

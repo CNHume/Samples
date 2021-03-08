@@ -6,10 +6,10 @@
 //
 // Conditionals:
 //
-//#define VerifyAssertions
 //#define CountCompare
 //#define CountMove
 //#define CountPart
+//#define VerifyPartitions
 
 //
 // The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
@@ -21,7 +21,6 @@
 namespace Sort {
   using System;
   using System.Diagnostics;
-  using System.Linq;
   using System.Runtime.CompilerServices;
 
   class QuickSort<T> where T : IComparable {
@@ -30,15 +29,6 @@ namespace Sort {
     #endregion
 
     #region Properties
-#if CountCompare
-    public static UInt64 CompareCount { get; set; }
-#endif
-#if CountMove
-    public static UInt64 MoveCount { get; set; }
-#endif
-#if CountPart
-    public static UInt64 PartCount { get; set; }
-#endif
     public Int32 InsertionLimit { get; set; }
     private Random Random { get; set; }
     private T Median { get; set; }
@@ -128,7 +118,7 @@ namespace Sort {
 
     private void partition(T[] entries) {
 #if CountPart
-      PartCount++;
+      SortTest<T>.PartCount++;
 #endif
       var first = Left;
       var last = Right;
@@ -143,17 +133,17 @@ namespace Sort {
         while (Median.CompareTo(entries[Left]) > 0) {
           Left++;
 #if CountCompare
-          CompareCount++;
+          SortTest<T>.CompareCount++;
 #endif
         }
         while (Median.CompareTo(entries[Right]) < 0) {
           Right--;
 #if CountCompare
-          CompareCount++;
+          SortTest<T>.CompareCount++;
 #endif
         }
 #if CountCompare
-        CompareCount += 2;
+        SortTest<T>.CompareCount += 2;
 #endif
         //[Assert]entries[Right] <= Median <= entries[Left]
         if (Right <= Left) break;
@@ -177,7 +167,7 @@ namespace Sort {
       verify(entries, first, last);
     }
 
-    [Conditional("VerifyAssertions")]
+    [Conditional("VerifyPartitions")]
     private void verify(T[] entries, Int32 first, Int32 last) {
       Debug.Assert(Right < Left, "Left <= Right");
       for (; first <= Right; first++)
@@ -195,6 +185,9 @@ namespace Sort {
       var e = e1;
       e1 = e2;
       e2 = e;
+#if CountMove
+      SortTest<T>.MoveCount += 3;
+#endif
     }
 
     /// <summary>Swap entries at the left and right indicies.</summary>
@@ -203,9 +196,6 @@ namespace Sort {
     /// <param name="right">Right index</param>
     public static void Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
-#if CountMove
-        MoveCount += 3;
-#endif
     }
 
     [Conditional("Tripartite")]
@@ -214,7 +204,7 @@ namespace Sort {
       if (Median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
       if (Median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
 #if CountCompare
-      CompareCount += 2;
+      SortTest<T>.CompareCount += 2;
 #endif
     }
 
@@ -224,6 +214,11 @@ namespace Sort {
       // Restore Median entries
       while (first < LeftMedian) Swap(entries, first++, Right--);
       while (RightMedian < last) Swap(entries, Left++, last--);
+    }
+
+    public static void Reverse(T[] entries) {
+      for (Int32 left = 0, right = entries.Length - 1; left < right; left++, right--)
+        Swap(entries, left, right);
     }
     #endregion
   }

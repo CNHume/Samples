@@ -7,9 +7,11 @@
 
 namespace Sort {
   using System;
-  using System.Diagnostics;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.Linq;
+
+  using static System.String;
 
   static class SortTest<T> where T : IComparable {
     public static void TestSort(T[] entries, Int32? merges, Int32? insertionLimit, Boolean print) {
@@ -23,7 +25,7 @@ namespace Sort {
 
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(String.Join<T>(sDelimiter, entries));
+        Console.WriteLine(Join<T>(sDelimiter, entries));
       }
       var timer = new Stopwatch();
       Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
@@ -43,7 +45,7 @@ namespace Sort {
                         DateTime.Now, IsSorted(entries));
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(String.Join<T>(sDelimiter, entries));
+        Console.WriteLine(Join<T>(sDelimiter, entries));
       }
       var length = entries.Length;
       if (msec == 0)
@@ -57,39 +59,20 @@ namespace Sort {
     }
 
     #region Test Methods
-    public static Boolean IsSorted(IEnumerable<T> en) {
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();
-        foreach (var next in en.Skip(1))
-          if (last.CompareTo(next) > 0)
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
             return false;
-          else
-            last = next;
+
+          last = next;
+        }
       }
 
       return true;
-    }
-    #endregion
-
-    #region Swap Methods
-    /// <summary>Swap two entities of type T.</summary>
-    public static void Swap(ref T e1, ref T e2) {
-      var e = e1;
-      e1 = e2;
-      e2 = e;
-    }
-
-    /// <summary>Swap entries at the left and right indicies.</summary>
-    /// <param name="entries"></param>
-    /// <param name="left">Left index</param>
-    /// <param name="right">Right index</param>
-    public static void Swap(T[] entries, Int32 index1, Int32 index2) {
-      Swap(ref entries[index1], ref entries[index2]);
-    }
-
-    public static void Reverse(T[] entries) {
-      for (Int32 left = 0, right = entries.Length - 1; left < right; left++, right--)
-        Swap(entries, left, right);
     }
     #endregion
   }

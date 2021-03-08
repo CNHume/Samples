@@ -7,9 +7,11 @@
 
 namespace Sort {
   using System;
-  using System.Diagnostics;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.Linq;
+
+  using static System.String;
 
   static class SortTest<T> where T : IComparable {
     public static void TestSort(T[] entries, Boolean print) {
@@ -17,7 +19,7 @@ namespace Sort {
       var input = entries.ToList();
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(String.Join<T>(sDelimiter, input));
+        Console.WriteLine(Join<T>(sDelimiter, input));
       }
       var timer = new Stopwatch();
       Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
@@ -37,7 +39,7 @@ namespace Sort {
                         DateTime.Now, IsSorted(output));
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(String.Join<T>(sDelimiter, output));
+        Console.WriteLine(Join<T>(sDelimiter, output));
       }
       var length = output.Count;
       if (msec == 0)
@@ -50,17 +52,22 @@ namespace Sort {
       }
     }
 
-    public static Boolean IsSorted(IEnumerable<T> en) {
+    #region Test Methods
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();
-        foreach (var next in en.Skip(1))
-          if (last.CompareTo(next) > 0)
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
             return false;
-          else
-            last = next;
+
+          last = next;
+        }
       }
 
       return true;
     }
+    #endregion
   }
 }

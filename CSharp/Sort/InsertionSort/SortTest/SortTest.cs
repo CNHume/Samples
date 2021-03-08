@@ -49,17 +49,22 @@ namespace Sort {
       }
     }
 
-    public static Boolean IsSorted(IEnumerable<T> en) {
+    #region Test Methods
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();
-        foreach (var next in en.Skip(1))
-          if (last.CompareTo(next) > 0)
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
             return false;
-          else
-            last = next;
+
+          last = next;
+        }
       }
 
       return true;
     }
+    #endregion
   }
 }
