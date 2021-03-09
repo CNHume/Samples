@@ -35,7 +35,7 @@ _Chutzpah*
 project.lock.json
 project.fragment.lock.json
 artifacts/
-**/Properties/launchSettings.json
+#**/Properties/launchSettings.json
 
 # Build results
 [Dd]ebug/

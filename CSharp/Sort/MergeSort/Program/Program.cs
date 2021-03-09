@@ -28,7 +28,7 @@ namespace Sort {
         var entries = randomEntries(cmd.Length.Value);
 #endif
 #if Reverse
-        SortTest<Int32>.Reverse(entries);
+        MergeSort<Int32>.Reverse(entries);
 #endif
         SortTest<Int32>.TestSort(entries, cmd.Merges, cmd.InsertionLimit, cmd.Print);
       }
