@@ -6,9 +6,9 @@
 //
 // Conditionals:
 //
-//#define CountCompare
-//#define CountMove
-//#define CountPart
+#define CountCompare
+#define CountMove
+#define CountPart
 //#define VerifyPartitions
 
 //
@@ -23,14 +23,17 @@ namespace Sort {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
 
-  class QuickSort<T> where T : IComparable {
+  public class QuickSort<T> where T : IComparable {
     #region Constants
-    private const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
     #endregion
 
     #region Properties
-    public Int32 InsertionLimit { get; set; }
-    private Random Random { get; set; }
+    public Int32 InsertionLimit { get; init; }
+    private Random Random { get; init; }
+    public Counter Counter { get; init; }
+    private InsertionSort<T> InsertionSorter { get; init; }
+
     private T Median { get; set; }
 
     private Int32 Left { get; set; }
@@ -40,17 +43,15 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public QuickSort(Int32 insertionLimit, Random random) {
+    public QuickSort(Counter counter, Int32 insertionLimit, Random random) {
       this.InsertionLimit = insertionLimit;
+      this.Counter = counter;
       this.Random = random;
+      this.InsertionSorter = new InsertionSort<T>(Counter);
     }
 
-    public QuickSort(Int32 insertionLimit)
-      : this(insertionLimit, new Random()) {
-    }
-
-    public QuickSort()
-      : this(INSERTION_LIMIT_DEFAULT) {
+    public QuickSort(Counter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+      : this(counter, insertionLimit, new Random()) {
     }
     #endregion
 
@@ -63,7 +64,7 @@ namespace Sort {
       var length = last + 1 - first;
       while (length > 1) {
         if (length < InsertionLimit) {
-          InsertionSort<T>.Sort(entries, first, last);
+          InsertionSorter.Sort(entries, first, last);
           return;
         }
 
@@ -111,14 +112,14 @@ namespace Sort {
         Swap(entries, first, random);
       }
 
-      InsertionSort<T>.Sort(entries, Left, last);
+      InsertionSorter.Sort(entries, Left, last);
       //[Test]Console.WriteLine("Samples: " + String.Join(" ", entries.Skip(Left).Take(sampleSize)));
       Median = entries[Left + sampleSize / 2];
     }
 
     private void partition(T[] entries) {
 #if CountPart
-      SortTest<T>.PartCount++;
+      Counter.PartCount++;
 #endif
       var first = Left;
       var last = Right;
@@ -133,17 +134,17 @@ namespace Sort {
         while (Median.CompareTo(entries[Left]) > 0) {
           Left++;
 #if CountCompare
-          SortTest<T>.CompareCount++;
+          Counter.CompareCount++;
 #endif
         }
         while (Median.CompareTo(entries[Right]) < 0) {
           Right--;
 #if CountCompare
-          SortTest<T>.CompareCount++;
+          Counter.CompareCount++;
 #endif
         }
 #if CountCompare
-        SortTest<T>.CompareCount += 2;
+        Counter.CompareCount += 2;
 #endif
         //[Assert]entries[Right] <= Median <= entries[Left]
         if (Right <= Left) break;
@@ -181,12 +182,12 @@ namespace Sort {
 
     #region Swap Methods
     /// <summary>Swap two entities of type T.</summary>
-    public static void Swap(ref T e1, ref T e2) {
+    public void Swap(ref T e1, ref T e2) {
       var e = e1;
       e1 = e2;
       e2 = e;
 #if CountMove
-      SortTest<T>.MoveCount += 3;
+      Counter.MoveCount += 3;
 #endif
     }
 
@@ -194,8 +195,9 @@ namespace Sort {
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
-    public static void Swap(T[] entries, Int32 left, Int32 right) {
+    public T[] Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
+      return entries;
     }
 
     [Conditional("Tripartite")]
@@ -204,7 +206,7 @@ namespace Sort {
       if (Median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
       if (Median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
 #if CountCompare
-      SortTest<T>.CompareCount += 2;
+      Counter.CompareCount += 2;
 #endif
     }
 
@@ -214,11 +216,6 @@ namespace Sort {
       // Restore Median entries
       while (first < LeftMedian) Swap(entries, first++, Right--);
       while (RightMedian < last) Swap(entries, Left++, last--);
-    }
-
-    public static void Reverse(T[] entries) {
-      for (Int32 left = 0, right = entries.Length - 1; left < right; left++, right--)
-        Swap(entries, left, right);
     }
     #endregion
   }

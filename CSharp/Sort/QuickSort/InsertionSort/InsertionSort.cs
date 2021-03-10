@@ -6,41 +6,53 @@
 //
 // Conditionals:
 //
-//#define CountCompare
-//#define CountMove
+#define CountCompare
+#define CountMove
 
 namespace Sort {
   using System;
 
-  static class InsertionSort<T> where T : IComparable {
-    public static void Sort(T[] entries) {
+  public class InsertionSort<T> where T : IComparable {
+    #region Constructors
+    public InsertionSort(Counter counter = default) {
+      this.Counter = counter;
+    }
+    #endregion
+
+    #region Properties
+    public Counter Counter { get; init; }
+    #endregion
+
+    #region Methods
+    public void Sort(T[] entries) {
       Sort(entries, 0, entries.Length - 1);
     }
 
-    public static void Sort(T[] entries, Int32 first, Int32 last) {
+    public void Sort(T[] entries, Int32 first, Int32 last) {
       for (var index = first + 1; index <= last; index++)
         insert(entries, first, index);
     }
 
-    private static void insert(T[] entries, Int32 first, Int32 index) {
+    private void insert(T[] entries, Int32 first, Int32 index) {
       var entry = entries[index];
 
       while (index > first) {
 #if CountCompare
-        SortTest<T>.CompareCount++;
+        Counter.CompareCount++;
 #endif
         if (entries[index - 1].CompareTo(entry) <= 0) break;
 
         entries[index] = entries[--index];
 #if CountMove
-        SortTest<T>.MoveCount++;
+        Counter.MoveCount++;
 #endif
       }
 
       entries[index] = entry;
 #if CountMove
-      SortTest<T>.MoveCount++;
+      Counter.MoveCount++;
 #endif
     }
+    #endregion
   }
 }

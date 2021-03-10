@@ -9,12 +9,12 @@
 //
 // Conditionals:
 //
-#define LinearEntries
+//#define LinearEntries
 #define Reverse
 
-namespace InsertionSort {
-  using Sort;
+namespace Sort {
   using System;
+  using System.Linq;
 
   class Program {
     static void Main(String[] args) {
@@ -24,7 +24,7 @@ namespace InsertionSort {
 #if LinearEntries
         var entries = linearEntries(cmd.Length.Value);
 #if Reverse
-        InsertionSort<Int32>.Reverse(entries);
+        entries.Reverse();
 #endif
 #else
         var entries = randomEntries(cmd.Length.Value);

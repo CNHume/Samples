@@ -277,7 +277,7 @@ namespace HeapSort {
     /// <remarks>Explicit implementation</remarks>
     /// <returns>Non-generic enumerator</returns>
     IEnumerator IEnumerable.GetEnumerator() {
-      return GetEnumerator();           // Cast generic implementation to IEnumerable
+      return GetEnumerator();           // IEnumerable implementation casts IEnumerator<T> as IEnumerator
     }
     #endregion
 

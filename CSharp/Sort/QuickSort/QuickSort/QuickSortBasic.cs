@@ -1,7 +1,7 @@
 namespace Sort {
   using System;
 
-  class QuickSort<T> where T : IComparable {
+  class QuickSortBasic<T> where T : IComparable {
     #region Constants
     private const Int32 INSERTION_LIMIT_DEFAULT = 12;
     #endregion
@@ -9,23 +9,25 @@ namespace Sort {
     #region Properties
     public Int32 InsertionLimit { get; set; }
     private Random Random { get; set; }
-    private T Median { get; set; }
+    private InsertionSort<T> InsertionSorter { get; init; }
 
+    private T Median { get; set; }
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
     #endregion
 
     #region Constructors
-    public QuickSort(Int32 insertionLimit, Random random) {
+    public QuickSortBasic(Int32 insertionLimit, Random random) {
       this.InsertionLimit = insertionLimit;
       this.Random = random;
+      this.InsertionSorter = new InsertionSort<T>();
     }
 
-    public QuickSort(Int32 insertionLimit)
+    public QuickSortBasic(Int32 insertionLimit)
       : this(insertionLimit, new Random()) {
     }
 
-    public QuickSort()
+    public QuickSortBasic()
       : this(INSERTION_LIMIT_DEFAULT) {
     }
     #endregion
@@ -39,7 +41,7 @@ namespace Sort {
       var length = last + 1 - first;
       while (length > 1) {
         if (length < InsertionLimit) {
-          InsertionSort<T>.Sort(entries, first, last);
+          InsertionSorter.Sort(entries, first, last);
           return;
         }
 
@@ -87,7 +89,7 @@ namespace Sort {
         Swap(entries, first, random);
       }
 
-      InsertionSort<T>.Sort(entries, Left, last);
+      InsertionSorter.Sort(entries, Left, last);
       Median = entries[Left + sampleSize / 2];
     }
 
@@ -118,30 +120,24 @@ namespace Sort {
       //[Assert]entries[first:Right] <= Median <= entries[Left:last]
       //[Assert]entries[Right + 1:Left - 1] == Median when non-empty
     }
+    #endregion
 
-    public static void Swap(T[] entries, Int32 index1, Int32 index2) {
-      if (index1 != index2) {
-        var entry = entries[index1];
-        entries[index1] = entries[index2];
-        entries[index2] = entry;
-      }
+    #region Swap Methods
+    /// <summary>Swap two entities of type T.</summary>
+    public static void Swap(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
+    }
+
+    /// <summary>Swap entries at the left and right indicies.</summary>
+    /// <param name="entries"></param>
+    /// <param name="left">Left index</param>
+    /// <param name="right">Right index</param>
+    public static T[] Swap(T[] entries, Int32 left, Int32 right) {
+      Swap(ref entries[left], ref entries[right]);
+      return entries;
     }
     #endregion
   }
-
-  #region Insertion Sort
-  static class InsertionSort<T> where T : IComparable {
-    public static void Sort(T[] entries, Int32 first, Int32 last) {
-      for (var index = first + 1; index <= last; index++)
-        insert(entries, first, index);
-    }
-
-    private static void insert(T[] entries, Int32 first, Int32 index) {
-      var entry = entries[index];
-      while (index > first && entries[index - 1].CompareTo(entry) > 0)
-        entries[index] = entries[--index];
-      entries[index] = entry;
-    }
-  }
-  #endregion
 }

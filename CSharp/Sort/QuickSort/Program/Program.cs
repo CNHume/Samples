@@ -16,20 +16,23 @@
 #define Reverse
 
 namespace Sort {
-  using Sort;
   using System;
+  using System.Linq;
 
   class Program {
+    #region Properties
+    public static SortTest<Int32> Tester { get; private set; }
+    #endregion
+
     static void Main(String[] args) {
       try {
         var cmd = new Command();
         cmd.Parse(args);
-
         var entries = new Int32[cmd.Length.Value];
 #if LinearFill
         fillLinear(entries);
 #if Reverse
-        QuickSort<Int32>.Reverse(entries);
+        entries.Reverse();
 #endif
 #else
         //
@@ -38,7 +41,8 @@ namespace Sort {
         //
         fillRandom(entries);
 #endif
-        SortTest<Int32>.TestSort(entries, cmd.InsertionLimit, cmd.Print);
+        Tester = new SortTest<Int32>();
+        Tester.TestSort(entries, cmd.InsertionLimit, cmd.Print);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

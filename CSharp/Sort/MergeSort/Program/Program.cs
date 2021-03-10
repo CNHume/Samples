@@ -12,10 +12,11 @@
 // Conditionals:
 //
 //#define LinearEntries
-//#define Reverse
+#define Reverse
 
 namespace Sort {
   using System;
+  using System.Linq;
 
   class Program {
     static void Main(String[] args) {
@@ -24,11 +25,11 @@ namespace Sort {
         cmd.Parse(args);
 #if LinearEntries
         var entries = linearEntries(cmd.Length.Value);
+#if Reverse
+        entries.Reverse();
+#endif
 #else
         var entries = randomEntries(cmd.Length.Value);
-#endif
-#if Reverse
-        MergeSort<Int32>.Reverse(entries);
 #endif
         SortTest<Int32>.TestSort(entries, cmd.Merges, cmd.InsertionLimit, cmd.Print);
       }
