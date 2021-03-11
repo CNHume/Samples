@@ -13,9 +13,9 @@ namespace Sort {
   using System;
   using System.Collections.Generic;
 
-  public class InsertionSort<T> where T : IComparable {
+  public class InsertionList<T> where T : IComparable {
     #region Constructors
-    public InsertionSort(Counter counter = default) {
+    public InsertionList(Counter counter = default) {
       this.Counter = counter;
     }
     #endregion

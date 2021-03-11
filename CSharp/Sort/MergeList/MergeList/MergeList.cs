@@ -35,7 +35,7 @@ namespace Sort {
     }
     public Int32 InsertionLimit { get; set; }
     public Counter Counter { get; init; }
-    private InsertionSort<T> InsertionSorter { get; init; }
+    private InsertionList<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
@@ -43,7 +43,7 @@ namespace Sort {
       this.Counter = counter;
       this.Merges = merges;
       this.InsertionLimit = insertionLimit;
-      this.InsertionSorter = new InsertionSort<T>(Counter);
+      this.InsertionSorter = new InsertionList<T>(Counter);
     }
     #endregion
 

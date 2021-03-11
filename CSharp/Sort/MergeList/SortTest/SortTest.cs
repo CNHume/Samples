@@ -4,6 +4,7 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
+#define ShowCounts
 
 namespace Sort {
   using System;
