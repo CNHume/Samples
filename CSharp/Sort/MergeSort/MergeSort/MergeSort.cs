@@ -14,8 +14,8 @@ namespace Sort {
 
   public class MergeSort<T> where T : IComparable {
     #region Constants
-    private const Int32 mergesDefault = 6;
-    private const Int32 insertionLimitDefault = 12;
+    public const Int32 MERGES_DEFAULT = 6;
+    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
     #endregion
 
     #region Properties
@@ -36,17 +36,17 @@ namespace Sort {
       }
     }
 
-    public Int32 InsertionLimit { get; set; }
+    public Int32 InsertionLimit { get; init; }
+    public Counter Counter { get; init; }
+    private InsertionSort<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
-    public MergeSort(Int32 merges, Int32 insertionLimit) {
-      Merges = merges;
-      InsertionLimit = insertionLimit;
-    }
-
-    public MergeSort()
-      : this(mergesDefault, insertionLimitDefault) {
+    public MergeSort(Counter counter = default, Int32 merges = MERGES_DEFAULT, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+      this.Counter = counter;
+      this.Merges = merges;
+      this.InsertionLimit = insertionLimit;
+      this.InsertionSorter = new InsertionSort<T>(Counter);
     }
     #endregion
 
@@ -63,7 +63,7 @@ namespace Sort {
       if (length < 2)
         return;
       else if (length < InsertionLimit) {
-        InsertionSort<T>.Sort(entries1, first, last);
+        InsertionSorter.Sort(entries1, first, last);
         return;
       }
 

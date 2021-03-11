@@ -17,19 +17,25 @@ namespace Sort {
   using System.Linq;
 
   class Program {
+    #region Properties
+    public static SortTest<Int32> Tester { get; private set; }
+    #endregion
+
     static void Main(String[] args) {
       try {
         var cmd = new Command();
         cmd.Parse(args);
+        var length = cmd.Length.Value;
 #if LinearEntries
-        var entries = linearEntries(cmd.Length.Value);
+        var entries = linearEntries(length);
 #if Reverse
         entries.Reverse();
 #endif
 #else
-        var entries = randomEntries(cmd.Length.Value);
+        var entries = randomEntries(length);
 #endif
-        SortTest<Int32>.TestSort(entries, cmd.Print);
+        Tester = new SortTest<Int32>();
+        Tester.TestSort(entries, cmd.Print);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

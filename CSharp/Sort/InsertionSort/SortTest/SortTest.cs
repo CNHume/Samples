@@ -4,52 +4,62 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
-//#define PrintLists
+#define ShowCounts
 
 namespace Sort {
   using System;
   using System.Collections.Generic;
-  using System.Diagnostics;
   using System.Linq;
+  using System.Text;
 
-  static class SortTest<T> where T : IComparable {
-    public static void TestSort(T[] entries, Boolean print) {
-      const String sDelimiter = ", ";
+  using static System.String;
+
+  class SortTest<T> where T : IComparable {
+    #region Constants
+    const String comma = ", ";
+    const String space = " ";
+    #endregion
+
+    #region Constructors
+    public SortTest() {
+      var sb = new StringBuilder("Starting");
+#if TestRuntimeSort
+      if (sb.Length > 0) sb.Append(space);
+      sb.Append("Runtime Sort");
+#endif
+      Counter = new Counter(sb.ToString());
+    }
+    #endregion
+
+    #region Properties
+    public Counter Counter { get; init; }
+    #endregion
+
+    #region Test Methods
+    public void TestSort(T[] entries, Boolean print = false) {
+      var sorter = new InsertionSort<T>(Counter);
+
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(String.Join(sDelimiter, entries));
+        Console.WriteLine(Join(comma, entries));
       }
-      var timer = new Stopwatch();
-      Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
-      timer.Start();
+      Counter.Header();
+      Counter.Start();
 #if TestRuntimeSort
       Array.Sort(entries);
 #else
-      InsertionSort<T>.Sort(entries);
+      sorter.Sort(entries);
 #endif
-      timer.Stop();
-      //
-      // There are 10,000 ticks per msec
-      //
-      var msec = (Double)timer.ElapsedTicks / 10000;
-      Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, IsSorted(entries));
+      Counter.Stop();
+      Counter.Display();
+      Counter.Footer(entries.Length, IsSorted(entries));
+
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(String.Join(sDelimiter, entries));
-      }
-
-      var length = entries.Length;
-      if (msec == 0)
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
-                          length, msec / 1000);
-      else {
-        var rate = length / msec; // ~3.3 MHz over 10 M entries on an i7-4702HQ @ 2.2 GHz
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                          length, msec / 1000, rate);
+        Console.WriteLine(Join(comma, entries));
       }
     }
 
-    #region Test Methods
     public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
       if (en.Any()) {
         var last = en.First();

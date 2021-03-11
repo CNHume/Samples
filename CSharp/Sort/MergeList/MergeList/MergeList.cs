@@ -10,36 +10,56 @@ namespace Sort {
   using System;
   using System.Collections.Generic;
 
-  public static class MergeList<T> where T : IComparable {
+  public class MergeList<T> where T : IComparable {
     #region Constants
-    private const Int32 insertionLimit = 20;
-    private const Int32 mergesDefault = 6;
+    public const Int32 INSERTION_LIMIT_DEFAULT = 20;
+    public const Int32 MERGES_DEFAULT = 6;
     #endregion
 
     #region Properties
-    public static Int32 InsertionLimit { get; set; }
-    public static Int32 Merges { get; set; }
+    protected Int32[] Positions { get; set; }
+
+    private Int32 merges;
+    public Int32 Merges {
+      get { return merges; }
+      set {
+        // A minimum of 2 merges are required
+        if (value > 1)
+          merges = value;
+        else
+          throw new ArgumentOutOfRangeException();
+
+        if (Positions == null || Positions.Length != merges)
+          Positions = new Int32[merges];
+      }
+    }
+    public Int32 InsertionLimit { get; set; }
+    public Counter Counter { get; init; }
+    private InsertionSort<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
-    static MergeList() {
-      Merges = mergesDefault;
+    public MergeList(Counter counter = default, Int32 merges = MERGES_DEFAULT, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+      this.Counter = counter;
+      this.Merges = merges;
+      this.InsertionLimit = insertionLimit;
+      this.InsertionSorter = new InsertionSort<T>(Counter);
     }
     #endregion
 
     #region Sort Methods
-    public static List<T> Sort(List<T> entries) {
+    public List<T> Sort(List<T> entries) {
       return Sort(entries, 0, entries.Count - 1);
     }
 
     // top-down n-way Merge Sort
-    public static List<T> Sort(List<T> entries, Int32 first, Int32 last) {
+    public List<T> Sort(List<T> entries, Int32 first, Int32 last) {
       var length = last + 1 - first;
       if (length < 2)
         return entries;
 
-      if (length < Merges || length < insertionLimit) {
-        InsertionSort<T>.Sort(entries, first, last);
+      if (length < Merges || length < INSERTION_LIMIT_DEFAULT) {
+        InsertionSorter.Sort(entries, first, last);
         return entries;
       }
 
@@ -55,7 +75,7 @@ namespace Sort {
       return Merge(ranges);
     }
 
-    public static List<T> Merge(List<List<T>> ranges) {
+    public List<T> Merge(List<List<T>> ranges) {
       var merge = new List<T>();
 
       while (true) {

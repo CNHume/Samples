@@ -28,9 +28,9 @@ namespace Sort {
       try {
         var cmd = new Command();
         cmd.Parse(args);
-        var entries = new Int32[cmd.Length.Value];
+        var length = cmd.Length.Value;
 #if LinearFill
-        fillLinear(entries);
+        var entries = linearEntries(length);
 #if Reverse
         entries.Reverse();
 #endif
@@ -39,7 +39,7 @@ namespace Sort {
         //[Note]fillRandom() case ran about four times faster
         // over 108M entries under the Tripartite conditional
         //
-        fillRandom(entries);
+        var entries = randomEntries(length);
 #endif
         Tester = new SortTest<Int32>();
         Tester.TestSort(entries, cmd.InsertionLimit, cmd.Print);
@@ -56,17 +56,18 @@ namespace Sort {
 #endif
     }
 
-    private static void fillLinear(Int32[] entries) {
-      var length = entries.Length;
+    private static Int32[] linearEntries(Int32 length) {
       var dt = DateTime.Now;
       Console.WriteLine("{0:HH:mm:ss.fff} Building {1:n0} linear entries", dt, length);
 
+      var entries = new Int32[length];
       for (var index = 0; index < length; index++)
         entries[index] = index;
+
+      return entries;
     }
 
-    private static void fillRandom(Int32[] entries) {
-      var length = entries.Length;
+    private static Int32[] randomEntries(Int32 length) {
       const Int32 scale = 120;
       var range = length / scale;
 
@@ -76,8 +77,11 @@ namespace Sort {
       var seed = (Int32)dt.Ticks;
       var r = new Random(seed);
 
+      var entries = new Int32[length];
       for (var index = 0; index < length; index++)
         entries[index] = r.Next(range) + 1;
+
+      return entries;
     }
   }
 }

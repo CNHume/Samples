@@ -8,49 +8,65 @@
 namespace Sort {
   using System;
   using System.Collections.Generic;
-  using System.Diagnostics;
   using System.Linq;
+  using System.Text;
 
   using static System.String;
 
-  static class SortTest<T> where T : IComparable {
-    public static void TestSort(T[] entries, Boolean print) {
-      const String sDelimiter = ", ";
+  class SortTest<T> where T : IComparable {
+    #region Constants
+    const String comma = ", ";
+    const String space = " ";
+    #endregion
+
+    #region Constructors
+    public SortTest() {
+      var sb = new StringBuilder("Starting");
+#if TestRuntimeSort
+      if (sb.Length > 0) sb.Append(space);
+      sb.Append("Runtime Sort");
+#endif
+      Counter = new Counter(sb.ToString());
+    }
+    #endregion
+
+    #region Properties
+    public Counter Counter { get; init; }
+    #endregion
+
+    #region Test Methods
+    public void TestSort(T[] entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
+      var sorter = merges.HasValue ?
+        insertionLimit.HasValue ?
+          new MergeList<T>(Counter, merges.Value, insertionLimit.Value) :
+          new MergeList<T>(Counter, merges.Value) :
+        insertionLimit.HasValue ?
+          new MergeList<T>(Counter, MergeList<T>.MERGES_DEFAULT, insertionLimit.Value) :
+          new MergeList<T>(Counter);
+
       var input = entries.ToList();
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(Join<T>(sDelimiter, input));
+        Console.WriteLine(Join(comma, entries));
       }
-      var timer = new Stopwatch();
-      Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
-      timer.Start();
+      Counter.Header();
+      Counter.Start();
 #if TestRuntimeSort
       input.Sort();
       var output = input;
 #else
-      var output = MergeList<T>.Sort(input);
+      var output = sorter.Sort(input);
 #endif
-      timer.Stop();
-      //
-      // There are 10,000 ticks per msec
-      //
-      var msec = (Double)timer.ElapsedTicks / 10000;
-      Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}",
-                        DateTime.Now, IsSorted(output));
+      Counter.Stop();
+      Counter.Display();
+      Counter.Footer(output.Count, IsSorted(output));
+
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(Join<T>(sDelimiter, output));
-      }
-      var length = output.Count;
-      if (msec == 0)
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
-                          length, msec / 1000);
-      else {
-        var rate = length / msec; // ~2.9 MHz on an i7-4702HQ @ 2.2 GHz
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                          length, msec / 1000, rate);
+        Console.WriteLine(Join(comma, entries));
       }
     }
+    #endregion
 
     #region Test Methods
     public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {

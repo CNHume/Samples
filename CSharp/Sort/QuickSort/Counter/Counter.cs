@@ -6,6 +6,7 @@
 #define CountCompare
 #define CountMove
 #define CountPart
+
 //
 // Use ScaleLength to compare performance of a given algorithm at increasing scales.
 // Do not use ScaleLength to compare different Sort Algorithms at the same scale.
@@ -18,15 +19,9 @@ namespace Sort {
 
   public class Counter {
     #region Properties
-#if CountCompare
     public UInt64 CompareCount { get; set; }
-#endif
-#if CountMove
     public UInt64 MoveCount { get; set; }
-#endif
-#if CountPart
     public UInt64 PartCount { get; set; }
-#endif
     public String Mode { get; init; }
     public Stopwatch Timer { get; init; }
     #endregion

@@ -19,10 +19,11 @@ namespace HeapSort {
     static void Main(String[] args) {
       try {
         var cmd = new Command(args);
+        var length = cmd.Length.Value;
 #if LinearEntries
-        var entries = linearEntries(cmd.Length.Value);
+        var entries = linearEntries(length);
 #else
-        var entries = randomEntries(cmd.Length.Value);
+        var entries = randomEntries(length);
 #endif
         SortTest<Int32>.TestSort(entries, cmd.Print);
       }
