@@ -6,6 +6,11 @@
 //
 // 2014-12-09 CNHume  Created File
 //
+// Conditionals:
+//
+#define CountCompare
+#define CountMove
+
 namespace Sort {
   using System;
   using System.Collections.Generic;
@@ -29,7 +34,7 @@ namespace Sort {
         else
           throw new ArgumentOutOfRangeException();
 
-        if (Positions == null || Positions.Length != merges)
+        if (Positions is null || Positions.Length != merges)
           Positions = new Int32[merges];
       }
     }
@@ -84,15 +89,25 @@ namespace Sort {
         foreach (var range in ranges)
           if (range.Count > 0) {
             var next = range[0];
-            if (found == null || node.CompareTo(next) > 0) {
+            var isLess = found is null;
+            if (found is not null) {
+#if CountCompare
+              Counter.CompareCount++;
+#endif
+              isLess = node.CompareTo(next) > 0;
+            }
+
+            if (isLess) {
               found = range;
               node = next;
             }
           }
 
-        if (found == null)
+        if (found is null)
           break;
-
+#if CountMove
+        Counter.MoveCount += 2;
+#endif
         found.RemoveAt(0);
         merge.Add(node);
       }

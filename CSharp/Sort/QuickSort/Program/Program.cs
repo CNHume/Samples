@@ -12,7 +12,7 @@
 //
 // Conditionals:
 //
-//#define LinearEntries
+#define LinearEntries
 #define Reverse
 
 namespace Sort {

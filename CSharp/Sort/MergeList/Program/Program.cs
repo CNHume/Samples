@@ -10,7 +10,7 @@
 //
 // Conditionals:
 //
-//#define LinearEntries
+#define LinearEntries
 #define Reverse
 
 namespace Sort {
@@ -27,7 +27,7 @@ namespace Sort {
         var cmd = new Command();
         cmd.Parse(args);
         var length = cmd.Length.Value;
-#if LinearFill
+#if LinearEntries
         var entries = linearEntries(length);
 #if Reverse
         entries.Reverse();

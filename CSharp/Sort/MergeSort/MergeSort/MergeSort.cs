@@ -9,6 +9,11 @@
 // 2014-12-13 CNHume  Converted from List Ranges to Array Slices
 // 2014-12-09 CNHume  Created File
 //
+// Conditionals:
+//
+#define CountCompare
+#define CountMove
+
 namespace Sort {
   using System;
 
@@ -31,7 +36,7 @@ namespace Sort {
         else
           throw new ArgumentOutOfRangeException();
 
-        if (Positions == null || Positions.Length != merges)
+        if (Positions is null || Positions.Length != merges)
           Positions = new Int32[merges];
       }
     }
@@ -99,13 +104,23 @@ namespace Sort {
         var position = Positions[index];
         if (position < Math.Min(remaining, size)) {
           var next = entries[left + position];
-          if (!found.HasValue || entry.CompareTo(next) > 0) {
+          var isLess = !found.HasValue;
+          if (found.HasValue) {
+#if CountCompare
+            Counter.CompareCount++;
+#endif
+            isLess = entry.CompareTo(next) > 0;
+          }
+
+          if (isLess) {
             found = index;
             entry = next;
           }
         }
       }
-
+#if CountMove
+      Counter.MoveCount += 2;
+#endif
       // Remove entry
       Positions[found.Value]++;
       return entry;
