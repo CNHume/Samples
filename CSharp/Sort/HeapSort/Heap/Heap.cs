@@ -45,7 +45,7 @@
 //
 //  sorter.Sort();
 //
-namespace HeapSort {
+namespace Sort {
   using Exceptions;
 
   using System;

@@ -2,7 +2,7 @@
 // (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 namespace HeapTests {
-  using HeapSort;
+  using Sort;
 
   using System;
 

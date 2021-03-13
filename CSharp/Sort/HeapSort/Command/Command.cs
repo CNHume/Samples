@@ -6,8 +6,9 @@
 //
 // 2017-10-30 CNHume  Added Command class
 //
-namespace HeapSort {
-  using HeapSort.Exceptions;
+namespace Sort {
+  using Exceptions;
+
   using System;
 
   public class Command {

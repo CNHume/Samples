@@ -1,7 +1,10 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿//
+// Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
+//
+namespace Sort.Exceptions {
+  using System;
+  using System.Runtime.Serialization;
 
-namespace HeapSort.Exceptions {
   [Serializable]
   class CommandException : ApplicationException, ISerializable {
     #region Constructors

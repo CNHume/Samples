@@ -11,7 +11,7 @@
     <Product>HeapSort</Product>
     <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
     <Version>1.0</Version>
-    <RootNamespace>HeapSort</RootNamespace>
+    <RootNamespace>Sort</RootNamespace>
     <AssemblyName>HeapSort</AssemblyName>
   </PropertyGroup>
 

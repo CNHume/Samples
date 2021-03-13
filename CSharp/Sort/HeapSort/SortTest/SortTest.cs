@@ -4,57 +4,61 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
-//#define PrintLists
+#define ShowCounts
 
-namespace HeapSort {
+namespace Sort {
   using System;
   using System.Collections.Generic;
-  using System.Diagnostics;
   using System.Linq;
+  using System.Text;
 
   using static System.String;
 
   class SortTest<T> where T : IComparable {
-    public void TestSort(T[] entries, Boolean print) {
-      const String sDelimiter = ", ";
+    #region Constants
+    private const String delim = ", ";
+    private const char space = ' ';
+    #endregion
+
+    #region Constructors
+    public SortTest() {
+      var sb = new StringBuilder("Starting");
+#if TestRuntimeSort
+      if (sb.Length > 0) sb.Append(space);
+      sb.Append("Runtime Sort");
+#endif
+      Counter = new Counter(sb.ToString(), typeof(Heap<T>));
+    }
+    #endregion
+
+    #region Properties
+    public Counter Counter { get; init; }
+    #endregion
+
+    #region Test Methods
+    public void TestSort(T[] entries, Boolean print = false) {
+      var sorter = new Heap<T>(entries, entries.Length);
+
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(Join<T>(sDelimiter, entries));
+        Console.WriteLine(Join(delim, entries));
       }
-      var timer = new Stopwatch();
-      var length = entries.Length;
-      var sorter = new Heap<T>(entries, length);
-      for (var n = 0; n < 4; n++) {
-        timer.Reset();
-        Console.WriteLine("{0:HH:mm:ss.fff} Starting", DateTime.Now);
-        timer.Start();
+      Counter.Header();
+      Counter.Start();
 #if TestRuntimeSort
-        var ascending = true;
-        Array.Sort(entries);
+      var ascending = true;
+      Array.Sort(entries);
 #else
-        var ascending = sorter.IsAscending;
-        sorter.Sort();
+      var ascending = sorter.IsAscending;
+      sorter.Sort();
 #endif
-        timer.Stop();
-        sorter.Reverse();
-        //
-        // There are 10,000 ticks per msec
-        //
-        var msec = (Double)timer.ElapsedTicks / 10000;
-        var sorted = IsSorted(entries, ascending);
-        Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, sorted);
-        if (print) {
-          Console.WriteLine("output:");
-          Console.WriteLine(Join<T>(sDelimiter, entries));
-        }
-        if (msec == 0)
-          Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
-                            length, msec / 1000);
-        else {
-          var rate = length / msec; // From 1.4 to 2.5 MHz on an i7-4702HQ @ 2.2 GHz
-          Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                            length, msec / 1000, rate);
-        }
+      Counter.Stop();
+      Counter.Display();
+      Counter.Footer(entries.Length, IsSorted(entries, ascending));
+
+      if (print) {
+        Console.WriteLine("output:");
+        Console.WriteLine(Join(delim, entries));
       }
     }
 
@@ -73,5 +77,6 @@ namespace HeapSort {
 
       return true;
     }
+    #endregion
   }
 }

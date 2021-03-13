@@ -13,7 +13,7 @@
 #define LinearEntries
 #define Reverse
 
-namespace HeapSort {
+namespace Sort {
   using System;
   using System.Linq;
 

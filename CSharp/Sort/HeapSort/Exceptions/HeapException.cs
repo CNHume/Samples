@@ -1,7 +1,7 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-namespace HeapSort.Exceptions {
+namespace Sort.Exceptions {
   using System;
   using System.Runtime.Serialization;
 
