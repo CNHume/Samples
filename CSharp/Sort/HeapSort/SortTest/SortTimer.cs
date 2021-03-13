@@ -4,7 +4,6 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
-#define Tripartite
 #define ShowCounts
 
 namespace Sort {
@@ -15,24 +14,20 @@ namespace Sort {
 
   using static System.String;
 
-  class SortTest<T> where T : IComparable {
+  class SortTimer<T> where T : IComparable {
     #region Constants
     private const String delim = ", ";
     private const char space = ' ';
     #endregion
 
     #region Constructors
-    public SortTest() {
+    public SortTimer() {
       var sb = new StringBuilder("Starting");
-#if Tripartite
-      if (sb.Length > 0) sb.Append(space);
-      sb.Append("Tripartite");
-#endif
 #if TestRuntimeSort
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
-      Counter = new Counter(sb.ToString(), typeof(QuickSort<T>));
+      Counter = new Counter(sb.ToString(), typeof(Heap<T>));
     }
     #endregion
 
@@ -40,30 +35,33 @@ namespace Sort {
     public Counter Counter { get; init; }
     #endregion
 
-    #region Test Methods
-    public void TestSort(T[] entries, Int32? insertionLimit, Boolean print = false) {
-      var sorter = insertionLimit.HasValue ?
-        new QuickSort<T>(Counter, insertionLimit.Value) :
-        new QuickSort<T>(Counter);
+    #region Methods
+    public void Sort(T[] entries, Boolean print = false) {
+      var sorter = new Heap<T>(entries, entries.Length);
 
       if (print) {
         Console.WriteLine("input:");
         Console.WriteLine(Join(delim, entries));
       }
-      Counter.Header();
-      Counter.Start();
-#if TestRuntimeSort
-      Array.Sort(entries);
-#else
-      sorter.Sort(entries);
-#endif
-      Counter.Stop();
-      Counter.Display();
-      Counter.Footer(entries.Length, IsSorted(entries));
 
-      if (print) {
-        Console.WriteLine("output:");
-        Console.WriteLine(Join(delim, entries));
+      for (var trial = 0; trial < 4; trial++) {
+        Counter.Header();
+        Counter.Start();
+#if TestRuntimeSort
+        var ascending = true;
+        Array.Sort(entries);
+#else
+        var ascending = sorter.IsAscending;
+        sorter.Sort();
+#endif
+        Counter.Stop();
+        Counter.Display();
+        Counter.Footer(entries.Length, IsSorted(entries, ascending));
+
+        if (print) {
+          Console.WriteLine("output:");
+          Console.WriteLine(Join(delim, entries));
+        }
       }
     }
 

@@ -20,7 +20,7 @@ namespace Sort {
 
   class Program {
     #region Properties
-    public static SortTest<Int32> Tester { get; private set; }
+    public static SortTimer<Int32> Sorter { get; private set; }
     #endregion
 
     static void Main(String[] args) {
@@ -36,8 +36,8 @@ namespace Sort {
 #else
         var entries = randomEntries(length);
 #endif
-        Tester = new SortTest<Int32>();
-        Tester.TestSort(entries, cmd.Merges, cmd.InsertionLimit, cmd.Print);
+        Sorter = new SortTimer<Int32>();
+        Sorter.Sort(entries, cmd.Merges, cmd.InsertionLimit, cmd.Print);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

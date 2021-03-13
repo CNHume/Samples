@@ -19,7 +19,7 @@ namespace Sort {
 
   class Program {
     #region Properties
-    public static SortTest<Int32> Tester { get; private set; }
+    public static SortTimer<Int32> Sorter { get; private set; }
     #endregion
 
     static void Main(String[] args) {
@@ -34,8 +34,8 @@ namespace Sort {
 #else
         var entries = randomEntries(length);
 #endif
-        Tester = new SortTest<Int32>();
-        Tester.TestSort(entries, cmd.Print);
+        Sorter = new SortTimer<Int32>();
+        Sorter.Sort(entries, cmd.Print);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);
@@ -50,7 +50,7 @@ namespace Sort {
       var dt = DateTime.Now;
       Console.WriteLine("{0:HH:mm:ss.fff} Building {1:n0} linear entries", dt, length);
 
-      var entries = new Int32[length + 3];
+      var entries = new Int32[length];
       for (var index = 0; index < length; index++)
         entries[index] = index;
 
