@@ -9,6 +9,8 @@
 //#define ScaleLength
 
 namespace Sort {
+  using Extension;
+
   using System;
   using System.Diagnostics;
   using System.Text;
@@ -17,11 +19,7 @@ namespace Sort {
 
   public class Counter {
     #region Constants
-    private const String delim = ", ";
     private const char space = ' ';
-    private const char grave = '`';
-    private const char lab = '<';
-    private const char rab = '>';
     #endregion
 
     #region Properties
@@ -86,31 +84,10 @@ namespace Sort {
         Console.WriteLine($"PartCount = {PartCount:n0}");
     }
 
-    public static String CSharpTypeName(Type type) {
-      if (type.IsGenericType) {
-        var name = type.Name;
-        var sb = new StringBuilder(name.Remove(name.IndexOf(grave)));
-        sb.Append(lab);
-        var delimit = false;
-        foreach (var param in type.GenericTypeArguments) {
-          if (delimit)
-            sb.Append(delim);
-          else
-            delimit = true;
-
-          sb.Append(CSharpTypeName(param));
-        }
-        sb.Append(rab);
-        return sb.ToString();
-      }
-
-      return type.Name;
-    }
-
     public void Header() {
       var sb = new StringBuilder($"{DateTime.Now:HH:mm:ss.fff}");
       if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
-      if (SortType is not null) sb.Append(space).Append(CSharpTypeName(SortType));
+      if (SortType is not null) sb.Append(space).AppendTypeName(SortType);
       Console.WriteLine(sb.ToString());
     }
 
