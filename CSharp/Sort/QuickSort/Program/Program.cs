@@ -13,11 +13,9 @@
 // Conditionals:
 //
 #define LinearEntries
-#define Reverse
 
 namespace Sort {
   using System;
-  using System.Linq;
 
   class Program {
     #region Properties
@@ -30,10 +28,7 @@ namespace Sort {
         cmd.Parse(args);
         var length = cmd.Length.Value;
 #if LinearEntries
-        var entries = linearEntries(length);
-#if Reverse
-        entries.Reverse();
-#endif
+        var entries = linearEntries(length, reverse: true);
 #else
         //
         //[Note]fillRandom() case ran about four times faster
@@ -56,13 +51,13 @@ namespace Sort {
 #endif
     }
 
-    private static Int32[] linearEntries(Int32 length) {
+    private static Int32[] linearEntries(Int32 length, Boolean reverse = false) {
       var dt = DateTime.Now;
       Console.WriteLine("{0:HH:mm:ss.fff} Building {1:n0} linear entries", dt, length);
 
       var entries = new Int32[length];
       for (var index = 0; index < length; index++)
-        entries[index] = index;
+        entries[index] = reverse ? length - index - 1 : index;
 
       return entries;
     }
