@@ -3,11 +3,6 @@
 //
 // Conditionals:
 //
-#define CountCompare
-#define CountMove
-#define CountPart
-
-//
 // Use ScaleLength to compare performance of a given algorithm at increasing scales.
 // Do not use ScaleLength to compare different Sort Algorithms at the same scale.
 //
@@ -16,19 +11,32 @@
 namespace Sort {
   using System;
   using System.Diagnostics;
+  using System.Text;
+
+  using static System.String;
 
   public class Counter {
+    #region Constants
+    private const String delim = ", ";
+    private const char space = ' ';
+    private const char grave = '`';
+    private const char lab = '<';
+    private const char rab = '>';
+    #endregion
+
     #region Properties
-    public UInt64 CompareCount { get; set; }
-    public UInt64 MoveCount { get; set; }
-    public UInt64 PartCount { get; set; }
+    protected UInt64 CompareCount { get; set; }
+    protected UInt64 MoveCount { get; set; }
+    protected UInt64 PartCount { get; set; }
     public String Mode { get; init; }
-    public Stopwatch Timer { get; init; }
+    public Type SortType { get; init; }
+    private Stopwatch Timer { get; init; }
     #endregion
 
     #region Constructors
-    public Counter(String mode) {
+    public Counter(String mode = null, Type sortType = null) {
       this.Mode = mode;
+      this.SortType = sortType;
       this.Timer = new Stopwatch();
     }
     #endregion
@@ -36,19 +44,6 @@ namespace Sort {
     #region Methods
     public void Clear() {
       PartCount = MoveCount = CompareCount = 0;
-    }
-
-    [Conditional("ShowCounts")]
-    public void Display() {
-#if CountCompare
-      Console.WriteLine("CompareCount = {0:n0}", CompareCount);
-#endif
-#if CountMove
-      Console.WriteLine("MoveCount = {0:n0}", MoveCount);
-#endif
-#if CountPart
-      Console.WriteLine("PartCount = {0:n0}", PartCount);
-#endif
     }
 
     public void Reset() {
@@ -64,8 +59,59 @@ namespace Sort {
       Timer.Stop();
     }
 
+    [Conditional("CountCompare")]
+    public void IncCompare(UInt64 count = 1) {
+      CompareCount += count;
+    }
+
+    [Conditional("CountMove")]
+    public void IncMove(UInt64 count = 1) {
+      MoveCount += count;
+    }
+
+    [Conditional("CountPart")]
+    public void IncPart(UInt64 count = 1) {
+      PartCount += count;
+    }
+
+    [Conditional("ShowCounts")]
+    public void Display() {
+      if (CompareCount > 0)
+        Console.WriteLine($"CompareCount = {CompareCount:n0}");
+
+      if (MoveCount > 0)
+        Console.WriteLine($"MoveCount = {MoveCount:n0}");
+
+      if (PartCount > 0)
+        Console.WriteLine($"PartCount = {PartCount:n0}");
+    }
+
+    public static String CSharpTypeName(Type type) {
+      if (type.IsGenericType) {
+        var name = type.Name;
+        var sb = new StringBuilder(name.Remove(name.IndexOf(grave)));
+        sb.Append(lab);
+        var delimit = false;
+        foreach (var param in type.GenericTypeArguments) {
+          if (delimit)
+            sb.Append(delim);
+          else
+            delimit = true;
+
+          sb.Append(CSharpTypeName(param));
+        }
+        sb.Append(rab);
+        return sb.ToString();
+      }
+
+      return type.Name;
+    }
+
     public void Header() {
-      Console.WriteLine("{0:HH:mm:ss.fff} {1}", DateTime.Now, Mode);
+      var sb = new StringBuilder($"{DateTime.Now:HH:mm:ss.fff}");
+      if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
+      if (SortType is not null) sb.Append(space).Append(CSharpTypeName(SortType));
+      Console.WriteLine(sb.ToString());
     }
 
     public void Footer(Int32 length, Boolean isSorted) {
@@ -73,7 +119,7 @@ namespace Sort {
       // There are 10,000 ticks per msec
       //
       var msec = (Double)Timer.ElapsedTicks / 10000;
-      Console.WriteLine("{0:HH:mm:ss.fff} Finished, Sorted = {1}", DateTime.Now, isSorted);
+      Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {isSorted}");
 
       if (msec == 0)
         Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",

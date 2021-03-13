@@ -14,8 +14,8 @@ namespace HeapSort {
 
   using static System.String;
 
-  static class SortTest<T> where T : IComparable {
-    public static void TestSort(T[] entries, Boolean print) {
+  class SortTest<T> where T : IComparable {
+    public void TestSort(T[] entries, Boolean print) {
       const String sDelimiter = ", ";
       if (print) {
         Console.WriteLine("input:");

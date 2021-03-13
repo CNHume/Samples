@@ -80,6 +80,7 @@ namespace Sort {
       }
 
       Merge(entries1, entries2, first, last);
+      Counter.IncMove((UInt32)length);
       Array.Copy(entries2, first, entries1, first, length);
     }
     #endregion
@@ -93,8 +94,8 @@ namespace Sort {
     }
 
     private T remove(T[] entries, Int32 first, Int32 last) {
-      var entry = default(T);
-      var found = (Int32?)null;
+      T entry = default;
+      Int32? found = default;
       var length = last + 1 - first;
 
       var index = 0;
@@ -106,9 +107,7 @@ namespace Sort {
           var next = entries[left + position];
           var isLess = !found.HasValue;
           if (found.HasValue) {
-#if CountCompare
-            Counter.CompareCount++;
-#endif
+            Counter.IncCompare();
             isLess = entry.CompareTo(next) > 0;
           }
 
@@ -118,9 +117,8 @@ namespace Sort {
           }
         }
       }
-#if CountMove
-      Counter.MoveCount += 2;
-#endif
+
+      Counter.IncMove(2);
       // Remove entry
       Positions[found.Value]++;
       return entry;

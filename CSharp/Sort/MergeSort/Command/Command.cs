@@ -10,18 +10,18 @@ namespace Sort {
   using System;
 
   public class Command {
-    #region Virtual Fields
-    public Int32? Length;
-    public Int32? Merges;
-    public Int32? InsertionLimit;
-    public Boolean Print;
+    #region Properties
+    public Int32? Length { get; set; }
+    public Int32? Merges { get; set; }
+    public Int32? InsertionLimit { get; set; }
+    public Boolean Print { get; set; }
     #endregion
 
     #region Methods
     public void Parse(String[] args) {
-      Length = null;
-      InsertionLimit = null;
-      Merges = null;
+      Length = default;
+      InsertionLimit = default;
+      Merges = default;
       Print = false;
 
       var usage = false;

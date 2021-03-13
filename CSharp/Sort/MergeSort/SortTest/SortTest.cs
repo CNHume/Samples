@@ -16,8 +16,8 @@ namespace Sort {
 
   class SortTest<T> where T : IComparable {
     #region Constants
-    const String comma = ", ";
-    const String space = " ";
+    private const String delim = ", ";
+    private const char space = ' ';
     #endregion
 
     #region Constructors
@@ -27,7 +27,7 @@ namespace Sort {
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
-      Counter = new Counter(sb.ToString());
+      Counter = new Counter(sb.ToString(), typeof(MergeSort<T>));
     }
     #endregion
 
@@ -47,7 +47,7 @@ namespace Sort {
 
       if (print) {
         Console.WriteLine("input:");
-        Console.WriteLine(Join(comma, entries));
+        Console.WriteLine(Join(delim, entries));
       }
       Counter.Header();
       Counter.Start();
@@ -62,7 +62,7 @@ namespace Sort {
 
       if (print) {
         Console.WriteLine("output:");
-        Console.WriteLine(Join(comma, entries));
+        Console.WriteLine(Join(delim, entries));
       }
     }
 

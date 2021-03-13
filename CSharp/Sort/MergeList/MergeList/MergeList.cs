@@ -74,7 +74,9 @@ namespace Sort {
       for (var left = first; left <= last; left += mergeSize, remaining -= mergeSize) {
         var rangeSize = Math.Min(mergeSize, remaining);
         var range = entries.GetRange(left, rangeSize);
-        ranges.Add(Sort(range));
+        var merge = Sort(range);
+        Counter.IncMove((UInt32)merge.Count);
+        ranges.Add(merge);
       }
 
       return Merge(ranges);
@@ -84,16 +86,14 @@ namespace Sort {
       var merge = new List<T>();
 
       while (true) {
-        var found = (List<T>)null;
-        T node = default(T);
+        List<T> found = default;
+        T node = default;
         foreach (var range in ranges)
           if (range.Count > 0) {
             var next = range[0];
             var isLess = found is null;
             if (found is not null) {
-#if CountCompare
-              Counter.CompareCount++;
-#endif
+              Counter.IncCompare();
               isLess = node.CompareTo(next) > 0;
             }
 
@@ -105,9 +105,9 @@ namespace Sort {
 
         if (found is null)
           break;
-#if CountMove
-        Counter.MoveCount += 2;
-#endif
+
+        Counter.IncMove(2);
+        // Remove entry
         found.RemoveAt(0);
         merge.Add(node);
       }

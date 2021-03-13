@@ -11,9 +11,9 @@ namespace HeapSort {
   using System;
 
   public class Command {
-    #region Virtual Fields
-    public Int32? Length;
-    public Boolean Print;
+    #region Properties
+    public Int32? Length { get; set; }
+    public Boolean Print { get; set; }
     #endregion
 
     #region Constructors
@@ -24,7 +24,7 @@ namespace HeapSort {
 
     #region Methods
     public void Parse(String[] args) {
-      Length = null;
+      Length = default;
       Print = false;
 
       var usage = false;

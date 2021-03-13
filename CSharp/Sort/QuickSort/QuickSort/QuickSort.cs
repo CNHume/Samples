@@ -118,9 +118,7 @@ namespace Sort {
     }
 
     private void partition(T[] entries) {
-#if CountPart
-      Counter.PartCount++;
-#endif
+      Counter.IncPart();
       var first = Left;
       var last = Right;
 #if Tripartite
@@ -133,19 +131,13 @@ namespace Sort {
         // So, there is no need for Left or Right bound checks
         while (Median.CompareTo(entries[Left]) > 0) {
           Left++;
-#if CountCompare
-          Counter.CompareCount++;
-#endif
+          Counter.IncCompare();
         }
         while (Median.CompareTo(entries[Right]) < 0) {
           Right--;
-#if CountCompare
-          Counter.CompareCount++;
-#endif
+          Counter.IncCompare();
         }
-#if CountCompare
-        Counter.CompareCount += 2;
-#endif
+        Counter.IncCompare(2);
         //[Assert]entries[Right] <= Median <= entries[Left]
         if (Right <= Left) break;
 
@@ -186,9 +178,7 @@ namespace Sort {
       var e = e1;
       e1 = e2;
       e2 = e;
-#if CountMove
-      Counter.MoveCount += 3;
-#endif
+      Counter.IncMove(3);
     }
 
     /// <summary>Swap entries at the left and right indicies.</summary>
@@ -205,9 +195,7 @@ namespace Sort {
     private void swapOut(T[] entries) {
       if (Median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
       if (Median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
-#if CountCompare
-      Counter.CompareCount += 2;
-#endif
+      Counter.IncCompare(2);
     }
 
     [Conditional("Tripartite")]

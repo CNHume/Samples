@@ -10,10 +10,10 @@ namespace Sort {
   using System;
 
   public class Command {
-    #region Virtual Fields
-    public Int32? Length;
-    public Int32? InsertionLimit;
-    public Boolean Print;
+    #region Properties
+    public Int32? Length { get; set; }
+    public Int32? InsertionLimit { get; set; }
+    public Boolean Print { get; set; }
     #endregion
 
     #region Methods

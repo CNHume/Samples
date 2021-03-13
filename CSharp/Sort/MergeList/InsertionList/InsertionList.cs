@@ -38,21 +38,15 @@ namespace Sort {
       var entry = entries[index];
 
       while (index > first) {
-#if CountCompare
-        Counter.CompareCount++;
-#endif
+        Counter.IncCompare();
         if (entries[index - 1].CompareTo(entry) <= 0) break;
 
         entries[index] = entries[--index];
-#if CountMove
-        Counter.MoveCount++;
-#endif
+        Counter.IncMove();
       }
 
       entries[index] = entry;
-#if CountMove
-      Counter.MoveCount++;
-#endif
+      Counter.IncMove();
     }
     #endregion
   }

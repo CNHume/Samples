@@ -10,25 +10,35 @@
 //
 // Conditionals:
 //
-//#define LinearEntries
+#define LinearEntries
+#define Reverse
 
 namespace HeapSort {
   using System;
+  using System.Linq;
 
   class Program {
+    #region Properties
+    public static SortTest<Int32> Tester { get; private set; }
+    #endregion
+
     static void Main(String[] args) {
       try {
         var cmd = new Command(args);
         var length = cmd.Length.Value;
 #if LinearEntries
         var entries = linearEntries(length);
+#if Reverse
+        entries.Reverse();
+#endif
 #else
         var entries = randomEntries(length);
 #endif
-        SortTest<Int32>.TestSort(entries, cmd.Print);
+        Tester = new SortTest<Int32>();
+        Tester.TestSort(entries, cmd.Print);
       }
       catch (ApplicationException ex) {
-	Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.Message);
       }
 #if DEBUG
       Console.Write("Press Enter");
