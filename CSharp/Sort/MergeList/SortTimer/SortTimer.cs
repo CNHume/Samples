@@ -35,8 +35,14 @@ namespace Sort {
     public Counter Counter { get; init; }
     #endregion
 
-    #region Test Methods
-    public void TestSort(T[] entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
+    #region Methods
+    public void TestSort(IEnumerable<T> entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
+      var input = entries.ToList();
+      if (print) {
+        Console.WriteLine("input:");
+        Console.WriteLine(Join(delim, entries));
+      }
+
       var sorter = merges.HasValue ?
         insertionLimit.HasValue ?
           new MergeList<T>(Counter, merges.Value, insertionLimit.Value) :
@@ -44,12 +50,6 @@ namespace Sort {
         insertionLimit.HasValue ?
           new MergeList<T>(Counter, MergeList<T>.MERGES_DEFAULT, insertionLimit.Value) :
           new MergeList<T>(Counter);
-
-      var input = entries.ToList();
-      if (print) {
-        Console.WriteLine("input:");
-        Console.WriteLine(Join(delim, entries));
-      }
       Counter.Header();
       Counter.Start();
 #if TestRuntimeSort

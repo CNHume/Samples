@@ -35,14 +35,15 @@ namespace Sort {
     public Counter Counter { get; init; }
     #endregion
 
-    #region Test Methods
+    #region Methods
     public void Sort(T[] entries, Boolean print = false) {
-      var sorter = new InsertionSort<T>(Counter);
-
       if (print) {
         Console.WriteLine("input:");
         Console.WriteLine(Join(delim, entries));
       }
+
+      var sorter = new InsertionSort<T>(Counter);
+
       Counter.Header();
       Counter.Start();
 #if TestRuntimeSort

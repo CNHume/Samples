@@ -4,6 +4,7 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
+#define Tripartite
 #define ShowCounts
 
 namespace Sort {
@@ -23,11 +24,15 @@ namespace Sort {
     #region Constructors
     public SortTimer() {
       var sb = new StringBuilder("Starting");
+#if Tripartite
+      if (sb.Length > 0) sb.Append(space);
+      sb.Append("Tripartite");
+#endif
 #if TestRuntimeSort
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
-      Counter = new Counter(sb.ToString(), typeof(Heap<T>));
+      Counter = new Counter(sb.ToString(), typeof(QuickSort<T>));
     }
     #endregion
 
@@ -36,32 +41,30 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print = false) {
-      var sorter = new Heap<T>(entries, entries.Length);
-
+    public void Sort(T[] entries, Int32? insertionLimit, Boolean print = false) {
       if (print) {
         Console.WriteLine("input:");
         Console.WriteLine(Join(delim, entries));
       }
 
-      for (var trial = 0; trial < 4; trial++) {
-        Counter.Header();
-        Counter.Start();
-#if TestRuntimeSort
-        var ascending = true;
-        Array.Sort(entries);
-#else
-        var ascending = sorter.IsAscending;
-        sorter.Sort();
-#endif
-        Counter.Stop();
-        Counter.Display();
-        Counter.Footer(entries.Length, IsSorted(entries, ascending));
+      var sorter = insertionLimit.HasValue ?
+        new QuickSort<T>(Counter, insertionLimit.Value) :
+        new QuickSort<T>(Counter);
 
-        if (print) {
-          Console.WriteLine("output:");
-          Console.WriteLine(Join(delim, entries));
-        }
+      Counter.Header();
+      Counter.Start();
+#if TestRuntimeSort
+      Array.Sort(entries);
+#else
+      sorter.Sort(entries);
+#endif
+      Counter.Stop();
+      Counter.Display();
+      Counter.Footer(entries.Length, IsSorted(entries));
+
+      if (print) {
+        Console.WriteLine("output:");
+        Console.WriteLine(Join(delim, entries));
       }
     }
 

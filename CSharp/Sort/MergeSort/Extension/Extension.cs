@@ -13,26 +13,25 @@ namespace Sort.Extension {
     private const char rab = '>';
     #endregion
 
-    #region Methods
+    #region StringBuilder Methods
     public static StringBuilder AppendTypeName(this StringBuilder sb, Type type) {
-      if (type.IsGenericType) {
-        var name = type.Name;
-        sb.Append(name.Remove(name.IndexOf(grave)));
-        sb.Append(lab);
-        var delimit = false;
-        foreach (var param in type.GenericTypeArguments) {
-          if (delimit)
-            sb.Append(delim);
-          else
-            delimit = true;
+      var name = type.Name;
+      if (!type.IsGenericType) return sb.Append(name);
 
-          sb.AppendTypeName(param);
-        }
+      sb.Append(name.Remove(name.IndexOf(grave)))
+        .Append(lab);
 
-        return sb.Append(rab);
+      var once = false;
+      foreach (var param in type.GenericTypeArguments) {
+        if (once)
+          sb.Append(delim);
+        else
+          once = true;
+
+        sb.AppendTypeName(param);
       }
 
-      return sb.Append(type.Name);
+      return sb.Append(rab);
     }
     #endregion
   }
