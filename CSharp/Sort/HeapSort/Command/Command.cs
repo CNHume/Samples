@@ -17,12 +17,6 @@ namespace Sort {
     public Boolean Print { get; set; }
     #endregion
 
-    #region Constructors
-    public Command(string[] args) {
-      Parse(args);
-    }
-    #endregion
-
     #region Methods
     public void Parse(String[] args) {
       Length = default;

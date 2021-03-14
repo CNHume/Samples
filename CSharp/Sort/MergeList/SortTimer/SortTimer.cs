@@ -36,7 +36,7 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void TestSort(IEnumerable<T> entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
+    public void Sort(IEnumerable<T> entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
       var input = entries.ToList();
       if (print) {
         Console.WriteLine("input:");

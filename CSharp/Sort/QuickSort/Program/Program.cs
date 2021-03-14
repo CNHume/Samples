@@ -10,34 +10,26 @@
 // 2014-12-27 CNHume  Converted to an instantiable class
 // 2014-12-13 CNHume  Added Parse() method
 //
-// Conditionals:
-//
-#define LinearEntries
-
 namespace Sort {
   using System;
 
   class Program {
-    #region Properties
-    public static SortTimer<Int32> Sorter { get; private set; }
-    #endregion
-
     static void Main(String[] args) {
       try {
         var cmd = new Command();
         cmd.Parse(args);
-        var length = cmd.Length.Value;
-#if LinearEntries
-        var entries = linearEntries(length, reverse: true);
-#else
+
         //
-        //[Note]fillRandom() case ran about four times faster
-        // over 108M entries under the Tripartite conditional
+        //[Note]SortCase.Random ran about 4X faster over
+        // 108M entries under the Tripartite conditional
         //
-        var entries = randomEntries(length);
-#endif
-        Sorter = new SortTimer<Int32>();
-        Sorter.Sort(entries, cmd.InsertionLimit, cmd.Print);
+        var source = new SortData(SortCase.Ascending);
+        var entries = cmd.Length.HasValue ?
+          source.BuildEntries(cmd.Length.Value) :
+          default;
+
+        var timer = new SortTimer<Int32>();
+        timer.Sort(entries, cmd.InsertionLimit, cmd.Print);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);
@@ -49,34 +41,6 @@ namespace Sort {
       Console.Write("Press Enter");
       Console.ReadLine();
 #endif
-    }
-
-    private static Int32[] linearEntries(Int32 length, Boolean reverse = false) {
-      var dt = DateTime.Now;
-      Console.WriteLine("{0:HH:mm:ss.fff} Building {1:n0} linear entries", dt, length);
-
-      var entries = new Int32[length];
-      for (var index = 0; index < length; index++)
-        entries[index] = reverse ? length - index - 1 : index;
-
-      return entries;
-    }
-
-    private static Int32[] randomEntries(Int32 length) {
-      const Int32 scale = 120;
-      var range = length / scale;
-
-      var dt = DateTime.Now;
-      Console.WriteLine("{0:HH:mm:ss.fff} Building {1:n0} random entries", dt, length);
-
-      var seed = (Int32)dt.Ticks;
-      var r = new Random(seed);
-
-      var entries = new Int32[length];
-      for (var index = 0; index < length; index++)
-        entries[index] = r.Next(range) + 1;
-
-      return entries;
     }
   }
 }
