@@ -18,7 +18,7 @@ namespace Sort {
         var cmd = new Command();
         cmd.Parse(args);
 
-        var source = new SortData(SortCase.Ascending);
+        var source = new SortData(cmd.SortCase);
         var entries = cmd.Length.HasValue ?
           source.BuildEntries(cmd.Length.Value) :
           default;

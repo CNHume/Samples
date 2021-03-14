@@ -17,12 +17,14 @@ namespace Sort {
     #region Properties
     public Int32? Length { get; set; }
     public Boolean Print { get; set; }
+    public SortCase SortCase { get; set; }
     #endregion
 
     #region Methods
     public void Parse(String[] args) {
       Length = default;
       Print = false;
+      SortCase = SortCase.Ascending;
 
       var usage = false;
       var count = args.Length;
@@ -43,6 +45,13 @@ namespace Sort {
               Print = true;
             break;
 
+          case 's':                     // the sort-case switch
+            if (len > 2)                // whitespace optional
+              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>();
+            else if (n < count)         // whitespace allowed
+              SortCase = args[++n].ParseEnumFromName<SortCase>();
+            break;
+
           default:                      // switch unknown
             usage = true;
             break;
@@ -59,9 +68,8 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new CommandException("Usage: HeapSort [-p] length");
+        throw new CommandException("Usage: HeapSort [-p] [-s (ascending | descending | random)] length");
     }
-
     #endregion
   }
 }

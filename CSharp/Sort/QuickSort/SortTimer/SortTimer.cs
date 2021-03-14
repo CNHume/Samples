@@ -60,6 +60,11 @@ namespace Sort {
 #endif
       Counter.Stop();
       Counter.Display();
+      //
+      // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
+      // For Random Fill with scale = 120
+      // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
+      //
       Counter.Footer(entries.Length, IsSorted(entries));
 
       if (print) {

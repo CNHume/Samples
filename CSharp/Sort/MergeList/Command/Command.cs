@@ -17,6 +17,7 @@ namespace Sort {
     public Int32? Merges { get; set; }
     public Int32? InsertionLimit { get; set; }
     public Boolean Print { get; set; }
+    public SortCase SortCase { get; set; }
     #endregion
 
     #region Methods
@@ -25,6 +26,7 @@ namespace Sort {
       InsertionLimit = default;
       Merges = default;
       Print = false;
+      SortCase = SortCase.Ascending;
 
       var usage = false;
       var count = args.Length;
@@ -42,7 +44,7 @@ namespace Sort {
             if (len > 2)                // whitespace optional
               InsertionLimit = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              InsertionLimit = args[n++].TryParseInt32();
+              InsertionLimit = args[++n].TryParseInt32();
 
             usage = !InsertionLimit.HasValue;
             break;
@@ -51,7 +53,7 @@ namespace Sort {
             if (len > 2)                // whitespace optional
               Merges = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              Merges = args[n++].TryParseInt32();
+              Merges = args[++n].TryParseInt32();
 
             usage = !Merges.HasValue;
             break;
@@ -61,6 +63,13 @@ namespace Sort {
               usage = true;
             else
               Print = true;
+            break;
+
+          case 's':                     // the sort-case switch
+            if (len > 2)                // whitespace optional
+              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>();
+            else if (n < count)         // whitespace allowed
+              SortCase = args[++n].ParseEnumFromName<SortCase>();
             break;
 
           default:                      // switch unknown
@@ -79,7 +88,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: MergeList [-i <insertion-limit>] [-m <merges>] [-p] length");
+        throw new ApplicationException("Usage: MergeList [-i <insertion-limit>] [-m <merges>] [-p] [-s (ascending | descending | random)] length");
     }
     #endregion
   }

@@ -86,8 +86,8 @@ namespace Sort {
 
     public void Header() {
       var sb = new StringBuilder($"{DateTime.Now:HH:mm:ss.fff}");
-      if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
       if (SortType is not null) sb.Append(space).AppendTypeName(SortType);
+      if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
       Console.WriteLine(sb.ToString());
     }
 
@@ -99,23 +99,17 @@ namespace Sort {
       Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {isSorted}");
 
       if (msec == 0)
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec",
-                          length, msec / 1000);
+        Console.WriteLine($"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec");
       else {
 #if ScaleLength
-        //
-        // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
-        // For Random Fill with scale = 120
-        // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
-        //
         var dNLogN = length * log(length);
         var rate = dNLogN / msec;
-        Console.WriteLine("Sorted a total of {0:n0} * log(n) = {1:0.0##} entries in {2:0.0##} sec, Rate = {3:0.0##} KHz",
-                          length, dNLogN, msec / 1000, rate);
+        Console.WriteLine(
+          $"Sorted a total of {length:n0} * log(n) = {dNLogN:0.0##} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
 #else
         var rate = length / msec;
-        Console.WriteLine("Sorted a total of {0:n0} entries in {1:0.0##} sec, Rate = {2:0.0##} KHz",
-                          length, msec / 1000, rate);
+        Console.WriteLine(
+          $"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
 #endif
       }
     }

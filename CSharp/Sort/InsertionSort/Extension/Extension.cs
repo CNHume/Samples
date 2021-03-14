@@ -7,15 +7,32 @@ namespace Sort.Extension {
   using System.Reflection;
   using System.Text;
 
+  using static System.String;
+
   static class Extension {
     #region Constants
-    private const String delim = ", ";
     private const char grave = '`';
     private const char lab = '<';
     private const char rab = '>';
+
+    private const string colonSpace = ": ";
+    private const String commaSpace = ", ";
     #endregion
 
     #region StringBuilder Methods
+    public static StringBuilder AppendDelim(this StringBuilder sb, string next, string delim = commaSpace) {
+      if (IsNullOrEmpty(next)) return sb;
+      if (sb.Length > 0) sb.Append(delim);
+      return sb.Append(next);
+    }
+
+    public static StringBuilder AppendKeyValuePair(
+      this StringBuilder sb, string key, string value) {
+      sb.AppendDelim(key)
+        .AppendDelim(value, colonSpace);
+      return sb;
+    }
+
     public static StringBuilder AppendTypeName(this StringBuilder sb, Type type) {
       var name = type.Name;
       if (!type.IsGenericType) return sb.Append(name);
@@ -26,7 +43,7 @@ namespace Sort.Extension {
       var once = false;
       foreach (var param in type.GenericTypeArguments) {
         if (once)
-          sb.Append(delim);
+          sb.Append(commaSpace);
         else
           once = true;
 

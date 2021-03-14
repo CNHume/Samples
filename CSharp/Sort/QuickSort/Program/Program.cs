@@ -23,7 +23,7 @@ namespace Sort {
         //[Note]SortCase.Random ran about 4X faster over
         // 108M entries under the Tripartite conditional
         //
-        var source = new SortData(SortCase.Ascending);
+        var source = new SortData(cmd.SortCase);
         var entries = cmd.Length.HasValue ?
           source.BuildEntries(cmd.Length.Value) :
           default;

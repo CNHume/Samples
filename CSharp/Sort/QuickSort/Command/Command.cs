@@ -16,6 +16,7 @@ namespace Sort {
     public Int32? Length { get; set; }
     public Int32? InsertionLimit { get; set; }
     public Boolean Print { get; set; }
+    public SortCase SortCase { get; set; }
     #endregion
 
     #region Methods
@@ -23,6 +24,7 @@ namespace Sort {
       Length = default;
       InsertionLimit = default;
       Print = false;
+      SortCase = SortCase.Ascending;
 
       var usage = false;
       var count = args.Length;
@@ -40,7 +42,7 @@ namespace Sort {
             if (len > 2)                // whitespace optional
               InsertionLimit = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              InsertionLimit = args[n++].TryParseInt32();
+              InsertionLimit = args[++n].TryParseInt32();
 
             usage = !InsertionLimit.HasValue;
             break;
@@ -50,6 +52,13 @@ namespace Sort {
               usage = true;
             else
               Print = true;
+            break;
+
+          case 's':                     // the sort-case switch
+            if (len > 2)                // whitespace optional
+              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>();
+            else if (n < count)         // whitespace allowed
+              SortCase = args[++n].ParseEnumFromName<SortCase>();
             break;
 
           default:                      // switch unknown
@@ -68,7 +77,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: quicksort [-i <insertion-limit>] [-p] length");
+        throw new ApplicationException("Usage: quicksort [-i <insertion-limit>] [-p] [-s (ascending | descending | random)] length");
     }
     #endregion
   }
