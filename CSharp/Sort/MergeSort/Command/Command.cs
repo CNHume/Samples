@@ -7,6 +7,8 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
+  using Extension;
+
   using System;
 
   public class Command {
@@ -38,18 +40,18 @@ namespace Sort {
           switch (token[1]) {
           case 'i':                     // the insertion-limit switch
             if (len > 2)                // whitespace optional
-              InsertionLimit = TryParse(token.Substring(2, len - 2));
+              InsertionLimit = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              InsertionLimit = TryParse(args[++n]);
+              InsertionLimit = args[n++].TryParseInt32();
 
             usage = !InsertionLimit.HasValue;
             break;
 
           case 'm':                     // the merges switch
             if (len > 2)                // whitespace optional
-              Merges = TryParse(token.Substring(2, len - 2));
+              Merges = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              Merges = TryParse(args[++n]);
+              Merges = args[n++].TryParseInt32();
 
             usage = !Merges.HasValue;
             break;
@@ -70,7 +72,7 @@ namespace Sort {
 
       // length is required
       if (n < count)
-        Length = TryParse(args[n++]);
+        Length = args[n++].TryParseInt32();
 
       usage |= !Length.HasValue;
 
@@ -78,10 +80,6 @@ namespace Sort {
 
       if (usage)                        // throw usage line if parse failed
         throw new ApplicationException("Usage: MergeSort [-i <insertion-limit>] [-m <merges>] [-p] length");
-    }
-
-    private static Int32? TryParse(String s) {
-      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
   }

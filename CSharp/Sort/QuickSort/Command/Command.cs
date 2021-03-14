@@ -7,6 +7,8 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
+  using Extension;
+
   using System;
 
   public class Command {
@@ -18,8 +20,8 @@ namespace Sort {
 
     #region Methods
     public void Parse(String[] args) {
-      Length = null;
-      InsertionLimit = null;
+      Length = default;
+      InsertionLimit = default;
       Print = false;
 
       var usage = false;
@@ -36,9 +38,9 @@ namespace Sort {
           switch (token[1]) {
           case 'i':                     // the insertion-limit switch
             if (len > 2)                // whitespace optional
-              InsertionLimit = TryParse(token.Substring(2, len - 2));
+              InsertionLimit = token.Substring(2, len - 2).TryParseInt32();
             else if (n < count)         // whitespace allowed
-              InsertionLimit = TryParse(args[++n]);
+              InsertionLimit = args[n++].TryParseInt32();
 
             usage = !InsertionLimit.HasValue;
             break;
@@ -59,18 +61,14 @@ namespace Sort {
 
       // length is required
       if (n < count)
-        Length = TryParse(args[n++]);
+        Length = args[n++].TryParseInt32();
 
       usage |= !Length.HasValue;
 
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: quicksort [-p] [-i <insertion-limit>] length");
-    }
-
-    private static Int32? TryParse(String s) {
-      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
+        throw new ApplicationException("Usage: quicksort [-i <insertion-limit>] [-p] length");
     }
     #endregion
   }

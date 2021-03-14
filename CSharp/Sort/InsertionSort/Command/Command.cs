@@ -7,6 +7,8 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
+  using Extension;
+
   using System;
 
   public class Command {
@@ -17,7 +19,7 @@ namespace Sort {
 
     #region Methods
     public void Parse(String[] args) {
-      Length = null;
+      Length = default;
       Print = false;
 
       var usage = false;
@@ -48,7 +50,7 @@ namespace Sort {
 
       // length is required
       if (n < count)
-        Length = TryParse(args[n++]);
+        Length = args[n++].TryParseInt32();
 
       usage |= !Length.HasValue;
 
@@ -56,10 +58,6 @@ namespace Sort {
 
       if (usage)                        // throw usage line if parse failed
         throw new ApplicationException("Usage: InsertionSort [-p] length");
-    }
-
-    private static Int32? TryParse(String s) {
-      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
     #endregion
   }

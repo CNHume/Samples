@@ -45,8 +45,8 @@ namespace Sort {
     }
 
     private static Int32[] randomEntries(Int32 length, Int32 seed) {
-      const Int32 scale = 3;
-      var range = scale * length;
+      const Int32 scale = 120;
+      var range = length / scale;
       var r = new Random(seed);
 
       var entries = new Int32[length];
