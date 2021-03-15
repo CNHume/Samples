@@ -10,7 +10,7 @@ namespace Sort {
   using System;
   using System.Text;
 
-  class SortTimer<T> : Counter<T> where T : IComparable {
+  class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
     private const Int32 SORT_TRIALS = 4;
     private const char space = ' ';
@@ -23,6 +23,7 @@ namespace Sort {
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
+      this.Mode = sb.ToString();
     }
     #endregion
 
@@ -35,7 +36,7 @@ namespace Sort {
       // Note: The Heap class appropriates the entries array to its own use.
       //       It does not make a private copy!
       //
-      var counter = (ICounter)this;
+      var counter = (IMeter)this;
       var sorter = new Heap<T>(counter, entries, entries.Length);
 
       for (var trial = 0; trial < SORT_TRIALS; trial++) {

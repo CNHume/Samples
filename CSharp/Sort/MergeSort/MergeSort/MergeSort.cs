@@ -42,12 +42,12 @@ namespace Sort {
     }
 
     public Int32 InsertionLimit { get; init; }
-    public ICounter Counter { get; init; }
+    public IMeter Counter { get; init; }
     private InsertionSort<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
-    public MergeSort(ICounter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+    public MergeSort(IMeter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Counter = counter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;

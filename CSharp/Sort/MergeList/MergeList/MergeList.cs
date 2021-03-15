@@ -22,7 +22,7 @@ namespace Sort {
     #endregion
 
     #region Properties
-    public ICounter Counter { get; init; }
+    public IMeter Counter { get; init; }
     public Int32 InsertionLimit { get; set; }
     protected Int32[] Positions { get; set; }
     private Int32 merges;
@@ -43,7 +43,7 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public MergeList(ICounter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+    public MergeList(IMeter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Counter = counter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;

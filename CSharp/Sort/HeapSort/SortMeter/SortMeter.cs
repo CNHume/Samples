@@ -19,7 +19,7 @@ namespace Sort {
 
   using static System.String;
 
-  public class Counter<T> : ICounter where T : IComparable {
+  public class SortMeter<T> : IMeter where T : IComparable {
     #region Constants
     private const char space = ' ';
 
@@ -35,8 +35,7 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public Counter(String mode = null, Type sortType = null) {
-      this.Mode = mode;
+    public SortMeter() {
       this.Timer = new Stopwatch();
     }
     #endregion

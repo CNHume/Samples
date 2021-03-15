@@ -10,7 +10,7 @@ namespace Sort {
   using System;
   using System.Text;
 
-  class SortTimer<T> : Counter<T> where T : IComparable {
+  class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
     private const char space = ' ';
     #endregion
@@ -22,6 +22,7 @@ namespace Sort {
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
+      this.Mode = sb.ToString();
     }
     #endregion
 
@@ -29,7 +30,7 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit, Int32? merges) {
       Header(entries, print, GetType());
 
-      var counter = (ICounter)this;
+      var counter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
         merges.HasValue ?
           new MergeSort<T>(counter, insertionLimit.Value, merges.Value) :

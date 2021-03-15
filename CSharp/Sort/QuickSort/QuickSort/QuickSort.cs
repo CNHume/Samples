@@ -31,7 +31,7 @@ namespace Sort {
     #region Properties
     public Int32 InsertionLimit { get; init; }
     private Random Random { get; init; }
-    public ICounter Counter { get; init; }
+    public IMeter Counter { get; init; }
     private InsertionSort<T> InsertionSorter { get; init; }
 
     private T Median { get; set; }
@@ -43,14 +43,14 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public QuickSort(ICounter counter, Int32 insertionLimit, Random random) {
+    public QuickSort(IMeter counter, Int32 insertionLimit, Random random) {
       this.InsertionLimit = insertionLimit;
       this.Counter = counter;
       this.Random = random;
       this.InsertionSorter = new InsertionSort<T>(Counter);
     }
 
-    public QuickSort(ICounter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+    public QuickSort(IMeter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
       : this(counter, insertionLimit, new Random()) {
     }
     #endregion
