@@ -29,7 +29,7 @@ namespace Sort {
           default;
 
         var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.InsertionLimit, cmd.Print);
+        timer.Sort(entries, cmd.Print, cmd.InsertionLimit);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

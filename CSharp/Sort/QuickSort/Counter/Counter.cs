@@ -12,14 +12,18 @@ namespace Sort {
   using Extension;
 
   using System;
+  using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Linq;
   using System.Text;
 
   using static System.String;
 
-  public class Counter {
+  public class Counter<T> where T : IComparable {
     #region Constants
     private const char space = ' ';
+
+    private const String commaSpace = ", ";
     #endregion
 
     #region Properties
@@ -34,7 +38,6 @@ namespace Sort {
     #region Constructors
     public Counter(String mode = null, Type sortType = null) {
       this.Mode = mode;
-      this.SortType = sortType;
       this.Timer = new Stopwatch();
     }
     #endregion
@@ -84,14 +87,23 @@ namespace Sort {
         Console.WriteLine($"PartCount = {PartCount:n0}");
     }
 
-    public void Header() {
+    public void Header(IEnumerable<T> entries, Boolean print = false, Type sortType = null) {
+      if (print) {
+        Console.WriteLine("input:");
+        if (entries is not null)
+          Console.WriteLine(Join(commaSpace, entries));
+      }
+
       var sb = new StringBuilder($"{DateTime.Now:HH:mm:ss.fff}");
-      if (SortType is not null) sb.Append(space).AppendTypeName(SortType);
+      if (sortType is not null) sb.Append(space).AppendTypeName(sortType);
       if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
       Console.WriteLine(sb.ToString());
     }
 
-    public void Footer(Int32 length, Boolean isSorted) {
+    public void Footer(IEnumerable<T> entries, Boolean print = false, Boolean ascending = true) {
+      var length = entries.Count();
+      var isSorted = IsSorted(entries, ascending);
+
       //
       // There are 10,000 ticks per msec
       //
@@ -112,6 +124,27 @@ namespace Sort {
           $"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
 #endif
       }
+      if (print) {
+        Console.WriteLine("output:");
+        if (entries is not null)
+          Console.WriteLine(Join(commaSpace, entries));
+      }
+    }
+
+    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
+      if (en.Any()) {
+        var last = en.First();
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
+            return false;
+
+          last = next;
+        }
+      }
+
+      return true;
     }
     #endregion
 

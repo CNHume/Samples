@@ -12,11 +12,8 @@ namespace Sort {
   using System.Linq;
   using System.Text;
 
-  using static System.String;
-
-  class SortTimer<T> where T : IComparable {
+  class SortTimer<T> : Counter<T> where T : IComparable {
     #region Constants
-    private const String delim = ", ";
     private const char space = ' ';
     #endregion
 
@@ -27,63 +24,32 @@ namespace Sort {
       if (sb.Length > 0) sb.Append(space);
       sb.Append("Runtime Sort");
 #endif
-      Counter = new Counter(sb.ToString(), typeof(MergeList<T>));
     }
     #endregion
 
-    #region Properties
-    public Counter Counter { get; init; }
-    #endregion
-
     #region Methods
-    public void Sort(IEnumerable<T> entries, Int32? merges, Int32? insertionLimit, Boolean print = false) {
+    public void Sort(IEnumerable<T> entries, Boolean print, Int32? insertionLimit, Int32? merges) {
       var input = entries.ToList();
-      if (print) {
-        Console.WriteLine("input:");
-        Console.WriteLine(Join(delim, entries));
-      }
+      Header(input, print, GetType());
 
-      var sorter = merges.HasValue ?
-        insertionLimit.HasValue ?
-          new MergeList<T>(Counter, merges.Value, insertionLimit.Value) :
-          new MergeList<T>(Counter, merges.Value) :
-        insertionLimit.HasValue ?
-          new MergeList<T>(Counter, MergeList<T>.MERGES_DEFAULT, insertionLimit.Value) :
-          new MergeList<T>(Counter);
-      Counter.Header();
-      Counter.Start();
+      var sorter = insertionLimit.HasValue ?
+        merges.HasValue ?
+          new MergeList<T>(this, insertionLimit.Value, merges.Value) :
+          new MergeList<T>(this, insertionLimit.Value) :
+        merges.HasValue ?
+          new MergeList<T>(this, MergeList<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
+          new MergeList<T>(this);
+
+      Start();
 #if TestRuntimeSort
       input.Sort();
       var output = input;
 #else
       var output = sorter.Sort(input);
 #endif
-      Counter.Stop();
-      Counter.Display();
-      Counter.Footer(output.Count, IsSorted(output));
-
-      if (print) {
-        Console.WriteLine("output:");
-        Console.WriteLine(Join(delim, entries));
-      }
-    }
-    #endregion
-
-    #region Test Methods
-    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
-      if (en.Any()) {
-        var last = en.First();
-        foreach (var next in en.Skip(1)) {
-          var sense = next.CompareTo(last);
-          if (sense < 0 && ascending ||
-              sense > 0 && !ascending)
-            return false;
-
-          last = next;
-        }
-      }
-
-      return true;
+      Stop();
+      Display();
+      Footer(output, print);
     }
     #endregion
   }

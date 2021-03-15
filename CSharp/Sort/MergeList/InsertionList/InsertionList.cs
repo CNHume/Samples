@@ -15,13 +15,13 @@ namespace Sort {
 
   public class InsertionList<T> where T : IComparable {
     #region Constructors
-    public InsertionList(Counter counter = default) {
+    public InsertionList(Counter<T> counter = default) {
       this.Counter = counter;
     }
     #endregion
 
     #region Properties
-    public Counter Counter { get; init; }
+    public Counter<T> Counter { get; init; }
     #endregion
 
     #region Methods

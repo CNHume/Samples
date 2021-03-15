@@ -22,8 +22,9 @@ namespace Sort {
     #endregion
 
     #region Properties
+    public Counter<T> Counter { get; init; }
+    public Int32 InsertionLimit { get; set; }
     protected Int32[] Positions { get; set; }
-
     private Int32 merges;
     public Int32 Merges {
       get { return merges; }
@@ -38,16 +39,14 @@ namespace Sort {
           Positions = new Int32[merges];
       }
     }
-    public Int32 InsertionLimit { get; set; }
-    public Counter Counter { get; init; }
     private InsertionList<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
-    public MergeList(Counter counter = default, Int32 merges = MERGES_DEFAULT, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+    public MergeList(Counter<T> counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Counter = counter;
-      this.Merges = merges;
       this.InsertionLimit = insertionLimit;
+      this.Merges = merges;
       this.InsertionSorter = new InsertionList<T>(Counter);
     }
     #endregion
