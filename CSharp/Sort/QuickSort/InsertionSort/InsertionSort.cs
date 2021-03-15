@@ -14,13 +14,13 @@ namespace Sort {
 
   public class InsertionSort<T> where T : IComparable {
     #region Constructors
-    public InsertionSort(Counter<T> counter = default) {
+    public InsertionSort(ICounter counter = default) {
       this.Counter = counter;
     }
     #endregion
 
     #region Properties
-    public Counter<T> Counter { get; init; }
+    public ICounter Counter { get; init; }
     #endregion
 
     #region Methods
@@ -37,15 +37,15 @@ namespace Sort {
       var entry = entries[index];
 
       while (index > first) {
-        Counter.IncCompare();
+        Counter?.IncCompare();
         if (entries[index - 1].CompareTo(entry) <= 0) break;
 
         entries[index] = entries[--index];
-        Counter.IncMove();
+        Counter?.IncMove();
       }
 
       entries[index] = entry;
-      Counter.IncMove();
+      Counter?.IncMove();
     }
     #endregion
   }

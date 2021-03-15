@@ -19,7 +19,7 @@ namespace Sort {
 
   using static System.String;
 
-  public class Counter<T> where T : IComparable {
+  public class Counter<T> : ICounter where T : IComparable {
     #region Constants
     private const char space = ' ';
 
@@ -31,7 +31,6 @@ namespace Sort {
     protected UInt64 MoveCount { get; set; }
     protected UInt64 PartCount { get; set; }
     public String Mode { get; init; }
-    public Type SortType { get; init; }
     private Stopwatch Timer { get; init; }
     #endregion
 
@@ -42,41 +41,28 @@ namespace Sort {
     }
     #endregion
 
+    #region Interface Methods
+
+    public void IncCompare(UInt64 count = 1) {
+      CompareCount += count;
+    }
+
+    public void IncMove(UInt64 count = 1) {
+      MoveCount += count;
+    }
+
+    public void IncPart(UInt64 count = 1) {
+      PartCount += count;
+    }
+    #endregion
+
     #region Methods
     public void Clear() {
       PartCount = MoveCount = CompareCount = 0;
     }
 
-    public void Reset() {
-      Clear();
-      Timer.Reset();
-    }
-
-    public void Start() {
-      Timer.Start();
-    }
-
-    public void Stop() {
-      Timer.Stop();
-    }
-
-    [Conditional("CountCompare")]
-    public void IncCompare(UInt64 count = 1) {
-      CompareCount += count;
-    }
-
-    [Conditional("CountMove")]
-    public void IncMove(UInt64 count = 1) {
-      MoveCount += count;
-    }
-
-    [Conditional("CountPart")]
-    public void IncPart(UInt64 count = 1) {
-      PartCount += count;
-    }
-
     [Conditional("ShowCounts")]
-    public void Display() {
+    protected void Display() {
       if (CompareCount > 0)
         Console.WriteLine($"CompareCount = {CompareCount:n0}");
 
@@ -87,7 +73,20 @@ namespace Sort {
         Console.WriteLine($"PartCount = {PartCount:n0}");
     }
 
-    public void Header(IEnumerable<T> entries, Boolean print = false, Type sortType = null) {
+    protected void Reset() {
+      Clear();
+      Timer.Reset();
+    }
+
+    protected void Start() {
+      Timer.Start();
+    }
+
+    protected void Stop() {
+      Timer.Stop();
+    }
+
+    protected void Header(IEnumerable<T> entries, Boolean print = false, Type sortType = null) {
       if (print) {
         Console.WriteLine("input:");
         if (entries is not null)
@@ -100,15 +99,15 @@ namespace Sort {
       Console.WriteLine(sb.ToString());
     }
 
-    public void Footer(IEnumerable<T> entries, Boolean print = false, Boolean ascending = true) {
+    protected void Footer(IEnumerable<T> entries, Boolean print = false, Boolean ascending = true) {
       var length = entries.Count();
-      var isSorted = IsSorted(entries, ascending);
+      var sorted = IsSorted(entries, ascending);
 
       //
       // There are 10,000 ticks per msec
       //
       var msec = (Double)Timer.ElapsedTicks / 10000;
-      Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {isSorted}");
+      Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {sorted}");
 
       if (msec == 0)
         Console.WriteLine($"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec");

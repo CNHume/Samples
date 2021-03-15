@@ -63,22 +63,23 @@ namespace Sort {
     /// <param name="entries">Entries array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
-    public Heap(T[] entries, Int32 count, Boolean ascending = true) {
+    public Heap(ICounter counter, T[] entries, Int32 count, Boolean ascending = true) {
       //IsSorted = false;
-      IsAscending = ascending;
-      Entries = entries;
-      Count = count;                    // This Count assignment triggers Build()
+      this.IsAscending = ascending;
+      this.Entries = entries;
+      this.Count = count;               // This Count assignment triggers Build()
+      this.Counter = counter;
     }
 
     /// <summary>Heap Constructor</summary>
     /// <param name="entries">Entries array</param>
-    public Heap(T[] entries)
-      : this(entries, entries is null ? 0 : entries.Length) {
+    public Heap(ICounter counter, T[] entries)
+      : this(counter, entries, entries is null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
-    public Heap()
-      : this((T[])null) {
+    public Heap(ICounter counter = default)
+      : this(counter, default) {
     }
     #endregion
 
@@ -330,6 +331,8 @@ namespace Sort {
         }
       }
     }
+
+    public ICounter Counter { get; init; }
     #endregion
   }
 }

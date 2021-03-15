@@ -29,16 +29,19 @@ namespace Sort {
     #region Methods
     public void Sort(T[] entries, Boolean print) {
       Header(entries, print, GetType());
+      Start();
 
       //
       // Note: The Heap class appropriates the entries array to its own use.
       //       It does not make a private copy!
       //
-      var sorter = new Heap<T>(entries, entries.Length);
+      var sorter = new Heap<T>(this, entries, entries.Length);
 
       for (var trial = 0; trial < SORT_TRIALS; trial++) {
-        if (trial > 0) Reset();
-        Start();
+        if (trial > 0) {
+          Reset();
+          Start();
+        }
 #if TestRuntimeSort
         var ascending = true;
         Array.Sort(entries);

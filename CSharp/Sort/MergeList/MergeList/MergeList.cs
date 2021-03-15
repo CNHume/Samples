@@ -22,7 +22,7 @@ namespace Sort {
     #endregion
 
     #region Properties
-    public Counter<T> Counter { get; init; }
+    public ICounter Counter { get; init; }
     public Int32 InsertionLimit { get; set; }
     protected Int32[] Positions { get; set; }
     private Int32 merges;
@@ -43,7 +43,7 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public MergeList(Counter<T> counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+    public MergeList(ICounter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Counter = counter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;
@@ -74,7 +74,7 @@ namespace Sort {
         var rangeSize = Math.Min(mergeSize, remaining);
         var range = entries.GetRange(left, rangeSize);
         var merge = Sort(range);
-        Counter.IncMove((UInt32)merge.Count);
+        Counter?.IncMove((UInt32)merge.Count);
         ranges.Add(merge);
       }
 
@@ -92,7 +92,7 @@ namespace Sort {
             var next = range[0];
             var isLess = found is null;
             if (found is not null) {
-              Counter.IncCompare();
+              Counter?.IncCompare();
               isLess = node.CompareTo(next) > 0;
             }
 
@@ -105,7 +105,7 @@ namespace Sort {
         if (found is null)
           break;
 
-        Counter.IncMove(2);
+        Counter?.IncMove(2);
         // Remove entry
         found.RemoveAt(0);
         merge.Add(node);
