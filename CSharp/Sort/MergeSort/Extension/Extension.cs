@@ -3,7 +3,9 @@
 //
 namespace Sort.Extension {
   using System;
+  using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
+  using System.Linq;
   using System.Reflection;
   using System.Text;
 
@@ -115,6 +117,24 @@ namespace Sort.Extension {
       var name = obj.ToString();
       var field = type.GetField(name);
       return field?.GetCustomAttribute<DisplayAttribute>();
+    }
+    #endregion
+
+    #region IEnumerable Methods
+    public static Boolean IsSorted<T>(this IEnumerable<T> en, Boolean ascending = true) where T : IComparable {
+      if (en.Any()) {
+        var last = en.First();
+        foreach (var next in en.Skip(1)) {
+          var sense = next.CompareTo(last);
+          if (sense < 0 && ascending ||
+              sense > 0 && !ascending)
+            return false;
+
+          last = next;
+        }
+      }
+
+      return true;
     }
     #endregion
   }

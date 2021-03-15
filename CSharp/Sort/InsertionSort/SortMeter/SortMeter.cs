@@ -100,7 +100,7 @@ namespace Sort {
 
     protected void Footer(IEnumerable<T> entries, Boolean print = false, Boolean ascending = true) {
       var length = entries.Count();
-      var sorted = IsSorted(entries, ascending);
+      var sorted = entries.IsSorted(ascending);
 
       //
       // There are 10,000 ticks per msec
@@ -127,22 +127,6 @@ namespace Sort {
         if (entries is not null)
           Console.WriteLine(Join(commaSpace, entries));
       }
-    }
-
-    public static Boolean IsSorted(IEnumerable<T> en, Boolean ascending = true) {
-      if (en.Any()) {
-        var last = en.First();
-        foreach (var next in en.Skip(1)) {
-          var sense = next.CompareTo(last);
-          if (sense < 0 && ascending ||
-              sense > 0 && !ascending)
-            return false;
-
-          last = next;
-        }
-      }
-
-      return true;
     }
     #endregion
 
