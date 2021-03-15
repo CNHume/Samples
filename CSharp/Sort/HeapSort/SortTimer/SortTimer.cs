@@ -35,7 +35,8 @@ namespace Sort {
       // Note: The Heap class appropriates the entries array to its own use.
       //       It does not make a private copy!
       //
-      var sorter = new Heap<T>(this, entries, entries.Length);
+      var counter = (ICounter)this;
+      var sorter = new Heap<T>(counter, entries, entries.Length);
 
       for (var trial = 0; trial < SORT_TRIALS; trial++) {
         if (trial > 0) {

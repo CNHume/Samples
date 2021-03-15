@@ -29,7 +29,8 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print) {
       Header(entries, print, GetType());
 
-      var sorter = new InsertionSort<T>(this);
+      var counter = (ICounter)this;
+      var sorter = new InsertionSort<T>(counter);
 
       Start();
 #if TestRuntimeSort

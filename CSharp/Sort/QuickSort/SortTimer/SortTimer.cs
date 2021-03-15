@@ -34,9 +34,10 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit) {
       Header(entries, print, GetType());
 
+      var counter = (ICounter)this;
       var sorter = insertionLimit.HasValue ?
-        new QuickSort<T>(this, insertionLimit.Value) :
-        new QuickSort<T>(this);
+        new QuickSort<T>(counter, insertionLimit.Value) :
+        new QuickSort<T>(counter);
 
       Start();
 #if TestRuntimeSort

@@ -32,13 +32,14 @@ namespace Sort {
       var input = entries.ToList();
       Header(input, print, GetType());
 
+      var counter = (ICounter)this;
       var sorter = insertionLimit.HasValue ?
         merges.HasValue ?
-          new MergeList<T>(this, insertionLimit.Value, merges.Value) :
-          new MergeList<T>(this, insertionLimit.Value) :
+          new MergeList<T>(counter, insertionLimit.Value, merges.Value) :
+          new MergeList<T>(counter, insertionLimit.Value) :
         merges.HasValue ?
-          new MergeList<T>(this, MergeList<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
-          new MergeList<T>(this);
+          new MergeList<T>(counter, MergeList<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
+          new MergeList<T>(counter);
 
       Start();
 #if TestRuntimeSort

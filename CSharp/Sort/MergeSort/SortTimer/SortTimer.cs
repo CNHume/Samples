@@ -29,13 +29,14 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit, Int32? merges) {
       Header(entries, print, GetType());
 
+      var counter = (ICounter)this;
       var sorter = insertionLimit.HasValue ?
         merges.HasValue ?
-          new MergeSort<T>(this, insertionLimit.Value, merges.Value) :
-          new MergeSort<T>(this, insertionLimit.Value) :
+          new MergeSort<T>(counter, insertionLimit.Value, merges.Value) :
+          new MergeSort<T>(counter, insertionLimit.Value) :
         merges.HasValue ?
-          new MergeSort<T>(this, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
-          new MergeSort<T>(this);
+          new MergeSort<T>(counter, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
+          new MergeSort<T>(counter);
 
       Start();
 #if TestRuntimeSort
