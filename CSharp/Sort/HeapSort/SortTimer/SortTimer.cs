@@ -7,21 +7,22 @@
 #define ShowCounts
 
 namespace Sort {
+  using Extension;
+
   using System;
   using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
     private const Int32 SORT_TRIALS = 4;
-    private const char space = ' ';
+    private const String space = " ";
     #endregion
 
     #region Constructors
     public SortTimer() {
       var sb = new StringBuilder("Starting");
 #if TestRuntimeSort
-      if (sb.Length > 0) sb.Append(space);
-      sb.Append("Runtime Sort");
+      sb.AppendDelim("RuntimeSort", space);
 #endif
       this.Mode = sb.ToString();
     }
@@ -36,8 +37,8 @@ namespace Sort {
       // Note: The Heap class appropriates the entries array to its own use.
       //       It does not make a private copy!
       //
-      var counter = (IMeter)this;
-      var sorter = new Heap<T>(counter, entries, entries.Length);
+      var meter = (IMeter)this;
+      var sorter = new Heap<T>(meter, entries, entries.Length);
 
       for (var trial = 0; trial < SORT_TRIALS; trial++) {
         if (trial > 0) {

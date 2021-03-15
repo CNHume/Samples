@@ -24,6 +24,8 @@ namespace Sort {
     #endregion
 
     #region Properties
+    public IMeter Meter { get; init; }
+    public Int32 InsertionLimit { get; init; }
     protected Int32[] Positions { get; set; }
 
     private Int32 merges;
@@ -41,17 +43,15 @@ namespace Sort {
       }
     }
 
-    public Int32 InsertionLimit { get; init; }
-    public IMeter Counter { get; init; }
     private InsertionSort<T> InsertionSorter { get; init; }
     #endregion
 
     #region Constructors
-    public MergeSort(IMeter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
-      this.Counter = counter;
+    public MergeSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+      this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;
-      this.InsertionSorter = new InsertionSort<T>(Counter);
+      this.InsertionSorter = new InsertionSort<T>(Meter);
     }
     #endregion
 
@@ -80,7 +80,7 @@ namespace Sort {
       }
 
       Merge(entries1, entries2, first, last);
-      Counter?.IncMove((UInt32)length);
+      Meter?.IncMove((UInt32)length);
       Array.Copy(entries2, first, entries1, first, length);
     }
     #endregion
@@ -107,7 +107,7 @@ namespace Sort {
           var next = entries[left + position];
           var isLess = !found.HasValue;
           if (found.HasValue) {
-            Counter?.IncCompare();
+            Meter?.IncCompare();
             isLess = entry.CompareTo(next) > 0;
           }
 
@@ -118,7 +118,7 @@ namespace Sort {
         }
       }
 
-      Counter?.IncMove(2);
+      Meter?.IncMove(2);
       // Remove entry
       Positions[found.Value]++;
       return entry;

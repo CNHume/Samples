@@ -7,20 +7,21 @@
 #define ShowCounts
 
 namespace Sort {
+  using Extension;
+
   using System;
   using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
-    private const char space = ' ';
+    private const string space = " ";
     #endregion
 
     #region Constructors
     public SortTimer() {
       var sb = new StringBuilder("Starting");
 #if TestRuntimeSort
-      if (sb.Length > 0) sb.Append(space);
-      sb.Append("Runtime Sort");
+      sb.AppendDelim("RuntimeSort", space);
 #endif
       this.Mode = sb.ToString();
     }
@@ -30,14 +31,14 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit, Int32? merges) {
       Header(entries, print, GetType());
 
-      var counter = (IMeter)this;
+      var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
         merges.HasValue ?
-          new MergeSort<T>(counter, insertionLimit.Value, merges.Value) :
-          new MergeSort<T>(counter, insertionLimit.Value) :
+          new MergeSort<T>(meter, insertionLimit.Value, merges.Value) :
+          new MergeSort<T>(meter, insertionLimit.Value) :
         merges.HasValue ?
-          new MergeSort<T>(counter, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
-          new MergeSort<T>(counter);
+          new MergeSort<T>(meter, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
+          new MergeSort<T>(meter);
 
       Start();
 #if TestRuntimeSort

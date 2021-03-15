@@ -8,24 +8,23 @@
 #define ShowCounts
 
 namespace Sort {
+  using Extension;
+
   using System;
   using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
-    private const char space = ' ';
+    private const string space = " ";
     #endregion
 
     #region Constructors
     public SortTimer() {
       var sb = new StringBuilder("Starting");
-#if Tripartite
-      if (sb.Length > 0) sb.Append(space);
-      sb.Append("Tripartite");
-#endif
 #if TestRuntimeSort
-      if (sb.Length > 0) sb.Append(space);
-      sb.Append("Runtime Sort");
+      sb.AppendDelim("RuntimeSort", space);
+#elif Tripartite
+      sb.AppendDelim("Tripartite", space);
 #endif
       this.Mode = sb.ToString();
     }
@@ -35,10 +34,10 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit) {
       Header(entries, print, GetType());
 
-      var counter = (IMeter)this;
+      var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
-        new QuickSort<T>(counter, insertionLimit.Value) :
-        new QuickSort<T>(counter);
+        new QuickSort<T>(meter, insertionLimit.Value) :
+        new QuickSort<T>(meter);
 
       Start();
 #if TestRuntimeSort

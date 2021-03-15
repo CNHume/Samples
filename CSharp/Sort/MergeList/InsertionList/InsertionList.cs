@@ -15,13 +15,13 @@ namespace Sort {
 
   public class InsertionList<T> where T : IComparable {
     #region Constructors
-    public InsertionList(IMeter counter = default) {
-      this.Counter = counter;
+    public InsertionList(IMeter meter = default) {
+      this.Meter = meter;
     }
     #endregion
 
     #region Properties
-    public IMeter Counter { get; init; }
+    public IMeter Meter { get; init; }
     #endregion
 
     #region Methods
@@ -38,15 +38,15 @@ namespace Sort {
       var entry = entries[index];
 
       while (index > first) {
-        Counter?.IncCompare();
+        Meter?.IncCompare();
         if (entries[index - 1].CompareTo(entry) <= 0) break;
 
         entries[index] = entries[--index];
-        Counter?.IncMove();
+        Meter?.IncMove();
       }
 
       entries[index] = entry;
-      Counter?.IncMove();
+      Meter?.IncMove();
     }
     #endregion
   }

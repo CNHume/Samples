@@ -29,9 +29,9 @@ namespace Sort {
     #endregion
 
     #region Properties
+    public IMeter Meter { get; init; }
     public Int32 InsertionLimit { get; init; }
     private Random Random { get; init; }
-    public IMeter Counter { get; init; }
     private InsertionSort<T> InsertionSorter { get; init; }
 
     private T Median { get; set; }
@@ -43,15 +43,15 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter counter, Int32 insertionLimit, Random random) {
+    public QuickSort(IMeter meter, Int32 insertionLimit, Random random) {
+      this.Meter = meter;
       this.InsertionLimit = insertionLimit;
-      this.Counter = counter;
       this.Random = random;
-      this.InsertionSorter = new InsertionSort<T>(Counter);
+      this.InsertionSorter = new InsertionSort<T>(Meter);
     }
 
-    public QuickSort(IMeter counter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
-      : this(counter, insertionLimit, new Random()) {
+    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+      : this(meter, insertionLimit, new Random()) {
     }
     #endregion
 
@@ -118,7 +118,7 @@ namespace Sort {
     }
 
     private void partition(T[] entries) {
-      Counter?.IncPart();
+      Meter?.IncPart();
       var first = Left;
       var last = Right;
 #if Tripartite
@@ -131,13 +131,13 @@ namespace Sort {
         // So, there is no need for Left or Right bound checks
         while (Median.CompareTo(entries[Left]) > 0) {
           Left++;
-          Counter?.IncCompare();
+          Meter?.IncCompare();
         }
         while (Median.CompareTo(entries[Right]) < 0) {
           Right--;
-          Counter?.IncCompare();
+          Meter?.IncCompare();
         }
-        Counter?.IncCompare(2);
+        Meter?.IncCompare(2);
         //[Assert]entries[Right] <= Median <= entries[Left]
         if (Right <= Left) break;
 
@@ -178,7 +178,7 @@ namespace Sort {
       var e = e1;
       e1 = e2;
       e2 = e;
-      Counter?.IncMove(3);
+      Meter?.IncMove(3);
     }
 
     /// <summary>Swap entries at the left and right indicies.</summary>
@@ -195,7 +195,7 @@ namespace Sort {
     private void swapOut(T[] entries) {
       if (Median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
       if (Median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
-      Counter?.IncCompare(2);
+      Meter?.IncCompare(2);
     }
 
     [Conditional("Tripartite")]

@@ -58,28 +58,80 @@ namespace Sort {
     protected Int32 counter;
     #endregion
 
+    #region Properties
+    public IMeter Meter { get; init; }
+    /// <summary>Entries array</summary>
+    public T[] Entries {
+      get {
+        return entries;
+      }
+
+      set {
+        counter = 0;
+        entries = value;
+      }
+    }
+
+    /// <summary>Length of Entries array</summary>
+    /// <value>Entries array Length</value>
+    public Int32 Length {
+      get {
+        return entries is null ? 0 : entries.Length;
+      }
+    }
+
+    /// <summary>Count of entries currently in use</summary>
+    /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
+    /// <value># of entries currently in use</value>
+    public Int32 Count {
+      get {
+        return counter;
+      }
+
+      set {
+        if (value < 0 || value > Length)
+          throw new IndexOutOfRangeException();
+
+        if (value <= counter)
+          counter = value;              // Truncate Heap
+        else if (counter > 0) {
+          while (counter < value)       // Add new Entries
+            SiftUp(entries[counter]);
+        }
+        else {                          // counter == 0
+          counter = value;              // Rebuild Heap
+          Build();
+        }
+      }
+    }
+
+    /// <summary>Heap sense</summary>
+    public Boolean IsAscending { get; protected set; }
+    //public Boolean IsSorted { get; protected set; }
+    #endregion
+
     #region Constructors
     /// <summary>Heap Constructor</summary>
     /// <param name="entries">Entries array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
-    public Heap(IMeter counter, T[] entries, Int32 count, Boolean ascending = true) {
-      //IsSorted = false;
-      this.IsAscending = ascending;
+    public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
+      this.Meter = meter;
       this.Entries = entries;
       this.Count = count;               // This Count assignment triggers Build()
-      this.Counter = counter;
+      this.IsAscending = ascending;
+      //IsSorted = false;
     }
 
     /// <summary>Heap Constructor</summary>
     /// <param name="entries">Entries array</param>
-    public Heap(IMeter counter, T[] entries)
-      : this(counter, entries, entries is null ? 0 : entries.Length) {
+    public Heap(IMeter meter, T[] entries)
+      : this(meter, entries, entries is null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
-    public Heap(IMeter counter = default)
-      : this(counter, default) {
+    public Heap(IMeter meter = default)
+      : this(meter, default) {
     }
     #endregion
 
@@ -280,59 +332,6 @@ namespace Sort {
     IEnumerator IEnumerable.GetEnumerator() {
       return GetEnumerator();           // IEnumerable implementation casts IEnumerator<T> as IEnumerator
     }
-    #endregion
-
-    #region Properties
-    /// <summary>Heap sense</summary>
-    public Boolean IsAscending { get; protected set; }
-    //public Boolean IsSorted { get; protected set; }
-
-    /// <summary>Entries array</summary>
-    public T[] Entries {
-      get {
-        return entries;
-      }
-
-      set {
-        counter = 0;
-        entries = value;
-      }
-    }
-
-    /// <summary>Length of Entries array</summary>
-    /// <value>Entries array Length</value>
-    public Int32 Length {
-      get {
-        return entries is null ? 0 : entries.Length;
-      }
-    }
-
-    /// <summary>Count of entries currently in use</summary>
-    /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
-    /// <value># of entries currently in use</value>
-    public Int32 Count {
-      get {
-        return counter;
-      }
-
-      set {
-        if (value < 0 || value > Length)
-          throw new IndexOutOfRangeException();
-
-        if (value <= counter)
-          counter = value;              // Truncate Heap
-        else if (counter > 0) {
-          while (counter < value)       // Add new Entries
-            SiftUp(entries[counter]);
-        }
-        else {                          // counter == 0
-          counter = value;              // Rebuild Heap
-          Build();
-        }
-      }
-    }
-
-    public IMeter Counter { get; init; }
     #endregion
   }
 }
