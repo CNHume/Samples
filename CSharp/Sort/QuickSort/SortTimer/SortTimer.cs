@@ -33,7 +33,7 @@ namespace Sort {
 
     #region Methods
     public void Sort(T[] entries, Boolean print, Int32? insertionLimit) {
-      Header(entries, print, GetType());
+      Header(entries, print, typeof(QuickSort<T>));
 
       var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?

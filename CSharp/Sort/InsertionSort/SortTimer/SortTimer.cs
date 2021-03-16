@@ -32,13 +32,16 @@ namespace InsertionSort {
 
     #region Methods
     public void Sort(T[] entries, Boolean print) {
-      Header(entries, print, GetType());
-
+#if TestInsertionList
+      var input = entries.ToList();
+      Header(input, print, typeof(InsertionList<T>));
+#else
+      Header(entries, print, typeof(InsertionSort<T>));
+#endif
       var meter = (IMeter)this;
 
       Start();
 #if TestInsertionList
-      var input = entries.ToList();
 #if TestRuntimeSort
       input.Sort();
       var output = input;
@@ -58,6 +61,6 @@ namespace InsertionSort {
       Display();
       Footer(entries, print);
     }
-    #endregion
+#endregion
   }
 }

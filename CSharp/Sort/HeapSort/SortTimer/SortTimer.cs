@@ -31,7 +31,7 @@ namespace Sort {
 
     #region Methods
     public void Sort(T[] entries, Boolean print) {
-      Header(entries, print, GetType());
+      Header(entries, print, typeof(Heap<T>));
       Start();
 
       //

@@ -33,7 +33,7 @@ namespace Sort {
     #region Methods
     public void Sort(IEnumerable<T> entries, Boolean print, Int32? insertionLimit, Int32? merges) {
       var input = entries.ToList();
-      Header(input, print, GetType());
+      Header(input, print, typeof(MergeList<T>));
 
       var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
