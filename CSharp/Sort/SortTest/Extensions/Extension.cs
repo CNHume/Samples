@@ -1,7 +1,7 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-namespace SortTest.Extension {
+namespace SortTest.Extensions {
   using System;
   using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;

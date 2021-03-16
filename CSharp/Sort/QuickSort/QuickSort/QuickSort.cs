@@ -19,6 +19,8 @@
 #define Tripartite
 
 namespace Sort {
+  using InsertionSort;
+
   using SortTest;
 
   using System;

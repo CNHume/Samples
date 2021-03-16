@@ -9,7 +9,7 @@
 namespace Sort {
   using SortTest;
   using SortTest.Exceptions;
-  using SortTest.Extension;
+  using SortTest.Extensions;
 
   using System;
 

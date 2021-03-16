@@ -9,7 +9,7 @@
 //#define ScaleLength
 
 namespace SortTest {
-  using Extension;
+  using Extensions;
 
   using System;
   using System.Collections.Generic;

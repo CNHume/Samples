@@ -4,13 +4,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
 
-    <Title>MergeSort</Title>
+    <Title>mergesort</Title>
     <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See LICENSE.txt for details.</Description>
     <Authors>Christopher N. Hume</Authors>
     <Company>CNHume</Company>
     <Product>MergeSort</Product>
     <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
     <Version>1.0</Version>
+
     <RootNamespace>Sort</RootNamespace>
     <AssemblyName>MergeSort</AssemblyName>
   </PropertyGroup>
@@ -23,6 +24,12 @@
   <ItemGroup>
     <ProjectReference Include="..\InsertionSort\InsertionSort.csproj" />
     <ProjectReference Include="..\SortTest\Sort Test.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

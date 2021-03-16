@@ -8,7 +8,7 @@
 
 namespace Sort {
   using SortTest;
-  using SortTest.Extension;
+  using SortTest.Extensions;
 
   using System;
   using System.Collections.Generic;

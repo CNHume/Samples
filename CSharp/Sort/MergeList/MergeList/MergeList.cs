@@ -12,6 +12,8 @@
 #define CountMove
 
 namespace Sort {
+  using InsertionSort;
+
   using SortTest;
 
   using System;

@@ -9,7 +9,7 @@
 #define CountCompare
 #define CountMove
 
-namespace Sort {
+namespace InsertionSort {
   using SortTest;
 
   using System;

@@ -7,7 +7,7 @@
 // 2017-10-30 CNHume  Added Command class
 // 2014-12-13 CNHume  Added Parse() method
 //
-namespace Sort {
+namespace InsertionSort {
   using SortTest;
 
   using System;

@@ -10,6 +10,7 @@
     <Product>QuickSort</Product>
     <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
     <Version>1.0</Version>
+
     <RootNamespace>Sort</RootNamespace>
     <AssemblyName>quicksort</AssemblyName>
   </PropertyGroup>
@@ -23,5 +24,11 @@
   <ItemGroup>
     <ProjectReference Include="..\InsertionSort\InsertionSort.csproj" />
     <ProjectReference Include="..\SortTest\Sort Test.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
