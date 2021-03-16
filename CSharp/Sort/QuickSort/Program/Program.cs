@@ -11,6 +11,8 @@
 // 2014-12-13 CNHume  Added Parse() method
 //
 namespace Sort {
+  using SortTest;
+
   using System;
 
   class Program {

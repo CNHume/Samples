@@ -15,6 +15,8 @@
 #define CountMove
 
 namespace Sort {
+  using SortTest;
+
   using System;
 
   public class MergeSort<T> where T : IComparable {

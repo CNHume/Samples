@@ -7,11 +7,13 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
-  using Extension;
+  using SortTest;
+  using SortTest.Exceptions;
+  using SortTest.Extension;
 
   using System;
 
-  public class Command {
+  class Command {
     #region Properties
     public Int32? Length { get; set; }
     public Int32? InsertionLimit { get; set; }
@@ -77,7 +79,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: quicksort [-i <insertion-limit>] [-p] [-s (ascending | descending | random)] length");
+        throw new CommandException("Usage: quicksort [-i <insertion-limit>] [-p] [-s (ascending | descending | random)] length");
     }
     #endregion
   }

@@ -7,11 +7,14 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
-  using Extension;
+  using SortTest;
+  using SortTest.Exceptions;
+  using SortTest.Extension;
+
 
   using System;
 
-  public class Command {
+  class Command {
     #region Properties
     public Int32? Length { get; set; }
     public Int32? Merges { get; set; }
@@ -88,7 +91,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: MergeList [-i <insertion-limit>] [-m <merges>] [-p] [-s (ascending | descending | random)] length");
+        throw new CommandException("Usage: MergeList [-i <insertion-limit>] [-m <merges>] [-p] [-s (ascending | descending | random)] length");
     }
     #endregion
   }

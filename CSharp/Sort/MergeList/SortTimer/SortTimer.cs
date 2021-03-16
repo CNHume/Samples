@@ -7,7 +7,8 @@
 #define ShowCounts
 
 namespace Sort {
-  using Extension;
+  using SortTest;
+  using SortTest.Extension;
 
   using System;
   using System.Collections.Generic;

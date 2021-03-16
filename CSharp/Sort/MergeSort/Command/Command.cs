@@ -7,7 +7,9 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
-  using Extension;
+  using SortTest;
+  using SortTest.Exceptions;
+  using SortTest.Extension;
 
   using System;
 
@@ -88,7 +90,7 @@ namespace Sort {
       usage |= n < count;               // superfluous argument specified
 
       if (usage)                        // throw usage line if parse failed
-        throw new ApplicationException("Usage: MergeSort [-i <insertion-limit>] [-m <merges>] [-p] [-s (ascending | descending | random)] length");
+        throw new CommandException("Usage: MergeSort [-i <insertion-limit>] [-m <merges>] [-p] [-s (ascending | descending | random)] length");
     }
     #endregion
   }

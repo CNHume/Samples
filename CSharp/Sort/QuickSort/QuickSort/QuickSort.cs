@@ -19,6 +19,8 @@
 #define Tripartite
 
 namespace Sort {
+  using SortTest;
+
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;

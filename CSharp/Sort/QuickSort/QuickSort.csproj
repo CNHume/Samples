@@ -19,4 +19,9 @@
     <Compile Remove="QuickSort\QuickSortPosted.cs" />
     <Compile Remove="QuickSort\QuickSortTripartite.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InsertionSort\InsertionSort.csproj" />
+    <ProjectReference Include="..\SortTest\Sort Test.csproj" />
+  </ItemGroup>
 </Project>

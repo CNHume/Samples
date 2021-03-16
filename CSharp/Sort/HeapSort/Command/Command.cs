@@ -7,13 +7,13 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
-  using Exceptions;
-
-  using Extension;
+  using SortTest;
+  using SortTest.Exceptions;
+  using SortTest.Extension;
 
   using System;
 
-  public class Command {
+  class Command {
     #region Properties
     public Int32? Length { get; set; }
     public Boolean Print { get; set; }

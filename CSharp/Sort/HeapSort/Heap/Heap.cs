@@ -46,7 +46,9 @@
 //  sorter.Sort();
 //
 namespace Sort {
-  using Exceptions;
+  using SortTest;
+
+  using SortTest.Exceptions;
 
   using System;
   using System.Collections;        // For non-generic IEnumerable

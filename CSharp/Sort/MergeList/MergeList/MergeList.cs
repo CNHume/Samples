@@ -12,6 +12,8 @@
 #define CountMove
 
 namespace Sort {
+  using SortTest;
+
   using System;
   using System.Collections.Generic;
 

@@ -13,10 +13,11 @@ namespace Sort {
   using SortTest;
 
   using System;
+  using System.Collections.Generic;
 
-  public class InsertionSort<T> where T : IComparable {
+  public class InsertionList<T> where T : IComparable {
     #region Constructors
-    public InsertionSort(IMeter meter = default) {
+    public InsertionList(IMeter meter = default) {
       this.Meter = meter;
     }
     #endregion
@@ -26,16 +27,16 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries) {
-      Sort(entries, 0, entries.Length - 1);
+    public void Sort(List<T> entries) {
+      Sort(entries, 0, entries.Count - 1);
     }
 
-    public void Sort(T[] entries, Int32 first, Int32 last) {
+    public void Sort(List<T> entries, Int32 first, Int32 last) {
       for (var index = first + 1; index <= last; index++)
         insert(entries, first, index);
     }
 
-    private void insert(T[] entries, Int32 first, Int32 index) {
+    private void insert(List<T> entries, Int32 first, Int32 index) {
       var entry = entries[index];
 
       while (index > first) {

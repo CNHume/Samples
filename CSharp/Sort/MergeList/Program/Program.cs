@@ -9,6 +9,8 @@
 // 2009-01-07 CNHume  Sort Test Platform
 //
 namespace Sort {
+  using SortTest;
+
   using System;
 
   class Program {
