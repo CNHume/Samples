@@ -3,6 +3,7 @@
 //
 // Conditionals:
 //
+//#define TestInsertionList
 //#define TestRuntimeSort
 #define ShowCounts
 
@@ -11,6 +12,7 @@ namespace InsertionSort {
   using SortTest.Extensions;
 
   using System;
+  using System.Linq;
   using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
@@ -33,13 +35,24 @@ namespace InsertionSort {
       Header(entries, print, GetType());
 
       var meter = (IMeter)this;
-      var sorter = new InsertionSort<T>(meter);
 
       Start();
+#if TestInsertionList
+      var input = entries.ToList();
+#if TestRuntimeSort
+      input.Sort();
+      var output = input;
+#else
+      var sorter = new InsertionList<T>(meter);
+      sorter.Sort(input);
+#endif
+#else
 #if TestRuntimeSort
       Array.Sort(entries);
 #else
+      var sorter = new InsertionSort<T>(meter);
       sorter.Sort(entries);
+#endif
 #endif
       Stop();
       Display();
