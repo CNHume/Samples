@@ -6,9 +6,6 @@
 //
 // Conditionals:
 //
-#define CountCompare
-#define CountMove
-#define CountPart
 //#define VerifyPartitions
 
 //

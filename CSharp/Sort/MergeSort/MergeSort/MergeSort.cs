@@ -9,10 +9,6 @@
 // 2014-12-13 CNHume  Converted from List Ranges to Array Slices
 // 2014-12-09 CNHume  Created File
 //
-// Conditionals:
-//
-#define CountCompare
-#define CountMove
 
 namespace Sort {
   using InsertionSort;

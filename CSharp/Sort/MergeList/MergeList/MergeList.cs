@@ -6,10 +6,6 @@
 //
 // 2014-12-09 CNHume  Created File
 //
-// Conditionals:
-//
-#define CountCompare
-#define CountMove
 
 namespace Sort {
   using InsertionSort;

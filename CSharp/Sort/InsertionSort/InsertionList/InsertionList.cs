@@ -4,10 +4,6 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-// Conditionals:
-//
-#define CountCompare
-#define CountMove
 
 namespace InsertionSort {
   using SortTest;
