@@ -32,29 +32,36 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print, Int32? insertionLimit) {
+    public void Sort(T[] entries, Boolean print, Int32? trials, Int32? insertionLimit) {
+      if (!trials.HasValue) trials = 1;
+
       Header(entries, print, typeof(QuickSort<T>));
+      Start();
 
       var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
         new QuickSort<T>(meter, insertionLimit.Value) :
         new QuickSort<T>(meter);
 
-      Start();
+      for (var trial = 0; trial < trials; trial++) {
+        if (trial > 0) {
+          Reset();
+          Start();
+        }
 #if TestRuntimeSort
-      Array.Sort(entries);
+        Array.Sort(entries);
 #else
-      sorter.Sort(entries);
+        sorter.Sort(entries);
 #endif
-      Stop();
-      Display();
-
-      //
-      // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
-      // For Random Fill with scale = 120
-      // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
-      //
-      Footer(entries, print);
+        Stop();
+        Display();
+        //
+        // On a Dell XPS 9530 [i7-4702HQ @ 2.2 GHz w 16 GB ram] in Release Mode:
+        // For Random Fill with scale = 120
+        // C# sorted 12 M entries in 36 sec, n * Log(n) Rate = ~5.5 MHz
+        //
+        Footer(entries, print);
+      }
     }
     #endregion
   }

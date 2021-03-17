@@ -29,8 +29,11 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print, Int32? insertionLimit, Int32? merges) {
+    public void Sort(T[] entries, Boolean print, Int32? trials, Int32? insertionLimit, Int32? merges) {
+      if (!trials.HasValue) trials = 1;
+
       Header(entries, print, typeof(MergeSort<T>));
+      Start();
 
       var meter = (IMeter)this;
       var sorter = insertionLimit.HasValue ?
@@ -41,15 +44,20 @@ namespace Sort {
           new MergeSort<T>(meter, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
           new MergeSort<T>(meter);
 
-      Start();
+      for (var trial = 0; trial < trials; trial++) {
+        if (trial > 0) {
+          Reset();
+          Start();
+        }
 #if TestRuntimeSort
-      Array.Sort(entries);
+        Array.Sort(entries);
 #else
-      sorter.Sort(entries);
+        sorter.Sort(entries);
 #endif
-      Stop();
-      Display();
-      Footer(entries, print);
+        Stop();
+        Display();
+        Footer(entries, print);
+      }
     }
     #endregion
   }

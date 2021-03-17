@@ -2,7 +2,7 @@
   "profiles": {
     "HeapSort": {
       "commandName": "Project",
-      "commandLineArgs": "-p 24"
+      "commandLineArgs": "-p -t 4 24"
     }
   }
 }

@@ -15,7 +15,6 @@ namespace Sort {
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
-    private const Int32 SORT_TRIALS = 4;
     private const String space = " ";
     #endregion
 
@@ -30,7 +29,9 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print) {
+    public void Sort(T[] entries, Boolean print, Int32? trials) {
+      if (!trials.HasValue) trials = 1;
+
       Header(entries, print, typeof(Heap<T>));
       Start();
 
@@ -41,7 +42,7 @@ namespace Sort {
       var meter = (IMeter)this;
       var sorter = new Heap<T>(meter, entries, entries.Length);
 
-      for (var trial = 0; trial < SORT_TRIALS; trial++) {
+      for (var trial = 0; trial < trials; trial++) {
         if (trial > 0) {
           Reset();
           Start();

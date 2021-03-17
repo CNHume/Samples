@@ -175,20 +175,19 @@ namespace Sort {
 
     #region Swap Methods
     /// <summary>Swap two entities of type T.</summary>
-    public void Swap(ref T e1, ref T e2) {
+    public static void Swap(ref T e1, ref T e2) {
       var e = e1;
       e1 = e2;
       e2 = e;
-      Meter?.IncMove(3);
     }
 
     /// <summary>Swap entries at the left and right indicies.</summary>
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
-    public T[] Swap(T[] entries, Int32 left, Int32 right) {
+    public void Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
-      return entries;
+      Meter?.IncMove(3);
     }
 
     [Conditional("Tripartite")]

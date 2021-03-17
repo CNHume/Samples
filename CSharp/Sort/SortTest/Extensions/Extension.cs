@@ -125,9 +125,7 @@ namespace SortTest.Extensions {
       if (en.Any()) {
         var last = en.First();
         foreach (var next in en.Skip(1)) {
-          var sense = next.CompareTo(last);
-          if (sense < 0 && ascending ||
-              sense > 0 && !ascending)
+          if (IsLess(next, last, ascending))
             return false;
 
           last = next;
@@ -135,6 +133,12 @@ namespace SortTest.Extensions {
       }
 
       return true;
+    }
+
+    public static bool IsLess<T>(T x, T y, bool ascending = true) where T : IComparable {
+      var sense = x.CompareTo(y);
+      return sense < 0 && ascending ||
+             sense > 0 && !ascending;
     }
     #endregion
   }

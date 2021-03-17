@@ -25,7 +25,7 @@ namespace Sort {
           default;
 
         var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.Print);
+        timer.Sort(entries, cmd.Print, cmd.Trials);
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

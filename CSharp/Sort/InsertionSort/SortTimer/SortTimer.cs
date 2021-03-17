@@ -31,36 +31,47 @@ namespace InsertionSort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print) {
+    public void Sort(T[] entries, Boolean print, Int32? trials) {
+      if (!trials.HasValue) trials = 1;
 #if TestInsertionList
       var input = entries.ToList();
       Header(input, print, typeof(InsertionList<T>));
 #else
       Header(entries, print, typeof(InsertionSort<T>));
 #endif
-      var meter = (IMeter)this;
-
       Start();
+      var meter = (IMeter)this;
+#if !TestRuntimeSort
 #if TestInsertionList
-#if TestRuntimeSort
-      input.Sort();
-      var output = input;
-#else
       var sorter = new InsertionList<T>(meter);
-      sorter.Sort(input);
-#endif
-#else
-#if TestRuntimeSort
-      Array.Sort(entries);
 #else
       var sorter = new InsertionSort<T>(meter);
-      sorter.Sort(entries);
 #endif
 #endif
-      Stop();
-      Display();
-      Footer(entries, print);
+      for (var trial = 0; trial < trials; trial++) {
+        if (trial > 0) {
+          Reset();
+          Start();
+        }
+#if TestRuntimeSort
+#if TestInsertionList
+        input.Sort();
+        var output = input;
+#else
+        Array.Sort(entries);
+#endif
+#else
+#if TestInsertionList
+        sorter.Sort(input);
+#else
+        sorter.Sort(entries);
+#endif
+#endif
+        Stop();
+        Display();
+        Footer(entries, print);
+      }
     }
-#endregion
+    #endregion
   }
 }

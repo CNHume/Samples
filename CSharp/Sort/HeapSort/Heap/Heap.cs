@@ -47,8 +47,8 @@
 //
 namespace Sort {
   using SortTest;
-
   using SortTest.Exceptions;
+  using SortTest.Extensions;
 
   using System;
   using System.Collections;        // For non-generic IEnumerable
@@ -62,6 +62,7 @@ namespace Sort {
 
     #region Properties
     public IMeter Meter { get; init; }
+
     /// <summary>Entries array</summary>
     public T[] Entries {
       get {
@@ -190,18 +191,26 @@ namespace Sort {
 
       while (left < counter) {
         var right = left + 1;           // Select greater child:
-        var bRight = right < counter && entries[left].CompareTo(entries[right]) < 0 == IsAscending;
-        var child = bRight ? right : left;
+        var bRight = false;
+        if (right < counter) {
+          Meter?.IncCompare();
+          if (Extension.IsLess(entries[left], entries[right], IsAscending))
+            bRight = true;
+        }
 
-        if (entries[child].CompareTo(value) < 0 == IsAscending)
+        var child = bRight ? right : left;
+        Meter?.IncCompare();
+        if (Extension.IsLess(entries[child], value, IsAscending))
           break;
 
         // Sift Down
+        Meter?.IncMove();
         entries[root] = entries[child];
         root = child;                   // Continue with Child Heap
         left = Left(root);
       }
 
+      Meter?.IncMove();
       entries[root] = value;
     }
 
@@ -239,14 +248,17 @@ namespace Sort {
       var child = counter++;            // Post-Increment Count
       while (child > 0) {
         var parent = Parent(child);
-        if (value.CompareTo(entries[parent]) < 0 == IsAscending)
+        Meter?.IncCompare();
+        if (Extension.IsLess(value, entries[parent], IsAscending))
           break;
 
         // Sift Up:
+        Meter?.IncMove();
         entries[child] = entries[parent];
         child = parent;                 // Continue with Parent Heap
       }
 
+      Meter?.IncMove();
       entries[child] = value;
     }
 
@@ -257,6 +269,7 @@ namespace Sort {
       if (counter < 1)
         throw new HeapUnderflowException();
 
+      Meter?.IncMove();
       var value = entries[0];
 
       if (--counter > 0)                // Pre-Decrement Count
@@ -278,17 +291,11 @@ namespace Sort {
     public void ReverseSort() {
       Sort();
       Reverse();
-    }
-
-    /// <summary>Reverse Entries and Invert Heap sense</summary>
-    /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
-    protected void Reverse() {
       IsAscending = !IsAscending;
-      if (counter < 2) return;
-      for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
-        Swap(Entries, left, right);
     }
+    #endregion
 
+    #region Swap Methods
     /// <summary>Swap two entities of type T.</summary>
     public static void Swap(ref T e1, ref T e2) {
       var e = e1;
@@ -300,8 +307,16 @@ namespace Sort {
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
-    protected static void Swap(T[] entries, Int32 left, Int32 right) {
+    protected void Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
+      Meter?.IncMove(3);
+    }
+
+    /// <summary>Reverse Entries and Invert Heap sense</summary>
+    /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
+    protected void Reverse() {
+      for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
+        Swap(Entries, left, right);
     }
     #endregion
 
@@ -320,6 +335,7 @@ namespace Sort {
       var n = counter;
 
       while (counter > 0) {             // Left-Hand Operand First:
+        Meter?.IncMove();
         yield return entries[counter - 1] = Remove();
       }
 

@@ -2,9 +2,15 @@
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 namespace SortTest {
+  using SortTest.Extensions;
+
   using System;
 
   public class SortData {
+    #region Constants
+    public const SortCase SORTCASE_DEFAULT = SortCase.Rand;
+    #endregion
+
     #region Properties
     public SortCase SortCase { get; set; }
     #endregion
@@ -18,16 +24,16 @@ namespace SortTest {
     #region Methods
     public Int32[] BuildEntries(Int32 length) {
       var dtNow = DateTime.Now;
-      Console.WriteLine($"{dtNow:HH:mm:ss.fff} Building {length:n0} {SortCase} Entries");
+      Console.WriteLine($"{dtNow:HH:mm:ss.fff} Building {length:n0} {SortCase.GetDisplayName()} Entries");
 
       switch (SortCase) {
-      case SortCase.Ascending:
+      case SortCase.Asc:
         return linearEntries(length, ascending: true);
 
-      case SortCase.Descending:
+      case SortCase.Desc:
         return linearEntries(length, ascending: false);
 
-      case SortCase.Random:
+      case SortCase.Rand:
         var seed = (Int32)dtNow.Ticks;
         return randomEntries(length, seed);
 
