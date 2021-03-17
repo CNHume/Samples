@@ -121,13 +121,13 @@ namespace SortTest.Extensions {
     #endregion
 
     #region IEnumerable Methods
-    public static Boolean IsSorted<T>(this IEnumerable<T> en, Boolean ascending = true) where T : IComparable {
+    public static Boolean IsSorted<T>(this IEnumerable<T> en, Boolean isAscending = true) where T : IComparable {
       if (en.Any()) {
         var last = en.First();
         foreach (var next in en.Skip(1)) {
-          if (IsLess(next, last, ascending))
+          if (IsPredecessor(next, last, isAscending))
             return false;
-
+          // Equal OK
           last = next;
         }
       }
@@ -135,10 +135,10 @@ namespace SortTest.Extensions {
       return true;
     }
 
-    public static bool IsLess<T>(T x, T y, bool ascending = true) where T : IComparable {
+    public static bool IsPredecessor<T>(T x, T y, Boolean isAscending = true) where T : IComparable {
       var sense = x.CompareTo(y);
-      return sense < 0 && ascending ||
-             sense > 0 && !ascending;
+      return sense < 0 && isAscending ||
+             sense > 0 && !isAscending;
     }
     #endregion
   }

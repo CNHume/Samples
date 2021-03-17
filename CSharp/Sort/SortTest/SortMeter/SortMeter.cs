@@ -99,9 +99,9 @@ namespace SortTest {
       Console.WriteLine(sb.ToString());
     }
 
-    protected void Footer(IEnumerable<T> entries, Boolean print = false, Boolean ascending = true) {
+    protected void Footer(IEnumerable<T> entries, Boolean print = false, Boolean isAscending = true) {
       var length = entries.Count();
-      var sorted = entries.IsSorted(ascending);
+      var sorted = entries.IsSorted(isAscending);
 
       //
       // There are 10,000 ticks per msec

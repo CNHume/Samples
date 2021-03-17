@@ -194,13 +194,13 @@ namespace Sort {
         var bRight = false;
         if (right < counter) {
           Meter?.IncCompare();
-          if (Extension.IsLess(entries[left], entries[right], IsAscending))
+          if (Extension.IsPredecessor(entries[left], entries[right], IsAscending))
             bRight = true;
         }
 
         var child = bRight ? right : left;
         Meter?.IncCompare();
-        if (Extension.IsLess(entries[child], value, IsAscending))
+        if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
 
         // Sift Down
@@ -249,7 +249,7 @@ namespace Sort {
       while (child > 0) {
         var parent = Parent(child);
         Meter?.IncCompare();
-        if (Extension.IsLess(value, entries[parent], IsAscending))
+        if (Extension.IsPredecessor(value, entries[parent], IsAscending))
           break;
 
         // Sift Up:
