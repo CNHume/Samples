@@ -202,6 +202,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
+        // Continue: entries[child] either precedes or is equal to value
 
         // Sift Down
         Meter?.IncMove();
@@ -217,17 +218,17 @@ namespace Sort {
     /// <summary>Rearrange Entries into a Heap.</summary>
     /// <remarks>O(n)</remarks>
     protected void Build() {            // aka, Heapify
-      if (counter < 2) return;
-
-      //
-      // Calling SiftDown() proceeds from right to left and reduces
-      // the time complexity of this method from O(n log n) to O(n).
-      //
-      // Half of the nodes are leaves; and the expected number of
-      // ordering operations depends on the height of the Heap.
-      //
-      for (var final = counter - 1; final >= 0; final--)
-        SiftDown(entries[final], final);
+      if (counter > 0) {
+        //
+        // Calling SiftDown() proceeds from right to left and reduces
+        // the time complexity of this method from O(n log n) to O(n).
+        //
+        // Half of the nodes are leaves; and the expected number of
+        // ordering operations depends on the height of the Heap.
+        //
+        for (var final = counter - 1; final >= 0; final--)
+          SiftDown(entries[final], final);
+      }
     }
 
     /// <summary>Invert Heap sense.</summary>
@@ -251,6 +252,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(value, entries[parent], IsAscending))
           break;
+        // Continue: entries[parent] either precedes or is equal to value
 
         // Sift Up:
         Meter?.IncMove();
@@ -266,16 +268,17 @@ namespace Sort {
     /// <remarks>O(n)</remarks>
     /// <returns>Value of root entry</returns>
     public T Remove() {                 // Remove minimum entry from the root of the Heap
-      if (counter < 1)
-        throw new HeapUnderflowException();
+      if (counter > 0) {
+        Meter?.IncMove();
+        var value = entries[0];
 
-      Meter?.IncMove();
-      var value = entries[0];
+        if (--counter > 0)              // Pre-Decrement Count
+          SiftDown(entries[counter], 0);// ReverseSort() overwrites this final Entry
 
-      if (--counter > 0)                // Pre-Decrement Count
-        SiftDown(entries[counter], 0);  // ReverseSort() overwrites this final Entry
+        return value;
+      }
 
-      return value;
+      throw new HeapUnderflowException();
     }
     #endregion
 
@@ -283,7 +286,22 @@ namespace Sort {
     /// <summary>Perform HeapSort on the Entries array</summary>
     /// <remarks>O(n log n)</remarks>
     public void Sort() {
-      foreach (var entry in this) ;
+      var valid = Validate();
+      foreach (var entry in this)
+        Meter?.IncMove();
+    }
+
+    private Boolean Validate() {
+      if (counter > 0) {
+        for (var final = counter - 1; final > 0; final--) {
+          var parent = Parent(final);
+          if (Extension.IsPredecessor(entries[parent], entries[final], IsAscending))
+            return false;
+          // Continue: entries[final] either precedes or is equal to entries[parent]
+        }
+      }
+
+      return true;
     }
 
     /// <summary>Perform Reverse HeapSort on the Entries array</summary>
@@ -315,8 +333,10 @@ namespace Sort {
     /// <summary>Reverse Entries and Invert Heap sense</summary>
     /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
     protected void Reverse() {
-      for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
-        Swap(Entries, left, right);
+      if (counter > 0) {
+        for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
+          Swap(Entries, left, right);
+      }
     }
     #endregion
 
@@ -335,8 +355,8 @@ namespace Sort {
       var n = counter;
 
       while (counter > 0) {             // Left-Hand Operand First:
-        Meter?.IncMove();
-        yield return entries[counter - 1] = Remove();
+        var final = counter - 1;
+        yield return entries[final] = Remove();
       }
 
       //IsSorted = true;
