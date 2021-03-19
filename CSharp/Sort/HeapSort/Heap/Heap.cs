@@ -45,6 +45,10 @@
 //
 //  sorter.Sort();
 //
+// Conditionals
+//
+//#define ShowSort
+
 namespace Sort {
   using SortTest;
   using SortTest.Exceptions;
@@ -119,11 +123,13 @@ namespace Sort {
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
     public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
+      //IsSorted = false;
+      this.IsAscending = ascending;
       this.Meter = meter;
       this.Entries = entries;
-      this.Count = count;               // This Count assignment triggers Build()
-      this.IsAscending = ascending;
-      //IsSorted = false;
+
+      //[Warning]Side-effecting setter triggers a Build()
+      this.Count = count;               //[ToDo]Use a SetCount() method here
     }
 
     /// <summary>Heap Constructor</summary>
@@ -202,7 +208,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
-        // Continue: entries[child] either precedes or is equal to value
+        //[Assert]entries[child] either precedes or is equal to value
 
         // Sift Down
         Meter?.IncMove();
@@ -228,6 +234,9 @@ namespace Sort {
         //
         for (var final = counter - 1; final >= 0; final--)
           SiftDown(entries[final], final);
+#if DEBUG
+        var valid = Validate();
+#endif
       }
     }
 
@@ -252,7 +261,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(value, entries[parent], IsAscending))
           break;
-        // Continue: entries[parent] either precedes or is equal to value
+        //[Assert]entries[parent] either precedes or is equal to value
 
         // Sift Up:
         Meter?.IncMove();
@@ -282,26 +291,41 @@ namespace Sort {
     }
     #endregion
 
-    #region Sort Methods
-    /// <summary>Perform HeapSort on the Entries array</summary>
-    /// <remarks>O(n log n)</remarks>
-    public void Sort() {
-      var valid = Validate();
-      foreach (var entry in this)
-        Meter?.IncMove();
-    }
-
+    #region Validation Methods
     private Boolean Validate() {
       if (counter > 0) {
         for (var final = counter - 1; final > 0; final--) {
           var parent = Parent(final);
           if (Extension.IsPredecessor(entries[parent], entries[final], IsAscending))
             return false;
-          // Continue: entries[final] either precedes or is equal to entries[parent]
+          //[Assert]entries[final] either precedes or is equal to entries[parent]
         }
       }
 
       return true;
+    }
+    #endregion
+
+    #region Sort Methods
+    /// <summary>Perform HeapSort on the Entries array</summary>
+    /// <remarks>O(n log n)</remarks>
+    public void Sort() {
+#if DEBUG
+      var valid = Validate();
+#endif
+#if ShowSort
+      Console.WriteLine($"IsAscending was {IsAscending}");
+      var index = 0;
+#endif
+      foreach (var entry in this) {
+        Meter?.IncMove();
+#if ShowSort
+        Console.WriteLine($"{index++}: {entry}");
+#endif
+      }
+#if ShowSort
+      Console.WriteLine($"IsAscending is {IsAscending}");
+#endif
     }
 
     /// <summary>Perform Reverse HeapSort on the Entries array</summary>
@@ -352,16 +376,15 @@ namespace Sort {
     /// </remarks>
     /// <returns>Generic enumerator</returns>
     public IEnumerator<T> GetEnumerator() {
-      var n = counter;
+      var count = counter;
 
-      while (counter > 0) {             // Left-Hand Operand First:
-        var final = counter - 1;
-        yield return entries[final] = Remove();
+      while (counter > 0) {             //[Note]LHS Index evaluates prior to RHS side-effects
+        yield return entries[counter - 1] = Remove();
       }
 
       //IsSorted = true;
       IsAscending = !IsAscending;
-      counter = n;                      // Prevent unecessary Build()
+      counter = count;                  // Avoid unnecessary Build()
     }
 
     /// <summary>Get non-generic enumerator</summary>
