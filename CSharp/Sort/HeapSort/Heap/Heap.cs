@@ -57,6 +57,7 @@ namespace Sort {
   using System;
   using System.Collections;        // For non-generic IEnumerable
   using System.Collections.Generic;
+  using System.Diagnostics;
 
   public class Heap<T> : ICloneable, IEnumerable<T> where T : IComparable {
     #region Fields
@@ -81,11 +82,7 @@ namespace Sort {
 
     /// <summary>Length of Entries array</summary>
     /// <value>Entries array Length</value>
-    public Int32 Length {
-      get {
-        return entries is null ? 0 : entries.Length;
-      }
-    }
+    public Int32 Length => entries is null ? 0 : entries.Length;
 
     /// <summary>Count of entries currently in use</summary>
     /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
@@ -104,6 +101,8 @@ namespace Sort {
         else if (counter > 0) {
           while (counter < value)       // Add new Entries
             SiftUp(entries[counter]);
+
+          Debug.Assert(IsValid, "Invalid Heap");
         }
         else {                          // counter == 0
           counter = value;              // Rebuild Heap
@@ -114,6 +113,7 @@ namespace Sort {
 
     /// <summary>Heap sense</summary>
     public Boolean IsAscending { get; protected set; }
+    public Boolean IsValid => Validate();
     //public Boolean IsSorted { get; protected set; }
     #endregion
 
@@ -124,11 +124,11 @@ namespace Sort {
     /// <param name="ascending">Initial Heap sense</param>
     public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
       //IsSorted = false;
-      this.IsAscending = ascending;
+      this.IsAscending = ascending;     // Set IsAscending prior to setting the Count property!
       this.Meter = meter;
       this.Entries = entries;
 
-      //[Warning]Side-effecting setter triggers a Build()
+      //[Warning]Count setter triggers Build() which depends on the value of IsAscending
       this.Count = count;               //[ToDo]Use a SetCount() method here
     }
 
@@ -234,9 +234,8 @@ namespace Sort {
         //
         for (var final = counter - 1; final >= 0; final--)
           SiftDown(entries[final], final);
-#if DEBUG
-        var valid = Validate();
-#endif
+
+        Debug.Assert(IsValid, "Invalid Heap");
       }
     }
 
@@ -310,9 +309,6 @@ namespace Sort {
     /// <summary>Perform HeapSort on the Entries array</summary>
     /// <remarks>O(n log n)</remarks>
     public void Sort() {
-#if DEBUG
-      var valid = Validate();
-#endif
 #if ShowSort
       Console.WriteLine($"IsAscending was {IsAscending}");
       var index = 0;
@@ -326,6 +322,7 @@ namespace Sort {
 #if ShowSort
       Console.WriteLine($"IsAscending is {IsAscending}");
 #endif
+      Debug.Assert(IsValid, "Invalid Heap");
     }
 
     /// <summary>Perform Reverse HeapSort on the Entries array</summary>
