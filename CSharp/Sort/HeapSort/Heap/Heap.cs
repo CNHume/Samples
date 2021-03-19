@@ -208,7 +208,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
-        //[Assert]entries[child] either precedes or is equal to value
+        //[Assert]The new value either precedes or is equal to entries[child]
 
         // Sift Down
         Meter?.IncMove();
@@ -261,7 +261,7 @@ namespace Sort {
         Meter?.IncCompare();
         if (Extension.IsPredecessor(value, entries[parent], IsAscending))
           break;
-        //[Assert]entries[parent] either precedes or is equal to value
+        //[Assert]entries[parent] either precedes or is equal to the new value
 
         // Sift Up:
         Meter?.IncMove();

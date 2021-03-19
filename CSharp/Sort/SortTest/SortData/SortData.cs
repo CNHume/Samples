@@ -1,6 +1,9 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
+// Conditionals
+//#define DenseEntries
+
 namespace SortTest {
   using SortTest.Extensions;
 
@@ -52,7 +55,11 @@ namespace SortTest {
 
     private static Int32[] randomEntries(Int32 length, Int32 seed) {
       const Int32 scale = 3;
-      var range = scale * length;
+#if DenseEntries
+      var range = length / scale;
+#else
+      var range = length * scale;
+#endif
       var r = new Random(seed);
 
       var entries = new Int32[length];
@@ -61,6 +68,6 @@ namespace SortTest {
 
       return entries;
     }
-    #endregion
+#endregion
   }
 }
