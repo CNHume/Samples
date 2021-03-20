@@ -48,6 +48,7 @@
 // Conditionals
 //
 //#define ShowSort
+//#define ValidateHeap
 
 namespace Sort {
   using SortTest;
@@ -101,8 +102,9 @@ namespace Sort {
         else if (counter > 0) {
           while (counter < value)       // Add new Entries
             SiftUp(entries[counter]);
-
+#if ValidateHeap
           Debug.Assert(IsValid, "Invalid Heap");
+#endif
         }
         else {                          // counter == 0
           counter = value;              // Rebuild Heap
@@ -234,8 +236,9 @@ namespace Sort {
         //
         for (var final = counter - 1; final >= 0; final--)
           SiftDown(entries[final], final);
-
+#if ValidateHeap
         Debug.Assert(IsValid, "Invalid Heap");
+#endif
       }
     }
 
@@ -322,7 +325,9 @@ namespace Sort {
 #if ShowSort
       Console.WriteLine($"IsAscending is {IsAscending}");
 #endif
+#if ValidateHeap
       Debug.Assert(IsValid, "Invalid Heap");
+#endif
     }
 
     /// <summary>Perform Reverse HeapSort on the Entries array</summary>
