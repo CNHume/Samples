@@ -1,5 +1,5 @@
 ﻿//
-// (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 // 2017-03-19 CNHume  Added Intellisense
 // 2017-03-18 CNHume  Renamed IsInverted to IsAscending; simplified control flow
@@ -42,12 +42,20 @@
 //
 //  sorter.Sort();
 //
+// Conditionals
+//
+//#define ShowSort
+//#define ValidateHeap
+
 namespace HeapSort {
   using Exceptions;
+
+  using Extensions;
 
   using System;
   using System.Collections;        // For non-generic IEnumerable
   using System.Collections.Generic;
+  using System.Diagnostics;
 
   public class Heap<T> : ICloneable, IEnumerable<T> where T : IComparable {
     #region Fields
@@ -55,27 +63,83 @@ namespace HeapSort {
     protected Int32 counter;
     #endregion
 
+    #region Properties
+    public IMeter Meter { get; init; }
+
+    /// <summary>Entries array</summary>
+    public T[] Entries {
+      get {
+        return entries;
+      }
+
+      set {
+        counter = 0;
+        entries = value;
+      }
+    }
+
+    /// <summary>Length of Entries array</summary>
+    /// <value>Entries array Length</value>
+    public Int32 Length => entries is null ? 0 : entries.Length;
+
+    /// <summary>Count of entries currently in use</summary>
+    /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
+    /// <value># of entries currently in use</value>
+    public Int32 Count {
+      get {
+        return counter;
+      }
+
+      set {
+        if (value < 0 || value > Length)
+          throw new IndexOutOfRangeException();
+
+        if (value <= counter)
+          counter = value;              // Truncate Heap
+        else if (counter > 0) {
+          while (counter < value)       // Add new Entries
+            SiftUp(entries[counter]);
+#if ValidateHeap
+          Debug.Assert(IsValid, "Invalid Heap");
+#endif
+        }
+        else {                          // counter == 0
+          counter = value;              // Rebuild Heap
+          Build();
+        }
+      }
+    }
+
+    /// <summary>Heap sense</summary>
+    public Boolean IsAscending { get; protected set; }
+    public Boolean IsValid => Validate();
+    //public Boolean IsSorted { get; protected set; }
+    #endregion
+
     #region Constructors
     /// <summary>Heap Constructor</summary>
     /// <param name="entries">Entries array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
-    public Heap(T[] entries, Int32 count, Boolean ascending = true) {
+    public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
       //IsSorted = false;
-      IsAscending = ascending;
-      Entries = entries;
-      Count = count;                    // This Count assignment triggers Build()
+      this.IsAscending = ascending;     // Set IsAscending prior to setting the Count property!
+      this.Meter = meter;
+      this.Entries = entries;
+
+      //[Warning]Count setter triggers Build() which depends on the value of IsAscending
+      this.Count = count;               //[ToDo]Use a SetCount() method here
     }
 
     /// <summary>Heap Constructor</summary>
     /// <param name="entries">Entries array</param>
-    public Heap(T[] entries)
-      : this(entries, entries is null ? 0 : entries.Length) {
+    public Heap(IMeter meter, T[] entries)
+      : this(meter, entries, entries is null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
-    public Heap()
-      : this((T[])null) {
+    public Heap(IMeter meter = default)
+      : this(meter, default) {
     }
     #endregion
 
@@ -132,35 +196,47 @@ namespace HeapSort {
 
       while (left < counter) {
         var right = left + 1;           // Select greater child:
-        var bRight = right < counter && entries[left].CompareTo(entries[right]) < 0 == IsAscending;
-        var child = bRight ? right : left;
+        var bRight = false;
+        if (right < counter) {
+          Meter?.IncCompare();
+          if (Extension.IsPredecessor(entries[left], entries[right], IsAscending))
+            bRight = true;
+        }
 
-        if (entries[child].CompareTo(value) < 0 == IsAscending)
+        var child = bRight ? right : left;
+        Meter?.IncCompare();
+        if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
+        //[Assert]The new value either precedes or is equal to entries[child]
 
         // Sift Down
+        Meter?.IncMove();
         entries[root] = entries[child];
         root = child;                   // Continue with Child Heap
         left = Left(root);
       }
 
+      Meter?.IncMove();
       entries[root] = value;
     }
 
     /// <summary>Rearrange Entries into a Heap.</summary>
     /// <remarks>O(n)</remarks>
     protected void Build() {            // aka, Heapify
-      if (counter < 2) return;
-
-      //
-      // Calling SiftDown() proceeds from right to left and reduces
-      // the time complexity of this method from O(n log n) to O(n).
-      //
-      // Half of the nodes are leaves; and the expected number of
-      // ordering operations depends on the height of the Heap.
-      //
-      for (var final = counter - 1; final >= 0; final--)
-        SiftDown(entries[final], final);
+      if (counter > 0) {
+        //
+        // Calling SiftDown() proceeds from right to left and reduces
+        // the time complexity of this method from O(n log n) to O(n).
+        //
+        // Half of the nodes are leaves; and the expected number of
+        // ordering operations depends on the height of the Heap.
+        //
+        for (var final = counter - 1; final >= 0; final--)
+          SiftDown(entries[final], final);
+#if ValidateHeap
+        Debug.Assert(IsValid, "Invalid Heap");
+#endif
+      }
     }
 
     /// <summary>Invert Heap sense.</summary>
@@ -181,14 +257,18 @@ namespace HeapSort {
       var child = counter++;            // Post-Increment Count
       while (child > 0) {
         var parent = Parent(child);
-        if (value.CompareTo(entries[parent]) < 0 == IsAscending)
+        Meter?.IncCompare();
+        if (Extension.IsPredecessor(value, entries[parent], IsAscending))
           break;
+        //[Assert]entries[parent] either precedes or is equal to the new value
 
         // Sift Up:
+        Meter?.IncMove();
         entries[child] = entries[parent];
         child = parent;                 // Continue with Parent Heap
       }
 
+      Meter?.IncMove();
       entries[child] = value;
     }
 
@@ -196,15 +276,32 @@ namespace HeapSort {
     /// <remarks>O(n)</remarks>
     /// <returns>Value of root entry</returns>
     public T Remove() {                 // Remove minimum entry from the root of the Heap
-      if (counter < 1)
-        throw new HeapUnderflowException();
+      if (counter > 0) {
+        Meter?.IncMove();
+        var value = entries[0];
 
-      var value = entries[0];
+        if (--counter > 0)              // Pre-Decrement Count
+          SiftDown(entries[counter], 0);// ReverseSort() overwrites this final Entry
 
-      if (--counter > 0)                // Pre-Decrement Count
-        SiftDown(entries[counter], 0);  // ReverseSort() overwrites this final Entry
+        return value;
+      }
 
-      return value;
+      throw new HeapUnderflowException();
+    }
+    #endregion
+
+    #region Validation Methods
+    private Boolean Validate() {
+      if (counter > 0) {
+        for (var final = counter - 1; final > 0; final--) {
+          var parent = Parent(final);
+          if (Extension.IsPredecessor(entries[parent], entries[final], IsAscending))
+            return false;
+          //[Assert]entries[final] either precedes or is equal to entries[parent]
+        }
+      }
+
+      return true;
     }
     #endregion
 
@@ -212,7 +309,22 @@ namespace HeapSort {
     /// <summary>Perform HeapSort on the Entries array</summary>
     /// <remarks>O(n log n)</remarks>
     public void Sort() {
-      foreach (var entry in this) ;
+#if ShowSort
+      Console.WriteLine($"IsAscending was {IsAscending}");
+      var index = 0;
+#endif
+      foreach (var entry in this) {
+        Meter?.IncMove();
+#if ShowSort
+        Console.WriteLine($"{index++}: {entry}");
+#endif
+      }
+#if ShowSort
+      Console.WriteLine($"IsAscending is {IsAscending}");
+#endif
+#if ValidateHeap
+      Debug.Assert(IsValid, "Invalid Heap");
+#endif
     }
 
     /// <summary>Perform Reverse HeapSort on the Entries array</summary>
@@ -220,17 +332,11 @@ namespace HeapSort {
     public void ReverseSort() {
       Sort();
       Reverse();
-    }
-
-    /// <summary>Reverse Entries and Invert Heap sense</summary>
-    /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
-    protected void Reverse() {
       IsAscending = !IsAscending;
-      if (counter < 2) return;
-      for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
-        Swap(Entries, left, right);
     }
+    #endregion
 
+    #region Swap Methods
     /// <summary>Swap two entities of type T.</summary>
     public static void Swap(ref T e1, ref T e2) {
       var e = e1;
@@ -242,8 +348,18 @@ namespace HeapSort {
     /// <param name="entries"></param>
     /// <param name="left">Left index</param>
     /// <param name="right">Right index</param>
-    protected static void Swap(T[] entries, Int32 left, Int32 right) {
+    protected void Swap(T[] entries, Int32 left, Int32 right) {
       Swap(ref entries[left], ref entries[right]);
+      Meter?.IncMove(3);
+    }
+
+    /// <summary>Reverse Entries and Invert Heap sense</summary>
+    /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
+    protected void Reverse() {
+      if (counter > 0) {
+        for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
+          Swap(Entries, left, right);
+      }
     }
     #endregion
 
@@ -259,15 +375,15 @@ namespace HeapSort {
     /// </remarks>
     /// <returns>Generic enumerator</returns>
     public IEnumerator<T> GetEnumerator() {
-      var n = counter;
+      var count = counter;
 
-      while (counter > 0) {             // Left-Hand Operand First:
+      while (counter > 0) {             //[Note]LHS Index evaluates prior to RHS side-effects
         yield return entries[counter - 1] = Remove();
       }
 
       //IsSorted = true;
       IsAscending = !IsAscending;
-      counter = n;                      // Prevent unecessary Build()
+      counter = count;                  // Avoid unnecessary Build()
     }
 
     /// <summary>Get non-generic enumerator</summary>
@@ -275,57 +391,6 @@ namespace HeapSort {
     /// <returns>Non-generic enumerator</returns>
     IEnumerator IEnumerable.GetEnumerator() {
       return GetEnumerator();           // IEnumerable implementation casts IEnumerator<T> as IEnumerator
-    }
-    #endregion
-
-    #region Properties
-    /// <summary>Heap sense</summary>
-    public Boolean IsAscending { get; protected set; }
-    //public Boolean IsSorted { get; protected set; }
-
-    /// <summary>Entries array</summary>
-    public T[] Entries {
-      get {
-        return entries;
-      }
-
-      set {
-        counter = 0;
-        entries = value;
-      }
-    }
-
-    /// <summary>Length of Entries array</summary>
-    /// <value>Entries array Length</value>
-    public Int32 Length {
-      get {
-        return entries is null ? 0 : entries.Length;
-      }
-    }
-
-    /// <summary>Count of entries currently in use</summary>
-    /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
-    /// <value># of entries currently in use</value>
-    public Int32 Count {
-      get {
-        return counter;
-      }
-
-      set {
-        if (value < 0 || value > Length)
-          throw new IndexOutOfRangeException();
-
-        if (value <= counter)
-          counter = value;              // Truncate Heap
-        else if (counter > 0) {
-          while (counter < value)       // Add new Entries
-            SiftUp(entries[counter]);
-        }
-        else {                          // counter == 0
-          counter = value;              // Rebuild Heap
-          Build();
-        }
-      }
     }
     #endregion
   }
