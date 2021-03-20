@@ -110,7 +110,7 @@ namespace Engine {
           moves.AddRange(SearchMoves);
 #if DebugSearchMoves
           var sb = new StringBuilder("SearchMoves:");
-          sb.MapMoves(Extensions.AppendPACN, moves, State.Rule);
+          sb.MapMoves(Extension.AppendPACN, moves, State.Rule);
           sb.FlushLine();
 #endif
         }

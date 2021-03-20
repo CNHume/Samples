@@ -45,7 +45,7 @@ namespace Engine {
   using Plane = System.UInt64;
   using Ply = System.UInt16;
 
-  static class Extensions {
+  static class Extension {
     #region Delegates
     public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, CastleRule castle);
     #endregion
@@ -523,7 +523,7 @@ namespace Engine {
     public static StringBuilder WriteMoves(
       this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, CastleRule castle) {
       return bPure ?
-        sb.MapMoves(Extensions.AppendPACN, moves, castle) :
+        sb.MapMoves(Extension.AppendPACN, moves, castle) :
         sb.AppendMoves(moves, wGamePly, bPure, castle);
     }
 
