@@ -12,7 +12,7 @@
     <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
     <Version>1.0</Version>
 
-    <RootNamespace>Sort</RootNamespace>
+    <RootNamespace>HeapSort</RootNamespace>
     <AssemblyName>HeapSort</AssemblyName>
   </PropertyGroup>
 

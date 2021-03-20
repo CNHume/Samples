@@ -7,6 +7,8 @@
 #define ShowCounts
 
 namespace Sort {
+  using MergeSort;
+
   using SortTest;
   using SortTest.Extensions;
 

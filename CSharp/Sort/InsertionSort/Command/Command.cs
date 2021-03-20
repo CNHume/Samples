@@ -6,7 +6,7 @@
 //
 // 2017-10-30 CNHume  Added Command class
 //
-namespace InsertionSort {
+namespace Sort {
   using SortTest;
   using SortTest.Exceptions;
   using SortTest.Extensions;

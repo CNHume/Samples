@@ -7,7 +7,7 @@
 // 2014-12-09 CNHume  Created File
 //
 
-namespace Sort {
+namespace MergeSort {
   using InsertionSort;
 
   using SortTest;

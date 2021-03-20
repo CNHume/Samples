@@ -15,7 +15,7 @@
 //
 #define Tripartite
 
-namespace Sort {
+namespace QuickSort {
   using InsertionSort;
 
   using SortTest;

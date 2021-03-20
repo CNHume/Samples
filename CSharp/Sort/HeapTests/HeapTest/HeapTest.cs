@@ -2,7 +2,7 @@
 // (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 namespace HeapTests {
-  using Sort;
+  using HeapSort;
 
   using System;
 
@@ -29,7 +29,7 @@ namespace HeapTests {
 #if DEBUG
       OutputHelper.WriteLine("TestEnumerator");
 #endif
-      var heap = new Heap<Int32>(null, entries);
+      var heap = new Heap<Int32>(default, entries);
       //heap.Sort();
 #if DEBUG
       OutputHelper.WriteLine(Join(" ", heap));
@@ -43,7 +43,7 @@ namespace HeapTests {
 #if DEBUG
       OutputHelper.WriteLine("CloneTest");
 #endif
-      var heap = new Heap<Int32>(null, entries);
+      var heap = new Heap<Int32>(default, entries);
       var heap2 = (Heap<Int32>)heap.Clone();
       //heap.Sort();
 #if DEBUG

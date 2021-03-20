@@ -7,6 +7,8 @@
 #define ShowCounts
 
 namespace Sort {
+  using HeapSort;
+
   using SortTest;
   using SortTest.Extensions;
 

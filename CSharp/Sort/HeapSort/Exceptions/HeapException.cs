@@ -1,12 +1,12 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-namespace SortTest.Exceptions {
+namespace HeapSort.Exceptions {
   using System;
   using System.Runtime.Serialization;
 
   [Serializable]
-  public class HeapException : ApplicationException, ISerializable {
+  class HeapException : ApplicationException, ISerializable {
     #region Constructors
     public HeapException() {
     }
@@ -26,7 +26,7 @@ namespace SortTest.Exceptions {
   }
 
   [Serializable]
-  public class HeapOverflowException : HeapException, ISerializable {
+  class HeapOverflowException : HeapException, ISerializable {
     #region Constructors
     public HeapOverflowException() {
     }
@@ -46,7 +46,7 @@ namespace SortTest.Exceptions {
   }
 
   [Serializable]
-  public class HeapUnderflowException : HeapException, ISerializable {
+  class HeapUnderflowException : HeapException, ISerializable {
     #region Constructors
     public HeapUnderflowException() {
     }

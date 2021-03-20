@@ -7,7 +7,9 @@
 //#define TestRuntimeSort
 #define ShowCounts
 
-namespace InsertionSort {
+namespace Sort {
+  using InsertionSort;
+
   using SortTest;
   using SortTest.Extensions;
 

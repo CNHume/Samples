@@ -50,9 +50,10 @@
 //#define ShowSort
 //#define ValidateHeap
 
-namespace Sort {
+namespace HeapSort {
+  using Exceptions;
+
   using SortTest;
-  using SortTest.Exceptions;
   using SortTest.Extensions;
 
   using System;

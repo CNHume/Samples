@@ -8,6 +8,8 @@
 #define ShowCounts
 
 namespace Sort {
+  using QuickSort;
+
   using SortTest;
   using SortTest.Extensions;
 
