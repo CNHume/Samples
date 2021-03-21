@@ -64,8 +64,8 @@ namespace HeapSort {
   public class Heap<T> : ICloneable, IEnumerable<T> where T : IComparable {
     #region Fields
     private T[] entries;
-    protected Int32 counter;
-    private bool? isAscending;
+    private Int32 counter;
+    private Boolean? isAscending;
     #endregion
 
     #region Properties
