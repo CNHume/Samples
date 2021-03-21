@@ -7,6 +7,7 @@
 // Conditionals:
 //
 //#define VerifyPartitions
+//#define SampleMiddle
 
 //
 // The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
@@ -22,6 +23,7 @@ namespace QuickSort {
 
   using System;
   using System.Diagnostics;
+  using System.Linq;
   using System.Runtime.CompilerServices;
 
   public class QuickSort<T> where T : IComparable {
@@ -96,19 +98,23 @@ namespace QuickSort {
     }
 
     private void pivot(T[] entries) {
+#if SampleMiddle
+      var middle = (Left + Right + 1) / 2;
+      Median = entries[middle];
+#else
+      var length = Right + 1 - Left;
+      var logLen = (Int32)Math.Log10(length);
       //
       // An odd sample size is chosen based on the log of the interval size.
       // The median of a randomly chosen set of samples is then returned as
       // an estimate of the true median.
       //
-      var length = Right + 1 - Left;
-      var logLen = (Int32)Math.Log10(length);
       var pivotSamples = 2 * logLen + 1;
       var sampleSize = Math.Min(pivotSamples, length);
       var last = Left + sampleSize - 1;
       // Sample without replacement
       for (var first = Left; first <= last; first++) {
-        // Random sampling avoids pathological cases
+        // Sample randomly to avoid pathological cases
         var random = Random.Next(first, Right + 1);
         Swap(entries, first, random);
       }
@@ -116,6 +122,7 @@ namespace QuickSort {
       InsertionSorter.Sort(entries, Left, last);
       //[Test]Console.WriteLine("Samples: " + String.Join(" ", entries.Skip(Left).Take(sampleSize)));
       Median = entries[Left + sampleSize / 2];
+#endif
     }
 
     private void partition(T[] entries) {
