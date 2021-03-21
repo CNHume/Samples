@@ -130,16 +130,16 @@ namespace Engine {
         SortMoves[nGenerated++] = new SortMove(move, nGenerated, mValue, wDepth);
       }
 #if LazyMoveSort
-      PriorityMove.Count = 0;           // Truncate Heap, preparing to rebuild.
+      PriorityMove.SetCount(0);         // Truncate Heap, preparing to rebuild.
       if (!PriorityMove.IsAscending)
         PriorityMove.Invert();          // Build() deferred until Count is set.
 
       //
-      //[Note]The following causes a Heap.Build(), converting SortMoves[] into a Heap:
+      //[Note]The following invokes Heap.Build(), converting SortMoves[] into a Heap:
       //
-      PriorityMove.Count = (Int32)nGenerated;
+      PriorityMove.SetCount(nGenerated);
 #else
-      Array.Sort<SortMove>(SortMoves, 0, (Int32)nGenerated);
+      Array.Sort<SortMove>(SortMoves, 0, nGenerated);
 #endif
 #if DebugMoveOrder
       if (IsTrace()) {

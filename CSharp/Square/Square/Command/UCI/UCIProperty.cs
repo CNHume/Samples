@@ -76,7 +76,7 @@ namespace Command {
     // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
     // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
     // 67. Kf4 Ra4+ 68. Kf5 Rd4 69. Rd8 Rd5+ 70. Kg4 Kf7 71. Rf8+ Kg7 72. Rg8+ Kf7 73. Nf6
-    //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [12-ply in 3.5 sec to find 1. Bd7!]
+    "8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [12-ply in 3.5 sec to find 1. Bd7!]
     //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike's "Famous Study"
     // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
     // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
@@ -139,7 +139,7 @@ namespace Command {
     //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24";  // Wood v Sowell 2014-07-16
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line, 13-ply in 2:26:24
-    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8, 13-ply in 37 sec
+    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [13-ply in 21.1 sec over 26.96 Mnode, formerly 37 sec]
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply @1.079 MHz in 21:23 over 10.9 Gnode, formerly 5:40:54] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
@@ -173,10 +173,10 @@ namespace Command {
     //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.05 at 17-ply in 7:38.25]
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 1:47.89 w Singular
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 16.61 sec over 18.42 Mnodes [formerly 1:47.89 w Singular]
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
-    "r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]
+    //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]
     //"r2q1rk1/pp2ppbp/2p2np1/6B1/3PP1b1/Q1P2N2/P4PPP/3RKB1R b K - 0 13"; // Byrne vs Fischer 13
     //"r2q1rk1/pp2ppbp/1np2np1/2Q3B1/3PP1b1/2N2N2/PP3PPP/3RKB1R b K - 0 11"; // Byrne vs Fischer 11 >11-ply
     //"8/K1P5/8/3q4/4k3/8/8/8 b - - 0 1";

@@ -61,10 +61,17 @@ namespace HeapSort {
     #region Fields
     private T[] entries;
     protected Int32 counter;
+    private bool? isAscending;
     #endregion
 
     #region Properties
+    /// <summary>Optional Sort Performance Meter</summary>
     public IMeter Meter { get; init; }
+
+    /// <summary>Heap sense</summary>
+    public Boolean IsAscending { get => isAscending.Value; set => isAscending = value; }
+    public Boolean IsValid => Validate();
+    //public Boolean IsSorted { get; protected set; }
 
     /// <summary>Entries array</summary>
     public T[] Entries {
@@ -83,37 +90,28 @@ namespace HeapSort {
     public Int32 Length => entries is null ? 0 : entries.Length;
 
     /// <summary>Count of entries currently in use</summary>
-    /// <remarks>Count assignment performs Heap operations appropriate to the change in value</remarks>
-    /// <value># of entries currently in use</value>
-    public Int32 Count {
-      get {
-        return counter;
-      }
+    public Int32 Count => counter;
 
-      set {
-        if (value < 0 || value > Length)
-          throw new IndexOutOfRangeException();
+    /// <summary>Perform Heap operations appropriate to setting the new value of Count</summary>
+    /// <param name="count"># of entries currently in use</param>
+    public void SetCount(Int32 count) {
+      if (count < 0 || count > Length)
+        throw new IndexOutOfRangeException();
 
-        if (value <= counter)
-          counter = value;              // Truncate Heap
-        else if (counter > 0) {
-          while (counter < value)       // Add new Entries
-            SiftUp(entries[counter]);
+      if (count <= counter)
+        counter = count;              // Truncate Heap
+      else if (counter > 0) {
+        while (counter < count)       // Add new Entries
+          SiftUp(entries[counter]);
 #if ValidateHeap
           Debug.Assert(IsValid, "Invalid Heap");
 #endif
-        }
-        else {                          // counter == 0
-          counter = value;              // Rebuild Heap
-          Build();
-        }
+      }
+      else {                          // counter == 0
+        counter = count;              // Rebuild Heap
+        Build();
       }
     }
-
-    /// <summary>Heap sense</summary>
-    public Boolean IsAscending { get; protected set; }
-    public Boolean IsValid => Validate();
-    //public Boolean IsSorted { get; protected set; }
     #endregion
 
     #region Constructors
@@ -122,13 +120,13 @@ namespace HeapSort {
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
     public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
+      this.IsAscending = ascending;     // Must be set IsAscending prior to invoking the Count setter!
       //IsSorted = false;
-      this.IsAscending = ascending;     // Set IsAscending prior to setting the Count property!
       this.Meter = meter;
       this.Entries = entries;
 
-      //[Warning]Count setter triggers Build() which depends on the value of IsAscending
-      this.Count = count;               //[ToDo]Use a SetCount() method here
+      //[Note]Setting the Count triggers a Build() which depends on the value of IsAscending
+      SetCount(count);
     }
 
     /// <summary>Heap Constructor</summary>
