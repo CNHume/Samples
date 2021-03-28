@@ -28,22 +28,26 @@ namespace InsertionSort {
     }
 
     public void Sort(List<T> entries, Int32 first, Int32 last) {
-      for (var index = first + 1; index <= last; index++)
-        insert(entries, first, index);
+      for (var next = first + 1; next <= last; next++)
+        insert(entries, first, next);
     }
 
-    private void insert(List<T> entries, Int32 first, Int32 index) {
-      var entry = entries[index];
+    /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
+    /// <param name="entries"></param>
+    /// <param name="first">Index of first entry</param>
+    /// <param name="next">Index of next entry to be sorted</param>
+    private void insert(List<T> entries, Int32 first, Int32 next) {
+      var entry = entries[next];
 
-      while (index > first) {
+      while (next > first) {
         Meter?.IncCompare();
-        if (entries[index - 1].CompareTo(entry) <= 0) break;
+        if (entries[next - 1].CompareTo(entry) <= 0) break;
 
-        entries[index] = entries[--index];
+        entries[next] = entries[--next];
         Meter?.IncMove();
       }
 
-      entries[index] = entry;
+      entries[next] = entry;
       Meter?.IncMove();
     }
     #endregion
