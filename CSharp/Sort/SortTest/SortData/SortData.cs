@@ -64,7 +64,7 @@ namespace SortTest {
 
       var entries = new Int32[length];
       for (var index = 0; index < length; index++)
-        entries[index] = r.Next(range) + 1;
+        entries[index] = r.Next(range);
 
       return entries;
     }

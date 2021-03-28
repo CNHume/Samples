@@ -113,7 +113,7 @@ namespace SortTest {
         Console.WriteLine($"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec");
       else {
 #if ScaleLength
-        var dNLogN = length * log(length);
+        var dNLogN = length * Math.Log10(length);
         var rate = dNLogN / msec;
         Console.WriteLine(
           $"Sorted a total of {length:n0} * log(n) = {dNLogN:0.0##} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
@@ -128,12 +128,6 @@ namespace SortTest {
         if (entries is not null)
           Console.WriteLine(Join(commaSpace, entries));
       }
-    }
-    #endregion
-
-    #region Math Methods
-    private static double log(Int32 length) {
-      return Math.Log10(length);
     }
     #endregion
   }
