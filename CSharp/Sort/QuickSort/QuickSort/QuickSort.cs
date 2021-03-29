@@ -115,18 +115,17 @@ namespace QuickSort {
 #else
       var samples = QuickSort<T>.sampleSize(length);
       for (var sample = 0; sample < samples; sample++) {
+        var first = Left + sample;
 #if SampleRandomly
         // Sample randomly, without replacement:
-        var first = Left + sample;
-        var random = Random.Next(first, Right + 1);
-        //Debug.Assert(random <= Right, $"random = {random} > Right = {Right}");
-        //Debug.Assert(first <= random, $"random = {random} < first = {first}");
-        Samples[sample] = entries[random];
+        var index = Random.Next(first, Right + 1);
 #else
         // Sample Linearly:
-        var index = length * sample / samples;
-        Samples[sample] = entries[Left + index];
+        var index = length * sample / samples + Left;
 #endif
+        Debug.Assert(first <= index, $"index = {index} < first = {first}");
+        Debug.Assert(index <= Right, $"index = {index} > Right = {Right}");
+        Samples[sample] = entries[index];
       }
 
       InsertionSorter.Sort(Samples, 0, samples - 1);
