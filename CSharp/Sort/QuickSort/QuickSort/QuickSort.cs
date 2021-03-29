@@ -9,7 +9,6 @@
 //#define VerifyPartitions
 //#define TestSamples
 //#define SampleMiddle
-//#define SampleRandomly
 
 //
 // The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
@@ -37,11 +36,8 @@ namespace QuickSort {
     #region Properties
     public IMeter Meter { get; init; }
     public Int32 InsertionLimit { get; init; }
-
     private InsertionSort<T> InsertionSorter { get; init; }
-#if SampleRandomly
-    private Random Random { get; init; }
-#endif
+
     private T[] Samples { get; init; }
     private T Median { get; set; }
 
@@ -52,18 +48,11 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter meter, Int32 insertionLimit, Random random) {
+    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
-#if SampleRandomly
-      this.Random = random;
-#endif
       this.Samples = new T[SAMPLES_MAX];
-    }
-
-    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
-      : this(meter, insertionLimit, new Random()) {
     }
     #endregion
 
@@ -115,19 +104,11 @@ namespace QuickSort {
 #else
       var samples = QuickSort<T>.sampleSize(length);
       for (var sample = 0; sample < samples; sample++) {
-        var first = Left + sample;
-#if SampleRandomly
-        // Sample randomly, without replacement:
-        var index = Random.Next(first, Right + 1);
-#else
         // Sample Linearly:
         var index = length * sample / samples + Left;
-#endif
-        Debug.Assert(first <= index, $"index = {index} < first = {first}");
-        Debug.Assert(index <= Right, $"index = {index} > Right = {Right}");
         Samples[sample] = entries[index];
       }
-
+      Meter?.IncMove((UInt32)samples);
       InsertionSorter.Sort(Samples, 0, samples - 1);
 #if TestSamples
       if (samples > 10)

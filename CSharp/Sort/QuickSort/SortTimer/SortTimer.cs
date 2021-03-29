@@ -5,7 +5,6 @@
 //
 //#define TestRuntimeSort
 //#define SampleMiddle
-//#define SampleRandomly
 #define Tripartite
 #define ShowCounts
 
@@ -31,8 +30,6 @@ namespace Sort {
 #else
 #if SampleMiddle
       sb.AppendDelim("SampleMiddle", space);
-#elif SampleRandomly
-      sb.AppendDelim("SampleRandomly", space);
 #endif
 #if Tripartite
       sb.AppendDelim("Tripartite", space);
