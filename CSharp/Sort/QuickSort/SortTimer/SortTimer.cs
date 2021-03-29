@@ -4,6 +4,8 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
+//#define SampleMiddle
+//#define SampleRandomly
 #define Tripartite
 #define ShowCounts
 
@@ -26,8 +28,15 @@ namespace Sort {
       var sb = new StringBuilder("Starting");
 #if TestRuntimeSort
       sb.AppendDelim("RuntimeSort", space);
-#elif Tripartite
+#else
+#if SampleMiddle
+      sb.AppendDelim("SampleMiddle", space);
+#elif SampleRandomly
+      sb.AppendDelim("SampleRandomly", space);
+#endif
+#if Tripartite
       sb.AppendDelim("Tripartite", space);
+#endif
 #endif
       this.Mode = sb.ToString();
     }
