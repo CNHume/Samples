@@ -103,7 +103,7 @@ namespace QuickSort {
       var middle = length / 2;
       return entries[Left + middle];
 #else
-      var samples = QuickSort<T>.sampleSize(length);
+      var samples = sampleSize(length);
       for (var sample = 0; sample < samples; sample++) {
         // Sample Linearly:
         var index = length * sample / samples + Left;

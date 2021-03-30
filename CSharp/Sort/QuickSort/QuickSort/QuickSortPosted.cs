@@ -5,20 +5,19 @@
 //
 #define Tripartite
 
-namespace Sort {
+namespace RosettaCode {
   using System;
   using System.Diagnostics;
 
-  class QuickSort<T> where T : IComparable {
+  public class QuickSort<T> where T : IComparable {
     #region Constants
-    private const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    private const Int32 SAMPLES_MAX = 19;
     #endregion
 
     #region Properties
-    public Int32 InsertionLimit { get; set; }
-    private Random Random { get; set; }
-    private T Median { get; set; }
-
+    public Int32 InsertionLimit { get; init; }
+    private T[] Samples { get; init; }
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
     private Int32 LeftMedian { get; set; }
@@ -26,17 +25,9 @@ namespace Sort {
     #endregion
 
     #region Constructors
-    public QuickSort(Int32 insertionLimit, Random random) {
+    public QuickSort(Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
       this.InsertionLimit = insertionLimit;
-      this.Random = random;
-    }
-
-    public QuickSort(Int32 insertionLimit)
-      : this(insertionLimit, new Random()) {
-    }
-
-    public QuickSort()
-      : this(INSERTION_LIMIT_DEFAULT) {
+      this.Samples = new T[SAMPLES_MAX];
     }
     #endregion
 
@@ -55,8 +46,8 @@ namespace Sort {
 
         Left = first;
         Right = last;
-        pivot(entries);
-        partition(entries);
+        var median = pivot(entries);
+        partition(median, entries);
         //[Note]Right < Left
 
         var leftLength = Right + 1 - first;
@@ -79,29 +70,32 @@ namespace Sort {
       }
     }
 
-    private void pivot(T[] entries) {
+    private static Int32 sampleSize(Int32 length) {
+      var logLen = (Int32)Math.Log10(length);
       //
       // An odd sample size is chosen based on the log of the interval size.
       // The median of a randomly chosen set of samples is then returned as
       // an estimate of the true median.
       //
-      var length = Right + 1 - Left;
-      var logLen = (Int32)Math.Log10(length);
-      var pivotSamples = 2 * logLen + 1;
-      var sampleSize = Math.Min(pivotSamples, length);
-      var last = Left + sampleSize - 1;
-      // Sample without replacement
-      for (var first = Left; first <= last; first++) {
-        // Random sampling avoids pathological cases
-        var random = Random.Next(first, Right + 1);
-        Swap(entries, first, random);
-      }
-
-      InsertionSort<T>.Sort(entries, Left, last);
-      Median = entries[Left + sampleSize / 2];
+      var samples = Math.Min(2 * logLen + 1, SAMPLES_MAX);
+      return Math.Min(samples, length);
     }
 
-    private void partition(T[] entries) {
+    /// <summary>Estimate the median value of entries[Left:Right]</summary>
+    private T pivot(T[] entries) {
+      var length = Right + 1 - Left;
+      var samples = sampleSize(length);
+      for (var sample = 0; sample < samples; sample++) {
+        // Sample Linearly:
+        var index = length * sample / samples + Left;
+        Samples[sample] = entries[index];
+      }
+      InsertionSort<T>.Sort(Samples, 0, samples - 1);
+      var middle = samples / 2;
+      return Samples[middle];
+    }
+
+    private void partition(T median, T[] entries) {
       var first = Left;
       var last = Right;
 #if Tripartite
@@ -109,20 +103,20 @@ namespace Sort {
       RightMedian = last;
 #endif
       while (true) {
-        //[Assert]There exists some index >= Left where entries[index] >= Median
-        //[Assert]There exists some index <= Right where entries[index] <= Median
+        //[Assert]There exists some index >= Left where entries[index] >= median
+        //[Assert]There exists some index <= Right where entries[index] <= median
         // So, there is no need for Left or Right bound checks
-        while (Median.CompareTo(entries[Left]) > 0) Left++;
-        while (Median.CompareTo(entries[Right]) < 0) Right--;
+        while (median.CompareTo(entries[Left]) > 0) Left++;
+        while (median.CompareTo(entries[Right]) < 0) Right--;
 
-        //[Assert]entries[Right] <= Median <= entries[Left]
+        //[Assert]entries[Right] <= median <= entries[Left]
         if (Right <= Left) break;
 
         Swap(entries, Left, Right);
-        swapOut(entries);
+        swapOut(median, entries);
         Left++;
         Right--;
-        //[Assert]entries[first:Left - 1] <= Median <= entries[Right + 1:last]
+        //[Assert]entries[first:Left - 1] <= median <= entries[Right + 1:last]
       }
 
       if (Left == Right) {
@@ -132,16 +126,16 @@ namespace Sort {
       //[Assert]Right < Left
       swapIn(entries, first, last);
 
-      //[Assert]entries[first:Right] <= Median <= entries[Left:last]
-      //[Assert]entries[Right + 1:Left - 1] == Median when non-empty
+      //[Assert]entries[first:Right] <= median <= entries[Left:last]
+      //[Assert]entries[Right + 1:Left - 1] == median when non-empty
     }
     #endregion
 
     #region Swap Methods
     [Conditional("Tripartite")]
-    private void swapOut(T[] entries) {
-      if (Median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
-      if (Median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
+    private void swapOut(T median, T[] entries) {
+      if (median.CompareTo(entries[Left]) == 0) Swap(entries, LeftMedian++, Left);
+      if (median.CompareTo(entries[Right]) == 0) Swap(entries, Right, RightMedian--);
     }
 
     [Conditional("Tripartite")]
@@ -151,12 +145,16 @@ namespace Sort {
       while (RightMedian < last) Swap(entries, Left++, last--);
     }
 
-    public static void Swap(T[] entries, Int32 index1, Int32 index2) {
-      if (index1 != index2) {
-        var entry = entries[index1];
-        entries[index1] = entries[index2];
-        entries[index2] = entry;
-      }
+    /// <summary>Swap entries at the left and right indicies.</summary>
+    public void Swap(T[] entries, Int32 left, Int32 right) {
+      Swap(ref entries[left], ref entries[right]);
+    }
+
+    /// <summary>Swap two entities of type T.</summary>
+    public static void Swap(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
     }
     #endregion
   }
@@ -164,15 +162,16 @@ namespace Sort {
   #region Insertion Sort
   static class InsertionSort<T> where T : IComparable {
     public static void Sort(T[] entries, Int32 first, Int32 last) {
-      for (var index = first + 1; index <= last; index++)
-        insert(entries, first, index);
+      for (var next = first + 1; next <= last; next++)
+        insert(entries, first, next);
     }
 
-    private static void insert(T[] entries, Int32 first, Int32 index) {
-      var entry = entries[index];
-      while (index > first && entries[index - 1].CompareTo(entry) > 0)
-        entries[index] = entries[--index];
-      entries[index] = entry;
+    /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
+    private static void insert(T[] entries, Int32 first, Int32 next) {
+      var entry = entries[next];
+      while (next > first && entries[next - 1].CompareTo(entry) > 0)
+        entries[next] = entries[--next];
+      entries[next] = entry;
     }
   }
   #endregion
