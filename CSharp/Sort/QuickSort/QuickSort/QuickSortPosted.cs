@@ -70,26 +70,25 @@ namespace RosettaCode {
       }
     }
 
-    private static Int32 sampleSize(Int32 length) {
+    /// <summary>Return an odd sample size proportional to the log of a large interval size.</summary>
+    private static Int32 sampleSize(Int32 length, Int32 max = SAMPLES_MAX) {
       var logLen = (Int32)Math.Log10(length);
-      //
-      // An odd sample size is chosen based on the log of the interval size.
-      // The median of a randomly chosen set of samples is then returned as
-      // an estimate of the true median.
-      //
-      var samples = Math.Min(2 * logLen + 1, SAMPLES_MAX);
+      var samples = Math.Min(2 * logLen + 1, max);
       return Math.Min(samples, length);
     }
 
     /// <summary>Estimate the median value of entries[Left:Right]</summary>
+    /// <remarks>The sample median is used as an estimate the true median.</remarks>
     private T pivot(T[] entries) {
       var length = Right + 1 - Left;
       var samples = sampleSize(length);
+      // Sample Linearly:
       for (var sample = 0; sample < samples; sample++) {
-        // Sample Linearly:
-        var index = length * sample / samples + Left;
+        // Guard against Arithmetic Overflow:
+        var index = (Int64)length * sample / samples + Left;
         Samples[sample] = entries[index];
       }
+
       InsertionSort<T>.Sort(Samples, 0, samples - 1);
       var middle = samples / 2;
       return Samples[middle];

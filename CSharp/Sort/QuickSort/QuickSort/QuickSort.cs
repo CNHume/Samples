@@ -94,9 +94,15 @@ namespace QuickSort {
       }
     }
 
+    /// <summary>Return an odd sample size proportional to the log of a large interval size.</summary>
+    private static Int32 sampleSize(Int32 length, Int32 max = SAMPLES_MAX) {
+      var logLen = (Int32)Math.Log10(length);
+      var samples = Math.Min(2 * logLen + 1, max);
+      return Math.Min(samples, length);
+    }
+
     /// <summary>Estimate the median value of entries[Left:Right]</summary>
-    /// <param name="entries"></param>
-    /// <returns>An estimate of the median value</returns>
+    /// <remarks>The sample median is used as an estimate the true median.</remarks>
     private T pivot(T[] entries) {
       var length = Right + 1 - Left;
 #if SampleMiddle
@@ -104,9 +110,10 @@ namespace QuickSort {
       return entries[Left + middle];
 #else
       var samples = sampleSize(length);
+      // Sample Linearly:
       for (var sample = 0; sample < samples; sample++) {
-        // Sample Linearly:
-        var index = length * sample / samples + Left;
+        // Guard against Arithmetic Overflow:
+        var index = (Int64)length * sample / samples + Left;
         Samples[sample] = entries[index];
       }
       Meter?.IncMove((UInt32)samples);
@@ -176,22 +183,6 @@ namespace QuickSort {
     #endregion
 
     #region Swap Methods
-    /// <summary>Swap two entities of type T.</summary>
-    public static void Swap(ref T e1, ref T e2) {
-      var e = e1;
-      e1 = e2;
-      e2 = e;
-    }
-
-    /// <summary>Swap entries at the left and right indicies.</summary>
-    /// <param name="entries"></param>
-    /// <param name="left">Index of left entry</param>
-    /// <param name="right">Index of right entry</param>
-    public void Swap(T[] entries, Int32 left, Int32 right) {
-      Swap(ref entries[left], ref entries[right]);
-      Meter?.IncMove(3);
-    }
-
     [Conditional("Tripartite")]
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void swapOut(T median, T[] entries) {
@@ -207,19 +198,18 @@ namespace QuickSort {
       while (first < LeftMedian) Swap(entries, first++, Right--);
       while (RightMedian < last) Swap(entries, Left++, last--);
     }
-    #endregion
 
-    #region Sample Methods
-    private static Int32 sampleSize(Int32 length) {
-      var logLen = (Int32)Math.Log10(length);
+    /// <summary>Swap entries at the left and right indicies.</summary>
+    public void Swap(T[] entries, Int32 left, Int32 right) {
+      Swap(ref entries[left], ref entries[right]);
+      Meter?.IncMove(3);
+    }
 
-      //
-      // An odd sample size is chosen based on the log of the interval size.
-      // The median of a randomly chosen set of samples is then returned as
-      // an estimate of the true median.
-      //
-      var samples = Math.Min(2 * logLen + 1, SAMPLES_MAX);
-      return Math.Min(samples, length);
+    /// <summary>Swap two entities of type T.</summary>
+    public static void Swap(ref T e1, ref T e2) {
+      var e = e1;
+      e1 = e2;
+      e2 = e;
     }
     #endregion
   }
