@@ -4,6 +4,7 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
+//#define SwapInPlace
 //#define SampleMiddle
 #define Tripartite
 #define ShowCounts
@@ -42,15 +43,24 @@ namespace Sort {
     #region Methods
     public void Sort(T[] entries, Boolean print, Int32? trials, Int32? insertionLimit) {
       if (!trials.HasValue) trials = 1;
-
-      Header(entries, print, typeof(QuickSort<T>));
+#if SwapInPlace
+      var type = typeof(QuickSortSwapInPlace<T>);
+#else
+      var type = typeof(QuickSort<T>);
+#endif
+      Header(entries, print, type);
       Start();
 
       var meter = (IMeter)this;
+#if SwapInPlace
+      var sorter = insertionLimit.HasValue ?
+        new QuickSortSwapInPlace<T>(meter, insertionLimit.Value) :
+        new QuickSortSwapInPlace<T>(meter);
+#else
       var sorter = insertionLimit.HasValue ?
         new QuickSort<T>(meter, insertionLimit.Value) :
         new QuickSort<T>(meter);
-
+#endif
       for (var trial = 0; trial < trials; trial++) {
         if (trial > 0) {
           Reset();
@@ -71,6 +81,6 @@ namespace Sort {
         Footer(entries, print);
       }
     }
-    #endregion
+#endregion
   }
 }

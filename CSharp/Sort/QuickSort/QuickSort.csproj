@@ -18,6 +18,7 @@
   <ItemGroup>
     <Compile Remove="QuickSort\QuickSortBasic.cs" />
     <Compile Remove="QuickSort\QuickSortPosted.cs" />
+    <Compile Remove="QuickSort\QuickSortSwapInPlace.cs" />
     <Compile Remove="QuickSort\QuickSortTripartite.cs" />
   </ItemGroup>
 

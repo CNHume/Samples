@@ -9,6 +9,7 @@
 //#define VerifyPartitions
 //#define TestSamples
 //#define SampleMiddle
+#define SampleRandomly
 
 //
 // The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
@@ -27,17 +28,16 @@ namespace QuickSort {
   using System.Linq;
   using System.Runtime.CompilerServices;
 
-  public class QuickSort<T> where T : IComparable {
+  public class QuickSortSwapInPlace<T> where T : IComparable {
     #region Constants
     public const Int32 INSERTION_LIMIT_DEFAULT = 12;
-    private const Int32 SAMPLES_MAX = 19;
     #endregion
 
     #region Properties
     public IMeter Meter { get; init; }
     public Int32 InsertionLimit { get; init; }
     private InsertionSort<T> InsertionSorter { get; init; }
-    private T[] Samples { get; init; }
+    private Random Random { get; init; }
 
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
@@ -46,11 +46,15 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+    public QuickSortSwapInPlace(IMeter meter, Int32 insertionLimit, Random random) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
-      this.Samples = new T[SAMPLES_MAX];
+      this.Random = random;
+    }
+
+    public QuickSortSwapInPlace(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+      : this(meter, insertionLimit, new Random()) {
     }
     #endregion
 
@@ -100,24 +104,32 @@ namespace QuickSort {
     private T pivot(T[] entries) {
       var length = Right + 1 - Left;
 #if SampleMiddle
-      var middle = length / 2;
-      return entries[Left + middle];
+      var samples = length;
 #else
-      var samples = QuickSort<T>.sampleSize(length);
+      var samples = QuickSortSwapInPlace<T>.sampleSize(length);
+      var last = Left + samples - 1;
       for (var sample = 0; sample < samples; sample++) {
+        var first = Left + sample;
+#if SampleRandomly
+        // Sample randomly, without replacement:
+        var index = Random.Next(first, Right + 1);
+#else
         // Sample Linearly:
         var index = length * sample / samples + Left;
-        Samples[sample] = entries[index];
+#endif
+        Debug.Assert(first <= index, $"index = {index} < first = {first}");
+        Debug.Assert(index <= Right, $"index = {index} > Right = {Right}");
+        Swap(entries, first, index);
       }
-      Meter?.IncMove((UInt32)samples);
-      InsertionSorter.Sort(Samples, 0, samples - 1);
+
+      InsertionSorter.Sort(entries, Left, last);
 #if TestSamples
       if (samples > 10)
-        Console.WriteLine("Samples: " + String.Join(" ", Samples.Take(samples)));
+        Console.WriteLine("Samples: " + String.Join(" ", entries.Skip(Left).Take(samples)));
 #endif
-      var middle = samples / 2;
-      return Samples[middle];
 #endif
+      var middle = samples / 2 + Left;
+      return entries[middle];
     }
 
     private void partition(T median, T[] entries) {
@@ -218,7 +230,7 @@ namespace QuickSort {
       // The median of a randomly chosen set of samples is then returned as
       // an estimate of the true median.
       //
-      var samples = Math.Min(2 * logLen + 1, SAMPLES_MAX);
+      var samples = 2 * logLen + 1;
       return Math.Min(samples, length);
     }
     #endregion
