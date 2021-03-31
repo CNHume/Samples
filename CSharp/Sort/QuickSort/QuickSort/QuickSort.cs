@@ -102,7 +102,7 @@ namespace QuickSort {
     }
 
     /// <summary>Estimate the median value of entries[Left:Right]</summary>
-    /// <remarks>The sample median is used as an estimate the true median.</remarks>
+    /// <remarks>A sample median is used as an estimate the true median.</remarks>
     private T pivot(T[] entries) {
       var length = Right + 1 - Left;
 #if SampleMiddle

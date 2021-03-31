@@ -181,8 +181,8 @@ namespace HeapSort {
     /// <summary>Index of left child</summary>
     /// <param name="parent">Parent index</param>
     /// <remarks>right = left + 1</remarks>
-    protected Int32 Left(Int32 parent) {
-      return parent * 2 + 1;
+    protected Int64 Left(Int32 parent) {
+      return (Int64)parent * 2 + 1;     // Guard against Arithmetic Overflow
     }
 
     /// <summary>Used internally by Build() to add the entry at the Root Index.</summary>
@@ -205,7 +205,7 @@ namespace HeapSort {
             bRight = true;
         }
 
-        var child = bRight ? right : left;
+        var child = (Int32)(bRight ? right : left);
         Meter?.IncCompare();
         if (Extension.IsPredecessor(entries[child], value, IsAscending))
           break;
@@ -233,8 +233,8 @@ namespace HeapSort {
         // Half of the nodes are leaves; and the expected number of
         // ordering operations depends on the height of the Heap.
         //
-        for (var final = counter - 1; final >= 0; final--)
-          SiftDown(entries[final], final);
+        for (var final = (Int64)counter - 1; final >= 0; final--)
+          SiftDown(entries[final], (Int32)final);
 #if ValidateHeap
         Debug.Assert(IsValid, "Invalid Heap");
 #endif
