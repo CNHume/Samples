@@ -233,8 +233,8 @@ namespace HeapSort {
         // Half of the nodes are leaves; and the expected number of
         // ordering operations depends on the height of the Heap.
         //
-        for (var final = (Int64)counter - 1; final >= 0; final--)
-          SiftDown(entries[final], (Int32)final);
+        for (var final = counter - 1; final >= 0; final--)
+          SiftDown(entries[final], final);
 #if ValidateHeap
         Debug.Assert(IsValid, "Invalid Heap");
 #endif

@@ -11,6 +11,7 @@ namespace SortTest {
 
   public class SortData {
     #region Constants
+    public const Int32 LENGTH_MAX = (1 << 11) - 1 << 20;
     public const SortCase SORTCASE_DEFAULT = SortCase.Rand;
     #endregion
 
@@ -26,6 +27,9 @@ namespace SortTest {
 
     #region Methods
     public Int32[] BuildEntries(Int32 length) {
+      if (length >= LENGTH_MAX)
+        throw new ArgumentException($"LENGTH_MAX = {LENGTH_MAX} <= {length}", nameof(length));
+
       var dtNow = DateTime.Now;
       Console.WriteLine($"{dtNow:HH:mm:ss.fff} Building {length:n0} {SortCase.GetDisplayName()} Entries");
 
