@@ -97,24 +97,17 @@ namespace HeapSort {
     public Int32 Count => counter;
 
     /// <summary>Perform Heap operations appropriate to setting the new value of Count</summary>
-    /// <param name="count"># of entries currently in use</param>
+    /// <param name="count"># of entries to use</param>
     public void SetCount(Int32 count) {
       if (count < 0 || count > Length)
         throw new IndexOutOfRangeException();
 
       if (count <= counter)
-        counter = count;              // Truncate Heap
-      else if (counter > 0) {
-        while (counter < count)       // Add new Entries
-          SiftUp(entries[counter]);
-#if ValidateHeap
-          Debug.Assert(IsValid, "Invalid Heap");
-#endif
-      }
-      else {                          // counter == 0
-        counter = count;              // Rebuild Heap
-        Build();
-      }
+        counter = count;                // Truncate Heap
+      else if (counter > 0)
+        Extend(count);
+      else
+        Build(count);                   // counter == 0, Build Heap
     }
     #endregion
 
@@ -223,8 +216,11 @@ namespace HeapSort {
     }
 
     /// <summary>Rearrange Entries into a Heap.</summary>
+    /// <param name="count"># of entries to use</param>
     /// <remarks>O(n)</remarks>
-    protected void Build() {            // aka, Heapify
+    protected void Build(Int32 count) { // aka, Heapify
+      counter = count;
+
       if (counter > 0) {
         //
         // Calling SiftDown() proceeds from right to left and reduces
@@ -245,7 +241,7 @@ namespace HeapSort {
     /// <remarks>O(n)</remarks>
     public void Invert() {
       IsAscending = !IsAscending;
-      Build();
+      Build(counter);
     }
 
     /// <summary>Add new element to a Heap.</summary>
@@ -272,6 +268,16 @@ namespace HeapSort {
 
       Meter?.IncMove();
       entries[child] = value;
+    }
+
+    /// <summary>Extend the Heap with additional entries.</summary>
+    /// <param name="count"># of entries to use</param>
+    protected void Extend(int count) {
+      while (counter < count)           // Add new Entries to the Heap
+        SiftUp(entries[counter]);
+#if ValidateHeap
+      Debug.Assert(IsValid, "Invalid Heap");
+#endif
     }
 
     /// <summary>Remove root.</summary>
