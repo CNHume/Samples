@@ -3,15 +3,15 @@
 //
 // Conditionals:
 //
-//#define TestInsertionList
 //#define TestRuntimeSort
+//#define TestList
 #define ShowCounts
 
 namespace Sort {
   using InsertionSort;
 
   using SortTest;
-  using SortTest.Extensions;
+  using SortTest.Extensions;            // For AppendDelim()
 
   using System;
   using System.Linq;
@@ -35,7 +35,7 @@ namespace Sort {
     #region Methods
     public void Sort(T[] entries, Boolean print, Int32? trials) {
       if (!trials.HasValue) trials = 1;
-#if TestInsertionList
+#if TestList
       var input = entries.ToList();
       Header(input, print, typeof(InsertionList<T>));
 #else
@@ -44,7 +44,7 @@ namespace Sort {
       Start();
       var meter = (IMeter)this;
 #if !TestRuntimeSort
-#if TestInsertionList
+#if TestList
       var sorter = new InsertionList<T>(meter);
 #else
       var sorter = new InsertionSort<T>(meter);
@@ -56,14 +56,14 @@ namespace Sort {
           Start();
         }
 #if TestRuntimeSort
-#if TestInsertionList
+#if TestList
         input.Sort();
         var output = input;
 #else
         Array.Sort(entries);
 #endif
 #else
-#if TestInsertionList
+#if TestList
         sorter.Sort(input);
 #else
         sorter.Sort(entries);

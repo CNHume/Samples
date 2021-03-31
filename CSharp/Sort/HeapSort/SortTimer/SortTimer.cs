@@ -10,7 +10,7 @@ namespace Sort {
   using HeapSort;
 
   using SortTest;
-  using SortTest.Extensions;
+  using SortTest.Extensions;            // For AppendDelim()
 
   using System;
   using System.Text;

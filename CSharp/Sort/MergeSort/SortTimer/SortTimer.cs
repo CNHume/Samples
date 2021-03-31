@@ -4,15 +4,17 @@
 // Conditionals:
 //
 //#define TestRuntimeSort
+//#define TestList
 #define ShowCounts
 
 namespace Sort {
   using MergeSort;
 
   using SortTest;
-  using SortTest.Extensions;
+  using SortTest.Extensions;            // For AppendDelim()
 
   using System;
+  using System.Linq;
   using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
@@ -33,11 +35,23 @@ namespace Sort {
     #region Methods
     public void Sort(T[] entries, Boolean print, Int32? trials, Int32? insertionLimit, Int32? merges) {
       if (!trials.HasValue) trials = 1;
-
+#if TestList
+      var input = entries.ToList();
+      Header(input, print, typeof(MergeList<T>));
+#else
       Header(entries, print, typeof(MergeSort<T>));
+#endif
       Start();
-
       var meter = (IMeter)this;
+#if TestList
+      var sorter = insertionLimit.HasValue ?
+        merges.HasValue ?
+          new MergeList<T>(meter, insertionLimit.Value, merges.Value) :
+          new MergeList<T>(meter, insertionLimit.Value) :
+        merges.HasValue ?
+          new MergeList<T>(meter, MergeList<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
+          new MergeList<T>(meter);
+#else
       var sorter = insertionLimit.HasValue ?
         merges.HasValue ?
           new MergeSort<T>(meter, insertionLimit.Value, merges.Value) :
@@ -45,16 +59,25 @@ namespace Sort {
         merges.HasValue ?
           new MergeSort<T>(meter, MergeSort<T>.INSERTION_LIMIT_DEFAULT, merges.Value) :
           new MergeSort<T>(meter);
-
+#endif
       for (var trial = 0; trial < trials; trial++) {
         if (trial > 0) {
           Reset();
           Start();
         }
 #if TestRuntimeSort
+#if TestList
+        input.Sort();
+        var output = input;
+#else
         Array.Sort(entries);
+#endif
+#else
+#if TestList
+        sorter.Sort(input);
 #else
         sorter.Sort(entries);
+#endif
 #endif
         Stop();
         Display();

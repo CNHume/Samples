@@ -22,7 +22,6 @@ namespace SortTest {
   public class SortMeter<T> : IMeter where T : IComparable {
     #region Constants
     private const char space = ' ';
-
     private const String commaSpace = ", ";
     #endregion
 
@@ -42,7 +41,6 @@ namespace SortTest {
     #endregion
 
     #region Interface Methods
-
     public void IncCompare(UInt64 count = 1) {
       CompareCount += count;
     }
