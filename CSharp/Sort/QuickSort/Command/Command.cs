@@ -92,6 +92,9 @@ namespace Sort {
 
       if (usage)                        // throw usage line if parse failed
         throw new CommandException("Usage: quicksort [-i <insertion-limit>] [-p] [-s (ascending | descending | random)] [-t trials] length");
+
+      if (Length.Value >= SortData.LENGTH_MAX)
+        throw new CommandException($"LENGTH_MAX = {SortData.LENGTH_MAX} <= length = {Length}");
     }
     #endregion
   }
