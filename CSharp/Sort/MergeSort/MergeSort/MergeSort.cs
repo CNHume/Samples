@@ -24,8 +24,8 @@ namespace MergeSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; init; }
-    public Int32 InsertionLimit { get; init; }
+    public IMeter Meter { get; }
+    public Int32 InsertionLimit { get; }
     protected Int32[] Positions { get; set; }
 
     private Int32 merges;
@@ -43,7 +43,7 @@ namespace MergeSort {
       }
     }
 
-    private InsertionSort<T> InsertionSorter { get; init; }
+    private InsertionSort<T> InsertionSorter { get; }
     #endregion
 
     #region Constructors

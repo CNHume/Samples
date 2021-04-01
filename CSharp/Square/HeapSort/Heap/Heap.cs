@@ -66,7 +66,7 @@ namespace HeapSort {
 
     #region Properties
     /// <summary>Optional Sort Performance Meter</summary>
-    public IMeter Meter { get; init; }
+    public IMeter Meter { get; }
 
     /// <summary>Heap sense</summary>
     public Boolean IsAscending { get => isAscending.Value; set => isAscending = value; }
@@ -99,11 +99,11 @@ namespace HeapSort {
         throw new IndexOutOfRangeException();
 
       if (count <= counter)
-        counter = count;                // Truncate Heap
+        Truncate(count);
       else if (counter > 0)
         Extend(count);
-      else
-        Build(count);                   // counter == 0, Build Heap
+      else                              // counter == 0
+        Build(count);
     }
     #endregion
 
@@ -214,9 +214,8 @@ namespace HeapSort {
     /// <summary>Rearrange Entries into a Heap.</summary>
     /// <param name="count"># of entries to use</param>
     /// <remarks>O(n)</remarks>
-    protected void Build(Int32 count) { // aka, Heapify
+    public void Build(Int32 count) {    // aka, Heapify
       counter = count;
-
       if (counter > 0) {
         //
         // Calling SiftDown() proceeds from right to left and reduces
@@ -268,12 +267,19 @@ namespace HeapSort {
 
     /// <summary>Extend the Heap with additional entries.</summary>
     /// <param name="count"># of entries to use</param>
-    protected void Extend(int count) {
+    public void Extend(Int32 count) {
       while (counter < count)           // Add new Entries to the Heap
         SiftUp(entries[counter]);
 #if ValidateHeap
       Debug.Assert(IsValid, "Invalid Heap");
 #endif
+    }
+
+    /// <summary>Truncate the Heap to the specified number of entries.</summary>
+    /// <param name="count"># of entries to use</param>
+    public void Truncate(Int32 count = 0) {
+      if (count <= counter)
+        counter = count;                // Truncate Heap
     }
 
     /// <summary>Remove root.</summary>

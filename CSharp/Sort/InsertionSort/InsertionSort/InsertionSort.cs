@@ -18,7 +18,7 @@ namespace InsertionSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; init; }
+    public IMeter Meter { get; }
     #endregion
 
     #region Methods

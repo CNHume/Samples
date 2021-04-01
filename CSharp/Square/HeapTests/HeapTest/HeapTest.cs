@@ -25,7 +25,7 @@ namespace HeapTests {
     #region Methods
     [Theory]
     [InlineData(new[] { 101, 3, 44, 55, 8, 17, 6 })]
-    public void TestEnumerator(int[] entries) {
+    public void TestEnumerator(Int32[] entries) {
 #if DEBUG
       OutputHelper.WriteLine("TestEnumerator");
 #endif
@@ -39,7 +39,7 @@ namespace HeapTests {
 
     [Theory]
     [InlineData(new[] { 101, 3, 44, 55, 8, 17, 6 })]
-    public void CloneTest(int[] entries) {
+    public void CloneTest(Int32[] entries) {
 #if DEBUG
       OutputHelper.WriteLine("CloneTest");
 #endif

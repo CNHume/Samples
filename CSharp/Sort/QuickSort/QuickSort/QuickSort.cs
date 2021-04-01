@@ -34,10 +34,10 @@ namespace QuickSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; init; }
-    public Int32 InsertionLimit { get; init; }
-    private InsertionSort<T> InsertionSorter { get; init; }
-    private T[] Samples { get; init; }
+    public IMeter Meter { get; }
+    public Int32 InsertionLimit { get; }
+    private InsertionSort<T> InsertionSorter { get; }
+    private T[] Samples { get; }
 
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
@@ -122,8 +122,7 @@ namespace QuickSort {
       if (samples > 10)
         Console.WriteLine("Samples: " + String.Join(" ", Samples.Take(samples)));
 #endif
-      var middle = samples / 2;
-      return Samples[middle];
+      return Samples[samples / 2];
 #endif
     }
 

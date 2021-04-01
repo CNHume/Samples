@@ -16,8 +16,8 @@ namespace RosettaCode {
     #endregion
 
     #region Properties
-    public Int32 InsertionLimit { get; init; }
-    private T[] Samples { get; init; }
+    public Int32 InsertionLimit { get; }
+    private T[] Samples { get; }
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
     private Int32 LeftMedian { get; set; }
@@ -90,8 +90,7 @@ namespace RosettaCode {
       }
 
       InsertionSort<T>.Sort(Samples, 0, samples - 1);
-      var middle = samples / 2;
-      return Samples[middle];
+      return Samples[samples / 2];
     }
 
     private void partition(T median, T[] entries) {

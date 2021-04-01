@@ -16,6 +16,8 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    "rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
+    //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
     //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
     //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
@@ -33,7 +35,6 @@ namespace Command {
     // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
     // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {transposing}) 3. Ne6+ 1-0
     //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
-    //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 (1-0) #7 [10-ply 1:07 min]
     //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.85 sec]
     //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [12-ply in 38.35 sec w wNullPlyMin = 3]
     // 1... Nd4 2. d6 Nf3 3. Nd5+ Kf2 4. Rxf3+ Kxf3 5. Ne3 Ra1+ 6. Nf1 Rxf1+ 7. Kh2 g3+ 8. Kh3 Rh1#
@@ -46,7 +47,6 @@ namespace Command {
     // 68... Bh4! 69. Bd5 Ne2 70. Bf3 (70. Kh7 Bg5 71. Bf3 Ng3! 72. Kg6 (72. Bg4 Kf7 73. Kh8 Be3 74. Kh7 Bc5 75. h6 (75. Kh8?! Bf8 76. Kh7??)
     // 75... Bf8 76. Bh3 Ne4 77. Bg2 Ng5+ 78. Kh8 Bxh6 79. Bd5+ Kf8 80. Be4 Bg7#) 72... Kg8-+)
     // 70... Ng1 71. Bg4 (71. Bd5 Bg5 72. Kh7 Ne2 73. Bf3 Ng3 74. Bg4 Kf7 75. Kh8 Bc1 76. Kh7 Ba3) 71... Kg8-+
-    //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"8/8/4R3/5pk1/8/3B4/7p/2nK4 w - - 0 1"; // Blindfold Study given to Wesley So by Sagar Shah [1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
     //[buildMove Test]moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
     //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
@@ -76,7 +76,7 @@ namespace Command {
     // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
     // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
     // 67. Kf4 Ra4+ 68. Kf5 Rd4 69. Rd8 Rd5+ 70. Kg4 Kf7 71. Rf8+ Kg7 72. Rg8+ Kf7 73. Nf6
-    "8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [12-ply in 3.5 sec to find 1. Bd7!]
+    // "8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [12-ply in 3.5 sec to find 1. Bd7!]
     //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike's "Famous Study"
     // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
     // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
@@ -173,7 +173,7 @@ namespace Command {
     //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.05 at 17-ply in 7:38.25]
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 16.61 sec over 18.42 Mnodes [formerly 1:47.89 w Singular]
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 16.61 sec over 18.42 Mnode [formerly 1:47.89 w Singular]
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]

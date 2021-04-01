@@ -22,7 +22,7 @@ namespace MergeSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; init; }
+    public IMeter Meter { get; }
     public Int32 InsertionLimit { get; set; }
     protected Int32[] Positions { get; set; }
     private Int32 merges;
@@ -39,7 +39,7 @@ namespace MergeSort {
           Positions = new Int32[merges];
       }
     }
-    private InsertionList<T> InsertionSorter { get; init; }
+    private InsertionList<T> InsertionSorter { get; }
     #endregion
 
     #region Constructors

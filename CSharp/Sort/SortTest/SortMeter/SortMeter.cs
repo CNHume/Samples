@@ -30,8 +30,7 @@ namespace SortTest {
     protected UInt64 MoveCount { get; set; }
     protected UInt64 PartCount { get; set; }
     protected String Mode { get; init; }
-
-    private Stopwatch Timer { get; init; }
+    private Stopwatch Timer { get; }
     #endregion
 
     #region Constructors
