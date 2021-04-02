@@ -523,7 +523,7 @@ namespace Engine {
     public static StringBuilder WriteMoves(
       this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, CastleRule castle) {
       return bPure ?
-        sb.MapMoves(Extension.AppendPACN, moves, castle) :
+        sb.MapMoves(AppendPACN, moves, castle) :
         sb.AppendMoves(moves, wGamePly, bPure, castle);
     }
 
