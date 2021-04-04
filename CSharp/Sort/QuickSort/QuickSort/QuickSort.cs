@@ -9,6 +9,7 @@
 //#define VerifyPartitions
 //#define TestSamples
 //#define SampleMiddle
+//#define SampleRandomly
 
 //
 // The Tripartite conditional enables Bentley-McIlroy 3-way Partitioning.
@@ -37,6 +38,7 @@ namespace QuickSort {
     public IMeter Meter { get; }
     public Int32 InsertionLimit { get; }
     private InsertionSort<T> InsertionSorter { get; }
+    private Random Random { get; init; }
     private T[] Samples { get; }
 
     private Int32 Left { get; set; }
@@ -46,12 +48,22 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+    public QuickSort(IMeter meter, Int32 insertionLimit, Random random) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
       this.Samples = new T[SAMPLES_MAX];
+      this.Random = random;
     }
+#if SampleRandomly                      // Sample randomly, without replacement:
+    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+      : this(meter, insertionLimit, new Random()) {
+    }
+#else
+    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+      : this(meter, insertionLimit, default) {
+    }
+#endif
     #endregion
 
     #region Sort Methods
@@ -110,10 +122,16 @@ namespace QuickSort {
       return entries[Left + middle];
 #else
       var samples = sampleSize(length);
-      // Sample Linearly:
       for (var sample = 0; sample < samples; sample++) {
+        var first = Left + sample;
+#if SampleRandomly                      // Sample randomly, without replacement:
+        var index = Random.Next(first, Right + 1);
+#else                                   // Sample Linearly:
         // Guard against Arithmetic Overflow:
         var index = (Int64)length * sample / samples + Left;
+#endif
+        Debug.Assert(first <= index, $"index = {index} < first = {first}");
+        Debug.Assert(index <= Right, $"index = {index} > Right = {Right}");
         Samples[sample] = entries[index];
       }
       Meter?.IncMove((UInt32)samples);
