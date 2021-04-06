@@ -312,7 +312,7 @@ namespace Engine {
       //
       // 1. Scanner Pieces by Rank
       //
-      if (!scanner.HasToken())
+      if (!scanner.HasTextSpan())
         throw new ParsePositionException("No piece placements provided");
 
       parsePieces(scanner.Next());
@@ -320,7 +320,7 @@ namespace Engine {
       //
       // 2. Side to Move
       //
-      var sToMove = scanner.HasToken() ? scanner.Next() : "w";
+      var sToMove = scanner.HasTextSpan() ? scanner.Next() : "w";
 
       switch (sToMove.ToLower()) {
       case "w":
@@ -336,13 +336,13 @@ namespace Engine {
       //
       // 3. Castling Abilities
       //
-      var sRights = scanner.HasToken() ? scanner.Next() : "-";
+      var sRights = scanner.HasTextSpan() ? scanner.Next() : "-";
       parseCastleRights(sRights);
 
       //
       // 4. Square Passed for En Passant
       //
-      sPassed = scanner.HasToken() ? scanner.Next() : "-";
+      sPassed = scanner.HasTextSpan() ? scanner.Next() : "-";
       return bWTM;
     }
 

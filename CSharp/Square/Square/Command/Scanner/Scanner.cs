@@ -64,7 +64,7 @@ namespace Command {
     public String Text {
       get => sText;
       private set {
-        Tokens = default;
+        TextSpans = default;
         sText = value;
       }
     }
@@ -72,8 +72,8 @@ namespace Command {
     protected List<String> Rows { get; }
     #endregion
 
-    #region Token Properties
-    protected String[] Tokens { get; private set; }
+    #region TextSpan Properties
+    protected String[] TextSpans { get; private set; }
     protected Int32 Index { get; set; }
     #endregion
 
@@ -149,37 +149,37 @@ namespace Command {
     }
     #endregion
 
-    #region Token Methods
-    public void SplitTokens(String regex = sWhitespacePlus) {
-      Tokens = Regex.Split(Text ?? Empty, regex);
+    #region TextSpan Methods
+    public void SplitTextSpans(String regex = sWhitespacePlus) {
+      TextSpans = Regex.Split(Text ?? Empty, regex);
       Index = 0;
     }
 
-    private void ensureTokens(String regex) {
-      if (Tokens is null) SplitTokens(regex);
+    private void ensureTextSpans(String regex) {
+      if (TextSpans is null) SplitTextSpans(regex);
     }
 
-    public Boolean HasToken(String regex = sWhitespacePlus) {
-      ensureTokens(regex);
-      return Index < Tokens?.Length;
+    public Boolean HasTextSpan(String regex = sWhitespacePlus) {
+      ensureTextSpans(regex);
+      return Index < TextSpans?.Length;
     }
 
     public String Peek(String regex = sWhitespacePlus) {
-      return HasToken(regex) ? Tokens[Index] : null;
+      return HasTextSpan(regex) ? TextSpans[Index] : null;
     }
 
     public String Next(String regex = sWhitespacePlus) {
-      var token = Peek(regex);
+      var textSpan = Peek(regex);
       Index++;
-      return token;
+      return textSpan;
     }
 
     //
-    // Returns remaining tokens as a single concatenated String
+    // Returns remaining spans as a single concatenated String
     //
     public String Tail(String delimiter = sSpace, String regex = sWhitespacePlus) {
       var sb = new StringBuilder();
-      while (HasToken(regex)) {
+      while (HasTextSpan(regex)) {
         if (sb.Length > 0) sb.Append(delimiter);
         sb.Append(Next());
       }

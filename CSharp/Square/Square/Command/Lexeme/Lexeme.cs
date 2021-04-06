@@ -9,9 +9,11 @@
 
 namespace Command {
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
+  using System.Linq;
+
+  using static Logging.Logger;
   using static System.String;
 
   //
@@ -40,34 +42,33 @@ namespace Command {
 
     #region Methods
     public Boolean Accept() {
-      var scanner = Parser.Scanner;
-      if (scanner.Text is not null) {
-        foreach (var rule in Rules) {
-          var match = rule.Match(scanner.Text);
+      return Parser?.Scanner?.Text is null ?
+        false :
+        Rules.Any(rule => match(rule, Parser.Scanner));
+    }
 
-          if (match.Success) {
-            RuleType = rule.Type;
-            Value = match.Value;
-            scanner.Skip(match.Length);
+    private Boolean match(Rule rule, Scanner scanner) {
+      var match = rule.Match(scanner.Text);
+      if (match.Success) {
+        RuleType = rule.Type;
+        Value = match.Value;
+        scanner.Skip(match.Length);
 #if DebugLexeme
-            if (IsVerbose) {
-              switch (rule.Type) {
-              case RuleType.delimiter:
-              case RuleType.eol:
-              case RuleType.space:
-                break;
-              default:
-                LogLine($@"Matched {RuleType} ""{Value}""");
-                break;
-              }
-            }
-#endif
-            return true;
+        if (IsVerbose) {
+          switch (rule.Type) {
+          case RuleType.delimiter:
+          case RuleType.eol:
+          case RuleType.space:
+            break;
+          default:
+            LogLine($@"Matched {RuleType} ""{Value}""");
+            break;
           }
         }
+#endif
       }
 
-      return false;
+      return match.Success;
     }
 
     public void Expect() {

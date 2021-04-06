@@ -8,7 +8,7 @@
 //#define DebugParse
 
 namespace Engine {
-  using Command;                        // For TokenScanner, Lexeme
+  using Command;                        // For Scanner, Lexeme
   using Command.Exceptions;
 
   using System;
