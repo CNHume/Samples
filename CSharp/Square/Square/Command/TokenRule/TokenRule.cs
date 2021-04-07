@@ -10,7 +10,7 @@ namespace Command {
   using System.Text.RegularExpressions;
 
   #region Enumerations
-  enum RuleType : byte {
+  enum TokenRuleType : byte {
     code,
     delimiter,
     enableKeyword,
@@ -37,15 +37,15 @@ namespace Command {
   }
   #endregion
 
-  class Rule {
+  class TokenRule {
     #region Properties
-    public RuleType Type { get; }
+    public TokenRuleType TokenRuleType { get; }
     private Regex Regex { get; }
     #endregion
 
     #region Constructors
-    public Rule(RuleType ruleType, String regex, RegexOptions options = RegexOptions.None) {
-      Type = ruleType;
+    public TokenRule(TokenRuleType tokenRuleType, String regex, RegexOptions options = RegexOptions.None) {
+      TokenRuleType = tokenRuleType;
       var anchor = $"^({regex})";
       Regex = new Regex(anchor, options);
     }

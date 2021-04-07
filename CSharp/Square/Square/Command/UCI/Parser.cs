@@ -30,31 +30,31 @@ namespace Command {
     private Boolean disposed = false;
     private Scanner scanner;
 
-    protected static readonly Rule[] codeRules;
-    protected static readonly Rule[] delimiterRule;
-    protected static readonly Rule[] eolRules;
-    protected static readonly Rule[] lineRules;
-    protected static readonly Rule[] spaceRule;
+    protected static readonly TokenRule[] codeTokenRules;
+    protected static readonly TokenRule[] operandDelimiterTokenRules;
+    protected static readonly TokenRule[] eolTokenRules;
+    protected static readonly TokenRule[] lineTokenRules;
+    protected static readonly TokenRule[] spaceTokenRule;
 
-    protected static readonly Rule[] enableKeywordRules;
-    protected static readonly Rule[] registerKeywordRules;
-    protected static readonly Rule[] goKeywordRules;
-    protected static readonly Rule[] movesKeywordRules;
-    protected static readonly Rule[] nameKeywordRules;
-    protected static readonly Rule[] opcodeRules;
-    protected static readonly Rule[] operandRules;
-    protected static readonly Rule[] optionRules;
-    protected static readonly Rule[] pacnMoveRules;
-    protected static readonly Rule[] setupRules;
-    protected static readonly Rule[] setupTypeRules;
-    protected static readonly Rule[] countRules;
-    protected static readonly Rule[] unsignedRules;
-    protected static readonly Rule[] valueKeywordRules;
-    protected static readonly Rule[] verbRules;
+    protected static readonly TokenRule[] enableKeywordTokenRules;
+    protected static readonly TokenRule[] registerKeywordTokenRules;
+    protected static readonly TokenRule[] goKeywordTokenRules;
+    protected static readonly TokenRule[] movesKeyworTokendRules;
+    protected static readonly TokenRule[] nameKeywordTokenRules;
+    protected static readonly TokenRule[] opcodeTokenRules;
+    protected static readonly TokenRule[] operandTokenRules;
+    protected static readonly TokenRule[] optionTokenRules;
+    protected static readonly TokenRule[] pacnMoveTokenRules;
+    protected static readonly TokenRule[] setupTokenRules;
+    protected static readonly TokenRule[] setupTypeTokenRules;
+    protected static readonly TokenRule[] countTokenRules;
+    protected static readonly TokenRule[] unsignedTokenRules;
+    protected static readonly TokenRule[] valueKeywordTokenRules;
+    protected static readonly TokenRule[] verbTokenRules;
 
     protected readonly Lexeme codeLexeme;
-    protected readonly Lexeme delimiterLexeme;
     protected readonly Lexeme eolLexeme;
+    protected readonly Lexeme operandDelimiterLexeme;
     protected readonly Lexeme lineLexeme;
     public readonly Lexeme SpaceLexeme;
 
@@ -92,28 +92,27 @@ namespace Command {
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
 
-      codeLexeme = new Lexeme(this, codeRules, "code");
-      delimiterLexeme = new Lexeme(this, delimiterRule, "delimiter");
-      eolLexeme = new Lexeme(this, eolRules, "eol");
+      codeLexeme = new Lexeme(this, codeTokenRules, "code");
+      eolLexeme = new Lexeme(this, eolTokenRules, "eol");
+      operandDelimiterLexeme = new Lexeme(this, operandDelimiterTokenRules, "operandDelimiter");
+      lineLexeme = new Lexeme(this, lineTokenRules, "line");
+      SpaceLexeme = new Lexeme(this, spaceTokenRule, "space");
 
-      lineLexeme = new Lexeme(this, lineRules, "line");
-      SpaceLexeme = new Lexeme(this, spaceRule, "space");
-
-      GoKeywordLexeme = new Lexeme(this, goKeywordRules, "goKeyword");
-      enableKeywordLexeme = new Lexeme(this, enableKeywordRules, "enableKeyword");
-      movesKeywordLexeme = new Lexeme(this, movesKeywordRules, "moveKeyword");
-      nameKeywordLexeme = new Lexeme(this, nameKeywordRules, "nameKeyword");
-      opcodeLexeme = new Lexeme(this, opcodeRules, "opcode");
-      operandLexeme = new Lexeme(this, operandRules, "operand");
-      optionLexeme = new Lexeme(this, optionRules, "option");
-      PACNMoveLexeme = new Lexeme(this, pacnMoveRules, "pacnMove");
-      RegisterKeywordLexeme = new Lexeme(this, registerKeywordRules, "registerKeyword");
-      SetupLexeme = new Lexeme(this, setupRules, "setup");
-      setupTypeLexeme = new Lexeme(this, setupTypeRules, "setupType");
-      CountLexeme = new Lexeme(this, countRules, "counter");
-      UnsignedLexeme = new Lexeme(this, unsignedRules, "unsigned");
-      valueKeywordLexeme = new Lexeme(this, valueKeywordRules, "valueKeyword");
-      verbLexeme = new Lexeme(this, verbRules, "verb");
+      GoKeywordLexeme = new Lexeme(this, goKeywordTokenRules, "goKeyword");
+      enableKeywordLexeme = new Lexeme(this, enableKeywordTokenRules, "enableKeyword");
+      movesKeywordLexeme = new Lexeme(this, movesKeyworTokendRules, "moveKeyword");
+      nameKeywordLexeme = new Lexeme(this, nameKeywordTokenRules, "nameKeyword");
+      opcodeLexeme = new Lexeme(this, opcodeTokenRules, "opcode");
+      operandLexeme = new Lexeme(this, operandTokenRules, "operand");
+      optionLexeme = new Lexeme(this, optionTokenRules, "option");
+      PACNMoveLexeme = new Lexeme(this, pacnMoveTokenRules, "pacnMove");
+      RegisterKeywordLexeme = new Lexeme(this, registerKeywordTokenRules, "registerKeyword");
+      SetupLexeme = new Lexeme(this, setupTokenRules, "setup");
+      setupTypeLexeme = new Lexeme(this, setupTypeTokenRules, "setupType");
+      CountLexeme = new Lexeme(this, countTokenRules, "counter");
+      UnsignedLexeme = new Lexeme(this, unsignedTokenRules, "unsigned");
+      valueKeywordLexeme = new Lexeme(this, valueKeywordTokenRules, "valueKeyword");
+      verbLexeme = new Lexeme(this, verbTokenRules, "verb");
     }
 
     public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
@@ -128,65 +127,65 @@ namespace Command {
      * for details of the UCI Command Interface as documented by Stefan Meyer-Kahlen
      */
     static Parser() {
-      codeRules = new Rule[] {
-          new Rule(RuleType.code, @"[-\w]+\b"),
+      codeTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
       };
-      delimiterRule = new Rule[] {
-          new Rule(RuleType.delimiter, @"\s*;")
+      operandDelimiterTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.delimiter, @"\s*;")
       };
-      eolRules = new Rule[] {
-        new Rule(RuleType.eol, @"\s*$")
+      eolTokenRules = new TokenRule[] {
+        new TokenRule(TokenRuleType.eol, @"\s*$")
       };
-      lineRules = new Rule[] {
-          new Rule(RuleType.line, @".*$")
+      lineTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.line, @".*$")
       };
-      spaceRule = new Rule[] {
-          new Rule(RuleType.space, @"\s+")
+      spaceTokenRule = new TokenRule[] {
+          new TokenRule(TokenRuleType.space, @"\s+")
       };
-      verbRules = new Rule[] {
-          new Rule(RuleType.verb,
+      verbTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.verb,
                    @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|status|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertests|uci|ucinewgame|unmove)\b",
           RegexOptions.IgnoreCase)
       };
-      enableKeywordRules = new Rule[] {
-          new Rule(RuleType.enableKeyword, @"(on|off)\b", RegexOptions.IgnoreCase)
+      enableKeywordTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", RegexOptions.IgnoreCase)
       };
-      goKeywordRules = new Rule[] {
-          new Rule(RuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", RegexOptions.IgnoreCase)
+      goKeywordTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", RegexOptions.IgnoreCase)
       };
-      registerKeywordRules = new Rule[] {
-          new Rule(RuleType.registerKeyword, @"(later|code|name)\b", RegexOptions.IgnoreCase)
+      registerKeywordTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", RegexOptions.IgnoreCase)
       };
-      setupTypeRules = new Rule[] {
-          new Rule(RuleType.setupType, @"(fen|epd|startpos|random)\b", RegexOptions.IgnoreCase)
+      setupTypeTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", RegexOptions.IgnoreCase)
       };
-      setupRules = new Rule[] {
-          new Rule(RuleType.setup, @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
+      setupTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.setup, @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
       };
-      opcodeRules = new Rule[] {
-          new Rule(RuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
+      opcodeTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
       };
-      operandRules = new Rule[] {
-          new Rule(RuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
-          new Rule(RuleType.unsigned, @"0|[1-9]\d*"),
-          new Rule(RuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", RegexOptions.IgnoreCase),
-          new Rule(RuleType.@string, @"""([^""]|"""")*""")
+      operandTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
+          new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
+          new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", RegexOptions.IgnoreCase),
+          new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
       };
-      optionRules = new Rule[] {
-          new Rule(RuleType.option, @"[a-zA-Z]\w*\b"),
+      optionTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.option, @"[a-zA-Z]\w*\b"),
       };
-      countRules = new Rule[] {
-          new Rule(RuleType.hyphen, @"-"),
-          new Rule(RuleType.unsigned, @"(0|[1-9]\d*)")
+      countTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.hyphen, @"-"),
+          new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
       };
-      unsignedRules = new Rule[] {
-          new Rule(RuleType.unsigned, @"(0|[1-9]\d*)")
+      unsignedTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
       };
-      movesKeywordRules = new Rule[] {
-          new Rule(RuleType.movesKeyword, @"moves\b", RegexOptions.IgnoreCase)
+      movesKeyworTokendRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.movesKeyword, @"moves\b", RegexOptions.IgnoreCase)
       };
-      nameKeywordRules = new Rule[] {
-          new Rule(RuleType.nameKeyword, @"name\b", RegexOptions.IgnoreCase)
+      nameKeywordTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.nameKeyword, @"name\b", RegexOptions.IgnoreCase)
       };
       //
       // UCI moves are expressed in Pure Algebraic Coordinate Notation (PACN):
@@ -196,11 +195,11 @@ namespace Command {
       // Regex for Smith Notation (SN): ([a-h][1-8]){2}[pnbrqkEcC]?[NBRQ]?
       // Lowercase is used to render captures "reversible" in SN.  SN uses uppercase for promotions, where PACN uses lowercase.
       //
-      pacnMoveRules = new Rule[] {
-          new Rule(RuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", RegexOptions.IgnoreCase)
+      pacnMoveTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", RegexOptions.IgnoreCase)
       };
-      valueKeywordRules = new Rule[] {
-          new Rule(RuleType.valueKeyword, @"(=|value\b)", RegexOptions.IgnoreCase)
+      valueKeywordTokenRules = new TokenRule[] {
+          new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", RegexOptions.IgnoreCase)
       };
     }
     #endregion
@@ -496,7 +495,7 @@ namespace Command {
         operands = new List<String>();
         while (operandLexeme.Accept()) {
           operands.Add(operandLexeme.Value);
-          if (delimiterLexeme.Accept()) break;
+          if (operandDelimiterLexeme.Accept()) break;
           if (AcceptEOL()) throw new ParseException($"Undelimited {sOpcode} operand");
           SpaceLexeme.Expect();
         }

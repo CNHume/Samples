@@ -25,17 +25,17 @@ namespace Command {
   class Lexeme {
     #region Properties
     public Parser Parser { get; }
-    private Rule[] Rules { get; }
+    private TokenRule[] TokenRules { get; }
     public String Name { get; }
-    public RuleType RuleType { get; private set; }
+    public TokenRuleType TokenRuleType { get; private set; }
     public String Value { get; private set; }
     public Boolean IsVerbose => Parser is not null && Parser.IsVerbose;
     #endregion
 
     #region Constructors
-    public Lexeme(Parser parser, Rule[] rules, String sName) {
+    public Lexeme(Parser parser, TokenRule[] tokenRules, String sName) {
       Parser = parser;
-      Rules = rules;
+      TokenRules = tokenRules;
       Name = sName;
     }
     #endregion
@@ -44,24 +44,24 @@ namespace Command {
     public Boolean Accept() {
       return Parser?.Scanner?.Text is null ?
         false :
-        Rules.Any(rule => match(rule, Parser.Scanner));
+        TokenRules.Any(tokenRule => match(tokenRule, Parser.Scanner));
     }
 
-    private Boolean match(Rule rule, Scanner scanner) {
-      var match = rule.Match(scanner.Text);
+    private Boolean match(TokenRule tokenRule, Scanner scanner) {
+      var match = tokenRule.Match(scanner.Text);
       if (match.Success) {
-        RuleType = rule.Type;
+        TokenRuleType = tokenRule.TokenRuleType;
         Value = match.Value;
         scanner.Skip(match.Length);
 #if DebugLexeme
         if (IsVerbose) {
-          switch (rule.Type) {
-          case RuleType.delimiter:
-          case RuleType.eol:
-          case RuleType.space:
+          switch (tokenRule.TokenRuleType) {
+          case TokenRuleType.delimiter:
+          case TokenRuleType.eol:
+          case TokenRuleType.space:
             break;
           default:
-            LogLine($@"Matched {RuleType} ""{Value}""");
+            LogLine($@"Matched {TokenRuleType} ""{Value}""");
             break;
           }
         }

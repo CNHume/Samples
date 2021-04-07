@@ -677,19 +677,19 @@ namespace Engine {
     #endregion
 
     #region Partial Sort Methods
-    public static Int32 Insert<T>(this T[] entries, Int32 index) where T : IComparable {
+    public static Int32 Insert<T>(this T[] entries, Int32 next) where T : IComparable {
       const Int32 first = 0;
-      var entry = entries[index];       //[Assume]descending order
-      while (index > first && entries[index - 1].CompareTo(entry) < 0)
-        entries[index] = entries[--index];
-      entries[index] = entry;
-      return index;
+      var entry = entries[next];        //[Assume]descending order
+      while (next > first && entries[next - 1].CompareTo(entry) < 0)
+        entries[next] = entries[--next];
+      entries[next] = entry;
+      return next;
     }
 
-    public static void Place<T>(this T[] entries, Int32 first, Int32 index) {
-      var entry = entries[index];
-      while (index > first) entries[index] = entries[--index];
-      entries[index] = entry;
+    public static void Place<T>(this T[] entries, Int32 first, Int32 next) {
+      var entry = entries[next];
+      while (next > first) entries[next] = entries[--next];
+      entries[next] = entry;
     }
     #endregion
   }
