@@ -90,10 +90,10 @@ namespace Command {
       IsInfinite = false;
       IsPonder = false;
 
-      if (parser.SpaceLexeme.Accept()) {
-        while (parser.GoKeywordLexeme.Accept()) {
+      if (parser.SpaceToken.Accept()) {
+        while (parser.GoKeywordToken.Accept()) {
           var bFoundKeyword = true;
-          var sKeyword = parser.GoKeywordLexeme.Value;
+          var sKeyword = parser.GoKeywordToken.Value;
           var sLower = sKeyword.ToLower();
           switch (sLower) {
           case "searchmoves":
@@ -101,7 +101,7 @@ namespace Command {
             // Parse a list of legal PACN moves to search from the current position:
             //
             if (searchMoves is null) searchMoves = position.newSearchMoves();
-            position.ParsePACNSearchMoves(searchMoves, parser.SpaceLexeme, parser.PACNMoveLexeme);
+            position.ParsePACNSearchMoves(searchMoves, parser.SpaceToken, parser.PACNMoveToken);
             break;
           case "ponder":
             //
@@ -119,47 +119,47 @@ namespace Command {
             IsPonder = true;
             break;
           case "wtime":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            WhiteTimeMS = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            WhiteTimeMS = ParseUInt16(sLower, parser.UnsignedToken.Value);
             break;
           case "btime":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            BlackTimeMS = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            BlackTimeMS = ParseUInt16(sLower, parser.UnsignedToken.Value);
             break;
           case "winc":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            WhiteIncrementMS = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            WhiteIncrementMS = ParseUInt16(sLower, parser.UnsignedToken.Value);
             break;
           case "binc":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            BlackIncrementMS = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            BlackIncrementMS = ParseUInt16(sLower, parser.UnsignedToken.Value);
             break;
           case "movestogo":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            MovesToGo = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            MovesToGo = ParseUInt16(sLower, parser.UnsignedToken.Value);
             break;
           case "depth":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            Plies = ParseByte(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            Plies = ParseByte(sLower, parser.UnsignedToken.Value);
             IsDepth = true;
             IsInfinite = false;
             break;
           case "nodes":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            Nodes = ParseUInt64(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            Nodes = ParseUInt64(sLower, parser.UnsignedToken.Value);
             IsInfinite = false;
             break;
           case "mate":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            MovesToMate = ParseUInt16(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            MovesToMate = ParseUInt16(sLower, parser.UnsignedToken.Value);
 
             //
             // Establish a default max number of plies to search,
@@ -172,9 +172,9 @@ namespace Command {
               Plies = (Byte)(2 * MovesToMate + 1);
             break;
           case "movetime":
-            parser.SpaceLexeme.Expect();
-            parser.UnsignedLexeme.Expect();
-            MoveTimeMS = ParseUInt32(sLower, parser.UnsignedLexeme.Value);
+            parser.SpaceToken.Expect();
+            parser.UnsignedToken.Expect();
+            MoveTimeMS = ParseUInt32(sLower, parser.UnsignedToken.Value);
             IsInfinite = false;
             break;
           case "infinite":
@@ -193,7 +193,7 @@ namespace Command {
           if (!bFoundKeyword)
             throw new ParseException($"Unknown {sKeyword} keyword");
 
-          if (!parser.SpaceLexeme.Accept()) break;
+          if (!parser.SpaceToken.Accept()) break;
         }
 
         parser.ExpectEOL();

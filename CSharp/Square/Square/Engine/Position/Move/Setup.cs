@@ -114,9 +114,9 @@ namespace Engine {
       if (IsNullOrEmpty(sEPD)) sEPD = sOrthodoxStartEPD;
 
       using (var parser = new Parser(sEPD)) {
-        parser.SetupLexeme.Expect();
+        parser.SetupToken.Expect();
         var operations = parser.ParseOperations();
-        ParseEPD(parser.SetupLexeme.Value, operations);
+        ParseEPD(parser.SetupToken.Value, operations);
       }
 
       //verifyEPD(sEPD);
@@ -442,10 +442,10 @@ namespace Engine {
       if (IsNullOrEmpty(sFEN)) sFEN = sOrthodoxStartFEN;
 
       using (var parser = new Parser(sFEN)) {
-        parser.SetupLexeme.Expect();
+        parser.SetupToken.Expect();
         var sHalfMoveClock = parser.ParseCount("0");
         var sFullMoveNumber = parser.ParseCount("1");
-        ParseFEN(parser.SetupLexeme.Value, sHalfMoveClock, sFullMoveNumber);
+        ParseFEN(parser.SetupToken.Value, sHalfMoveClock, sFullMoveNumber);
       }
 
       verifyFEN(sFEN);

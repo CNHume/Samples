@@ -1,0 +1,29 @@
+﻿namespace Command {
+  using System;
+
+  #region Enumerations
+  enum TokenType : byte {
+    None = 0,
+    code,
+    eol,
+    operandDelimiter,
+    line,
+    space,
+    goKeyword,
+    enableKeyword,
+    movesKeyword,
+    nameKeyword,
+    opcode,
+    operand,
+    option,
+    pacnMove,
+    registerKeyword,
+    setup,
+    setupType,
+    counter,
+    unsigned,
+    valueKeyword,
+    verb
+  }
+  #endregion
+}

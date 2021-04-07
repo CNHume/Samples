@@ -8,7 +8,7 @@
 //#define DebugParse
 
 namespace Engine {
-  using Command;                        // For Scanner, Lexeme
+  using Command;                        // For Scanner, Token
   using Command.Exceptions;
 
   using System;
@@ -263,12 +263,12 @@ namespace Engine {
     public Position ParsePACNMakeMoves(Parser parser) {
       var position = this;
 
-      if (parser.SpaceLexeme.Accept()) {
+      if (parser.SpaceToken.Accept()) {
         //
         // Make each move sequentially, returning the final position
         //
-        while (parser.PACNMoveLexeme.Accept()) {
-          var sPACN = parser.PACNMoveLexeme.Value;
+        while (parser.PACNMoveToken.Accept()) {
+          var sPACN = parser.PACNMoveToken.Value;
           var child = position.Push();  // See UCI.unmove()
           try {
             var move = position.parsePACNMove(sPACN);
@@ -285,7 +285,7 @@ namespace Engine {
             throw;
           }
 
-          if (!parser.SpaceLexeme.Accept()) break;
+          if (!parser.SpaceToken.Accept()) break;
         }
       }
 
@@ -295,26 +295,26 @@ namespace Engine {
     //
     // The following parses a line of PACN move alternatives at the current position
     //
-    public void ParsePACNSearchMoves(List<Move> searchMoves, Lexeme spaceLexeme, Lexeme pacnMoveLexeme) {
+    public void ParsePACNSearchMoves(List<Move> searchMoves, Token spaceToken, Token pacnMoveToken) {
       searchMoves.Clear();
       var parseMoves = new List<Move>();
 
-      if (spaceLexeme.Accept()) {
+      if (spaceToken.Accept()) {
         var child = Push();
         try {
-          while (pacnMoveLexeme.Accept()) {
+          while (pacnMoveToken.Accept()) {
             //
             // Parse alternative moves, wrt the current position,
             // without actually making the moves.
             //
-            var sPACN = pacnMoveLexeme.Value;
+            var sPACN = pacnMoveToken.Value;
             var move = parsePACNMove(sPACN);
             if (child.tryOrSkip(ref move))
               parseMoves.Add(move);
             else
               throw new MoveException($"Illegal move: {sPACN}");
 
-            if (!spaceLexeme.Accept()) break;
+            if (!spaceToken.Accept()) break;
           }
         }
         finally {

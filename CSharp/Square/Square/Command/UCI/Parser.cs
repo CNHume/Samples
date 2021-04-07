@@ -52,27 +52,27 @@ namespace Command {
     protected static readonly TokenRule[] valueKeywordTokenRules;
     protected static readonly TokenRule[] verbTokenRules;
 
-    protected readonly Lexeme codeLexeme;
-    protected readonly Lexeme eolLexeme;
-    protected readonly Lexeme operandDelimiterLexeme;
-    protected readonly Lexeme lineLexeme;
-    public readonly Lexeme SpaceLexeme;
+    protected readonly Token codeToken;
+    protected readonly Token eolToken;
+    protected readonly Token operandDelimiterToken;
+    protected readonly Token lineToken;
+    public readonly Token SpaceToken;
 
-    protected readonly Lexeme enableKeywordLexeme;
-    public readonly Lexeme GoKeywordLexeme;
-    protected readonly Lexeme movesKeywordLexeme;
-    protected readonly Lexeme nameKeywordLexeme;
-    protected readonly Lexeme opcodeLexeme;
-    protected readonly Lexeme operandLexeme;
-    protected readonly Lexeme optionLexeme;
-    public readonly Lexeme PACNMoveLexeme;
-    public readonly Lexeme RegisterKeywordLexeme;
-    public readonly Lexeme SetupLexeme;
-    protected readonly Lexeme setupTypeLexeme;
-    public readonly Lexeme CountLexeme;
-    public readonly Lexeme UnsignedLexeme;
-    protected readonly Lexeme valueKeywordLexeme;
-    protected readonly Lexeme verbLexeme;
+    protected readonly Token enableKeywordToken;
+    public readonly Token GoKeywordToken;
+    protected readonly Token movesKeywordToken;
+    protected readonly Token nameKeywordToken;
+    protected readonly Token opcodeToken;
+    protected readonly Token operandToken;
+    protected readonly Token optionToken;
+    public readonly Token PACNMoveToken;
+    public readonly Token RegisterKeywordToken;
+    public readonly Token SetupToken;
+    protected readonly Token setupTypeToken;
+    public readonly Token CountToken;
+    public readonly Token UnsignedToken;
+    protected readonly Token valueKeywordToken;
+    protected readonly Token verbToken;
     #endregion
 
     #region Properties
@@ -92,27 +92,27 @@ namespace Command {
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
 
-      codeLexeme = new Lexeme(this, codeTokenRules, "code");
-      eolLexeme = new Lexeme(this, eolTokenRules, "eol");
-      operandDelimiterLexeme = new Lexeme(this, operandDelimiterTokenRules, "operandDelimiter");
-      lineLexeme = new Lexeme(this, lineTokenRules, "line");
-      SpaceLexeme = new Lexeme(this, spaceTokenRule, "space");
+      codeToken = new Token(this, TokenType.code, codeTokenRules);
+      eolToken = new Token(this, TokenType.eol, eolTokenRules);
+      operandDelimiterToken = new Token(this, TokenType.operandDelimiter, operandDelimiterTokenRules);
+      lineToken = new Token(this, TokenType.line, lineTokenRules);
+      SpaceToken = new Token(this, TokenType.space, spaceTokenRule);
 
-      GoKeywordLexeme = new Lexeme(this, goKeywordTokenRules, "goKeyword");
-      enableKeywordLexeme = new Lexeme(this, enableKeywordTokenRules, "enableKeyword");
-      movesKeywordLexeme = new Lexeme(this, movesKeyworTokendRules, "moveKeyword");
-      nameKeywordLexeme = new Lexeme(this, nameKeywordTokenRules, "nameKeyword");
-      opcodeLexeme = new Lexeme(this, opcodeTokenRules, "opcode");
-      operandLexeme = new Lexeme(this, operandTokenRules, "operand");
-      optionLexeme = new Lexeme(this, optionTokenRules, "option");
-      PACNMoveLexeme = new Lexeme(this, pacnMoveTokenRules, "pacnMove");
-      RegisterKeywordLexeme = new Lexeme(this, registerKeywordTokenRules, "registerKeyword");
-      SetupLexeme = new Lexeme(this, setupTokenRules, "setup");
-      setupTypeLexeme = new Lexeme(this, setupTypeTokenRules, "setupType");
-      CountLexeme = new Lexeme(this, countTokenRules, "counter");
-      UnsignedLexeme = new Lexeme(this, unsignedTokenRules, "unsigned");
-      valueKeywordLexeme = new Lexeme(this, valueKeywordTokenRules, "valueKeyword");
-      verbLexeme = new Lexeme(this, verbTokenRules, "verb");
+      GoKeywordToken = new Token(this, TokenType.goKeyword, goKeywordTokenRules);
+      enableKeywordToken = new Token(this, TokenType.enableKeyword, enableKeywordTokenRules);
+      movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeyworTokendRules);
+      nameKeywordToken = new Token(this, TokenType.nameKeyword, nameKeywordTokenRules);
+      opcodeToken = new Token(this, TokenType.opcode, opcodeTokenRules);
+      operandToken = new Token(this, TokenType.operand, operandTokenRules);
+      optionToken = new Token(this, TokenType.option, optionTokenRules);
+      PACNMoveToken = new Token(this, TokenType.pacnMove, pacnMoveTokenRules);
+      RegisterKeywordToken = new Token(this, TokenType.registerKeyword, registerKeywordTokenRules);
+      SetupToken = new Token(this, TokenType.setup, setupTokenRules);
+      setupTypeToken = new Token(this, TokenType.setupType, setupTypeTokenRules);
+      CountToken = new Token(this, TokenType.counter, countTokenRules);
+      UnsignedToken = new Token(this, TokenType.unsigned, unsignedTokenRules);
+      valueKeywordToken = new Token(this, TokenType.valueKeyword, valueKeywordTokenRules);
+      verbToken = new Token(this, TokenType.verb, verbTokenRules);
     }
 
     public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
@@ -127,64 +127,64 @@ namespace Command {
      * for details of the UCI Command Interface as documented by Stefan Meyer-Kahlen
      */
     static Parser() {
-      codeTokenRules = new TokenRule[] {
+      codeTokenRules = new[] {
           new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
       };
-      operandDelimiterTokenRules = new TokenRule[] {
+      operandDelimiterTokenRules = new[] {
           new TokenRule(TokenRuleType.delimiter, @"\s*;")
       };
-      eolTokenRules = new TokenRule[] {
+      eolTokenRules = new[] {
         new TokenRule(TokenRuleType.eol, @"\s*$")
       };
-      lineTokenRules = new TokenRule[] {
+      lineTokenRules = new[] {
           new TokenRule(TokenRuleType.line, @".*$")
       };
-      spaceTokenRule = new TokenRule[] {
+      spaceTokenRule = new[] {
           new TokenRule(TokenRuleType.space, @"\s+")
       };
-      verbTokenRules = new TokenRule[] {
+      verbTokenRules = new[] {
           new TokenRule(TokenRuleType.verb,
                    @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|status|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertests|uci|ucinewgame|unmove)\b",
           RegexOptions.IgnoreCase)
       };
-      enableKeywordTokenRules = new TokenRule[] {
+      enableKeywordTokenRules = new[] {
           new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", RegexOptions.IgnoreCase)
       };
-      goKeywordTokenRules = new TokenRule[] {
+      goKeywordTokenRules = new[] {
           new TokenRule(TokenRuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", RegexOptions.IgnoreCase)
       };
-      registerKeywordTokenRules = new TokenRule[] {
+      registerKeywordTokenRules = new[] {
           new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", RegexOptions.IgnoreCase)
       };
-      setupTypeTokenRules = new TokenRule[] {
+      setupTypeTokenRules = new[] {
           new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", RegexOptions.IgnoreCase)
       };
-      setupTokenRules = new TokenRule[] {
+      setupTokenRules = new[] {
           new TokenRule(TokenRuleType.setup, @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
       };
-      opcodeTokenRules = new TokenRule[] {
+      opcodeTokenRules = new[] {
           new TokenRule(TokenRuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
       };
-      operandTokenRules = new TokenRule[] {
+      operandTokenRules = new[] {
           new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
           new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
           new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", RegexOptions.IgnoreCase),
           new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
       };
-      optionTokenRules = new TokenRule[] {
+      optionTokenRules = new[] {
           new TokenRule(TokenRuleType.option, @"[a-zA-Z]\w*\b"),
       };
-      countTokenRules = new TokenRule[] {
+      countTokenRules = new[] {
           new TokenRule(TokenRuleType.hyphen, @"-"),
           new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
       };
-      unsignedTokenRules = new TokenRule[] {
+      unsignedTokenRules = new[] {
           new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
       };
-      movesKeyworTokendRules = new TokenRule[] {
+      movesKeyworTokendRules = new[] {
           new TokenRule(TokenRuleType.movesKeyword, @"moves\b", RegexOptions.IgnoreCase)
       };
-      nameKeywordTokenRules = new TokenRule[] {
+      nameKeywordTokenRules = new[] {
           new TokenRule(TokenRuleType.nameKeyword, @"name\b", RegexOptions.IgnoreCase)
       };
       //
@@ -195,10 +195,10 @@ namespace Command {
       // Regex for Smith Notation (SN): ([a-h][1-8]){2}[pnbrqkEcC]?[NBRQ]?
       // Lowercase is used to render captures "reversible" in SN.  SN uses uppercase for promotions, where PACN uses lowercase.
       //
-      pacnMoveTokenRules = new TokenRule[] {
+      pacnMoveTokenRules = new[] {
           new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", RegexOptions.IgnoreCase)
       };
-      valueKeywordTokenRules = new TokenRule[] {
+      valueKeywordTokenRules = new[] {
           new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", RegexOptions.IgnoreCase)
       };
     }
@@ -224,7 +224,7 @@ namespace Command {
     }
 
     public Boolean AcceptEOL(String sMethodName = default) {
-      var bAccepted = Scanner.EndOfLine || eolLexeme.Accept();
+      var bAccepted = Scanner.EndOfLine || eolToken.Accept();
       if (IsVerbose && !bAccepted)
         LogLine(eolMessage(sMethodName));
       return bAccepted;
@@ -277,29 +277,29 @@ namespace Command {
     }
 
     public String ParseVerb() {
-      SpaceLexeme.Accept();
+      SpaceToken.Accept();
       if (AcceptEOL())
         return Empty;
 
-      verbLexeme.Expect();
-      return verbLexeme.Value;
+      verbToken.Expect();
+      return verbToken.Value;
     }
 
     private String parseOptionName(out Control control) {
       var sKeyword = (String)null;
-      SpaceLexeme.Accept();
-      nameKeywordLexeme.Accept();        //[UCI]Technically, the option "name" keyword is required.
+      SpaceToken.Accept();
+      nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
 
       var sName = (String)null;
       while (true) {
-        SpaceLexeme.Accept();
-        if (valueKeywordLexeme.Accept()) {
-          sKeyword = valueKeywordLexeme.Value;
+        SpaceToken.Accept();
+        if (valueKeywordToken.Accept()) {
+          sKeyword = valueKeywordToken.Value;
           break;
         }
-        else if (optionLexeme.Accept()) {
+        else if (optionToken.Accept()) {
           //[UCI]Accummulate space separated, compound names until a value keyword is found
-          var sToken = optionLexeme.Value;
+          var sToken = optionToken.Value;
           sName = IsNullOrEmpty(sName) ? sToken : $"{sName} {sToken}";
         }
         else
@@ -318,9 +318,9 @@ namespace Command {
     private String parseOptionValue(String sKeyword) {
       var sValue = (String)null;
       if (sKeyword is not null) {
-        SpaceLexeme.Accept();
-        lineLexeme.Expect();
-        sValue = lineLexeme.Value;
+        SpaceToken.Accept();
+        lineToken.Expect();
+        sValue = lineToken.Value;
       }
       return sValue;
     }
@@ -350,7 +350,7 @@ namespace Command {
     }
 
     public Boolean ParseList() {
-      return SpaceLexeme.Accept() && movesKeywordLexeme.Accept();
+      return SpaceToken.Accept() && movesKeywordToken.Accept();
     }
 
     protected static Position findNamedPosition(Position position, Position parent) {
@@ -370,30 +370,30 @@ namespace Command {
     }
 
     public Position ParsePosition(Position position) {
-      SpaceLexeme.Expect();
-      setupTypeLexeme.Expect();
+      SpaceToken.Expect();
+      setupTypeToken.Expect();
 
       var bFoundKeyword = true;
-      var sKeyword = setupTypeLexeme.Value;
+      var sKeyword = setupTypeToken.Value;
       switch (sKeyword.ToLower()) {
       case "epd":
-        SpaceLexeme.Expect();
-        SetupLexeme.Expect();
+        SpaceToken.Expect();
+        SetupToken.Expect();
         var operations = ParseOperations();
-        position.ParseEPD(SetupLexeme.Value, operations);
+        position.ParseEPD(SetupToken.Value, operations);
         break;
       case "fen":
-        SpaceLexeme.Expect();
-        SetupLexeme.Expect();
+        SpaceToken.Expect();
+        SetupToken.Expect();
         var sHalfMoveCount = ParseCount("0");
         var sFullMoveNumber = ParseCount("1");
-        position.ParseFEN(SetupLexeme.Value, sHalfMoveCount, sFullMoveNumber);
+        position.ParseFEN(SetupToken.Value, sHalfMoveCount, sFullMoveNumber);
         position = parseMoves(position);
         break;
       case "random":
         UInt16 wChess960;
-        if (SpaceLexeme.Accept() && UnsignedLexeme.Accept()) {
-          wChess960 = ParseUInt16("Chess960 Index", UnsignedLexeme.Value);
+        if (SpaceToken.Accept() && UnsignedToken.Accept()) {
+          wChess960 = ParseUInt16("Chess960 Index", UnsignedToken.Value);
           position.SetFischerRandom(wChess960);
           position = parseMoves(position);
         }
@@ -422,15 +422,15 @@ namespace Command {
     }
 
     public String ParseCount(String sDefault = "0") {
-      if (SpaceLexeme.Accept() && CountLexeme.Accept()) {
-        var sValue = CountLexeme.Value;
+      if (SpaceToken.Accept() && CountToken.Accept()) {
+        var sValue = CountToken.Value;
         return sValue == sHyphen ? sDefault : sValue;
       }
       return sDefault;
     }
 
     private Position parseMoves(Position position) {
-      if (SpaceLexeme.Accept() && movesKeywordLexeme.Accept()) {
+      if (SpaceToken.Accept() && movesKeywordToken.Accept()) {
         position = position.ParsePACNMakeMoves(this);
       }
       return position;
@@ -438,9 +438,9 @@ namespace Command {
 
     public Dictionary<String, List<String>> ParseOperations() {
       var operations = (Dictionary<String, List<String>>)null;
-      if (SpaceLexeme.Accept()) {
+      if (SpaceToken.Accept()) {
         operations = new Dictionary<String, List<String>>();
-        while (opcodeLexeme.Accept()) {
+        while (opcodeToken.Accept()) {
           //
           // For a list of standard EPD opcodes see:
           // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
@@ -472,7 +472,7 @@ namespace Command {
           //  tcsi telecommunication sender identification
           //  v0 variation name(primary, also v1 though v9)
           //
-          var sOpcode = opcodeLexeme.Value;
+          var sOpcode = opcodeToken.Value;
           var operands = parseOperands(operations, sOpcode);
 
           if (operations.ContainsKey(sOpcode)) {
@@ -481,7 +481,7 @@ namespace Command {
           }
 
           operations.Add(sOpcode, operands);
-          if (!SpaceLexeme.Accept()) break;
+          if (!SpaceToken.Accept()) break;
         }
       }
 
@@ -491,13 +491,13 @@ namespace Command {
     private List<String> parseOperands(
       Dictionary<String, List<String>> operations, String sOpcode) {
       var operands = (List<String>)null;
-      if (SpaceLexeme.Accept()) {
+      if (SpaceToken.Accept()) {
         operands = new List<String>();
-        while (operandLexeme.Accept()) {
-          operands.Add(operandLexeme.Value);
-          if (operandDelimiterLexeme.Accept()) break;
+        while (operandToken.Accept()) {
+          operands.Add(operandToken.Value);
+          if (operandDelimiterToken.Accept()) break;
           if (AcceptEOL()) throw new ParseException($"Undelimited {sOpcode} operand");
-          SpaceLexeme.Expect();
+          SpaceToken.Expect();
         }
       }
       return operands;
@@ -522,9 +522,9 @@ namespace Command {
 
     // For UCI.parseRegister
     public String ParseCode() {
-      SpaceLexeme.Expect();
-      codeLexeme.Expect();
-      return codeLexeme.Value;
+      SpaceToken.Expect();
+      codeToken.Expect();
+      return codeToken.Value;
     }
     #endregion
 
@@ -553,10 +553,10 @@ namespace Command {
       var bFoundKeyword = true;
       var bEnabled = false;
 
-      SpaceLexeme.Expect();
-      enableKeywordLexeme.Expect();
+      SpaceToken.Expect();
+      enableKeywordToken.Expect();
 
-      var sKeyword = enableKeywordLexeme.Value;
+      var sKeyword = enableKeywordToken.Value;
       switch (sKeyword.ToLower()) {
       case "on":
         bEnabled = true;

@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define DebugLexeme
+#define DebugToken
 
 namespace Command {
   using Exceptions;
@@ -22,29 +22,28 @@ namespace Command {
   //
   // See http://stackoverflow.com/questions/673113/poor-mans-lexer-for-c-sharp
   //
-  class Lexeme {
+  class Token {
     #region Properties
     public Parser Parser { get; }
     private TokenRule[] TokenRules { get; }
-    public String Name { get; }
+    public TokenType TokenType { get; }
     public TokenRuleType TokenRuleType { get; private set; }
     public String Value { get; private set; }
     public Boolean IsVerbose => Parser is not null && Parser.IsVerbose;
     #endregion
 
     #region Constructors
-    public Lexeme(Parser parser, TokenRule[] tokenRules, String sName) {
+    public Token(Parser parser, TokenType tokenType, TokenRule[] tokenRules) {
       Parser = parser;
       TokenRules = tokenRules;
-      Name = sName;
+      TokenType = tokenType;
     }
     #endregion
 
     #region Methods
     public Boolean Accept() {
       return Parser?.Scanner?.Text is null ?
-        false :
-        TokenRules.Any(tokenRule => match(tokenRule, Parser.Scanner));
+        false : TokenRules.Any(tokenRule => match(tokenRule, Parser.Scanner));
     }
 
     private Boolean match(TokenRule tokenRule, Scanner scanner) {
@@ -53,7 +52,7 @@ namespace Command {
         TokenRuleType = tokenRule.TokenRuleType;
         Value = match.Value;
         scanner.Skip(match.Length);
-#if DebugLexeme
+#if DebugToken
         if (IsVerbose) {
           switch (tokenRule.TokenRuleType) {
           case TokenRuleType.delimiter:
@@ -77,12 +76,8 @@ namespace Command {
       var scanner = Parser.Scanner;
       var type = GetType();
       var message = IsNullOrEmpty(scanner.Text) ?
-        $"{Name} expected" : $@"The {Name} {type.Name} does not accept ""{scanner.Text}""";
+        $"{TokenType} expected" : $@"The {TokenType} {type.Name} does not accept ""{scanner.Text}""";
       throw new ChessException(message);
-    }
-
-    public override String ToString() {
-      return Name;
     }
     #endregion
   }

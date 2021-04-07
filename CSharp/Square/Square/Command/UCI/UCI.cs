@@ -423,10 +423,10 @@ namespace Command {
       var sName = (String)null;
 
       var bValidCommand = true;
-      if (parser.SpaceLexeme.Accept()) {
-        while (bValidCommand && parser.RegisterKeywordLexeme.Accept()) {
+      if (parser.SpaceToken.Accept()) {
+        while (bValidCommand && parser.RegisterKeywordToken.Accept()) {
           var bFoundKeyword = true;
-          var sKeyword = parser.RegisterKeywordLexeme.Value;
+          var sKeyword = parser.RegisterKeywordToken.Value;
 
           switch (sKeyword.ToLower()) {
           case "later":
@@ -448,7 +448,7 @@ namespace Command {
           if (!bFoundKeyword)
             throw new ParseException($"Unknown {sKeyword} keyword");
 
-          if (!parser.SpaceLexeme.Accept()) break;
+          if (!parser.SpaceToken.Accept()) break;
         }
       }
 
