@@ -31,7 +31,6 @@ namespace Command {
     private Boolean disposed = false;
     private TextReader reader;
     private String sText;
-    private Boolean bEndOfLine;
     #endregion
 
     #region Properties
