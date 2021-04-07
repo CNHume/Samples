@@ -6,7 +6,7 @@
     None = 0,
     code,
     eol,
-    operandDelimiter,
+    opcodeDelimiter,
     line,
     space,
     goKeyword,

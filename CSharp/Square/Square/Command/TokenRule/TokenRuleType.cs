@@ -5,7 +5,7 @@
   enum TokenRuleType : byte {
     None = 0,
     code,
-    delimiter,
+    opcodeDelimiter,
     enableKeyword,
     eol,
     @float,

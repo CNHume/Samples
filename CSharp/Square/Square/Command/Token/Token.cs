@@ -55,7 +55,7 @@ namespace Command {
 #if DebugToken
         if (IsVerbose) {
           switch (tokenRule.TokenRuleType) {
-          case TokenRuleType.delimiter:
+          case TokenRuleType.opcodeDelimiter:
           case TokenRuleType.eol:
           case TokenRuleType.space:
             break;

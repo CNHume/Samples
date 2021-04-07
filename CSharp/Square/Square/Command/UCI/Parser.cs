@@ -31,7 +31,7 @@ namespace Command {
     private Scanner scanner;
 
     protected static readonly TokenRule[] codeTokenRules;
-    protected static readonly TokenRule[] operandDelimiterTokenRules;
+    protected static readonly TokenRule[] opcodeDelimiterTokenRules;
     protected static readonly TokenRule[] eolTokenRules;
     protected static readonly TokenRule[] lineTokenRules;
     protected static readonly TokenRule[] spaceTokenRule;
@@ -54,7 +54,7 @@ namespace Command {
 
     protected readonly Token codeToken;
     protected readonly Token eolToken;
-    protected readonly Token operandDelimiterToken;
+    protected readonly Token opcodeDelimiterToken;
     protected readonly Token lineToken;
     public readonly Token SpaceToken;
 
@@ -94,7 +94,7 @@ namespace Command {
 
       codeToken = new Token(this, TokenType.code, codeTokenRules);
       eolToken = new Token(this, TokenType.eol, eolTokenRules);
-      operandDelimiterToken = new Token(this, TokenType.operandDelimiter, operandDelimiterTokenRules);
+      opcodeDelimiterToken = new Token(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
       lineToken = new Token(this, TokenType.line, lineTokenRules);
       SpaceToken = new Token(this, TokenType.space, spaceTokenRule);
 
@@ -130,8 +130,8 @@ namespace Command {
       codeTokenRules = new[] {
           new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
       };
-      operandDelimiterTokenRules = new[] {
-          new TokenRule(TokenRuleType.delimiter, @"\s*;")
+      opcodeDelimiterTokenRules = new[] {
+          new TokenRule(TokenRuleType.opcodeDelimiter, @"\s*;")
       };
       eolTokenRules = new[] {
         new TokenRule(TokenRuleType.eol, @"\s*$")
@@ -495,7 +495,7 @@ namespace Command {
         operands = new List<String>();
         while (operandToken.Accept()) {
           operands.Add(operandToken.Value);
-          if (operandDelimiterToken.Accept()) break;
+          if (opcodeDelimiterToken.Accept()) break;
           if (AcceptEOL()) throw new ParseException($"Undelimited {sOpcode} operand");
           SpaceToken.Expect();
         }
