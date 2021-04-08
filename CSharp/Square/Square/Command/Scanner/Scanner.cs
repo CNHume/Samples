@@ -34,10 +34,10 @@ namespace Command {
     #endregion
 
     #region Properties
-    private Int32 NextRow { get; set; }
+    protected Int32 NextRow { get; set; }
     public Int32 Row { get; private set; }
     public Int32 Column { get; private set; }
-    public (Int32, Int32) Position { get => (Row, Column); }
+    public (Int32, Int32) Position { get => (Row, Column); set => Rewind(value); }
 
     // The following works for TextReader as well as StreamReader:
     public Boolean EndOfStream { get => Text is null; }
@@ -118,13 +118,13 @@ namespace Command {
       }
     }
 
-    public virtual void Rewind(Int32 nRow = 0, Int32 nColumn = 0) {
-      if (Rows.Count <= nRow)
-        throw new ArgumentException($"Row = {nRow} must be < Rows.Count = {Rows.Count}", nameof(nRow));
+    public void Rewind(Int32 nRow = 0, Int32 nColumn = 0) {
+      if (Rows.Count < nRow)
+        throw new ArgumentException($"Row = {nRow} must be <= Rows.Count = {Rows.Count}", nameof(nRow));
 
       var nLength = Rows[nRow].Length;
-      if (nLength <= nColumn)
-        throw new ArgumentException($"Column = {nColumn} must be < Rows[{nRow}].Length = {nLength}", nameof(nColumn));
+      if (nLength < nColumn)
+        throw new ArgumentException($"Column = {nColumn} must be <= Rows[{nRow}].Length = {nLength}", nameof(nColumn));
 
       NextRow = nRow;
       ReadLine();
