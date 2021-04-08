@@ -122,7 +122,7 @@ namespace Command {
       if (Rows.Count < nRow)
         throw new ArgumentException($"Row = {nRow} must be <= Rows.Count = {Rows.Count}", nameof(nRow));
 
-      var nLength = Rows[nRow].Length;
+      var nLength = Rows[nRow]?.Length;
       if (nLength < nColumn)
         throw new ArgumentException($"Column = {nColumn} must be <= Rows[{nRow}].Length = {nLength}", nameof(nColumn));
 
