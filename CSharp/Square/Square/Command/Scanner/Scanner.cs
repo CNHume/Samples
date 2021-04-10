@@ -140,7 +140,6 @@ namespace Command {
     public void Skip(Int32 nLength) {
       Column += nLength;
       Text = Text.Substring(nLength);
-      if (EndOfLine) ReadLine();
     }
 
     public String Scan(Int32 nLength) {

@@ -16,6 +16,7 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [18-ply in 53:00 over 3.625 Gnode @ 1.14 MHz]
     "rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
