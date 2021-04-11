@@ -17,7 +17,7 @@ namespace Command {
     private const String sDefaultFEN =
     //"";
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [18-ply in 53:00 over 3.625 Gnode @ 1.14 MHz]
-    "rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
+    //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
     //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
@@ -57,11 +57,10 @@ namespace Command {
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply in 4.27 sec]
     //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Grenke Chess Classic R6 2018-04-06 [14-ply in 18.5 sec to find 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2]
     // Deeper line: 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Bd7 Nb3+ 71. Kb1 Kd2
-    //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [24-ply in 52:12 min to see win]
+    //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply to find clear win in 1:09:27 over 3.72 Gnode @ 0.893 MHz]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 4"; // R v B Philidor from Rc3 #17 [17-ply @1.167 MHz in 26:32.5, formerly 1:16:33]
-    // 4. Rg7 (4. Be6! Rd3+ 5. Bd5 Rc3 6. Rd7+ Kc8 7. Rg7 Kb8 8. Rb7+ Kc8 9. Rb4 Rd3 10. Ra4)
-    // 4... Re3 5. Be6 Rd3+ 6. Bd5 Re3 7. Rd7+ Ke8 8. Rb7 Kf8 9. Rf7+ Ke8 10. Rf4 Rd3 11. Rg4
+    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #17 @1.167 MHz in 29:04 over 1.86 Gnode @ 1.065 MHz]
+    // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4
     //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 4:21 to find 37. g4 Qc6]
     //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
     //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [15-ply in 12 sec to find Be5+]
