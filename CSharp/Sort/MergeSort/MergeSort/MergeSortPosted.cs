@@ -108,20 +108,17 @@
 
   #region Insertion Sort
   static class InsertionSort<T> where T : IComparable {
-    public static void Sort(T[] entries) {
-      Sort(entries, 0, entries.Length - 1);
+    public static void Sort(T[] entries, Int32 first, Int32 last) {
+      for (var next = first + 1; next <= last; next++)
+        insert(entries, first, next);
     }
 
-    public static void Sort(T[] entries, Int32 first, Int32 last) {
-      for (var index = first + 1; index <= last; index++)
-        insert(entries, first, index);
-      }
-
-    private static void insert(T[] entries, Int32 first, Int32 index) {
-      var entry = entries[index];
-      while (index > first && entries[index - 1].CompareTo(entry) > 0)
-        entries[index] = entries[--index];
-      entries[index] = entry;
+    /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
+    private static void insert(T[] entries, Int32 first, Int32 next) {
+      var entry = entries[next];
+      while (next > first && entries[next - 1].CompareTo(entry) > 0)
+        entries[next] = entries[--next];
+      entries[next] = entry;
     }
   }
   #endregion
