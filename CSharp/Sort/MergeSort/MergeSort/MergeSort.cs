@@ -65,8 +65,7 @@ namespace MergeSort {
     // Top-Down K-way Merge Sort
     public void Sort(T[] entries1, T[] entries2, Int32 first, Int32 last) {
       var length = last + 1 - first;
-      if (length < 2) return;
-      
+      if (length < 2) return;      
       if (length < Merges || length < InsertionLimit) {
         InsertionSorter.Sort(entries1, first, last);
         return;

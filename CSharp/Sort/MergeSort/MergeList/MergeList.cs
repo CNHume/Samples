@@ -63,10 +63,8 @@ namespace MergeSort {
     public List<T> Sort(List<T> entries, Int32 first, Int32 last) {
       var length = last + 1 - first;
       if (length < 2) return entries;
-
       if (length < Merges || length < InsertionLimit) {
-        InsertionSorter.Sort(entries, first, last);
-        return entries;
+        return InsertionSorter.Sort(entries, first, last);
       }
 #if TestRanges
       Console.WriteLine("Entries: " + String.Join(" ", entries));

@@ -64,14 +64,18 @@ namespace Sort {
 #endif
 #else
 #if TestList
-        sorter.Sort(input);
+        var output = sorter.Sort(input);
 #else
         sorter.Sort(entries);
 #endif
 #endif
         Stop();
         Display();
+#if TestList
+        Footer(output, print);
+#else
         Footer(entries, print);
+#endif
       }
     }
     #endregion

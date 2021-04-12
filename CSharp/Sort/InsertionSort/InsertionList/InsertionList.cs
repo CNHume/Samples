@@ -23,13 +23,14 @@ namespace InsertionSort {
     #endregion
 
     #region Methods
-    public void Sort(List<T> entries) {
-      Sort(entries, 0, entries.Count - 1);
+    public List<T> Sort(List<T> entries) {
+      return Sort(entries, 0, entries.Count - 1);
     }
 
-    public void Sort(List<T> entries, Int32 first, Int32 last) {
+    public List<T> Sort(List<T> entries, Int32 first, Int32 last) {
       for (var next = first + 1; next <= last; next++)
         insert(entries, first, next);
+      return entries;
     }
 
     /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
