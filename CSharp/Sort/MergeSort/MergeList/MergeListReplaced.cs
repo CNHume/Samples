@@ -3,27 +3,11 @@
 //
 // 2014-12-09 CNHume  Created File
 //
-namespace Sort {
+namespace RosettaCode {
   using System;
   using System.Collections.Generic;
 
   public static class MergeList<T> where T : IComparable {
-    #region Constants
-    private const Int32 insertionLimit = 20;
-    private const Int32 mergesDefault = 6;
-    #endregion
-
-    #region Properties
-    public static Int32 InsertionLimit { get; set; }
-    public static Int32 Merges { get; set; }
-    #endregion
-
-    #region Constructors
-    static MergeList() {
-      Merges = mergesDefault;
-    }
-    #endregion
-
     #region Sort Methods
     public static List<T> Sort<T>(List<T> list) where T : IComparable {
       if (list.Count <= 1)
@@ -49,19 +33,6 @@ namespace Sort {
       result.AddRange(left);
       result.AddRange(right);
       return result;
-    }
-    #endregion
-
-    #region Test Methods
-    internal static void Swap(T[] entries, Int32 index1, Int32 index2) {
-      var entry = entries[index1];
-      entries[index1] = entries[index2];
-      entries[index2] = entry;
-    }
-
-    public static void Reverse(T[] entries) {
-      for (Int32 left = 0, right = entries.Length - 1; left < right; left++, right--)
-        Swap(entries, left, right);
     }
     #endregion
   }

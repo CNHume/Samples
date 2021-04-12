@@ -32,9 +32,6 @@ namespace InsertionSort {
     }
 
     /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
-    /// <param name="entries"></param>
-    /// <param name="first">Index of first entry</param>
-    /// <param name="next">Index of next entry to be sorted</param>
     private void insert(T[] entries, Int32 first, Int32 next) {
       var entry = entries[next];
 

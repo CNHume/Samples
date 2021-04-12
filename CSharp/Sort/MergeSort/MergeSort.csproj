@@ -17,9 +17,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MergeList\MergeListRange.cs" />
     <Compile Remove="MergeList\MergeListReplaced.cs" />
     <Compile Remove="MergeSort\MergeSortPosted.cs" />
-    <Compile Remove="MergeSort\MergeSortRange.cs" />
   </ItemGroup>
 
   <ItemGroup>

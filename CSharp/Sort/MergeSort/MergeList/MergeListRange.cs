@@ -11,17 +11,19 @@ using System.Linq;
 namespace Sort {
   public static class MergeSort<T> where T : IComparable {
     #region Constants
-    private const Int32 insertionLimit = 20;
+    private const UInt32 INSERTION_LIMIT_DEFAULT = 12;
+    private const Int32 MERGES_DEFAULT = 6;
     #endregion
 
     #region Properties
-    private const Int32 MergesDefault = 6;
+    public static UInt32 InsertionLimit { get; set; }
     public static Int32 Merges { get; set; }
     #endregion
 
     #region Constructors
     static MergeSort() {
-      Merges = MergesDefault;
+      InsertionLimit = INSERTION_LIMIT_DEFAULT;
+      Merges = MERGES_DEFAULT;
     }
     #endregion
 
@@ -35,9 +37,8 @@ namespace Sort {
       if (length < 2)
         return entries;
 
-      if (length < Merges/* || length < insertionLimit*/) {
-        InsertionSort<T>.Sort(entries.ToArray(), first, last);
-        return entries;
+      if (length < Merges || length < InsertionLimit) {
+        return InsertionList<T>.Sort(entries, first, last);
       }
 
       var ranges = new List<List<T>>(Merges);
@@ -77,4 +78,22 @@ namespace Sort {
       return merge;
     }
   }
+
+  #region Insertion Sort
+  static class InsertionList<T> where T : IComparable {
+    public static List<T> Sort(List<T> entries, Int32 first, Int32 last) {
+      for (var next = first + 1; next <= last; next++)
+        insert(entries, first, next);
+      return entries;
+    }
+
+    /// <summary>Bubble next entry up to its sorted location, assuming entries[first:next - 1] are already sorted.</summary>
+    private static void insert(List<T> entries, Int32 first, Int32 next) {
+      var entry = entries[next];
+      while (next > first && entries[next - 1].CompareTo(entry) > 0)
+        entries[next] = entries[--next];
+      entries[next] = entry;
+    }
+  }
+  #endregion
 }
