@@ -6,6 +6,9 @@
 //
 // 2014-12-09 CNHume  Created File
 //
+// Conditionals:
+//
+//#define TestRanges
 
 namespace MergeSort {
   using InsertionSort;
@@ -65,7 +68,9 @@ namespace MergeSort {
         InsertionSorter.Sort(entries, first, last);
         return entries;
       }
-
+#if TestRanges
+      Console.WriteLine("Entries: " + String.Join(" ", entries));
+#endif
       var ranges = new List<List<T>>(Merges);
       var remaining = length;
       var mergeSize = length / Merges;
@@ -77,7 +82,11 @@ namespace MergeSort {
         ranges.Add(merge);
       }
 
-      return Merge(ranges);
+      var result = Merge(ranges);
+#if TestRanges
+      Console.WriteLine("Result: " + String.Join(" ", result));
+#endif
+      return result;
     }
 
     public List<T> Merge(List<List<T>> ranges) {

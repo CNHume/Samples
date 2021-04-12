@@ -67,7 +67,7 @@ namespace MergeSort {
       var length = last + 1 - first;
       if (length < 2) return;
       
-      if (length < InsertionLimit) {
+      if (length < Merges || length < InsertionLimit) {
         InsertionSorter.Sort(entries1, first, last);
         return;
       }
