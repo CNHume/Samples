@@ -3,12 +3,13 @@
 
   public class MergeSort<T> where T : IComparable {
     #region Constants
-    private const Int32 mergesDefault = 6;
-    private const Int32 insertionLimitDefault = 12;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
+    public const Int32 MERGES_DEFAULT = 6;
     #endregion
 
     #region Properties
-    protected Int32[] Positions { get; set; }
+    public UInt32 InsertionLimit { get; }
+    protected UInt32[] Positions { get; set; }
 
     private Int32 merges;
     public Int32 Merges {
@@ -18,24 +19,22 @@
         if (value > 1)
           merges = value;
         else
-          throw new ArgumentOutOfRangeException();
+          throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
 
         if (Positions == null || Positions.Length != merges)
-          Positions = new Int32[merges];
+          Positions = new UInt32[merges];
       }
     }
-
-    public Int32 InsertionLimit { get; set; }
     #endregion
 
     #region Constructors
-    public MergeSort(Int32 merges, Int32 insertionLimit) {
-      Merges = merges;
+    public MergeSort(UInt32 insertionLimit, Int32 merges) {
       InsertionLimit = insertionLimit;
+      Merges = merges;
     }
 
     public MergeSort()
-      : this(mergesDefault, insertionLimitDefault) {
+      : this(INSERTION_LIMIT_DEFAULT, MERGES_DEFAULT) {
     }
     #endregion
 
@@ -49,9 +48,8 @@
     // Top-Down K-way Merge Sort
     public void Sort(T[] entries1, T[] entries2, Int32 first, Int32 last) {
       var length = last + 1 - first;
-      if (length < 2)
-        return;
-      else if (length < InsertionLimit) {
+      if (length < 2) return;      
+      if (length < Merges || length < InsertionLimit) {
         InsertionSort<T>.Sort(entries1, first, last);
         return;
       }
@@ -77,8 +75,8 @@
     }
 
     private T remove(T[] entries, Int32 first, Int32 last) {
-      var entry = default(T);
-      var found = (Int32?)null;
+      T entry = default;
+      Int32? found = default;
       var length = last + 1 - first;
 
       var index = 0;
