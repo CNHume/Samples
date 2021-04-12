@@ -11,12 +11,12 @@ namespace RosettaCode {
 
   public class QuickSort<T> where T : IComparable {
     #region Constants
-    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
     private const Int32 SAMPLES_MAX = 19;
     #endregion
 
     #region Properties
-    public Int32 InsertionLimit { get; }
+    public UInt32 InsertionLimit { get; }
     private T[] Samples { get; }
     private Int32 Left { get; set; }
     private Int32 Right { get; set; }
@@ -25,7 +25,7 @@ namespace RosettaCode {
     #endregion
 
     #region Constructors
-    public QuickSort(Int32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
+    public QuickSort(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT) {
       this.InsertionLimit = insertionLimit;
       this.Samples = new T[SAMPLES_MAX];
     }

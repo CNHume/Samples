@@ -19,14 +19,14 @@ namespace MergeSort {
 
   public class MergeSort<T> where T : IComparable {
     #region Constants
-    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
     public const Int32 MERGES_DEFAULT = 6;
     #endregion
 
     #region Properties
     public IMeter Meter { get; }
-    public Int32 InsertionLimit { get; }
-    protected Int32[] Positions { get; set; }
+    public UInt32 InsertionLimit { get; }
+    protected UInt32[] Positions { get; set; }
 
     private Int32 merges;
     public Int32 Merges {
@@ -36,10 +36,10 @@ namespace MergeSort {
         if (value > 1)
           merges = value;
         else
-          throw new ArgumentOutOfRangeException();
+          throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
 
         if (Positions is null || Positions.Length != merges)
-          Positions = new Int32[merges];
+          Positions = new UInt32[merges];
       }
     }
 
@@ -47,7 +47,7 @@ namespace MergeSort {
     #endregion
 
     #region Constructors
-    public MergeSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+    public MergeSort(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;
@@ -65,9 +65,9 @@ namespace MergeSort {
     // Top-Down K-way Merge Sort
     public void Sort(T[] entries1, T[] entries2, Int32 first, Int32 last) {
       var length = last + 1 - first;
-      if (length < 2)
-        return;
-      else if (length < InsertionLimit) {
+      if (length < 2) return;
+      
+      if (length < InsertionLimit) {
         InsertionSorter.Sort(entries1, first, last);
         return;
       }

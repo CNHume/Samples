@@ -30,13 +30,13 @@ namespace QuickSort {
 
   public class QuickSortSwapInPlace<T> where T : IComparable {
     #region Constants
-    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
     private const Int32 SAMPLES_MAX = 19;
     #endregion
 
     #region Properties
     public IMeter Meter { get; }
-    public Int32 InsertionLimit { get; }
+    public UInt32 InsertionLimit { get; }
     private InsertionSort<T> InsertionSorter { get; }
     private Random Random { get; init; }
 
@@ -47,14 +47,14 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSortSwapInPlace(IMeter meter, Int32 insertionLimit, Random random) {
+    public QuickSortSwapInPlace(IMeter meter, UInt32 insertionLimit, Random random) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
       this.Random = random;
     }
 
-    public QuickSortSwapInPlace(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+    public QuickSortSwapInPlace(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT)
       : this(meter, insertionLimit, new Random()) {
     }
     #endregion

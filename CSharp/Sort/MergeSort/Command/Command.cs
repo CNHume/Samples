@@ -17,10 +17,10 @@ namespace Sort {
     #region Properties
     public Int32? Length { get; set; }
     public Int32? Merges { get; set; }
-    public Int32? InsertionLimit { get; set; }
+    public UInt32? InsertionLimit { get; set; }
     public Boolean Print { get; set; }
     public SortCase SortCase { get; set; }
-    public Int32? Trials { get; set; }
+    public UInt32? Trials { get; set; }
     #endregion
 
     #region Methods
@@ -46,9 +46,9 @@ namespace Sort {
           switch (token[1]) {
           case 'i':                     // the insertion-limit switch
             if (len > 2)                // whitespace optional
-              InsertionLimit = token.Substring(2, len - 2).TryParseInt32();
+              InsertionLimit = token.Substring(2, len - 2).TryParseUInt32();
             else if (n < count)         // whitespace allowed
-              InsertionLimit = args[++n].TryParseInt32();
+              InsertionLimit = args[++n].TryParseUInt32();
 
             usage = !InsertionLimit.HasValue;
             break;
@@ -78,9 +78,9 @@ namespace Sort {
 
           case 't':                     // the trials switch
             if (len > 2)                // whitespace optional
-              Trials = token.Substring(2, len - 2).TryParseInt32();
+              Trials = token.Substring(2, len - 2).TryParseUInt32();
             else if (n < count)         // whitespace allowed
-              Trials = args[++n].TryParseInt32();
+              Trials = args[++n].TryParseUInt32();
 
             usage = !Trials.HasValue;
             break;

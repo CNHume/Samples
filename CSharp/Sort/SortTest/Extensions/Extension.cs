@@ -69,6 +69,10 @@ namespace SortTest.Extensions {
       return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
     }
 
+    public static UInt32? TryParseUInt32(this String s) {
+      return UInt32.TryParse(s, out UInt32 result) ? (UInt32?)result : null;
+    }
+
     public static T ParseEnum<T>(this String value, bool ignoreCase = false) {
       return (T)Enum.Parse(typeof(T), value, ignoreCase);
     }

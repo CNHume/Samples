@@ -18,7 +18,7 @@ namespace Sort {
     public Int32? Length { get; set; }
     public Boolean Print { get; set; }
     public SortCase SortCase { get; set; }
-    public Int32? Trials { get; set; }
+    public UInt32? Trials { get; set; }
     #endregion
 
     #region Methods
@@ -56,9 +56,9 @@ namespace Sort {
 
           case 't':                     // the trials switch
             if (len > 2)                // whitespace optional
-              Trials = token.Substring(2, len - 2).TryParseInt32();
+              Trials = token.Substring(2, len - 2).TryParseUInt32();
             else if (n < count)         // whitespace allowed
-              Trials = args[++n].TryParseInt32();
+              Trials = args[++n].TryParseUInt32();
 
             usage = !Trials.HasValue;
             break;

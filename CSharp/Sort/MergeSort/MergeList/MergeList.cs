@@ -17,14 +17,14 @@ namespace MergeSort {
 
   public class MergeList<T> where T : IComparable {
     #region Constants
-    public const Int32 INSERTION_LIMIT_DEFAULT = 20;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 20;
     public const Int32 MERGES_DEFAULT = 6;
     #endregion
 
     #region Properties
     public IMeter Meter { get; }
-    public Int32 InsertionLimit { get; set; }
-    protected Int32[] Positions { get; set; }
+    public UInt32 InsertionLimit { get; set; }
+    protected UInt32[] Positions { get; set; }
     private Int32 merges;
     public Int32 Merges {
       get { return merges; }
@@ -33,17 +33,17 @@ namespace MergeSort {
         if (value > 1)
           merges = value;
         else
-          throw new ArgumentOutOfRangeException();
+          throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
 
         if (Positions is null || Positions.Length != merges)
-          Positions = new Int32[merges];
+          Positions = new UInt32[merges];
       }
     }
     private InsertionList<T> InsertionSorter { get; }
     #endregion
 
     #region Constructors
-    public MergeList(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
+    public MergeList(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.Merges = merges;
@@ -56,13 +56,12 @@ namespace MergeSort {
       return Sort(entries, 0, entries.Count - 1);
     }
 
-    // top-down n-way Merge Sort
+    // top-down K-way Merge Sort
     public List<T> Sort(List<T> entries, Int32 first, Int32 last) {
       var length = last + 1 - first;
-      if (length < 2)
-        return entries;
+      if (length < 2) return entries;
 
-      if (length < Merges || length < INSERTION_LIMIT_DEFAULT) {
+      if (length < Merges || length < InsertionLimit) {
         InsertionSorter.Sort(entries, first, last);
         return entries;
       }

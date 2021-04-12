@@ -30,13 +30,13 @@ namespace QuickSort {
 
   public class QuickSort<T> where T : IComparable {
     #region Constants
-    public const Int32 INSERTION_LIMIT_DEFAULT = 12;
+    public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
     private const Int32 SAMPLES_MAX = 19;
     #endregion
 
     #region Properties
     public IMeter Meter { get; }
-    public Int32 InsertionLimit { get; }
+    public UInt32 InsertionLimit { get; }
     private InsertionSort<T> InsertionSorter { get; }
     private Random Random { get; init; }
     private T[] Samples { get; }
@@ -48,7 +48,7 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter meter, Int32 insertionLimit, Random random) {
+    public QuickSort(IMeter meter, UInt32 insertionLimit, Random random) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
@@ -60,7 +60,7 @@ namespace QuickSort {
       : this(meter, insertionLimit, new Random()) {
     }
 #else
-    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
+    public QuickSort(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT)
       : this(meter, insertionLimit, default) {
     }
 #endif
@@ -73,7 +73,6 @@ namespace QuickSort {
 
     public void Sort(T[] entries, Int32 first, Int32 last) {
       var length = last + 1 - first;
-
       while (length > 1) {
         if (length < InsertionLimit) {
           InsertionSorter.Sort(entries, first, last);

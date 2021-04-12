@@ -33,7 +33,7 @@ namespace Sort {
     #endregion
 
     #region Methods
-    public void Sort(T[] entries, Boolean print, Int32? trials) {
+    public void Sort(T[] entries, Boolean print, UInt32? trials) {
       if (!trials.HasValue) trials = 1;
 #if TestList
       var input = entries.ToList();

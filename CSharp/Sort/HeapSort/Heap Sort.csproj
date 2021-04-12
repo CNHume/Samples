@@ -16,6 +16,10 @@
     <AssemblyName>HeapSort</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Documents\Sourcetree\Samples\CSharp\Sort\HeapSort\HeapSort.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\SortTest\Sort Test.csproj" />
   </ItemGroup>

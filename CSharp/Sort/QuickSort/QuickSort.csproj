@@ -14,12 +14,19 @@
     <RootNamespace>QuickSort</RootNamespace>
     <AssemblyName>quicksort</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\quicksort.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="QuickSort\QuickSortBasic.cs" />
     <Compile Remove="QuickSort\QuickSortPosted.cs" />
     <Compile Remove="QuickSort\QuickSortSwapInPlace.cs" />
     <Compile Remove="QuickSort\QuickSortTripartite.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Linear Samples Array vs SwapInPlace.txt" />
   </ItemGroup>
 
   <ItemGroup>
