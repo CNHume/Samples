@@ -21,7 +21,7 @@
         else
           throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
 
-        if (Positions == null || Positions.Length != merges)
+        if (Positions?.Length != merges)
           Positions = new UInt32[merges];
       }
     }

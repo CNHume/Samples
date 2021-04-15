@@ -29,7 +29,7 @@ namespace Command {
     public TokenType TokenType { get; }
     public TokenRuleType TokenRuleType { get; private set; }
     public String Value { get; private set; }
-    public Boolean IsVerbose => Parser is not null && Parser.IsVerbose;
+    public Boolean IsVerbose => Parser?.IsVerbose == true;
     #endregion
 
     #region Constructors
@@ -73,9 +73,9 @@ namespace Command {
     public void Expect() {
       if (Accept()) return;
 
-      var scanner = Parser.Scanner;
+      var scanner = Parser?.Scanner;
       var type = GetType();
-      var message = IsNullOrEmpty(scanner.Text) ?
+      var message = IsNullOrEmpty(scanner?.Text) ?
         $"{TokenType} expected" : $@"The {TokenType} {type.Name} does not accept ""{scanner.Text}""";
       throw new ChessException(message);
     }
