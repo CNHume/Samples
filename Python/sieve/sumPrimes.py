@@ -5,8 +5,17 @@ import sys
 from Sieve import Sieve
 from Polynomial import Poly
 from Perform import Perform
+from Numeric import Numeric
+# from decimal import *
 
 def main():
+  # q = Decimal(0.065536)
+  # r = Numeric.sqrt(q)
+  # s = r * r
+  # t = None if q == 0 else 100 * (q - s) / q
+  # print('q = {}, r = {}, s = {}, t = {}'.format(q, r, s, t))
+  # return
+
   # 411.5 sec using integers
   n = 999983
   n = 113
