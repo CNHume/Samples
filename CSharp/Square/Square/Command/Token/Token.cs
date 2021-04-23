@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define DebugToken
+#define IgnoreSpace
 
 namespace Command {
   using Exceptions;
@@ -41,30 +41,30 @@ namespace Command {
     #endregion
 
     #region Methods
-    public Boolean Accept() {
+    public Boolean Accept(Boolean showMatch = true) {
       return Parser?.Scanner?.Text is null ?
-        false : TokenRules.Any(tokenRule => match(tokenRule, Parser.Scanner));
+        false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, showMatch));
     }
 
-    private Boolean match(TokenRule tokenRule, Scanner scanner) {
+    private Boolean match(Scanner scanner, TokenRule tokenRule, Boolean showMatch = true) {
       var match = tokenRule.Match(scanner.Text);
       if (match.Success) {
         TokenRuleType = tokenRule.TokenRuleType;
         Value = match.Value;
         scanner.Skip(match.Length);
-#if DebugToken
-        if (IsVerbose) {
+        if (showMatch && IsVerbose) {
           switch (tokenRule.TokenRuleType) {
+#if IgnoreSpace
           case TokenRuleType.opcodeDelimiter:
           case TokenRuleType.eol:
           case TokenRuleType.space:
             break;
+#endif
           default:
             LogLine($@"Matched {TokenRuleType} ""{Value}""");
             break;
           }
         }
-#endif
       }
 
       return match.Success;

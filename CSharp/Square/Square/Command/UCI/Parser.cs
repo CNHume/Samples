@@ -223,15 +223,17 @@ namespace Command {
       Scanner.Close();
     }
 
-    public Boolean AcceptEOL(String sMethodName = default) {
+    public Boolean AcceptEOL(String sMethodName = default, Boolean showText = true) {
       var bAccepted = Scanner.EndOfLine || eolToken.Accept();
-      if (IsVerbose && !bAccepted)
+      if (bAccepted)
+        Scanner.ReadLine();
+      else if (showText && IsVerbose)
         LogLine(eolMessage(sMethodName));
       return bAccepted;
     }
 
-    public void ExpectEOL(String sMethodName = default) {
-      if (!AcceptEOL(sMethodName))
+    public void ExpectEOL(String sMethodName = default, Boolean showText = true) {
+      if (!AcceptEOL(sMethodName, showText))
         throw new ParseException(eolMessage(sMethodName));
     }
 
@@ -242,9 +244,7 @@ namespace Command {
     }
 
     //[ToDo]Refactor top-level Command Loop
-    public List<object> Parse() {
-      var objects = new List<object>();
-
+    public IEnumerable<object> Parse() {
       while (!Scanner.EndOfStream) {
         // Preserve value of Text prior to the Scanner side-effects of the Accept Method
         var sText = Scanner.Text;
@@ -252,22 +252,19 @@ namespace Command {
         var obj = ParseRow();
         var bAccepted = obj is not null;
 
-        //[Debug]
-        //if (Log) {
-        //  var result = bAccepted ? "Accepted" : "Rejected";
-        //  var message = $@"{result}: ""{sText}""";
-        //  if (bAccepted) LogLine(message);
-        //}
-
         if (bAccepted)
-          objects.Add(obj);
+          yield return obj;
         else {
+          //[Test]
+          //if (Log) {
+          //  var message = $@"Rejected: ""{sText}""";
+          //  if (bAccepted) LogLine(message);
+          //}
+
           // Skip past any Row that cannot be parsed.
           Scanner.ReadLine();
         }
       }
-
-      return objects;
     }
 
     //[ToDo]
