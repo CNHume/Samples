@@ -70,8 +70,8 @@ namespace Command {
       return match.Success;
     }
 
-    public void Expect() {
-      if (Accept()) return;
+    public void Expect(Boolean bShowMatch = true) {
+      if (Accept(bShowMatch)) return;
 
       var scanner = Parser?.Scanner;
       var type = GetType();
