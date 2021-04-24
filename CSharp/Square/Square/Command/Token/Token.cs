@@ -41,18 +41,18 @@ namespace Command {
     #endregion
 
     #region Methods
-    public Boolean Accept(Boolean showMatch = true) {
+    public Boolean Accept(Boolean bShowMatch = true) {
       return Parser?.Scanner?.Text is null ?
-        false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, showMatch));
+        false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, bShowMatch));
     }
 
-    private Boolean match(Scanner scanner, TokenRule tokenRule, Boolean showMatch = true) {
+    private Boolean match(Scanner scanner, TokenRule tokenRule, Boolean bShowMatch = true) {
       var match = tokenRule.Match(scanner.Text);
       if (match.Success) {
         TokenRuleType = tokenRule.TokenRuleType;
         Value = match.Value;
         scanner.Skip(match.Length);
-        if (showMatch && IsVerbose) {
+        if (bShowMatch && IsVerbose) {
           switch (tokenRule.TokenRuleType) {
 #if IgnoreSpace
           case TokenRuleType.opcodeDelimiter:

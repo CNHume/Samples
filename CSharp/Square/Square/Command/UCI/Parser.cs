@@ -223,17 +223,17 @@ namespace Command {
       Scanner.Close();
     }
 
-    public Boolean AcceptEOL(String sMethodName = default, Boolean showText = true) {
+    public Boolean AcceptEOL(String sMethodName = default, Boolean bShowText = true) {
       var bAccepted = Scanner.EndOfLine || eolToken.Accept();
       if (bAccepted)
         Scanner.ReadLine();
-      else if (showText && IsVerbose)
+      else if (bShowText && IsVerbose)
         LogLine(eolMessage(sMethodName));
       return bAccepted;
     }
 
-    public void ExpectEOL(String sMethodName = default, Boolean showText = true) {
-      if (!AcceptEOL(sMethodName, showText))
+    public void ExpectEOL(String sMethodName = default, Boolean bShowText = true) {
+      if (!AcceptEOL(sMethodName, bShowText))
         throw new ParseException(eolMessage(sMethodName));
     }
 
