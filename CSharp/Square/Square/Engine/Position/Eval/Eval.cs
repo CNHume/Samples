@@ -193,8 +193,8 @@ namespace Engine {
     protected Eval punishOutsideSquare() {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
-      var qpArray = bWhiteAlone ? bWTM ? WhiteKingToMoveLoss : BlackPawnToMoveWins :
-                                  bWTM ? WhitePawnToMoveWins : BlackKingToMoveLoss;
+      var qpArray = bWhiteAlone ? bWTM ? KingToMoveLoss[White] : PawnToMoveWins[Black] :
+                                  bWTM ? PawnToMoveWins[White] : KingToMoveLoss[Black];
       var vDefendingKingPos = getKingPos(bWhiteAlone);
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;

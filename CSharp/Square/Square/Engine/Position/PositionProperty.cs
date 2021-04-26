@@ -3,14 +3,16 @@
 //
 // Conditionals:
 //
-//#define TestPawnFeatures
 //#define BuildAtxTo
 #define UseMoveSort
 #define LazyMoveSort
-//#define TestInitFree
+//#define TestPawnFeatures
+#define TestInitFree
 //#define TestInitHelp
 #define InitFree                        //[Default]
 //#define InitHelp                        //[Test]
+#define TestInitFree
+//#define TestInitHelp
 
 namespace Engine {
   using HeapSort;                           // for Heap
@@ -19,14 +21,12 @@ namespace Engine {
 
   using System;
   using System.Collections.Generic;
-  using System.Diagnostics;
 
   using static MoveOrder.TypedMove;
 
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
   using Draft = System.UInt16;
   using Eval = System.Int16;
   using ExtensionCounter = System.UInt16;
@@ -34,30 +34,29 @@ namespace Engine {
   using Plane = System.UInt64;
 
   partial class Position : Board {
-    #region Constant Fields
-    protected static Plane[] WhiteKingToMoveLoss;
-    protected static Plane[] BlackKingToMoveLoss;
-    protected static Plane[] WhitePawnToMoveWins;
-    protected static Plane[] BlackPawnToMoveWins;
-#if TestInitHelp || InitFree || !InitHelp
-    protected static Plane[] WhiteFree;
-    protected static Plane[] BlackFree;
-#endif
-#if TestInitFree || InitHelp || !InitFree
-    protected static Plane[] WhiteHelp;
-    protected static Plane[] BlackHelp;
-#endif
-    #endregion
-
     #region Static Fields
     protected static Byte[] Importance;
 
     protected static readonly Draft wReducedDraftMin;
     protected static readonly Draft wLateDrafthMin;
     protected static readonly Draft wLerpDraftMax;
+    #endregion
 
+    #region Pawn Feature Fields
     public static readonly PawnFeature[] PawnFeatures;
     public static readonly Int32 nFeatureBits;
+
+    private static readonly Plane[][] KingToMoveLoss;
+    private static readonly Plane[][] PawnToMoveWins;
+#if TestInitHelp || InitFree || !InitHelp
+    private static readonly Plane[][] Free;
+#endif
+#if TestInitFree || InitHelp || !InitFree
+    private static readonly Plane[][] Help;
+#endif
+#if TestInitFree || TestInitHelp
+    private static readonly sq[] testSquares = { sq.a1, sq.a8, sq.c2, sq.c5, sq.d6, sq.e4, sq.f1, sq.g7, sq.h8 };
+#endif
     #endregion
 
     #region Virtual Fields

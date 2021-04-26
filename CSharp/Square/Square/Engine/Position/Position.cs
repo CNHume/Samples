@@ -23,19 +23,19 @@
 #define InheritMoveTypes
 //#define LinkedTranspositions
 //#define TimeAtxFromUpdates
-//#define TestPawnFeatures
 //#define BuildAtxTo
 #define UseMoveSort                     // 12.24% Faster without UseMoveSort
 #define LazyMoveSort
 //#define ShowCornerCP
 //#define TestCorner
-//#define TestInitFree
-//#define TestInitHelp
-#define InitFree                        //[Default]
-//#define InitHelp                        //[Test]
 #define DebugInit
 //#define DebugStand
 //#define TestImportance
+#define TestInitFree
+//#define TestInitHelp
+#define InitFree                        //[Default]
+//#define InitHelp                        //[Test]
+//#define TestPawnFeatures
 
 namespace Engine {
   using HeapSort;                           // for Heap
@@ -46,6 +46,7 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Diagnostics;
 
+  using static Board.BoardSide;
   using static Logging.Logger;
   using static MoveOrder.TypedMove;
 
@@ -116,6 +117,14 @@ namespace Engine {
       #endregion
 
       #region Read Only Assignments
+      KingToMoveLoss = new Plane[nSides][];
+      PawnToMoveWins = new Plane[nSides][];
+#if TestInitHelp || InitFree || !InitHelp
+      Free = new Plane[nSides][];
+#endif
+#if TestInitFree || InitHelp || !InitFree
+      Help = new Plane[nSides][];
+#endif
       wReducedDraftMin = draft(wReducedDepthMin);
       wLateDrafthMin = draft(wLateDepthMin);
       wLerpDraftMax = draft(wLerpDepthMax);
@@ -182,38 +191,12 @@ namespace Engine {
     // the Position super class require less than one ms to complete
     //
     private static void initPosition() {
-      initPawnFeature();
       newSquareImportance();
       loadSquareImportance();
-    }
 
-    protected static void initPawnFeature() {
-#if TestInitHelp || InitFree || !InitHelp
-      newFree();
-      loadFree();
-#endif
-#if TestInitFree || InitHelp || !InitFree
-      newHelp();
-      loadHelp();
-#endif
-#if TestInitFree || TestInitHelp
-      foreach (var sq in testSquares) {
-        var n = (Int32)sq;
-        LogLine("whiteHelp({0})\n", sq);
-        writeRect(whiteHelp(n));
-        //LogLine("WhiteFree[{0}]\n", sq);
-        //writeRect(WhiteFree[n]);
-        LogLine();
-#if InitHelp
-        LogLine("WhiteHelp[{0}]\n", sq);
-        writeRect(WhiteHelp[n]);
-        LogLine();
-#endif
-      }
-#endif
-      newOutsideSquare();
+      newPawnFeature();
       loadOutsideSquare();
-      //loadKingToMoveLoss();
+      loadFreeHelp();
     }
 
     private static void newSquareImportance() {

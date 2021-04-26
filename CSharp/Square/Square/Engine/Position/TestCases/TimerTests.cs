@@ -406,10 +406,10 @@ namespace Engine {
       //[Test]testRotations();
       //[Test]writeDepthShallow((PlyDepth)32);
       //[Test]writeDepthDeep((PlyDepth)32);
-      //[Test]
-      testPieceMasks();
+      //[Test]testPieceMasks();
       //[Test]testPawnAttacks();
-      //[Test]testOutsideSquare(sq.c1);
+      //[Test]
+      testOutsideSquare(sq.c1);
       //[Test]
       //for (sq sq = sq.a1; sq <= sq.h8; sq++)
       //  testAtxMasks(sq);
@@ -418,11 +418,11 @@ namespace Engine {
     [Conditional("TestOutsideSquare")]
     protected void testOutsideSquare(sq sq) {
       var n = (Int32)sq;
-      testRect($"WhiteKingToMoveLoss[{sq}]", WhiteKingToMoveLoss[n]);
-      testRect($"BlackKingToMoveLoss[{sq}]", BlackKingToMoveLoss[n]);
-
-      testRect($"WhitePawnToMoveWins[{sq}]", WhitePawnToMoveWins[n]);
-      testRect($"BlackPawnToMoveWins[{sq}]", BlackPawnToMoveWins[n]);
+      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
+        var nSide = (Int32)sideName;
+        testRect($"{sideName}KingToMoveLoss[{sq}]", KingToMoveLoss[nSide][n]);
+        testRect($"{sideName}PawnToMoveWins[{sq}]", PawnToMoveWins[nSide][n]);
+      }
     }
     #endregion
   }

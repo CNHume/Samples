@@ -5,16 +5,10 @@
 //
 // Conditionals:
 //
-//#define TestInitFree
-//#define TestInitHelp
-#define InitFree                        //[Default]
-//#define InitHelp                        //[Test]
-//#define TestPawnFeatures
 
 namespace Engine {
   using System;
   using System.Diagnostics;
-  using System.Text;
 
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
@@ -41,201 +35,16 @@ namespace Engine {
     const Byte vIsolani = (Byte)PawnFeature.Isolani;
     const Byte vDoubled = (Byte)PawnFeature.Doubled;
     const Byte vAwkward = (Byte)PawnFeature.Awkward;
-#if TestInitFree || TestInitHelp
-    static sq[] testSquares = { sq.a1, sq.a8, sq.c2, sq.c5, sq.d6, sq.e4, sq.f1, sq.g7, sq.h8 };
-#endif
     #endregion
 
-    #region Pawn Feature Help & Free
-#if !InitHelp
-    //
-    // Return the Pawn Stop square in front of each square;
-    // and all help squares prior to that:
-    //
-    protected static Plane whiteHelp(Int32 n) {
-      var qpHelp = BlackFree[n] << nFiles * 2;
-#if TestInvalidPositions
-      qpHelp |= BIT0 << nFiles + n % nFiles;
-#endif
-      return qpHelp;
-    }
-
-    protected static Plane blackHelp(Int32 n) {
-      var qpHelp = WhiteFree[n] >> nFiles * 2;
-#if TestInvalidPositions
-      qpHelp |= BIT0 << nFiles * (nRanks - 2) + n % nFiles;
-#endif
-      return qpHelp;
-    }
-#endif
-    private static void newOutsideSquare() {
-      WhiteKingToMoveLoss = new Plane[nSquares];
-      BlackKingToMoveLoss = new Plane[nSquares];
-      WhitePawnToMoveWins = new Plane[nSquares];
-      BlackPawnToMoveWins = new Plane[nSquares];
-    }
-
-    //
-    // White/BlackKingToMoveLoss[] and White/BlackPawnToMoveWins[] 
-    // return a Plane for each King Position which, when intersected
-    // with Pawns for the side to move, return any Pawns that cannot
-    // be caught by the King before they queen.
-    //
-    protected static void loadOutsideSquare() {
-      //
-      // Pawns cannot appear on the first or last ranks;
-      // and start on the second or second-to-last rank:
-      //
-      var qpBlack = BIT0 << nFiles;
-      var qpWhite = BITHI >> nFiles;
-
-      for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
-        // Size of the Square depends on how close the Black Pawn is to queening
-        var nBase1 = nPawnY > 1 ? nPawnY : nPawnY + 1;
-        var nSize1 = nRanks - nBase1;
-
-        for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpBlack <<= 1, qpWhite >>= 1) {
-          for (var nBlackKingY = 0; nBlackKingY < nRanks; nBlackKingY++) {
-            var nWhiteKingY = nRanks - 1 - nBlackKingY;
-
-            for (var nBlackKingX = 0; nBlackKingX < nFiles; nBlackKingX++) {
-              var nWhiteKingX = nFiles - 1 - nBlackKingX;
-              // Perform King to Move 48 * 64 = 3,072 times
-
-              var nBlack = sqr(nBlackKingX, nBlackKingY);
-              var nWhite = sqr(nWhiteKingX, nWhiteKingY);
-
-              //[Debug]
-              var sqBlack = (sq)nBlack;
-              var sqWhite = (sq)nWhite;
-
-              //
-              // bTake accounts for the KingToMove case when a King on the first rank
-              // can capture a Pawn on the second rank before it can move two squares.
-              //
-              var nDeltaX = Math.Abs(nPawnX - nWhiteKingX);
-              var bTake = nDeltaX < 2;
-              var nBase2 = bTake || nPawnY > 1 ? nPawnY : nPawnY + 1;
-              var nSize2 = nRanks - nBase2;
-
-              var bOutsideKingToMove = nSize2 < nDeltaX || nSize2 < nWhiteKingY;
-              var bOutsidePawnToMove = nSize1 < nDeltaX + 1 || nSize1 < nWhiteKingY + 1;
-
-              //
-              // Sum Pawn positions where the King is outside the Square of the Pawn:
-              //
-              if (bOutsideKingToMove) {
-                WhiteKingToMoveLoss[nWhite] |= qpBlack;
-                BlackKingToMoveLoss[nBlack] |= qpWhite;
-              }
-
-              if (bOutsidePawnToMove) {
-                WhitePawnToMoveWins[nBlack] |= qpWhite;
-                BlackPawnToMoveWins[nWhite] |= qpBlack;
-              }
-            }                           // nKingX
-          }                             // nKingY
-        }                               // nPawnX
-      }                                 // nPawnY
-    }
-#if TestInitHelp || InitFree || !InitHelp
-    private static void newFree() {
-      WhiteFree = new Plane[nSquares];
-      BlackFree = new Plane[nSquares];
-    }
-
-    //
-    // Mark squares that remain in front of each square,
-    // as potential Pawn Advancements:
-    //
-    protected static void loadFree() {
-      //
-      // Advance File masks forward by one Rank:
-      //
-      var qpWhite = qpFileA << nFiles;
-      var qpBlack = qpFileH >> nFiles;
-
-      for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
-
-        //
-        // Advance masks to the right one File at a time
-        // until they rotate back to their leftmost File,
-        // whereupon they will have advanced by one Rank:
-        //
-        for (var x = 0; x < nFiles; x++, qpWhite <<= 1, qpBlack >>= 1) {
-          var xInverse = invertFile(x);
-          WhiteFree[sqr(x, y)] = qpWhite;
-          BlackFree[sqr(xInverse, yInverse)] = qpBlack;
-        }
-      }
-    }
-#endif
-#if !InitFree
-    //
-    // Return squares that remain in front of each square,
-    // as potential Pawn Advancements:
-    //
-    protected static Plane whiteFree(Int32 n) {
-      var qpFree = BlackHelp[n] << nFiles * 2;
-#if TestInvalidPositions
-      if (n < nFiles)
-        qpFree |= BIT0 << nFiles + n;
-#endif
-      return qpFree;
-    }
-
-    protected static Plane blackFree(Int32 n) {
-      var qpFree = WhiteHelp[n] >> nFiles * 2;
-#if TestInvalidPositions
-      if (n >= nFiles * (nRanks - 1))
-        qpFree |= BIT0 << nRankLast + n;
-#endif
-      return qpFree;
-    }
-#endif
-#if TestInitFree || InitHelp || !InitFree
-    private static void newHelp() {
-      WhiteHelp = new Plane[nSquares];
-      BlackHelp = new Plane[nSquares];
-    }
-
-    //
-    // Mark the Pawn Stop square in front of each square;
-    // and all help squares prior to that:
-    //
-    protected static void loadHelp() {
-      var qpWhite = 0UL;
-      var qpBlack = 0UL;
-
-      for (var y = 0; y < nRanks; y++) {
-        var yInverse = yInverse(y);
-        qpWhite |= BIT0 << nFiles;
-        qpBlack |= BIT0 << nRankLast - 1;
-
-        for (var x = 0; x < nFiles; x++, qpWhite <<= 1, qpBlack >>= 1) {
-          var xInverse = invertFile(x);
-          WhiteHelp[sqr(x, y)] = qpWhite;
-          BlackHelp[sqr(xInverse, yInverse)] = qpBlack;
-        }
-      }
-    }
-#endif
+    #region Pawn Feature Methods
     private void countPawn(
       Boolean bWhiteCount, Int32 nFile, Int32 nPawn, Plane qpFound, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
       ref PRPFlags fprp, ref Plane qpPassers, ref Plane qpAwkward, ref UInt32 uPassers, ref UInt32 uAwkward) {
-#if InitFree
-      var qpFreeSquares = bWhiteCount ? WhiteFree[nPawn] : BlackFree[nPawn];
-#else
-      var qpFreeSquares = bWhiteCount ? whiteFree(nPawn) : blackFree(nPawn);
-#endif
-#if InitHelp
-      var qpHelpSquares = bWhiteCount ? WhiteHelp[nPawn] : BlackHelp[nPawn];
-#else
-      var qpHelpSquares = bWhiteCount ? whiteHelp(nPawn) : blackHelp(nPawn);
-#endif
-      if ((qpFreeSquares & qpFoePawn) == 0 &&
-          (qpFreeSquares & qpFoePawnAtx) == 0) {
+      var (qpFree, qpHelp) = getFreeHelp(bWhiteCount, nPawn);
+
+      if ((qpFree & qpFoePawn) == 0 &&
+          (qpFree & qpFoePawnAtx) == 0) {
         uPassers++;
         qpPassers |= qpFound;
 
@@ -252,7 +61,7 @@ namespace Engine {
       // Awkward Pawn has no Helper, nor possibility of a Helper,
       // and its next square is stopped or guarded by a Foe Pawn.
       //
-      if ((qpHelpSquares & qpFriendPawnAtx) == 0) {
+      if ((qpHelp & qpFriendPawnAtx) == 0) {
         var side = getSide(bWhiteCount);
         var nStop = nPawn + side.Rank;
         var qpStop = BIT0 << nStop;

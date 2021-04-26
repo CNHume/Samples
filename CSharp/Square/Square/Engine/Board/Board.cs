@@ -80,14 +80,15 @@ namespace Engine {
       //
       // Initialize static data used to find attacks:
       //
-      initStatic();
+      initAttacks();
     }
 
     public Board() {
       Side = new BoardSide[nSides];
       foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
         var hashcode = sideName == SideName.Black ? ZobristBlack : ZobristWhite;
-        Side[(Int32)sideName] = new BoardSide(sideName, hashcode);
+        var nSide = (Int32)sideName;
+        Side[nSide] = new BoardSide(sideName, hashcode);
       }
     }
 
@@ -178,7 +179,7 @@ namespace Engine {
       }
     }
 
-    protected static void initStatic() {
+    protected static void initAttacks() {
       //
       // Whether the Ray Atx planes are Magic or Rotated,
       // rotateRank() will be needed by [rank|rect]Atx().
