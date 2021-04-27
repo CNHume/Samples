@@ -31,10 +31,10 @@
 #define DebugInit
 //#define DebugStand
 //#define TestImportance
-#define TestInitFree
-//#define TestInitHelp
 #define InitFree                        //[Default]
 //#define InitHelp                        //[Test]
+//#define TestInitFree
+//#define TestInitHelp
 //#define TestPawnFeatures
 
 namespace Engine {

@@ -5,10 +5,10 @@
 //
 // Conditionals:
 //
-#define TestInitFree
-//#define TestInitHelp
 #define InitFree                        //[Default]
 //#define InitHelp                        //[Test]
+//#define TestInitFree
+//#define TestInitHelp
 //#define TestPawnFeatures
 
 namespace Engine {
@@ -51,22 +51,37 @@ namespace Engine {
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
       //
-      var qpBlack = BIT0 << nFiles;
-      var qpWhite = BITHI >> nFiles;
+      var qpWhite = BIT0 << nFiles;
+      var qpBlack = BITHI >> nFiles;
 
       for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
         // Size of the Square depends on how close the Black Pawn is to queening
-        var nBase1 = nPawnY > 1 ? nPawnY : nPawnY + 1;
+        var nBase1 = nPawnY > 1 ? nPawnY : nPawnY + 1;  // Beyond vs On 2nd Rank
         var nSize1 = nRanks - nBase1;
 
-        for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpBlack <<= 1, qpWhite >>= 1) {
-          for (var nBlackKingY = 0; nBlackKingY < nRanks; nBlackKingY++) {
-            var nWhiteKingY = nRanks - 1 - nBlackKingY;
+        for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpWhite <<= 1, qpBlack >>= 1) {
+          for (var nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
+            var nBlackKingY = nRanks - 1 - nWhiteKingY;
 
-            for (var nBlackKingX = 0; nBlackKingX < nFiles; nBlackKingX++) {
-              var nWhiteKingX = nFiles - 1 - nBlackKingX;
-              // Perform King to Move 48 * 64 = 3,072 times
+            for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++) {
+              var nBlackKingX = nFiles - 1 - nWhiteKingX;
+              // Calculate King to Move 48 * 64 = 3,072 times
 
+              //[Note]Calculate lateral distance with Pawn and King of opposite colors:
+              var nDeltaX = Math.Abs(nPawnX - nBlackKingX);
+
+              //
+              // In the KingToMove case: bTake prevents a Pawn from moving two squares
+              // when a King on the first rank can capture the Pawn on the second rank.
+              //
+              var bTake = nDeltaX < 2;
+              var nBase2 = bTake || nPawnY > 1 ? nPawnY : nPawnY + 1;
+              var nSize2 = nRanks - nBase2;
+
+              var bOutsideKingToMove = nSize2 < nDeltaX || nSize2 < nWhiteKingY;
+              var bOutsidePawnToMove = nSize1 < nDeltaX + 1 || nSize1 < nWhiteKingY + 1;
+
+              // King Positions
               var nBlack = sqr(nBlackKingX, nBlackKingY);
               var nWhite = sqr(nWhiteKingX, nWhiteKingY);
 
@@ -75,28 +90,16 @@ namespace Engine {
               var sqWhite = (sq)nWhite;
 
               //
-              // bTake accounts for the KingToMove case when a King on the first rank
-              // can capture a Pawn on the second rank before it can move two squares.
-              //
-              var nDeltaX = Math.Abs(nPawnX - nWhiteKingX);
-              var bTake = nDeltaX < 2;
-              var nBase2 = bTake || nPawnY > 1 ? nPawnY : nPawnY + 1;
-              var nSize2 = nRanks - nBase2;
-
-              var bOutsideKingToMove = nSize2 < nDeltaX || nSize2 < nWhiteKingY;
-              var bOutsidePawnToMove = nSize1 < nDeltaX + 1 || nSize1 < nWhiteKingY + 1;
-
-              //
-              // Sum Pawn positions where the King is outside the Square of the Pawn:
+              // Sum Pawn positions with King outside the Square of the Pawn:
               //
               if (bOutsideKingToMove) {
-                KingToMoveLoss[White][nWhite] |= qpBlack;
                 KingToMoveLoss[Black][nBlack] |= qpWhite;
+                KingToMoveLoss[White][nWhite] |= qpBlack;
               }
 
               if (bOutsidePawnToMove) {
-                PawnToMoveWins[White][nBlack] |= qpWhite;
                 PawnToMoveWins[Black][nWhite] |= qpBlack;
+                PawnToMoveWins[White][nBlack] |= qpWhite;
               }
             }                           // nKingX
           }                             // nKingY
@@ -224,7 +227,7 @@ namespace Engine {
       return qpHelp;
     }
 #endif
-    protected static (ulong qpFree, ulong qpHelp) getFreeHelp(bool bWhiteCount, int nPawn) {
+    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(bool bWhiteCount, int nPawn) {
 #if InitFree
       var qpFree = bWhiteCount ? Free[White][nPawn] : Free[Black][nPawn];
 #else

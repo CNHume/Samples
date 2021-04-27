@@ -71,8 +71,8 @@ namespace Square {
         }
       }
 #if DEBUG
-      Console.Write("Press Enter");
-      Console.ReadLine();
+      //Console.Write("Press Enter");
+      //Console.ReadLine();
 #endif
     }
     #endregion
