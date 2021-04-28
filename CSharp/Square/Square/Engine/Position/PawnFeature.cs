@@ -60,10 +60,11 @@ namespace Engine {
         var nSize1 = nRanks - nBase1;
 
         for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpWhite <<= 1, qpBlack >>= 1) {
-          for (var nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
+          for (int nWhite = 0, nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
             var nBlackKingY = nRanks - 1 - nWhiteKingY;
 
-            for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++) {
+            for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++, nWhite++) {
+              var nBlack = nSquares - 1 - nWhite;
               var nBlackKingX = nFiles - 1 - nWhiteKingX;
               // Calculate King to Move 48 * 64 = 3,072 times
 
@@ -81,13 +82,9 @@ namespace Engine {
               var bOutsideKingToMove = nSize2 < nDeltaX || nSize2 < nWhiteKingY;
               var bOutsidePawnToMove = nSize1 < nDeltaX + 1 || nSize1 < nWhiteKingY + 1;
 
-              // King Positions
-              var nBlack = sqr(nBlackKingX, nBlackKingY);
-              var nWhite = sqr(nWhiteKingX, nWhiteKingY);
-
-              //[Debug]
-              var sqBlack = (sq)nBlack;
-              var sqWhite = (sq)nWhite;
+              //[Debug]King Positions
+              //var sqBlack = (sq)nBlack;
+              //var sqWhite = (sq)nWhite;
 
               //
               // Sum Pawn positions with King outside the Square of the Pawn:
@@ -109,30 +106,6 @@ namespace Engine {
     #endregion
 
     #region Free & Help Load Methods
-    private static void loadFreeHelp() {
-#if TestInitHelp || InitFree || !InitHelp
-      loadFree();
-#endif
-#if TestInitFree || InitHelp || !InitFree
-      loadHelp();
-#endif
-#if TestInitFree || TestInitHelp
-      foreach (var sq in testSquares) {
-        var n = (Int32)sq;
-        LogLine("whiteHelp({0})\n", sq);
-        writeRect(whiteHelp(n));
-        //LogLine("WhiteFree[{0}]\n", sq);
-        //writeRect(WhiteFree[n]);
-        LogLine();
-#if InitHelp
-        LogLine("WhiteHelp[{0}]\n", sq);
-        writeRect(WhiteHelp[n]);
-        LogLine();
-#endif
-      }
-#endif
-    }
-
 #if TestInitHelp || InitFree || !InitHelp
     //
     // Mark squares that remain in front of each square,
@@ -145,18 +118,16 @@ namespace Engine {
       var qpWhite = qpFileA << nFiles;
       var qpBlack = qpFileH >> nFiles;
 
-      for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
-
+      for (int nWhite = 0, y = 0; y < nRanks; y++) {
         //
         // Advance masks to the right one File at a time
         // until they rotate back to their leftmost File,
         // whereupon they will have advanced by one Rank:
         //
-        for (var x = 0; x < nFiles; x++, qpWhite <<= 1, qpBlack >>= 1) {
-          var xInverse = invertFile(x);
-          Free[White][sqr(x, y)] = qpWhite;
-          Free[Black][sqr(xInverse, yInverse)] = qpBlack;
+        for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
+          var nBlack = nSquares - 1 - nWhite;
+          Free[Black][nBlack] = qpBlack;
+          Free[White][nWhite] = qpWhite;
         }
       }
     }
@@ -170,15 +141,14 @@ namespace Engine {
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
-      for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+      for (int nWhite = 0, y = 0; y < nRanks; y++) {
         qpWhite |= BIT0 << nFiles;
         qpBlack |= BIT0 << nRankLast - 1;
 
-        for (var x = 0; x < nFiles; x++, qpWhite <<= 1, qpBlack >>= 1) {
-          var xInverse = invertFile(x);
-          Help[White][sqr(x, y)] = qpWhite;
-          Help[Black][sqr(xInverse, yInverse)] = qpBlack;
+        for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
+          var nBlack = nSquares - 1 - nWhite;
+          Help[Black][nBlack] = qpBlack;
+          Help[White][nWhite] = qpWhite;
         }
       }
     }
@@ -227,6 +197,37 @@ namespace Engine {
       return qpHelp;
     }
 #endif
+    private static void loadFreeHelp() {
+#if TestInitHelp || InitFree || !InitHelp
+      loadFree();
+#endif
+#if TestInitFree || InitHelp || !InitFree
+      loadHelp();
+#endif
+#if TestInitFree || TestInitHelp
+      testFreeHelp(testSquares);
+#endif
+    }
+
+    private static void testFreeHelp(sq[] squares) {
+      foreach (var sq in squares) {
+        var n = (Int32)sq;
+        foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
+          var nSide = (Int32)sideName;
+#if TestInitFree && InitFree
+          LogLine($"Free[{sideName}][{sq}]\n");
+          writeRect(Free[nSide][n]);
+          LogLine();
+#endif
+#if TestInitHelp && InitHelp
+          LogLine($"Help[{sideName}][{sq}]\n");
+          writeRect(Help[nSide][n]);
+          LogLine();
+#endif
+        }
+      }
+    }
+
     protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(bool bWhiteCount, int nPawn) {
 #if InitFree
       var qpFree = bWhiteCount ? Free[White][nPawn] : Free[Black][nPawn];
