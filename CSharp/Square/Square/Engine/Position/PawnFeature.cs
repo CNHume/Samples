@@ -10,6 +10,7 @@
 //#define TestInitFree
 //#define TestInitHelp
 //#define TestPawnFeatures
+//#define TestInvalidPawnPositions
 
 namespace Engine {
   using System;
@@ -153,50 +154,6 @@ namespace Engine {
       }
     }
 #endif
-#if !InitFree
-    //
-    // Return squares that remain in front of each square,
-    // as potential Pawn Advancements:
-    //
-    protected Plane whiteFree(Int32 n) {
-      var qpFree = Help[Black][n] << nFiles * 2;
-#if TestInvalidPositions
-      if (n < nFiles)
-        qpFree |= BIT0 << nFiles + n;
-#endif
-      return qpFree;
-    }
-
-    protected Plane blackFree(Int32 n) {
-      var qpFree = Help[White][n] >> nFiles * 2;
-#if TestInvalidPositions
-      if (n >= nFiles * (nRanks - 1))
-        qpFree |= BIT0 << nRankLast + n;
-#endif
-      return qpFree;
-    }
-#endif
-#if !InitHelp
-    //
-    // Return the Pawn Stop square in front of each square;
-    // and all help squares prior to that:
-    //
-    private static Plane whiteHelp(Int32 n) {
-      var qpHelp = Free[Black][n] << nFiles * 2;
-#if TestInvalidPositions
-      qpHelp |= BIT0 << nFiles + n % nFiles;
-#endif
-      return qpHelp;
-    }
-
-    private static Plane blackHelp(Int32 n) {
-      var qpHelp = Free[White][n] >> nFiles * 2;
-#if TestInvalidPositions
-      qpHelp |= BIT0 << nFiles * (nRanks - 2) + n % nFiles;
-#endif
-      return qpHelp;
-    }
-#endif
     private static void loadFreeHelp() {
 #if TestInitHelp || InitFree || !InitHelp
       loadFree();
@@ -208,38 +165,90 @@ namespace Engine {
       testFreeHelp(testSquares);
 #endif
     }
+#if !InitFree
+    private static Plane free(Int32 nSide, Int32 nPawn) {
+      //
+      // Return squares that remain in front of each square,
+      // as potential Pawn Advancements:
+      //
+      Plane qpFree = default;
+      switch (nSide) {
+      case Black:
+        qpFree = Help[White][nPawn] >> nFiles * 2;
+#if TestInvalidPawnPositions
+        if (nPawn >= nFiles * (nRanks - 1))
+          qpFree |= BIT0 << nRankLast + nPawn;
+#endif
+        break;
+
+      case White:
+        qpFree = Help[Black][nPawn] << nFiles * 2;
+#if TestInvalidPawnPositions
+        if (nPawn < nFiles)
+          qpFree |= BIT0 << nFiles + nPawn;
+#endif
+        break;
+      }
+      return qpFree;
+    }
+#endif
+#if !InitHelp
+    private static Plane help(Int32 nSide, Int32 nPawn) {
+      //
+      // Return the Pawn Stop square in front of each square;
+      // and all help squares prior to that:
+      //
+      Plane qpHelp = default;
+      switch (nSide) {
+      case Black:
+        qpHelp = Free[White][nPawn] >> nFiles * 2;
+#if TestInvalidPawnPositions
+        qpHelp |= BIT0 << nFiles * (nRanks - 2) + nPawn % nFiles;
+#endif
+        break;
+
+      case White:
+        qpHelp = Free[Black][nPawn] << nFiles * 2;
+#if TestInvalidPawnPositions
+        qpHelp |= BIT0 << nFiles + nPawn % nFiles;
+#endif
+        break;
+      }
+      return qpHelp;
+    }
+#endif
+    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
+#if InitFree
+      var qpFree = Free[nSide][nPawn];
+#else
+      var qpFree = free(nSide, nPawn);
+#endif
+#if InitHelp
+      var qpHelp = Help[nSide][nPawn];
+#else
+      var qpHelp = help(nSide, nPawn);
+#endif
+      return (qpFree, qpHelp);
+    }
 
     private static void testFreeHelp(sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
         foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
           var nSide = (Int32)sideName;
-#if TestInitFree && InitFree
+          var (qpFree, qpHelp) = GetFreeHelp(nSide, n);
+#if TestInitFree
           LogLine($"Free[{sideName}][{sq}]\n");
-          writeRect(Free[nSide][n]);
+          writeRect(qpFree);
           LogLine();
 #endif
-#if TestInitHelp && InitHelp
+#if TestInitHelp
           LogLine($"Help[{sideName}][{sq}]\n");
-          writeRect(Help[nSide][n]);
+          writeRect(qpHelp);
           LogLine();
 #endif
         }
       }
-    }
-
-    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(bool bWhiteCount, int nPawn) {
-#if InitFree
-      var qpFree = bWhiteCount ? Free[White][nPawn] : Free[Black][nPawn];
-#else
-      var qpFree = bWhiteCount ? whiteFree(nPawn) : blackFree(nPawn);
-#endif
-#if InitHelp
-      var qpHelp = bWhiteCount ? Help[White][nPawn] : Help[Black][nPawn];
-#else
-      var qpHelp = bWhiteCount ? whiteHelp(nPawn) : blackHelp(nPawn);
-#endif
-      return (qpFree, qpHelp);
     }
     #endregion
   }

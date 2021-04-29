@@ -10,6 +10,7 @@ namespace Engine {
   using System;
   using System.Diagnostics;
 
+  using static Board.BoardSide;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
 
@@ -39,9 +40,9 @@ namespace Engine {
 
     #region Pawn Feature Methods
     private void countPawn(
-      Boolean bWhiteCount, Int32 nFile, Int32 nPawn, Plane qpFound, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
+      Int32 nSide, Int32 nFile, Int32 nPawn, Plane qpFound, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
       ref PRPFlags fprp, ref Plane qpPassers, ref Plane qpAwkward, ref UInt32 uPassers, ref UInt32 uAwkward) {
-      var (qpFree, qpHelp) = GetFreeHelp(bWhiteCount, nPawn);
+      var (qpFree, qpHelp) = GetFreeHelp(nSide, nPawn);
 
       if ((qpFree & qpFoePawn) == 0 &&
           (qpFree & qpFoePawnAtx) == 0) {
@@ -52,9 +53,9 @@ namespace Engine {
         // Identify which Bishops would protect the queening square of a Passed Rook Pawn:
         //
         if (nFile == 0)
-          fprp |= bWhiteCount ? PRPFlags.Lite : PRPFlags.Dark;
+          fprp |= nSide == White ? PRPFlags.Lite : PRPFlags.Dark;
         else if (nFile == nFiles - 1)
-          fprp |= bWhiteCount ? PRPFlags.Dark : PRPFlags.Lite;
+          fprp |= nSide == White ? PRPFlags.Dark : PRPFlags.Lite;
       }
 
       //
@@ -62,8 +63,7 @@ namespace Engine {
       // and its next square is stopped or guarded by a Foe Pawn.
       //
       if ((qpHelp & qpFriendPawnAtx) == 0) {
-        var side = getSide(bWhiteCount);
-        var nStop = nPawn + side.Rank;
+        var nStop = nPawn + Side[nSide].Rank;
         var qpStop = BIT0 << nStop;
 
         if ((qpStop & qpFoePawn) != 0 ||
@@ -75,14 +75,14 @@ namespace Engine {
     }
 
     private UInt32 countFile(
-      Boolean bWhiteCount, Int32 nFile, Plane qpFile, Plane qpFilePawn, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
+      Int32 nSide, Int32 nFile, Plane qpFile, Plane qpFilePawn, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
       ref PRPFlags fprp, ref Plane qpPassers, ref Plane qpIsolani, ref Plane qpDoubled, ref Plane qpAwkward,
       ref UInt32 uPassers, ref UInt32 uIsolani, ref UInt32 uDoubled, ref UInt32 uAwkward) {
       var uFilePawns = 0U;
       for (var qpPawn = qpFilePawn; qpPawn != 0; uFilePawns++) {
         var nPawn = RemoveLo(ref qpPawn, out Plane qpFound);
         countPawn(
-          bWhiteCount, nFile, nPawn, qpFound, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,
+          nSide, nFile, nPawn, qpFound, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,
           ref fprp, ref qpPassers, ref qpAwkward, ref uPassers, ref uAwkward);
       }
 
@@ -106,9 +106,9 @@ namespace Engine {
     // when their Stop Square is either attacked or occupied by a Foe,
     // unless Help[sq] & FriendPawnAtx indicates that they can be helped.
     //
-    public FeatureCounter CountPawnFeatures(Boolean bWhiteCount, out Plane qpPassers, out PRPFlags fprp) {
+    public FeatureCounter CountPawnFeatures(Int32 nSide, out Plane qpPassers, out PRPFlags fprp) {
       fprp = PRPFlags.None;//[Init]
-      (BoardSide friend, BoardSide foe) = getSides(bWhiteCount);
+      (BoardSide friend, BoardSide foe) = getSides(nSide == White);
       var qpFriendPawnAtx = friend.PawnA1H8Atx | friend.PawnA8H1Atx;
       var qpFoePawnAtx = foe.PawnA1H8Atx | foe.PawnA8H1Atx;
       var qpFriend = friend.Piece;
@@ -145,7 +145,7 @@ namespace Engine {
         qpFriendPawn &= ~qpFilePawn;    // Visiting each occupied file once
 
         UInt32 uFilePawns = countFile(
-          bWhiteCount, nFile, qpFile, qpFilePawn, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,
+          nSide, nFile, qpFile, qpFilePawn, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,
           ref fprp, ref qpPassers, ref qpIsolani, ref qpDoubled, ref qpAwkward,
           ref uPassers, ref uIsolani, ref uDoubled, ref uAwkward);
         uFriendPawns += uFilePawns;
@@ -163,12 +163,12 @@ namespace Engine {
       var uDivides = uIslands > 0 ? uIslands - 1 : uIslands;
 
       return featureCount(
-        bWhiteCount, uFriendPawns, uPassers, uDivides, uIsolani, uDoubled, uAwkward,
+        nSide, uFriendPawns, uPassers, uDivides, uIsolani, uDoubled, uAwkward,
         qpPawns, qpPassers, vOccupied, qpIsolani, qpDoubled, qpAwkward);
     }
 
     private FeatureCounter featureCount(
-      Boolean bWhiteCount, UInt32 uFriendPawns, UInt32 uPassers, UInt32 uDivides, UInt32 uIsolani, UInt32 uDoubled, UInt32 uAwkward,
+      Int32 nSide, UInt32 uFriendPawns, UInt32 uPassers, UInt32 uDivides, UInt32 uIsolani, UInt32 uDoubled, UInt32 uAwkward,
       Plane qpPawns, Plane qpPassers, byte vOccupied, Plane qpIsolani, Plane qpDoubled, Plane qpAwkward) {
       var uFeatureCounts = (FeatureCounter)0;
       uFeatureCounts += uFriendPawns << vPawns * nPerNibble;
@@ -187,7 +187,7 @@ namespace Engine {
       FeatureRect[vDoubled + nOffset] = qpDoubled;
       FeatureRect[vAwkward + nOffset] = qpAwkward;
 
-      var sColor = bWhiteCount ? "White" : "Black";
+      var sColor = nSide == White ? "White" : "Black";
       var uCount = uFeatureCounts;
       for (var n = 0; n < PawnFeatures.Length; n++, uCount >>= nPerNibble) {
         var nFeature = (Byte)uCount & vNibble;

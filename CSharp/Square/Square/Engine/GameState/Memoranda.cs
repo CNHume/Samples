@@ -13,13 +13,15 @@
 //#define MaterialBalance
 
 namespace Engine {
-  using static Board;
   using CacheValue;
-  using static CacheValue.PawnPosition;
-  using static Logging.Logger;
 
   using System;
   using System.Text;
+
+  using static Board;
+  using static Board.BoardSide;
+  using static CacheValue.PawnPosition;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -187,8 +189,8 @@ namespace Engine {
       // Wrong Bishops will be determined by Passed Rook Pawns.
       //
       const Boolean bWhiteCount = true;
-      var uBlackCount = position.CountPawnFeatures(!bWhiteCount, out Plane qpBlackPassers, out PRPFlags fBlackPRP);
-      var uWhiteCount = position.CountPawnFeatures(bWhiteCount, out Plane qpWhitePassers, out PRPFlags fWhitePRP);
+      var uBlackCount = position.CountPawnFeatures(Black, out Plane qpBlackPassers, out PRPFlags fBlackPRP);
+      var uWhiteCount = position.CountPawnFeatures(White, out Plane qpWhitePassers, out PRPFlags fWhitePRP);
 #if PawnPositionByValue
       if (bDefault)
         PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
