@@ -293,7 +293,7 @@ namespace Engine {
 #if DisplayFlags
         .Append("Flags: ").AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, Side[Black].FlagsHi, Side[White].FlagsHi, FlagsLo))
 #else
-        .Append(WTM() ? "White" : "Black").AppendLine(" to move")
+        .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif
 #if DisplayCounts
         .AppendLine()

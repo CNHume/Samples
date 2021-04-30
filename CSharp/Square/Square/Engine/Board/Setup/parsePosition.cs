@@ -214,10 +214,10 @@ namespace Engine {
             throw new ParsePositionException($"Unknown Castle Flag = {cPos}");
 
           var nRookFile = cPosLower - cFileMin;
-          var bUpper = IsUpper(cPos);
-          var side = getSide(bUpper);
-          var rule = getRule(bUpper);
-          var nRank = bUpper ? 0 : nRankLast;
+          var bWhite = IsUpper(cPos);
+          var side = getSide(bWhite);
+          var rule = getRule(bWhite);
+          var nRank = bWhite ? 0 : nRankLast;
           side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, castle.IsChess960);
         }                               //[Next]Right
 

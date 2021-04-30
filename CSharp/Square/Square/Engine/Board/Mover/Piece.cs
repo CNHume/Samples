@@ -11,14 +11,17 @@
 #define UnshadowRay
 
 namespace Engine {
-  using static Board.BoardSide;
-  using static CastleRule;
+  using Command.Exceptions;
+
   using Exceptions;
 
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Text;
+
+  using static Board.BoardSide;
+  using static CastleRule;
 
   //
   // Type Aliases:
@@ -172,8 +175,8 @@ namespace Engine {
         else if ((qp & Side[Black].Piece) != 0)
           sColor = "Black";
 
-        var sb = new StringBuilder(sColor);
-        sb.Append(" Piece blocked placement of Black Piece at")
+        var sb = new StringBuilder();
+        sb.Append($"{sColor} Piece blocked placement of {side.SideName} Piece at")
           .AppendSquares(qp);
         throw new MoveException(sb.ToString());
       }
@@ -259,16 +262,12 @@ namespace Engine {
           throw new ColorException(sb.ToString());
         }
 
-        if ((Side[White].Piece & ~RankPiece) != 0) {
-          var sb = new StringBuilder("Empty Squares marked as White Pieces at")
-            .AppendSquares(Side[White].Piece & ~RankPiece);
-          throw new ColorException(sb.ToString());
-        }
-
-        if ((Side[Black].Piece & ~RankPiece) != 0) {
-          var sb = new StringBuilder("Empty Squares marked as Black Pieces at")
-            .AppendSquares(Side[Black].Piece & ~RankPiece);
-          throw new ColorException(sb.ToString());
+        foreach (var side in Side) {
+          if ((side.Piece & ~RankPiece) != 0) {
+            var sb = new StringBuilder($"Empty Squares marked as {side.SideName} Pieces at")
+              .AppendSquares(side.Piece & ~RankPiece);
+            throw new ColorException(sb.ToString());
+          }
         }
       }
     }

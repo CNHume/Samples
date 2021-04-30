@@ -187,11 +187,10 @@ namespace Engine {
       FeatureRect[vDoubled + nOffset] = qpDoubled;
       FeatureRect[vAwkward + nOffset] = qpAwkward;
 
-      var sColor = nSide == White ? "White" : "Black";
       var uCount = uFeatureCounts;
       for (var n = 0; n < PawnFeatures.Length; n++, uCount >>= nPerNibble) {
         var nFeature = (Byte)uCount & vNibble;
-        LogLine("{0} {1} = {2}", sColor, (PawnFeature)n, nFeature);
+        LogLine("{0} {1} = {2}", Side[nSide].SideName, (PawnFeature)n, nFeature);
         LogLine();
         writeRect(FeatureRect[n + nOffset]);
         LogLine();

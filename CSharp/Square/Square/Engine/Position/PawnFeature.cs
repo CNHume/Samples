@@ -165,12 +165,15 @@ namespace Engine {
       testFreeHelp(testSquares);
 #endif
     }
-#if !InitFree
-    private static Plane free(Int32 nSide, Int32 nPawn) {
-      //
-      // Return squares that remain in front of each square,
-      // as potential Pawn Advancements:
-      //
+
+    //
+    // Return squares that remain in front of each square,
+    // as potential Pawn Advancements:
+    //
+    protected static Plane free(Int32 nSide, Int32 nPawn) {
+#if InitFree
+      var qpFree = Free[nSide][nPawn];
+#else
       Plane qpFree = default;
       switch (nSide) {
       case Black:
@@ -189,15 +192,18 @@ namespace Engine {
 #endif
         break;
       }
+#endif
       return qpFree;
     }
-#endif
-#if !InitHelp
-    private static Plane help(Int32 nSide, Int32 nPawn) {
-      //
-      // Return the Pawn Stop square in front of each square;
-      // and all help squares prior to that:
-      //
+
+    //
+    // Return the Pawn Stop square in front of each square;
+    // and all help squares prior to that:
+    //
+    protected static Plane help(Int32 nSide, Int32 nPawn) {
+#if InitHelp
+      var qpHelp = Help[nSide][nPawn];
+#else
       Plane qpHelp = default;
       switch (nSide) {
       case Black:
@@ -214,20 +220,13 @@ namespace Engine {
 #endif
         break;
       }
+#endif
       return qpHelp;
     }
-#endif
+
     protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
-#if InitFree
-      var qpFree = Free[nSide][nPawn];
-#else
       var qpFree = free(nSide, nPawn);
-#endif
-#if InitHelp
-      var qpHelp = Help[nSide][nPawn];
-#else
       var qpHelp = help(nSide, nPawn);
-#endif
       return (qpFree, qpHelp);
     }
 
@@ -238,12 +237,12 @@ namespace Engine {
           var nSide = (Int32)sideName;
           var (qpFree, qpHelp) = GetFreeHelp(nSide, n);
 #if TestInitFree
-          LogLine($"Free[{sideName}][{sq}]\n");
+          LogLine($"free({sideName}, {sq})\n");
           writeRect(qpFree);
           LogLine();
 #endif
 #if TestInitHelp
-          LogLine($"Help[{sideName}][{sq}]\n");
+          LogLine($"help({sideName}, {sq})\n");
           writeRect(qpHelp);
           LogLine();
 #endif

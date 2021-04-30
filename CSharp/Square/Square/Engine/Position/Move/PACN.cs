@@ -174,9 +174,8 @@ namespace Engine {
       if ((qpFrom & RankPiece) == 0)
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
-        var sFoe = bWTM ? "Black" : "White";
         var piece = (Piece)(vPieceFrom + vFirst);
-        throw new MoveException($"Cannot move {sFoe} {piece} from {sqFrom}");
+        throw new MoveException($"{friend.SideName} cannot move {foe.SideName} {piece} from {sqFrom}");
       }
 
       var castle = State.Rule;
