@@ -24,30 +24,13 @@ namespace Engine {
   using Plane = System.UInt64;
 
   partial class Position {
-    #region Pawn Feature New Methods
-    private static void newPawnFeature() {
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
-        var hashcode = sideName == SideName.Black ? ZobristBlack : ZobristWhite;
-        var nSide = (Int32)sideName;
-        KingToMoveLoss[nSide] = new Plane[nSquares];
-        PawnToMoveWins[nSide] = new Plane[nSquares];
-#if TestInitHelp || InitFree || !InitHelp
-        Free[nSide] = new Plane[nSquares];
-#endif
-#if TestInitFree || InitHelp || !InitFree
-        Help[nSide] = new Plane[nSquares];
-#endif
-      }
-    }
-    #endregion
-
     #region King Outside Square Load Methods
     //
     // KingToMoveLoss[] and PawnToMoveWins[] return Planes for each King Position which
     // when intersected with Pawns for the side to move return any Pawns that cannot be
     // caught by the King - before they queen.
     //
-    protected static void loadOutsideSquare() {
+    protected void loadOutsideSquare() {
       //
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
@@ -91,13 +74,13 @@ namespace Engine {
               // Sum Pawn positions with King outside the Square of the Pawn:
               //
               if (bOutsideKingToMove) {
-                KingToMoveLoss[Black][nBlack] |= qpWhite;
-                KingToMoveLoss[White][nWhite] |= qpBlack;
+                Side[Black].KingToMoveLoss[nBlack] |= qpWhite;
+                Side[White].KingToMoveLoss[nWhite] |= qpBlack;
               }
 
               if (bOutsidePawnToMove) {
-                PawnToMoveWins[Black][nWhite] |= qpBlack;
-                PawnToMoveWins[White][nBlack] |= qpWhite;
+                Side[Black].PawnToMoveWins[nWhite] |= qpBlack;
+                Side[White].PawnToMoveWins[nBlack] |= qpWhite;
               }
             }                           // nKingX
           }                             // nKingY
@@ -112,7 +95,7 @@ namespace Engine {
     // Mark squares that remain in front of each square,
     // as potential Pawn Advancements:
     //
-    private static void loadFree() {
+    private void loadFree() {
       //
       // Advance File masks forward by one Rank:
       //
@@ -127,8 +110,8 @@ namespace Engine {
         //
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Free[Black][nBlack] = qpBlack;
-          Free[White][nWhite] = qpWhite;
+          Side[Black].Free[nBlack] = qpBlack;
+          Side[White].Free[nWhite] = qpWhite;
         }
       }
     }
@@ -138,7 +121,7 @@ namespace Engine {
     // Mark the Pawn Stop square in front of each square;
     // and all help squares prior to that:
     //
-    private static void loadHelp() {
+    private void loadHelp() {
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
@@ -148,13 +131,13 @@ namespace Engine {
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Help[Black][nBlack] = qpBlack;
-          Help[White][nWhite] = qpWhite;
+          Side[Black].Help[nBlack] = qpBlack;
+          Side[White].Help[nWhite] = qpWhite;
         }
       }
     }
 #endif
-    private static void loadFreeHelp() {
+    private void loadFreeHelp() {
 #if TestInitHelp || InitFree || !InitHelp
       loadFree();
 #endif
@@ -170,14 +153,14 @@ namespace Engine {
     // Return squares that remain in front of each square,
     // as potential Pawn Advancements:
     //
-    protected static Plane free(Int32 nSide, Int32 nPawn) {
+    protected Plane free(Int32 nSide, Int32 nPawn) {
 #if InitFree
-      var qpFree = Free[nSide][nPawn];
+      var qpFree = Side[nSide].Free[nPawn];
 #else
       Plane qpFree = default;
       switch (nSide) {
       case Black:
-        qpFree = Help[White][nPawn] >> nFiles * 2;
+        qpFree = Side[White].Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn >= nFiles * (nRanks - 1))
           qpFree |= BIT0 << nRankLast + nPawn;
@@ -185,7 +168,7 @@ namespace Engine {
         break;
 
       case White:
-        qpFree = Help[Black][nPawn] << nFiles * 2;
+        qpFree = Side[Black].Help[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn < nFiles)
           qpFree |= BIT0 << nFiles + nPawn;
@@ -200,21 +183,21 @@ namespace Engine {
     // Return the Pawn Stop square in front of each square;
     // and all help squares prior to that:
     //
-    protected static Plane help(Int32 nSide, Int32 nPawn) {
+    protected Plane help(Int32 nSide, Int32 nPawn) {
 #if InitHelp
-      var qpHelp = Help[nSide][nPawn];
+      var qpHelp = Side[nSide].Help[nPawn];
 #else
       Plane qpHelp = default;
       switch (nSide) {
       case Black:
-        qpHelp = Free[White][nPawn] >> nFiles * 2;
+        qpHelp = Side[White].Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= BIT0 << nFiles * (nRanks - 2) + nPawn % nFiles;
 #endif
         break;
 
       case White:
-        qpHelp = Free[Black][nPawn] << nFiles * 2;
+        qpHelp = Side[Black].Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= BIT0 << nFiles + nPawn % nFiles;
 #endif
@@ -224,13 +207,13 @@ namespace Engine {
       return qpHelp;
     }
 
-    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
+    protected (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
       var qpFree = free(nSide, nPawn);
       var qpHelp = help(nSide, nPawn);
       return (qpFree, qpHelp);
     }
 
-    private static void testFreeHelp(sq[] squares) {
+    private void testFreeHelp(sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
         foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {

@@ -27,12 +27,12 @@ namespace Engine {
       #endregion
 
       #region Constructors
-      public BoardSide(SideName sideName, Hashcode[][] zobrist) {
+      public BoardSide(SideName sideName) {
         SideName = sideName;
-        Zobrist = zobrist;
 
         switch (SideName) {
         case SideName.Black:
+          Zobrist = ZobristBlack;
           Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
           A1H8 = -nA1H8;
           A8H1 = -nA8H1;
@@ -44,6 +44,7 @@ namespace Engine {
           break;
 
         case SideName.White:
+          Zobrist = ZobristWhite;
           Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
           A1H8 = nA1H8;
           A8H1 = nA8H1;

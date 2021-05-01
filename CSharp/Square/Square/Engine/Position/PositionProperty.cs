@@ -6,8 +6,6 @@
 //#define BuildAtxTo
 #define UseMoveSort
 #define LazyMoveSort
-#define InitFree                        //[Default]
-//#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp
 //#define TestPawnFeatures
@@ -43,15 +41,6 @@ namespace Engine {
     #region Pawn Feature Fields
     public static readonly PawnFeature[] PawnFeatures;
     public static readonly Int32 nFeatureBits;
-
-    private static readonly Plane[][] KingToMoveLoss;
-    private static readonly Plane[][] PawnToMoveWins;
-#if TestInitHelp || InitFree || !InitHelp
-    private static readonly Plane[][] Free;
-#endif
-#if TestInitFree || InitHelp || !InitFree
-    private static readonly Plane[][] Help;
-#endif
 #if TestInitFree || TestInitHelp
     private static readonly sq[] testSquares = { sq.a1, sq.a8, sq.c2, sq.c5, sq.d6, sq.e4, sq.f1, sq.g7, sq.h8 };
 #endif

@@ -13,12 +13,13 @@
 #define DebugInit
 
 namespace Engine {
-  using static Board.BoardSide;
-  using static Logging.Logger;
-
   using System;
   using System.Diagnostics;
   using System.Linq;
+
+  using static Board.BoardSide;
+  using static Logging.Logger;
+  using static Position;
 
   partial class Board : ICloneable, IEquatable<Board> {
     /*
@@ -84,12 +85,7 @@ namespace Engine {
     }
 
     public Board() {
-      Side = new BoardSide[nSides];
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
-        var hashcode = sideName == SideName.Black ? ZobristBlack : ZobristWhite;
-        var nSide = (Int32)sideName;
-        Side[nSide] = new BoardSide(sideName, hashcode);
-      }
+      Side = new PositionSide[nSides];
     }
 
     //

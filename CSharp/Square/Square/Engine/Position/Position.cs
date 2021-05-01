@@ -117,14 +117,6 @@ namespace Engine {
       #endregion
 
       #region Read Only Assignments
-      KingToMoveLoss = new Plane[nSides][];
-      PawnToMoveWins = new Plane[nSides][];
-#if TestInitHelp || InitFree || !InitHelp
-      Free = new Plane[nSides][];
-#endif
-#if TestInitFree || InitHelp || !InitFree
-      Help = new Plane[nSides][];
-#endif
       wReducedDraftMin = draft(wReducedDepthMin);
       wLateDrafthMin = draft(wLateDepthMin);
       wLerpDraftMax = draft(wLerpDepthMax);
@@ -149,6 +141,9 @@ namespace Engine {
 
     public Position() {
       init();
+
+      loadOutsideSquare();
+      loadFreeHelp();
     }
 
     //
@@ -193,10 +188,6 @@ namespace Engine {
     private static void initPosition() {
       newSquareImportance();
       loadSquareImportance();
-
-      newPawnFeature();
-      loadOutsideSquare();
-      loadFreeHelp();
     }
 
     private static void newSquareImportance() {
@@ -224,12 +215,20 @@ namespace Engine {
 
     #region Instance Intialization
     private void init() {
+      newSides();
       newFeatures();
       newBestMoves();
       newRestricted();
       newMoveTypes();
       newPseudoMoves();
       newSquareControl();
+    }
+
+    private void newSides() {
+      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
+        var nSide = (Int32)sideName;
+        Side[nSide] = new PositionSide(sideName);
+      }
     }
 
     private void newFeatures() {

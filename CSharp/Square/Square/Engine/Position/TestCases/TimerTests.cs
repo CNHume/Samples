@@ -420,8 +420,8 @@ namespace Engine {
       var n = (Int32)sq;
       foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
         var nSide = (Int32)sideName;
-        testRect($"{sideName}KingToMoveLoss[{sq}]", KingToMoveLoss[nSide][n]);
-        testRect($"{sideName}PawnToMoveWins[{sq}]", PawnToMoveWins[nSide][n]);
+        testRect($"{sideName}KingToMoveLoss[{sq}]", Side[nSide].KingToMoveLoss[n]);
+        testRect($"{sideName}PawnToMoveWins[{sq}]", Side[nSide].PawnToMoveWins[n]);
       }
     }
     #endregion

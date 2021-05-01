@@ -20,6 +20,7 @@ namespace Engine {
 
   using static Board.BoardSide;
   using static CastleRule;
+  using static Position;
 
   //
   // Type Aliases:
@@ -45,11 +46,11 @@ namespace Engine {
         (castle.RuleSide[Black], castle.RuleSide[White]);
     }
 
-    protected BoardSide getSide(Boolean bWTM) {
+    protected PositionSide getSide(Boolean bWTM) {
       return bWTM ? Side[White] : Side[Black];
     }
 
-    protected (BoardSide friend, BoardSide foe) getSides(Boolean bWTM) {
+    protected (PositionSide friend, PositionSide foe) getSides(Boolean bWTM) {
       return bWTM ?
         (Side[White], Side[Black]) :
         (Side[Black], Side[White]);

@@ -16,6 +16,8 @@ namespace Engine {
 #if CryptoServiceProvider
   using System.Security.Cryptography;
 #endif
+  using static Position;
+
   //
   // Type Aliases:
   //
@@ -94,7 +96,7 @@ namespace Engine {
     #endregion
 
     #region Virtual Fields
-    protected readonly BoardSide[] Side;
+    protected readonly PositionSide[] Side;
 
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;
