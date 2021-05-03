@@ -215,16 +215,16 @@ namespace Engine {
     private static void testFreeHelp(sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
-        foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
-          var nSide = (Int32)sideName;
+        foreach (var parameter in Parameter) {
+          var nSide = (Int32)parameter.SideName;
           var (qpFree, qpHelp) = GetFreeHelp(nSide, n);
 #if TestInitFree
-          LogLine($"free({sideName}, {sq})\n");
+          LogLine($"free({parameter.SideName}, {sq})\n");
           writeRect(qpFree);
           LogLine();
 #endif
 #if TestInitHelp
-          LogLine($"help({sideName}, {sq})\n");
+          LogLine($"help({parameter.SideName}, {sq})\n");
           writeRect(qpHelp);
           LogLine();
 #endif

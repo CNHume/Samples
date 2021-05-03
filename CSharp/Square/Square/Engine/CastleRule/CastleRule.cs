@@ -26,8 +26,8 @@ namespace Engine {
 
     private void newCastleRuleSides() {
       foreach (var parameter in Parameter) {
-        var nParameter = (Int32)parameter.SideName;
-        RuleParameter[nParameter] = new CastleRuleParameter(parameter);
+        var nSide = (Int32)parameter.SideName;
+        RuleParameter[nSide] = new CastleRuleParameter(parameter);
       }
     }
     #endregion

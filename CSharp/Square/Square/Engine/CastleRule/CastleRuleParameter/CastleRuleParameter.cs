@@ -119,18 +119,19 @@ namespace Engine {
 
       public HiFlags GrantCastling(Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
         var fhiCanCastle = (HiFlags)0;
+        var sideName = Parameter.SideName;
 
         if (!CastlesFrom.HasValue) {
           if (!nKingFrom.HasValue)
-            throw new ParsePositionException($"{Parameter.SideName} must have a King to castle");
+            throw new ParsePositionException($"{sideName} must have a King to castle");
 
           if (bChess960) {
             if (nKingFrom <= (Int32)sq.a1 + Parameter.BaseRank || (Int32)sq.h1 + Parameter.BaseRank <= nKingFrom)
-              throw new ParsePositionException($"{Parameter.SideName} King cannot castle");
+              throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
             if (nKingFrom != (Int32)sq.e1 + Parameter.BaseRank)
-              throw new ParsePositionException($"{Parameter.SideName} King must castle from {sq.e1}");
+              throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 
           CastlesFrom = nKingFrom;
@@ -138,20 +139,20 @@ namespace Engine {
 
         if (nRookFrom < nKingFrom) {
           if (RookOOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {Parameter.SideName} OOO Ability");
+            throw new ParsePositionException($"Redundant {sideName} OOO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
-            throw new ParsePositionException($"No {Parameter.SideName} Rook for OOO");
+            throw new ParsePositionException($"No {sideName} Rook for OOO");
 
           RookOOOFrom = nRookFrom;
           fhiCanCastle |= HiFlags.CanOOO;
         }
         else {
           if (RookOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {Parameter.SideName} OO Ability");
+            throw new ParsePositionException($"Redundant {sideName} OO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
-            throw new ParsePositionException($"No {Parameter.SideName} Rook for OO");
+            throw new ParsePositionException($"No {sideName} Rook for OO");
 
           RookOOFrom = nRookFrom;
           fhiCanCastle |= HiFlags.CanOO;
