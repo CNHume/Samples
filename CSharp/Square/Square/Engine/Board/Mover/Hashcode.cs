@@ -239,7 +239,7 @@ namespace Engine {
         Debug.Assert(n < nSquares, "hashPiece(nSquares <= n)");
       }
 
-      var zobrist = side.Zobrist;
+      var zobrist = side.Parameter.Zobrist;
       var qHash = zobrist[vPiece][n];
       if (vPiece == vP6) HashPawn ^= qHash;
       Hash ^= qHash;
@@ -251,7 +251,7 @@ namespace Engine {
     }
 
     private Hashcode hashPiece2(BoardSide side, Plane qpPiece, Byte vPiece) {
-      var zobrist = side.Zobrist;
+      var zobrist = side.Parameter.Zobrist;
       Hashcode qHash = 0;
       while (qpPiece != 0) {
         var n = RemoveLo(ref qpPiece, out Plane qp);

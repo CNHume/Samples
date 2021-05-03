@@ -15,7 +15,6 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
   using PieceCounter = System.UInt32;
   using PieceHashcode = System.UInt16;  // 10 bits
   using Plane = System.UInt64;
@@ -25,16 +24,6 @@ namespace Engine {
       #region Constructors
       public BoardSide(PositionParameter parameter) {
         Parameter = parameter;
-
-        switch (Parameter.SideName) {
-        case SideName.Black:
-          Zobrist = ZobristBlack;
-          break;
-
-        case SideName.White:
-          Zobrist = ZobristWhite;
-          break;
-        }
       }
       #endregion
 
@@ -81,7 +70,6 @@ namespace Engine {
       public Plane PawnA8H1Atx;
 
       public Plane Piece;               // Pieces belonging to Side
-      public Hashcode[][] Zobrist;
 #if HashPieces
       public PieceHashcode PieceHash;
 #endif

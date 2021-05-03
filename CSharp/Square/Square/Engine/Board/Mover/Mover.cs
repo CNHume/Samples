@@ -150,8 +150,8 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void resetPawnAtx(BoardSide side) {
       var qpPawn = side.Piece & Pawn;
-      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.StepA1H8);
-      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.StepA8H1);
+      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.ShiftA1H8);
+      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.ShiftA8H1);
     }
 
     protected void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
@@ -163,8 +163,8 @@ namespace Engine {
       var qpFriend = BIT0 << nPassed;
 
       var qpFrom =
-        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.StepA1H8) |
-        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.StepA8H1);
+        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
+        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
 
       return qpFrom;
     }
@@ -249,7 +249,7 @@ namespace Engine {
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
-        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.StepRank : nTo);
+        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.ShiftRank : nTo);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);
@@ -265,8 +265,8 @@ namespace Engine {
         lowerPiece(friend, vPiece, nTo);
 
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * friend.Parameter.StepRank) {
-          var nPassedTo = nTo - friend.Parameter.StepRank;
+        if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
+          var nPassedTo = nTo - friend.Parameter.ShiftRank;
           tryEP(foe, foeRule, friend, friendRule, nTo, nPassedTo);
         }
 

@@ -13,6 +13,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
+  using Hashcode = System.UInt64;
   using Plane = System.UInt64;
 
   partial class Board {
@@ -29,57 +30,43 @@ namespace Engine {
 
         switch (SideName) {
         case SideName.Black:
-          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
-          StepA1H8 = -nA1H8;
-          StepA8H1 = -nA8H1;
-          StepRank = -nFiles;
-
           BaseRank = nRankLast;
+          ShiftA1H8 = -nA1H8;
+          ShiftA8H1 = -nA8H1;
+          ShiftRank = -nFiles;
+
+          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
           RankLast = qpRank1;
           RankPass = qpRank6;
           FileLeft = qpFileH;
           FileRight = qpFileA;
+          Zobrist = ZobristBlack;
           break;
 
         case SideName.White:
-          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
-          StepA1H8 = nA1H8;
-          StepA8H1 = nA8H1;
-          StepRank = nFiles;
           BaseRank = 0;
+          ShiftA1H8 = nA1H8;
+          ShiftA8H1 = nA8H1;
+          ShiftRank = nFiles;
 
+          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
           RankLast = qpRank8;
           RankPass = qpRank3;
           FileLeft = qpFileA;
           FileRight = qpFileH;
+          Zobrist = ZobristWhite;
           break;
         }
       }
       #endregion
 
-      #region Static Methods
-      //
-      //[C#]The << and >> operators treat negative exponents
-      // as unsigned p-bit values, where p is the PBL of the
-      // data type size.  The shift overloads implement more
-      // intuitive semantics of additive, signed exponents:
-      //
-      public static Plane shiftl(Plane qp, Int32 n) {
-        return n < 0 ? qp >> -n : qp << n;
-      }
-
-      public static Plane shiftr(Plane qp, Int32 n) {
-        return shiftl(qp, -n);
-      }
-      #endregion
-
       #region Pawn Advancement Fields
-      public readonly Plane Above;
-      public readonly Int32 StepA1H8;
-      public readonly Int32 StepA8H1;
-      public readonly Int32 StepRank;
       public readonly Int32 BaseRank;
+      public readonly Int32 ShiftA1H8;
+      public readonly Int32 ShiftA8H1;
+      public readonly Int32 ShiftRank;
 
+      public readonly Plane Above;
       public readonly Plane RankLast;
       public readonly Plane RankPass;
       public readonly Plane FileLeft;
@@ -89,6 +76,7 @@ namespace Engine {
       #region Virtual Fields
       public readonly SideName SideName;
       public String Symbol;
+      public Hashcode[][] Zobrist;
       #endregion
     }
   }

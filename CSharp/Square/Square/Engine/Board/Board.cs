@@ -160,7 +160,6 @@ namespace Engine {
 #if HashPieces
         board.Side[nSide].PieceHash = Side[nSide].PieceHash;        // 8-bytes
 #endif
-        board.Side[nSide].Zobrist = Side[nSide].Zobrist;            // 8-bytes
         board.Side[nSide].Counts = Side[nSide].Counts;              // 2-bytes
         board.Side[nSide].KingPos = Side[nSide].KingPos;            // 1-byte (nullable)
 

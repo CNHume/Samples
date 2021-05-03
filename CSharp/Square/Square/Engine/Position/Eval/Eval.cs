@@ -327,7 +327,7 @@ namespace Engine {
     // Rooks Belong Behind Passed Pawns, whether they are on offence or defence:
     //
     protected Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
-      var mBehind = (Eval)0;
+      Eval mBehind = 0;
       (BoardSide offence, BoardSide defence) = getSides(bWhiteRook);
 
       var qpOffence = offence.Piece;

@@ -272,12 +272,12 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpFoe = foe.Piece;
-      var nTo = nPassedTo - friend.Parameter.StepRank;
+      var nTo = nPassedTo - friend.Parameter.ShiftRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nPassedTo + friend.Parameter.StepRank;
+      var nStart = nPassedTo + friend.Parameter.ShiftRank;
       var qpStart = BIT0 << nStart;
       var qpPassed = BIT0 << nPassedTo;
       var qpVacant = qpStart | qpPassed;
