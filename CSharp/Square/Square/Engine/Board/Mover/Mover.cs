@@ -18,7 +18,6 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
-  using static Board.BoardSide;
   using static CastleRule;
   using static Position;
 
@@ -44,16 +43,6 @@ namespace Engine {
       return bWTM ?
         (castle.RuleParameter[White], castle.RuleParameter[Black]) :
         (castle.RuleParameter[Black], castle.RuleParameter[White]);
-    }
-
-    protected static PositionParameter getParameter(Boolean bWTM) {
-      return bWTM ? Parameter[White] : Parameter[Black];
-    }
-
-    protected static (PositionParameter friend, PositionParameter foe) getParameters(Boolean bWTM) {
-      return bWTM ?
-        (Parameter[White], Parameter[Black]) :
-        (Parameter[Black], Parameter[White]);
     }
 
     protected BoardSide getSide(Boolean bWTM) {

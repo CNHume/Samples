@@ -17,14 +17,12 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
-  using static Board.BoardSide;
   using static CastleRule;
   using static Logging.Logger;
 
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
   using Plane = System.UInt64;
 
   partial class Position : Board {

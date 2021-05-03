@@ -9,7 +9,6 @@
 
 namespace Engine.MoveOrder {
   using static Board;
-  using static Board.BoardSide;
 
   using System;
   using System.Collections.Generic;

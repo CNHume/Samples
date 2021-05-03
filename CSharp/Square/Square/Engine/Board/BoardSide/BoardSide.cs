@@ -20,6 +20,22 @@ namespace Engine {
   using Plane = System.UInt64;
 
   partial class Board {
+    #region Static Methods
+    //
+    //[C#]The << and >> operators treat negative exponents
+    // as unsigned p-bit values, where p is the PBL of the
+    // data type size.  The shift overloads implement more
+    // intuitive semantics of additive, signed exponents:
+    //
+    public static Plane shiftl(Plane qp, Int32 n) {
+      return n < 0 ? qp >> -n : qp << n;
+    }
+
+    public static Plane shiftr(Plane qp, Int32 n) {
+      return shiftl(qp, -n);
+    }
+    #endregion
+
     public class BoardSide {
       #region Constructors
       public BoardSide(PositionParameter parameter) {
@@ -42,24 +58,9 @@ namespace Engine {
       }
       #endregion
 
-      #region Static Methods
-      //
-      //[C#]The << and >> operators treat negative exponents
-      // as unsigned p-bit values, where p is the PBL of the
-      // data type size.  The shift overloads implement more
-      // intuitive semantics of additive, signed exponents:
-      //
-      public static Plane shiftl(Plane qp, Int32 n) {
-        return n < 0 ? qp >> -n : qp << n;
-      }
-
-      public static Plane shiftr(Plane qp, Int32 n) {
-        return shiftl(qp, -n);
-      }
-      #endregion
-
       #region Virtual Fields
       public PositionParameter Parameter;
+
       public HiFlags FlagsHi;           //[fhi]BishopMask | CanCastleMask
 
       public PieceCounter Counts;

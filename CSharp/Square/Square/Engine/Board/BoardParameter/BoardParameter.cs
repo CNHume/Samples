@@ -3,9 +3,6 @@
 //
 //[2021-05-01 CNHume]Created Class
 //
-// Conditionals:
-//
-#define HashPieces
 
 namespace Engine {
   using System;
@@ -30,30 +27,32 @@ namespace Engine {
 
         switch (SideName) {
         case SideName.Black:
-          BaseRank = nRankLast;
+          StartRank = nRankLast;
           ShiftA1H8 = -nA1H8;
           ShiftA8H1 = -nA8H1;
           ShiftRank = -nFiles;
 
-          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
           RankLast = qpRank1;
           RankPass = qpRank6;
           FileLeft = qpFileH;
           FileRight = qpFileA;
+          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
+
           Zobrist = ZobristBlack;
           break;
 
         case SideName.White:
-          BaseRank = 0;
+          StartRank = 0;
           ShiftA1H8 = nA1H8;
           ShiftA8H1 = nA8H1;
           ShiftRank = nFiles;
 
-          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
           RankLast = qpRank8;
           RankPass = qpRank3;
           FileLeft = qpFileA;
           FileRight = qpFileH;
+          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
+
           Zobrist = ZobristWhite;
           break;
         }
@@ -61,22 +60,25 @@ namespace Engine {
       #endregion
 
       #region Pawn Advancement Fields
-      public readonly Int32 BaseRank;
+      public readonly Int32 StartRank;
       public readonly Int32 ShiftA1H8;
       public readonly Int32 ShiftA8H1;
       public readonly Int32 ShiftRank;
 
-      public readonly Plane Above;
       public readonly Plane RankLast;
       public readonly Plane RankPass;
       public readonly Plane FileLeft;
       public readonly Plane FileRight;
+
+      public readonly Plane Above;
       #endregion
 
       #region Virtual Fields
       public readonly SideName SideName;
+
       public String Symbol;
-      public Hashcode[][] Zobrist;
+
+      public readonly Hashcode[][] Zobrist;
       #endregion
     }
   }

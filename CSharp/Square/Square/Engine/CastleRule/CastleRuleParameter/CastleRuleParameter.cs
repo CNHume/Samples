@@ -22,10 +22,10 @@ namespace Engine {
       public CastleRuleParameter(PositionParameter parameter) {
         Parameter = parameter;
 
-        KingOOTo = (Int32)sq.g1 + Parameter.BaseRank;
-        RookOOTo = (Int32)sq.f1 + Parameter.BaseRank;
-        KingOOOTo = (Int32)sq.c1 + Parameter.BaseRank;
-        RookOOOTo = (Int32)sq.d1 + Parameter.BaseRank;
+        KingOOTo = (Int32)sq.g1 + Parameter.StartRank;
+        RookOOTo = (Int32)sq.f1 + Parameter.StartRank;
+        KingOOOTo = (Int32)sq.c1 + Parameter.StartRank;
+        RookOOOTo = (Int32)sq.d1 + Parameter.StartRank;
       }
       #endregion
 
@@ -126,11 +126,11 @@ namespace Engine {
             throw new ParsePositionException($"{sideName} must have a King to castle");
 
           if (bChess960) {
-            if (nKingFrom <= (Int32)sq.a1 + Parameter.BaseRank || (Int32)sq.h1 + Parameter.BaseRank <= nKingFrom)
+            if (nKingFrom <= (Int32)sq.a1 + Parameter.StartRank || (Int32)sq.h1 + Parameter.StartRank <= nKingFrom)
               throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
-            if (nKingFrom != (Int32)sq.e1 + Parameter.BaseRank)
+            if (nKingFrom != (Int32)sq.e1 + Parameter.StartRank)
               throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 

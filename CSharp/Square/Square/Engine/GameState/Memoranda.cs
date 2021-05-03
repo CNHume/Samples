@@ -19,7 +19,6 @@ namespace Engine {
   using System.Text;
 
   using static Board;
-  using static Board.BoardSide;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
 

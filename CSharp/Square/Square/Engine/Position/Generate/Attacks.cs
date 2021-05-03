@@ -19,7 +19,6 @@ namespace Engine {
   using System;
   using System.Diagnostics;
 
-  using static Board.BoardSide;
   using static CastleRule;
   using static Logging.Logger;
 
