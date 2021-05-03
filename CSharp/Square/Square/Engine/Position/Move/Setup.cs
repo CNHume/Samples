@@ -415,17 +415,17 @@ namespace Engine {
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
-        var nRank = side.Parameter.SideName == SideName.White ? 0 : nRankLast;
+        var nBaseRank = side.Parameter.BaseRank;
         var nSide = (Int32)side.Parameter.SideName;
-        var rule = castle.RuleSide[nSide];
+        var rule = castle.RuleParameter[nSide];
 
         //
         // GrantCastling() is normally called from parseCastleRights();
         // so extra validation is performed here.
         //
         side.FlagsHi &= ~HiFlags.CanCastleMask;
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nRank, qpRook, bChess960);
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nRank, qpRook, bChess960);
+        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nBaseRank, qpRook, bChess960);
+        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nBaseRank, qpRook, bChess960);
       }
     }
 

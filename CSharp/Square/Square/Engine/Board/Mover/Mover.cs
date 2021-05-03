@@ -34,16 +34,16 @@ namespace Engine {
     #endregion
 
     #region Side Methods
-    protected CastleRuleSide getRule(Boolean bWTM) {
+    protected CastleRuleParameter getRule(Boolean bWTM) {
       var castle = State.Rule;
-      return bWTM ? castle.RuleSide[White] : castle.RuleSide[Black];
+      return bWTM ? castle.RuleParameter[White] : castle.RuleParameter[Black];
     }
 
-    protected (CastleRuleSide frienndRule, CastleRuleSide foeRule) getRules(Boolean bWTM) {
+    protected (CastleRuleParameter frienndRule, CastleRuleParameter foeRule) getRules(Boolean bWTM) {
       var castle = State.Rule;
       return bWTM ?
-        (castle.RuleSide[White], castle.RuleSide[Black]) :
-        (castle.RuleSide[Black], castle.RuleSide[White]);
+        (castle.RuleParameter[White], castle.RuleParameter[Black]) :
+        (castle.RuleParameter[Black], castle.RuleParameter[White]);
     }
 
     protected static PositionParameter getParameter(Boolean bWTM) {
@@ -79,7 +79,7 @@ namespace Engine {
     // does not require this; but one or even both of the From squares may coincide with
     // the castling partner To square in Chess 960.
     //
-    private void rookCastles(BoardSide side, CastleRuleSide rule, Int32 nTo) {
+    private void rookCastles(BoardSide side, CastleRuleParameter rule, Int32 nTo) {
       if (nTo == rule.KingOOTo) {
         raisePiece(side, rule, vR6, rule.RookOOFrom.Value);
         lowerPiece(side, vR6, rule.RookOOTo);
@@ -150,8 +150,8 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void resetPawnAtx(BoardSide side) {
       var qpPawn = side.Piece & Pawn;
-      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.A1H8);
-      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.A8H1);
+      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.StepA1H8);
+      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.StepA8H1);
     }
 
     protected void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
@@ -163,8 +163,8 @@ namespace Engine {
       var qpFriend = BIT0 << nPassed;
 
       var qpFrom =
-        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.A1H8) |
-        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.A8H1);
+        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.StepA1H8) |
+        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.StepA8H1);
 
       return qpFrom;
     }
@@ -187,8 +187,8 @@ namespace Engine {
     // Set EP flags only if an EP would be legal
     //
     private void tryEP(
-      BoardSide friend, CastleRuleSide friendRule,
-      BoardSide foe, CastleRuleSide foeRule,
+      BoardSide friend, CastleRuleParameter friendRule,
+      BoardSide foe, CastleRuleParameter foeRule,
       Int32 nTo, Int32 nPassedTo) {
       var bLegal = false;
       var vKing = friend.KingPos.Value;
@@ -229,8 +229,8 @@ namespace Engine {
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
     protected void movePiece(
-      BoardSide friend, CastleRuleSide friendRule,
-      BoardSide foe, CastleRuleSide foeRule,
+      BoardSide friend, CastleRuleParameter friendRule,
+      BoardSide foe, CastleRuleParameter foeRule,
       ref Move move) {
       unpack2(move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out UInt32 uPromotion, out Boolean bCastles, out Boolean bCapture);
       var bSupplied = uPromotion > 0;
@@ -249,7 +249,7 @@ namespace Engine {
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
-        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.Rank : nTo);
+        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.StepRank : nTo);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);
@@ -265,8 +265,8 @@ namespace Engine {
         lowerPiece(friend, vPiece, nTo);
 
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * friend.Parameter.Rank) {
-          var nPassedTo = nTo - friend.Parameter.Rank;
+        if (nTo - nFrom == 2 * friend.Parameter.StepRank) {
+          var nPassedTo = nTo - friend.Parameter.StepRank;
           tryEP(foe, foeRule, friend, friendRule, nTo, nPassedTo);
         }
 
@@ -309,7 +309,7 @@ namespace Engine {
       // Record Castling Abilities prior to removePiece()
       var bWTM = WTM();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
+      (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
 
       var fhiCanCastleOld = friend.FlagsHi & HiFlags.CanCastleMask;
 

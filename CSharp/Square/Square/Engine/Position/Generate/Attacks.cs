@@ -248,8 +248,8 @@ namespace Engine {
       var qpFrom = 0UL;
       var qpTo = BIT0 << nTo;
 
-      if ((qpTo & side.PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.A1H8;
-      if ((qpTo & side.PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.A8H1;
+      if ((qpTo & side.PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.StepA1H8;
+      if ((qpTo & side.PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.StepA8H1;
 
       return qpFrom;
     }
@@ -309,13 +309,13 @@ namespace Engine {
       var qpFrom = BIT0 << nFrom;
 
       if (bCapture) {
-        var qpA1H8Atx = shiftl(qpFrom & ~side.Parameter.FileRight, side.Parameter.A1H8);
-        var qpA8H1Atx = shiftl(qpFrom & ~side.Parameter.FileLeft, side.Parameter.A8H1);
+        var qpA1H8Atx = shiftl(qpFrom & ~side.Parameter.FileRight, side.Parameter.StepA1H8);
+        var qpA8H1Atx = shiftl(qpFrom & ~side.Parameter.FileLeft, side.Parameter.StepA8H1);
         qpPieceAtx = qpA1H8Atx | qpA8H1Atx;
       }
       else {
-        var qpAdvance1 = shiftl(qpFrom, side.Parameter.Rank) & ~RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.Rank) & ~RankPiece;
+        var qpAdvance1 = shiftl(qpFrom, side.Parameter.StepRank) & ~RankPiece;
+        var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.StepRank) & ~RankPiece;
         qpPieceAtx = qpAdvance1 | qpAdvance2;
       }
 
@@ -374,8 +374,8 @@ namespace Engine {
       qpFrom |= foe.Piece & RectPiece & rectAtx(vTo);
 
       var qpTo = friend.Piece & King;
-      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.A1H8;
-      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.A8H1;
+      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.StepA1H8;
+      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.StepA8H1;
 
       return qpFrom;
     }
@@ -430,7 +430,7 @@ namespace Engine {
     }
 
     private Boolean canOO(
-      BoardSide friend, CastleRuleSide friendRule, BoardSide foe) {
+      BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
       var bLegal = ((friend.FlagsHi & HiFlags.CanOO) != 0) &&
                    ((friendRule.OOPath & RankPiece) == 0) &&
                    !isAttacked(foe, friendRule.OOSafe.Value);
@@ -439,7 +439,7 @@ namespace Engine {
     }
 
     private Boolean canOOO(
-      BoardSide friend, CastleRuleSide friendRule, BoardSide foe) {
+      BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
       var bLegal = ((friend.FlagsHi & HiFlags.CanOOO) != 0) &&
                    ((friendRule.OOOPath & RankPiece) == 0) &&
                    !isAttacked(foe, friendRule.OOOSafe.Value);
@@ -471,7 +471,7 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpPawn = friend.Piece & Pawn;
-      var qpAdvance1 = qpPawn << friend.Parameter.Rank & ~RankPiece & friend.Parameter.RankLast;
+      var qpAdvance1 = qpPawn << friend.Parameter.StepRank & ~RankPiece & friend.Parameter.RankLast;
       var qpCapture = foe.Piece & friend.Parameter.RankLast;
 
       return qpAdvance1 != 0 ||

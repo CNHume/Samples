@@ -63,7 +63,7 @@ namespace Engine {
       // and its next square is stopped or guarded by a Foe Pawn.
       //
       if ((qpHelp & qpFriendPawnAtx) == 0) {
-        var nStop = nPawn + Parameter[nSide].Rank;
+        var nStop = nPawn + Parameter[nSide].StepRank;
         var qpStop = BIT0 << nStop;
 
         if ((qpStop & qpFoePawn) != 0 ||

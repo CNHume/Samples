@@ -30,9 +30,11 @@ namespace Engine {
         switch (SideName) {
         case SideName.Black:
           Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
-          A1H8 = -nA1H8;
-          A8H1 = -nA8H1;
-          Rank = -nFiles;
+          StepA1H8 = -nA1H8;
+          StepA8H1 = -nA8H1;
+          StepRank = -nFiles;
+
+          BaseRank = nRankLast;
           RankLast = qpRank1;
           RankPass = qpRank6;
           FileLeft = qpFileH;
@@ -41,9 +43,11 @@ namespace Engine {
 
         case SideName.White:
           Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
-          A1H8 = nA1H8;
-          A8H1 = nA8H1;
-          Rank = nFiles;
+          StepA1H8 = nA1H8;
+          StepA8H1 = nA8H1;
+          StepRank = nFiles;
+          BaseRank = 0;
+
           RankLast = qpRank8;
           RankPass = qpRank3;
           FileLeft = qpFileA;
@@ -71,9 +75,10 @@ namespace Engine {
 
       #region Pawn Advancement Fields
       public readonly Plane Above;
-      public readonly Int32 A1H8;
-      public readonly Int32 A8H1;
-      public readonly Int32 Rank;
+      public readonly Int32 StepA1H8;
+      public readonly Int32 StepA8H1;
+      public readonly Int32 StepRank;
+      public readonly Int32 BaseRank;
 
       public readonly Plane RankLast;
       public readonly Plane RankPass;

@@ -57,13 +57,13 @@ namespace Engine {
         sb.Append("-");
       else if (castle is not null && castle.IsChess960) {
         if ((fWhiteHi & HiFlags.CanOO) != 0)
-          sb.Append((Char)('A' + castle.RuleSide[White].RookOOFrom));
+          sb.Append((Char)('A' + castle.RuleParameter[White].RookOOFrom));
         if ((fWhiteHi & HiFlags.CanOOO) != 0)
-          sb.Append((Char)('A' + castle.RuleSide[White].RookOOOFrom));
+          sb.Append((Char)('A' + castle.RuleParameter[White].RookOOOFrom));
         if ((fBlackHi & HiFlags.CanOO) != 0)
-          sb.Append((Char)('a' + castle.RuleSide[Black].RookOOFrom - nRankLast));
+          sb.Append((Char)('a' + castle.RuleParameter[Black].RookOOFrom - nRankLast));
         if ((fBlackHi & HiFlags.CanOOO) != 0)
-          sb.Append((Char)('a' + castle.RuleSide[Black].RookOOOFrom - nRankLast));
+          sb.Append((Char)('a' + castle.RuleParameter[Black].RookOOOFrom - nRankLast));
       }
       else {
         if ((fWhiteHi & HiFlags.CanOO) != 0)
@@ -329,9 +329,9 @@ namespace Engine {
       if (bCastles) {
         #region Castles
         var sCastle = Empty;
-        if (nTo == castle.RuleSide[White].KingOOTo || nTo == castle.RuleSide[Black].KingOOTo)
+        if (nTo == castle.RuleParameter[White].KingOOTo || nTo == castle.RuleParameter[Black].KingOOTo)
           sCastle = sHyphenOO;
-        else if (nTo == castle.RuleSide[White].KingOOOTo || nTo == castle.RuleSide[Black].KingOOOTo)
+        else if (nTo == castle.RuleParameter[White].KingOOOTo || nTo == castle.RuleParameter[Black].KingOOOTo)
           sCastle = sHyphenOOO;
 
         Debug.Assert(vPiece == vK6 && !IsNullOrEmpty(sCastle), "Invalid Castle");
@@ -421,9 +421,9 @@ namespace Engine {
       //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
       if (castle.IsChess960 && bCastles) {
         var sCastle = Empty;
-        if (nTo == castle.RuleSide[White].KingOOTo || nTo == castle.RuleSide[Black].KingOOTo)
+        if (nTo == castle.RuleParameter[White].KingOOTo || nTo == castle.RuleParameter[Black].KingOOTo)
           sCastle = sPureOO;
-        else if (nTo == castle.RuleSide[White].KingOOOTo || nTo == castle.RuleSide[Black].KingOOOTo)
+        else if (nTo == castle.RuleParameter[White].KingOOOTo || nTo == castle.RuleParameter[Black].KingOOOTo)
           sCastle = sPureOOO;
 
         Debug.Assert(piece == Piece.K && !IsNullOrEmpty(sCastle), "Invalid Castle");

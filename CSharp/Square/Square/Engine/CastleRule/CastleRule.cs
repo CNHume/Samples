@@ -9,7 +9,6 @@ namespace Engine {
   using System;
 
   using static Board;
-  using static Board.BoardSide;
 
   //
   // Type Aliases:
@@ -19,49 +18,55 @@ namespace Engine {
   partial class CastleRule {
     #region Constructors
     public CastleRule() {
-      RuleSide = new CastleRuleSide[nSides];
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName)))
-        RuleSide[(Int32)sideName] = new CastleRuleSide(sideName);
+      RuleParameter = new CastleRuleParameter[nSides];
+      newCastleRuleSides();
 
       Clear();
+    }
+
+    private void newCastleRuleSides() {
+      foreach (var parameter in Parameter) {
+        var nParameter = (Int32)parameter.SideName;
+        RuleParameter[nParameter] = new CastleRuleParameter(parameter);
+      }
     }
     #endregion
 
     #region Methods
     public void Init() {
-      foreach (var ruleSide in RuleSide) {
-        if (ruleSide is null)
+      foreach (var ruleParameter in RuleParameter) {
+        if (ruleParameter is null)
           throw new BoardException("Null CastleRuleSide Instance");
 
-        ruleSide.Init();
+        ruleParameter.Init();
       }
     }
 
     public void Clear() {
-      foreach (var ruleSide in RuleSide)
-        ruleSide.Clear();
+      foreach (var ruleParameter in RuleParameter)
+        ruleParameter.Clear();
 
       IsChess960 = false;
     }
 
     public void ValidateCastlingSymmetry(Boolean bFromSameFile) {
-      if (RuleSide[White].CastlesFrom.HasValue && RuleSide[Black].CastlesFrom.HasValue) {
+      if (RuleParameter[White].CastlesFrom.HasValue && RuleParameter[Black].CastlesFrom.HasValue) {
         if (!bFromSameFile)
           throw new ParsePositionException("Both Kings must castle from the same file");
 
-        if (RuleSide[White].RookOOFrom.HasValue && RuleSide[Black].RookOOFrom.HasValue &&
-            RuleSide[White].RookOOFrom + nRankLast != RuleSide[Black].RookOOFrom)
+        if (RuleParameter[White].RookOOFrom.HasValue && RuleParameter[Black].RookOOFrom.HasValue &&
+            RuleParameter[White].RookOOFrom + nRankLast != RuleParameter[Black].RookOOFrom)
           throw new ParsePositionException("Both sides must OO with Rooks from the same file");
 
-        if (RuleSide[White].RookOOOFrom.HasValue && RuleSide[Black].RookOOOFrom.HasValue &&
-            RuleSide[White].RookOOOFrom + nRankLast != RuleSide[Black].RookOOOFrom)
+        if (RuleParameter[White].RookOOOFrom.HasValue && RuleParameter[Black].RookOOOFrom.HasValue &&
+            RuleParameter[White].RookOOOFrom + nRankLast != RuleParameter[Black].RookOOOFrom)
           throw new ParsePositionException("Both sides must OOO with Rooks from the same file");
       }
     }
     #endregion
 
     #region Fields
-    public readonly CastleRuleSide[] RuleSide;
+    public readonly CastleRuleParameter[] RuleParameter;
 
     //
     //[Chess 960]The following are derived in InitCastleRules():

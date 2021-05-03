@@ -272,12 +272,12 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpFoe = foe.Piece;
-      var nTo = nPassedTo - friend.Parameter.Rank;
+      var nTo = nPassedTo - friend.Parameter.StepRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nPassedTo + friend.Parameter.Rank;
+      var nStart = nPassedTo + friend.Parameter.StepRank;
       var qpStart = BIT0 << nStart;
       var qpPassed = BIT0 << nPassedTo;
       var qpVacant = qpStart | qpPassed;
@@ -286,7 +286,7 @@ namespace Engine {
       if (!bValid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqPassed}");
 
-      (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
+      (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
       tryEP(friend, friendRule, foe, foeRule, nTo, nPassedTo);
 
       if (!IsPassed())

@@ -306,7 +306,7 @@ namespace Engine {
         var move = mov;
         var bWTM = WTM();
         (BoardSide friend, BoardSide foe) = getSides(bWTM);
-        (CastleRuleSide friendRule, CastleRuleSide foeRule) = getRules(bWTM);
+        (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
         movePiece(friend, friendRule, foe, foeRule, ref move);
