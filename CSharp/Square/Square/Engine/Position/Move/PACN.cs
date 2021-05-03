@@ -135,7 +135,7 @@ namespace Engine {
       //
       // Validate Promotion
       //
-      var bPromote = Side.Any(side => (side.RankLast & qpTo) != 0);
+      var bPromote = Side.Any(side => (side.Parameter.RankLast & qpTo) != 0);
       var bRequired = vPiece == vP6 && bPromote;
       var bSupplied = promotion != Piece._;
       if (bRequired != bSupplied) {
@@ -175,7 +175,8 @@ namespace Engine {
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
         var piece = (Piece)(vPieceFrom + vFirst);
-        throw new MoveException($"{friend.SideName} cannot move {foe.SideName} {piece} from {sqFrom}");
+        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {piece} from {sqFrom}";
+        throw new MoveException(message);
       }
 
       var castle = State.Rule;
@@ -189,19 +190,20 @@ namespace Engine {
           vCapture = vEP6;
         }
       }
-      else if (vPieceFrom == vK6 && ((KingAtx[nFrom] & qpTo) == 0 ||
-                                 castle.IsChess960 && vPieceTo == vR6)) {
-        //
-        //[Chess 960]OO/OOO notation is required in those cases where a King castles by
-        // moving only one square.  However, cases where a King would otherwise need to
-        // be seen as capturing its own Rook will instead be assumed attempts to castle.
-        // canCastle() will be called as needed, when this method returns.
-        //
-        var rule = getRule(bWTM);
-        move = rule.Castles(nTo);
-        if (move == Move.Undefined)
-          throw new MoveException($"Illegal King Move: {sPACN}");
-        bCastles = true;
+      else if (vPieceFrom == vK6) {
+        if (((KingAtx[nFrom] & qpTo) == 0 || castle.IsChess960 && vPieceTo == vR6)) {
+          //
+          //[Chess 960]OO/OOO notation is required in those cases where a King castles by
+          // moving only one square.  However, cases where a King would otherwise need to
+          // be seen as capturing its own Rook will instead be assumed attempts to castle.
+          // canCastle() will be called as needed, when this method returns.
+          //
+          var rule = getRule(bWTM);
+          move = rule.Castles(nTo);
+          if (move == Move.Undefined)
+            throw new MoveException($"Illegal King Move: {sPACN}");
+          bCastles = true;
+        }
       }
 
       if (!bCastles)

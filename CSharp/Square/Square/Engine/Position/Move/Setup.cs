@@ -21,7 +21,6 @@ namespace Engine {
 
   using Test;
 
-  using static Board.BoardSide;
   using static Command.Parser;
   using static Logging.Logger;
   using static System.String;
@@ -416,8 +415,8 @@ namespace Engine {
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
-        var nRank = side.SideName == SideName.White ? 0 : nRankLast;
-        var nSide = (Int32)side.SideName;
+        var nRank = side.Parameter.SideName == SideName.White ? 0 : nRankLast;
+        var nSide = (Int32)side.Parameter.SideName;
         var rule = castle.RuleSide[nSide];
 
         //

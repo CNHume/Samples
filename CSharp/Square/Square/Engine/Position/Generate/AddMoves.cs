@@ -12,14 +12,14 @@
 #define UnshadowRay2
 
 namespace Engine {
-  using static Board.BoardSide;
-  using static CastleRule;
-  using static Logging.Logger;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
+
+  using static Board.BoardSide;
+  using static CastleRule;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -111,8 +111,8 @@ namespace Engine {
 
     private void addPawnCaptures(BoardSide side, Plane qpTo) {
       var nEP = IsPassed() ? ep(FlagsLo) : nSquares;
-      addPawnCaptures2(side, side.PawnA1H8Atx & qpTo, side.A1H8, nEP);
-      addPawnCaptures2(side, side.PawnA8H1Atx & qpTo, side.A8H1, nEP);
+      addPawnCaptures2(side, side.PawnA1H8Atx & qpTo, side.Parameter.A1H8, nEP);
+      addPawnCaptures2(side, side.PawnA8H1Atx & qpTo, side.Parameter.A8H1, nEP);
     }
 
     private void addPawnCaptures2(BoardSide side, Plane qpAtx, int nDiag, int nEP) {
@@ -121,8 +121,8 @@ namespace Engine {
         var nFrom = RemoveLo(ref qpFrom);
         var nTo = nFrom + nDiag;
         var qpMoveTo = BIT0 << nTo;
-        var bAbove = (side.Above & qpMoveTo) != 0;
-        var bPromote = (side.RankLast & qpMoveTo) != 0;
+        var bAbove = (side.Parameter.Above & qpMoveTo) != 0;
+        var bPromote = (side.Parameter.RankLast & qpMoveTo) != 0;
         var bEnPassant = nTo == nEP;
         addPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
       }
@@ -134,10 +134,10 @@ namespace Engine {
       //
       // Pawn Advances:
       //
-      var qpAdvance1 = shiftl(qpPawn, side.Rank) & ~RankPiece;
-      var qpAdvance2 = shiftl(qpAdvance1 & side.RankPass, side.Rank) & ~RankPiece;
-      var qpAdv1From = shiftr(qpAdvance1 & qpTo, side.Rank);
-      var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * side.Rank);
+      var qpAdvance1 = shiftl(qpPawn, side.Parameter.Rank) & ~RankPiece;
+      var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.Rank) & ~RankPiece;
+      var qpAdv1From = shiftr(qpAdvance1 & qpTo, side.Parameter.Rank);
+      var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * side.Parameter.Rank);
 #if TestPawnAdvances
       LogLine("Pawn Advance:\n");
       writeRect(qpAdvance1 | qpAdvance2);
@@ -145,16 +145,16 @@ namespace Engine {
 #endif
       while (qpAdv1From != 0) {
         var nFrom = RemoveLo(ref qpAdv1From);
-        var nTo = nFrom + side.Rank;
+        var nTo = nFrom + side.Parameter.Rank;
         var qpMoveTo = BIT0 << nTo;
-        var bAbove = (side.Above & qpMoveTo) != 0;
-        var bPromote = (side.RankLast & qpMoveTo) != 0;
+        var bAbove = (side.Parameter.Above & qpMoveTo) != 0;
+        var bPromote = (side.Parameter.RankLast & qpMoveTo) != 0;
         addPawnMove(nFrom, nTo, bAbove, bPromote);
       }
 
       while (qpAdv2From != 0) {
         var nFrom = RemoveLo(ref qpAdv2From);
-        var nTo = nFrom + 2 * side.Rank;
+        var nTo = nFrom + 2 * side.Parameter.Rank;
         addPawnMove(nFrom, nTo, false, false);
       }
     }
@@ -162,12 +162,12 @@ namespace Engine {
     // The following two methods are used by generateMaterialMoves()
     private void addPromotions(BoardSide side, Plane qpTo) {
       var qpPawn = side.Piece & Pawn;
-      var qpAdvance1 = shiftl(qpPawn, side.Rank) & ~RankPiece;
-      var qpAdv1From = shiftr(qpAdvance1 & qpTo & side.RankLast, side.Rank);
+      var qpAdvance1 = shiftl(qpPawn, side.Parameter.Rank) & ~RankPiece;
+      var qpAdv1From = shiftr(qpAdvance1 & qpTo & side.Parameter.RankLast, side.Parameter.Rank);
 
       while (qpAdv1From != 0) {
         var nFrom = RemoveLo(ref qpAdv1From);
-        var nTo = nFrom + side.Rank;
+        var nTo = nFrom + side.Parameter.Rank;
         addPawnMove(nFrom, nTo, true, true);
       }
     }

@@ -74,24 +74,19 @@
 #define TestKnightAttacks
 
 namespace Engine {
-  using static Board.BoardSide;
-  using static Logging.Logger;
   using System;
 
-  //
-  // Type Aliases:
-  //
-  using Plane = System.UInt64;
+  using static Logging.Logger;
 
   partial class Board {
     #region Unit Test
     protected void testPawnAttacks() {
       foreach (var side in Side) {
-        LogLine($"{side.SideName} Pieces:\n");
+        LogLine($"{side.Parameter.SideName} Pieces:\n");
         writeRect(side.Piece);
         LogLine();
 
-        LogLine($"{side.SideName} Pawn Attacks:\n");
+        LogLine($"{side.Parameter.SideName} Pawn Attacks:\n");
         writeRect(side.PawnA1H8Atx | side.PawnA8H1Atx);
         LogLine();
       }

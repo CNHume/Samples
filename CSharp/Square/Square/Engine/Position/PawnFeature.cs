@@ -5,17 +5,16 @@
 //
 // Conditionals:
 //
-#define InitFree                        //[Default]
+//#define TestPawnFeatures
+#define InitFree                          //[Default]
 //#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp
-//#define TestPawnFeatures
 //#define TestInvalidPawnPositions
 
 namespace Engine {
   using System;
 
-  using static Board.BoardSide;
   using static Logging.Logger;
 
   //
@@ -30,7 +29,7 @@ namespace Engine {
     // when intersected with Pawns for the side to move return any Pawns that cannot be
     // caught by the King - before they queen.
     //
-    protected void loadOutsideSquare() {
+    protected static void loadOutsideSquare() {
       //
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
@@ -74,13 +73,13 @@ namespace Engine {
               // Sum Pawn positions with King outside the Square of the Pawn:
               //
               if (bOutsideKingToMove) {
-                Side[Black].KingToMoveLoss[nBlack] |= qpWhite;
-                Side[White].KingToMoveLoss[nWhite] |= qpBlack;
+                Parameter[Black].KingToMoveLoss[nBlack] |= qpWhite;
+                Parameter[White].KingToMoveLoss[nWhite] |= qpBlack;
               }
 
               if (bOutsidePawnToMove) {
-                Side[Black].PawnToMoveWins[nWhite] |= qpBlack;
-                Side[White].PawnToMoveWins[nBlack] |= qpWhite;
+                Parameter[Black].PawnToMoveWins[nWhite] |= qpBlack;
+                Parameter[White].PawnToMoveWins[nBlack] |= qpWhite;
               }
             }                           // nKingX
           }                             // nKingY
@@ -95,7 +94,7 @@ namespace Engine {
     // Mark squares that remain in front of each square,
     // as potential Pawn Advancements:
     //
-    private void loadFree() {
+    private static void loadFree() {
       //
       // Advance File masks forward by one Rank:
       //
@@ -110,8 +109,8 @@ namespace Engine {
         //
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Side[Black].Free[nBlack] = qpBlack;
-          Side[White].Free[nWhite] = qpWhite;
+          Parameter[Black].Free[nBlack] = qpBlack;
+          Parameter[White].Free[nWhite] = qpWhite;
         }
       }
     }
@@ -121,7 +120,7 @@ namespace Engine {
     // Mark the Pawn Stop square in front of each square;
     // and all help squares prior to that:
     //
-    private void loadHelp() {
+    private static void loadHelp() {
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
@@ -131,13 +130,13 @@ namespace Engine {
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Side[Black].Help[nBlack] = qpBlack;
-          Side[White].Help[nWhite] = qpWhite;
+          Parameter[Black].Help[nBlack] = qpBlack;
+          Parameter[White].Help[nWhite] = qpWhite;
         }
       }
     }
 #endif
-    private void loadFreeHelp() {
+    private static void loadFreeHelp() {
 #if TestInitHelp || InitFree || !InitHelp
       loadFree();
 #endif
@@ -153,14 +152,14 @@ namespace Engine {
     // Return squares that remain in front of each square,
     // as potential Pawn Advancements:
     //
-    protected Plane free(Int32 nSide, Int32 nPawn) {
+    protected static Plane free(Int32 nSide, Int32 nPawn) {
 #if InitFree
-      var qpFree = Side[nSide].Free[nPawn];
+      var qpFree = Parameter[nSide].Free[nPawn];
 #else
       Plane qpFree = default;
       switch (nSide) {
       case Black:
-        qpFree = Side[White].Help[nPawn] >> nFiles * 2;
+        qpFree = Parameter[White].Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn >= nFiles * (nRanks - 1))
           qpFree |= BIT0 << nRankLast + nPawn;
@@ -168,7 +167,7 @@ namespace Engine {
         break;
 
       case White:
-        qpFree = Side[Black].Help[nPawn] << nFiles * 2;
+        qpFree = Parameter[Black].Help[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn < nFiles)
           qpFree |= BIT0 << nFiles + nPawn;
@@ -183,21 +182,21 @@ namespace Engine {
     // Return the Pawn Stop square in front of each square;
     // and all help squares prior to that:
     //
-    protected Plane help(Int32 nSide, Int32 nPawn) {
+    protected static Plane help(Int32 nSide, Int32 nPawn) {
 #if InitHelp
-      var qpHelp = Side[nSide].Help[nPawn];
+      var qpHelp = Parameter[nSide].Help[nPawn];
 #else
       Plane qpHelp = default;
       switch (nSide) {
       case Black:
-        qpHelp = Side[White].Free[nPawn] >> nFiles * 2;
+        qpHelp = Parameter[White].Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= BIT0 << nFiles * (nRanks - 2) + nPawn % nFiles;
 #endif
         break;
 
       case White:
-        qpHelp = Side[Black].Free[nPawn] << nFiles * 2;
+        qpHelp = Parameter[Black].Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= BIT0 << nFiles + nPawn % nFiles;
 #endif
@@ -207,13 +206,13 @@ namespace Engine {
       return qpHelp;
     }
 
-    protected (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
+    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
       var qpFree = free(nSide, nPawn);
       var qpHelp = help(nSide, nPawn);
       return (qpFree, qpHelp);
     }
 
-    private void testFreeHelp(sq[] squares) {
+    private static void testFreeHelp(sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
         foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {

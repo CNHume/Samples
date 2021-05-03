@@ -16,7 +16,6 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Text;
 
-  using static Board.BoardSide;
   using static CastleRule;
   using static Command.Parser;
   using static Logging.Logger;
@@ -37,7 +36,7 @@ namespace Engine {
         var nKings = (Byte)(side.Counts >> vK6 * nPerNibble) & vNibble;
         if (nKings != 1) {
           bValid = false;
-          sReason = $"Invalid {side.SideName} King Placement";
+          sReason = $"Invalid {side.Parameter.SideName} King Placement";
           break;
         }
 
@@ -51,7 +50,7 @@ namespace Engine {
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
           bValid = false;
-          sReason = $"Too many {side.SideName} Pawns";
+          sReason = $"Too many {side.Parameter.SideName} Pawns";
           break;
         }
 
@@ -72,7 +71,7 @@ namespace Engine {
 
           if (nLimit < 0) {
             bValid = false;
-            sReason = $"Too many {side.SideName} pieces";
+            sReason = $"Too many {side.Parameter.SideName} pieces";
             goto exit;
           }
         }
@@ -273,12 +272,12 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpFoe = foe.Piece;
-      var nTo = nPassedTo - friend.Rank;
+      var nTo = nPassedTo - friend.Parameter.Rank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nPassedTo + friend.Rank;
+      var nStart = nPassedTo + friend.Parameter.Rank;
       var qpStart = BIT0 << nStart;
       var qpPassed = BIT0 << nPassedTo;
       var qpVacant = qpStart | qpPassed;

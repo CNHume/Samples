@@ -6,9 +6,9 @@
 //#define BuildAtxTo
 #define UseMoveSort
 #define LazyMoveSort
+//#define TestPawnFeatures
 //#define TestInitFree
 //#define TestInitHelp
-//#define TestPawnFeatures
 
 namespace Engine {
   using HeapSort;                           // for Heap

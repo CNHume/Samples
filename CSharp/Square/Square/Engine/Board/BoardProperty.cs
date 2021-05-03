@@ -21,10 +21,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
   using Hashcode = System.UInt64;
-  using PieceCounter = System.UInt32;
-  using PieceHashcode = System.UInt16;  // 10 bits
   using Plane = System.UInt64;
   using Ply = System.UInt16;
 
@@ -32,6 +29,8 @@ namespace Engine {
     protected static String PieceSymbols;
 
     #region Constant Fields
+    public static readonly PositionParameter[] Parameter;
+
     public static Plane LiteSquare;
     public static Plane DarkSquare;
 
@@ -96,7 +95,7 @@ namespace Engine {
     #endregion
 
     #region Virtual Fields
-    protected readonly PositionSide[] Side;
+    protected readonly BoardSide[] Side;
 
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;

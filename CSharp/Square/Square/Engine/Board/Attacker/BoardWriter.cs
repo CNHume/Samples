@@ -19,7 +19,6 @@ namespace Engine {
   using System.Linq;
   using System.Text;
 
-  using static Board.BoardSide;
   using static Logging.Logger;
   using static System.String;
 
@@ -243,7 +242,8 @@ namespace Engine {
       if (vPiece > vK6)
         sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
       else {
-        sb.Append((Side[White].Piece & qp) != 0 ? WhiteSymbol : BlackSymbol);
+        sb.Append((Side[White].Piece & qp) != 0 ?
+          Parameter[White].Symbol : Parameter[Black].Symbol);
         sb.Append(PieceSymbol(vPiece));
       }
     }

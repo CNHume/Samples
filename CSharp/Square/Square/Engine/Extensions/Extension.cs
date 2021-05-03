@@ -12,21 +12,22 @@
 #define TestDraw3
 
 namespace Engine {
-  using static Board;
-  using static Board.BoardSide;
-  using MoveOrder;                      // For Variation
   using Exceptions;
-  using static Logging.Logger;
-  using static Position;
+
+  using MoveOrder;                      // For Variation
 
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
-  using static System.Math;
-  using static System.String;
   using System.Reflection;
   using System.Text;
+
+  using static Board;
+  using static Logging.Logger;
+  using static Position;
+  using static System.Math;
+  using static System.String;
 
   //
   // Type Aliases:
@@ -632,7 +633,7 @@ namespace Engine {
         var n = (Byte)uPieceCounts & vNibble;
         var s = PieceSymbol(v6);
 
-        sb.AppendFormat(sFormat, WhiteSymbol, BlackSymbol, s, n)
+        sb.AppendFormat(sFormat, Parameter[White].Symbol, Parameter[Black].Symbol, s, n)
           .AppendLine();
       }
 
@@ -650,7 +651,8 @@ namespace Engine {
         var nBlack = (Byte)uBlackCounts & vNibble;
         var s = PieceSymbol(v6);
 
-        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}", WhiteSymbol, BlackSymbol, s, nWhite, nBlack)
+        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",
+            Parameter[White].Symbol, Parameter[Black].Symbol, s, nWhite, nBlack)
           .AppendLine();
       }
 
@@ -668,7 +670,8 @@ namespace Engine {
         var nBlack = (Byte)wHashBlack & vTwoBits;
         var s = v6 == vHF ? "F" : PieceSymbol(v6);
 
-        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}", WhiteSymbol, BlackSymbol, s, nWhite, nBlack)
+        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",
+            Parameter[White].Symbol, Parameter[Black].Symbol, s, nWhite, nBlack)
           .AppendLine();
       }
 

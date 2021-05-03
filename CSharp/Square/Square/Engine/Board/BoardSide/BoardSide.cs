@@ -1,7 +1,7 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-//[2018-10-27 CNHume]Created Class
+//[2021-01-29 CNHume]Created Class
 //
 // Conditionals:
 //
@@ -9,6 +9,8 @@
 
 namespace Engine {
   using System;
+
+  using static Engine.Position;
 
   //
   // Type Aliases:
@@ -20,39 +22,17 @@ namespace Engine {
 
   partial class Board {
     public class BoardSide {
-      #region Constants
-      public const Int32 Black = (Int32)SideName.Black;
-      public const Int32 White = (Int32)SideName.White;
-      public static readonly Int32 nSides = Enum.GetNames(typeof(SideName)).Length;
-      #endregion
-
       #region Constructors
-      public BoardSide(SideName sideName) {
-        SideName = sideName;
+      public BoardSide(PositionParameter parameter) {
+        Parameter = parameter;
 
-        switch (SideName) {
+        switch (Parameter.SideName) {
         case SideName.Black:
           Zobrist = ZobristBlack;
-          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
-          A1H8 = -nA1H8;
-          A8H1 = -nA8H1;
-          Rank = -nFiles;
-          RankLast = qpRank1;
-          RankPass = qpRank6;
-          FileLeft = qpFileH;
-          FileRight = qpFileA;
           break;
 
         case SideName.White:
           Zobrist = ZobristWhite;
-          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
-          A1H8 = nA1H8;
-          A8H1 = nA8H1;
-          Rank = nFiles;
-          RankLast = qpRank8;
-          RankPass = qpRank3;
-          FileLeft = qpFileA;
-          FileRight = qpFileH;
           break;
         }
       }
@@ -89,24 +69,8 @@ namespace Engine {
       }
       #endregion
 
-      #region Static Fields
-      public static String BlackSymbol;
-      public static String WhiteSymbol;
-      #endregion
-
-      #region Pawn Advancement Fields
-      public readonly Plane Above;
-      public readonly Int32 A1H8;
-      public readonly Int32 A8H1;
-      public readonly Int32 Rank;
-      public readonly Plane RankLast;
-      public readonly Plane RankPass;
-      public readonly Plane FileLeft;
-      public readonly Plane FileRight;
-      #endregion
-
       #region Virtual Fields
-      public SideName SideName;
+      public PositionParameter Parameter;
       public HiFlags FlagsHi;           //[fhi]BishopMask | CanCastleMask
 
       public PieceCounter Counts;

@@ -5,12 +5,12 @@
 //
 // Conditionals:
 //
+//#define TestPawnFeatures
 
 namespace Engine {
   using System;
   using System.Diagnostics;
 
-  using static Board.BoardSide;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
 
@@ -63,7 +63,7 @@ namespace Engine {
       // and its next square is stopped or guarded by a Foe Pawn.
       //
       if ((qpHelp & qpFriendPawnAtx) == 0) {
-        var nStop = nPawn + Side[nSide].Rank;
+        var nStop = nPawn + Parameter[nSide].Rank;
         var qpStop = BIT0 << nStop;
 
         if ((qpStop & qpFoePawn) != 0 ||

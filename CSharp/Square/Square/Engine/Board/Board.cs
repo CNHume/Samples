@@ -17,7 +17,6 @@ namespace Engine {
   using System.Diagnostics;
   using System.Linq;
 
-  using static Board.BoardSide;
   using static Logging.Logger;
   using static Position;
 
@@ -82,10 +81,28 @@ namespace Engine {
       // Initialize static data used to find attacks:
       //
       initAttacks();
+
+      Parameter = new PositionParameter[nSides];
+      newParameters();
+    }
+
+    private static void newParameters() {
+      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
+        var nSide = (Int32)sideName;
+        Parameter[nSide] = new PositionParameter(sideName);
+      }
     }
 
     public Board() {
-      Side = new PositionSide[nSides];
+      Side = new BoardSide[nSides];
+      newSides();
+    }
+
+    private void newSides() {
+      foreach (var parameter in Parameter) {
+        var nSide = (Int32)parameter.SideName;
+        Side[nSide] = new BoardSide(parameter);
+      }
     }
 
     //
@@ -164,13 +181,13 @@ namespace Engine {
         PieceSymbols = found?.Symbols;
 
         if (PieceSymbols is null) {
-          BlackSymbol = "B";
-          WhiteSymbol = "W";
+          Parameter[Black].Symbol = "B";
+          Parameter[White].Symbol = "W";
         }
         else {
           Trace.Assert(nSymbols <= PieceSymbols.Length, "Insufficient number of Piece Symbols");
-          BlackSymbol = PieceSymbols[vBlack].ToString();
-          WhiteSymbol = PieceSymbols[vWhite].ToString();
+          Parameter[Black].Symbol = PieceSymbols[vBlack].ToString();
+          Parameter[White].Symbol = PieceSymbols[vWhite].ToString();
         }
       }
     }

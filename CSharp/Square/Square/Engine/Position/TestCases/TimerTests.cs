@@ -12,14 +12,12 @@
 
 namespace Engine {
   using CacheValue;
-  using MoveOrder;
 
   using System;
   using System.Diagnostics;
   using System.Collections.Generic;
   using System.Text;
 
-  using static Board.BoardSide;
   using static CastleRule;
   using static Logging.Logger;
 
@@ -418,10 +416,9 @@ namespace Engine {
     [Conditional("TestOutsideSquare")]
     protected void testOutsideSquare(sq sq) {
       var n = (Int32)sq;
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
-        var nSide = (Int32)sideName;
-        testRect($"{sideName}KingToMoveLoss[{sq}]", Side[nSide].KingToMoveLoss[n]);
-        testRect($"{sideName}PawnToMoveWins[{sq}]", Side[nSide].PawnToMoveWins[n]);
+      foreach (var parameter in Parameter) {
+        testRect($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
+        testRect($"{parameter.SideName}PawnToMoveWins[{sq}]", parameter.PawnToMoveWins[n]);
       }
     }
     #endregion

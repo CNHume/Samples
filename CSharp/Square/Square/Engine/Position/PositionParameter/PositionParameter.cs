@@ -1,25 +1,25 @@
 ﻿//
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
+//[2021-05-01 CNHume]Created Class
+//
 // Conditionals:
 //
+#define InitFree                          //[Default]
 //#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp
-//#define TestPawnFeatures
 
 namespace Engine {
-  using System;
-
   //
   // Type Aliases:
   //
   using Plane = System.UInt64;
 
   partial class Position : Board {
-    public class PositionSide : BoardSide {
+    public class PositionParameter : BoardParameter {
       #region Constructors
-      public PositionSide(SideName sideName) : base(sideName) {
+      public PositionParameter(SideName sideName) : base(sideName) {
         KingToMoveLoss = new Plane[nSquares];
         PawnToMoveWins = new Plane[nSquares];
 #if TestInitHelp || InitFree || !InitHelp

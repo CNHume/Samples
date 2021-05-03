@@ -20,7 +20,6 @@ namespace Engine {
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Text;
 
-  using static Board.BoardSide;
   using static CastleRule;
 
   //
@@ -176,7 +175,7 @@ namespace Engine {
           sColor = "Black";
 
         var sb = new StringBuilder();
-        sb.Append($"{sColor} Piece blocked placement of {side.SideName} Piece at")
+        sb.Append($"{sColor} Piece blocked placement of {side.Parameter.SideName} Piece at")
           .AppendSquares(qp);
         throw new MoveException(sb.ToString());
       }
@@ -264,7 +263,7 @@ namespace Engine {
 
         foreach (var side in Side) {
           if ((side.Piece & ~RankPiece) != 0) {
-            var sb = new StringBuilder($"Empty Squares marked as {side.SideName} Pieces at")
+            var sb = new StringBuilder($"Empty Squares marked as {side.Parameter.SideName} Pieces at")
               .AppendSquares(side.Piece & ~RankPiece);
             throw new ColorException(sb.ToString());
           }

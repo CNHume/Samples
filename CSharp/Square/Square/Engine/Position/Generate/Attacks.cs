@@ -248,8 +248,8 @@ namespace Engine {
       var qpFrom = 0UL;
       var qpTo = BIT0 << nTo;
 
-      if ((qpTo & side.PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - side.A1H8;
-      if ((qpTo & side.PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - side.A8H1;
+      if ((qpTo & side.PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.A1H8;
+      if ((qpTo & side.PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.A8H1;
 
       return qpFrom;
     }
@@ -309,13 +309,13 @@ namespace Engine {
       var qpFrom = BIT0 << nFrom;
 
       if (bCapture) {
-        var qpA1H8Atx = shiftl(qpFrom & ~side.FileRight, side.A1H8);
-        var qpA8H1Atx = shiftl(qpFrom & ~side.FileLeft, side.A8H1);
+        var qpA1H8Atx = shiftl(qpFrom & ~side.Parameter.FileRight, side.Parameter.A1H8);
+        var qpA8H1Atx = shiftl(qpFrom & ~side.Parameter.FileLeft, side.Parameter.A8H1);
         qpPieceAtx = qpA1H8Atx | qpA8H1Atx;
       }
       else {
-        var qpAdvance1 = shiftl(qpFrom, side.Rank) & ~RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & side.RankPass, side.Rank) & ~RankPiece;
+        var qpAdvance1 = shiftl(qpFrom, side.Parameter.Rank) & ~RankPiece;
+        var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.Rank) & ~RankPiece;
         qpPieceAtx = qpAdvance1 | qpAdvance2;
       }
 
@@ -374,8 +374,8 @@ namespace Engine {
       qpFrom |= foe.Piece & RectPiece & rectAtx(vTo);
 
       var qpTo = friend.Piece & King;
-      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vTo - foe.A1H8;
-      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vTo - foe.A8H1;
+      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.A1H8;
+      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.A8H1;
 
       return qpFrom;
     }
@@ -471,8 +471,8 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       var qpPawn = friend.Piece & Pawn;
-      var qpAdvance1 = qpPawn << friend.Rank & ~RankPiece & friend.RankLast;
-      var qpCapture = foe.Piece & friend.RankLast;
+      var qpAdvance1 = qpPawn << friend.Parameter.Rank & ~RankPiece & friend.Parameter.RankLast;
+      var qpCapture = foe.Piece & friend.Parameter.RankLast;
 
       return qpAdvance1 != 0 ||
              (qpCapture & friend.PawnA1H8Atx) != 0 ||
@@ -603,7 +603,7 @@ namespace Engine {
             var capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);
             if (capture == Piece.EP) {
               var side = getSide(bWhiteMoved);
-              var nPasser = nTo - side.Rank;
+              var nPasser = nTo - side.Parameter.Rank;
               var qpPasser = BIT0 << nPasser;
               bPasserPin = (qpRay & qpPasser) != 0;
             }

@@ -33,7 +33,6 @@ namespace Engine {
   using System.Runtime.CompilerServices;
   using System.Text;
 
-  using static Board.BoardSide;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
 
@@ -193,8 +192,8 @@ namespace Engine {
     protected Eval punishOutsideSquare() {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
-      var qpArray = bWhiteAlone ? bWTM ? Side[White].KingToMoveLoss : Side[Black].PawnToMoveWins :
-                                  bWTM ? Side[White].PawnToMoveWins : Side[Black].KingToMoveLoss;
+      var qpArray = bWhiteAlone ? bWTM ? Parameter[White].KingToMoveLoss : Parameter[Black].PawnToMoveWins :
+                                  bWTM ? Parameter[White].PawnToMoveWins : Parameter[Black].KingToMoveLoss;
       var vDefendingKingPos = getKingPos(bWhiteAlone);
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;

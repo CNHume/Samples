@@ -46,11 +46,21 @@ namespace Engine {
         (castle.RuleSide[Black], castle.RuleSide[White]);
     }
 
-    protected PositionSide getSide(Boolean bWTM) {
+    protected static PositionParameter getParameter(Boolean bWTM) {
+      return bWTM ? Parameter[White] : Parameter[Black];
+    }
+
+    protected static (PositionParameter friend, PositionParameter foe) getParameters(Boolean bWTM) {
+      return bWTM ?
+        (Parameter[White], Parameter[Black]) :
+        (Parameter[Black], Parameter[White]);
+    }
+
+    protected BoardSide getSide(Boolean bWTM) {
       return bWTM ? Side[White] : Side[Black];
     }
 
-    protected (PositionSide friend, PositionSide foe) getSides(Boolean bWTM) {
+    protected (BoardSide friend, BoardSide foe) getSides(Boolean bWTM) {
       return bWTM ?
         (Side[White], Side[Black]) :
         (Side[Black], Side[White]);
@@ -140,8 +150,8 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void resetPawnAtx(BoardSide side) {
       var qpPawn = side.Piece & Pawn;
-      side.PawnA1H8Atx = shiftl(qpPawn & ~side.FileRight, side.A1H8);
-      side.PawnA8H1Atx = shiftl(qpPawn & ~side.FileLeft, side.A8H1);
+      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.A1H8);
+      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.A8H1);
     }
 
     protected void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
@@ -153,8 +163,8 @@ namespace Engine {
       var qpFriend = BIT0 << nPassed;
 
       var qpFrom =
-        shiftr(qpFriend & side.PawnA1H8Atx, side.A1H8) |
-        shiftr(qpFriend & side.PawnA8H1Atx, side.A8H1);
+        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.A1H8) |
+        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.A8H1);
 
       return qpFrom;
     }
@@ -227,7 +237,7 @@ namespace Engine {
       var vPiece = (Byte)(uPiece - vFirst);
 #if VerifyPromotion                     //[PACN]
       var qpMoveTo = BIT0 << nTo;
-      var bPromote = (friend.RankLast & qpMoveTo) != 0;
+      var bPromote = (friend.Parameter.RankLast & qpMoveTo) != 0;
       var bRequired = vPiece == vP6 && bPromote;
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
@@ -239,7 +249,7 @@ namespace Engine {
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
-        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Rank : nTo);
+        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.Rank : nTo);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);
@@ -255,8 +265,8 @@ namespace Engine {
         lowerPiece(friend, vPiece, nTo);
 
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * friend.Rank) {
-          var nPassedTo = nTo - friend.Rank;
+        if (nTo - nFrom == 2 * friend.Parameter.Rank) {
+          var nPassedTo = nTo - friend.Parameter.Rank;
           tryEP(foe, foeRule, friend, friendRule, nTo, nPassedTo);
         }
 

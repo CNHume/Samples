@@ -31,11 +31,11 @@
 #define DebugInit
 //#define DebugStand
 //#define TestImportance
-#define InitFree                        //[Default]
+//#define TestPawnFeatures
+#define InitFree                          //[Default]
 //#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp
-//#define TestPawnFeatures
 
 namespace Engine {
   using HeapSort;                           // for Heap
@@ -46,7 +46,6 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Diagnostics;
 
-  using static Board.BoardSide;
   using static Logging.Logger;
   using static MoveOrder.TypedMove;
 
@@ -141,9 +140,6 @@ namespace Engine {
 
     public Position() {
       init();
-
-      loadOutsideSquare();
-      loadFreeHelp();
     }
 
     //
@@ -186,6 +182,9 @@ namespace Engine {
     // the Position super class require less than one ms to complete
     //
     private static void initPosition() {
+      loadOutsideSquare();
+      loadFreeHelp();
+
       newSquareImportance();
       loadSquareImportance();
     }
@@ -215,20 +214,12 @@ namespace Engine {
 
     #region Instance Intialization
     private void init() {
-      newSides();
       newFeatures();
       newBestMoves();
       newRestricted();
       newMoveTypes();
       newPseudoMoves();
       newSquareControl();
-    }
-
-    private void newSides() {
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
-        var nSide = (Int32)sideName;
-        Side[nSide] = new PositionSide(sideName);
-      }
     }
 
     private void newFeatures() {
