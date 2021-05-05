@@ -6,7 +6,7 @@
 // Conditionals:
 //
 //#define Magic
-//#define VerifyPieceMove                 // Ensure move from occupied square to empty square
+//#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
 #define HashPieces
 #define UnshadowRay
 
@@ -83,14 +83,14 @@ namespace Engine {
     private Boolean raisePiece(BoardSide side, CastleRuleParameter rule, Byte vPiece, Int32 nFrom) {
       hashPiece(side, vPiece, nFrom);
       var qp = BIT0 << nFrom;
-#if VerifyPieceMove
+#if VerifySquarePiece
       if ((qp & RankPiece) == 0) {
-        var sb = new StringBuilder("Square empty where Piece was expected at")
+        var sb = new StringBuilder($"Square empty where {side.Parameter.SideName} Piece was expected at")
           .AppendSquares(qp);
         throw new MoveException(sb.ToString());
       }
       else if ((qp & side.Piece) == 0) {
-        var sb = new StringBuilder("Piece was expected at")
+        var sb = new StringBuilder($"{side.Parameter.SideName} Piece was expected at")
           .AppendSquares(qp);
         throw new MoveException(sb.ToString());
       }
@@ -165,19 +165,14 @@ namespace Engine {
     protected Boolean lowerPiece(BoardSide side, Byte vPiece, Int32 nTo) {
       hashPiece(side, vPiece, nTo);
       var qp = BIT0 << nTo;
-#if VerifyPieceMove
-      if ((qp & RankPiece) != 0) {
-        var sColor = "Uncolored";
-
-        if ((qp & Side[White].Piece) != 0)
-          sColor = "White";
-        else if ((qp & Side[Black].Piece) != 0)
-          sColor = "Black";
-
-        var sb = new StringBuilder();
-        sb.Append($"{sColor} Piece blocked placement of {side.Parameter.SideName} Piece at")
-          .AppendSquares(qp);
-        throw new MoveException(sb.ToString());
+#if VerifySquarePiece
+      foreach (var testSide in Side) {
+        if ((qp & testSide.Piece) != 0) {
+          var sb = new StringBuilder();
+          sb.Append($"{testSide.Parameter.SideName} Piece prevents placement of {side.Parameter.SideName} Piece at")
+            .AppendSquares(qp);
+          throw new MoveException(sb.ToString());
+        }
       }
 #endif
       setPiece(side, qp);
