@@ -104,7 +104,7 @@ namespace Engine.MoveOrder {
       var ordering = (MoveTypeOrdering)0;
       var nFinal = moveTypes.Length - 1;
       for (var n = 0; nFinal >= 0; n++, nFinal--) {
-        var moveType = (Byte)moveTypes[nFinal] & (MoveTypeOrdering)vNibble;
+        var moveType = (MoveTypeOrdering)nibble((Int32)moveTypes[nFinal]);
         ordering <<= nPerNibble;
         ordering |= moveType;
       }
@@ -113,7 +113,7 @@ namespace Engine.MoveOrder {
 
     public static void Expand(MoveType[] moveTypes, MoveTypeOrdering ordering) {
       for (var n = 0; n < moveTypes.Length; n++, ordering >>= nPerNibble) {
-        var moveType = (MoveType)(ordering & vNibble);
+        var moveType = (MoveType)nibble((Int32)ordering);
         moveTypes[n] = moveType;
       }
     }

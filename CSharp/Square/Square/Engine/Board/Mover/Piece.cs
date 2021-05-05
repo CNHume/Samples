@@ -156,7 +156,7 @@ namespace Engine {
       }
 #if HashPieces
       if (vP6 < vPiece && vPiece < vK6) {
-        var u = side.Counts >> vPiece * nPerNibble & vNibble;
+        var u = nibble(side.Counts >> vPiece * nPerNibble);
         setTwoBits(ref side.PieceHash, vPiece - vHF, u % vMod4);
       }
 #endif
@@ -230,7 +230,7 @@ namespace Engine {
       }
 #if HashPieces
       if (vP6 < vPiece && vPiece < vK6) {
-        var u = side.Counts >> vPiece * nPerNibble & vNibble;
+        var u = nibble(side.Counts >> vPiece * nPerNibble);
         setTwoBits(ref side.PieceHash, vPiece - vHF, u % vMod4);
       }
 #endif

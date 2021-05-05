@@ -34,6 +34,7 @@ namespace Engine {
   //
   using ExtensionCounter = System.UInt16;
   using PieceHashcode = System.UInt16;  // 10 bits
+  using Plane = System.UInt64;
 
   partial class Board {
     #region Constants
@@ -267,7 +268,7 @@ namespace Engine {
     #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != (u & vTwoBits);
+      var bOverflow = u != twoBits(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "TwoBits Overflow");
         u &= vTwoBits;
@@ -282,7 +283,7 @@ namespace Engine {
     //[UCI]Internal Method made available to the GameState class
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static void setNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != (u & vNibble);
+      var bOverflow = u != nibble(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "Nibble Overflow");
         u &= vNibble;
@@ -296,7 +297,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Byte getNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
-      return (Byte)(wNibbleMask >> nIndex * nPerNibble & vNibble);
+      return (Byte)nibble(wNibbleMask >> nIndex * nPerNibble);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -307,6 +308,46 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
+    }
+    #endregion
+
+    #region Nibble & TwoBits Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 nibble(Int32 input) {
+      return input & vNibble;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static UInt32 nibble(UInt32 input) {
+      return input & vNibble;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 twoBits(Int32 input) {
+      return input & vTwoBits;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static UInt32 twoBits(UInt32 input) {
+      return input & vTwoBits;
+    }
+    #endregion
+
+    #region Shift Methods
+    //
+    //[C#]The << and >> operators treat negative exponents
+    // as unsigned p-bit values, where p is the PBL of the
+    // data type size.  The shift overloads implement more
+    // intuitive semantics of additive, signed exponents:
+    //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Plane shiftl(Plane qp, Int32 n) {
+      return n < 0 ? qp >> -n : qp << n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Plane shiftr(Plane qp, Int32 n) {
+      return shiftl(qp, -n);
     }
     #endregion
   }

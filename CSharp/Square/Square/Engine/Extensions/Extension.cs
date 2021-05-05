@@ -630,10 +630,10 @@ namespace Engine {
 
       for (var v6 = (Byte)0; v6 < nPieces; v6++,
            uPieceCounts >>= nPerNibble) {
-        var n = (Byte)uPieceCounts & vNibble;
+        var u = nibble(uPieceCounts);
         var s = PieceSymbol(v6);
 
-        sb.AppendFormat(sFormat, Parameter[White].Symbol, Parameter[Black].Symbol, s, n)
+        sb.AppendFormat(sFormat, Parameter[White].Symbol, Parameter[Black].Symbol, s, u)
           .AppendLine();
       }
 
@@ -647,12 +647,12 @@ namespace Engine {
       for (var v6 = (Byte)0; v6 < nPieces; v6++,
            uWhiteCounts >>= nPerNibble,
            uBlackCounts >>= nPerNibble) {
-        var nWhite = (Byte)uWhiteCounts & vNibble;
-        var nBlack = (Byte)uBlackCounts & vNibble;
+        var uWhite = nibble(uWhiteCounts);
+        var uBlack = nibble(uBlackCounts);
         var s = PieceSymbol(v6);
 
         sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",
-            Parameter[White].Symbol, Parameter[Black].Symbol, s, nWhite, nBlack)
+            Parameter[White].Symbol, Parameter[Black].Symbol, s, uWhite, uBlack)
           .AppendLine();
       }
 
@@ -666,8 +666,8 @@ namespace Engine {
       for (var v6 = vHF; v6 < vK6; v6++,
            wHashWhite >>= nPerTwoBits,
            wHashBlack >>= nPerTwoBits) {
-        var nWhite = (Byte)wHashWhite & vTwoBits;
-        var nBlack = (Byte)wHashBlack & vTwoBits;
+        var nWhite = twoBits(wHashWhite);
+        var nBlack = twoBits(wHashBlack);
         var s = v6 == vHF ? "F" : PieceSymbol(v6);
 
         sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",

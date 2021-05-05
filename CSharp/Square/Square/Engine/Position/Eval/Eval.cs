@@ -774,14 +774,14 @@ namespace Engine {
       if (mValue == EvalUndefined)
         return (Bval)EvalUndefined;
       else {
-        var nIBV = (mValue << nPerTwoBits) + ((Int32)et & vTwoBits);
+        var nIBV = (mValue << nPerTwoBits) + twoBits((Int32)et);
         return (Bval)nIBV;
       }
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static EvalType IBType(Bval mIBV) {
-      return mIBV == EvalUndefined ? EvalType.Undefined : (EvalType)(mIBV & vTwoBits);
+      return mIBV == EvalUndefined ? EvalType.Undefined : (EvalType)twoBits(mIBV & vTwoBits);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -861,8 +861,7 @@ namespace Engine {
       var nSum = 0;
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wPieceCounts >>= nPerNibble) {
-        var n = (Byte)wPieceCounts & vNibble;
-        nSum += n * PieceWeight[vPiece];
+        nSum += nibble(wPieceCounts) * PieceWeight[vPiece];
       }
 #if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
       if (bishopPair(fhi)) {
@@ -884,8 +883,8 @@ namespace Engine {
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wWhiteCounts >>= nPerNibble,
            wBlackCounts >>= nPerNibble) {
-        var nWhite = (Byte)wWhiteCounts & vNibble;
-        var nBlack = (Byte)wBlackCounts & vNibble;
+        var nWhite = nibble(wWhiteCounts);
+        var nBlack = nibble(wBlackCounts);
 
         var nDelta = nWhite - nBlack;
         var nTotal = nWhite + nBlack;

@@ -33,7 +33,7 @@ namespace Engine {
       var sReason = Empty;
 
       foreach (var side in Side) {
-        var nKings = (Byte)(side.Counts >> vK6 * nPerNibble) & vNibble;
+        var nKings = (Int32)nibble(side.Counts >> vK6 * nPerNibble);
         if (nKings != 1) {
           bValid = false;
           sReason = $"Invalid {side.Parameter.SideName} King Placement";
@@ -46,7 +46,7 @@ namespace Engine {
           break;
         }
 
-        var nPawns = (Byte)(side.Counts >> vP6 * nPerNibble) & vNibble;
+        var nPawns = (Int32)nibble(side.Counts >> vP6 * nPerNibble);
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
           bValid = false;
@@ -64,7 +64,7 @@ namespace Engine {
             nSetup = bishopPair(side.FlagsHi) ? 2 : 1;
 
           var nPiece = (Int32)p - vFirst;
-          var nCount = (Byte)(side.Counts >> nPiece * nPerNibble) & vNibble;
+          var nCount = (Int32)nibble(side.Counts >> nPiece * nPerNibble);
 
           var nExtra = nCount - nSetup;
           if (nExtra > 0) nLimit -= nExtra;

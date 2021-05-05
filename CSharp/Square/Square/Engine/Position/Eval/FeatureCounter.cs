@@ -178,7 +178,7 @@ namespace Engine {
       uFeatureCounts += uDoubled << vDoubled * nPerNibble;
       uFeatureCounts += uAwkward << vAwkward * nPerNibble;
 #if TestPawnFeatures
-      var nOffset = bWhiteCount ? 0 : PawnFeatures.Length;
+      var nOffset = nSide == White ? 0 : PawnFeatures.Length;
 
       FeatureRect[vPawns + nOffset] = qpPawns;
       FeatureRect[vPassers + nOffset] = qpPassers;
@@ -187,10 +187,11 @@ namespace Engine {
       FeatureRect[vDoubled + nOffset] = qpDoubled;
       FeatureRect[vAwkward + nOffset] = qpAwkward;
 
-      var uCount = uFeatureCounts;
-      for (var n = 0; n < PawnFeatures.Length; n++, uCount >>= nPerNibble) {
-        var nFeature = (Byte)uCount & vNibble;
-        LogLine("{0} {1} = {2}", Side[nSide].SideName, (PawnFeature)n, nFeature);
+      var uCounter = uFeatureCounts;
+      var sideName = Side[nSide].Parameter.SideName;
+      for (var n = 0; n < PawnFeatures.Length; n++, uCounter >>= nPerNibble) {
+        var uCount = nibble(uCounter);
+        LogLine($"{sideName} {(PawnFeature)n} = {uCount}");
         LogLine();
         writeRect(FeatureRect[n + nOffset]);
         LogLine();
@@ -239,8 +240,8 @@ namespace Engine {
       for (var nFeature = 0; nFeature < PawnFeatures.Length; nFeature++,
            uWhiteCounts >>= nPerNibble,
            uBlackCounts >>= nPerNibble) {
-        var nWhite = (Byte)uWhiteCounts & vNibble;
-        var nBlack = (Byte)uBlackCounts & vNibble;
+        var nWhite = (Int32)nibble(uWhiteCounts);
+        var nBlack = (Int32)nibble(uBlackCounts);
 
         var nDelta = nWhite - nBlack;
         var nTotal = nWhite + nBlack;
