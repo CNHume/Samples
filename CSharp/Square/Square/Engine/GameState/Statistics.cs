@@ -17,22 +17,24 @@
 
 namespace Engine {
   using Cache;                          // For ProbeCounter
-  using static Logging.Logger;
+
   using Exceptions;
 
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
+  using System.Threading;               // For AtomicMethods
+
+  using static Engine.Board;
+  using static Logging.Logger;
   using static System.Math;
   using static System.String;
-  using System.Threading;
 
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
-  using PlyDepth = System.Byte;
   using Ply = System.UInt16;
+  using PlyDepth = System.Byte;
 
   partial class GameState {
     #region Atomic Methods
@@ -263,23 +265,23 @@ namespace Engine {
       }
     }
 
-    private static void displayEarlyMoveCounts(String sColor, Int64 lEarlyMoveTotal, Int64 lSearchedPositionCount) {
+    private static void displayEarlyMoveCounts(SideName sideName, Int64 lEarlyMoveTotal, Int64 lSearchedPositionCount) {
       //[Note]Move Ordering is applied in a "Searched Position", not during a quiescence search.
       if (lSearchedPositionCount == 0)
-        LogInfo(Level.data, "{0} Early Moves = {1:n0}", sColor, lEarlyMoveTotal);
+        LogInfo(Level.data, "{0} Early Moves = {1:n0}", sideName, lEarlyMoveTotal);
       else {
         var dEarlyMovesPerPosition = (Double)lEarlyMoveTotal / lSearchedPositionCount;
         LogInfo(Level.data,
                 "{0} Early Moves = {1:n0}; Searched Positions = {2:n0}; {0} Early Moves/Searched Position = {3:n2}",
-                sColor, lEarlyMoveTotal, lSearchedPositionCount, dEarlyMovesPerPosition);
+                sideName, lEarlyMoveTotal, lSearchedPositionCount, dEarlyMovesPerPosition);
       }
     }
 
     [Conditional("TotalEarlyMoves")]
     protected void displayEarlyMoveTotals() {
       LogInfoNewLine(Level.data);
-      displayEarlyMoveCounts("White", WhiteEarlyMoveTotal, WhiteSearchedPositionCount);
-      displayEarlyMoveCounts("Black", BlackEarlyMoveTotal, BlackSearchedPositionCount);
+      displayEarlyMoveCounts(SideName.White, WhiteEarlyMoveTotal, WhiteSearchedPositionCount);
+      displayEarlyMoveCounts(SideName.Black, BlackEarlyMoveTotal, BlackSearchedPositionCount);
 
       displayEarlyMoveHistogram();
     }
