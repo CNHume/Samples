@@ -192,8 +192,11 @@ namespace Engine {
     protected Eval punishOutsideSquare() {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
-      var qpArray = bWhiteAlone ? bWTM ? Parameter[White].KingToMoveLoss : Parameter[Black].PawnToMoveWins :
-                                  bWTM ? Parameter[White].PawnToMoveWins : Parameter[Black].KingToMoveLoss;
+      int nSide = bWTM ? White : Black;
+      var bKingToMoveLoss = bWhiteAlone && bWTM || !(bWhiteAlone || bWTM);
+      var parameter = Parameter[nSide];
+      var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
+
       var vDefendingKingPos = getKingPos(bWhiteAlone);
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;
@@ -201,11 +204,11 @@ namespace Engine {
       if (bWhiteAlone) nReward = -nReward;
 #if TestOutsideSquare
       if (bOutside) {
-        testRect("Pawn", Pawn);
+        var sideName = parameter.SideName;
+        var sOutcome = bKingToMoveLoss ? "KingToMoveLoss" : "PawnToMoveWins";
         var sq = (sq)vDefendingKingPos;
-        var sName = bWhiteAlone ? bWTM ? "WhiteKingToMoveLoss" : "BlackPawnToMoveWins" :
-                                  bWTM ? "WhitePawnToMoveWins" : "BlackKingToMoveLoss";
-        testRect($"{sName}[{sq}]", qpArray[vDefendingKingPos]);
+        testRect($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
+        testRect("Pawns", Pawn);
         DisplayCurrent("OutsideSquare");
       }
 #endif
