@@ -193,8 +193,8 @@ namespace Engine {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
       int nSide = bWTM ? White : Black;
-      var bKingToMoveLoss = bWhiteAlone && bWTM || !(bWhiteAlone || bWTM);
       var parameter = Parameter[nSide];
+      var bKingToMoveLoss = bWhiteAlone == bWTM;
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
 
       var vDefendingKingPos = getKingPos(bWhiteAlone);
