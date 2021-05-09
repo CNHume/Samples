@@ -119,9 +119,8 @@ namespace Engine.CacheValue {
 #if DebugExactMatch
       if (bNew && bShow) {
         // Noticed when filtering Draw2 Nodes
-        LogLine("EvalType changed from {0} to {1}",
-                IBType(ibv), IBType(store.ibv));
-        LogLine("Value is changed from {0} to {1}", ibv, store.ibv);
+        LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
+        LogLine($"Value is changed from {ibv} to {store.ibv}");
       }
 #endif
       return bNew;

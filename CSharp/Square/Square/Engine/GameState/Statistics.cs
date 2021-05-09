@@ -9,7 +9,6 @@
 //#define TestRegression
 //#define AtomicMethods                 // Costs ~1.5%
 #define QuiescentTryXP
-//#define DisplayActivePositions
 #define GraphEarlyMove
 #define GraphPVDouble
 //#define MaterialBalance
@@ -168,45 +167,36 @@ namespace Engine {
       Debug.Assert(NodeTotal == MoveTotal + NullMoveTotal, "Inconsistent Node Total");
 
       if (dElapsedMS == 0)
-        LogInfo(Level.data, "Searched a total of {0:n0} nodes in {1:0.0##} sec",
-                NodeTotal, dElapsedMS / 1000);
+        LogInfo(Level.data, $"Searched a total of {NodeTotal:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
       else {
         var dRate = NodeTotal / dElapsedMS;
         LogInfo(Level.data,
-                "Searched a total of {0:n0} nodes in {1:0.0##} sec, {2:0.0##} KHz",
-                NodeTotal, dElapsedMS / 1000, dRate);
+                $"Searched a total of {NodeTotal:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
       }
-#if DisplayActivePositions
-      LogInfo(Level.data, "Peak Positions = {0}, Currently Active = {1}",
-              ActivePositionsPeak, ActivePositions);
-#endif
     }
 
     [Conditional("TotalMoves")]
     protected void displayPseudoMoveTotals() {
       LogInfoNewLine(Level.data);
-      LogInfo(Level.data, "Pseudo Moves = {0:n0}; Pins Skipped = {1:n0}",
-              PseudoMoveTotal, PinSkipTotal);
+      LogInfo(Level.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
       if (MoveTotal != 0) {
         if (MoveTotalQxnt != 0) {       // Qxnt Moves do not occur in SearchMode.Perft
           var dQxntPercent = 100.0 * MoveTotalQxnt / MoveTotal;
           LogInfo(Level.data,
-                  "Qxnt Moves = {0:n0}; Move Total = {1:n0}; Qxnt Moves/Move Total = {2:n1}%",
-                  MoveTotalQxnt, MoveTotal, dQxntPercent);
+                  $"Qxnt Moves = {MoveTotalQxnt:n0}; Move Total = {MoveTotal:n0}; Qxnt Moves/Move Total = {dQxntPercent:n2}%");
         }
 
         var dIllegalPercent = 100.0 * IllegalMoveTotal / MoveTotal;
-        LogInfo(Level.data, "Illegal Moves = {0:n0}; Illegal Moves/Move Total = {1:n1}%",
-                IllegalMoveTotal, dIllegalPercent);
+        LogInfo(Level.data,
+                $"Illegal Moves = {IllegalMoveTotal:n0}; Illegal Moves/Move Total = {dIllegalPercent:n2}%");
       }
 #if CountCapturedPiece
       if (PseudoMoveTotal == 0)
-        LogInfo(Level.data, "getPiece() Calls = {0:n0}", CapturedPieceTotal);
+        LogInfo(Level.data, $"getPiece() Calls = {CapturedPieceTotal:n0}");
       else {
         var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
-        LogInfo(Level.data, "getPiece() Calls = {0:n0}; getPiece() Calls/Pseudo Moves = {1:n1}%",
-                CapturedPieceTotal, dCapturedPiecePercent);
+        LogInfo(Level.data, $"getPiece() Calls = {CapturedPieceTotal:n0}; getPiece() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
       }
 #endif
     }
@@ -227,21 +217,17 @@ namespace Engine {
         var qResearches = PVDoubleCount[wCountPly];
         var dPercent = 100.0 * qResearches / PVDoubleTotal;
 #if GraphPVDouble
-        LogInfo(Level.data, "Doubles[{0,2:n0}] ={1,7:n3}% {2}",
-                wSearchPlies, dPercent, bar(dPercent));
+        LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
-        LogInfo(Level.data, "Doubles[{0,2:n0}] ={1,7:n3}% = {2:n0}",
-                wSearchPlies, dPercent, qResearches);
+        LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
       }
     }
 
     [Conditional("TotalPVS")]
     protected void displayPVSTotals() {
-      LogInfo(Level.data, "ZW Simple = {0:n0}; PV Simple = {1:n0}",
-              ZWSimpleTotal, PVSimpleTotal);
-      LogInfo(Level.data, "PV Singles = {0:n0}; PV Doubles = {1:n0}",
-              PVSingleTotal, PVDoubleTotal);
+      LogInfo(Level.data, $"ZW Simple = {ZWSimpleTotal:n0}; PV Simple = {PVSimpleTotal:n0}");
+      LogInfo(Level.data, $"PV Singles = {PVSingleTotal:n0}; PV Doubles = {PVDoubleTotal:n0}");
 
       displayPVDoubleHistogram();
     }
@@ -256,11 +242,9 @@ namespace Engine {
         var qResearches = EarlyMoveCount[wCountPly];
         var dPercent = 100.0 * qResearches / lEarlyMoveTotal;
 #if GraphEarlyMove
-        LogInfo(Level.data, "EarlyMoves[{0,2:n0}] ={1,7:n3}% {2}",
-                wSearchPlies, dPercent, bar(dPercent));
+        LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
-        LogInfo(Level.data, "EarlyMoves[{0,2:n0}] ={1,7:n3}% = {2:n0}",
-                wSearchPlies, dPercent, qResearches);
+        LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
       }
     }
@@ -268,12 +252,12 @@ namespace Engine {
     private static void displayEarlyMoveCounts(SideName sideName, Int64 lEarlyMoveTotal, Int64 lSearchedPositionCount) {
       //[Note]Move Ordering is applied in a "Searched Position", not during a quiescence search.
       if (lSearchedPositionCount == 0)
-        LogInfo(Level.data, "{0} Early Moves = {1:n0}", sideName, lEarlyMoveTotal);
+        LogInfo(Level.data, $"{sideName} Early Moves = {lEarlyMoveTotal:n0}");
       else {
         var dEarlyMovesPerPosition = (Double)lEarlyMoveTotal / lSearchedPositionCount;
         LogInfo(Level.data,
-                "{0} Early Moves = {1:n0}; Searched Positions = {2:n0}; {0} Early Moves/Searched Position = {3:n2}",
-                sideName, lEarlyMoveTotal, lSearchedPositionCount, dEarlyMovesPerPosition);
+                $"{sideName} Early Moves = {lEarlyMoveTotal:n0}; Searched Positions = {lSearchedPositionCount:n0}");
+        LogInfo(Level.data, $"{sideName} Early Moves/Searched Position = {dEarlyMovesPerPosition:n2}");
       }
     }
 
@@ -291,22 +275,20 @@ namespace Engine {
       LogInfoNewLine(Level.data);
       if (RepetitionSearches > 0) {
         var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
-        LogInfo(Level.data, "Moves/Repetition = {0:n2}", dMovesPerRepetition);
+        LogInfo(Level.data, $"Moves/Repetition = {dMovesPerRepetition:n2}");
       }
 
-      LogInfo(Level.data, "Draws Found = {0:n0}; Mates Found = {1:n0}",
-              DrawTotal, MateTotal);
-      LogInfo(Level.data, "Extensions: Check = {0:n0}; Threat = {1:n0}; Singular = {2:n0}",
-              CheckExtCount, ThreatExtCount, SingularExtCount);
-      LogInfo(Level.data, "Reduced = {0:n0}; Quiet Skipped = {1:n0}",
-              ReducedTotal, QuietSkipTotal);
-      LogInfo(Level.data, "Pruning: Delta = {0:n0}; Futile = {1:n0}; Occam = {2:n0}",
-              DeltaPruneTotal, FutilePruneTotal, OccamPruneTotal);
+      LogInfo(Level.data, $"Draws Found = {DrawTotal:n0}; Mates Found = {MateTotal:n0}");
+      LogInfo(Level.data,
+              $"Extensions: Check = {CheckExtCount:n0}; Threat = {ThreatExtCount:n0}; Singular = {SingularExtCount:n0}");
+      LogInfo(Level.data, $"Reduced = {ReducedTotal:n0}; Quiet Skipped = {QuietSkipTotal:n0}");
+      LogInfo(Level.data,
+              $"Pruning: Delta = {DeltaPruneTotal:n0}; Futile = {FutilePruneTotal:n0}; Occam = {OccamPruneTotal:n0}");
 
       if (NullMoveTotal != 0) {
         var dNullMovePrunePercent = 100.0 * NullMovePruneTotal / NullMoveTotal;
-        LogInfo(Level.data, "Pruned {0:n0} [{1:n1}%] of {2:n0} Null Moves",
-                NullMovePruneTotal, dNullMovePrunePercent, NullMoveTotal);
+        LogInfo(Level.data,
+                $"Pruned {NullMovePruneTotal:n0} [{dNullMovePrunePercent:n1}%] of {NullMoveTotal:n0} Null Moves");
       }
     }
 
@@ -316,19 +298,18 @@ namespace Engine {
 
       if (LegalMoveTotal == 0) {
         var qStaticEvals = TotalEvals - FullEvals;
-        LogInfo(Level.data, "Full Evals {0:n0}; Legal Moves = {1:n0}; Stat Evals = {2:n0}",
-                FullEvals, LegalMoveTotal, qStaticEvals);
+        LogInfo(Level.data,
+                $"Full Evals {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Stat Evals = {qStaticEvals:n0}");
       }
       else {
         var dFullPercent = 100.0 * FullEvals / LegalMoveTotal;
         LogInfo(Level.data,
-                "Full Evals = {0:n0}; Legal Moves = {1:n0}; Full Evals/Legal Moves = {2:n1}%",
-                FullEvals, LegalMoveTotal, dFullPercent);
+                $"Full Evals = {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Full Evals/Legal Moves = {dFullPercent:n1}%");
 
         var qStaticEvals = TotalEvals - FullEvals;
         var dFastPercent = 100.0 * qStaticEvals / LegalMoveTotal;
-        LogInfo(Level.data, "Stat Evals = {0:n0}; Stat Evals/Legal Moves = {1:n1}%",
-                qStaticEvals, dFastPercent);
+        LogInfo(Level.data,
+                $"Stat Evals = {qStaticEvals:n0}; Stat Evals/Legal Moves = {dFastPercent:n1}%");
       }
     }
 
@@ -395,13 +376,12 @@ namespace Engine {
     [Conditional("QuiescentTryXP")]
     private void displayQxntGets() {
       if (XPGetReadsQxnt == 0)
-        LogInfo(Level.data, "Qxnt XP Get Hits = {0:n0}; Qxnt XP Get Reads = {1:n0}",
-                XPGetHitsQxnt, XPGetReadsQxnt);
+        LogInfo(Level.data,
+                $"Qxnt XP Get Hits = {XPGetHitsQxnt:n0}; Qxnt XP Get Reads = {XPGetReadsQxnt:n0}");
       else {
         var dXPGetHitsQxntPercent = 100.0 * XPGetHitsQxnt / XPGetReadsQxnt;
         LogInfo(Level.data,
-                "Qxnt XP Get Hits = {0:n0}; Qxnt XP Get Reads = {1:n0}; Qxnt XP Get Hits/Reads = {2:n1}%",
-                XPGetHitsQxnt, XPGetReadsQxnt, dXPGetHitsQxntPercent);
+                $"Qxnt XP Get Hits = {XPGetHitsQxnt:n0}; Qxnt XP Get Reads = {XPGetReadsQxnt:n0}; Qxnt XP Get Hits/Reads = {dXPGetHitsQxntPercent:n1}%");
       }
     }
 
@@ -437,14 +417,12 @@ namespace Engine {
     [Conditional("DisplayRate")]
     public static void displayRate(Double dElapsedMS, UInt64 qNodeDelta) {
       if (dElapsedMS == 0) {
-        LogInfo(Level.data, "Searched {0:n0} nodes in {1:0.0##} sec",
-                qNodeDelta, dElapsedMS / 1000);
+        LogInfo(Level.data, $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
       }
       else {
         var dRate = qNodeDelta / dElapsedMS;
         LogInfo(Level.data,
-                "Searched {0:n0} nodes in {1:0.0##} sec, {2:0.0##} KHz",
-                qNodeDelta, dElapsedMS / 1000, dRate);
+                $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
       }
     }
 
@@ -457,29 +435,26 @@ namespace Engine {
         // Current Iteration
         if (qPredicted1 > 0) {
           var dError = (Double)qPredicted1 / qNodeDelta - 1;
-          LogInfo(Level.data, "Predicted {0:n0} moves, Relative Error = {1:n1}%",
-                  qPredicted1, 100 * dError);
+          LogInfo(Level.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
         }
 
         // Next Iteration
         if (qPredicted2 > 0) {
-          LogInfo(Level.data, "Predicting {0:n0} moves", qPredicted2);
+          LogInfo(Level.data, $"Predicting {qPredicted2:n0} moves");
         }
       }
       else {
         // Current Iteration
         if (qPredicted1 > 0) {
           var dError = (Double)qPredicted1 / qNodeDelta - 1;
-          LogInfo(Level.data, "Predicted {0:n0} moves, Relative Error = {1:n1}%",
-                  qPredicted1, 100 * dError);
+          LogInfo(Level.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
         }
 
         // Next Iteration
         var dRate = qNodeDelta / dElapsedMS;
         if (qPredicted2 > 0) {
           var dPredictedSec = qPredicted2 / dRate;
-          LogInfo(Level.data, "Predicting {0:n0} moves in {1:0.0##} sec",
-                  qPredicted2, dPredictedSec / 1000);
+          LogInfo(Level.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1000:0.0##} sec");
         }
       }
     }
@@ -583,8 +558,7 @@ namespace Engine {
           var qActual = NodeDelta[nPlies];
           var dError = dModel / qActual - 1;
 
-          LogInfo(Level.data, "Modelled {0:n0} for {1:n0} Actual Moves, Relative Error = {2:n1}%",
-                  qModel, qActual, 100 * dError);
+          LogInfo(Level.data, $"Modelled {qModel:n0} for {qActual:n0} Actual Moves, Relative Error = {100 * dError:n1}%");
         }
 #endif
       }

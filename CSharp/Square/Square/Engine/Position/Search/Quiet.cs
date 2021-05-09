@@ -283,12 +283,6 @@ namespace Engine {
         var sqTo = (sq)nTo;
 #endif
         var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
-
-        if (vK6 <= vCapture) {
-          Debug.Assert(vCapture != vK6, "Unknown Captive",
-                       "No captive found for {0}.", (sq)nTo);
-        }
-
         mCapture = weight(vCapture);
       }
 
@@ -316,7 +310,7 @@ namespace Engine {
 
       return bPrune;
     }
-    #endregion
-    #endregion
+#endregion
+#endregion
   }
 }

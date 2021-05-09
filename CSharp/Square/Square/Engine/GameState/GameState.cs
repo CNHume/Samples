@@ -360,7 +360,7 @@ namespace Engine {
       if (!IsFutility)
         sb.Append(" sans Futility");
       else if (FutilityMargin.Length != 1)
-        sb.AppendFormat(" {0} Futility", FutilityMargin.Length);
+        sb.AppendFormat($" {FutilityMargin.Length} Futility");
 
       foreach (var extension in Extensions) {
         var vLimit = getNibble(ExtensionLimit, (Int32)extension);
@@ -383,36 +383,36 @@ namespace Engine {
           continue;                     //[Disabled]
 #endif
         if (vLimit > 0) {
-          sb.AppendFormat(" {0} {1}", vLimit, extension);
+          sb.AppendFormat($" {vLimit} {extension}");
 
           if (vLimit != 1)              // Plural
             sb.Append("s");
         }
       }
 
-      sb.AppendFormat(" {0} PVSMin", wPVSDepthMin);
+      sb.AppendFormat($" {wPVSDepthMin} PVSMin");
 
       if (IsNullPrune) {
-        sb.AppendFormat(" {0} ReducedMin", wReducedDepthMin);
+        sb.AppendFormat($" {wReducedDepthMin} ReducedMin");
 #if TestLerp
-        sb.AppendFormat(" {0} LerpMax", wLerpDepthMax);
+        sb.AppendFormat($" {wLerpDepthMax} LerpMax");
 #endif
       }
 #if MateThreat
       if (getNibble(ExtensionLimit, vThreat) > 0)
-        sb.AppendFormat(" {0} ThreatMin", wThreatDepthMin);
+        sb.AppendFormat($" {wThreatDepthMin} ThreatMin");
 #endif
       if (MultiPVLength > 1)
-        sb.AppendFormat(" {0} MultiPV", MultiPVLength);
+        sb.AppendFormat($" {MultiPVLength} MultiPV");
 
       if (MoveBottle.nKillers != 1)
-        sb.AppendFormat(" {0} Killers", MoveBottle.nKillers);
+        sb.AppendFormat($" {MoveBottle.nKillers} Killers");
     }
 
     private void herald(DateTime dtStarted, String sName) {
       var sb = new StringBuilder();
       sb.AppendLine();                  // Following UCI prompt
-      sb.AppendFormat("{0:yyyy-MM-dd}", dtStarted);
+      sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
 
       if (!IsNullOrEmpty(sName)) {
         sb.Append(sSpace);

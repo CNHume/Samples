@@ -120,6 +120,12 @@ namespace Engine {
       else
         vCapture = (Byte)(uCapture - vFirst);
 
+      if (vK6 <= vCapture) {
+        var sqTo = (sq)nTo;
+        Debug.Assert(vCapture != vK6, "Unknown Captive",
+                     $"No captive found for {sqTo}.");
+      }
+
       return vCapture;
     }
 

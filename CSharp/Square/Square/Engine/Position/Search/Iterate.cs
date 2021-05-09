@@ -175,8 +175,7 @@ namespace Engine {
 #if DisplayDepth
         if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
-          LogInfo(Level.note, "Depth = {0} at {1:HH:mm:ss.ff}",
-                  vDepth, DateTime.Now);
+          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:HH:mm:ss.ff}");
         }
 #endif
         mValue = beginIteration(vDepth, mValue);
@@ -234,7 +233,7 @@ namespace Engine {
 #if DisplayDepth
         if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
-          LogInfo(Level.note, "Depth = {0} at {1:HH:mm:ss.ff}", vDepth, DateTime.Now);
+          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:HH:mm:ss.ff}");
         }
 #endif
         //[Init]Reset PerfCase counts prior to the recursive search for each test case
@@ -256,7 +255,7 @@ namespace Engine {
         }
 #endif                                  // DisplayDepth
         if (!tc.Passed(pc))
-          LogInfo(Level.error, "{0} failed at Depth = {1}", Name, tc.Plies);
+          LogInfo(Level.error, $"{Name} failed at Depth = {tc.Plies}");
       }
     }
     #endregion

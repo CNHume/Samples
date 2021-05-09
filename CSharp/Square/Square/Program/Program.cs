@@ -39,9 +39,8 @@ namespace Square {
       using (var command = new UCI()) {
         try {
           if (UCI.IsDebug) {
-            var dtLaunch = DateTime.Now;
 #if NoteLaunchAndExit
-            LogInfo(Level.note, "Launched at {0:HH:mm:ss.ff}", dtLaunch);
+            LogInfo(Level.note, $"Launched at {DateTime.Now:HH:mm:ss.ff}");
 #endif
           }
 
@@ -53,10 +52,8 @@ namespace Square {
             LogWriteLine(sLine);
             bContinue = sLine is not null && command.Execute(sLine.Trim());
           }
-
-          var dtExited = DateTime.Now;
 #if NoteLaunchAndExit
-          LogInfo(Level.note, "Exited at {0:HH:mm:ss.ff}", dtExited);
+          LogInfo(Level.note, $"Exited at {DateTime.Now:HH:mm:ss.ff}");
 #endif
         }
         catch (ApplicationException ex) {
