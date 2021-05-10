@@ -104,7 +104,7 @@ namespace Engine {
         vCapture = getPiece(nTo);
 
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
-                     "There is no piece to capture on {0}.", (sq)nTo);
+                     $"There is no piece to capture on {(sq)nTo}.");
 #if SaveCapture
         move &= ~Move.CaptiveMask;
         move |= (Move)(vCapture + vFirst << nCaptiveBit);
@@ -120,11 +120,8 @@ namespace Engine {
       else
         vCapture = (Byte)(uCapture - vFirst);
 
-      if (vK6 <= vCapture) {
-        var sqTo = (sq)nTo;
-        Debug.Assert(vCapture != vK6, "Unknown Captive",
-                     $"No captive found for {sqTo}.");
-      }
+      Debug.Assert(vCapture != vK6, "Unknown Captive",
+                   $"No captive found for {(sq)nTo}.");
 
       return vCapture;
     }

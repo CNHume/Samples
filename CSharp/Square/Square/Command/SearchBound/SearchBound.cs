@@ -69,10 +69,10 @@ namespace Command {
 
     public StringBuilder AppendBounds(StringBuilder sb) {
       if (Plies.HasValue && IsDepth)
-        sb.AppendFormat(" {0}-Ply", Plies);
+        sb.AppendFormat($" {Plies}-Ply");
 
       if (MovesToMate.HasValue)
-        sb.AppendFormat(" Mate in {0}", MovesToMate);
+        sb.AppendFormat($" Mate in {MovesToMate}");
 
       return sb;
     }

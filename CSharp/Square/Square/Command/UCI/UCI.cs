@@ -132,12 +132,12 @@ namespace Command {
         parseRegister(Parser);
         break;
 
-      case "timertests":
+      case "timertest":
         if (State is null)
           throw new ChessException("Unitialized Game");
 
         State.OnMoveCommand();
-        State.MovePosition.TimerTests();
+        State.MovePosition.TimerTest();
         break;
 
       case "test":                      //[ToDo]End gracefully when a Search is in progress!
@@ -409,8 +409,10 @@ namespace Command {
     }
 
     protected void parseDebug() {
-      if (Parser.AcceptEOL())
-        LogLine("debug is {0}", IsDebug ? "on" : "off");
+      if (Parser.AcceptEOL()) {
+        var sKeyword = IsDebug ? "on" : "off";
+        LogLine($"debug is {sKeyword}");
+      }
       else
         IsDebug = Parser.ParseEnableKeyword();
     }
@@ -476,10 +478,10 @@ namespace Command {
     }
 
     protected static void showId() {
-      LogLine("id name {0} {1}", Product.ProductName, Product.ProductVersion);
-      LogLine("id author {0}", Product.CompanyName);
-      LogLine("id copyright {0}", Product.Copyright);
-      LogLine("id description {0}", Product.Description);
+      LogLine($"id name {Product.ProductName} {Product.ProductVersion}");
+      LogLine($"id author {Product.CompanyName}");
+      LogLine($"id copyright {Product.Copyright}");
+      LogLine($"id description {Product.Description}");
     }
 
     protected static void showOptions(Boolean IsDebug) {
@@ -503,28 +505,6 @@ namespace Command {
       showId();                         // Respond with id and option strings
       showOptions(IsDebug);
       LogLine("uciok");
-    }
-    #endregion
-
-    #region Test Methods
-    public void TimeExecute(String sInput, UInt64 qTrials) {
-      var t0 = DateTime.Now;
-      Console.WriteLine("Timing List.Add() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
-
-      for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        Execute(sInput);
-      }
-
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      Console.WriteLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-                        qTrials, dElapsedMS / 1000, dRate);
-
     }
     #endregion
   }

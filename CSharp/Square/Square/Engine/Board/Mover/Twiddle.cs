@@ -210,7 +210,7 @@ namespace Engine {
       for (var n = 0; n < nLength; n++, m <<= 1) {
         var p = vMask & (m >> nLength - nLog);
         Debug.Assert((Int32)p < deBruijnMap.Length, "Index Out of Range",
-                     "Index = {0}, Length = {1}", p, deBruijnMap.Length);
+                     $"Index = {p}, Length = {deBruijnMap.Length}");
         deBruijnMap[p] = (Byte)n;
       }
 #if TestDeBruijn

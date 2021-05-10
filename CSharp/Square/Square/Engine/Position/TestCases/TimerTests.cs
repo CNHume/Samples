@@ -12,6 +12,7 @@
 
 namespace Engine {
   using CacheValue;
+  using Command;
 
   using System;
   using System.Diagnostics;
@@ -30,83 +31,98 @@ namespace Engine {
   using Plane = System.UInt64;
 
   partial class Position : Board {
-    #region Performance Timers
-    protected void everyRoot() {
-      for (var w = (UInt16)0; w < UInt16.MaxValue; w++) {
-        var root1 = ISqrt(w);
+    #region Timer Test Selector
+    internal void TimerTest() {
+      //[Test]writeDepthShallow((PlyDepth)32);
+      //[Test]writeDepthDeep((PlyDepth)32);
+      //
+      //[Test]testOutsideSquare(sq.c1);
+      //[Test]testPieceMasks();
+      //[Test]testOffsets();
+      //[Test]testRotations();
+      //[Test]testPieceMasks();
+      //[Test]testPawnAttacks();
+      //[Test]
+      //for (sq sq = sq.a1; sq <= sq.h8; sq++)
+      //  testAtxMasks(sq);
+      //
+      //[Time]timeRoots();
+      //[Time]timeEval();
+      //[Time]
+      timeGenerate(PseudoMoves, NoSwaps);
+      //[Time]timeAddPieceCapturesAndMoves();
+      //[Time]timeAddPawnCapturesAndMoves();
+      //[Time]timeRectAtx();
+      //[Time]timeFoeAtx();
+      //[Time]timeMagic();
+      //[Time]timeRemoveLo();
+      //[Time]timeStaticLoads();
+      //[Time]timeCapturedPiece();
+      //[Test]timeExecute("test", 100000);
+    }
+
+    private static Stopwatch TimerStart(string sMethod, UInt64 qTrials) {
+      LogLine($"Timing {qTrials:n0} {sMethod} trials at {DateTime.Now:HH:mm:ss.ff}");
+      var sw = new Stopwatch();
+      sw.Start();
+      return sw;
+    }
+
+    private static void TimerStop(Stopwatch sw, UInt64 qTrials) {
+      sw.Stop();
+      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
+      var dRate = qTrials / dElapsedMS;
+      LogLine($"Completed {qTrials:n0} trials in {dElapsedMS / 1000:0.0##} sec, Rate = {dRate:0.0##} KHz");
+    }
+
+    [Conditional("TestOutsideSquare")]
+    protected void testOutsideSquare(sq sq) {
+      var n = (Int32)sq;
+      foreach (var parameter in Parameter) {
+        testRect($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
+        testRect($"{parameter.SideName}PawnToMoveWins[{sq}]", parameter.PawnToMoveWins[n]);
       }
     }
 
-    protected void timeRoots() {
+    protected void everyRoot() {
+      for (UInt16 w = 0; w < UInt16.MaxValue; w++) {
+        var root = ISqrt(w);
+      }
+    }
+    #endregion
+
+    #region Timer Tests
+    protected void timeRoots(UInt64 qTrials = 100000UL) {
       //verifyISqrt();
-      const UInt64 qTrials = 100000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing ISqrt() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+      var sw = TimerStart(nameof(everyRoot), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
         everyRoot();
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeEval() {
-      const UInt64 qTrials = 100000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing staticEval() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeEval(UInt64 qTrials = 100000000UL) {
+      var sw = TimerStart(nameof(staticEval), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
         staticEval(out PawnPosition pp);
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeGenerate(List<Move> moves, Boolean bSwap) {    // Generates moves at ~18 MHz
-      const UInt64 qTrials = 10000000UL;
+    protected void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {    // Generates moves at ~18 MHz
+      var sw = TimerStart($"{nameof(generate)}({bSwap})", qTrials);
+
       var qMoveCount = 0UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing generate() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
-
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
         qMoveCount += (UInt32)generate(moves, bSwap);
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qMoveCount / dElapsedMS;
-      LogLine("Generated {0} moves in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qMoveCount, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeAddPieceCapturesAndMoves() {     //~600 KHz, ~900 KHz sans List<Move>.Add()
-      const UInt64 qTrials = 10000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing addPieceCapturesAndMoves() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {     //~600 KHz, ~900 KHz sans List<Move>.Add()
+      var sw = TimerStart(nameof(addPieceCapturesAndMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         addPieceCapturesAndMoves2(MASK64, Side[White].Piece);
@@ -116,23 +132,11 @@ namespace Engine {
         clearPseudoMoves();
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var qTrial2 = 1 * qTrials;
-      var dRate = qTrial2 / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrial2, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeAddPawnCapturesAndMoves() {      //~2690 KHz
-      const UInt64 qTrials = 10000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing addPawnCapturesAndMoves() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
+      var sw = TimerStart(nameof(addPawnMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         addPawnCaptures(Side[White], Side[Black].Piece);
@@ -148,62 +152,34 @@ namespace Engine {
         PseudoPawnAboveMove.Clear();
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var qTrial2 = 2 * qTrials;
-      var dRate = qTrial2 / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrial2, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeFoeAtx() { // 1.22 MHz
-      const UInt64 qTrials = 100000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing timeFoeAtx() at {0:HH:mm:ss.ff}", t0);
+    protected void timeFoeAtx(UInt64 qTrials = 100000000UL) { // 1.22 MHz
+      var sw = TimerStart(nameof(attacks), qTrials);
 
       //var qpMoveTo = KingAtx[(Int32)sq.e4];
-      var sw = new Stopwatch();
-      sw.Start();
-
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = KingAtx[nFrom];
         qpMoveTo &= ~attacks(Side[Black], qpMoveTo);
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
     // diagAtx() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
     // rectAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
     // KnightAtx[] ~63 MHz [C++ 8.44x faster]
-    protected void timeRectAtx() {
-      const UInt64 qTrials = 1000000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing rectAtx() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeRectAtx(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(rectAtx), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = rectAtx(nFrom);
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
     //
@@ -216,16 +192,9 @@ namespace Engine {
     // x86 was 233.13 MHz
     // x64 was 301.45 MHz +29%
     //
-    protected void timeRemoveLo() {
-      const UInt64 qTrials = 1000000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing RemoveLo() at {0:HH:mm:ss.ff}", t0);
-
+    protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(RemoveLo), qTrials);
       var qBits = 0UL;
-      var sw = new Stopwatch();
-      sw.Start();
-
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var qpPiece = (Plane)qTrial;
         while (qpPiece != 0) {
@@ -234,25 +203,13 @@ namespace Engine {
         }
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qBits / dElapsedMS;
-      LogLine("Counted {0} bits in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qBits, dElapsedMS / 1000, dRate);
-      LogLine("# of trials = {0}", qTrials);
+      LogLine($"Counted {qBits:n0} bits");
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeMagic() {
-      const UInt64 qTrials = 1000000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing Magic at {0:HH:mm:ss.ff}", t0);
-
+    protected void timeMagic(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(rotateRank), qTrials);
       var n = (Int32)sq.e4;
-      var sw = new Stopwatch();
-      sw.Start();
-
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var vRank = rotateRank(n);                    // 11 sec, 90.65 MHz
         //var vFileHalf = hashFileHalf(RankPiece, n);    // 29.48 sec, 33.9 MHz
@@ -260,45 +217,23 @@ namespace Engine {
         //var vA8H1Half = hashA8H1Half(RankPiece, n);    // 30.55 sec, 32.74 MHz
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeCapturedPiece() {
-      const UInt64 qTrials = 1000000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing getPiece() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
-
+    protected void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(getPiece), qTrials);
       var nFrom = (Int32)sq.d1;
-      for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
+      for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         getPiece(nFrom);
+      }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeMove(Move mov) {
-      const UInt64 qTrials = 100000000UL;
+    protected void timeMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sb = new StringBuilder();
       sb.AppendPACN(mov, State.Rule);
-
-      var t0 = DateTime.Now;
-      LogLine("Timing {0} at {1:HH:mm:ss.ff}", sb, t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+      var sw = TimerStart($"{nameof(movePiece)}({sb})", qTrials);
 
       //~4.5 MHz w resetMove() which is 5.33 times faster at ~24 MHz
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -312,22 +247,11 @@ namespace Engine {
         movePiece(friend, friendRule, foe, foeRule, ref move);
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeListAdd() {      //~35.56 MHz
-      const UInt64 qTrials = 10000000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing List.Add() at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeListAdd(UInt64 qTrials = 10000000UL) {      //~35.56 MHz
+      var sw = TimerStart(nameof(List<Move>.Add), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         PseudoPawnBelowMove.Add(Move.NullMove);
@@ -335,22 +259,11 @@ namespace Engine {
           PseudoPawnBelowMove.Clear();
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    protected void timeStaticLoads() {
-      const UInt64 qTrials = 10000UL;
-
-      var t0 = DateTime.Now;
-      LogLine("Timing Static Loads at {0:HH:mm:ss.ff}", t0);
-
-      var sw = new Stopwatch();
-      sw.Start();
+    protected void timeStaticLoads(UInt64 qTrials = 10000UL) {
+      var sw = TimerStart("Static Load", qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         loadRankOffset();
@@ -379,46 +292,18 @@ namespace Engine {
         //state.loadEndgameValue();
       }
 
-      sw.Stop();
-      var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-
-      var dRate = qTrials / dElapsedMS;
-      LogLine("Completed {0} trials in {1:0.0##} sec, Mean = {2:0.0##} KHz",
-              qTrials, dElapsedMS / 1000, dRate);
+      TimerStop(sw, qTrials);
     }
 
-    internal void TimerTests() {
-      //[Time]timeEval();
-      //[Time]timeRoots();
-      //[Time]timeAddPieceCapturesAndMoves();
-      //[Time]timeGenerate(PseudoMoves, NoSwaps);
-      //[Time]timeRectAtx();
-      //[Time]timeFoeAtx();
-      //[Time]timeMagic();
-      //[Time]timeRemoveLo();
-      //[Time]timeStaticLoads();
-      //[Time]timeCapturedPiece();
+    protected void timeExecute(String sInput, UInt64 qTrials) {
+      using (var command = new UCI()) {
+        var sw = TimerStart(nameof(command.Execute), qTrials);
+        var qTrial = 0UL;
+        for (var bContinue = true; bContinue && qTrial < qTrials; qTrial++) {
+          bContinue = command.Execute(sInput);
+        }
 
-      //[Test]testPieceMasks();
-      //[Test]testOffsets();
-      //[Test]testRotations();
-      //[Test]writeDepthShallow((PlyDepth)32);
-      //[Test]writeDepthDeep((PlyDepth)32);
-      //[Test]testPieceMasks();
-      //[Test]testPawnAttacks();
-      //[Test]
-      testOutsideSquare(sq.c1);
-      //[Test]
-      //for (sq sq = sq.a1; sq <= sq.h8; sq++)
-      //  testAtxMasks(sq);
-    }
-
-    [Conditional("TestOutsideSquare")]
-    protected void testOutsideSquare(sq sq) {
-      var n = (Int32)sq;
-      foreach (var parameter in Parameter) {
-        testRect($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
-        testRect($"{parameter.SideName}PawnToMoveWins[{sq}]", parameter.PawnToMoveWins[n]);
+        TimerStop(sw, qTrial);
       }
     }
     #endregion

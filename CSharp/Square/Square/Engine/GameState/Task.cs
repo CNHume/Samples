@@ -313,7 +313,7 @@ namespace Engine {
       //[Test]GameState.displayRate(dElapsedMS, qNodeDelta);
       if (dElapsedMS != 0) {
         var dRate = qNodeDelta * 1E3 / dElapsedMS;
-        sb.AppendFormat(" nps {0:0}", dRate);
+        sb.AppendFormat($" nps {dRate:0}");
       }
 
       if (IsShowingLine) {

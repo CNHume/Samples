@@ -125,7 +125,7 @@ namespace Engine {
     }
 
     private static void writeBinary(String sValue, UInt32 u, Int32 nWidth) {
-      LogLine("{0} = {1}", sValue, formatBinary(u, nWidth));
+      LogLine($"{sValue} = {formatBinary(u, nWidth)}");
     }
     #endregion
 
