@@ -5,8 +5,6 @@
 //
 // Conditionals:
 //
-//#define LinkedTranspositions
-//#define DebugPlace
 //#define MaterialBalance
 
 namespace Engine {

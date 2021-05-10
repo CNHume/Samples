@@ -154,6 +154,7 @@ namespace Engine {
           LogInfo(Level.note, sb.ToString());
           sb.Clear();
           State.MovePosition.writePV(sb, nPlace, bWTM);
+        }
 #endif
       }
 
@@ -304,7 +305,13 @@ namespace Engine {
           .FlushLine();
       }
     }
-
+#if DebugPlace
+    protected void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
+      sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
+                        bWTM, GamePly, State.IsPure, State.Rule)
+        .FlushLine();
+    }
+#endif
     public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
       var moves = new List<Move>();
       for (var position = this;         // toPosition

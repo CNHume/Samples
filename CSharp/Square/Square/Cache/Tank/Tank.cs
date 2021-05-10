@@ -6,6 +6,7 @@
 //
 // Conditionals:
 //
+//#define LinkedTranspositions
 //#define LotsForLittle                   // Allocates Lots of Little Buckets for Locality of Reference; but this was ~5% slower
 //#define ThreadSafeTank                  // Allow multi-threaded Tank access (performance cost is ~3%)
 #define TankInit
