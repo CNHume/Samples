@@ -81,7 +81,7 @@ namespace Engine {
         sb.Append("New ");
         sb.AppendPieceCounts(White, found.PieceCounts);
         sb.AppendLine();
-        sb.AppendFormat("Index = {0}", CXPMemo.index(wMemoHash));
+        sb.AppendFormat($"Index = {CXPMemo.index(wMemoHash)}");
         sb.AppendLine();
         sb.FlushLine();
       }
@@ -143,7 +143,7 @@ namespace Engine {
         sb.Append("New ");
         sb.AppendPieceCounts(found.Side[White].Counts, found.Side[Black].Counts);
         sb.AppendLine();
-        sb.AppendFormat("Index = {0}", memo.index(uMemoHash));
+        sb.AppendFormat($"Index = {memo.index(uMemoHash)}");
         sb.AppendLine();
         sb.FlushLine();
       }

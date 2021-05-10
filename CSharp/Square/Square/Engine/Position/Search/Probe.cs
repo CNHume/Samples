@@ -426,13 +426,13 @@ namespace Engine {
     protected void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
       if (IsTrace()) {
         var sb = new StringBuilder();
-        sb.AppendFormat("Trace #{0}: {1}", State.NodeTotal, sLabel);
+        sb.AppendFormat($"Trace #{State.NodeTotal}: {sLabel}");
         if (mValue.HasValue) {
           var mEval = reflectValue(WTM(), (Eval)mValue);
           sb.Append(" Eval");
           sb.AppendEvalTerm((Eval)mEval);
           if (mValue != EvalUndefined)
-            sb.AppendFormat(" {0}", et);
+            sb.AppendFormat($" {et}");
         }
 
         if (State.NodeTotal == 57388) {

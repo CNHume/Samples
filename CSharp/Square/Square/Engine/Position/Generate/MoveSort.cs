@@ -154,8 +154,7 @@ namespace Engine {
 #endif
           sb.Clear();
           sb.AppendAN(sm.Move, State.Rule.IsChess960);
-          LogLine("{0}) {1}: Depth = {2}, Value = {3}, Index = {4}",
-                         nMoveIndex, sb, sm.Depth, sm.Value, sm.Index);
+          LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
 #if LazyMoveSort
           nMoveIndex++;
 #endif

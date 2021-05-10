@@ -149,11 +149,11 @@ namespace Engine {
 #if DebugPlace
         if (UCI.IsDebug) {
           var sb = new StringBuilder();
-          sb.AppendFormat("{0} vn[{1}]", bGrow ? "Placed" : "Replaced", nPlace);
-          LogInfo(Level.note, "{0}", sb);
+          var sGrow = bGrow ? "Placed" : "Replaced";
+          sb.AppendFormat($"{sGrow} vn[{nPlace}]");
+          LogInfo(Level.note, sb.ToString());
           sb.Clear();
           State.MovePosition.writePV(sb, nPlace, bWTM);
-        }
 #endif
       }
 

@@ -138,7 +138,7 @@ namespace Engine {
       while (qpFriendPawn != 0) {
         var nFound = FindLo(qpFriendPawn);
         var nFile = nFound % nFiles;
-        Debug.Assert((vOccupied & (Byte)(BIT0 << nFile)) == 0, "File Previously Visited", "File = {0}", nFile);
+        Debug.Assert((vOccupied & (Byte)(BIT0 << nFile)) == 0, "File Previously Visited", $"File = {nFile}");
         vOccupied |= (Byte)(BIT0 << nFile);
         var qpFile = File[nFile];
         var qpFilePawn = qpFile & qpFriendPawn;

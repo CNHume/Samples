@@ -54,13 +54,11 @@ namespace Cache {
       var lGetHits = (Int64)GetHits - lGetHitsOffset;
 
       if (lGetReads == 0)
-        LogInfo(Level.data, "{0} Get Hits = {1:n0}; {0} Get Reads = {2:n0}",
-                       Name, lGetHits, lGetReads);
+        LogInfo(Level.data, $"{Name} Get Hits = {lGetHits:n0}; {Name} Get Reads = {lGetReads:n0}");
       else {
         var dGetHitsPercent = 100.0 * lGetHits / lGetReads;
         LogInfo(Level.data,
-                       "{0} Get Hits = {1:n0}; {0} Get Reads = {2:n0}; {0} Get Hits/Reads = {3:n1}%",
-                       Name, lGetHits, lGetReads, dGetHitsPercent);
+                $"{Name} Get Hits = {lGetHits:n0}; {Name} Get Reads = {lGetReads:n0}; {Name} Get Hits/Reads = {dGetHitsPercent:n1}%");
       }
     }
 
@@ -68,12 +66,10 @@ namespace Cache {
       var dSaturation = 100.0 * Added / uCapacity;
 
       if (Added == 0)
-        LogInfo(Level.data, "{0} Added = {1:n0}; Saturation = {2:n1}%",
-                       Name, Added, dSaturation);
+        LogInfo(Level.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%");
       else {
         var dReplacedPercent = 100.0 * Replaced / Writes;
-        LogInfo(Level.data, "{0} Added = {1:n0}; Saturation = {2:n1}%; Replaced = {3:n1}%",
-                       Name, Added, dSaturation, dReplacedPercent);
+        LogInfo(Level.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%; Replaced = {dReplacedPercent:n1}%");
       }
     }
     #endregion
@@ -114,13 +110,11 @@ namespace Cache {
 
     protected void displaySets() {
       if (SetReads == 0)
-        LogInfo(Level.data, "{0} Set Hits = {1:n0}; {0} Set Reads = {2:n0}",
-                       Name, SetHits, SetReads);
+        LogInfo(Level.data, $"{Name} Set Hits = {SetHits:n0}; {Name} Set Reads = {SetReads:n0}");
       else {
         var dSetHitsPercent = 100.0 * SetHits / SetReads;
         LogInfo(Level.data,
-                       "{0} Set Hits = {1:n0}; {0} Set Reads = {2:n0}; {0} Set Hits/Reads = {3:n1}%",
-                       Name, SetHits, SetReads, dSetHitsPercent);
+                $"{Name} Set Hits = {SetHits:n0}; {Name} Set Reads = {SetReads:n0}; {Name} Set Hits/Reads = {dSetHitsPercent:n1}%");
       }
     }
     #endregion

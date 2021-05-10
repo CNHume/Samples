@@ -103,7 +103,7 @@ namespace Engine {
             .Append(") Lo = ").Append(nLo)
             .Append(", Hi = ").Append(nHi);
 
-          LogInfo(Level.note, "{0}", sb);
+          LogInfo(Level.note, sb.ToString());
           sb.Clear();
         }
 
@@ -126,10 +126,9 @@ namespace Engine {
           var mEval = reflectValue(bWTM, mValue);
           var sFailed = mValue < mBeta ? "Lo" : "Hi";
           sb.Append("Eval").AppendEvalTerm(mEval)
-            .AppendFormat(" failed {0} at {1:HH:mm:ss.ff}",
-                          sFailed, DateTime.Now);
+            .AppendFormat($" failed {sFailed} at {DateTime.Now:HH:mm:ss.ff}");
 
-          LogInfo(Level.note, "{0}", sb);
+          LogInfo(Level.note, sb.ToString());
           sb.Clear();
         }
       }
