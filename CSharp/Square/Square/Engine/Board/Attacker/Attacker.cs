@@ -262,7 +262,7 @@ namespace Engine {
         var nA1H8Lo = sqr(xLo, yLo);
         var nA8H1Lo = sqr(xLoInverse, yLo);
 #if TestDiagLo
-        LogLine("d = {0,2}: A1H8Lo = {1}, A8H1Lo = {2}", d, (sq)nA1H8Lo, (sq)nA8H1Lo);
+        LogLine($"d = {d,2}: A1H8Lo = {(sq)nA1H8Lo}, A8H1Lo = {(sq)nA8H1Lo}");
 #endif
         for (Int32 x = xLo, y = yLo, w = 0; w < nDiagLen; w++, x++, y++) {
           var xInverse = invertFile(x);
@@ -340,19 +340,19 @@ namespace Engine {
         Debug.Assert(vA8H1Half == vA8H1Full, "A8H1Half != A8H1Full");
 
         if (FileState[vFileHalf] != vUnused) {
-          LogLine("{0,2}) FileState[{1,3}]", ++nUsed, vFileHalf);
+          LogLine($"{++nUsed,2}) FileState[{vFileHalf,3}]");
           writeBinary("Old", FileState[vFileHalf], 8);
           writeBinary("New", mState, 8);
         }
 
         if (A1H8State[vA1H8Half] != vUnused) {
-          LogLine("{0,2}) A1H8State[{1,3}]", ++nUsed, vA1H8Half);
+          LogLine($"{++nUsed,2}) A1H8State[{vA1H8Half,3}]");
           writeBinary("Old", A1H8State[vA1H8Half], 8);
           writeBinary("New", mState, 8);
         }
 
         if (A8H1State[vA8H1Half] != vUnused) {
-          LogLine("{0,2}) A8H1State[{1,3}]", ++nUsed, vA8H1Half);
+          LogLine($"{++nUsed,2}) A8H1State[{vA8H1Half,3}]");
           writeBinary("Old", A8H1State[vA8H1Half], 8);
           writeBinary("New", mState, 8);
         }
@@ -372,25 +372,25 @@ namespace Engine {
 
       for (var n = 0; n < FileState.Length; n++)
         if (FileState[n] == vUnused)
-          LogLine("FileState[{0,2}] unused", n);
+          LogLine($"FileState[{n,2}] unused");
         else
           nFileUsed++;
 
       for (var n = 0; n < A1H8State.Length; n++)
         if (A1H8State[n] == vUnused)
-          LogLine("A1H8State[{0,2}] unused", n);
+          LogLine($"A1H8State[{n,2}] unused");
         else
           nA1H8Used++;
 
       for (var n = 0; n < A8H1State.Length; n++)
         if (A8H1State[n] == vUnused)
-          LogLine("A8H1State[{0,2}] unused", n);
+          LogLine($"A8H1State[{n,2}] unused");
         else
           nA8H1Used++;
 
-      LogLine("FileUsed = {0}", nFileUsed);
-      LogLine("A1H8Used = {0}", nA1H8Used);
-      LogLine("A8H1Used = {0}", nA8H1Used);
+      LogLine($"FileUsed = {nFileUsed}");
+      LogLine($"A1H8Used = {nA1H8Used}");
+      LogLine($"A8H1Used = {nA8H1Used}");
 #endif
     }
 #else                                   //!Magic

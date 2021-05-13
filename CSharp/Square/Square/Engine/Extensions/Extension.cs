@@ -233,7 +233,7 @@ namespace Engine {
 
       var mAbs = Abs(mEval);
       if (mAbs < MateMin)
-        sb.AppendFormat("{0:0.00}", (Decimal)mEval / mUnitWeight);
+        sb.AppendFormat($"{(Decimal)mEval / mUnitWeight:0.00}");
       else {
         if (mEval < 0)
           sb.Append(sEvalMinus);
@@ -623,17 +623,15 @@ namespace Engine {
     #endregion
 
     #region Composition Diagnostics
-    public static StringBuilder AppendPieceCounts(
-      this StringBuilder sb, Boolean bColor, PieceCounter uPieceCounts) {
+    public static StringBuilder AppendPieceCounts(this StringBuilder sb, BoardSide side) {
       sb.AppendLine("Piece Counts:");
-      var sFormat = bColor ? " {0}{2} {3,2}" : " {1}{2} {3,2}";
-
+      var uPieceCounts = side.Counts;
       for (var v6 = (Byte)0; v6 < nPieces; v6++,
            uPieceCounts >>= nPerNibble) {
         var u = nibble(uPieceCounts);
         var s = PieceSymbol(v6);
 
-        sb.AppendFormat(sFormat, Parameter[White].Symbol, Parameter[Black].Symbol, s, u)
+        sb.AppendFormat($" {side.Parameter.Symbol}{s} {u,2}")
           .AppendLine();
       }
 
@@ -641,18 +639,20 @@ namespace Engine {
     }
 
     public static StringBuilder AppendPieceCounts(
-      this StringBuilder sb, PieceCounter uWhiteCounts, PieceCounter uBlackCounts) {
+      this StringBuilder sb, BoardSide blackSide, BoardSide whiteSide) {
       sb.AppendLine("Piece Counts:");
+      var uBlackCounts = blackSide.Counts;
+      var uWhiteCounts = whiteSide.Counts;
 
       for (var v6 = (Byte)0; v6 < nPieces; v6++,
-           uWhiteCounts >>= nPerNibble,
-           uBlackCounts >>= nPerNibble) {
-        var uWhite = nibble(uWhiteCounts);
+           uBlackCounts >>= nPerNibble,
+           uWhiteCounts >>= nPerNibble) {
         var uBlack = nibble(uBlackCounts);
+        var uWhite = nibble(uWhiteCounts);
         var s = PieceSymbol(v6);
 
-        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",
-            Parameter[White].Symbol, Parameter[Black].Symbol, s, uWhite, uBlack)
+        sb.AppendFormat($" {blackSide.Parameter.Symbol}{s} {uBlack,2}")
+          .AppendFormat($" {whiteSide.Parameter.Symbol}{s} {uWhite,2},")
           .AppendLine();
       }
 
@@ -660,18 +660,20 @@ namespace Engine {
     }
 
     public static StringBuilder AppendPieceHash(
-      this StringBuilder sb, PieceHashcode wHashWhite, PieceHashcode wHashBlack) {
+      this StringBuilder sb, BoardSide blackSide, BoardSide whiteSide) {
       sb.AppendLine("Piece Hashcode:");
+      var wHashBlack = blackSide.PieceHash;
+      var wHashWhite = whiteSide.PieceHash;
 
       for (var v6 = vHF; v6 < vK6; v6++,
-           wHashWhite >>= nPerTwoBits,
-           wHashBlack >>= nPerTwoBits) {
-        var nWhite = twoBits(wHashWhite);
+           wHashBlack >>= nPerTwoBits,
+           wHashWhite >>= nPerTwoBits) {
         var nBlack = twoBits(wHashBlack);
+        var nWhite = twoBits(wHashWhite);
         var s = v6 == vHF ? "F" : PieceSymbol(v6);
 
-        sb.AppendFormat(" {0}{2} {3,2}  {1}{2} {4,2}",
-            Parameter[White].Symbol, Parameter[Black].Symbol, s, nWhite, nBlack)
+        sb.AppendFormat($" {blackSide.Parameter.Symbol}{s} {nBlack,2},")
+          .AppendFormat($" {whiteSide.Parameter.Symbol}{s} {nWhite,2}")
           .AppendLine();
       }
 

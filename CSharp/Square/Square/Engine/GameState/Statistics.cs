@@ -196,7 +196,8 @@ namespace Engine {
         LogInfo(Level.data, $"getPiece() Calls = {CapturedPieceTotal:n0}");
       else {
         var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
-        LogInfo(Level.data, $"getPiece() Calls = {CapturedPieceTotal:n0}; getPiece() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
+        LogInfo(Level.data,
+                $"getPiece() Calls = {CapturedPieceTotal:n0}; getPiece() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
       }
 #endif
     }
@@ -558,7 +559,8 @@ namespace Engine {
           var qActual = NodeDelta[nPlies];
           var dError = dModel / qActual - 1;
 
-          LogInfo(Level.data, $"Modelled {qModel:n0} for {qActual:n0} Actual Moves, Relative Error = {100 * dError:n1}%");
+          LogInfo(Level.data,
+                  $"Modelled {qModel:n0} for {qActual:n0} Actual Moves, Relative Error = {100 * dError:n1}%");
         }
 #endif
       }

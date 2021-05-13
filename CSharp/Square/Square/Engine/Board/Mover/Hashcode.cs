@@ -116,7 +116,7 @@ namespace Engine {
 #if RNGStatistics
       var nCount = Zobrists.Count;
       var decSum = 0M;
-      LogLine("\nHashcodes = {0}", Zobrists.Count);
+      LogLine($"\nHashcodes = {Zobrists.Count}");
       foreach (var qHash in Zobrists) {
         decSum += qHash;
 #if DumpZobrist
@@ -128,7 +128,7 @@ namespace Engine {
       var dRange = Pow(2, 64);
       var dMeanIdeal = dRange / 2;
       var dMeanError = dMean / dMeanIdeal - 1;
-      LogLine("Mean = {0:e} {1:n2}%", dMean, 100 * dMeanError);
+      LogLine($"Mean = {dMean:e} {100 * dMeanError:n2}%");
 
       if (nCount > 1) {
         var dSquareSum = 0.0;
@@ -141,7 +141,7 @@ namespace Engine {
         var dDeviation = Sqrt(dVariance);
         var dDeviationIdeal = dRange / Sqrt(12.0);
         var dDeviationError = dDeviation / dDeviationIdeal - 1;
-        LogLine("s.d. = {0:e} {1:n2}%", dDeviation, 100 * dDeviationError);
+        LogLine($"s.d. = {dDeviation:e} {100 * dDeviationError:n2}%");
       }
 #endif
 #if TestZobrist
@@ -287,10 +287,10 @@ namespace Engine {
       var qHashPawn = hashPawn();
       var qHash = qHashPawn ^ hashPieces();
 #if DisplayHash
-      LogLine(" Hash = {0}", formatHash(Hash));
+      LogLine($" Hash = {formatHash(Hash)}");
 
       if (qHash != Hash)
-        LogLine("IHash = {0}", formatHash(Hash));
+        LogLine($"IHash = {formatHash(Hash)}");
 #else
       if (qHashPawn != HashPawn) {
         //DisplayCurrent("testHash()");

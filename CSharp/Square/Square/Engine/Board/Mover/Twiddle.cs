@@ -259,7 +259,7 @@ namespace Engine {
       // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
       //
       if (root < 4294967293 && count > 0)
-        Console.WriteLine("usqrt: n = {0}, root = {1}, count = {2}", q, root, count);
+        Console.WriteLine($"usqrt: n = {q}, root = {root}, count = {count}");
 #endif
       return root;
     }

@@ -407,10 +407,11 @@ namespace Engine {
       var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
       var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
 #if DebugComposition
-      var sb = new StringBuilder()
-        .AppendPieceCounts(true, Side[White].Counts).AppendLine()
-        .AppendPieceCounts(false, Side[Black].Counts).AppendLine()
-        .AppendPieceHash(Side[White].PieceHash, Side[Black].PieceHash);
+      var sb = new StringBuilder();
+      foreach (var side in Side)
+        sb.AppendPieceCounts(side).AppendLine();
+      
+      sb.AppendPieceHash(Side[Black], Side[White]);
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
@@ -439,8 +440,8 @@ namespace Engine {
 
 #if DebugComposition
       var sb = new StringBuilder()
-        .AppendPieceCounts(Side[White].Counts, Side[Black].Counts).AppendLine()
-        .AppendPieceHash(Side[White].PieceHash, Side[Black].PieceHash);
+        .AppendPieceCounts(Side[Black], Side[White]).AppendLine()
+        .AppendPieceHash(Side[Black], Side[White]);
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif

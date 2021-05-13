@@ -138,10 +138,10 @@ namespace Engine {
         //DisplayCurrent("GetCXP()");
         sb.AppendLine();
         sb.Append("Old ");
-        sb.AppendPieceCounts(Side[White].Counts, Side[Black].Counts);
+        sb.AppendPieceCounts(Side[Black], Side[White]);
         sb.AppendLine();
         sb.Append("New ");
-        sb.AppendPieceCounts(found.Side[White].Counts, found.Side[Black].Counts);
+        sb.AppendPieceCounts(found.Side[Black], found.Side[White]);
         sb.AppendLine();
         sb.AppendFormat($"Index = {memo.index(uMemoHash)}");
         sb.AppendLine();
