@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define BuildAtxTo
+//#define PawnPositionByValue
 //#define DebugComposition
 //#define NoPieceHash
 //#define ShowCornerCP
@@ -608,8 +609,13 @@ namespace Engine {
 #endif
 #if EvalRookBehindPasser
         if (Rook != 0) {
+#if PawnPositionByValue
+          var bDefault = (pp.BlackPRP & PRPFlags.IsValid) == 0;
+#else
+          var bDefault = pp == default(PawnPosition);
+#endif
+          if (bDefault) pp = State.GetPXP(this);
           const Boolean bWhiteRook = true;
-          if (pp is null) pp = State.GetPXP(this);
           var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
           var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
 #if TestRookBehindPasser
