@@ -405,8 +405,8 @@ namespace Engine {
       //
       // Piece Counts ignore the number of Pawns
       //
-      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
       var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
+      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
 #if DebugComposition
       var sb = new StringBuilder();
       foreach (var side in Side)
@@ -416,11 +416,11 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, Side[White].FlagsHi);
       var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, Side[Black].FlagsHi);
+      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, Side[White].FlagsHi);
 
-      var mValueWhite = compWhite.Value;
       var mValueBlack = compBlack.Value;
+      var mValueWhite = compWhite.Value;
 
       mDelta = (Eval)(mValueWhite - mValueBlack);
       mTotal = (Eval)(mValueWhite + mValueBlack);
@@ -434,8 +434,8 @@ namespace Engine {
 #if NoPieceHash
       comp.Recycle(WhiteCount, BlackCount, FlagsHi);
 #else
-      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
       var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
+      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
 
       var uMemoHash = compositionHash(true);
 #if DebugComposition
@@ -616,11 +616,11 @@ namespace Engine {
 #endif
           if (bDefault) pp = State.GetPXP(this);
           const Boolean bWhiteRook = true;
-          var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
           var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
+          var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
 #if TestRookBehindPasser
-          if (mRooksBehindWhite != 0 ||
-              mRooksBehindBlack != 0) {
+          if (mRooksBehindBlack != 0 ||
+              mRooksBehindWhite != 0) {
             DisplayCurrent("pieceval()");
           }
 #endif
