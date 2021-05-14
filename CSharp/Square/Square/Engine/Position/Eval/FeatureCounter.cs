@@ -230,18 +230,18 @@ namespace Engine {
     internal static void weighPawnFeatures(
       out Eval Delta,
       out Eval Total,
-      FeatureCounter uWhiteCounts,
       FeatureCounter uBlackCounts,
-      Plane qpWhitePassers,
-      Plane qpBlackPassers) {
+      FeatureCounter uWhiteCounts,
+      Plane qpBlackPassers,
+      Plane qpWhitePassers) {
       var nValueDelta = 0;
       var nValueTotal = 0;
 
       for (var nFeature = 0; nFeature < PawnFeatures.Length; nFeature++,
-           uWhiteCounts >>= nPerNibble,
-           uBlackCounts >>= nPerNibble) {
-        var nWhite = (Int32)nibble(uWhiteCounts);
+           uBlackCounts >>= nPerNibble,
+           uWhiteCounts >>= nPerNibble) {
         var nBlack = (Int32)nibble(uBlackCounts);
+        var nWhite = (Int32)nibble(uWhiteCounts);
 
         var nDelta = nWhite - nBlack;
         var nTotal = nWhite + nBlack;
@@ -251,8 +251,8 @@ namespace Engine {
           nValueTotal += nTotal * PawnFeatureWeight[nFeature];
       }
 
-      var mWhitePasserWeight = weighWhitePassers(qpWhitePassers);
       var mBlackPasserWeight = weighBlackPassers(qpBlackPassers);
+      var mWhitePasserWeight = weighWhitePassers(qpWhitePassers);
       nValueDelta += mWhitePasserWeight - mBlackPasserWeight;
 
       Delta = (Eval)nValueDelta;

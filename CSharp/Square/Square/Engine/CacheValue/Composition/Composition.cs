@@ -35,8 +35,8 @@ namespace Engine.CacheValue {
     #endregion
 
     #region Constructors
-    public Composition(CompositionCounter wWhiteCounts,
-                       CompositionCounter wBlackCounts,
+    public Composition(CompositionCounter wBlackCounts,
+                       CompositionCounter wWhiteCounts,
                        HiFlags fBlackHi, HiFlags fWhiteHi) {
       //HashPiece = qHashPiece;
       WhiteCounts = wWhiteCounts;
@@ -44,22 +44,23 @@ namespace Engine.CacheValue {
       FlagsCV = CVFlags.IsValid;
       FlagsBlackHi = fBlackHi;
       FlagsWhiteHi = fWhiteHi;
-      weighPieces(out Delta, out Total, wWhiteCounts, wBlackCounts, fBlackHi, fWhiteHi);
+      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
     }
     #endregion
 
     #region Methods
 #if !CompositionByValue
     // Recycle Compositions to reduce garbage:
-    public void Recycle(CompositionCounter wWhiteCounts,
-                        CompositionCounter wBlackCounts,
+    public void Recycle(CompositionCounter wBlackCounts,
+                        CompositionCounter wWhiteCounts,
                         HiFlags fBlackHi, HiFlags fWhiteHi) {
       //HashPiece = qHashPiece;
-      Side[White].Counts = wWhiteCounts;
-      Side[Black].Counts = wBlackCounts;
+      BlackCounts = wBlackCounts;
+      WhiteCounts = wWhiteCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsHi = fhi;
-      weighPieces(out Delta, out Total, wWhiteCounts, wBlackCounts, fBlackHi, fWhiteHi);
+      FlagsBlackHi = fBlackHi;
+      FlagsWhiteHi = fWhiteHi;
+      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
     }
 #endif
     #endregion
@@ -90,8 +91,7 @@ namespace Engine.CacheValue {
     #endregion
 
     #region Constructors
-    public Composition2(CompositionCounter wPieceCounts,
-                        HiFlags fhi) {
+    public Composition2(CompositionCounter wPieceCounts, HiFlags fhi) {
       PieceCounts = wPieceCounts;
       FlagsCV = CVFlags.IsValid;
       FlagsHi = fhi;
@@ -102,11 +102,10 @@ namespace Engine.CacheValue {
     #region Methods
 #if !CompositionByValue
     // Recycle Compositions to reduce garbage:
-    public void Recycle(CompositionCounter wPieceCounts,
-                        HiFlags fhi) {
+    public void Recycle(CompositionCounter wPieceCounts, HiFlags fhi) {
       PieceCounts = wPieceCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsBlackHi = fhi;
+      FlagsHi = fhi;
       weighPieces(out Value, wPieceCounts, fhi);
     }
 #endif

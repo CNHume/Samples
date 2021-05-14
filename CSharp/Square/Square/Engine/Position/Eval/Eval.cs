@@ -437,7 +437,6 @@ namespace Engine {
       var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
 
       var uMemoHash = compositionHash(true);
-
 #if DebugComposition
       var sb = new StringBuilder()
         .AppendPieceCounts(Side[Black], Side[White]).AppendLine()
@@ -878,17 +877,17 @@ namespace Engine {
     // Used in the Composition Constructor
     internal static void weighPieces(out Eval Delta,
                                      out Eval Total,
-                                     CompositionCounter wWhiteCounts,
                                      CompositionCounter wBlackCounts,
+                                     CompositionCounter wWhiteCounts,
                                      HiFlags fBlackHi, HiFlags fWhiteHi) {
       var nSumDelta = 0;
       var nSumTotal = 0;
 
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
-           wWhiteCounts >>= nPerNibble,
-           wBlackCounts >>= nPerNibble) {
-        var nWhite = nibble(wWhiteCounts);
+           wBlackCounts >>= nPerNibble,
+           wWhiteCounts >>= nPerNibble) {
         var nBlack = nibble(wBlackCounts);
+        var nWhite = nibble(wWhiteCounts);
 
         var nDelta = nWhite - nBlack;
         var nTotal = nWhite + nBlack;

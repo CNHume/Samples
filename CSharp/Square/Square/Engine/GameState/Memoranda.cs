@@ -112,22 +112,22 @@ namespace Engine {
       var found = CXPMemo[uMemoHash];
       fBlackHi &= HiFlags.Pair;        //[Note]Only HiFlags.Pair are cached for use by weighPieces()
       fWhiteHi &= HiFlags.Pair;
-      var fBlackHiFound = found.FlagsBlackHi & HiFlags.Pair;
-      var fWhiteHiFound = found.FlagsWhiteHi & HiFlags.Pair;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition.CVFlags.IsValid) == 0;
 #else
       var bDefault = found == default(Composition);
 #endif
-      if (!bDefault &&
-          found.WhiteCounts == wWhiteCounts &&
-          found.BlackCounts == wBlackCounts &&
-          fBlackHi == fBlackHiFound &&
-          fWhiteHi == fWhiteHiFound) {
-        CXPMemo.Counts.GetHits++;       // Match, a.k.a. Get Hit
-        return found;
+      if (!bDefault) {
+        var fBlackHiFound = found.FlagsBlackHi & HiFlags.Pair;
+        var fWhiteHiFound = found.FlagsWhiteHi & HiFlags.Pair;
+        if (found.BlackCounts == wBlackCounts &&
+            found.WhiteCounts == wWhiteCounts &&
+            fBlackHi == fBlackHiFound &&
+            fWhiteHi == fWhiteHiFound) {
+          CXPMemo.Counts.GetHits++;     // Match, a.k.a. Get Hit
+          return found;
+        }
       }
-
 #if CompositionByValue
       if (bDefault) {
         CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
@@ -148,18 +148,18 @@ namespace Engine {
         sb.FlushLine();
       }
 #endif
-      found = new Composition(wWhiteCounts, wBlackCounts, fBlackHi, fWhiteHi);
+      found = new Composition(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
       CXPMemo[uMemoHash] = found;
       return found;
 #else                                   // CompositionByValue
       if (bDefault) {
-        CXPMemo.Counts.Used++;          // Non-Match Case: Add new Composition
-        found = new Composition(wWhiteCounts, wBlackCounts, fBlackHi, fWhiteHi);
+        CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
+        found = new Composition(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
         CXPMemo[uMemoHash] = found;
         return found;
       }
       else {
-        found.Recycle(wWhiteCounts, wBlackCounts, fBlackHi, fWhiteHi);
+        found.Recycle(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
         return found;
       }
 #endif
@@ -187,7 +187,6 @@ namespace Engine {
       //
       // Wrong Bishops will be determined by Passed Rook Pawns.
       //
-      const Boolean bWhiteCount = true;
       var uBlackCount = position.CountPawnFeatures(Black, out Plane qpBlackPassers, out PRPFlags fBlackPRP);
       var uWhiteCount = position.CountPawnFeatures(White, out Plane qpWhitePassers, out PRPFlags fWhitePRP);
 #if PawnPositionByValue
@@ -195,23 +194,23 @@ namespace Engine {
         PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
 
       found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
-                               uWhiteCount, uBlackCount,
-                               qpWhitePassers, qpBlackPassers);
+                               uBlackCount, uWhiteCount,
+                               qpBlackPassers, qpWhitePassers);
       PXPMemo[qHashPawn] = found;
       return found;
 #else                                   // PawnPositionByValue
       if (bDefault) {
         PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
         found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
-                                 uWhiteCount, uBlackCount,
-                                 qpWhitePassers, qpBlackPassers);
+                                 uBlackCount, uWhiteCount,
+                                 qpBlackPassers, qpWhitePassers);
         PXPMemo[qHashPawn] = found;
         return found;
       }
       else {
         found.Recycle(qHashPawn, fBlackPRP, fWhitePRP,
-                      uWhiteCount, uBlackCount,
-                      qpWhitePassers, qpBlackPassers);
+                      uBlackCount, uWhiteCount,
+                      qpBlackPassers, qpWhitePassers);
         return found;
       }
 #endif

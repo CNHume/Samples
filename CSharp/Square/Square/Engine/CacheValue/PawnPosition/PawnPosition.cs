@@ -39,16 +39,16 @@ namespace Engine.CacheValue {
 
     #region Constructors
     public PawnPosition(Hashcode qHashPawn, PRPFlags fBlackPRP, PRPFlags fWhitePRP,
-                        FeatureCounter uWhiteCounts, FeatureCounter uBlackCounts,
-                        Plane qpWhitePassers, Plane qpBlackPassers) {
+                        FeatureCounter uBlackCounts, FeatureCounter uWhiteCounts,
+                        Plane qpBlackPassers, Plane qpWhitePassers) {
       HashPawn = qHashPawn;             // To verify Position Equality
       BlackPRP = fBlackPRP | PRPFlags.IsValid;
       WhitePRP = fWhitePRP;
-      WhitePassers = qpWhitePassers;
       BlackPassers = qpBlackPassers;
+      WhitePassers = qpWhitePassers;
       weighPawnFeatures(out Delta, out Total,
-                        uWhiteCounts, uBlackCounts,
-                        qpWhitePassers, qpBlackPassers);
+                        uBlackCounts, uWhiteCounts,
+                        qpBlackPassers, qpWhitePassers);
     }
     #endregion
 
@@ -56,16 +56,16 @@ namespace Engine.CacheValue {
 #if !PawnPositionByValue
     // Recycle PawnPositions to reduce garbage:
     public void Recycle(Hashcode qHashPawn, PRPFlags fBlackPRP, PRPFlags fWhitePRP,
-                        FeatureCounter uWhiteCounts, FeatureCounter uBlackCounts,
-                        Plane qpWhitePassers, Plane qpBlackPassers) {
+                        FeatureCounter uBlackCounts, FeatureCounter uWhiteCounts,
+                        Plane qpBlackPassers, Plane qpWhitePassers) {
       HashPawn = qHashPawn;
       BlackPRP = fBlackPRP | PRPFlags.IsValid;
       WhitePRP = fWhitePRP;
-      WhitePassers = qpWhitePassers;
       BlackPassers = qpBlackPassers;
+      WhitePassers = qpWhitePassers;
       weighPawnFeatures(out Delta, out Total,
-                        uWhiteCounts, uBlackCounts,
-                        qpWhitePassers, qpBlackPassers);
+                        uBlackCounts, uWhiteCounts,
+                        qpBlackPassers, qpWhitePassers);
     }
 #endif
     #endregion
