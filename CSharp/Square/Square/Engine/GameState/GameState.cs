@@ -284,30 +284,21 @@ namespace Engine {
     protected void appendOptions(StringBuilder sb) {
       // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
       sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
-
-      var formatXPM = " w {0}Mx{1} XPM";
 #if XPHash128
-      formatXPM += "128";
+      var sXPM = "XPM128";
+      var sXP = "XP128";
+#else
+      var sXPM = "XPM";
+      var sXP = "XP";
 #endif
-      sb.AppendFormat(formatXPM,
-                      XPMTank.LookupLength >> 20,
-                      XPMTank.LookupBuckets);
-
-      var formatXP = " w {0}Mx{1} XP";
-#if XPHash128
-      formatXP += "128";
-#endif
-      sb.AppendFormat(formatXP,
-                      XPTank.LookupLength >> 20,
-                      XPTank.LookupBuckets);
-
-      var formatQXP = " w {0}Mx{1} QXP";
 #if QXPHash128
-      formatQXP += "128";
+      var sQXP = "QXP128";
+#else
+      var sQXP = "QXP";
 #endif
-      sb.AppendFormat(formatQXP,
-                      QXPTank.LookupLength >> 20,
-                      QXPTank.LookupBuckets);
+      sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}");
+      sb.AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}");
+      sb.AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
 #if QuiescentTryXP
       sb.Append(" TryXP");
 #endif

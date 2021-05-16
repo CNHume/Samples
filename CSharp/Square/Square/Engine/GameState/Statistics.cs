@@ -403,11 +403,7 @@ namespace Engine {
     protected void displayEvalTypeCounts() {
       //[Note]The EvalType Counts should add up to SetReads
       LogInfo(Level.data,
-              "{0} Counts: {1} = {2:n0}; {3} = {4:n0}; {5} = {6:n0}",
-              typeof(EvalType).Name,
-              EvalType.Upper, UpperCount,
-              EvalType.Exact, ExactCount,
-              EvalType.Lower, LowerCount);
+              $"{EvalType.Upper} = {UpperCount:n0}; {EvalType.Exact} = {ExactCount:n0}; {EvalType.Lower} = {LowerCount:n0}");
     }
 
     [Conditional("DisplayPositionPool")]
