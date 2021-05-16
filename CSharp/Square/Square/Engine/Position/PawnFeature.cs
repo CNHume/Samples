@@ -191,14 +191,14 @@ namespace Engine {
       case Black:
         qpHelp = Parameter[White].Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= BIT0 << nFiles * (nRanks - 2) + nPawn % nFiles;
+        qpHelp |= BIT0 << nFiles * (nRanks - 2) + x(nPawn);
 #endif
         break;
 
       case White:
         qpHelp = Parameter[Black].Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= BIT0 << nFiles + nPawn % nFiles;
+        qpHelp |= BIT0 << nFiles + x(nPawn);
 #endif
         break;
       }

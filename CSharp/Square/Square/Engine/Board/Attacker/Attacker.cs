@@ -18,6 +18,7 @@ namespace Engine {
 
   using System;
   using System.Diagnostics;
+  using System.Runtime.CompilerServices;
 
   //
   // Type Aliases:
@@ -51,7 +52,7 @@ namespace Engine {
       { ( 1, 0), ( 1, 1), ( 0, 1), (-1, 1),
         (-1, 0), (-1,-1), ( 0,-1), ( 1,-1) };
     private static readonly ValueTuple<Int32, Int32>[] KnightDeltas =
-      { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1), 
+      { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1),
         (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
 
     //[Dark|Lite]Square is used to determine square color of the Bishops
@@ -224,10 +225,8 @@ namespace Engine {
     }
 
     protected static void loadRankOffset() {
-      for (var n = 0; n < nSquares; n++) {
-        var y = n / nFiles;
-        RankOffset[n] = (Byte)(nFiles * y + 1);
-      }
+      for (var n = 0; n < nSquares; n++)
+        RankOffset[n] = (Byte)(nFiles * y(n) + 1);
     }
 #if Magic
     protected static void newDiagLo() {
@@ -409,8 +408,7 @@ namespace Engine {
       }
 
       for (var n = 0; n < nSquares; n++) {
-        var x = n % nFiles;
-        var xInverse = invertFile(x);
+        var xInverse = invertFile(x(n));
         //[Note]One is added to each Offset because status values consist only of the medial 6 bits:
         FileOffset[n] = (Byte)(nFiles * xInverse + 1);
 
@@ -520,8 +518,7 @@ namespace Engine {
 #if Magic
 #if TestMagic || !HalfMagic
     protected static Byte hashFileFull(Plane qp, Int32 n) {
-      var x = n % nFiles;
-      var qFileState = qp >> x + nFiles & (qpFileMask >> 2 * nFiles);
+      var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
       return (Byte)(qFileState % wFileModulus);
     }
@@ -546,8 +543,7 @@ namespace Engine {
     //
     protected static Byte hashFileHalf(Plane qp, Int32 n) {
       const UInt16 wFileRem = (UInt16)((BIT0 << 32) % wFileModulus);    // 16
-      var x = n % nFiles;
-      var qFileState = qp >> x + nFiles & (qpFileMask >> 2 * nFiles);
+      var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
       var uHi = (UInt32)(qFileState >> 32);    // Avoiding 64-Bit Division
       var uLo = (UInt32)qFileState;
@@ -589,9 +585,7 @@ namespace Engine {
 
     protected Byte rotateFile(Int32 n) {
 #if NoFileOffset
-      var x = n % nFiles;
-      var xInverse = invertFile(x);
-      var nFileOffset = nFiles * xInverse + 1;
+      var nFileOffset = nFiles * invertFile(x(n)) + 1;
 #endif
       var uFileRotate = (UInt32)(FilePiece >> FileOffset[n]);
       return (Byte)(uFileRotate & uStateMask);
@@ -599,38 +593,44 @@ namespace Engine {
 #endif                                  //!Magic
     protected Byte rotateRank(Int32 n) {
 #if NoRankOffset
-      var y = n / nFiles;
-      var nRankOffset = nFiles * y + 1;
+      var nRankOffset = nFiles * y(n) + 1;
 #endif
       var uRankRotate = (UInt32)(RankPiece >> RankOffset[n]);
       return (Byte)(uRankRotate & uStateMask);
     }
     #endregion
 
-    #region Indexing Operators
+    #region Board Coordinate Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isRect(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
-      var x = n % nFiles;
-      var y = n / nFiles;
       // Are either of the coordinates equal?
-      return x == 0 | y == 0;
+      return x(n) == 0 | y(n) == 0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 diagA1H8(Int32 n) {
-      var x = n % nFiles;
-      var y = n / nFiles;
-      var xInverse = invertFile(x);
-      return y + xInverse;
+      return invertFile(x(n)) + y(n);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 diagA8H1(Int32 n) {
-      var x = n % nFiles;
-      var y = n / nFiles;
-      return x + y;
+      return x(n) + y(n);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Int32 sqr(Int32 x, Int32 y) {
       return nFiles * y + x;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Int32 x(Int32 n) {
+      return n % nFiles;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Int32 y(Int32 n) {
+      return n / nFiles;
     }
     #endregion
   }

@@ -263,16 +263,16 @@ namespace Engine {
       if (!sqPassed.HasValue)
         throw new ParsePositionException($"Invalid En Passant String = {sPassed}");
 
-      var nExpectedRank = bWTM ? 5 : 2;
-      var nPassedTo = (Int32)sqPassed;
-      if (nPassedTo / nFiles != nExpectedRank)
-        throw new ParsePositionException($"Invalid En Passant Rank = {sqPassed}");
-
-      var bValid = false;
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
+      // The destination square to which an e.p. capturing Pawn will move:
+      var nPassedTo = (Int32)sqPassed;
+      if (y(nPassedTo) != friend.Parameter.EnPassantRank)
+        throw new ParsePositionException($"Invalid En Passant Rank = {sqPassed}");
+
       var qpFoe = foe.Piece;
-      var nTo = nPassedTo - friend.Parameter.ShiftRank;
+      // The square actually holding the e.p. Pawn to be captured:
+      var nTo = nPassedTo + foe.Parameter.ShiftRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
@@ -281,9 +281,9 @@ namespace Engine {
       var qpStart = BIT0 << nStart;
       var qpPassed = BIT0 << nPassedTo;
       var qpVacant = qpStart | qpPassed;
-      bValid = (qpFoe & Pawn & BIT0 << nTo) != 0 && (qpVacant & RankPiece) == 0;
+      var bInvalid = (qpFoe & Pawn & BIT0 << nTo) == 0 || (qpVacant & RankPiece) != 0;
 
-      if (!bValid)
+      if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqPassed}");
 
       (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);

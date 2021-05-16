@@ -219,25 +219,14 @@ namespace Engine {
 
     #region KBN Endgame
     protected static Int32 edgeDistance(Int32 n) {
-      var nx = n % nFiles;
-      var ny = n / nFiles;
-
-      var dx = Min(nx, nFiles - 1 - nx);
-      var dy = Min(ny, nFiles - 1 - ny);
-
+      var dx = Min(x(n), invertFile(x(n)));
+      var dy = Min(y(n), invertRank(y(n)));
       return Min(dx, dy);
     }
 
     protected static Int32 distance(Int32 m, Int32 n) {
-      var mx = m % nFiles;
-      var my = m / nFiles;
-
-      var nx = n % nFiles;
-      var ny = n / nFiles;
-
-      var dx = Abs(nx - mx);
-      var dy = Abs(ny - my);
-
+      var dx = Abs(x(n) - x(m));
+      var dy = Abs(y(n) - y(m));
       return Max(dx, dy);
     }
 
@@ -334,29 +323,26 @@ namespace Engine {
       Eval mBehind = 0;
       (BoardSide offence, BoardSide defence) = getSides(bWhiteRook);
 
-      var qpOffence = offence.Piece;
-      var qpDefence = defence.Piece;
-
-      qpOffence &= Rook;
-      qpDefence &= Rook;
+      var qpOffence = offence.Piece & Rook;
+      var qpDefence = defence.Piece & Rook;
 
       while (qpPassers != 0) {
         var nPasser = RemoveLo(ref qpPassers, out Plane qpPasser);
         //[Speed]Omit fileAtx() lookup unless Pawn and Rook are on the same file
-        var nPasserFile = nPasser % nFiles;
+        var nPasserFile = x(nPasser);
         var qpBehind = bWhiteRook ? qpPasser - 1 : MASK64 << nPasser + 1;
 
         var qpOffenceBehind = qpOffence & qpBehind;
         while (qpOffenceBehind != 0) {
           var nRook = RemoveLo(ref qpOffenceBehind);
-          if (nRook % nFiles == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
+          if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
             mBehind += mRookBehindPasserOffence;
         }
 
         var qpDefenceBehind = qpDefence & qpBehind;
         while (qpDefenceBehind != 0) {
           var nRook = RemoveLo(ref qpDefenceBehind);
-          if (nRook % nFiles == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
+          if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
             mBehind -= mRookBehindPasserDefence;
         }
       }

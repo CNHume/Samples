@@ -27,10 +27,12 @@ namespace Engine {
 
         switch (SideName) {
         case SideName.Black:
-          StartRank = nRankLast;
           ShiftA1H8 = -nA1H8;
           ShiftA8H1 = -nA8H1;
           ShiftRank = -nFiles;
+
+          StartRank = invertRank(0);
+          EnPassantRank = 2;
 
           RankLast = qpRank1;
           RankPass = qpRank6;
@@ -42,10 +44,12 @@ namespace Engine {
           break;
 
         case SideName.White:
-          StartRank = 0;
           ShiftA1H8 = nA1H8;
           ShiftA8H1 = nA8H1;
           ShiftRank = nFiles;
+
+          StartRank = 0;
+          EnPassantRank = invertRank(2);
 
           RankLast = qpRank8;
           RankPass = qpRank3;
@@ -61,6 +65,8 @@ namespace Engine {
 
       #region Pawn Advancement Fields
       public readonly Int32 StartRank;
+      public readonly Int32 EnPassantRank;
+
       public readonly Int32 ShiftA1H8;
       public readonly Int32 ShiftA8H1;
       public readonly Int32 ShiftRank;

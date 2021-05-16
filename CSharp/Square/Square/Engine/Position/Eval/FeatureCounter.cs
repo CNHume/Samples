@@ -137,7 +137,7 @@ namespace Engine {
 
       while (qpFriendPawn != 0) {
         var nFound = FindLo(qpFriendPawn);
-        var nFile = nFound % nFiles;
+        var nFile = x(nFound);
         Debug.Assert((vOccupied & (Byte)(BIT0 << nFile)) == 0, "File Previously Visited", $"File = {nFile}");
         vOccupied |= (Byte)(BIT0 << nFile);
         var qpFile = File[nFile];
@@ -207,8 +207,7 @@ namespace Engine {
       while (qpPassers != 0) {
         var n = RemoveLo(ref qpPassers);
         // White Pawns advance over 5 ranks, from the 2nd up to the 7th, then promote:
-        var y1 = n / nFiles - 1;
-        nValue += y1 * mPassedPawnPushWeight;
+        nValue += (y(n) - 1) * mPassedPawnPushWeight;
       }
 
       return (Eval)nValue;
@@ -218,10 +217,8 @@ namespace Engine {
       var nValue = 0;
       while (qpPassers != 0) {
         var n = RemoveLo(ref qpPassers);
-        var y = n / nFiles;
         // Black Pawns advance over 5 ranks, from the 7th down to the 2nd, then promote:
-        var yInverse1 = nRanks - (y + 2);
-        nValue += yInverse1 * mPassedPawnPushWeight;
+        nValue += (invertRank(y(n)) - 1) * mPassedPawnPushWeight;
       }
 
       return (Eval)nValue;
