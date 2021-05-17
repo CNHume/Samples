@@ -242,7 +242,7 @@ namespace Engine {
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
-        var bSingleCheck = PowerOfTwo(qpChx);
+        var bSingleCheck = OneBitOrNone(qpChx);
         if (bSingleCheck) {
           var qpFoe = qpChx & qpTo;
 

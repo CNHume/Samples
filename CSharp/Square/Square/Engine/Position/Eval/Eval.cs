@@ -129,17 +129,17 @@ namespace Engine {
       if (qpFoeQueen != 0)
         return false;
 
-      var qpFoePawn = foe.Piece & Pawn;             // Foe must have at least one Pawn
-      if (qpFoePawn == 0)
+      var qpFoePawn = foe.Piece & Pawn;
+      if (qpFoePawn == 0)               // Foe must have at least one Pawn
         return false;
 
-      var qpFriendQueen = friend.Piece & Queen;     // Friend must have at least one Queen
-      if (qpFriendQueen == 0)
+      var qpFriendQueen = friend.Piece & Queen;
+      if (qpFriendQueen == 0)           // Friend must have at least one Queen
         return false;
 
       var bEndGame =
-        PowerOfTwo(qpFoePawn) &&                    // Foe has at most one Pawn
-        PowerOfTwo(qpFriendQueen);                  // Friend has at most one Queen
+        OneBitOrNone(qpFoePawn) &&      // Foe has at most one Pawn
+        OneBitOrNone(qpFriendQueen);    // Friend has at most one Queen
 
       return bEndGame;
     }
@@ -159,7 +159,7 @@ namespace Engine {
         return false;
 
       var bEndgame =
-        PowerOfTwo(Knight) &&           // At most one Knight
+        OneBitOrNone(Knight) &&         // At most one Knight
         !bishopPair(attacker.FlagsHi);  // No Bishop Pair
 
       return bEndgame;

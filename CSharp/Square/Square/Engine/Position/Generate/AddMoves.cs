@@ -33,6 +33,8 @@ namespace Engine {
     protected const Move RookMask = (Move)((Byte)Piece.R << nPieceBit);
     protected const Move QueenMask = (Move)((Byte)Piece.Q << nPieceBit);
     protected const Move KingMask = (Move)((Byte)Piece.K << nPieceBit);
+
+    protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
     #endregion
 
     #region Castling Moves
@@ -178,7 +180,6 @@ namespace Engine {
 
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
-        const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
         var nTo = RemoveLo(ref qpMoveTo);
         var move = PieceCapture | (Move)(nTo << nToBit) | moveFrom;
 #if DebugMoveColor

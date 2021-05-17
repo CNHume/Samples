@@ -79,7 +79,7 @@ namespace Engine {
 
     #region Bit Twiddles
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean PowerOfTwo(Plane qp) {
+    public static Boolean OneBitOrNone(Plane qp) {
       return (qp - 1 & qp) == 0;
     }
 

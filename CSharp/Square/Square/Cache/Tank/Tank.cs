@@ -26,7 +26,7 @@ namespace Cache {
   //using System.Linq;
   using System.Runtime.CompilerServices;
 
-  using static Engine.Board;            // For PowerOfTwo()
+  using static Engine.Board;            // For OneBitOrNone()
 
   //
   // Type Aliases:
@@ -84,7 +84,7 @@ namespace Cache {
     #region Allocation
     protected void allocate(UInt32 uLength, UInt16 wBuckets) {
 #if HashPowerOfTwo
-      if (!PowerOfTwo(uLength))
+      if (!OneBitOrNone(uLength))
         throw new ApplicationException("LookupLength must be a power of two");
 #endif
       if (Entries is null ||

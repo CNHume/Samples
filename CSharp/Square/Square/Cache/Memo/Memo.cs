@@ -7,7 +7,7 @@ namespace Cache {
   using System;
   using System.Diagnostics;
 
-  using static Engine.Board;            // For PowerOfTwo()
+  using static Engine.Board;            // For OneBitOrNone()
 
   using Hashcode = System.UInt64;
   using MemoHashcode = System.UInt32;
@@ -91,7 +91,7 @@ namespace Cache {
     }
 
     protected override void allocateNew(uint uLength) {
-      if (!PowerOfTwo(uLength))
+      if (!OneBitOrNone(uLength))
         throw new ApplicationException("Memo2 Length must be a power of two");
 
       base.allocateNew(uLength);

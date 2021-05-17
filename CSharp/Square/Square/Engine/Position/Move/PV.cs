@@ -75,7 +75,7 @@ namespace Engine {
       //
       // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
       //
-      if (PowerOfTwo(qpAtxTo))
+      if (OneBitOrNone(qpAtxTo))
         move |= Move.OnlyFile | Move.OnlyRank;
       else if (vPiece == vP6)
         move |= Move.OnlyRank;          // Pawn captures come from two adjacent Files on one Rank
