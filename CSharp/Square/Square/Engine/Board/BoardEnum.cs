@@ -523,7 +523,7 @@ namespace Engine {
         // of only one color remain, then even a helpmate is not possible.
         //
         if (DiagPiece == 0) {           // Test for KK[N]:
-          if ((Knight - 1 & Knight) == 0)
+          if (PowerOfTwo(Knight))
             FlagsDraw |= DrawFlags.DrawIM;
         }
         else if (Knight == 0) {         // Test for KB*KB* covering only one color, or KK:

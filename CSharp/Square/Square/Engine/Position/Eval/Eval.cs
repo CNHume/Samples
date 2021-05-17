@@ -138,8 +138,8 @@ namespace Engine {
         return false;
 
       var bEndGame =
-        (qpFoePawn - 1 & qpFoePawn) == 0 &&         // Foe has at most one Pawn
-        (qpFriendQueen - 1 & qpFriendQueen) == 0;   // Friend has at most one Queen
+        PowerOfTwo(qpFoePawn) &&                    // Foe has at most one Pawn
+        PowerOfTwo(qpFriendQueen);                  // Friend has at most one Queen
 
       return bEndGame;
     }
@@ -159,7 +159,7 @@ namespace Engine {
         return false;
 
       var bEndgame =
-        (Knight - 1 & Knight) == 0 &&   // At most one Knight
+        PowerOfTwo(Knight) &&           // At most one Knight
         !bishopPair(attacker.FlagsHi);  // No Bishop Pair
 
       return bEndgame;

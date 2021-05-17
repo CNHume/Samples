@@ -79,6 +79,11 @@ namespace Engine {
 
     #region Bit Twiddles
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean PowerOfTwo(Plane qp) {
+      return (qp - 1 & qp) == 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref Byte r, out Byte s) {
       s = (Byte)(r & (~r + 1));
       //[Debug]
