@@ -21,11 +21,12 @@ namespace Engine {
       #region Constructors
       public CastleRuleParameter(PositionParameter parameter) {
         Parameter = parameter;
+        var nSetup = Parameter.SetupSquare;
 
-        KingOOTo = (Int32)sq.g1 + Parameter.StartRank;
-        RookOOTo = (Int32)sq.f1 + Parameter.StartRank;
-        KingOOOTo = (Int32)sq.c1 + Parameter.StartRank;
-        RookOOOTo = (Int32)sq.d1 + Parameter.StartRank;
+        KingOOTo = (Int32)sq.g1 + nSetup;
+        RookOOTo = (Int32)sq.f1 + nSetup;
+        KingOOOTo = (Int32)sq.c1 + nSetup;
+        RookOOOTo = (Int32)sq.d1 + nSetup;
       }
       #endregion
 
@@ -120,17 +121,18 @@ namespace Engine {
       public HiFlags GrantCastling(Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
         var fhiCanCastle = (HiFlags)0;
         var sideName = Parameter.SideName;
+        var nSetup = Parameter.SetupSquare;
 
         if (!CastlesFrom.HasValue) {
           if (!nKingFrom.HasValue)
             throw new ParsePositionException($"{sideName} must have a King to castle");
 
           if (bChess960) {
-            if (nKingFrom <= (Int32)sq.a1 + Parameter.StartRank || (Int32)sq.h1 + Parameter.StartRank <= nKingFrom)
+            if (nKingFrom <= (Int32)sq.a1 + nSetup || (Int32)sq.h1 + nSetup <= nKingFrom)
               throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
-            if (nKingFrom != (Int32)sq.e1 + Parameter.StartRank)
+            if (nKingFrom != (Int32)sq.e1 + nSetup)
               throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 

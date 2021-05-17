@@ -134,7 +134,7 @@ namespace Engine {
       var pc = State.Case;
       pc.LeafNodes++;
 
-      var bCapture = (move & Move.CaptiveMask) != 0;
+      var bCapture = isCapture(move);
       if (bCapture) {
         pc.Captures++;
         var capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);

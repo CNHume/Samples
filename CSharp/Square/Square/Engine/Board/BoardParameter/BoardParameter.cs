@@ -31,7 +31,7 @@ namespace Engine {
           ShiftA8H1 = -nA8H1;
           ShiftRank = -nFiles;
 
-          StartRank = invertRank(0);
+          SetupSquare = nRankLast;
           EnPassantRank = 2;
 
           RankLast = qpRank1;
@@ -48,7 +48,7 @@ namespace Engine {
           ShiftA8H1 = nA8H1;
           ShiftRank = nFiles;
 
-          StartRank = 0;
+          SetupSquare = 0;
           EnPassantRank = invertRank(2);
 
           RankLast = qpRank8;
@@ -64,7 +64,7 @@ namespace Engine {
       #endregion
 
       #region Pawn Advancement Fields
-      public readonly Int32 StartRank;
+      public readonly Int32 SetupSquare;
       public readonly Int32 EnPassantRank;
 
       public readonly Int32 ShiftA1H8;

@@ -270,7 +270,7 @@ namespace Engine {
     //
     private Boolean isDeltaPruned(ref Move move, Eval mAlpha, Eval mStand) {
       var bPrune = false;
-      var bCapture = (move & Move.CaptiveMask) != 0;
+      var bCapture = isCapture(move);
       var promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
       var bPromotion = promotion != Piece._;
 

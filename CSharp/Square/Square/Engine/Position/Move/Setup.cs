@@ -415,7 +415,7 @@ namespace Engine {
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
-        var nStartRank = side.Parameter.StartRank;
+        var nSetup = side.Parameter.SetupSquare;
         var nSide = (Int32)side.Parameter.SideName;
         var rule = castle.RuleParameter[nSide];
 
@@ -424,8 +424,8 @@ namespace Engine {
         // so extra validation is performed here.
         //
         side.FlagsHi &= ~HiFlags.CanCastleMask;
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nStartRank, qpRook, bChess960);
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nStartRank, qpRook, bChess960);
+        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nSetup, qpRook, bChess960);
+        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nSetup, qpRook, bChess960);
       }
     }
 

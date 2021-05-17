@@ -365,13 +365,15 @@ namespace Engine {
       return (move & Move.Castles) != 0;
     }
 
+    internal static bool isCapture(Move move) {
+      return (move & Move.CaptiveMask) != 0;
+    }
+
     internal static Boolean equalMoves(Move move1, Move move2) {
       if ((move1 & Move.LimitMask) != (move2 & Move.LimitMask))
         return false;
 
-      var bCapture1 = (move1 & Move.CaptiveMask) != 0;
-      var bCapture2 = (move2 & Move.CaptiveMask) != 0;
-      return bCapture1 == bCapture2;
+      return isCapture(move1) == isCapture(move2);
     }
 
     internal static Boolean isAbove(Int32 nTo, Boolean bWTM) {
@@ -383,17 +385,20 @@ namespace Engine {
       return (Piece)uCapture;
     }
 
+    #region Unpack Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void unpack1(Move move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out Boolean bCapture) {
+    internal static void unpack1(Move move, out Int32 nFrom, out Int32 nTo,
+                                 out UInt32 uPiece, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
       uPiece = (UInt32)move >> nPieceBit & vPieceMask;
-      bCapture = (move & Move.CaptiveMask) != 0;
+      bCapture = isCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpack2(Move move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out UInt32 uPromotion,
+    protected static void unpack2(Move move, out Int32 nFrom, out Int32 nTo,
+                                  out UInt32 uPiece, out UInt32 uPromotion,
                                   out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
@@ -401,46 +406,57 @@ namespace Engine {
       uPiece = (UInt32)move >> nPieceBit & vPieceMask;
       uPromotion = (UInt32)move >> nPromoteBit & vPieceMask;
       bCastles = isCastles(move);
-      bCapture = (move & Move.CaptiveMask) != 0;
+      bCapture = isCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpackMove1(Move move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion,
-                                      out Boolean bCapture) {
+    protected static void unpackMove1(Move move, out sq sqFrom, out sq sqTo,
+                                      out Piece piece, out Piece promotion, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
       sqFrom = (sq)nFrom;
       sqTo = (sq)nTo;
-      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
       piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
-      bCapture = (move & Move.CaptiveMask) != 0;
+      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+      bCapture = isCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpackMove2(Move move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion,
+    protected static void unpackMove2(Move move, out sq sqFrom, out sq sqTo,
+                                      out Piece piece, out Piece promotion,
                                       out Boolean bCastles, out Boolean bCapture, out Piece capture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
       sqFrom = (sq)nFrom;
       sqTo = (sq)nTo;
-      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
       piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
+      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+      bCastles = isCastles(move);
       capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);
       bCapture = capture != Piece._;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static void unpackShort(Move move, out Int32 nFrom, out Int32 nTo,
+                                     out UInt32 uPromotion, out Boolean bCastles) {
+      nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
+      nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
+      uPromotion = (UInt32)move >> nPromoteBit & vPieceMask;
       bCastles = isCastles(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static void unpackHistory(Move move, out Int32 nFrom, out Int32 nTo) {
-      nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
 #if HistoryFromTo
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
 #else
       nFrom = ((Int32)move >> nPieceBit & vPieceMask) - vFirst;
 #endif
+      nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
     }
+    #endregion
     #endregion
 
     #region Flag Methods

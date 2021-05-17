@@ -169,24 +169,28 @@ namespace Engine {
       // Distinguish evaluations where the "best move" is excluded
       //
       if (isDefined(moveExcluded)) {
-        var nFrom = (Int32)moveExcluded >> nFromBit & (Int32)uSquareMask;
-        var nTo = (Int32)moveExcluded >> nToBit & (Int32)uSquareMask;
-        var promotion = (Piece)((UInt32)moveExcluded >> nPromoteBit & vPieceMask);
 #if DebugMove
-        var piece = (Piece)((UInt32)moveExcluded >> nPieceBit & vPieceMask);
+        unpack2(moveExcluded, out Int32 nFrom, out Int32 nTo,
+                out UInt32 uPiece, out UInt32 uPromotion,
+                out Boolean bCastles, out Boolean bCapture);
+        var piece = (Piece)uPiece;
         var sqFrom = (sq)nFrom;
         var sqTo = (sq)nTo;
+#else
+        unpackShort(moveExcluded, out Int32 nFrom, out Int32 nTo,
+                    out UInt32 uPromotion, out Boolean bCastles);
 #endif
         qDynamic ^= ZobristExcludedFrom[nFrom];
         qDynamic ^= ZobristExcludedTo[nTo];
 
+        var promotion = (Piece)uPromotion;
         if (promotion != Piece._) {
           var nIndex = Array.FindIndex(Promotions, p => p == promotion);
           if (nIndex > 0)               // Distinguish Excluded Promotions
             qDynamic ^= ZobristExcludedPromotion[nIndex - 1];
         }
 
-        if (isCastles(moveExcluded)) {
+        if (bCastles) {
           //
           //[Chess 960]Avoid potential ambiguity of ordinary King moves with castling
           //
@@ -254,7 +258,7 @@ namespace Engine {
       var zobrist = side.Parameter.Zobrist;
       Hashcode qHash = 0;
       while (qpPiece != 0) {
-        var n = RemoveLo(ref qpPiece, out Plane qp);
+        var n = RemoveLo(ref qpPiece);
         qHash ^= zobrist[vPiece][n];
       }
       return qHash;
