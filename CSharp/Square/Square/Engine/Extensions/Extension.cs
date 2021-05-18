@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-//#define TestRotation
+#define TestRotation
 #define RefreshPV
 #define BuildCapture
 #define SaveCapture

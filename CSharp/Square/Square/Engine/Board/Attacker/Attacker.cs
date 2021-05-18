@@ -6,11 +6,11 @@
 // Conditionals:
 //
 //#define UnrollAtx
-//#define Magic                           // Magic currently slower than simple Rotation
+//#define Magic                         //[Note]Magic is slightly slower than Rotation == !Magic
 #define HalfMagic                       // Avoiding 64-Bit Division is faster on 3 GHz Pentium 4
 //#define TestMagic
 //#define TestDiagLo
-//#define TestRotation
+#define TestRotation
 #define DebugDiagIndexers
 
 namespace Engine {
@@ -530,7 +530,7 @@ namespace Engine {
     }
 
     protected static Byte hashA8H1Full(Plane qp, Int32 n) {
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]bbA8H1Mask Lo Bit is 1 << 7
+      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << 7
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       return (Byte)(qA8H1State % wA8H1Modulus);
@@ -563,7 +563,7 @@ namespace Engine {
 
     protected static Byte hashA8H1Half(Plane qp, Int32 n) {
       const UInt16 wA8H1Rem = (UInt16)((BIT0 << 32) % wA8H1Modulus);    // 1
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]bbA8H1Mask Lo Bit is 1 << nA8H1
+      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       var uHi = (UInt32)(qA8H1State >> 32);    // Avoiding 64-Bit Division

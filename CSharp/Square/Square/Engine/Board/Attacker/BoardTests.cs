@@ -5,7 +5,8 @@
 //
 // Conditionals:
 //
-//#define TestRotation
+//#define Magic
+#define TestRotation
 //#define TestDiagIndexers
 //#define TestWhiteSquares
 #define TestRankPiece
@@ -95,7 +96,7 @@ namespace Engine {
 
     internal static void testOffsets() {
       printSquares("RankOffset", RankOffset);
-#if TestRotation
+#if TestRotation && !Magic
       printSquares("FileOffset", FileOffset);
       printSquares("A1H8Offset", A1H8Offset);
       printSquares("A8H1Offset", A8H1Offset);
@@ -103,7 +104,7 @@ namespace Engine {
     }
 
     protected void testRotations() {
-#if TestRotation
+#if TestRotation && !Magic
       writeRectRotations("RankBit", RankBit);
       writeRectRotations("FileBit", FileBit);
       writeDiagRotations("A1H8Bit", A1H8Bit);
@@ -114,7 +115,7 @@ namespace Engine {
     protected void testPieceMasks() {
       var bFlip = State.IsFlip;
       testRect("RankPiece", RankPiece, false, bFlip);
-#if TestRotation
+#if TestRotation && !Magic
       testRect("FilePiece", FilePiece, true, bFlip);
       testDiag("A1H8Piece", A1H8Piece, false);
       testDiag("A8H1Piece", A8H1Piece, true);

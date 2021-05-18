@@ -5,7 +5,8 @@
 //
 // Conditionals:
 //
-//#define TestRotation
+//#define Magic
+#define TestRotation
 //#define DisplayFEN
 #define DisplayFlags
 //#define DisplayCounts
@@ -410,7 +411,7 @@ namespace Engine {
         c = (Char)(cRankMin + dInverse - nFiles);
       return c;
     }
-#if TestRotation
+#if TestRotation && !Magic
     public static void writeDiag(Plane qp, Boolean bRotateBoard = false) {
       var sb = new StringBuilder();
       sb.AppendIndent(8)
