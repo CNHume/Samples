@@ -37,10 +37,10 @@ namespace Engine {
       //[Test]writeDepthDeep((PlyDepth)32);
       //
       //[Test]testOutsideSquare(sq.c1);
-      //[Test]testPieceMasks();
       //[Test]testOffsets();
       //[Test]testRotations();
-      //[Test]testPieceMasks();
+      //[Test]
+      testPieceMasks();
       //[Test]testPawnAttacks();
       //[Test]
       //for (sq sq = sq.a1; sq <= sq.h8; sq++)
@@ -48,8 +48,7 @@ namespace Engine {
       //
       //[Time]timeRoots();
       //[Time]timeEval();
-      //[Time]
-      timeGenerate(PseudoMoves, NoSwaps);
+      //[Time]timeGenerate(PseudoMoves, NoSwaps);
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
       //[Time]timeRectAtx();

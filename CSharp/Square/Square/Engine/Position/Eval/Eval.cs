@@ -112,12 +112,8 @@ namespace Engine {
     #endregion
 
     #region EGFlags Methods
-    public Boolean isWhiteAlone() {
-      return (Side[White].Piece & ~King) == 0;
-    }
-
-    public Boolean isBlackAlone() {
-      return (Side[Black].Piece & ~King) == 0;
+    public Boolean isAlone(BoardSide side) {
+      return OneBitOrNone(side.Piece);
     }
 
     public Boolean isKQvKPEndgame2(BoardSide friend, BoardSide foe) {
@@ -167,8 +163,8 @@ namespace Engine {
 
     public EGFlags getEndGameFlags() {
       var feg = EGFlags.None;
-      if (isWhiteAlone()) feg |= EGFlags.WhiteAlone;
-      if (isBlackAlone()) feg |= EGFlags.BlackAlone;
+      if (isAlone(Side[Black])) feg |= EGFlags.BlackAlone;
+      if (isAlone(Side[White])) feg |= EGFlags.WhiteAlone;
 
       if ((feg & EGFlags.KingAlone) == 0) {
         if (isKQvKPEndgame()) feg |= EGFlags.KQvKP;
@@ -287,14 +283,14 @@ namespace Engine {
 
     protected Eval rewardKQvKPProximity() {
       const int nMaxPawnDistance = nFiles - 2;
-      var bWhiteAttacking = (Side[Black].Piece & Pawn) != 0;
-      var vAttackingKingPos = getKingPos(bWhiteAttacking);
+      var bBlackHasPawn = (Side[Black].Piece & Pawn) != 0;
+      var vAttackingKingPos = getKingPos(bBlackHasPawn);
       var qp = Pawn;
       var nDefendingPawnPos = RemoveLo(ref qp);
       var nDistance = distance(vAttackingKingPos, nDefendingPawnPos);
       var nProximity = nMaxPawnDistance + 1 - nDistance;
       var nReward = mKQvKPProximityWeight * nProximity / nMaxPawnDistance;
-      if (!bWhiteAttacking) nReward = -nReward;
+      if (!bBlackHasPawn) nReward = -nReward;
       return (Eval)nReward;
     }
     #endregion

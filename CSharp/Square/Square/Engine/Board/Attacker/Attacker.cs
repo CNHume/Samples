@@ -60,8 +60,7 @@ namespace Engine {
       var qp = BIT0;
       for (var y = 0U; y < nRanks; y++)
         for (var x = 0U; x < nFiles; x++, qp <<= 1)
-          if ((x + y & BIT0) != 0)
-            LiteSquare |= qp;
+          if (IsOdd(x + y)) LiteSquare |= qp;
 
       DarkSquare = ~LiteSquare;
     }
@@ -530,7 +529,7 @@ namespace Engine {
     }
 
     protected static Byte hashA8H1Full(Plane qp, Int32 n) {
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << 7
+      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       return (Byte)(qA8H1State % wA8H1Modulus);

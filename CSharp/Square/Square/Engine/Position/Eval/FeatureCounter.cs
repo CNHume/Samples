@@ -142,7 +142,7 @@ namespace Engine {
         vOccupied |= (Byte)(BIT0 << nFile);
         var qpFile = File[nFile];
         var qpFilePawn = qpFile & qpFriendPawn;
-        qpFriendPawn &= ~qpFilePawn;    // Visiting each occupied file once
+        qpFriendPawn &= ~qpFilePawn;    // Visit each occupied file only once
 
         UInt32 uFilePawns = countFile(
           nSide, nFile, qpFile, qpFilePawn, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,

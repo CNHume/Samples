@@ -153,7 +153,7 @@ namespace Engine {
 
     public static StringBuilder AppendDiag(this StringBuilder sb, Int32 nDiagLen, UInt32 uDiag) {
       for (var z = 0U; z < nDiagLen; z++, uDiag >>= 1) {
-        var c = (uDiag & BIT0) == 0 ? cVacant : cOccupied;
+        var c = IsOdd(uDiag) ? cOccupied : cVacant;
         sb.Append(sSpace3).Append(c);
       }
       return sb;
