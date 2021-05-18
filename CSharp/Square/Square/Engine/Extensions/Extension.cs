@@ -159,6 +159,14 @@ namespace Engine {
       return sb;
     }
 #if TestRotation
+    // Find square holding bit based on Rotation Map:
+    private static sq sqUsingBit(Plane[] qpMask, Plane qp) {
+      for (var n = 0; n < nSquares; n++)
+        if (qpMask[n] == qp) return (sq)n;
+
+      throw new BoardException("Square Not Found");
+    }
+
     public static StringBuilder AppendRectRotations(this StringBuilder sb, Plane[] qpRect, Plane qp) {
       for (var x = 0; x < nFiles; x++, qp <<= 1)
         sb.Append(sSpace).Append(sqUsingBit(qpRect, qp));

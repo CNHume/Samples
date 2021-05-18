@@ -4,6 +4,16 @@
 //[2012-09-15 CNHume]Split UnitTests into their own file
 //
 // Conditionals:
+//
+//#define TestRotation
+//#define TestDiagIndexers
+//#define TestWhiteSquares
+#define TestRankPiece
+#define TestRectAttacks
+#define TestDiagAttacks
+#define TestKingAttacks
+#define TestKnightAttacks
+
 /*
  Rank
  8 A8 B8 C8 D8 E8 F8 G8 H8
@@ -64,15 +74,6 @@
              b  A1
                a
  */
-//#define TestRotation
-//#define TestDiagIndexers
-//#define TestWhiteSquares
-#define TestRankPiece
-#define TestRectAttacks
-#define TestDiagAttacks
-#define TestKingAttacks
-#define TestKnightAttacks
-
 namespace Engine {
   using System;
 
@@ -94,9 +95,11 @@ namespace Engine {
 
     internal static void testOffsets() {
       printSquares("RankOffset", RankOffset);
+#if TestRotation
       printSquares("FileOffset", FileOffset);
       printSquares("A1H8Offset", A1H8Offset);
       printSquares("A8H1Offset", A8H1Offset);
+#endif
     }
 
     protected void testRotations() {
@@ -111,9 +114,11 @@ namespace Engine {
     protected void testPieceMasks() {
       var bFlip = State.IsFlip;
       testRect("RankPiece", RankPiece, false, bFlip);
+#if TestRotation
       testRect("FilePiece", FilePiece, true, bFlip);
       testDiag("A1H8Piece", A1H8Piece, false);
       testDiag("A8H1Piece", A8H1Piece, true);
+#endif
     }
 
     protected void testAtxMasks(sq sq) {

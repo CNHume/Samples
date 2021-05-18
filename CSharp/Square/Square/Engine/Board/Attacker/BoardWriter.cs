@@ -410,7 +410,7 @@ namespace Engine {
         c = (Char)(cRankMin + dInverse - nFiles);
       return c;
     }
-
+#if TestRotation
     public static void writeDiag(Plane qp, Boolean bRotateBoard = false) {
       var sb = new StringBuilder();
       sb.AppendIndent(8)
@@ -436,14 +436,6 @@ namespace Engine {
       LogLine($"{sLabel}");
       LogLine();
       writeDiag(qp, bRotateBoard);
-    }
-#if TestRotation
-    // Find square holding bit based on Rotation Map:
-    internal static sq sqUsingBit(Plane[] qpMask, Plane qp) {
-      for (var n = 0; n < nSquares; n++)
-        if (qpMask[n] == qp) return (sq)n;
-
-      throw new BoardException("Square Not Found");
     }
 
     protected static void writeRectRotations(String sLabel, Plane[] qpRect) {
