@@ -50,16 +50,9 @@ namespace Cache {
     }
 
     protected void displayGets(Int64 lGetReadsOffset, Int64 lGetHitsOffset) {
-      var lGetReads = (Int64)GetReads - lGetReadsOffset;
-      var lGetHits = (Int64)GetHits - lGetHitsOffset;
-
-      if (lGetReads == 0)
-        LogInfo(Level.data, $"{Name} Get Hits = {lGetHits:n0}; {Name} Get Reads = {lGetReads:n0}");
-      else {
-        var dGetHitsPercent = 100.0 * lGetHits / lGetReads;
-        LogInfo(Level.data,
-                $"{Name} Get Hits = {lGetHits:n0}; {Name} Get Reads = {lGetReads:n0}; {Name} Get Hits/Reads = {dGetHitsPercent:n1}%");
-      }
+      DisplayHits(Name, "Get",
+                  (Int64)GetReads - lGetReadsOffset,
+                  (Int64)GetHits - lGetHitsOffset);
     }
 
     protected void displayUsage(UInt32 uCapacity) {
@@ -71,6 +64,19 @@ namespace Cache {
         var dReplacedPercent = 100.0 * Replaced / Writes;
         LogInfo(Level.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%; Replaced = {dReplacedPercent:n1}%");
       }
+    }
+    #endregion
+
+    #region Static Methods
+    public static void DisplayHits(String sName, String sAction, Int64 lReads, Int64 lHits) {
+      var sRate = String.Empty;
+      if (lReads != 0) {
+        var dPercent = 100.0 * lHits / lReads;
+        sRate = $"; {sName} {sAction} Hits/Read = {dPercent:n1}%";
+      }
+
+      LogInfo(Level.data,
+              $"{sName} {sAction} Hits = {lHits:n0}; {sName} {sAction} Reads = {lReads:n0}{sRate}");
     }
     #endregion
   }
@@ -109,13 +115,7 @@ namespace Cache {
     }
 
     protected void displaySets() {
-      if (SetReads == 0)
-        LogInfo(Level.data, $"{Name} Set Hits = {SetHits:n0}; {Name} Set Reads = {SetReads:n0}");
-      else {
-        var dSetHitsPercent = 100.0 * SetHits / SetReads;
-        LogInfo(Level.data,
-                $"{Name} Set Hits = {SetHits:n0}; {Name} Set Reads = {SetReads:n0}; {Name} Set Hits/Reads = {dSetHitsPercent:n1}%");
-      }
+      DisplayHits(Name, "Set", (Int64)SetReads, (Int64)SetHits);
     }
     #endregion
   }

@@ -59,7 +59,7 @@ namespace Command {
     // Deeper line: 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Bd7 Nb3+ 71. Kb1 Kd2
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply to find clear win in 1:09:27 over 3.72 Gnode @0.893 MHz]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #17 in 27:38.577 over 1.86 Gnode @1.120 MHz]
+    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #17 in 27:13.733 over 1.858 Gnode @1.137 MHz]
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4
     // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
     //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 4:21 to find 37. g4 Qc6]

@@ -24,8 +24,10 @@ namespace Engine {
   using System.Runtime.CompilerServices;
   using System.Threading;               // For AtomicMethods
 
-  using static Engine.Board;
+  using static Board;
+  using static Cache.SimpleCounter;
   using static Logging.Logger;
+
   using static System.Math;
   using static System.String;
 
@@ -360,29 +362,17 @@ namespace Engine {
 
       var counts = XPTank.Counts;
       LogInfoNewLine(Level.data);
-
+#if QuiescentTryXP
       //
       //[Note]Qxnt counts track Quiescent XP Probes made by Quiet().
       // A special Display() overload subtracts these from the true
       // XPTank.Counts reported below.
       //
-      displayQxntGets();                //[Conditional]See below
-
+      DisplayHits("Qxnt XP", "Get", XPGetReadsQxnt, XPGetHitsQxnt);
+#endif
       if (counts != default(ProbeCounter)) {
         var uCapacity = XPTank.LookupLength * XPTank.LookupBuckets;
         counts.Display(uCapacity, XPGetReadsQxnt, XPGetHitsQxnt);
-      }
-    }
-
-    [Conditional("QuiescentTryXP")]
-    private void displayQxntGets() {
-      if (XPGetReadsQxnt == 0)
-        LogInfo(Level.data,
-                $"Qxnt XP Get Hits = {XPGetHitsQxnt:n0}; Qxnt XP Get Reads = {XPGetReadsQxnt:n0}");
-      else {
-        var dXPGetHitsQxntPercent = 100.0 * XPGetHitsQxnt / XPGetReadsQxnt;
-        LogInfo(Level.data,
-                $"Qxnt XP Get Hits = {XPGetHitsQxnt:n0}; Qxnt XP Get Reads = {XPGetReadsQxnt:n0}; Qxnt XP Get Hits/Reads = {dXPGetHitsQxntPercent:n1}%");
       }
     }
 

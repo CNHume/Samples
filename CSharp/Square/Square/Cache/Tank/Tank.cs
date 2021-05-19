@@ -286,6 +286,8 @@ namespace Cache {
           if ((pr & ProbeResult.Renew) != 0)
             renew(found, uIndex, nBucket);
         }
+
+        Counts.GetReads++;
       }
 
       return bValid;
