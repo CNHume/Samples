@@ -332,7 +332,7 @@ namespace Engine {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
-      var vPiece = (Byte)(uPiece - vFirst);
+      var vPiece = pieceIndex(uPiece);
 
       if (bCastles) {
         #region Castles
@@ -381,7 +381,7 @@ namespace Engine {
 
         if (bCapture) {
           var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
-          var vCapture = (Byte)(uCapture - vFirst);
+          var vCapture = pieceIndex(uCapture);
           bEnPassant = vCapture == vEP6;
           sb.Append(sTakes);
 #if SaveCapture && BuildCapture         //[Note]This static method cannot invoke getPiece()
@@ -400,7 +400,7 @@ namespace Engine {
         #region Pawn Move Annotations
         if (vPiece == vP6) {
           if (uPromotion > 0) {
-            var vPromotion = (Byte)(uPromotion - vFirst);
+            var vPromotion = pieceIndex(uPromotion);
             var sPromotion = PieceSymbol(vPromotion);
             sb.Append(sNotePromotion).Append(sPromotion);
           }
@@ -646,7 +646,7 @@ namespace Engine {
     public static StringBuilder AppendPieceCounts(this StringBuilder sb, BoardSide side) {
       sb.AppendLine("Piece Counts:");
       var uPieceCounts = side.Counts;
-      for (var v6 = (Byte)0; v6 < nPieces; v6++,
+      for (Byte v6 = 0; v6 < nPieces; v6++,
            uPieceCounts >>= nPerNibble) {
         var u = nibble(uPieceCounts);
         var s = PieceSymbol(v6);
@@ -664,7 +664,7 @@ namespace Engine {
       var uBlackCounts = blackSide.Counts;
       var uWhiteCounts = whiteSide.Counts;
 
-      for (var v6 = (Byte)0; v6 < nPieces; v6++,
+      for (Byte v6 = 0; v6 < nPieces; v6++,
            uBlackCounts >>= nPerNibble,
            uWhiteCounts >>= nPerNibble) {
         var uBlack = nibble(uBlackCounts);

@@ -274,8 +274,8 @@ namespace Engine {
       var promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
       var bPromotion = promotion != Piece._;
 
-      var mCapture = (Eval)0;
-      var mPromotion = (Eval)0;
+      Eval mCapture = 0;
+      Eval mPromotion = 0;
 
       if (bCapture) {
         var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
@@ -287,7 +287,7 @@ namespace Engine {
       }
 
       if (bPromotion) {
-        var vPromotion = (Byte)((Byte)promotion - vFirst);
+        var vPromotion = pieceIndex((Byte)promotion);
         // Only Pawns Promote:
         mPromotion = weightP(vPromotion);
       }

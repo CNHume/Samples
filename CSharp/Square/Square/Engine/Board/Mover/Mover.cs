@@ -118,12 +118,17 @@ namespace Engine {
         Debug.Assert(capture != Piece._, "Unexpected Non-Capture");
       }
       else
-        vCapture = (Byte)(uCapture - vFirst);
+        vCapture = pieceIndex(uCapture);
 
       Debug.Assert(vCapture != vK6, "Unknown Captive",
                    $"No captive found for {(sq)nTo}.");
 
       return vCapture;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Byte pieceIndex(UInt32 uPiece) {
+      return (Byte)(uPiece - vFirst);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -227,7 +232,7 @@ namespace Engine {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
-      var vPiece = (Byte)(uPiece - vFirst);
+      var vPiece = pieceIndex(uPiece);
       var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
       var qpMoveTo = BIT0 << nTo;
@@ -253,7 +258,7 @@ namespace Engine {
         rookCastles(friend, friendRule, nTo);
 
       if (bSupplied) {
-        var vPromotion = (Byte)(uPromotion - vFirst);
+        var vPromotion = pieceIndex(uPromotion);
         placePiece(friend, vPromotion, nTo);
       }
       else

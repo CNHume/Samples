@@ -154,14 +154,14 @@ namespace Engine {
     }
 
     internal void writeDepthShallow(PlyDepth vPliesLimit) {
-      for (var vPlies = (PlyDepth)0; vPlies < vPliesLimit; vPlies++) {
+      for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Shallow({vPlies,2}) = {depth(reduceShallow(wDraft)),2}");
       }
     }
 
     internal void writeDepthDeep(PlyDepth vPliesLimit) {
-      for (var vPlies = (PlyDepth)0; vPlies < vPliesLimit; vPlies++) {
+      for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Deep({vPlies,2}) = {depth(reduceDeep(wDraft)),2}");
       }

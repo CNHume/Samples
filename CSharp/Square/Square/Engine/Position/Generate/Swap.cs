@@ -40,7 +40,7 @@ namespace Engine {
             var mCapture = weight(vCapture);
             var promotion2 = (Piece)((UInt32)(move & Move.PromoteMask) >> nPromoteBit);
             if (promotion2 != Piece._) {
-              var vPromotion = (Byte)((Byte)promotion2 - vFirst);
+              var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);
             }
@@ -81,7 +81,7 @@ namespace Engine {
             var mCapture = weight(vCapture);
             var promotion2 = (Piece)((UInt32)(move & Move.PromoteMask) >> nPromoteBit);
             if (promotion2 != Piece._) {
-              var vPromotion = (Byte)((Byte)promotion2 - vFirst);
+              var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);
             }

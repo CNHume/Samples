@@ -33,7 +33,7 @@ namespace Engine {
         //
         // Initialize Extension Counts at the Root
         //
-        ExtensionCounts = (ExtensionCounter)0;
+        ExtensionCounts = 0;
         MoveTypeOrdering = DefaultMoveTypeOrdering;
       }
       else {

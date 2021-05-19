@@ -103,7 +103,7 @@ namespace Engine {
       //
       //[Note]4 x 4-bit nibbles are currently held by a 16-bit limit value:
       //
-      ExtensionLimit = (ExtensionCounter)0;
+      ExtensionLimit = 0;
 
 #if OldExtensionLimitDefaults
       //

@@ -61,7 +61,7 @@ namespace Engine {
 
       unpack1(move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out Boolean bCapture);
 
-      var vPiece = (Byte)(uPiece - vFirst);
+      var vPiece = pieceIndex(uPiece);
       var qpAtxTo = pieceAtxTo(nFrom, nTo, vPiece, bCapture);
 
       if (qpAtxTo == 0) {

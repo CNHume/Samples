@@ -130,7 +130,7 @@ namespace Engine {
 
       var qpPawns = qpFriendPawn;
       qpPassers = 0UL;
-      var vOccupied = (Byte)0;
+      Byte vOccupied = 0;
       var qpIsolani = 0UL;
       var qpDoubled = 0UL;
       var qpAwkward = 0UL;
@@ -170,7 +170,7 @@ namespace Engine {
     private FeatureCounter featureCount(
       Int32 nSide, UInt32 uFriendPawns, UInt32 uPassers, UInt32 uDivides, UInt32 uIsolani, UInt32 uDoubled, UInt32 uAwkward,
       Plane qpPawns, Plane qpPassers, byte vOccupied, Plane qpIsolani, Plane qpDoubled, Plane qpAwkward) {
-      var uFeatureCounts = (FeatureCounter)0;
+      FeatureCounter uFeatureCounts = 0;
       uFeatureCounts += uFriendPawns << vPawns * nPerNibble;
       uFeatureCounts += uPassers << vPassers * nPerNibble;
       uFeatureCounts += uDivides << vDivides * nPerNibble;

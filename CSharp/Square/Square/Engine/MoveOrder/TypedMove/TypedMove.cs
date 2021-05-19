@@ -54,9 +54,10 @@ namespace Engine.MoveOrder {
     #region Methods
     public static MoveType moveType(Move move, Boolean bWTM) {
       MoveType type;
-      unpack1(move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out Boolean bCapture);
+      unpack1(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out Boolean bCapture);
       var bAbove = isAbove(nTo, bWTM);
-      var vPiece = (Byte)(uPiece - vFirst);
+      var vPiece = pieceIndex(uPiece);
       switch (vPiece) {
       case vP6:
         type = bCapture ?
@@ -101,7 +102,7 @@ namespace Engine.MoveOrder {
     }
 
     public static MoveTypeOrdering Compress(MoveType[] moveTypes) {
-      var ordering = (MoveTypeOrdering)0;
+      MoveTypeOrdering ordering = 0;
       var nFinal = moveTypes.Length - 1;
       for (var n = 0; nFinal >= 0; n++, nFinal--) {
         var moveType = (MoveTypeOrdering)nibble((Int32)moveTypes[nFinal]);
