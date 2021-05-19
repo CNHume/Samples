@@ -39,7 +39,7 @@ namespace Engine {
             var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
             var mCapture = weight(vCapture);
             var promotion2 = promoted(move);
-            if (promotion2 != Piece._) {
+            if (promotion2 != Piece.None) {
               var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);
@@ -80,7 +80,7 @@ namespace Engine {
             //uLegalMoves++;
             var mCapture = weight(vCapture);
             var promotion2 = promoted(move);
-            if (promotion2 != Piece._) {
+            if (promotion2 != Piece.None) {
               var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);

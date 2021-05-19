@@ -184,7 +184,7 @@ namespace Engine {
         qDynamic ^= ZobristExcludedTo[nTo];
 
         var promotion = (Piece)uPromotion;
-        if (promotion != Piece._) {
+        if (promotion != Piece.None) {
           var nIndex = Array.FindIndex(Promotions, p => p == promotion);
           if (nIndex > 0)               // Distinguish Excluded Promotions
             qDynamic ^= ZobristExcludedPromotion[nIndex - 1];

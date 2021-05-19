@@ -179,12 +179,12 @@ namespace Engine {
     // The order is otherwise free; but there are also subtle hash collision effects due to
     // different Zobrist values being chosen for a given Piece x Square pair.
     //
-    // Piece._ indicates non-captures and non-promotions, in addition to empty squares
+    // Piece.None is used to indicate non-captures, non-promotions and empty squares.
     //
-    // Piece.Capture is an alias for Piece.K which indicates the captive piece
-    // has yet to be identified.
+    // Piece.Capture is an alias for Piece.K to indicate that the captive piece has not yet 
+    // been identified.
     //
-    public enum Piece : byte { _, P, N, B, R, Q, K, EP, Capture = K }
+    public enum Piece : byte { None, P, N, B, R, Q, K, EP, Capture = K }
 
     protected static readonly Piece[] Promotions = { Piece.Q, Piece.R, Piece.B, Piece.N };
 

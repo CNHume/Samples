@@ -457,7 +457,7 @@ namespace Engine {
 
         if (piece == Piece.P) {
           var promotion = (Piece)uPromotion;
-          if (promotion != Piece._)
+          if (promotion != Piece.None)
             sb.Append(promotion.ToString().ToLower());
         }
       }

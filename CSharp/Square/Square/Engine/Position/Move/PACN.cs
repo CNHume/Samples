@@ -70,7 +70,7 @@ namespace Engine {
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
     protected Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
-      promotion = Piece._;
+      promotion = Piece.None;
 
       var sFrom = (String)null;
       var sTo = (String)null;
@@ -137,7 +137,7 @@ namespace Engine {
       //
       var bPromote = Side.Any(side => (side.Parameter.RankLast & qpTo) != 0);
       var bRequired = vPiece == vP6 && bPromote;
-      var bSupplied = promotion != Piece._;
+      var bSupplied = promotion != Piece.None;
       if (bRequired != bSupplied) {
         var sDiagnosis = bRequired ? "Promotion Required: " : "Invalid Promotion: ";
         throw new MoveException(sDiagnosis + sPACN);
@@ -208,7 +208,7 @@ namespace Engine {
 
       if (!bCastles)
         move = buildMove(sPACN, sqFrom, sqTo, promotion, nFrom, nTo, qpTo, vPieceFrom, qpFriend, vCapture, bCapture);
-      else if (promotion != Piece._)
+      else if (promotion != Piece.None)
         throw new MoveException($"Cannot promote when castling: {sPACN}");
 
       return nTo;

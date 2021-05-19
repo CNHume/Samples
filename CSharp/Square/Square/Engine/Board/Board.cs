@@ -60,9 +60,9 @@ namespace Engine {
       LogLine("Initializing Board...");
 #endif
       #region Assertions
-      Trace.Assert((UInt32)Piece._ == 0,// Assumed by both CaptiveMask and PromoteMask
+      Trace.Assert((UInt32)Piece.None == 0,     // Assumed by both CaptiveMask and PromoteMask
                    "Undefined Piece must be Zero");
-      Trace.Assert(vK6 == nPieces - 1,  // Assumed by eval() and appendPiece()
+      Trace.Assert(vK6 == nPieces - 1,          // Assumed by eval() and appendPiece()
                    "King assumed to be final Piece");
       Trace.Assert((UInt32)HiFlags.CanOOO << 1 == 1 << nBishopPairBit,
                    "Bishop Mask in unexpected position");

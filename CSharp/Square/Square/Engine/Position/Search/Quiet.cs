@@ -272,7 +272,7 @@ namespace Engine {
       var bPrune = false;
       var bCapture = isCapture(move);
       var promotion = promoted(move);
-      var bPromotion = promotion != Piece._;
+      var bPromotion = promotion != Piece.None;
 
       Eval mCapture = 0;
       Eval mPromotion = 0;

@@ -229,12 +229,12 @@ namespace Engine {
               if (emCaptive != Piece.Capture) {
                 var sb = new StringBuilder();
                 sb.AppendAN(good, false);
-                if (goodCaptive != Piece._)
+                if (goodCaptive != Piece.None)
                   sb.Append(goodCaptive);
 
                 sb.Append(" != ");
                 sb.AppendAN(em, false);
-                if (emCaptive != Piece._)
+                if (emCaptive != Piece.None)
                   sb.Append(emCaptive);
 
                 sb.FlushLine();

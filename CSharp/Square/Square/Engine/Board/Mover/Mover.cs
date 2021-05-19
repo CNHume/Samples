@@ -113,8 +113,8 @@ namespace Engine {
         bEnPassant = true;
         vCapture = vP6;
       }
-      else if (capture == Piece._) {
-        Debug.Assert(capture != Piece._, "Unexpected Non-Capture");
+      else if (capture == Piece.None) {
+        Debug.Assert(capture != Piece.None, "Unexpected Non-Capture");
       }
       else
         vCapture = pieceIndex((Byte)capture);
@@ -186,7 +186,6 @@ namespace Engine {
       BoardSide friend, CastleRuleParameter friendRule,
       BoardSide foe, CastleRuleParameter foeRule,
       Int32 nTo, Int32 nPassedTo) {
-      var bLegal = false;
       var vKing = friend.KingPos.Value;
       var qpPassedFrom = passed(friend, nPassedTo);
       while (qpPassedFrom != 0) {
@@ -208,7 +207,7 @@ namespace Engine {
         lowerPiece(friend, vP6, nPassedTo);
         raisePiece(foe, foeRule, vP6, nTo);     //[Speed]Remove Not Needed: Material balance restored below
                                                 //[Note]buildPawnAtx() is not needed for this pin determination
-        bLegal =
+        var bLegal =
           (foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
           (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
