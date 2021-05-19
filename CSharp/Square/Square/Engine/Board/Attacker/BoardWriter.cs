@@ -31,19 +31,21 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    public const char cSpace = ' ';
-    public const char cFileMin = 'a';
-    public const char cRankMin = '1';
-    public const char cFileMax = (char)(cFileMin + nFiles - 1);
-    public const char cRankMax = (char)(cRankMin + nRanks - 1);
+    public const Char cSpace = ' ';
+    public const Char cFileMin = 'a';
+    public const Char cRankMin = '1';
+    public const Char cFileMax = (Char)(cFileMin + nFiles - 1);
+    public const Char cRankMax = (Char)(cRankMin + nRanks - 1);
 
     internal const Int16 mWrapLength = 144;
-    internal const String sSpace = " ";
-    internal const String sSpace2 = sSpace + sSpace;
-    internal const String sSpace3 = sSpace + sSpace2;
+
     internal const Char cVacant = '-';
     internal const Char cOccupied = 'X';
     internal const Char cNewline = '\n';
+
+    internal const String sSpace = " ";
+    internal const String sSpace2 = sSpace + sSpace;
+    internal const String sSpace3 = sSpace + sSpace2;
 
     internal static LoFlags[] loFlags =
       { LoFlags.Final, LoFlags.InCheck, LoFlags.Illegal, LoFlags.WTM };
@@ -269,6 +271,7 @@ namespace Engine {
         sb.Append(sSpace)
           .AppendFiles(sSpace2, bFlip)
           .Append(cNewline);
+
       for (var y = 0; y < nRanks; y++) {
         var rank = bFlip ? y : invertRank(y);
         var c = (Char)(cRankMin + rank);
@@ -279,6 +282,7 @@ namespace Engine {
           sb.Append(c);
         sb.Append(cNewline);
       }
+
       if (!bTopRuler)                   // File Ruler at Bottom
         sb.AppendFiles(sSpace2, bFlip)
           .Append(cNewline);
@@ -316,8 +320,7 @@ namespace Engine {
 
     public StringBuilder Display(String sLabel) {
       var sb = new StringBuilder();
-      if (!IsNullOrEmpty(sLabel))
-        sb.AppendLine(sLabel);
+      if (!IsNullOrEmpty(sLabel)) sb.AppendLine(sLabel);
       return Display(sb);
     }
     #endregion
@@ -325,9 +328,9 @@ namespace Engine {
     #region Board Diagnostics
     protected static void printMapping(String sLabel, Func<Int32, Int32> mapper) {
       var sb = new StringBuilder();
-      sb.Append(sLabel);
-      sb.Append(cNewline);
-      sb.Append(cNewline);
+      sb.Append(sLabel)
+        .Append(cNewline)
+        .Append(cNewline);
 
       for (var y = 0; y < nRanks; y++) {
         var yInverse = invertRank(y);
@@ -336,6 +339,7 @@ namespace Engine {
           sb.Append($"{mapper(sqr(x, yInverse)),3}");
         sb.Append(cNewline);
       }
+
       sb.FlushLine();
     }
 
@@ -349,6 +353,7 @@ namespace Engine {
       var bRightRuler = bFlip;
       if (bTopRuler)                    // File Ruler at Top
         sb.AppendRuler(bRotateBoard, bFlip);
+
       for (var y = 0; y < nRanks; y++) {
         var rank = bFlip ? y : invertRank(y);
         var c = (Char)(bRotateBoard ? cFileMax - rank : cRankMin + rank);
@@ -360,6 +365,7 @@ namespace Engine {
           sb.Append(c);
         sb.Append(cNewline);
       }
+
       if (!bTopRuler)                   // File Ruler at Bottom
         sb.AppendRuler(bRotateBoard, bFlip);
       sb.FlushLine();
@@ -379,6 +385,7 @@ namespace Engine {
           sb.Append($" {idxr(sqr(x, yInverse)),2}");
         sb.Append(cNewline);
       }
+
       sb.FlushLine();
     }
 
@@ -387,26 +394,16 @@ namespace Engine {
       LogLine();
       writeDiagIndexes(idxr);
     }
-
-    public static Int32 invertFile(Int32 x) {
-      return nFiles - (x + 1);
-    }
-
-    public static Int32 invertRank(Int32 y) {
-      return nRanks - (y + 1);
-    }
     #endregion
 
     #region Rotation Diagnostics
-    protected static Int32 invertDiag(Int32 d) {
-      return nDiagonals - (d + 1);
-    }
-
-    private static char ruler(Int32 d, Boolean bRotateBoard) {
-      var dInverse = invertDiag(d);
+    private static Char ruler(Int32 d, Boolean bRotateBoard) {
       var c = cSpace;
+      var dInverse = invertDiag(d);
       if (dInverse < nFiles - 1)
-        c = (Char)(bRotateBoard ? cFileMin + dInverse + 1 : cFileMax - (dInverse + 1));
+        c = (Char)(bRotateBoard ?
+                   cFileMin + dInverse + 1 :
+                   cFileMax - (dInverse + 1));
       else if (dInverse > nFiles - 1)
         c = (Char)(cRankMin + dInverse - nFiles);
       return c;
@@ -417,6 +414,7 @@ namespace Engine {
       sb.AppendIndent(8)
         .Append(ruler(-1, bRotateBoard))
         .Append(cNewline);
+
       for (var d = 0; d < nDiagonals; d++) {
         var dInverse = invertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
@@ -427,6 +425,7 @@ namespace Engine {
           .AppendDiag(nDiagLen, uDiag)
           .Append(cNewline);
       }
+
       sb.AppendIndent(8)
         .Append(ruler(nDiagonals, bRotateBoard))
         .Append(cNewline)
@@ -441,28 +440,33 @@ namespace Engine {
 
     protected static void writeRectRotations(String sLabel, Plane[] qpRect) {
       var sb = new StringBuilder();
-      sb.Append(sLabel);
-      sb.Append(cNewline);
-      sb.Append(cNewline);
+      sb.Append(sLabel)
+        .Append(cNewline)
+        .Append(cNewline);
 
       for (var y = 0; y < nRanks; y++) {
         var yInverse = invertRank(y);
-        sb.AppendRectRotations(qpRect, BIT0 << sqr(0, yInverse)).Append(cNewline);
+        sb.AppendRectRotations(qpRect, BIT0 << sqr(0, yInverse))
+          .Append(cNewline);
       }
+
       sb.FlushLine();
     }
 
     protected static void writeDiagRotations(String sLabel, Plane[] qpDiag) {
       var sb = new StringBuilder();
-      sb.Append(sLabel);
-      sb.Append(cNewline);
-      sb.Append(cNewline);
+      sb.Append(sLabel)
+        .Append(cNewline)
+        .Append(cNewline);
 
       for (var d = 0; d < nDiagonals; d++) {
         var dInverse = invertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
-        sb.AppendIndent(8 - nDiagLen).AppendDiagRotations(nDiagLen, qpDiag, BIT0 << DiagOffset[dInverse]).Append(cNewline);
+        sb.AppendIndent(8 - nDiagLen)
+          .AppendDiagRotations(nDiagLen, qpDiag, BIT0 << DiagOffset[dInverse])
+          .Append(cNewline);
       }
+
       sb.FlushLine();
     }
 #endif

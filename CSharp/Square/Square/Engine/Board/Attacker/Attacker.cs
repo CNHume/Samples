@@ -631,6 +631,21 @@ namespace Engine {
     internal static Int32 y(Int32 n) {
       return n / nFiles;
     }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Int32 invertFile(Int32 x) {
+      return nFiles - (x + 1);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Int32 invertRank(Int32 y) {
+      return nRanks - (y + 1);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Int32 invertDiag(Int32 d) {
+      return nDiagonals - (d + 1);
+    }
     #endregion
   }
 }

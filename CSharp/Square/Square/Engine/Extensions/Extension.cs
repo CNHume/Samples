@@ -111,7 +111,7 @@ namespace Engine {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
         var file = bFlip ? invertFile(x) : x;
-        if (!bRightRuler)	              // Left Pad
+        if (!bRightRuler)               // Left Pad
           sb.Append(s);
         sb.Append((Char)(cFileMin + file));
         if (bRightRuler)                // Right Pad
