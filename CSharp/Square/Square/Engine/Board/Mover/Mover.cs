@@ -224,9 +224,11 @@ namespace Engine {
       BoardSide friend, CastleRuleParameter friendRule,
       BoardSide foe, CastleRuleParameter foeRule,
       ref Move move) {
-      unpack2(move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out UInt32 uPromotion, out Boolean bCastles, out Boolean bCapture);
-      var bSupplied = uPromotion > 0;
+      unpack2(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out UInt32 uPromotion,
+              out Boolean bCastles, out Boolean bCapture);
       var vPiece = (Byte)(uPiece - vFirst);
+      var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
       var qpMoveTo = BIT0 << nTo;
       var bPromote = (friend.Parameter.RankLast & qpMoveTo) != 0;
@@ -241,7 +243,8 @@ namespace Engine {
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
-        removePiece(foe, foeRule, vCapture, bEnPassant ? nTo - friend.Parameter.ShiftRank : nTo);
+        var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
+        removePiece(foe, foeRule, vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);

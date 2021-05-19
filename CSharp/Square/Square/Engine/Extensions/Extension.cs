@@ -329,21 +329,27 @@ namespace Engine {
         return sb;
       }
 
-      var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
-      var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      var uPiece = (UInt32)move >> nPieceBit & vPieceMask;
+      unpack2(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out UInt32 uPromotion,
+              out Boolean bCastles, out Boolean bCapture);
       var vPiece = (Byte)(uPiece - vFirst);
-      var bCastles = isCastles(move);
+
       if (bCastles) {
         #region Castles
         var sCastle = Empty;
-        if (nTo == castle.RuleParameter[White].KingOOTo || nTo == castle.RuleParameter[Black].KingOOTo)
-          sCastle = sHyphenOO;
-        else if (nTo == castle.RuleParameter[White].KingOOOTo || nTo == castle.RuleParameter[Black].KingOOOTo)
-          sCastle = sHyphenOOO;
+        foreach (var rule in castle.RuleParameter) {
+          if (nTo == rule.KingOOTo) {
+            sCastle = sHyphenOO;
+            break;
+          }
+
+          if (nTo == rule.KingOOOTo) {
+            sCastle = sHyphenOOO;
+            break;
+          }
+        }
 
         Debug.Assert(vPiece == vK6 && !IsNullOrEmpty(sCastle), "Invalid Castle");
-
         sb.Append(sCastle);
         #endregion
       }
@@ -352,8 +358,6 @@ namespace Engine {
         var sqFrom = (sq)nFrom;
         var bFile = (move & Move.OnlyFile) == 0;
         var bRank = (move & Move.OnlyRank) == 0;
-        var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
-        var bCapture = uCapture > 0;
         var bPawnCapture = false;
         var bEnPassant = false;
 
@@ -376,6 +380,7 @@ namespace Engine {
         #endregion
 
         if (bCapture) {
+          var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
           var vCapture = (Byte)(uCapture - vFirst);
           bEnPassant = vCapture == vEP6;
           sb.Append(sTakes);
@@ -394,7 +399,6 @@ namespace Engine {
 
         #region Pawn Move Annotations
         if (vPiece == vP6) {
-          var uPromotion = (UInt32)move >> nPromoteBit & vPieceMask;
           if (uPromotion > 0) {
             var vPromotion = (Byte)(uPromotion - vFirst);
             var sPromotion = PieceSymbol(vPromotion);
@@ -414,28 +418,36 @@ namespace Engine {
     //
     public static StringBuilder AppendPACN(this StringBuilder sb, Move move, CastleRule castle) {
       if (isNullMove(move)) {
-        sb.Append(sNullMove);
-        return sb;
+        return sb.Append(sNullMove);
       }
       else if (!isDefined(move)) {
-        sb.Append(move);
-        return sb;
+        return sb.Append(move);
       }
 
-      var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
-      var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      var piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
-      var bCastles = isCastles(move);
+      unpack2(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out UInt32 uPromotion,
+              out Boolean bCastles, out Boolean bCapture);
+      var piece = (Piece)uPiece;
+
       //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
       if (castle.IsChess960 && bCastles) {
+        #region Chess960 Castles
         var sCastle = Empty;
-        if (nTo == castle.RuleParameter[White].KingOOTo || nTo == castle.RuleParameter[Black].KingOOTo)
-          sCastle = sPureOO;
-        else if (nTo == castle.RuleParameter[White].KingOOOTo || nTo == castle.RuleParameter[Black].KingOOOTo)
-          sCastle = sPureOOO;
+        foreach (var rule in castle.RuleParameter) {
+          if (nTo == rule.KingOOTo) {
+            sCastle = sPureOO;
+            break;
+          }
+
+          if (nTo == rule.KingOOOTo) {
+            sCastle = sPureOOO;
+            break;
+          }
+        }
 
         Debug.Assert(piece == Piece.K && !IsNullOrEmpty(sCastle), "Invalid Castle");
         sb.Append(sCastle);
+        #endregion
       }
       else {
         var sqTo = (sq)nTo;
@@ -443,7 +455,7 @@ namespace Engine {
         sb.Append(sqFrom).Append(sqTo);
 
         if (piece == Piece.P) {
-          var promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+          var promotion = (Piece)uPromotion;
           if (promotion != Piece._)
             sb.Append(promotion.ToString().ToLower());
         }

@@ -11,21 +11,20 @@
 #define HistoryFromTo
 
 namespace Engine {
-  using static Command.Parser;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
   using System.Runtime.CompilerServices;
-  using static System.String;
 
+  using static Command.Parser;
+  using static System.String;
   //
   // Type Aliases:
   //
   using Hashcode = System.UInt64;
-  using Ply = System.UInt16;
   using Plane = System.UInt64;
+  using Ply = System.UInt16;
 
   partial class Board {
     #region SideName Enum
@@ -397,9 +396,9 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpack2(Move move, out Int32 nFrom, out Int32 nTo,
-                                  out UInt32 uPiece, out UInt32 uPromotion,
-                                  out Boolean bCastles, out Boolean bCapture) {
+    internal static void unpack2(Move move, out Int32 nFrom, out Int32 nTo,
+                                 out UInt32 uPiece, out UInt32 uPromotion,
+                                 out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
