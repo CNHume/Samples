@@ -206,7 +206,7 @@ namespace Engine {
       foreach (var gm in goodMoves) {   // Maintain goodMove priority for earlyMoves
 #if DebugMove
         unpackMove1(gm.Move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(gm.Move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+        //unpackMove2(gm.Move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor && BottleBothSides
         var bWhiteMove = (gm.Move & Move.WTM) != 0;
@@ -224,8 +224,8 @@ namespace Engine {
 #if TestGoodCapture
             var good = gm.Move & Move.NormalMask;
             if (good != em) {
-              var goodCaptive = captive(good);
-              var emCaptive = captive(em);
+              var goodCaptive = captured(good);
+              var emCaptive = captured(em);
               if (emCaptive != Piece.Capture) {
                 var sb = new StringBuilder();
                 sb.AppendAN(good, false);

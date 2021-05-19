@@ -380,9 +380,10 @@ namespace Engine {
         #endregion
 
         if (bCapture) {
-          var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
-          var vCapture = pieceIndex(uCapture);
+          var capture = captured(move);
+          var vCapture = pieceIndex((Byte)capture);
           bEnPassant = vCapture == vEP6;
+
           sb.Append(sTakes);
 #if SaveCapture && BuildCapture         //[Note]This static method cannot invoke getPiece()
           var bPawnCaptive = vCapture == vP6 || bEnPassant;
@@ -426,7 +427,7 @@ namespace Engine {
 
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
-              out Boolean bCastles, out Boolean bCapture);
+              out Boolean bCastles, out Boolean _);
       var piece = (Piece)uPiece;
 
       //[Chess960]Avoid potential ambiguity of ordinary King moves with castling

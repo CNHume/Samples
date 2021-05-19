@@ -540,9 +540,9 @@ namespace Engine {
     }
 
     protected void restrictPiece(Move move) {
-      var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
-      var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      var piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
+      unpack1(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out Boolean _);
+      var piece = (Piece)uPiece;
       var qpFrom = BIT0 << nFrom;
 
       if ((PinnedPiece & qpFrom) == 0 && piece != Piece.K) {
@@ -565,11 +565,9 @@ namespace Engine {
         var bSingleCheck = OneBitOrNone(qpChx);
         if (bSingleCheck) {             //[Safe]
           var vKingPos = getKingPos(bWhiteMoved);
-          if (qpChx != 0) {             //"while" is not needed here
-                                        // To set Restricted[] below; otherwise nChx would suffice
+          if (qpChx != 0) {             // while loop unnecessary
             var nChx = RemoveLo(ref qpChx, out Plane qpCheck);
             var qpRay = pinRestrictions(qpCheck, vKingPos);
-
 
             //
             // A guard pawn on the 4th or 5th rank may be prevented from EP Capture of a passer due
@@ -599,11 +597,10 @@ namespace Engine {
             //
             var bPasserPin = false;
 #if ExemptPasserPin
-            var capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);
-            if (capture == Piece.EP) {
-              var side = getSide(bWhiteMoved);
-              var nPasser = nTo - side.Parameter.Rank;
-              var qpPasser = BIT0 << nPasser;
+            if (captured(move) == Piece.EP) {
+              var foe = getSide(!bWhiteMoved);
+              var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
+              var qpPasser = BIT0 << nCaptureFrom;
               bPasserPin = (qpRay & qpPasser) != 0;
             }
 #endif
@@ -611,26 +608,29 @@ namespace Engine {
               Trace.Assert(!bPasserPin, "Passer Pin");
               DisplayCurrent("Passer Pin");
             }
-            else {                      // if (!bPasserPin)
-              // Test for Pin Restriction, subject to the PasserPin Exemption
-              var bFromPin = (qpRay & qpFrom) != 0;
-              if (bFromPin) {           //[Safe]
-                Restricted[nFrom] = qpCheck | qpRay;
-                PinnedPiece |= qpFrom;  //[Note]Restricted[nFrom] valid iff nFrom set in PinnedPiece
-              }
-              else {
-                // Illegal Move should not have been considered because it ignored an existing Check
-                if (!bFromPin) {
-                  Debug.Assert(bFromPin, "Move failed to avoid check");
-                  //[Debug]DisplayCurrent("restrictPiece()");
-                }
-              }
-            }
+            else
+              addRestriction(nFrom, qpFrom, qpRay, qpCheck);
           }
         }
         else {
           // Illegal Move should not have been considered and the pin introduces a new Check
           Trace.Assert(bSingleCheck, "Pin found on Non Evading Move");
+        }
+      }
+    }
+
+    private void addRestriction(Int32 nFrom, Plane qpFrom, Plane qpRay, Plane qpCheck) {
+      // Test for Pin Restriction, subject to the PasserPin Exemption
+      var bFromPin = (qpRay & qpFrom) != 0;
+      if (bFromPin) {           //[Safe]
+        Restricted[nFrom] = qpCheck | qpRay;
+        PinnedPiece |= qpFrom;  // Mark Restricted[nFrom] valid
+      }
+      else {
+        // Illegal Move should not have been considered because it ignored an existing Check
+        if (!bFromPin) {
+          Debug.Assert(bFromPin, "Move failed to avoid check");
+          //[Debug]DisplayCurrent("restrictPiece()");
         }
       }
     }

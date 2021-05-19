@@ -119,7 +119,7 @@ namespace Engine {
         if (isDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
           unpackMove1(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
           if (IsMovePosition)           // Pass empty BestMoves, at top level
             AddPV(mAlpha, mValueFound, moveFound, BestMoves);
@@ -265,7 +265,7 @@ namespace Engine {
 #if !UseMoveSort
         foreach (var mov in SiftedMoves) {
           // May be overwritten for Singular Extension below
-          var move = mov;               // Allow ref move for captured()
+          var move = mov;               // Allow tryMove(ref move) below
 #elif LazyMoveSort                      // UseMoveSort
         // The Heap Enumerator uses Remove() to obtain the "minimum" SortMove,
         // i.e., the one with the best Depth then best Score then least Index:
@@ -278,7 +278,7 @@ namespace Engine {
           #region Make Move
 #if DebugMove
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
           var bWhiteMove = (move & Move.WTM) != 0;

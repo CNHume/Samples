@@ -32,13 +32,13 @@ namespace Engine {
           var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
 #if DebugMove
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
           if (child.tryMove(ref move)) {
             //uLegalMoves++;
-            var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
+            var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
             var mCapture = weight(vCapture);
-            var promotion2 = (Piece)((UInt32)(move & Move.PromoteMask) >> nPromoteBit);
+            var promotion2 = promoted(move);
             if (promotion2 != Piece._) {
               var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:
@@ -70,16 +70,16 @@ namespace Engine {
           var move = mov;
 #if DebugMove
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-          var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
+          var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
           // EP unexpected here: Prior move was a capture
           Debug.Assert(!bEnPassant, "Unexpected EnPassant");
 
           if (child.tryMove(ref move)) {
             //uLegalMoves++;
             var mCapture = weight(vCapture);
-            var promotion2 = (Piece)((UInt32)(move & Move.PromoteMask) >> nPromoteBit);
+            var promotion2 = promoted(move);
             if (promotion2 != Piece._) {
               var vPromotion = pieceIndex((Byte)promotion2);
               // Only Pawns Promote:

@@ -59,7 +59,8 @@ namespace Engine {
       if (isNullMove(move) || !isDefined(move)) //[Safe]
         return move;
 
-      unpack1(move, out Int32 nFrom, out Int32 nTo, out UInt32 uPiece, out Boolean bCapture);
+      unpack1(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out Boolean bCapture);
 
       var vPiece = pieceIndex(uPiece);
       var qpAtxTo = pieceAtxTo(nFrom, nTo, vPiece, bCapture);
@@ -179,7 +180,7 @@ namespace Engine {
         }
 #if DebugMove
         unpackMove1(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
         var bWTM = WTM();
@@ -234,7 +235,7 @@ namespace Engine {
           moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
         unpackMove1(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
         var bWTM = WTM();

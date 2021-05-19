@@ -379,10 +379,23 @@ namespace Engine {
       return bWTM ? nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
     }
 
-    protected Piece captive(Move move) {
+    #region Piece Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private static Piece moved(Move move) {
+      return (Piece)((UInt32)move >> nPieceBit & vPieceMask);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Piece captured(Move move) {
       var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
       return (Piece)uCapture;
     }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Piece promoted(Move move) {
+      return (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+    }
+    #endregion
 
     #region Unpack Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -391,7 +404,8 @@ namespace Engine {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      uPiece = (UInt32)move >> nPieceBit & vPieceMask;
+
+      uPiece = (UInt32)moved(move);
       bCapture = isCapture(move);
     }
 
@@ -402,8 +416,10 @@ namespace Engine {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      uPiece = (UInt32)move >> nPieceBit & vPieceMask;
-      uPromotion = (UInt32)move >> nPromoteBit & vPieceMask;
+
+      uPiece = (UInt32)moved(move);
+      uPromotion = (UInt32)promoted(move);
+
       bCastles = isCastles(move);
       bCapture = isCapture(move);
     }
@@ -416,25 +432,28 @@ namespace Engine {
       var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
       sqFrom = (sq)nFrom;
       sqTo = (sq)nTo;
-      piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
-      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+
+      piece = moved(move);
+      promotion = promoted(move);
       bCapture = isCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void unpackMove2(Move move, out sq sqFrom, out sq sqTo,
-                                      out Piece piece, out Piece promotion,
-                                      out Boolean bCastles, out Boolean bCapture, out Piece capture) {
+                                      out Piece piece, out Piece promotion, out Piece capture,
+                                      out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
       sqFrom = (sq)nFrom;
       sqTo = (sq)nTo;
-      piece = (Piece)((UInt32)move >> nPieceBit & vPieceMask);
-      promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+
+      piece = moved(move);
+      promotion = promoted(move);
+      capture = captured(move);
+
       bCastles = isCastles(move);
-      capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);
-      bCapture = capture != Piece._;
+      bCapture = isCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -442,7 +461,7 @@ namespace Engine {
                                      out UInt32 uPromotion, out Boolean bCastles) {
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
-      uPromotion = (UInt32)move >> nPromoteBit & vPieceMask;
+      uPromotion = (UInt32)promoted(move);
       bCastles = isCastles(move);
     }
 
@@ -451,7 +470,7 @@ namespace Engine {
 #if HistoryFromTo
       nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
 #else
-      nFrom = ((Int32)move >> nPieceBit & vPieceMask) - vFirst;
+      nFrom = pieceIndex((Byte)moved(move));
 #endif
       nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
     }

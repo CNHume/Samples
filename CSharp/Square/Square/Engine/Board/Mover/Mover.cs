@@ -86,11 +86,10 @@ namespace Engine {
     //
     // SaveCapture is required to show captures in AppendAN() if bExpandFrom.
     //
-    protected Byte captured(Int32 nTo, ref Move move, out Boolean bEnPassant) {
+    protected Byte captureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
       bEnPassant = false;
-      var uCapture = (UInt32)move >> nCaptiveBit & vPieceMask;
-      var capture = (Piece)uCapture;
       var vCapture = vPieceNull;
+      var capture = captured(move);
 
       if (capture == Piece.Capture) {
 #if CountCapturedPiece
@@ -118,7 +117,7 @@ namespace Engine {
         Debug.Assert(capture != Piece._, "Unexpected Non-Capture");
       }
       else
-        vCapture = pieceIndex(uCapture);
+        vCapture = pieceIndex((Byte)capture);
 
       Debug.Assert(vCapture != vK6, "Unknown Captive",
                    $"No captive found for {(sq)nTo}.");
@@ -247,7 +246,7 @@ namespace Engine {
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
-        var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
+        var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
         removePiece(foe, foeRule, vCapture, nCaptureFrom);
 

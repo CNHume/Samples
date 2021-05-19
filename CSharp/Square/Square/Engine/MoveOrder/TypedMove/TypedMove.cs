@@ -57,8 +57,8 @@ namespace Engine.MoveOrder {
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean bCapture);
       var bAbove = isAbove(nTo, bWTM);
-      var vPiece = pieceIndex(uPiece);
-      switch (vPiece) {
+
+      switch (pieceIndex(uPiece)) {
       case vP6:
         type = bCapture ?
           bAbove ? MoveType.PawnAboveCapture : MoveType.PawnBelowCapture :

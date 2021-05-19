@@ -98,7 +98,7 @@ namespace Engine {
           var move = mov;
 #if DebugMove
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
           if (!child.tryMove(ref move, NotFindRepetition))
             continue;
@@ -137,8 +137,7 @@ namespace Engine {
       var bCapture = isCapture(move);
       if (bCapture) {
         pc.Captures++;
-        var capture = (Piece)((UInt32)move >> nCaptiveBit & vPieceMask);
-        if (capture == Piece.EP)
+        if (captured(move) == Piece.EP)
           pc.EnPassant++;
       }
       else if (isCastles(move))

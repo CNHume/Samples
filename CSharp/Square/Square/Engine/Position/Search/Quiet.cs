@@ -68,7 +68,7 @@ namespace Engine {
         if (isDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
           unpackMove1(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+          //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if AddBestMoves
           BestMoves.Add(moveFound);
@@ -142,11 +142,11 @@ namespace Engine {
 #endif
           var uLegalMoves = 0U;
           foreach (var mov in moves) {
-            var move = mov;
+            var move = mov;             // Allow tryMove(ref move) below
             #region Delta Prune or Make Move
 #if DebugMove
             unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-            //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCastles, out Boolean bCapture, out Piece capture);
+            //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
             var bWhiteMove = (move & Move.WTM) != 0;
@@ -271,7 +271,7 @@ namespace Engine {
     private Boolean isDeltaPruned(ref Move move, Eval mAlpha, Eval mStand) {
       var bPrune = false;
       var bCapture = isCapture(move);
-      var promotion = (Piece)((UInt32)move >> nPromoteBit & vPieceMask);
+      var promotion = promoted(move);
       var bPromotion = promotion != Piece._;
 
       Eval mCapture = 0;
@@ -282,7 +282,7 @@ namespace Engine {
 #if DebugMove
         var sqTo = (sq)nTo;
 #endif
-        var vCapture = captured(nTo, ref move, out Boolean bEnPassant);
+        var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         mCapture = weight(vCapture);
       }
 
