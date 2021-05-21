@@ -106,8 +106,9 @@ namespace Engine {
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                      $"There is no piece to capture on {(sq)nTo}.");
 #if SaveCapture
+        var captive = indexPiece(vCapture);
         move &= ~Move.CaptiveMask;
-        move |= (Move)(vCapture + vFirst << nCaptiveBit);
+        move |= (Move)((UInt32)captive << nCaptiveBit);
 #endif
       }
       else if (capture == Piece.EP) {

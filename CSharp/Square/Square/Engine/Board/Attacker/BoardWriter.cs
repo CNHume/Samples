@@ -133,6 +133,11 @@ namespace Engine {
     #endregion
 
     #region ToString() Methods
+    private static string coloredPiece(Boolean bWhite, Byte vPiece) {
+      var sPiece = indexPiece(vPiece).ToString();
+      return bWhite ? sPiece.ToUpper() : sPiece.ToLower();
+    }
+
     protected void appendPositionPieces(StringBuilder sb) {
       var nSkip = 0;
 
@@ -154,9 +159,8 @@ namespace Engine {
               nSkip = 0;
             }
 
-            var piece = (Piece)(vPiece + vFirst);
-            var sPiece = piece.ToString();
-            sb.Append((qp & Side[White].Piece) == 0 ? sPiece.ToLower() : sPiece.ToUpper());
+            var bWhite = (qp & Side[White].Piece) != 0;
+            sb.Append(coloredPiece(bWhite, vPiece));
           }
         }
 
@@ -207,10 +211,9 @@ namespace Engine {
 
     #region Board Display
     public static String PieceSymbol(Byte vPiece) {
-      var piece = (Piece)(vPiece + vFirst);
-      var sPiece = IsNullOrEmpty(PieceSymbols) ?
-        piece.ToString() : PieceSymbols[vPiece].ToString();
-      return sPiece;
+      var sSymbol = IsNullOrEmpty(PieceSymbols) ?
+        indexPiece(vPiece).ToString() : PieceSymbols[vPiece].ToString();
+      return sSymbol;
     }
 
     private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {

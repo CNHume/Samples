@@ -122,7 +122,7 @@ namespace Engine {
       // Validate Non-Castling Move
       //
       var qpPieceAtx = pieceAtx(vPiece, nFrom, bCapture);
-      var piece = (Piece)(vPiece + vFirst);
+      var piece = indexPiece(vPiece);
 
       if (!qpPieceAtx.HasValue)         //[Safe]
         throw new ParseException($"Unexpected Piece in move: {sPACN}");
@@ -149,7 +149,7 @@ namespace Engine {
                         ((UInt32)nFrom << nFromBit));
 
       if (bCapture)
-        move |= (Move)((UInt32)(vCapture + vFirst) << nCaptiveBit);
+        move |= (Move)((UInt32)indexPiece(vCapture) << nCaptiveBit);
 
       return move;
     }
@@ -174,8 +174,8 @@ namespace Engine {
       if ((qpFrom & RankPiece) == 0)
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
-        var piece = (Piece)(vPieceFrom + vFirst);
-        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {piece} from {sqFrom}";
+        var pieceFrom = indexPiece(vPieceFrom);
+        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {pieceFrom} from {sqFrom}";
         throw new MoveException(message);
       }
 
@@ -207,7 +207,8 @@ namespace Engine {
       }
 
       if (!bCastles)
-        move = buildMove(sPACN, sqFrom, sqTo, promotion, nFrom, nTo, qpTo, vPieceFrom, qpFriend, vCapture, bCapture);
+        move = buildMove(sPACN, sqFrom, sqTo, promotion, nFrom, nTo, qpTo,
+                         vPieceFrom, qpFriend, vCapture, bCapture);
       else if (promotion != Piece.None)
         throw new MoveException($"Cannot promote when castling: {sPACN}");
 

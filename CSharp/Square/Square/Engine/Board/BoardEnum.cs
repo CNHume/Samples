@@ -186,7 +186,7 @@ namespace Engine {
     //
     public enum Piece : byte { None, P, N, B, R, Q, K, EP, Capture = K }
 
-    protected static readonly Piece[] Promotions = { Piece.Q, Piece.R, Piece.B, Piece.N };
+    protected static readonly Piece[] Promotions = { Piece.Q, Piece.N, Piece.B, Piece.R };
 
     public const Int32 nColors = 2;
     public const Int32 nPieces = 6;
@@ -386,7 +386,12 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 from(Move move) {
+    protected static Piece indexPiece(Byte vPiece) {
+      return (Piece)(vPiece + vFirst);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Int32 from(Move move) {
       return (Int32)move >> nFromBit & (Int32)uSquareMask;
     }
 
