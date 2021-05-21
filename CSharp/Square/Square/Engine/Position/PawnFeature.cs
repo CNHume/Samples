@@ -43,7 +43,7 @@ namespace Engine {
         var nSize1 = nRanks - nBase1;
 
         for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpWhite <<= 1, qpBlack >>= 1) {
-          for (int nWhite = 0, nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
+          for (Int32 nWhite = 0, nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
             var nBlackKingY = nRanks - 1 - nWhiteKingY;
 
             for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++, nWhite++) {
@@ -101,7 +101,7 @@ namespace Engine {
       var qpWhite = qpFileA << nFiles;
       var qpBlack = qpFileH >> nFiles;
 
-      for (int nWhite = 0, y = 0; y < nRanks; y++) {
+      for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
         //
         // Advance masks to the right one File at a time
         // until they rotate back to their leftmost File,
@@ -124,7 +124,7 @@ namespace Engine {
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
-      for (int nWhite = 0, y = 0; y < nRanks; y++) {
+      for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
         qpWhite |= BIT0 << nFiles;
         qpBlack |= BIT0 << nRankLast - 1;
 

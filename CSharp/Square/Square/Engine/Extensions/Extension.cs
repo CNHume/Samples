@@ -96,7 +96,7 @@ namespace Engine {
 
     public static StringBuilder AppendRanks(this StringBuilder sb, String s, Boolean bFlip = false) {
       var bRightRuler = bFlip;
-      for (int x = 0; x < nRanks; x++) {
+      for (var x = 0; x < nRanks; x++) {
         var rank = bFlip ? invertRank(x) : x;
         if (!bRightRuler)               // Left Pad
           sb.Append(s);
@@ -146,7 +146,7 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendIndent(this StringBuilder sb, int nDent) {
+    public static StringBuilder AppendIndent(this StringBuilder sb, Int32 nDent) {
       sb.Append(Empty.PadRight(2 * nDent));
       return sb;
     }
@@ -361,7 +361,7 @@ namespace Engine {
         var bPawnCapture = false;
         var bEnPassant = false;
 
-        if (vPiece != vP6)     // Pawn piece aso elided when bExpandFrom
+        if (vPiece != vP6)              // Pawn piece aso elided when bExpandFrom
           sb.Append(PieceSymbol(vPiece));
         else if (bCapture)
           bPawnCapture = true;

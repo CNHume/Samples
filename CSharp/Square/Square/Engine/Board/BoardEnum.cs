@@ -28,7 +28,7 @@ namespace Engine {
 
   partial class Board {
     #region SideName Enum
-    public enum SideName : int { Black, White }
+    public enum SideName : byte { Black, White }
     #endregion
 
     #region LoFlags Enum

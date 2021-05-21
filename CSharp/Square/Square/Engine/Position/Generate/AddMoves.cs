@@ -115,7 +115,7 @@ namespace Engine {
       addPawnCaptures2(side, side.PawnA8H1Atx & qpTo, side.Parameter.ShiftA8H1, nEP);
     }
 
-    private void addPawnCaptures2(BoardSide side, Plane qpAtx, int nDiag, int nEP) {
+    private void addPawnCaptures2(BoardSide side, Plane qpAtx, Int32 nDiag, Int32 nEP) {
       var qpFrom = shiftr(qpAtx, nDiag);
       while (qpFrom != 0) {
         var nFrom = RemoveLo(ref qpFrom);

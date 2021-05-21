@@ -189,7 +189,7 @@ namespace Engine {
     protected Eval punishOutsideSquare() {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
-      int nSide = bWTM ? White : Black;
+      var nSide = bWTM ? White : Black;
       var parameter = Parameter[nSide];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
@@ -277,12 +277,11 @@ namespace Engine {
       var bLite = (side.FlagsHi & HiFlags.Lite) != 0;
       var nReward = bLite ?
         liteCornerReward(vDefendingKingPos) : darkCornerReward(vDefendingKingPos);
-      if (bWhiteDefending) nReward = -nReward;
-      return (Eval)nReward;
+      return (Eval)(bWhiteDefending ? -nReward : nReward);
     }
 
     protected Eval rewardKQvKPProximity() {
-      const int nMaxPawnDistance = nFiles - 2;
+      const Int32 nMaxPawnDistance = nFiles - 2;
       var bBlackHasPawn = (Side[Black].Piece & Pawn) != 0;
       var vAttackingKingPos = getKingPos(bBlackHasPawn);
       var qp = Pawn;
@@ -290,8 +289,7 @@ namespace Engine {
       var nDistance = distance(vAttackingKingPos, nDefendingPawnPos);
       var nProximity = nMaxPawnDistance + 1 - nDistance;
       var nReward = mKQvKPProximityWeight * nProximity / nMaxPawnDistance;
-      if (!bBlackHasPawn) nReward = -nReward;
-      return (Eval)nReward;
+      return (Eval)(bBlackHasPawn ? nReward : -nReward);
     }
     #endregion
 

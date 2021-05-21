@@ -251,10 +251,8 @@ namespace Engine {
       else if (bCastles)
         rookCastles(friend, friendRule, nTo);
 
-      if (bSupplied) {
-        var vPromotion = pieceIndex(uPromotion);
-        placePiece(friend, vPromotion, nTo);
-      }
+      if (bSupplied)
+        placePiece(friend, pieceIndex(uPromotion), nTo);
       else
         lowerPiece(friend, vPiece, nTo);
 
