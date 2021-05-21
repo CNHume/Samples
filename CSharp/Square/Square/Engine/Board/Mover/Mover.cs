@@ -80,27 +80,28 @@ namespace Engine {
     }
 
     //
-    // Lazy Capture avoids calling getPiece() until it becomes necessary.
-    // The point of the following method is to update the move and to avoid
-    // calling getPiece() again.
+    // Lazy Capture avoids calling getPieceIndex() until it becomes necessary.
+    // The purpose of the following method is to update the move and to avoid
+    // calling getPieceIndex() again.
     //
     // SaveCapture is required to show captures in AppendAN() if bExpandFrom.
     //
     protected Byte captureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
       bEnPassant = false;
       var vCapture = vPieceNull;
-      var capture = captured(move);
+      var uCapture = captured(move);
+      var capture = (Piece)uCapture;
 
       if (capture == Piece.Capture) {
 #if CountCapturedPiece
         GameState.AtomicIncrement(ref State.CapturedPieceTotal);
 #endif
         //
-        // Between 2% and 20% of all Pseudo Moves require a call to getPiece().
+        // Between 2% and 20% of all Pseudo Moves require a call to getPieceIndex().
         // At the rate of 72 MHz when a Pawn is found; 68 MHz otherwise, the 1.5%
         // cost would be quite low even were it incurred for every generated move.
         //
-        vCapture = getPiece(nTo);
+        vCapture = getPieceIndex(nTo);
 
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                      $"There is no piece to capture on {(sq)nTo}.");
@@ -117,17 +118,12 @@ namespace Engine {
         Debug.Assert(capture != Piece.None, "Unexpected Non-Capture");
       }
       else
-        vCapture = pieceIndex((Byte)capture);
+        vCapture = pieceIndex(uCapture);
 
       Debug.Assert(vCapture != vK6, "Unknown Captive",
                    $"No captive found for {(sq)nTo}.");
 
       return vCapture;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Byte pieceIndex(UInt32 uPiece) {
-      return (Byte)(uPiece - vFirst);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

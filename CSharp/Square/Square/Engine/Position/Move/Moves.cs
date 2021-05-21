@@ -41,8 +41,8 @@ namespace Engine {
     protected Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
       CurrentMove = move;               // Current Pseudo Move
 
-      var nFrom = (Int32)move >> nFromBit & (Int32)uSquareMask;
-      var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
+      var nFrom = from(move);
+      var nTo = to(move);
 
       var bPinned = (PinnedPiece & BIT0 << nFrom) != 0;
       var bSkip = bPinned && (Restricted[nFrom] & BIT0 << nTo) == 0;

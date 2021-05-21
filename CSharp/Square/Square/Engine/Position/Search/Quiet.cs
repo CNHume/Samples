@@ -270,26 +270,22 @@ namespace Engine {
     //
     private Boolean isDeltaPruned(ref Move move, Eval mAlpha, Eval mStand) {
       var bPrune = false;
-      var bCapture = isCapture(move);
-      var promotion = promoted(move);
-      var bPromotion = promotion != Piece.None;
-
-      Eval mCapture = 0;
       Eval mPromotion = 0;
+      Eval mCapture = 0;
 
-      if (bCapture) {
-        var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
+      var uPromotion = promoted(move);
+      if (uPromotion > 0) {
+        // Only Pawns Promote:
+        mPromotion = weightP(pieceIndex(uPromotion));
+      }
+
+      if (isCapture(move)) {
+        var nTo = to(move);
 #if DebugMove
         var sqTo = (sq)nTo;
 #endif
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         mCapture = weight(vCapture);
-      }
-
-      if (bPromotion) {
-        var vPromotion = pieceIndex((Byte)promotion);
-        // Only Pawns Promote:
-        mPromotion = weightP(vPromotion);
       }
 
       //
@@ -310,7 +306,7 @@ namespace Engine {
 
       return bPrune;
     }
-#endregion
-#endregion
+    #endregion
+    #endregion
   }
 }

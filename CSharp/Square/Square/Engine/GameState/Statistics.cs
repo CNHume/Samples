@@ -195,11 +195,11 @@ namespace Engine {
       }
 #if CountCapturedPiece
       if (PseudoMoveTotal == 0)
-        LogInfo(Level.data, $"getPiece() Calls = {CapturedPieceTotal:n0}");
+        LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieceTotal:n0}");
       else {
         var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
         LogInfo(Level.data,
-                $"getPiece() Calls = {CapturedPieceTotal:n0}; getPiece() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
+                $"getPieceIndex() Calls = {CapturedPieceTotal:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
       }
 #endif
     }

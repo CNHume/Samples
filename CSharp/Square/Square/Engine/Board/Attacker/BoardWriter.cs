@@ -144,7 +144,7 @@ namespace Engine {
 
         var qp = BIT0 << sqr(0, yInverse);
         for (var x = 0; x < nFiles; x++, qp <<= 1) {
-          var vPiece = getPiece(sqr(x, yInverse));
+          var vPiece = getPieceIndex(sqr(x, yInverse));
 
           if (vPiece > vK6)
             nSkip++;
@@ -216,7 +216,7 @@ namespace Engine {
     private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {
       const String sLite = "-";
       const String sDark = "*";
-      var vPiece = getPiece(n);
+      var vPiece = getPieceIndex(n);
       if (vPiece > vK6)
         sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
       else
@@ -241,7 +241,8 @@ namespace Engine {
     private void appendPiece2(StringBuilder sb, Int32 n, Plane qp) {
       const String sLite = "--";
       const String sDark = "**";
-      var vPiece = getPiece(n);
+
+      var vPiece = getPieceIndex(n);
       if (vPiece > vK6)
         sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
       else {

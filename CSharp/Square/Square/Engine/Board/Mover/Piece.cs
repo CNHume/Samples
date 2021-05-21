@@ -51,7 +51,7 @@ namespace Engine {
     #endregion
 
     #region Square Pieces
-    protected Byte getPiece(Int32 n) {
+    protected Byte getPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
       var qp = BIT0 << n;
 

@@ -75,7 +75,13 @@ namespace Engine {
       KnightAtx = new Plane[nSquares];
     }
 
-    private static void loadPiecetAtx(Plane[] qpAtx, ValueTuple<Int32, Int32>[] deltas) {
+    private static Boolean inBounds(Int32 nX, Int32 nY) {
+      return nX >= 0 && nX < nFiles &&
+             nY >= 0 && nY < nRanks;
+    }
+
+    private static void loadPiecetAtx(
+      Plane[] qpAtx, ValueTuple<Int32, Int32>[] deltas) {
       foreach (var (ndx, ndy) in deltas) {
         var nFrom = 0;
         for (var y = 0; y < nRanks; y++)
@@ -83,8 +89,7 @@ namespace Engine {
             var nX = x + ndx;
             var nY = y + ndy;
 
-            if (nX >= 0 && nX < nFiles &&
-                nY >= 0 && nY < nRanks) {
+            if (inBounds(nX, nY)) {
               //[Optimized]var nFrom = sqr(x, y);
               var nTo = sqr(nX, nY);
               qpAtx[nFrom] |= BIT0 << nTo;
@@ -529,7 +534,8 @@ namespace Engine {
     }
 
     protected static Byte hashA8H1Full(Plane qp, Int32 n) {
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+      //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       return (Byte)(qA8H1State % wA8H1Modulus);
@@ -562,7 +568,8 @@ namespace Engine {
 
     protected static Byte hashA8H1Half(Plane qp, Int32 n) {
       const UInt16 wA8H1Rem = (UInt16)((BIT0 << 32) % wA8H1Modulus);    // 1
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);    //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+      //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       var uHi = (UInt32)(qA8H1State >> 32);    // Avoiding 64-Bit Division

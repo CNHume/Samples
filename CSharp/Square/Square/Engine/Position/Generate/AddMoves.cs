@@ -62,7 +62,7 @@ namespace Engine {
     #region Pawn Moves
     protected void addPawnCapture(Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote, Boolean bEnPassant) {
 #if DebugSquares
-      Debug.Assert(getPiece(nFrom) == vP6, "Piece not a Pawn");
+      Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
       var capture = bEnPassant ? Piece.EP : Piece.Capture;
@@ -79,7 +79,7 @@ namespace Engine {
         }
       else if (bEnPassant) {
 #if DebugSquares
-        Debug.Assert(getPiece(nTo) == vPieceNull, "Passed Square not Empty");
+        Debug.Assert(getPieceIndex(nTo) == vPieceNull, "Passed Square not Empty");
 #endif
         PseudoEPCapture.Add(move);
       }
@@ -91,7 +91,7 @@ namespace Engine {
 
     protected void addPawnMove(Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote) {
 #if DebugSquares
-      Debug.Assert(getPiece(nFrom) == vP6, "Piece not a Pawn");
+      Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
       var move = PawnMask | (Move)((UInt32)nTo << nToBit | ((UInt32)nFrom << nFromBit));

@@ -220,10 +220,10 @@ namespace Engine {
     }
 
     protected void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
-      var sw = TimerStart(nameof(getPiece), qTrials);
+      var sw = TimerStart(nameof(getPieceIndex), qTrials);
       var nFrom = (Int32)sq.d1;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        getPiece(nFrom);
+        getPieceIndex(nFrom);
       }
 
       TimerStop(sw, qTrials);

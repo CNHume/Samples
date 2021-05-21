@@ -29,7 +29,7 @@ namespace Engine {
         //var uLegalMoves = 0U;
         foreach (var mov in moves) {
           var move = mov;
-          var nTo = (Int32)move >> nToBit & (Int32)uSquareMask;
+          var nTo = to(move);
 #if DebugMove
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
           //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
@@ -38,9 +38,9 @@ namespace Engine {
             //uLegalMoves++;
             var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
             var mCapture = weight(vCapture);
-            var promotion2 = promoted(move);
-            if (promotion2 != Piece.None) {
-              var vPromotion = pieceIndex((Byte)promotion2);
+            var uPromotion2 = promoted(move);
+            if (uPromotion2 > 0) {
+              var vPromotion = pieceIndex((Byte)uPromotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);
             }
@@ -79,9 +79,9 @@ namespace Engine {
           if (child.tryMove(ref move)) {
             //uLegalMoves++;
             var mCapture = weight(vCapture);
-            var promotion2 = promoted(move);
-            if (promotion2 != Piece.None) {
-              var vPromotion = pieceIndex((Byte)promotion2);
+            var uPromotion2 = promoted(move);
+            if (uPromotion2 > 0) {
+              var vPromotion = pieceIndex((Byte)uPromotion2);
               // Only Pawns Promote:
               mCapture += weightP(vPromotion);
             }

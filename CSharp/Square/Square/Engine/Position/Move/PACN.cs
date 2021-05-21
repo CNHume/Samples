@@ -163,8 +163,8 @@ namespace Engine {
       var nTo = (Int32)sqTo;
       var qpFrom = BIT0 << nFrom;
       var qpTo = BIT0 << nTo;
-      var vPieceFrom = getPiece(nFrom);
-      var vPieceTo = getPiece(nTo);
+      var vPieceFrom = getPieceIndex(nFrom);
+      var vPieceTo = getPieceIndex(nTo);
 
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;

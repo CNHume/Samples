@@ -380,12 +380,12 @@ namespace Engine {
         #endregion
 
         if (bCapture) {
-          var capture = captured(move);
-          var vCapture = pieceIndex((Byte)capture);
+          var uCapture = captured(move);
+          var vCapture = pieceIndex(uCapture);
           bEnPassant = vCapture == vEP6;
 
           sb.Append(sTakes);
-#if SaveCapture && BuildCapture         //[Note]This static method cannot invoke getPiece()
+#if SaveCapture && BuildCapture         //[Note]This static method cannot invoke getPieceIndex()
           var bPawnCaptive = vCapture == vP6 || bEnPassant;
           if (bExpandFrom && !bPawnCaptive) {
             var sCapture = PieceSymbol(vCapture);
@@ -455,10 +455,11 @@ namespace Engine {
         var sqFrom = (sq)nFrom;
         sb.Append(sqFrom).Append(sqTo);
 
-        if (piece == Piece.P) {
+        if (uPromotion > 0) {
+          Debug.Assert(piece == Piece.P, "Only Pawns are allowed to promote");
+
           var promotion = (Piece)uPromotion;
-          if (promotion != Piece.None)
-            sb.Append(promotion.ToString().ToLower());
+          sb.Append(promotion.ToString().ToLower());
         }
       }
 
