@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Square", "Square\Square.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap Sort", "..\Sort\HeapSort\Heap Sort.csproj", "{90A37313-AABF-4DAB-AB65-FFDA810FD2FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Heap Tests", "..\Sort\HeapTests\Heap Tests.csproj", "{4438C88D-238D-41A6-98A4-2484BB98090A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{90A37313-AABF-4DAB-AB65-FFDA810FD2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90A37313-AABF-4DAB-AB65-FFDA810FD2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90A37313-AABF-4DAB-AB65-FFDA810FD2FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4438C88D-238D-41A6-98A4-2484BB98090A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4438C88D-238D-41A6-98A4-2484BB98090A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4438C88D-238D-41A6-98A4-2484BB98090A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4438C88D-238D-41A6-98A4-2484BB98090A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
