@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define InitFree                          //[Default]
+#define InitFree                        //[Default]
 //#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp

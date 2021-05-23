@@ -32,13 +32,13 @@
 //#define DebugStand
 //#define TestImportance
 //#define TestPawnFeatures
-#define InitFree                          //[Default]
+#define InitFree                        //[Default]
 //#define InitHelp                        //[Test]
 //#define TestInitFree
 //#define TestInitHelp
 
 namespace Engine {
-  using HeapSort;                           // for Heap
+  using HeapSort;                       // for Heap
 
   using MoveOrder;
 

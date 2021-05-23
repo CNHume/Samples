@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HeapSort\Heap Sort.csproj" />
+    <ProjectReference Include="..\..\Sort\HeapSort\Heap Sort.csproj" />
+    <ProjectReference Include="..\..\Sort\HeapTests\Heap Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup>

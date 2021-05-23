@@ -7,7 +7,7 @@
 //
 #define CompositionByValue
 //#define PawnPositionByValue
-#define InitFree                        //[Default]
+#define InitFree                      //[Default]
 //#define InitHelp                      //[Test]
 //#define DebugHashPieces
 //#define MaterialBalance
