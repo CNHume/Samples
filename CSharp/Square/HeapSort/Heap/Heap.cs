@@ -190,13 +190,13 @@ namespace HeapSort {
         var bRight = false;
         if (right < counter) {
           Meter?.IncCompare();
-          if (Extension.IsPredecessor(entries[left], entries[right], IsAscending))
+          if (entries[left].IsPredecessor(entries[right], IsAscending))
             bRight = true;
         }
 
         var child = (Int32)(bRight ? right : left);
         Meter?.IncCompare();
-        if (Extension.IsPredecessor(entries[child], value, IsAscending))
+        if (entries[child].IsPredecessor(value, IsAscending))
           break;
         //[Assert]The new value either precedes or is equal to entries[child]
 
@@ -251,7 +251,7 @@ namespace HeapSort {
       while (child > 0) {
         var parent = Parent(child);
         Meter?.IncCompare();
-        if (Extension.IsPredecessor(value, entries[parent], IsAscending))
+        if (value.IsPredecessor(entries[parent], IsAscending))
           break;
         //[Assert]entries[parent] either precedes or is equal to the new value
 
@@ -305,7 +305,7 @@ namespace HeapSort {
       if (counter > 0) {
         for (var final = counter - 1; final > 0; final--) {
           var parent = Parent(final);
-          if (Extension.IsPredecessor(entries[parent], entries[final], IsAscending))
+          if (entries[parent].IsPredecessor(entries[final], IsAscending))
             return false;
           //[Assert]entries[final] either precedes or is equal to entries[parent]
         }

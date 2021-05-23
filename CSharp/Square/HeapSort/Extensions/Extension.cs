@@ -8,11 +8,12 @@ namespace HeapSort.Extensions {
 
   public static class Extension {
     #region IEnumerable Methods
-    public static Boolean IsSorted<T>(this IEnumerable<T> en, Boolean isAscending = true) where T : IComparable {
+    public static Boolean IsSorted<T>(
+      this IEnumerable<T> en, Boolean isAscending = true) where T : IComparable {
       if (en.Any()) {
         var last = en.First();
         foreach (var next in en.Skip(1)) {
-          if (IsPredecessor(next, last, isAscending))
+          if (next.IsPredecessor(last, isAscending))
             return false;
           // Equal OK
           last = next;
@@ -22,7 +23,8 @@ namespace HeapSort.Extensions {
       return true;
     }
 
-    public static bool IsPredecessor<T>(T x, T y, Boolean isAscending = true) where T : IComparable {
+    public static bool IsPredecessor<T>(
+      this T x, T y, Boolean isAscending = true) where T : IComparable {
       var sense = x.CompareTo(y);
       return sense < 0 && isAscending ||
              sense > 0 && !isAscending;
