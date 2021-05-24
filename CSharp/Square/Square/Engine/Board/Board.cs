@@ -14,11 +14,21 @@
 
 namespace Engine {
   using System;
+  using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
+  using System.Runtime.CompilerServices;
 
+  using static Command.Parser;
   using static Logging.Logger;
   using static Position;
+  using static System.String;
+
+  //
+  // Type Aliases:
+  //
+  using Hashcode = System.UInt64;
+  using Ply = System.UInt16;
 
   partial class Board : ICloneable, IEquatable<Board> {
     /*
@@ -291,6 +301,359 @@ namespace Engine {
 
     public static Boolean operator !=(Board board1, Board board2) {
       return !Equals(board1, board2);
+    }
+    #endregion
+
+    #region Ply Methods
+    protected static UInt16 moveDelta(Ply wPly) {
+      return (UInt16)((wPly + 1) / 2);
+    }
+
+    // Inverse of plyCount()
+    internal static UInt16 moveNumber(Ply wPly) {
+      return (UInt16)(wPly / 2 + 1);
+    }
+
+    // Inverse of moveNumber()
+    private static Ply plyCount(Ply wMove) {
+      return (Ply)((wMove - 1) * 2);
+    }
+    #endregion
+
+    #region Move Methods
+    internal static Boolean isDefinite(Move move) {
+      return isDefined(move) && !isEmptyMove(move);
+    }
+
+    internal static Boolean isDefined(Move move) {
+      return (move & Move.NormalMask) != Move.Undefined;
+    }
+
+    internal static Boolean isEmptyMove(Move move) {
+      return (move & Move.NormalMask) == Move.EmptyMove;
+    }
+
+    internal static Boolean isNullMove(Move move) {
+      return (move & Move.NormalMask) == Move.NullMove;
+    }
+
+    internal static Boolean isCastles(Move move) {
+      return (move & Move.Castles) != 0;
+    }
+
+    internal static bool isCapture(Move move) {
+      return (move & Move.CaptiveMask) != 0;
+    }
+
+    internal static Boolean equalMoves(Move move1, Move move2) {
+      if ((move1 & Move.LimitMask) != (move2 & Move.LimitMask))
+        return false;
+
+      return isCapture(move1) == isCapture(move2);
+    }
+
+    internal static Boolean isAbove(Int32 nTo, Boolean bWTM) {
+      return bWTM ? nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
+    }
+
+    #region Move Setter Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move fromMove(Int32 nFrom) {
+      return (Move)(nFrom << nFromBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move toMove(Int32 nTo) {
+      return (Move)(nTo << nToBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move fromToMove(Int32 nFrom, Int32 nTo) {
+      return toMove(nTo) | fromMove(nFrom);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move pieceMove(Piece piece) {
+      return (Move)((UInt32)piece << nPieceBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move captureMove(Piece capture) {
+      return (Move)((UInt32)capture << nCaptiveBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move promotionMove(Piece p) {
+      return (Move)((UInt32)p << nPromoteBit);
+    }
+    #endregion
+
+    #region Move Getter Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Int32 from(Move move) {
+      return (Int32)move >> nFromBit & (Int32)uSquareMask;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Int32 to(Move move) {
+      return (Int32)move >> nToBit & (Int32)uSquareMask;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Byte pieceIndex(UInt32 uPiece) {
+      return (Byte)(uPiece - vFirst);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Piece indexPiece(Byte vPiece) {
+      return (Piece)(vPiece + vFirst);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private static UInt32 moved(Move move) {
+      return (UInt32)move >> nPieceBit & vPieceMask;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static UInt32 captured(Move move) {
+      return (UInt32)move >> nCaptiveBit & vPieceMask;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static UInt32 promoted(Move move) {
+      return (UInt32)move >> nPromoteBit & vPieceMask;
+    }
+    #endregion
+
+    #region Unpack Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static void unpack1(Move move, out Int32 nFrom, out Int32 nTo,
+                                 out UInt32 uPiece, out Boolean bCapture) {
+      Debug.Assert(isDefinite(move), "Indefinite Move");
+      nFrom = from(move);
+      nTo = to(move);
+
+      uPiece = moved(move);
+      bCapture = isCapture(move);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static void unpack2(Move move, out Int32 nFrom, out Int32 nTo,
+                                 out UInt32 uPiece, out UInt32 uPromotion,
+                                 out Boolean bCastles, out Boolean bCapture) {
+      Debug.Assert(isDefinite(move), "Indefinite Move");
+      nFrom = from(move);
+      nTo = to(move);
+
+      uPiece = moved(move);
+      uPromotion = promoted(move);
+
+      bCastles = isCastles(move);
+      bCapture = isCapture(move);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static void unpackMove1(Move move, out sq sqFrom, out sq sqTo,
+                                      out Piece piece, out Piece promotion, out Boolean bCapture) {
+      Debug.Assert(isDefinite(move), "Indefinite Move");
+      sqFrom = (sq)from(move);
+      sqTo = (sq)to(move);
+
+      piece = (Piece)moved(move);
+      promotion = (Piece)promoted(move);
+
+      bCapture = isCapture(move);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static void unpackMove2(Move move, out sq sqFrom, out sq sqTo,
+                                      out Piece piece, out Piece promotion, out Piece capture,
+                                      out Boolean bCastles, out Boolean bCapture) {
+      Debug.Assert(isDefinite(move), "Indefinite Move");
+      sqFrom = (sq)from(move);
+      sqTo = (sq)to(move);
+
+      piece = (Piece)moved(move);
+      promotion = (Piece)promoted(move);
+      capture = (Piece)captured(move);
+
+      bCastles = isCastles(move);
+      bCapture = isCapture(move);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static void unpackShort(Move move, out Int32 nFrom, out Int32 nTo,
+                                     out UInt32 uPromotion, out Boolean bCastles) {
+      nFrom = from(move);
+      nTo = to(move);
+
+      uPromotion = promoted(move);
+      bCastles = isCastles(move);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static void unpackHistory(Move move, out Int32 nFrom, out Int32 nTo) {
+#if HistoryFromTo
+      nFrom = from(move);
+#else
+      nFrom = pieceIndex((Byte)moved(move));
+#endif
+      nTo = to(move);
+    }
+    #endregion
+    #endregion
+
+    #region Flag Methods
+    public Boolean WTM() {
+      return (FlagsLo & LoFlags.WTM) != 0;
+    }
+
+    protected void setLegal(Boolean bLegal) {
+      if (bLegal)
+        FlagsLo &= ~LoFlags.Illegal;
+      else
+        FlagsLo |= LoFlags.Illegal;
+    }
+
+    protected void setInCheck(Boolean bInCheck) {
+      if (bInCheck)
+        FlagsLo |= LoFlags.InCheck;
+      else
+        FlagsLo &= ~LoFlags.InCheck;
+    }
+
+    protected void setFinal() {
+      FlagsLo |= LoFlags.Final;
+    }
+
+    public Boolean IsFinal() {
+      return (FlagsLo & LoFlags.Final) != 0;
+    }
+
+    public Boolean InCheck() {
+      return (FlagsLo & LoFlags.InCheck) != 0;
+    }
+
+    public Boolean IsPassed() {
+      return (FlagsLo & LoFlags.Passed) != 0;
+    }
+
+    public Boolean IsDraw() {
+      return (FlagsDraw & DrawFlags.DrawMask) != 0;
+    }
+
+    public Boolean IsDraw2() {
+      return (FlagsDraw & DrawFlags.Draw2) != 0;
+    }
+
+    public Boolean IsInsufficient() {
+      return (FlagsDraw & DrawFlags.DrawIM) != 0;
+    }
+
+    public Boolean IsStalemate() {
+      return IsFinal() && !InCheck();
+    }
+
+    //
+    // Recognize Draw by Insufficient Material:
+    //
+    protected void setInsufficient() {
+      FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
+
+      // No Pawn, Rook or Queen:
+      if (Pawn == 0 && RectPiece == 0) {
+        //
+        // If either a single Knight or multiple Bishops covering squares
+        // of only one color remain, then even a helpmate is not possible.
+        //
+        if (DiagPiece == 0) {           // Test for KK[N]:
+          if (OneBitOrNone(Knight))
+            FlagsDraw |= DrawFlags.DrawIM;
+        }
+        else if (Knight == 0) {         // Test for KB*KB* covering only one color, or KK:
+          if ((DiagPiece & LiteSquare) == 0 ||
+              (DiagPiece & DarkSquare) == 0)
+            FlagsDraw |= DrawFlags.DrawIM;
+        }
+      }
+    }
+
+    protected void clrRepetition() {
+      FlagsDraw &= ~(DrawFlags.Draw3 | DrawFlags.Draw2);
+    }
+
+    protected void setRepetition(Boolean bDraw3) {
+      FlagsDraw |= bDraw3 ? DrawFlags.Draw3 : DrawFlags.Draw2;
+    }
+
+    protected DrawFlags fdr() {
+      return FlagsDraw & (DrawFlags.Draw3 | DrawFlags.Draw2);
+    }
+
+    public Boolean IsFence() {
+      return (FlagsDraw & DrawFlags.Fence) != 0;
+    }
+
+    protected void clrFence() {
+      FlagsDraw &= ~DrawFlags.Fence;
+    }
+
+    protected void setFence() {
+      FlagsDraw |= DrawFlags.Fence;
+    }
+
+    protected void setDraw50() {
+      if (HalfMoveClock < HalfMoveClockMax)
+        FlagsDraw &= ~DrawFlags.Draw50;
+      else                              // 50 Move Rule
+        FlagsDraw |= DrawFlags.Draw50;
+    }
+
+    protected Boolean IsNullMade() {
+      return (FlagsMode & ModeFlags.NullMade) != 0;
+    }
+
+    private void clrNullMade() {
+      FlagsMode &= ~ModeFlags.NullMade;
+    }
+
+    private void setNullMade() {
+      FlagsMode |= ModeFlags.NullMade;
+    }
+
+    protected bool IsTrace() {
+      return (FlagsMode & ModeFlags.Trace) != 0;
+    }
+
+    protected void clrTrace() {
+      FlagsMode &= ~ModeFlags.Trace;
+    }
+
+    protected void setTrace(params Hashcode[] qHashcodes) {
+      if (qHashcodes.Any(qHashcode => qHashcode == Hash))
+        FlagsMode |= ModeFlags.Trace;
+    }
+    #endregion
+
+    #region EPD Operation Methods
+    protected void addOperation(
+      Dictionary<String, List<String>> operations, String sKey, params String[] sValues) {
+      if (operations is not null) {
+        var values = new List<String>(sValues);
+        operations.Add(sKey, values);
+      }
+    }
+
+    private void newOperations() {
+      Operations = new Dictionary<String, List<String>>(4);
+      var nMove = GamePly / 2 + 1;
+      addOperation(Operations, "fmvn", nMove.ToString());
+      addOperation(Operations, "hmvc", HalfMoveClock.ToString());
+
+      if (!IsNullOrEmpty(Name)) {
+        var sValue = StringToVerbatimLiteral(Name);
+        addOperation(Operations, "id", sValue);
+      }
     }
     #endregion
   }
