@@ -322,7 +322,7 @@ namespace Engine {
     }
 
     protected Plane? pieceAtx(Byte vPiece, Int32 nFrom, Boolean bCapture) {
-      var qpPieceAtx = (Plane?)null;
+      Plane? qpPieceAtx = default;
 
       // Obtain possible Moves [and Captures]
       switch (vPiece) {

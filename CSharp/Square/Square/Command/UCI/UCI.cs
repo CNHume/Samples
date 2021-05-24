@@ -420,11 +420,11 @@ namespace Command {
 
     #region Static Helpers
     public static void parseRegister(Parser parser) {
-      var bLater = false;
-      var sCode = (String)null;
-      var sName = (String)null;
-
       var bValidCommand = true;
+      var bLater = false;
+      String sCode = default;
+      String sName = default;
+
       if (parser.SpaceToken.Accept()) {
         while (bValidCommand && parser.RegisterKeywordToken.Accept()) {
           var bFoundKeyword = true;

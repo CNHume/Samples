@@ -58,7 +58,7 @@ namespace Logging {
     }
 
     private static FileStream OpenLogStream(String path) {
-      var logStream = (FileStream)null;
+      FileStream logStream = default;
       try {
         if (path is not null) {
           var sFullPath = combineFilename(path, Product.ProductName, sLogExtensionDefault);

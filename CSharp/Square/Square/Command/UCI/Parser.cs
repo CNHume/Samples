@@ -283,11 +283,11 @@ namespace Command {
     }
 
     private String parseOptionName(out Control control) {
-      var sKeyword = (String)null;
       SpaceToken.Accept();
       nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
 
-      var sName = (String)null;
+      String sKeyword = default;
+      String sName = default;
       while (true) {
         SpaceToken.Accept();
         if (valueKeywordToken.Accept()) {
@@ -313,7 +313,7 @@ namespace Command {
     }
 
     private String parseOptionValue(String sKeyword) {
-      var sValue = (String)null;
+      String sValue = default;
       if (sKeyword is not null) {
         SpaceToken.Accept();
         lineToken.Expect();
@@ -434,7 +434,7 @@ namespace Command {
     }
 
     public Dictionary<String, List<String>> ParseOperations() {
-      var operations = (Dictionary<String, List<String>>)null;
+      Dictionary<String, List<String>> operations = default;
       if (SpaceToken.Accept()) {
         operations = new Dictionary<String, List<String>>();
         while (opcodeToken.Accept()) {
@@ -487,7 +487,7 @@ namespace Command {
 
     private List<String> parseOperands(
       Dictionary<String, List<String>> operations, String sOpcode) {
-      var operands = (List<String>)null;
+      List<String> operands = default;
       if (SpaceToken.Accept()) {
         operands = new List<String>();
         while (operandToken.Accept()) {

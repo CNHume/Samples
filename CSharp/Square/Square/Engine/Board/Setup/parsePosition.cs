@@ -230,7 +230,7 @@ namespace Engine {
     }
 
     public static sq? TryParseSquare(String s) {
-      var sq = (sq?)null;
+      sq? sq = default;
 
       if (s?.Length == 2) {
         var cFile = Char.ToLower(s[0]);

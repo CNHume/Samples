@@ -70,19 +70,16 @@ namespace Engine {
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
     protected Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
-      promotion = Piece.None;
-
-      var sFrom = (String)null;
-      var sTo = (String)null;
-
       var nLen = sMove.Length;
       var nPos = 0;
 
+      String sFrom = default;
       if (nPos + 2 <= nLen) {
         sFrom = sMove.Substring(nPos, 2);
         nPos += 2;
       }
 
+      String sTo = default;
       if (nPos + 2 <= nLen) {
         sTo = sMove.Substring(nPos, 2);
         nPos += 2;
@@ -93,6 +90,7 @@ namespace Engine {
       var cPromotion = nPos < nLen ? sMove[nPos++] : cSpace;
       var bValid = nPos == nLen && sqFrom.HasValue && sqTo.HasValue;
 
+      promotion = Piece.None;
       switch (Char.ToUpper(cPromotion)) {
       case 'R':
         promotion = Piece.R;
@@ -221,10 +219,10 @@ namespace Engine {
       var sMove = sPACN.ToUpper();
       var bWTM = WTM();
       var rule = getRule(bWTM);
-      var bCastles = false;
-      var nTo = (Int32?)null;
-      var move = Move.Undefined;
 
+      var bCastles = false;
+      Int32? nTo = default;
+      var move = Move.Undefined;
       if (sMove == sPureOO || sMove == sPure00) {
         bCastles = true;
         nTo = rule.KingOOTo;
