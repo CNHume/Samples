@@ -235,12 +235,10 @@ namespace Engine {
       if (s?.Length == 2) {
         var cFile = Char.ToLower(s[0]);
         var cRank = s[1];
-        if (cFileMin <= cFile && cFile <= cFileMax &&
-            cRankMin <= cRank && cRank <= cRankMax) {
-          var nX = cFile - cFileMin;
-          var nY = cRank - cRankMin;
+        var nX = cFile - cFileMin;
+        var nY = cRank - cRankMin;
+        if (inBounds(nX, nY))
           sq = (sq)sqr(nX, nY);
-        }
       }
 
       return sq;
