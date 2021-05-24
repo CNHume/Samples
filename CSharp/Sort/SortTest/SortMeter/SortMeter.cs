@@ -116,17 +116,15 @@ namespace SortTest {
     private static void displayRate(Int32 nLength, Double msec) {
       var dLength = (Double)nLength;
 #if ScaleLength
-      dNLogN *= Math.Log10(dNLogN);
+      dLength *= Math.Log10(dLength);
+      var sScaled = $" * log({nLength:n0}) = {dLength:0.0##}";
+#else
+      var sScaled = String.Empty;
 #endif
       var sRate = msec == 0 ?
-        String.Empty : $", Rate = {dLength / msec:0.0##} KHz";
-#if ScaleLength
+        String.Empty : $", rate = {dLength / msec:0.0##} KHz";
       Console.WriteLine(
-        $"Sorted a total of {length:n0} * log(n) = {dNLogN:0.0##} entries in {msec / 1000:0.0##} sec{sRate}");
-#else
-      Console.WriteLine(
-        $"Sorted a total of {nLength:n0} entries in {msec / 1000:0.0##} sec{sRate}");
-#endif
+        $"Sorted a total of {nLength:n0}{sScaled} entries in {msec / 1000:0.0##} sec{sRate}");
     }
     #endregion
   }
