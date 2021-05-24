@@ -4,18 +4,25 @@
         <name>HeapSort</name>
     </assembly>
     <members>
+        <member name="T:HeapSort.Heap`1">
+            <summary>Heap Sort Class</summary>
+            <typeparam name="T">Entry Type</typeparam>
+        </member>
         <member name="P:HeapSort.Heap`1.Meter">
             <summary>Optional Sort Performance Meter</summary>
         </member>
         <member name="P:HeapSort.Heap`1.IsAscending">
-            <summary>Heap sense</summary>
+            <summary>Heap Sense</summary>
+        </member>
+        <member name="P:HeapSort.Heap`1.IsValid">
+            <summary>Assertion of Heap Validity</summary>
         </member>
         <member name="P:HeapSort.Heap`1.Entries">
-            <summary>Entries array</summary>
+            <summary>Entries Array</summary>
         </member>
         <member name="P:HeapSort.Heap`1.Length">
-            <summary>Length of Entries array</summary>
-            <value>Entries array Length</value>
+            <summary>Length of Entries Array</summary>
+            <value>Entries Array Length</value>
         </member>
         <member name="P:HeapSort.Heap`1.Count">
             <summary>Count of entries currently in use</summary>
@@ -26,16 +33,19 @@
         </member>
         <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter,`0[],System.Int32,System.Boolean)">
             <summary>Heap Constructor</summary>
-            <param name="entries">Entries array</param>
+            <param name="meter">Performance Meter</param>
+            <param name="entries">Entries Array</param>
             <param name="count"># of entries to use in Heap</param>
             <param name="ascending">Initial Heap sense</param>
         </member>
         <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter,`0[])">
             <summary>Heap Constructor</summary>
-            <param name="entries">Entries array</param>
+            <param name="meter">Performance Meter</param>
+            <param name="entries">Entries Array</param>
         </member>
         <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter)">
             <summary>Heap Constructor</summary>
+            <param name="meter">Performance Meter</param>
         </member>
         <member name="M:HeapSort.Heap`1.CopyTo(HeapSort.Heap{`0})">
             <summary>Deep Copy</summary>
@@ -92,11 +102,11 @@
             <returns>Value of root entry</returns>
         </member>
         <member name="M:HeapSort.Heap`1.Sort">
-            <summary>Perform HeapSort on the Entries array</summary>
+            <summary>Perform HeapSort on the Entries Array</summary>
             <remarks>O(n log n)</remarks>
         </member>
         <member name="M:HeapSort.Heap`1.ReverseSort">
-            <summary>Perform Reverse HeapSort on the Entries array</summary>
+            <summary>Perform Reverse HeapSort on the Entries Array</summary>
             <remarks>O(n log n)</remarks>
         </member>
         <member name="M:HeapSort.Heap`1.Swap(`0@,`0@)">

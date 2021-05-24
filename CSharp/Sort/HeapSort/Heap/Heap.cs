@@ -61,6 +61,8 @@ namespace HeapSort {
   using System.Collections.Generic;
   using System.Diagnostics;
 
+  /// <summary>Heap Sort Class</summary>
+  /// <typeparam name="T">Entry Type</typeparam>
   public class Heap<T> : ICloneable, IEnumerable<T> where T : IComparable {
     #region Fields
     private T[] entries;
@@ -72,12 +74,14 @@ namespace HeapSort {
     /// <summary>Optional Sort Performance Meter</summary>
     public IMeter Meter { get; }
 
-    /// <summary>Heap sense</summary>
+    /// <summary>Heap Sense</summary>
     public Boolean IsAscending { get => isAscending.Value; set => isAscending = value; }
+
+    /// <summary>Assertion of Heap Validity</summary>
     public Boolean IsValid => Validate();
     //public Boolean IsSorted { get; protected set; }
 
-    /// <summary>Entries array</summary>
+    /// <summary>Entries Array</summary>
     public T[] Entries {
       get {
         return entries;
@@ -89,8 +93,8 @@ namespace HeapSort {
       }
     }
 
-    /// <summary>Length of Entries array</summary>
-    /// <value>Entries array Length</value>
+    /// <summary>Length of Entries Array</summary>
+    /// <value>Entries Array Length</value>
     public Int32 Length => entries is null ? 0 : entries.Length;
 
     /// <summary>Count of entries currently in use</summary>
@@ -113,7 +117,8 @@ namespace HeapSort {
 
     #region Constructors
     /// <summary>Heap Constructor</summary>
-    /// <param name="entries">Entries array</param>
+    /// <param name="meter">Performance Meter</param>
+    /// <param name="entries">Entries Array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
     public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
@@ -127,12 +132,14 @@ namespace HeapSort {
     }
 
     /// <summary>Heap Constructor</summary>
-    /// <param name="entries">Entries array</param>
+    /// <param name="meter">Performance Meter</param>
+    /// <param name="entries">Entries Array</param>
     public Heap(IMeter meter, T[] entries)
       : this(meter, entries, entries is null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
+    /// <param name="meter">Performance Meter</param>
     public Heap(IMeter meter = default)
       : this(meter, default) {
     }
@@ -320,7 +327,7 @@ namespace HeapSort {
     #endregion
 
     #region Sort Methods
-    /// <summary>Perform HeapSort on the Entries array</summary>
+    /// <summary>Perform HeapSort on the Entries Array</summary>
     /// <remarks>O(n log n)</remarks>
     public void Sort() {
 #if ShowSort
@@ -341,7 +348,7 @@ namespace HeapSort {
 #endif
     }
 
-    /// <summary>Perform Reverse HeapSort on the Entries array</summary>
+    /// <summary>Perform Reverse HeapSort on the Entries Array</summary>
     /// <remarks>O(n log n)</remarks>
     public void ReverseSort() {
       Sort();
