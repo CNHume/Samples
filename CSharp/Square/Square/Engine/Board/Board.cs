@@ -546,6 +546,10 @@ namespace Engine {
       return (FlagsDraw & DrawFlags.Draw2) != 0;
     }
 
+    public Boolean IsDraw50() {
+      return (FlagsDraw & DrawFlags.Draw50) != 0;
+    }
+
     public Boolean IsInsufficient() {
       return (FlagsDraw & DrawFlags.DrawIM) != 0;
     }

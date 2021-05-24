@@ -306,7 +306,7 @@ namespace Engine {
           //
           setDraw50();
 
-          if ((FlagsDraw & DrawFlags.Draw50) != 0) {
+          if (IsDraw50()) {
             mBest = eval();
 
             if (mAlpha < mBest) {
@@ -546,7 +546,7 @@ namespace Engine {
         mValue = (Eval)(-Search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
 
       //
-      // Increment apporopriate PVS Node Count:
+      // Increment appropriate PVS Node Count:
       //
       if ((FlagsMode & ModeFlags.ZWS) != 0)                   // True ZWS [>200x PVSimple] is most frequent
         AtomicIncrement(ref State.ZWSimpleTotal);

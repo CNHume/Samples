@@ -451,9 +451,7 @@ namespace Engine {
         #endregion
       }
       else {
-        var sqTo = (sq)nTo;
-        var sqFrom = (sq)nFrom;
-        sb.Append(sqFrom).Append(sqTo);
+        sb.Append((sq)nFrom).Append((sq)nTo);
 
         if (uPromotion > 0) {
           Debug.Assert(piece == Piece.P, "Only Pawns are allowed to promote");

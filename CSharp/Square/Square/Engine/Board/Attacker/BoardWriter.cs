@@ -96,7 +96,8 @@ namespace Engine {
       return s;
     }
 
-    public static String FormatFlags(ModeFlags fmd, DrawFlags fdr, EGFlags feg, HiFlags fBlackHi, HiFlags fWhiteHi, LoFlags flo) {
+    public static String FormatFlags(
+      ModeFlags fmd, DrawFlags fdr, EGFlags feg, HiFlags fBlackHi, HiFlags fWhiteHi, LoFlags flo) {
       if (fmd == 0 && fdr == 0 && feg == 0 && fBlackHi == 0 && fWhiteHi == 0 && flo == 0)
         return "None";
 
