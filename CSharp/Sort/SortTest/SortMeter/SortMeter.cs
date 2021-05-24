@@ -97,34 +97,36 @@ namespace SortTest {
     }
 
     protected void Footer(IEnumerable<T> entries, Boolean print = false, Boolean isAscending = true) {
-      var length = entries.Count();
       var sorted = entries.IsSorted(isAscending);
+      Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {sorted}");
 
       //
       // There are 10,000 ticks per msec
       //
       var msec = (Double)Timer.ElapsedTicks / 10000;
-      Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Finished, Sorted = {sorted}");
+      displayRate(entries.Count(), msec);
 
-      if (msec == 0)
-        Console.WriteLine($"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec");
-      else {
-#if ScaleLength
-        var dNLogN = length * Math.Log10(length);
-        var rate = dNLogN / msec;
-        Console.WriteLine(
-          $"Sorted a total of {length:n0} * log(n) = {dNLogN:0.0##} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
-#else
-        var rate = length / msec;
-        Console.WriteLine(
-          $"Sorted a total of {length:n0} entries in {msec / 1000:0.0##} sec, Rate = {rate:0.0##} KHz");
-#endif
-      }
       if (print) {
         Console.WriteLine("output:");
         if (entries is not null)
           Console.WriteLine(Join(commaSpace, entries));
       }
+    }
+
+    private static void displayRate(Int32 nLength, Double msec) {
+      var dLength = (Double)nLength;
+#if ScaleLength
+      dNLogN *= Math.Log10(dNLogN);
+#endif
+      var sRate = msec == 0 ?
+        String.Empty : $", Rate = {dLength / msec:0.0##} KHz";
+#if ScaleLength
+      Console.WriteLine(
+        $"Sorted a total of {length:n0} * log(n) = {dNLogN:0.0##} entries in {msec / 1000:0.0##} sec{sRate}");
+#else
+      Console.WriteLine(
+        $"Sorted a total of {nLength:n0} entries in {msec / 1000:0.0##} sec{sRate}");
+#endif
     }
     #endregion
   }
