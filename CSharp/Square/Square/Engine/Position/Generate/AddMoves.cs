@@ -27,12 +27,12 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constant Move Masks
-    protected const Move PawnMask = (Move)((Byte)Piece.P << nPieceBit);
-    protected const Move KnightMask = (Move)((Byte)Piece.N << nPieceBit);
-    protected const Move BishopMask = (Move)((Byte)Piece.B << nPieceBit);
-    protected const Move RookMask = (Move)((Byte)Piece.R << nPieceBit);
-    protected const Move QueenMask = (Move)((Byte)Piece.Q << nPieceBit);
-    protected const Move KingMask = (Move)((Byte)Piece.K << nPieceBit);
+    protected const Move PawnMove = (Move)((Byte)Piece.P << nPieceBit);
+    protected const Move KnightMove = (Move)((Byte)Piece.N << nPieceBit);
+    protected const Move BishopMove = (Move)((Byte)Piece.B << nPieceBit);
+    protected const Move RookMove = (Move)((Byte)Piece.R << nPieceBit);
+    protected const Move QueenMove = (Move)((Byte)Piece.Q << nPieceBit);
+    protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
 
     protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
     #endregion
@@ -66,8 +66,7 @@ namespace Engine {
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
       var capture = bEnPassant ? Piece.EP : Piece.Capture;
-      var pawnCapture = PawnMask | (Move)((UInt32)capture << nCaptiveBit);
-      var move = pawnCapture | (Move)((UInt32)nTo << nToBit | ((UInt32)nFrom << nFromBit));
+      var move = captureMove(capture) | PawnMove | fromToMove(nFrom, nTo);
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
@@ -75,7 +74,7 @@ namespace Engine {
         foreach (var p in Promotions) {
           var moves = p == Piece.Q ?
             PseudoQueenPromotionCapture : PseudoUnderPromotionCapture;
-          moves.Add(move | (Move)((UInt32)p << nPromoteBit));
+          moves.Add(promotionMove(p) | move);
         }
       else if (bEnPassant) {
 #if DebugSquares
@@ -94,14 +93,14 @@ namespace Engine {
       Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
-      var move = PawnMask | (Move)((UInt32)nTo << nToBit | ((UInt32)nFrom << nFromBit));
+      var move = PawnMove | fromToMove(nFrom, nTo);
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
       if (bPromote)
         foreach (var p in Promotions) {
           var moves = p == Piece.Q ? PseudoQueenPromotion : PseudoUnderPromotion;
-          moves.Add(move | (Move)((UInt32)p << nPromoteBit));
+          moves.Add(promotionMove(p) | move);
         }
       else {
         var moves = bAbove ? PseudoPawnAboveMove : PseudoPawnBelowMove;
@@ -177,11 +176,10 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void addPieceCaptures(List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
-
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
-        var move = PieceCapture | (Move)(nTo << nToBit) | moveFrom;
+        var move = PieceCapture | toMove(nTo) | moveFrom;
 #if DebugMoveColor
         if (bWTM) move |= Move.WTM;
 #endif
@@ -193,11 +191,10 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void addPieceMoves(List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
-
       qpMoveTo &= ~RankPiece;           // Find Moves
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
-        var move = (Move)(nTo << nToBit) | moveFrom;
+        var move = toMove(nTo) | moveFrom;
 #if DebugMoveColor
         if (bWTM) move |= Move.WTM;
 #endif
@@ -210,8 +207,8 @@ namespace Engine {
 #else
     private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
 #endif
-      var move = KingMask;              // Each side has one King
-      var moveFrom = move | (Move)(vKingPos << nFromBit);
+      // Each side has one King
+      var moveFrom = KingMove | fromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
 
       var bWTM = WTM();
@@ -238,8 +235,8 @@ namespace Engine {
 #else
     private void addKingCaptures(Plane qpTo, Byte vKingPos) {
 #endif
-      var move = KingMask;              // Each side has one King
-      var moveFrom = move | (Move)(vKingPos << nFromBit);
+      // Each side has one King
+      var moveFrom = KingMove | fromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
 
       var bWTM = WTM();
@@ -262,10 +259,9 @@ namespace Engine {
     }
 
     private void addKnightCapturesAndMoves(Plane qpTo, Plane qpPiece) {
-      var move = KnightMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = KnightMove | fromMove(nFrom);
         var qpMoveTo = KnightAtx[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoKnightMove, PseudoKnightMove, moveFrom, qpMoveTo);
@@ -273,20 +269,18 @@ namespace Engine {
     }
 
     private void addKnightCaptures(Plane qpTo, Plane qpPiece) {
-      var move = KnightMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = KnightMove | fromMove(nFrom);
         var qpMoveTo = KnightAtx[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
       }
     }
 
     private void addBishopCapturesAndMoves(Plane qpTo, Plane qpPiece) {
-      var move = BishopMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = BishopMove | fromMove(nFrom);
         var qpMoveTo = diagAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoDiagAboveMove, PseudoDiagBelowMove, moveFrom, qpMoveTo);
@@ -294,20 +288,18 @@ namespace Engine {
     }
 
     private void addBishopCaptures(Plane qpTo, Plane qpPiece) {
-      var move = BishopMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = BishopMove | fromMove(nFrom);
         var qpMoveTo = diagAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
       }
     }
 
     private void addRookCapturesAndMoves(Plane qpTo, Plane qpPiece) {
-      var move = RookMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = RookMove | fromMove(nFrom);
         var qpMoveTo = rectAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoRectAboveMove, PseudoRectBelowMove, moveFrom, qpMoveTo);
@@ -315,20 +307,18 @@ namespace Engine {
     }
 
     private void addRookCaptures(Plane qpTo, Plane qpPiece) {
-      var move = RookMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = RookMove | fromMove(nFrom);
         var qpMoveTo = rectAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpMoveTo);
       }
     }
 
     private void addQueenCapturesAndMoves(Plane qpTo, Plane qpPiece) {
-      var move = QueenMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = QueenMove | fromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
         var qpRectTo = rectAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);
@@ -339,10 +329,9 @@ namespace Engine {
     }
 
     private void addQueenCaptures(Plane qpTo, Plane qpPiece) {
-      var move = QueenMask;
       while (qpPiece != 0) {
         var nFrom = RemoveLo(ref qpPiece);
-        var moveFrom = move | (Move)(nFrom << nFromBit);
+        var moveFrom = QueenMove | fromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
         var qpRectTo = rectAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);

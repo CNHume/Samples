@@ -143,14 +143,8 @@ namespace Engine {
         throw new MoveException(sDiagnosis + sPACN);
       }
 
-      var move = (Move)(((UInt32)piece << nPieceBit) |
-                        ((UInt32)promotion << nPromoteBit) |
-                        ((UInt32)nTo << nToBit) |
-                        ((UInt32)nFrom << nFromBit));
-
-      if (bCapture)
-        move |= (Move)((UInt32)indexPiece(vCapture) << nCaptiveBit);
-
+      var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
+      if (bCapture) move |= captureMove(indexPiece(vCapture));
       return move;
     }
 

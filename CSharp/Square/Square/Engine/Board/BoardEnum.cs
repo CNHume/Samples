@@ -379,17 +379,39 @@ namespace Engine {
       return bWTM ? nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
     }
 
-    #region Move Accessor Methods
+    #region Move Setter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Byte pieceIndex(UInt32 uPiece) {
-      return (Byte)(uPiece - vFirst);
+    protected static Move fromMove(Int32 nFrom) {
+      return (Move)(nFrom << nFromBit);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Piece indexPiece(Byte vPiece) {
-      return (Piece)(vPiece + vFirst);
+    protected static Move toMove(Int32 nTo) {
+      return (Move)(nTo << nToBit);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move fromToMove(Int32 nFrom, Int32 nTo) {
+      return toMove(nTo) | fromMove(nFrom);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move pieceMove(Piece piece) {
+      return (Move)((UInt32)piece << nPieceBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move captureMove(Piece capture) {
+      return (Move)((UInt32)capture << nCaptiveBit);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Move promotionMove(Piece p) {
+      return (Move)((UInt32)p << nPromoteBit);
+    }
+    #endregion
+
+    #region Move Getter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 from(Move move) {
       return (Int32)move >> nFromBit & (Int32)uSquareMask;
@@ -398,6 +420,16 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Int32 to(Move move) {
       return (Int32)move >> nToBit & (Int32)uSquareMask;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal static Byte pieceIndex(UInt32 uPiece) {
+      return (Byte)(uPiece - vFirst);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Piece indexPiece(Byte vPiece) {
+      return (Piece)(vPiece + vFirst);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

@@ -16,7 +16,6 @@ namespace Engine {
   using System.Collections.Generic;
 
   using static MoveOrder.TypedMove;
-  using static MoveOrder.TypedMove.MoveType;
 
   //
   // Type Aliases:
@@ -276,58 +275,58 @@ namespace Engine {
 
       foreach (var moveType in MoveTypes) {
         switch (moveType) {
-        case PawnAboveCapture:
+        case MoveType.PawnAboveCapture:
           moves.AddRange(PseudoQueenPromotionCapture);
           moves.AddRange(PseudoUnderPromotionCapture);
           moves.AddRange(PseudoEPCapture);              //[Note]Legality is assessed via tryMoves()
           moves.AddRange(PseudoPawnAboveCapture);
           break;
-        case PawnBelowCapture:
+        case MoveType.PawnBelowCapture:
           moves.AddRange(PseudoPawnBelowCapture);
           break;
-        case KnightCapture:
+        case MoveType.KnightCapture:
           moves.AddRange(PseudoKnightCapture);
           break;
-        case KingCapture:
+        case MoveType.KingCapture:
           moves.AddRange(PseudoKingCapture);
           break;
-        case DiagAboveCapture:
+        case MoveType.DiagAboveCapture:
           moves.AddRange(PseudoDiagAboveCapture);
           break;
-        case DiagBelowCapture:
+        case MoveType.DiagBelowCapture:
           moves.AddRange(PseudoDiagBelowCapture);
           break;
-        case RectAboveCapture:
+        case MoveType.RectAboveCapture:
           moves.AddRange(PseudoRectAboveCapture);
           break;
-        case RectBelowCapture:
+        case MoveType.RectBelowCapture:
           moves.AddRange(PseudoRectBelowCapture);
           break;
-        case PawnAboveMove:
+        case MoveType.PawnAboveMove:
           moves.AddRange(PseudoQueenPromotion);
           moves.AddRange(PseudoUnderPromotion);
           moves.AddRange(PseudoPawnAboveMove);
           break;
-        case PawnBelowMove:
+        case MoveType.PawnBelowMove:
           moves.AddRange(PseudoPawnBelowMove);
           break;
-        case KnightMove:
+        case MoveType.KnightMove:
           moves.AddRange(PseudoKnightMove);
           break;
-        case KingMove:
+        case MoveType.KingMove:
           moves.AddRange(PseudoCastles);
           moves.AddRange(PseudoKingMove);
           break;
-        case DiagAboveMove:
+        case MoveType.DiagAboveMove:
           moves.AddRange(PseudoDiagAboveMove);
           break;
-        case DiagBelowMove:
+        case MoveType.DiagBelowMove:
           moves.AddRange(PseudoDiagBelowMove);
           break;
-        case RectAboveMove:
+        case MoveType.RectAboveMove:
           moves.AddRange(PseudoRectAboveMove);
           break;
-        case RectBelowMove:
+        case MoveType.RectBelowMove:
           moves.AddRange(PseudoRectBelowMove);
           break;
         default:
