@@ -69,51 +69,55 @@ namespace Engine {
     #endregion
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
+    private static sq? parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
+      sq? sq = default;
+      if (nPos + 2 <= nLen) {
+        sq = TryParseSquare(sMove.Substring(nPos, 2));
+        nPos += 2;
+      }
+      return sq;
+    }
+
+    private static Boolean tryParsePromotion(
+      Char cPromotion, out Piece promotion) {
+      var bValid = true;
+      switch (Char.ToUpper(cPromotion)) {
+      case 'R':
+        promotion = Piece.R;
+        break;
+      case 'N':
+        promotion = Piece.N;
+        break;
+      case 'B':
+        promotion = Piece.B;
+        break;
+      case 'Q':
+        promotion = Piece.Q;
+        break;
+      case cSpace:
+        promotion = Piece.None;
+        break;
+      default:
+        promotion = Piece.None;
+        bValid = false;
+        break;
+      }
+      return bValid;
+    }
+
     protected Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
       var nLen = sMove.Length;
       var nPos = 0;
-
-      String sFrom = default;
-      if (nPos + 2 <= nLen) {
-        sFrom = sMove.Substring(nPos, 2);
-        nPos += 2;
-      }
-      sqFrom = TryParseSquare(sFrom);
-
-      String sTo = default;
-      if (nPos + 2 <= nLen) {
-        sTo = sMove.Substring(nPos, 2);
-        nPos += 2;
-      }
-      sqTo = TryParseSquare(sTo);
-
+      sqFrom = parseSquare(sMove, ref nPos, nLen);
+      sqTo = parseSquare(sMove, ref nPos, nLen);
       var cPromotion = nPos < nLen ? sMove[nPos++] : cSpace;
-      promotion = Piece.None;
 
-      var bValid = sqFrom.HasValue && sqTo.HasValue && nPos == nLen;
-      if (bValid) {
-        switch (Char.ToUpper(cPromotion)) {
-        case 'R':
-          promotion = Piece.R;
-          break;
-        case 'N':
-          promotion = Piece.N;
-          break;
-        case 'B':
-          promotion = Piece.B;
-          break;
-        case 'Q':
-          promotion = Piece.Q;
-          break;
-        case cSpace:
-          break;
-        default:
-          bValid = false;
-          break;
-        }
+      if (sqFrom.HasValue && sqTo.HasValue && nPos == nLen)
+        return tryParsePromotion(cPromotion, out promotion);
+      else {
+        promotion = Piece.None;
+        return false;
       }
-
-      return bValid;
     }
 
     private Move buildMove(String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo, Plane qpTo,

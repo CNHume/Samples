@@ -626,12 +626,10 @@ namespace Engine {
         Restricted[nFrom] = qpCheck | qpRay;
         PinnedPiece |= qpFrom;  // Mark Restricted[nFrom] valid
       }
-      else {
+      else if (!bFromPin) {
         // Illegal Move should not have been considered because it ignored an existing Check
-        if (!bFromPin) {
-          Debug.Assert(bFromPin, "Move failed to avoid check");
-          //[Debug]DisplayCurrent("restrictPiece()");
-        }
+        Debug.Assert(bFromPin, "Move failed to avoid check");
+        //[Debug]DisplayCurrent("restrictPiece()");
       }
     }
     #endregion
