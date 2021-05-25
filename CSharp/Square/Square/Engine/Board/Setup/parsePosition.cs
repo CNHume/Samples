@@ -229,12 +229,7 @@ namespace Engine {
     }
 
     public static sq? TryParseSquare(String s, Boolean ignoreCase = true) {
-      sq? sq = default;
-
-      if (Enum.TryParse(typeof(sq), s, ignoreCase, out Object result))
-        sq = (sq?)result;
-
-      return sq;
+      return s.TryParseEnum<sq>(ignoreCase);
     }
 
     protected void parsePassed(Boolean bWTM, String sPassed) {

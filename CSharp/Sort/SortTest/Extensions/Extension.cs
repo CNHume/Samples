@@ -77,9 +77,10 @@ namespace SortTest.Extensions {
         (UInt32?)result : default;
     }
 
-    public static T TryParseEnum<T>(this String value, Boolean ignoreCase = false) {
-      return Enum.TryParse(typeof(T), value, ignoreCase, out Object result) ?
-        (T)result : default;
+    public static TEnum? TryParseEnum<TEnum>(this String s, Boolean ignoreCase = false)
+      where TEnum : struct {
+      return Enum.TryParse(s, ignoreCase, out TEnum result) ?
+        (TEnum?)result : default;
     }
     #endregion
 

@@ -717,5 +717,13 @@ namespace Engine {
       entries[next] = entry;
     }
     #endregion
+
+    #region Parse Methods
+    public static TEnum? TryParseEnum<TEnum>(this String s, Boolean ignoreCase = false)
+      where TEnum : struct {
+      return Enum.TryParse(s, ignoreCase, out TEnum result) ?
+        (TEnum?)result : default;
+    }
+    #endregion
   }
 }
