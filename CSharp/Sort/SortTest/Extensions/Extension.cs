@@ -58,23 +58,28 @@ namespace SortTest.Extensions {
 
     #region Parser Methods
     public static DateTime? TryParseDateTime(this String s) {
-      return DateTime.TryParse(s, out DateTime result) ? (DateTime?)result : null;
+      return DateTime.TryParse(s, out DateTime result) ?
+        (DateTime?)result : default;
     }
 
     public static Decimal? TryParseDecimal(this String s) {
-      return Decimal.TryParse(s, out Decimal result) ? (Decimal?)result : null;
+      return Decimal.TryParse(s, out Decimal result) ?
+        (Decimal?)result : default;
     }
 
     public static Int32? TryParseInt32(this String s) {
-      return Int32.TryParse(s, out Int32 result) ? (Int32?)result : null;
+      return Int32.TryParse(s, out Int32 result) ?
+        (Int32?)result : default;
     }
 
     public static UInt32? TryParseUInt32(this String s) {
-      return UInt32.TryParse(s, out UInt32 result) ? (UInt32?)result : null;
+      return UInt32.TryParse(s, out UInt32 result) ?
+        (UInt32?)result : default;
     }
 
-    public static T ParseEnum<T>(this String value, bool ignoreCase = false) {
-      return (T)Enum.Parse(typeof(T), value, ignoreCase);
+    public static T TryParseEnum<T>(this String value, Boolean ignoreCase = false) {
+      return Enum.TryParse(typeof(T), value, ignoreCase, out Object result) ?
+        (T)result : default;
     }
     #endregion
 

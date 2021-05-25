@@ -78,37 +78,39 @@ namespace Engine {
         sFrom = sMove.Substring(nPos, 2);
         nPos += 2;
       }
+      sqFrom = TryParseSquare(sFrom);
 
       String sTo = default;
       if (nPos + 2 <= nLen) {
         sTo = sMove.Substring(nPos, 2);
         nPos += 2;
       }
-
-      sqFrom = TryParseSquare(sFrom);
       sqTo = TryParseSquare(sTo);
-      var cPromotion = nPos < nLen ? sMove[nPos++] : cSpace;
-      var bValid = nPos == nLen && sqFrom.HasValue && sqTo.HasValue;
 
+      var cPromotion = nPos < nLen ? sMove[nPos++] : cSpace;
       promotion = Piece.None;
-      switch (Char.ToUpper(cPromotion)) {
-      case 'R':
-        promotion = Piece.R;
-        break;
-      case 'N':
-        promotion = Piece.N;
-        break;
-      case 'B':
-        promotion = Piece.B;
-        break;
-      case 'Q':
-        promotion = Piece.Q;
-        break;
-      case cSpace:
-        break;
-      default:
-        bValid = false;
-        break;
+
+      var bValid = sqFrom.HasValue && sqTo.HasValue && nPos == nLen;
+      if (bValid) {
+        switch (Char.ToUpper(cPromotion)) {
+        case 'R':
+          promotion = Piece.R;
+          break;
+        case 'N':
+          promotion = Piece.N;
+          break;
+        case 'B':
+          promotion = Piece.B;
+          break;
+        case 'Q':
+          promotion = Piece.Q;
+          break;
+        case cSpace:
+          break;
+        default:
+          bValid = false;
+          break;
+        }
       }
 
       return bValid;

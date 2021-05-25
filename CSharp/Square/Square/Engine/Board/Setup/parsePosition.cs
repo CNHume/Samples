@@ -9,7 +9,6 @@
 
 namespace Engine {
   using Command;                        // For Scanner
-
   using Exceptions;
 
   using System;
@@ -229,17 +228,11 @@ namespace Engine {
       return bOrthodox;
     }
 
-    public static sq? TryParseSquare(String s) {
+    public static sq? TryParseSquare(String s, Boolean ignoreCase = true) {
       sq? sq = default;
 
-      if (s?.Length == 2) {
-        var cFile = Char.ToLower(s[0]);
-        var cRank = s[1];
-        var nX = cFile - cFileMin;
-        var nY = cRank - cRankMin;
-        if (inBounds(nX, nY))
-          sq = (sq)sqr(nX, nY);
-      }
+      if (Enum.TryParse(typeof(sq), s, ignoreCase, out Object result))
+        sq = (sq?)result;
 
       return sq;
     }
