@@ -98,14 +98,18 @@ namespace Engine {
           promotion = piece.Value;
           return true;
         }
-        // else fail below
+
+        //[Safe]pacnMoveTokenRules should prevent this from occurring:
+        throw new MoveException($"Invalid Promotion: {piece.Value}");
       }
+
       promotion = Piece.None;
       return false;
     }
 
-    private Move buildMove(String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo, Plane qpTo,
-                           Byte vPiece, Plane qpFriend, Byte vCapture, Boolean bCapture) {
+    private Move buildMove(String sPACN, sq? sqFrom, sq? sqTo, Piece promotion,
+                           Int32 nFrom, Int32 nTo, Plane qpTo, Byte vPiece,
+                           Plane qpFriend, Byte vCapture, Boolean bCapture) {
       //
       // Validate Non-Castling Move
       //
@@ -123,8 +127,8 @@ namespace Engine {
       //
       // Validate Promotion
       //
-      var bPromote = Side.Any(side => (side.Parameter.RankLast & qpTo) != 0);
-      var bRequired = vPiece == vP6 && bPromote;
+      var bLastRank = Side.Any(side => (side.Parameter.RankLast & qpTo) != 0);
+      var bRequired = vPiece == vP6 && bLastRank;
       var bSupplied = promotion != Piece.None;
       if (bRequired != bSupplied) {
         var sDiagnosis = bRequired ? "Promotion Required: " : "Invalid Promotion: ";
@@ -157,7 +161,7 @@ namespace Engine {
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
         var pieceFrom = indexPiece(vPieceFrom);
-        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {pieceFrom} from {sqFrom}";
+        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {pieceFrom} from {sqFrom} to {sqTo}";
         throw new MoveException(message);
       }
 
@@ -166,20 +170,20 @@ namespace Engine {
       var bCapture = (qpTo & qpFoe) != 0;
       if (bCapture)
         vCapture = vPieceTo;
-      else if (vPieceFrom == vP6) {
-        if (IsPassed() && nTo == ep(FlagsLo)) {
-          bCapture = true;
-          vCapture = vEP6;
-        }
+      else if (vPieceFrom == vP6 && IsPassed() && nTo == ep(FlagsLo)) {
+        bCapture = true;
+        vCapture = vEP6;
       }
       else if (vPieceFrom == vK6) {
-        if (((KingAtx[nFrom] & qpTo) == 0 || castle.IsChess960 && vPieceTo == vR6)) {
-          //
-          //[Chess 960]OO/OOO notation is required in those cases where a King castles by
-          // moving only one square.  However, cases where a King would otherwise need to
-          // be seen as capturing its own Rook will instead be assumed attempts to castle.
-          // canCastle() will be called as needed, when this method returns.
-          //
+        //
+        //[Chess 960]OO/OOO notation is required in those cases where a King castles by
+        // moving only one square.  However, cases where a King might otherwise be seen
+        // as capturing its own Rook are assumed to be attempts to castle.  canCastle()
+        // will be called if needed, when this method returns.
+        //
+        var bUnambiguousRook = castle.IsChess960 && vPieceTo == vR6;
+        var bUnambiguousKing = (KingAtx[nFrom] & qpTo) == 0;
+        if (bUnambiguousRook || bUnambiguousKing) {
           var rule = getRule(bWTM);
           move = rule.Castles(nTo);
           if (move == Move.Undefined)
@@ -189,8 +193,9 @@ namespace Engine {
       }
 
       if (!bCastles)
-        move = buildMove(sPACN, sqFrom, sqTo, promotion, nFrom, nTo, qpTo,
-                         vPieceFrom, qpFriend, vCapture, bCapture);
+        move = buildMove(sPACN, sqFrom, sqTo, promotion,
+                         nFrom, nTo, qpTo, vPieceFrom,
+                         qpFriend, vCapture, bCapture);
       else if (promotion != Piece.None)
         throw new MoveException($"Cannot promote when castling: {sPACN}");
 
@@ -261,7 +266,7 @@ namespace Engine {
               position.setName();
             }
             else
-              throw new MoveException($"Illegal move: {sPACN}");
+              throw new MoveException($"Illegal Move: {sPACN}");
           }
           catch {
             // Reclaim *last* child if parsePACNMove() should fail to complete normally

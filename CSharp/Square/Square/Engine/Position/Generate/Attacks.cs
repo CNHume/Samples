@@ -627,7 +627,7 @@ namespace Engine {
         PinnedPiece |= qpFrom;          // Mark Restricted[nFrom] valid
       }
       else if (State.IsSearchInProgress) {
-        // Diagnose Engine Generated Moves, not User Moves
+        // Diagnose Engine Generated Moves, not User Moves made via ParsePACNMakeMoves()
         Debug.Assert(bFromPin, "Move fails to evade check");
         //[Debug]DisplayCurrent("restrictPiece()");
       }

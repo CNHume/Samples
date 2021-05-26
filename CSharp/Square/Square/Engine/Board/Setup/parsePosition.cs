@@ -141,6 +141,17 @@ namespace Engine {
       }                                 //[Next]Rank
     }
 
+    private static Boolean parseWTM(String sToMove) {
+      switch (sToMove.ToLower()) {
+      case "w":
+        return true;
+      case "b":
+        return false;
+      default:
+        throw new ParsePositionException($"Unknown Side To Move = {sToMove}");
+      }
+    }
+
     //
     //[Chess 960]parseCastleRights() and InitCastleRules() allow for Chess 960 castling
     //
@@ -279,17 +290,7 @@ namespace Engine {
       // 2. Side to Move
       //
       var sToMove = scanner.HasTextSpan() ? scanner.Next() : "w";
-
-      switch (sToMove.ToLower()) {
-      case "w":
-        bWTM = true;
-        break;
-      case "b":
-        bWTM = false;
-        break;
-      default:
-        throw new ParsePositionException($"Unknown Side To Move = {sToMove}");
-      }
+      bWTM = parseWTM(sToMove);
 
       //
       // 3. Castling Flags
