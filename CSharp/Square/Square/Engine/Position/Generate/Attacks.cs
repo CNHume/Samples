@@ -622,13 +622,13 @@ namespace Engine {
     private void addRestriction(Int32 nFrom, Plane qpFrom, Plane qpRay, Plane qpCheck) {
       // Test for Pin Restriction, subject to the PasserPin Exemption
       var bFromPin = (qpRay & qpFrom) != 0;
-      if (bFromPin) {           //[Safe]
+      if (bFromPin) {                   //[Safe]
         Restricted[nFrom] = qpCheck | qpRay;
-        PinnedPiece |= qpFrom;  // Mark Restricted[nFrom] valid
+        PinnedPiece |= qpFrom;          // Mark Restricted[nFrom] valid
       }
-      else if (!bFromPin) {
-        // Illegal Move should not have been considered because it ignored an existing Check
-        Debug.Assert(bFromPin, "Move failed to avoid check");
+      else if (State.IsSearchInProgress) {
+        // Diagnose Engine Generated Moves, not User Moves
+        Debug.Assert(bFromPin, "Move fails to evade check");
         //[Debug]DisplayCurrent("restrictPiece()");
       }
     }

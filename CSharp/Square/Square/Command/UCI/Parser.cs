@@ -400,7 +400,7 @@ namespace Command {
           //
           wChess960 = (UInt16)position.State.SeededRandom.Next(960);
           position.SetFischerRandom(wChess960);
-          //[Note]A list of moves is disallowed here, because the choice of position is random
+          //[Note]A list of moves is disallowed, because the choice of position was random
         }
         break;
       case "startpos":

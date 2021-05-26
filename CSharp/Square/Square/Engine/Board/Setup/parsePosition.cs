@@ -81,11 +81,39 @@ namespace Engine {
       return bValid;
     }
 
-    private void parsePieces(String sPieces) {
+    private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
+      if (!IsDigit(cPlacement)) {
+        wasDigit = false;
+        var bColor = IsUpper(cPlacement);
+        var piece = TryParsePiece(cPlacement.ToString());
+        if (!piece.HasValue)
+          throw new ParsePositionException($"Unexpected Piece Name = {cPlacement}");
+
+        var vPiece = pieceIndex((UInt32)piece);
+        var side = getSide(bColor);
+        placePiece(side, vPiece, sqr(x, y));
+        x++;                            // Placed Piece
+      }
+      else if (wasDigit)
+        throw new ParsePositionException("Unexpected empty squares digit");
+      else {                            // Skip Empty Squares
+        wasDigit = true;
+        var nEmpty = cPlacement - '0';
+        x += nEmpty;
+
+        if (x > nFiles) {
+          var nRankPos = y + 1;
+          throw new ParsePositionException($"Too many squares on rank {nRankPos}");
+        }
+      }
+    }
+
+    private void parseFENPlacements(String sPlacements) {
       const Char cSlash = '/';
-      var rank = sPieces.Split(cSlash);
+      var rank = sPlacements.Split(cSlash);
       var nRows = rank.Length;
 
+      // Require a Row for each Rank
       if (nRows != nRanks) {
         var sb = new StringBuilder("FEN specifies ")
           .Append(nRows)
@@ -95,64 +123,33 @@ namespace Engine {
       }
 
       for (var nRow = 0; nRow < nRows; nRow++) {
+        var y = invertRank(nRow);
         var sRank = rank[nRow];
-        var nRankLength = sRank.Length;
-        var nChar = 0;
-        var y = nRanks - (nRow + 1);
-        var wasDigit = false;
+        var nLength = sRank.Length;
+        var nPos = 0;
+        var wasDigit = false;           // Disallow double digits 
 
-        for (var x = 0; x < nFiles; nChar++) {
-          if (nChar < nRankLength) {
-            var cParse = sRank[nChar];
-
-            if (IsDigit(cParse)) {
-              if (wasDigit)
-                throw new ParsePositionException("Unexpected empty squares digit");
-
-              wasDigit = true;
-              var nEmpty = cParse - '0';
-              x += nEmpty;
-
-              if (x > nFiles) {
-                var nRankPos = y + 1;
-                throw new ParsePositionException($"Too many squares on rank {nRankPos}");
-              }
-            }                           // Skipped Empty Squares
-            else {
-              wasDigit = false;
-              var bColor = IsUpper(cParse);
-              var piece = TryParsePiece(cParse.ToString());
-              if (!piece.HasValue)
-                throw new ParsePositionException($"Unexpected Piece Name = {cParse}");
-
-              var vPiece = pieceIndex((UInt32)piece);
-              var side = getSide(bColor);
-              placePiece(side, vPiece, sqr(x, y));
-              x++;                      // Placed Piece
-            }
-          }                             // Parsed Char
-          else {
-            var nRankPos = y + 1;
-            throw new ParsePositionException($"Too few characters for rank {nRankPos}");
-          }
+        for (var x = 0; x < nFiles; nPos++) {
+          if (nPos < nLength)
+            parsePlacement(sRank[nPos], ref wasDigit, ref x, y);
+          else
+            throw new ParsePositionException($"Too few characters for rank {y + 1}");
         }                               //[Next]Char
 
-        if (nChar < nRankLength) {
-          var nRankPos = y + 1;
-          throw new ParsePositionException($"Too many characters for rank {nRankPos}");
-        }
+        if (nPos < nLength)
+          throw new ParsePositionException($"Too many characters for rank {y + 1}");
       }                                 //[Next]Rank
     }
 
     //
     //[Chess 960]parseCastleRights() and InitCastleRules() allow for Chess 960 castling
     //
-    private Boolean parseCastleRights(String sRights) {
+    private Boolean parseCastleRights(String sCastleFlags) {
       var bOrthodox = false;
 
-      if (sRights != "-") {
-        if (sRights.Length > 4)
-          throw new ParsePositionException($"Invalid Castling Abilities = {sRights}");
+      if (sCastleFlags != "-") {
+        if (sCastleFlags.Length > 4)
+          throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
         var castle = State.Rule;
         if (castle is null)
@@ -161,23 +158,23 @@ namespace Engine {
         foreach (var side in Side)
           side.FlagsHi &= ~HiFlags.CanCastleMask;
 
-        for (var pos = 0; pos < sRights.Length; pos++) {
-          var cPos = sRights[pos];
-          switch (cPos) {
+        for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
+          var cFlag = sCastleFlags[nPos];
+          switch (cFlag) {
           case 'K':
-            cPos = 'H';
+            cFlag = 'H';
             bOrthodox = true;
             break;
           case 'Q':
-            cPos = 'A';
+            cFlag = 'A';
             bOrthodox = true;
             break;
           case 'k':
-            cPos = 'h';
+            cFlag = 'h';
             bOrthodox = true;
             break;
           case 'q':
-            cPos = 'a';
+            cFlag = 'a';
             bOrthodox = true;
             break;
           default:
@@ -185,12 +182,12 @@ namespace Engine {
             break;
           }
 
-          var cPosLower = ToLower(cPos);
+          var cPosLower = ToLower(cFlag);
           if (cPosLower < cFileMin || cFileMax < cPosLower)
-            throw new ParsePositionException($"Unknown Castle Flag = {cPos}");
+            throw new ParsePositionException($"Unknown Castle Flag = {cFlag}");
 
           var nRookFile = cPosLower - cFileMin;
-          var bWhite = IsUpper(cPos);
+          var bWhite = IsUpper(cFlag);
           var side = getSide(bWhite);
           var rule = getRule(bWhite);
           var nRank = bWhite ? 0 : nRankLast;
@@ -198,9 +195,10 @@ namespace Engine {
         }                               //[Next]Right
 
         if (castle.IsChess960 && bOrthodox)
-          throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Rights");
+          throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
 
-        castle.ValidateCastlingSymmetry(Side[White].KingPos + nRankLast == Side[Black].KingPos);
+        bool bFromSameFile = Side[White].KingPos + nRankLast == Side[Black].KingPos;
+        castle.ValidateCastlingSymmetry(bFromSameFile);
       }
 
       return bOrthodox;
@@ -275,7 +273,7 @@ namespace Engine {
       if (!scanner.HasTextSpan())
         throw new ParsePositionException("No piece placements provided");
 
-      parsePieces(scanner.Next());
+      parseFENPlacements(scanner.Next());
 
       //
       // 2. Side to Move
@@ -294,10 +292,10 @@ namespace Engine {
       }
 
       //
-      // 3. Castling Abilities
+      // 3. Castling Flags
       //
-      var sRights = scanner.HasTextSpan() ? scanner.Next() : "-";
-      parseCastleRights(sRights);
+      var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
+      parseCastleRights(sCastleFlags);
 
       //
       // 4. Square Passed for En Passant
