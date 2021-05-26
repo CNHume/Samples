@@ -78,46 +78,30 @@ namespace Engine {
       return sq;
     }
 
-    private static Boolean tryParsePromotion(
-      Char cPromotion, out Piece promotion) {
-      var bValid = true;
-      switch (Char.ToUpper(cPromotion)) {
-      case 'R':
-        promotion = Piece.R;
-        break;
-      case 'N':
-        promotion = Piece.N;
-        break;
-      case 'B':
-        promotion = Piece.B;
-        break;
-      case 'Q':
-        promotion = Piece.Q;
-        break;
-      case cSpace:
-        promotion = Piece.None;
-        break;
-      default:
-        promotion = Piece.None;
-        bValid = false;
-        break;
-      }
-      return bValid;
+    private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
+      return nPos < nLen ?
+        TryParsePiece(sMove[nPos++].ToString()) : default;
     }
 
-    protected Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
+    private Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
       var nLen = sMove.Length;
       var nPos = 0;
       sqFrom = parseSquare(sMove, ref nPos, nLen);
       sqTo = parseSquare(sMove, ref nPos, nLen);
-      var cPromotion = nPos < nLen ? sMove[nPos++] : cSpace;
-
-      if (sqFrom.HasValue && sqTo.HasValue && nPos == nLen)
-        return tryParsePromotion(cPromotion, out promotion);
-      else {
-        promotion = Piece.None;
-        return false;
+      if (sqFrom.HasValue && sqTo.HasValue) {
+        var piece = parsePiece(sMove, ref nPos, nLen);
+        if (!piece.HasValue) {
+          promotion = Piece.None;
+          return true;
+        }
+        else if (Promotions.Any(p => p == piece.Value)) {
+          promotion = piece.Value;
+          return true;
+        }
+        // else fail below
       }
+      promotion = Piece.None;
+      return false;
     }
 
     private Move buildMove(String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo, Plane qpTo,

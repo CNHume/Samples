@@ -120,36 +120,14 @@ namespace Engine {
             }                           // Skipped Empty Squares
             else {
               wasDigit = false;
-              var nTo = sqr(x, y);
-              var qp = BIT0 << nTo;
               var bColor = IsUpper(cParse);
-
-              var vPiece = vPieceNull;
-              switch (ToUpper(cParse)) {
-              case 'P':
-                vPiece = vP6;
-                break;
-              case 'R':
-                vPiece = vR6;
-                break;
-              case 'N':
-                vPiece = vN6;
-                break;
-              case 'B':
-                vPiece = vB6;
-                break;
-              case 'Q':
-                vPiece = vQ6;
-                break;
-              case 'K':
-                vPiece = vK6;
-                break;
-              default:
+              var piece = TryParsePiece(cParse.ToString());
+              if (!piece.HasValue)
                 throw new ParsePositionException($"Unexpected Piece Name = {cParse}");
-              }
 
+              var vPiece = pieceIndex((UInt32)piece);
               var side = getSide(bColor);
-              placePiece(side, vPiece, nTo);
+              placePiece(side, vPiece, sqr(x, y));
               x++;                      // Placed Piece
             }
           }                             // Parsed Char
@@ -226,10 +204,6 @@ namespace Engine {
       }
 
       return bOrthodox;
-    }
-
-    public static sq? TryParseSquare(String s, Boolean ignoreCase = true) {
-      return s.TryParseEnum<sq>(ignoreCase);
     }
 
     protected void parsePassed(Boolean bWTM, String sPassed) {
