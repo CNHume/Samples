@@ -99,8 +99,8 @@ namespace Engine {
           return true;
         }
 
-        //[Safe]pacnMoveTokenRules should prevent this from occurring:
-        throw new MoveException($"Invalid Promotion: {piece.Value}");
+        //[Safe]pacnMoveTokenRules should prevent an Invalid Promotion Piece:
+        throw new MoveException($"Invalid Promotion Piece: {piece.Value}");
       }
 
       promotion = Piece.None;
@@ -131,8 +131,8 @@ namespace Engine {
       var bRequired = vPiece == vP6 && bLastRank;
       var bSupplied = promotion != Piece.None;
       if (bRequired != bSupplied) {
-        var sDiagnosis = bRequired ? "Promotion Required: " : "Invalid Promotion: ";
-        throw new MoveException(sDiagnosis + sPACN);
+        var sDiagnosis = bRequired ? "Required" : "Invalid";
+        throw new MoveException($"Promotion {sDiagnosis} for {sPACN}");
       }
 
       var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
