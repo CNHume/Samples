@@ -66,7 +66,7 @@ namespace Engine {
       if (IsSearchInProgress)
         throw new ChessException("Search in progress");
       else if (MovePosition is null)
-        throw new ChessException("Unitialized Position");
+        throw new ChessException("Uninitialized Position");
       else if (!MovePosition.IsValid(out string sInvalid))
         throw new InvalidPositionException("Invalid Position");
       else if (!MovePosition.IsLegal())

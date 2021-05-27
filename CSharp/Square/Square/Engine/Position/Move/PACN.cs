@@ -117,7 +117,7 @@ namespace Engine {
       var piece = indexPiece(vPiece);
 
       if (!qpPieceAtx.HasValue)         //[Safe]
-        throw new ParseException($"Unexpected Piece in move: {sPACN}");
+        throw new ParseException($"Unexpected Piece in Move: {sPACN}");
       else {
         qpPieceAtx &= ~qpFriend;
         if ((qpPieceAtx & qpTo) == 0)
@@ -131,8 +131,8 @@ namespace Engine {
       var bRequired = vPiece == vP6 && bLastRank;
       var bSupplied = promotion != Piece.None;
       if (bRequired != bSupplied) {
-        var sDiagnosis = bRequired ? "Required" : "Invalid";
-        throw new MoveException($"Promotion {sDiagnosis} for {sPACN}");
+        var sDiagnosis = bRequired ? "Required" : "Illegal";
+        throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");
       }
 
       var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
@@ -143,7 +143,7 @@ namespace Engine {
     private Int32 parseFromTo(String sPACN, ref Boolean bCastles, ref Move move) {
       var bWTM = WTM();
       if (!parsePACN(sPACN, out sq? sqFrom, out sq? sqTo, out Piece promotion))
-        throw new MoveException($"Invalid move: {sPACN}");
+        throw new MoveException($"Invalid Move: {sPACN}");
 
       var nFrom = (Int32)sqFrom;
       var nTo = (Int32)sqTo;
@@ -160,9 +160,11 @@ namespace Engine {
       if ((qpFrom & RankPiece) == 0)
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
+        var friendSideName = friend.Parameter.SideName;
+        var foeSideName = foe.Parameter.SideName;
         var pieceFrom = indexPiece(vPieceFrom);
-        var message = $"{friend.Parameter.SideName} cannot move {foe.Parameter.SideName} {pieceFrom} from {sqFrom} to {sqTo}";
-        throw new MoveException(message);
+        throw new MoveException(
+          $"{friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
       }
 
       var castle = State.Rule;
@@ -301,7 +303,7 @@ namespace Engine {
             if (child.tryOrSkip(ref move))
               parseMoves.Add(move);
             else
-              throw new MoveException($"Illegal move: {sPACN}");
+              throw new MoveException($"Illegal Move: {sPACN}");
 
             if (!spaceToken.Accept()) break;
           }

@@ -134,7 +134,7 @@ namespace Command {
 
       case "timertest":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
         State.MovePosition.TimerTest();
@@ -180,25 +180,25 @@ namespace Command {
 
       case "board":                     //[Test]In the absence of a GUI
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.MovePosition is null)
-          throw new ChessException("Unitialized Position");
+          throw new ChessException("Uninitialized Position");
         else
           State.MovePosition.Display();
         break;
 
       case "tabiya":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.MovePosition is null)
-          throw new ChessException("Unitialized Position");
+          throw new ChessException("Uninitialized Position");
 
         Parser.ParseTabiya(State.MovePosition);
         break;
 
       case "moves":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
         State.MovePosition = State.MovePosition.ParsePACNMakeMoves(Parser);
@@ -206,7 +206,7 @@ namespace Command {
 
       case "unmove":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
         if (ReferenceEquals(State.MovePosition, State.RootPosition))
@@ -217,9 +217,9 @@ namespace Command {
 
       case "list":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.MovePosition is null)
-          throw new ChessException("Unitialized Position");
+          throw new ChessException("Uninitialized Position");
 
         State.ListMovesFromRoot(State.MovePosition, Parser.ParseList());
         break;
@@ -244,7 +244,7 @@ namespace Command {
 
       case "perft":                     //[Test]Look for corresponding Tabiya and run PerftCases
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
         Parser.ExpectEOL();
@@ -253,7 +253,7 @@ namespace Command {
 
       case "go":                        //[UCI]
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
         State.Go(Parser);
@@ -261,9 +261,9 @@ namespace Command {
 
       case "best":                      //[Test]
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.MovePosition is null)
-          throw new ChessException("Unitialized Position");
+          throw new ChessException("Uninitialized Position");
         else if (State.BestMoves is not null) {
           var sb = new StringBuilder();
           //[Note]refreshPV() may not have been called
@@ -275,14 +275,14 @@ namespace Command {
 
       case "ponderhit":                 //[UCI]
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else
           State.Ponderhit();
         break;
 #if UseTask
       case "status":
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.EngineTask is null)
           throw new ChessException("No search in progress");
 
@@ -291,7 +291,7 @@ namespace Command {
 
       case "stop":                      //[UCI]
         if (State is null)
-          throw new ChessException("Unitialized Game");
+          throw new ChessException("Uninitialized Game");
         else if (State.EngineTask is null)
           throw new ChessException("No search in progress");
 
