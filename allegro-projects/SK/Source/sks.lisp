@@ -22,26 +22,25 @@
 ;;;     Passing Style (CPS) of Functional Programming.
 ;;;
 
+;;;
+;;; Module Prologue:
+;;;
+(in-package cl-user)
+
 ;;; No Requirements.
 ;;; No Shadows.
 (eval-when (compile load) (use-package 'sk))
 ;;; Nothing to Import.
 ;;; Nothing to Export.
 
-;;;
-;;; Module Prologue:
-;;;
-(in-package cl-user)
-
-;;;
-;;; Now for the Code:
-;;;
 (defc EQLP ?left ?right (zerop (- left right)))
 
 ;;;
-;;; Try: (same-fringep
-;;;         (pair 1 (pair (pair 2 (pair 3 nil)) (pair 4 nil)))
-;;;         (pair (pair 1 (pair 2 nil)) (pair (pair 3 (pair 4 nil)) nil)))
+;;; Try:
+;;; (beta (same-fringep
+;;;   (pair 1 (pair (pair 2 (pair 3 nil)) (pair 4 nil)))
+;;;   (pair (pair 1 (pair 2 nil)) (pair (pair 3 (pair 4 nil)) nil))
+;;;   ))
 ;;;
 (defc SAME-FRINGEP (everyp2-tree eqlp))
 
@@ -61,8 +60,8 @@
 
 (defc EVERYP2-TREE ?fun ?xtree ?ytree
   (Y ?yme ?xgen ?ygen
-     (xgen ?xtree [more-x]?xg
-           (ygen ?ytree [more-y]?yg
+     (xgen ?xtree ?more-x ?xg
+           (ygen ?ytree ?more-y ?yg
                  (if (or2 more-x more-y)
                    (and2 (and2 more-x more-y)
                          (and2 (fun xtree ytree) (yme xg yg)))

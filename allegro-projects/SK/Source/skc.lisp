@@ -42,7 +42,7 @@
 ;;; Nothing to Export.
 
 ;;;
-;;; Now for the Code:
+;;; Load every combinator in *combinatoors* into the current package:
 ;;;
 (define-primitives)
 

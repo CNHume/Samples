@@ -33,7 +33,7 @@
 ;;; Chris Hume   1.15   24-Nov-91       Fixed I-Combinator reduction sharing.
 ;;; Chris Hume   1.14   24-Nov-91       Added elementary Integer Arithmetic.
 ;;; Chris Hume   1.13   23-Nov-91       Added E-Combinator.
-;;; Chris Hume   1.12   23-Nov-91       Added V-Combinator for: (S I I).
+;;; Chris Hume   1.12   23-Nov-91       Added V-Combinator for: S I I.
 ;;; Chris Hume   1.11   23-Nov-91       Fixed KNIL, PAIR, and U-combinators.
 ;;; Chris Hume   1.10   23-Nov-91       Averted apply of CBOUNDP to CL Term.
 ;;; Chris Hume   1.9    12-Nov-91       Reduced PAIR-combinator (as CONS).
@@ -98,55 +98,55 @@
 ;;;
 ;;; Primitive Combinators:
 ;;;
-;;;     (K t1 t2)               => t1
-;;;     (S t1 t2 t3)            => (t1 t3 (t2 t3))
+;;;     K t1 t2                 => t1
+;;;     S t1 t2 t3              => t1 t3 (t2 t3)
 ;;;
 ;;; Experimental Primitive:
 ;;;
-;;;     (KETA t1 t2 t3)         => (t1 t3)
+;;;     KETA t1 t2 t3           => t1 t3
 ;;;
 ;;; Elementary "Optimizers:"
 ;;;
-;;;     (B t1 t2 t3)            => (t1 (t2 t3))
-;;;     (C t1 t2 t3)            => (t1 t3 t2)
-;;;     (E t1 t2)               => (t2 t1)
-;;;     (H t1 t2)               => t2
-;;;     (I t1)                  => t1
-;;;     (V t1)                  => (t1 t1)
-;;;     (W t1 t2)               => (t1 t2 t2)
+;;;     I t1                    => t1           ;; I ≡ S K K
+;;;     B t1 t2 t3              => t1 (t2 t3)   ;; B is weak composition
+;;;     C t1 t2 t3              => t1 t3 t2
+;;;     H t1 t2                 => t2           ;; H ≡ C K
+;;;     E t1 t2                 => t2 t1        ;; E ≡ C I
+;;;     W t1 t2                 => t1 t2 t2     ;; W ≡ S E
+;;;     V t1                    => t1 t1        ;; V ≡ W I
 ;;;
 ;;; Un-implemented A-Combinator [for addition of Church Numerals]:
 ;;;
-;;;     (A t1 t2 t3 t4)         => (t1 t3 (t2 t3 t4))
+;;;     A t1 t2 t3 t4           => t1 t3 (t2 t3 t4)
 ;;;
 ;;; Uncurry, the U-Combinator, in conjuction with the PAIR-combinator:
 ;;;
-;;;     (U f (PAIR t1 t2))      => (f t1 t2)
+;;;     U f (PAIR t1 t2)        => f t1 t2
 ;;;
 ;;; Optimized Y-combinator:
 ;;;
-;;;     (Y t1)                  => (t1 (Y t1))
+;;;     Y t1                    => t1 (Y t1)
 ;;;
 ;;; Functional Booleans:
 ;;;
-;;;     (FALSE t1 t2)           => t2
-;;;      (TRUE t1 t2)           => t1
+;;;     FALSE t1 t2             => t2           ;; FALSE ≡ H
+;;;      TRUE t1 t2             => t1           ;; TRUE  ≡ K
 ;;;
 ;;; Superfluous Conditional Combinator [kept for backward compatibility]:
 ;;;
-;;;     (IF FALSE t1 t2)        => t2
-;;;     (IF  TRUE t1 t2)        => t1
+;;;     IF FALSE t1 t2          => t2
+;;;     IF  TRUE t1 t2          => t1
 ;;;
 ;;; List Predicates:
 ;;;
-;;;       CONSP list            == (consp  list)
-;;;       ENDP list             == (endp   list)
+;;;       CONSP list            = (consp  list)
+;;;       ENDP list             = (endp   list)
 ;;;
 ;;; Integer Predicates:         [Actually, Rationals are allowed.]
 ;;;
-;;;      ZEROP integer          == (zerop  integer)
-;;;      PLUSP integer          == (plusp  integer)
-;;;     MINUSP integer          == (minusp integer)
+;;;      ZEROP integer          = (zerop  integer)
+;;;      PLUSP integer          = (plusp  integer)
+;;;     MINUSP integer          = (minusp integer)
 ;;;
 ;;; NOTE: The following "Integer" Operations actually support Rationals.
 ;;;       All of these operators map Integers into Integers, apart from
@@ -335,10 +335,10 @@
                       (setq expr (pop lefts))
                       (let ((arg-1 ap-second) (arg-2 (second expr)))
                         (if (eq ap-first 'PAIR)
-                          (setq expr `(,arg-1 ,arg-2) stop t)
+                          (setq expr `(,arg-1 ,@arg-2) stop t)
                           (setf (first expr) 'quote
-                                (rest expr) `((,(apply #'sk-eval arg-1 keys) .
-                                               ,(apply #'sk-eval arg-2 keys)))
+                                (rest expr) `((,(apply #'sk-eval arg-1 keys)
+                                               ,@(apply #'sk-eval arg-2 keys)))
                                 )))
                       )))
                 ((QUOTE) (setq expr ap-second     ; Leave value on Stack.
@@ -352,24 +352,29 @@
                     ))
                 (V (setf (first expr) ap-second))
                 (Y (setf (first expr) ap-second   ; The Fixed Point Combinator
-                          (rest expr) `(,expr)))
+                         (rest expr) `(,expr)))
                 (U (if (endp lefts)               ; Require 2 Arguments.
-                      (progn (push expr lefts) (setq expr (first expr)))
+                      (progn
+                        (push expr lefts)
+                        (setq expr (first expr))
+                        (format t "~&[U no arg found: ~S]" expr))
                       (progn
                         (setq expr (pop lefts))
                         (let ((args (apply #'sk-eval (second expr) keys)))
                           (if (atom args)
                             (progn (push expr lefts)
-                                  (setq expr (first expr))
-                                  (push expr lefts)
-                                  (setq expr (first expr)))
+                              (setq expr (first expr))
+                              (push expr lefts)
+                              (setq expr (first expr)))
                             ;;
                             ;; Pop an argument and apply AP-SECOND to it:
                             ;;
                             (let ((arg (pop args)))
                               (setf (first expr) ap-second
-                                    (rest expr) `(,arg ,@args))
-                              )))
+                                    (rest expr) `(,arg ,args))
+                                ;;;[CNH 2021-06-28]Temporarily became splice from [CNH 2021-01-24]
+                                (format t "~&[U arg: ~S]" expr))
+                            ))
                         )))
                 (LAMBDA*                          ; Reduce Internal Abstractions.
                   (if (endp lefts)                ; Require 2 Arguments.

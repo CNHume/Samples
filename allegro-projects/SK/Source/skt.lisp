@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.8     5-Jul-21       Corrected abstractions of TAIL.
 ;;; Chris Hume   3.7     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   3.6     9-Dec-92       Added MAP2.
 ;;; Chris Hume   3.5     1-Jun-92       Incorporated Boolean Primitives.
@@ -52,45 +53,55 @@
 ;;; Nothing to Export.
 
 ;;;
-;;; Now for the Code:
+;;;(beta (head (pair 1 (pair 2 nil))))
+;;;(beta (tail (pair 1 (pair 2 nil))))
 ;;;
-(defc HEAD [head tail]head)
-(defc TAIL [head tail]tail)
+(defd HEAD ?(head . tail)head)                  ;; HEAD ≡ U K
+(defd TAIL ?(head . tail)tail)                  ;; TAIL ≡ U H
 
 (defc NEXT ?id ?fn ?args (if (endp args) id (fn args)))
 
 (defc UNTIL0
-  (next nil [head tail](if (zerop head) nil (pair head (until0 tail)))))
+  (next nil ?(head . tail)(if (zerop head) nil (pair head (until0 tail)))))
 
-(defc NTH ?n (next nil [head tail](if (zerop n) head (nth (- n 1) tail))))
+(defc NTH ?n (next nil ?(head . tail)(if (zerop n) head (nth (- n 1) tail))))
 
 (defc PREFER ?old ?fn
-  (next old [new tail](prefer (if (fn (- new old)) new old) fn tail)))
+  (next old ?(new . tail)(prefer (if (fn (- new old)) new old) fn tail)))
 
-(defc MAX [head tail](prefer head plusp tail))
-(defc MIN [head tail](prefer head minusp tail))
+;;;
+;;;(beta (max (pair 5 (pair 1 (pair 8 (pair 2 nil))))))
+;;;(beta (min (pair 5 (pair 1 (pair 8 (pair 2 nil))))))
+;;;
+(defc MAX ?(head . tail)(prefer head plusp tail))
+(defc MIN ?(head . tail)(prefer head minusp tail))
+
+;;;(beta (head (butfirstn 5 (from 3))))
 
 (defc BUTFIRSTN ?n ?args
-  (next nil [head tail](if (zerop n) args (butfirstn (- n 1) tail)) args))
+  (next nil ?(head . tail)(if (zerop n) args (butfirstn (- n 1) tail)) args))
 
 (defc REDUCENR ?id ?fn ?n
-  (next id [head tail](if (zerop n)
-                        id
-                        (fn head (reducenr id fn (- n 1) tail))
-                        )))
+  (next id ?(head . tail)(if (zerop n)
+                           id
+                           (fn head (reducenr id fn (- n 1) tail))
+                           )))
 
 (defc FIRSTN (reducenr nil pair))
 
 (defc SUBSEQ ?start ?stop ?args (firstn (- stop start) (butfirstn start args)))
 
-(defc REDUCEL ?id ?fn (next id [head tail](reducel (fn id head) fn tail)))
-(defc REDUCER ?id ?fn (next id [head tail](fn head (reducer id fn tail))))
+(defc REDUCEL ?id ?fn (next id ?(head . tail)(reducel (fn id head) fn tail)))
+(defc REDUCER ?id ?fn (next id ?(head . tail)(fn head (reducer id fn tail))))
 
 ;;;
 ;;; Try: (beta (difference (pair 5 (pair 2 (pair 4 nil)))))
 ;;;
-(defc DIFFERENCE [head tail](reducel head - tail))
+(defc DIFFERENCE ?(head . tail)(reducel head - tail))
 
+;;;
+;;; Try: (beta (sum (pair 5 (pair 2 (pair 4 nil)))))
+;;;
 (defc SUM (reducer 0 +))
 
 (defc LENGTH (reducer 0 ?head (+ 1)))
@@ -114,8 +125,7 @@
 (defc MAP2 ?fn ?args1 ?args2
   (if (or2 (endp args1) (endp args2))
     nil
-    ([head1 tail1][head2 tail2](pair (fn head1 head2) (map2 fn tail1 tail2))
-            args1 args2)
+    (?(head1 . tail1)?(head2 . tail2)(pair (fn head1 head2) (map2 fn tail1 tail2)) args1 args2)
     ))
 
 (defc MAP* ?fn ?arglists
@@ -130,10 +140,10 @@
 (defc MASK (masker 0))
 (defc MASKER ?n ?args
   (next nil
-        [head tail](?ep (pair ep (masker (+ n 1) (if ep tail args)))
-                        (zerop (- head n)))
+        ?(head . tail)(?ep (pair ep (masker (+ n 1) (if ep tail args)))
+                           (zerop (- head n)))
         args))
 
 (defc POSITIONS (positioner 0))
-(defc POSITIONER ?n (next nil [head tail](?ns (if head (pair n ns) ns)
-                                              (positioner (+ n 1) tail))))
+(defc POSITIONER ?n (next nil ?(head . tail)(?ns (if head (pair n ns) ns)
+                                                 (positioner (+ n 1) tail))))

@@ -4,6 +4,9 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   2.16   19-Jul-21       Documented ABBREV-S, adding Test Cases.
+;;; Chris Hume   2.15    4-Jul-21       Added DEFD.
+;;; Chris Hume   2.14   23-Jun-21       Added BUILD-ABSTRACTION.
 ;;; Chris Hume   2.13    8-Jan-21       Added *DEFAULT-PRINT-LENGTH* parameter.
 ;;; Chris Hume   2.12   14-Sep-20       Removed [-Reader template reduction.
 ;;; Chris Hume   2.11    2-Aug-20       Allowed empty list in [-READER.
@@ -28,7 +31,7 @@
 ;;; Chris Hume   1.14   27-Nov-91       Added DIV and [] Syntax Diagnostic.
 ;;; Chris Hume   1.13   24-Nov-91       Allowed for :STANDARD abbreviation.
 ;;; Chris Hume   1.12   23-Nov-91       Added E, finishing ABBREV-S series.
-;;; Chris Hume   1.11   23-Nov-91       Added V-Combinator for: (S I I).
+;;; Chris Hume   1.11   23-Nov-91       Added V-Combinator for: S I I.
 ;;; Chris Hume   1.10   23-Nov-91       Reworked CDEFINITION into Accessor.
 ;;; Chris Hume   1.9    11-Nov-91       Added Combinator Definition Macros.
 ;;; Chris Hume   1.8     9-Nov-91       Added QUOTE.
@@ -36,7 +39,7 @@
 ;;; Chris Hume   1.6     6-Nov-91       Messed about with the Keyword Passing.
 ;;; Chris Hume   1.5     5-Nov-91       Renamed a few symbols for consistency.
 ;;; Chris Hume   1.4    31-Oct-91       Removed Beta Reduction from this file.
-;;; Chris Hume   1.3    25-Oct-91       Coded the Combinators: (S K I B C).
+;;; Chris Hume   1.3    25-Oct-91       Coded the Combinators: S K I B C.
 ;;; Chris Hume   1.2    24-Oct-91       Began Reduction.
 ;;; Chris Hume   1.1    22-Oct-91       Finished Abstraction.
 ;;; Chris Hume   1.0    20-Oct-91       Created file.
@@ -71,13 +74,13 @@
 ;;;
 ;;; Abstraction:
 ;;;
-;;;     ?(t1, t2...) expr      = (lambda* (t1, t2...) expr)
 ;;;     ?var expr              = (lambda* var expr)
+;;;     ?(head . tail) expr    = (lambda* (head . tail) expr)
 ;;;
 ;;; Currying:
 ;;;
-;;;     (lambda* (head . tail) expr) = U (lambda* head (lambda* tail expr))
 ;;;     (lambda* nil expr) = knil expr
+;;;     (lambda* (head . tail) expr) = U (lambda* head (lambda* tail expr))
 ;;;
 ;;; External Procedures:
 ;;;
@@ -115,7 +118,7 @@
     "The Combinatory Primitives")
 
   (defparameter *INTERFACES*
-    '(beta cboundp cdefinition defc define-primitives div lambda*
+    '(beta cboundp cdefinition defc defd define-primitives div lambda*
       sk-implementation-version)
     "The S-K Reduction Engine Interfaces")
 
@@ -165,7 +168,7 @@
 ;;; Common Lisp Standard was being defined.
 ;;;
 ;;; Franz now uses the #+:allegro conditional for Allegro specific features;
-;;; but *print-level* should be supported by any ANSI Common Lisp compliant
+;;; and *print-level* should be supported by all ANSI Common Lisp compliant
 ;;; implementations.
 ;;;
 ;;;#+:ccl
@@ -176,7 +179,7 @@
 (defparameter *DEFAULT-PRINT-LENGTH* nil        ; Takes NIL, or an Integer.
   "Tracer *PRINT-LENGTH* Default")
 
-(defparameter *COUNT* nil                       ; Takes NIL, or T.
+(defparameter *COUNT* T                         ; Takes NIL, or T.
   "The Default Counter Display Setting")
 
 (defparameter *TRACE* nil                       ; Takes NIL, or T.
@@ -210,9 +213,8 @@
      (prog1
        (abstract ',var ',expr . ,keys)
        ,(when count
-          `(format t "~&[Processed ~2D term~A abstracting: ~S.]"
+          `(format t "~&[Processed ~D term~:P abstracting: ~S.]"
                    *abstraction-count*
-                   (if (= *abstraction-count* 1) " " "s")
                    ',var))
        )))
 
@@ -231,6 +233,11 @@
 (defmacro DEFC (c def)
   "Define a Combinator."
   `(progn (setf (cdefinition ',c) '(y (lambda* ,c ,def)))
+          ',c))
+
+(defmacro DEFD (c def)
+  "Define a Non-Recursive Combinator."
+  `(progn (setf (cdefinition ',c) ',def)
           ',c))
 
 ;;;
@@ -295,59 +302,72 @@
     ;; Abstraction Dispatcher:
     ;;
     (cond                                       ; Generalize Abstraction.
-     ((null var) `(knil ,expr))
-     ((consp var) `(u (lambda* ,(first var) (lambda* ,(rest var) ,expr))))
-     (t (cond
-         ((consp expr)                          ; NIL is handled as an Atom.
-          (let ((ap-first (first expr))
-                (ap-rest (rest expr)))
-            (if #+sk-traverse (endp ap-rest) #-sk-traverse nil
-              ;;
-              ;; A CL-Term is not supposed to be wrapped in gratuitous
-              ;; parentheses, but traverse any that may be encountered.
-              ;;
-              (progn
-                (when warn (warn "Alpha Parenthesized CL-Term: ~S." expr))
-                (when *abstraction-count*       ; Doesn't count as Abstraction.
-                  (decf *abstraction-count*))
-                (abstract var ap-first))
-              (let ((ap-second (second expr))
-                    (ap-more (rest ap-rest)))
-                (cond
-                  ((eq ap-first 'lambda*)         ; Resolve Inner Abstractions.
-                   (abstract var (eval expr)))    ; Recurse from LAMBDA* Macro.
-                  ;;
-                  ;; Perform Implicit Left Association, AFTER
-                  ;; recognizing Internal Abstractions (above).
-                  ;;
-                  (ap-more
-                    (when warn (warn "Implicit Left Association: ~S." expr))
-                    (when *abstraction-count*       ; Doesn't count as Abstraction.
-                      (decf *abstraction-count*))
-                    (abstract var (reduce #'list expr)))
-                  ;;
-                  ;; The S-K implementation of QUOTE is "curried", and
-                  ;; can be abbreviated just like any other combinator.
-                  ;;
-                  ((eq ap-first 'quote) (if (eq *optimize* :experimental)
-                                          `(keta ,expr) `(k ,expr)))
-                  ;;
-                  ;; Abstract the Application:
-                  ;;
-                  (t (let ((term-1 (abstract var ap-first))
-                          (term-2 (abstract var ap-second)))
-                      (if optimize
-                        (abbrev-s term-1 term-2) `(s ,term-1 ,term-2))
-                      ))
-                  )))
+      ((null var) `(knil ,expr))
+      ((consp var) `(u (lambda* ,(first var) (lambda* ,(rest var) ,expr))))
+      (t (cond
+           ((consp expr)                        ; NIL is handled as an Atom.
+            (let ((ap-first (first expr))
+                  (ap-rest (rest expr)))
+              (if #+sk-traverse (endp ap-rest) #-sk-traverse nil
+                ;;
+                ;; A CL-Term is not supposed to be wrapped in gratuitous
+                ;; parentheses, but traverse any that may be encountered.
+                ;;
+                (progn
+                  (when warn (warn "Alpha Parenthesized CL-Term: ~S." expr))
+                  (when *abstraction-count*     ; Doesn't count as Abstraction.
+                    (decf *abstraction-count*))
+                  (abstract var ap-first))
+                (let ((ap-second (second expr))
+                      (ap-more (rest ap-rest)))
+                  (cond
+                    ((eq ap-first 'lambda*)     ; Resolve Inner Abstractions.
+                     (abstract var (eval expr))); Recurse from LAMBDA* Macro.
+                     ;;
+                     ;; Perform Implicit Left Association, AFTER
+                     ;; recognizing Internal Abstractions (above).
+                     ;;
+                     (ap-more
+                       (when warn (warn "Implicit Left Association: ~S." expr))
+                       (when *abstraction-count*       ; Doesn't count as Abstraction.
+                         (decf *abstraction-count*))
+                       (abstract var (reduce #'list expr)))
+                     ;;
+                     ;; The S-K implementation of QUOTE is "curried", and
+                     ;; can be abbreviated just like any other combinator.
+                     ;;
+                    ((eq ap-first 'quote) (if (eq *optimize* :experimental)
+                                            `(keta ,expr) `(k ,expr)))
+                    ;;
+                    ;; Abstract the Application:
+                    ;;
+                    (t (let ((term-1 (abstract var ap-first))
+                            (term-2 (abstract var ap-second)))
+                        (if optimize
+                          (abbrev-s term-1 term-2) `(s ,term-1 ,term-2))
+                        ))
+                    )))
             ))
-         ((eql var expr) 'i)                    ; Allow Numeric Variables.
-         ((and *optimize* (not (eq *optimize* :standard)) (eq expr 'i)) 'h)
-         ((eq *optimize* :experimental) `(keta ,expr))
-         (t `(k ,expr))
-         ))
+           ((eql var expr) 'i)                    ; Allow Numeric Variables.
+           ((and *optimize* (not (eq *optimize* :standard)) (eq expr 'i)) 'h)
+           ((eq *optimize* :experimental) `(keta ,expr))
+           (t `(k ,expr))
+        ))
       )))
 
+;;;
+;;; Test Cases:
+;;;
+;;; (in-package sk)
+;;; (abbrev-s '(k e1) '(k e2))  ;; => K (e1 e2)
+;;; (abbrev-s '(k e1) 'i)       ;; => e1
+;;; (abbrev-s 's 'h)            ;; => W
+;;; (abbrev-s 'i '(k e2))       ;; => E e2
+;;; (abbrev-s 'i 'i)            ;; => V
+;;; (abbrev-s 'e1 '(k e2))      ;; => C e1 e2
+;;; (abbrev-s '(k e1) 'e2)      ;; => B e1 e2
+;;; (abbrev-s 'e1 'e2)          ;; => S e1 e2
+;;;
 (defun ABBREV-S (term-1 term-2)
   "Produce an S-Combinator, or an Abbreviation, given its first two Terms."
   (declare (special *optimize*))
@@ -361,18 +381,24 @@
       (let ((rest-1 (when term-1-kp (rest term-1)))
             (rest-2 (when term-2-kp (rest term-2))))
         (let ((first-1 (unless (rest rest-1) (first rest-1))))
-          (cond ((and term-1-kp term-2-kp)
+          (cond ((and term-1-kp term-2-kp)            ;; S (K e1) (K e2) ≡ K (e1 e2), because S (K e1) (K e2) t3 => e1 e2
                  `(k (,@(if (consp first-1) first-1 rest-1) . ,rest-2)))
-                ((and term-1-kp term-2-ip) (or first-1 rest-1))
-                ((and (eq term-1 's) (eq term-2 'h)) 'w)
+                ((and term-1-kp term-2-ip)            ;; S (K e1) I ≡ e1, because S (K e1) I t3 => e1 t3
+                 (or first-1 rest-1))
+                ((and (eq term-1 's) (eq term-2 'h))  ;; S S H ≡ W, because S S H t3 t4 => t3 t4 t4
+                 'w)
                 ;;
                 ;; Two extensions to the optimization model of
                 ;; Turner, V and E, are optionally included:
                 ;;
-                ((and anyp term-1-ip term-2-kp) `(e . ,rest-2))
-                ((and anyp term-1-ip term-2-ip) 'v)
-                (term-2-kp `(c ,term-1 . ,rest-2))
-                (term-1-kp `(b ,@rest-1 ,term-2))
+                ((and anyp term-1-ip term-2-kp)       ;; S I (K e2) ≡ E e2, because S I (K e2) t3 => t3 e2
+                 `(e ,@rest-2))
+                ((and anyp term-1-ip term-2-ip)       ;; S I I ≡ V, because S I I => t3 t3
+                 'v)
+                (term-2-kp                            ;; S t1 (K e2) ≡ C t1 e2, because S t1 (K e2) t3 => t1 t3 e2
+                 `(c ,term-1 ,@rest-2))
+                (term-1-kp                            ;; S (K e1) t2 ≡ B e1 t2, because S (K e1) t2 t3 => e1 (t2 t3)
+                 `(b ,@rest-1 ,term-2))
                 ;;
                 ;; This expression has not been abbreviated:
                 ;;
@@ -380,19 +406,17 @@
                 ))
         ))))
 
-(defun \?-READER (stream char)
-  "Read in an Abstraction Variable."
-  (declare (ignore char))
-  (let ((var (read stream t :eof t)))
-    (let ((expr (read stream t nil t)))
-      `(lambda* ,var ,expr)
-      )))
-
 ;;;
 ;;; Templates are processed according to "a suitably generalized Law
 ;;; of Abstraction." Cf. the "uncurry" U-combinator of [Turner 1979].
 ;;;
 ;;; Test cases:
+;;;
+;;; (beta ([] (foo x y z) nil))
+;;; (beta ([x] (foo x y z) (pair 1 nil)))
+;;; (beta ([x y] (foo x y z) (pair 1 (pair 2 nil))))
+;;; (beta ([x y z] (foo x y z) (pair 1 (pair 2 (pair 3 nil)))))
+;;; (beta ([x (a b) y] (foo x (a b) y) (pair 1 (pair (pair 11 (pair 12 nil)) (pair 3 nil)))))
 ;;;
 ;;; (beta (?(love light) (om love light) (pair namah (pair shivaya nil))))
 ;;; (beta ([love light] (light love om) (pair namah (pair shivaya nil))))
@@ -402,18 +426,32 @@
 ;;; Templates have the form "[t1, t2...]" where each t1, t2...
 ;;; is a term which may either be a symbol or a list of terms.
 ;;;
+;;; ToDo: Allow dotted lists between square brackets.
+;;;
 (defun \[-READER (stream char)
   "Read in a Generalized Abstraction Variable."
   (declare (ignore char))
   (let ((var (read-delimited-list #\] stream t)))
     (let ((expr (read stream t nil t)))
-      `(lambda* ,var ,expr)
+      (build-abstraction var expr)
       )))
 
 (defun \]-READER (stream char)
   "Indicate an Abstraction Operator Syntax Error."
   (declare (ignore stream char))
   (error "Unmatched ']'."))
+
+(defun \?-READER (stream char)
+  "Read in an Abstraction Variable."
+  (declare (ignore char))
+  (let ((var (read stream t :eof t)))
+    (let ((expr (read stream t nil t)))
+      (build-abstraction var expr)
+      )))
+
+(defun BUILD-ABSTRACTION(var expr)
+  "Build Abstraction."
+  `(lambda* ,var ,expr))
 
 ;;;
 ;;; Augment the Reader:

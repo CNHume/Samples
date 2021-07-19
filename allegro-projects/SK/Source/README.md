@@ -233,14 +233,6 @@ Beta Reduction vs. Lisp Evaluation
 Please note that a Beta Reduction must be evaluated
 within the BETA Macro (which passes it to SK-EVAL).
 
-Typing something like:
-
-Lisp> ([cdr][car](cons car cdr) foo bar)
-
-will result in Lisp trying to evaluate an expression
-containing Primitive Combinators, and will not yield
-meaningful results.
-
 The BETA Macro establishes the S-K Reduction context:
 
-Lisp> (beta ([cdr][car](cons car cdr) foo bar))
+Lisp> (beta (?car ?cdr(pair car cdr) foo bar))

@@ -4,6 +4,7 @@
 ;;;
 ;;; Author     Version  Edit Date       Purpose of Edit
 ;;; ------     -------  ---------       ---------------
+;;; Chris Hume   3.5     5-Jul-21       Corrected abstractions of TAIL.
 ;;; Chris Hume   3.4     2-Aug-20       Distinguished Abstraction from Currying.
 ;;; Chris Hume   3.3    14-Dec-92       Added FBUTFIRSTN.
 ;;; Chris Hume   3.2     9-Dec-92       Added FBUTFIRSTM, FIB.
@@ -44,10 +45,6 @@
 ;;; Nothing to Export.
 
 ;;;
-;;; Now for the Code:
-;;;
-
-;;;
 ;;; Try: (beta (hanoi 4 a b c))
 ;;;
 (defc HANOI ?n ?a ?b ?c
@@ -78,16 +75,15 @@
 (defc FROM ?n (pair n (from (+ 1 n))))
 
 (defc FILTER ?divisor ?dividends
-  ([head tail](if (zerop (rem head divisor))
-                (filter divisor tail) (pair head (filter divisor tail)))
+  (?(head . tail)(if (zerop (rem head divisor))
+                   (filter divisor tail) (pair head (filter divisor tail)))
          dividends))
 
 ;;;
 ;;; Try: (beta (head (tail (tail (tail (sieve (from 2)))))))
 ;;;
 (defc SIEVE ?ns
-  ([divisor dividends](pair divisor (sieve (filter divisor dividends)))
-            ns))
+  (?(divisor . dividends)(pair divisor (sieve (filter divisor dividends))) ns))
 
 (defc FIBEXP ?n
   (if (zerop n)

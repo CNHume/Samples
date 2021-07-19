@@ -12,4 +12,6 @@
   (format t "~&Loading \"~A\"~%" (enough-namestring (truename lisp) ".lisp"))
   (load lisp))
 
-;;;(shiftf *print-circle* t)
+;;; Enable to print infinite Y-combinator recursions.
+;;; However, disable for HANOI!
+(setq *print-circle* t)
