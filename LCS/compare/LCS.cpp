@@ -90,7 +90,7 @@
 //
 //"A linear space algorithm for computing maximal common subsequences"
 // by Daniel S. Hirschberg, published June 1975
-// Communications of the ACM [Volume 18, Number 6, pp. 341–343]
+// Communications of the ACM [Volume 18, Number 6, pp. 341-343]
 //
 //"An Algorithm for Differential File Comparison"
 // by James W. Hunt and M. Douglas McIlroy, June 1976
@@ -115,8 +115,8 @@
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
-// return the LCS as a linked list of matched index pairs
-uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
+// The following implements the Hunt and Szymanski algorithm:
+uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
   auto trace = pairs != nullptr;
   PAIRS traces;
   THRESHOLD threshold;
@@ -208,6 +208,7 @@ uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
   }                                     // next index1
 
   if (trace) {
+    // Return the LCS as a linked list of matched index pairs:
     auto last = traces.size() > 0 ? traces.back() : nullptr;
     // Reverse longest back-trace
     *pairs = Pair::Reverse(last);

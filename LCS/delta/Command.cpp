@@ -108,5 +108,5 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error("Usage: compare [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2");
+    throw runtime_error("Usage: delta [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2");
 }

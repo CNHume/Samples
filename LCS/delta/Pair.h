@@ -12,8 +12,8 @@ using namespace std;
 class Pair {
 public:
   static int64_t Pairs;
-  uint32_t begin1;
-  uint32_t begin2;
+  uint32_t begin1 = 0;
+  uint32_t begin2 = 0;
   shared_ptr<Pair> next;
 
   virtual ~Pair();

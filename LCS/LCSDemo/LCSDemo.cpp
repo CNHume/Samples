@@ -146,8 +146,8 @@ protected:
   typedef map<char, INDEXES> CHAR2INDEXES;
   typedef deque<INDEXES*> MATCHES;
 
-  // return the LCS as a linked list of matched index pairs
-  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair> *pairs) {
+  // The following implements the Hunt and Szymanski algorithm:
+  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
     auto trace = pairs != nullptr;
     PAIRS traces;
     THRESHOLD threshold;
@@ -213,6 +213,7 @@ protected:
     }                                     // next index1
 
     if (trace) {
+      // Return the LCS as a linked list of matched index pairs:
       auto last = traces.size() > 0 ? traces.back() : nullptr;
       // Reverse longest back-trace
       *pairs = Pair::Reverse(last);

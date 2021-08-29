@@ -14,10 +14,13 @@
 using namespace std;
 
 class Pair {
+protected:
+  friend ostream& operator<<(ostream&, const Pair&);
+
 public:
   static int64_t Pairs;
-  uint32_t begin1;
-  uint32_t begin2;
+  uint32_t begin1 = 0;
+  uint32_t begin2 = 0;
   shared_ptr<Pair> next;
 
   virtual ~Pair();
@@ -28,8 +31,8 @@ public:
   Pair& operator=(const Pair& other);
 #endif                                  // COPY_SEMANTICS
 #ifdef MOVE_SEMANTICS
-  Pair(Pair&& other);
-  Pair& operator=(Pair&& other);
+  Pair(Pair&& other) noexcept;
+  Pair& operator=(Pair&& other) noexcept;
 #endif
   static uint32_t Count(const shared_ptr<Pair> pairs);
   static void List(const shared_ptr<Pair> pairs);

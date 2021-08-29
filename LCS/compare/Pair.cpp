@@ -44,12 +44,12 @@ Pair& Pair::operator=(const Pair& other) {
 #endif                                  // COPY_SEMANTICS
 
 #ifdef MOVE_SEMANTICS
-Pair::Pair(Pair&& other) {
+Pair::Pair(Pair&& other) noexcept {
   *this = std::move(other);             // move ctor invokes move assignment
   Pairs++;
 }
 
-Pair& Pair::operator=(Pair&& other) {
+Pair& Pair::operator=(Pair&& other) noexcept {
   if (this != &other) {
     begin1 = other.begin1;
     begin2 = other.begin2;
@@ -58,6 +58,10 @@ Pair& Pair::operator=(Pair&& other) {
   return *this;
 }
 #endif                                  // MOVE_SEMANTICS
+
+ostream& operator<<(ostream& strm, const Pair& pair) {
+  return strm << "(" << pair.begin1 << ", " << pair.begin2 << ")";
+}
 
 uint32_t Pair::Count(const shared_ptr<Pair> pairs) {
   uint32_t length = 0;
@@ -68,7 +72,7 @@ uint32_t Pair::Count(const shared_ptr<Pair> pairs) {
 
 void Pair::List(const shared_ptr<Pair> pairs) {
   for (auto next = pairs; next != nullptr; next = next->next)
-    cout << "(" << next->begin1 << ", " << next->begin2 << ")" << endl;
+    cout << *next << endl;
 }
 
 shared_ptr<Pair> Pair::Copy(const shared_ptr<Pair> pairs) {

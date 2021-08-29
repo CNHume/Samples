@@ -12,8 +12,8 @@ using namespace std;
 
 class Delta : public Pair {
 public:
-  uint32_t end1;
-  uint32_t end2;
+  uint32_t end1 = 0;
+  uint32_t end2 = 0;
 
   virtual ~Delta();
   Delta();

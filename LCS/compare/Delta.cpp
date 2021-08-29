@@ -53,12 +53,12 @@ Delta& Delta::operator=(const Delta& other) {
 #endif                                  // COPY_SEMANTICS
 
 #ifdef MOVE_SEMANTICS
-Delta::Delta(Delta&& other) {
+Delta::Delta(Delta&& other) noexcept {
   *this = std::move(other);             // move ctor invokes move assignment
   Deltas++;
 }
 
-Delta& Delta::operator=(Delta&& other) {
+Delta& Delta::operator=(Delta&& other) noexcept {
   if (this != &other) {
     (Pair)*this = other;
     end1 = other.end1;
@@ -208,8 +208,8 @@ void Delta::Context(shared_ptr<Delta> deltas,
   for (auto next = deltas; next != nullptr; next = dynamic_pointer_cast<Delta>(next->next)) {
     auto begin1 = next->begin1;         // beginning of current Delta
     auto begin2 = next->begin2;
-    auto last1 = prior1 + (uint64_t)suffix <  begin1 ? prior1 + suffix : begin1;
-    auto last2 = prior2 + (uint64_t)suffix <  begin2 ? prior2 + suffix : begin2;
+    auto last1 = prior1 + (uint64_t)suffix < begin1 ? prior1 + suffix : begin1;
+    auto last2 = prior2 + (uint64_t)suffix < begin2 ? prior2 + suffix : begin2;
 
     if (last != nullptr) {
       last->end1 = last1;

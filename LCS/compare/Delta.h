@@ -24,8 +24,8 @@ using namespace std;
 class Delta : public Pair {
 public:
   static int64_t Deltas;
-  uint32_t end1;
-  uint32_t end2;
+  uint32_t end1 = 0;
+  uint32_t end2 = 0;
 
   virtual ~Delta();
   Delta();
@@ -36,8 +36,8 @@ public:
   Delta& operator=(const Delta& other);
 #endif                                  // COPY_SEMANTICS
 #ifdef MOVE_SEMANTICS
-  Delta(Delta&& other);
-  Delta& operator=(Delta&& other);
+  Delta(Delta&& other) noexcept;
+  Delta& operator=(Delta&& other) noexcept;
 #endif
   static void Lengths(const shared_ptr<Delta> deltas, uint32_t& length1, uint32_t& length2);
   static void List(const shared_ptr<Delta> deltas);
