@@ -103,7 +103,11 @@
 //
 //"A New Practical Linear Space Algorithm for the Longest Common
 // Subsequence Problem" by Heiko Goeman and Michael Clausen,
-// published 2002, Kybernetika [volume 38, Issue 1, pp. 45-66]
+// published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
+//
+//"Simple and fast linear space computation of longest common subsequences"
+// by Claus Rick, received 17 March 2000, Information Processing Letters,
+// Elsevier Science [Volume 75, pp. 275–281]
 //
 #include "LCS.h"
 #include <algorithm>                    // for lower_bound()
