@@ -67,16 +67,18 @@
 // case, performance degrades to O(m*n log m) time if the
 // number of matches, and the space required to represent
 // them, should grow to O(m*n).
+// 
+// Note:
 //
-// More recent improvements by Rick and by Goeman and Clausen
-// reduce the time bound to O(n*s + min(p*m, p*(n-p))), where
+// Claus Rick has also described a linear-space algorithm
+// with a time bound of O(n*s + min(p*m, p*(n-p))), where
 // the alphabet is of size s and the LCS is of length p.
 //
 // Legend:
 //
 // x, y are the input strings labelled such that m <= n where m, n are their respective lengths
 // p is the length (to be found) of the LCS
-// M is the set of match pairs (i, j) such that x[i] = y[j]
+// M is the set of match pairs (i, j) such that x[i] == y[j]
 // r is the magnitude of M
 // s is the magnitude of the alphabet Sigma of distinct symbols in x, y
 //
@@ -101,13 +103,13 @@
 // Combinatorial Pattern Matching [Lecture Notes in Computer Science,
 // Springer Verlag, Volume 937, pp. 340-351]
 //
-//"A New Practical Linear Space Algorithm for the Longest Common
-// Subsequence Problem" by Heiko Goeman and Michael Clausen,
-// published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
-//
 //"Simple and fast linear space computation of longest common subsequences"
 // by Claus Rick, received 17 March 2000, Information Processing Letters,
 // Elsevier Science [Volume 75, pp. 275–281]
+//
+//"A New Practical Linear Space Algorithm for the Longest Common
+// Subsequence Problem" by Heiko Goeman and Michael Clausen,
+// published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
 //
 #include "LCS.h"
 #include <algorithm>                    // for lower_bound()
