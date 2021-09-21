@@ -43,7 +43,7 @@ protected:
   };
 
   //
-  // The Longest Common Subsequence (LCS) Problem:
+  // The Longest Common Subsequence (LCS) Problem
   //
   // Defining a subsequence to be a string obtained by deleting
   // zero or more symbols from an input string, the LCS Problem is
@@ -53,15 +53,15 @@ protected:
   // Let x = x[0]... x[m-1] and y = y[0]... y[n-1], m <= n be the
   // two strings both drawn from an alphabet of size s.
   //
-  // An ordered pair (i, j) will be called a match if x[i] = y[j],
+  // An ordered pair (i, j) will be called a match if x[i] == y[j],
   // where 0 <= i < m and 0 <= j < n.
   //
-  // Define the partial order << over ordered pairs, such that
-  // (i1, j1) << (i2, j2) iff i1 < j1 and i2 < j2.
+  // Define a strict Cartesian product order over ordered pairs,
+  // such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
   //
-  // Given a partial order << over a set M, a chain C is any subset
-  // of M where either p1 << p2 or p2 << p1, for distinct p1 and p2
-  // in C.
+  // Given such a product order < over a set M, a chain C is any
+  // subset of M where either p1 < p2 or p2 < p1, for distinct
+  // p1 and p2 in C.
   //
   // Finding the LCS can then be viewed as the problem of finding
   // a chain of maximum cardinality within the set of matches M.
@@ -102,20 +102,21 @@ protected:
   // case, performance degrades to O(m*n log m) time if the
   // number of matches, and the space required to represent
   // them, should grow to O(m*n).
-  // 
+  //
   // Note:
   //
-  // Claus Rick has also described a linear-space algorithm
-  // with a time bound of O(n*s + min(p*m, p*(n-p))), where
-  // the alphabet is of size s and the LCS is of length p.
+  // Claus Rick has described a linear-space algorithm with
+  // a time bound of O(n*s + min(p*m, p*(n-p))) where the
+  // alphabet is of size s and the LCS is of length p.
   //
   // Legend:
   //
-  // x, y are the input strings labelled such that m <= n where m, n are their respective lengths
+  // x, y are the input strings labelled such that m <= n
+  // where m, n are their respective lengths
   // p is the length (to be found) of the LCS
   // M is the set of match pairs (i, j) such that x[i] == y[j]
   // r is the magnitude of M
-  // s is the magnitude of the alphabet Sigma of distinct symbols in x, y
+  // s is the magnitude of the alphabet Sigma of distinct symbols in x + y
   //
   // References:
   //
