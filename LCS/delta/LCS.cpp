@@ -10,31 +10,27 @@
 //
 // The Longest Common Subsequence (LCS) Problem
 //
-// Defining a subsequence to be a string obtained by deleting
-// zero or more symbols from an input string, the LCS Problem is
-// to find a subsequence of maximum length that is common to two
-// input strings.
+// Define a subsequence to be any string obtained by deleting zero or more symbols from an input string.
+// 
+// The Longest Common Subsequence (or LCS) is a subsequence of maximum length common to two or more strings.
 //
-// Let x = x[0]... x[m-1] and y = y[0]... y[n-1], m <= n be the
-// two strings both drawn from an alphabet of size s.
+// Let x = x[0]… x[m - 1] and y = y[0]… y[n - 1], m <= n be strings drawn from an alphabet Σ of size s
+// containing every distinct symbol in x + y.
 //
-// An ordered pair (i, j) will be called a match if x[i] == y[j],
-// where 0 <= i < m and 0 <= j < n.
+// An ordered pair(i, j) will be called a match if x[i] == y[j], where 0 <= i < m and 0 <= j < n.
 //
-// Define a strict Cartesian product order over ordered pairs,
+// Define a strict Cartesian product-order (<) over these ordered pairs,
 // such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
 //
-// Given such a product order < over a set M, a chain C is any
-// subset of M where either p1 < p2 or p2 < p1, for distinct
-// p1 and p2 in C.
+// Given such a product-order over a set of matches M, a chain C is any subset of M where either p1 < p2 or p2 < p1,
+// for distinct pairs p1 and p2 in C.
 //
-// Finding the LCS can then be viewed as the problem of finding
-// a chain of maximum cardinality within the set of matches M.
+// Finding an LCS can then be stated as the problem of finding a chain of maximum cardinality over the set of matches M.
 //
-// The set of matches between input strings x and y can be
-// visualized as an m*n bit matrix, where a bit is set iff
-// there is a corresponding match.  A chain can be visualized
-// as a graph through match bits that increases monotonically.
+// This set of matches can also be visualized as an m*n bit matrix, where each bit M[i, j] is True iff there is a match
+// at the corresponding positions of strings x and y.
+//
+// Then any chain C can be visualized as a monotonically increasing curve through those match bits which are set to True.
 //
 // Background:
 //
