@@ -25,15 +25,18 @@
 //
 // An ordered pair(i, j) will be called a match if x[i] == y[j], where 0 <= i < m and 0 <= j < n.
 //
-// Define a strict Cartesian product-order (<) over these ordered pairs,
-// such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
+// Define the strict Cartesian product-order (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
+// Defining (>) similarly, we can write m2 < m1 as m1 > m2.
+// 
+// If i1 <= j1 and i2 >= j2 (or if i1 >= i2 and i2 <= j2) then neither m1 < m2 nor m1 > m2 are possible;
+// and m1, m2 are said to be "incomparable".  Defining (#) to denote this case, we can write m1 # m2.
 //
-// Given such a product-order over a set of matches M, a chain C is any subset of M where either p1 < p2 or p2 < p1,
-// for distinct pairs p1 and p2 in C.
+// Given a product-order over the set of matches M, a chain C is any subset of M where either m1 < m2 or m2 < m1
+// for every pair of distinct elements m1 and m2 of C.
 //
-// Finding an LCS can then be stated as the problem of finding a chain of maximum cardinality over the set of matches M.
+// Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches M.
 //
-// This set of matches can also be visualized as an m*n bit matrix, where each bit M[i, j] is True iff there is a match
+// The set of matches M can be visualized as an m*n bit matrix, where each bit M[i, j] is True iff there is a match
 // at the corresponding positions of strings x and y.
 //
 // Then any chain C can be visualized as a monotonically increasing curve through those match bits which are set to True.
@@ -113,7 +116,6 @@
 //"A New Practical Linear Space Algorithm for the Longest Common
 // Subsequence Problem" by Heiko Goeman and Michael Clausen,
 // published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
-//
 //
 #include "LCS.h"
 #include <algorithm>                    // for lower_bound()
