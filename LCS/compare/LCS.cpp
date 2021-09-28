@@ -17,71 +17,54 @@
 // The Longest Common Subsequence (LCS) Problem
 //
 // Define a subsequence to be any string obtained by deleting zero or more symbols from an input string.
-// 
-// The Longest Common Subsequence (or LCS) is a subsequence of maximum length common to two or more strings.
 //
-// Let x = x[0]… x[m - 1] and y = y[0]… y[n - 1], m <= n be strings drawn from an alphabet Σ of size s
-// containing every distinct symbol in x + y.
+// The Longest Common Subsequence or LCS is a subsequence of maximum length common to two or more strings.
 //
-// An ordered pair(i, j) will be called a match if x[i] == y[j], where 0 <= i < m and 0 <= j < n.
+// Let A = A[0]… A[m - 1] and B = B[0]… B[n - 1], m <= n be strings drawn from an alphabet Σ of size s,
+// containing every distinct symbol in A + B.
+//
+// An ordered pair (i, j) will be called a match if A[i] == B[j], where 0 <= i < m and 0 <= j < n.
 //
 // Define the strict Cartesian product-order (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
 // Defining (>) similarly, we can write m2 < m1 as m1 > m2.
-// 
-// If i1 <= j1 and i2 >= j2 (or if i1 >= i2 and i2 <= j2) then neither m1 < m2 nor m1 > m2 are possible;
-// and m1, m2 are said to be "incomparable".  Defining (#) to denote this case, we can write m1 # m2.
 //
-// Given a product-order over the set of matches M, a chain C is any subset of M where either m1 < m2 or m2 < m1
-// for every pair of distinct elements m1 and m2 of C.
+// If i1 <= j1 and i2 >= j2 (or i1 >= i2 and i2 <= j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are incomparable.
+// Defining (#) to denote this case, we write m1 # m2.  Note: This includes the possibility that m1 == m2, i.e., that i1 == i2 and j1 == j2.
+//
+// We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds.  Thus, the (<>) operator is the inverse of (#).
+// In this case, m1 != m2, i.e., each of tuples differ in some component.
+//
+// Given a product-order over the set of matches M, a chain C is any subset of M where m1 <> m2 for every pair of distinct elements m1 and m2 of C.
 //
 // Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches M.
 //
-// The set of matches M can be visualized as an m*n bit matrix, where each bit M[i, j] is True iff there is a match
-// at the corresponding positions of strings x and y.
+// The set of matches M can be visualized as an m*n bit matrix, where each bit M[i, j] is True iff there is a match at the corresponding positions
+// of strings A and B.
 //
-// Then any chain C can be visualized as a monotonically increasing curve through those match bits which are set to True.
-//
+// Then any chain C can be visualized as a strictly increasing curve through those match bits which are set to True.
+// 
 // Background:
 //
-// Where the number of symbols appearing in matches is small
-// relative to the length of the input strings, reuse of the
-// symbols necessarily increases; and the number of matches
-// will tend towards quadratic, O(m*n) growth.
+// Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases;
+// and the number of matches will tend towards quadratic, O(m*n) growth. This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
 //
-// This occurs, for example, in Bioinformatics applications
-// of nucleotide and protein sequencing.
+// The "divide and conquer" approach by Hirschberg limits the space required to O(m + n).  However, this approach requires O(m*n) time even in the best case.
 //
-// Here the "divide and conquer" approach of Hirschberg
-// limits the space required to O(m+n).  However, this
-// approach requires O(m*n) time even in the best case.
+// This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
 //
-// This quadratic time dependency may become prohibitive, given
-// very long input strings.  Thus, heuristics are often favored
-// over optimal Dynamic Programming solutions.
+// In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.
+// In this case, the number of matches reduces to linear, O(m + n) growth.
 //
-// In the application of comparing file revisions, records from
-// the input files form a large symbol space; and the number of
-// symbols used for matches may approach the length of the LCS.
-//
-// Assuming a uniform distribution of symbols, the number
-// of matches may tend only towards linear, O(m+n) growth.
-//
-// A binary search optimization due to Hunt and Szymanski
-// can be applied in this case, which results in expected
-// performance of O(n log m), given m <= n.  In the worst
-// case, performance degrades to O(m*n log m) time if the
-// number of matches, and the space required to represent
-// them, should grow to O(m*n).
+// In this case, a binary search optimization due to Hunt and Szymanski can be applied to the basic Dynamic Programming approach which results in expected performance of O(n log m).
+// In the worst case, performance can degrade to O(m*n log m) time if the number of matches, and the space required to represent them, should grow to O(m*n).
 //
 // Note:
 //
-// Claus Rick has described a linear-space algorithm with
-// a time bound of O(n*s + min(p*m, p*(n-p))) where the
-// alphabet is of size s and the LCS is of length p.
-//
+// Claus Rick has described a linear-space algorithm with a time bound of O(n*s + p*min(m, n - p)).
+// 
 // Legend:
 //
-// x, y are the input strings labelled such that m <= n
+// A, B are the input strings labelled such that m <= n
 // where m, n are their respective lengths
 // p is the length (to be found) of the LCS
 // M is the set of match pairs (i, j) such that x[i] == y[j]
