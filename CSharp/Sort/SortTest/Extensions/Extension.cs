@@ -87,21 +87,21 @@ namespace SortTest.Extensions {
     #region ParseEnumFromName Helper
     // Based on the answer to the Stackoverflow Question: "Enum value from display name"
     // See https://stackoverflow.com/questions/33225729/enum-value-from-display-name
-    public static T ParseEnumFromName<T>(this String name) {
-      var type = typeof(T);
-      if (!type.IsEnum)
-        throw new InvalidOperationException($"{type.Name} is not an Enum");
-
-      foreach (var field in type.GetFields()) {
-        var attribute = Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
-        if (attribute != null && name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase)) {
-          return (T)field.GetValue(null);
+    public static T ParseEnumFromName<T>(this string name) where T : System.Enum {
+      if (!IsNullOrEmpty(name)) {
+        var type = typeof(T);
+        foreach (var field in type.GetFields()) {
+          var attribute = Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
+          if (attribute is not null && name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase)) {
+            return (T)field.GetValue(null);
+          }
+          else if (name.Equals(field.Name, StringComparison.InvariantCultureIgnoreCase))
+            return (T)field.GetValue(null);
         }
-        else if (name.Equals(field.Name, StringComparison.InvariantCultureIgnoreCase))
-          return (T)field.GetValue(null);
+        //[Test]throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
       }
 
-      throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
+      return default;
     }
     #endregion
 
