@@ -153,7 +153,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) { // 34 MHz
+    public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);
       //[Debug]
       Debug.Assert(s != 0, "No Bit Found");
@@ -184,7 +184,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) { // 76.23 MHz
+    public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate the lowest/first bit
       r ^= s;                           // r = r & (r - 1); clear from remaining bits
 
@@ -221,7 +221,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) { // 34 MHz
+    public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);
       //[Debug]
       Debug.Assert(s != 0, "No Bit Found");
