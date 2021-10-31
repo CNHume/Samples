@@ -314,9 +314,9 @@ namespace Engine {
 #endif
       return root;
     }
-#endregion
+    #endregion
 
-#region Counter Methods
+    #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -360,9 +360,9 @@ namespace Engine {
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
     }
-#endregion
+    #endregion
 
-#region Nibble & TwoBits Methods
+    #region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -382,9 +382,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-#endregion
+    #endregion
 
-#region Shift Methods
+    #region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -400,6 +400,6 @@ namespace Engine {
     public static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-#endregion
+    #endregion
   }
 }
