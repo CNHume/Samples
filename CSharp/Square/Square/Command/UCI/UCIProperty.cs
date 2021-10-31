@@ -16,13 +16,14 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    "8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [18-ply in 53:00 over 3.625 Gnode @1.14 MHz]
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
     //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
     //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
-    "4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2  [4-ply]
+    //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2  [4-ply]
     // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
     //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
     //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1";  // Q v RP draw
@@ -62,7 +63,7 @@ namespace Command {
     //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #17 in 27:13.733 over 1.858 Gnode @1.137 MHz]
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4
     // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
-    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 4:21 to find 37. g4 Qc6]
+    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 2:30 over 179.2 Mnode to find 37. g4 Qc6]
     //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
     //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [15-ply in 12 sec to find Be5+]
     //"Nn6/8/1pPk4/1K1bpB2/1p6/8/8/8 w - - 0 1"; // Fischer Endgame

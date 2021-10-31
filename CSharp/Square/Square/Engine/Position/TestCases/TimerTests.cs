@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define Magic
+//#define FullDeBruijn
 #define HalfDeBruijn
 #define UseMoveSort
 #define TestOutsideSquare
@@ -281,10 +282,10 @@ namespace Engine {
         loadDiagAtx();
 
         loadDeBruijn(deBruijnByte, 3, vDeBruijn);
-#if HalfDeBruijn
-        loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
-#else
+#if FullDeBruijn
         loadDeBruijn(deBruijnFull, 6, qDeBruijn);
+#elif HalfDeBruijn
+        loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif
         loadZobrist();
         //var state = new GameState(null);
@@ -305,6 +306,6 @@ namespace Engine {
         TimerStop(sw, qTrial);
       }
     }
-    #endregion
+#endregion
   }
 }

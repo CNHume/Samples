@@ -27,9 +27,9 @@
  *    --------           ----
  *    M Checkmate        S Stalemate
  *    R Resignation      D Draw Agreed by Players
- *    or Rule Forfeit    or Adjudicated (Insufficient Losing Chances) or Declared (75-Move Rule)
- *    T Time Forfeit     I Insufficient Material to Mate (KKN, KK or KB*KB* same color)
  *    3-fold Repetition  N No Capture or Pawn Move in 50 moves [100 plies]
+ *    T Time Forfeit     I Insufficient Material to Mate (KKN, KK or KB*KB* same color)
+ *    F Rule Forfeit     A Adjudicated (Insufficient Losing Chances) or Declared (75-Move Rule)
  */
 namespace Command {
   using Engine;

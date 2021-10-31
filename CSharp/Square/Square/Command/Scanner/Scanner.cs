@@ -25,13 +25,13 @@ namespace Command {
     protected const String sSpace = " ";
     protected const String sWhitespacePlus = @"\s+";
     private const Int32 nRowsCapacity = 64;
-    #endregion
+    #endregion                          // Constants
 
     #region Fields
     private Boolean disposed = false;
     private TextReader reader;
     private String sText;
-    #endregion
+    #endregion                          // Fields
 
     #region Properties
     protected Int32 NextRow { get; set; }
@@ -66,12 +66,12 @@ namespace Command {
     }
 
     protected List<String> Rows { get; }
-    #endregion
 
     #region TextSpan Properties
     protected String[] TextSpans { get; private set; }
     protected Int32 Index { get; set; }
-    #endregion
+    #endregion                          // TextSpan Properties
+    #endregion                          // Properties
 
     #region Constructors
     public Scanner() {
@@ -85,9 +85,9 @@ namespace Command {
 
     public Scanner(String text) : this(new StringReader(text)) {
     }
-    #endregion
+    #endregion                          // Constructors
 
-    #region IDisposable Methods
+    #region IDisposable Interface
     public void Dispose() {
       Dispose(true);
       GC.SuppressFinalize(this);
@@ -99,7 +99,7 @@ namespace Command {
         disposed = true;
       }
     }
-    #endregion
+    #endregion                          // IDisposable Interface
 
     #region Methods
     public void Close() {
@@ -151,7 +151,6 @@ namespace Command {
     public String AppendDetails(String message) {
       return $@"Row {Row}, Column {Column}, {message}: ""{Text}""";
     }
-    #endregion
 
     #region TextSpan Methods
     public void SplitTextSpans(String regex = sWhitespacePlus) {
@@ -190,6 +189,7 @@ namespace Command {
       return sb.ToString();
     }
     #endregion
+    #endregion                          // Methods
   }
 
   public class StreamScanner : Scanner {
@@ -198,7 +198,7 @@ namespace Command {
       get => (StreamReader)base.Reader;
       set => base.Reader = value;
     }
-    #endregion
+    #endregion                          // Properties
 
     #region Constructors
     public StreamScanner() : base() {
@@ -213,7 +213,7 @@ namespace Command {
           Encoding.UTF8.GetBytes(text)
           ))) {
     }
-    #endregion
+    #endregion                          // Constructors
 
     #region Methods
     //
@@ -233,6 +233,6 @@ namespace Command {
     //public override void Rewind(Int32 nRow = 0, Int32 nColumn = 0) {
     //  base.Rewind(nRow, nColumn);
     //}
-    #endregion
+    #endregion                          // Methods
   }
 }

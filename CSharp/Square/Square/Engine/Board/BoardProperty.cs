@@ -5,8 +5,9 @@
 //
 //#define Magic
 //#define TestMagic
-#define InitDeBruijn
+//#define FullDeBruijn
 #define HalfDeBruijn                    // Half de Bruijn: Avoiding 64-Bit Multiplication of slight benefit
+#define InitDeBruijn
 //#define CryptoServiceProvider
 //#define TestZobrist
 
@@ -67,10 +68,10 @@ namespace Engine {
 #endif
 #if InitDeBruijn
     protected static Byte[] deBruijnByte;
-#if HalfDeBruijn
-    protected static Byte[] deBruijnHalf;
-#else
+#if FullDeBruijn
     protected static Byte[] deBruijnFull;
+#elif HalfDeBruijn
+    protected static Byte[] deBruijnHalf;
 #endif
 #endif
 #if CryptoServiceProvider

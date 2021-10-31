@@ -8,8 +8,9 @@
 //#define Magic
 #define SafeEquals
 #define HashPieces
-#define InitDeBruijn
+////#define FullDeBruijn
 #define HalfDeBruijn
+#define InitDeBruijn
 #define DebugInit
 
 namespace Engine {
@@ -241,12 +242,12 @@ namespace Engine {
 #if InitDeBruijn
       deBruijnByte = newDeBruijn(3);
       loadDeBruijn(deBruijnByte, 3, vDeBruijn);
-#if HalfDeBruijn
-      deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
-      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
-#else
+#if FullDeBruijn
       deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
       loadDeBruijn(deBruijnFull, 6, qDeBruijn);
+#elif HalfDeBruijn
+      deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
+      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif
 #endif
       colorSquares();

@@ -52,7 +52,8 @@ namespace Engine {
     #endregion
 
     #region Castle Rights
-    public static StringBuilder AppendCastleRights(this StringBuilder sb, HiFlags fBlackHi, HiFlags fWhiteHi, CastleRule castle) {
+    public static StringBuilder AppendCastleRights(
+      this StringBuilder sb, HiFlags fBlackHi, HiFlags fWhiteHi, CastleRule castle) {
       if (((fBlackHi | fWhiteHi) & HiFlags.CanCastleMask) == 0)
         sb.Append("-");
       else if (castle is not null && castle.IsChess960) {

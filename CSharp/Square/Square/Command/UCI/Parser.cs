@@ -16,6 +16,7 @@ namespace Command {
 
   using static Logging.Logger;
   using static System.String;
+  using static System.Text.RegularExpressions.RegexOptions;
 
   partial class Parser : IDisposable {
     #region Constants
@@ -24,7 +25,7 @@ namespace Command {
     protected const Char cDoubleQuote = '"';
     protected const String sDoubleQuote = @"""";
     protected const String sEscapedDoubleQuote = @"""""";
-    #endregion
+    #endregion                          // Constants
 
     #region Fields
     private Boolean disposed = false;
@@ -73,7 +74,7 @@ namespace Command {
     public readonly Token UnsignedToken;
     protected readonly Token valueKeywordToken;
     protected readonly Token verbToken;
-    #endregion
+    #endregion                          // Fields
 
     #region Properties
     public Scanner Scanner {
@@ -85,10 +86,9 @@ namespace Command {
     }
 
     public Boolean IsVerbose { get; }
-    #endregion
+    #endregion                          // Properties
 
     #region Constructors
-
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
 
@@ -145,19 +145,19 @@ namespace Command {
       verbTokenRules = new[] {
           new TokenRule(TokenRuleType.verb,
             @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|status|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
-          RegexOptions.IgnoreCase)
+          IgnoreCase)
       };
       enableKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", IgnoreCase)
       };
       goKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", IgnoreCase)
       };
       registerKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", IgnoreCase)
       };
       setupTypeTokenRules = new[] {
-          new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", IgnoreCase)
       };
       setupTokenRules = new[] {
           new TokenRule(TokenRuleType.setup, @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
@@ -168,7 +168,7 @@ namespace Command {
       operandTokenRules = new[] {
           new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
           new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
-          new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", RegexOptions.IgnoreCase),
+          new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", IgnoreCase),
           new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
       };
       optionTokenRules = new[] {
@@ -182,10 +182,10 @@ namespace Command {
           new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
       };
       movesKeyworTokendRules = new[] {
-          new TokenRule(TokenRuleType.movesKeyword, @"moves\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.movesKeyword, @"moves\b", IgnoreCase)
       };
       nameKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.nameKeyword, @"name\b", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.nameKeyword, @"name\b", IgnoreCase)
       };
       //
       // UCI moves are expressed in Pure Algebraic Coordinate Notation (PACN):
@@ -196,15 +196,15 @@ namespace Command {
       // Lowercase is used to render captures "reversible" in SN.  SN uses uppercase for promotions, where PACN uses lowercase.
       //
       pacnMoveTokenRules = new[] {
-          new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", IgnoreCase)
       };
       valueKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", RegexOptions.IgnoreCase)
+          new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", IgnoreCase)
       };
     }
-    #endregion
+    #endregion                          // Constructors
 
-    #region IDisposable Methods
+    #region IDisposable Interface
     public void Dispose() {
       Dispose(true);
       GC.SuppressFinalize(this);
@@ -216,7 +216,7 @@ namespace Command {
         disposed = true;
       }
     }
-    #endregion
+    #endregion                          // IDisposable Interface
 
     #region Methods
     public void Close() {
@@ -523,7 +523,6 @@ namespace Command {
       codeToken.Expect();
       return codeToken.Value;
     }
-    #endregion
 
     #region Numeric Parsers
     public static Byte ParseByte(String sName, String sValue) {
@@ -571,7 +570,7 @@ namespace Command {
 
       return bEnabled;
     }
-    #endregion
+    #endregion                          // Numeric Parsers
 
     #region Verbatim Literal Methods
     public static Boolean IsVerbatimLiteral(String sValue) {
@@ -597,6 +596,7 @@ namespace Command {
     public static String StringToVerbatimLiteral(String sInput) {
       return $@"""{sInput.Replace(sDoubleQuote, sEscapedDoubleQuote)}""";
     }
-    #endregion
+    #endregion                          // Verbatim Literal Methods
+    #endregion                          // Methods
   }
 }

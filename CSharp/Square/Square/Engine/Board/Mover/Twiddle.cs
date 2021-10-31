@@ -5,18 +5,27 @@
 //
 // Conditionals:
 //
+//#define FindHi
 //#define ImportTwiddle
-#define InitDeBruijn
-//#define TestDeBruijn
+//
+// RemoveLo() 47% faster w Half de Bruijn: Avoiding 64-Bit Multiplication on a Compaq 3 GHz Pentium 4
 //
 // Overall search performance was better for Half de Bruijn on the Dell i7-4702HQ at 2.2 GHz w 4-cores
 // x86 was 9.83% faster
 // x64 was 6.48% faster
 //
-// RemoveLo() 47% faster w Half de Bruijn: Avoiding 64-Bit Multiplication on a Compaq 3 GHz Pentium 4
+// Using i7-9700K CPU at 3.60GHz w 8-cores
 //
+// Overall Search Rate "8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1" [16-ply for ~30 minutes]
+// -------------------
+// TestRemoveLo   1182.191 KHz  0.000%
+// FullDeBruijn   1212.314 KHz  2.548%
+// HalfDeBruijn   1221.797 KHz  3.350%
+//
+//#define FullDeBruijn
 #define HalfDeBruijn
-//#define FindHi
+#define InitDeBruijn
+//#define TestDeBruijn
 
 namespace Engine {
   using System;
@@ -56,15 +65,7 @@ namespace Engine {
     // See "Using de Bruijn Sequences to Index a 1 in a Computer Word"
     // Charles E. Leiserson, Harald Prokop, Keith H. Randall, 1998-07-07, MIT LCS
     //
-#if HalfDeBruijn
-    protected const UInt32 uDeBruijn = 0x077CB531U;
-    // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
-#if !InitDeBruijn
-    protected static readonly Byte[] deBruijnHalf =
-    {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
-      31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
-#endif
-#else
+#if FullDeBruijn
     protected const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
     // From http://www.chessprogramming.org/De_Bruijn_Sequence_Generator by Gerd Isenberg
 #if !InitDeBruijn
@@ -74,6 +75,14 @@ namespace Engine {
       63, 52,  6, 26, 37, 40, 33, 47, 61, 45, 43, 21, 23, 58, 17, 10,
       51, 25, 36, 32, 60, 20, 57, 16, 50, 31, 19, 15, 30, 14, 13, 12 };
 #endif
+#elif HalfDeBruijn
+    protected const UInt32 uDeBruijn = 0x077CB531U;
+    // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
+#if !InitDeBruijn
+    protected static readonly Byte[] deBruijnHalf =
+    {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
+      31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
+#endif
 #endif
     #endregion
 
@@ -82,7 +91,14 @@ namespace Engine {
     public static Boolean OneBitOrNone(Plane qp) {
       return (qp - 1 & qp) == 0;
     }
+#if FindHi
+    protected static sq sqHi(UInt64 r) {
+      for (var n = 0; n < nSquares; n++, r <<= 1)
+        if ((r & BITHI) != 0) return (sq)(63 - n);
 
+      throw new ApplicationException("Empty Bit Mask");
+    }
+#endif                                  // FindHi
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref Byte r, out Byte s) {
       s = (Byte)(r & (~r + 1));
@@ -106,57 +122,25 @@ namespace Engine {
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
       return deBruijnByte[p];
     }
-#if HalfDeBruijn
 #if ImportTwiddle
+    [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
+                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+    extern public static Int32 FindLo(UInt64 r);
+
     [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K0@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
     extern public static Int32 RemoveLo(ref UInt64 r, out UInt64 s);
-#else
-    // Referenced by hashPieces()
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate the lowest/first bit
-      r ^= s;                           // r = r & (r - 1); clear from remaining bits
 
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
-      var n = 0;
-      if (u == 0) {
-        u = (UInt32)(s >> 32);
-        //[Debug]
-        Debug.Assert(u != 0, "No Bit Found");
-        if (u == 0) return -1;
-        n = 32;
-      }
-
-      var p = u * uDeBruijn >> 32 - 5;
-      return deBruijnHalf[p] + n;
-    }
-#endif
-#if ImportTwiddle
     [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
     extern public static Int32 RemoveLo(ref UInt64 r);
-#else
+#else                                   //!ImportTwiddle
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) { // 76.23 MHz
-      var s = r & (~r + 1);             // s = r & -r to isolate the lowest/first bit
-      r ^= s;                           // r = r & (r - 1); clear from remaining bits
-
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
-      var n = 0;
-      if (u == 0) {
-        u = (UInt32)(s >> 32);
-        //[Debug]
-        Debug.Assert(u != 0, "No Bit Found");
-        if (u == 0) return -1;
-        n = 32;
-      }
-
-      var p = u * uDeBruijn >> 32 - 5;
-      return deBruijnHalf[p] + n;
+    public static Int32 FindLo(UInt64 r) {
+      var r2 = r;
+      return RemoveLo(ref r2);
     }
-#endif
-#else
+#if FullDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);
@@ -178,44 +162,106 @@ namespace Engine {
       var p = s * qDeBruijn >> 64 - 6;
       return deBruijnFull[p];
     }
-#endif
-#if ImportTwiddle
-    [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
-                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-    extern public static Int32 FindLo(UInt64 r);
-#else
+#elif HalfDeBruijn
+    // Referenced by hashPieces()
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 FindLo(UInt64 r) {
-      var r2 = r;
-      return RemoveLo(ref r2);
-    }
-#endif
-#if FindHi
-    protected static sq sqHi(UInt64 r) {
-      for (var n = 0; n < nSquares; n++, r <<= 1)
-        if ((r & BITHI) != 0) return (sq)(63 - n);
+    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+      s = r & (~r + 1);                 // s = r & -r to isolate the lowest/first bit
+      r ^= s;                           // r = r & (r - 1); clear from remaining bits
 
-      throw new ApplicationException("Empty Bit Mask");
+      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
+      var n = 0;
+      if (u == 0) {
+        u = (UInt32)(s >> 32);
+        //[Debug]
+        Debug.Assert(u != 0, "No Bit Found");
+        if (u == 0) return -1;
+        n = 32;
+      }
+
+      var p = u * uDeBruijn >> 32 - 5;
+      return deBruijnHalf[p] + n;
     }
-#endif
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref UInt64 r) { // 76.23 MHz
+      var s = r & (~r + 1);             // s = r & -r to isolate the lowest/first bit
+      r ^= s;                           // r = r & (r - 1); clear from remaining bits
+
+      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
+      var n = 0;
+      if (u == 0) {
+        u = (UInt32)(s >> 32);
+        //[Debug]
+        Debug.Assert(u != 0, "No Bit Found");
+        if (u == 0) return -1;
+        n = 32;
+      }
+
+      var p = u * uDeBruijn >> 32 - 5;
+      return deBruijnHalf[p] + n;
+    }
+#else                                   //!(FullDeBruijn || HalfDeBruijn)
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+      s = r & (~r + 1);
+      //[Debug]
+      Debug.Assert(s != 0, "No Bit Found");
+      if (s == 0) return -1;
+      r ^= s;                           // r = r & (r - 1);
+
+      var n = 0;
+      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= 1 << 0;
+      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= 1 << 1;
+      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= 1 << 2;
+      if ((s & 0xFF00FF00FF00FF00) != 0) n |= 1 << 3;
+      if ((s & 0xFFFF0000FFFF0000) != 0) n |= 1 << 4;
+      if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
+      return n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref UInt64 r) { // 34 MHz
+      var s = r & (~r + 1);
+      //[Debug]
+      Debug.Assert(s != 0, "No Bit Found");
+      if (s == 0) return -1;
+      r ^= s;                           // r = r & (r - 1);
+
+      var n = 0;
+      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= 1 << 0;
+      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= 1 << 1;
+      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= 1 << 2;
+      if ((s & 0xFF00FF00FF00FF00) != 0) n |= 1 << 3;
+      if ((s & 0xFFFF0000FFFF0000) != 0) n |= 1 << 4;
+      if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
+      return n;
+    }
+#endif                                  //!(FullDeBruijn || HalfDeBruijn)
+#endif                                  //!ImportTwiddle
 #if InitDeBruijn
     protected static Byte[] newDeBruijn(Int32 nLog) {
-      Debug.Assert(nLog <= 8, "smog too large");
+      Debug.Assert(nLog <= 8, $"nLog = {nLog} too large");
       var nLength = 1 << nLog;
       return new Byte[nLength];
     }
-#endif
+#endif                                  // InitDeBruijn
     [Conditional("InitDeBruijn")]
     protected static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
       var nLength = 1 << nLog;
-      Debug.Assert(deBruijnMap.Length == nLength, "Inconsistent Length");
+      Debug.Assert(
+        deBruijnMap.Length == nLength,
+        "Inconsistent Length",
+        $"Length = {deBruijnMap.Length} != 1 << {nLog}");
 
       var vMask = (Byte)(nLength - 1);
       var m = qDeBruijnNumber;
       for (var n = 0; n < nLength; n++, m <<= 1) {
         var p = vMask & (m >> nLength - nLog);
-        Debug.Assert((Int32)p < deBruijnMap.Length, "Index Out of Range",
-                     $"Index = {p}, Length = {deBruijnMap.Length}");
+        Debug.Assert(
+          (Int32)p < deBruijnMap.Length,
+          "Index Out of Range",
+          $"Index = {p}, Length = {deBruijnMap.Length}");
         deBruijnMap[p] = (Byte)n;
       }
 #if TestDeBruijn
@@ -227,7 +273,7 @@ namespace Engine {
       }
 
       LogLine(s);
-#endif
+#endif                                  // TestDeBruijn
     }
     #endregion
 
@@ -268,9 +314,9 @@ namespace Engine {
 #endif
       return root;
     }
-    #endregion
+#endregion
 
-    #region Counter Methods
+#region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -314,9 +360,9 @@ namespace Engine {
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
     }
-    #endregion
+#endregion
 
-    #region Nibble & TwoBits Methods
+#region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -336,9 +382,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-    #endregion
+#endregion
 
-    #region Shift Methods
+#region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -354,6 +400,6 @@ namespace Engine {
     public static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-    #endregion
+#endregion
   }
 }

@@ -7,6 +7,7 @@
 //
 #define QuiescentTryXP
 #define AddBestMoves
+//#define FullDeBruijn
 #define HalfDeBruijn
 //#define Magic
 //#define LateMoveReduction
@@ -318,8 +319,12 @@ namespace Engine {
 #if !AddBestMoves
       sb.Append(" sans BestMoves");
 #endif
-#if !HalfDeBruijn
+#if FullDeBruijn
       sb.Append(" FullDeBruijn");
+#elif HalfDeBruijn
+      sb.Append(" HalfDeBruijn");
+#else
+      sb.Append(" TestRemoveLo");
 #endif
 #if Magic
       sb.Append(" Magic");
