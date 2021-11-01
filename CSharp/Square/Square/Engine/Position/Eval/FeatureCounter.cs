@@ -136,7 +136,7 @@ namespace Engine {
       var qpAwkward = 0UL;
 
       while (qpFriendPawn != 0) {
-        var nFound = FindLo(qpFriendPawn);
+        var nFound = BSF64(qpFriendPawn);
         var nFile = x(nFound);
         Debug.Assert((vOccupied & (Byte)(BIT0 << nFile)) == 0, "File Previously Visited", $"File = {nFile}");
         vOccupied |= (Byte)(BIT0 << nFile);

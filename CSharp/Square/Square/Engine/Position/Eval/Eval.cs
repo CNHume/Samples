@@ -113,7 +113,7 @@ namespace Engine {
 
     #region EGFlags Methods
     public Boolean isAlone(BoardSide side) {
-      return OneBitOrNone(side.Piece);
+      return IsOneOrNone(side.Piece);
     }
 
     public Boolean isKQvKPEndgame2(BoardSide friend, BoardSide foe) {
@@ -134,8 +134,8 @@ namespace Engine {
         return false;
 
       var bEndGame =
-        OneBitOrNone(qpFoePawn) &&      // Foe has at most one Pawn
-        OneBitOrNone(qpFriendQueen);    // Friend has at most one Queen
+        IsOneOrNone(qpFoePawn) &&       // Foe has at most one Pawn
+        IsOneOrNone(qpFriendQueen);     // Friend has at most one Queen
 
       return bEndGame;
     }
@@ -155,7 +155,7 @@ namespace Engine {
         return false;
 
       var bEndgame =
-        OneBitOrNone(Knight) &&         // At most one Knight
+        IsOneOrNone(Knight) &&          // At most one Knight
         !bishopPair(attacker.FlagsHi);  // No Bishop Pair
 
       return bEndgame;

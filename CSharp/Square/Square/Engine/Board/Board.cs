@@ -8,7 +8,7 @@
 //#define Magic
 #define SafeEquals
 #define HashPieces
-////#define FullDeBruijn
+//#define FullDeBruijn
 #define HalfDeBruijn
 #define InitDeBruijn
 #define DebugInit
@@ -572,7 +572,7 @@ namespace Engine {
         // of only one color remain, then even a helpmate is not possible.
         //
         if (DiagPiece == 0) {           // Test for KK[N]:
-          if (OneBitOrNone(Knight))
+          if (IsOneOrNone(Knight))
             FlagsDraw |= DrawFlags.DrawIM;
         }
         else if (Knight == 0) {         // Test for KB*KB* covering only one color, or KK:

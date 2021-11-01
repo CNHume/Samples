@@ -324,7 +324,7 @@ namespace Engine {
 #elif HalfDeBruijn
       sb.Append(" HalfDeBruijn");
 #else
-      sb.Append(" TestRemoveLo");
+      sb.Append(" RemoveLoMask");
 #endif
 #if Magic
       sb.Append(" Magic");

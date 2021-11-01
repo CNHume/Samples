@@ -40,8 +40,7 @@ namespace Engine {
       //[Test]testOutsideSquare(sq.c1);
       //[Test]testOffsets();
       //[Test]testRotations();
-      //[Test]
-      testPieceMasks();
+      //[Test]testPieceMasks();
       //[Test]testPawnAttacks();
       //[Test]
       //for (sq sq = sq.a1; sq <= sq.h8; sq++)
@@ -55,7 +54,8 @@ namespace Engine {
       //[Time]timeRectAtx();
       //[Time]timeFoeAtx();
       //[Time]timeMagic();
-      //[Time]timeRemoveLo();
+      //[Time]
+      timeRemoveLo();
       //[Time]timeStaticLoads();
       //[Time]timeCapturedPiece();
       //[Test]timeExecute("test", 100000);
@@ -192,11 +192,18 @@ namespace Engine {
     // x86 was 233.13 MHz
     // x64 was 301.45 MHz +29%
     //
+    // Using i7-9700K CPU at 3.60GHz w 8-cores:
+    //
+    // FullDeBruijn =  57,418.466 KHz
+    // HalfDeBruijn =  46,358.537 KHz
+    // RemoveLoMask = 111,669.458 KHz
+    //
     protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(RemoveLo), qTrials);
       var qBits = 0UL;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        var qpPiece = (Plane)qTrial;
+        // Avoid timing qpPiece == 0 cases, which do not arise in standard use
+        var qpPiece = (Plane)(qTrial + 1);
         while (qpPiece != 0) {
           var nFrom = RemoveLo(ref qpPiece);
           qBits++;

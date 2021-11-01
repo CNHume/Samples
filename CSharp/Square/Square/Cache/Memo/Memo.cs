@@ -91,7 +91,7 @@ namespace Cache {
     }
 
     protected override void allocateNew(uint uLength) {
-      if (!OneBitOrNone(uLength))
+      if (!IsOneOrNone(uLength))
         throw new ApplicationException("Memo2 Length must be a power of two");
 
       base.allocateNew(uLength);

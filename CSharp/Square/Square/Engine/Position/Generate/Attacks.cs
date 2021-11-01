@@ -562,7 +562,7 @@ namespace Engine {
         // imply that the previous move was not only pinned but that it also
         // failed to evade a Check.
         //
-        var bSingleCheck = OneBitOrNone(qpChx);
+        var bSingleCheck = IsOneOrNone(qpChx);
         if (bSingleCheck) {             //[Safe]
           var vKingPos = getKingPos(bWhiteMoved);
           if (qpChx != 0) {             // while loop unnecessary
