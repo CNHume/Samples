@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Title>Square Chess Engine</Title>
     <Product>Square</Product>
@@ -9,14 +8,13 @@
     <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
     <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See COPYING.txt and COPYING_LESSER.txt for details.</Description>
     <LangVersion>preview</LangVersion>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
-
+    <OutputType>Exe</OutputType>
     <RootNamespace>Engine</RootNamespace>
     <AssemblyName>Square</AssemblyName>
     <!--<ImplicitUsings>true</ImplicitUsings>-->
     <!--<Nullable>enable</Nullable>-->
-    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,5 +37,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>

@@ -1,34 +1,8 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>quicksort</name>
+        <name>MergeSort</name>
     </assembly>
     <members>
-        <member name="M:QuickSort.QuickSort`1.sampleSize(System.Int32,System.Int32)">
-            <summary>Return an odd sample size proportional to the log of a large interval size.</summary>
-        </member>
-        <member name="M:QuickSort.QuickSort`1.pivot(`0[])">
-            <summary>Estimate the median value of entries[Left:Right]</summary>
-            <remarks>A sample median is used as an estimate the true median.</remarks>
-        </member>
-        <member name="M:QuickSort.QuickSort`1.Swap(`0[],System.Int32,System.Int32)">
-            <summary>Swap entries at the left and right indicies.</summary>
-        </member>
-        <member name="M:QuickSort.QuickSort`1.Swap(`0@,`0@)">
-            <summary>Swap two entities of type T.</summary>
-        </member>
-        <member name="M:QuickSort.QuickSortSwapInPlace`1.sampleSize(System.Int32,System.Int32)">
-            <summary>Return an odd sample size proportional to the log of a large interval size.</summary>
-        </member>
-        <member name="M:QuickSort.QuickSortSwapInPlace`1.pivot(`0[])">
-            <summary>Estimate the median value of entries[Left:Right]</summary>
-            <remarks>A sample median is used as an estimate the true median.</remarks>
-        </member>
-        <member name="M:QuickSort.QuickSortSwapInPlace`1.Swap(`0[],System.Int32,System.Int32)">
-            <summary>Swap entries at the left and right indicies.</summary>
-        </member>
-        <member name="M:QuickSort.QuickSortSwapInPlace`1.Swap(`0@,`0@)">
-            <summary>Swap two entities of type T.</summary>
-        </member>
     </members>
 </doc>
