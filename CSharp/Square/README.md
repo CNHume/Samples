@@ -5,6 +5,9 @@ Source code for the Sentient Project is maintained in the following GitHub Repos
 
 * Code for the Square Chess Engine can be found in GitHub/Samples/CSharp/Square
 
+Square is a Universal Chess Interface (UCI) Engine.  Please see the [UCI Command Interface](https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol/) by Stefan Meyer-Kahlen.
+
+
 ## Copyright and Licensing
 Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 
@@ -20,7 +23,7 @@ There is an ASP.Net Core solution named Square consisting of the following proje
 ### Target Framework
 All projects in the solution target the **.NET 5.0 SDK**.
 
-**Note:** Microsoft rebranded ASP.Net Core as .NET 5 (as of 2020/11/10). Version *5.0.202* of the .Net Framework SDK is currently being used.
+**Note:** Microsoft rebranded ASP.Net Core as NET5.0 as of 2020-11-10.
 
 When using a **Preview Version** of the .Net SDK, consider enable the **Include prerelease** checkbox when applying NuGet Package Updates.  It is also sometimes helpful to actually delete the various **obj** and **bin** folders and to perform a **Rebuild All** prior to perrforming an *Add > New Scaffolded Item...* command.
 
