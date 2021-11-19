@@ -162,7 +162,7 @@ namespace Engine {
     }
 
     public EGFlags getEndGameFlags() {
-      var feg = EGFlags.None;
+      EGFlags feg = default;
       if (isAlone(Side[Black])) feg |= EGFlags.BlackAlone;
       if (isAlone(Side[White])) feg |= EGFlags.WhiteAlone;
 

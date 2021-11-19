@@ -23,12 +23,12 @@ namespace Engine {
       if (Parent is null) {
         GamePly = 0;                    //[Init]
         NullPly = 0;
-        FlagsLo = LoFlags.None;         //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
+        FlagsLo = default;              //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
         foreach (var side in Side)
-          side.FlagsHi = HiFlags.None;  //[Safe]
-        FlagsEG = EGFlags.None;         //[Safe]
-        FlagsDraw = DrawFlags.None;     //[Safe]
-        FlagsMode = ModeFlags.None;     //[Safe]
+          side.FlagsHi = default;       //[Safe]
+        FlagsEG = default;              //[Safe]
+        FlagsDraw = default;            //[Safe]
+        FlagsMode = default;            //[Safe]
 
         //
         // Initialize Extension Counts at the Root

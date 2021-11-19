@@ -6,7 +6,7 @@
 //#define Magic
 //#define TestMagic
 //#define FullDeBruijn
-#define HalfDeBruijn                    // Half de Bruijn: Avoiding 64-Bit Multiplication of slight benefit
+//#define HalfDeBruijn                    // Half de Bruijn: Avoiding 64-Bit Multiplication of slight benefit
 #define InitDeBruijn
 //#define CryptoServiceProvider
 //#define TestZobrist

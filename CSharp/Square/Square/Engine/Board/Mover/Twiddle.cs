@@ -23,7 +23,7 @@
 // HalfDeBruijn  1,221.797 KHz
 //
 //#define FullDeBruijn
-#define HalfDeBruijn
+//#define HalfDeBruijn
 #define InitDeBruijn
 //#define TestDeBruijn
 

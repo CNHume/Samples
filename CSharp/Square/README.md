@@ -7,7 +7,6 @@ Source code for the Sentient Project is maintained in the following GitHub Repos
 
 Square is a Universal Chess Interface (UCI) Engine.  Please see the [UCI Command Interface](https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol/) by Stefan Meyer-Kahlen.
 
-
 ## Copyright and Licensing
 Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 

@@ -9,7 +9,7 @@
 #define SafeEquals
 #define HashPieces
 //#define FullDeBruijn
-#define HalfDeBruijn
+//#define HalfDeBruijn
 #define InitDeBruijn
 #define DebugInit
 

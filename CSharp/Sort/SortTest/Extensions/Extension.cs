@@ -82,6 +82,12 @@ namespace SortTest.Extensions {
       return Enum.TryParse(s, ignoreCase, out TEnum result) ?
         (TEnum?)result : default;
     }
+
+    public static T ParseEnum<T>(this String value, Boolean ignoreCase = false)
+      where T : Enum {
+      return IsNullOrEmpty(value) ?
+        default(T) : (T)Enum.Parse(typeof(T), value, ignoreCase);
+    }
     #endregion
 
     #region ParseEnumFromName Helper

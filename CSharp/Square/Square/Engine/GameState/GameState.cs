@@ -8,7 +8,7 @@
 #define QuiescentTryXP
 #define AddBestMoves
 //#define FullDeBruijn
-#define HalfDeBruijn
+//#define HalfDeBruijn
 //#define Magic
 //#define LateMoveReduction
 //#define KillerCompositionHash

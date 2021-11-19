@@ -84,6 +84,7 @@ namespace Engine {
     }
 
     private Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
+      promotion = default;
       var nLen = sMove.Length;
       var nPos = 0;
       sqFrom = parseSquare(sMove, ref nPos, nLen);
@@ -91,7 +92,6 @@ namespace Engine {
       if (sqFrom.HasValue && sqTo.HasValue) {
         var piece = parsePiece(sMove, ref nPos, nLen);
         if (!piece.HasValue) {
-          promotion = Piece.None;
           return true;
         }
         else if (Promotions.Any(p => p == piece.Value)) {
@@ -103,7 +103,6 @@ namespace Engine {
         throw new MoveException($"Invalid Promotion Piece: {piece.Value}");
       }
 
-      promotion = Piece.None;
       return false;
     }
 
@@ -129,7 +128,7 @@ namespace Engine {
       //
       var bLastRank = Side.Any(side => (side.Parameter.RankLast & qpTo) != 0);
       var bRequired = vPiece == vP6 && bLastRank;
-      var bSupplied = promotion != Piece.None;
+      var bSupplied = promotion != default;
       if (bRequired != bSupplied) {
         var sDiagnosis = bRequired ? "Required" : "Illegal";
         throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");

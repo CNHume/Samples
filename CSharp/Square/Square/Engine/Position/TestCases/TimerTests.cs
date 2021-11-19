@@ -7,7 +7,7 @@
 //
 //#define Magic
 //#define FullDeBruijn
-#define HalfDeBruijn
+//#define HalfDeBruijn
 #define UseMoveSort
 #define TestOutsideSquare
 
