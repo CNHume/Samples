@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define Magic
+//#define ByteDeBruijn
 //#define FullDeBruijn
 //#define HalfDeBruijn
 #define UseMoveSort
@@ -287,8 +288,9 @@ namespace Engine {
 
         loadRectAtx();
         loadDiagAtx();
-
+#if ByteDeBruijn
         loadDeBruijn(deBruijnByte, 3, vDeBruijn);
+#endif
 #if FullDeBruijn
         loadDeBruijn(deBruijnFull, 6, qDeBruijn);
 #elif HalfDeBruijn

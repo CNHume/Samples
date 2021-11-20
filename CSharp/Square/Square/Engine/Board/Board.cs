@@ -8,9 +8,10 @@
 //#define Magic
 #define SafeEquals
 #define HashPieces
+//#define InitDeBruijn
+//#define ByteDeBruijn
 //#define FullDeBruijn
 //#define HalfDeBruijn
-#define InitDeBruijn
 #define DebugInit
 
 namespace Engine {
@@ -240,8 +241,10 @@ namespace Engine {
       newZobrist();
       loadZobrist();
 #if InitDeBruijn
-      deBruijnByte = newDeBruijn(3);
+#if ByteDeBruijn
+      deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3
       loadDeBruijn(deBruijnByte, 3, vDeBruijn);
+#endif
 #if FullDeBruijn
       deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
       loadDeBruijn(deBruijnFull, 6, qDeBruijn);
@@ -252,9 +255,9 @@ namespace Engine {
 #endif
       colorSquares();
     }
-    #endregion
+#endregion
 
-    #region IEquatable Interface Methods
+#region IEquatable Interface Methods
     public override Int32 GetHashCode() {
       var uHi = (UInt32)(Hash >> 32);
       var uLo = (UInt32)Hash;
@@ -303,9 +306,9 @@ namespace Engine {
     public static Boolean operator !=(Board board1, Board board2) {
       return !Equals(board1, board2);
     }
-    #endregion
+#endregion
 
-    #region Ply Methods
+#region Ply Methods
     protected static UInt16 moveDelta(Ply wPly) {
       return (UInt16)((wPly + 1) / 2);
     }
@@ -319,9 +322,9 @@ namespace Engine {
     private static Ply plyCount(Ply wMove) {
       return (Ply)((wMove - 1) * 2);
     }
-    #endregion
+#endregion
 
-    #region Move Methods
+#region Move Methods
     internal static Boolean isDefinite(Move move) {
       return isDefined(move) && !isEmptyMove(move);
     }
@@ -357,7 +360,7 @@ namespace Engine {
       return bWTM ? nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
     }
 
-    #region Move Setter Methods
+#region Move Setter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Move fromMove(Int32 nFrom) {
       return (Move)(nFrom << nFromBit);
@@ -387,9 +390,9 @@ namespace Engine {
     protected static Move promotionMove(Piece p) {
       return (Move)((UInt32)p << nPromoteBit);
     }
-    #endregion
+#endregion
 
-    #region Move Getter Methods
+#region Move Getter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 from(Move move) {
       return (Int32)move >> nFromBit & (Int32)uSquareMask;
@@ -424,9 +427,9 @@ namespace Engine {
     internal static UInt32 promoted(Move move) {
       return (UInt32)move >> nPromoteBit & vPieceMask;
     }
-    #endregion
+#endregion
 
-    #region Unpack Methods
+#region Unpack Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static void unpack1(Move move, out Int32 nFrom, out Int32 nTo,
                                  out UInt32 uPiece, out Boolean bCapture) {
@@ -501,10 +504,10 @@ namespace Engine {
 #endif
       nTo = to(move);
     }
-    #endregion
-    #endregion
+#endregion
+#endregion
 
-    #region Flag Methods
+#region Flag Methods
     public Boolean WTM() {
       return (FlagsLo & LoFlags.WTM) != 0;
     }
@@ -638,9 +641,9 @@ namespace Engine {
       if (qHashcodes.Any(qHashcode => qHashcode == Hash))
         FlagsMode |= ModeFlags.Trace;
     }
-    #endregion
+#endregion
 
-    #region EPD Operation Methods
+#region EPD Operation Methods
     protected void addOperation(
       Dictionary<String, List<String>> operations, String sKey, params String[] sValues) {
       if (operations is not null) {
@@ -660,6 +663,6 @@ namespace Engine {
         addOperation(Operations, "id", sValue);
       }
     }
-    #endregion
+#endregion
   }
 }

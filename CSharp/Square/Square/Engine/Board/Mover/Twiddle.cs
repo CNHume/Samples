@@ -22,22 +22,28 @@
 // FullDeBruijn  1,212.314 KHz
 // HalfDeBruijn  1,221.797 KHz
 //
+//#define TestDeBruijn
+//#define InitDeBruijn
+//#define ByteDeBruijn
 //#define FullDeBruijn
 //#define HalfDeBruijn
-#define InitDeBruijn
-//#define TestDeBruijn
 
 namespace Engine {
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
+#if ImportTwiddle
   using System.Runtime.InteropServices; // for [DllImport]
+#endif
+  using static System.Math;
+#if TestDeBruijn
+  using SortTest.Extensions;            // For AppendDelim()
+
+  using System.Text;
 
   using static Logging.Logger;
-
-  using static System.Math;
   using static System.String;
-
+#endif
   //
   // Type Aliases:
   //
@@ -48,7 +54,7 @@ namespace Engine {
   partial class Board {
     #region Constants
     protected const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
-#if !InitDeBruijn
+#if ByteDeBruijn && !InitDeBruijn
     protected static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
 #endif
     //
@@ -108,11 +114,11 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLoExp(ref Byte r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
       r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
       return singleBSF8(s);
     }
-
+#if ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 singleBSF8(Int32 n) {
       if (n == 0) {
@@ -146,6 +152,50 @@ namespace Engine {
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
       return deBruijnByte[p];
     }
+#else                                   //!ByteDeBruijn
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private static Int32 singleBSF8(UInt32 u) {
+      if (u == 0) {
+        Debug.Assert(u != 0, "No Bit Found");
+        return -1;
+      }
+      var n = 0;
+      if ((u & 0xAA) != 0) n |= 1 << 0;
+      if ((u & 0xCC) != 0) n |= 1 << 1;
+      if ((u & 0xF0) != 0) n |= 1 << 2;
+      return n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref Byte r, out Byte s) {
+      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
+      if (s == 0) {
+        Debug.Assert(s != 0, "No Bit Found");
+        return -1;
+      }
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      var n = 0;
+      if ((s & 0xAA) != 0) n |= 1 << 0;
+      if ((s & 0xCC) != 0) n |= 1 << 1;
+      if ((s & 0xF0) != 0) n |= 1 << 2;
+      return n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref Byte r) {
+      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
+      if (s == 0) {
+        Debug.Assert(s != 0, "No Bit Found");
+        return -1;
+      }
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      var n = 0;
+      if ((s & 0xAA) != 0) n |= 1 << 0;
+      if ((s & 0xCC) != 0) n |= 1 << 1;
+      if ((s & 0xF0) != 0) n |= 1 << 2;
+      return n;
+    }
+#endif                                  //!ByteDeBruijn
 #if ImportTwiddle
     [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -350,14 +400,12 @@ namespace Engine {
         deBruijnMap[p] = (Byte)n;
       }
 #if TestDeBruijn
-      var s = Empty;
-      var sDelim = Empty;
+      var methodName = nameof(loadDeBruijn);
+      var sb = new StringBuilder();
       for (var n = 0; n < nLength; n++) {
-        s += $"{sDelim}{deBruijnMap[n],2}";
-        sDelim = ", ";
+        sb.AppendDelim($"{deBruijnMap[n],2}");
       }
-
-      LogLine(s);
+      LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
     }
     #endregion
