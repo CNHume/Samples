@@ -726,10 +726,9 @@ namespace Engine {
         (TEnum?)result : default;
     }
 
-    public static T ParseEnum<T>(this String value, Boolean ignoreCase = false)
+    public static T ParseEnum<T>(this string value, bool ignoreCase = false)
       where T : Enum {
-      return IsNullOrEmpty(value) ?
-        default(T) : (T)Enum.Parse(typeof(T), value, ignoreCase);
+      return (T)Enum.Parse(typeof(T), value, ignoreCase);
     }
     #endregion
   }

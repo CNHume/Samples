@@ -1,9 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-
     <Title>insertionsort</Title>
     <Product>Sort</Product>
     <Version>1.0</Version>
@@ -14,9 +11,16 @@
     <LangVersion>preview</LangVersion>
     <TargetFramework>net5.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Exe</OutputType>
 
     <RootNamespace>InsertionSort</RootNamespace>
     <AssemblyName>InsertionSort</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>

@@ -10,6 +10,7 @@ namespace SortTest.Extensions {
   using System.Text;
 
   using static System.String;
+  using static System.StringComparison;
 
   public static class Extension {
     #region Constants
@@ -83,27 +84,41 @@ namespace SortTest.Extensions {
         (TEnum?)result : default;
     }
 
-    public static T ParseEnum<T>(this String value, Boolean ignoreCase = false)
+    public static T ParseEnum<T>(this string value, bool ignoreCase = false)
       where T : Enum {
-      return IsNullOrEmpty(value) ?
-        default(T) : (T)Enum.Parse(typeof(T), value, ignoreCase);
+      return (T)Enum.Parse(typeof(T), value, ignoreCase);
     }
     #endregion
 
     #region ParseEnumFromName Helper
+    public static T ParseEnumFromName<T>(this string name) where T : Enum {
+      var result = name.TryParseEnumFromName<T>();
+      if (result is null) {
+        var type = typeof(T);
+        throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
+      }
+
+      return result;
+    }
+
+    //
     // Based on the answer to the Stackoverflow Question: "Enum value from display name"
     // See https://stackoverflow.com/questions/33225729/enum-value-from-display-name
-    public static T ParseEnumFromName<T>(this string name) where T : Enum {
+    //
+    //[Note]Certain Enums, e.g., IdentifierType may need to become Codeable Concepts.
+    //
+    public static T? TryParseEnumFromName<T>(this string name) where T : Enum {
       if (!IsNullOrEmpty(name)) {
         var type = typeof(T);
         foreach (var field in type.GetFields()) {
           var attribute = Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
-          if (attribute is not null && name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase))
-            return (T)field.GetValue(null);
-          else if (name.Equals(field.Name, StringComparison.InvariantCultureIgnoreCase))
-            return (T)field.GetValue(null);
+          var found =
+            name.Equals(field.Name, InvariantCultureIgnoreCase) ||
+            attribute is not null && name.Equals(attribute.Name, InvariantCultureIgnoreCase);
+
+          if (found)
+            return (T?)field.GetValue(null);
         }
-        //[Test]throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
       }
 
       return default;
@@ -115,21 +130,25 @@ namespace SortTest.Extensions {
     // See https://forums.asp.net/t/2085611.aspx?Enum+and+Display+Name+
     public static string GetDisplayName(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
-      return attr is null ? enumeration.ToString() : attr.Name;
+      return attr?.Name is not null ? attr.Name : enumeration.ToString();
     }
 
     public static string GetDescription(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
-      return attr is null ? enumeration.ToString() : attr.Description;
+      return attr?.Description is not null ? attr.Description : enumeration.ToString();
     }
 
-    private static DisplayAttribute GetDisplayAttribute(Object obj) {
+    private static DisplayAttribute? GetDisplayAttribute(object obj) {
       var type = obj.GetType();
-      if (!type.IsEnum)
+      if (!type.IsEnum) {
         throw new InvalidOperationException($"{type.Name} is not an Enum");
+      }
 
-      // Get the Field
+      // Get the enum field
       var name = obj.ToString();
+      if (name is null)
+        return default;
+
       var field = type.GetField(name);
       return field?.GetCustomAttribute<DisplayAttribute>();
     }

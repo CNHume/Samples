@@ -13,7 +13,12 @@
 
     <RootNamespace>SortTest</RootNamespace>
     <AssemblyName>SortTest</AssemblyName>
-    <!--<Nullable>enable</Nullable>-->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
