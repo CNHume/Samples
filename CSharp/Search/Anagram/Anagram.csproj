@@ -13,8 +13,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Exe</OutputType>
 
-    <RootNamespace>InsertionSort</RootNamespace>
-    <AssemblyName>InsertionSort</AssemblyName>
+    <RootNamespace>Anagram</RootNamespace>
+    <AssemblyName>Anagram</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>
 
