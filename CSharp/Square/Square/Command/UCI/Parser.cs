@@ -223,7 +223,7 @@ namespace Command {
       Scanner.Close();
     }
 
-    public Boolean AcceptEOL(String sMethodName = default, Boolean bShowText = true) {
+    public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
       var bAccepted = Scanner.EndOfLine || eolToken.Accept();
       if (bAccepted)
         Scanner.ReadLine();
@@ -232,12 +232,12 @@ namespace Command {
       return bAccepted;
     }
 
-    public void ExpectEOL(String sMethodName = default, Boolean bShowText = true) {
+    public void ExpectEOL(String? sMethodName = default, Boolean bShowText = true) {
       if (!AcceptEOL(sMethodName, bShowText))
         throw new ParseException(eolMessage(sMethodName));
     }
 
-    private String eolMessage(String sMethodName = default) {
+    private String eolMessage(String? sMethodName = default) {
       const String sContext = "Could not parse text at End of Line";
       var message = IsNullOrEmpty(sMethodName) ? sContext : $"{sMethodName} {sContext}";
       return Scanner.AppendDetails(message);
@@ -286,8 +286,8 @@ namespace Command {
       SpaceToken.Accept();
       nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
 
-      String sKeyword = default;
-      String sName = default;
+      String? sKeyword = default;
+      String? sName = default;
       while (true) {
         SpaceToken.Accept();
         if (valueKeywordToken.Accept()) {
@@ -313,7 +313,7 @@ namespace Command {
     }
 
     private String parseOptionValue(String sKeyword) {
-      String sValue = default;
+      String? sValue = default;
       if (sKeyword is not null) {
         SpaceToken.Accept();
         lineToken.Expect();
@@ -501,7 +501,7 @@ namespace Command {
     }
 
     public static String GetSingleValue(
-      Dictionary<String, List<String>> operations, String sOpcode, String sDefault = default) {
+      Dictionary<String, List<String>> operations, String sOpcode, String? sDefault = default) {
       if (operations is null) return sDefault;
 
       operations.TryGetValue(sOpcode, out List<String> operands);

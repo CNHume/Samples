@@ -55,16 +55,16 @@ namespace Engine {
       return testCases;
     }
 
-    protected String getName(String sId = default) {
+    protected String getName(String? sId = default) {
       var tabiyaFound = findTabiya();
       return tabiyaFound is null ? sId : tabiyaFound.Name;
     }
 
-    private void setName(String sId = default) {
+    private void setName(String? sId = default) {
       Name = getName(sId);
     }
 
-    private void setNameIfLegal(String sId = default) {
+    private void setNameIfLegal(String? sId = default) {
       //[Note]Calling IsLegal() affects FlagsLo and FlagsDraw
       if (!IsLegal())
         LogInfo(Level.error, "Illegal Setup");

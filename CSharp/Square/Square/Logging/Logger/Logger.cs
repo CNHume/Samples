@@ -29,7 +29,7 @@ namespace Logging {
 
     #region Properties
     public static Level LogLevel { get; set; }
-    private static FileStream LogStream { get; set; }
+    private static FileStream? LogStream { get; set; }
     public static String LogPath {
       get => sLogPath;
       set {
@@ -58,7 +58,7 @@ namespace Logging {
     }
 
     private static FileStream OpenLogStream(String path) {
-      FileStream logStream = default;
+      FileStream? logStream = default;
       try {
         if (path is not null) {
           var sFullPath = combineFilename(path, Product.ProductName, sLogExtensionDefault);

@@ -27,7 +27,7 @@ namespace Engine {
   using Ply = System.UInt16;
 
   partial class Board {
-    protected static String PieceSymbols;
+    protected static String? PieceSymbols;
 
     #region Constant Fields
     public static readonly PositionParameter[] Parameter;

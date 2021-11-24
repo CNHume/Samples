@@ -422,8 +422,8 @@ namespace Command {
     public static void parseRegister(Parser parser) {
       var bValidCommand = true;
       var bLater = false;
-      String sCode = default;
-      String sName = default;
+      String? sCode = default;
+      String? sName = default;
 
       if (parser.SpaceToken.Accept()) {
         while (bValidCommand && parser.RegisterKeywordToken.Accept()) {

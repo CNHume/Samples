@@ -68,7 +68,7 @@ namespace Command {
     protected List<String> Rows { get; }
 
     #region TextSpan Properties
-    protected String[] TextSpans { get; private set; }
+    protected String[]? TextSpans { get; private set; }
     protected Int32 Index { get; set; }
     #endregion                          // TextSpan Properties
     #endregion                          // Properties

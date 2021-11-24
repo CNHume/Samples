@@ -33,7 +33,7 @@ namespace Cache {
   //
   using Hashcode = System.UInt64;
 
-  partial class Tank<T> where T : ITankable<T>
+  partial class Tank<T> where T : ITankable<T>, new()
 #if PreAllocated
     , new()
 #endif
@@ -296,7 +296,7 @@ namespace Cache {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean findMatch(out T found, out UInt32 uIndex, out Int32 nBucket, T match) {
       var bFound = false;
-      found = default(T);
+      found = new T();
       var qHash = match.Hash;
 #if HalfHash
       uIndex = index2(qHash);
@@ -362,7 +362,7 @@ namespace Cache {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean findNextMatch(out T found, out UInt32 uIndex, ref Int32 nBucket, T match) {
       var bFound = false;
-      found = default(T);
+      found = new T();
       var qHash = match.Hash;
 #if HalfHash
       uIndex = index2(qHash);

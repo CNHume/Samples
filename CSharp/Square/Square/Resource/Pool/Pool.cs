@@ -20,7 +20,7 @@ namespace Resource {
     #endregion
 
     #region Constructors
-    public Pool(String Name = default) {
+    public Pool(String? Name = default) {
       this.Name = Name ?? typeof(T).Name;
       Inactive = new Stack<T>();
       Clear();
@@ -56,7 +56,7 @@ namespace Resource {
 
       Inactive.Push(top);
       DecActive();
-      top = default(T);
+      top = new T();
     }
 
     private void IncActive() {
