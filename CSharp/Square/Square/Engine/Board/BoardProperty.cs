@@ -141,7 +141,7 @@ namespace Engine {
     public Plane Rook { get { return RectPiece & ~DiagPiece; } }
 
     public String Name { get; set; }
-    public Dictionary<String, List<String>> Operations { get; set; }
+    public Dictionary<String, List<String>>? Operations { get; set; }
     #endregion
   }
 }

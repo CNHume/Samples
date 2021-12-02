@@ -314,6 +314,9 @@ namespace Command {
     }
 
     public Boolean Execute(String sCommand) {
+      if (Parser is null)
+        throw new ArgumentNullException(nameof(Parser));
+
       var bContinue = true;
 
       //
@@ -344,6 +347,9 @@ namespace Command {
     }
 
     private void ensureScanner(String sCommand) {
+      if (Parser is null)
+        throw new ArgumentNullException(nameof(Parser));
+
       if (Parser.Scanner is null)       // Update existing Parser
         Parser.Scanner = newScanner(sCommand);
       else                              // Update existing Scanner

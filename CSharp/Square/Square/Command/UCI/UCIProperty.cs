@@ -499,11 +499,11 @@ namespace Command {
 
     #region Fields
     private Boolean disposed = false;
-    private Parser parser;
+    private Parser? parser;
     #endregion
 
     #region Properties
-    protected Parser Parser {
+    protected Parser? Parser {
       get => parser;
       set {
         parser?.Dispose();
@@ -511,7 +511,7 @@ namespace Command {
       }
     }
 
-    internal GameState State { get; set; }
+    internal GameState? State { get; set; }
 
     //[UCI]Diagnostic Info Enabled
     public static Boolean IsDebug { get; set; }

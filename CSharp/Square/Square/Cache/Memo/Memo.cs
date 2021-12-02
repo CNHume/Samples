@@ -15,7 +15,7 @@ namespace Cache {
 
   class Memo<T> {
     #region Properties
-    public T[] Entries { get; set; }
+    public T[]? Entries { get; set; }
     public UInt32 LookupLength { get; set; }
     public SimpleCounter Counts { get; set; }
     #endregion

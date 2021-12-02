@@ -307,7 +307,7 @@ namespace Engine {
 
     protected void Init(
       Boolean bWTM, String sPassed, String sHalfMoveClock, String sFullMoveNumber,
-      Dictionary<String, List<String>> operations = default) {
+      Dictionary<String, List<String>>? operations = default) {
       // Preserve EPD Operations passed via ParseEPD()
       Operations = operations;
 

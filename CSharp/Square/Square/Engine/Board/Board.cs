@@ -264,7 +264,7 @@ namespace Engine {
       return (Int32)(uHi ^ uLo);
     }
 
-    public Boolean Equals(Board board) {
+    public Boolean Equals(Board? board) {
       if (board is null)
         return false;
 #if SafeEquals
@@ -295,7 +295,7 @@ namespace Engine {
 #endif
     }
 
-    public override Boolean Equals(Object obj) {
+    public override Boolean Equals(Object? obj) {
       return Equals(obj as Board);
     }
 

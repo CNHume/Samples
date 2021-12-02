@@ -11,6 +11,7 @@ namespace Command {
 
   using System;
   using System.Collections.Generic;
+  using System.Diagnostics.CodeAnalysis;
   using System.Linq;
   using System.Text.RegularExpressions;
 
@@ -29,7 +30,7 @@ namespace Command {
 
     #region Fields
     private Boolean disposed = false;
-    private Scanner scanner;
+    private Scanner? scanner;
 
     protected static readonly TokenRule[] codeTokenRules;
     protected static readonly TokenRule[] opcodeDelimiterTokenRules;
@@ -53,31 +54,31 @@ namespace Command {
     protected static readonly TokenRule[] valueKeywordTokenRules;
     protected static readonly TokenRule[] verbTokenRules;
 
-    protected readonly Token codeToken;
-    protected readonly Token eolToken;
-    protected readonly Token opcodeDelimiterToken;
-    protected readonly Token lineToken;
-    public readonly Token SpaceToken;
+    protected Token codeToken;
+    protected Token eolToken;
+    protected Token opcodeDelimiterToken;
+    protected Token lineToken;
+    public Token SpaceToken;
 
-    protected readonly Token enableKeywordToken;
-    public readonly Token GoKeywordToken;
-    protected readonly Token movesKeywordToken;
-    protected readonly Token nameKeywordToken;
-    protected readonly Token opcodeToken;
-    protected readonly Token operandToken;
-    protected readonly Token optionToken;
-    public readonly Token PACNMoveToken;
-    public readonly Token RegisterKeywordToken;
-    public readonly Token SetupToken;
-    protected readonly Token setupTypeToken;
-    public readonly Token CountToken;
-    public readonly Token UnsignedToken;
-    protected readonly Token valueKeywordToken;
-    protected readonly Token verbToken;
+    protected Token enableKeywordToken;
+    public Token GoKeywordToken;
+    protected Token movesKeywordToken;
+    protected Token nameKeywordToken;
+    protected Token opcodeToken;
+    protected Token operandToken;
+    protected Token optionToken;
+    public Token PACNMoveToken;
+    public Token RegisterKeywordToken;
+    public Token SetupToken;
+    protected Token setupTypeToken;
+    public Token CountToken;
+    public Token UnsignedToken;
+    protected Token valueKeywordToken;
+    protected Token verbToken;
     #endregion                          // Fields
 
     #region Properties
-    public Scanner Scanner {
+    public Scanner? Scanner {
       get => scanner;
       set {
         scanner?.Dispose();
@@ -91,28 +92,7 @@ namespace Command {
     #region Constructors
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
-
-      codeToken = new Token(this, TokenType.code, codeTokenRules);
-      eolToken = new Token(this, TokenType.eol, eolTokenRules);
-      opcodeDelimiterToken = new Token(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
-      lineToken = new Token(this, TokenType.line, lineTokenRules);
-      SpaceToken = new Token(this, TokenType.space, spaceTokenRule);
-
-      GoKeywordToken = new Token(this, TokenType.goKeyword, goKeywordTokenRules);
-      enableKeywordToken = new Token(this, TokenType.enableKeyword, enableKeywordTokenRules);
-      movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeyworTokendRules);
-      nameKeywordToken = new Token(this, TokenType.nameKeyword, nameKeywordTokenRules);
-      opcodeToken = new Token(this, TokenType.opcode, opcodeTokenRules);
-      operandToken = new Token(this, TokenType.operand, operandTokenRules);
-      optionToken = new Token(this, TokenType.option, optionTokenRules);
-      PACNMoveToken = new Token(this, TokenType.pacnMove, pacnMoveTokenRules);
-      RegisterKeywordToken = new Token(this, TokenType.registerKeyword, registerKeywordTokenRules);
-      SetupToken = new Token(this, TokenType.setup, setupTokenRules);
-      setupTypeToken = new Token(this, TokenType.setupType, setupTypeTokenRules);
-      CountToken = new Token(this, TokenType.counter, countTokenRules);
-      UnsignedToken = new Token(this, TokenType.unsigned, unsignedTokenRules);
-      valueKeywordToken = new Token(this, TokenType.valueKeyword, valueKeywordTokenRules);
-      verbToken = new Token(this, TokenType.verb, verbTokenRules);
+      Init();
     }
 
     public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
@@ -202,6 +182,52 @@ namespace Command {
           new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", IgnoreCase)
       };
     }
+
+    [MemberNotNull(
+      nameof(codeToken),
+      nameof(eolToken),
+      nameof(opcodeDelimiterToken),
+      nameof(lineToken),
+      nameof(SpaceToken),
+      nameof(GoKeywordToken),
+      nameof(enableKeywordToken),
+      nameof(movesKeywordToken),
+      nameof(nameKeywordToken),
+      nameof(opcodeToken),
+      nameof(operandToken),
+      nameof(optionToken),
+      nameof(PACNMoveToken),
+      nameof(RegisterKeywordToken),
+      nameof(SetupToken),
+      nameof(setupTypeToken),
+      nameof(CountToken),
+      nameof(UnsignedToken),
+      nameof(valueKeywordToken),
+      nameof(verbToken)
+      )]
+    protected void Init() {
+      codeToken = new Token(this, TokenType.code, codeTokenRules);
+      eolToken = new Token(this, TokenType.eol, eolTokenRules);
+      opcodeDelimiterToken = new Token(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
+      lineToken = new Token(this, TokenType.line, lineTokenRules);
+      SpaceToken = new Token(this, TokenType.space, spaceTokenRule);
+
+      GoKeywordToken = new Token(this, TokenType.goKeyword, goKeywordTokenRules);
+      enableKeywordToken = new Token(this, TokenType.enableKeyword, enableKeywordTokenRules);
+      movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeyworTokendRules);
+      nameKeywordToken = new Token(this, TokenType.nameKeyword, nameKeywordTokenRules);
+      opcodeToken = new Token(this, TokenType.opcode, opcodeTokenRules);
+      operandToken = new Token(this, TokenType.operand, operandTokenRules);
+      optionToken = new Token(this, TokenType.option, optionTokenRules);
+      PACNMoveToken = new Token(this, TokenType.pacnMove, pacnMoveTokenRules);
+      RegisterKeywordToken = new Token(this, TokenType.registerKeyword, registerKeywordTokenRules);
+      SetupToken = new Token(this, TokenType.setup, setupTokenRules);
+      setupTypeToken = new Token(this, TokenType.setupType, setupTypeTokenRules);
+      CountToken = new Token(this, TokenType.counter, countTokenRules);
+      UnsignedToken = new Token(this, TokenType.unsigned, unsignedTokenRules);
+      valueKeywordToken = new Token(this, TokenType.valueKeyword, valueKeywordTokenRules);
+      verbToken = new Token(this, TokenType.verb, verbTokenRules);
+    }
     #endregion                          // Constructors
 
     #region IDisposable Interface
@@ -220,10 +246,13 @@ namespace Command {
 
     #region Methods
     public void Close() {
-      Scanner.Close();
+      Scanner?.Close();
     }
 
     public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
+      if (Scanner is null)
+        throw new ArgumentNullException(nameof(Scanner));
+
       var bAccepted = Scanner.EndOfLine || eolToken.Accept();
       if (bAccepted)
         Scanner.ReadLine();
@@ -240,11 +269,18 @@ namespace Command {
     private String eolMessage(String? sMethodName = default) {
       const String sContext = "Could not parse text at End of Line";
       var message = IsNullOrEmpty(sMethodName) ? sContext : $"{sMethodName} {sContext}";
+
+      if (Scanner is null)
+        throw new ArgumentNullException(nameof(Scanner));
+
       return Scanner.AppendDetails(message);
     }
 
     //[ToDo]Refactor top-level Command Loop
-    public IEnumerable<object> Parse() {
+    public IEnumerable<object?> Parse() {
+      if (Scanner is null)
+        throw new ArgumentNullException(nameof(Scanner));
+
       while (!Scanner.EndOfStream) {
         // Preserve value of Text prior to the Scanner side-effects of the Accept Method
         var sText = Scanner.Text;
@@ -268,8 +304,8 @@ namespace Command {
     }
 
     //[ToDo]
-    public object ParseRow() {
-      object obj = default;
+    public object? ParseRow() {
+      object? obj = default;
       return obj;
     }
 
@@ -312,7 +348,7 @@ namespace Command {
       return sKeyword;
     }
 
-    private String parseOptionValue(String sKeyword) {
+    private String? parseOptionValue(String sKeyword) {
       String? sValue = default;
       if (sKeyword is not null) {
         SpaceToken.Accept();

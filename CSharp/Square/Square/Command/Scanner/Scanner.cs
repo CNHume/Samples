@@ -29,8 +29,8 @@ namespace Command {
 
     #region Fields
     private Boolean disposed = false;
-    private TextReader reader;
-    private String sText;
+    private TextReader? reader;
+    private String? sText;
     #endregion                          // Fields
 
     #region Properties
@@ -43,7 +43,7 @@ namespace Command {
     public Boolean EndOfStream { get => Text is null; }
     public Boolean EndOfLine { get => IsNullOrEmpty(Text); }
 
-    public TextReader Reader {
+    public TextReader? Reader {
       get => reader;
       set {
         Rows.Clear();
@@ -57,7 +57,7 @@ namespace Command {
     }
 
     // Text remaining to be scanned on the current line
-    public String Text {
+    public String? Text {
       get => sText;
       private set {
         TextSpans = default;
@@ -103,7 +103,7 @@ namespace Command {
 
     #region Methods
     public void Close() {
-      Reader.Close();
+      Reader?.Close();
     }
 
     public void ReadLine() {
