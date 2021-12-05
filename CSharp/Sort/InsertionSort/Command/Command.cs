@@ -49,9 +49,9 @@ namespace Sort {
 
           case 's':                     // the sort-case switch
             if (len > 2)                // whitespace optional
-              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>();
+              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>(true);
             else if (n < count)         // whitespace allowed
-              SortCase = args[++n].ParseEnumFromName<SortCase>();
+              SortCase = args[++n].ParseEnumFromName<SortCase>(true);
             break;
 
           case 't':                     // the trials switch
