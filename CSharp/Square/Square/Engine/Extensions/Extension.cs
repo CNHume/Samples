@@ -720,15 +720,17 @@ namespace Engine {
     #endregion
 
     #region Parse Methods
-    public static TEnum? TryParseEnum<TEnum>(this String s, Boolean ignoreCase = false)
-      where TEnum : struct {
-      return Enum.TryParse(s, ignoreCase, out TEnum result) ?
-        (TEnum?)result : default;
+    public static TStruct? TryParseEnum<TStruct>(
+      this string s, bool ignoreCase = default)
+      where TStruct : struct {
+      return Enum.TryParse(s, ignoreCase, out TStruct result) ?
+        (TStruct?)result : default;
     }
 
-    public static T ParseEnum<T>(this string value, bool ignoreCase = false)
-      where T : Enum {
-      return (T)Enum.Parse(typeof(T), value, ignoreCase);
+    public static TEnum ParseEnum<TEnum>(
+      this string value, bool ignoreCase = default)
+      where TEnum : Enum {
+      return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
     }
     #endregion
   }

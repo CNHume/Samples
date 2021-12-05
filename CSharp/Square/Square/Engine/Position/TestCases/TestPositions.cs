@@ -12,7 +12,7 @@ namespace Engine {
       new Tabiya {
         Name = "Start Position",
         FEN = sOrthodoxStartFEN,
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies =  0,
         TotalNodes = 20,
@@ -78,7 +78,7 @@ namespace Engine {
       new Tabiya {
         Name = "Perft2",
         FEN = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1",
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies = 0,
         TotalNodes = 48,
@@ -134,7 +134,7 @@ namespace Engine {
       new Tabiya {
         Name = "Perft3",
         FEN = "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1",
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies = 0,
         TotalNodes = 14,
@@ -210,7 +210,7 @@ namespace Engine {
       new Tabiya {
         Name = "Perft4",
         FEN = "r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1",
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies = 0,
         TotalNodes = 6,
@@ -276,7 +276,7 @@ namespace Engine {
       new Tabiya {
         Name = "Perft5",
         FEN = "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1",
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies = 0,
         TotalNodes = 24,
@@ -342,7 +342,7 @@ namespace Engine {
       new Tabiya {
         Name = "218 Move Position",
         FEN = "1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1",
-        PerftCases = new PerfCase[] {
+        PerfCases = new PerfCase[] {
       new PerfCase {
         Plies = 0,
         TotalNodes = 218,

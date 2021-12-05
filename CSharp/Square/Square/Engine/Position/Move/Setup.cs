@@ -48,7 +48,7 @@ namespace Engine {
       if (tabiyaFound is null)
         throw new PerftException("Test Position Not Found");
 
-      var testCases = tabiyaFound.PerftCases;
+      var testCases = tabiyaFound.PerfCases;
       if (testCases is null)
         throw new PerftException("No Perft Cases Found");
 

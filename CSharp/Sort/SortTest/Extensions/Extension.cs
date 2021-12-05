@@ -2,6 +2,8 @@
 // Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
 //
 namespace SortTest.Extensions {
+  using Microsoft.Extensions.Logging;
+
   using System;
   using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
@@ -22,6 +24,7 @@ namespace SortTest.Extensions {
     private const String commaSpace = ", ";
     #endregion
 
+    #region Methods
     #region StringBuilder Methods
     public static StringBuilder AppendDelim(this StringBuilder sb, string next, string delim = commaSpace) {
       if (IsNullOrEmpty(next)) return sb;
@@ -55,7 +58,7 @@ namespace SortTest.Extensions {
 
       return sb.Append(rab);
     }
-    #endregion
+    #endregion                          // StringBuilder Methods
 
     #region Parser Methods
     public static DateTime? TryParseDateTime(this String s) {
@@ -78,54 +81,45 @@ namespace SortTest.Extensions {
         (UInt32?)result : default;
     }
 
-    public static TEnum? TryParseEnum<TEnum>(this String s, Boolean ignoreCase = false)
-      where TEnum : struct {
-      return Enum.TryParse(s, ignoreCase, out TEnum result) ?
-        (TEnum?)result : default;
-    }
-
-    public static T ParseEnum<T>(this string value, bool ignoreCase = false)
-      where T : Enum {
-      return (T)Enum.Parse(typeof(T), value, ignoreCase);
-    }
-    #endregion
-
+    #region Enum Methods
     #region ParseEnumFromName Helper
-    public static T ParseEnumFromName<T>(this string name) where T : Enum {
-      var result = name.TryParseEnumFromName<T>();
-      if (result is null) {
-        var type = typeof(T);
-        throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
-      }
-
-      return result;
-    }
-
     //
     // Based on the answer to the Stackoverflow Question: "Enum value from display name"
     // See https://stackoverflow.com/questions/33225729/enum-value-from-display-name
     //
     //[Note]Certain Enums, e.g., IdentifierType may need to become Codeable Concepts.
     //
-    public static T? TryParseEnumFromName<T>(this string name) where T : Enum {
+    public static TEnum? TryParseEnumFromName<TEnum>(
+      this string name, bool ignoreCase = default)
+      where TEnum : Enum {
       if (!IsNullOrEmpty(name)) {
-        var type = typeof(T);
+        var stringComparison = ignoreCase ? InvariantCultureIgnoreCase : CurrentCulture;
+        var type = typeof(TEnum);
         foreach (var field in type.GetFields()) {
-          var attribute = Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
+          var attribute =
+            Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
           var found =
-            name.Equals(field.Name, InvariantCultureIgnoreCase) ||
-            attribute is not null && name.Equals(attribute.Name, InvariantCultureIgnoreCase);
+            name.Equals(field.Name, stringComparison) ||
+            attribute is not null && name.Equals(attribute.Name, stringComparison);
 
           if (found)
-            return (T?)field.GetValue(null);
+            return (TEnum?)field.GetValue(null);
         }
       }
-
       return default;
     }
-    #endregion
 
-    #region Enum Methods
+    public static TEnum ParseEnumFromName<TEnum>(
+      this string name, bool ignoreCase = default)
+      where TEnum : Enum {
+      var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
+      if (result is null) {
+        var type = typeof(TEnum);
+        throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
+      }
+      return result;
+    }
+
     // Based on Enum and [Display(Name = "")] by Pawan Pal 2016-02-17
     // See https://forums.asp.net/t/2085611.aspx?Enum+and+Display+Name+
     public static string GetDisplayName(this Enum enumeration) {
@@ -152,7 +146,45 @@ namespace SortTest.Extensions {
       var field = type.GetField(name);
       return field?.GetCustomAttribute<DisplayAttribute>();
     }
-    #endregion
+    #endregion                          // ParseEnumFromName Helper
+
+    public static TStruct? TryParseEnum<TStruct>(
+      this string s, bool ignoreCase = default)
+      where TStruct : struct {
+      return Enum.TryParse(s, ignoreCase, out TStruct result) ?
+        (TStruct?)result : default;
+    }
+
+    public static TEnum ParseEnum<TEnum>(
+      this string value, bool ignoreCase = default)
+      where TEnum : Enum {
+      return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+    }
+
+    public static TEnum? ValidEnumFromName<TEnum, TLogger>(
+      this string name, TLogger logger, bool ignoreCase = default)
+      where TEnum : Enum
+      where TLogger : ILogger {
+      var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
+      if (result is null && !IsNullOrEmpty(name)) {
+        var type = typeof(TEnum);
+        logger.LogError($"{type.Name} does not contain {name}");
+      }
+      return result;
+    }
+
+    public static TStruct? ValidEnum<TStruct, TLogger>(
+      this string name, TLogger logger, bool ignoreCase = default)
+      where TStruct : struct
+      where TLogger : ILogger {
+      var result = name.TryParseEnum<TStruct>(ignoreCase);
+      if (result is null && !IsNullOrEmpty(name) && logger is not null) {
+        var type = typeof(TStruct);
+        logger.LogError($"{type.Name} does not contain {name}");
+      }
+      return result;
+    }
+    #endregion                          // Enum Methods
 
     #region IEnumerable Methods
     public static Boolean IsSorted<T>(
@@ -177,5 +209,7 @@ namespace SortTest.Extensions {
              sense > 0 && !isAscending;
     }
     #endregion
+    #endregion                          // Parser Methods
+    #endregion                          // Methods
   }
 }

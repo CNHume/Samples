@@ -8,9 +8,9 @@ namespace Engine.Test {
 
   class Tabiya {
     #region Properties
-    public String Name { get; set; }
-    public String FEN { get; set; }
-    public PerfCase[] PerftCases { get; set; }
+    public String? Name { get; set; }
+    public String? FEN { get; set; }
+    public PerfCase[]? PerfCases { get; set; }
     #endregion
   }
 }

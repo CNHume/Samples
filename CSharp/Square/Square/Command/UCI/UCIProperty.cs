@@ -524,8 +524,8 @@ namespace Command {
     protected static String? RegistrationCode { get; set; }
     protected static String? RegistrationName { get; set; }
 
-    internal static String DefaultEPD { get; set; }
-    internal static String DefaultFEN { get; set; }
+    internal static String? DefaultEPD { get; set; }
+    internal static String? DefaultFEN { get; set; }
     #endregion
   }
 }
