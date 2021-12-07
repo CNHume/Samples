@@ -113,7 +113,7 @@ namespace Command {
       if (Row < Rows.Count)
         Text = Rows[Row];
       else {
-        Text = Reader.ReadLine();
+        Text = Reader?.ReadLine();
         Rows.Add(Text);
       }
     }

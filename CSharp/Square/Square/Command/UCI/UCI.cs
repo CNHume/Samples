@@ -39,6 +39,7 @@ namespace Command {
 
   using System;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
   using System.IO;
   using static System.String;
   using System.Text;
@@ -314,9 +315,6 @@ namespace Command {
     }
 
     public Boolean Execute(String sCommand) {
-      if (Parser is null)
-        throw new ArgumentNullException(nameof(Parser));
-
       var bContinue = true;
 
       //
@@ -324,7 +322,7 @@ namespace Command {
       // because they should report a Stack Trace.
       //
       try {
-        ensureParser(sCommand);
+        EnsureParser(sCommand);
         var sVerb = Parser.ParseVerb();
         bContinue = Dispatch(sVerb);
         Parser.ExpectEOL();
@@ -339,35 +337,12 @@ namespace Command {
       return bContinue;
     }
 
-    private void ensureParser(String sCommand) {
+    [MemberNotNull(nameof(Parser))]
+    protected void EnsureParser(String sCommand) {
       if (Parser is null)
-        Parser = new Parser(newScanner(sCommand), IsVerbose);
+        Parser = new Parser(Parser.NewScanner(sCommand), IsVerbose);
       else
-        ensureScanner(sCommand);
-    }
-
-    private void ensureScanner(String sCommand) {
-      if (Parser is null)
-        throw new ArgumentNullException(nameof(Parser));
-
-      if (Parser.Scanner is null)       // Update existing Parser
-        Parser.Scanner = newScanner(sCommand);
-      else                              // Update existing Scanner
-        Parser.Scanner.Reader = newReader(sCommand);
-    }
-
-    private static Scanner newScanner(String sCommand) {
-      var reader = newReader(sCommand);
-      //return new StreamScanner((StreamReader)reader);
-      return new Scanner(reader);
-    }
-
-    private static TextReader newReader(String sCommand) {
-      //return new StreamReader(
-      //  new MemoryStream(
-      //    Encoding.UTF8.GetBytes(sCommand)
-      //    ));
-      return new StringReader(sCommand);
+        Parser.EnsureScanner(sCommand);
     }
     #endregion
 

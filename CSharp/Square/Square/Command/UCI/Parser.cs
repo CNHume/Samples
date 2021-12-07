@@ -228,6 +228,28 @@ namespace Command {
       valueKeywordToken = new Token(this, TokenType.valueKeyword, valueKeywordTokenRules);
       verbToken = new Token(this, TokenType.verb, verbTokenRules);
     }
+
+    [MemberNotNull(nameof(Scanner))]
+    public void EnsureScanner(String sCommand) {
+      if (Scanner is null)       // Update existing Parser
+        Scanner = NewScanner(sCommand);
+      else                              // Update existing Scanner
+        Scanner.Reader = NewReader(sCommand);
+    }
+
+    public static Scanner NewScanner(String sCommand) {
+      var reader = NewReader(sCommand);
+      //return new StreamScanner((StreamReader)reader);
+      return new Scanner(reader);
+    }
+
+    protected static TextReader NewReader(String sCommand) {
+      //return new StreamReader(
+      //  new MemoryStream(
+      //    Encoding.UTF8.GetBytes(sCommand)
+      //    ));
+      return new StringReader(sCommand);
+    }
     #endregion                          // Constructors
 
     #region IDisposable Interface
