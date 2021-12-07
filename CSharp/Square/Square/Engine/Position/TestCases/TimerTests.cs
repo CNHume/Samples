@@ -63,7 +63,7 @@ namespace Engine {
     }
 
     private static Stopwatch TimerStart(string sMethod, UInt64 qTrials) {
-      LogLine($"Timing {qTrials:n0} {sMethod} trials at {DateTime.Now:HH:mm:ss.ff}");
+      LogLine($"Timing {qTrials:n0} {sMethod} trials at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
       var sw = new Stopwatch();
       sw.Start();
       return sw;

@@ -94,7 +94,7 @@ namespace Engine {
             herald(dtStarted, position.Name);
 #endif
 #if NoteStartAndFinish
-            LogInfo(Level.note, $"Started at {dtStarted:HH:mm:ss.ff}");
+            LogInfo(Level.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
           }
 
@@ -139,7 +139,7 @@ namespace Engine {
         if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
 #if NoteStartAndFinish
-          LogInfo(Level.note, $"Finished at {DateTime.Now:HH:mm:ss.ff}");
+          LogInfo(Level.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
           var dElapsedMS = (Double)SearchTimer.ElapsedMilliseconds;
           displayCounts(mode, dElapsedMS);

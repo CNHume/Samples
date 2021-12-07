@@ -126,7 +126,7 @@ namespace Engine {
           var mEval = reflectValue(bWTM, mValue);
           var sFailed = mValue < mBeta ? "Lo" : "Hi";
           sb.Append("Eval").AppendEvalTerm(mEval)
-            .AppendFormat($" failed {sFailed} at {DateTime.Now:HH:mm:ss.ff}");
+            .AppendFormat($" failed {sFailed} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 
           LogInfo(Level.note, sb.ToString());
           sb.Clear();
@@ -174,7 +174,7 @@ namespace Engine {
 #if DisplayDepth
         if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
-          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:HH:mm:ss.ff}");
+          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
 #endif
         mValue = beginIteration(vDepth, mValue);
@@ -232,7 +232,7 @@ namespace Engine {
 #if DisplayDepth
         if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
-          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:HH:mm:ss.ff}");
+          LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
 #endif
         //[Init]Reset PerfCase counts prior to the recursive search for each test case

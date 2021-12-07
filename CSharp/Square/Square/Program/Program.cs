@@ -40,7 +40,7 @@ namespace Square {
         try {
           if (UCI.IsDebug) {
 #if NoteLaunchAndExit
-            LogInfo(Level.note, $"Launched at {DateTime.Now:HH:mm:ss.ff}");
+            LogInfo(Level.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
           }
 
@@ -49,11 +49,15 @@ namespace Square {
           while (bContinue) {
             Log(sPrompt);
             var sLine = Console.ReadLine();
-            LogWriteLine(sLine);
-            bContinue = sLine is not null && command.Execute(sLine.Trim());
+            if (sLine is null)
+              bContinue = false;
+            else {
+              LogWriteLine(sLine);
+              bContinue = command.Execute(sLine.Trim());
+            }
           }
 #if NoteLaunchAndExit
-          LogInfo(Level.note, $"Exited at {DateTime.Now:HH:mm:ss.ff}");
+          LogInfo(Level.note, $"Exited at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
         }
         catch (ApplicationException ex) {
