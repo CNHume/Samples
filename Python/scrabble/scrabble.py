@@ -76,7 +76,9 @@ def main():
     trace = traceback.format_exc()
     print(trace)
 
-main()
-#[Debug]
-raw_input(u'Press Enter')
-pass
+  #[Debug]
+  raw_input(u'Press Enter')
+
+if __name__ == '__main__':
+  main()
+  pass

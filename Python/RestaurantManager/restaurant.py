@@ -18,4 +18,6 @@ def main():
     # group_sizes = [6, 7, 9, 4, 5]
     runTestCase(size_count_pairs, group_sizes)
 
-main()
+if __name__ == '__main__':
+  main()
+  pass

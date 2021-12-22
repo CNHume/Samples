@@ -42,4 +42,6 @@ def main():
     print "lub = {0}".format(lub)
     index += 1
 
-main()
+if __name__ == '__main__':
+  main()
+  pass

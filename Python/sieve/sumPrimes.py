@@ -5,7 +5,7 @@ import sys
 from Sieve import Sieve
 from Polynomial import Poly
 from Perform import Perform
-from Numeric import Numeric
+# from Numeric import Numeric
 # from decimal import *
 
 def main():
@@ -70,5 +70,6 @@ def main():
     # rate can be 2 MHz
     sieve.test(limit)
 
-main()
-pass
+if __name__ == '__main__':
+  main()
+  pass

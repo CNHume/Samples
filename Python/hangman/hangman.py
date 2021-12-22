@@ -61,4 +61,6 @@ def main():
   #[Debug]
   raw_input(u'Press Enter')
 
-main()
+if __name__ == '__main__':
+  main()
+  pass

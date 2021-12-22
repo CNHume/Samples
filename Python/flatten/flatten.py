@@ -32,5 +32,6 @@ def flatten2(elements):
       result.append(element)
   return result
 
-main()
-pass
+if __name__ == '__main__':
+  main()
+  pass
