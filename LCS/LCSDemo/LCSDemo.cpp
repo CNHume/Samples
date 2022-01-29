@@ -53,10 +53,10 @@ protected:
   //
   // An ordered pair (i, j) will be called a match if A[i] == B[j], where 0 <= i < m and 0 <= j < n.
   //
-  // Define the strict Cartesian product-order (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < j1 and i2 < j2.
+  // Define the strict Cartesian product-order (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < i2 and j1 < j2.
   // Defining (>) similarly, we can write m2 < m1 as m1 > m2.
   //
-  // If i1 <= j1 and i2 >= j2 (or i1 >= i2 and i2 <= j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are "incomparable".
+  // If i1 <= i2 and j2 <= j1 (or i2 <= i1 and j1 <= j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are "incomparable".
   // Defining (#) to denote this case, we write m1 # m2.  Because the underlying product order is strict, m1 == m2 (i.e., i1 == i2 and j1 == j2) implies m1 # m2.
   //
   // We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, i.e., that m1, m2 are "comparable".  Thus the (<>) operator is the inverse of (#).
