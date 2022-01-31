@@ -29,11 +29,13 @@
 // Because the product order is strict, m1 <> m2 implies m1 != m2, i.e., that the tuples differ in some component.
 //
 // Given a product-order over the set of matches M, a chain C is any subset of M where m1 <> m2 for every pair of distinct elements m1 and m2 of C.
+// Similarly, an antichain D is any subset of M where m1 # m2 for every pair of distinct elements m1 and m2 of D.
 //
 // Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches M.
+// According to [Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which M can be decomposed.
+// Note that such decompositions into the minimal number p of disjoint antichains may not be unique.
 //
 // The set of matches M can be visualized as an m*n bit matrix, where each bit M[i, j] is True iff the ordered pair (i, j) is in the set.
-//
 // Then any chain C can be visualized as a strictly increasing curve through those match bits which are set to True.
 // 
 // Background:
@@ -48,12 +50,12 @@
 // In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.
 // In this case, the number of matches reduces to linear, O(m + n) growth.
 //
-// In this case, a binary search optimization due to Hunt and Szymanski can be applied to the basic Dynamic Programming approach which results in expected performance of O(n log m).
-// In the worst case, performance can degrade to O(m*n log m) time if the number of matches, and the space required to represent them, should grow to O(m*n).
+// In this case, the binary search optimization due to [Hunt and Szymanski 1977] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(n log m).
+// In the worst case, performance can degrade to O(m*n log m) time, if the number of matches should grow to O(m*n).
 //
 // Note:
 //
-// Claus Rick has described a linear-space algorithm with a time bound of O(n*s + p*min(m, n - p)).
+// [Rick 2000] describes a linear-space algorithm with a time bound of O(n*s + p*min(m, n - p)).
 // 
 // Legend:
 //
@@ -66,32 +68,37 @@
 //
 // References:
 //
+// [Dilworth 1950]
+//"A decomposition theorem for partially ordered sets"
+// by Robert P. Dilworth, published January 1950,
+// Annals of Mathematics [Volume 51, Number 1, pp. 161-166]
+// 
+// [Goeman and Clausen 2002]
+//"A New Practical Linear Space Algorithm for the Longest Common
+// Subsequence Problem" by Heiko Goeman and Michael Clausen,
+// published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
+//
+// [Hirschberg 1975]
 //"A linear space algorithm for computing maximal common subsequences"
 // by Daniel S. Hirschberg, published June 1975
 // Communications of the ACM [Volume 18, Number 6, pp. 341-343]
 //
+// [Hunt and McIlroy 1976]
 //"An Algorithm for Differential File Comparison"
 // by James W. Hunt and M. Douglas McIlroy, June 1976
 // Computing Science Technical Report, Bell Laboratories 41
 //
+// [Hunt and Szymanski 1977]
 //"A Fast Algorithm for Computing Longest Common Subsequences"
 // by James W. Hunt and Thomas G. Szymanski, published May 1977
 // Communications of the ACM [Volume 20, Number 5, pp. 350-353]
 //
 // See http://www.cs.bgu.ac.il/~dpaa111/wiki.files/HuntSzymanski.pdf
 //
-//"A new flexible algorithm for the longest common subsequence problem"
-// by Claus Rick, published 1995, Proceedings, 6th Annual Symposium on
-// Combinatorial Pattern Matching [Lecture Notes in Computer Science,
-// Springer Verlag, Volume 937, pp. 340-351]
-//
+// [Rick 2000]
 //"Simple and fast linear space computation of longest common subsequences"
 // by Claus Rick, received 17 March 2000, Information Processing Letters,
 // Elsevier Science [Volume 75, pp. 275–281]
-//
-//"A New Practical Linear Space Algorithm for the Longest Common
-// Subsequence Problem" by Heiko Goeman and Michael Clausen,
-// published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
 //
 #include "LCS.h"
 #include <algorithm>                    // for lower_bound()
