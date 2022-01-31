@@ -78,7 +78,7 @@ protected:
   // Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases;
   // and the number of matches will tend towards quadratic, O(m*n) growth. This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
   //
-  // The "divide and conquer" approach by Hirschberg limits the space required to O(m + n).  However, this approach requires O(m*n) time even in the best case.
+  // The "divide and conquer" approach of [Hirschberg 1975] limits the space required to O(m + n).  However, this approach requires O(m*n) time even in the best case.
   //
   // This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
   //
