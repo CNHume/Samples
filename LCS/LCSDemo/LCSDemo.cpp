@@ -1,4 +1,4 @@
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -10,7 +10,12 @@
 // 2015-01-14 CNHume  Created file to demonstrate a fast algorithm by Hunt and
 //                    Szymanski for computing Longest Common Subsequences (LCS)
 //
-// Please see "Doc\LCS Overview.md" for an Overview of The Longest Common Subsequence (LCS) Problem
+// Purpose:
+//
+// This program implements a solution to the Longest Common Subsequence
+// (LCS) Problem based on the Hunt and 
+//  algorithm.  Please see
+// the overview provided in "Doc\LCS Overview.md"
 //
 #include <stdint.h>
 #include <string>
@@ -50,7 +55,6 @@ protected:
   typedef map<char, INDEXES> CHAR2INDEXES;
   typedef deque<INDEXES*> MATCHES;
 
-  // The following implements the Hunt and Szymanski algorithm:
   uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
     auto trace = pairs != nullptr;
     PAIRS traces;

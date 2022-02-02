@@ -1,4 +1,4 @@
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.

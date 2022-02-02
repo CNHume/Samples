@@ -1,4 +1,4 @@
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
 // 2017-06-25 CNHume  Refactored Lengths()
 // 2014-12-31 CNHume  Created file

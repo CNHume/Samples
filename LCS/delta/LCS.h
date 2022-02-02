@@ -1,4 +1,4 @@
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
 // 2017-07-04 CNHume  Moved methods to LCSRecord and LCSString subclasses
 // 2017-06-29 CNHume  Added Command class

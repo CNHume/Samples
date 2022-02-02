@@ -1,4 +1,4 @@
-// Copyright (C) 2017, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
 // 2018-05-10 CNHume  Removed combined Complement()/Context() method.
 // 2017-06-25 CNHume  Refactored Lengths()
