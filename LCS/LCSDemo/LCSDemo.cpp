@@ -13,8 +13,7 @@
 // Purpose:
 //
 // This program implements a solution to the Longest Common Subsequence
-// (LCS) Problem based on the Hunt and 
-//  algorithm.  Please see
+// (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
 // the overview provided in "Doc\LCS Overview.md"
 //
 #include <stdint.h>
