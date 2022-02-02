@@ -10,6 +10,8 @@
 // 2015-01-14 CNHume  Created file to demonstrate a fast algorithm by Hunt and
 //                    Szymanski for computing Longest Common Subsequences (LCS)
 //
+// Please see "Doc\LCS Overview.md" for an Overview of The Longest Common Subsequence (LCS) Problem
+//
 #include <stdint.h>
 #include <string>
 #include <memory>                       // for shared_ptr<>
@@ -42,99 +44,6 @@ protected:
     }
   };
 
-  //
-  // The Longest Common Subsequence (LCS) Problem
-  //
-  // Define a subsequence to be any string obtained by deleting zero or more symbols from an input string.
-  //
-  // The Longest Common Subsequence or LCS is a subsequence of maximum length common to two or more strings.
-  //
-  // Let A = A[0]… A[m - 1] and B = B[0]… B[n - 1], m <= n be strings drawn from an alphabet Σ of size s, containing every distinct symbol in A + B.
-  //
-  // An ordered pair (i, j) will be called a match if A[i] == B[j], where 0 <= i < m and 0 <= j < n.
-  //
-  // Define the strict Cartesian product-order (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < i2 and j1 < j2.
-  // Defining (>) similarly, we can write m2 < m1 as m1 > m2.
-  //
-  // If i1 <= i2 and j2 <= j1 (or i2 <= i1 and j1 <= j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are "incomparable".
-  // Defining (#) to denote this case, we write m1 # m2.  Because the underlying product order is strict, m1 == m2 (i.e., i1 == i2 and j1 == j2) implies m1 # m2.
-  //
-  // We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, i.e., that m1, m2 are "comparable".  Thus the (<>) operator is the inverse of (#).
-  //
-  // Because the product order is strict, m1 <> m2 implies m1 != m2, i.e., that the tuples differ in some component.
-  //
-  // Given a product-order over the set of matches M, a chain C is any subset of M where m1 <> m2 for every pair of distinct elements m1 and m2 of C.
-  // Similarly, an antichain D is any subset of M where m1 # m2 for every pair of distinct elements m1 and m2 of D.
-  //
-  // Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches M.
-  // According to [Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which M can be decomposed.
-  // Note that such decompositions into the minimal number p of disjoint antichains may not be unique.
-  //
-  // The set of matches M can be visualized as an m*n bit matrix, where each bit M[i, j] is True iff the ordered pair (i, j) is in the set.
-  // Then any chain C can be visualized as a strictly increasing curve through those match bits which are set to True.
-  // 
-  // Background:
-  //
-  // Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases;
-  // and the number of matches will tend towards quadratic, O(m*n) growth. This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
-  //
-  // The "divide and conquer" approach of [Hirschberg 1975] limits the space required to O(m + n).  However, this approach requires O(m*n) time even in the best case.
-  //
-  // This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
-  //
-  // In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.
-  // In this case, the number of matches reduces to linear, O(m + n) growth.
-  //
-  // In this case, the binary search optimization due to [Hunt and Szymanski 1977] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(n log m).
-  // In the worst case, performance can degrade to O(m*n log m) time, if the number of matches should grow to O(m*n).
-  //
-  // Note:
-  //
-  // [Rick 2000] describes a linear-space algorithm with a time bound of O(n*s + p*min(m, n - p)).
-  // 
-  // Legend:
-  //
-  // A, B are the input strings labelled such that m <= n
-  // where m, n are their respective lengths
-  // p is the length (to be found) of the LCS
-  // M is the set of match pairs (i, j) such that x[i] == y[j]
-  // r is the magnitude of M
-  // s is the magnitude of the alphabet Sigma of distinct symbols in x + y
-  //
-  // References:
-  //
-  // [Dilworth 1950]
-  //"A decomposition theorem for partially ordered sets"
-  // by Robert P. Dilworth, published January 1950,
-  // Annals of Mathematics [Volume 51, Number 1, pp. 161-166]
-  // 
-  // [Goeman and Clausen 2002]
-  //"A New Practical Linear Space Algorithm for the Longest Common
-  // Subsequence Problem" by Heiko Goeman and Michael Clausen,
-  // published 2002, Kybernetika [Volume 38, Issue 1, pp. 45-66]
-  //
-  // [Hirschberg 1975]
-  //"A linear space algorithm for computing maximal common subsequences"
-  // by Daniel S. Hirschberg, published June 1975
-  // Communications of the ACM [Volume 18, Number 6, pp. 341-343]
-  //
-  // [Hunt and McIlroy 1976]
-  //"An Algorithm for Differential File Comparison"
-  // by James W. Hunt and M. Douglas McIlroy, June 1976
-  // Computing Science Technical Report, Bell Laboratories 41
-  //
-  // [Hunt and Szymanski 1977]
-  //"A Fast Algorithm for Computing Longest Common Subsequences"
-  // by James W. Hunt and Thomas G. Szymanski, published May 1977
-  // Communications of the ACM [Volume 20, Number 5, pp. 350-353]
-  //
-  // See http://www.cs.bgu.ac.il/~dpaa111/wiki.files/HuntSzymanski.pdf
-  //
-  // [Rick 2000]
-  //"Simple and fast linear space computation of longest common subsequences"
-  // by Claus Rick, received 17 March 2000, Information Processing Letters,
-  // Elsevier Science [Volume 75, pp. 275–281]
-  //
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
