@@ -5,7 +5,7 @@ Define a subsequence to be any string obtained by deleting zero or more symbols 
 
 The Longest Common Subsequence or LCS is a subsequence of maximum length common to two or more strings.
 
-Let *A* = *A*[0]… *A*[m - 1] and *B* = *B*[0]… *B*[n - 1], m &leq; n be strings drawn from an alphabet Σ of size s, containing every distinct symbol in A + B.
+Let *A* = *A*[0]&mldr; *A*[m - 1] and *B* = *B*[0]&mldr; *B*[n - 1], m &leq; n be strings drawn from an alphabet Σ of size s, containing every distinct symbol in A + B.
 
 An ordered pair (i, j) will be called a match if *A*[i] == *B*[j], where 0 &leq; i < m and 0 &leq; j < n.
 
@@ -52,8 +52,8 @@ In the worst case, performance can degrade to O(*m\*n log m*) time, if the numbe
 
     A, B are input strings of lengths m, n respectively, and labelled such that m &leq; n
     p is the length of the LCS
-    **M** is the set of match pairs (i, j) such that x[i] == y[j]
-    r is the magnitude of **M**
+    M is the set of match pairs (i, j) such that x[i] == y[j]
+    r is the magnitude of M
     s is the magnitude of the alphabet Σ of distinct symbols in x + y
 
 ## References
