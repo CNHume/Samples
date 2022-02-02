@@ -5,11 +5,11 @@ Define a subsequence to be any string obtained by deleting zero or more symbols 
 
 The Longest Common Subsequence or LCS is a subsequence of maximum length common to two or more strings.
 
-Let *A* = *A*[0]&mldr; *A*[m - 1] and *B* = *B*[0]&mldr; *B*[n - 1], m &leq; n be strings drawn from an alphabet Σ of size s, containing every distinct symbol in A + B.
+Let *A* = *A*[0]&hellip; *A*[m - 1] and *B* = *B*[0]&hellip; *B*[n - 1], m &leq; n be strings drawn from an alphabet &Sigma; of size s, containing every distinct symbol in A + B.
 
 An ordered pair (i, j) will be called a match if *A*[i] == *B*[j], where 0 &leq; i < m and 0 &leq; j < n.
 
-Define the strict Cartesian [product-order](https://en.wikipedia.org/wiki/Product_order) (<) over matches, such that (i1, j1) < (i2, j2) iff i1 < i2 and j1 < j2.  Defining (>) similarly, we can write m2 < m1 as m1 > m2.
+Define the strict Cartesian [product-order](https://en.wikipedia.org/wiki/Product_order) (<) over matches, such that (i1, j1) < (i2, j2) &harr; i1 < i2 and j1 < j2.  Defining (>) similarly, we can write m2 < m1 as m1 > m2.
 
 We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, *i.e.*, that m1, m2 are *comparable*.
 
@@ -23,26 +23,21 @@ Given a product-order over the set of matches **M**, a chain **C** is any subset
 
 Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
 
-According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.
-Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
+According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 
-The set of matches **M** can be visualized as an m\*n bit matrix, where each bit **M**[i, j] is True iff the ordered pair (i, j) is in the set.
-Then any chain **C** can be visualized as a strictly increasing curve through those match bits which are set to True.
+The set of matches **M** can be interpreted as an m\*n bit matrix such that **M**[i, j] == True &harr; (i, j) &isin; M.  Then a chain **C** can be visualized as a strictly increasing curve through those match bits which are True.
 
 ## Background
 
-Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases;
-and the number of matches will tend towards quadratic, O(*m\*n*) growth. This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
+Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards quadratic, O(*m\*n*) growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
 
 The "divide and conquer" approach of [^Hirschberg 1975] limits the space required to O(*m + n*).  However, this approach requires O(*m\*n*) time even in the best case.
 
 This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
 
-In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.
-In this case, the number of matches reduces to linear, O(*m + n*) growth.
+In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.  In this case the number of matches reduces to linear, O(*m + n*) growth.
 
-In this case, the binary search optimization due to [^Hunt and Szymanski 1977] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(*n log m*).
-In the worst case, performance can degrade to O(*m\*n log m*) time, if the number of matches should grow to O(*m\*n*).
+A binary search optimization due to [^Hunt and Szymanski 1977] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(*n log m*).  Performance can degrade to O(*m\*n log m*) time in the worst case, as the number of matches grows to O(*m\*n*).
 
 ## Note
 
@@ -50,11 +45,11 @@ In the worst case, performance can degrade to O(*m\*n log m*) time, if the numbe
 
 ## Legend
 
-    A, B are input strings of lengths m, n respectively, and labelled such that m &leq; n
+    A, B are input strings of lengths m, n respectively
     p is the length of the LCS
     M is the set of match pairs (i, j) such that x[i] == y[j]
     r is the magnitude of M
-    s is the magnitude of the alphabet Σ of distinct symbols in x + y
+    s is the magnitude of the alphabet of distinct symbols in x + y
 
 ## References
 
