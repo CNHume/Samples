@@ -15,9 +15,9 @@ We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, *i.e.*, that m1,
 
 If i1 &leq; i2 and j2 &leq; j1 (or i2 &leq; i1 and j1 &leq; j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are *incomparable*.
 
-Defining (#) to denote this case, we write m1 # m2.  Because the underlying product order is strict, m1 == m2 (*i.e.*, i1 == i2 and j1 == j2) implies m1 # m2.  Thus, the (<>) operator is the inverse of (#).
+Defining (#) to denote this case, we write m1 # m2.  Because the underlying product-order is strict, m1 == m2 (*i.e.*, i1 == i2 and j1 == j2) implies m1 # m2.  Thus, the (<>) operator is the inverse of (#).
 
-Because the product order is strict, m1 <> m2 implies m1 &ne; m2, *i.e.*, that the two tuples differ in some component.
+Because the product-order is strict, m1 <> m2 implies m1 &ne; m2, *i.e.*, that the two tuples differ in some component.
 
 Given a product-order over the set of matches **M**, a chain **C** is any subset of **M** where m1 <> m2 for every pair of distinct elements m1 and m2 of **C**.  Similarly, an antichain **D** is any subset of **M** where m1 # m2 for every pair of distinct elements m1 and m2 of **D**.
 
@@ -55,24 +55,24 @@ A binary search optimization due to [^Hunt and Szymanski 1977] can be applied to
 
 [^Dilworth 1950]: "A decomposition theorem for partially ordered sets"
 by Robert P. Dilworth, published January 1950,
-Annals of Mathematics [Volume 51, Number 1, *pp.** 161-166]
+Annals of Mathematics [Volume 51, Number 1, *pp.* 161-166]
 
 [^Goeman and Clausen 2002]: "A New Practical Linear Space Algorithm for the Longest Common
 Subsequence Problem" by Heiko Goeman and Michael Clausen,
-published 2002, Kybernetika [Volume 38, Issue 1, *pp.** 45-66]
+published 2002, Kybernetika [Volume 38, Issue 1, *pp.* 45-66]
 
 [^Hirschberg 1975]: "A linear space algorithm for computing maximal common subsequences"
 by Daniel S. Hirschberg, published June 1975
-Communications of the ACM [Volume 18, Number 6, *pp.** 341-343]
+Communications of the ACM [Volume 18, Number 6, *pp.* 341-343]
 
 [^Hunt and McIlroy 1976]: "An Algorithm for Differential File Comparison"
-by James W. Hunt and **M**. Douglas McIlroy, June 1976
+by James W. Hunt and M. Douglas McIlroy, June 1976
 Computing Science Technical Report, Bell Laboratories 41
 
 [^Hunt and Szymanski 1977]: "[A Fast Algorithm for Computing Longest Common Subsequences](http:www.cs.bgu.ac.il/~dpaa111/wiki.files/HuntSzymanski.pdf)"
 by James W. Hunt and Thomas G. Szymanski, published May 1977
-Communications of the ACM [Volume 20, Number 5, *pp.** 350-353]
+Communications of the ACM [Volume 20, Number 5, *pp.* 350-353]
 
 [^Rick 2000]: "Simple and fast linear space computation of longest common subsequences"
 by Claus Rick, received 17 March 2000, Information Processing Letters,
-Elsevier Science [Volume 75, *pp.** 275–281]
+Elsevier Science [Volume 75, *pp.* 275–281]
