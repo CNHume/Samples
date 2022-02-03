@@ -14,9 +14,7 @@ We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, ''i.e.'', that m
 
 If i1 &le; i2 and j2 &le; j1 (or i2 &le; i1 and j1 &le; j2) then neither m1 < m2 nor m1 > m2 are possible; and m1, m2 are ''incomparable''.
 
-Defining (#) to denote this case, we write m1 # m2.  Because the underlying product-order is strict, m1 == m2 (''i.e.'', i1 == i2 and j1 == j2) implies m1 # m2.  Thus, the (<>) operator is the inverse of (#).
-
-Because the product-order is strict, m1 <> m2 implies m1 &ne; m2, ''i.e.'', that the two tuples differ in some component.
+Defining (#) to denote this case, we write m1 # m2.  Because the underlying product-order is strict, m1 == m2 (''i.e.'', i1 == i2 and j1 == j2) implies m1 # m2.  m1 <> m2 implies m1 &ne; m2, ''i.e.'', that the two tuples differ in some component.  Thus, the (<>) operator is the inverse of (#).
 
 Given a product-order over the set of matches '''M''', a chain '''C''' is any subset of '''M''' where m1 <> m2 for every pair of distinct elements m1 and m2 of '''C'''.  Similarly, an antichain '''D''' is any subset of '''M''' where m1 # m2 for every pair of distinct elements m1 and m2 of '''D'''.
 
