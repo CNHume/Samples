@@ -23,17 +23,17 @@ Finding an LCS can then be restated as the problem of finding a chain of maximum
 
 According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 
-The set of matches **M** can be interpreted as an m\*n bit matrix such that **M**[i, j] == True &harr; (i, j) &isin; M.  Then a chain **C** can be visualized as a strictly increasing curve through those match bits which are True.
+The set of matches **M** can be interpreted as an m\*n boolean matrix such that **M**[i, j] &harr; (i, j) &isin; **M**.  Then a chain **C** can be visualized as a strictly increasing curve through those coordinate pairs corresponding to matches.
 
 ## Background
 
 Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards quadratic, O(*m\*n*) growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
 
-The "divide and conquer" approach of [^Hirschberg 1975] limits the space required to O(*m + n*).  However, this approach requires O(*m\*n*) time even in the best case.
+The "divide and conquer" approach of [^Hirschberg 1975] limits the space required to O(*n*).  However, this approach requires O(*m\*n*) time even in the best case.
 
 This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
 
-In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.  In this case the number of matches reduces to linear, O(*m + n*) growth.
+In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.  In this case the number of matches reduces to linear, O(*n*) growth.
 
 A binary search optimization due to [^Hunt and Szymanski 1977] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(*n log m*).  Performance can degrade to O(*m\*n log m*) time in the worst case, as the number of matches grows to O(*m\*n*).
 
