@@ -9,7 +9,7 @@ Let *A* = *A*[0]&hellip; *A*[m - 1] and *B* = *B*[0]&hellip; *B*[n - 1], m &leq;
 
 An ordered pair (i, j) will be called a match if *A*[i] == *B*[j], where 0 &leq; i < m and 0 &leq; j < n.
 
-Define the strict Cartesian [product-order](https://en.wikipedia.org/wiki/Product_order) (<) over matches, such that (i1, j1) < (i2, j2) &harr; i1 < i2 and j1 < j2.  Defining (>) similarly, we can write m2 < m1 as m1 > m2.
+Define the strict Cartesian [product-order](https://en.wikipedia.org/wiki/Product_order) (<) over matches, such that (i1, j1) < (i2, j2) &hArr; i1 < i2 and j1 < j2.  Defining (>) similarly, we can write m2 < m1 as m1 > m2.
 
 We write m1 <> m2 to mean that either m1 < m2 or m1 > m2 holds, *i.e.*, that m1, m2 are *comparable*.
 
@@ -23,7 +23,7 @@ Finding an LCS can then be restated as the problem of finding a chain of maximum
 
 According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 
-The set of matches **M** can be interpreted as an m\*n boolean matrix such that **M**[i, j] &harr; (i, j) &isin; **M**.  Then a chain **C** can be visualized as a strictly increasing curve through those coordinate pairs corresponding to matches.
+The set of matches **M** can be interpreted as an m\*n boolean matrix such that **M**[i, j] &hArr; (i, j) &isin; **M**.  Then a chain **C** can be visualized as a strictly increasing curve through those coordinate pairs corresponding to matches.
 
 ## Background
 
