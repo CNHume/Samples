@@ -1,5 +1,5 @@
 ### [The Longest Common Subsequence Problem](http://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
-by Christopher Hume, updated 2022-02-02
+by Christopher Hume, updated 2022-02-05
 
 Define a subsequence to be any string obtained by deleting zero or more symbols from an input string.
 
@@ -21,9 +21,9 @@ Given a product-order over the set of matches **M**, a chain **C** is any subset
 
 Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
 
-According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
+The set **M** represents a relation over match pairs: (i, j) &isin; **M** &hArr; **M**[i, j].  Any chain **C** can be visualized as a strictly increasing curve which passes through each match pair in the m\*n coordinate space.
 
-The set of matches **M** can be interpreted as an m\*n boolean matrix such that **M**[i, j] &hArr; (i, j) &isin; **M**.  Then a chain **C** can be visualized as a strictly increasing curve through those coordinate pairs corresponding to matches.
+According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 
 ## Background
 
