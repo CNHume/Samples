@@ -45,9 +45,9 @@ A binary search optimization due to [^Hunt and Szymanski 1977] can be applied to
 
     A, B are input strings of lengths m, n respectively
     p is the length of the LCS
-    M is the set of match pairs (i, j) such that x[i] == y[j]
+    M is the set of match pairs (i, j) such that A[i] == B[j]
     r is the magnitude of M
-    s is the magnitude of the alphabet of distinct symbols in x + y
+    s is the magnitude of the alphabet of distinct symbols in A + B
 
 ## References
 
