@@ -19,9 +19,9 @@ Defining (#) to denote this case, we write m1 # m2.  Because the underlying prod
 
 Given a product-order over the set of matches **M**, a chain **C** is any subset of **M** where m1 <> m2 for every pair of distinct elements m1 and m2 of **C**.  Similarly, an antichain **D** is any subset of **M** where m1 # m2 for every pair of distinct elements m1 and m2 of **D**.
 
-Finding an LCS can then be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
-
 The set **M** represents a relation over match pairs: (i, j) &isin; **M** &hArr; **M**[i, j].  Any chain **C** can be visualized as a strictly increasing curve which passes through each match pair in the m\*n coordinate space.
+
+Finding an LCS can be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
 
 According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 
