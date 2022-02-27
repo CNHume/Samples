@@ -21,7 +21,7 @@
 #include <memory>                       // for shared_ptr<>
 #include <iostream>
 #include <deque>
-#include <map>
+#include <unordered_map>
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
@@ -51,7 +51,7 @@ protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
-  typedef map<char, INDEXES> CHAR2INDEXES;
+  typedef unordered_map<char, INDEXES> CHAR2INDEXES;
   typedef deque<INDEXES*> MATCHES;
 
   uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {

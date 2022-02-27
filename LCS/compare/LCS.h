@@ -25,7 +25,7 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <iostream>                     // for cout
 
 using namespace std;
@@ -35,7 +35,7 @@ protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
-  typedef map<string, INDEXES> STRING2INDEXES;
+  typedef unordered_map<string, INDEXES> STRING2INDEXES;
   typedef deque<INDEXES*> MATCHES;
 
   uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs);

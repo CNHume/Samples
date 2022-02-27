@@ -13,7 +13,7 @@ class LCSString : LCS {
   // String Methods
   //
 protected:
-  typedef map<char, INDEXES> CHAR2INDEXES;
+  typedef unordered_map<char, INDEXES> CHAR2INDEXES;
 
   uint32_t Match(CHAR2INDEXES& indexes, MATCHES& matches,
     const string& s1, const string& s2);
