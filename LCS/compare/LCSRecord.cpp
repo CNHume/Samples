@@ -33,29 +33,28 @@ LCSRecord::RECORDS LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
 
 shared_ptr<Delta> LCSRecord::Compare(const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
-  STRING2INDEXES indexes;
-  MATCHES matches;                      // matches holds references into indexes
-  auto count = Match(indexes, matches, r1, r2, ignorecase, ignorespace);
+  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
+  auto count = Match(indexesOf2MatchedByString, indexesOf2MatchedByIndex1, r1, r2, ignorecase, ignorespace);
 #ifdef SHOW_COUNTS
-  cout << count << " matches" << endl;
+  cout << count << " indexesOf2MatchedByIndex1" << endl;
 #endif
   shared_ptr<Pair> pairs;
-  auto length = Pairs(matches, &pairs);
+  auto length = Pairs(indexesOf2MatchedByIndex1, &pairs);
   return Delta::Coalesce(pairs);
 }
 
 //
 // Find Matches
 //
-// Match() avoids incurring m*n comparisons by using the associative
-// memory implemented by STRING2INDEXES to achieve O(m+n) performance,
-// where m and n are the input lengths.
+// Match() avoids m*n comparisons by using STRING_TO_INDEXES_MAP to
+// achieve O(m+n) performance, where m and n are the input lengths.
 //
 // The lookup time can be assumed constant in the case of characters.
 // The symbol space is larger in the case of records; but the lookup
 // time will be O(log(m+n)), at most.
 //
-uint32_t LCSRecord::Match(STRING2INDEXES& indexes, MATCHES& matches,
+uint32_t LCSRecord::Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
@@ -63,13 +62,13 @@ uint32_t LCSRecord::Match(STRING2INDEXES& indexes, MATCHES& matches,
   string buffer;
   for (const auto& it : r2) {
     Normal(it, buffer, ignorecase, ignorespace);
-    indexes[buffer].push_back(index++);
+    indexesOf2MatchedByString[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {
     Normal(it, buffer, ignorecase, ignorespace);
-    auto& dq2 = indexes[buffer];
-    matches.push_back(&dq2);
+    auto& dq2 = indexesOf2MatchedByString[buffer];
+    indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
 

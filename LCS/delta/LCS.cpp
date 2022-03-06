@@ -12,13 +12,13 @@
 //
 // This program implements a solution to the Longest Common Subsequence
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
-// the overview provided in "Doc\LCS Overview.md"
+// the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCS.h"
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
-uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
+uint32_t LCS::Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
   auto trace = pairs != nullptr;
   PAIRS traces;
   THRESHOLD threshold;
@@ -28,7 +28,7 @@ uint32_t LCS::Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
   // such that the LCS of r1[0:index1] and r2[0:index2] has length index3 + 1
   //
   uint32_t index1 = 0;
-  for (const auto& it1 : matches) {
+  for (const auto& it1 : indexes2MatchedByIndex1) {
     if (!it1->empty()) {
       auto dq2 = *it1;
       auto limit = threshold.end();

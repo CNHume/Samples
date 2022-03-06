@@ -14,7 +14,7 @@ public:
   typedef vector<string> RECORDS;
 
 protected:
-  uint32_t Match(STRING2INDEXES& indexes, MATCHES& matches,
+  uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
   static void Normal(const string& input, string& output,

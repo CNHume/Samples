@@ -11,30 +11,30 @@ string LCSString::Correspondence(const string& s1, const string& s2) {
 }
 
 shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
-  CHAR2INDEXES indexes;
-  MATCHES matches;                      // matches holds references into indexes
-  auto count = Match(indexes, matches, s1, s2);
+  CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
+  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
+  auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
 #ifdef SHOW_COUNTS
-  cout << count << " matches" << endl;
+  cout << count << " indexesOf2MatchedByIndex1" << endl;
 #endif
   shared_ptr<Pair> pairs;
-  auto length = Pairs(matches, &pairs);
+  auto length = Pairs(indexesOf2MatchedByIndex1, &pairs);
   return Delta::Coalesce(pairs);
 }
 
 //
-// See the STRING2INDEXES overload used for RECORDS
+// Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
-uint32_t LCSString::Match(CHAR2INDEXES& indexes, MATCHES& matches,
+uint32_t LCSString::Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
   const string& s1, const string& s2) {
   uint32_t count = 0;
   uint32_t index = 0;
   for (const auto& it : s2)
-    indexes[it].push_back(index++);
+    indexesOf2MatchedByChar[it].push_back(index++);
 
   for (const auto& it : s1) {
-    auto& dq2 = indexes[it];
-    matches.push_back(&dq2);
+    auto& dq2 = indexesOf2MatchedByChar[it];
+    indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
 

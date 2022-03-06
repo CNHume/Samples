@@ -34,8 +34,8 @@ protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
-  typedef unordered_map<string, INDEXES> STRING2INDEXES;
+  typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs);
+  uint32_t Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs);
 };

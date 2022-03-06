@@ -14,7 +14,7 @@
 //
 // This program implements a solution to the Longest Common Subsequence
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
-// the overview provided in "Doc\LCS Overview.md"
+// the overview provided in "Doc/LCS Overview.md"
 //
 #include <stdint.h>
 #include <string>
@@ -51,10 +51,10 @@ protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
-  typedef unordered_map<char, INDEXES> CHAR2INDEXES;
+  typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t Pairs(MATCHES& matches, shared_ptr<Pair>* pairs) {
+  uint32_t Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto trace = pairs != nullptr;
     PAIRS traces;
     THRESHOLD threshold;
@@ -64,7 +64,7 @@ protected:
     // such that the LCS of s1[0:index1] and s2[0:index2] has length index3 + 1
     //
     uint32_t index1 = 0;
-    for (const auto& it1 : matches) {
+    for (const auto& it1 : indexesOf2MatchedByIndex1) {
       if (!it1->empty()) {
         auto dq2 = *it1;
         auto limit = threshold.end();
@@ -131,23 +131,22 @@ protected:
   }
 
   //
-  // Match() avoids incurring m*n comparisons by using the associative
-  // memory implemented by CHAR2INDEXES to achieve O(m+n) performance,
-  // where m and n are the input lengths.
+  // Match() avoids m*n comparisons by using CHAR_TO_INDEXES_MAP to
+  // achieve O(m+n) performance, where m and n are the input lengths.
   //
   // The lookup time can be assumed constant in the case of characters.
   // The symbol space is larger in the case of records; but the lookup
   // time will be O(log(m+n)), at most.
   //
-  void Match(CHAR2INDEXES& indexes, MATCHES& matches,
+  void Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
     const string& s1, const string& s2) {
     uint32_t index = 0;
     for (const auto& it : s2)
-      indexes[it].push_back(index++);
+      indexesOf2MatchedByChar[it].push_back(index++);
 
     for (const auto& it : s1) {
-      auto& dq2 = indexes[it];
-      matches.push_back(&dq2);
+      auto& dq2 = indexesOf2MatchedByChar[it];
+      indexesOf2MatchedByIndex1.push_back(&dq2);
     }
   }
 
@@ -164,11 +163,11 @@ protected:
 
 public:
   string Correspondence(const string& s1, const string& s2) {
-    CHAR2INDEXES indexes;
-    MATCHES matches;                    // holds references into indexes
-    Match(indexes, matches, s1, s2);
+    CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
+    Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
     shared_ptr<Pair> pairs;             // obtain the LCS as index pairs
-    auto length = Pairs(matches, &pairs);
+    auto length = Pairs(indexesOf2MatchedByIndex1, &pairs);
     return Select(pairs, length, false, s1, s2);
   }
 };
