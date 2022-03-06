@@ -106,7 +106,7 @@ protected:
           }
           else if (index2 < *limit) {
             // Update Case
-            // Refresh limit iterator:
+            // Update limit value:
             *limit = index2;
             if (trace) {
               auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;

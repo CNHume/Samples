@@ -95,7 +95,7 @@ uint32_t LCS::Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs)
           cout << "replacing " << *limit << " with " << index2 << " at " << index1
             << " for length = " << len << endl;
 #endif
-          // Refresh limit iterator:
+          // Update limit value:
           * limit = index2;
           if (trace) {
             auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;

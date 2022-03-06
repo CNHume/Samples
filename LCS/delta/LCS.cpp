@@ -70,7 +70,7 @@ uint32_t LCS::Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
         }
         else if (index2 < *limit) {
           // Update Case
-          // Refresh limit iterator:
+          // Update limit value:
           *limit = index2;
           if (trace) {
             auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;
