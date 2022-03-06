@@ -58,7 +58,7 @@ uint32_t LCS::Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
         if (skipIndex2) continue;
 
         if (limit == threshold.end()) {
-          // insert case
+          // Insert Case
           threshold.push_back(index2);
           // Refresh limit iterator:
           limit = prev(threshold.end());
@@ -69,7 +69,8 @@ uint32_t LCS::Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
           }
         }
         else if (index2 < *limit) {
-          // replacement case
+          // Update Case
+          // Refresh limit iterator:
           *limit = index2;
           if (trace) {
             auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;

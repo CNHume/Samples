@@ -73,7 +73,7 @@ uint32_t LCS::Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs)
         if (skipIndex2) continue;
 #endif
         if (limit == threshold.end()) {
-          // insert case
+          // Insert Case
 #ifdef SHOW_THRESHOLDS
           updated = true;
           cout << "inserting " << index2 << " at " << index1
@@ -89,12 +89,13 @@ uint32_t LCS::Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs)
           }
         }
         else if (index2 < *limit) {
-          // replacement case
+          // Update Case
 #ifdef SHOW_THRESHOLDS
           updated = true;
           cout << "replacing " << *limit << " with " << index2 << " at " << index1
             << " for length = " << len << endl;
 #endif
+          // Refresh limit iterator:
           * limit = index2;
           if (trace) {
             auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;
