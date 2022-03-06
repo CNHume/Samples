@@ -89,9 +89,9 @@ protected:
           // Depending on match redundancy, the number of Pair constructions may be
           // divided by factors ranging from 2 up to 10 or more.
           //
-          auto skip = next(it2) != dq2.rend() &&
+          auto skipIndex2 = next(it2) != dq2.rend() &&
             (limit == threshold.begin() || *prev(limit) < *next(it2));
-          if (skip) continue;
+          if (skipIndex2) continue;
 
           if (limit == threshold.end()) {
             // insert case
