@@ -55,8 +55,8 @@ protected:
   typedef deque<INDEXES*> MATCHES;
 
   uint32_t Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
-    auto trace = pairs != nullptr;
-    PAIRS traces;
+    auto traceLCS = pairs != nullptr;
+    PAIRS chains;
     THRESHOLD threshold;
 
     //
@@ -98,20 +98,20 @@ protected:
             threshold.push_back(index2);
             // Refresh limit iterator:
             limit = prev(threshold.end());
-            if (trace) {
-              auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;
+            if (traceLCS) {
+              auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
               auto last = make_shared<Pair>(index1, index2, prefix);
-              traces.push_back(last);
+              chains.push_back(last);
             }
           }
           else if (index2 < *limit) {
             // Update Case
             // Update limit value:
             *limit = index2;
-            if (trace) {
-              auto prefix = index3 > 0 ? traces[index3 - 1] : nullptr;
+            if (traceLCS) {
+              auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
               auto last = make_shared<Pair>(index1, index2, prefix);
-              traces[index3] = last;
+              chains[index3] = last;
             }
           }
         }                                 // next index2
@@ -120,10 +120,10 @@ protected:
       index1++;
     }                                     // next index1
 
-    if (trace) {
+    if (traceLCS) {
       // Return the LCS as a linked list of matched index pairs:
-      auto last = traces.size() > 0 ? traces.back() : nullptr;
-      // Reverse longest back-trace
+      auto last = chains.size() > 0 ? chains.back() : nullptr;
+      // Reverse longest chain
       *pairs = Pair::Reverse(last);
     }
 
