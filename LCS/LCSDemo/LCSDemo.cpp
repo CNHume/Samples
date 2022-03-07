@@ -6,7 +6,7 @@
 // 2017-07-05 CNHume  Applied prev() and next() in skip criteria.
 // 2017-07-03 CNHume  Refresh limit iterator after threshold.push_back()
 // 2017-06-30 CNHume  Reduced Select() length precision
-// 2015-01-25 CNHume  Allowed Pairs() to return the LCS Length
+// 2015-01-25 CNHume  Allowed FindLCS() to return the LCS Length
 // 2015-01-14 CNHume  Created file to demonstrate a fast algorithm by Hunt and
 //                    Szymanski for computing Longest Common Subsequences (LCS)
 //
@@ -54,7 +54,7 @@ protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+  uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
     THRESHOLD threshold;
@@ -168,7 +168,7 @@ public:
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
     shared_ptr<Pair> pairs;             // obtain the LCS as index pairs
-    auto length = Pairs(indexesOf2MatchedByIndex1, &pairs);
+    auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
     return Select(pairs, length, false, s1, s2);
   }
 };

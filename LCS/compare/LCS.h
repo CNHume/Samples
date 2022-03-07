@@ -38,5 +38,5 @@ protected:
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t Pairs(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
+  uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
 };

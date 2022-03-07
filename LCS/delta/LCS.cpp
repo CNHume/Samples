@@ -18,7 +18,7 @@
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
-uint32_t LCS::Pairs(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+uint32_t LCS::FindLCS(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
   THRESHOLD threshold;

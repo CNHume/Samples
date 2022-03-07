@@ -18,7 +18,7 @@ shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
   cout << count << " indexesOf2MatchedByIndex1" << endl;
 #endif
   shared_ptr<Pair> pairs;
-  auto length = Pairs(indexesOf2MatchedByIndex1, &pairs);
+  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
   return Delta::Coalesce(pairs);
 }
 
