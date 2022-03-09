@@ -18,9 +18,9 @@ namespace Engine.CacheValue {
   //
   // Type Aliases:
   //
-  using CompositionCounter = System.UInt16;
-  using Eval = System.Int16;
-  using Hashcode = System.UInt64;
+  using CompositionCounter = UInt16;
+  using Eval = Int16;
+  using Hashcode = UInt64;
 #if CompositionByValue
   struct Composition {
 #else

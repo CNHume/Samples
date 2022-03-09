@@ -72,8 +72,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
-  using Ply = System.UInt16;
+  using Depth = UInt16;
+  using Ply = UInt16;
 
   partial class GameState : IDisposable {
     #region Constants

@@ -17,9 +17,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
-  using FeatureCounter = System.UInt32;
-  using Plane = System.UInt64;
+  using Eval = Int16;
+  using FeatureCounter = UInt32;
+  using Plane = UInt64;
 
   partial class Position : Board {
     #region Constants

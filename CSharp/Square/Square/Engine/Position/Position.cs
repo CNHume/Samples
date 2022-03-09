@@ -52,10 +52,10 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Bval = System.Int16;
-  using Depth = System.UInt16;
-  using Plane = System.UInt64;
-  using PlyDepth = System.Byte;
+  using Bval = Int16;
+  using Depth = UInt16;
+  using Plane = UInt64;
+  using PlyDepth = Byte;
 
   #region Enumerations
   //

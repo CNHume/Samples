@@ -22,11 +22,11 @@ namespace Engine.CacheValue {
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
-  using Bval = System.Int16;
-  using Eval = System.Int16;
-  using Hashcode = System.UInt64;
-  using Ply = System.UInt16;
+  using Depth = UInt16;
+  using Bval = Int16;
+  using Eval = Int16;
+  using Hashcode = UInt64;
+  using Ply = UInt16;
 #if PositionMoveByValue
   struct PositionMove : ITankable<PositionMove> {
 #else

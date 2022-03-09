@@ -16,7 +16,15 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
-    "5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v. Mamedyarov
+    //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [19-ply in 14:37, over 0.732 GNode @834 KHz, 15-ply to find -#15 in 1:29 @922 KHz]
+    //"2r5/5pk1/6p1/6P1/1K6/8/3R4/8 b - - 0 66"; // Vidit Gujrathi v Rameshbabu Praggnanandhaa Endgame 2022 Tata Steel Masters R10 2022-01-26
+    //"3r2k1/2pqnpp1/1p5p/p2P4/P2p1rP1/2P1N1P1/1PQ2P2/3RR1K1 b - - 0 23"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 [~22-ply]
+    // moves d4e3 g3f4 d7g4 g1f1 g4h3 f1g1
+    //"3r2k1/2p1npp1/1p5p/p2P4/P4P2/2P1p2q/1PQ2P2/3RR1K1 b - - 0 26"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 Line
+    // moves e3f2 c2f2 d8d6 f2f1 d6g6 g1f2 h3h2 f2e3 g6g3 e3d4 e7f5 d4e4 h2c2 d1d3 f5d6 e4d4
+    //"6k1/4bpp1/1p1p4/5R1P/4PQ2/5P2/r4q1P/2R4K w - - 0 49"; // Carlsen v Karjakin 2016 WCC R16 2016-11-30 #8 [12-ply in 42.5 sec, @0.5 MHz to find 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+]
+    //"2rq1rk1/pb1n1ppN/4p3/1pb5/3P1Pn1/P1N5/1PQ1B1PP/R1B2RK1 b - - 0 16"; // Aronian v Anand 2013-01-16 Tata Steel [13-ply to find 16... Nde5!]
+    //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
     //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [18-ply in 53:00 over 3.625 Gnode @1.14 MHz]
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #17 [10-ply 27.425 sec over 28.73 Mnode, formerly 67 sec]
@@ -177,7 +185,7 @@ namespace Command {
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
     //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 16.61 sec over 18.42 Mnode [formerly 1:47.89 w Singular]
-    //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
+    "1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]
     //"r2q1rk1/pp2ppbp/2p2np1/6B1/3PP1b1/Q1P2N2/P4PPP/3RKB1R b K - 0 13"; // Byrne vs Fischer 13

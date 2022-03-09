@@ -29,9 +29,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
-  using Depth = System.UInt16;
-  using Eval = System.Int16;
+  using PlyDepth = Byte;
+  using Depth = UInt16;
+  using Eval = Int16;
 
   partial class Position : Board {
     #region Constants

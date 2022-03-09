@@ -17,10 +17,10 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
-  using Depth = System.UInt16;
-  using Draft = System.UInt16;
-  using ExtensionCounter = System.UInt16;
+  using PlyDepth = Byte;
+  using Depth = UInt16;
+  using Draft = UInt16;
+  using ExtensionCounter = UInt16;
 
   partial class Position : Board {
     #region Constants

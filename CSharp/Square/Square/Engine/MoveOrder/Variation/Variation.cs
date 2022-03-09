@@ -15,7 +15,7 @@ namespace Engine.MoveOrder {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
+  using Eval = Int16;
 
   class Variation : IComparable {
     #region Constructors

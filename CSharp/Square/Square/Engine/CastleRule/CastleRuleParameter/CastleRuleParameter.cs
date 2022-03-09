@@ -14,19 +14,19 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Plane = System.UInt64;
+  using Plane = UInt64;
 
   partial class CastleRule {
     public class CastleRuleParameter {
       #region Constructors
       public CastleRuleParameter(PositionParameter parameter) {
         Parameter = parameter;
-        var nSetup = Parameter.SetupSquare;
+        var n = Parameter.StartRank;
 
-        KingOOTo = (Int32)sq.g1 + nSetup;
-        RookOOTo = (Int32)sq.f1 + nSetup;
-        KingOOOTo = (Int32)sq.c1 + nSetup;
-        RookOOOTo = (Int32)sq.d1 + nSetup;
+        KingOOTo = (Int32)sq.g1 + n;
+        RookOOTo = (Int32)sq.f1 + n;
+        KingOOOTo = (Int32)sq.c1 + n;
+        RookOOOTo = (Int32)sq.d1 + n;
       }
       #endregion
 
@@ -121,7 +121,7 @@ namespace Engine {
       public HiFlags GrantCastling(Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
         var fhiCanCastle = (HiFlags)0;
         var sideName = Parameter.SideName;
-        var nSetup = Parameter.SetupSquare;
+        var nSetup = Parameter.StartRank;
 
         if (!CastlesFrom.HasValue) {
           if (!nKingFrom.HasValue)

@@ -13,7 +13,7 @@ namespace Engine.MoveOrder {
   //
   // Type Aliases:
   //
-  using MoveTypeOrdering = System.UInt64;
+  using MoveTypeOrdering = UInt64;
   using Engine.Exceptions;
 
   static class TypedMove {

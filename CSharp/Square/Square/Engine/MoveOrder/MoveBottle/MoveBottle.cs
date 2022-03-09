@@ -16,8 +16,8 @@ namespace Engine.MoveOrder {
   //
   // Type Aliases:
   //
-  using BottleHash = System.UInt32;
-  using Ply = System.UInt16;
+  using BottleHash = UInt32;
+  using Ply = UInt16;
 
   class MoveBottle {
     #region Constants

@@ -27,10 +27,10 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Ply = System.UInt16;
-  using PlyDepth = System.Byte;
-  using Depth = System.UInt16;
-  using Plane = System.UInt64;
+  using Ply = UInt16;
+  using PlyDepth = Byte;
+  using Depth = UInt16;
+  using Plane = UInt64;
 
   partial class Position : Board {
     #region Timer Test Selector

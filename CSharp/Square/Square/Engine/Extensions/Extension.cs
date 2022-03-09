@@ -32,8 +32,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
-  using PieceCounter = System.UInt32;
+  using Eval = Int16;
+  using PieceCounter = UInt32;
 
   //
   // Instead of storing the Pawn Count (mod 4) the least significant bit pair
@@ -42,9 +42,9 @@ namespace Engine {
   // successive Piece Counts (mod 4).  So, 5 bit pairs, or a total of 10 bits
   // are used per side.
   //
-  using PieceHashcode = System.UInt16;  // 10 bits
-  using Plane = System.UInt64;
-  using Ply = System.UInt16;
+  using PieceHashcode = UInt16;         // 10 bits
+  using Plane = UInt64;
+  using Ply = UInt16;
 
   static class Extension {
     #region Delegates

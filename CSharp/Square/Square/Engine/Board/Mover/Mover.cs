@@ -24,8 +24,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Plane = System.UInt64;
-  using Ply = System.UInt16;
+  using Plane = UInt64;
+  using Ply = UInt16;
 
   partial class Board {
     #region Constants
@@ -34,19 +34,23 @@ namespace Engine {
 
     #region Side Methods
     protected CastleRuleParameter getRule(Boolean bWTM) {
-      var castle = State.Rule;
-      return bWTM ? castle.RuleParameter[White] : castle.RuleParameter[Black];
+      var rule = State.Rule.RuleParameter;
+      return bWTM ?
+        rule[White] :
+        rule[Black];
     }
 
-    protected (CastleRuleParameter frienndRule, CastleRuleParameter foeRule) getRules(Boolean bWTM) {
-      var castle = State.Rule;
+    protected (CastleRuleParameter friendRule, CastleRuleParameter foeRule) getRules(Boolean bWTM) {
+      var rule = State.Rule.RuleParameter;
       return bWTM ?
-        (castle.RuleParameter[White], castle.RuleParameter[Black]) :
-        (castle.RuleParameter[Black], castle.RuleParameter[White]);
+        (rule[White], rule[Black]) :
+        (rule[Black], rule[White]);
     }
 
     protected BoardSide getSide(Boolean bWTM) {
-      return bWTM ? Side[White] : Side[Black];
+      return bWTM ?
+        Side[White] :
+        Side[Black];
     }
 
     protected (BoardSide friend, BoardSide foe) getSides(Boolean bWTM) {

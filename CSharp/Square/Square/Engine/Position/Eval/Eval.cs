@@ -42,15 +42,15 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Bval = System.Int16;
-  using CompositionCounter = System.UInt16;
-  using Depth = System.UInt16;
-  using Draft = System.UInt16;
-  using Eval = System.Int16;
-  using Hashcode = System.UInt64;
-  using MemoHashcode = System.UInt32;
-  using Plane = System.UInt64;
-  using Ply = System.UInt16;
+  using Bval = Int16;
+  using CompositionCounter = UInt16;
+  using Depth = UInt16;
+  using Draft = UInt16;
+  using Eval = Int16;
+  using Hashcode = UInt64;
+  using MemoHashcode = UInt32;
+  using Plane = UInt64;
+  using Ply = UInt16;
 
   partial class Position : Board {
     #region Constants

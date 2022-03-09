@@ -17,8 +17,8 @@ namespace Engine.MoveOrder {
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
-  using Eval = System.Int16;
+  using Depth = UInt16;
+  using Eval = Int16;
 
   struct SortMove : IComparable {
     #region Fields

@@ -11,7 +11,7 @@ namespace Engine.Test {
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
+  using PlyDepth = Byte;
 
   class PerfCase {
     #region Count Properties

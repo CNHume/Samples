@@ -22,9 +22,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
-  using Plane = System.UInt64;
-  using Ply = System.UInt16;
+  using Hashcode = UInt64;
+  using Plane = UInt64;
+  using Ply = UInt16;
 
   partial class Board {
     protected static String? PieceSymbols;

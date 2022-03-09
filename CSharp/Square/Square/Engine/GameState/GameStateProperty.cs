@@ -36,9 +36,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
-  using Ply = System.UInt16;
-  using PlyDepth = System.Byte;
+  using Eval = Int16;
+  using Ply = UInt16;
+  using PlyDepth = Byte;
 
   partial class GameState {
     #region Thread Management Fields

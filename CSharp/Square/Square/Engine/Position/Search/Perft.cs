@@ -19,7 +19,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
+  using PlyDepth = Byte;
 
   partial class Position : Board {
     #region Search Methods

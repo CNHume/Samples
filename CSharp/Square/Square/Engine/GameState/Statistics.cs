@@ -34,8 +34,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Ply = System.UInt16;
-  using PlyDepth = System.Byte;
+  using Ply = UInt16;
+  using PlyDepth = Byte;
 
   partial class GameState {
     #region Atomic Methods

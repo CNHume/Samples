@@ -16,10 +16,10 @@ namespace Engine.CacheValue {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
-  using FeatureCounter = System.UInt32;
-  using Hashcode = System.UInt64;
-  using Plane = System.UInt64;
+  using Eval = Int16;
+  using FeatureCounter = UInt32;
+  using Hashcode = UInt64;
+  using Plane = UInt64;
 
 #if PawnPositionByValue
   struct PawnPosition {

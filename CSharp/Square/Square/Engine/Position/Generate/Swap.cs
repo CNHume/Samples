@@ -18,8 +18,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Depth = System.UInt16;
-  using Eval = System.Int16;
+  using Depth = UInt16;
+  using Eval = Int16;
 
   partial class Position : Board {
     #region Methods

@@ -22,10 +22,10 @@ namespace Engine.CacheValue {
   //
   // Type Aliases:
   //
-  using Bval = System.Int16;
-  using Eval = System.Int16;
-  using Hashcode = System.UInt64;
-  using Ply = System.UInt16;
+  using Bval = Int16;
+  using Eval = Int16;
+  using Hashcode = UInt64;
+  using Ply = UInt16;
 #if QuietPositionByValue
   struct QuietPosition : ITankable<QuietPosition> {
 #else

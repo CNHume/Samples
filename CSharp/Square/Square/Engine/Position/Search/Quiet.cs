@@ -28,7 +28,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = System.Int16;
+  using Eval = Int16;
 
   partial class Position : Board {
     #region Constants

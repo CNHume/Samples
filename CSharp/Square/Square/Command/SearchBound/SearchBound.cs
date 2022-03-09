@@ -15,7 +15,7 @@ namespace Command {
   //
   // Type Aliases:
   //
-  using PlyDepth = System.Byte;
+  using PlyDepth = Byte;
 
   struct SearchBound {
     #region Constants

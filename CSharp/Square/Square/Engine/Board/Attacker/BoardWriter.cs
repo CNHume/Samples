@@ -13,8 +13,6 @@
 //#define DisplayPieceHash
 
 namespace Engine {
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Linq;
@@ -26,8 +24,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
-  using Plane = System.UInt64;
+  using Hashcode = UInt64;
+  using Plane = UInt64;
 
   partial class Board {
     #region Constants

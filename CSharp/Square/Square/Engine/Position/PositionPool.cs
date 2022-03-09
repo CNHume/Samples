@@ -15,7 +15,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using ExtensionCounter = System.UInt16;
+  using ExtensionCounter = UInt16;
 
   partial class Position : Board {
     #region Workspace Methods

@@ -46,7 +46,7 @@ namespace Engine {
 
       var bPinned = (PinnedPiece & BIT0 << nFrom) != 0;
       var bSkip = bPinned && (Restricted[nFrom] & BIT0 << nTo) == 0;
-      if (bSkip) { // Skip moves which are in violation of a pin
+      if (bSkip) {                      // Skip moves which violate known pins
         GameState.AtomicIncrement(ref State.PinSkipTotal);
         return false;
       }

@@ -31,7 +31,7 @@ namespace Cache {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
+  using Hashcode = UInt64;
 
   partial class Tank<T> where T : ITankable<T>, new()
 #if PreAllocated

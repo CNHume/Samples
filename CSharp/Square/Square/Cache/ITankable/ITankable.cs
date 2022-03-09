@@ -14,7 +14,7 @@ namespace Cache {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
+  using Hashcode = UInt64;
 
   #region Enumerations
   [Flags]

@@ -23,11 +23,11 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Draft = System.UInt16;
-  using Eval = System.Int16;
-  using ExtensionCounter = System.UInt16;
-  using MoveTypeOrdering = System.UInt64;
-  using Plane = System.UInt64;
+  using Draft = UInt16;
+  using Eval = Int16;
+  using ExtensionCounter = UInt16;
+  using MoveTypeOrdering = UInt64;
+  using Plane = UInt64;
 
   partial class Position : Board {
     #region Static Fields

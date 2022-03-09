@@ -28,7 +28,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Plane = System.UInt64;
+  using Plane = UInt64;
 
   partial class Position : Board {
     #region Constants
@@ -415,7 +415,7 @@ namespace Engine {
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
-        var nSetup = side.Parameter.SetupSquare;
+        var nSetup = side.Parameter.StartRank;
         var nSide = (Int32)side.Parameter.SideName;
         var rule = castle.RuleParameter[nSide];
 

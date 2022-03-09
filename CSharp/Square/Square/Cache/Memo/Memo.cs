@@ -9,9 +9,9 @@ namespace Cache {
 
   using static Engine.Board;            // For OneBitOrNone()
 
-  using Hashcode = System.UInt64;
-  using MemoHashcode = System.UInt32;
-  using PieceHashcode = System.UInt16;  // 10 bits
+  using Hashcode = UInt64;
+  using MemoHashcode = UInt32;
+  using PieceHashcode = UInt16;         // 10 bits
 
   class Memo<T> {
     #region Properties

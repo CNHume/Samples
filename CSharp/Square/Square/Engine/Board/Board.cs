@@ -29,8 +29,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Hashcode = System.UInt64;
-  using Ply = System.UInt16;
+  using Hashcode = UInt64;
+  using Ply = UInt16;
 
   partial class Board : ICloneable, IEquatable<Board> {
     /*

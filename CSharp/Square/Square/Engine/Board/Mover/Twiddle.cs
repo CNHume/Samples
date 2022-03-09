@@ -47,9 +47,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using ExtensionCounter = System.UInt16;
-  using PieceHashcode = System.UInt16;  // 10 bits
-  using Plane = System.UInt64;
+  using ExtensionCounter = UInt16;
+  using PieceHashcode = UInt16;         // 10 bits
+  using Plane = UInt64;
 
   partial class Board {
     #region Constants

@@ -25,7 +25,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Plane = System.UInt64;
+  using Plane = UInt64;
 
   partial class Board {
     #region Bishop Tests

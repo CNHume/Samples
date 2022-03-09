@@ -15,9 +15,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using PieceCounter = System.UInt32;
-  using PieceHashcode = System.UInt16;  // 10 bits
-  using Plane = System.UInt64;
+  using PieceCounter = UInt32;
+  using PieceHashcode = UInt16;                // 10 bits
+  using Plane = UInt64;
 
   partial class Board {
     public class BoardSide {
