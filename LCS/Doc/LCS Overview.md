@@ -1,5 +1,5 @@
 ### [The Longest Common Subsequence Problem](http://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
-by Christopher Hume, updated 2022-02-06
+by Christopher Hume, updated 2022-03-14
 
 Define a subsequence to be any string obtained by deleting zero or more symbols from an input string.
 
@@ -9,17 +9,35 @@ Let *A* &equiv; *A*[0]&hellip; *A*[m - 1] and *B* &equiv; *B*[0]&hellip; *B*[n -
 
 An ordered pair (i, j) will be called a match if *A*[i] = *B*[j], where 0 &lt; i &leq; m and 0 &lt; j &leq; n.
 
-Define the [product-order](https://en.wikipedia.org/wiki/Product_order) (&leq;) over ordered pairs, such that (i1, j1) &leq; (i2, j2) &hArr; i1 &leq; i2 and j1 &leq; j2.  Defining (&geq;) similarly, we can write m2 &leq; m1 as m1 &geq; m2.
+Define a (non-strict) [product-order](https://en.wikipedia.org/wiki/Product_order) (&leq;) over ordered pairs, such that (i1, j1) &leq; (i2, j2) &hArr; i1 &leq; i2 and j1 &leq; j2.  We define (&geq;) similarly.
 
 We say that m1, m2 are *comparable* if either m1 &leq; m2 or m1 &geq; m2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither m1 &leq; m2 nor m1 &geq; m2 are possible; and we say that m1, m2 are *incomparable*.
 
-Given a product-order over the set of matches **M**, a chain **C** is any subset of **M** in which every pair of distinct elements m1 and m2 are comparable.  Similarly, an antichain **D** is any subset of **M** in which every pair of distinct elements m1 and m2 are incomparable.
+We also define the strict product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
+
+Given a set of matches **M**, a chain **C** is a subset of **M** consisting of at least one element m; and where either m1 &lt; m2 or m1 &gt; m2 for every pair of distinct elements m1 and m2.  Similarly, an antichain **D** is any subset of **M** in which every pair of distinct elements m1 and m2 are incomparable.
 
 The set **M** represents a relation over match pairs: **M**[i, j] &hArr; (i, j) &isin; **M**.  Any chain **C** can be visualized as a curve which strictly increases as it passes through each match pair in the m\*n coordinate space.
 
 Finding an LCS can be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
 
 According to [^Dilworth 1950], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
+
+## Contours
+
+Forward Contours FC[*k*] of *class k* are defined inductively, as follows:
+
+FC[0] consists of those elements m1 for which there exists no element m2 such that m2 < m1.
+
+FC[*k*] consists of those elements m1 for which there exists no other element m2 such that m2 < m1 and where neither m1 nor m2 are contained in FC[*l*] for any *class l* < *k*.
+
+Members of the Meet (&and;), or *Infimum* of a Forward Contour are referred to as its Dominant Matches.  These are those m1 for which there exists no m2 such that m2 &leq; m1.
+
+Backward Contours BC[*k*] of *class k* are defined similarly.
+
+Members of the Join (&or;), or *Supremum* of a Backward Contour are referred to as its Dominant Matches.  These are those m1 for which there exists no m2 such that m2 &geq; m1.
+
+Note that where multiple Dominant Matches exist within the Meet (or Join, respectively) these Dominant Matches will be incomparable with each other.
 
 ## Background
 

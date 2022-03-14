@@ -25,7 +25,7 @@
 #include <string>
 #include <deque>
 #include <vector>
-#include <unordered_map>
+#include <unordered_map>                //[C++11]
 #include <iostream>                     // for cout
 
 using namespace std;

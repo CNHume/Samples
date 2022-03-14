@@ -21,7 +21,7 @@
 #include <memory>                       // for shared_ptr<>
 #include <iostream>
 #include <deque>
-#include <unordered_map>
+#include <unordered_map>                //[C++11]
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
