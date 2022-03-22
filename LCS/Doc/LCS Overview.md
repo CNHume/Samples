@@ -33,11 +33,11 @@ FC[*k*] consists of those elements m1 for which there exists no element m2 such 
 
 Reverse Contours RC[*k*] of *class k* are defined similarly.
 
-Members of the Meet (&and;), or *Infimum* of a Forward Contour are referred to as its Dominant Matches: those m1 for which there exists no m2 such that m2 &leq; m1.
+Members of the Meet (&and;), or *Infimum* of a Forward Contour are referred to as its Dominant Matches: those m1 for which there exists no m2 such that m2 &lt; m1.
 
-Members of the Join (&or;), or *Supremum* of a Reverse Contour are referred to as its Dominant Matches: those m1 for which there exists no m2 such that m2 &geq; m1.
+Members of the Join (&or;), or *Supremum* of a Reverse Contour are referred to as its Dominant Matches: those m1 for which there exists no m2 such that m2 &gt; m1.
 
-Where multiple Dominant Matches exist within a Meet (or within a Join, respectively) the Dominant Matches will be incomparable with each other.
+Where multiple Dominant Matches exist within a Meet (or within a Join, respectively) the Dominant Matches will be incomparable to each other.
 
 ## Background
 
