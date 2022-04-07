@@ -25,8 +25,8 @@
 //#define TestDeBruijn
 //#define InitDeBruijn
 //#define ByteDeBruijn
-//#define FullDeBruijn
-//#define HalfDeBruijn
+//#define DeBruijn
+//#define FullData
 
 namespace Engine {
   using System;
@@ -71,7 +71,8 @@ namespace Engine {
     // See "Using de Bruijn Sequences to Index a 1 in a Computer Word"
     // Charles E. Leiserson, Harald Prokop, Keith H. Randall, 1998-07-07, MIT LCS
     //
-#if FullDeBruijn
+#if DeBruijn
+#if FullData
     protected const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
     // From http://www.chessprogramming.org/De_Bruijn_Sequence_Generator by Gerd Isenberg
 #if !InitDeBruijn
@@ -81,7 +82,7 @@ namespace Engine {
       63, 52,  6, 26, 37, 40, 33, 47, 61, 45, 43, 21, 23, 58, 17, 10,
       51, 25, 36, 32, 60, 20, 57, 16, 50, 31, 19, 15, 30, 14, 13, 12 };
 #endif
-#elif HalfDeBruijn
+#else                                   //!FullData
     protected const UInt32 uDeBruijn = 0x077CB531U;
     // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
 #if !InitDeBruijn
@@ -89,7 +90,8 @@ namespace Engine {
     {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
       31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
 #endif
-#endif
+#endif                                   // FullData
+#endif                                   // DeBruijn
     #endregion
 
     #region Bit Twiddles
@@ -229,7 +231,8 @@ namespace Engine {
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       return singleBSF64(s);
     }
-#if FullDeBruijn
+#if DeBruijn
+#if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 singleBSF64(UInt64 q) {
       if (q == 0) {
@@ -263,7 +266,7 @@ namespace Engine {
       var p = s * qDeBruijn >> 64 - 6;
       return deBruijnFull[p];
     }
-#elif HalfDeBruijn
+#else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 singleBSF64(UInt64 q) {
       var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiplication
@@ -320,7 +323,8 @@ namespace Engine {
       var p = u * uDeBruijn >> 32 - 5;
       return deBruijnHalf[p] + n;
     }
-#else                                   //!(FullDeBruijn || HalfDeBruijn)
+#endif                                  // FullData
+#else                                   //!DeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 singleBSF64(UInt64 q) {
       if (q == 0) {
@@ -372,7 +376,7 @@ namespace Engine {
       if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
       return n;
     }
-#endif                                  //!(FullDeBruijn || HalfDeBruijn)
+#endif                                  // DeBruijn
 #endif                                  //!ImportTwiddle
 #if InitDeBruijn
     protected static Byte[] newDeBruijn(Int32 nLog) {
@@ -408,9 +412,9 @@ namespace Engine {
       LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
     }
-    #endregion
+#endregion
 
-    #region Math Support
+#region Math Support
     public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
       return (UInt16)Sqrt((Double)w);
     }
@@ -447,9 +451,9 @@ namespace Engine {
 #endif
       return root;
     }
-    #endregion
+#endregion
 
-    #region Counter Methods
+#region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -493,9 +497,9 @@ namespace Engine {
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
     }
-    #endregion
+#endregion
 
-    #region Nibble & TwoBits Methods
+#region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -515,9 +519,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-    #endregion
+#endregion
 
-    #region Shift Methods
+#region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -533,6 +537,6 @@ namespace Engine {
     public static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-    #endregion
+#endregion
   }
 }
