@@ -26,7 +26,7 @@
 //#define InitDeBruijn
 //#define ByteDeBruijn
 //#define DeBruijn
-//#define FullData
+#define FullData                        //[Note]FullData 38.9% faster than HalfData (in Release)
 
 namespace Engine {
   using System;
@@ -273,7 +273,7 @@ namespace Engine {
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
-        n = 32;
+        n |= 1 << 5;
       }
       return singleBSF32(u) + n;
     }
@@ -299,7 +299,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 32;
+        n |= 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
@@ -317,7 +317,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 32;
+        n |= 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
@@ -325,6 +325,7 @@ namespace Engine {
     }
 #endif                                  // FullData
 #else                                   //!DeBruijn
+#if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 singleBSF64(UInt64 q) {
       if (q == 0) {
@@ -376,6 +377,71 @@ namespace Engine {
       if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
       return n;
     }
+#else                                   //!FullData
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private static Int32 singleBSF64(UInt64 q) {
+      var u = (UInt32)q;                // Half Data: Avoiding 64-Bit AND
+      var n = 0;
+      if (u == 0) {
+        u = (UInt32)(q >> 32);
+        if (u == 0) {
+          Debug.Assert(u != 0, "No Bit Found");
+          return -1;
+        }
+        n |= 1 << 5;
+      }
+      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
+      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
+      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
+      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
+      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      return n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
+      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit AND
+      var n = 0;
+      if (u == 0) {
+        u = (UInt32)(s >> 32);
+        if (u == 0) {
+          Debug.Assert(u != 0, "No Bit Found");
+          return -1;
+        }
+        n |= 1 << 5;
+      }
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
+      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
+      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
+      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
+      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      return n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref UInt64 r) {
+      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit AND
+      var n = 0;
+      if (u == 0) {
+        u = (UInt32)(s >> 32);
+        if (u == 0) {
+          Debug.Assert(u != 0, "No Bit Found");
+          return -1;
+        }
+        n |= 1 << 5;
+      }
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
+      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
+      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
+      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
+      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      return n;
+    }
+#endif                                  // FullData
 #endif                                  // DeBruijn
 #endif                                  //!ImportTwiddle
 #if InitDeBruijn
