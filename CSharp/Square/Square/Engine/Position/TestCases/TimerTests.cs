@@ -7,8 +7,8 @@
 //
 //#define Magic
 //#define ByteDeBruijn
-//#define FullDeBruijn
-//#define HalfDeBruijn
+#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        // Full vs Half
 #define UseMoveSort
 #define TestOutsideSquare
 
@@ -195,16 +195,16 @@ namespace Engine {
     //
     // Using i7-9700K CPU at 3.60GHz w 8-cores:
     //
-    // FullDeBruijn =  57,418.466 KHz
-    // HalfDeBruijn =  46,358.537 KHz
-    // RemoveLoMask = 111,669.458 KHz
+    // Full Mask      = 111,669.458 KHz
+    // Full DeBruijn  =  57,418.466 KHz
+    // Half DeBruijn  =  46,358.537 KHz
     //
     protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(RemoveLo), qTrials);
       var qBits = 0UL;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         // Avoid timing qpPiece == 0 cases, which do not arise in standard use
-        var qpPiece = (Plane)(qTrial + 1);
+        var qpPiece = ~qTrial;
         while (qpPiece != 0) {
           var nFrom = RemoveLo(ref qpPiece);
           qBits++;
@@ -291,11 +291,13 @@ namespace Engine {
 #if ByteDeBruijn
         loadDeBruijn(deBruijnByte, 3, vDeBruijn);
 #endif
-#if FullDeBruijn
+#if DeBruijn
+#if FullData
         loadDeBruijn(deBruijnFull, 6, qDeBruijn);
-#elif HalfDeBruijn
+#else                                   //!FullData
         loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif
+#endif                                  // DeBruijn
         loadZobrist();
         //var state = new GameState(null);
         //state.loadEndgameValue();

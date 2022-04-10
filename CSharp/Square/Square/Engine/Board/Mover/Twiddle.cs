@@ -16,17 +16,16 @@
 //
 // Using i7-9700K CPU at 3.60GHz w 8-cores
 //
-// Overall Search Rate "8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1" [16-ply for ~30 minutes]
+// Overall Search Rate "8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1" [16-ply]
 // -------------------
-// RemoveLoMask  1,189.884 KHz  0.000%
-// FullDeBruijn  1,212.314 KHz
-// HalfDeBruijn  1,221.797 KHz
+// FullMask     [47:32.79] 764.538 KHz
+// HalfDeBruijn [46:12.32] 786.73  KHz +2.9%
 //
 //#define TestDeBruijn
 //#define InitDeBruijn
 //#define ByteDeBruijn
-//#define DeBruijn
-#define FullData                        //[Note]FullData 38.9% faster than HalfData (in Release)
+#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        //[Note]FullMask 38.9% faster than HalfMask (in Release)
 
 namespace Engine {
   using System;
@@ -273,9 +272,9 @@ namespace Engine {
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
-        n |= 1 << 5;
+        n = 1 << 5;
       }
-      return singleBSF32(u) + n;
+      return singleBSF32(u) | n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -299,11 +298,11 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n |= 1 << 5;
+        n = 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
-      return deBruijnHalf[p] + n;
+      return deBruijnHalf[p] | n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -317,11 +316,11 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n |= 1 << 5;
+        n = 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
-      return deBruijnHalf[p] + n;
+      return deBruijnHalf[p] | n;
     }
 #endif                                  // FullData
 #else                                   //!DeBruijn
@@ -388,7 +387,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n |= 1 << 5;
+        n = 1 << 5;
       }
       if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
       if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
@@ -409,7 +408,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n |= 1 << 5;
+        n = 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
@@ -431,7 +430,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n |= 1 << 5;
+        n = 1 << 5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
@@ -478,9 +477,9 @@ namespace Engine {
       LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
     }
-#endregion
+    #endregion
 
-#region Math Support
+    #region Math Support
     public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
       return (UInt16)Sqrt((Double)w);
     }
@@ -517,9 +516,9 @@ namespace Engine {
 #endif
       return root;
     }
-#endregion
+    #endregion
 
-#region Counter Methods
+    #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -563,9 +562,9 @@ namespace Engine {
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
     }
-#endregion
+    #endregion
 
-#region Nibble & TwoBits Methods
+    #region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -585,9 +584,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-#endregion
+    #endregion
 
-#region Shift Methods
+    #region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -603,6 +602,6 @@ namespace Engine {
     public static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-#endregion
+    #endregion
   }
 }

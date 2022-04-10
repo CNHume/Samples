@@ -7,8 +7,6 @@
 //
 #define QuiescentTryXP
 #define AddBestMoves
-//#define FullDeBruijn
-//#define HalfDeBruijn
 //#define Magic
 //#define LateMoveReduction
 //#define KillerCompositionHash
@@ -319,13 +317,7 @@ namespace Engine {
 #if !AddBestMoves
       sb.Append(" sans BestMoves");
 #endif
-#if FullDeBruijn
-      sb.Append(" FullDeBruijn");
-#elif HalfDeBruijn
-      sb.Append(" HalfDeBruijn");
-#else
-      sb.Append(" RemoveLoMask");
-#endif
+      sb.AppendRemoveMode();
 #if Magic
       sb.Append(" Magic");
 #endif

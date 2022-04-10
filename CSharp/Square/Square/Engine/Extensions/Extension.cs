@@ -5,6 +5,8 @@
 //
 // Conditionals:
 //
+#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        // Full vs Half
 #define TestRotation
 #define RefreshPV
 #define BuildCapture
@@ -731,6 +733,47 @@ namespace Engine {
       this string value, bool ignoreCase = default)
       where TEnum : Enum {
       return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+    }
+    #endregion
+
+    #region Twiddle Diagnostics
+    public static StringBuilder AppendRemoveMode(this StringBuilder sb) {
+#if DEBUG
+#if FullData
+      sb.Append(" Full");
+#if DeBruijn
+      sb.Append("DeBruijn");
+#else                                   //!DeBruijn
+      sb.Append("Mask");
+#endif                                  // DeBruijn
+#else                                   //!FullData
+      sb.Append(" Half");
+#if DeBruijn
+      sb.Append("DeBruijn");
+#else                                   //!DeBruijn
+      sb.Append("Mask");
+#endif                                  // DeBruijn
+#endif                                  // FullData
+      sb.Append(" Debug");
+#else                                   //!DEBUG
+#if FullData
+      sb.Append(" Full");
+#if DeBruijn
+      sb.Append("DeBruijn");
+#else                                   //!DeBruijn
+      sb.Append("Mask");
+#endif                                  // DeBruijn
+#else                                   //!FullData
+      sb.Append(" Half");
+#if DeBruijn
+      sb.Append("DeBruijn");
+#else                                   //!DeBruijn
+      sb.Append("Mask");
+#endif                                  // DeBruijn
+#endif                                  // FullData
+      sb.Append(" Release");
+#endif                                  // DEBUG
+      return sb;
     }
     #endregion
   }

@@ -10,8 +10,8 @@
 #define HashPieces
 //#define InitDeBruijn
 //#define ByteDeBruijn
-//#define FullDeBruijn
-//#define HalfDeBruijn
+#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        // Full vs Half
 #define DebugInit
 
 namespace Engine {
@@ -245,14 +245,16 @@ namespace Engine {
       deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3
       loadDeBruijn(deBruijnByte, 3, vDeBruijn);
 #endif
-#if FullDeBruijn
+#if DeBruijn
+#if FullData
       deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
       loadDeBruijn(deBruijnFull, 6, qDeBruijn);
-#elif HalfDeBruijn
+#else                                   //!FullData
       deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
       loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
-#endif
-#endif
+#endif                                  // FullData
+#endif                                  // DeBruijn
+#endif                                  // InitDeBruijn
       colorSquares();
     }
 #endregion

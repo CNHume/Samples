@@ -5,9 +5,9 @@
 //
 //#define Magic
 //#define TestMagic
-//#define FullDeBruijn
-//#define HalfDeBruijn                    // Half de Bruijn: Avoiding 64-Bit Multiplication of slight benefit
 //#define InitDeBruijn
+#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        // Full vs Half
 //#define CryptoServiceProvider
 //#define TestZobrist
 
@@ -68,12 +68,14 @@ namespace Engine {
 #endif
 #if InitDeBruijn
     protected static Byte[] deBruijnByte;
-#if FullDeBruijn
+#if DeBruijn
+#if FullData
     protected static Byte[] deBruijnFull;
-#elif HalfDeBruijn
+#else                                   //!FullData
     protected static Byte[] deBruijnHalf;
-#endif
-#endif
+#endif                                  // FullData
+#endif                                  // DeBruijn
+#endif                                  // InitDeBruijn
 #if CryptoServiceProvider
     protected static RNGCryptoServiceProvider ZobristRNG;
 #else
@@ -93,9 +95,9 @@ namespace Engine {
 #if TestZobrist
     protected static List<Hashcode> Zobrists;
 #endif
-    #endregion
+#endregion
 
-    #region Virtual Fields
+#region Virtual Fields
     protected readonly BoardSide[] Side;
 
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
@@ -119,9 +121,9 @@ namespace Engine {
     public Plane A1H8Piece;
     public Plane A8H1Piece;
 #endif
-    #endregion
+#endregion
 
-    #region Properties
+#region Properties
     //
     // State may well be made static.  This minimal overhead leaves
     // open the possibility of analyzing multiple games in parallel.
@@ -142,6 +144,6 @@ namespace Engine {
 
     public String Name { get; set; }
     public Dictionary<String, List<String>>? Operations { get; set; }
-    #endregion
+#endregion
   }
 }
