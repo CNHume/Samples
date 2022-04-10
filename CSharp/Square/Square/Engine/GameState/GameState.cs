@@ -317,7 +317,7 @@ namespace Engine {
 #if !AddBestMoves
       sb.Append(" sans BestMoves");
 #endif
-      sb.AppendRemoveMode();
+      sb.AppendBSFMode();
 #if Magic
       sb.Append(" Magic");
 #endif

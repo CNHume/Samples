@@ -736,8 +736,8 @@ namespace Engine {
     }
     #endregion
 
-    #region Twiddle Diagnostics
-    public static StringBuilder AppendRemoveMode(this StringBuilder sb) {
+    #region Bit Scan Forward (BSF) Mode
+    public static StringBuilder AppendBSFMode(this StringBuilder sb) {
 #if DEBUG
 #if FullData
       sb.Append(" Full");
