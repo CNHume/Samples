@@ -195,9 +195,11 @@ namespace Engine {
     //
     // Using i7-9700K CPU at 3.60GHz w 8-cores:
     //
-    // Full Mask      = 111,669.458 KHz
-    // Full DeBruijn  =  57,418.466 KHz
-    // Half DeBruijn  =  46,358.537 KHz
+    // Full Mask      =  22,564.195 KHz
+    // Half DeBruijn  =  15,456.906 KHz
+    //
+    // Full Mask 46% faster for timeRemoveLo()
+    // Half DeBruijn 2.5% faster for perft2
     //
     protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(RemoveLo), qTrials);
