@@ -211,7 +211,11 @@ namespace Engine {
         }
       }
 
-      LogLine($"Counted {qBits:n0} bits");
+      var sb =
+        new StringBuilder($"Counted {qBits:n0} bits using")
+        .AppendBSFMode();
+      LogLine(sb.ToString());
+
       TimerStop(sw, qTrials);
     }
 
