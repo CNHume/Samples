@@ -253,7 +253,25 @@ namespace Engine {
 
     #region Move Enum
     //
-    // Move Fields:
+    // Move Bits  0-15
+    // ---------------
+    //  0:3 FileFrom
+    //  3:3 RankFrom
+    //  6:3 FileTo
+    //  9:3 RankTo
+    // 12:3 Promotion [or Limit]
+    // 15:1 Castles
+    //
+    // Move Bits 16-31
+    // ---------------
+    // 16:3 Piece
+    // 19:1 Spare1
+    // 20:3 Captive
+    // 23:1 Spare2
+    // 24:4 Annotation [Final, Check, Draw, Draw2]
+    // 28:2 Abbreviate [File, Rank]
+    // 30:1 Quiescent
+    // 31:1 Debug WTM
     //
 #if TestFromTo
     public const Int32 nToBit = 0;                      // Bit 0
