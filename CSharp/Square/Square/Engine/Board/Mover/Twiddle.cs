@@ -52,6 +52,13 @@ namespace Engine {
 
   partial class Board {
     #region Constants
+    protected const Int32 nBit0 = 1;
+    protected const Int32 nBit1 = nBit0 << 1;
+    protected const Int32 nBit2 = nBit1 << 1;
+    protected const Int32 nBit3 = nBit2 << 1;
+    protected const Int32 nBit4 = nBit3 << 1;
+    protected const Int32 nBit5 = nBit4 << 1;
+
     protected const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
 #if ByteDeBruijn && !InitDeBruijn
     protected static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
@@ -161,9 +168,9 @@ namespace Engine {
         return -1;
       }
       var n = 0;
-      if ((u & 0xAA) != 0) n |= 1 << 0;
-      if ((u & 0xCC) != 0) n |= 1 << 1;
-      if ((u & 0xF0) != 0) n |= 1 << 2;
+      if ((u & 0xAA) != 0) n |= nBit0;
+      if ((u & 0xCC) != 0) n |= nBit1;
+      if ((u & 0xF0) != 0) n |= nBit2;
       return n;
     }
 
@@ -176,9 +183,9 @@ namespace Engine {
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
-      if ((s & 0xAA) != 0) n |= 1 << 0;
-      if ((s & 0xCC) != 0) n |= 1 << 1;
-      if ((s & 0xF0) != 0) n |= 1 << 2;
+      if ((s & 0xAA) != 0) n |= nBit0;
+      if ((s & 0xCC) != 0) n |= nBit1;
+      if ((s & 0xF0) != 0) n |= nBit2;
       return n;
     }
 
@@ -191,9 +198,9 @@ namespace Engine {
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
-      if ((s & 0xAA) != 0) n |= 1 << 0;
-      if ((s & 0xCC) != 0) n |= 1 << 1;
-      if ((s & 0xF0) != 0) n |= 1 << 2;
+      if ((s & 0xAA) != 0) n |= nBit0;
+      if ((s & 0xCC) != 0) n |= nBit1;
+      if ((s & 0xF0) != 0) n |= nBit2;
       return n;
     }
 #endif                                  //!ByteDeBruijn
@@ -272,7 +279,7 @@ namespace Engine {
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
-        n = 1 << 5;
+        n = nBit5;
       }
       return singleBSF32(u) | n;
     }
@@ -298,7 +305,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 1 << 5;
+        n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
@@ -316,7 +323,7 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 1 << 5;
+        n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = u * uDeBruijn >> 32 - 5;
@@ -332,12 +339,12 @@ namespace Engine {
         return -1;
       }
       var n = 0;
-      if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= 1 << 0;
-      if ((q & 0xCCCCCCCCCCCCCCCC) != 0) n |= 1 << 1;
-      if ((q & 0xF0F0F0F0F0F0F0F0) != 0) n |= 1 << 2;
-      if ((q & 0xFF00FF00FF00FF00) != 0) n |= 1 << 3;
-      if ((q & 0xFFFF0000FFFF0000) != 0) n |= 1 << 4;
-      if ((q & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
+      if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+      if ((q & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+      if ((q & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+      if ((q & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+      if ((q & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+      if ((q & 0xFFFFFFFF00000000) != 0) n |= nBit5;
       return n;
     }
 
@@ -350,12 +357,12 @@ namespace Engine {
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
-      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= 1 << 0;
-      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= 1 << 1;
-      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= 1 << 2;
-      if ((s & 0xFF00FF00FF00FF00) != 0) n |= 1 << 3;
-      if ((s & 0xFFFF0000FFFF0000) != 0) n |= 1 << 4;
-      if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
+      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+      if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+      if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+      if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
       return n;
     }
 
@@ -368,12 +375,12 @@ namespace Engine {
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
-      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= 1 << 0;
-      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= 1 << 1;
-      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= 1 << 2;
-      if ((s & 0xFF00FF00FF00FF00) != 0) n |= 1 << 3;
-      if ((s & 0xFFFF0000FFFF0000) != 0) n |= 1 << 4;
-      if ((s & 0xFFFFFFFF00000000) != 0) n |= 1 << 5;
+      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+      if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+      if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+      if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
       return n;
     }
 #else                                   //!FullData
@@ -387,13 +394,13 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 1 << 5;
+        n = nBit5;
       }
-      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
-      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
-      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
-      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
-      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+      if ((u & 0xFF00FF00) != 0) n |= nBit3;
+      if ((u & 0xFFFF0000) != 0) n |= nBit4;
       return n;
     }
 
@@ -408,14 +415,14 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 1 << 5;
+        n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
-      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
-      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
-      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
-      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+      if ((u & 0xFF00FF00) != 0) n |= nBit3;
+      if ((u & 0xFFFF0000) != 0) n |= nBit4;
       return n;
     }
 
@@ -430,14 +437,14 @@ namespace Engine {
           Debug.Assert(u != 0, "No Bit Found");
           return -1;
         }
-        n = 1 << 5;
+        n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      if ((u & 0xAAAAAAAA) != 0) n |= 1 << 0;
-      if ((u & 0xCCCCCCCC) != 0) n |= 1 << 1;
-      if ((u & 0xF0F0F0F0) != 0) n |= 1 << 2;
-      if ((u & 0xFF00FF00) != 0) n |= 1 << 3;
-      if ((u & 0xFFFF0000) != 0) n |= 1 << 4;
+      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+      if ((u & 0xFF00FF00) != 0) n |= nBit3;
+      if ((u & 0xFFFF0000) != 0) n |= nBit4;
       return n;
     }
 #endif                                  // FullData
