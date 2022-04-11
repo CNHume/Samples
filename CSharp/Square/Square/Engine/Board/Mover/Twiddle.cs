@@ -8,7 +8,7 @@
 //#define FindHi
 //#define ImportTwiddle
 //
-// RemoveLo() 47% faster w Half de Bruijn: Avoiding 64-Bit Multiplication on a Compaq 3 GHz Pentium 4
+// RemoveLo() 47% faster w Half de Bruijn: Avoiding 64-Bit Multiply on a Compaq 3 GHz Pentium 4
 //
 // Overall search performance was better for Half de Bruijn on the Dell i7-4702HQ at 2.2 GHz w 4-cores
 // x86 was 9.83% faster
@@ -24,8 +24,8 @@
 //#define TestDeBruijn
 //#define InitDeBruijn
 //#define ByteDeBruijn
-#define DeBruijn                        // DeBruijn vs Mask
-//#define FullData                        //[Note]FullMask 38.9% faster than HalfMask (in Release)
+//#define DeBruijn                        // DeBruijn vs Mask
+//#define FullData                        // Full vs Half
 
 namespace Engine {
   using System;
@@ -275,7 +275,7 @@ namespace Engine {
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 BSF64Single(UInt64 q) {
-      var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiplication
+      var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiply
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
@@ -297,7 +297,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
+      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiply
       var n = 0;
       if (u == 0) {
         u = (UInt32)(s >> 32);
@@ -315,7 +315,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiplication
+      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiply
       var n = 0;
       if (u == 0) {
         u = (UInt32)(s >> 32);
@@ -386,7 +386,7 @@ namespace Engine {
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 BSF64Single(UInt64 q) {
-      var u = (UInt32)q;                // Half Data: Avoiding 64-Bit AND
+      var u = (UInt32)q;                // Half Data: Avoiding 64-Bit Masks
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
@@ -407,7 +407,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit AND
+      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit Masks
       var n = 0;
       if (u == 0) {
         u = (UInt32)(s >> 32);
@@ -429,7 +429,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit AND
+      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit Masks
       var n = 0;
       if (u == 0) {
         u = (UInt32)(s >> 32);

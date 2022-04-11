@@ -10,7 +10,7 @@
 #define HashPieces
 //#define InitDeBruijn
 //#define ByteDeBruijn
-#define DeBruijn                        // DeBruijn vs Mask
+//#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
 #define DebugInit
 

@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define DeBruijn                        // DeBruijn vs Mask
+//#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
 #define TestRotation
 #define RefreshPV

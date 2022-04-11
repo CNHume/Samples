@@ -7,7 +7,7 @@
 //
 //#define Magic
 //#define ByteDeBruijn
-#define DeBruijn                        // DeBruijn vs Mask
+//#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
 #define UseMoveSort
 #define TestOutsideSquare
@@ -205,7 +205,7 @@ namespace Engine {
       var sw = TimerStart(nameof(RemoveLo), qTrials);
       var qBits = 0UL;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        // Avoid timing qpPiece == 0 cases, which do not arise in standard use
+        //[Warning]Avoid timing qpPiece == 0 cases, which do not arise in standard use
         var qpPiece = ~qTrial;
         while (qpPiece != 0) {
           var nFrom = RemoveLo(ref qpPiece);

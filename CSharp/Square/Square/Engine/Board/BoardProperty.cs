@@ -6,7 +6,7 @@
 //#define Magic
 //#define TestMagic
 //#define InitDeBruijn
-#define DeBruijn                        // DeBruijn vs Mask
+//#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
 //#define CryptoServiceProvider
 //#define TestZobrist
