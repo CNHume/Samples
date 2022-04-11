@@ -114,21 +114,21 @@ namespace Engine {
     }
 #endif                                  // FindHi
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoExp(ref Byte r, out Byte s) {
+    public static Int32 RemoveLoFun(ref Byte r, out Byte s) {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return singleBSF8(s);
+      return BSF8Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoExp(ref Byte r) {
+    public static Int32 RemoveLoFun(ref Byte r) {
       var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
       r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
-      return singleBSF8(s);
+      return BSF8Single(s);
     }
 #if ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF8(Int32 n) {
+    private static Int32 BSF8Single(Int32 n) {
       if (n == 0) {
         Debug.Assert(n != 0, "No Bit Found");
         return -1;
@@ -162,7 +162,7 @@ namespace Engine {
     }
 #else                                   //!ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF8(UInt32 u) {
+    private static Int32 BSF8Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
         return -1;
@@ -221,26 +221,26 @@ namespace Engine {
     // Bit Scan Forward, formerly known as FindLo()
     public static Int32 BSF64(UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      return singleBSF64(s);
+      return BSF64Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoExp(ref UInt64 r, out UInt64 s) {
+    public static Int32 RemoveLoFun(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return singleBSF64(s);
+      return BSF64Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoExp(ref UInt64 r) {
+    public static Int32 RemoveLoFun(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return singleBSF64(s);
+      return BSF64Single(s);
     }
 #if DeBruijn
 #if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF64(UInt64 q) {
+    private static Int32 BSF64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
         return -1;
@@ -274,18 +274,18 @@ namespace Engine {
     }
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF64(UInt64 q) {
+    private static Int32 BSF64Single(UInt64 q) {
       var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiplication
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
         n = nBit5;
       }
-      return singleBSF32(u) | n;
+      return BSF32Single(u) | n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static int singleBSF32(UInt32 u) {
+    private static int BSF32Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
         return -1;
@@ -333,7 +333,7 @@ namespace Engine {
 #else                                   //!DeBruijn
 #if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF64(UInt64 q) {
+    private static Int32 BSF64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
         return -1;
@@ -385,7 +385,7 @@ namespace Engine {
     }
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 singleBSF64(UInt64 q) {
+    private static Int32 BSF64Single(UInt64 q) {
       var u = (UInt32)q;                // Half Data: Avoiding 64-Bit AND
       var n = 0;
       if (u == 0) {
