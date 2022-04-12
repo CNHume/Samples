@@ -215,7 +215,7 @@ namespace Engine {
 
       var sb =
         new StringBuilder($"Counted {qBits:n0} bits using")
-        .AppendBSFMode();
+        .AppendTZCMode();
       LogLine(sb.ToString());
 
       TimerStop(sw, qTrials);

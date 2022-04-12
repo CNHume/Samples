@@ -117,18 +117,18 @@ namespace Engine {
     public static Int32 RemoveLoFun(ref Byte r, out Byte s) {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BSF8Single(s);
+      return TZC8Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLoFun(ref Byte r) {
       var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
       r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
-      return BSF8Single(s);
+      return TZC8Single(s);
     }
 #if ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF8Single(Int32 n) {
+    private static Int32 TZC8Single(Int32 n) {
       if (n == 0) {
         Debug.Assert(n != 0, "No Bit Found");
         return -1;
@@ -162,7 +162,7 @@ namespace Engine {
     }
 #else                                   //!ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF8Single(UInt32 u) {
+    private static Int32 TZC8Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
         return -1;
@@ -207,7 +207,7 @@ namespace Engine {
 #if ImportTwiddle
     [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-    extern public static Int32 BSF64(UInt64 r);
+    extern public static Int32 TZC64(UInt64 r);
 
     [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K0@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -218,29 +218,29 @@ namespace Engine {
     extern public static Int32 RemoveLo(ref UInt64 r);
 #else                                   //!ImportTwiddle
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    // Bit Scan Forward, formerly known as FindLo()
-    public static Int32 BSF64(UInt64 r) {
+    // Trailing Zero Count (TZC), formerly known as FindLo()
+    public static Int32 TZC64(UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      return BSF64Single(s);
+      return TZC64Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLoFun(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BSF64Single(s);
+      return TZC64Single(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 RemoveLoFun(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BSF64Single(s);
+      return TZC64Single(s);
     }
 #if DeBruijn
 #if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF64Single(UInt64 q) {
+    private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
         return -1;
@@ -274,18 +274,18 @@ namespace Engine {
     }
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF64Single(UInt64 q) {
+    private static Int32 TZC64Single(UInt64 q) {
       var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiply
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
         n = nBit5;
       }
-      return BSF32Single(u) | n;
+      return TZC32Single(u) | n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static int BSF32Single(UInt32 u) {
+    private static int TZC32Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
         return -1;
@@ -333,7 +333,7 @@ namespace Engine {
 #else                                   //!DeBruijn
 #if FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF64Single(UInt64 q) {
+    private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
         return -1;
@@ -385,7 +385,7 @@ namespace Engine {
     }
 #else                                   //!FullData
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 BSF64Single(UInt64 q) {
+    private static Int32 TZC64Single(UInt64 q) {
       var u = (UInt32)q;                // Half Data: Avoiding 64-Bit Masks
       var n = 0;
       if (u == 0) {

@@ -736,8 +736,8 @@ namespace Engine {
     }
     #endregion
 
-    #region Bit Scan Forward (BSF) Mode
-    public static StringBuilder AppendBSFMode(this StringBuilder sb) {
+    #region Trailing Zero Count (TZC) Mode
+    public static StringBuilder AppendTZCMode(this StringBuilder sb) {
 #if DEBUG
 #if FullData
       sb.Append(" Full");
