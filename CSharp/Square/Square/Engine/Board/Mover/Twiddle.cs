@@ -60,6 +60,7 @@ namespace Engine {
     protected const Int32 nBit3 = nBit2 << 1;
     protected const Int32 nBit4 = nBit3 << 1;
     protected const Int32 nBit5 = nBit4 << 1;
+    protected const Int32 nBit6 = nBit5 << 1;
 
     protected const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
 #if ByteDeBruijn && !InitDeBruijn
@@ -151,7 +152,7 @@ namespace Engine {
     private static Int32 TZC8Single(Int32 n) {
       if (n == 0) {
         Debug.Assert(n != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       var p = (Byte)(n * vDeBruijn) >> 8 - 3;
       return deBruijnByte[p];
@@ -162,7 +163,7 @@ namespace Engine {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
@@ -174,7 +175,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
@@ -185,7 +186,7 @@ namespace Engine {
     private static Int32 TZC8Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       var n = 0;
       if ((u & 0xAA) != 0) n |= nBit0;
@@ -199,7 +200,7 @@ namespace Engine {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -214,7 +215,7 @@ namespace Engine {
       var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(Byte);
+        return nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -274,9 +275,9 @@ namespace Engine {
     private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
-      var p = q * qDeBruijn >> 64 - 6;
+      var p = q * qDeBruijn >> nBit6 - 6;
       return deBruijnFull[p];
     }
 
@@ -285,10 +286,10 @@ namespace Engine {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = s * qDeBruijn >> 64 - 6;
+      var p = s * qDeBruijn >> nBit6 - 6;
       return deBruijnFull[p];
     }
 
@@ -297,10 +298,10 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = s * qDeBruijn >> 64 - 6;
+      var p = s * qDeBruijn >> nBit6 - 6;
       return deBruijnFull[p];
     }
 #else                                   //!FullData
@@ -312,11 +313,11 @@ namespace Engine {
         u = (UInt32)(q >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }
-      var p = u * uDeBruijn >> 32 - 5;
+      var p = u * uDeBruijn >> nBit5 - 5;
       return deBruijnHalf[p] | n;
     }
 
@@ -329,12 +330,12 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = u * uDeBruijn >> 32 - 5;
+      var p = u * uDeBruijn >> nBit5 - 5;
       return deBruijnHalf[p] | n;
     }
 
@@ -347,12 +348,12 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = u * uDeBruijn >> 32 - 5;
+      var p = u * uDeBruijn >> nBit5 - 5;
       return deBruijnHalf[p] | n;
     }
 #endif                                  // FullData
@@ -362,7 +363,7 @@ namespace Engine {
     private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
       var n = 0;
       if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
@@ -379,7 +380,7 @@ namespace Engine {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -397,7 +398,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return sizeof(UInt64);
+        return nBit6;
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -418,7 +419,7 @@ namespace Engine {
         u = (UInt32)(q >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }
@@ -439,7 +440,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }
@@ -461,7 +462,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return sizeof(UInt64);
+          return nBit6;
         }
         n = nBit5;
       }

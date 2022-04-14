@@ -19,6 +19,7 @@ namespace Engine {
   using System;
   using System.Diagnostics;
   using System.Collections.Generic;
+  using System.Numerics;
   using System.Text;
 
   using static CastleRule;
@@ -202,6 +203,11 @@ namespace Engine {
     // Half DeBruijn 2.5% faster for perft2
     //
     protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
+      //Int32 n;
+      //n = BitOperations.TrailingZeroCount((UInt64)0);
+      //n = BitOperations.TrailingZeroCount((UInt32)0);
+      //n = BitOperations.TrailingZeroCount((UInt16)0);
+      //n = BitOperations.TrailingZeroCount((Byte)0);
       var sw = TimerStart(nameof(RemoveLo), qTrials);
       var qBits = 0UL;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
