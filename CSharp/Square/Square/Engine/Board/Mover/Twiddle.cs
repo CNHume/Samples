@@ -26,10 +26,12 @@
 //#define ByteDeBruijn
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
+#define BitOperations
 
 namespace Engine {
   using System;
   using System.Diagnostics;
+  using System.Numerics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 #if ImportTwiddle
   using System.Runtime.InteropServices; // for [DllImport]
@@ -113,25 +115,43 @@ namespace Engine {
       throw new ApplicationException("Empty Bit Mask");
     }
 #endif                                  // FindHi
+#if BitOperations
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoFun(ref Byte r, out Byte s) {
-      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return TZC8Single(s);
+    // Trailing Zero Count (TZC), formerly known as FindLo()
+    private static Int32 TZC8(Byte r) {
+      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+      Debug.Assert(s != 0, "No Bit Found");
+      return BitOperations.TrailingZeroCount(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoFun(ref Byte r) {
-      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
-      r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
-      return TZC8Single(s);
+    public static Int32 RemoveLo(ref Byte r, out Byte s) {
+      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
+      Debug.Assert(s != 0, "No Bit Found");
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      return BitOperations.TrailingZeroCount(s);
     }
-#if ByteDeBruijn
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 RemoveLo(ref Byte r) {
+      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
+      Debug.Assert(s != 0, "No Bit Found");
+      r ^= s;                           // r = r & (r - 1) to subtract s from r
+      return BitOperations.TrailingZeroCount(s);
+    }
+#else
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    // Trailing Zero Count (TZC), formerly known as FindLo()
+    public static Int32 TZC8(Byte r) {
+      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+      return TZC8Single((Byte)s);
+    }
+#if ByteDeBruijn                      // ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 TZC8Single(Int32 n) {
       if (n == 0) {
         Debug.Assert(n != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       var p = (Byte)(n * vDeBruijn) >> 8 - 3;
       return deBruijnByte[p];
@@ -142,7 +162,7 @@ namespace Engine {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
@@ -154,7 +174,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
       var p = (Byte)(s * vDeBruijn) >> 8 - 3;
@@ -165,7 +185,7 @@ namespace Engine {
     private static Int32 TZC8Single(UInt32 u) {
       if (u == 0) {
         Debug.Assert(u != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       var n = 0;
       if ((u & 0xAA) != 0) n |= nBit0;
@@ -179,7 +199,7 @@ namespace Engine {
       s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -194,7 +214,7 @@ namespace Engine {
       var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(Byte);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -204,6 +224,7 @@ namespace Engine {
       return n;
     }
 #endif                                  //!ByteDeBruijn
+#endif                                  // BitOperations
 #if ImportTwiddle
     [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -216,25 +237,35 @@ namespace Engine {
     [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K@Z",
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
     extern public static Int32 RemoveLo(ref UInt64 r);
-#else                                   //!ImportTwiddle
+#elif BitOperations
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
     public static Int32 TZC64(UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      return TZC64Single(s);
+      Debug.Assert(s != 0, "No Bit Found");
+      return BitOperations.TrailingZeroCount(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoFun(ref UInt64 r, out UInt64 s) {
+    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
+      Debug.Assert(s != 0, "No Bit Found");
       r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return TZC64Single(s);
+      return BitOperations.TrailingZeroCount(s);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLoFun(ref UInt64 r) {
+    public static Int32 RemoveLo(ref UInt64 r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+      Debug.Assert(s != 0, "No Bit Found");
       r ^= s;                           // r = r & (r - 1) to subtract s from r
+      return BitOperations.TrailingZeroCount(s);
+    }
+#else                                   //!(ImportTwiddle || BitOperations)
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    // Trailing Zero Count (TZC), formerly known as FindLo()
+    public static Int32 TZC64(UInt64 r) {
+      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       return TZC64Single(s);
     }
 #if DeBruijn
@@ -243,7 +274,7 @@ namespace Engine {
     private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       var p = q * qDeBruijn >> 64 - 6;
       return deBruijnFull[p];
@@ -254,7 +285,7 @@ namespace Engine {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = s * qDeBruijn >> 64 - 6;
@@ -266,7 +297,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var p = s * qDeBruijn >> 64 - 6;
@@ -279,19 +310,14 @@ namespace Engine {
       var n = 0;
       if (u == 0) {
         u = (UInt32)(q >> 32);
+        if (u == 0) {
+          Debug.Assert(u != 0, "No Bit Found");
+          return sizeof(UInt64);
+        }
         n = nBit5;
       }
-      return TZC32Single(u) | n;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static int TZC32Single(UInt32 u) {
-      if (u == 0) {
-        Debug.Assert(u != 0, "No Bit Found");
-        return -1;
-      }
       var p = u * uDeBruijn >> 32 - 5;
-      return deBruijnHalf[p];
+      return deBruijnHalf[p] | n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -303,7 +329,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return -1;
+          return sizeof(UInt64);
         }
         n = nBit5;
       }
@@ -321,7 +347,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return -1;
+          return sizeof(UInt64);
         }
         n = nBit5;
       }
@@ -336,7 +362,7 @@ namespace Engine {
     private static Int32 TZC64Single(UInt64 q) {
       if (q == 0) {
         Debug.Assert(q != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       var n = 0;
       if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
@@ -353,7 +379,7 @@ namespace Engine {
       s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -371,7 +397,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       if (s == 0) {
         Debug.Assert(s != 0, "No Bit Found");
-        return -1;
+        return sizeof(UInt64);
       }
       r ^= s;                           // r = r & (r - 1) to subtract s from r
       var n = 0;
@@ -392,7 +418,7 @@ namespace Engine {
         u = (UInt32)(q >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return -1;
+          return sizeof(UInt64);
         }
         n = nBit5;
       }
@@ -413,7 +439,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return -1;
+          return sizeof(UInt64);
         }
         n = nBit5;
       }
@@ -435,7 +461,7 @@ namespace Engine {
         u = (UInt32)(s >> 32);
         if (u == 0) {
           Debug.Assert(u != 0, "No Bit Found");
-          return -1;
+          return sizeof(UInt64);
         }
         n = nBit5;
       }
@@ -484,9 +510,9 @@ namespace Engine {
       LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
     }
-    #endregion
+#endregion
 
-    #region Math Support
+#region Math Support
     public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
       return (UInt16)Sqrt((Double)w);
     }
@@ -523,9 +549,9 @@ namespace Engine {
 #endif
       return root;
     }
-    #endregion
+#endregion
 
-    #region Counter Methods
+#region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -569,9 +595,9 @@ namespace Engine {
     protected void decSideCount(BoardSide side, Byte vPiece) {
       side.Counts -= 1U << vPiece * nPerNibble;
     }
-    #endregion
+#endregion
 
-    #region Nibble & TwoBits Methods
+#region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -591,9 +617,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-    #endregion
+#endregion
 
-    #region Shift Methods
+#region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -609,6 +635,6 @@ namespace Engine {
     public static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-    #endregion
+#endregion
   }
 }

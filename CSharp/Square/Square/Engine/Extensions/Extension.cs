@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define BitOperations
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
 #define TestRotation
@@ -739,7 +740,9 @@ namespace Engine {
     #region Trailing Zero Count (TZC) Mode
     public static StringBuilder AppendTZCMode(this StringBuilder sb) {
 #if DEBUG
-#if FullData
+#if BitOperations
+      sb.Append(" Numerics");
+#elif FullData                          // FullData
       sb.Append(" Full");
 #if DeBruijn
       sb.Append("DeBruijn");
@@ -756,7 +759,9 @@ namespace Engine {
 #endif                                  // FullData
       sb.Append(" Debug");
 #else                                   //!DEBUG
-#if FullData
+#if BitOperations
+      sb.Append(" Numerics");
+#elif FullData                          // FullData
       sb.Append(" Full");
 #if DeBruijn
       sb.Append("DeBruijn");
