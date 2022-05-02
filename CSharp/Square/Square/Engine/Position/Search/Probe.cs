@@ -310,7 +310,7 @@ namespace Engine {
 #endif
       var bValid = State.QXPTank.LoadFirst(ref match);
       var moveBest = adjustEmptyMove(match.BestMove);
-      moveFound = isDefined(moveBest) ? moveBest |= Move.Qxnt : moveBest;   //[out]3
+      moveFound = isDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
       etFound = match.Type;                             //[out]2
       //[Note]Mate values are suspect because quiet moves were not considered
       var mValueFound = match.Value;

@@ -16,6 +16,12 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27 [18-ply in 12:02] to settle on 46. Qe7 9.95
+    // Note search stalemate anomaly (where an Eval of 11.0 is given) after 19-Ply:
+    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate 11.00 [19-ply in 51:40]
+    //
+    //"8/6B1/1N4kP/2p5/2P5/1p6/2r5/1K6 w - - 0 56"; // Jordan Van Foreest v Liem Quan Le Line1 2022 Oslo Esports Cup 2022-04-28
+    //"8/3N2Bk/7P/2p5/2P5/1p6/2r5/1K6 w - - 0 57"; // Jordan Van Foreest v Liem Quan Le #21 Line2 2022 Oslo Esports Cup 2022-04-28
     //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [19-ply in 14:37, over 0.732 GNode @834 KHz, 15-ply to find -#15 in 1:29 @922 KHz]
     //"2r5/5pk1/6p1/6P1/1K6/8/3R4/8 b - - 0 66"; // Vidit Gujrathi v Rameshbabu Praggnanandhaa Endgame 2022 Tata Steel Masters R10 2022-01-26
     //"3r2k1/2pqnpp1/1p5p/p2P4/P2p1rP1/2P1N1P1/1PQ2P2/3RR1K1 b - - 0 23"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 [~22-ply]
@@ -167,7 +173,7 @@ namespace Command {
     //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply in 91.76 sec
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2
-    "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5
     //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 1.25

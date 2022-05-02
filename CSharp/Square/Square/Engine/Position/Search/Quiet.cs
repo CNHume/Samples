@@ -233,7 +233,8 @@ namespace Engine {
           #endregion
 #if QuietMate
           if (uLegalMoves == 0) {       // No Move Found
-            setFinal();                 // May not be a true Game Leaf
+            //[ToDo]Verify Game Leaf
+            setFinal();                 // Mark Game Leaf
             mBest = final();
           }
 #endif

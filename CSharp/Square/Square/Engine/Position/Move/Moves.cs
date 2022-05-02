@@ -40,42 +40,46 @@ namespace Engine {
     // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
     protected Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
       CurrentMove = move;               // Current Pseudo Move
-
-      var nFrom = from(move);
-      var nTo = to(move);
-
-      var bPinned = (PinnedPiece & BIT0 << nFrom) != 0;
-      var bSkip = bPinned && (Restricted[nFrom] & BIT0 << nTo) == 0;
-      if (bSkip) {                      // Skip moves which violate known pins
+      (bool bPrevented, bool bRestricted) = isPinned(move);
+      if (bPrevented) {                 // Skip moves which violate known pins
         GameState.AtomicIncrement(ref State.PinSkipTotal);
         return false;
       }
-      else {
-        //[Timer]timeMove(move);
-        //
-        //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
-        // a window between the time initNode() initializes a node and when resetMove() is first called.
-        //
-        resetMove();
-        this.move(ref move);
+      //[Timer]timeMove(move);
 
-        if (IsFence()) clrEval();       // Captures and Pawn moves invalidate staticEval()
-        //[Note]If En Passant was possible, any move ends a Transposition Group
-        if (Parent.IsPassed()) setFence();
+      //
+      //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
+      // a window between the time initNode() initializes a node and when resetMove() is first called.
+      //
+      resetMove();
+      this.move(ref move);
 
-        testHash();                     // Conditional
-        var bLegal = IsLegal(bFindRepetition, bPinned);
-        if (isDefined(move)) {
-          if (bLegal)
-            CurrentMove = move = annotateEarly(move);
-          else
-            restrictPiece(move);
-        }
+      if (IsFence()) clrEval();         // Captures and Pawn moves invalidate staticEval()
+                                        //[Note]If En Passant was possible, any move ends a Transposition Group
+      if (Parent.IsPassed()) setFence();
 
-        State.IncMove(bLegal, bQxnt);
-        State.MonitorBound(this);       // Pass position so heartbeat() can build getCurrentMoves()
-        return bLegal;
+      testHash();                       // Conditional
+      var bLegal = IsLegal(bFindRepetition, bRestricted);
+      if (isDefined(move)) {
+        if (bLegal)
+          CurrentMove = move = annotateEarly(move);
+        else
+          restrictPiece(move);
       }
+
+      State.IncMove(bLegal, bQxnt);
+      State.MonitorBound(this);         // Pass position so heartbeat() can build getCurrentMoves()
+      return bLegal;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected (bool bPrevented, bool bRestricted) isPinned(Move move) {
+      var nFrom = from(move);
+      var nTo = to(move);
+
+      var bRestricted = (PinnedPiece & BIT0 << nFrom) != 0;
+      var bPrevented = bRestricted && (Restricted[nFrom] & BIT0 << nTo) == 0;
+      return (bPrevented, bRestricted);
     }
 
     protected Boolean nullMove() {
@@ -115,8 +119,7 @@ namespace Engine {
       setLegal(bLegal);
 
       if (bLegal) {                     // Perform InCheck Test for Legal Moves
-        var bInCheck = isAttacked(foe, King & friend.Piece);
-        setInCheck(bInCheck);
+        setInCheck(isAttacked(foe, King & friend.Piece));
 
         //
         // Draw Flags are included in dynamicHash() to maintain Search Stability,

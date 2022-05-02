@@ -298,6 +298,9 @@ namespace Engine {
     #region Move Builders
     private static StringBuilder annotation(this StringBuilder sb, Move move) {
       if ((move & Move.NoteFinal) != 0) {
+        //[Safe]Quiescent Move.NoteFinal should not occur.
+        Trace.Assert((move & Move.Qxnt) == 0, "Quiescent Move.NoteFinal");
+
         if ((move & Move.NoteCheck) != 0)
           sb.Append(sNoteCheckmate);
         else
@@ -339,7 +342,7 @@ namespace Engine {
       var vPiece = pieceIndex(uPiece);
 
       if (bCastles) {
-        #region Castles
+#region Castles
         var sCastle = Empty;
         foreach (var rule in castle.RuleParameter) {
           if (nTo == rule.KingOOTo) {
@@ -355,7 +358,7 @@ namespace Engine {
 
         Debug.Assert(vPiece == vK6 && !IsNullOrEmpty(sCastle), "Invalid Castle");
         sb.Append(sCastle);
-        #endregion
+#endregion
       }
       else {
         var sqTo = (sq)nTo;
@@ -370,7 +373,7 @@ namespace Engine {
         else if (bCapture)
           bPawnCapture = true;
 
-        #region From Square
+#region From Square
         //
         // The From Square may be appended in its entirety,
         // or abbreviated to include only its Rank or File:
@@ -381,7 +384,7 @@ namespace Engine {
           var s = sqFrom.ToString();
           sb.Append(s[bRank ? 1 : 0]);
         }
-        #endregion
+#endregion
 
         if (bCapture) {
           var uCapture = captured(move);
@@ -402,7 +405,7 @@ namespace Engine {
 
         sb.Append(sqTo);
 
-        #region Pawn Move Annotations
+#region Pawn Move Annotations
         if (vPiece == vP6) {
           if (uPromotion > 0) {
             var vPromotion = pieceIndex(uPromotion);
@@ -412,7 +415,7 @@ namespace Engine {
           else if (bEnPassant)
             sb.Append("(ep)");
         }
-        #endregion
+#endregion
       }
 
       return sb.annotation(move);
@@ -436,7 +439,7 @@ namespace Engine {
 
       //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
       if (castle.IsChess960 && bCastles) {
-        #region Chess960 Castles
+#region Chess960 Castles
         var sCastle = Empty;
         foreach (var rule in castle.RuleParameter) {
           if (nTo == rule.KingOOTo) {
@@ -452,7 +455,7 @@ namespace Engine {
 
         Debug.Assert(piece == Piece.K && !IsNullOrEmpty(sCastle), "Invalid Castle");
         sb.Append(sCastle);
-        #endregion
+#endregion
       }
       else {
         sb.Append((sq)nFrom).Append((sq)nTo);
@@ -644,9 +647,9 @@ namespace Engine {
 
       return sb;
     }
-    #endregion
+#endregion
 
-    #region Composition Diagnostics
+#region Composition Diagnostics
     public static StringBuilder AppendPieceCounts(this StringBuilder sb, BoardSide side) {
       sb.AppendLine("Piece Counts:");
       var uPieceCounts = side.Counts;
@@ -703,9 +706,9 @@ namespace Engine {
 
       return sb;
     }
-    #endregion
+#endregion
 
-    #region Partial Sort Methods
+#region Partial Sort Methods
     public static Int32 Insert<T>(this T[] entries, Int32 next) where T : IComparable {
       const Int32 first = 0;
       var entry = entries[next];        //[Assume]descending order
@@ -720,9 +723,9 @@ namespace Engine {
       while (next > first) entries[next] = entries[--next];
       entries[next] = entry;
     }
-    #endregion
+#endregion
 
-    #region Parse Methods
+#region Parse Methods
     public static TStruct? TryParseEnum<TStruct>(
       this string s, bool ignoreCase = default)
       where TStruct : struct {
@@ -735,9 +738,9 @@ namespace Engine {
       where TEnum : Enum {
       return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
     }
-    #endregion
+#endregion
 
-    #region Trailing Zero Count (TZC) Mode
+#region Trailing Zero Count (TZC) Mode
     public static StringBuilder AppendTZCMode(this StringBuilder sb) {
 #if DEBUG
 #if BitOperations
@@ -780,6 +783,6 @@ namespace Engine {
 #endif                                  // DEBUG
       return sb;
     }
-    #endregion
+#endregion
   }
 }

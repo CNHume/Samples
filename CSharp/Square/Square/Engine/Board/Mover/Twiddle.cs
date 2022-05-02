@@ -21,6 +21,36 @@
 // FullMask     [47:32.79] 764.538 KHz
 // HalfDeBruijn [46:12.32] 786.73  KHz +2.9%
 //
+//[2022-04-22]
+// Lazy Numerics Release
+//
+// StartPos
+// Searched a total of 130,363,835 nodes in 41.536 sec, 3138.575 KHz +3.8352%
+//
+// Perft2
+// Searched a total of 205,629,265 nodes in 54.275 sec, 3788.655 KHz +4.2266%
+//
+// Perft3
+// Searched a total of 218,839,927 nodes in 91.324 sec, 2396.302 KHz +7.3387%
+//
+// Perft4
+// Searched a total of 767,280,050 nodes in 237.195 sec, 3234.807 KHz +4.812%
+//
+// ===========================================================================
+// HalfMask Release
+//
+// StartPos
+// Searched a total of 130,363,835 nodes in 43.129 sec, 3022.649 KHz
+//
+// Perft2
+// Searched a total of 205,629,265 nodes in 56.569 sec, 3635.017 KHz
+//
+// Perft3
+// Searched a total of 218,839,927 nodes in 98.026 sec, 2232.468 KHz
+//
+// Perft4
+// Searched a total of 767,280,050 nodes in 248.608 sec, 3086.305 KHz
+//
 //#define TestDeBruijn
 //#define InitDeBruijn
 //#define ByteDeBruijn
@@ -120,9 +150,8 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
     private static Int32 TZC8(Byte r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      return BitOperations.TrailingZeroCount(s);
+      Debug.Assert(r != 0, "No Bit Found");
+      return BitOperations.TrailingZeroCount(r);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -242,9 +271,8 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
     public static Int32 TZC64(UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      return BitOperations.TrailingZeroCount(s);
+      Debug.Assert(r != 0, "No Bit Found");
+      return BitOperations.TrailingZeroCount(r);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
