@@ -262,6 +262,24 @@ namespace Engine {
 #endif
     }
 
+    protected Boolean isLeaf() {
+      var moves = PseudoMoves;
+      generate(moves, NoSwaps);
+      var child = Push();               // Push Position to find a legal move
+      try {
+        foreach (var mov in moves) {
+          var move = mov;
+          if (child.tryMove(ref move, NotFindRepetition))
+            return false;
+        }
+
+        return true;
+      }
+      finally {
+        Pop(ref child);                 // Pop Position used for this test
+      }
+    }
+
     #region Delta Pruning Method
     //
     // Delta Pruning Heuristic: Skip insufficient captures and promotions,

@@ -23,24 +23,6 @@ namespace Engine {
 
   partial class Position : Board {
     #region Search Methods
-    protected Boolean isLeaf() {
-      var moves = PseudoMoves;
-      generate(moves, NoSwaps);
-      var child = Push();               // Push Position to find a legal move
-      try {
-        foreach (var mov in moves) {
-          var move = mov;
-          if (child.tryMove(ref move, NotFindRepetition))
-            return false;
-        }
-
-        return true;
-      }
-      finally {
-        Pop(ref child);                 // Pop Position used for this test
-      }
-    }
-
     [Conditional("VerifyMaterialMoves")]
     protected void verifyMaterialMoves(List<Move> moves) {
       var filteredMoves = moves.Where(m => (m & Move.Material) != 0);

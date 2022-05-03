@@ -16,10 +16,13 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
+    // [18-ply in 12:02] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains the Eval of 9.95 following
+    // 49... Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
+    // Disabling QuietMate exhibits the anomaly seen after 19-ply which gives an Eval of 11.0 following
+    // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate 11.00 [19-ply in 51:40]
     //"8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57"; // stalemate
-    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27 [18-ply in 12:02] to settle on 46. Qe7 9.95
-    // Note search stalemate anomaly (where an Eval of 11.0 is given) after 19-Ply:
-    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate 11.00 [19-ply in 51:40]
     //
     //"8/6B1/1N4kP/2p5/2P5/1p6/2r5/1K6 w - - 0 56"; // Jordan Van Foreest v Liem Quan Le Line1 2022 Oslo Esports Cup 2022-04-28
     //"8/3N2Bk/7P/2p5/2P5/1p6/2r5/1K6 w - - 0 57"; // Jordan Van Foreest v Liem Quan Le #21 Line2 2022 Oslo Esports Cup 2022-04-28
