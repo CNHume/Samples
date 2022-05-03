@@ -39,7 +39,7 @@
 #define UseMoveSort
 #define LazyMoveSort
 //#define QuietCheck
-//#define QuietMate
+#define QuietMate
 //#define TestCornerCP
 //#define ThreadSafeTank
 //#define TestLerp

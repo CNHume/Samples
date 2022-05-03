@@ -434,10 +434,6 @@ namespace Engine {
           if (mValue != EvalUndefined)
             sb.AppendFormat($" {et}");
         }
-
-        if (State.NodeTotal == 57388) {
-          LogLine("TraceFound");
-        }
 #if DebugStand
         if (Enum.TryParse<EvalType>(sLabel, out EvalType etLabel)) {
         }

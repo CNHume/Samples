@@ -23,21 +23,18 @@ namespace Engine {
 
   partial class Position : Board {
     #region Search Methods
-    protected Boolean isFinal() {
+    protected Boolean isLeaf() {
       var moves = PseudoMoves;
       generate(moves, NoSwaps);
       var child = Push();               // Push Position to find a legal move
       try {
-        var uLegalMoves = 0U;
         foreach (var mov in moves) {
           var move = mov;
-          if (child.tryMove(ref move, NotFindRepetition)) {
-            uLegalMoves++;
-            break;
-          }
+          if (child.tryMove(ref move, NotFindRepetition))
+            return false;
         }
 
-        return uLegalMoves == 0;
+        return true;
       }
       finally {
         Pop(ref child);                 // Pop Position used for this test
@@ -149,7 +146,7 @@ namespace Engine {
       if (InCheck()) {
         pc.Checks++;
 #if CountCheckmates                     //[Speed]
-        if (isFinal()) pc.Checkmates++;
+        if (isLeaf()) pc.Checkmates++;
 #endif
       }
     }

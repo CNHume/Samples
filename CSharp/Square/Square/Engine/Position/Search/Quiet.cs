@@ -12,7 +12,7 @@
 //#define TraceVal
 #define TransposeQuiet
 //#define QuietCheck
-//#define QuietMate                       //[Experimental]quiet() may overlook the best defence
+#define QuietMate                       //[Experimental]
 //#define SwapOn
 //#define VerifyUpper
 
@@ -232,8 +232,7 @@ namespace Engine {
           }                             //[Next]Pseudo Move
           #endregion
 #if QuietMate
-          if (uLegalMoves == 0) {       // No Move Found
-            //[ToDo]Verify Game Leaf
+          if (uLegalMoves == 0 && isLeaf()) {
             setFinal();                 // Mark Game Leaf
             mBest = final();
           }
