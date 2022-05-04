@@ -54,9 +54,9 @@ namespace Engine {
       resetMove();
       this.move(ref move);
 
-      if (IsFence()) clrEval();         // Captures and Pawn moves invalidate staticEval()
+      if (IsDraw0()) clrEval();         // Captures and Pawn moves invalidate staticEval()
                                         //[Note]If En Passant was possible, any move ends a Transposition Group
-      if (Parent.IsPassed()) setFence();
+      if (Parent.IsPassed()) setDraw0();
 
       testHash();                       // Conditional
       var bLegal = IsLegal(bFindRepetition, bRestricted);
@@ -88,7 +88,7 @@ namespace Engine {
       skipTurn();
 
       //[Note]If En Passant was possible, any move ends a Transposition Group
-      if (Parent.IsPassed()) setFence();
+      if (Parent.IsPassed()) setDraw0();
       testHash();                       // Conditional
       var bLegal = !InCheck();
       if (!bLegal)
@@ -144,7 +144,7 @@ namespace Engine {
     protected void findRepetition() {
       GameState.AtomicIncrement(ref State.RepetitionSearches);
       clrRepetition();
-      if (IsFence()) return;
+      if (IsDraw0()) return;
       var bNullMade = IsNullMade();
 
       //
@@ -169,7 +169,7 @@ namespace Engine {
 
           break;
         }
-        else if (position.IsFence())
+        else if (position.IsDraw0())
           break;                        // End of Transposition Group
       }
 #if DebugDraw2

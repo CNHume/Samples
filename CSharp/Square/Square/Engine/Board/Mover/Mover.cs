@@ -298,7 +298,7 @@ namespace Engine {
     //[Note]Changes made here should be validated by running the perft tests
     //
     protected void move(ref Move move) {
-      clrFence();
+      clrDraw0();
 
       if (HalfMoveClock < HalfMoveClockMax)   // Avoid Overflow
         HalfMoveClock++;
@@ -330,13 +330,13 @@ namespace Engine {
         //
         // A new Transposition Group begins when Castling Rights change:
         //
-        setFence();
+        setDraw0();
       }
       else if (HalfMoveClock == 0) {
         //
         // A new Transposition Group begins when the 100-Ply Rule Clock is reset:
         //
-        setFence();
+        setDraw0();
       }
 #if RecursiveNullMade
       //
@@ -350,7 +350,7 @@ namespace Engine {
     }
 
     protected void skipTurn() {
-      clrFence();
+      clrDraw0();
 
       //
       //[Note]Null Moves are neutral wrt the 50 move rule:

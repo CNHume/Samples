@@ -600,16 +600,16 @@ namespace Engine {
       return FlagsDraw & (DrawFlags.Draw3 | DrawFlags.Draw2);
     }
 
-    public Boolean IsFence() {
-      return (FlagsDraw & DrawFlags.Fence) != 0;
+    public Boolean IsDraw0() {
+      return (FlagsDraw & DrawFlags.Draw0) != 0;
     }
 
-    protected void clrFence() {
-      FlagsDraw &= ~DrawFlags.Fence;
+    protected void clrDraw0() {
+      FlagsDraw &= ~DrawFlags.Draw0;
     }
 
-    protected void setFence() {
-      FlagsDraw |= DrawFlags.Fence;
+    protected void setDraw0() {
+      FlagsDraw |= DrawFlags.Draw0;
     }
 
     protected void setDraw50() {

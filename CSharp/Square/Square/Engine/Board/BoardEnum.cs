@@ -83,26 +83,26 @@ namespace Engine {
     public enum DrawFlags : byte {
       None = 0,
       //
-      // Fence marks a position where the previous move caused an irreversible change
+      // Draw0 marks a position where the previous move caused an irreversible change
       // such that prior positions can never be repeated.  This includes Captures and
       // Pawn moves [i.e., moves which reset the 100-Ply Rule Clock]; but it includes
       // Castling Rights changes and simple piece moves made in lieu of an En Passant.
       //
-      // Fence positions begin a Transposition Group that consists of positions up to 
-      // the next Fence Position.  Draws by Repetition occur in a Transposition Group.
+      // Draw0 Positions begin a Transposition Group comprised of all positions until 
+      // the next Draw0 Position.  Draw by Repetition occurs in a Transposition Group.
       //
-      Fence = 1,                        // Bit 0 Draw Flags
-      Draw2 = Fence << 1,               // Bit 1
+      Draw0 = 1,                        // Bit 0 Draw Flags
+      Draw2 = Draw0 << 1,               // Bit 1
       Draw3 = Draw2 << 1,               // Bit 2
       Draw50 = Draw3 << 1,              // Bit 3
       DrawIM = Draw50 << 1,             // Bit 4
 
       //
-      //[Note]Omitting Fence, Draw2, Draw3, Draw50 and DrawIM from
+      //[Note]Omitting Draw0, Draw2, Draw3, Draw50 and DrawIM from
       // the Hash prevents a call to IsLegal() for a Transposition
       //
       DrawMask = DrawIM | Draw50 | Draw3,
-      Copy = DrawMask | Draw2 | Fence   // Avoid indefinite recursion in PVLookup()
+      Copy = DrawMask | Draw2 | Draw0   // Avoid indefinite recursion in PVLookup()
 
       //
       // From the article CA1008: Enums should have zero value

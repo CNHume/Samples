@@ -105,7 +105,7 @@ namespace Engine {
     public Byte HalfMoveClock;
     public LoFlags FlagsLo;             //[flo]Final | InCheck | Illegal | Passed | WTM | EPFile
     public EGFlags FlagsEG;             //[feg]OutsideSquare | KBN | KingAlone
-    public DrawFlags FlagsDraw;         //[fdr]DrawMask | Fence
+    public DrawFlags FlagsDraw;         //[fdr]DrawMask | Draw0
     public ModeFlags FlagsMode;         //[fmd]Trace | NullMade | Reduced
     public Hashcode Hash;               //[Note]Hash also appears in Transposition Table entries
     public Hashcode HashPawn;
