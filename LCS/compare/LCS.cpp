@@ -68,9 +68,9 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
         // Depending on match redundancy, the number of Pair constructions may be
         // divided by factors ranging from 2 up to 10 or more.
         //
-        auto skipIndex2 = next(it2) != dq2.rend() &&
+        auto preferNextIndex2 = next(it2) != dq2.rend() &&
           (limit == threshold.begin() || *prev(limit) < *next(it2));
-        if (skipIndex2) continue;
+        if (preferNextIndex2) continue;
 #endif
         if (limit == threshold.end()) {
           // Insert Case
