@@ -355,6 +355,7 @@ namespace Command {
       var features = Position.PawnFeatures;
     }
 
+    [MemberNotNull(nameof(State))]
     protected void newState() {
       State = new GameState(this);
     }

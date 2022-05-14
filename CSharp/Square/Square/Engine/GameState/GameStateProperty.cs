@@ -46,9 +46,9 @@ namespace Engine {
 #if UseTask
     public CancellationTokenSource CancellationTokenSource;
     public CancellationToken CancellationToken;
-    protected Timer CancelTimer;
-    public Task<List<Move>> EngineTask;
-    public Task<List<Move>> FinishTask;
+    protected Timer? CancelTimer;
+    public Task<List<Move>?>? EngineTask;
+    public Task<List<Move>?>? FinishTask;
 #endif
     public Stopwatch SearchTimer;
     public Stopwatch IterationTimer;

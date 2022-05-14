@@ -73,9 +73,11 @@ namespace Engine {
         throw new ChessException("Illegal Move");
     }
 
-    protected List<Move> startSearch(Position position, SearchMode mode) {
+    protected List<Move>? startSearch(Position? position, SearchMode mode) {
       try {
-        if (SearchTimer is null)
+        if (position is null)
+          throw new PositionException("Null Position");
+        else if (SearchTimer is null)
           throw new PositionException("Null SearchTimer Stopwatch");
         else {
           SearchTimer.Reset();
@@ -160,7 +162,7 @@ namespace Engine {
       return BestMoves;
     }
 
-    public void StartTask(Func<Object, List<Move>> fun, Position position) {
+    public void StartTask(Func<Object?, List<Move>?> fun, Position position) {
 #if UseTask
       if (CancellationTokenSource is null)
         CancellationToken = getCancellationToken();
@@ -185,7 +187,7 @@ namespace Engine {
         // cancel EngineTask when it expires.
         //
         const Int32 period = Timeout.Infinite;
-        CancelTimer = new Timer(state => ((CancellationTokenSource)state).Cancel(),
+        CancelTimer = new Timer(state => ((CancellationTokenSource?)state)?.Cancel(),
                                 CancellationTokenSource, nTimeoutMS, period);
 
         //
@@ -194,7 +196,7 @@ namespace Engine {
         // whether it fired or not.  FinishTask returns the EngineTask Result as
         // its own.
         //
-        Func<Task<List<Move>>, List<Move>> fun2 =
+        Func<Task<List<Move>?>, List<Move>?> fun2 =
           antecedent => {
             try {
               CancelTimer.Dispose();
@@ -209,7 +211,7 @@ namespace Engine {
             }
           };
 
-        FinishTask = EngineTask.ContinueWith<List<Move>>(fun2);
+        FinishTask = EngineTask.ContinueWith<List<Move>?>(fun2);
       }
 #else
       FinishTask = EngineTask = default;
@@ -224,13 +226,13 @@ namespace Engine {
     public void Go(Parser parser) {
       BestMoves.Clear();
       if (Bound.ParseBounds(parser, MovePosition))
-        StartTask((state) => startSearch((Position)state, SearchMode.BestMove), MovePosition);
+        StartTask((state) => startSearch((Position?)state, SearchMode.BestMove), MovePosition);
     }
 
     public void Perft() {
       var bWTM = MovePosition.WTM();
       Bound.Clear(bWTM);
-      StartTask((state) => startSearch((Position)state, SearchMode.Perft), MovePosition);
+      StartTask((state) => startSearch((Position?)state, SearchMode.Perft), MovePosition);
     }
 
     public void Ponderhit() {
@@ -277,7 +279,7 @@ namespace Engine {
         if (CancelTimer is not null)
           CancelTimer.Change(stopTimeoutMS, Timeout.Infinite);
 
-        FinishTask.Wait();
+        FinishTask?.Wait();
 
         //
         //[Note]The old CancellationToken must be recycled after cancel() has been called.
