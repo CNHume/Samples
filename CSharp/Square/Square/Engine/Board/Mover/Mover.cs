@@ -187,6 +187,9 @@ namespace Engine {
       BoardSide friend, CastleRuleParameter friendRule,
       BoardSide foe, CastleRuleParameter foeRule,
       Int32 nTo, Int32 nPassedTo) {
+      if (!friend.KingPos.HasValue)
+        throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
+
       var vKing = friend.KingPos.Value;
       var qpPassedFrom = passed(friend, nPassedTo);
       while (qpPassedFrom != 0) {

@@ -176,10 +176,12 @@ namespace Engine {
 
     protected Int32 atxCount(BoardSide side) {
       var nAtx = 0;
+      if (!side.KingPos.HasValue)
+        throw new ArgumentException(nameof(side.KingPos), "Invalid King Position");
+      incTo(KingAtx[side.KingPos.Value]);
 
       incTo(side.PawnA1H8Atx);
       incTo(side.PawnA8H1Atx);
-      incTo(KingAtx[side.KingPos.Value]);
 
       var qpAtxFrom = side.Piece & Knight;
       while (qpAtxFrom != 0) {
@@ -363,10 +365,11 @@ namespace Engine {
     //
     protected Plane checkers(Boolean bWTM) {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
-
-      var qpFrom = 0UL;
+      if (!friend.KingPos.HasValue)
+        throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
       var vTo = friend.KingPos.Value;
 
+      var qpFrom = 0UL;
       qpFrom |= foe.Piece & King & KingAtx[vTo];
       qpFrom |= foe.Piece & Knight & KnightAtx[vTo];
       qpFrom |= foe.Piece & DiagPiece & diagAtx(vTo);

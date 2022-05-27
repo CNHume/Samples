@@ -125,7 +125,7 @@ namespace Engine {
 
         if (!CastlesFrom.HasValue) {
           if (!nKingFrom.HasValue)
-            throw new ParsePositionException($"{sideName} must have a King to castle");
+            throw new ParsePositionException($"{sideName} must have a King");
 
           if (bChess960) {
             if (nKingFrom <= (Int32)sq.a1 + nSetup || (Int32)sq.h1 + nSetup <= nKingFrom)
