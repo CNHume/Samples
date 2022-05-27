@@ -115,6 +115,9 @@ namespace Command {
      * type [check | spin | combo | button | string] default | min | max | var*
      */
     public Boolean Dispatch(String sVerb) {
+      if (Parser is null)
+        throw new ChessException("Uninitialized Parser");
+
       var bContinue = true;
       switch (sVerb.ToLower()) {
       case "":                          // Empty Command String

@@ -47,7 +47,7 @@ namespace Engine {
     #endregion
 
     #region Virtual Fields
-    public Position Parent;
+    public Position? Parent;
     protected Eval StaticDelta;
     protected Eval StaticTotal;         // For isEndgame()
     protected ExtensionCounter ExtensionCounts;

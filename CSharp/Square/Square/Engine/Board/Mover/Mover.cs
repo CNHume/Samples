@@ -156,12 +156,16 @@ namespace Engine {
         resetPawnAtx(side);
     }
 
+    //
+    // Return Friend Pawns which may be able to capture En Passant
+    // the Foe Pawn that just passed through the square at nPassed.
+    //
     protected Plane passed(BoardSide side, Int32 nPassed) {
-      var qpFriend = BIT0 << nPassed;
+      var qpPassed = BIT0 << nPassed;
 
       var qpFrom =
-        shiftr(qpFriend & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
-        shiftr(qpFriend & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
+        shiftr(qpPassed & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
+        shiftr(qpPassed & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
 
       return qpFrom;
     }

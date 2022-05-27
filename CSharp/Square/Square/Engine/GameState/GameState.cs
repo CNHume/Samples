@@ -215,7 +215,7 @@ namespace Engine {
       clearPVDoubleCounts();            // Conditional
     }
 
-    public Position Push(Position parent) {
+    public Position Push(Position? parent) {
       var child = PositionPool.Push();
       child.Parent = parent;             //[Init]
       child.State = this;
