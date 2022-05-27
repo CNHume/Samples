@@ -215,7 +215,7 @@ namespace Engine {
       return bOrthodox;
     }
 
-    protected void parsePassed(Boolean bWTM, String sPassed) {
+    protected void parsePassed(Boolean bWTM, String sEnPassant) {
       //
       //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
       // are needed for passed() and hence for tryEP() below.
@@ -225,42 +225,42 @@ namespace Engine {
       FlagsLo &= ~LoFlags.Copy;         // Includes WTM
       if (bWTM) FlagsLo |= LoFlags.WTM;
 
-      if (IsNullOrEmpty(sPassed) || sPassed == "-")
+      if (IsNullOrEmpty(sEnPassant) || sEnPassant == "-")
         return;
 
-      var sqPassed = TryParseSquare(sPassed);
-      if (!sqPassed.HasValue)
-        throw new ParsePositionException($"Invalid En Passant String = {sPassed}");
+      var sqEnPassant = TryParseSquare(sEnPassant);
+      if (!sqEnPassant.HasValue)
+        throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       // The destination square to which an e.p. capturing Pawn will move:
-      var nEnPassantTo = (Int32)sqPassed;
-      if (y(nEnPassantTo) != friend.Parameter.EnPassantRank)
-        throw new ParsePositionException($"Invalid En Passant Rank = {sqPassed}");
+      var nEnPassant = (Int32)sqEnPassant;
+      if (y(nEnPassant) != friend.Parameter.EnPassantRank)
+        throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
       var qpFoe = foe.Piece;
       // The square actually holding the e.p. Pawn to be captured:
-      var nCaptureTo = nEnPassantTo + foe.Parameter.ShiftRank;
+      var nMovedTo = nEnPassant + foe.Parameter.ShiftRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nEnPassantTo + friend.Parameter.ShiftRank;
+      var nStart = nEnPassant + friend.Parameter.ShiftRank;
       var qpStart = BIT0 << nStart;
-      var qpPassed = BIT0 << nEnPassantTo;
-      var qpVacant = qpStart | qpPassed;
+      var qpEnPassant = BIT0 << nEnPassant;
+      var qpVacant = qpStart | qpEnPassant;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
-                     (qpFoe & Pawn & BIT0 << nCaptureTo) == 0;
+                     (qpFoe & Pawn & BIT0 << nMovedTo) == 0;
 
       if (bInvalid)
-        throw new ParsePositionException($"Invalid En Passant Square = {sqPassed}");
+        throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
       (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
-      tryEP(friend, friendRule, foe, foeRule, nCaptureTo, nEnPassantTo);
+      tryEP(friend, friendRule, foe, foeRule, nMovedTo, nEnPassant);
 
       if (!IsPassed())
-        LogInfo(Level.warn, $"Illegal En Passant Square = {sqPassed}");
+        LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
     }
 
     //
@@ -306,7 +306,7 @@ namespace Engine {
     }
 
     protected void Init(
-      Boolean bWTM, String sPassed, String sHalfMoveClock, String sFullMoveNumber,
+      Boolean bWTM, String sEnPassant, String sHalfMoveClock, String sFullMoveNumber,
       Dictionary<String, List<String>>? operations = default) {
       // Preserve EPD Operations passed via ParseEPD()
       Operations = operations;
@@ -314,7 +314,7 @@ namespace Engine {
       //
       // FlagsHi/Lo bits outside of those in their respective Equal Masks were reset by pushRoot()
       //
-      parsePassed(bWTM, sPassed);
+      parsePassed(bWTM, sEnPassant);
 
       Hash ^= hashFlags(bWTM);
 

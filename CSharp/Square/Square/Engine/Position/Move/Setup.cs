@@ -76,8 +76,8 @@ namespace Engine {
       try {
         var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
         var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
-        var bWTM = ParsePosition(scanner, out String sPassed);
-        Init(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber, operations);
+        var bWTM = ParsePosition(scanner, out String sEnPassant);
+        Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
@@ -96,8 +96,8 @@ namespace Engine {
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       var scanner = new Scanner(sPrefix);
       try {
-        var bWTM = ParsePosition(scanner, out String sPassed);
-        Init(bWTM, sPassed, sHalfMoveClock, sFullMoveNumber);
+        var bWTM = ParsePosition(scanner, out String sEnPassant);
+        Init(bWTM, sEnPassant, sHalfMoveClock, sFullMoveNumber);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
@@ -377,10 +377,10 @@ namespace Engine {
       //
       var bWTM = true;
       grantCastling(nRookOOO, nRookOO);
-      var sPassed = Empty;
+      var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
-      Init(bWTM, sPassed, sHalfMoveCount, sFullMoveNumber);
+      Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber);
       #endregion
     }
 

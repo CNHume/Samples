@@ -158,16 +158,16 @@ namespace Engine {
 
     //
     // Return Friend Pawns which may be able to capture En Passant
-    // the Foe Pawn that just passed through the square at nPassed.
+    // the Foe Pawn that just passed through the nEnPassant square.
     //
-    protected Plane passed(BoardSide side, Int32 nPassed) {
-      var qpPassed = BIT0 << nPassed;
+    protected Plane passed(BoardSide side, Int32 nEnPassant) {
+      var qpEnPassant = BIT0 << nEnPassant;
 
-      var qpFrom =
-        shiftr(qpPassed & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
-        shiftr(qpPassed & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
+      var qpCaptureFrom =
+        shiftr(qpEnPassant & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
+        shiftr(qpEnPassant & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
 
-      return qpFrom;
+      return qpCaptureFrom;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -190,41 +190,44 @@ namespace Engine {
     private void tryEP(
       BoardSide friend, CastleRuleParameter friendRule,
       BoardSide foe, CastleRuleParameter foeRule,
-      Int32 nTo, Int32 nEnPassantTo) {
+      Int32 nMovedTo, Int32 nEnPassant) {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
 
       var vKing = friend.KingPos.Value;
-      var qpPassedFrom = passed(friend, nEnPassantTo);
-      while (qpPassedFrom != 0) {
-        var nFrom = RemoveLo(ref qpPassedFrom);
+      var qpCaptureFrom = passed(friend, nEnPassant);
+      while (qpCaptureFrom != 0) {
+        var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
         //
         // Test for legality, were Friend to play EP:
         //
-        // 1) Remove the Friend Pawn from its nFrom post;
-        // 2) And place it on the nEnPassantTo square.
-        // 3) Remove the Foe Pawn from the nTo square to which it moved.
+        // 1) Remove the Friend Pawn from its nCaptureFrom square;
+        // 2) And place it on the nEnPassant square.
+        // 3) Remove the Foe Pawn from its nMovedTo square.
         // 4) Note whether the resulting position would be legal.
-        // 5) Restore the Foe Pawn to its nTo square.
-        // 6) Remove the Friend Pawn placed on nEnPassantTo;
-        // 7) And restore the Pawn to its nFrom post.
-        // 8) If EP Legal break to setEPFile(nEnPassantTo).
+        // 5) Restore the Foe Pawn to its nMovedTo square.
+        // 6) Remove the Friend Pawn placed on nEnPassant;
+        // 7) And restore the Pawn to its nCaptureFrom square.
+        // 8) If EP was Legal setEPFile(nEnPassant) and break.
         //
-        raisePiece(friend, friendRule, vP6, nFrom);
-        lowerPiece(friend, vP6, nEnPassantTo);
-        raisePiece(foe, foeRule, vP6, nTo);     //[Speed]Remove Not Needed: Material balance restored below
-                                                //[Note]buildPawnAtx() is not needed for this pin determination
+        raisePiece(friend, friendRule, vP6, nCaptureFrom);
+        lowerPiece(friend, vP6, nEnPassant);
+        //[Speed]Remove Not Needed, because material balance will be restored below.
+        raisePiece(foe, foeRule, vP6, nMovedTo);
+
+        //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
           (foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
           (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
-        lowerPiece(foe, vP6, nTo);              //[Speed]placePiece Not Needed
-        raisePiece(friend, friendRule, vP6, nEnPassantTo);
-        lowerPiece(friend, vP6, nFrom);
+        //[Speed]placePiece Not Needed, because a Remove was not performed.
+        lowerPiece(foe, vP6, nMovedTo);
+        raisePiece(friend, friendRule, vP6, nEnPassant);
+        lowerPiece(friend, vP6, nCaptureFrom);
 
         if (bLegal) {
-          setEPFile(nEnPassantTo);
+          setEPFile(nEnPassant);
           break;
         }
       }
@@ -270,8 +273,8 @@ namespace Engine {
 
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
-          var nEnPassantTo = nTo - friend.Parameter.ShiftRank;
-          tryEP(foe, foeRule, friend, friendRule, nTo, nEnPassantTo);
+          var nEnPassant = nTo - friend.Parameter.ShiftRank;
+          tryEP(foe, foeRule, friend, friendRule, nTo, nEnPassant);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
