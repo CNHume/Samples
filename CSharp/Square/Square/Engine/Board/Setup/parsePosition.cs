@@ -241,7 +241,7 @@ namespace Engine {
 
       var qpFoe = foe.Piece;
       // The square actually holding the e.p. Pawn to be captured:
-      var nCaptureFrom = nEnPassantTo + foe.Parameter.ShiftRank;
+      var nCaptureTo = nEnPassantTo + foe.Parameter.ShiftRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
@@ -251,13 +251,13 @@ namespace Engine {
       var qpPassed = BIT0 << nEnPassantTo;
       var qpVacant = qpStart | qpPassed;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
-                     (qpFoe & Pawn & BIT0 << nCaptureFrom) == 0;
+                     (qpFoe & Pawn & BIT0 << nCaptureTo) == 0;
 
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqPassed}");
 
       (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
-      tryEP(friend, friendRule, foe, foeRule, nCaptureFrom, nEnPassantTo);
+      tryEP(friend, friendRule, foe, foeRule, nCaptureTo, nEnPassantTo);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqPassed}");

@@ -190,12 +190,12 @@ namespace Engine {
     private void tryEP(
       BoardSide friend, CastleRuleParameter friendRule,
       BoardSide foe, CastleRuleParameter foeRule,
-      Int32 nTo, Int32 nPassedTo) {
+      Int32 nTo, Int32 nEnPassantTo) {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
 
       var vKing = friend.KingPos.Value;
-      var qpPassedFrom = passed(friend, nPassedTo);
+      var qpPassedFrom = passed(friend, nEnPassantTo);
       while (qpPassedFrom != 0) {
         var nFrom = RemoveLo(ref qpPassedFrom);
 
@@ -203,16 +203,16 @@ namespace Engine {
         // Test for legality, were Friend to play EP:
         //
         // 1) Remove the Friend Pawn from its nFrom post;
-        // 2) And place it on the nPassedTo square.
+        // 2) And place it on the nEnPassantTo square.
         // 3) Remove the Foe Pawn from the nTo square to which it moved.
         // 4) Note whether the resulting position would be legal.
         // 5) Restore the Foe Pawn to its nTo square.
-        // 6) Remove the Friend Pawn placed on nPassedTo;
+        // 6) Remove the Friend Pawn placed on nEnPassantTo;
         // 7) And restore the Pawn to its nFrom post.
-        // 8) If EP Legal break to setEPFile(nPassedTo).
+        // 8) If EP Legal break to setEPFile(nEnPassantTo).
         //
         raisePiece(friend, friendRule, vP6, nFrom);
-        lowerPiece(friend, vP6, nPassedTo);
+        lowerPiece(friend, vP6, nEnPassantTo);
         raisePiece(foe, foeRule, vP6, nTo);     //[Speed]Remove Not Needed: Material balance restored below
                                                 //[Note]buildPawnAtx() is not needed for this pin determination
         var bLegal =
@@ -220,11 +220,11 @@ namespace Engine {
           (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
         lowerPiece(foe, vP6, nTo);              //[Speed]placePiece Not Needed
-        raisePiece(friend, friendRule, vP6, nPassedTo);
+        raisePiece(friend, friendRule, vP6, nEnPassantTo);
         lowerPiece(friend, vP6, nFrom);
 
         if (bLegal) {
-          setEPFile(nPassedTo);
+          setEPFile(nEnPassantTo);
           break;
         }
       }
@@ -270,8 +270,8 @@ namespace Engine {
 
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
-          var nPassedTo = nTo - friend.Parameter.ShiftRank;
-          tryEP(foe, foeRule, friend, friendRule, nTo, nPassedTo);
+          var nEnPassantTo = nTo - friend.Parameter.ShiftRank;
+          tryEP(foe, foeRule, friend, friendRule, nTo, nEnPassantTo);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
