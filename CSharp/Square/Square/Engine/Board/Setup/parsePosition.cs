@@ -118,7 +118,7 @@ namespace Engine {
         var sb = new StringBuilder("FEN specifies ")
           .Append(nRows)
           .Append("rank");
-        if (nRows != 1) sb.Append("s");
+        if (nRows != 1) sb.Append('s');
         throw new ParsePositionException(sb.ToString());
       }
 
@@ -142,14 +142,11 @@ namespace Engine {
     }
 
     private static Boolean parseWTM(String sToMove) {
-      switch (sToMove.ToLower()) {
-      case "w":
-        return true;
-      case "b":
-        return false;
-      default:
-        throw new ParsePositionException($"Unknown Side To Move = {sToMove}");
-      }
+      return sToMove.ToLower() switch {
+        "b" => false,
+        "w" => true,
+        _ => throw new ParsePositionException($"Unknown Side To Move = {sToMove}"),
+      };
     }
 
     //

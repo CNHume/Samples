@@ -148,28 +148,26 @@ namespace Command {
         if (State is null) newState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
-        else {
-          State.MovePosition = setFEN(DefaultFEN);
-        }
+        else
+          newGameFEN(DefaultFEN);
         break;
 
       case "testepd":                   //[ToDo]End gracefully when a Search is in progress!
         if (State is null) newState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
-        else {
-          State.MovePosition = setEPD(DefaultEPD);
-        }
+        else
+          newGameEPD(DefaultEPD);
         break;
 
-      case "reset":
+      case "reset":                     // Intuitive
       case "ucinewgame":                //[UCI]
         if (State is null) newState();
 
         if (State.IsSearchInProgress)
           State.Stop();
 
-        setFEN();
+        newGameFEN();
         break;
 
       case "position":                  //[UCI]
@@ -178,6 +176,10 @@ namespace Command {
           throw new ChessException("Search in progress");
         else {
           var position = NewGame();
+          //
+          //[Note]ParsePosition() will apply a sequence
+          // of moves that follows the initial position.
+          //
           State.MovePosition = Parser.ParsePosition(position);
         }
         break;
@@ -376,16 +378,12 @@ namespace Command {
       return State.MovePosition;
     }
 
-    protected Position setEPD(String? sEPD = null) {
-      var position = NewGame();
-      position.SetEPD(sEPD);
-      return position;
+    protected void newGameEPD(String? sEPD = null) {
+      NewGame().SetEPD(sEPD);
     }
 
-    protected Position setFEN(String? sFEN = null) {
-      var position = NewGame();
-      position.SetFEN(sFEN);
-      return position;
+    protected void newGameFEN(String? sFEN = null) {
+      NewGame().SetFEN(sFEN);
     }
 
     protected void parseDebug(Parser parser) {
@@ -440,7 +438,7 @@ namespace Command {
         setRegistration(bLater, sCode, sName);
     }
 
-    private static void setRegistration(Boolean bLater, String sCode, String sName) {
+    private static void setRegistration(Boolean bLater, String? sCode, String? sName) {
       if (IsRegistrationChecked && !bLater) {
         LogLine("registration checking");
 

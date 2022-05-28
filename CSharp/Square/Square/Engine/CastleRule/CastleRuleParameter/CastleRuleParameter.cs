@@ -93,13 +93,10 @@ namespace Engine {
       //
       private static Plane rankPath(Int32 nFrom, Int32 nTo) {
         if (nFrom < nTo)
-          nFrom++;                        // Skip Lo
+          nFrom++;                      // Skip Lo
         else if (nFrom > nTo) {
-          nFrom--;                        // Skip Hi
-
-          var n = nFrom;                  // Swap
-          nFrom = nTo;
-          nTo = n;
+          nFrom--;                      // Skip Hi
+          (nTo, nFrom) = (nFrom, nTo);  // Swap
         }
 
         var nBits = nTo + 1 - nFrom;
