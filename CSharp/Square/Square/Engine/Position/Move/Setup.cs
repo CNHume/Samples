@@ -109,7 +109,7 @@ namespace Engine {
       setNameIfLegal();
     }
 
-    public void SetEPD(String sEPD = sOrthodoxStartEPD) {
+    public void SetEPD(String? sEPD = null) {
       if (IsNullOrEmpty(sEPD)) sEPD = sOrthodoxStartEPD;
 
       using (var parser = new Parser(sEPD)) {
@@ -437,7 +437,7 @@ namespace Engine {
     }
     #endregion
 
-    public void SetFEN(String sFEN = sOrthodoxStartFEN) {
+    public void SetFEN(String? sFEN = null) {
       if (IsNullOrEmpty(sFEN)) sFEN = sOrthodoxStartFEN;
 
       using (var parser = new Parser(sFEN)) {
@@ -452,9 +452,12 @@ namespace Engine {
 
     [Conditional("TestFEN")]
     protected void verifyFEN(String sFEN) {
-      var sFEN2 = ToString(PositionType.FEN);   // Canonical Output FEN
-      var nFENLength = sFEN.Length;     // Input FEN abbreviations should match Output FEN prefix:
-      var sFEN2Prefix = nFENLength < sFEN2.Length ? sFEN2.Substring(0, nFENLength) : sFEN2;
+      // Output FEN:
+      var sFEN2 = ToString(PositionType.FEN);
+      var nFENLength = sFEN.Length;
+      // Input FEN abbreviations should match Output FEN Prefix:
+      var sFEN2Prefix = nFENLength < sFEN2.Length ?
+        sFEN2.Substring(0, nFENLength) : sFEN2;
 
       if (sFEN != sFEN2Prefix)
         LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");

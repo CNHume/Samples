@@ -149,7 +149,7 @@ namespace Command {
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else {
-          State.MovePosition = testFEN(DefaultFEN);
+          State.MovePosition = setFEN(DefaultFEN);
         }
         break;
 
@@ -158,7 +158,7 @@ namespace Command {
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else {
-          State.MovePosition = testEPD(DefaultEPD);
+          State.MovePosition = setEPD(DefaultEPD);
         }
         break;
 
@@ -169,7 +169,7 @@ namespace Command {
         if (State.IsSearchInProgress)
           State.Stop();
 
-        reset();
+        setFEN();
         break;
 
       case "position":                  //[UCI]
@@ -243,7 +243,7 @@ namespace Command {
         break;
 
       case "debug":
-        parseDebug();
+        parseDebug(Parser);
         break;
 
       case "perft":                     //[Test]Look for corresponding Tabiya and run PerftCases
@@ -376,30 +376,25 @@ namespace Command {
       return State.MovePosition;
     }
 
-    protected void reset() {
-      var position = NewGame();
-      position.SetFEN();
-    }
-
-    protected Position testEPD(String sEPD) {
+    protected Position setEPD(String? sEPD = null) {
       var position = NewGame();
       position.SetEPD(sEPD);
       return position;
     }
 
-    protected Position testFEN(String sFEN) {
+    protected Position setFEN(String? sFEN = null) {
       var position = NewGame();
       position.SetFEN(sFEN);
       return position;
     }
 
-    protected void parseDebug() {
-      if (Parser.AcceptEOL()) {
+    protected void parseDebug(Parser parser) {
+      if (parser.AcceptEOL()) {
         var sKeyword = IsDebug ? "on" : "off";
         LogLine($"debug is {sKeyword}");
       }
       else
-        IsDebug = Parser.ParseEnableKeyword();
+        IsDebug = parser.ParseEnableKeyword();
     }
     #endregion
 
