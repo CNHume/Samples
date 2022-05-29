@@ -8,11 +8,11 @@
 //#define DebugPeak
 
 namespace Resource {
-  using static Logging.Logger;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+
+  using static Logging.Logger;
 
   class Pool<T> where T : class, new() {
     #region Constants
@@ -56,7 +56,7 @@ namespace Resource {
 
       Inactive.Push(top);
       DecActive();
-      top = new T();
+      top = DefaultElement;
     }
 
     private void IncActive() {
@@ -78,6 +78,8 @@ namespace Resource {
     #endregion
 
     #region Static Fields
+    public static readonly T DefaultElement = new T();
+
     private Stack<T> Inactive;
     public UInt32 ActiveCount;
     public UInt32 ActivePeak;

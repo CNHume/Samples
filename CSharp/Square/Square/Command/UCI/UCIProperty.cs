@@ -17,7 +17,7 @@ namespace Command {
     private const String sDefaultFEN =
     //"";
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
-    // [18-ply in 12:02] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // [18-ply in 5:07] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
     // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains the Eval of 9.95 following
     // 49... Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
     // Disabling QuietMate exhibits the anomaly seen after 19-ply which gives an Eval of 11.0 following
@@ -73,10 +73,10 @@ namespace Command {
     //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
     //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
-    //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 21.3 sec, formerly 47.8 sec]
+    //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 27.1 sec]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply in 4.27 sec]
-    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
-    // [15-ply in 44.1 sec] gives an Eval of -1.53 following
+    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    // [15-ply in 22 sec] gives an Eval of -1.53 following
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Bc6 Ne3 69. Kb2 Nd1+ 70. Ka1 Nxc3 71. a4 Kc1 72. Bd7 Nc3e4
     // Deeper line: 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Bd7 Nb3+ 71. Kb1 Kd2
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply to find clear win in 1:09:27 over 3.72 Gnode @0.893 MHz]
@@ -162,21 +162,21 @@ namespace Command {
     //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24";  // Wood v Sowell 2014-07-16
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line, 13-ply in 2:26:24
-    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [13-ply in 21.1 sec over 26.96 Mnode, formerly 37 sec]
+    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [13-ply in 6.792 sec over 28.5 Mnode]
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [16-ply @1.079 MHz in 21:23 over 10.9 Gnode, formerly 5:40:54] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
-    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 20.08 sec]
-    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K #9 [15-ply in 21.26 sec]
+    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 16.84 sec]
+    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K #9 [15-ply in 18 sec]
     //"8/8/3n1b2/8/7K/1k6/8/8 w - - 0 67";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Deeper
     //"8/8/3n1b2/8/5K2/3k4/8/8 w - - 4 69";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Easier
     //"8/8/3n4/8/3b4/8/4k3/7K b - - 9 71";  // Paehtz v Hou Yifan KBN #29, 23-ply in 63 min [2.14G nodes]
-    //"8/8/8/8/8/5k2/3n3b/4K3 b - - 0 79";  // Paehtz v Hou Yifan KBN #12, 16-ply in 44.53 sec
+    //"8/8/8/8/8/5k2/3n3b/4K3 b - - 0 79";  // Paehtz v Hou Yifan KBN #12, 18-ply in 37.51 sec
     //"8/8/7K/4k2P/6b1/6n1/8/8 w - - 0 1";  // KBN v K Endgame Test #26
     // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8.Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
     // 11. Kh4 Kf5 12. Kg3 Ng4 13. Kf3 Bc4 14. Kg3 Bd5 15. Kh3 Kf4 16. Kh4 Be6
     // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
-    //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply in 91.76 sec
+    //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply in 46.58 sec
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3
@@ -193,10 +193,10 @@ namespace Command {
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3";     // Mavo Nice Mate3 [9 + 2 = 11-ply in 6:30, for the rook intermezzo]
     //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker vs Averbach [10-ply in 52.5 sec]
     //"r1bk3r/2p2ppp/1pK5/p2pp3/8/P7/1PPP2PP/R1BQ2NR b - - 0 1"; // Hamppe vs Meitner, 7-ply
-    //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.05 at 17-ply in 7:38.25]
+    "8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.05 at 17-ply in 7:38.25]
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 16.61 sec over 18.42 Mnode [formerly 1:47.89 w Singular]
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 44.3 sec over 58.18 Mnode
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]

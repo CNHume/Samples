@@ -144,8 +144,8 @@ namespace Engine {
     public ICommand Command;
     public SearchBound Bound;
     public CastleRule Rule;
-    public Position MovePosition;
-    public Position RootPosition;
+    public Position? MovePosition;
+    public Position? RootPosition;
     public MoveBottle Bottle;
     public PerfCase Case;
     public Eval EndgameValue;

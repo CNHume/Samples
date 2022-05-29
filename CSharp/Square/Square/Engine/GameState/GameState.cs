@@ -224,7 +224,7 @@ namespace Engine {
     }
 
     public void Pop(ref Position child) {
-      child.Parent = new Position();
+      child.Parent = default;
       PositionPool.Pop(ref child);
     }
 
@@ -237,7 +237,7 @@ namespace Engine {
     protected void unwindPositions() {
       while (MovePosition is not null)
         Unmove();
-      RootPosition = new Position();
+      RootPosition = default;
     }
 
     public void Clear() {               // Called by UCI.newGame()
