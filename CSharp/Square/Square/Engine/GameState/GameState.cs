@@ -229,6 +229,7 @@ namespace Engine {
     }
 
     public void Unmove() {
+      if (MovePosition is null) return;
       var parent = MovePosition.Parent;
       Pop(ref MovePosition);
       MovePosition = parent;
