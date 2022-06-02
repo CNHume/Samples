@@ -24,6 +24,16 @@ namespace Engine {
     #endregion
 
     #region LoFlags Enum
+    //
+    // LoFlags  0:8
+    // ------------
+    //  0:3 EPFile
+    //  3:1 WTM
+    //  4:1 Passed
+    //  5:1 Illegal
+    //  6:1 InCheck
+    //  7:1 Final
+    //
     public const Int32 nWTMBit = 3;     // pbl of nFiles
 
     [Flags]
@@ -45,6 +55,14 @@ namespace Engine {
     #endregion
 
     #region HiFlags Enum
+    //
+    // HiFlags  0:4
+    // ------------
+    //  0:1 CanOO
+    //  1:1 CanOOO
+    //  2:1 Lite
+    //  3:1 Dark
+    //
     public const Int32 nBishopPairBit = 2;
 
     [Flags]
@@ -63,6 +81,15 @@ namespace Engine {
     #endregion
 
     #region EGFlags Enum
+    //
+    // EGFlags  0:5
+    // ------------
+    //  0:1 WhiteAlone
+    //  1:1 BlackAlone
+    //  2:1 OutsideSquare
+    //  3:1 KBNvK
+    //  4:1 KQvKP
+    //
     [Flags]
     public enum EGFlags : byte {
       None = 0,
@@ -79,18 +106,26 @@ namespace Engine {
     #endregion
 
     #region DrawFlags Enum
+    //
+    // DrawFlags  0:5
+    // --------------
+    //  0:1 Draw0
+    //  1:1 Draw2
+    //  2:1 Draw3
+    //  3:1 Draw50
+    //  4:1 DrawIM
+    //
+    // Draw0 marks a position where the previous move caused an irreversible change
+    // such that prior positions can never be repeated.  This includes Captures and
+    // Pawn moves [i.e., moves which reset the 100-Ply Rule Clock]; but it includes
+    // Castling Rights changes and simple piece moves made in lieu of an En Passant.
+    //
+    // Draw0 Positions begin a Transposition Group comprised of all positions until 
+    // the next Draw0 Position.  Draws by Repetition occur in a Transposition Group.
+    //
     [Flags]
     public enum DrawFlags : byte {
       None = 0,
-      //
-      // Draw0 marks a position where the previous move caused an irreversible change
-      // such that prior positions can never be repeated.  This includes Captures and
-      // Pawn moves [i.e., moves which reset the 100-Ply Rule Clock]; but it includes
-      // Castling Rights changes and simple piece moves made in lieu of an En Passant.
-      //
-      // Draw0 Positions begin a Transposition Group comprised of all positions until 
-      // the next Draw0 Position.  Draw by Repetition occurs in a Transposition Group.
-      //
       Draw0 = 1,                        // Bit 0 Draw Flags
       Draw2 = Draw0 << 1,               // Bit 1
       Draw3 = Draw2 << 1,               // Bit 2
@@ -117,6 +152,14 @@ namespace Engine {
     #endregion
 
     #region ModeFlags Enum
+    //
+    // ModeFlags  0:4
+    // --------------
+    //  0:1 NullMade
+    //  1:1 ZWS
+    //  2:1 Reduced
+    //  3:1 Trace
+    //
     [Flags]
     public enum ModeFlags : byte {
       None = 0,
@@ -253,7 +296,7 @@ namespace Engine {
 
     #region Move Enum
     //
-    // Move Bits  0-15
+    // Move Bits  0:16
     // ---------------
     //  0:3 FileFrom
     //  3:3 RankFrom
@@ -262,7 +305,7 @@ namespace Engine {
     // 12:3 Promotion [or Limit]
     // 15:1 Castles
     //
-    // Move Bits 16-31
+    // Move Bits 16:16
     // ---------------
     // 16:3 Piece
     // 19:1 Spare1
