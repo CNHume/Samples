@@ -41,7 +41,7 @@ namespace Engine {
     protected void addCastles(BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
 
-      if (canOO(friend, friendRule, foe)) {
+      if (canOO(friend, foe, friendRule)) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OO);
 #else
@@ -49,7 +49,7 @@ namespace Engine {
 #endif
       }
 
-      if (canOOO(friend, friendRule, foe)) {
+      if (canOOO(friend, foe, friendRule)) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OOO);
 #else

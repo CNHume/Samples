@@ -264,7 +264,7 @@ namespace Engine {
         (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
-        movePiece(friend, friendRule, foe, foeRule, ref move);
+        movePiece(friend, foe, friendRule, foeRule, ref move);
       }
 
       TimerStop(sw, qTrials);

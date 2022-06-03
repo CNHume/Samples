@@ -34,7 +34,7 @@ namespace Engine {
     //  6:1 InCheck
     //  7:1 Final
     //
-    public const Int32 nWTMBit = 3;     // pbl of nFiles
+    private const Int32 nWTMBit = 3;    // pbl of nFiles
 
     [Flags]
     public enum LoFlags : byte {

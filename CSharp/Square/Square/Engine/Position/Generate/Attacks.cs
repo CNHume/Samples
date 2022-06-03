@@ -432,18 +432,20 @@ namespace Engine {
     }
 
     private Boolean canOO(
-      BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
+      BoardSide friend, BoardSide foe, CastleRuleParameter friendRule) {
       var bLegal = ((friend.FlagsHi & HiFlags.CanOO) != 0) &&
                    ((friendRule.OOPath & RankPiece) == 0) &&
+                   friendRule.OOSafe.HasValue &&
                    !isAttacked(foe, friendRule.OOSafe.Value);
 
       return bLegal;
     }
 
     private Boolean canOOO(
-      BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
+      BoardSide friend, BoardSide foe, CastleRuleParameter friendRule) {
       var bLegal = ((friend.FlagsHi & HiFlags.CanOOO) != 0) &&
                    ((friendRule.OOOPath & RankPiece) == 0) &&
+                   friendRule.OOOSafe.HasValue &&
                    !isAttacked(foe, friendRule.OOOSafe.Value);
 
       return bLegal;
@@ -461,9 +463,9 @@ namespace Engine {
       // Verify Right, Path and Safety if castling
       //
       if (nKingTo == friendRule.KingOOTo)
-        bLegal = canOO(friend, friendRule, foe);
+        bLegal = canOO(friend, foe, friendRule);
       else if (nKingTo == friendRule.KingOOOTo)
-        bLegal = canOOO(friend, friendRule, foe);
+        bLegal = canOOO(friend, foe, friendRule);
 
       return bLegal;
     }

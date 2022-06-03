@@ -188,8 +188,8 @@ namespace Engine {
     // Set EP flags only if an EP would be legal
     //
     private void tryEP(
-      BoardSide friend, CastleRuleParameter friendRule,
-      BoardSide foe, CastleRuleParameter foeRule,
+      BoardSide friend, BoardSide foe,
+      CastleRuleParameter friendRule, CastleRuleParameter foeRule,
       Int32 nMovedTo, Int32 nEnPassant) {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
@@ -235,8 +235,8 @@ namespace Engine {
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
     protected void movePiece(
-      BoardSide friend, CastleRuleParameter friendRule,
-      BoardSide foe, CastleRuleParameter foeRule,
+      BoardSide friend, BoardSide foe,
+      CastleRuleParameter friendRule, CastleRuleParameter foeRule,
       ref Move move) {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
@@ -274,7 +274,7 @@ namespace Engine {
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
           var nEnPassant = nTo - friend.Parameter.ShiftRank;
-          tryEP(foe, foeRule, friend, friendRule, nTo, nEnPassant);
+          tryEP(foe, friend, foeRule, friendRule, nTo, nEnPassant);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
@@ -320,7 +320,7 @@ namespace Engine {
 
       var fhiCanCastleOld = friend.FlagsHi & HiFlags.CanCastleMask;
 
-      movePiece(friend, friendRule, foe, foeRule, ref move);
+      movePiece(friend, foe, friendRule, foeRule, ref move);
       verifyPieceColors();              // Conditional
 
       toggleWTM();

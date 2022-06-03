@@ -254,7 +254,7 @@ namespace Engine {
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
       (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
-      tryEP(friend, friendRule, foe, foeRule, nMovedTo, nEnPassant);
+      tryEP(friend, foe, friendRule, foeRule, nMovedTo, nEnPassant);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
