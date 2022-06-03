@@ -223,9 +223,7 @@ namespace QuickSort {
 
     /// <summary>Swap two entities of type T.</summary>
     public static void Swap(ref T e1, ref T e2) {
-      var e = e1;
-      e1 = e2;
-      e2 = e;
+      (e1, e2) = (e2, e1);
     }
     #endregion
   }

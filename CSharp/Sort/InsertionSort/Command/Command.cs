@@ -60,7 +60,8 @@ namespace Sort {
             else if (n < count)         // whitespace allowed
               Trials = args[++n].TryParseUInt32();
 
-            usage = !Trials.HasValue;
+            if  (!Trials.HasValue)
+              usage = true;
             break;
 
           default:                      // switch unknown
@@ -70,15 +71,13 @@ namespace Sort {
         }
       }
 
-      // length is required
+      // Length is required
       if (n < count)
         Length = args[n++].TryParseInt32();
 
-      usage |= !Length.HasValue;
-
       usage |= n < count;               // superfluous argument specified
 
-      if (usage)                        // throw usage line if parse failed
+      if (usage || !Length.HasValue)    // throw usage line if parse failed
         throw new CommandException("Usage: InsertionSort [-p] [-s (ascending | descending | random)] [-t trials] length");
 
       if (Length.Value >= SortData.LENGTH_MAX)

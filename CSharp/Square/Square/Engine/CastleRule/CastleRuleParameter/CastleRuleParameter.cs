@@ -96,7 +96,7 @@ namespace Engine {
           nFrom++;                      // Skip Lo
         else if (nFrom > nTo) {
           nFrom--;                      // Skip Hi
-          (nTo, nFrom) = (nFrom, nTo);  // Swap
+          (nFrom, nTo) = (nTo, nFrom);  // Swap
         }
 
         var nBits = nTo + 1 - nFrom;
