@@ -22,7 +22,6 @@ namespace Engine {
   using System.Numerics;
   using System.Text;
 
-  using static CastleRule;
   using static Logging.Logger;
 
   //
@@ -252,7 +251,7 @@ namespace Engine {
 
     protected void timeMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sb = new StringBuilder();
-      sb.AppendPACN(mov, State.Rule);
+      sb.AppendPACN(mov, Side, State.IsChess960);
       var sw = TimerStart($"{nameof(movePiece)}({sb})", qTrials);
 
       //~4.5 MHz w resetMove() which is 5.33 times faster at ~24 MHz
@@ -261,10 +260,9 @@ namespace Engine {
         var move = mov;
         var bWTM = WTM();
         (BoardSide friend, BoardSide foe) = getSides(bWTM);
-        (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
-        movePiece(friend, foe, friendRule, foeRule, ref move);
+        movePiece(friend, foe, ref move);
       }
 
       TimerStop(sw, qTrials);

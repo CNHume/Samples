@@ -48,11 +48,11 @@ namespace Engine {
         Trace.Assert(filtered.Length == material.Length, "filtered.Length != material.Length");
         DisplayCurrent("Filtered vs. Material Moves:");
 
-        sb.MapMoves(Extension.AppendAN, filteredMoves, State.Rule);
+        sb.MapMoves(Extension.AppendAN, filteredMoves, Side, State.IsChess960);
         sb.AppendLine();
         sb.FlushLine();
 
-        sb.MapMoves(Extension.AppendAN, materialMoves, State.Rule);
+        sb.MapMoves(Extension.AppendAN, materialMoves, Side, State.IsChess960);
         sb.AppendLine();
         sb.FlushLine();
       }

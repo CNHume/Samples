@@ -166,7 +166,6 @@ namespace Engine {
           $"{friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
       }
 
-      var castle = State.Rule;
       var vCapture = vPieceNull;
       var bCapture = (qpTo & qpFoe) != 0;
       if (bCapture)
@@ -182,10 +181,10 @@ namespace Engine {
         // as capturing its own Rook are assumed to be attempts to castle.  canCastle()
         // will be called if needed, when this method returns.
         //
-        var bUnambiguousRook = castle.IsChess960 && vPieceTo == vR6;
+        var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
         var bUnambiguousKing = (KingAtx[nFrom] & qpTo) == 0;
         if (bUnambiguousRook || bUnambiguousKing) {
-          var rule = getRule(bWTM);
+          var rule = friend.Rule;
           move = rule.Castles(nTo);
           if (move == Move.Undefined)
             throw new MoveException($"Illegal King Move: {sPACN}");
@@ -214,7 +213,8 @@ namespace Engine {
     protected Move parsePACNMove(String sPACN) {
       var sMove = sPACN.ToUpper();
       var bWTM = WTM();
-      var rule = getRule(bWTM);
+      var side = getSide(bWTM);
+      var rule = side.Rule;
 
       var bCastles = false;
       Int32? nTo = default;
@@ -241,7 +241,7 @@ namespace Engine {
         throw new MoveException($"Illegal Castle: {sPACN}");
 #if DebugParse
       var sb = new StringBuilder();
-      sb.AppendPACN(move, castle.IsChess960);
+      sb.AppendPACN(move, Side, State.IsChess960);
       sb.FlushLine();
 #endif
       return move;

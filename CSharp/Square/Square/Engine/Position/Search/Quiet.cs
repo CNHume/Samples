@@ -110,7 +110,7 @@ namespace Engine {
           moves.AddRange(SearchMoves);
 #if DebugSearchMoves
           var sb = new StringBuilder("SearchMoves:");
-          sb.MapMoves(Extension.AppendPACN, moves, State.Rule);
+          sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
           sb.FlushLine();
 #endif
         }
@@ -128,7 +128,7 @@ namespace Engine {
 #if DebugPseudoMoves
           DisplayCurrent("quiet()";
           var sb = new StringBuilder("PseudoMoves:");
-          sb.mapMoves(Extensions.AppendPACN, moves, State.Rule.IsChess960);
+          sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
           sb.FlushLine();
 #endif
         }

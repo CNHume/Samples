@@ -95,13 +95,18 @@ namespace Engine {
       initAttacks();
 
       Parameter = new PositionParameter[nSides];
+      RuleParameter = new CastleRuleParameter[nSides];
       newParameters();
     }
 
     private static void newParameters() {
       foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
         var nSide = (Int32)sideName;
-        Parameter[nSide] = new PositionParameter(sideName);
+        var positionParameter = new PositionParameter(sideName);
+        Parameter[nSide] = positionParameter;
+        RuleParameter[nSide] = new CastleRuleParameter(
+          positionParameter.SideName,
+          positionParameter.StartRank);
       }
     }
 
@@ -113,7 +118,7 @@ namespace Engine {
     private void newSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
-        Side[nSide] = new BoardSide(parameter);
+        Side[nSide] = new BoardSide(parameter, RuleParameter[nSide]);
       }
     }
 

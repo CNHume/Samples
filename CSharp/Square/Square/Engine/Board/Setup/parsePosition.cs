@@ -15,7 +15,6 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Text;
 
-  using static CastleRule;
   using static Command.Parser;
   using static Logging.Logger;
 
@@ -75,9 +74,9 @@ namespace Engine {
           }
         }
       }
-    exit:
 
-      sInvalid = bValid ? null : sReason;
+    exit:
+      sInvalid = sReason;
       return bValid;
     }
 
@@ -150,7 +149,7 @@ namespace Engine {
     }
 
     //
-    //[Chess 960]parseCastleRights() and InitCastleRules() allow for Chess 960 castling
+    //[Chess 960]InitCastleRules() and parseCastleRights() allow for Chess 960 castling
     //
     private Boolean parseCastleRights(String sCastleFlags) {
       var bOrthodox = false;
@@ -159,10 +158,9 @@ namespace Engine {
         if (sCastleFlags.Length > 4)
           throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
-        var castle = State.Rule;
-        if (castle is null)
-          throw new BoardException("Null Castle Instance");
-        castle.Clear();
+        //[Test]State.ClearCastleRule(Side);
+        State.IsChess960 = false;
+
         foreach (var side in Side)
           side.FlagsHi &= ~HiFlags.CanCastleMask;
 
@@ -186,7 +184,7 @@ namespace Engine {
             bOrthodox = true;
             break;
           default:
-            castle.IsChess960 = true;
+            State.IsChess960 = true;
             break;
           }
 
@@ -197,19 +195,59 @@ namespace Engine {
           var nRookFile = cPosLower - cFileMin;
           var bWhite = IsUpper(cFlag);
           var side = getSide(bWhite);
-          var rule = getRule(bWhite);
+          var rule = side.Rule;
           var nRank = bWhite ? 0 : nRankLast;
-          side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, castle.IsChess960);
+          side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, State.IsChess960);
         }                               //[Next]Right
 
-        if (castle.IsChess960 && bOrthodox)
+        if (State.IsChess960 && bOrthodox)
           throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
 
-        bool bFromSameFile = Side[White].KingPos + nRankLast == Side[Black].KingPos;
-        castle.ValidateCastlingSymmetry(bFromSameFile);
+        ValidateCastling();
       }
 
       return bOrthodox;
+    }
+
+    public void ValidateCastling() {
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
+      var blackRule = blackSide.Rule;
+      var whiteRule = whiteSide.Rule;
+
+      if (blackRule.CastlesFrom.HasValue && whiteRule.CastlesFrom.HasValue) {
+        if (blackRule.CastlesFrom.Value != whiteRule.CastlesFrom.Value + nRankLast)
+          throw new ParsePositionException("Both Kings must castle from the same file");
+      }
+      else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
+        if (blackRule.CastlesFrom.HasValue)
+          whiteRule.CastlesFrom = blackRule.CastlesFrom.Value - nRankLast;
+        else if (whiteRule.CastlesFrom.HasValue)
+          blackRule.CastlesFrom = whiteRule.CastlesFrom.Value + nRankLast;
+      }
+
+      if (blackRule.RookOOFrom.HasValue && whiteRule.RookOOFrom.HasValue) {
+        if (blackRule.RookOOFrom.Value != whiteRule.RookOOFrom.Value + nRankLast)
+          throw new ParsePositionException("Both sides must OO with Rooks from the same file");
+      }
+      else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
+        if (blackRule.RookOOFrom.HasValue)
+          whiteRule.RookOOFrom = blackRule.RookOOFrom.Value - nRankLast;
+        else if (whiteRule.RookOOFrom.HasValue)
+          blackRule.RookOOFrom = whiteRule.RookOOFrom.Value + nRankLast;
+      }
+
+      if (blackRule.RookOOOFrom.HasValue && whiteRule.RookOOOFrom.HasValue) {
+        if (blackRule.RookOOOFrom.Value != whiteRule.RookOOOFrom.Value + nRankLast)
+          throw new ParsePositionException("Both sides must OOO with Rooks from the same file");
+      }
+      else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
+        if (blackRule.RookOOOFrom.HasValue)
+          whiteRule.RookOOOFrom = blackRule.RookOOOFrom.Value - nRankLast;
+        else if (whiteRule.RookOOOFrom.HasValue)
+          blackRule.RookOOOFrom = whiteRule.RookOOOFrom.Value + nRankLast;
+      }
     }
 
     protected void parsePassed(Boolean bWTM, String sEnPassant) {
@@ -253,8 +291,7 @@ namespace Engine {
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
-      (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
-      tryEP(friend, foe, friendRule, foeRule, nMovedTo, nEnPassant);
+      tryEP(friend, foe, nMovedTo, nEnPassant);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
@@ -324,10 +361,8 @@ namespace Engine {
       if (!bWTM) State.MovePly++;
 
       if (IsValid(out string sInvalid)) {
-        if (State.Rule is null)
-          throw new BoardException("Null CastleRule Instance");
-
-        State.Rule.Init();
+        foreach (var side in Side)
+          side.Rule.Init();
       }
       else {
         Display(sInvalid);

@@ -153,7 +153,7 @@ namespace Engine {
           var sm = SortMoves[nMoveIndex];
 #endif
           sb.Clear();
-          sb.AppendAN(sm.Move, State.Rule.IsChess960);
+          sb.AppendAN(sm.Move, Side, State.IsChess960);
           LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
 #if LazyMoveSort
           nMoveIndex++;
@@ -228,12 +228,12 @@ namespace Engine {
               var emCaptive = captured(em);
               if (emCaptive != Piece.Capture) {
                 var sb = new StringBuilder();
-                sb.AppendAN(good, false);
+                sb.AppendAN(good, Side, false);
                 if (goodCaptive != Piece.None)
                   sb.Append(goodCaptive);
 
                 sb.Append(" != ");
-                sb.AppendAN(em, false);
+                sb.AppendAN(em, Side, false);
                 if (emCaptive != Piece.None)
                   sb.Append(emCaptive);
 

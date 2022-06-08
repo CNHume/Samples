@@ -144,7 +144,7 @@ namespace Engine {
         if (nPlace == 0) {
           var sb = new StringBuilder();
           var mEval = reflectValue(bWTM, mValue);
-          sb.UpdateBestInfo(State.BestMoves, lineMoves, mEval, bPonder, State.Rule)
+          sb.UpdateBestInfo(State.BestMoves, lineMoves, mEval, bPonder, Side, State.IsChess960)
             .FlushLine();
         }
 #if DebugPlace
@@ -302,7 +302,7 @@ namespace Engine {
       var sb = new StringBuilder();
       for (var nLine = 0; nLine < State.VariationCount; nLine++) {
         sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
-                          bWTM, GamePly, State.IsPure, State.Rule)
+                          bWTM, GamePly, State.IsPure, Side, State.IsChess960)
           .FlushLine();
       }
     }

@@ -376,7 +376,7 @@ namespace Engine {
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
       var bWTM = true;
-      grantCastling(nRookOOO, nRookOO);
+      InitCastleRules(nRookOOO, nRookOO, true);
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
@@ -405,23 +405,18 @@ namespace Engine {
       }
     }
 
-    private void grantCastling(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960 = true) {
-      var castle = State.Rule;
-      if (castle is null)
-        throw new BoardException("Null Castle Instance");
-
-      castle.Clear();
-      castle.IsChess960 = bChess960;
+    private void InitCastleRules(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
+      //[Test]State.ClearCastleRule(Side, bChess960);
+      State.IsChess960 = bChess960;
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
         var nSetup = side.Parameter.StartRank;
         var nSide = (Int32)side.Parameter.SideName;
-        var rule = castle.RuleParameter[nSide];
+        var rule = side.Rule;
 
         //
-        // GrantCastling() is normally called from parseCastleRights();
-        // so extra validation is performed here.
+        // Validation normally provided by parseCastleRights()
         //
         side.FlagsHi &= ~HiFlags.CanCastleMask;
         side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nSetup, qpRook, bChess960);

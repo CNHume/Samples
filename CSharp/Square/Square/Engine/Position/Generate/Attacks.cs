@@ -19,7 +19,6 @@ namespace Engine {
   using System;
   using System.Diagnostics;
 
-  using static CastleRule;
   using static Logging.Logger;
 
   //
@@ -457,7 +456,7 @@ namespace Engine {
       if (InCheck()) return bLegal;
 
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var friendRule = getRule(bWTM);
+      var friendRule = friend.Rule;
 
       //
       // Verify Right, Path and Safety if castling

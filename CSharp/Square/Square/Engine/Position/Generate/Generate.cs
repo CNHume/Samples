@@ -149,8 +149,7 @@ namespace Engine {
         addPawnCaptures(friend, qpPawnCapture);
         addPawnMoves(friend, ~RankPiece);
 
-        var friendRule = getRule(bWTM);
-        addCastles(friend, friendRule, foe);
+        addCastles(friend, foe);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCapturesAndMoves(~qpFriend, vKingPos, bRayCheck);

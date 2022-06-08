@@ -20,8 +20,6 @@ namespace Engine {
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Text;
 
-  using static CastleRule;
-
   //
   // Type Aliases:
   //

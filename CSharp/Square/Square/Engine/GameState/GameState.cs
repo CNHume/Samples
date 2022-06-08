@@ -96,7 +96,7 @@ namespace Engine {
       PositionPool = new Pool<Position>();
 
       Bound = new SearchBound();
-      Rule = new CastleRule();
+      IsChess960 = false;
       Case = new PerfCase();
 
       newBestMoves(wDepthMax);
@@ -245,11 +245,13 @@ namespace Engine {
       unwindPositions();
       MovePosition = new Position();
       ClearSearchCounts();              //[Init]Normally called by Position.start()
+      ClearCastleRule(MovePosition.Side);
+    }
 
-      if (Rule is null)
-        throw new BoardException("Null Castle Instance");
-      else
-        Rule.Clear();
+    public void ClearCastleRule(BoardSide[] sides, Boolean isChess960 = false) {
+      IsChess960 = isChess960;
+      foreach (var side in sides)
+        side.Rule.Clear();
     }
 
     public static void SetLanguage(String sLanguage) {

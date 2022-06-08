@@ -273,7 +273,7 @@ namespace Command {
         else if (State.BestMoves is not null) {
           var sb = new StringBuilder();
           //[Note]refreshPV() may not have been called
-          sb.BestMove(State.BestMoves, State.Rule);
+          sb.BestMove(State.BestMoves, State.MovePosition.Side, State.IsChess960);
           if (sb.Length > 0)
             throw new ChessException(sb.ToString());
         }

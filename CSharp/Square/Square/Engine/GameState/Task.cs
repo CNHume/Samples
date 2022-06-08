@@ -151,10 +151,11 @@ namespace Engine {
       //
       //[Optional]Repeat final bestmove report:
       //
-      if (BestMoves is not null) {
+      if (BestMoves is not null &&
+          position is not null) {
         var sb = new StringBuilder();
         //[Note]refreshPV() has been called
-        sb.BestMove(BestMoves, Rule);
+        sb.BestMove(BestMoves, position.Side, IsChess960);
         if (sb.Length > 0)
           LogLine(sb.ToString());
       }
@@ -297,7 +298,7 @@ namespace Engine {
     public void ListMovesFromParent(Position position, Position parent, Boolean bPure, Boolean bAbbreviate = true) {
       var moves = position.MovesFromParent(parent, bAbbreviate);
       var sb = new StringBuilder();
-      sb.WriteMoves(moves, RootPosition.GamePly, bPure, Rule)
+      sb.WriteMoves(moves, RootPosition.GamePly, bPure, position.Side, IsChess960)
         .FlushLine();
     }
 
@@ -326,7 +327,7 @@ namespace Engine {
         // Show search progress:
         var bAbbreviate = false;
         var moves = position.MovesFromParent(MovePosition, bAbbreviate);
-        sb.AppendMoves(moves, MovePly, IsPure, Rule)
+        sb.AppendMoves(moves, MovePly, IsPure, position.Side, IsChess960)
           .AppendLine()
           .FlushLine();
       }

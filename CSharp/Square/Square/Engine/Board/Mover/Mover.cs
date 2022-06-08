@@ -18,7 +18,6 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
-  using static CastleRule;
   using static Position;
 
   //
@@ -33,24 +32,9 @@ namespace Engine {
     #endregion
 
     #region Side Methods
-    protected CastleRuleParameter getRule(Boolean bWTM) {
-      var rule = State.Rule.RuleParameter;
-      return bWTM ?
-        rule[White] :
-        rule[Black];
-    }
-
-    protected (CastleRuleParameter friendRule, CastleRuleParameter foeRule) getRules(Boolean bWTM) {
-      var rule = State.Rule.RuleParameter;
-      return bWTM ?
-        (rule[White], rule[Black]) :
-        (rule[Black], rule[White]);
-    }
-
     protected BoardSide getSide(Boolean bWTM) {
       return bWTM ?
-        Side[White] :
-        Side[Black];
+        Side[White] : Side[Black];
     }
 
     protected (BoardSide friend, BoardSide foe) getSides(Boolean bWTM) {
@@ -72,12 +56,13 @@ namespace Engine {
     // does not require this; but one or even both of the From squares may coincide with
     // the castling partner To square in Chess 960.
     //
-    private void rookCastles(BoardSide side, CastleRuleParameter rule, Int32 nTo) {
-      if (nTo == rule.KingOOTo) {
+    private void rookCastles(BoardSide side, Int32 nTo) {
+      var rule = side.Rule;
+      if (nTo == rule.KingOOTo && rule.RookOOFrom.HasValue) {
         raisePiece(side, rule, vR6, rule.RookOOFrom.Value);
         lowerPiece(side, vR6, rule.RookOOTo);
       }
-      else if (nTo == rule.KingOOOTo) {
+      else if (nTo == rule.KingOOOTo && rule.RookOOOFrom.HasValue) {
         raisePiece(side, rule, vR6, rule.RookOOOFrom.Value);
         lowerPiece(side, vR6, rule.RookOOOTo);
       }
@@ -189,10 +174,12 @@ namespace Engine {
     //
     private void tryEP(
       BoardSide friend, BoardSide foe,
-      CastleRuleParameter friendRule, CastleRuleParameter foeRule,
       Int32 nMovedTo, Int32 nEnPassant) {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
+
+      var friendRule = friend.Rule;
+      var foeRule = foe.Rule;
 
       var vKing = friend.KingPos.Value;
       var qpCaptureFrom = passed(friend, nEnPassant);
@@ -236,7 +223,6 @@ namespace Engine {
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
     protected void movePiece(
       BoardSide friend, BoardSide foe,
-      CastleRuleParameter friendRule, CastleRuleParameter foeRule,
       ref Move move) {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
@@ -250,21 +236,21 @@ namespace Engine {
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
       if (bSupplied)
-        removePiece(friend, friendRule, vPiece, nFrom);
+        removePiece(friend, friend.Rule, vPiece, nFrom);
       else
-        raisePiece(friend, friendRule, vPiece, nFrom);
+        raisePiece(friend, friend.Rule, vPiece, nFrom);
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
-        removePiece(foe, foeRule, vCapture, nCaptureFrom);
+        removePiece(foe, foe.Rule, vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);
       }
       else if (bCastles)
-        rookCastles(friend, friendRule, nTo);
+        rookCastles(friend, nTo);
 
       if (bSupplied)
         placePiece(friend, pieceIndex(uPromotion), nTo);
@@ -274,7 +260,7 @@ namespace Engine {
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
           var nEnPassant = nTo - friend.Parameter.ShiftRank;
-          tryEP(foe, friend, foeRule, friendRule, nTo, nEnPassant);
+          tryEP(foe, friend, nTo, nEnPassant);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
@@ -316,11 +302,10 @@ namespace Engine {
       // Record Castling Abilities prior to removePiece()
       var bWTM = WTM();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      (CastleRuleParameter friendRule, CastleRuleParameter foeRule) = getRules(bWTM);
 
       var fhiCanCastleOld = friend.FlagsHi & HiFlags.CanCastleMask;
 
-      movePiece(friend, foe, friendRule, foeRule, ref move);
+      movePiece(friend, foe, ref move);
       verifyPieceColors();              // Conditional
 
       toggleWTM();

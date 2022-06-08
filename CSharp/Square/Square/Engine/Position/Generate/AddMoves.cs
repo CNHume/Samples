@@ -17,7 +17,6 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
-  using static CastleRule;
   using static Logging.Logger;
 
   //
@@ -38,8 +37,9 @@ namespace Engine {
     #endregion
 
     #region Castling Moves
-    protected void addCastles(BoardSide friend, CastleRuleParameter friendRule, BoardSide foe) {
+    protected void addCastles(BoardSide friend, BoardSide foe) {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
+      var friendRule = friend.Rule;
 
       if (canOO(friend, foe, friendRule)) {
 #if DebugMoveColor

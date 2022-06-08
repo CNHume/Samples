@@ -31,6 +31,7 @@ namespace Engine {
 
     #region Constant Fields
     public static readonly PositionParameter[] Parameter;
+    public static readonly CastleRuleParameter[] RuleParameter;
 
     public static Plane LiteSquare;
     public static Plane DarkSquare;
@@ -98,7 +99,7 @@ namespace Engine {
 #endregion
 
 #region Virtual Fields
-    protected readonly BoardSide[] Side;
+    public readonly BoardSide[] Side;
 
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;

@@ -22,8 +22,9 @@ namespace Engine {
   partial class Board {
     public class BoardSide {
       #region Constructors
-      public BoardSide(PositionParameter parameter) {
+      public BoardSide(PositionParameter parameter, CastleRuleParameter ruleParameter) {
         Parameter = parameter;
+        Rule = ruleParameter;
       }
       #endregion
 
@@ -44,6 +45,7 @@ namespace Engine {
 
       #region Virtual Fields
       public PositionParameter Parameter;
+      public CastleRuleParameter Rule;
 
       public HiFlags FlagsHi;           //[fhi]BishopMask | CanCastleMask
 

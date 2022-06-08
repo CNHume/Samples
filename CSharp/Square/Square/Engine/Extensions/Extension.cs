@@ -51,26 +51,32 @@ namespace Engine {
 
   static class Extension {
     #region Delegates
-    public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, CastleRule castle);
+    public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960);
     #endregion
 
     #region Castle Rights
     public static StringBuilder AppendCastleRights(
-      this StringBuilder sb, HiFlags fBlackHi, HiFlags fWhiteHi, CastleRule castle) {
+      this StringBuilder sb, BoardSide[] sides, Boolean IsChess960) {
+      var blackSide = sides[Black];
+      var whiteSide = sides[White];
+
+      var fBlackHi = blackSide.FlagsHi;
+      var fWhiteHi = whiteSide.FlagsHi;
       if (((fBlackHi | fWhiteHi) & HiFlags.CanCastleMask) == 0)
         sb.Append("-");
-      else if (castle is not null && castle.IsChess960) {
-        var ruleWhite = castle.RuleParameter[White];
-        if ((fWhiteHi & HiFlags.CanOO) != 0 && ruleWhite.RookOOFrom.HasValue)
-          sb.Append((Char)('A' + ruleWhite.RookOOFrom));
-        if ((fWhiteHi & HiFlags.CanOOO) != 0 && ruleWhite.RookOOOFrom.HasValue)
-          sb.Append((Char)('A' + ruleWhite.RookOOOFrom));
+      else if (IsChess960) {
+        var blackRule = blackSide.Rule;
+        var whiteRule = whiteSide.Rule;
 
-        var ruleBlack = castle.RuleParameter[Black];
-        if ((fBlackHi & HiFlags.CanOO) != 0 && ruleBlack.RookOOFrom.HasValue)
-          sb.Append((Char)('a' + ruleBlack.RookOOFrom - nRankLast));
-        if ((fBlackHi & HiFlags.CanOOO) != 0 && ruleBlack.RookOOOFrom.HasValue)
-          sb.Append((Char)('a' + ruleBlack.RookOOOFrom - nRankLast));
+        if ((fWhiteHi & HiFlags.CanOO) != 0 && whiteRule.RookOOFrom.HasValue)
+          sb.Append((Char)('A' + whiteRule.RookOOFrom));
+        if ((fWhiteHi & HiFlags.CanOOO) != 0 && whiteRule.RookOOOFrom.HasValue)
+          sb.Append((Char)('A' + whiteRule.RookOOOFrom));
+
+        if ((fBlackHi & HiFlags.CanOO) != 0 && blackRule.RookOOFrom.HasValue)
+          sb.Append((Char)('a' + blackRule.RookOOFrom - nRankLast));
+        if ((fBlackHi & HiFlags.CanOOO) != 0 && blackRule.RookOOOFrom.HasValue)
+          sb.Append((Char)('a' + blackRule.RookOOOFrom - nRankLast));
       }
       else {
         if ((fWhiteHi & HiFlags.CanOO) != 0)
@@ -327,7 +333,7 @@ namespace Engine {
     //
     // Format a Move in the more User friendly Algebraic Notation (AN)
     //
-    public static StringBuilder AppendAN(this StringBuilder sb, Move move, CastleRule castle) {
+    public static StringBuilder AppendAN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean _) {
       const Boolean bExpandFrom =
 #if RefreshPV
         false;                          //[Assume]abbreviate() has been called
@@ -347,7 +353,8 @@ namespace Engine {
       if (bCastles) {
         #region Castles
         var sCastle = Empty;
-        foreach (var rule in castle.RuleParameter) {
+        foreach (var side in sides) {
+          var rule = side.Rule;
           if (nTo == rule.KingOOTo) {
             sCastle = sHyphenOO;
             break;
@@ -427,7 +434,7 @@ namespace Engine {
     //
     // Format a Move in Pure Algebraic Coordinate Notation (PACN).
     //
-    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, CastleRule castle) {
+    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960) {
       if (isNullMove(move)) {
         return sb.Append(sNullMove);
       }
@@ -441,10 +448,11 @@ namespace Engine {
       var piece = (Piece)uPiece;
 
       //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
-      if (castle.IsChess960 && bCastles) {
+      if (IsChess960 && bCastles) {
         #region Chess960 Castles
         var sCastle = Empty;
-        foreach (var rule in castle.RuleParameter) {
+        foreach (var side in sides) {
+          var rule = side.Rule;
           if (nTo == rule.KingOOTo) {
             sCastle = sPureOO;
             break;
@@ -476,7 +484,7 @@ namespace Engine {
 
     public static StringBuilder AppendMoves(
       this StringBuilder sb, IEnumerable<Move> moves,
-      Ply wGamePly, Boolean bPure, CastleRule castle) {
+      Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
       if (moves is null || !moves.Any())
         return sb;
 
@@ -516,12 +524,12 @@ namespace Engine {
         }
 
         if (bPure)
-          sbLine.AppendPACN(move, castle);
+          sbLine.AppendPACN(move, sides, IsChess960);
         else {
           if (IsEven(wGamePly))         // Even Ply => Number White Move
             sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber).Wrap(sb);
 
-          sbLine.AppendAN(move, castle);
+          sbLine.AppendAN(move, sides, IsChess960);
         }
 
         wGamePly++;
@@ -541,10 +549,10 @@ namespace Engine {
     // Useful for listing candidate moves:
     //
     public static StringBuilder MapMoves(
-      this StringBuilder sb, MoveWriter mw, IEnumerable<Move> moves, CastleRule castles) {
+      this StringBuilder sb, MoveWriter mw, IEnumerable<Move> moves, BoardSide[] sides, Boolean IsChess960) {
       if (moves is not null) {
         foreach (var move in moves) {
-          mw(sb.Delimit(), move, castles);
+          mw(sb.Delimit(), move, sides, IsChess960);
         }
       }
 
@@ -552,17 +560,17 @@ namespace Engine {
     }
 
     public static StringBuilder WriteMoves(
-      this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, CastleRule castle) {
+      this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
       return bPure ?
-        sb.MapMoves(AppendPACN, moves, castle) :
-        sb.AppendMoves(moves, wGamePly, bPure, castle);
+        sb.MapMoves(AppendPACN, moves, sides, IsChess960) :
+        sb.AppendMoves(moves, wGamePly, bPure, sides, IsChess960);
     }
 
     public static StringBuilder WriteVariation(
       this StringBuilder sb, Variation vn,
       Int32 nLine, Boolean bMultiPV,
       Boolean bWTM, Ply wGamePly,
-      Boolean bPure, CastleRule castle) {
+      Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
       var mEval = reflectValue(bWTM, vn.Value);
       if (bPure) {
         sb.Append("info score")
@@ -585,20 +593,20 @@ namespace Engine {
         sb.Append(sPurePV);
 
       //[Note]Variations begin with BestMove from MovePosition
-      return sb.WriteMoves(vn.Moves, wGamePly, bPure, castle);
+      return sb.WriteMoves(vn.Moves, wGamePly, bPure, sides, IsChess960);
     }
 
     public static StringBuilder BestMove(
-      this StringBuilder sb, List<Move> bestMoves, CastleRule castle) {
+      this StringBuilder sb, List<Move> bestMoves, BoardSide[] sides, Boolean IsChess960) {
       if (bestMoves.Count > 0) {
         if (sb.Length == 0) sb.Append("info ");
 
         sb.Append("bestmove ")
-          .AppendPACN(bestMoves[0], castle);
+          .AppendPACN(bestMoves[0], sides, IsChess960);
 
         if (bestMoves.Count > 1) {
           sb.Append(" ponder ")
-            .AppendPACN(bestMoves[1], castle);
+            .AppendPACN(bestMoves[1], sides, IsChess960);
         }
       }
 
@@ -611,7 +619,8 @@ namespace Engine {
       List<Move> lineMoves,
       Eval mEval,
       Boolean bPonder,
-      CastleRule castle) {
+      BoardSide[] sides,
+      Boolean IsChess960) {
       //
       //[Note]addPV() calls UpdateBestInfo(), which compares this
       // variation to the previous BestMoves to inform the GUI of
@@ -625,7 +634,7 @@ namespace Engine {
         //[Note]refreshPV() has not been called
         bestMoves.Clear();
         bestMoves.AddRange(lineMoves);
-        sb.BestMove(bestMoves, castle);
+        sb.BestMove(bestMoves, sides, IsChess960);
         sb.Append(" ");
       }
 

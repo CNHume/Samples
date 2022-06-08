@@ -71,9 +71,9 @@ namespace Square {
           LogInfo(Level.error, ex.ToString());
         }
       }
-#if DEBUG
-      //Console.Write("Press Enter");
-      //Console.ReadLine();
+#if DEBUG && PressEnter
+      Console.Write("Press Enter");
+      Console.ReadLine();
 #endif
     }
     #endregion

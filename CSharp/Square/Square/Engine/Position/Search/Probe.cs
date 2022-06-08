@@ -101,7 +101,7 @@ namespace Engine {
 #if DEBUG
           var sb = new StringBuilder()
             .AppendFormat("Filtering ")
-            .AppendAN(moveFound, State.Rule.IsChess960);
+            .AppendAN(moveFound, Side, State.IsChess960);
           LogLine(sb.ToString());
 #endif
           return mValue;

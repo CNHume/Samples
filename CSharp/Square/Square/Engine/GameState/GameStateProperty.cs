@@ -143,7 +143,10 @@ namespace Engine {
     private Boolean disposed = false;   // IDisposable
     public ICommand Command;
     public SearchBound Bound;
-    public CastleRule Rule;
+    //
+    //[Chess 960]Determined by InitCastleRules() or parseCastleRights():
+    //
+    public Boolean IsChess960;
     public Position? MovePosition;
     public Position? RootPosition;
     public MoveBottle Bottle;

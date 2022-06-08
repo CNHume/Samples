@@ -174,7 +174,7 @@ namespace Engine {
       appendPositionPieces(sb);
 
       var sSideToMove = WTM() ? " w " : " b ";
-      sb.Append(sSideToMove).AppendCastleRights(Side[Black].FlagsHi, Side[White].FlagsHi, State.Rule);
+      sb.Append(sSideToMove).AppendCastleRights(Side, State.IsChess960);
 
       if (!IsPassed())
         sb.Append(" -");
@@ -321,7 +321,7 @@ namespace Engine {
       return sb.FlushLine();
     }
 
-    public StringBuilder Display(String sLabel) {
+    public StringBuilder Display(String? sLabel) {
       var sb = new StringBuilder();
       if (!IsNullOrEmpty(sLabel)) sb.AppendLine(sLabel);
       return Display(sb);
