@@ -183,7 +183,7 @@ namespace Command {
     // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
     //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply in 46.58 sec
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
-    "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5
@@ -193,7 +193,7 @@ namespace Command {
     //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply in 92.45 sec @1.292 MHz]
     //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8, 15-ply in 6:13 (formerly 12:52) to find [66. Nh7 Re8 67. Rc6! Be6 68. Rc7]
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics!, eval = 3.65, 12-ply in 60 sec, eval = 9.0 16-ply 1:17:21
-    //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6, 10-ply in 6.1 sec for Ra6 (or Ra5) followed by Qa4
+    "1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6, 10-ply in 2.8 sec @1.258 MHz for Ra6 (or Ra5) followed by Qa4
     //"1k1q3r/1r4pp/1PQ5/4pB2/R7/7P/5PP1/6K1 w - - 0 2";      // Mavo Nice Mate2 [5-ply longer]
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3";     // Mavo Nice Mate3 [9 + 2 = 11-ply in 6:30, for the rook intermezzo]
     //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker vs Averbach [10-ply in 52.5 sec]

@@ -57,34 +57,30 @@ namespace Engine {
       var OOTo = castles | (Move)(KingOOTo << nToBit);
       var OOOTo = castles | (Move)(KingOOOTo << nToBit);
 
-      if (CastlesFrom.HasValue) {
-        var qpKing = BIT0 << CastlesFrom.Value;
+      if (!CastlesFrom.HasValue) return;
 
-        if (RookOOFrom.HasValue) {
-          var qpRook = BIT0 << RookOOFrom.Value;
-          var qpMask = ~(qpKing | qpRook);
-          var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
-          OOSafe = rankPath(CastlesFrom.Value, KingOOTo);
-          OOPath = qpMask & (qpPath | OOSafe);
-          //[Safe]addCastles() should not be called InCheck
-          OOSafe |= qpKing;
-          OO = OOTo | (Move)(CastlesFrom << nFromBit);
-        }
+      var qpKing = BIT0 << CastlesFrom.Value;
 
-        if (RookOOOFrom.HasValue) {
-          var qpRook = BIT0 << RookOOOFrom.Value;
-          var qpMask = ~(qpKing | qpRook);
-          var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
-          OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo);
-          OOOPath = qpMask & (qpPath | OOOSafe);
-          //[Safe]addCastles() should not be called InCheck
-          OOOSafe |= qpKing;
-          OOO = OOOTo | (Move)(CastlesFrom << nFromBit);
-        }
+      if (RookOOFrom.HasValue) {
+        var qpRook = BIT0 << RookOOFrom.Value;
+        var qpMask = ~(qpKing | qpRook);
+        var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
+        OOSafe = rankPath(CastlesFrom.Value, KingOOTo);
+        OOPath = qpMask & (qpPath | OOSafe);
+        //[Safe]addCastles() should not be called InCheck
+        OOSafe |= qpKing;
+        OO = OOTo | (Move)(CastlesFrom << nFromBit);
       }
-      else {
-        var message = $"{SideName} CastlesFrom() required for Init()";
-        throw new ArgumentNullException(nameof(CastlesFrom), message);
+
+      if (RookOOOFrom.HasValue) {
+        var qpRook = BIT0 << RookOOOFrom.Value;
+        var qpMask = ~(qpKing | qpRook);
+        var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
+        OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo);
+        OOOPath = qpMask & (qpPath | OOOSafe);
+        //[Safe]addCastles() should not be called InCheck
+        OOOSafe |= qpKing;
+        OOO = OOOTo | (Move)(CastlesFrom << nFromBit);
       }
     }
 
@@ -117,7 +113,8 @@ namespace Engine {
       return Move.Undefined;
     }
 
-    public HiFlags GrantCastling(Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
+    public HiFlags GrantCastling(
+      Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
       var fhiCanCastle = (HiFlags)0;
 
       if (!CastlesFrom.HasValue) {
@@ -125,7 +122,8 @@ namespace Engine {
           throw new ParsePositionException($"{SideName} must have a King");
 
         if (bChess960) {
-          if (nKingFrom <= (Int32)sq.a1 + StartRank || (Int32)sq.h1 + StartRank <= nKingFrom)
+          if (nKingFrom <= (Int32)sq.a1 + StartRank ||
+              (Int32)sq.h1 + StartRank <= nKingFrom)
             throw new ParsePositionException($"{SideName} King cannot castle");
         }
         else {
@@ -162,7 +160,7 @@ namespace Engine {
     #endregion
 
     #region Virtual Fields
-    public SideName SideName {get; init;}
+    public SideName SideName { get; init; }
     public Int32 StartRank { get; init; }
 
     public readonly Int32 KingOOTo;

@@ -18,8 +18,9 @@
 //
 // Conditionals:
 //
-//#define StackTrace
 #define NoteLaunchAndExit
+//#define PressEnter
+//#define StackTrace
 
 namespace Square {
   using Command;

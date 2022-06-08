@@ -78,7 +78,8 @@ namespace Engine {
       return vPiece;
     }
 
-    private Boolean raisePiece(BoardSide side, CastleRuleParameter rule, Byte vPiece, Int32 nFrom) {
+    private Boolean raisePiece(BoardSide side, Byte vPiece, Int32 nFrom) {
+      var rule = side.Rule;
       hashPiece(side, vPiece, nFrom);
       var qp = BIT0 << nFrom;
 #if VerifySquarePiece
@@ -131,8 +132,9 @@ namespace Engine {
       return bLite;
     }
 
-    protected void removePiece(BoardSide side, CastleRuleParameter rule, Byte vPiece, Int32 nFrom) {
-      var bLite = raisePiece(side, rule, vPiece, nFrom);
+    protected void removePiece(BoardSide side, Byte vPiece, Int32 nFrom) {
+      var rule = side.Rule;
+      var bLite = raisePiece(side, vPiece, nFrom);
       decSideCount(side, vPiece);
 
       //

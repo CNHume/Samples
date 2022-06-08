@@ -59,11 +59,11 @@ namespace Engine {
     private void rookCastles(BoardSide side, Int32 nTo) {
       var rule = side.Rule;
       if (nTo == rule.KingOOTo && rule.RookOOFrom.HasValue) {
-        raisePiece(side, rule, vR6, rule.RookOOFrom.Value);
+        raisePiece(side, vR6, rule.RookOOFrom.Value);
         lowerPiece(side, vR6, rule.RookOOTo);
       }
       else if (nTo == rule.KingOOOTo && rule.RookOOOFrom.HasValue) {
-        raisePiece(side, rule, vR6, rule.RookOOOFrom.Value);
+        raisePiece(side, vR6, rule.RookOOOFrom.Value);
         lowerPiece(side, vR6, rule.RookOOOTo);
       }
     }
@@ -173,8 +173,7 @@ namespace Engine {
     // Set EP flags only if an EP would be legal
     //
     private void tryEP(
-      BoardSide friend, BoardSide foe,
-      Int32 nMovedTo, Int32 nEnPassant) {
+      BoardSide friend, BoardSide foe, Int32 nMovedTo, Int32 nEnPassant) {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
 
@@ -198,10 +197,10 @@ namespace Engine {
         // 7) And restore the Pawn to its nCaptureFrom square.
         // 8) If EP was Legal setEPFile(nEnPassant) and break.
         //
-        raisePiece(friend, friendRule, vP6, nCaptureFrom);
+        raisePiece(friend, vP6, nCaptureFrom);
         lowerPiece(friend, vP6, nEnPassant);
         //[Speed]Remove Not Needed, because material balance will be restored below.
-        raisePiece(foe, foeRule, vP6, nMovedTo);
+        raisePiece(foe, vP6, nMovedTo);
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
@@ -210,7 +209,7 @@ namespace Engine {
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
         lowerPiece(foe, vP6, nMovedTo);
-        raisePiece(friend, friendRule, vP6, nEnPassant);
+        raisePiece(friend, vP6, nEnPassant);
         lowerPiece(friend, vP6, nCaptureFrom);
 
         if (bLegal) {
@@ -236,15 +235,15 @@ namespace Engine {
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
       if (bSupplied)
-        removePiece(friend, friend.Rule, vPiece, nFrom);
+        removePiece(friend, vPiece, nFrom);
       else
-        raisePiece(friend, friend.Rule, vPiece, nFrom);
+        raisePiece(friend, vPiece, nFrom);
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
-        removePiece(foe, foe.Rule, vCapture, nCaptureFrom);
+        removePiece(foe, vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
           resetPawnAtx(foe);
