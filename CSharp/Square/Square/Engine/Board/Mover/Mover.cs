@@ -177,9 +177,6 @@ namespace Engine {
       if (!friend.KingPos.HasValue)
         throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
 
-      var friendRule = friend.Rule;
-      var foeRule = foe.Rule;
-
       var vKing = friend.KingPos.Value;
       var qpCaptureFrom = passed(friend, nEnPassant);
       while (qpCaptureFrom != 0) {
