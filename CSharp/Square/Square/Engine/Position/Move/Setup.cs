@@ -406,8 +406,8 @@ namespace Engine {
     }
 
     private void InitCastleRules(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
-      //[Test]State.ClearCastleRule(Side, bChess960);
-      State.IsChess960 = bChess960;
+      //State.IsChess960 = bChess960;
+      State.ClearCastleRule(Side, bChess960);
 
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;

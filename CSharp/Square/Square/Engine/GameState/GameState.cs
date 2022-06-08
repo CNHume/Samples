@@ -244,8 +244,8 @@ namespace Engine {
     public void Clear() {               // Called by UCI.newGame()
       unwindPositions();
       MovePosition = new Position();
-      ClearSearchCounts();              //[Init]Normally called by Position.start()
       ClearCastleRule(MovePosition.Side);
+      ClearSearchCounts();              //[Init]Normally called by Position.start()
     }
 
     public void ClearCastleRule(BoardSide[] sides, Boolean isChess960 = false) {

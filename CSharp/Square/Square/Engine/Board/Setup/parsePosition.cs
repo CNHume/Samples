@@ -158,8 +158,8 @@ namespace Engine {
         if (sCastleFlags.Length > 4)
           throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
-        //[Test]State.ClearCastleRule(Side);
-        State.IsChess960 = false;
+        //State.IsChess960 = false;
+        State.ClearCastleRule(Side);
 
         foreach (var side in Side)
           side.FlagsHi &= ~HiFlags.CanCastleMask;
