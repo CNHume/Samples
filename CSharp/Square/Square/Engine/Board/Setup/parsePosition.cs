@@ -196,7 +196,8 @@ namespace Engine {
           var bWhite = IsUpper(cFlag);
           var side = getSide(bWhite);
           var rule = side.Rule;
-          var nRank = bWhite ? 0 : nRankLast;
+          var nRank = side.Parameter.StartRank;
+
           side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, State.IsChess960);
         }                               //[Next]Right
 

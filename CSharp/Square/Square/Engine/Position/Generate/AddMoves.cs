@@ -41,7 +41,7 @@ namespace Engine {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
       var friendRule = friend.Rule;
 
-      if (canOO(friend, foe, friendRule)) {
+      if (canOO(friend, foe)) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OO);
 #else
@@ -49,7 +49,7 @@ namespace Engine {
 #endif
       }
 
-      if (canOOO(friend, foe, friendRule)) {
+      if (canOOO(friend, foe)) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OOO);
 #else

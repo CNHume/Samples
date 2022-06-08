@@ -386,19 +386,19 @@ namespace Engine {
 
     private void setupPawns() {
       var vPiece = vP6;
-      var nWhite = (Int32)sq.a2;
       var nBlack = (Int32)sq.a7;
-      for (var nFile = 0; nFile < nFiles; nFile++, nWhite++, nBlack++) {
-        placePiece(Side[White], vPiece, nWhite);
+      var nWhite = (Int32)sq.a2;
+      for (var nFile = 0; nFile < nFiles; nFile++, nBlack++, nWhite++) {
         placePiece(Side[Black], vPiece, nBlack);
+        placePiece(Side[White], vPiece, nWhite);
       }
     }
 
     private void setupPiece(Byte vPiece, Int32 nWhite) {
       if (nWhite < nFiles) {            //[Safe]
         var nBlack = nRankLast + nWhite;
-        placePiece(Side[White], vPiece, nWhite);
         placePiece(Side[Black], vPiece, nBlack);
+        placePiece(Side[White], vPiece, nWhite);
       }
       else {
         Trace.Assert(nWhite < nFiles, $"nWhite = {nWhite} >= nFiles {nFiles}");
