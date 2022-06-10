@@ -23,6 +23,9 @@ namespace Command {
     #region Constructors
     static Product() {
       var assy = Assembly.GetEntryAssembly();   // GetExecutingAssembly() may refer to the local DLL
+      if (assy is null)
+        return;
+
       //
       // GetCustomAttribute() is now the best answer to "Simplified way to get assembly description in C#?"
       // See https://stackoverflow.com/questions/10203575/simplified-way-to-get-assembly-description-in-c
@@ -40,9 +43,9 @@ namespace Command {
     #endregion
 
     #region Methods
-    private static String getTitle(Assembly assy) {
+    private static String? getTitle(Assembly assy) {
       var titleAttribute = assy.GetCustomAttribute<AssemblyTitleAttribute>();
-      var title = titleAttribute.Title;
+      var title = titleAttribute?.Title;
       if (IsNullOrWhiteSpace(title)) {
         var name = assy.GetName();
         return name is null ? sDefaultTitle : name.Name;
@@ -53,12 +56,12 @@ namespace Command {
     #endregion
 
     #region Properties
-    public static String Title { get; private set; }
-    public static String CompanyName { get; private set; }
-    public static String Copyright { get; private set; }
-    public static String Description { get; private set; }
-    public static String ProductName { get; private set; }
-    public static String ProductVersion { get; private set; }
+    public static String? Title { get; private set; }
+    public static String? CompanyName { get; private set; }
+    public static String? Copyright { get; private set; }
+    public static String? Description { get; private set; }
+    public static String? ProductName { get; private set; }
+    public static String? ProductVersion { get; private set; }
     #endregion
   }
 }

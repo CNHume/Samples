@@ -16,7 +16,8 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
-    //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
+    //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
+    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
     // [18-ply in 5:07] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
     // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains the Eval of 9.95 following
     // 49... Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
@@ -202,7 +203,7 @@ namespace Command {
     //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.63 at 17-ply in 3:00]
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    "4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 42.8 sec @1.359 MHz over 58.18 Mnode
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 42.8 sec @1.359 MHz over 58.18 Mnode
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply in 2:45.1 over 197.6 Mnode @1.197 MHz]
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]
