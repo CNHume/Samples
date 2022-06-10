@@ -16,13 +16,15 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
-    //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
-    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
+    //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
     // [18-ply in 5:07] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // [20-ply in 56:36.63 @1.384 MHz over 4.7 Gnode] gives an Eval of 11.1 after taking all of the pawns:
+    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
+    // 52. Qxg6+ Kxg6 53. Qe6+ Kh7 54. Qf5+ g6 55. Qf7+ Kh8 56. Qxg6 h5 57. Qxh5+ Kg7 [58.Qxa5]
     // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains the Eval of 9.95 following
-    // 49... Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
-    // Disabling QuietMate exhibits the anomaly seen after 19-ply which gives an Eval of 11.0 following
-    // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate 11.00 [19-ply in 51:40]
+    // 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
+    // Disabling QuietMate exhibits the anomaly seen after [19-ply in 35:28 @1.226 MHz] which gives an Eval of 11.0 following
+    // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate
     //"8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57"; // stalemate
     //
     //"8/6B1/1N4kP/2p5/2P5/1p6/2r5/1K6 w - - 0 56"; // Jordan Van Foreest v Liem Quan Le Line1 2022 Oslo Esports Cup 2022-04-28
@@ -33,7 +35,8 @@ namespace Command {
     // moves d4e3 g3f4 d7g4 g1f1 g4h3 f1g1
     //"3r2k1/2p1npp1/1p5p/p2P4/P4P2/2P1p2q/1PQ2P2/3RR1K1 b - - 0 26"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 Line
     // moves e3f2 c2f2 d8d6 f2f1 d6g6 g1f2 h3h2 f2e3 g6g3 e3d4 e7f5 d4e4 h2c2 d1d3 f5d6 e4d4
-    //"6k1/4bpp1/1p1p4/5R1P/4PQ2/5P2/r4q1P/2R4K w - - 0 49"; // Carlsen v Karjakin 2016 WCC R16 2016-11-30 #8 [12-ply in 20.07 sec @1.3 MHz to find 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+]
+    //"6k1/4bpp1/1p1p4/5R1P/4PQ2/5P2/r4q1P/2R4K w - - 0 49"; // Carlsen v Karjakin 2016 WCC R16 2016-11-30 #8
+    // [12-ply in 20.07 sec @1.3 MHz to find 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+]
     //"2rq1rk1/pb1n1ppN/4p3/1pb5/3P1Pn1/P1N5/1PQ1B1PP/R1B2RK1 b - - 0 16"; // Aronian v Anand 2013-01-16 Tata Steel [13-ply to find 16... Nde5!]
     //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
     //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
@@ -45,7 +48,8 @@ namespace Command {
     //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
     //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2  [4-ply]
     // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
-    //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1";
+    //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
+    //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
     //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
     //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1";  // Q v RP draw
     //"8/8/8/3K4/4Q3/5p2/5k2/8 b - - 0 4";  // Q v RP #8
@@ -73,7 +77,7 @@ namespace Command {
     // 70... Ng1 71. Bg4 (71. Bd5 Bg5 72. Kh7 Ne2 73. Bf3 Ng3 74. Bg4 Kf7 75. Kh8 Bc1 76. Kh7 Ba3) 71... Kg8-+
     //"8/8/4R3/5pk1/8/3B4/7p/2nK4 w - - 0 1"; // Blindfold Study given to Wesley So by Sagar Shah [1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
     //[buildMove Test]moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
-    //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
+    "k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
     //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 27.1 sec]

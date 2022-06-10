@@ -254,7 +254,7 @@ namespace Engine {
         side.Rule.Clear();
     }
 
-    public static void SetLanguage(String sLanguage) {
+    public static void SetLanguage(String? sLanguage) {
       Language = sLanguage;
       SetPieceSymbols(Language);
     }

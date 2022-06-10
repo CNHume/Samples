@@ -344,8 +344,8 @@ namespace Engine {
     #endregion
 
     #region Event Handlers
-    protected void ClearHashButton_Click(Object sender, EventArgs e) {
-      var button = (Button)sender;
+    protected void ClearHashButton_Click(Object? sender, EventArgs e) {
+      var button = (Button?)sender;
 #if !ThreadSafeTank
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
@@ -355,185 +355,213 @@ namespace Engine {
     }
 
     // Step 5/6: Define an Event Handler, following the standard naming convention
-    protected void MultiPVValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      newVariations(setting.Selection.Value);
+    protected void MultiPVValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue)
+        newVariations(setting.Selection.Value);
     }
 
-    protected void QXPLengthValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void QXPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
-      QXPTank.Init(setting.Selection.Value);
+      if (setting is not null && setting.Selection.HasValue)
+        QXPTank.Init(setting.Selection.Value);
     }
 
-    protected void QXPBucketsValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      if (IsSearchInProgress)
-        throw new PositionException("Search in progress");
-
-      //[Note]BucketsDefault must be updated before Tank.init() is called
-      QXPTank.BucketsDefault = (UInt16)setting.Selection;
-    }
-
-    protected void XPLengthValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      if (IsSearchInProgress)
-        throw new PositionException("Search in progress");
-
-      XPTank.Init(setting.Selection.Value);
-    }
-
-    protected void XPBucketsValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void QXPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
       //[Note]BucketsDefault must be updated before Tank.init() is called
-      XPTank.BucketsDefault = (UInt16)setting.Selection;
+      if (setting is not null && setting.Selection.HasValue)
+        QXPTank.BucketsDefault = (UInt16)setting.Selection;
     }
 
-    protected void XPMLengthValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void XPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
-      XPMTank.Init(setting.Selection.Value);
+      if (setting is not null && setting.Selection.HasValue)
+        XPTank.Init(setting.Selection.Value);
     }
 
-    protected void XPMBucketsValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void XPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
       //[Note]BucketsDefault must be updated before Tank.init() is called
-      XPMTank.BucketsDefault = (UInt16)setting.Selection;
+      if (setting is not null && setting.Selection.HasValue)
+        XPTank.BucketsDefault = (UInt16)setting.Selection;
     }
 
-    protected void ExpectedMovesToGoValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      ExpectedMovesToGo = (UInt16)setting.Selection;
+    protected void XPMLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (IsSearchInProgress)
+        throw new PositionException("Search in progress");
+
+      if (setting is not null && setting.Selection.HasValue)
+        XPMTank.Init(setting.Selection.Value);
     }
 
-    protected void ContemptValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      Contempt = (Eval)setting.Selection;
+    protected void XPMBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (IsSearchInProgress)
+        throw new PositionException("Search in progress");
+
+      //[Note]BucketsDefault must be updated before Tank.init() is called
+      if (setting is not null && setting.Selection.HasValue)
+        XPMTank.BucketsDefault = (UInt16)setting.Selection;
     }
 
-    protected void LateValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      var uSelection = (UInt32)setting.Selection.Value;
-      setNibble(ref ExtensionLimit, vLate, uSelection);
+    protected void ExpectedMovesToGoValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue)
+        ExpectedMovesToGo = (UInt16)setting.Selection;
     }
 
-    protected void ChecksValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      var uSelection = (UInt32)setting.Selection.Value;
-      setNibble(ref ExtensionLimit, vCheck, uSelection);
+    protected void ContemptValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue)
+        Contempt = (Eval)setting.Selection;
     }
 
-    protected void ThreatValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      var uSelection = (UInt32)setting.Selection.Value;
-      setNibble(ref ExtensionLimit, vThreat, uSelection);
+    protected void LateValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue) {
+        var uSelection = (UInt32)setting.Selection.Value;
+        setNibble(ref ExtensionLimit, vLate, uSelection);
+      }
     }
 
-    protected void SingularValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      var uSelection = (UInt32)setting.Selection.Value;
-      setNibble(ref ExtensionLimit, vSingular, uSelection);
+    protected void ChecksValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue) {
+        var uSelection = (UInt32)setting.Selection.Value;
+        setNibble(ref ExtensionLimit, vCheck, uSelection);
+      }
     }
 
-    protected void AspirationValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsAspiration = setting.IsChecked.Value;
+    protected void ThreatValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue) {
+        var uSelection = (UInt32)setting.Selection.Value;
+        setNibble(ref ExtensionLimit, vThreat, uSelection);
+      }
     }
 
-    protected void FlipValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsFlip = setting.IsChecked.Value;
+    protected void SingularValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue) {
+        var uSelection = (UInt32)setting.Selection.Value;
+        setNibble(ref ExtensionLimit, vSingular, uSelection);
+      }
     }
 
-    protected void FutilityValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsFutility = setting.IsChecked.Value;
+    protected void AspirationValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsAspiration = setting.IsChecked.Value;
     }
 
-    protected void NullPruneValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsNullPrune = setting.IsChecked.Value;
+    protected void FlipValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsFlip = setting.IsChecked.Value;
     }
 
-    protected void OccamValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsOccam = setting.IsChecked.Value;
+    protected void FutilityValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsFutility = setting.IsChecked.Value;
     }
 
-    protected void PureValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsPure = setting.IsChecked.Value;
+    protected void NullPruneValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsNullPrune = setting.IsChecked.Value;
     }
 
-    protected void HeartbeatValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsHeartbeat = setting.IsChecked.Value;
+    protected void OccamValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsOccam = setting.IsChecked.Value;
     }
 
-    protected void HeartbeatMSValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      HeartbeatMS = (UInt16)setting.Selection.Value;
+    protected void PureValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsPure = setting.IsChecked.Value;
     }
 
-    protected void PonderValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsPonderEnabled = setting.IsChecked.Value;
+    protected void HeartbeatValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsHeartbeat = setting.IsChecked.Value;
     }
 
-    protected void AnalyseModeValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsAnalyseMode = setting.IsChecked.Value;
+    protected void HeartbeatMSValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.Selection.HasValue)
+        HeartbeatMS = (UInt16)setting.Selection.Value;
     }
 
-    protected void ShowingLineValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
-      IsShowingLine = setting.IsChecked.Value;
+    protected void PonderValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsPonderEnabled = setting.IsChecked.Value;
     }
 
-    protected void OpponentValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void AnalyseModeValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsAnalyseMode = setting.IsChecked.Value;
+    }
+
+    protected void ShowingLineValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
+      if (setting is not null && setting.IsChecked.HasValue)
+        IsShowingLine = setting.IsChecked.Value;
+    }
+
+    protected void OpponentValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       Opponent = setting.Text;
     }
 
-    protected void LogLevelValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void LogLevelValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       LogLevel = (Level)Enum.Parse(typeof(Level), setting.Text);
     }
 
-    protected void LogPathValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void LogPathValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       LogPath = setting.Text;
     }
 
-    protected void LanguageValue_PropertyChanged(Object sender, PropertyChangedEventArgs e) {
-      var setting = (Setting)sender;
+    protected void LanguageValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+      var setting = (Setting?)sender;
       SetLanguage(setting.Text);
     }
     #endregion
 
     #region Event Handler Subscriptions
-    protected static Control findControl(String sName) {
+    protected static Control? findControl(String sName) {
       return Control.FindControl(Controls, sName);
     }
 
     private void wireClearHash() {
-      var button = (Button)findControl("Clear Hash");
+      var button = (Button?)findControl("Clear Hash");
       if (button is not null)
         button.Click += ClearHashButton_Click;
     }
 
     private void wireMultiPV() {
-      var setting = (Setting)findControl("MultiPV");
+      var setting = (Setting?)findControl("MultiPV");
       if (setting is not null) {
         // Step 6/6: Dynamically subscribe handler to the event
         setting.PropertyChanged += MultiPVValue_PropertyChanged;
@@ -544,7 +572,7 @@ namespace Engine {
     private void wireQXPBuckets() {
       newQXPTank();
 
-      var setting = (Setting)findControl("QXPBuckets");
+      var setting = (Setting?)findControl("QXPBuckets");
       if (setting is not null) {
         setting.PropertyChanged += QXPBucketsValue_PropertyChanged;
         setting.SetDefault();
@@ -557,7 +585,7 @@ namespace Engine {
       //
       wireQXPBuckets();
 
-      var setting = (Setting)findControl("QXPLength");
+      var setting = (Setting?)findControl("QXPLength");
       if (setting is not null) {
         setting.PropertyChanged += QXPLengthValue_PropertyChanged;
         setting.SetDefault();
@@ -567,7 +595,7 @@ namespace Engine {
     private void wireXPBuckets() {
       newXPTank();
 
-      var setting = (Setting)findControl("XPBuckets");
+      var setting = (Setting?)findControl("XPBuckets");
       if (setting is not null) {
         setting.PropertyChanged += XPBucketsValue_PropertyChanged;
         setting.SetDefault();
@@ -580,7 +608,7 @@ namespace Engine {
       //
       wireXPBuckets();
 
-      var setting = (Setting)findControl("XPLength");
+      var setting = (Setting?)findControl("XPLength");
       if (setting is not null) {
         setting.PropertyChanged += XPLengthValue_PropertyChanged;
         setting.SetDefault();
@@ -590,7 +618,7 @@ namespace Engine {
     private void wireXPMBuckets() {
       newXPMTank();
 
-      var setting = (Setting)findControl("XPMBuckets");
+      var setting = (Setting?)findControl("XPMBuckets");
       if (setting is not null) {
         setting.PropertyChanged += XPMBucketsValue_PropertyChanged;
         setting.SetDefault();
@@ -603,7 +631,7 @@ namespace Engine {
       //
       wireXPMBuckets();
 
-      var setting = (Setting)findControl("XPMLength");
+      var setting = (Setting?)findControl("XPMLength");
       if (setting is not null) {
         setting.PropertyChanged += XPMLengthValue_PropertyChanged;
         setting.SetDefault();
@@ -611,7 +639,7 @@ namespace Engine {
     }
 
     private void wireExpectedMovesToGo() {
-      var setting = (Setting)findControl("ExpectedMoves");
+      var setting = (Setting?)findControl("ExpectedMoves");
       if (setting is not null) {
         setting.PropertyChanged += ExpectedMovesToGoValue_PropertyChanged;
         setting.SetDefault();
@@ -619,7 +647,7 @@ namespace Engine {
     }
 
     private void wireContempt() {
-      var setting = (Setting)findControl("Contempt");
+      var setting = (Setting?)findControl("Contempt");
       if (setting is not null) {
         setting.PropertyChanged += ContemptValue_PropertyChanged;
         setting.SetDefault();
@@ -627,7 +655,7 @@ namespace Engine {
     }
 
     private void wireLate() {
-      var setting = (Setting)findControl("Late");
+      var setting = (Setting?)findControl("Late");
       if (setting is not null) {
         setting.PropertyChanged += LateValue_PropertyChanged;
         setting.SetDefault();
@@ -635,7 +663,7 @@ namespace Engine {
     }
 
     private void wireChecks() {
-      var setting = (Setting)findControl("Checks");
+      var setting = (Setting?)findControl("Checks");
       if (setting is not null) {
         setting.PropertyChanged += ChecksValue_PropertyChanged;
         setting.SetDefault();
@@ -643,7 +671,7 @@ namespace Engine {
     }
 
     private void wireThreat() {
-      var setting = (Setting)findControl("Threat");
+      var setting = (Setting?)findControl("Threat");
       if (setting is not null) {
         setting.PropertyChanged += ThreatValue_PropertyChanged;
         setting.SetDefault();
@@ -651,7 +679,7 @@ namespace Engine {
     }
 
     private void wireSingular() {
-      var setting = (Setting)findControl("Singular");
+      var setting = (Setting?)findControl("Singular");
       if (setting is not null) {
         setting.PropertyChanged += SingularValue_PropertyChanged;
         setting.SetDefault();
@@ -659,7 +687,7 @@ namespace Engine {
     }
 
     private void wireAspiration() {
-      var setting = (Setting)findControl("Aspiration");
+      var setting = (Setting?)findControl("Aspiration");
       if (setting is not null) {
         setting.PropertyChanged += AspirationValue_PropertyChanged;
         setting.SetDefault();
@@ -667,7 +695,7 @@ namespace Engine {
     }
 
     private void wireFlip() {
-      var setting = (Setting)findControl("Flip");
+      var setting = (Setting?)findControl("Flip");
       if (setting is not null) {
         setting.PropertyChanged += FlipValue_PropertyChanged;
         setting.SetDefault();
@@ -675,7 +703,7 @@ namespace Engine {
     }
 
     private void wireFutility() {
-      var setting = (Setting)findControl("Futility");
+      var setting = (Setting?)findControl("Futility");
       if (setting is not null) {
         setting.PropertyChanged += FutilityValue_PropertyChanged;
         setting.SetDefault();
@@ -683,7 +711,7 @@ namespace Engine {
     }
 
     private void wireNullPrune() {
-      var setting = (Setting)findControl("NullMove");
+      var setting = (Setting?)findControl("NullMove");
       if (setting is not null) {
         setting.PropertyChanged += NullPruneValue_PropertyChanged;
         setting.SetDefault();
@@ -691,7 +719,7 @@ namespace Engine {
     }
 
     private void wireOccam() {
-      var setting = (Setting)findControl("Occam");
+      var setting = (Setting?)findControl("Occam");
       if (setting is not null) {
         setting.PropertyChanged += OccamValue_PropertyChanged;
         setting.SetDefault();
@@ -699,7 +727,7 @@ namespace Engine {
     }
 
     private void wirePure() {
-      var setting = (Setting)findControl("Pure");
+      var setting = (Setting?)findControl("Pure");
       if (setting is not null) {
         setting.PropertyChanged += PureValue_PropertyChanged;
         setting.SetDefault();
@@ -707,7 +735,7 @@ namespace Engine {
     }
 
     private void wireHeartbeatMS() {
-      var setting = (Setting)findControl("HeartbeatMS");
+      var setting = (Setting?)findControl("HeartbeatMS");
       if (setting is not null) {
         setting.PropertyChanged += HeartbeatMSValue_PropertyChanged;
         setting.SetDefault();
@@ -715,7 +743,7 @@ namespace Engine {
     }
 
     private void wireHeartbeat() {
-      var setting = (Setting)findControl("Heartbeat");
+      var setting = (Setting?)findControl("Heartbeat");
       if (setting is not null) {
         setting.PropertyChanged += HeartbeatValue_PropertyChanged;
         setting.SetDefault();
@@ -723,7 +751,7 @@ namespace Engine {
     }
 
     private void wirePonder() {
-      var setting = (Setting)findControl("Ponder");
+      var setting = (Setting?)findControl("Ponder");
       if (setting is not null) {
         setting.PropertyChanged += PonderValue_PropertyChanged;
         setting.SetDefault();
@@ -731,7 +759,7 @@ namespace Engine {
     }
 
     private void wireAnalyseMode() {
-      var setting = (Setting)findControl("UCI_AnalyseMode");
+      var setting = (Setting?)findControl("UCI_AnalyseMode");
       if (setting is not null) {
         setting.PropertyChanged += AnalyseModeValue_PropertyChanged;
         setting.SetDefault();
@@ -739,7 +767,7 @@ namespace Engine {
     }
 
     private void wireShowingLine() {
-      var setting = (Setting)findControl("UCI_ShowCurrLine");
+      var setting = (Setting?)findControl("UCI_ShowCurrLine");
       if (setting is not null) {
         setting.PropertyChanged += ShowingLineValue_PropertyChanged;
         setting.SetDefault();
@@ -747,7 +775,7 @@ namespace Engine {
     }
 
     private void wireOpponent() {
-      var setting = (Setting)findControl("UCI_Opponent");
+      var setting = (Setting?)findControl("UCI_Opponent");
       if (setting is not null) {
         setting.PropertyChanged += OpponentValue_PropertyChanged;
         setting.SetDefault();
@@ -755,7 +783,7 @@ namespace Engine {
     }
 
     private void wireLogLevel() {
-      var setting = (Setting)findControl("LogLevel");
+      var setting = (Setting?)findControl("LogLevel");
       if (setting is not null) {
         setting.PropertyChanged += LogLevelValue_PropertyChanged;
         setting.SetDefault();
@@ -763,7 +791,7 @@ namespace Engine {
     }
 
     private void wireLogPath() {
-      var setting = (Setting)findControl("LogPath");
+      var setting = (Setting?)findControl("LogPath");
       if (setting is not null) {
         setting.PropertyChanged += LogPathValue_PropertyChanged;
         setting.SetDefault();
@@ -771,7 +799,7 @@ namespace Engine {
     }
 
     private void wireLanguage() {
-      var setting = (Setting)findControl("Language");
+      var setting = (Setting?)findControl("Language");
       if (setting is not null) {
         setting.PropertyChanged += LanguageValue_PropertyChanged;
         setting.SetDefault();

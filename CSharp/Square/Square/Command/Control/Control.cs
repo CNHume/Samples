@@ -36,7 +36,7 @@ namespace Command {
 
   class Button : Control {
     #region Events
-    internal event EventHandler Click;
+    internal event EventHandler? Click;
     #endregion
 
     #region Methods
@@ -53,11 +53,11 @@ namespace Command {
     //
     public Boolean? IsChecked;          // For type check or button
     public Int32? Selection;            // For type spin
-    public String Text;                 // For type combo or string
+    public String? Text;                 // For type combo or string
     #endregion
 
     #region Properties
-    public Object Value {
+    public Object? Value {
       get {
         switch (Option.Type) {
         case OptionType.check:
@@ -80,7 +80,7 @@ namespace Command {
     #region Events
     // Step 2/6: Declare Event [of the EventHandler Delegate Type]
     // Step 2a: Provide explicit implementation of the add and remove accessors
-    public event EventHandler<PropertyChangedEventArgs> PropertyChanged;
+    public event EventHandler<PropertyChangedEventArgs>? PropertyChanged;
     #endregion
 
     #region Methods
@@ -158,7 +158,7 @@ namespace Command {
     #endregion
 
     #region Methods
-    public static Control FindControl(IEnumerable<Control> controls, String sName) {
+    public static Control? FindControl(IEnumerable<Control> controls, String sName) {
       if (IsNullOrEmpty(sName))
         throw new ControlException("No option name specified");
 

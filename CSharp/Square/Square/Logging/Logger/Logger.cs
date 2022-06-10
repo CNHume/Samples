@@ -24,13 +24,13 @@ namespace Logging {
     #endregion
 
     #region Fields
-    private static string sLogPath;
+    private static String? sLogPath;
     #endregion
 
     #region Properties
     public static Level LogLevel { get; set; }
     private static FileStream? LogStream { get; set; }
-    public static String LogPath {
+    public static String? LogPath {
       get => sLogPath;
       set {
         sLogPath = value;
@@ -57,7 +57,7 @@ namespace Logging {
       return Path.Combine(path, sFullFilename);
     }
 
-    private static FileStream OpenLogStream(String path) {
+    private static FileStream? OpenLogStream(String? path) {
       FileStream? logStream = default;
       try {
         if (path is not null) {

@@ -161,8 +161,8 @@ namespace Engine {
     public Boolean IsPonderEnabled;     //[UCI Option]For Time Control
     public Boolean IsAnalyseMode;       //[UCI Option]
     public Boolean IsShowingLine;       //[UCI Option]
-    public String Opponent;             //[UCI Option]
-    public static String Language;
+    public String? Opponent;             //[UCI Option]
+    public static String? Language;
     public List<Move> BestMoves;
     public Random SeededRandom;
     #endregion
