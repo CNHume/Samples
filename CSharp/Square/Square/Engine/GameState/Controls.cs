@@ -530,22 +530,27 @@ namespace Engine {
 
     protected void OpponentValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
       var setting = (Setting?)sender;
-      Opponent = setting.Text;
+      if (setting is not null)
+        Opponent = setting.Text;
     }
 
     protected void LogLevelValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
       var setting = (Setting?)sender;
-      LogLevel = (Level)Enum.Parse(typeof(Level), setting.Text);
+      if (setting?.Text is not null) {
+        LogLevel = (Level)Enum.Parse(typeof(Level), setting.Text);
+      }
     }
 
     protected void LogPathValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
       var setting = (Setting?)sender;
-      LogPath = setting.Text;
+      if (setting is not null)
+        LogPath = setting.Text;
     }
 
     protected void LanguageValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
       var setting = (Setting?)sender;
-      SetLanguage(setting.Text);
+      if (setting is not null)
+        SetLanguage(setting.Text);
     }
     #endregion
 
