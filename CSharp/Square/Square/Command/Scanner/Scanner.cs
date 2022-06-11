@@ -194,8 +194,8 @@ namespace Command {
 
   public class StreamScanner : Scanner {
     #region Properties
-    public new StreamReader Reader {
-      get => (StreamReader)base.Reader;
+    public new StreamReader? Reader {
+      get => (StreamReader?)base.Reader;
       set => base.Reader = value;
     }
     #endregion                          // Properties

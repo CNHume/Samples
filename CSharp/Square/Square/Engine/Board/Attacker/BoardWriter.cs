@@ -314,7 +314,7 @@ namespace Engine {
         .AppendLine();
     }
 
-    public StringBuilder Display(StringBuilder sb = default) {
+    public StringBuilder Display(StringBuilder? sb = default) {
       if (sb is null) sb = new StringBuilder();
       appendProperties(sb);
       appendBoard(sb, State.IsFlip);

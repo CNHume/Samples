@@ -494,7 +494,7 @@ namespace Engine {
     // The Syzygy 6-man EGTB is available at http://tablebase.sesse.net/syzygy, where
     // the (290) 3-4-5-men files require 938 MB; and (730) 6-men files require 149 GB.
     //
-    protected Eval staticEval(out PawnPosition pp) {    //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
+    protected Eval staticEval(out PawnPosition? pp) {    //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
       pp = default;
       if (IsInsufficient())
         return contempt();
@@ -560,7 +560,7 @@ namespace Engine {
       //
       GameState.AtomicIncrement(ref State.FullEvals);
 
-      var mValue = staticEval(out PawnPosition pp);
+      var mValue = staticEval(out PawnPosition? pp);
 
       //
       // Load PawnFeature Deltas from the PawnPositions hash table,

@@ -240,7 +240,7 @@ namespace Engine {
       return mValue;
     }
 
-    protected Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded, List<GoodMove> goodMoves,
+    protected Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded, List<GoodMove>? goodMoves,
                               out Move moveFound, out Eval mValue, out EvalType etFound) {
       var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
@@ -330,7 +330,7 @@ namespace Engine {
       moveFound = Move.Undefined;
 #if QuiescentTryXP
       const Depth wDepth = 0;
-      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, null, out moveFound, out Eval mValue, out EvalType etFound);
+      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out Eval mValue, out EvalType etFound);
 #endif
 #if TransposeQuiet
       if (!isDefined(moveFound))
@@ -348,7 +348,7 @@ namespace Engine {
       mValue = EvalUndefined;
 #if QuiescentTryXP
       const Depth wDepth = 0;
-      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, null, out moveFound, out mValue, out etFound);
+      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
       State.IncQxnt(bFoundValue);       //[Conditional]
 #endif
 #if TransposeQuiet

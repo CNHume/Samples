@@ -21,9 +21,10 @@ namespace Cache {
     #endregion
 
     #region Indexer
-    public T this[MemoHashcode uHash] {
+    public T? this[MemoHashcode uHash] {
       get {
-        return Entries[index(uHash)];
+        return Entries is null ?
+          default : Entries[index(uHash)];
       }
 
       set {

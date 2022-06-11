@@ -44,7 +44,7 @@ namespace Engine {
     #region Thread Management Fields
     public Pool<Position> PositionPool;
 #if UseTask
-    public CancellationTokenSource CancellationTokenSource;
+    public CancellationTokenSource? CancellationTokenSource;
     public CancellationToken CancellationToken;
     protected Timer? CancelTimer;
     public Task<List<Move>?>? EngineTask;

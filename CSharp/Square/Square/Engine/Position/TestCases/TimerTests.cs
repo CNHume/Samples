@@ -107,7 +107,7 @@ namespace Engine {
       var sw = TimerStart(nameof(staticEval), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
-        staticEval(out PawnPosition pp);
+        staticEval(out PawnPosition? pp);
 
       TimerStop(sw, qTrials);
     }
