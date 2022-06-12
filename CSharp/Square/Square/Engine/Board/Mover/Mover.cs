@@ -45,6 +45,8 @@ namespace Engine {
 
     protected Byte getKingPos(Boolean bWTM) {
       var side = getSide(bWTM);
+      if (side.KingPos is null)
+        throw new ArgumentNullException(nameof(side.KingPos));
       return side.KingPos.Value;
     }
     #endregion

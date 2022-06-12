@@ -276,7 +276,8 @@ namespace Engine {
       var side = getSide(!bWhiteDefending);
       var bLite = (side.FlagsHi & HiFlags.Lite) != 0;
       var nReward = bLite ?
-        liteCornerReward(vDefendingKingPos) : darkCornerReward(vDefendingKingPos);
+        liteCornerReward(vDefendingKingPos) :
+        darkCornerReward(vDefendingKingPos);
       return (Eval)(bWhiteDefending ? -nReward : nReward);
     }
 

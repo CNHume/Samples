@@ -370,7 +370,7 @@ namespace Command {
       return sKeyword;
     }
 
-    private String? parseOptionValue(String sKeyword) {
+    private String? parseOptionValue(String? sKeyword) {
       String? sValue = default;
       if (sKeyword is not null) {
         SpaceToken.Accept();
@@ -389,7 +389,9 @@ namespace Command {
       var sKeyword = parseOptionName(out Control control);
       rejectValue(sKeyword);
       var setting = control.AsSetting();
-      LogLine(setting.Value.ToString());
+      var s = setting.Value?.ToString();
+      if (s is not null)
+        LogLine(s);
     }
 
     public void ParseResetOption() {
@@ -408,7 +410,7 @@ namespace Command {
       return SpaceToken.Accept() && movesKeywordToken.Accept();
     }
 
-    protected static Position findNamedPosition(Position position, Position parent) {
+    protected static Position? findNamedPosition(Position? position, Position? parent) {
       while (position is not null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
         position = position.Parent;
       return position;

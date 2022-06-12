@@ -53,7 +53,7 @@ namespace Command {
     //
     public Boolean? IsChecked;          // For type check or button
     public Int32? Selection;            // For type spin
-    public String? Text;                 // For type combo or string
+    public String? Text;                // For type combo or string
     #endregion
 
     #region Properties
@@ -147,7 +147,8 @@ namespace Command {
       if (TryParse(Option.Default))
         OnPropertyChanged(new PropertyChangedEventArgs(Option.Type));
       else
-        throw new ControlException($@"Could not set a default of ""{Option.Default}"" for the {Option.Name} {Option.Type} control");
+        throw new ControlException(
+          $@"Could not set a default of ""{Option.Default}"" for the {Option.Name} {Option.Type} control");
     }
     #endregion
   }
@@ -158,7 +159,7 @@ namespace Command {
     #endregion
 
     #region Methods
-    public static Control? FindControl(IEnumerable<Control> controls, String sName) {
+    public static Control? FindControl(IEnumerable<Control> controls, String? sName) {
       if (IsNullOrEmpty(sName))
         throw new ControlException("No option name specified");
 
@@ -166,7 +167,7 @@ namespace Command {
         control => sName.Equals(control?.Option.Name, StringComparison.InvariantCultureIgnoreCase));
     }
 
-    public static Control FindOption(IEnumerable<Control> controls, String sName) {
+    public static Control? FindOption(IEnumerable<Control> controls, String? sName) {
       var uciControl = FindControl(controls, sName);
       if (uciControl == default(Control))
         throw new ControlException($"There is no option named {sName}");
@@ -176,17 +177,22 @@ namespace Command {
 
     public Setting AsSetting() {
       var setting = this as Setting;
-      if (setting is null)
-        throw new ControlException($"{Option.Name} control of OptionType {Option.Type} is not a {typeof(Setting).Name}");
+      if (setting is null) {
+        var settingName = typeof(Setting).Name;
+        throw new ControlException(
+          $"{Option.Name} control of OptionType {Option.Type} is not a {settingName}");
+      }
+
       return setting;
     }
 
-    public void SetValue(String sValue) {
+    public void SetValue(String? sValue) {
       switch (Option.Type) {
       case OptionType.button:
         var button = (Button)this;
         if (!IsNullOrEmpty(sValue)) {
-          throw new ControlException($@"Superfluous value ""{sValue}"" supplied for {Option.Name}");
+          throw new ControlException(
+            $@"Superfluous value ""{sValue}"" supplied for {Option.Name}");
         }
 
         // Step 4a/6 Fire Button Click Event:
@@ -195,8 +201,9 @@ namespace Command {
 
       default:
         var setting = (Setting)this;
-        if (!setting.TryParse(sValue))
-          throw new ControlException($"Could not parse {sValue} as a value for {Option.Type}");
+        if (sValue is null || !setting.TryParse(sValue))
+          throw new ControlException(
+            $"Could not parse {sValue} as a value for {Option.Type}");
 
         // Step 4b/6 Fire Property Changed Event:
         setting.OnPropertyChanged(new PropertyChangedEventArgs(Option.Type));
