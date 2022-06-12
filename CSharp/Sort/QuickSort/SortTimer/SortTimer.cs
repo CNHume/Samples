@@ -48,7 +48,7 @@ namespace Sort {
 #else
       var type = typeof(QuickSort<T>);
 #endif
-      Header(entries, print, type);
+      Header(entries, type, print);
       Start();
 
       var meter = (IMeter)this;

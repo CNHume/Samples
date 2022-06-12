@@ -39,7 +39,7 @@ namespace Sort {
       var input = entries.ToList();
       Header(input, print, typeof(InsertionList<T>));
 #else
-      Header(entries, print, typeof(InsertionSort<T>));
+      Header(entries, typeof(InsertionSort<T>), print);
 #endif
       Start();
       var meter = (IMeter)this;
