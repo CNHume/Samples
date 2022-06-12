@@ -493,10 +493,10 @@ namespace Command {
       return position;
     }
 
-    public Dictionary<String, List<String>> ParseOperations() {
-      Dictionary<String, List<String>> operations = default;
+    public Dictionary<String, List<String>?>? ParseOperations() {
+      Dictionary<String, List<String>?>? operations = default;
       if (SpaceToken.Accept()) {
-        operations = new Dictionary<String, List<String>>();
+        operations = new Dictionary<String, List<String>?>();
         while (opcodeToken.Accept()) {
           //
           // For a list of standard EPD opcodes see:
@@ -533,7 +533,8 @@ namespace Command {
           var operands = parseOperands(operations, sOpcode);
 
           if (operations.ContainsKey(sOpcode)) {
-            var sOperands = Join(sSpace, operands);
+            var sOperands = operands is null ?
+              String.Empty : Join(sSpace, operands);
             throw new ParseException($"EPD opcode already specified for: {sOpcode} {sOperands}");
           }
 
@@ -545,9 +546,9 @@ namespace Command {
       return operations;
     }
 
-    private List<String> parseOperands(
-      Dictionary<String, List<String>> operations, String sOpcode) {
-      List<String> operands = default;
+    private List<String>? parseOperands(
+      Dictionary<String, List<String>?> operations, String sOpcode) {
+      List<String>? operands = default;
       if (SpaceToken.Accept()) {
         operands = new List<String>();
         while (operandToken.Accept()) {
@@ -557,14 +558,15 @@ namespace Command {
           SpaceToken.Expect();
         }
       }
+
       return operands;
     }
 
-    public static String GetSingleValue(
-      Dictionary<String, List<String>> operations, String sOpcode, String? sDefault = default) {
+    public static String? GetSingleValue(
+      Dictionary<String, List<String>?> operations, String sOpcode, String? sDefault = default) {
       if (operations is null) return sDefault;
 
-      operations.TryGetValue(sOpcode, out List<String> operands);
+      operations.TryGetValue(sOpcode, out List<String>? operands);
       if (operands is null) return sDefault;
 
       if (operands.Count == 0)          // The Opcode is assumed to provide a Single Value, i.e., an Operand

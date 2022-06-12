@@ -177,8 +177,8 @@ namespace Engine {
 
     #region Locales
     public class Locale {
-      public String Symbols;
-      public String Language;
+      public String? Symbols;
+      public String? Language;
     }
 
     //
