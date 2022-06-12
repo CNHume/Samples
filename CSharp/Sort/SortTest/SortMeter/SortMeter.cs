@@ -83,7 +83,7 @@ namespace SortTest {
       Timer.Stop();
     }
 
-    protected void Header(IEnumerable<T> entries, Boolean print = false, Type sortType = null) {
+    protected void Header(IEnumerable<T> entries, Type sortType, Boolean print = false) {
       if (print) {
         Console.WriteLine("input:");
         if (entries is not null)

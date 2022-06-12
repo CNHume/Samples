@@ -65,24 +65,26 @@ namespace HeapSort {
   /// <typeparam name="T">Entry Type</typeparam>
   public class Heap<T> : ICloneable, IEnumerable<T> where T : IComparable {
     #region Fields
-    private T[] entries;
+    private T[]? entries;
     private Int32 counter;
-    private Boolean? isAscending;
+    private Boolean isAscending;
     #endregion
 
     #region Properties
     /// <summary>Optional Sort Performance Meter</summary>
-    public IMeter Meter { get; }
+    public IMeter? Meter { get; }
 
     /// <summary>Heap Sense</summary>
-    public Boolean IsAscending { get => isAscending.Value; set => isAscending = value; }
+    public Boolean IsAscending {
+      get => isAscending;
+      set => isAscending = value; }
 
     /// <summary>Assertion of Heap Validity</summary>
     public Boolean IsValid => Validate();
     //public Boolean IsSorted { get; protected set; }
 
     /// <summary>Entries Array</summary>
-    public T[] Entries {
+    public T[]? Entries {
       get {
         return entries;
       }
@@ -121,7 +123,7 @@ namespace HeapSort {
     /// <param name="entries">Entries Array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
-    public Heap(IMeter meter, T[] entries, Int32 count, Boolean ascending = true) {
+    public Heap(IMeter? meter, T[]? entries, Int32 count, Boolean ascending = true) {
       this.IsAscending = ascending;     // Must be set IsAscending prior to invoking the Count setter!
       //IsSorted = false;
       this.Meter = meter;
@@ -134,13 +136,13 @@ namespace HeapSort {
     /// <summary>Heap Constructor</summary>
     /// <param name="meter">Performance Meter</param>
     /// <param name="entries">Entries Array</param>
-    public Heap(IMeter meter, T[] entries)
+    public Heap(IMeter? meter, T[]? entries)
       : this(meter, entries, entries is null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
     /// <param name="meter">Performance Meter</param>
-    public Heap(IMeter meter = default)
+    public Heap(IMeter? meter = default)
       : this(meter, default) {
     }
     #endregion

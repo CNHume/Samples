@@ -21,13 +21,20 @@ namespace Cache {
     #endregion
 
     #region Indexer
-    public T? this[MemoHashcode uHash] {
+    public T this[MemoHashcode uHash] {
       get {
-        return Entries is null ?
-          default : Entries[index(uHash)];
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
+        return Entries[index(uHash)];
       }
 
       set {
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
         Entries[index(uHash)] = value;
       }
     }
@@ -68,20 +75,36 @@ namespace Cache {
     #region Indexers
     public T this[PieceHashcode wHash] {// for GetCX2()
       get {
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
         return Entries[index(wHash)];
       }
 
       set {
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
         Entries[index(wHash)] = value;
       }
     }
 
     public T this[Hashcode qHash] {
       get {
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
         return Entries[index(qHash)];
       }
 
       set {
+        if (Entries == null)
+          throw new ArgumentNullException(
+            nameof(Entries), "No entries allocated.");
+
         Entries[index(qHash)] = value;
       }
     }

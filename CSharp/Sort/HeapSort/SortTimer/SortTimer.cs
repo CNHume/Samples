@@ -34,7 +34,7 @@ namespace Sort {
     public void Sort(T[] entries, Boolean print, UInt32? trials) {
       if (!trials.HasValue) trials = 1;
 
-      Header(entries, print, typeof(Heap<T>));
+      Header(entries, typeof(Heap<T>), print);
       Start();
 
       //

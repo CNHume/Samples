@@ -69,15 +69,16 @@ namespace Command {
     // See https://www.youtube.com/watch?v=Fwzq7qK6MMQ for Stockfish 8 variations
     // For example: moves d3c4 d5c4 d4d5 f8d7 h4c4 c7c6 c3e4 c6d5 e4d6 e7d6 e5d6 d5c4 g3h4 g8g7 g2g4 d7e5 g5f7 d8c6 f7e5 c6e5 h4f6 g7f7 f6h8 e8d7 f3f7 e5f7 h8h7 d7d6 h7f7
     //"8/8/6b1/3k4/8/1N5P/p7/3K4 b - - 0 77"; // Fedoseev v Carlsen 0-1 [16-ply in 21.5 sec]
-    //"8/n7/P7/8/2n5/8/2k5/K7 b - - 0 37"; // 2N v P #11 [16-ply in 42.66 @1.307 MHz over 55.36 Mnode]
-    // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 Kb4 6. Kb1 Kb3 7. Ka1 Kc2 8. Ka2 Nb5 9. a7 Nc1+ 10. Ka1 Nd4 11. a8=Q Ndb3#
+    "8/n7/P7/8/2n5/8/2k5/K7 b - - 0 1"; // 2N v P #11 [16-ply in 42.66 @1.307 MHz over 55.36 Mnode]
+    // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 transposing to 7... Kc2] Kb4 6. Kb1 Kb3 7. Ka1 Kc2 8. Ka2 Nb5 9. a7 Nc1+
+    // [9... Nb4+ 10. Ka1 Nd4 11. a8=Q Nb3#] 10. Ka1 Nd4 11. a8=Q Ndb3#
     //"5k2/8/5pK1/5PbP/2Bn4/8/8/8 b - - 0 68"; // Carlsen v Caruana 2018-11-09 WCC R6 London
     // 68... Bh4! 69. Bd5 Ne2 70. Bf3 (70. Kh7 Bg5 71. Bf3 Ng3! 72. Kg6 (72. Bg4 Kf7 73. Kh8 Be3 74. Kh7 Bc5 75. h6 (75. Kh8?! Bf8 76. Kh7??)
     // 75... Bf8 76. Bh3 Ne4 77. Bg2 Ng5+ 78. Kh8 Bxh6 79. Bd5+ Kf8 80. Be4 Bg7#) 72... Kg8-+)
     // 70... Ng1 71. Bg4 (71. Bd5 Bg5 72. Kh7 Ne2 73. Bf3 Ng3 74. Bg4 Kf7 75. Kh8 Bc1 76. Kh7 Ba3) 71... Kg8-+
     //"8/8/4R3/5pk1/8/3B4/7p/2nK4 w - - 0 1"; // Blindfold Study given to Wesley So by Sagar Shah [1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
     //[buildMove Test]moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
-    "k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
+    //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
     //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 27.1 sec]
