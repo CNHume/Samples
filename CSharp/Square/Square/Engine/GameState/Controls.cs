@@ -317,7 +317,7 @@ namespace Engine {
         Option = new Option {
           Name = "Language",
           Type = OptionType.combo,
-          Items = Board.Locales.Select(locale => locale.Language).ToArray<String>(),
+          Items = Locales.Select(locale => locale.Language).ToArray<String>(),
           Default = "English",
           IsHidden = true
         }
