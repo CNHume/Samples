@@ -81,8 +81,8 @@ namespace Command {
     //"8/8/4R3/5pk1/8/3B4/7p/2nK4 w - - 0 1"; // Blindfold Study given to Wesley So by Sagar Shah [1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
     //[buildMove Test]moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
     //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
-    //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
-    //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
+    //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Find #4 [after 8-ply]
+    //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Find #4 [after 8-ply]
     "4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply @1.31 MHz in 67.2 sec over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply in 4.27 sec]
     //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
