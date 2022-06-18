@@ -16,6 +16,7 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //"";
+    //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
     // [18-ply in 5:07] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
     // [20-ply in 56:36.63 @1.384 MHz over 4.7 Gnode] gives an Eval of 11.1 after taking all of the pawns:
@@ -69,9 +70,10 @@ namespace Command {
     // See https://www.youtube.com/watch?v=Fwzq7qK6MMQ for Stockfish 8 variations
     // For example: moves d3c4 d5c4 d4d5 f8d7 h4c4 c7c6 c3e4 c6d5 e4d6 e7d6 e5d6 d5c4 g3h4 g8g7 g2g4 d7e5 g5f7 d8c6 f7e5 c6e5 h4f6 g7f7 f6h8 e8d7 f3f7 e5f7 h8h7 d7d6 h7f7
     //"8/8/6b1/3k4/8/1N5P/p7/3K4 b - - 0 77"; // Fedoseev v Carlsen 0-1 [16-ply in 21.5 sec]
-    "8/n7/P7/8/2n5/8/2k5/K7 b - - 0 1"; // 2N v P #11 [16-ply in 42.66 @1.307 MHz over 55.36 Mnode]
-    // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 transposing to 7... Kc2] Kb4 6. Kb1 Kb3 7. Ka1 Kc2 8. Ka2 Nb5 9. a7 Nc1+
-    // [9... Nb4+ 10. Ka1 Nd4 11. a8=Q Nb3#] 10. Ka1 Nd4 11. a8=Q Ndb3#
+    //"8/n7/P7/8/2n5/8/2k5/K7 b - - 0 1"; // 2N v P #11 [16-ply in 42.66 @1.307 MHz over 55.36 Mnode]
+    // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 transposing to 7... Kc2] Kb4
+    // 6. Kb1 [6. Ka1 Kb3 7. Kb1 Nb5 8. Ka1 Na3 9. a7 Ne1 10. a8=Q Nec2#] 6... Kb3 7. Ka1 Kc2 8. Ka2 Nb5
+    // 9. Ka1 [9. a7 Nc1+ [or 9... Nb4+ 10. Ka1 Nd4] 10. Ka1 transposing to 10. a7] 9... Nc1 10. a7 Nc3 11. a8=Q Nb3#
     //"5k2/8/5pK1/5PbP/2Bn4/8/8/8 b - - 0 68"; // Carlsen v Caruana 2018-11-09 WCC R6 London
     // 68... Bh4! 69. Bd5 Ne2 70. Bf3 (70. Kh7 Bg5 71. Bf3 Ng3! 72. Kg6 (72. Bg4 Kf7 73. Kh8 Be3 74. Kh7 Bc5 75. h6 (75. Kh8?! Bf8 76. Kh7??)
     // 75... Bf8 76. Bh3 Ne4 77. Bg2 Ng5+ 78. Kh8 Bxh6 79. Bd5+ Kf8 80. Be4 Bg7#) 72... Kg8-+)
@@ -81,7 +83,7 @@ namespace Command {
     //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
     //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Mate in 4 [9-ply]
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Mate in 4 [8-ply]
-    //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [13-ply @1.234 MHz in 27.1 sec]
+    "4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [16-ply @1.32 MHz in 41.95 sec]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply in 4.27 sec]
     //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [15-ply in 22 sec] gives an Eval of -1.53 following
@@ -198,7 +200,8 @@ namespace Command {
     //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
     //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61";  // Radjabov vs Karjakin 2012
     //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply in 92.45 sec @1.292 MHz]
-    //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8, 15-ply in 6:13 (formerly 12:52) to find [66. Nh7 Re8 67. Rc6! Be6 68. Rc7]
+    //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8 [16-ply in 47:35 @1.1 MHz over 3.141 Gnode]
+    // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics!, eval = 3.65, 12-ply in 60 sec, eval = 9.0 16-ply 1:17:21
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6, 10-ply in 2.8 sec @1.258 MHz for Ra6 (or Ra5) followed by Qa4
     //"1k1q3r/1r4pp/1PQ5/4pB2/R7/7P/5PP1/6K1 w - - 0 2";      // Mavo Nice Mate2 [5-ply longer]
