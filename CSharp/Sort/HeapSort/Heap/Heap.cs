@@ -318,7 +318,7 @@ namespace HeapSort {
       if (counter > 0) {
         for (var final = counter - 1; final > 0; final--) {
           var parent = Parent(final);
-          if (entries[parent].IsPredecessor(entries[final], IsAscending))
+          if (Entries[parent].IsPredecessor(Entries[final], IsAscending))
             return false;
           //[Assert]entries[final] either precedes or is equal to entries[parent]
         }
@@ -377,7 +377,7 @@ namespace HeapSort {
     /// <summary>Reverse Entries and Invert Heap sense</summary>
     /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
     protected void Reverse() {
-      if (counter > 0) {
+      if (Entries is not null && counter > 0) {
         for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
           Swap(Entries, left, right);
       }
@@ -398,8 +398,9 @@ namespace HeapSort {
     public IEnumerator<T> GetEnumerator() {
       var count = counter;
 
-      while (counter > 0) {             //[Note]LHS Index evaluates prior to RHS side-effects
-        yield return entries[counter - 1] = Remove();
+      while (Entries is not null && counter > 0) {
+        //[Note]LHS Index evaluates prior to RHS side-effects
+        yield return Entries[counter - 1] = Remove();
       }
 
       //IsSorted = true;

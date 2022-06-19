@@ -26,10 +26,10 @@ namespace SortTest {
     #endregion
 
     #region Properties
-    protected UInt64 CompareCount { get; set; }
-    protected UInt64 MoveCount { get; set; }
-    protected UInt64 PartCount { get; set; }
-    protected String Mode { get; init; }
+    protected UInt64 CompareCount { get; set; } = 0;
+    protected UInt64 MoveCount { get; set; } = 0;
+    protected UInt64 PartCount { get; set; } = 0;
+    protected String? Mode { get; init; }
     private Stopwatch Timer { get; }
     #endregion
 

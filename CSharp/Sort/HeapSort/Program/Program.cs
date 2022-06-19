@@ -20,12 +20,12 @@ namespace Sort {
         cmd.Parse(args);
 
         var source = new SortData(cmd.SortCase);
-        var entries = cmd.Length.HasValue ?
-          source.BuildEntries(cmd.Length.Value) :
-          default;
 
-        var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.Print, cmd.Trials);
+        if (cmd.Length.HasValue) {
+          var entries = source.BuildEntries(cmd.Length.Value);
+          var timer = new SortTimer<Int32>();
+          timer.Sort(entries, cmd.Print, cmd.Trials);
+        }
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

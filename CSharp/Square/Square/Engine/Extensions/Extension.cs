@@ -645,13 +645,15 @@ namespace Engine {
     }
 
     public static StringBuilder AppendOperations(
-      this StringBuilder sb, Dictionary<String, List<String>> operations) {
+      this StringBuilder sb, Dictionary<String, List<String>?> operations) {
       if (operations is not null) {
         foreach (var op in operations) {        // .OrderBy(op => op.Key)
           sb.Append(sSpace).Append(op.Key);
 
-          foreach (var operand in op.Value)
-            sb.Append(sSpace).Append(operand);
+          if (op.Value is not null) {
+            foreach (var operand in op.Value)
+              sb.Append(sSpace).Append(operand);
+          }
 
           sb.Append(";");
         }

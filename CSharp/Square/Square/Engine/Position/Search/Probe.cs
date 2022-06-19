@@ -86,7 +86,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public Eval addMove(Move moveFound, List<GoodMove> goodMoves,
+    public Eval addMove(Move moveFound, List<GoodMove>? goodMoves,
                         Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
                         Boolean bFilterEvalUndefined = false) {
       var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);

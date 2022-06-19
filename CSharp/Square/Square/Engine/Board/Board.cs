@@ -585,7 +585,7 @@ namespace Engine {
           if (IsOneOrNone(Knight))
             FlagsDraw |= DrawFlags.DrawIM;
         }
-        else if (Knight == 0) {         // Test for KB*KB* covering only one color, or KK:
+        else if (Knight == 0) {         // Test for KB*KB+ of same color:
           if ((DiagPiece & LiteSquare) == 0 ||
               (DiagPiece & DarkSquare) == 0)
             FlagsDraw |= DrawFlags.DrawIM;
@@ -652,7 +652,7 @@ namespace Engine {
 
 #region EPD Operation Methods
     protected void addOperation(
-      Dictionary<String, List<String>> operations, String sKey, params String[] sValues) {
+      Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
       if (operations is not null) {
         var values = new List<String>(sValues);
         operations.Add(sKey, values);
@@ -660,7 +660,7 @@ namespace Engine {
     }
 
     private void newOperations() {
-      Operations = new Dictionary<String, List<String>>(4);
+      Operations = new Dictionary<String, List<String>?>(4);
       var nMove = GamePly / 2 + 1;
       addOperation(Operations, "fmvn", nMove.ToString());
       addOperation(Operations, "hmvc", HalfMoveClock.ToString());

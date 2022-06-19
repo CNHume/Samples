@@ -7,9 +7,10 @@ namespace Logging {
   using Command;
 
   using System;
-  using static System.String;
   using System.IO;
   using System.Text;
+
+  using static System.String;
 
   static class Logger {
     #region Constants
@@ -48,13 +49,13 @@ namespace Logging {
     #endregion
 
     #region Methods
-    private static string combineExtension(String filename, String ext) {
+    private static String? combineExtension(String? filename, String? ext) {
       return IsNullOrEmpty(Path.GetExtension(filename)) ? $"{filename}.{ext}" : filename;
     }
 
-    private static string combineFilename(String path, String filename, String ext) {
+    private static String combineFilename(String path, String? filename, String ext) {
       var sFullFilename = combineExtension(filename, ext);
-      return Path.Combine(path, sFullFilename);
+      return Path.Combine(path, sFullFilename ?? Empty);
     }
 
     private static FileStream? OpenLogStream(String? path) {
