@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 //
 //[2011-07-04 CNHume]Created File
 //
@@ -16,22 +16,22 @@
 
 namespace Engine {
   using Command;
+
   using Exceptions;
-  using static Logging.Logger;
-  using Test;
 
   using System;
   using System.Diagnostics;
-  using System.Linq;
-  using static System.Math;
   using System.Text;
+
+  using static Logging.Logger;
+  using static System.Math;
 
   //
   // Type Aliases:
   //
-  using PlyDepth = Byte;
   using Depth = UInt16;
   using Eval = Int16;
+  using PlyDepth = Byte;
 
   partial class Position : Board {
     #region Constants

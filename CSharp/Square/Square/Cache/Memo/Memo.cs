@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 //
 //[CNH 27-Nov-12]Created Memo Class to implement fast Hashtables
 //

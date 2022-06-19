@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 //
 //[2012-10-29 CNHume]Added file
 //
