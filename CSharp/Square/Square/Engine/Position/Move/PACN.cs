@@ -52,6 +52,7 @@ namespace Engine {
 
     // Move Annotatons:
     internal const String sNotePromotion = "=";
+    internal const String sTextInsufficient = "draw by insufficient material to mate";
     internal const String sTextStalemate = "stalemate";
     internal const String sTextCheckmate = "checkmate";
     internal const String sNoteCheckmate = "#";

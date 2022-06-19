@@ -50,9 +50,15 @@ namespace Engine {
     [Conditional("ThrowFinal")]
     private void throwFinalPosition() {
       //[Assume]LoFlags have been set by Search()
-      if (IsFinal()) {
-        var sFinal = InCheck() ? sTextCheckmate : sTextStalemate;
-        throw new FinalPositionException($"Position is a {sFinal}");
+      if (IsFinal() || IsInsufficient()) {
+        String sMessage;
+        if (IsInsufficient())
+          sMessage = sTextInsufficient;
+        else if (InCheck())
+          sMessage = sTextCheckmate;
+        else
+          sMessage = sTextStalemate;
+        throw new FinalPositionException(sMessage);
       }
     }
 
