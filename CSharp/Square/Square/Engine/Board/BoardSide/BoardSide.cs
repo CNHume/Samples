@@ -56,7 +56,7 @@ namespace Engine {
       public Plane PawnA1H8Atx;         // Attacked by Pawns
       public Plane PawnA8H1Atx;
 
-      public Plane Piece;               // Pieces belonging to Side
+      public Plane Piece;               // Pieces belonging to side
 #if HashPieces
       public PieceHashcode PieceHash;
 #endif

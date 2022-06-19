@@ -116,9 +116,9 @@ namespace Engine {
     public Plane Knight;
     public Plane DiagPiece;
     public Plane RectPiece;
-    public Plane RankPiece;             // Piece Union
+    public Plane RankPiece;             // Piece Union over both sides
 #if !Magic
-    public Plane FilePiece;             // Rotations
+    public Plane FilePiece;             // Piece Rotations
     public Plane A1H8Piece;
     public Plane A8H1Piece;
 #endif
