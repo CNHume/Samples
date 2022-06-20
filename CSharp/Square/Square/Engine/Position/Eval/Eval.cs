@@ -384,25 +384,31 @@ namespace Engine {
     }
 #if MaterialBalance
     protected void getValue(out Eval mDelta, out Eval mTotal) {
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
+      var isBlackInsufficient = IsInsufficient(blackSide.Piece);
+      var isWhiteInsufficient = IsInsufficient(whiteSide.Piece);
+
+      var fBlackSide = blackSide.FlagsSide;
+      var fWhiteSide = whiteSide.FlagsSide;
+
       //
       // Piece Counts ignore the number of Pawns
       //
-      var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
-      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
+      var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
+      var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
 #if DebugComposition
       var sb = new StringBuilder();
       foreach (var side in Side)
         sb.AppendPieceCounts(side).AppendLine();
-      
-      sb.AppendPieceHash(Side[Black], Side[White]);
+
+      sb.AppendPieceHash(blackSide, whiteSide);
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var fBlackSide = Side[Black].FlagsSide;
-      var fWhiteSide = Side[White].FlagsSide;
-
-      var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, fBlackSide);
-      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, fWhiteSide);
+      var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, fBlackSide);
+      var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, fWhiteSide);
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
@@ -416,23 +422,28 @@ namespace Engine {
     private static Composition comp = new Composition();
 #endif
     protected void getValue(out Eval mDelta, out Eval mTotal) {
-#if NoPieceHash
-      comp.Recycle(WhiteCount, BlackCount, FlagsSide);
-#else
-      var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
-      var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
 
+      var isBlackInsufficient = IsInsufficient(blackSide.Piece);
+      var isWhiteInsufficient = IsInsufficient(whiteSide.Piece);
+
+      var fBlackSide = blackSide.FlagsSide;
+      var fWhiteSide = whiteSide.FlagsSide;
+
+      var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
+      var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
+#if NoPieceHash
+      comp.Recycle(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
+#else
       var uMemoHash = compositionHash(true);
 #if DebugComposition
       var sb = new StringBuilder()
-        .AppendPieceCounts(Side[Black], Side[White]).AppendLine()
-        .AppendPieceHash(Side[Black], Side[White]);
+        .AppendPieceCounts(blackSide, whiteSide).AppendLine()
+        .AppendPieceHash(blackSide, whiteSide);
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var fBlackSide = Side[Black].FlagsSide;
-      var fWhiteSide = Side[White].FlagsSide;
-
       var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
 #endif
       mDelta = (Eval)comp.Delta;

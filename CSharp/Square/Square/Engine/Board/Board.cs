@@ -40,7 +40,7 @@ namespace Engine {
      * Precision      Signed    Unsigned    Float
      *      8            z         v
      *     16            m         w
-     *     32            n         u          f
+     *     32            n         u          r
      *     64            l         q          d
      *   Plane                     qp
      *   Object                    o
@@ -575,12 +575,12 @@ namespace Engine {
     //
     protected void setInsufficient() {
       FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
-      if (isInsufficient(RankPiece))
+      if (IsInsufficient(RankPiece))
         FlagsDraw |= DrawFlags.DrawIM;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Boolean isInsufficient(Plane qpPiece) {
+    protected Boolean IsInsufficient(Plane qpPiece) {
       var qpPawn = qpPiece & Pawn;
       var qpRect = qpPiece & RectPiece;
       var qpDiag = qpPiece & DiagPiece;
