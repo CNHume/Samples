@@ -46,10 +46,11 @@ namespace Engine {
     // https://www.chess.com/article/view/the-evaluation-of-material-imbalances-by-im-larry-kaufman
     //
 #if MaterialBalance
-    public Composition2 GetCX2(Position position,
-                               PieceHashcode wMemoHash,
-                               CompositionCounter wPieceCounts,
-                               SideFlags fside) {
+    public Composition2 GetCX2(
+      Position position,
+      PieceHashcode wMemoHash,
+      CompositionCounter wPieceCounts,
+      SideFlags fside) {
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[wMemoHash];
       fside &= SideFlags.Pair;          //[Note]Only SideFlags.Pair are cached for use by weighPieces()
@@ -103,11 +104,13 @@ namespace Engine {
 #endif
     }
 #else                                   // MaterialBalance
-    public Composition GetCXP(Position position,
+    public Composition GetCXP(
+      Position position,
       MemoHashcode uMemoHash,
       CompositionCounter wBlackCounts,
       CompositionCounter wWhiteCounts,
-      SideFlags fBlackSide, SideFlags fWhiteSide) {
+      SideFlags fBlackSide,
+      SideFlags fWhiteSide) {
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[uMemoHash];
       fBlackSide &= SideFlags.Pair;     //[Note]Only SideFlags.Pair are cached for use by weighPieces()

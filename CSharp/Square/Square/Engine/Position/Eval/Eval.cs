@@ -90,6 +90,7 @@ namespace Engine {
     protected const Eval mBishopWeight = 3 * mUnitWeight + mQuarterWeight;
     protected const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;
 
+    protected const Eval mInsufficientWeight = mHalfWeight;
     protected const Eval mThreatWeight = mKnightWeight;
     protected const Eval mStandPatWeight = mPawnWeight + mHalfWeight;//[Unused]
     protected const Eval mDeltaBaseWeight = 2 * mPawnWeight;
@@ -397,8 +398,11 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, Side[Black].FlagsSide);
-      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, Side[White].FlagsSide);
+      var fBlackSide = Side[Black].FlagsSide;
+      var fWhiteSide = Side[White].FlagsSide;
+
+      var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, fBlackSide);
+      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, fWhiteSide);
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
@@ -426,8 +430,10 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var comp = State.GetCXP(
-        this, uMemoHash, wBlackCounts, wWhiteCounts, Side[Black].FlagsSide, Side[White].FlagsSide);
+      var fBlackSide = Side[Black].FlagsSide;
+      var fWhiteSide = Side[White].FlagsSide;
+
+      var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
 #endif
       mDelta = (Eval)comp.Delta;
       mTotal = (Eval)comp.Total;
@@ -519,10 +525,13 @@ namespace Engine {
         mDelta += pp.Delta;
         mTotal += pp.Total;
 #if EvalWrongBishop
-        if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, Side[Black].FlagsSide))
+        var fBlackSide = Side[Black].FlagsSide;
+        var fWhiteSide = Side[White].FlagsSide;
+
+        if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, fBlackSide))
           mDelta += mWrongBishopWeight; // Black has Wrong Bishop
 
-        if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, Side[White].FlagsSide))
+        if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, fWhiteSide))
           mDelta -= mWrongBishopWeight; // White has Wrong Bishop
 #endif
       }

@@ -35,9 +35,11 @@ namespace Engine.CacheValue {
     #endregion
 
     #region Constructors
-    public Composition(CompositionCounter wBlackCounts,
-                       CompositionCounter wWhiteCounts,
-                       SideFlags fBlackSide, SideFlags fWhiteSide) {
+    public Composition(
+      CompositionCounter wBlackCounts,
+      CompositionCounter wWhiteCounts,
+      SideFlags fBlackSide,
+      SideFlags fWhiteSide) {
       //HashPiece = qHashPiece;
       WhiteCounts = wWhiteCounts;
       BlackCounts = wBlackCounts;
@@ -51,9 +53,11 @@ namespace Engine.CacheValue {
     #region Methods
 #if !CompositionByValue
     // Recycle Compositions to reduce garbage:
-    public void Recycle(CompositionCounter wBlackCounts,
-                        CompositionCounter wWhiteCounts,
-                        SideFlags fBlackSide, SideFlags fWhiteSide) {
+    public void Recycle(
+      CompositionCounter wBlackCounts,
+      CompositionCounter wWhiteCounts,
+      SideFlags fBlackSide,
+      SideFlags fWhiteSide) {
       //HashPiece = qHashPiece;
       BlackCounts = wBlackCounts;
       WhiteCounts = wWhiteCounts;
