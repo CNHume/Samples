@@ -37,14 +37,14 @@ namespace Engine.CacheValue {
     #region Constructors
     public Composition(CompositionCounter wBlackCounts,
                        CompositionCounter wWhiteCounts,
-                       HiFlags fBlackHi, HiFlags fWhiteHi) {
+                       SideFlags fBlackSide, SideFlags fWhiteSide) {
       //HashPiece = qHashPiece;
       WhiteCounts = wWhiteCounts;
       BlackCounts = wBlackCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsBlackHi = fBlackHi;
-      FlagsWhiteHi = fWhiteHi;
-      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
+      FlagsBlackHi = fBlackSide;
+      FlagsWhiteHi = fWhiteSide;
+      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
     }
     #endregion
 
@@ -53,14 +53,14 @@ namespace Engine.CacheValue {
     // Recycle Compositions to reduce garbage:
     public void Recycle(CompositionCounter wBlackCounts,
                         CompositionCounter wWhiteCounts,
-                        HiFlags fBlackHi, HiFlags fWhiteHi) {
+                        SideFlags fBlackSide, SideFlags fWhiteSide) {
       //HashPiece = qHashPiece;
       BlackCounts = wBlackCounts;
       WhiteCounts = wWhiteCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsBlackHi = fBlackHi;
-      FlagsWhiteHi = fWhiteHi;
-      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
+      FlagsBlackHi = fBlackSide;
+      FlagsWhiteHi = fWhiteSide;
+      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
     }
 #endif
     #endregion
@@ -70,8 +70,8 @@ namespace Engine.CacheValue {
     public CompositionCounter WhiteCounts;
     public CompositionCounter BlackCounts;
     public CVFlags FlagsCV;
-    public HiFlags FlagsBlackHi;
-    public HiFlags FlagsWhiteHi;
+    public SideFlags FlagsBlackHi;
+    public SideFlags FlagsWhiteHi;
     public Eval Delta;
     public Eval Total;
     #endregion
@@ -91,22 +91,22 @@ namespace Engine.CacheValue {
     #endregion
 
     #region Constructors
-    public Composition2(CompositionCounter wPieceCounts, HiFlags fhi) {
+    public Composition2(CompositionCounter wPieceCounts, SideFlags fside) {
       PieceCounts = wPieceCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsHi = fhi;
-      weighPieces(out Value, wPieceCounts, fhi);
+      FlagsSide = fside;
+      weighPieces(out Value, wPieceCounts, fside);
     }
     #endregion
 
     #region Methods
 #if !CompositionByValue
     // Recycle Compositions to reduce garbage:
-    public void Recycle(CompositionCounter wPieceCounts, HiFlags fhi) {
+    public void Recycle(CompositionCounter wPieceCounts, SideFlags fside) {
       PieceCounts = wPieceCounts;
       FlagsCV = CVFlags.IsValid;
-      FlagsHi = fhi;
-      weighPieces(out Value, wPieceCounts, fhi);
+      FlagsSide = fside;
+      weighPieces(out Value, wPieceCounts, fside);
     }
 #endif
     #endregion
@@ -115,7 +115,7 @@ namespace Engine.CacheValue {
     //public Hashcode HashPiece;
     public CompositionCounter PieceCounts;
     public CVFlags FlagsCV;
-    public HiFlags FlagsHi;
+    public SideFlags FlagsSide;
     public Eval Value;
     #endregion
   }

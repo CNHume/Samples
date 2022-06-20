@@ -59,7 +59,7 @@ namespace Engine {
           var nSetup = p == Piece.Q ? 1 : 2;
 
           if (p == Piece.B)
-            nSetup = bishopPair(side.FlagsHi) ? 2 : 1;
+            nSetup = bishopPair(side.FlagsSide) ? 2 : 1;
 
           var vPiece = pieceIndex((UInt32)p);
           var nCount = (Int32)nibble(side.Counts >> vPiece * nPerNibble);
@@ -162,7 +162,7 @@ namespace Engine {
         State.ClearCastleRule(Side);
 
         foreach (var side in Side)
-          side.FlagsHi &= ~HiFlags.CanCastleMask;
+          side.FlagsSide &= ~SideFlags.CanCastleMask;
 
         for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
           var cFlag = sCastleFlags[nPos];
@@ -198,7 +198,7 @@ namespace Engine {
           var rule = side.Rule;
           var nRank = side.Parameter.StartRank;
 
-          side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, State.IsChess960);
+          side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, State.IsChess960);
         }                               //[Next]Right
 
         if (State.IsChess960 && bOrthodox)
@@ -347,7 +347,7 @@ namespace Engine {
       Operations = operations;
 
       //
-      // FlagsHi/Lo bits outside of those in their respective Equal Masks were reset by pushRoot()
+      // FlagsLo/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
       //
       parsePassed(bWTM, sEnPassant);
 

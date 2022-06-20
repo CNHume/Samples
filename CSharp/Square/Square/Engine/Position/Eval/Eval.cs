@@ -156,7 +156,7 @@ namespace Engine {
 
       var bEndgame =
         IsOneOrNone(Knight) &&          // At most one Knight
-        !bishopPair(attacker.FlagsHi);  // No Bishop Pair
+        !bishopPair(attacker.FlagsSide);  // No Bishop Pair
 
       return bEndgame;
     }
@@ -274,7 +274,7 @@ namespace Engine {
 
       // Bishop color determines the mating corner
       var side = getSide(!bWhiteDefending);
-      var bLite = (side.FlagsHi & HiFlags.Lite) != 0;
+      var bLite = (side.FlagsSide & SideFlags.Lite) != 0;
       var nReward = bLite ?
         liteCornerReward(vDefendingKingPos) :
         darkCornerReward(vDefendingKingPos);
@@ -299,12 +299,12 @@ namespace Engine {
     // To be considered "Wrong" a given side must have a Bishop to begin with.
     // Wrong Bishops DO NOT protect the queening square of a Passed Rook Pawn:
     //
-    private static Boolean punishWrongBishop(PRPFlags fprp, HiFlags fhi) {
+    private static Boolean punishWrongBishop(PRPFlags fprp, SideFlags fside) {
       var bWrong =
-        ((fhi & HiFlags.Pair) != 0) &&
+        ((fside & SideFlags.Pair) != 0) &&
         ((fprp & PRPFlags.Both) != 0) &&
-        ((((fprp & PRPFlags.Lite) != 0) && (fhi & HiFlags.Lite) == 0) ||
-         (((fprp & PRPFlags.Dark) != 0) && (fhi & HiFlags.Dark) == 0));
+        ((((fprp & PRPFlags.Lite) != 0) && (fside & SideFlags.Lite) == 0) ||
+         (((fprp & PRPFlags.Dark) != 0) && (fside & SideFlags.Dark) == 0));
 
       return bWrong;
     }
@@ -397,8 +397,8 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, Side[Black].FlagsHi);
-      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, Side[White].FlagsHi);
+      var compBlack = State.GetCX2(this, Side[Black].PieceHash, wBlackCounts, Side[Black].FlagsSide);
+      var compWhite = State.GetCX2(this, Side[White].PieceHash, wWhiteCounts, Side[White].FlagsSide);
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
@@ -413,7 +413,7 @@ namespace Engine {
 #endif
     protected void getValue(out Eval mDelta, out Eval mTotal) {
 #if NoPieceHash
-      comp.Recycle(WhiteCount, BlackCount, FlagsHi);
+      comp.Recycle(WhiteCount, BlackCount, FlagsSide);
 #else
       var wBlackCounts = (CompositionCounter)(Side[Black].Counts >> nCompositionOffsetBit);
       var wWhiteCounts = (CompositionCounter)(Side[White].Counts >> nCompositionOffsetBit);
@@ -426,7 +426,8 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, Side[Black].FlagsHi, Side[White].FlagsHi);
+      var comp = State.GetCXP(
+        this, uMemoHash, wBlackCounts, wWhiteCounts, Side[Black].FlagsSide, Side[White].FlagsSide);
 #endif
       mDelta = (Eval)comp.Delta;
       mTotal = (Eval)comp.Total;
@@ -518,10 +519,10 @@ namespace Engine {
         mDelta += pp.Delta;
         mTotal += pp.Total;
 #if EvalWrongBishop
-        if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, Side[Black].FlagsHi))
+        if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, Side[Black].FlagsSide))
           mDelta += mWrongBishopWeight; // Black has Wrong Bishop
 
-        if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, Side[White].FlagsHi))
+        if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, Side[White].FlagsSide))
           mDelta -= mWrongBishopWeight; // White has Wrong Bishop
 #endif
       }
@@ -847,14 +848,14 @@ namespace Engine {
     // Used in the Composition2 Constructor
     internal static void weighPieces(out Eval Value,
                                      CompositionCounter wPieceCounts,
-                                     HiFlags fhi) {
+                                     SideFlags fside) {
       var nSum = 0;
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wPieceCounts >>= nPerNibble) {
         nSum += nibble(wPieceCounts) * PieceWeight[vPiece];
       }
 #if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
-      if (bishopPair(fhi)) {
+      if (bishopPair(fside)) {
         nSum += mBishopPairWeight;
       }
 #endif
@@ -866,7 +867,7 @@ namespace Engine {
                                      out Eval Total,
                                      CompositionCounter wBlackCounts,
                                      CompositionCounter wWhiteCounts,
-                                     HiFlags fBlackHi, HiFlags fWhiteHi) {
+                                     SideFlags fBlackSide, SideFlags fWhiteSide) {
       var nSumDelta = 0;
       var nSumTotal = 0;
 
@@ -883,12 +884,12 @@ namespace Engine {
         nSumTotal += nTotal * PieceWeight[vPiece];
       }
 #if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
-      if (bishopPair(fBlackHi)) {
+      if (bishopPair(fBlackSide)) {
         nSumDelta -= mBishopPairWeight;
         nSumTotal += mBishopPairWeight;
       }
 
-      if (bishopPair(fWhiteHi)) {
+      if (bishopPair(fWhiteSide)) {
         nSumDelta += mBishopPairWeight;
         nSumTotal += mBishopPairWeight;
       }

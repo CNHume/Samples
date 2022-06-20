@@ -47,7 +47,7 @@ namespace Engine {
       public PositionParameter Parameter;
       public CastleRuleParameter Rule;
 
-      public HiFlags FlagsHi;           //[fhi]BishopMask | CanCastleMask
+      public SideFlags FlagsSide;       //[fside]BishopMask | CanCastleMask
 
       public PieceCounter Counts;
 

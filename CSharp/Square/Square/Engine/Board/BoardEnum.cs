@@ -54,10 +54,10 @@ namespace Engine {
     }
     #endregion
 
-    #region HiFlags Enum
+    #region SideFlags Enum
     //
-    // HiFlags  0:4
-    // ------------
+    // SideFlags  0:4
+    // --------------
     //  0:1 CanOO
     //  1:1 CanOOO
     //  2:1 Lite
@@ -66,7 +66,7 @@ namespace Engine {
     public const Int32 nBishopPairBit = 2;
 
     [Flags]
-    public enum HiFlags : byte {
+    public enum SideFlags : byte {
       None = 0,
       CanOO = 1,                        // Bit 0 Castle Rights
       CanOOO = CanOO << 1,              // Bit 1
@@ -241,7 +241,7 @@ namespace Engine {
 
     internal const Byte vFirst = (Byte)(Piece.P);
     internal const Byte vP6 = (Byte)(Piece.P - vFirst);
-    internal const Byte vHF = vP6;      // Used for HiFlags within HashPiece
+    internal const Byte vHF = vP6;      // Used for SideFlags within HashPiece
     internal const Byte vN6 = (Byte)(Piece.N - vFirst);
     internal const Byte vB6 = (Byte)(Piece.B - vFirst);
     internal const Byte vR6 = (Byte)(Piece.R - vFirst);

@@ -432,7 +432,7 @@ namespace Engine {
 
     private Boolean canOO(BoardSide friend, BoardSide foe) {
       var friendRule = friend.Rule;
-      var bLegal = ((friend.FlagsHi & HiFlags.CanOO) != 0) &&
+      var bLegal = ((friend.FlagsSide & SideFlags.CanOO) != 0) &&
                    ((friendRule.OOPath & RankPiece) == 0) &&
                    friendRule.OOSafe.HasValue &&
                    !isAttacked(foe, friendRule.OOSafe.Value);
@@ -442,7 +442,7 @@ namespace Engine {
 
     private Boolean canOOO(BoardSide friend, BoardSide foe) {
       var friendRule = friend.Rule;
-      var bLegal = ((friend.FlagsHi & HiFlags.CanOOO) != 0) &&
+      var bLegal = ((friend.FlagsSide & SideFlags.CanOOO) != 0) &&
                    ((friendRule.OOOPath & RankPiece) == 0) &&
                    friendRule.OOOSafe.HasValue &&
                    !isAttacked(foe, friendRule.OOOSafe.Value);

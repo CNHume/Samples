@@ -418,9 +418,9 @@ namespace Engine {
         //
         // Validation normally provided by parseCastleRights()
         //
-        side.FlagsHi &= ~HiFlags.CanCastleMask;
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOOO + nSetup, qpRook, bChess960);
-        side.FlagsHi |= rule.GrantCastling(side.KingPos, nRookFromOO + nSetup, qpRook, bChess960);
+        side.FlagsSide &= ~SideFlags.CanCastleMask;
+        side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFromOOO + nSetup, qpRook, bChess960);
+        side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFromOO + nSetup, qpRook, bChess960);
       }
     }
 

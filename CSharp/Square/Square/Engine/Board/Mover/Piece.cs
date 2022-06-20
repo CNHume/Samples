@@ -27,24 +27,24 @@ namespace Engine {
 
   partial class Board {
     #region Bishop Tests
-    protected static Boolean oppositeBishops(HiFlags fBlackHi, HiFlags fWhiteHi) {
-      var blackPair = fBlackHi & HiFlags.Pair;
-      var whitePair = fWhiteHi & HiFlags.Pair;
+    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
 
-      return (whitePair == HiFlags.Lite && blackPair == HiFlags.Dark) ||
-             (whitePair == HiFlags.Dark && blackPair == HiFlags.Lite);
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Dark) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
     }
 
-    protected static Boolean sameBishops(HiFlags fBlackHi, HiFlags fWhiteHi) {
-      var blackPair = fBlackHi & HiFlags.Pair;
-      var whitePair = fWhiteHi & HiFlags.Pair;
+    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
 
-      return (whitePair == HiFlags.Lite && blackPair == HiFlags.Lite) ||
-             (whitePair == HiFlags.Dark && blackPair == HiFlags.Dark);
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Lite) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
     }
 
-    protected static Boolean bishopPair(HiFlags fhi) {
-      return (fhi & HiFlags.Pair) == HiFlags.Pair;
+    protected static Boolean bishopPair(SideFlags fside) {
+      return (fside & SideFlags.Pair) == SideFlags.Pair;
     }
     #endregion
 
@@ -106,9 +106,9 @@ namespace Engine {
       case vR6:
         RectPiece &= ~qp;
         if (nFrom == rule.RookOOFrom)
-          side.FlagsHi &= ~HiFlags.CanOO;
+          side.FlagsSide &= ~SideFlags.CanOO;
         else if (nFrom == rule.RookOOOFrom)
-          side.FlagsHi &= ~HiFlags.CanOOO;
+          side.FlagsSide &= ~SideFlags.CanOOO;
         break;
       case vN6:
         Knight &= ~qp;
@@ -123,7 +123,7 @@ namespace Engine {
         break;
       case vK6:
         King &= ~qp;
-        side.FlagsHi &= ~HiFlags.CanCastleMask;
+        side.FlagsSide &= ~SideFlags.CanCastleMask;
         break;
       default:
         throw new PieceException("Unexpected Piece [raiseSide]");
@@ -145,12 +145,12 @@ namespace Engine {
 
         if (bLite) {
           if ((qpBishop & LiteSquare) == 0)
-            side.FlagsHi &= ~HiFlags.Lite;
+            side.FlagsSide &= ~SideFlags.Lite;
         }
         else if ((qpBishop & DarkSquare) == 0)
-          side.FlagsHi &= ~HiFlags.Dark;
+          side.FlagsSide &= ~SideFlags.Dark;
 #if HashPieces
-        var u = (UInt32)(side.FlagsHi & HiFlags.Pair) >> nBishopPairBit;
+        var u = (UInt32)(side.FlagsSide & SideFlags.Pair) >> nBishopPairBit;
         setTwoBits(ref side.PieceHash, 0, u);   // Piece == vHF
 #endif
       }
@@ -217,9 +217,9 @@ namespace Engine {
       // Update BishopMask
       //
       if (vPiece == vB6) {
-        side.FlagsHi |= bLite ? HiFlags.Lite : HiFlags.Dark;
+        side.FlagsSide |= bLite ? SideFlags.Lite : SideFlags.Dark;
 #if HashPieces
-        var u = (UInt32)(side.FlagsHi & HiFlags.Pair) >> nBishopPairBit;
+        var u = (UInt32)(side.FlagsSide & SideFlags.Pair) >> nBishopPairBit;
         setTwoBits(ref side.PieceHash, 0, u);   // Piece == vHF
 #endif
       }

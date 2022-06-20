@@ -220,8 +220,8 @@ namespace Engine {
       var nRights = 0;
       foreach (var side in Side) {
         nRights <<= nPerTwoBits;
-        var fhi = side.FlagsHi & HiFlags.CanCastleMask;
-        nRights += (Int32)fhi;
+        var fside = side.FlagsSide & SideFlags.CanCastleMask;
+        nRights += (Int32)fside;
       }
 
       qHash ^= ZobristRights[nRights];

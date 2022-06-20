@@ -25,7 +25,7 @@ namespace Engine {
         NullPly = 0;
         FlagsLo = default;              //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
         foreach (var side in Side)
-          side.FlagsHi = default;       //[Safe]
+          side.FlagsSide = default;     //[Safe]
         FlagsEG = default;              //[Safe]
         FlagsDraw = default;            //[Safe]
         FlagsMode = default;            //[Safe]

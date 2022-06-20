@@ -77,7 +77,7 @@ namespace Engine {
                    "Undefined Piece must be Zero");
       Trace.Assert(vK6 == nPieces - 1,          // Assumed by eval() and appendPiece()
                    "King assumed to be final Piece");
-      Trace.Assert((UInt32)HiFlags.CanOOO << 1 == 1 << nBishopPairBit,
+      Trace.Assert((UInt32)SideFlags.CanOOO << 1 == 1 << nBishopPairBit,
                    "Bishop Mask in unexpected position");
 
       Trace.Assert(Move.ShortMask == (Move)UInt16.MaxValue,
@@ -139,7 +139,7 @@ namespace Engine {
     //
     public void CopyFlagsTo(Board board) {
       for (var nSide = 0; nSide < Side.Length; nSide++)
-        board.Side[nSide].FlagsHi = Side[nSide].FlagsHi & HiFlags.Copy;
+        board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
 
       board.FlagsLo = FlagsLo & LoFlags.Copy;
       board.FlagsEG = FlagsEG & EGFlags.Copy;
@@ -282,7 +282,7 @@ namespace Engine {
       var bSideEqual = true;
       for (var nSide = 0; nSide < Side.Length; nSide++) {
         if (board.Side[nSide].Piece != Side[nSide].Piece ||
-            ((board.Side[nSide].FlagsHi ^ Side[nSide].FlagsHi) & HiFlags.Copy) != 0) {
+            ((board.Side[nSide].FlagsSide ^ Side[nSide].FlagsSide) & SideFlags.Copy) != 0) {
           bSideEqual = false;
           break;
         }

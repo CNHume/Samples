@@ -301,7 +301,7 @@ namespace Engine {
       var bWTM = WTM();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
-      var fhiCanCastleOld = friend.FlagsHi & HiFlags.CanCastleMask;
+      var fsideCanCastleOld = friend.FlagsSide & SideFlags.CanCastleMask;
 
       movePiece(friend, foe, ref move);
       verifyPieceColors();              // Conditional
@@ -315,10 +315,10 @@ namespace Engine {
       if (IsPassed()) Hash ^= epHash();
 
       // Update Castling Abilities, if they changed
-      var fhiCanCastleNew = friend.FlagsHi & HiFlags.CanCastleMask;
-      if (fhiCanCastleNew != fhiCanCastleOld) {
-        Hash ^= ZobristRights[(Int32)fhiCanCastleOld] ^
-                ZobristRights[(Int32)fhiCanCastleNew];
+      var fsideCanCastleNew = friend.FlagsSide & SideFlags.CanCastleMask;
+      if (fsideCanCastleNew != fsideCanCastleOld) {
+        Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
+                ZobristRights[(Int32)fsideCanCastleNew];
 
         //
         // A new Transposition Group begins when Castling Rights change:

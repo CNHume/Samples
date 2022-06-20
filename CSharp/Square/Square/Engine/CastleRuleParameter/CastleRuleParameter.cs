@@ -113,9 +113,9 @@ namespace Engine {
       return Move.Undefined;
     }
 
-    public HiFlags GrantCastling(
+    public SideFlags GrantCastling(
       Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
-      var fhiCanCastle = (HiFlags)0;
+      SideFlags fsideCanCastle = default;
 
       if (!CastlesFrom.HasValue) {
         if (!nKingFrom.HasValue)
@@ -142,7 +142,7 @@ namespace Engine {
           throw new ParsePositionException($"No {SideName} Rook for OOO");
 
         RookOOOFrom = nRookFrom;
-        fhiCanCastle |= HiFlags.CanOOO;
+        fsideCanCastle |= SideFlags.CanOOO;
       }
       else {
         if (RookOOFrom.HasValue)
@@ -152,10 +152,10 @@ namespace Engine {
           throw new ParsePositionException($"No {SideName} Rook for OO");
 
         RookOOFrom = nRookFrom;
-        fhiCanCastle |= HiFlags.CanOO;
+        fsideCanCastle |= SideFlags.CanOO;
       }
 
-      return fhiCanCastle;
+      return fsideCanCastle;
     }
     #endregion
 

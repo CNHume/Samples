@@ -49,11 +49,11 @@ namespace Engine {
     public Composition2 GetCX2(Position position,
                                PieceHashcode wMemoHash,
                                CompositionCounter wPieceCounts,
-                               HiFlags fhi) {
+                               SideFlags fside) {
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[wMemoHash];
-      fhi &= HiFlags.Pair;        //[Note]Only HiFlags.Pair are cached for use by weighPieces()
-      var fhiFound = found.FlagsHi & HiFlags.Pair;
+      fside &= SideFlags.Pair;          //[Note]Only SideFlags.Pair are cached for use by weighPieces()
+      var fsideFound = found.FlagsSide & SideFlags.Pair;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition2.CVFlags.IsValid) == 0;
 #else
@@ -61,7 +61,7 @@ namespace Engine {
 #endif
       if (!bDefault &&
           found.PieceCounts == wPieceCounts &&
-          fhi == fhiFound) {
+          fside == fsideFound) {
         CXPMemo.Counts.GetHits++;       // Match, a.k.a. Get Hit
         return found;
       }
@@ -86,18 +86,18 @@ namespace Engine {
         sb.FlushLine();
       }
 #endif
-      found = new Composition2(wPieceCounts, fhi);
+      found = new Composition2(wPieceCounts, fside);
       CXPMemo[wMemoHash] = found;
       return found;
 #else                                   // CompositionByValue
       if (bDefault) {
         CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-        found = new Composition2(wPieceCounts, fBlackHi, fWhiteHi);
+        found = new Composition2(wPieceCounts, fBlackSide, fWhiteSide);
         CXPMemo[wMemoHash] = found;
         return found;
       }
       else {
-        found.Recycle(wPieceCounts, fBlackHi, fWhiteHi);
+        found.Recycle(wPieceCounts, fBlackSide, fWhiteSide);
         return found;
       }
 #endif
@@ -107,23 +107,23 @@ namespace Engine {
       MemoHashcode uMemoHash,
       CompositionCounter wBlackCounts,
       CompositionCounter wWhiteCounts,
-      HiFlags fBlackHi, HiFlags fWhiteHi) {
+      SideFlags fBlackSide, SideFlags fWhiteSide) {
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[uMemoHash];
-      fBlackHi &= HiFlags.Pair;        //[Note]Only HiFlags.Pair are cached for use by weighPieces()
-      fWhiteHi &= HiFlags.Pair;
+      fBlackSide &= SideFlags.Pair;        //[Note]Only SideFlags.Pair are cached for use by weighPieces()
+      fWhiteSide &= SideFlags.Pair;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition.CVFlags.IsValid) == 0;
 #else
       var bDefault = found == default(Composition);
 #endif
       if (!bDefault) {
-        var fBlackHiFound = found.FlagsBlackHi & HiFlags.Pair;
-        var fWhiteHiFound = found.FlagsWhiteHi & HiFlags.Pair;
+        var fBlackHiFound = found.FlagsBlackHi & SideFlags.Pair;
+        var fWhiteHiFound = found.FlagsWhiteHi & SideFlags.Pair;
         if (found.BlackCounts == wBlackCounts &&
             found.WhiteCounts == wWhiteCounts &&
-            fBlackHi == fBlackHiFound &&
-            fWhiteHi == fWhiteHiFound) {
+            fBlackSide == fBlackHiFound &&
+            fWhiteSide == fWhiteHiFound) {
           CXPMemo.Counts.GetHits++;     // Match, a.k.a. Get Hit
           return found;
         }
@@ -148,18 +148,18 @@ namespace Engine {
         sb.FlushLine();
       }
 #endif
-      found = new Composition(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
+      found = new Composition(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
       CXPMemo[uMemoHash] = found;
       return found;
 #else                                   // CompositionByValue
       if (bDefault) {
         CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-        found = new Composition(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
+        found = new Composition(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
         CXPMemo[uMemoHash] = found;
         return found;
       }
       else {
-        found.Recycle(wBlackCounts, wWhiteCounts, fBlackHi, fWhiteHi);
+        found.Recycle(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
         return found;
       }
 #endif

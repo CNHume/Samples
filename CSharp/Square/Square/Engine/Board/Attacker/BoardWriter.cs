@@ -48,8 +48,8 @@ namespace Engine {
     internal static LoFlags[] loFlags =
       { LoFlags.Final, LoFlags.InCheck, LoFlags.Illegal, LoFlags.WTM };
 
-    internal static HiFlags[] hiFlags =
-      { HiFlags.Dark, HiFlags.Lite, HiFlags.CanOOO, HiFlags.CanOO };
+    internal static SideFlags[] sideFlags =
+      { SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
 
     internal static EGFlags[] egFlags =
       { EGFlags.KQvKP, EGFlags.KBNvK, EGFlags.OutsideSquare, EGFlags.BlackAlone, EGFlags.WhiteAlone };
@@ -77,8 +77,8 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(HiFlags fhi) {
-      var en = hiFlags.Where(f => (f & fhi) != 0);
+    public static String FormatFlags(SideFlags fside) {
+      var en = sideFlags.Where(f => (f & fside) != 0);
       return Join(sSpace, en);
     }
 
@@ -95,12 +95,12 @@ namespace Engine {
     }
 
     public static String FormatFlags(
-      ModeFlags fmd, DrawFlags fdr, EGFlags feg, HiFlags fBlackHi, HiFlags fWhiteHi, LoFlags flo) {
-      if (fmd == 0 && fdr == 0 && feg == 0 && fBlackHi == 0 && fWhiteHi == 0 && flo == 0)
+      ModeFlags fmd, DrawFlags fdr, EGFlags feg, SideFlags fBlackSide, SideFlags fWhiteSide, LoFlags flo) {
+      if (fmd == 0 && fdr == 0 && feg == 0 && fBlackSide == 0 && fWhiteSide == 0 && flo == 0)
         return "None";
 
-      var sBlackHi = FormatFlags(fBlackHi);
-      var sWhiteHi = FormatFlags(fWhiteHi);
+      var sBlackHi = FormatFlags(fBlackSide);
+      var sWhiteHi = FormatFlags(fWhiteSide);
       var sBlackHiLabelled = IsNullOrEmpty(sBlackHi) ? Empty : $"Black[{sBlackHi}]";
       var sWhiteHiLabelled = IsNullOrEmpty(sWhiteHi) ? Empty : $"White[{sWhiteHi}]";
 
@@ -292,6 +292,9 @@ namespace Engine {
     }
 
     protected void appendProperties(StringBuilder sb) {
+      var fBlackSide = Side[Black].FlagsSide;
+      var fWhiteSide = Side[White].FlagsSide;
+
       sb.Append("Hashcode = ").Append(formatHash(Hash))
 #if DisplayFEN
         .Append("; FEN = ").AppendLine(ToString(PositionType.FEN))
@@ -299,7 +302,8 @@ namespace Engine {
         .Append("; EPD = ").AppendLine(ToString(PositionType.EPD))
 #endif
 #if DisplayFlags
-        .Append("Flags: ").AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, Side[Black].FlagsHi, Side[White].FlagsHi, FlagsLo))
+        .Append("Flags: ")
+        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, fBlackSide, fWhiteSide, FlagsLo))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif
