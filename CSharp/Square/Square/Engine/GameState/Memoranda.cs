@@ -110,7 +110,7 @@ namespace Engine {
       SideFlags fBlackSide, SideFlags fWhiteSide) {
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[uMemoHash];
-      fBlackSide &= SideFlags.Pair;        //[Note]Only SideFlags.Pair are cached for use by weighPieces()
+      fBlackSide &= SideFlags.Pair;     //[Note]Only SideFlags.Pair are cached for use by weighPieces()
       fWhiteSide &= SideFlags.Pair;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition.CVFlags.IsValid) == 0;
@@ -118,12 +118,12 @@ namespace Engine {
       var bDefault = found == default(Composition);
 #endif
       if (!bDefault) {
-        var fBlackHiFound = found.FlagsBlackHi & SideFlags.Pair;
-        var fWhiteHiFound = found.FlagsWhiteHi & SideFlags.Pair;
+        var fBlackSideFound = found.BlackFlagsSide & SideFlags.Pair;
+        var fWhiteSideFound = found.WhiteFlagsSide & SideFlags.Pair;
         if (found.BlackCounts == wBlackCounts &&
             found.WhiteCounts == wWhiteCounts &&
-            fBlackSide == fBlackHiFound &&
-            fWhiteSide == fWhiteHiFound) {
+            fBlackSide == fBlackSideFound &&
+            fWhiteSide == fWhiteSideFound) {
           CXPMemo.Counts.GetHits++;     // Match, a.k.a. Get Hit
           return found;
         }
