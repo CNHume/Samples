@@ -18,13 +18,13 @@ namespace Command {
     //"";
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
-    // [18-ply in 5:07] gives an Eval of 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
-    // [20-ply in 56:36.63 @1.384 MHz over 4.7 Gnode] gives an Eval of 11.1 after taking all of the pawns:
+    // [18-ply in 5:07] eval 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // [20-ply in 56:36.63 @1.384 MHz over 4.7 Gnode] eval 11.1 after taking all of the pawns:
     // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
     // 52. Qxg6+ Kxg6 53. Qe6+ Kh7 54. Qf5+ g6 55. Qf7+ Kh8 56. Qxg6 h5 57. Qxh5+ Kg7 [58.Qxa5]
-    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains the Eval of 9.95 following
+    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains eval 9.95 following
     // 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
-    // Disabling QuietMate exhibits the anomaly seen after [19-ply in 35:28 @1.226 MHz] which gives an Eval of 11.0 following
+    // Disabling QuietMate exhibits the anomaly seen after [19-ply in 35:28 @1.226 MHz] eval 11.0 following
     // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate
     //"8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57"; // stalemate
     //
@@ -86,8 +86,12 @@ namespace Command {
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
     "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
-    // [19-ply in 16:32.1 min @1.096 MHz over 1.088 Gnode] gives an Eval of -3.25 following
+    // [19-ply in 16:32.1 @1.096 MHz over 1.09 Gnode] eval -3.25 following
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Ka1 Kxc3 70. Be8 Kd2 71. Bg6 c3 72. Ka2 c2 73. Bxc2 Kxc2 74. a4 Nc4
+    // [20-ply in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 following
+    // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne1? 69. Kb2 Nf3 70. Bc2 d4 71. Bb1 dxc3+ 72. Ka2 c2 73. Bxc2 Kxc2
+    // [21-ply in 1:44:32.3 @1.1MHz over 6.9 Gnode] eval -3.6
+    // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply in 1:03:56.8 over 3.838 Gnode @1.0 MHz]
     // To see clear win after 1. Kf2 Kf5 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Kg8 7. Kf4! Kf8 8. Ke4 Ke8
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
@@ -96,9 +100,9 @@ namespace Command {
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kb7
     // [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6
     // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
-    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 2:01.58 over 161.4 Mnode to find 37. g4 Qc6]
+    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 2:01.58 over 161.4 Mnode] to find 37. g4 Qc6
     //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
-    //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [16-ply in 12.5 sec to find Be5+]
+    //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [16-ply in 12.5 sec] to find 62. Be5+
     //"Nn6/8/1pPk4/1K1bpB2/1p6/8/8/8 w - - 0 1"; // Fischer Endgame
     //"4k3/2R5/2n1r3/3R4/7P/5BP1/7K/4q3 w - - 0 54"; // 2017-01-21 Carlsen v Giri Line
     //"4r1k1/5pp1/1b4p1/3n4/3p2qP/3Q2P1/1P1B1P2/2N1R1K1 b - - 0 35"; // 2017-01-27 Carlsen v Adhiban Line
