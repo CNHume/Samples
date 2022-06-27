@@ -34,16 +34,15 @@
 namespace Command {
   using Engine;
   using Engine.Exceptions;
+
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
-  using System.Diagnostics;
   using System.Diagnostics.CodeAnalysis;
-  using System.IO;
-  using static System.String;
   using System.Text;
-  using System.Threading.Tasks;
+
+  using static Logging.Logger;
+  using static System.String;
 
   partial class UCI : ICommand {
     #region Constructors

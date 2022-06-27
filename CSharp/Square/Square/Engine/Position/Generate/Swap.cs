@@ -8,11 +8,11 @@
 #define DebugMove
 
 namespace Engine {
-  using static GameState;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+
+  using static GameState;
   using static System.Math;
 
   //

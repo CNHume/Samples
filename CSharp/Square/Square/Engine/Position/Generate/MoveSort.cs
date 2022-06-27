@@ -19,15 +19,17 @@
 
 namespace Engine {
   using Exceptions;
+
   using MoveOrder;
-  using static MoveOrder.TypedMove;
-  using static Logging.Logger;
 
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
   using System.Text;                    // for StringBuilder
+
+  using static Logging.Logger;
+  using static MoveOrder.TypedMove;
 
   //
   // Type Aliases:

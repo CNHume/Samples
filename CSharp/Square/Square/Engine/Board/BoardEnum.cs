@@ -62,21 +62,24 @@ namespace Engine {
     //  1:1 CanOOO
     //  2:1 Lite
     //  3:1 Dark
+    //  4:1 Insufficient
     //
     public const Int32 nBishopPairBit = 2;
+    public const Int32 nInsufficientBit = 4;
 
     [Flags]
     public enum SideFlags : byte {
       None = 0,
-      CanOO = 1,                        // Bit 0 Castle Rights
-      CanOOO = CanOO << 1,              // Bit 1
+      CanOO = 1,                            // Bit 0 Castle Rights
+      CanOOO = CanOO << 1,                  // Bit 1
       CanCastleMask = CanOOO | CanOO,
 
-      Lite = 1 << nBishopPairBit,       // Bit 2 Bishop Pair Flags
-      Dark = Lite << 1,                 // Bit 3
+      Lite = 1 << nBishopPairBit,           // Bit 2 Bishop Pair Flags
+      Dark = Lite << 1,                     // Bit 3
       Pair = Dark | Lite,
+      Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
 
-      Copy = Pair | CanCastleMask
+      Copy = Insufficient | Pair | CanCastleMask
     }
     #endregion
 

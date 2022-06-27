@@ -49,7 +49,7 @@ namespace Engine {
       { LoFlags.Final, LoFlags.InCheck, LoFlags.Illegal, LoFlags.WTM };
 
     internal static SideFlags[] sideFlags =
-      { SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
+      { SideFlags.Insufficient, SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
 
     internal static EGFlags[] egFlags =
       { EGFlags.KQvKP, EGFlags.KBNvK, EGFlags.OutsideSquare, EGFlags.BlackAlone, EGFlags.WhiteAlone };

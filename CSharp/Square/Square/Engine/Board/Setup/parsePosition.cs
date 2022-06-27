@@ -9,6 +9,7 @@
 
 namespace Engine {
   using Command;                        // For Scanner
+
   using Exceptions;
 
   using System;
@@ -59,7 +60,7 @@ namespace Engine {
           var nSetup = p == Piece.Q ? 1 : 2;
 
           if (p == Piece.B)
-            nSetup = bishopPair(side.FlagsSide) ? 2 : 1;
+            nSetup = hasBishopPair(side.FlagsSide) ? 2 : 1;
 
           var vPiece = pieceIndex((UInt32)p);
           var nCount = (Int32)nibble(side.Counts >> vPiece * nPerNibble);
@@ -144,7 +145,7 @@ namespace Engine {
       return sToMove.ToLower() switch {
         "b" => false,
         "w" => true,
-        _ => throw new ParsePositionException($"Unknown Side To Move = {sToMove}"),
+        _ => throw new ParsePositionException($"Unknown Side To Move = {sToMove}")
       };
     }
 

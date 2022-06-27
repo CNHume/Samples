@@ -16,6 +16,7 @@
 #define EvalKQvKPDistance
 #define EvalKBNvKMateCorner
 #define EvalRookBehindPasser
+#define EvalInsufficient
 //#define TestOutsideSquare
 //#define TestRookBehindPasser
 #define Mobility
@@ -157,7 +158,7 @@ namespace Engine {
 
       var bEndgame =
         IsOneOrNone(Knight) &&          // At most one Knight
-        !bishopPair(attacker.FlagsSide);  // No Bishop Pair
+        !hasBishopPair(attacker.FlagsSide);  // No Bishop Pair
 
       return bEndgame;
     }
@@ -387,12 +388,6 @@ namespace Engine {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
-      var isBlackInsufficient = IsInsufficient(blackSide.Piece);
-      var isWhiteInsufficient = IsInsufficient(whiteSide.Piece);
-
-      var fBlackSide = blackSide.FlagsSide;
-      var fWhiteSide = whiteSide.FlagsSide;
-
       //
       // Piece Counts ignore the number of Pawns
       //
@@ -407,8 +402,8 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, fBlackSide);
-      var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, fWhiteSide);
+      var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
+      var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
@@ -425,15 +420,12 @@ namespace Engine {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
-      var isBlackInsufficient = IsInsufficient(blackSide.Piece);
-      var isWhiteInsufficient = IsInsufficient(whiteSide.Piece);
-
-      var fBlackSide = blackSide.FlagsSide;
-      var fWhiteSide = whiteSide.FlagsSide;
-
       var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
       var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
 #if NoPieceHash
+      var fBlackSide = blackSide.FlagsSide;
+      var fWhiteSide = whiteSide.FlagsSide;
+
       comp.Recycle(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
 #else
       var uMemoHash = compositionHash(true);
@@ -444,7 +436,7 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
+      var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, blackSide, whiteSide);
 #endif
       mDelta = (Eval)comp.Delta;
       mTotal = (Eval)comp.Total;
@@ -865,57 +857,28 @@ namespace Engine {
     #endregion
 
     #region Piece Evaluation
-    // Used in the Composition2 Constructor
-    internal static void weighPieces(out Eval Value,
-                                     CompositionCounter wPieceCounts,
-                                     SideFlags fside) {
+    internal static Eval weighPieces(
+      CompositionCounter wPieceCounts, SideFlags fside) {
+#if EvalInsufficient
+      if (IsInsufficient(fside))
+        return mInsufficientWeight;
+#endif
       var nSum = 0;
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wPieceCounts >>= nPerNibble) {
         nSum += nibble(wPieceCounts) * PieceWeight[vPiece];
       }
 #if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
-      if (bishopPair(fside)) {
+      if (hasBishopPair(fside)) {
         nSum += mBishopPairWeight;
       }
 #endif
-      Value = (Eval)nSum;
+      return (Eval)nSum;
     }
 
-    // Used in the Composition Constructor
-    internal static void weighPieces(out Eval Delta,
-                                     out Eval Total,
-                                     CompositionCounter wBlackCounts,
-                                     CompositionCounter wWhiteCounts,
-                                     SideFlags fBlackSide, SideFlags fWhiteSide) {
-      var nSumDelta = 0;
-      var nSumTotal = 0;
-
-      for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
-           wBlackCounts >>= nPerNibble,
-           wWhiteCounts >>= nPerNibble) {
-        var nBlack = nibble(wBlackCounts);
-        var nWhite = nibble(wWhiteCounts);
-
-        var nDelta = nWhite - nBlack;
-        var nTotal = nWhite + nBlack;
-
-        nSumDelta += nDelta * PieceWeight[vPiece];
-        nSumTotal += nTotal * PieceWeight[vPiece];
-      }
-#if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
-      if (bishopPair(fBlackSide)) {
-        nSumDelta -= mBishopPairWeight;
-        nSumTotal += mBishopPairWeight;
-      }
-
-      if (bishopPair(fWhiteSide)) {
-        nSumDelta += mBishopPairWeight;
-        nSumTotal += mBishopPairWeight;
-      }
-#endif
-      Delta = (Eval)nSumDelta;
-      Total = (Eval)nSumTotal;
+    // Side has Insufficient Material to Force Mate
+    protected static bool IsInsufficient(SideFlags fside) {
+      return (fside & SideFlags.Insufficient) != 0;
     }
     #endregion
 

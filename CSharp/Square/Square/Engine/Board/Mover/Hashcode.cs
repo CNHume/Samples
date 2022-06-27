@@ -11,16 +11,17 @@
 //#define TestZobrist
 
 namespace Engine {
-  using static Logging.Logger;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using static System.Math;
-  using System.Runtime.CompilerServices;// for MethodImplAttribute
+  using System.Runtime.CompilerServices;// for MethodImplAttribute0
 #if CryptoServiceProvider
   using System.Security.Cryptography;
 #endif
+
+  using static System.Math;
+  using static Logging.Logger;
+
   //
   // Type Aliases:
   //

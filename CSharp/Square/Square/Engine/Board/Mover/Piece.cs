@@ -43,7 +43,7 @@ namespace Engine {
              (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
     }
 
-    protected static Boolean bishopPair(SideFlags fside) {
+    protected static Boolean hasBishopPair(SideFlags fside) {
       return (fside & SideFlags.Pair) == SideFlags.Pair;
     }
     #endregion

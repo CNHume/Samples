@@ -8,9 +8,9 @@
 #define InheritMoveTypes
 
 namespace Engine {
-  using static MoveOrder.TypedMove;
-
   using System;
+
+  using static MoveOrder.TypedMove;
 
   //
   // Type Aliases:

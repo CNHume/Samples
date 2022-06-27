@@ -8,21 +8,23 @@
 //#define MaterialBalance
 
 namespace Engine {
-  using static Board;
   using Cache;
+
   using CacheValue;
+
   using MoveOrder;                      // For Variation
-  using static Position;
 
   using System;
   using System.Diagnostics;
+
+  using static Board;
+  using static Position;
 
   //
   // Type Aliases:
   //
   using Depth = UInt16;
   using Eval = Int16;
-  using ExtensionCounter = UInt16;
   using Ply = UInt16;
 
   partial class GameState {

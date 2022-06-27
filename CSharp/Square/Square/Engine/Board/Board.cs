@@ -580,7 +580,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Boolean IsInsufficient(Plane qpPiece) {
+    public Boolean IsInsufficient(Plane qpPiece) {
       var qpPawn = qpPiece & Pawn;
       var qpRect = qpPiece & RectPiece;
       var qpDiag = qpPiece & DiagPiece;

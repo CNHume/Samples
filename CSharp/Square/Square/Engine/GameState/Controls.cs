@@ -10,14 +10,16 @@
 //#define SyzygyControls
 
 namespace Engine {
-  using static Board;
   using Command;
+
   using Exceptions;
-  using static Logging.Logger;
-  using static Position;
 
   using System;
   using System.Linq;
+
+  using static Board;
+  using static Logging.Logger;
+  using static Position;
 
   //
   // Type Aliases:
