@@ -47,11 +47,8 @@ namespace Engine.CacheValue {
       WhiteFlagsSide = fWhiteSide;
       FlagsCV = CVFlags.IsValid;
 
-      var mBlackEval = weighPieces(BlackCounts, BlackFlagsSide);
-      var mWhiteEval = weighPieces(WhiteCounts, WhiteFlagsSide);
-
-      Delta = (Eval)(mWhiteEval - mBlackEval);
-      Total = (Eval)(mWhiteEval + mBlackEval);
+      BlackValue = weighPieces(BlackCounts, BlackFlagsSide);
+      WhiteValue = weighPieces(WhiteCounts, WhiteFlagsSide);
     }
     #endregion
 
@@ -69,7 +66,9 @@ namespace Engine.CacheValue {
       FlagsCV = CVFlags.IsValid;
       BlackFlagsSide = fBlackSide;
       WhiteFlagsSide = fWhiteSide;
-      weighPieces(out Delta, out Total, wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
+
+      BlackValue = weighPieces(BlackCounts, BlackFlagsSide);
+      WhiteValue = weighPieces(WhiteCounts, WhiteFlagsSide);
     }
 #endif
     #endregion
@@ -81,8 +80,13 @@ namespace Engine.CacheValue {
     public CVFlags FlagsCV;
     public SideFlags BlackFlagsSide;
     public SideFlags WhiteFlagsSide;
-    public Eval Delta;
-    public Eval Total;
+    public Eval BlackValue;
+    public Eval WhiteValue;
+    #endregion
+
+    #region Properties
+    public Eval Delta => (Eval)(WhiteValue - BlackValue);
+    public Eval Total => (Eval)(WhiteValue + BlackValue);
     #endregion
   }
 

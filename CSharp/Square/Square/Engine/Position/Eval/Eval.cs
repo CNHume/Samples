@@ -384,7 +384,7 @@ namespace Engine {
       return mDrawValue;
     }
 #if MaterialBalance
-    protected void getValue(out Eval mDelta, out Eval mTotal) {
+    protected (Eval mDelta, Eval mTotal) getValue() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -405,18 +405,21 @@ namespace Engine {
       var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
       var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
+      setEndGameFlags();                // Composition2 values do not depend on EGFlags.EndGame
+
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
 
-      mDelta = (Eval)(mValueWhite - mValueBlack);
-      mTotal = (Eval)(mValueWhite + mValueBlack);
-      setEndGameFlags();                // Composition2 values do not depend on EGFlags.EndGame
+      Eval mDelta = (Eval)(mValueWhite - mValueBlack);
+      Eval mTotal = (Eval)(mValueWhite + mValueBlack);
+
+      return (mDelta, mTotal);
     }
 #else                                   // MaterialBalance
 #if NoPieceHash
     private static Composition comp = new Composition();
 #endif
-    protected void getValue(out Eval mDelta, out Eval mTotal) {
+    protected (Eval mDelta, Eval mTotal) getValue() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -438,8 +441,7 @@ namespace Engine {
 #endif
       var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, blackSide, whiteSide);
 #endif
-      mDelta = (Eval)comp.Delta;
-      mTotal = (Eval)comp.Total;
+      return ((Eval)comp.Delta, (Eval)comp.Total);
     }
 
     protected MemoHashcode compositionHash(Boolean bWhiteHash) {
@@ -520,7 +522,7 @@ namespace Engine {
       //
       // Retrieve material balance from the Composition:
       //
-      getValue(out Eval mDelta, out Eval mTotal);
+      (Eval mDelta, Eval mTotal) = getValue();
 
       if (Pawn != 0) {                  // Else PawnHash == default(Hashcode)
         pp = State.GetPXP(this);
