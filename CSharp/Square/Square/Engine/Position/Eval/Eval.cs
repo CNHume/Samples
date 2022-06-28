@@ -865,12 +865,14 @@ namespace Engine {
       if (IsInsufficient(fside))
         return mInsufficientWeight;
 #endif
+      // 218.34 MHz with both EvalInsufficient and EvalBishopPair;
+      // 231.5 MHz for PieceWeight sum.
       var nSum = 0;
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wPieceCounts >>= nPerNibble) {
         nSum += nibble(wPieceCounts) * PieceWeight[vPiece];
       }
-#if EvalBishopPair                      //[Old]15 MHz with 20 MHz without
+#if EvalBishopPair
       if (hasBishopPair(fside)) {
         nSum += mBishopPairWeight;
       }

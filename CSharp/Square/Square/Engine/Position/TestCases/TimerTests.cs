@@ -27,6 +27,8 @@ namespace Engine {
   //
   // Type Aliases:
   //
+  using CompositionCounter = UInt16;
+  using Eval = Int16;
   using Ply = UInt16;
   using PlyDepth = Byte;
   using Depth = UInt16;
@@ -49,6 +51,7 @@ namespace Engine {
       //
       //[Time]timeRoots();
       //[Time]timeEval();
+      timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
@@ -56,7 +59,7 @@ namespace Engine {
       //[Time]timeFoeAtx();
       //[Time]timeMagic();
       //[Time]
-      timeRemoveLo();
+      //timeRemoveLo();
       //[Time]timeStaticLoads();
       //[Time]timeCapturedPiece();
       //[Test]timeExecute("test", 100000);
@@ -108,6 +111,19 @@ namespace Engine {
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
         staticEval(out PawnPosition? pp);
+
+      TimerStop(sw, qTrials);
+    }
+
+    protected void timeWeighPieces(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(weighPieces), qTrials);
+
+      CompositionCounter wPieceCounts = default;
+      var fside = SideFlags.Pair;
+
+      Eval value = default;
+      for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
+        value = weighPieces(wPieceCounts, fside);
 
       TimerStop(sw, qTrials);
     }

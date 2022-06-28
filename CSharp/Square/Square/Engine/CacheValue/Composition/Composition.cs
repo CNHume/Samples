@@ -119,7 +119,7 @@ namespace Engine.CacheValue {
       PieceCounts = wPieceCounts;
       FlagsCV = CVFlags.IsValid;
       FlagsSide = fside;
-      weighPieces(out Value, wPieceCounts, fside);
+      Value = weighPieces(wPieceCounts, fside);
     }
 #endif
     #endregion
