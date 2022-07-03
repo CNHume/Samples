@@ -28,7 +28,9 @@ shared_ptr<Delta> LCSRecord::Compare(const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexes2MatchedByIndex1;      // indexes2MatchedByIndex1 holds references into indexesOf2MatchedByString
-  auto count = Match(indexesOf2MatchedByString, indexes2MatchedByIndex1, r1, r2, ignorecase, ignorespace);
+  auto count = Match(
+    indexesOf2MatchedByString, indexes2MatchedByIndex1,
+    r1, r2, ignorecase, ignorespace);
 #ifdef SHOW_COUNTS
   cout << count << " indexes2MatchedByIndex1" << endl;
 #endif
@@ -47,7 +49,8 @@ shared_ptr<Delta> LCSRecord::Compare(const RECORDS& r1, const RECORDS& r2,
 // The symbol space is larger in the case of records; but the lookup
 // time will be O(log(m+n)), at most.
 //
-uint32_t LCSRecord::Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexes2MatchedByIndex1,
+uint32_t LCSRecord::Match(
+  STRING_TO_INDEXES_MAP& indexesMatchedByString, MATCHES& indexesMatchedByIndex,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
@@ -55,14 +58,14 @@ uint32_t LCSRecord::Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATC
   string buffer;
   for (const auto& it : r2) {
     Normal(it, buffer, ignorecase, ignorespace);
-    indexesOf2MatchedByString[buffer].push_back(index++);
+    indexesMatchedByString[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {
     Normal(it, buffer, ignorecase, ignorespace);
-    auto& dq2 = indexesOf2MatchedByString[buffer];
-    indexes2MatchedByIndex1.push_back(&dq2);
-    count += dq2.size();
+    auto& dq = indexesMatchedByString[buffer];
+    indexesMatchedByIndex.push_back(&dq);
+    count += dq.size();
   }
 
   return count;

@@ -139,16 +139,21 @@ protected:
   // The symbol space is larger in the case of records; but the lookup
   // time will be O(log(m+n)), at most.
   //
-  void Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+  uint32_t Match(
+    CHAR_TO_INDEXES_MAP& indexesMatchedByChar, MATCHES& indexesMatchedByIndex,
     const string& s1, const string& s2) {
+    uint32_t count = 0;
     uint32_t index = 0;
     for (const auto& it : s2)
-      indexesOf2MatchedByChar[it].push_back(index++);
+      indexesMatchedByChar[it].push_back(index++);
 
     for (const auto& it : s1) {
-      auto& dq2 = indexesOf2MatchedByChar[it];
-      indexesOf2MatchedByIndex1.push_back(&dq2);
+      auto& dq = indexesMatchedByChar[it];
+      indexesMatchedByIndex.push_back(&dq);
+      count += dq.size();
     }
+
+    return count;
   }
 
   string Select(shared_ptr<Pair> pairs, uint32_t length,
