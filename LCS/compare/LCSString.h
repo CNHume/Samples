@@ -15,8 +15,7 @@ class LCSString : LCS {
 protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
 
-  uint32_t Match(
-    CHAR_TO_INDEXES_MAP& indexesMatchedByChar, MATCHES& indexesMatchedByIndex,
+  uint32_t Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
     const string& s1, const string& s2);
   static string Select(shared_ptr<Delta> deltas, bool side,
     const string& s1, const string& s2);

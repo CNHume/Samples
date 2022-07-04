@@ -25,18 +25,17 @@ shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
-uint32_t LCSString::Match(
-  CHAR_TO_INDEXES_MAP& indexesMatchedByChar, MATCHES& indexesMatchedByIndex,
+uint32_t LCSString::Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
   const string& s1, const string& s2) {
   uint32_t count = 0;
   uint32_t index = 0;
   for (const auto& it : s2)
-    indexesMatchedByChar[it].push_back(index++);
+    indexesOf2MatchedByChar[it].push_back(index++);
 
   for (const auto& it : s1) {
-    auto& dq = indexesMatchedByChar[it];
-    indexesMatchedByIndex.push_back(&dq);
-    count += dq.size();
+    auto& dq2 = indexesOf2MatchedByChar[it];
+    indexesOf2MatchedByIndex1.push_back(&dq2);
+    count += dq2.size();
   }
 
   return count;
