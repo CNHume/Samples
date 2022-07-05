@@ -6,44 +6,6 @@
 //
 #include "LCSRecord.h"
 
-LCSRecord::RECORDS LCSRecord::Correspondence(const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace) {
-  auto intervals = Compare(r1, r2, ignorecase, ignorespace);
-#ifdef SHOW_DELTAS
-  Delta::List(intervals);
-#endif
-  return Select(intervals, false, r1, r2);
-}
-
-LCSRecord::RECORDS LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
-  bool isjoin, uint32_t join,
-  bool ignorecase, bool ignorespace) {
-  auto intervals = Compare(r1, r2, ignorecase, ignorespace);
-
-  auto size1 = r1.size();           // empty final delta
-  auto size2 = r2.size();
-  auto deltas = Delta::Complement(intervals, size1, size2);
-#ifdef SHOW_DELTAS
-  Delta::List(deltas);
-#endif
-  //[ToDo]Delta::Context(deltas, size1, size2, prefix, suffix);
-  auto joins = Delta::Coalesce(deltas, join);
-  return Select(joins, false, r1, r2);
-}
-
-shared_ptr<Delta> LCSRecord::Compare(const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace) {
-  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
-  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
-  auto count = Match(indexesOf2MatchedByString, indexesOf2MatchedByIndex1, r1, r2, ignorecase, ignorespace);
-#ifdef SHOW_COUNTS
-  cout << count << " indexesOf2MatchedByIndex1" << endl;
-#endif
-  shared_ptr<Pair> pairs;
-  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
-  return Delta::Coalesce(pairs);
-}
-
 //
 // Find Matches
 //
@@ -81,41 +43,46 @@ uint32_t LCSRecord::Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATC
 //
 void LCSRecord::Normal(const string& input, string& output,
   bool ignorecase, bool ignorespace) {
-  if (ignorespace) {
-    // outer (right) trim
-    auto end = 0;
-    for (auto index = input.size() - 1; index != string::npos; index--) {
-      if (!isspace(input[index])) {
-        end = index + 1;
-        break;
-      }
-    }
-
-    output.clear();
-    output.reserve(input.size());
-    // inner (left) trims
-    bool spaced = true;
-    for (auto index = 0; index < end; index++) {
-      auto c = input[index];
-      if (isspace(c)) {
-        if (!spaced) {
-          // normal space
-          output.push_back(' ');
-          spaced = true;
-        }
-      }
-      else {
-        output.push_back(c);
-        spaced = false;
-      }
-    }
-  }
+  if (ignorespace)
+    NormalSpace(input, output);
   else
     output = input;
 
   if (ignorecase)
-    for (auto& c : output)
-      c = tolower(c);                   // normal case
+    NormalCase(output);
+}
+
+void LCSRecord::NormalCase(string& input) {
+  for (auto& c : input)
+    c = tolower(c);                   // normal case
+}
+
+void LCSRecord::NormalSpace(const string& input, string& output) {
+  // outer (right) trim
+  auto end = 0;
+  for (auto it = input.rbegin(); it != input.rend(); it++)
+    if (!isspace(*it)) {
+      end = input.rend() - it;
+      break;
+    }
+
+  output.clear();
+  output.reserve(input.size());
+  // inner (left) trims
+  bool allowSpace = false;
+  for (auto index = 0; index < end; index++) {
+    auto c = input[index];
+
+    if (!isspace(c)) {
+      output.push_back(c);
+      allowSpace = true;
+    }
+    else if (allowSpace) {
+      // normalized space
+      output.push_back(' ');
+      allowSpace = false;
+    }
+  }
 }
 
 // Concatenate elements from the selected side
@@ -135,4 +102,42 @@ LCSRecord::RECORDS LCSRecord::Select(shared_ptr<Delta> deltas, bool right,
     }
   }
   return list;
+}
+
+LCSRecord::RECORDS LCSRecord::Correspondence(const RECORDS& r1, const RECORDS& r2,
+  bool ignorecase, bool ignorespace) {
+  auto intervals = Compare(r1, r2, ignorecase, ignorespace);
+#ifdef SHOW_DELTAS
+  Delta::List(intervals);
+#endif
+  return Select(intervals, false, r1, r2);
+}
+
+LCSRecord::RECORDS LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
+  bool isjoin, uint32_t join,
+  bool ignorecase, bool ignorespace) {
+  auto intervals = Compare(r1, r2, ignorecase, ignorespace);
+
+  auto size1 = r1.size();           // empty final delta
+  auto size2 = r2.size();
+  auto deltas = Delta::Complement(intervals, size1, size2);
+#ifdef SHOW_DELTAS
+  Delta::List(deltas);
+#endif
+  //[ToDo]Delta::Context(deltas, size1, size2, prefix, suffix);
+  auto joins = Delta::Coalesce(deltas, join);
+  return Select(joins, false, r1, r2);
+}
+
+shared_ptr<Delta> LCSRecord::Compare(const RECORDS& r1, const RECORDS& r2,
+  bool ignorecase, bool ignorespace) {
+  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
+  auto count = Match(indexesOf2MatchedByString, indexesOf2MatchedByIndex1, r1, r2, ignorecase, ignorespace);
+#ifdef SHOW_COUNTS
+  cout << count << " indexesOf2MatchedByIndex1" << endl;
+#endif
+  shared_ptr<Pair> pairs;
+  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
+  return Delta::Coalesce(pairs);
 }

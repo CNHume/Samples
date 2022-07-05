@@ -5,23 +5,6 @@
 //
 #include "LCSString.h"
 
-string LCSString::Correspondence(const string& s1, const string& s2) {
-  auto intervals = Compare(s1, s2);
-  return Select(intervals, false, s1, s2);
-}
-
-shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
-  CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
-  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
-  auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
-#ifdef SHOW_COUNTS
-  cout << count << " indexesOf2MatchedByIndex1" << endl;
-#endif
-  shared_ptr<Pair> pairs;
-  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
-  return Delta::Coalesce(pairs);
-}
-
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
@@ -58,4 +41,21 @@ string LCSString::Select(shared_ptr<Delta> deltas, bool right,
     }
   }
   return buffer;
+}
+
+string LCSString::Correspondence(const string& s1, const string& s2) {
+  auto intervals = Compare(s1, s2);
+  return Select(intervals, false, s1, s2);
+}
+
+shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
+  CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
+  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
+  auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
+#ifdef SHOW_COUNTS
+  cout << count << " indexesOf2MatchedByIndex1" << endl;
+#endif
+  shared_ptr<Pair> pairs;
+  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
+  return Delta::Coalesce(pairs);
 }

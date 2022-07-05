@@ -17,8 +17,11 @@ protected:
   uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
+
   static void Normal(const string& input, string& output,
     bool ignorecase = false, bool ignorespace = false);
+  static void NormalCase(string& input);
+  static void NormalSpace(const string& input, string& output);
 
   static RECORDS Select(shared_ptr<Delta> deltas, bool right,
     const RECORDS& r1, const RECORDS& r2);

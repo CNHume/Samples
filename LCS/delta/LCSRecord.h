@@ -17,12 +17,12 @@ protected:
   uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexes2MatchedByIndex1,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
+
   static void Normal(const string& input, string& output,
     bool ignorecase = false, bool ignorespace = false);
-#if false
-  static RECORDS Select(shared_ptr<Delta> deltas, bool right,
-    const RECORDS& r1, const RECORDS& r2);
-#endif
+  static void NormalCase(string& input);
+  static void NormalSpace(const string& input, string& output);
+
   static uint32_t Show(shared_ptr<Delta> deltas,
     const RECORDS& r1, const RECORDS& r2,
     const string& label1, const string& label2);
@@ -37,6 +37,9 @@ protected:
 
 public:
 #if false
+  static RECORDS Select(shared_ptr<Delta> deltas, bool right,
+    const RECORDS& r1, const RECORDS& r2);
+
   RECORDS Difference(const RECORDS& r1, const RECORDS& r2,
     bool isjoin = false, uint32_t join = 0,
     bool ignorecase = false, bool ignorespace = false);
