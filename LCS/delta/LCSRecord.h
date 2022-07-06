@@ -9,12 +9,12 @@
 
 using namespace std;
 
-class LCSRecord : LCS {
+class LCSRecord : protected LCS {
 public:
   typedef vector<string> RECORDS;
 
 protected:
-  uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexes2MatchedByIndex1,
+  uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 
@@ -22,20 +22,6 @@ protected:
     bool ignorecase = false, bool ignorespace = false);
   static void NormalCase(string& input);
   static void NormalSpace(const string& input, string& output);
-
-  static uint32_t Show(shared_ptr<Delta> deltas,
-    const RECORDS& r1, const RECORDS& r2,
-    const string& label1, const string& label2);
-  static void Series(uint32_t counter,
-    const string& label1, const RECORDS& r1, uint32_t begin1, uint32_t end1,
-    const string& label2, const RECORDS& r2, uint32_t begin2, uint32_t end2);
-  static void Side(string emblem, uint32_t counter, const string& label,
-    const RECORDS& list, uint32_t begin, uint32_t end);
-  static void Head(string emblem, uint32_t counter, const string& label,
-    uint32_t begin, uint32_t end);
-  static void Body(const RECORDS& records, uint32_t begin, uint32_t end);
-
-public:
 #if false
   static RECORDS Select(shared_ptr<Delta> deltas, bool right,
     const RECORDS& r1, const RECORDS& r2);

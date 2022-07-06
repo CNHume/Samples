@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class LCSString : LCS {
+class LCSString : protected LCS {
   //
   // String Methods
   //

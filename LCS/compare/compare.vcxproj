@@ -93,6 +93,7 @@
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSFile.h" />
+    <ClInclude Include="LCSFormat.h" />
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="LCSString.h" />
     <ClInclude Include="Pair.h" />

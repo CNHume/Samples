@@ -5,7 +5,10 @@
 //
 // 2017-07-09 CNHume  Created LCSFile subclass
 // 2017-07-04 CNHume  Created LCSRecord subclass
-// 2017-06-30 CNHume  Added Command class
+// 2017-06-29 CNHume  Added Command class
+// 2015-04-29 CNHume  Added support for isjoin
+// 2015-04-25 CNHume  Repurposed infix as join
+// 2015-04-18 CNHume  Added parse_uint32()
 // 2014-12-18 CNHume  Created file
 //
 // Purpose:

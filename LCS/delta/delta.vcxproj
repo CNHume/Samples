@@ -81,8 +81,10 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Delta.h" />
+    <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSFile.h" />
+    <ClInclude Include="LCSFormat.h" />
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="Pair.h" />
   </ItemGroup>

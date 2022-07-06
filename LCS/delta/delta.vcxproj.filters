@@ -33,6 +33,12 @@
     <ClInclude Include="LCSFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="join.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCSFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Delta.cpp">

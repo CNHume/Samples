@@ -24,7 +24,7 @@ void LCSFile::Difference(const Command command) {
 //
 // file reader
 //
-LCSFile::RECORDS LCSFile::Read(const string& filename, bool isword) {
+LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   ifstream input;
   input.open(filename, ios::in);
 

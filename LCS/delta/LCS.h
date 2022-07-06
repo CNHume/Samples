@@ -11,14 +11,15 @@
 // 2014-12-19 CNHume  Created file
 //
 #pragma once
+//#define SHOW_PAIRS
 //#define SHOW_COUNTS
 //#define SHOW_DELTAS
 //#define SHOW_MATCHES
 //#define SHOW_THRESHOLDS
 #define FILTER_PAIRS
 
-#include "Command.h"
 #include "Delta.h"
+#include "join.h"
 
 #include <stdint.h>
 #include <string>
@@ -37,5 +38,5 @@ protected:
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t FindLCS(MATCHES& indexes2MatchedByIndex1, shared_ptr<Pair>* pairs);
+  uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
 };

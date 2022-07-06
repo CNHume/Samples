@@ -6,17 +6,18 @@
 #pragma once
 
 #include "Command.h"
-#include "LCSRecord.h"
+#include "LCSFormat.h"
 #include <fstream>
 #include <sstream>
 #include <iterator>
 
 using namespace std;
 
-class LCSFile : LCSRecord {
+class LCSFile : protected LCSFormat {
 public:
   void Correspondence(const Command command);
   void Difference(const Command command);
 
+protected:
   static RECORDS Read(const string& filename, bool isword);
 };

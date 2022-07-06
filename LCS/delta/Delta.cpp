@@ -1,6 +1,16 @@
 // Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
 //
+// 2018-05-10 CNHume  Removed combined Complement()/Context() method.
 // 2017-06-25 CNHume  Refactored Lengths()
+// 2015-04-18 CNHume  Converted prefix, suffix and join to uint32
+// 2015-01-25 CNHume  Added Delta::Count()
+// 2015-01-24 CNHume  Converted length1/2 to end1/2 for clarity
+// 2015-01-23 CNHume  Renamed class to Delta
+// 2015-01-22 CNHume  Added Context()
+// 2015-01-19 CNHume  Added Complement()
+// 2015-01-18 CNHume  Renamed class to IntervalPair
+// 2015-01-17 CNHume  Added reclamation via shared_ptr<>
+// 2015-01-04 CNHume  Added Coalesce()
 // 2014-12-31 CNHume  Created file
 //
 #include "Delta.h"
@@ -9,15 +19,54 @@
 //
 // Delta Class Implementation
 //
+// static initialization
+//
+int64_t Delta::Deltas = 0;
+
 Delta::~Delta() {
+  Deltas--;
 }
 
 Delta::Delta() {
+  Deltas++;
 }
 
 Delta::Delta(uint32_t begin1, uint32_t begin2, uint32_t end1, uint32_t end2, shared_ptr<Delta> next)
   : Pair(begin1, begin2, next), end1(end1), end2(end2) {
+  Deltas++;
 }
+
+#ifdef COPY_SEMANTICS
+Delta::Delta(const Delta& other)
+  : Pair(other), end1(other.end1), end2(other.end2) {
+  Deltas++;
+}
+
+Delta& Delta::operator=(const Delta& other) {
+  if (this != &other) {
+    (Pair)*this = other;
+    end1 = other.end1;
+    end2 = other.end2;
+  }
+  return *this;
+}
+#endif                                  // COPY_SEMANTICS
+
+#ifdef MOVE_SEMANTICS
+Delta::Delta(Delta&& other) noexcept {
+  *this = std::move(other);             // move ctor invokes move assignment
+  Deltas++;
+}
+
+Delta& Delta::operator=(Delta&& other) noexcept {
+  if (this != &other) {
+    (Pair)*this = other;
+    end1 = other.end1;
+    end2 = other.end2;
+  }
+  return *this;
+}
+#endif                                  // MOVE_SEMANTICS
 
 void Delta::Lengths(const shared_ptr<Delta> deltas, uint32_t& length1, uint32_t& length2) {
   length1 = 0;
@@ -26,6 +75,24 @@ void Delta::Lengths(const shared_ptr<Delta> deltas, uint32_t& length1, uint32_t&
     length1 += next->end1 - next->begin1;
     length2 += next->end2 - next->begin2;
   }
+}
+
+void Delta::List(const shared_ptr<Delta> deltas) {
+  for (auto next = deltas; next != nullptr; next = dynamic_pointer_cast<Delta>(next->next)) {
+    cout << "([" << next->begin1 << ":" << next->end1 << "], ["
+      << next->begin2 << ":" << next->end2 << "])" << endl;
+  }
+}
+
+shared_ptr<Delta> Delta::Copy(const shared_ptr<Delta> deltas) {
+  shared_ptr<Delta> head = nullptr;
+  shared_ptr<Delta> rest = nullptr;
+  for (auto next = deltas; next != nullptr; next = dynamic_pointer_cast<Delta>(next->next)) {
+    auto copy = make_shared<Delta>(next->begin1, next->begin2, next->end1, next->end2);
+    rest = rest == nullptr ? head = copy : static_pointer_cast<Delta>(rest->next = copy);
+  }
+
+  return head;
 }
 
 //
