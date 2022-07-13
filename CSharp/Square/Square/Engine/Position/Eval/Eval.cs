@@ -410,8 +410,8 @@ namespace Engine {
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
 
-      Eval mDelta = (Eval)(mValueWhite - mValueBlack);
-      Eval mTotal = (Eval)(mValueWhite + mValueBlack);
+      var mDelta = (Eval)(mValueWhite - mValueBlack);
+      var mTotal = (Eval)(mValueWhite + mValueBlack);
 
       return (mDelta, mTotal);
     }

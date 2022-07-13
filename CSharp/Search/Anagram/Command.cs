@@ -10,14 +10,14 @@ namespace Anagram {
   using System;
 
   public class Command {
-    #region Virtual Fields
-    public string Letters;
-    public bool Subset;
+    #region Properties
+    public string? Letters { get; set; }
+    public bool Subset { get; set; }
     #endregion
 
     #region Methods
     public void Parse(string[] args) {
-      Letters = null;
+      Letters = default;
       Subset = false;
 
       var usage = false;
@@ -46,11 +46,11 @@ namespace Anagram {
         }
       }
 
-      // Require Letters
-      if (count <= n)
-        usage = true;
-      else
+      // Letters are required
+      if (n < count)
         Letters = args[n++];
+      else
+        usage = true;
 
       usage |= n < count;               // superfluous argument specified
 
