@@ -548,80 +548,81 @@ namespace Engine {
               out UInt32 uPiece, out Boolean _);
       var piece = (Piece)uPiece;
       var qpFrom = BIT0 << nFrom;
+      if (piece == Piece.K || (qpFrom & PinnedPiece) != 0)
+        return;
 
-      if ((PinnedPiece & qpFrom) == 0 && piece != Piece.K) {
-        var bWhiteMoved = !WTM();
-        (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
+      var bWhiteMoved = !WTM();
+      (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
 
-        //
-        // Determine how a piece is pinned, given that it has just
-        // made an Illegal Move, and restrict its further movement
-        // so as not to violate the pin.  tryMove() skips PinnedPiece
-        // moves not marked in Restricted[] as being allowed.
-        //
-        var qpKing = friend.Piece & King;
-        byte vKingPos = getKingPos(friend);
-        var qpChx = checkers(foe, vKingPos, qpKing);
+      //
+      // Determine how a piece is pinned, given that it has just
+      // made an Illegal Move, and restrict its further movement
+      // so as not to violate the pin.  tryMove() skips PinnedPiece
+      // moves not marked in Restricted[] as being allowed.
+      //
+      var qpKing = friend.Piece & King;
+      byte vKingPos = getKingPos(friend);
+      var qpChx = checkers(foe, vKingPos, qpKing);
 
-        //
-        // Pieces in Chess move such that a given piece can be pinned to its
-        // King by at most one attacker at a time.  So, a Double Check would
-        // imply that the previous move was not only pinned but that it also
-        // failed to evade a Check.
-        //
-        var bSingleCheck = IsOneOrNone(qpChx);
-        if (bSingleCheck) {             //[Safe]
-          if (qpChx != 0) {             // while loop unnecessary
-            var nChx = RemoveLo(ref qpChx, out Plane qpCheck);
-            var qpRay = pinRestrictions(qpCheck, vKingPos);
+      //
+      // Pieces in Chess move such that a given piece can be pinned to its
+      // King by at most one attacker at a time.  So, a Double Check would
+      // imply that the previous move was not only pinned but that it also
+      // failed to evade a Check.
+      //
+      var bSingleCheck = IsOneOrNone(qpChx);
+      if (bSingleCheck) {             //[Safe]
+        if (qpChx != 0) {             // while loop unnecessary
+          var nChx = RemoveLo(ref qpChx, out Plane qpCheck);
+          var qpRay = pinRestrictions(qpCheck, vKingPos);
 
-            //
-            // A guard pawn on the 4th or 5th rank may be prevented from EP Capture of a passer due
-            // to a pin against its King along their shared diagonal or along a shared rank or file.
-            //
-            // Removing the passer cannot discover a check along a diagonal, because there would
-            // necessarily have been that same check along the diagonal in the position prior to
-            // the passer advance.  That position would therefore have been Illegal.
-            //
-            // Removing a passer cannot constitute a pin along a file, because the guard pawn will
-            // immediately reoccupy that file in a the square behind the passer which will prevent
-            // discovery of any check along that file.
-            //
-            // The PasserPin exemption was introduced to prevent a mistaken Pin Restriction along
-            // the 4th or 5th rank from being applied in cases where a guard pawn vacates its own
-            // From Square as well as removing the passer.  Though the pin may render EP Captures
-            // illegal, the regular pawn advance would not be pinned owing to the presence of the
-            // adjacent passer.
-            //
-            // There can be no "pin" across a rank when two guard pawns surround a passer, because
-            // the three Pawns will be adjacent; and either EP Capture removes at most one pair of
-            // them.
-            //
-            // tryEP() was added for proper Draw3 handling; and has eliminated the need for the
-            // PasserPin Exemption.  This is because LoFlags.Passed is only set if at least one
-            // legal En Passant move can be played.
-            //
-            var bPasserPin = false;
+          //
+          // A guard pawn on the 4th or 5th rank may be prevented from EP Capture of a passer due
+          // to a pin against its King along their shared diagonal or along a shared rank or file.
+          //
+          // Removing the passer cannot discover a check along a diagonal, because there would
+          // necessarily have been that same check along the diagonal in the position prior to
+          // the passer advance.  That position would therefore have been Illegal.
+          //
+          // Removing a passer cannot constitute a pin along a file, because the guard pawn will
+          // immediately reoccupy that file in a the square behind the passer which will prevent
+          // discovery of any check along that file.
+          //
+          // The PasserPin exemption was introduced to prevent a mistaken Pin Restriction along
+          // the 4th or 5th rank from being applied in cases where a guard pawn vacates its own
+          // From Square as well as removing the passer.  Though the pin may render EP Captures
+          // illegal, the regular pawn advance would not be pinned owing to the presence of the
+          // adjacent passer.
+          //
+          // There can be no "pin" across a rank when two guard pawns surround a passer, because
+          // the three Pawns will be adjacent; and either EP Capture removes at most one pair of
+          // them.
+          //
+          // tryEP() was added for proper Draw3 handling; and has eliminated the need for the
+          // PasserPin Exemption.  This is because LoFlags.Passed is only set if at least one
+          // legal En Passant move can be played.
+          //
+          var bPasserPin = false;
 #if ExemptPasserPin
-            if (captured(move) == Piece.EP) {
-              var foe = getSide(!bWhiteMoved);
-              var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
-              var qpPasser = BIT0 << nCaptureFrom;
-              bPasserPin = (qpRay & qpPasser) != 0;
-            }
-#endif
-            if (bPasserPin) {
-              Trace.Assert(!bPasserPin, "Passer Pin");
-              DisplayCurrent("Passer Pin");
-            }
-            else
-              addRestriction(nFrom, qpFrom, qpRay, qpCheck);
+          var uCapture = captured(move);
+          var capture = (Piece)uCapture;
+          if (capture == Piece.EP) {
+            var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
+            var qpPasser = BIT0 << nCaptureFrom;
+            bPasserPin = (qpRay & qpPasser) != 0;
           }
+#endif
+          if (bPasserPin) {
+            Trace.Assert(!bPasserPin, "Passer Pin");
+            DisplayCurrent("Passer Pin");
+          }
+          else
+            addRestriction(nFrom, qpFrom, qpRay, qpCheck);
         }
-        else {
-          // Illegal Move should not have been considered and the pin introduces a new Check
-          Trace.Assert(bSingleCheck, "Pin found on Non Evading Move");
-        }
+      }
+      else {
+        // Illegal Move should not have been considered and the pin introduces a new Check
+        Trace.Assert(bSingleCheck, "Pin found on Non Evading Move");
       }
     }
 
