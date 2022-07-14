@@ -182,8 +182,8 @@ namespace Command {
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [15-ply in 10:44 @1.221 MHz over 786 Mnode] to find 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
-    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 16.84 sec]
-    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K #9 [15-ply in 18 sec]
+    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 15.17 sec @1.522 MHz over 23.08 Mnode]
+    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K #9 [15-ply in 16.24 sec sec @1.516 MHz over 24.63 Mnode]
     //"8/8/3n1b2/8/7K/1k6/8/8 w - - 0 67";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Deeper
     //"8/8/3n1b2/8/5K2/3k4/8/8 w - - 4 69";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Easier
     //"8/8/3n4/8/3b4/8/4k3/7K b - - 9 71";  // Paehtz v Hou Yifan KBN #29, 23-ply in 4:50:19 [16.957G nodes @973.5 KHz]

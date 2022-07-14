@@ -196,7 +196,8 @@ namespace Engine {
       var bKingToMoveLoss = bWhiteAlone == bWTM;
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
 
-      var vDefendingKingPos = getKingPos(bWhiteAlone);
+      var side = getSide(bWhiteAlone);
+      var vDefendingKingPos = getKingPos(side);
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;
 
@@ -271,28 +272,29 @@ namespace Engine {
     }
 #endif
     protected Eval rewardKBNvKMateCorner() {
-      var bWhiteDefending = (FlagsEG & EGFlags.WhiteAlone) != 0;
-      var vDefendingKingPos = getKingPos(bWhiteDefending);
+      var bWhiteAttacker = (FlagsEG & EGFlags.BlackAlone) != 0;
+      (BoardSide attacker, BoardSide defender) = getSides(bWhiteAttacker);
+      var vDefenderKingPos = getKingPos(defender);
 
       // Bishop color determines the mating corner
-      var side = getSide(!bWhiteDefending);
-      var bLite = (side.FlagsSide & SideFlags.Lite) != 0;
+      var bLite = (attacker.FlagsSide & SideFlags.Lite) != 0;
       var nReward = bLite ?
-        liteCornerReward(vDefendingKingPos) :
-        darkCornerReward(vDefendingKingPos);
-      return (Eval)(bWhiteDefending ? -nReward : nReward);
+        liteCornerReward(vDefenderKingPos) :
+        darkCornerReward(vDefenderKingPos);
+      return (Eval)(bWhiteAttacker ? nReward : -nReward);
     }
 
     protected Eval rewardKQvKPProximity() {
       const Int32 nMaxPawnDistance = nFiles - 2;
-      var bBlackHasPawn = (Side[Black].Piece & Pawn) != 0;
-      var vAttackingKingPos = getKingPos(bBlackHasPawn);
+      var bWhiteAttacker = (Side[Black].Piece & Pawn) != 0;
+      var attacker = getSide(bWhiteAttacker);
+      var vAttackerKingPos = getKingPos(attacker);
       var qp = Pawn;
-      var nDefendingPawnPos = RemoveLo(ref qp);
-      var nDistance = distance(vAttackingKingPos, nDefendingPawnPos);
+      var nPawnPos = RemoveLo(ref qp);
+      var nDistance = distance(vAttackerKingPos, nPawnPos);
       var nProximity = nMaxPawnDistance + 1 - nDistance;
       var nReward = mKQvKPProximityWeight * nProximity / nMaxPawnDistance;
-      return (Eval)(bBlackHasPawn ? nReward : -nReward);
+      return (Eval)(bWhiteAttacker ? nReward : -nReward);
     }
     #endregion
 

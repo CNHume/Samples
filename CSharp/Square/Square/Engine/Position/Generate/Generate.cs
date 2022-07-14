@@ -104,14 +104,15 @@ namespace Engine {
       var bInCheck = InCheck();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
-      var vKingPos = getKingPos(bWTM);
+      var vKingPos = getKingPos(friend);
 
       clearPseudoMoveLists(moves, bSwap);
 #if UnshadowRay2
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpChx = checkers(bWTM);
+        var qpKing = friend.Piece & King;
+        var qpChx = checkers(foe, vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
@@ -171,14 +172,15 @@ namespace Engine {
       var bInCheck = InCheck();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
-      var vKingPos = getKingPos(bWTM);
+      var vKingPos = getKingPos(friend);
 
       clearPseudoMaterialMoveLists(moves);
 #if UnshadowRay2
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpChx = checkers(bWTM);
+        var qpKing = friend.Piece & King;
+        var qpChx = checkers(foe, vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
@@ -226,9 +228,9 @@ namespace Engine {
     protected Int32 generateSwaps(List<Move> moves, Int32 nTo) {
       var qpTo = BIT0 << nTo;
       var bWTM = WTM();
-      var friend = getSide(bWTM);
+      (BoardSide friend, BoardSide foe) = getSides(bWTM);
       var qpFriend = friend.Piece;
-      var vKingPos = getKingPos(bWTM);
+      var vKingPos = getKingPos(friend);
       var bInCheck = InCheck();
 
       clearPseudoSwapLists(moves);      // ~32 MHz
@@ -236,7 +238,8 @@ namespace Engine {
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpChx = checkers(bWTM);
+        var qpKing = friend.Piece & King;
+        var qpChx = checkers(foe, vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif

@@ -350,6 +350,12 @@ namespace Engine {
       return qpPieceAtx;
     }
 
+    protected Byte getKingPos(BoardSide side) {
+      if (!side.KingPos.HasValue)
+        throw new ArgumentNullException(nameof(side.KingPos));
+      return side.KingPos.Value;
+    }
+
     //
     // checkers() is used to distinguish between single vs double checks,
     // to determine whether an Interposition (or Capture) may be possible
@@ -362,21 +368,15 @@ namespace Engine {
     // at the To square.  An interesection can than be made with actual
     // pieces and the attacks generated for their type.
     //
-    protected Plane checkers(Boolean bWTM) {
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      if (!friend.KingPos.HasValue)
-        throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
-      var vTo = friend.KingPos.Value;
-
+    protected Plane checkers(BoardSide foe, Byte vKingPos, Plane qpTo) {
       var qpFrom = 0UL;
-      qpFrom |= foe.Piece & King & KingAtx[vTo];
-      qpFrom |= foe.Piece & Knight & KnightAtx[vTo];
-      qpFrom |= foe.Piece & DiagPiece & diagAtx(vTo);
-      qpFrom |= foe.Piece & RectPiece & rectAtx(vTo);
+      qpFrom |= foe.Piece & King & KingAtx[vKingPos];
+      qpFrom |= foe.Piece & Knight & KnightAtx[vKingPos];
+      qpFrom |= foe.Piece & DiagPiece & diagAtx(vKingPos);
+      qpFrom |= foe.Piece & RectPiece & rectAtx(vKingPos);
 
-      var qpTo = friend.Piece & King;
-      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.ShiftA1H8;
-      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vTo - foe.Parameter.ShiftA8H1;
+      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - foe.Parameter.ShiftA1H8;
+      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - foe.Parameter.ShiftA8H1;
 
       return qpFrom;
     }
@@ -551,6 +551,7 @@ namespace Engine {
 
       if ((PinnedPiece & qpFrom) == 0 && piece != Piece.K) {
         var bWhiteMoved = !WTM();
+        (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
 
         //
         // Determine how a piece is pinned, given that it has just
@@ -558,7 +559,9 @@ namespace Engine {
         // so as not to violate the pin.  tryMove() skips PinnedPiece
         // moves not marked in Restricted[] as being allowed.
         //
-        var qpChx = checkers(bWhiteMoved);
+        var qpKing = friend.Piece & King;
+        byte vKingPos = getKingPos(friend);
+        var qpChx = checkers(foe, vKingPos, qpKing);
 
         //
         // Pieces in Chess move such that a given piece can be pinned to its
@@ -568,7 +571,6 @@ namespace Engine {
         //
         var bSingleCheck = IsOneOrNone(qpChx);
         if (bSingleCheck) {             //[Safe]
-          var vKingPos = getKingPos(bWhiteMoved);
           if (qpChx != 0) {             // while loop unnecessary
             var nChx = RemoveLo(ref qpChx, out Plane qpCheck);
             var qpRay = pinRestrictions(qpCheck, vKingPos);
