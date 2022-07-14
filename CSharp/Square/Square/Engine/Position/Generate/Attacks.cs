@@ -386,11 +386,11 @@ namespace Engine {
     // Allowing the moves, then handling them like Illegal
     // Moves may be just as fast.
     //
-    protected Plane attacks(BoardSide foe, Plane qpFriend) {
-      var qpTo = 0UL;
+    protected Plane safe(BoardSide foe, Plane qpFriend) {
+      var qpAttacked = 0UL;
 
-      qpTo |= (qpFriend & foe.PawnA1H8Atx);
-      qpTo |= (qpFriend & foe.PawnA8H1Atx);
+      qpAttacked |= (qpFriend & foe.PawnA1H8Atx);
+      qpAttacked |= (qpFriend & foe.PawnA8H1Atx);
 
       while (qpFriend != 0) {
         var n = RemoveLo(ref qpFriend, out Plane qp);
@@ -402,10 +402,10 @@ namespace Engine {
           (foe.Piece & King & KingAtx[n]) != 0;
 
         if (bAttacked)
-          qpTo |= qp;
+          qpAttacked |= qp;
       }
 
-      return qpTo;
+      return ~qpAttacked;
     }
 
     //
@@ -560,8 +560,8 @@ namespace Engine {
       // so as not to violate the pin.  tryMove() skips PinnedPiece
       // moves not marked in Restricted[] as being allowed.
       //
-      var qpKing = friend.Piece & King;
       byte vKingPos = getKingPos(friend);
+      var qpKing = friend.Piece & King;
       var qpChx = checkers(foe, vKingPos, qpKing);
 
       //

@@ -56,7 +56,7 @@ namespace Engine {
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
       //[Time]timeRectAtx();
-      //[Time]timeFoeAtx();
+      //[Time]timeSafe();
       //[Time]timeMagic();
       //[Time]
       //timeRemoveLo();
@@ -172,14 +172,14 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeFoeAtx(UInt64 qTrials = 100000000UL) { // 1.22 MHz
-      var sw = TimerStart(nameof(attacks), qTrials);
+    protected void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
+      var sw = TimerStart(nameof(safe), qTrials);
 
       //var qpMoveTo = KingAtx[(Int32)sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = KingAtx[nFrom];
-        qpMoveTo &= ~attacks(Side[Black], qpMoveTo);
+        qpMoveTo &= safe(Side[Black], qpMoveTo);
       }
 
       TimerStop(sw, qTrials);

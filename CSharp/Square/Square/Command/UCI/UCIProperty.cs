@@ -195,7 +195,7 @@ namespace Command {
     //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply in 46.58 sec
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 of startpos in 31.526 sec @4.135 MHz over 131.36 Mnode
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 41.12 sec @5 MHz over 205.63 Mnode
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 37.01 sec @5.556 MHz over 205.63 Mnode
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 53.7 sec @4.076 MHz over  218.84 Mnode
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:45.83 @4.627 MHz over 767.28 Mnode
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 22.26 sec @3.935 MHz over 87.6 Mnode

@@ -220,12 +220,12 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= ~attacks(foe, qpMoveTo);
+        qpMoveTo &= safe(foe, qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= ~attacks(foe, qpMoveTo);
+        qpMoveTo &= safe(foe, qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoKingMove, PseudoKingMove, moveFrom, qpMoveTo);
@@ -248,12 +248,12 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= ~attacks(foe, qpMoveTo);
+        qpMoveTo &= safe(foe, qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= ~attacks(foe, qpMoveTo);
+        qpMoveTo &= safe(foe, qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
     }
