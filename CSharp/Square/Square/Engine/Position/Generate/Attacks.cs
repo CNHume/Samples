@@ -38,8 +38,8 @@ namespace Engine {
     // interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
     //*pinRestrictions - Expedited version of interpositions
     //
-    // attacks - Thorough version of isAttacked, used to preempt Illegal King Moves
-    //*isAttacked - Disallow castling through check
+    // attacks - Thorough version of IsAttacked, used to preempt Illegal King Moves
+    //*IsAttacked - Disallow castling through check
     // rankPath - Returns mask for squares that must not be obstructed (or attacked)
     //
     // pieceAtx - Called by buildMove on behalf of parsePACNMove to verify From and To
@@ -350,92 +350,12 @@ namespace Engine {
       return qpPieceAtx;
     }
 
-    protected Byte getKingPos(BoardSide side) {
-      if (!side.KingPos.HasValue)
-        throw new ArgumentNullException(nameof(side.KingPos));
-      return side.KingPos.Value;
-    }
-
-    //
-    // checkers() is used to distinguish between single vs double checks,
-    // to determine whether an Interposition (or Capture) may be possible
-    // or whether only Evasion is to be considered.
-    //
-    // qpFrom returns squares with pieces that attack the opposing King.
-    //
-    // Pawn attacks are handled conventionally; but the non-directional,
-    // symmetric nature of piece attacks allows attacks to be generated
-    // at the To square.  An interesection can than be made with actual
-    // pieces and the attacks generated for their type.
-    //
-    protected Plane checkers(BoardSide foe, Byte vKingPos, Plane qpTo) {
-      var qpFrom = 0UL;
-      qpFrom |= foe.Piece & King & KingAtx[vKingPos];
-      qpFrom |= foe.Piece & Knight & KnightAtx[vKingPos];
-      qpFrom |= foe.Piece & DiagPiece & diagAtx(vKingPos);
-      qpFrom |= foe.Piece & RectPiece & rectAtx(vKingPos);
-
-      if ((qpTo & foe.PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - foe.Parameter.ShiftA1H8;
-      if ((qpTo & foe.PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - foe.Parameter.ShiftA8H1;
-
-      return qpFrom;
-    }
-
-    //
-    // The following is used to preempt Illegal King Moves.
-    // Allowing the moves, then handling them like Illegal
-    // Moves may be just as fast.
-    //
-    protected Plane safe(BoardSide foe, Plane qpFriend) {
-      var qpAttacked = 0UL;
-
-      qpAttacked |= (qpFriend & foe.PawnA1H8Atx);
-      qpAttacked |= (qpFriend & foe.PawnA8H1Atx);
-
-      while (qpFriend != 0) {
-        var n = RemoveLo(ref qpFriend, out Plane qp);
-
-        var bAttacked =
-          (foe.Piece & Knight & KnightAtx[n]) != 0 ||
-          (foe.Piece & DiagPiece & diagAtx(n)) != 0 ||
-          (foe.Piece & RectPiece & rectAtx(n)) != 0 ||
-          (foe.Piece & King & KingAtx[n]) != 0;
-
-        if (bAttacked)
-          qpAttacked |= qp;
-      }
-
-      return ~qpAttacked;
-    }
-
-    //
-    // isAttacked() is used by the Legal Move and Check tests
-    // and to disallow castling through check:
-    //
-    protected Boolean isAttacked(BoardSide foe, Plane qpFriend) {
-      Boolean bAttacked =
-        (qpFriend & foe.PawnA1H8Atx) != 0 ||
-        (qpFriend & foe.PawnA8H1Atx) != 0;
-
-      while (!bAttacked && qpFriend != 0) {
-        var n = RemoveLo(ref qpFriend);
-
-        bAttacked =
-          (foe.Piece & Knight & KnightAtx[n]) != 0 ||
-          (foe.Piece & DiagPiece & diagAtx(n)) != 0 ||
-          (foe.Piece & RectPiece & rectAtx(n)) != 0 ||
-          (foe.Piece & King & KingAtx[n]) != 0;
-      }
-
-      return bAttacked;
-    }
-
     private Boolean canOO(BoardSide friend, BoardSide foe) {
       var friendRule = friend.Rule;
       var bLegal = ((friend.FlagsSide & SideFlags.CanOO) != 0) &&
                    ((friendRule.OOPath & RankPiece) == 0) &&
                    friendRule.OOSafe.HasValue &&
-                   !isAttacked(foe, friendRule.OOSafe.Value);
+                   !foe.IsAttacked(friendRule.OOSafe.Value);
 
       return bLegal;
     }
@@ -445,7 +365,7 @@ namespace Engine {
       var bLegal = ((friend.FlagsSide & SideFlags.CanOOO) != 0) &&
                    ((friendRule.OOOPath & RankPiece) == 0) &&
                    friendRule.OOOSafe.HasValue &&
-                   !isAttacked(foe, friendRule.OOOSafe.Value);
+                   !foe.IsAttacked(friendRule.OOOSafe.Value);
 
       return bLegal;
     }
@@ -560,9 +480,9 @@ namespace Engine {
       // so as not to violate the pin.  tryMove() skips PinnedPiece
       // moves not marked in Restricted[] as being allowed.
       //
-      byte vKingPos = getKingPos(friend);
+      byte vKingPos = friend.GetKingPos();
       var qpKing = friend.Piece & King;
-      var qpChx = checkers(foe, vKingPos, qpKing);
+      var qpChx = foe.Checkers(vKingPos, qpKing);
 
       //
       // Pieces in Chess move such that a given piece can be pinned to its

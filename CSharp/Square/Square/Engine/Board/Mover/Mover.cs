@@ -111,20 +111,6 @@ namespace Engine {
         side.ResetPawnAtx();
     }
 
-    //
-    // Return Friend Pawns which may be able to capture En Passant
-    // the Foe Pawn that just passed through the nEnPassant square.
-    //
-    protected Plane passed(BoardSide side, Int32 nEnPassant) {
-      var qpEnPassant = BIT0 << nEnPassant;
-
-      var qpCaptureFrom =
-        shiftr(qpEnPassant & side.PawnA1H8Atx, side.Parameter.ShiftA1H8) |
-        shiftr(qpEnPassant & side.PawnA8H1Atx, side.Parameter.ShiftA8H1);
-
-      return qpCaptureFrom;
-    }
-
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void setEPFile(Int32 nEP) {
       // Any Square on the EP File will do
@@ -144,11 +130,8 @@ namespace Engine {
     //
     private void tryEP(
       BoardSide friend, BoardSide foe, Int32 nMovedTo, Int32 nEnPassant) {
-      if (!friend.KingPos.HasValue)
-        throw new ArgumentException(nameof(friend.KingPos), "Invalid King Position");
-
-      var vKing = friend.KingPos.Value;
-      var qpCaptureFrom = passed(friend, nEnPassant);
+      var vKing = friend.GetKingPos();
+      var qpCaptureFrom = friend.Passed(nEnPassant);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 

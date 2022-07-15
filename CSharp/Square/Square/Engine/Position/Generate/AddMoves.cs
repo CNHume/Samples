@@ -220,12 +220,12 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= safe(foe, qpMoveTo);
+        qpMoveTo &= foe.Safe(qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= safe(foe, qpMoveTo);
+        qpMoveTo &= foe.Safe(qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoKingMove, PseudoKingMove, moveFrom, qpMoveTo);
@@ -248,12 +248,12 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= safe(foe, qpMoveTo);
+        qpMoveTo &= foe.Safe(qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= safe(foe, qpMoveTo);
+        qpMoveTo &= foe.Safe(qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
     }

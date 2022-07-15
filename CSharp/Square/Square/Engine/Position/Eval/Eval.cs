@@ -197,7 +197,7 @@ namespace Engine {
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
 
       var side = getSide(bWhiteAlone);
-      var vDefendingKingPos = getKingPos(side);
+      var vDefendingKingPos = side.GetKingPos();
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;
 
@@ -274,7 +274,7 @@ namespace Engine {
     protected Eval rewardKBNvKMateCorner() {
       var bWhiteAttacker = (FlagsEG & EGFlags.BlackAlone) != 0;
       (BoardSide attacker, BoardSide defender) = getSides(bWhiteAttacker);
-      var vDefenderKingPos = getKingPos(defender);
+      var vDefenderKingPos = defender.GetKingPos();
 
       // Bishop color determines the mating corner
       var bLite = (attacker.FlagsSide & SideFlags.Lite) != 0;
@@ -288,7 +288,7 @@ namespace Engine {
       const Int32 nMaxPawnDistance = nFiles - 2;
       var bWhiteAttacker = (Side[Black].Piece & Pawn) != 0;
       var attacker = getSide(bWhiteAttacker);
-      var vAttackerKingPos = getKingPos(attacker);
+      var vAttackerKingPos = attacker.GetKingPos();
       var qp = Pawn;
       var nPawnPos = RemoveLo(ref qp);
       var nDistance = distance(vAttackerKingPos, nPawnPos);

@@ -173,13 +173,13 @@ namespace Engine {
     }
 
     protected void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
-      var sw = TimerStart(nameof(safe), qTrials);
+      var sw = TimerStart(nameof(BoardSide.Safe), qTrials);
 
       //var qpMoveTo = KingAtx[(Int32)sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = KingAtx[nFrom];
-        qpMoveTo &= safe(Side[Black], qpMoveTo);
+        qpMoveTo &= Side[Black].Safe(qpMoveTo);
       }
 
       TimerStop(sw, qTrials);

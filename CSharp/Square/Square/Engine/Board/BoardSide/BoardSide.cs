@@ -51,7 +51,103 @@ namespace Engine {
 #endif
       }
 
+      #region Attacker Methods
+      public Byte GetKingPos() {
+        if (!KingPos.HasValue)
+          throw new ArgumentNullException(nameof(KingPos));
+        return KingPos.Value;
+      }
+
+      //
+      // checkers() is used to distinguish between single vs double checks,
+      // to determine whether an Interposition (or Capture) may be possible
+      // or whether only Evasion is to be considered.
+      //
+      // qpFrom returns squares with pieces that attack the opposing King.
+      //
+      // Pawn attacks are handled conventionally; but the non-directional,
+      // symmetric nature of piece attacks allows attacks to be generated
+      // at the To square.  An interesection can than be made with actual
+      // pieces and the attacks generated for their type.
+      //
+      public Plane Checkers(Byte vKingPos, Plane qpTo) {
+        var qpFrom = 0UL;
+        qpFrom |= Piece & Board.King & KingAtx[vKingPos];
+        qpFrom |= Piece & Board.Knight & KnightAtx[vKingPos];
+        qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
+        qpFrom |= Piece & Board.RectPiece & Board.rectAtx(vKingPos);
+
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.ShiftA1H8;
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.ShiftA8H1;
+
+        return qpFrom;
+      }
+
+      //
+      // The following is used to preempt Illegal King Moves.
+      // Allowing the moves, then handling them like Illegal
+      // Moves may be just as fast.
+      //
+      public Plane Safe(Plane qpFriend) {
+        var qpAttacked = 0UL;
+
+        qpAttacked |= (qpFriend & PawnA1H8Atx);
+        qpAttacked |= (qpFriend & PawnA8H1Atx);
+
+        while (qpFriend != 0) {
+          var n = RemoveLo(ref qpFriend, out Plane qp);
+
+          var bAttacked =
+            (Piece & Board.Knight & KnightAtx[n]) != 0 ||
+            (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
+            (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+            (Piece & Board.King & KingAtx[n]) != 0;
+
+          if (bAttacked)
+            qpAttacked |= qp;
+        }
+
+        return ~qpAttacked;
+      }
+
+      //
+      // IsAttacked() is used by the Legal Move and Check tests
+      // and to disallow castling through check:
+      //
+      public Boolean IsAttacked(Plane qpFriend) {
+        Boolean bAttacked =
+          (qpFriend & PawnA1H8Atx) != 0 ||
+          (qpFriend & PawnA8H1Atx) != 0;
+
+        while (!bAttacked && qpFriend != 0) {
+          var n = RemoveLo(ref qpFriend);
+
+          bAttacked =
+            (Piece & Board.Knight & KnightAtx[n]) != 0 ||
+            (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
+            (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+            (Piece & Board.King & KingAtx[n]) != 0;
+        }
+
+        return bAttacked;
+      }
+      #endregion
+
       #region Mover Methods
+      //
+      // Return Friend Pawns which may be able to capture En Passant
+      // the Foe Pawn that just passed through the nEnPassant square.
+      //
+      public Plane Passed(Int32 nEnPassant) {
+        var qpEnPassant = BIT0 << nEnPassant;
+
+        var qpCaptureFrom =
+          shiftr(qpEnPassant & PawnA1H8Atx, Parameter.ShiftA1H8) |
+          shiftr(qpEnPassant & PawnA8H1Atx, Parameter.ShiftA8H1);
+
+        return qpCaptureFrom;
+      }
+
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void clrPiece(Plane qp) {
         Board.RankPiece &= ~qp;

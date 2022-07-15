@@ -117,11 +117,11 @@ namespace Engine {
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
       //[Assume]Restricted Moves are Legal
-      var bLegal = bRestricted || !isAttacked(friend, King & foe.Piece);
+      var bLegal = bRestricted || !friend.IsAttacked(King & foe.Piece);
       setLegal(bLegal);
 
       if (bLegal) {                     // Perform InCheck Test for Legal Moves
-        setInCheck(isAttacked(foe, King & friend.Piece));
+        setInCheck(foe.IsAttacked(King & friend.Piece));
 
         //
         // Draw Flags are included in dynamicHash() to maintain Search Stability,
