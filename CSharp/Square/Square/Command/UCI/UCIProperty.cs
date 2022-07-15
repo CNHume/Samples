@@ -69,7 +69,7 @@ namespace Command {
     //"r1bnknr1/1pp1qp2/p3p1p1/3pP1Np/3P3R/2NB1RQ1/PPP2PP1/2K5 w q - 0 1"; // Stockfish 8 v Alpha Zero (1-0) too deep to find Bc4!
     // See https://www.youtube.com/watch?v=Fwzq7qK6MMQ for Stockfish 8 variations
     // For example: moves d3c4 d5c4 d4d5 f8d7 h4c4 c7c6 c3e4 c6d5 e4d6 e7d6 e5d6 d5c4 g3h4 g8g7 g2g4 d7e5 g5f7 d8c6 f7e5 c6e5 h4f6 g7f7 f6h8 e8d7 f3f7 e5f7 h8h7 d7d6 h7f7
-    //"8/8/6b1/3k4/8/1N5P/p7/3K4 b - - 0 77"; // Fedoseev v Carlsen 0-1 [16-ply in 21.5 sec]
+    //"8/8/6b1/3k4/8/1N5P/p7/3K4 b - - 0 77"; // Fedoseev v Carlsen 0-1 [18-ply in 9:02 @1.305 MHz over 707.6 Mnode] eval -11.35
     //"8/n7/P7/8/2n5/8/2k5/K7 b - - 0 1"; // 2N v P #11 [16-ply in 42.66 @1.307 MHz over 55.36 Mnode]
     // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 transposing to 7... Kc2] Kb4
     // 6. Kb1 [6. Ka1 Kb3 7. Kb1 Nb5 8. Ka1 Na3 9. a7 Ne1 10. a8=Q Nec2#] 6... Kb3 7. Ka1 Kc2 8. Ka2 Nb5

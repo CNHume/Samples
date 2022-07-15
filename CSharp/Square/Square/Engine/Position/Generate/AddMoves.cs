@@ -7,7 +7,6 @@
 //
 //#define DebugSquares
 //#define DebugMoveColor
-//#define TestPawnAdvances
 #define UnshadowRay
 #define UnshadowRay2
 
@@ -60,7 +59,8 @@ namespace Engine {
     #endregion
 
     #region Pawn Moves
-    protected void addPawnCapture(Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote, Boolean bEnPassant) {
+    public void AddPawnCapture(
+      Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote, Boolean bEnPassant) {
 #if DebugSquares
       Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
@@ -88,7 +88,8 @@ namespace Engine {
       }
     }
 
-    protected void addPawnMove(Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote) {
+    public void AddPawnMove(
+      Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote) {
 #if DebugSquares
       Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
@@ -105,69 +106,6 @@ namespace Engine {
       else {
         var moves = bAbove ? PseudoPawnAboveMove : PseudoPawnBelowMove;
         moves.Add(move);
-      }
-    }
-
-    private void addPawnCaptures(BoardSide side, Plane qpTo) {
-      var nEP = IsPassed() ? ep(FlagsLo) : nSquares;
-      addPawnCaptures2(side, side.PawnA1H8Atx & qpTo, side.Parameter.ShiftA1H8, nEP);
-      addPawnCaptures2(side, side.PawnA8H1Atx & qpTo, side.Parameter.ShiftA8H1, nEP);
-    }
-
-    private void addPawnCaptures2(BoardSide side, Plane qpAtx, Int32 nDiag, Int32 nEP) {
-      var qpFrom = shiftr(qpAtx, nDiag);
-      while (qpFrom != 0) {
-        var nFrom = RemoveLo(ref qpFrom);
-        var nTo = nFrom + nDiag;
-        var qpMoveTo = BIT0 << nTo;
-        var bAbove = (side.Parameter.Above & qpMoveTo) != 0;
-        var bPromote = (side.Parameter.RankLast & qpMoveTo) != 0;
-        var bEnPassant = nTo == nEP;
-        addPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
-      }
-    }
-
-    private void addPawnMoves(BoardSide side, Plane qpTo) {
-      var qpPawn = side.Piece & Pawn;
-
-      //
-      // Pawn Advances:
-      //
-      var qpAdvance1 = shiftl(qpPawn, side.Parameter.ShiftRank) & ~RankPiece;
-      var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.ShiftRank) & ~RankPiece;
-      var qpAdv1From = shiftr(qpAdvance1 & qpTo, side.Parameter.ShiftRank);
-      var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * side.Parameter.ShiftRank);
-#if TestPawnAdvances
-      LogLine("Pawn Advance:\n");
-      writeRect(qpAdvance1 | qpAdvance2);
-      LogLine();
-#endif
-      while (qpAdv1From != 0) {
-        var nFrom = RemoveLo(ref qpAdv1From);
-        var nTo = nFrom + side.Parameter.ShiftRank;
-        var qpMoveTo = BIT0 << nTo;
-        var bAbove = (side.Parameter.Above & qpMoveTo) != 0;
-        var bPromote = (side.Parameter.RankLast & qpMoveTo) != 0;
-        addPawnMove(nFrom, nTo, bAbove, bPromote);
-      }
-
-      while (qpAdv2From != 0) {
-        var nFrom = RemoveLo(ref qpAdv2From);
-        var nTo = nFrom + 2 * side.Parameter.ShiftRank;
-        addPawnMove(nFrom, nTo, false, false);
-      }
-    }
-
-    // The following two methods are used by generateMaterialMoves()
-    private void addPromotions(BoardSide side, Plane qpTo) {
-      var qpPawn = side.Piece & Pawn;
-      var qpAdvance1 = shiftl(qpPawn, side.Parameter.ShiftRank) & ~RankPiece;
-      var qpAdv1From = shiftr(qpAdvance1 & qpTo & side.Parameter.RankLast, side.Parameter.ShiftRank);
-
-      while (qpAdv1From != 0) {
-        var nFrom = RemoveLo(ref qpAdv1From);
-        var nTo = nFrom + side.Parameter.ShiftRank;
-        addPawnMove(nFrom, nTo, true, true);
       }
     }
     #endregion

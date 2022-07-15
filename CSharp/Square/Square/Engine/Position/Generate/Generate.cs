@@ -135,8 +135,8 @@ namespace Engine {
           if (IsPassed() && (qpChx & Pawn) != 0)
             qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-          addPawnCaptures(friend, qpPawnCapture);
-          addPawnMoves(friend, qpRay);
+          friend.AddPawnCaptures(this, qpPawnCapture);
+          friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
@@ -147,8 +147,8 @@ namespace Engine {
         if (IsPassed())
           qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-        addPawnCaptures(friend, qpPawnCapture);
-        addPawnMoves(friend, ~RankPiece);
+        friend.AddPawnCaptures(this, qpPawnCapture);
+        friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles(friend, foe);
       }                                 //!bInCheck
@@ -198,8 +198,8 @@ namespace Engine {
             if (IsPassed() && (qpChx & Pawn) != 0)
               qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-            addPawnCaptures(friend, qpPawnCapture);
-            addPromotions(friend, qpRay);
+            friend.AddPawnCaptures(this, qpPawnCapture);
+            friend.AddPromotions(this, qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
@@ -211,8 +211,8 @@ namespace Engine {
         if (IsPassed())
           qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-        addPawnCaptures(friend, qpPawnCapture);
-        addPromotions(friend, ~RankPiece);
+        friend.AddPawnCaptures(this, qpPawnCapture);
+        friend.AddPromotions(this, ~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(~qpFriend, vKingPos, bRayCheck);
@@ -249,14 +249,14 @@ namespace Engine {
 
           if (qpFoe != 0) {
             addPieceCaptures(qpFoe, qpFriend);
-            addPawnCaptures(friend, qpFoe);
+            friend.AddPawnCaptures(this, qpFoe);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         var qpFoe = qpTo & ~qpFriend;
         addPieceCaptures(qpFoe, qpFriend);
-        addPawnCaptures(friend, qpFoe);
+        friend.AddPawnCaptures(this, qpFoe);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(qpTo & ~qpFriend, vKingPos, bRayCheck);
