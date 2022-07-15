@@ -90,7 +90,7 @@ namespace Command {
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Ka1 Kxc3 70. Be8 Kd2 71. Bg6 c3 72. Ka2 c2 73. Bxc2 Kxc2 74. a4 Nc4
     // [20-ply in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 following
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne1? 69. Kb2 Nf3 70. Bc2 d4 71. Bb1 dxc3+ 72. Ka2 c2 73. Bxc2 Kxc2
-    // [21-ply in 1:44:32.3 @1.1MHz over 6.9 Gnode] eval -3.6
+    // [21-ply in 1:34:58 @1.212 MHz over 6.9 Gnode] eval -3.6
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply in 1:03:56.8 over 3.838 Gnode @1.0 MHz]
     // To see clear win after 1. Kf2 Kf5 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Kg8 7. Kf4! Kf8 8. Ke4 Ke8

@@ -112,7 +112,8 @@ namespace Engine {
 
     #region Piece Moves
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void addPieceCaptures(List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
+    protected void addPieceCaptures(
+      List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
@@ -127,7 +128,8 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void addPieceMoves(List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
+    protected void addPieceMoves(
+      List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
       qpMoveTo &= ~RankPiece;           // Find Moves
       while (qpMoveTo != 0) {

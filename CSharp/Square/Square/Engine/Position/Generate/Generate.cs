@@ -99,7 +99,8 @@ namespace Engine {
     #endregion
 
     #region Search Move Generators
-    protected Int32 generate(List<Move> moves, Boolean bSwap) {         // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
+    // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
+    protected Int32 generate(List<Move> moves, Boolean bSwap) {
       var bWTM = WTM();
       var bInCheck = InCheck();
       (BoardSide friend, BoardSide foe) = getSides(bWTM);
