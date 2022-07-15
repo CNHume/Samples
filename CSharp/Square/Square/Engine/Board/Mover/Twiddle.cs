@@ -614,16 +614,6 @@ namespace Engine {
     internal static Byte getNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
       return (Byte)nibble(wNibbleMask >> nIndex * nPerNibble);
     }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void incSideCount(BoardSide side, Byte vPiece) {
-      side.Counts += 1U << vPiece * nPerNibble;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void decSideCount(BoardSide side, Byte vPiece) {
-      side.Counts -= 1U << vPiece * nPerNibble;
-    }
 #endregion
 
 #region Nibble & TwoBits Methods

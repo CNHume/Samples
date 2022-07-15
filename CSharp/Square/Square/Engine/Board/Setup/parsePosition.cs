@@ -91,7 +91,7 @@ namespace Engine {
 
         var vPiece = pieceIndex((UInt32)piece);
         var side = getSide(bColor);
-        placePiece(side, vPiece, sqr(x, y));
+        side.PlacePiece(vPiece, sqr(x, y));
         x++;                            // Placed Piece
       }
       else if (wasDigit)

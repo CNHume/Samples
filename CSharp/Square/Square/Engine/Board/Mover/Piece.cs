@@ -6,13 +6,10 @@
 // Conditionals:
 //
 //#define Magic
-//#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
 #define HashPieces
 #define UnshadowRay
 
 namespace Engine {
-  using Command.Exceptions;
-
   using Exceptions;
 
   using System;
@@ -78,159 +75,6 @@ namespace Engine {
       return vPiece;
     }
 
-    private Boolean raisePiece(BoardSide side, Byte vPiece, Int32 nFrom) {
-      var rule = side.Rule;
-      hashPiece(side, vPiece, nFrom);
-      var qp = BIT0 << nFrom;
-#if VerifySquarePiece
-      if ((qp & RankPiece) == 0) {
-        var sb = new StringBuilder($"Square empty where {side.Parameter.SideName} Piece was expected at")
-          .AppendSquares(qp);
-        throw new MoveException(sb.ToString());
-      }
-      else if ((qp & side.Piece) == 0) {
-        var sb = new StringBuilder($"{side.Parameter.SideName} Piece was expected at")
-          .AppendSquares(qp);
-        throw new MoveException(sb.ToString());
-      }
-#endif
-      clrPiece(side, qp);
-#if !Magic
-      clrRotations(nFrom);
-#endif
-      var bLite = false;
-      switch (vPiece) {
-      case vP6:
-        Pawn &= ~qp;
-        break;
-      case vR6:
-        RectPiece &= ~qp;
-        if (nFrom == rule.RookOOFrom)
-          side.FlagsSide &= ~SideFlags.CanOO;
-        else if (nFrom == rule.RookOOOFrom)
-          side.FlagsSide &= ~SideFlags.CanOOO;
-        break;
-      case vN6:
-        Knight &= ~qp;
-        break;
-      case vB6:
-        DiagPiece &= ~qp;
-        bLite = (qp & LiteSquare) != 0;
-        break;
-      case vQ6:
-        DiagPiece &= ~qp;
-        RectPiece &= ~qp;
-        break;
-      case vK6:
-        King &= ~qp;
-        side.FlagsSide &= ~SideFlags.CanCastleMask;
-        break;
-      default:
-        throw new PieceException("Unexpected Piece [raiseSide]");
-      }
-
-      return bLite;
-    }
-
-    protected void removePiece(BoardSide side, Byte vPiece, Int32 nFrom) {
-      var rule = side.Rule;
-      var bLite = raisePiece(side, vPiece, nFrom);
-      decSideCount(side, vPiece);
-
-      //
-      // Update BishopMask, assuming DiagPiece is up to date
-      //
-      if (vPiece == vB6) {
-        var qpBishop = side.Piece & Bishop;
-
-        if (bLite) {
-          if ((qpBishop & LiteSquare) == 0)
-            side.FlagsSide &= ~SideFlags.Lite;
-        }
-        else if ((qpBishop & DarkSquare) == 0)
-          side.FlagsSide &= ~SideFlags.Dark;
-#if HashPieces
-        var u = (UInt32)(side.FlagsSide & SideFlags.Pair) >> nBishopPairBit;
-        setTwoBits(ref side.PieceHash, 0, u);   // Piece == vHF
-#endif
-      }
-#if HashPieces
-      if (vP6 < vPiece && vPiece < vK6) {
-        var u = nibble(side.Counts >> vPiece * nPerNibble);
-        setTwoBits(ref side.PieceHash, vPiece - vHF, u % vMod4);
-      }
-#endif
-    }
-
-    protected Boolean lowerPiece(BoardSide side, Byte vPiece, Int32 nTo) {
-      hashPiece(side, vPiece, nTo);
-      var qp = BIT0 << nTo;
-#if VerifySquarePiece
-      foreach (var testSide in Side) {
-        if ((qp & testSide.Piece) != 0) {
-          var sb = new StringBuilder();
-          sb.Append($"{testSide.Parameter.SideName} Piece prevents placement of {side.Parameter.SideName} Piece at")
-            .AppendSquares(qp);
-          throw new MoveException(sb.ToString());
-        }
-      }
-#endif
-      setPiece(side, qp);
-#if !Magic
-      setRotations(nTo);
-#endif
-      var bLite = false;
-      switch (vPiece) {
-      case vP6:
-        Pawn |= qp;
-        break;
-      case vR6:
-        RectPiece |= qp;
-        break;
-      case vN6:
-        Knight |= qp;
-        break;
-      case vB6:
-        DiagPiece |= qp;
-        bLite = (qp & LiteSquare) != 0;
-        break;
-      case vQ6:
-        DiagPiece |= qp;
-        RectPiece |= qp;
-        break;
-      case vK6:
-        King |= qp;
-        side.KingPos = (Byte)nTo;
-        break;
-      default:
-        throw new PieceException("Unexpected Piece [lowerSide]");
-      }
-
-      return bLite;
-    }
-
-    protected void placePiece(BoardSide side, Byte vPiece, Int32 nTo) {
-      var bLite = lowerPiece(side, vPiece, nTo);
-      incSideCount(side, vPiece);
-
-      //
-      // Update BishopMask
-      //
-      if (vPiece == vB6) {
-        side.FlagsSide |= bLite ? SideFlags.Lite : SideFlags.Dark;
-#if HashPieces
-        var u = (UInt32)(side.FlagsSide & SideFlags.Pair) >> nBishopPairBit;
-        setTwoBits(ref side.PieceHash, 0, u);   // Piece == vHF
-#endif
-      }
-#if HashPieces
-      if (vP6 < vPiece && vPiece < vK6) {
-        var u = nibble(side.Counts >> vPiece * nPerNibble);
-        setTwoBits(ref side.PieceHash, vPiece - vHF, u % vMod4);
-      }
-#endif
-    }
-
     [Conditional("VerifyPieceColor")]
     protected void verifyPieceColors() {
       var qpBoth = Side[White].Piece & Side[Black].Piece;
@@ -265,18 +109,6 @@ namespace Engine {
         }
       }
     }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void clrPiece(BoardSide side, Plane qp) {
-      RankPiece &= ~qp;
-      side.Piece &= ~qp;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void setPiece(BoardSide side, Plane qp) {
-      RankPiece |= qp;
-      side.Piece |= qp;
-    }
 #if UnshadowRay
     //
     // The following are called to remove and replace a King from the
@@ -289,7 +121,7 @@ namespace Engine {
       var qp = BIT0 << nFrom;
       RankPiece &= ~qp;
 #if !Magic
-      clrRotations(nFrom);
+      ClrRotations(nFrom);
 #endif
     }
 
@@ -298,20 +130,20 @@ namespace Engine {
       var qp = BIT0 << nTo;
       RankPiece |= qp;
 #if !Magic
-      setRotations(nTo);
+      SetRotations(nTo);
 #endif
     }
 #endif
 #if !Magic
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void clrRotations(Int32 n) {
+    internal void ClrRotations(Int32 n) {
       FilePiece &= ~FileBit[n];
       A1H8Piece &= ~A1H8Bit[n];
       A8H1Piece &= ~A8H1Bit[n];
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void setRotations(Int32 n) {
+    internal void SetRotations(Int32 n) {
       FilePiece |= FileBit[n];
       A1H8Piece |= A1H8Bit[n];
       A8H1Piece |= A8H1Bit[n];

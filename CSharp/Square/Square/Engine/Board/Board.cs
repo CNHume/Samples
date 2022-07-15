@@ -119,7 +119,7 @@ namespace Engine {
     private void newSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
-        Side[nSide] = new BoardSide(parameter, RuleParameter[nSide]);
+        Side[nSide] = new BoardSide(this, parameter, RuleParameter[nSide]);
       }
     }
 

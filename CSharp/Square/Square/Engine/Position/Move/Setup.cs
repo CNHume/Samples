@@ -389,16 +389,16 @@ namespace Engine {
       var nBlack = (Int32)sq.a7;
       var nWhite = (Int32)sq.a2;
       for (var nFile = 0; nFile < nFiles; nFile++, nBlack++, nWhite++) {
-        placePiece(Side[Black], vPiece, nBlack);
-        placePiece(Side[White], vPiece, nWhite);
+        Side[Black].PlacePiece(vPiece, nBlack);
+        Side[White].PlacePiece(vPiece, nWhite);
       }
     }
 
     private void setupPiece(Byte vPiece, Int32 nWhite) {
       if (nWhite < nFiles) {            //[Safe]
         var nBlack = nRankLast + nWhite;
-        placePiece(Side[Black], vPiece, nBlack);
-        placePiece(Side[White], vPiece, nWhite);
+        Side[Black].PlacePiece(vPiece, nBlack);
+        Side[White].PlacePiece(vPiece, nWhite);
       }
       else {
         Trace.Assert(nWhite < nFiles, $"nWhite = {nWhite} >= nFiles {nFiles}");

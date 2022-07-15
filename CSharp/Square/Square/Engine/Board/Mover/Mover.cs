@@ -46,24 +46,6 @@ namespace Engine {
 
     #region Piece Mover
     //
-    //[Chess 960]Certain castling configurations require that both the King and the Rook
-    // be removed before either is added back in their new positions.  Orthodox Castling
-    // does not require this; but one or even both of the From squares may coincide with
-    // the castling partner To square in Chess 960.
-    //
-    private void rookCastles(BoardSide side, Int32 nTo) {
-      var rule = side.Rule;
-      if (nTo == rule.KingOOTo && rule.RookOOFrom.HasValue) {
-        raisePiece(side, vR6, rule.RookOOFrom.Value);
-        lowerPiece(side, vR6, rule.RookOOTo);
-      }
-      else if (nTo == rule.KingOOOTo && rule.RookOOOFrom.HasValue) {
-        raisePiece(side, vR6, rule.RookOOOFrom.Value);
-        lowerPiece(side, vR6, rule.RookOOOTo);
-      }
-    }
-
-    //
     // Lazy Capture avoids calling getPieceIndex() until it becomes necessary.
     // The purpose of the following method is to update the move and to avoid
     // calling getPieceIndex() again.
@@ -124,16 +106,9 @@ namespace Engine {
       }
     }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void resetPawnAtx(BoardSide side) {
-      var qpPawn = side.Piece & Pawn;
-      side.PawnA1H8Atx = shiftl(qpPawn & ~side.Parameter.FileRight, side.Parameter.ShiftA1H8);
-      side.PawnA8H1Atx = shiftl(qpPawn & ~side.Parameter.FileLeft, side.Parameter.ShiftA8H1);
-    }
-
     protected void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
       foreach (var side in Side)
-        resetPawnAtx(side);
+        side.ResetPawnAtx();
     }
 
     //
@@ -189,10 +164,10 @@ namespace Engine {
         // 7) And restore the Pawn to its nCaptureFrom square.
         // 8) If EP was Legal setEPFile(nEnPassant) and break.
         //
-        raisePiece(friend, vP6, nCaptureFrom);
-        lowerPiece(friend, vP6, nEnPassant);
+        friend.RaisePiece(vP6, nCaptureFrom);
+        friend.LowerPiece(vP6, nEnPassant);
         //[Speed]Remove Not Needed, because material balance will be restored below.
-        raisePiece(foe, vP6, nMovedTo);
+        foe.RaisePiece(vP6, nMovedTo);
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
@@ -200,9 +175,9 @@ namespace Engine {
           (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
-        lowerPiece(foe, vP6, nMovedTo);
-        raisePiece(friend, vP6, nEnPassant);
-        lowerPiece(friend, vP6, nCaptureFrom);
+        foe.LowerPiece(vP6, nMovedTo);
+        friend.RaisePiece(vP6, nEnPassant);
+        friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
           setEPFile(nEnPassant);
@@ -212,9 +187,7 @@ namespace Engine {
     }
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
-    protected void movePiece(
-      BoardSide friend, BoardSide foe,
-      ref Move move) {
+    protected void movePiece(BoardSide friend, BoardSide foe, ref Move move) {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
@@ -227,26 +200,26 @@ namespace Engine {
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
       if (bSupplied)
-        removePiece(friend, vPiece, nFrom);
+        friend.RemovePiece(vPiece, nFrom);
       else
-        raisePiece(friend, vPiece, nFrom);
+        friend.RaisePiece(vPiece, nFrom);
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
         var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
-        removePiece(foe, vCapture, nCaptureFrom);
+        foe.RemovePiece(vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
-          resetPawnAtx(foe);
+          foe.ResetPawnAtx();
       }
       else if (bCastles)
-        rookCastles(friend, nTo);
+        friend.RookCastles(nTo);
 
       if (bSupplied)
-        placePiece(friend, pieceIndex(uPromotion), nTo);
+        friend.PlacePiece(pieceIndex(uPromotion), nTo);
       else
-        lowerPiece(friend, vPiece, nTo);
+        friend.LowerPiece(vPiece, nTo);
 
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
@@ -255,7 +228,7 @@ namespace Engine {
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
-        resetPawnAtx(friend);
+        friend.ResetPawnAtx();
       }
     }
 

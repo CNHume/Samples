@@ -232,25 +232,6 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void hashPiece(BoardSide side, Byte vPiece, Int32 n) {
-      if (nPieces <= vPiece) {
-        Debug.Assert(vPiece < nPieces, "hashPiece(nPieces <= vPiece)");
-      }
-
-      if (n < 0) {
-        Debug.Assert(n >= 0, "hashPiece(n < 0)");
-      }
-      else if (nSquares <= n) {
-        Debug.Assert(n < nSquares, "hashPiece(nSquares <= n)");
-      }
-
-      var zobrist = side.Parameter.Zobrist;
-      var qHash = zobrist[vPiece][n];
-      if (vPiece == vP6) HashPawn ^= qHash;
-      Hash ^= qHash;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Hashcode epHash() {
       return ZobristFile[(Int32)(FlagsLo & LoFlags.EPFile)];
     }
