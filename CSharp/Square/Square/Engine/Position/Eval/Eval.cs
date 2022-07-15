@@ -142,19 +142,22 @@ namespace Engine {
       if ((Knight | Bishop | Rook) != 0)
         return false;
 
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
       return
-        isKQvKPEndgame2(Side[Black], Side[White]) ||
-        isKQvKPEndgame2(Side[White], Side[Black]);
+        isKQvKPEndgame2(blackSide, whiteSide) ||
+        isKQvKPEndgame2(whiteSide, blackSide);
     }
 
-    public Boolean isKBNvKEndgame2(BoardSide attacker) {
+    public Boolean isKBNvKEndgame(SideFlags fside) {
       //[Assume]KingAlone and No Rooks or Queens
       if ((Bishop | Knight) == 0)       // At least one Bishop and one Knight
         return false;
 
       var bEndgame =
         IsOneOrNone(Knight) &&          // At most one Knight
-        !hasBishopPair(attacker.FlagsSide);  // No Bishop Pair
+        !hasBishopPair(fside);          // No Bishop Pair
 
       return bEndgame;
     }
@@ -171,7 +174,7 @@ namespace Engine {
         feg |= EGFlags.OutsideSquare;
         var bWhiteAttacking = (feg & EGFlags.BlackAlone) != 0;
         var attacker = getSide(bWhiteAttacking);
-        if (isKBNvKEndgame2(attacker)) feg |= EGFlags.KBNvK;
+        if (isKBNvKEndgame(attacker.FlagsSide)) feg |= EGFlags.KBNvK;
       }
 
       return feg;

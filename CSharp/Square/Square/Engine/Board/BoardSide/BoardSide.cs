@@ -29,15 +29,41 @@ namespace Engine {
 
   partial class Board {
     public class BoardSide {
+      #region Virtual Fields
+      public SideFlags FlagsSide;       //[fside]BishopMask | CanCastleMask
+
+      public PieceCounter Counts;
+
+      public Byte? KingPos;
+
+      public Plane PawnA1H8Atx;         // Attacked by Pawns
+      public Plane PawnA8H1Atx;
+
+      public Plane Piece;               // Pieces belonging to side
+#if HashPieces
+      public PieceHashcode PieceHash;
+#endif
+      #endregion
+
+      #region Read-Only Properties
+      public Board Board { get; }
+      public PositionParameter Parameter { get; }
+      public CastleRuleParameter Rule { get; }
+      #endregion
+
       #region Constructors
-      public BoardSide(Board board, PositionParameter parameter, CastleRuleParameter ruleParameter) {
+      public BoardSide(
+        Board board,
+        PositionParameter parameter,
+        CastleRuleParameter ruleParameter) {
         Board = board;
         Parameter = parameter;
         Rule = ruleParameter;
       }
       #endregion
 
-      #region Virtual Methods
+      #region Methods
+      #region Init Methods
       public void Clear() {
         PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
         KingPos = default;
@@ -50,6 +76,7 @@ namespace Engine {
         PieceHash = 0;
 #endif
       }
+      #endregion
 
       #region Attacker Methods
       public Boolean IsAlone() {
@@ -62,7 +89,7 @@ namespace Engine {
       }
 
       //
-      // checkers() is used to distinguish between single vs double checks,
+      // Checkers() is used to distinguish between single vs double checks,
       // to determine whether an Interposition (or Capture) may be possible
       // or whether only Evasion is to be considered.
       //
@@ -133,6 +160,19 @@ namespace Engine {
         }
 
         return bAttacked;
+      }
+
+      //
+      // The following are used by abbreviate() to avoid the overhead of buildAtxTo():
+      //
+      public Plane PawnAtxTo(Int32 nTo) {
+        var qpFrom = 0UL;
+        var qpTo = BIT0 << nTo;
+
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.ShiftA1H8;
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.ShiftA8H1;
+
+        return qpFrom;
       }
       #endregion
 
@@ -384,28 +424,6 @@ namespace Engine {
         Counts -= 1U << vPiece * nPerNibble;
       }
       #endregion
-      #endregion
-
-      #region Read-Only Properties
-      public Board Board { get; }
-      public PositionParameter Parameter { get; }
-      public CastleRuleParameter Rule { get; }
-      #endregion
-
-      #region Virtual Fields
-      public SideFlags FlagsSide;       //[fside]BishopMask | CanCastleMask
-
-      public PieceCounter Counts;
-
-      public Byte? KingPos;
-
-      public Plane PawnA1H8Atx;         // Attacked by Pawns
-      public Plane PawnA8H1Atx;
-
-      public Plane Piece;               // Pieces belonging to side
-#if HashPieces
-      public PieceHashcode PieceHash;
-#endif
       #endregion
     }
   }

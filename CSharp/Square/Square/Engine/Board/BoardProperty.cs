@@ -99,7 +99,7 @@ namespace Engine {
 #endregion
 
 #region Virtual Fields
-    public readonly BoardSide[] Side;
+    public readonly BoardSide[]? Side;
 
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;

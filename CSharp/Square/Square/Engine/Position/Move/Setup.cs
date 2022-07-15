@@ -37,10 +37,11 @@ namespace Engine {
     #endregion
 
     #region Serialization Methods
-    private Tabiya findTabiya() {
+    private Tabiya? findTabiya() {
       // Match on the Position Prefix, ignoring variability in the Half Move Clock and Full Move Number values:
       var sPrefix = ToString(PositionType.Prefix);
-      return TestPositions.FirstOrDefault(tabiya => tabiya.FEN.StartsWith(sPrefix));
+      return TestPositions
+        .FirstOrDefault(tabiya => tabiya.FEN is not null && tabiya.FEN.StartsWith(sPrefix));
     }
 
     protected PerfCase[] getTestCases() {
@@ -55,9 +56,10 @@ namespace Engine {
       return testCases;
     }
 
-    protected String getName(String? sId = default) {
+    protected String? getName(String? sId = default) {
       var tabiyaFound = findTabiya();
-      return tabiyaFound is null ? sId : tabiyaFound.Name;
+      return tabiyaFound is null ?
+        sId : tabiyaFound.Name;
     }
 
     private void setName(String? sId = default) {

@@ -32,7 +32,7 @@ namespace Engine {
     // Attack Methods:
     //
     // restrictPiece - Called once a pin is detected
-    // checkers - Find pieces giving check
+    // Checkers - Find pieces giving check
     // pieceAtxTo - Used by abbreviate to detect potential move ambiguity
     //
     // interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
@@ -58,8 +58,8 @@ namespace Engine {
     // Move Methods:
     //
     // movePiece and its related methods:
-    // lowerPiece which is called by placePiece
-    // raisePiece which is called by removePiece
+    // LowerPiece which is called by PlacePiece
+    // RaisePiece which is called by RemovePiece
     //
     // Rotation Methods:
     //
@@ -242,19 +242,6 @@ namespace Engine {
     }
 
     //
-    // The following are used by abbreviate() to avoid the overhead of buildAtxTo():
-    //
-    protected Plane pawnAtxTo(BoardSide side, Int32 nTo) {
-      var qpFrom = 0UL;
-      var qpTo = BIT0 << nTo;
-
-      if ((qpTo & side.PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.ShiftA1H8;
-      if ((qpTo & side.PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - side.Parameter.ShiftA8H1;
-
-      return qpFrom;
-    }
-
-    //
     // The following is currently only needed for abbreviate().  It finds all
     // pieces of the specified type (for the side to move) which "attack" nTo.
     //
@@ -291,7 +278,7 @@ namespace Engine {
         }
       }
       else if (vPiece == vP6 && bCapture)
-        qpPiece = pawnAtxTo(side, nTo);
+        qpPiece = side.PawnAtxTo(nTo);
       else
         qpPiece = BIT0 << nFrom;        // King Moves and Pawn Advances are unambiguous
 

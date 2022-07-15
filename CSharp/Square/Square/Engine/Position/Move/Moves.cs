@@ -40,7 +40,7 @@ namespace Engine {
     // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
     protected Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
       CurrentMove = move;               // Current Pseudo Move
-      (bool bPrevented, bool bRestricted) = isPinned(move);
+      (Boolean bPrevented, Boolean bRestricted) = isPinned(move);
       if (bPrevented) {                 // Skip moves which violate known pins
         GameState.AtomicIncrement(ref State.PinSkipTotal);
         return false;
