@@ -114,10 +114,6 @@ namespace Engine {
     #endregion
 
     #region EGFlags Methods
-    public Boolean isAlone(BoardSide side) {
-      return IsOneOrNone(side.Piece);
-    }
-
     public Boolean isKQvKPEndgame2(BoardSide friend, BoardSide foe) {
       var qpFriendPawn = friend.Piece & Pawn;
       if (qpFriendPawn != 0)
@@ -165,8 +161,8 @@ namespace Engine {
 
     public EGFlags getEndGameFlags() {
       EGFlags feg = default;
-      if (isAlone(Side[Black])) feg |= EGFlags.BlackAlone;
-      if (isAlone(Side[White])) feg |= EGFlags.WhiteAlone;
+      if (Side[Black].IsAlone()) feg |= EGFlags.BlackAlone;
+      if (Side[White].IsAlone()) feg |= EGFlags.WhiteAlone;
 
       if ((feg & EGFlags.KingAlone) == 0) {
         if (isKQvKPEndgame()) feg |= EGFlags.KQvKP;
@@ -320,10 +316,10 @@ namespace Engine {
     //
     protected Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
       Eval mBehind = 0;
-      (BoardSide offence, BoardSide defence) = getSides(bWhiteRook);
+      (BoardSide attacker, BoardSide defender) = getSides(bWhiteRook);
 
-      var qpOffence = offence.Piece & Rook;
-      var qpDefence = defence.Piece & Rook;
+      var qpOffence = attacker.Piece & Rook;
+      var qpDefence = defender.Piece & Rook;
 
       while (qpPassers != 0) {
         var nPasser = RemoveLo(ref qpPassers, out Plane qpPasser);

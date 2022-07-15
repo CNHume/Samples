@@ -236,34 +236,24 @@ namespace Engine {
       return ZobristFile[(Int32)(FlagsLo & LoFlags.EPFile)];
     }
 
-    private Hashcode hashPiece2(BoardSide side, Plane qpPiece, Byte vPiece) {
-      var zobrist = side.Parameter.Zobrist;
-      Hashcode qHash = 0;
-      while (qpPiece != 0) {
-        var n = RemoveLo(ref qpPiece);
-        qHash ^= zobrist[vPiece][n];
-      }
-      return qHash;
-    }
-
-    private Hashcode hashPiece1(Plane qpPiece, Byte vPiece) {
+    private Hashcode hashPiece(Plane qpPiece, Byte vPiece) {
       Hashcode qHash = 0;
       foreach (var side in Side)
-        qHash ^= hashPiece2(side, qpPiece & side.Piece, vPiece);
+        qHash ^= side.HashPiece(qpPiece & side.Piece, vPiece);
       return qHash;
     }
 
     protected Hashcode hashPawn() {
-      return hashPiece1(Pawn, vP6);
+      return hashPiece(Pawn, vP6);
     }
 
     protected Hashcode hashPieces() {
       Hashcode qHash = 0;
-      qHash ^= hashPiece1(Rook, vR6);
-      qHash ^= hashPiece1(Knight, vN6);
-      qHash ^= hashPiece1(Bishop, vB6);
-      qHash ^= hashPiece1(Queen, vQ6);
-      qHash ^= hashPiece1(King, vK6);
+      qHash ^= hashPiece(Rook, vR6);
+      qHash ^= hashPiece(Knight, vN6);
+      qHash ^= hashPiece(Bishop, vB6);
+      qHash ^= hashPiece(Queen, vQ6);
+      qHash ^= hashPiece(King, vK6);
       qHash ^= hashFlags(WTM());
       return qHash;
     }

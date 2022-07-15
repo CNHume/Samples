@@ -52,10 +52,13 @@ namespace Engine {
       }
 
       #region Attacker Methods
+      public Boolean IsAlone() {
+        return IsOneOrNone(Piece);
+      }
+
       public Byte GetKingPos() {
-        if (!KingPos.HasValue)
-          throw new ArgumentNullException(nameof(KingPos));
-        return KingPos.Value;
+        if (KingPos.HasValue) return KingPos.Value;
+        throw new ArgumentNullException(nameof(KingPos));
       }
 
       //
@@ -357,6 +360,16 @@ namespace Engine {
 
         var zobrist = Parameter.Zobrist;
         return zobrist[vPiece][n];
+      }
+
+      public Hashcode HashPiece(Plane qpPiece, Byte vPiece) {
+        var zobrist = Parameter.Zobrist;
+        Hashcode qHash = 0;
+        while (qpPiece != 0) {
+          var n = RemoveLo(ref qpPiece);
+          qHash ^= zobrist[vPiece][n];
+        }
+        return qHash;
       }
       #endregion
 
