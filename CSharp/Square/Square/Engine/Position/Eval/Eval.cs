@@ -103,8 +103,8 @@ namespace Engine {
     protected const Eval mOutsideSquareWeight = mRookWeight;
     protected const Eval mWrongBishopWeight = mBishopWeight;      //[Note]Wrong Bishop test fails at large depth if this is small
     protected const Eval mBishopPairWeight = 3 * mFifthWeight;
-    protected const Eval mRookBehindPasserOffence = mQuarterWeight;
-    protected const Eval mRookBehindPasserDefence = mThirdWeight;
+    protected const Eval mRookBehindPasserAttacker = mQuarterWeight;
+    protected const Eval mRookBehindPasserDefender = mThirdWeight;
 
     //
     // Assume P, N, B, R, Q Piece Order
@@ -237,22 +237,22 @@ namespace Engine {
       return Min(distA1, distH8);
     }
 
-    protected static Int32 liteCornerDefence(Int32 n) {
+    protected static Int32 liteCornerDefender(Int32 n) {
       return liteCornerDistance(n) + edgeDistance(n);
     }
 
-    protected static Int32 darkCornerDefence(Int32 n) {
+    protected static Int32 darkCornerDefender(Int32 n) {
       return darkCornerDistance(n) + edgeDistance(n);
     }
 
     protected static Int32 liteCornerReward(Int32 n) {
-      var defence = liteCornerDefence(n);
+      var defence = liteCornerDefender(n);
       var offence = nFiles - defence;
       return mKBNvKMateCornerWeight * offence / nFiles;
     }
 
     protected static Int32 darkCornerReward(Int32 n) {
-      var defence = darkCornerDefence(n);
+      var defence = darkCornerDefender(n);
       var offence = nFiles - defence;
       return mKBNvKMateCornerWeight * offence / nFiles;
     }
@@ -318,8 +318,8 @@ namespace Engine {
       Eval mBehind = 0;
       (BoardSide attacker, BoardSide defender) = getSides(bWhiteRook);
 
-      var qpOffence = attacker.Piece & Rook;
-      var qpDefence = defender.Piece & Rook;
+      var qpAttacker = attacker.Piece & Rook;
+      var qpDefender = defender.Piece & Rook;
 
       while (qpPassers != 0) {
         var nPasser = RemoveLo(ref qpPassers, out Plane qpPasser);
@@ -327,18 +327,18 @@ namespace Engine {
         var nPasserFile = x(nPasser);
         var qpBehind = bWhiteRook ? qpPasser - 1 : MASK64 << nPasser + 1;
 
-        var qpOffenceBehind = qpOffence & qpBehind;
-        while (qpOffenceBehind != 0) {
-          var nRook = RemoveLo(ref qpOffenceBehind);
+        var qpAttackerBehind = qpAttacker & qpBehind;
+        while (qpAttackerBehind != 0) {
+          var nRook = RemoveLo(ref qpAttackerBehind);
           if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
-            mBehind += mRookBehindPasserOffence;
+            mBehind += mRookBehindPasserAttacker;
         }
 
-        var qpDefenceBehind = qpDefence & qpBehind;
-        while (qpDefenceBehind != 0) {
-          var nRook = RemoveLo(ref qpDefenceBehind);
+        var qpDefenderBehind = qpDefender & qpBehind;
+        while (qpDefenderBehind != 0) {
+          var nRook = RemoveLo(ref qpDefenderBehind);
           if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
-            mBehind -= mRookBehindPasserDefence;
+            mBehind -= mRookBehindPasserDefender;
         }
       }
 
