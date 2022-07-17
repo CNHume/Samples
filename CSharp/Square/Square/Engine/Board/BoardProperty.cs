@@ -77,6 +77,7 @@ namespace Engine {
 #endif                                  // FullData
 #endif                                  // DeBruijn
 #endif                                  // InitDeBruijn
+    #region Zobrist Hashing
 #if CryptoServiceProvider
     protected static RNGCryptoServiceProvider ZobristRNG;
 #else
@@ -96,11 +97,10 @@ namespace Engine {
 #if TestZobrist
     protected static List<Hashcode> Zobrists;
 #endif
-#endregion
+    #endregion                          // Zobrist Hashing
+    #endregion                          // Constant Fields
 
-#region Virtual Fields
-    public readonly BoardSide[]? Side;
-
+    #region Virtual Fields
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;
     public Byte HalfMoveClock;
@@ -122,9 +122,15 @@ namespace Engine {
     public Plane A1H8Piece;
     public Plane A8H1Piece;
 #endif
-#endregion
+    #region BoardSide
+    public readonly BoardSide[]? Side;
 
-#region Properties
+    protected BoardSide Friend;
+    protected BoardSide Foe;
+    #endregion
+    #endregion
+
+    #region Properties
     //
     // State may well be made static.  This minimal overhead leaves
     // open the possibility of analyzing multiple games in parallel.

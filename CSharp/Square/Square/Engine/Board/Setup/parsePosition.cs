@@ -84,13 +84,13 @@ namespace Engine {
     private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
       if (!IsDigit(cPlacement)) {
         wasDigit = false;
-        var bColor = IsUpper(cPlacement);
+        var bWhiteSide = IsUpper(cPlacement);
         var piece = TryParsePiece(cPlacement.ToString());
         if (!piece.HasValue)
           throw new ParsePositionException($"Unexpected Piece Name = {cPlacement}");
 
         var vPiece = pieceIndex((UInt32)piece);
-        var side = getSide(bColor);
+        var side = getSide(bWhiteSide);
         side.PlacePiece(vPiece, sqr(x, y));
         x++;                            // Placed Piece
       }
@@ -194,8 +194,8 @@ namespace Engine {
             throw new ParsePositionException($"Unknown Castle Flag = {cFlag}");
 
           var nRookFile = cPosLower - cFileMin;
-          var bWhite = IsUpper(cFlag);
-          var side = getSide(bWhite);
+          var bWhiteSide = IsUpper(cFlag);
+          var side = getSide(bWhiteSide);
           var rule = side.Rule;
           var nRank = side.Parameter.StartRank;
 
@@ -259,9 +259,6 @@ namespace Engine {
       //
       buildPawnAtx();
 
-      FlagsLo &= ~LoFlags.Copy;         // Includes WTM
-      if (bWTM) FlagsLo |= LoFlags.WTM;
-
       if (IsNullOrEmpty(sEnPassant) || sEnPassant == "-")
         return;
 
@@ -269,21 +266,19 @@ namespace Engine {
       if (!sqEnPassant.HasValue)
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-
       // The destination square to which an e.p. capturing Pawn will move:
       var nEnPassant = (Int32)sqEnPassant;
-      if (y(nEnPassant) != friend.Parameter.EnPassantRank)
+      if (y(nEnPassant) != Friend.Parameter.EnPassantRank)
         throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
-      var qpFoe = foe.Piece;
+      var qpFoe = Foe.Piece;
       // The square actually holding the e.p. Pawn to be captured:
-      var nMovedTo = nEnPassant + foe.Parameter.ShiftRank;
+      var nMovedTo = nEnPassant + Foe.Parameter.ShiftRank;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nEnPassant + friend.Parameter.ShiftRank;
+      var nStart = nEnPassant + Friend.Parameter.ShiftRank;
       var qpStart = BIT0 << nStart;
       var qpEnPassant = BIT0 << nEnPassant;
       var qpVacant = qpStart | qpEnPassant;
@@ -293,7 +288,7 @@ namespace Engine {
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
-      tryEP(friend, foe, nMovedTo, nEnPassant);
+      tryEP(Friend, Foe, nMovedTo, nEnPassant);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
@@ -350,6 +345,8 @@ namespace Engine {
       //
       // FlagsLo/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
       //
+      setWTM(bWTM);
+
       parsePassed(bWTM, sEnPassant);
 
       Hash ^= hashFlags(bWTM);

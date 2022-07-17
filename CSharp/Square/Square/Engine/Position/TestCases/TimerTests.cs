@@ -128,7 +128,8 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {    // Generates moves at ~18 MHz
+    // Generates moves at ~18 MHz
+    protected void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {
       var sw = TimerStart($"{nameof(generate)}({bSwap})", qTrials);
 
       var qMoveCount = 0UL;
@@ -138,7 +139,8 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {     //~600 KHz, ~900 KHz sans List<Move>.Add()
+    //~600 KHz, ~900 KHz sans List<Move>.Add()
+    protected void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {
       var sw = TimerStart(nameof(addPieceCapturesAndMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -176,12 +178,14 @@ namespace Engine {
 
     protected void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
       var sw = TimerStart(nameof(BoardSide.Safe), qTrials);
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
 
       //var qpMoveTo = KingAtx[(Int32)sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = KingAtx[nFrom];
-        qpMoveTo &= Side[Black].Safe(qpMoveTo);
+        qpMoveTo &= blackSide.Safe(qpMoveTo);
       }
 
       TimerStop(sw, qTrials);
@@ -275,12 +279,10 @@ namespace Engine {
       //~4.5 MHz w resetMove() which is 5.33 times faster at ~24 MHz
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         resetMove();
-        var move = mov;
-        var bWTM = WTM();
-        (BoardSide friend, BoardSide foe) = getSides(bWTM);
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
-        movePiece(friend, foe, ref move);
+        var move = mov;
+        movePiece(Friend, Foe, ref move);
       }
 
       TimerStop(sw, qTrials);

@@ -223,6 +223,8 @@ namespace Engine {
 #if VerifyGamePlyColor
       Trace.Assert(ColorParity(GamePly), "Incorrect GamePly Color (WTM != Even Ply)");
 #endif
+      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      (Friend, Foe) = getSides(WTM());
     }
 
     protected Boolean ColorParity(Ply wPly) {
@@ -240,19 +242,16 @@ namespace Engine {
     //
     //[Note]Changes made here should be validated by running the perft tests
     //
-    protected void move(ref Move move) {
+    protected void playMove(ref Move move) {
       clrDraw0();
 
-      if (HalfMoveClock < HalfMoveClockMax)   // Avoid Overflow
+      if (HalfMoveClock < HalfMoveClockMax) // Avoid Overflow
         HalfMoveClock++;
 
       // Record Castling Abilities prior to removePiece()
-      var bWTM = WTM();
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
+      var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
 
-      var fsideCanCastleOld = friend.FlagsSide & SideFlags.CanCastleMask;
-
-      movePiece(friend, foe, ref move);
+      movePiece(Friend, Foe, ref move);
       verifyPieceColors();              // Conditional
 
       toggleWTM();
@@ -264,7 +263,7 @@ namespace Engine {
       if (IsPassed()) Hash ^= epHash();
 
       // Update Castling Abilities, if they changed
-      var fsideCanCastleNew = friend.FlagsSide & SideFlags.CanCastleMask;
+      var fsideCanCastleNew = Foe.FlagsSide & SideFlags.CanCastleMask;
       if (fsideCanCastleNew != fsideCanCastleOld) {
         Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
                 ZobristRights[(Int32)fsideCanCastleNew];
@@ -308,7 +307,7 @@ namespace Engine {
     #endregion
 
     #region Trace Positions
-    // Called by move() and skipTurn()
+    // Called by playMove() and skipTurn()
     [Conditional("TracePosition")]
     protected void tracePosition() {
       clrTrace();

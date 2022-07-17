@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+//#define DebugMove
 //#define ExemptPasserPin
 //#define BuildAtxTo
 //#define DisplayAtxFrom
@@ -65,7 +66,7 @@ namespace Engine {
     //
     // [set|clr][Piece|Rotations]
     //
-    #region Attacks
+#region Attacks
     //
     // Distinct AtxTo[] and AtxFrom[] may be of help in evaluating Piece
     // Mobility and Square Control.
@@ -248,11 +249,9 @@ namespace Engine {
     protected Plane pieceAtxTo(Int32 nFrom, Int32 nTo, Byte vPiece, Boolean bCapture) {
       // Calculate AtxTo[nTo]
       Plane qpPiece;
-      var bWTM = WTM();
-      var side = getSide(bWTM);
       if (vPiece != vP6 && vPiece != vK6) {
         // King and Pawn are handled below
-        qpPiece = side.Piece;
+        qpPiece = Friend.Piece;
 
         //
         //[Future]IsLegal() might maintain LegalTo[] to ignore pinned pieces;
@@ -278,7 +277,7 @@ namespace Engine {
         }
       }
       else if (vPiece == vP6 && bCapture)
-        qpPiece = side.PawnAtxTo(nTo);
+        qpPiece = Friend.PawnAtxTo(nTo);
       else
         qpPiece = BIT0 << nFrom;        // King Moves and Pawn Advances are unambiguous
 
@@ -289,33 +288,13 @@ namespace Engine {
     // The pieceAtx() and canCastle() methods are used by parsePACNMove() to
     // validate moves entered in Pure Algebraic Coordinate Notation (PACN):
     //
-    private Plane pawnAtx(Int32 nFrom, Boolean bCapture) {
-      Plane qpPieceAtx;
-      var bWTM = WTM();
-      var side = getSide(bWTM);
-      var qpFrom = BIT0 << nFrom;
-
-      if (bCapture) {
-        var qpA1H8Atx = shiftl(qpFrom & ~side.Parameter.FileRight, side.Parameter.ShiftA1H8);
-        var qpA8H1Atx = shiftl(qpFrom & ~side.Parameter.FileLeft, side.Parameter.ShiftA8H1);
-        qpPieceAtx = qpA1H8Atx | qpA8H1Atx;
-      }
-      else {
-        var qpAdvance1 = shiftl(qpFrom, side.Parameter.ShiftRank) & ~RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & side.Parameter.RankPass, side.Parameter.ShiftRank) & ~RankPiece;
-        qpPieceAtx = qpAdvance1 | qpAdvance2;
-      }
-
-      return qpPieceAtx;
-    }
-
     protected Plane? pieceAtx(Byte vPiece, Int32 nFrom, Boolean bCapture) {
       Plane? qpPieceAtx = default;
 
       // Obtain possible Moves [and Captures]
       switch (vPiece) {
       case vP6:
-        qpPieceAtx = pawnAtx(nFrom, bCapture);
+        qpPieceAtx = Friend.PawnAtx(nFrom, bCapture);
         break;
       case vK6:
         qpPieceAtx = KingAtx[nFrom];
@@ -338,59 +317,54 @@ namespace Engine {
     }
 
     private Boolean canOO(BoardSide friend, BoardSide foe) {
-      var friendRule = friend.Rule;
+      var rule = friend.Rule;
       var bLegal = ((friend.FlagsSide & SideFlags.CanOO) != 0) &&
-                   ((friendRule.OOPath & RankPiece) == 0) &&
-                   friendRule.OOSafe.HasValue &&
-                   !foe.IsAttacked(friendRule.OOSafe.Value);
-
+                   ((rule.OOPath & RankPiece) == 0) &&
+                   rule.OOSafe.HasValue &&
+                   !foe.IsAttacked(rule.OOSafe.Value);
       return bLegal;
     }
 
     private Boolean canOOO(BoardSide friend, BoardSide foe) {
-      var friendRule = friend.Rule;
+      var rule = friend.Rule;
       var bLegal = ((friend.FlagsSide & SideFlags.CanOOO) != 0) &&
-                   ((friendRule.OOOPath & RankPiece) == 0) &&
-                   friendRule.OOOSafe.HasValue &&
-                   !foe.IsAttacked(friendRule.OOOSafe.Value);
-
+                   ((rule.OOOPath & RankPiece) == 0) &&
+                   rule.OOOSafe.HasValue &&
+                   !foe.IsAttacked(rule.OOOSafe.Value);
       return bLegal;
     }
 
     // Used by parsePACNMove()
-    protected Boolean canCastle(Boolean bWTM, Int32 nKingTo) {
+    protected Boolean canCastle(Int32 nKingTo) {
       var bLegal = false;
-      if (InCheck()) return bLegal;
 
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var friendRule = friend.Rule;
+      if (!InCheck()) {
+        //
+        // Verify Right, Path and Safety if castling
+        //
+        var rule = Friend.Rule;
 
-      //
-      // Verify Right, Path and Safety if castling
-      //
-      if (nKingTo == friendRule.KingOOTo)
-        bLegal = canOO(friend, foe);
-      else if (nKingTo == friendRule.KingOOOTo)
-        bLegal = canOOO(friend, foe);
+        if (nKingTo == rule.KingOOTo)
+          bLegal = canOO(Friend, Foe);
+        else if (nKingTo == rule.KingOOOTo)
+          bLegal = canOOO(Friend, Foe);
+      }
 
       return bLegal;
     }
 
     public Boolean canPromote() {
-      var bWTM = WTM();
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-
-      var qpPawn = friend.Piece & Pawn;
-      var qpAdvance1 = qpPawn << friend.Parameter.ShiftRank & ~RankPiece & friend.Parameter.RankLast;
-      var qpCapture = foe.Piece & friend.Parameter.RankLast;
+      var qpPawn = Friend.Piece & Pawn;
+      var qpAdvance1 = qpPawn << Friend.Parameter.ShiftRank & ~RankPiece & Friend.Parameter.RankLast;
+      var qpCapture = Foe.Piece & Friend.Parameter.RankLast;
 
       return qpAdvance1 != 0 ||
-             (qpCapture & friend.PawnA1H8Atx) != 0 ||
-             (qpCapture & friend.PawnA8H1Atx) != 0;
+             (qpCapture & Friend.PawnA1H8Atx) != 0 ||
+             (qpCapture & Friend.PawnA8H1Atx) != 0;
     }
-    #endregion
+#endregion
 
-    #region Pin Restrictions
+#region Pin Restrictions
     //
     // The following is used to generate Check Evasions;
     // and is similar to pinRestrictions()
@@ -450,7 +424,11 @@ namespace Engine {
       return qpRay;
     }
 
+    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
     protected void restrictPiece(Move move) {
+#if DebugMove
+      unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1, out Piece promotion, out Boolean bCapture);
+#endif
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean _);
       var piece = (Piece)uPiece;
@@ -458,6 +436,7 @@ namespace Engine {
       if (piece == Piece.K || (qpFrom & PinnedPiece) != 0)
         return;
 
+      //[Debug]
       var bWhiteMoved = !WTM();
       (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
 
@@ -467,9 +446,9 @@ namespace Engine {
       // so as not to violate the pin.  tryMove() skips PinnedPiece
       // moves not marked in Restricted[] as being allowed.
       //
-      byte vKingPos = friend.GetKingPos();
-      var qpKing = friend.Piece & King;
-      var qpChx = foe.Checkers(vKingPos, qpKing);
+      byte vKingPos = Foe.GetKingPos();
+      var qpKing = Foe.Piece & King;
+      var qpChx = Friend.Checkers(vKingPos, qpKing);
 
       //
       // Pieces in Chess move such that a given piece can be pinned to its
@@ -546,6 +525,6 @@ namespace Engine {
         //[Debug]DisplayCurrent("restrictPiece()");
       }
     }
-    #endregion
+#endregion
   }
 }

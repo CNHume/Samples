@@ -101,19 +101,17 @@ namespace Engine {
     #region Search Move Generators
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
     protected Int32 generate(List<Move> moves, Boolean bSwap) {
-      var bWTM = WTM();
       var bInCheck = InCheck();
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var qpFriend = friend.Piece;
-      var vKingPos = friend.GetKingPos();
+      var qpFriend = Friend.Piece;
+      var vKingPos = Friend.GetKingPos();
 
       clearPseudoMoveLists(moves, bSwap);
 #if UnshadowRay2
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpKing = friend.Piece & King;
-        var qpChx = foe.Checkers(vKingPos, qpKing);
+        var qpKing = Friend.Piece & King;
+        var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
@@ -136,22 +134,22 @@ namespace Engine {
           if (IsPassed() && (qpChx & Pawn) != 0)
             qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-          friend.AddPawnCaptures(this, qpPawnCapture);
-          friend.AddPawnMoves(this, qpRay);
+          Friend.AddPawnCaptures(this, qpPawnCapture);
+          Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~qpFriend, qpFriend);
 
-        var qpFoe = foe.Piece;
+        var qpFoe = Foe.Piece;
         var qpPawnCapture = qpFoe;
         if (IsPassed())
           qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-        friend.AddPawnCaptures(this, qpPawnCapture);
-        friend.AddPawnMoves(this, ~RankPiece);
+        Friend.AddPawnCaptures(this, qpPawnCapture);
+        Friend.AddPawnMoves(this, ~RankPiece);
 
-        addCastles(friend, foe);
+        addCastles(Friend, Foe);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCapturesAndMoves(~qpFriend, vKingPos, bRayCheck);
@@ -169,19 +167,17 @@ namespace Engine {
 
     #region Quiet Move Generator
     protected Int32 generateMaterialMoves(List<Move> moves) {
-      var bWTM = WTM();
       var bInCheck = InCheck();
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var qpFriend = friend.Piece;
-      var vKingPos = friend.GetKingPos();
+      var qpFriend = Friend.Piece;
+      var vKingPos = Friend.GetKingPos();
 
       clearPseudoMaterialMoveLists(moves);
 #if UnshadowRay2
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpKing = friend.Piece & King;
-        var qpChx = foe.Checkers(vKingPos, qpKing);
+        var qpKing = Friend.Piece & King;
+        var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
@@ -199,25 +195,26 @@ namespace Engine {
             if (IsPassed() && (qpChx & Pawn) != 0)
               qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-            friend.AddPawnCaptures(this, qpPawnCapture);
-            friend.AddPromotions(this, qpRay);
+            Friend.AddPawnCaptures(this, qpPawnCapture);
+            Friend.AddPromotions(this, qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
-        var qpFoe = foe.Piece;
+        var qpFoe = Foe.Piece;
         addPieceCaptures(qpFoe, qpFriend);
 
         var qpPawnCapture = qpFoe;
         if (IsPassed())
           qpPawnCapture |= BIT0 << ep(FlagsLo);
 
-        friend.AddPawnCaptures(this, qpPawnCapture);
-        friend.AddPromotions(this, ~RankPiece);
+        Friend.AddPawnCaptures(this, qpPawnCapture);
+        Friend.AddPromotions(this, ~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(~qpFriend, vKingPos, bRayCheck);
 #else
+      var bWTM = WTM();
       addKingCaptures(~qpFriend, vKingPos, bWTM);
 #endif
       addPseudoMaterialMoves(moves);
@@ -228,10 +225,8 @@ namespace Engine {
     #region Swap Move Generator
     protected Int32 generateSwaps(List<Move> moves, Int32 nTo) {
       var qpTo = BIT0 << nTo;
-      var bWTM = WTM();
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var qpFriend = friend.Piece;
-      var vKingPos = friend.GetKingPos();
+      var qpFriend = Friend.Piece;
+      var vKingPos = Friend.GetKingPos();
       var bInCheck = InCheck();
 
       clearPseudoSwapLists(moves);      // ~32 MHz
@@ -239,8 +234,8 @@ namespace Engine {
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpKing = friend.Piece & King;
-        var qpChx = foe.Checkers(vKingPos, qpKing);
+        var qpKing = Friend.Piece & King;
+        var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
 #endif
@@ -250,14 +245,14 @@ namespace Engine {
 
           if (qpFoe != 0) {
             addPieceCaptures(qpFoe, qpFriend);
-            friend.AddPawnCaptures(this, qpFoe);
+            Friend.AddPawnCaptures(this, qpFoe);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         var qpFoe = qpTo & ~qpFriend;
         addPieceCaptures(qpFoe, qpFriend);
-        friend.AddPawnCaptures(this, qpFoe);
+        Friend.AddPawnCaptures(this, qpFoe);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(qpTo & ~qpFriend, vKingPos, bRayCheck);

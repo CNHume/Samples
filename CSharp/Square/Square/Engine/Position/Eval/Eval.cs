@@ -172,8 +172,8 @@ namespace Engine {
       }
       else if (RectPiece == 0) {        // No Rooks or Queens
         feg |= EGFlags.OutsideSquare;
-        var bWhiteAttacking = (feg & EGFlags.BlackAlone) != 0;
-        var attacker = getSide(bWhiteAttacking);
+        var bWhiteAttacker = (feg & EGFlags.BlackAlone) != 0;
+        var attacker = getSide(bWhiteAttacker);
         if (isKBNvKEndgame(attacker.FlagsSide)) feg |= EGFlags.KBNvK;
       }
 
@@ -190,8 +190,7 @@ namespace Engine {
     protected Eval punishOutsideSquare() {
       var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
       var bWTM = WTM();
-      var nSide = bWTM ? White : Black;
-      var parameter = Parameter[nSide];
+      var parameter = Parameter[bWTM ? White : Black];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
 

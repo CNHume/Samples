@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define CountCheckmates
-//#define DebugMove
+#define DebugMove
 //#define VerifyMaterialMoves
 
 namespace Engine {

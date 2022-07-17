@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define ShowGC
 #define QuiescentTryXP
 #define AddBestMoves
 //#define Magic
@@ -59,6 +60,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Runtime;
   using System.Text;
 
   using Test;
@@ -303,6 +305,11 @@ namespace Engine {
       sb.AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
 #if QuiescentTryXP
       sb.Append(" TryXP");
+#endif
+#if ShowGC
+      var sServerGC = GCSettings.IsServerGC ? "server" : "workstation";
+      var sLatency = GCSettings.LatencyMode;
+      sb.AppendFormat($" {sServerGC} {sLatency}");
 #endif
 #if ThreadSafeTank
       sb.Append(" Safe");

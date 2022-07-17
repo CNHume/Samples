@@ -142,6 +142,8 @@ namespace Engine {
         moves.Add(move);
       }
     }
+
+    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
 #if UnshadowRay2
     private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
@@ -150,9 +152,6 @@ namespace Engine {
       // Each side has one King
       var moveFrom = KingMove | fromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
-
-      var bWTM = WTM();
-      var foe = getSide(!bWTM);
 #if UnshadowRay
       if (bRayCheck) {
         //
@@ -160,16 +159,18 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= foe.Safe(qpMoveTo);
+        qpMoveTo &= Foe.Safe(qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= foe.Safe(qpMoveTo);
+        qpMoveTo &= Foe.Safe(qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoKingMove, PseudoKingMove, moveFrom, qpMoveTo);
     }
+
+    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
 #if UnshadowRay2
     private void addKingCaptures(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
@@ -178,9 +179,6 @@ namespace Engine {
       // Each side has one King
       var moveFrom = KingMove | fromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
-
-      var bWTM = WTM();
-      var foe = getSide(!bWTM);
 #if UnshadowRay
       if (bRayCheck) {
         //
@@ -188,12 +186,12 @@ namespace Engine {
         // unshadow its destination squares from ray attacks:
         //
         clrRayState(vKingPos);
-        qpMoveTo &= foe.Safe(qpMoveTo);
+        qpMoveTo &= Foe.Safe(qpMoveTo);
         setRayState(vKingPos);
       }
       else
 #endif
-        qpMoveTo &= foe.Safe(qpMoveTo);
+        qpMoveTo &= Foe.Safe(qpMoveTo);
 
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
     }

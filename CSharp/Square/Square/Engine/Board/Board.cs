@@ -121,6 +121,9 @@ namespace Engine {
         var nSide = (Int32)parameter.SideName;
         Side[nSide] = new BoardSide(this, parameter, RuleParameter[nSide]);
       }
+
+      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      (Friend, Foe) = getSides(WTM());
     }
 
     //
@@ -134,6 +137,7 @@ namespace Engine {
       return new Board(this);
     }
 
+    #region Copy Methods
     //
     // Deep Copy:
     //
@@ -147,6 +151,25 @@ namespace Engine {
       board.FlagsMode = FlagsMode & ModeFlags.Copy;
     }
 
+    #region BoardSide
+    protected void CopySidesTo(Board board) {
+      for (var nSide = 0; nSide < Side.Length; nSide++) {       // 42 bytes + 1 nullable byte
+#if HashPieces
+        board.Side[nSide].PieceHash = Side[nSide].PieceHash;    // 8-bytes
+#endif
+        board.Side[nSide].Counts = Side[nSide].Counts;          // 2-bytes
+        board.Side[nSide].KingPos = Side[nSide].KingPos;        // 1-byte (nullable)
+
+        board.Side[nSide].Piece = Side[nSide].Piece;            // 8-bytes
+        board.Side[nSide].PawnA1H8Atx = Side[nSide].PawnA1H8Atx;// 8-bytes optimizing resetPawnAtx()
+        board.Side[nSide].PawnA8H1Atx = Side[nSide].PawnA8H1Atx;// 8-bytes
+      }
+
+      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      (board.Friend, board.Foe) = board.getSides(WTM());
+    }
+    #endregion                          // BoardSide
+
     //
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
@@ -154,39 +177,30 @@ namespace Engine {
     // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     public void CopyTo(Board board) {
-      CopyFlagsTo(board);                       // 6-bytes
+      CopyFlagsTo(board);                   // 6-bytes
 
-      board.NullPly = NullPly;                  // 2-bytes
-      board.GamePly = GamePly;                  // 2-bytes
-      board.HalfMoveClock = HalfMoveClock;      // 1-byte
-      board.Hash = Hash;                        // 8-bytes
-      board.HashPawn = HashPawn;                // 8-bytes
+      board.NullPly = NullPly;              // 2-bytes
+      board.GamePly = GamePly;              // 2-bytes
+      board.HalfMoveClock = HalfMoveClock;  // 1-byte
+      board.Hash = Hash;                    // 8-bytes
+      board.HashPawn = HashPawn;            // 8-bytes
 
-      board.Pawn = Pawn;                        // 8-bytes
-      board.King = King;                        // 8-bytes
-      board.Knight = Knight;                    // 8-bytes
-      board.DiagPiece = DiagPiece;              // 8-bytes
-      board.RectPiece = RectPiece;              // 8-bytes
+      board.Pawn = Pawn;                    // 8-bytes
+      board.King = King;                    // 8-bytes
+      board.Knight = Knight;                // 8-bytes
+      board.DiagPiece = DiagPiece;          // 8-bytes
+      board.RectPiece = RectPiece;          // 8-bytes
 
-      board.RankPiece = RankPiece;              // 8-bytes
+      board.RankPiece = RankPiece;          // 8-bytes
 #if !Magic
-      board.FilePiece = FilePiece;              // 8-bytes
-      board.A1H8Piece = A1H8Piece;              // 8-bytes
-      board.A8H1Piece = A8H1Piece;              // 8-bytes
+      board.FilePiece = FilePiece;          // 8-bytes
+      board.A1H8Piece = A1H8Piece;          // 8-bytes
+      board.A8H1Piece = A8H1Piece;          // 8-bytes
 #endif
-      for (var nSide = 0; nSide < Side.Length; nSide++) {           // 42 bytes + 1 nullable byte
-#if HashPieces
-        board.Side[nSide].PieceHash = Side[nSide].PieceHash;        // 8-bytes
-#endif
-        board.Side[nSide].Counts = Side[nSide].Counts;              // 2-bytes
-        board.Side[nSide].KingPos = Side[nSide].KingPos;            // 1-byte (nullable)
-
-        board.Side[nSide].Piece = Side[nSide].Piece;                // 8-bytes
-        board.Side[nSide].PawnA1H8Atx = Side[nSide].PawnA1H8Atx;    // 8-bytes optimizing resetPawnAtx()
-        board.Side[nSide].PawnA8H1Atx = Side[nSide].PawnA8H1Atx;    // 8-bytes
-      }
+      CopySidesTo(board);
     }
-    #endregion
+    #endregion                          // Copy Methods
+    #endregion                          // Constructors
 
     #region Static Initialization
     public static void SetPieceSymbols(String sLanguage) {
@@ -518,6 +532,16 @@ namespace Engine {
     #region Flag Methods
     public Boolean WTM() {
       return (FlagsLo & LoFlags.WTM) != 0;
+    }
+
+    protected void setWTM(Boolean bWTM) {
+      if (bWTM)
+        FlagsLo |= LoFlags.WTM;
+      else
+        FlagsLo &= ~LoFlags.WTM;
+
+      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      (Friend, Foe) = getSides(WTM());
     }
 
     protected void setLegal(Boolean bLegal) {

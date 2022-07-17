@@ -108,7 +108,8 @@ namespace Engine {
     //
     public FeatureCounter CountPawnFeatures(Int32 nSide, out Plane qpPassers, out PRPFlags fprp) {
       fprp = default;                   //[Init]
-      (BoardSide friend, BoardSide foe) = getSides(nSide == White);
+      bool bWhiteAttacker = nSide == White;
+      (BoardSide friend, BoardSide foe) = getSides(bWhiteAttacker);
       var qpFriendPawnAtx = friend.PawnA1H8Atx | friend.PawnA8H1Atx;
       var qpFoePawnAtx = foe.PawnA1H8Atx | foe.PawnA8H1Atx;
       var qpFriend = friend.Piece;

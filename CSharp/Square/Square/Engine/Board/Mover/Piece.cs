@@ -77,7 +77,10 @@ namespace Engine {
 
     [Conditional("VerifyPieceColor")]
     protected void verifyPieceColors() {
-      var qpBoth = Side[White].Piece & Side[Black].Piece;
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
+      var qpBoth = blackSide.Piece & whiteSide.Piece;
       if (qpBoth != 0) {
         if ((qpBoth & RankPiece) != 0) {
           var sb = new StringBuilder("Pieces marked with Both Colors at")
@@ -92,7 +95,7 @@ namespace Engine {
         }
       }
 
-      var qpColor = Side[White].Piece | Side[Black].Piece;
+      var qpColor = blackSide.Piece | whiteSide.Piece;
       if (qpColor != RankPiece) {
         if ((RankPiece & ~qpColor) != 0) {
           var sb = new StringBuilder("Uncolored Pieces at")

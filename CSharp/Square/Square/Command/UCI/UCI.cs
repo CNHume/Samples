@@ -174,12 +174,14 @@ namespace Command {
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else {
-          var position = NewGame();
+          var newPosition = NewGame();
+
           //
           //[Note]ParsePosition() will apply a sequence
           // of moves that follows the initial position.
           //
-          State.MovePosition = Parser.ParsePosition(position);
+          var parsePosition = Parser.ParsePosition(newPosition);
+          State.MovePosition = parsePosition;
         }
         break;
 
@@ -206,7 +208,8 @@ namespace Command {
           throw new ChessException("Uninitialized Game");
 
         State.OnMoveCommand();
-        State.MovePosition = State.MovePosition.ParsePACNMakeMoves(Parser);
+        var movesPosition = State.MovePosition.ParsePACNMakeMoves(Parser);
+        State.MovePosition = movesPosition;
         break;
 
       case "unmove":

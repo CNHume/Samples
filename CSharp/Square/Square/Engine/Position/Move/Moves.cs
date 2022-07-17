@@ -52,7 +52,7 @@ namespace Engine {
       // a window between the time initNode() initializes a node and when resetMove() is first called.
       //
       resetMove();
-      this.move(ref move);
+      playMove(ref move);
 
       if (IsDraw0())
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
@@ -107,21 +107,21 @@ namespace Engine {
     }
 
     // Called whenever a move is tried to detect Checks and to set Draw Flags
+    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
     public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
-      var bWTM = WTM();
 #if TurnTest
+      var bWTM = WTM();
       var bWhiteMoved = !bWTM;
       var bWhiteTurn = IsOdd(GamePly);
       Debug.Assert(bWhiteMoved == bWhiteTurn, "Skipped Turn");
+      (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
 #endif
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-
       //[Assume]Restricted Moves are Legal
-      var bLegal = bRestricted || !friend.IsAttacked(King & foe.Piece);
+      var bLegal = bRestricted || !Friend.IsAttacked(King & Foe.Piece);
       setLegal(bLegal);
 
       if (bLegal) {                     // Perform InCheck Test for Legal Moves
-        setInCheck(foe.IsAttacked(King & friend.Piece));
+        setInCheck(Foe.IsAttacked(King & Friend.Piece));
 
         //
         // Draw Flags are included in dynamicHash() to maintain Search Stability,

@@ -127,14 +127,10 @@ namespace Engine {
 
         while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend, out Plane qp);
-
-          var bAttacked =
-            (Piece & Board.Knight & KnightAtx[n]) != 0 ||
-            (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-            (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
-            (Piece & Board.King & KingAtx[n]) != 0;
-
-          if (bAttacked)
+          if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
+              (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
+              (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+              (Piece & Board.King & KingAtx[n]) != 0)
             qpAttacked |= qp;
         }
 
@@ -146,21 +142,20 @@ namespace Engine {
       // and to disallow castling through check:
       //
       public Boolean IsAttacked(Plane qpFriend) {
-        Boolean bAttacked =
-          (qpFriend & PawnA1H8Atx) != 0 ||
-          (qpFriend & PawnA8H1Atx) != 0;
+        if ((qpFriend & PawnA1H8Atx) != 0 ||
+            (qpFriend & PawnA8H1Atx) != 0)
+          return true;
 
-        while (!bAttacked && qpFriend != 0) {
+        while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend);
-
-          bAttacked =
-            (Piece & Board.Knight & KnightAtx[n]) != 0 ||
-            (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-            (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
-            (Piece & Board.King & KingAtx[n]) != 0;
+          if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
+              (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
+              (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+              (Piece & Board.King & KingAtx[n]) != 0)
+            return true;
         }
 
-        return bAttacked;
+        return false;
       }
 
       //
@@ -174,6 +169,28 @@ namespace Engine {
         if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.ShiftA8H1;
 
         return qpFrom;
+      }
+
+      //
+      // The pawnAtx() methods is used by parsePACNMove() to validate
+      // moves entered in Pure Algebraic Coordinate Notation (PACN):
+      //
+      public Plane PawnAtx(Int32 nFrom, Boolean bCapture) {
+        Plane qpPieceAtx;
+        var qpFrom = BIT0 << nFrom;
+
+        if (bCapture) {
+          var qpA1H8Atx = shiftl(qpFrom & ~Parameter.FileRight, Parameter.ShiftA1H8);
+          var qpA8H1Atx = shiftl(qpFrom & ~Parameter.FileLeft, Parameter.ShiftA8H1);
+          qpPieceAtx = qpA1H8Atx | qpA8H1Atx;
+        }
+        else {
+          var qpAdvance1 = shiftl(qpFrom, Parameter.ShiftRank) & ~Board.RankPiece;
+          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.ShiftRank) & ~Board.RankPiece;
+          qpPieceAtx = qpAdvance1 | qpAdvance2;
+        }
+
+        return qpPieceAtx;
       }
       #endregion
 

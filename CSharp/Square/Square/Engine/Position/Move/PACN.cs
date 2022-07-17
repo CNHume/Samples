@@ -152,16 +152,15 @@ namespace Engine {
       var vPieceFrom = getPieceIndex(nFrom);
       var vPieceTo = getPieceIndex(nTo);
 
-      (BoardSide friend, BoardSide foe) = getSides(bWTM);
-      var qpFriend = friend.Piece;
-      var qpFoe = foe.Piece;
+      var qpFriend = Friend.Piece;
+      var qpFoe = Foe.Piece;
 
       // Validate Piece Color
       if ((qpFrom & RankPiece) == 0)
         throw new MoveException($"There is no piece to move from {sqFrom}");
       else if ((qpFrom & qpFriend) == 0) {
-        var friendSideName = friend.Parameter.SideName;
-        var foeSideName = foe.Parameter.SideName;
+        var friendSideName = Friend.Parameter.SideName;
+        var foeSideName = Foe.Parameter.SideName;
         var pieceFrom = indexPiece(vPieceFrom);
         throw new MoveException(
           $"{friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
@@ -185,8 +184,7 @@ namespace Engine {
         var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
         var bUnambiguousKing = (KingAtx[nFrom] & qpTo) == 0;
         if (bUnambiguousRook || bUnambiguousKing) {
-          var rule = friend.Rule;
-          move = rule.Castles(nTo);
+          move = Friend.Rule.Castles(nTo);
           if (move == Move.Undefined)
             throw new MoveException($"Illegal King Move: {sPACN}");
           bCastles = true;
@@ -213,9 +211,7 @@ namespace Engine {
     //
     protected Move parsePACNMove(String sPACN) {
       var sMove = sPACN.ToUpper();
-      var bWTM = WTM();
-      var side = getSide(bWTM);
-      var rule = side.Rule;
+      var rule = Friend.Rule;
 
       var bCastles = false;
       Int32? nTo = default;
@@ -238,7 +234,7 @@ namespace Engine {
       //
       //[Chess 960]Validate Castling in common with the OO/OOO notation cases:
       //
-      if (bCastles && !canCastle(bWTM, nTo.Value))
+      if (bCastles && !(nTo.HasValue && canCastle(nTo.Value)))
         throw new MoveException($"Illegal Castle: {sPACN}");
 #if DebugParse
       var sb = new StringBuilder();
