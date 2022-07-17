@@ -85,7 +85,7 @@ namespace Command {
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 16:32.1 @1.096 MHz over 1.09 Gnode] eval -3.25 following
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Ka1 Kxc3 70. Be8 Kd2 71. Bg6 c3 72. Ka2 c2 73. Bxc2 Kxc2 74. a4 Nc4
     // [20-ply in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 following
@@ -95,8 +95,8 @@ namespace Command {
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply in 1:03:56.8 over 3.838 Gnode @1.0 MHz]
     // To see clear win after 1. Kf2 Kf5 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Kg8 7. Kf4! Kf8 8. Ke4 Ke8
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 in 29:37.534 @1.07 MHz over 1.8 Gnode]
-    // [20-ply in 5:40:45 @1.119 MHz over 22.882 Gnode] to find #16]
+    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 in 29:37.534 @1.07 MHz over 1.8 Gnode]
+    // [20-ply in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 earlier
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kb7
     // [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6
     // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5

@@ -294,7 +294,7 @@ namespace Engine {
       // Obtain possible Moves [and Captures]
       switch (vPiece) {
       case vP6:
-        qpPieceAtx = Friend.PawnAtx(nFrom, bCapture);
+        qpPieceAtx = Friend.PawnTo(nFrom, bCapture);
         break;
       case vK6:
         qpPieceAtx = KingAtx[nFrom];
