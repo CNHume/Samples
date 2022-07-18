@@ -143,7 +143,7 @@ namespace Engine {
       }
     }
 
-    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
+    //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
 #if UnshadowRay2
     private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
@@ -170,7 +170,7 @@ namespace Engine {
       addPieceMoves(PseudoKingMove, PseudoKingMove, moveFrom, qpMoveTo);
     }
 
-    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
+    //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
 #if UnshadowRay2
     private void addKingCaptures(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else

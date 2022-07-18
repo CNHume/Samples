@@ -106,8 +106,8 @@ namespace Engine {
       return isNullMove(move) ? nullMove() : tryMove(ref move);
     }
 
-    // Called whenever a move is tried to detect Checks and to set Draw Flags
-    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
+    // IsLegal() detects Checks and sets Draw Flags when moves are tried.
+    //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
     public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
 #if TurnTest
       var bWhiteMoved = !WTM();

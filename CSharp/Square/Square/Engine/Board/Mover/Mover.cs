@@ -126,7 +126,7 @@ namespace Engine {
     }
 
     //
-    // Set EP flags only if an EP would be legal
+    // setEPFile(nEnPassant) iff the En Passant capture is legal.
     //
     private void tryEP(
       BoardSide friend, BoardSide foe, Int32 nMovedTo, Int32 nEnPassant) {
@@ -207,6 +207,7 @@ namespace Engine {
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * Friend.Parameter.ShiftRank) {
           var nEnPassant = nTo - Friend.Parameter.ShiftRank;
+          //[Note]toggleWTM() will be called when this method returns
           tryEP(Foe, Friend, nTo, nEnPassant);
         }
 
@@ -240,7 +241,7 @@ namespace Engine {
     }
 
     //
-    //[Note]Changes made here should be validated by running the perft tests
+    //[Test]Changes made here should be validated by running the Perft Tests!
     //
     protected void playMove(ref Move move) {
       clrDraw0();
@@ -254,6 +255,7 @@ namespace Engine {
       movePiece(ref move);
       verifyPieceColors();              // Conditional
 
+      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
       toggleWTM();
 
       //

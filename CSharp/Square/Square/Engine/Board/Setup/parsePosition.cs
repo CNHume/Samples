@@ -252,7 +252,7 @@ namespace Engine {
       }
     }
 
-    protected void parsePassed(Boolean bWTM, String sEnPassant) {
+    protected void parsePassed(String sEnPassant) {
       //
       //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
       // are needed for passed() and hence for tryEP() below.
@@ -346,9 +346,7 @@ namespace Engine {
       // FlagsLo/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
       //
       setWTM(bWTM);
-
-      parsePassed(bWTM, sEnPassant);
-
+      parsePassed(sEnPassant);
       Hash ^= hashFlags(bWTM);
 
       HalfMoveClock = ParseByte("Half Move Clock", sHalfMoveClock);

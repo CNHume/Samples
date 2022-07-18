@@ -424,7 +424,7 @@ namespace Engine {
       return qpRay;
     }
 
-    //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
+    //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
     protected void restrictPiece(Move move) {
 #if DebugMove
       unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1, out Piece promotion, out Boolean bCapture);
