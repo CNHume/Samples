@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-#define VerifyGamePlyColor
+//#define VerifyGamePlyColor
 //#define VerifyPieceColor
 //#define VerifyPromotion
 #define RecursiveNullMade

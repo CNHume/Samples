@@ -99,18 +99,18 @@ namespace Engine {
       if (fmd == 0 && fdr == 0 && feg == 0 && fBlackSide == 0 && fWhiteSide == 0 && flo == 0)
         return "None";
 
-      var sBlackHi = FormatFlags(fBlackSide);
-      var sWhiteHi = FormatFlags(fWhiteSide);
-      var sBlackHiLabelled = IsNullOrEmpty(sBlackHi) ? Empty : $"Black[{sBlackHi}]";
-      var sWhiteHiLabelled = IsNullOrEmpty(sWhiteHi) ? Empty : $"White[{sWhiteHi}]";
+      var sBlackSide = FormatFlags(fBlackSide);
+      var sWhiteSide = FormatFlags(fWhiteSide);
+      var sBlackSideLabelled = IsNullOrEmpty(sBlackSide) ? Empty : $"Black[{sBlackSide}]";
+      var sWhiteSideLabelled = IsNullOrEmpty(sWhiteSide) ? Empty : $"White[{sWhiteSide}]";
 
-      const Int32 nCapacity = 4;
+      const Int32 nCapacity = 6;
       var sFlags = new List<String>(nCapacity)
         .AddNotEmpty(FormatFlags(fmd))
         .AddNotEmpty(FormatFlags(fdr))
         .AddNotEmpty(FormatFlags(feg))
-        .AddNotEmpty(sBlackHiLabelled)
-        .AddNotEmpty(sWhiteHiLabelled)
+        .AddNotEmpty(sBlackSideLabelled)
+        .AddNotEmpty(sWhiteSideLabelled)
         .AddNotEmpty(FormatFlags(flo));
 
       return Join(sSpace, sFlags);
