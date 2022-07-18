@@ -253,23 +253,23 @@ namespace Engine {
       var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
 
       var nEnPassant = movePiece(ref move);
+      verifyPieceColors();              // Conditional
 
-      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+      // tryEP() must be assessed from the perspective
+      // of Foe having become Friend after toggleWTM()
       toggleWTM();
 
-      // tryEP() must be assessed from the perspective of Foe being Friend after toggleWTM()
       if (nEnPassant.HasValue)
         tryEP(nEnPassant.Value);
 
-      verifyPieceColors();              // Conditional
-
       //
-      // This En Passant State is not reset until addPseudoMoves()
-      // has used it to add En Passant captures for the next ply:
+      // LoFlags.Passed is not reset until the generate() methods
+      // reference it to add En Passant captures for the next ply:
       //
       if (IsPassed()) Hash ^= epHash();
 
       // Update Castling Abilities, if they changed
+      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
       var fsideCanCastleNew = Foe.FlagsSide & SideFlags.CanCastleMask;
       if (fsideCanCastleNew != fsideCanCastleOld) {
         Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
