@@ -128,10 +128,10 @@ namespace Engine {
     //
     // setEPFile(nEnPassant) iff the En Passant capture is legal.
     //
-    private void tryEP(
-      BoardSide friend, BoardSide foe, Int32 nMovedTo, Int32 nEnPassant) {
-      var vKing = friend.GetKingPos();
-      var qpCaptureFrom = friend.Passed(nEnPassant);
+    private void tryEP(Int32 nEnPassant) {
+      var nMovedTo = nEnPassant + Foe.Parameter.ShiftRank;
+      var vKing = Friend.GetKingPos();
+      var qpCaptureFrom = Friend.Passed(nEnPassant);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
@@ -147,20 +147,20 @@ namespace Engine {
         // 7) And restore the Pawn to its nCaptureFrom square.
         // 8) If EP was Legal setEPFile(nEnPassant) and break.
         //
-        friend.RaisePiece(vP6, nCaptureFrom);
-        friend.LowerPiece(vP6, nEnPassant);
+        Friend.RaisePiece(vP6, nCaptureFrom);
+        Friend.LowerPiece(vP6, nEnPassant);
         //[Speed]Remove Not Needed, because material balance will be restored below.
-        foe.RaisePiece(vP6, nMovedTo);
+        Foe.RaisePiece(vP6, nMovedTo);
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
-          (foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
-          (foe.Piece & RectPiece & rectAtx(vKing)) == 0;
+          (Foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
+          (Foe.Piece & RectPiece & rectAtx(vKing)) == 0;
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
-        foe.LowerPiece(vP6, nMovedTo);
-        friend.RaisePiece(vP6, nEnPassant);
-        friend.LowerPiece(vP6, nCaptureFrom);
+        Foe.LowerPiece(vP6, nMovedTo);
+        Friend.RaisePiece(vP6, nEnPassant);
+        Friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
           setEPFile(nEnPassant);
@@ -204,15 +204,17 @@ namespace Engine {
       else
         Friend.LowerPiece(vPiece, nTo);
 
+      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+      toggleWTM();
+
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * Friend.Parameter.ShiftRank) {
-          var nEnPassant = nTo - Friend.Parameter.ShiftRank;
-          //[Note]toggleWTM() will be called when this method returns
-          tryEP(Foe, Friend, nTo, nEnPassant);
+        if (nTo - nFrom == 2 * Foe.Parameter.ShiftRank) {
+          var nEnPassant = nTo - Foe.Parameter.ShiftRank;
+          tryEP(nEnPassant);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
-        Friend.ResetPawnAtx();
+        Foe.ResetPawnAtx();
       }
     }
 
@@ -254,9 +256,6 @@ namespace Engine {
 
       movePiece(ref move);
       verifyPieceColors();              // Conditional
-
-      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
-      toggleWTM();
 
       //
       // This En Passant State is not reset until addPseudoMoves()

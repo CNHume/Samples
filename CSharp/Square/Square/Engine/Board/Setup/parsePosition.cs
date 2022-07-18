@@ -288,7 +288,7 @@ namespace Engine {
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
-      tryEP(Friend, Foe, nMovedTo, nEnPassant);
+      tryEP(nEnPassant);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
