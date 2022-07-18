@@ -282,7 +282,7 @@ namespace Engine {
 
         // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
         var move = mov;
-        movePiece(Friend, Foe, ref move);
+        movePiece(ref move);
       }
 
       TimerStop(sw, qTrials);

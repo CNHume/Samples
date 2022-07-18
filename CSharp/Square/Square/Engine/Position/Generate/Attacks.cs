@@ -316,21 +316,21 @@ namespace Engine {
       return qpPieceAtx;
     }
 
-    private Boolean canOO(BoardSide friend, BoardSide foe) {
-      var rule = friend.Rule;
-      var bLegal = ((friend.FlagsSide & SideFlags.CanOO) != 0) &&
+    private Boolean canOO() {
+      var rule = Friend.Rule;
+      var bLegal = ((Friend.FlagsSide & SideFlags.CanOO) != 0) &&
                    ((rule.OOPath & RankPiece) == 0) &&
                    rule.OOSafe.HasValue &&
-                   !foe.IsAttacked(rule.OOSafe.Value);
+                   !Foe.IsAttacked(rule.OOSafe.Value);
       return bLegal;
     }
 
-    private Boolean canOOO(BoardSide friend, BoardSide foe) {
-      var rule = friend.Rule;
-      var bLegal = ((friend.FlagsSide & SideFlags.CanOOO) != 0) &&
+    private Boolean canOOO() {
+      var rule = Friend.Rule;
+      var bLegal = ((Friend.FlagsSide & SideFlags.CanOOO) != 0) &&
                    ((rule.OOOPath & RankPiece) == 0) &&
                    rule.OOOSafe.HasValue &&
-                   !foe.IsAttacked(rule.OOOSafe.Value);
+                   !Foe.IsAttacked(rule.OOOSafe.Value);
       return bLegal;
     }
 
@@ -345,9 +345,9 @@ namespace Engine {
         var rule = Friend.Rule;
 
         if (nKingTo == rule.KingOOTo)
-          bLegal = canOO(Friend, Foe);
+          bLegal = canOO();
         else if (nKingTo == rule.KingOOOTo)
-          bLegal = canOOO(Friend, Foe);
+          bLegal = canOOO();
       }
 
       return bLegal;
@@ -435,10 +435,6 @@ namespace Engine {
       var qpFrom = BIT0 << nFrom;
       if (piece == Piece.K || (qpFrom & PinnedPiece) != 0)
         return;
-
-      //[Debug]
-      var bWhiteMoved = !WTM();
-      (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
 
       //
       // Determine how a piece is pinned, given that it has just

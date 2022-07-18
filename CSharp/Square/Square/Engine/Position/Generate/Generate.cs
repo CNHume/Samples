@@ -149,7 +149,7 @@ namespace Engine {
         Friend.AddPawnCaptures(this, qpPawnCapture);
         Friend.AddPawnMoves(this, ~RankPiece);
 
-        addCastles(Friend, Foe);
+        addCastles();
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCapturesAndMoves(~qpFriend, vKingPos, bRayCheck);

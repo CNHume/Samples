@@ -36,11 +36,11 @@ namespace Engine {
     #endregion
 
     #region Castling Moves
-    protected void addCastles(BoardSide friend, BoardSide foe) {
+    protected void addCastles() {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
-      var friendRule = friend.Rule;
+      var friendRule = Friend.Rule;
 
-      if (canOO(friend, foe)) {
+      if (canOO()) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OO);
 #else
@@ -48,7 +48,7 @@ namespace Engine {
 #endif
       }
 
-      if (canOOO(friend, foe)) {
+      if (canOOO()) {
 #if DebugMoveColor
         PseudoCastles.Add(Move.WTM | friendRule.OOO);
 #else

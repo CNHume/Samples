@@ -114,20 +114,20 @@ namespace Engine {
     #endregion
 
     #region EGFlags Methods
-    public Boolean isKQvKPEndgame2(BoardSide friend, BoardSide foe) {
-      var qpFriendPawn = friend.Piece & Pawn;
+    public Boolean isKQvKPEndgame2() {
+      var qpFriendPawn = Friend.Piece & Pawn;
       if (qpFriendPawn != 0)
         return false;
 
-      var qpFoeQueen = foe.Piece & Queen;
+      var qpFoeQueen = Foe.Piece & Queen;
       if (qpFoeQueen != 0)
         return false;
 
-      var qpFoePawn = foe.Piece & Pawn;
+      var qpFoePawn = Foe.Piece & Pawn;
       if (qpFoePawn == 0)               // Foe must have at least one Pawn
         return false;
 
-      var qpFriendQueen = friend.Piece & Queen;
+      var qpFriendQueen = Friend.Piece & Queen;
       if (qpFriendQueen == 0)           // Friend must have at least one Queen
         return false;
 
@@ -146,8 +146,8 @@ namespace Engine {
       var whiteSide = Side[White];
 
       return
-        isKQvKPEndgame2(blackSide, whiteSide) ||
-        isKQvKPEndgame2(whiteSide, blackSide);
+        isKQvKPEndgame2() ||
+        isKQvKPEndgame2();
     }
 
     public Boolean isKBNvKEndgame(SideFlags fside) {

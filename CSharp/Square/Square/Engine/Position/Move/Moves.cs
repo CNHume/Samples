@@ -110,11 +110,9 @@ namespace Engine {
     //[Note]toggleWTM() has inverted the conventional sense of friend and foe.
     public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
 #if TurnTest
-      var bWTM = WTM();
-      var bWhiteMoved = !bWTM;
-      var bWhiteTurn = IsOdd(GamePly);
-      Debug.Assert(bWhiteMoved == bWhiteTurn, "Skipped Turn");
-      (BoardSide friend, BoardSide foe) = getSides(bWhiteMoved);
+      var bWhiteMoved = !WTM();
+      var bBlackTurn = IsOdd(GamePly);
+      Debug.Assert(bWhiteMoved == bBlackTurn, "Skipped Turn");
 #endif
       //[Assume]Restricted Moves are Legal
       var bLegal = bRestricted || !Friend.IsAttacked(King & Foe.Piece);

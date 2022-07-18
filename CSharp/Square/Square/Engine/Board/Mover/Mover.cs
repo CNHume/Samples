@@ -170,7 +170,7 @@ namespace Engine {
     }
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
-    protected void movePiece(BoardSide friend, BoardSide foe, ref Move move) {
+    protected void movePiece(ref Move move) {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
@@ -183,35 +183,35 @@ namespace Engine {
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
       if (bSupplied)
-        friend.RemovePiece(vPiece, nFrom);
+        Friend.RemovePiece(vPiece, nFrom);
       else
-        friend.RaisePiece(vPiece, nFrom);
+        Friend.RaisePiece(vPiece, nFrom);
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
-        var nCaptureFrom = bEnPassant ? nTo + foe.Parameter.ShiftRank : nTo;
-        foe.RemovePiece(vCapture, nCaptureFrom);
+        var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.ShiftRank : nTo;
+        Foe.RemovePiece(vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
-          foe.ResetPawnAtx();
+          Foe.ResetPawnAtx();
       }
       else if (bCastles)
-        friend.RookCastles(nTo);
+        Friend.RookCastles(nTo);
 
       if (bSupplied)
-        friend.PlacePiece(pieceIndex(uPromotion), nTo);
+        Friend.PlacePiece(pieceIndex(uPromotion), nTo);
       else
-        friend.LowerPiece(vPiece, nTo);
+        Friend.LowerPiece(vPiece, nTo);
 
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * friend.Parameter.ShiftRank) {
-          var nEnPassant = nTo - friend.Parameter.ShiftRank;
-          tryEP(foe, friend, nTo, nEnPassant);
+        if (nTo - nFrom == 2 * Friend.Parameter.ShiftRank) {
+          var nEnPassant = nTo - Friend.Parameter.ShiftRank;
+          tryEP(Foe, Friend, nTo, nEnPassant);
         }
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
-        friend.ResetPawnAtx();
+        Friend.ResetPawnAtx();
       }
     }
 
@@ -251,7 +251,7 @@ namespace Engine {
       // Record Castling Abilities prior to removePiece()
       var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
 
-      movePiece(Friend, Foe, ref move);
+      movePiece(ref move);
       verifyPieceColors();              // Conditional
 
       toggleWTM();
