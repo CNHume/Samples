@@ -170,7 +170,8 @@ namespace Engine {
     }
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
-    protected void movePiece(ref Move move) {
+    protected Int32? movePiece(ref Move move) {
+      Int32? nEnPassant = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
@@ -204,18 +205,15 @@ namespace Engine {
       else
         Friend.LowerPiece(vPiece, nTo);
 
-      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
-      toggleWTM();
-
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * Foe.Parameter.ShiftRank) {
-          var nEnPassant = nTo - Foe.Parameter.ShiftRank;
-          tryEP(nEnPassant);
-        }
+        if (nTo - nFrom == 2 * Friend.Parameter.ShiftRank)
+          nEnPassant = nTo - Friend.Parameter.ShiftRank;
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
-        Foe.ResetPawnAtx();
+        Friend.ResetPawnAtx();
       }
+
+      return nEnPassant;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -254,7 +252,15 @@ namespace Engine {
       // Record Castling Abilities prior to removePiece()
       var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
 
-      movePiece(ref move);
+      var nEnPassant = movePiece(ref move);
+
+      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+      toggleWTM();
+
+      // tryEP() must be assessed from the perspective of Foe being Friend after toggleWTM()
+      if (nEnPassant.HasValue)
+        tryEP(nEnPassant.Value);
+
       verifyPieceColors();              // Conditional
 
       //
