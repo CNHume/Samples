@@ -6,6 +6,7 @@
 // Conditionals:
 //
 #define ShowGC
+//#define ShowGCLatency
 #define QuiescentTryXP
 #define AddBestMoves
 //#define Magic
@@ -308,8 +309,11 @@ namespace Engine {
 #endif
 #if ShowGC
       var sServerGC = GCSettings.IsServerGC ? "server" : "workstation";
+      sb.AppendFormat($" GC={sServerGC}");
+#endif
+#if ShowGCLatency
       var sLatency = GCSettings.LatencyMode;
-      sb.AppendFormat($" {sServerGC} {sLatency}");
+      sb.AppendFormat($" Latency={sLatency}");
 #endif
 #if ThreadSafeTank
       sb.Append(" Safe");
