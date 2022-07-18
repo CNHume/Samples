@@ -213,6 +213,7 @@ namespace Engine {
         Friend.ResetPawnAtx();
       }
 
+      verifyPieceColors();              // Conditional
       return nEnPassant;
     }
 
@@ -251,26 +252,10 @@ namespace Engine {
 
       // Record Castling Abilities prior to removePiece()
       var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
-
       var nEnPassant = movePiece(ref move);
-      verifyPieceColors();              // Conditional
+      var fsideCanCastleNew = Friend.FlagsSide & SideFlags.CanCastleMask;
 
-      // tryEP() must be assessed from the perspective
-      // of Foe having become Friend after toggleWTM()
-      toggleWTM();
-
-      if (nEnPassant.HasValue)
-        tryEP(nEnPassant.Value);
-
-      //
-      // LoFlags.Passed is not reset until the generate() methods
-      // reference it to add En Passant captures for the next ply:
-      //
-      if (IsPassed()) Hash ^= epHash();
-
-      // Update Castling Abilities, if they changed
-      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
-      var fsideCanCastleNew = Foe.FlagsSide & SideFlags.CanCastleMask;
+      #region Update Castling Rights Hash
       if (fsideCanCastleNew != fsideCanCastleOld) {
         Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
                 ZobristRights[(Int32)fsideCanCastleNew];
@@ -286,6 +271,23 @@ namespace Engine {
         //
         setDraw0();
       }
+      #endregion                        // Update Castling Rights Hash
+
+      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+      toggleWTM();
+
+      #region Update En Passant
+      // tryEP() must be assessed from the perspective
+      // of Foe having become Friend after toggleWTM()
+      if (nEnPassant.HasValue)
+        tryEP(nEnPassant.Value);
+
+      //
+      // LoFlags.Passed is not reset until the generate() methods
+      // reference it to add En Passant captures for the next ply:
+      //
+      if (IsPassed()) Hash ^= epHash();
+      #endregion                        // Update En Passant
 #if RecursiveNullMade
       //
       // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
