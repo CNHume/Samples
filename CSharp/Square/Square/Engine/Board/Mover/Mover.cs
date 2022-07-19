@@ -283,8 +283,9 @@ namespace Engine {
         tryEP(nEnPassant.Value);
 
       //
-      // LoFlags.Passed is not reset until the generate() methods
-      // reference it to add En Passant captures for the next ply:
+      // LoFlags.Passed will be referenced by generate() methods, to add En Passant
+      // captures for the next Ply.  resetEP() is called by resetMove() just before
+      // this method is called.
       //
       if (IsPassed()) Hash ^= epHash();
       #endregion                        // Update En Passant

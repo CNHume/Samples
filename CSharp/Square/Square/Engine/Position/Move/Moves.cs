@@ -56,9 +56,10 @@ namespace Engine {
 
       if (IsDraw0())
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
-                   
+
+      //[Note]Every move ends the Transposition Group if En Passant was possible.
       if (Parent is not null && Parent.IsPassed())
-        setDraw0();                     //[Note]If En Passant was possible, any move ends a Transposition Group
+        setDraw0();
 
       testHash();                       // Conditional
       var bLegal = IsLegal(bFindRepetition, bRestricted);
