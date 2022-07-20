@@ -51,7 +51,11 @@ namespace Engine {
       //
       //[Time]timeRoots();
       //[Time]timeEval();
-      timeWeighPieces();
+      //[Time]
+      timePlayMove((Move)0x00140759);   //[Perft3]b4f4
+      //[Time]
+      timePlayMove((Move)0x0001078E);   //[Perft3]g2g4 with tryEP()
+      //timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
@@ -271,18 +275,21 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeMove(Move mov, UInt64 qTrials = 100000000UL) {
+    protected void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sb = new StringBuilder();
       sb.AppendPACN(mov, Side, State.IsChess960);
-      var sw = TimerStart($"{nameof(movePiece)}({sb})", qTrials);
+      var sw = TimerStart($"{nameof(playMove)}({sb})", qTrials);
 
-      //~4.5 MHz w resetMove() which is 5.33 times faster at ~24 MHz
-      for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        resetMove();
-
-        // Calculated to be ~5.54 MHz on old PC, now ~18.5 MHz
-        var move = mov;
-        var nEnPassant = movePiece(ref move);
+      var child = Push();               // Push Position to make the moves
+      try {
+        for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
+          var move = mov;
+          child.resetMove();
+          child.playMove(ref move);
+        }
+      }
+      finally {
+        Pop(ref child);                 // Pop Position used for this Ply
       }
 
       TimerStop(sw, qTrials);
@@ -347,6 +354,6 @@ namespace Engine {
         TimerStop(sw, qTrial);
       }
     }
-#endregion
+    #endregion
   }
 }

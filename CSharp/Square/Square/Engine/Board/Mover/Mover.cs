@@ -242,7 +242,10 @@ namespace Engine {
     }
 
     //
-    //[Test]Changes made here should be validated by running the Perft Tests!
+    //[Test]Validate any change made here by running Perft Tests!
+    //
+    //[Perft3]b4f4 13.3 MHz
+    //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
     //
     protected void playMove(ref Move move) {
       clrDraw0();
@@ -250,7 +253,7 @@ namespace Engine {
       if (HalfMoveClock < HalfMoveClockMax) // Avoid Overflow
         HalfMoveClock++;
 
-      // Record Castling Abilities prior to removePiece()
+      // Record Castling Abilities prior to RemovePiece()
       var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
       var nEnPassant = movePiece(ref move);
       var fsideCanCastleNew = Friend.FlagsSide & SideFlags.CanCastleMask;
