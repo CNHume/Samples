@@ -18,13 +18,13 @@ namespace Command {
     //"";
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
-    // [18-ply in 5:07] eval 9.95 following 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // [18-ply in 5:07] eval 9.95 after: 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
     // [20-ply in 56:36.63 @1.384 MHz over 4.7 Gnode] eval 11.1 after taking all of the pawns:
     // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
     // 52. Qxg6+ Kxg6 53. Qe6+ Kh7 54. Qf5+ g6 55. Qf7+ Kh8 56. Qxg6 h5 57. Qxh5+ Kg7 [58.Qxa5]
-    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains eval 9.95 following
+    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply in 22:10] maintains eval 9.95 after:
     // 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
-    // Disabling QuietMate exhibits the anomaly seen after [19-ply in 35:28 @1.226 MHz] eval 11.0 following
+    // Disabling QuietMate exhibits the anomaly seen after [19-ply in 35:28 @1.226 MHz] eval 11.0 after:
     // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate
     //"8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57"; // stalemate
     //
@@ -86,16 +86,17 @@ namespace Command {
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
     //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
-    // [19-ply in 16:32.1 @1.096 MHz over 1.09 Gnode] eval -3.25 following
+    // [19-ply in 16:32.1 @1.096 MHz over 1.09 Gnode] eval -3.25 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Ka1 Kxc3 70. Be8 Kd2 71. Bg6 c3 72. Ka2 c2 73. Bxc2 Kxc2 74. a4 Nc4
-    // [20-ply in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 following
+    // [20-ply in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne1? 69. Kb2 Nf3 70. Bc2 d4 71. Bb1 dxc3+ 72. Ka2 c2 73. Bxc2 Kxc2
     // [21-ply in 1:34:58 @1.212 MHz over 6.9 Gnode] eval -3.6
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
-    //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply in 1:03:56.8 over 3.838 Gnode @1.0 MHz]
-    // To see clear win after 1. Kf2 Kf5 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Kg8 7. Kf4! Kf8 8. Ke4 Ke8
+    //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Patient Endgame from Doluhanova v Roumegous 2017 [26-ply in 1:10:25 over 4.722 Gnode @1.1776 MHz] eval 1.75 after:
+    // 1. Kf2 Kf5 [1... Kf6 2. Kf5 Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
+    // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 in 29:37.534 @1.07 MHz over 1.8 Gnode]
+    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 in 29:37.534 @1.07 MHz over 1.8 Gnode]
     // [18-ply in 1:20:15 @1.166 MHz over 5.614 Gnode] to find #18
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Rh4 Rxd5+ 8. Kxd5 Kb7 9. Rh3 Kb6 10. Rb3+ Kc7 11. Rb3b5
     // [20-ply in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 earlier; but now exhibits a pruning bug, reporting #20
@@ -109,7 +110,7 @@ namespace Command {
     //"4k3/2R5/2n1r3/3R4/7P/5BP1/7K/4q3 w - - 0 54"; // 2017-01-21 Carlsen v Giri Line
     //"4r1k1/5pp1/1b4p1/3n4/3p2qP/3Q2P1/1P1B1P2/2N1R1K1 b - - 0 35"; // 2017-01-27 Carlsen v Adhiban Line
     //"5r2/4p1bk/3pQ1pp/Rp5q/1P1p4/3P2P1/3BPP1P/6K1 b - - 0 1"; // Forced Draw
-    //"6k1/3b3p/2pP4/p5q1/4QN2/6P1/PP5P/1K1R4 b - - 0 1"; // Puzzle [White to win following ...Bf5.  Hint: The key move and the "follow up" transpose.]
+    //"6k1/3b3p/2pP4/p5q1/4QN2/6P1/PP5P/1K1R4 b - - 0 1"; // Puzzle [White to win after: ...Bf5.  Hint: The key move and the "follow up" transpose.]
     //"4k3/8/8/8/8/8/4P3/4K3 b - - 0 1";
     //"8/8/2k5/7p/8/2K5/8/8 w - - 0 1";   // Inside Square
     //"k7/7p/8/2nKb3/8/8/8/8 w - - 0 1";  // Wrong Bishop
@@ -198,7 +199,7 @@ namespace Command {
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 (startpos) in 28.1 sec @4.639 MHz over 130.36 Mnode
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 36.743 sec @5.596 MHz over 205.63 Mnode
-    "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 47.66 sec @4.592 MHz over 218.84 Mnode
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 47.66 sec @4.592 MHz over 218.84 Mnode
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:06.6 @5.234 MHz over 767.28 Mnode
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 22.26 sec @3.935 MHz over 87.6 Mnode
     //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 1.25
