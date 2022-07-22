@@ -275,24 +275,26 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
-      var sb = new StringBuilder();
-      sb.AppendPACN(mov, Side, State.IsChess960);
-      var sw = TimerStart($"{nameof(playMove)}({sb})", qTrials);
+    protected void timeMove(Move mov, UInt64 qTrials = 100000000UL) {
+      var sbMove = new StringBuilder();
+      sbMove.AppendPACN(mov, Side, State.IsChess960);
+      var sw = TimerStart($"{nameof(playMove)}({sbMove})", qTrials);
+      for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
+        resetMove();
+        var move = mov;
+        playMove(ref move);
+      }
+      TimerStop(sw, qTrials);
+    }
 
+    protected void timePlayMove(Move move) {
       var child = Push();               // Push Position to make the moves
       try {
-        for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-          var move = mov;
-          child.resetMove();
-          child.playMove(ref move);
-        }
+        child.timeMove(move);
       }
       finally {
-        Pop(ref child);                 // Pop Position used for this Ply
+        Pop(ref child);                 // Pop Position used for this Timer Test
       }
-
-      TimerStop(sw, qTrials);
     }
 
     protected void timeListAdd(UInt64 qTrials = 10000000UL) {      //~35.56 MHz

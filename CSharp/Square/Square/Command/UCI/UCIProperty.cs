@@ -41,7 +41,7 @@ namespace Command {
     //"2rq1rk1/pb1n1ppN/4p3/1pb5/3P1Pn1/P1N5/1PQ1B1PP/R1B2RK1 b - - 0 16"; // Aronian v Anand 2013-01-16 Tata Steel [13-ply to find 16... Nde5!]
     //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
     //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
-    //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [16-ply in 17:05 over 1.345 Gnode @1.311 MHz]
+    //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10 [16-ply in 16:56 over 1.345 Gnode @1.324 MHz]
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [10-ply 26.35 sec @1.2 MHz over 32 Mnode]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
