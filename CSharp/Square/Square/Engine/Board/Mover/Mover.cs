@@ -8,7 +8,7 @@
 //#define CountCapturedPiece
 #define RecursiveNullMade
 #define SaveCapture
-//#define TracePosition
+//#define TracePosition                 //[Speed]Slows performance by 13%
 //#define VerifyGamePlyColor
 //#define VerifyPieceColor
 //#define VerifyPromotion
