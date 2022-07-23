@@ -244,9 +244,6 @@ namespace Engine {
     //
     //[Test]Validate any change made here by running Perft Tests!
     //
-    //[Perft3]b4f4 13.3 MHz
-    //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
-    //
     protected void playMove(ref Move move) {
       clrDraw0();
 

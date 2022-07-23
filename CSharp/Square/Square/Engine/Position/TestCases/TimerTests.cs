@@ -52,9 +52,9 @@ namespace Engine {
       //[Time]timeRoots();
       //[Time]timeEval();
       //[Time]
-      timePlayMove((Move)0x00140759);   //[Perft3]b4f4
+      timeMove((Move)0x00140759);       //[Perft3]b4f4
       //[Time]
-      timePlayMove((Move)0x0001078E);   //[Perft3]g2g4 with tryEP()
+      timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
       //timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
       //[Time]timeAddPieceCapturesAndMoves();
@@ -275,22 +275,29 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeMove(Move mov, UInt64 qTrials = 100000000UL) {
+    protected void testMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sbMove = new StringBuilder();
       sbMove.AppendPACN(mov, Side, State.IsChess960);
       var sw = TimerStart($"{nameof(playMove)}({sbMove})", qTrials);
+
+      // ~15 Mhz
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         resetMove();
         var move = mov;
         playMove(ref move);
       }
+
       TimerStop(sw, qTrials);
     }
 
-    protected void timePlayMove(Move move) {
+    //
+    //[Perft3]b4f4 13.3 MHz
+    //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
+    //
+    protected void timeMove(Move move, UInt64 qTrials = 100000000UL) {
       var child = Push();               // Push Position to make the moves
       try {
-        child.timeMove(move);
+        child.testMove(move, qTrials);
       }
       finally {
         Pop(ref child);                 // Pop Position used for this Timer Test
