@@ -11,6 +11,7 @@
 //#define FullData                        // Full vs Half
 #define UseMoveSort
 #define TestOutsideSquare
+#define TimePlayMove
 
 namespace Engine {
   using CacheValue;
@@ -275,7 +276,12 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void testMove(Move mov, UInt64 qTrials = 100000000UL) {
+    //
+    //[Perft3]b4f4 13.3 MHz
+    //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
+    //
+    [Conditional("TimePlayMove")]
+    protected void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sbMove = new StringBuilder();
       sbMove.AppendPACN(mov, Side, State.IsChess960);
       var sw = TimerStart($"{nameof(playMove)}({sbMove})", qTrials);
@@ -290,14 +296,10 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    //
-    //[Perft3]b4f4 13.3 MHz
-    //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
-    //
     protected void timeMove(Move move, UInt64 qTrials = 100000000UL) {
       var child = Push();               // Push Position to make the moves
       try {
-        child.testMove(move, qTrials);
+        child.timePlayMove(move, qTrials);
       }
       finally {
         Pop(ref child);                 // Pop Position used for this Timer Test

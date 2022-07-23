@@ -146,12 +146,12 @@ namespace Engine {
       //
       // Annotate PV abbreviations and refresh XP
       //
-      refreshPV((Depth)vDepth);         // Conditional
+      refreshPV((Depth)vDepth);         //[Conditional]
 
       //
       // Display the Principal Variation(s)
       //
-      writeMultiPV();                   // Conditional
+      writeMultiPV();                   //[Conditional]
     }
 
     public Eval IteratePlies(SearchBound bound) {

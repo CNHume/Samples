@@ -67,7 +67,7 @@ namespace Engine {
       var pc = State.Case;
 
       generate(moves, NoSwaps);
-      verifyMaterialMoves(moves);       // Conditional
+      verifyMaterialMoves(moves);       //[Conditional]
 
       var child = Push();               // Push Position to make the moves
       var sFEN = child.Parent?.ToString(PositionType.FEN);

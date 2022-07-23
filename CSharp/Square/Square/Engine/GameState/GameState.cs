@@ -214,8 +214,8 @@ namespace Engine {
         LegalMoves = LegalMovesQxnt = IllegalMoves = IllegalMovesQxnt = 0L;
 
       clearNodeDelta();                 // See DisplayPrediction
-      clearEarlyMoveCounts();           // Conditional
-      clearPVDoubleCounts();            // Conditional
+      clearEarlyMoveCounts();           //[Conditional]
+      clearPVDoubleCounts();            //[Conditional]
     }
 
     public Position Push(Position? parent) {

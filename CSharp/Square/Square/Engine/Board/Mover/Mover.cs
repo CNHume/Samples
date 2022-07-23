@@ -5,13 +5,13 @@
 //
 // Conditionals:
 //
+//#define CountCapturedPiece
+#define RecursiveNullMade
+#define SaveCapture
+//#define TracePosition
 //#define VerifyGamePlyColor
 //#define VerifyPieceColor
 //#define VerifyPromotion
-#define RecursiveNullMade
-#define TracePosition
-//#define CountCapturedPiece
-#define SaveCapture
 
 namespace Engine {
   using System;
@@ -213,7 +213,7 @@ namespace Engine {
         Friend.ResetPawnAtx();
       }
 
-      verifyPieceColors();              // Conditional
+      verifyPieceColors();              //[Conditional]
       return nEnPassant;
     }
 
@@ -297,7 +297,7 @@ namespace Engine {
       //
       clrNullMade();
 #endif
-      tracePosition();                  // Conditional
+      tracePosition();                  //[Conditional]
     }
 
     protected void skipTurn() {
@@ -312,7 +312,7 @@ namespace Engine {
       NullPly++;
       setNullMade();                    // Prevent two consecutive Null Moves
 
-      tracePosition();                  // Conditional
+      tracePosition();                  //[Conditional]
     }
     #endregion
 
