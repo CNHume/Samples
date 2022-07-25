@@ -79,7 +79,8 @@ namespace Engine {
       Pair = Dark | Lite,
       Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
 
-      Copy = Insufficient | Pair | CanCastleMask
+      Weight = Insufficient | Pair,         // Flags used by weighPieces()
+      Copy = Weight | CanCastleMask
     }
     #endregion
 

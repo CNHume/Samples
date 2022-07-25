@@ -107,33 +107,33 @@ namespace Engine {
     protected const Eval mRookBehindPasserDefender = mThirdWeight;
 
     //
-    // Assume P, N, B, R, Q Piece Order
+    //[Assume]P, N, B, R, Q Piece Order
     //
     public static readonly Eval[] PieceWeight =
     { mPawnWeight, mKnightWeight, mBishopWeight, mRookWeight, mQueenWeight };
     #endregion
 
     #region EGFlags Methods
-    public Boolean isKQvKPEndgame2() {
-      var qpFriendPawn = Friend.Piece & Pawn;
-      if (qpFriendPawn != 0)
+    public Boolean isKQvKPEndgame2(BoardSide attacker, BoardSide defender) {
+      var qpAttackerPawn = attacker.Piece & Pawn;
+      if (qpAttackerPawn != 0)
         return false;
 
-      var qpFoeQueen = Foe.Piece & Queen;
-      if (qpFoeQueen != 0)
+      var qpDefenderQueen = defender.Piece & Queen;
+      if (qpDefenderQueen != 0)
         return false;
 
-      var qpFoePawn = Foe.Piece & Pawn;
-      if (qpFoePawn == 0)               // Foe must have at least one Pawn
+      var qpDefenderPawn = defender.Piece & Pawn;
+      if (qpDefenderPawn == 0)          // Defender must have at least one Pawn
         return false;
 
-      var qpFriendQueen = Friend.Piece & Queen;
-      if (qpFriendQueen == 0)           // Friend must have at least one Queen
+      var qpAttackerQueen = attacker.Piece & Queen;
+      if (qpAttackerQueen == 0)         // Attacker must have at least one Queen
         return false;
 
       var bEndGame =
-        IsOneOrNone(qpFoePawn) &&       // Foe has at most one Pawn
-        IsOneOrNone(qpFriendQueen);     // Friend has at most one Queen
+        IsOneOrNone(qpDefenderPawn) &&  // Defender has at most one Pawn
+        IsOneOrNone(qpAttackerQueen);   // Attacker has at most one Queen
 
       return bEndGame;
     }
@@ -146,8 +146,8 @@ namespace Engine {
       var whiteSide = Side[White];
 
       return
-        isKQvKPEndgame2() ||
-        isKQvKPEndgame2();
+        isKQvKPEndgame2(blackSide, whiteSide) ||
+        isKQvKPEndgame2(whiteSide, blackSide);
     }
 
     public Boolean isKBNvKEndgame(SideFlags fside) {
