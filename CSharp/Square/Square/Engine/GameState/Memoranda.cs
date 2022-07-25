@@ -168,8 +168,10 @@ namespace Engine {
       var isBlackInsufficient = position.IsInsufficient(blackSide.Piece);
       var isWhiteInsufficient = position.IsInsufficient(whiteSide.Piece);
 
-      if (isBlackInsufficient) fBlackSide |= SideFlags.Insufficient;
-      if (isWhiteInsufficient) fWhiteSide |= SideFlags.Insufficient;
+      if (isBlackInsufficient)
+        fBlackSide |= SideFlags.Insufficient;
+      if (isWhiteInsufficient)
+        fWhiteSide |= SideFlags.Insufficient;
 #endif
       found = new Composition(
         wBlackCounts, wWhiteCounts,
