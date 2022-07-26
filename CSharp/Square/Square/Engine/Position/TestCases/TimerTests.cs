@@ -124,11 +124,11 @@ namespace Engine {
       var sw = TimerStart(nameof(weighPieces), qTrials);
 
       CompositionCounter wPieceCounts = default;
-      var fside = SideFlags.Pair;
+      var fsideWeight = SideFlags.Pair;
 
       Eval value = default;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
-        value = weighPieces(wPieceCounts, fside);
+        value = weighPieces(wPieceCounts, fsideWeight);
 
       TimerStop(sw, qTrials);
     }

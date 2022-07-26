@@ -5,18 +5,20 @@
 //
 // Conditionals:
 //
+//#define DebugHashPieces
 #define CompositionByValue
 //#define PawnPositionByValue
 #define InitFree                      //[Default]
 //#define InitHelp                      //[Test]
-//#define DebugHashPieces
-#define EvalInsufficient
 //#define MaterialBalance
+//#define TestInsufficient
 
 namespace Engine {
   using CacheValue;
 
   using System;
+  using System.Diagnostics;
+  using System.Drawing;
   using System.Text;
 
   using static Board;
@@ -52,24 +54,22 @@ namespace Engine {
       PieceHashcode wMemoHash,
       CompositionCounter wPieceCounts,
       BoardSide side) {
+      side.TestInsufficient();
+
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[wMemoHash];
 
       //[Note]SideFlags.Weight are used to determine a Match, i.e., Get Hit
-      var fside = side.FlagsSide & SideFlags.Weight;          
-      var fsideFound = found.FlagsSide & SideFlags.Weight;
-#if EvalInsufficient
-      var isInsufficient = position.IsInsufficient(side.Piece);
-      if (isInsufficient) fside |= SideFlags.Insufficient;
-#endif
+      var fsideWeight = side.FlagsSide & SideFlags.Weight;
+      var fsideFoundWeight = found.FlagsSide & SideFlags.Weight;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition2.CVFlags.IsValid) == 0;
 #else
-      var bDefault = found == default(PawnPosition);
+      var bDefault = found == default(Composition2);
 #endif
       if (!bDefault &&
           found.PieceCounts == wPieceCounts &&
-          fside == fsideFound) {
+          fsideWeight == fsideFoundWeight) {
         CXPMemo.Counts.GetHits++;       // Match. i.e., Get Hit
         return found;
       }
@@ -94,22 +94,18 @@ namespace Engine {
         sb.FlushLine();
       }
 #endif
-      found = new Composition2(wPieceCounts, fside);
+      found = new Composition2(wPieceCounts, fsideWeight);
       CXPMemo[wMemoHash] = found;
       return found;
 #else                                   // CompositionByValue
       if (bDefault) {
         CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-#if EvalInsufficient
-        var isInsufficient = position.IsInsufficient(side.Piece);
-        if (isInsufficient) fSide |= SideFlags.Insufficient;
-#endif
-        found = new Composition2(wPieceCounts, fSide);
+        found = new Composition2(wPieceCounts, fsideWeight);
         CXPMemo[wMemoHash] = found;
         return found;
       }
       else {
-        found.Recycle(wPieceCounts, fSide);
+        found.Recycle(wPieceCounts, fsideWeight);
         return found;
       }
 #endif
@@ -122,31 +118,27 @@ namespace Engine {
       CompositionCounter wWhiteCounts,
       BoardSide blackSide,
       BoardSide whiteSide) {
+      blackSide.TestInsufficient();
+      whiteSide.TestInsufficient();
+
       CXPMemo.Counts.GetReads++;
       var found = CXPMemo[uMemoHash];
 
       //[Note]SideFlags.Weight are used to determine a Match, i.e., Get Hit
-      var fBlackSide = blackSide.FlagsSide & SideFlags.Weight;
-      var fWhiteSide = whiteSide.FlagsSide & SideFlags.Weight;
-#if EvalInsufficient
-      var isBlackInsufficient = position.IsInsufficient(blackSide.Piece);
-      if (isBlackInsufficient) fBlackSide |= SideFlags.Insufficient;
-
-      var isWhiteInsufficient = position.IsInsufficient(whiteSide.Piece);
-      if (isWhiteInsufficient) fWhiteSide |= SideFlags.Insufficient;
-#endif
+      var fBlackSideWeight = blackSide.FlagsSide & SideFlags.Weight;
+      var fWhiteSideWeight = whiteSide.FlagsSide & SideFlags.Weight;
 #if CompositionByValue
       var bDefault = (found.FlagsCV & Composition.CVFlags.IsValid) == 0;
 #else
       var bDefault = found == default(Composition);
 #endif
       if (!bDefault) {
-        var fBlackSideFound = found.BlackFlagsSide & SideFlags.Weight;
-        var fWhiteSideFound = found.WhiteFlagsSide & SideFlags.Weight;
+        var fBlackSideFoundWeight = found.BlackFlagsSide & SideFlags.Weight;
+        var fWhiteSideFoundWeight = found.WhiteFlagsSide & SideFlags.Weight;
         if (found.BlackCounts == wBlackCounts &&
             found.WhiteCounts == wWhiteCounts &&
-            fBlackSide == fBlackSideFound &&
-            fWhiteSide == fWhiteSideFound) {
+            fBlackSideWeight == fBlackSideFoundWeight &&
+            fWhiteSideWeight == fWhiteSideFoundWeight) {
           CXPMemo.Counts.GetHits++;     // Match. i.e., Get Hit
           return found;
         }
@@ -173,7 +165,7 @@ namespace Engine {
 #endif
       found = new Composition(
         wBlackCounts, wWhiteCounts,
-        fBlackSide, fWhiteSide);
+        fBlackSideWeight, fWhiteSideWeight);
       CXPMemo[uMemoHash] = found;
       return found;
 #else                                   // CompositionByValue
@@ -181,14 +173,14 @@ namespace Engine {
         CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
         found = new Composition(
           wBlackCounts, wWhiteCounts,
-          fBlackSide, fWhiteSide);
+          fBlackSideWeight, fWhiteSideWeight);
         CXPMemo[uMemoHash] = found;
         return found;
       }
       else {
         found.Recycle(
           wBlackCounts, wWhiteCounts,
-          fBlackSide, fWhiteSide);
+          fBlackSideWeight, fWhiteSideWeight);
         return found;
       }
 #endif

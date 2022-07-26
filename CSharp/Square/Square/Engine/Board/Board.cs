@@ -142,7 +142,7 @@ namespace Engine {
     // Deep Copy:
     //
     public void CopyFlagsTo(Board board) {
-      for (var nSide = 0; nSide < Side.Length; nSide++)
+      for (var nSide = 0; nSide < Side?.Length; nSide++)
         board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
 
       board.FlagsLo = FlagsLo & LoFlags.Copy;
@@ -153,7 +153,7 @@ namespace Engine {
 
     #region BoardSide
     protected void CopySidesTo(Board board) {
-      for (var nSide = 0; nSide < Side.Length; nSide++) {       // 42 bytes + 1 nullable byte
+      for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 42 bytes + 1 nullable byte
 #if HashPieces
         board.Side[nSide].PieceHash = Side[nSide].PieceHash;    // 8-bytes
 #endif

@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define EvalInsufficient
 #define HashPieces
 //#define TestPawnAdvances
 //#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
@@ -196,6 +197,9 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
+#if EvalInsufficient
+        setInsufficient(ref FlagsSide);
+#endif
       }
 
       public Boolean LowerPiece(Byte vPiece, Int32 nTo) {
@@ -267,6 +271,9 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
+#if EvalInsufficient
+        setInsufficient(ref FlagsSide);
+#endif
       }
 
       //
@@ -283,6 +290,23 @@ namespace Engine {
         else if (nTo == Rule.KingOOOTo && Rule.RookOOOFrom.HasValue) {
           RaisePiece(vR6, Rule.RookOOOFrom.Value);
           LowerPiece(vR6, Rule.RookOOOTo);
+        }
+      }
+
+      protected void setInsufficient(ref SideFlags fside) {
+        fside &= ~SideFlags.Insufficient;
+        if (Board.IsInsufficient(Piece))
+          fside |= SideFlags.Insufficient;
+      }
+
+      [Conditional("TestInsufficient")]
+      public void TestInsufficient() {
+        var sideInsufficient = Board.IsInsufficient(Piece);
+        var fsideInsufficient = (FlagsSide & SideFlags.Insufficient) != 0;
+        if (fsideInsufficient != sideInsufficient) {
+          var sideName = Parameter.SideName.ToString();
+          var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
+          Debug.Assert(fsideInsufficient == sideInsufficient, message);
         }
       }
       #endregion                        // Mover Methods
