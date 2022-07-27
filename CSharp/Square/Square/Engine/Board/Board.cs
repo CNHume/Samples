@@ -364,10 +364,11 @@ namespace Engine {
     }
 
     internal static Boolean isCastles(Move move) {
-      return (move & Move.Castles) != 0;
+      return move.Has(Move.Castles);
     }
 
-    internal static bool isCapture(Move move) {
+    //[Compiler]move.Has(Move.CaptiveMask) does not work here!
+    internal static Boolean isCapture(Move move) {
       return (move & Move.CaptiveMask) != 0;
     }
 
@@ -531,7 +532,7 @@ namespace Engine {
 
     #region Flag Methods
     public Boolean WTM() {
-      return (FlagsLo & LoFlags.WTM) != 0;
+      return FlagsLo.Has(LoFlags.WTM);
     }
 
     protected void setWTM(Boolean bWTM) {
@@ -563,31 +564,31 @@ namespace Engine {
     }
 
     public Boolean IsFinal() {
-      return (FlagsLo & LoFlags.Final) != 0;
+      return FlagsLo.Has(LoFlags.Final);
     }
 
     public Boolean InCheck() {
-      return (FlagsLo & LoFlags.InCheck) != 0;
+      return FlagsLo.Has(LoFlags.InCheck);
     }
 
     public Boolean IsPassed() {
-      return (FlagsLo & LoFlags.Passed) != 0;
+      return FlagsLo.Has(LoFlags.Passed);
     }
 
     public Boolean IsDraw() {
-      return (FlagsDraw & DrawFlags.DrawMask) != 0;
+      return FlagsDraw.Has(DrawFlags.DrawMask);
     }
 
     public Boolean IsDraw2() {
-      return (FlagsDraw & DrawFlags.Draw2) != 0;
+      return FlagsDraw.Has(DrawFlags.Draw2);
     }
 
     public Boolean IsDraw50() {
-      return (FlagsDraw & DrawFlags.Draw50) != 0;
+      return FlagsDraw.Has(DrawFlags.Draw50);
     }
 
     public Boolean IsInsufficient() {
-      return (FlagsDraw & DrawFlags.DrawIM) != 0;
+      return FlagsDraw.Has(DrawFlags.DrawIM);
     }
 
     public Boolean IsStalemate() {
@@ -643,7 +644,7 @@ namespace Engine {
     }
 
     public Boolean IsDraw0() {
-      return (FlagsDraw & DrawFlags.Draw0) != 0;
+      return FlagsDraw.Has(DrawFlags.Draw0);
     }
 
     protected void clrDraw0() {
@@ -662,7 +663,7 @@ namespace Engine {
     }
 
     protected Boolean IsNullMade() {
-      return (FlagsMode & ModeFlags.NullMade) != 0;
+      return FlagsMode.Has(ModeFlags.NullMade);
     }
 
     private void clrNullMade() {
@@ -674,7 +675,7 @@ namespace Engine {
     }
 
     protected bool IsTrace() {
-      return (FlagsMode & ModeFlags.Trace) != 0;
+      return FlagsMode.Has(ModeFlags.Trace);
     }
 
     protected void clrTrace() {

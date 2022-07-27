@@ -18,7 +18,7 @@
 //#define HashPowerOfTwo
 
 namespace Cache {
-  using static Logging.Logger;
+  using Engine;
 
   using System;
   using System.Collections.Generic;
@@ -27,6 +27,7 @@ namespace Cache {
   using System.Runtime.CompilerServices;
 
   using static Engine.Board;            // For OneBitOrNone()
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -279,11 +280,11 @@ namespace Cache {
 #endif
         if (findMatch(out T found, out UInt32 uIndex, out Int32 nBucket, match)) {
           var pr = found.Result(ref match);
-          if (bValid = (pr & ProbeResult.Valid) != 0)
+          if (bValid = pr.Has(ProbeResult.Valid))
             Counts.GetHits++;
 
           // Renew Useful Entries:
-          if ((pr & ProbeResult.Renew) != 0)
+          if (pr.Has(ProbeResult.Renew))
             renew(found, uIndex, nBucket);
         }
 
@@ -340,7 +341,7 @@ namespace Cache {
             Counts.GetHits++;
 
           // Renew useful Entries below
-          if ((pr & ProbeResult.Renew) != 0)
+          if (pr.Has(ProbeResult.Renew))
             matches.Add(found);
 
           Counts.GetReads++;

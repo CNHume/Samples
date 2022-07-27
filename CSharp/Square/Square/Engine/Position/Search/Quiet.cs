@@ -149,12 +149,12 @@ namespace Engine {
             //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
-            var bWhiteMove = (move & Move.WTM) != 0;
+            var bWhiteMove = move.Has(Move.WTM);
             if (bDebugWTM != bWhiteMove) {
               Debug.Assert(bDebugWTM == bWhiteMove, "WTM != WhiteMove [search]");
             }
 #endif
-            var bNonMaterial = (move & Move.Material) == 0;
+            var bNonMaterial = !move.Has(Move.Material);
 #if QuietMate
             if (uLegalMoves > 0) {
 #else

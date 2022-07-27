@@ -94,6 +94,8 @@ namespace Command {
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
     // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5 e1c2 b5a4 c2e3 b1b2
     "8/8/8/3p4/B1p5/P1P1n3/1K1k4/8 b - - 0 69"; // Critical Position from Caruana v Hou Yifan Line
+    // 69... Nd1+ 70. Bxd1 Kxd1 71. a4 Kd2 72. a5 d4 73. Ka2 dxc3 74. a6 c2 75. a7 c1=Q 76. a8=Q Qc2+
+    // 77. Ka1 Qc3+ 78. Kb1 Qb3+ 79. Ka1 Kc1 80. Qh1+ Qd1 81. Qxd1+ Kxd1 82. Kb2 Kd2 83. Ka2 c3 84. Ka1 c2 85. Ka2 c1=Q
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 1:08:50 over 4.722 Gnode @1.143 MHz] eval 1.75 after:
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]

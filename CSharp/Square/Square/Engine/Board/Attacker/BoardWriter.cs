@@ -63,30 +63,30 @@ namespace Engine {
 
     #region Flag Diagnostics
     public static String FormatFlags(ModeFlags fmd) {
-      var en = mdFlags.Where(f => (f & fmd) != 0);
+      var en = mdFlags.Where(f => fmd.Has(f));
       return Join(sSpace, en);
     }
 
     public static String FormatFlags(DrawFlags fdr) {
-      var en = drFlags.Where(f => (f & fdr) != 0);
+      var en = drFlags.Where(f => fdr.Has(f));
       return Join(sSpace, en);
     }
 
     public static String FormatFlags(EGFlags feg) {
-      var en = egFlags.Where(f => (f & feg) != 0);
+      var en = egFlags.Where(f => feg.Has(f));
       return Join(sSpace, en);
     }
 
     public static String FormatFlags(SideFlags fside) {
-      var en = sideFlags.Where(f => (f & fside) != 0);
+      var en = sideFlags.Where(f => fside.Has(f));
       return Join(sSpace, en);
     }
 
     public static String FormatFlags(LoFlags flo) {
-      var en = loFlags.Where(f => (f & flo) != 0);
+      var en = loFlags.Where(f => flo.Has(f));
       var s = Join(sSpace, en);
 
-      if ((flo & LoFlags.Passed) != 0) {
+      if (flo.Has(LoFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
         s += sPrefix + (sq)ep(flo) + sSpace + LoFlags.Passed;
       }

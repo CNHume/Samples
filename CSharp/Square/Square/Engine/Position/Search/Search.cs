@@ -133,7 +133,7 @@ namespace Engine {
       #endregion
 
       #region Heuristic Tests
-      var bReduced = (FlagsMode & ModeFlags.Reduced) != 0;
+      var bReduced = FlagsMode.Has(ModeFlags.Reduced);
       if (bReduced)
         AtomicIncrement(ref State.ReducedTotal);
 
@@ -281,7 +281,7 @@ namespace Engine {
           //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
-          var bWhiteMove = (move & Move.WTM) != 0;
+          var bWhiteMove = move.Has(Move.WTM);
           if (bDebugWTM != bWhiteMove) {
             Debug.Assert(bDebugWTM == bWhiteMove, "WTM != WhiteMove [search]");
           }
@@ -379,7 +379,7 @@ namespace Engine {
       Eval mValue;
       #region Futility Pruning and LMR
       var bNonChecking = !child.InCheck();
-      var bNonMaterial = (move & Move.Material) == 0;
+      var bNonMaterial = !move.Has(Move.Material);
       var bQuietMove = bNonChecking && bNonMaterial;
 
       if (EvalUndefined < mBest && bQuietMove) {
@@ -548,7 +548,7 @@ namespace Engine {
       //
       // Increment appropriate PVS Node Count:
       //
-      if ((FlagsMode & ModeFlags.ZWS) != 0)                   // True ZWS [>200x PVSimple] is most frequent
+      if (FlagsMode.Has(ModeFlags.ZWS))                   // True ZWS [>200x PVSimple] is most frequent
         AtomicIncrement(ref State.ZWSimpleTotal);
       else if (!bTryZWS)                                      // Primary Search was a FWS
         AtomicIncrement(ref State.PVSimpleTotal);
@@ -579,7 +579,7 @@ namespace Engine {
       var bDepthLimit = State.Bound.Plies <= wDepth;
       var bMateSearch = State.Bound.MovesToMate.HasValue;
       var bNonMateWindow = -MateMin < mAlpha && mBeta < MateMin;
-      var bReduced = (FlagsMode & ModeFlags.Reduced) != 0;
+      var bReduced = FlagsMode.Has(ModeFlags.Reduced);
       var wShallow = reduceShallow(wDraft);
 
       //

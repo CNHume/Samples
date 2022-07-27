@@ -66,7 +66,7 @@ namespace Engine {
     //
     // [set|clr][Piece|Rotations]
     //
-#region Attacks
+    #region Attacks
     //
     // Distinct AtxTo[] and AtxFrom[] may be of help in evaluating Piece
     // Mobility and Square Control.
@@ -318,7 +318,7 @@ namespace Engine {
 
     private Boolean canOO() {
       var rule = Friend.Rule;
-      var bLegal = ((Friend.FlagsSide & SideFlags.CanOO) != 0) &&
+      var bLegal = Friend.FlagsSide.Has(SideFlags.CanOO) &&
                    ((rule.OOPath & RankPiece) == 0) &&
                    rule.OOSafe.HasValue &&
                    !Foe.IsAttacked(rule.OOSafe.Value);
@@ -327,7 +327,7 @@ namespace Engine {
 
     private Boolean canOOO() {
       var rule = Friend.Rule;
-      var bLegal = ((Friend.FlagsSide & SideFlags.CanOOO) != 0) &&
+      var bLegal = Friend.FlagsSide.Has(SideFlags.CanOOO) &&
                    ((rule.OOOPath & RankPiece) == 0) &&
                    rule.OOOSafe.HasValue &&
                    !Foe.IsAttacked(rule.OOOSafe.Value);
@@ -362,9 +362,9 @@ namespace Engine {
              (qpCapture & Friend.PawnA1H8Atx) != 0 ||
              (qpCapture & Friend.PawnA8H1Atx) != 0;
     }
-#endregion
+    #endregion
 
-#region Pin Restrictions
+    #region Pin Restrictions
     //
     // The following is used to generate Check Evasions;
     // and is similar to pinRestrictions()
@@ -521,6 +521,6 @@ namespace Engine {
         //[Debug]DisplayCurrent("restrictPiece()");
       }
     }
-#endregion
+    #endregion
   }
 }

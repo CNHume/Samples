@@ -167,12 +167,12 @@ namespace Engine {
       if (Side[Black].IsAlone()) feg |= EGFlags.BlackAlone;
       if (Side[White].IsAlone()) feg |= EGFlags.WhiteAlone;
 
-      if ((feg & EGFlags.KingAlone) == 0) {
+      if (!feg.Has(EGFlags.KingAlone)) {
         if (isKQvKPEndgame()) feg |= EGFlags.KQvKP;
       }
       else if (RectPiece == 0) {        // No Rooks or Queens
         feg |= EGFlags.OutsideSquare;
-        var bWhiteAttacker = (feg & EGFlags.BlackAlone) != 0;
+        var bWhiteAttacker = feg.Has(EGFlags.BlackAlone);
         var attacker = getSide(bWhiteAttacker);
         if (isKBNvKEndgame(attacker.FlagsSide)) feg |= EGFlags.KBNvK;
       }
@@ -188,7 +188,7 @@ namespace Engine {
 
     #region King Outside Square of the Pawn
     protected Eval punishOutsideSquare() {
-      var bWhiteAlone = (FlagsEG & EGFlags.WhiteAlone) != 0;
+      var bWhiteAlone = FlagsEG.Has(EGFlags.WhiteAlone);
       var bWTM = WTM();
       var parameter = Parameter[bWTM ? White : Black];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
@@ -270,12 +270,12 @@ namespace Engine {
     }
 #endif
     protected Eval rewardKBNvKMateCorner() {
-      var bWhiteAttacker = (FlagsEG & EGFlags.BlackAlone) != 0;
+      var bWhiteAttacker = FlagsEG.Has(EGFlags.BlackAlone);
       (BoardSide attacker, BoardSide defender) = getSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
 
       // Bishop color determines the mating corner
-      var bLite = (attacker.FlagsSide & SideFlags.Lite) != 0;
+      var bLite = attacker.FlagsSide.Has(SideFlags.Lite);
       var nReward = bLite ?
         liteCornerReward(vDefenderKingPos) :
         darkCornerReward(vDefenderKingPos);
@@ -303,10 +303,10 @@ namespace Engine {
     //
     private static Boolean punishWrongBishop(PRPFlags fprp, SideFlags fside) {
       var bWrong =
-        ((fside & SideFlags.Pair) != 0) &&
-        ((fprp & PRPFlags.Both) != 0) &&
-        ((((fprp & PRPFlags.Lite) != 0) && (fside & SideFlags.Lite) == 0) ||
-         (((fprp & PRPFlags.Dark) != 0) && (fside & SideFlags.Dark) == 0));
+        fside.Has(SideFlags.Pair) &&
+        fprp.Has(PRPFlags.Both) &&
+        (fprp.Has(PRPFlags.Lite) && !fside.Has(SideFlags.Lite) ||
+         fprp.Has(PRPFlags.Dark) && !fside.Has(SideFlags.Dark));
 
       return bWrong;
     }
@@ -584,7 +584,7 @@ namespace Engine {
       //
       if (Pawn == 0) {                  // PawnHash == default(Hashcode)}
 #if EvalKBNvKMateCorner
-        if ((FlagsEG & EGFlags.KBNvK) != 0) {
+        if (FlagsEG.Has(EGFlags.KBNvK)) {
           var mReward = rewardKBNvKMateCorner();
           mValue += mReward;
         }
@@ -592,13 +592,13 @@ namespace Engine {
       }
       else {
 #if EvalOutsideSquare
-        if ((FlagsEG & EGFlags.OutsideSquare) != 0) {
+        if (FlagsEG.Has(EGFlags.OutsideSquare)) {
           var mReward = punishOutsideSquare();
           mValue += mReward;
         }
 #endif
 #if EvalKQvKPDistance
-        if ((FlagsEG & EGFlags.KQvKP) != 0) {
+        if (FlagsEG.Has(EGFlags.KQvKP)) {
           var mReward = rewardKQvKPProximity();
           mValue += mReward;
         }
@@ -606,7 +606,7 @@ namespace Engine {
 #if EvalRookBehindPasser
         if (Rook != 0) {
 #if PawnPositionByValue
-          var bDefault = (pp.BlackPRP & PRPFlags.IsValid) == 0;
+          var bDefault = !pp.BlackPRP.Has(PRPFlags.IsValid);
 #else
           var bDefault = pp == default(PawnPosition);
 #endif
@@ -882,7 +882,7 @@ namespace Engine {
 
     // Side has Insufficient Material to Force Mate
     protected static bool IsInsufficient(SideFlags fside) {
-      return (fside & SideFlags.Insufficient) != 0;
+      return fside.Has(SideFlags.Insufficient);
     }
     #endregion
 

@@ -120,7 +120,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Int32 ep(LoFlags flo) {
       var x = (Int32)(flo & LoFlags.EPFile);
-      var bWTM = (flo & LoFlags.WTM) != 0;
+      var bWTM = flo.Has(LoFlags.WTM);
       //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
       return (Int32)(bWTM ? sq.a6 : sq.a3) + x;
     }

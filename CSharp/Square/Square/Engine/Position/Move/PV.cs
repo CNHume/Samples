@@ -184,7 +184,7 @@ namespace Engine {
 #endif
 #if DebugMoveColor
         var bWTM = WTM();
-        var bWhiteMove = (moveNoted & Move.WTM) != 0;
+        var bWhiteMove = moveNoted.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [PVLookup]");
         }
@@ -239,13 +239,13 @@ namespace Engine {
 #endif
 #if DebugMoveColor
         var bWTM = WTM();
-        var bWhiteMove = (moveNoted & Move.WTM) != 0;
+        var bWhiteMove = moveNoted.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [Refresh]");
         }
 #endif
         const EvalType et = EvalType.Exact;
-        if ((moveNoted & Move.Qxnt) != 0 || nDepth < 0)
+        if (moveNoted.Has(Move.Qxnt) || nDepth < 0)
           storeQXP(mValue, et, moveNoted);
         else
           storeXP((Depth)nDepth, mValue, et, moveNoted);

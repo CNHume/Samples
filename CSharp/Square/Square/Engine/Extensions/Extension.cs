@@ -15,6 +15,7 @@
 #define TestDraw3
 
 namespace Engine {
+  using Cache;
   using Exceptions;
 
   using MoveOrder;                      // For Variation
@@ -24,9 +25,11 @@ namespace Engine {
   using System.Diagnostics;
   using System.Linq;
   using System.Reflection;
+  using System.Runtime.CompilerServices;
   using System.Text;
 
   using static Board;
+  using static CacheValue.PawnPosition;
   using static Logging.Logger;
   using static Position;
   using static System.Math;
@@ -68,24 +71,24 @@ namespace Engine {
         var blackRule = blackSide.Rule;
         var whiteRule = whiteSide.Rule;
 
-        if ((fWhiteSide & SideFlags.CanOO) != 0 && whiteRule.RookOOFrom.HasValue)
+        if (fWhiteSide.Has(SideFlags.CanOO) && whiteRule.RookOOFrom.HasValue)
           sb.Append((Char)('A' + whiteRule.RookOOFrom));
-        if ((fWhiteSide & SideFlags.CanOOO) != 0 && whiteRule.RookOOOFrom.HasValue)
+        if (fWhiteSide.Has(SideFlags.CanOOO) && whiteRule.RookOOOFrom.HasValue)
           sb.Append((Char)('A' + whiteRule.RookOOOFrom));
 
-        if ((fBlackSide & SideFlags.CanOO) != 0 && blackRule.RookOOFrom.HasValue)
+        if (fBlackSide.Has(SideFlags.CanOO) && blackRule.RookOOFrom.HasValue)
           sb.Append((Char)('a' + blackRule.RookOOFrom - nRankLast));
-        if ((fBlackSide & SideFlags.CanOOO) != 0 && blackRule.RookOOOFrom.HasValue)
+        if (fBlackSide.Has(SideFlags.CanOOO) && blackRule.RookOOOFrom.HasValue)
           sb.Append((Char)('a' + blackRule.RookOOOFrom - nRankLast));
       }
       else {
-        if ((fWhiteSide & SideFlags.CanOO) != 0)
+        if (fWhiteSide.Has(SideFlags.CanOO))
           sb.Append('K');
-        if ((fWhiteSide & SideFlags.CanOOO) != 0)
+        if (fWhiteSide.Has(SideFlags.CanOOO))
           sb.Append('Q');
-        if ((fBlackSide & SideFlags.CanOO) != 0)
+        if (fBlackSide.Has(SideFlags.CanOO))
           sb.Append('k');
-        if ((fBlackSide & SideFlags.CanOOO) != 0)
+        if (fBlackSide.Has(SideFlags.CanOOO))
           sb.Append('q');
       }
 
@@ -304,25 +307,68 @@ namespace Engine {
     }
     #endregion
 
+    #region Enum Methods
+    //[Speed]Use of Enum.HasFlag() carries a significant performance penalty.
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this LoFlags enumeration, LoFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this SideFlags enumeration, SideFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this PRPFlags enumeration, PRPFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this EGFlags enumeration, EGFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this DrawFlags enumeration, DrawFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this ModeFlags enumeration, ModeFlags flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this Move enumeration, Move flags) {
+      return (enumeration & flags) != 0;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this ProbeResult enumeration, ProbeResult flags) {
+      return (enumeration & flags) != 0;
+    }
+    #endregion
+
     #region Move Builders
     private static StringBuilder annotation(this StringBuilder sb, Move move) {
-      if ((move & Move.NoteFinal) != 0) {
+      if (move.Has(Move.NoteFinal)) {
         //[Safe]Quiescent Move.NoteFinal should not occur.
         Trace.Assert((move & Move.Qxnt) == 0, "Quiescent Move.NoteFinal");
 
-        if ((move & Move.NoteCheck) != 0)
+        if (move.Has(Move.NoteCheck))
           sb.Append(sNoteCheckmate);
         else
           sb.Append(sSpace)
             .Append(sTextStalemate);
       }
       else {
-        if ((move & Move.NoteCheck) != 0)
+        if (move.Has(Move.NoteCheck))
           sb.Append(sNoteCheck);
 #if TestDraw3
-        if ((move & Move.NoteDraw) != 0)
+        if (move.Has(Move.NoteDraw))
           sb.Append(sNoteDraw);
-        else if ((move & Move.NoteDraw2) != 0)
+        else if (move.Has(Move.NoteDraw2))
           sb.Append(sNoteDraw2);
 #endif
       }
@@ -500,7 +546,7 @@ namespace Engine {
       var bWasQxnt = false;
       foreach (var move in moves) {
         var bDelimited = false;
-        var bQxnt = (move & Move.Qxnt) != 0;
+        var bQxnt = move.Has(Move.Qxnt);
 
         if (!bPure) {
           if (bQxnt && !bWasQxnt) {

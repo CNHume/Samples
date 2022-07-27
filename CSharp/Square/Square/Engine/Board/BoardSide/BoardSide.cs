@@ -302,7 +302,7 @@ namespace Engine {
       [Conditional("TestInsufficient")]
       public void TestInsufficient() {
         var sideInsufficient = Board.IsInsufficient(Piece);
-        var fsideInsufficient = (FlagsSide & SideFlags.Insufficient) != 0;
+        var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
         if (fsideInsufficient != sideInsufficient) {
           var sideName = Parameter.SideName.ToString();
           var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";

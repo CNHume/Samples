@@ -25,7 +25,7 @@ namespace Engine {
     #region Search Methods
     [Conditional("VerifyMaterialMoves")]
     protected void verifyMaterialMoves(List<Move> moves) {
-      var filteredMoves = moves.Where(m => (m & Move.Material) != 0);
+      var filteredMoves = moves.Where(m => m.Has(Move.Material));
       var filtered = filteredMoves.ToArray();
 #if OrderMoves
       Array.Sort<Move>(filtered, 0, filtered.Length);

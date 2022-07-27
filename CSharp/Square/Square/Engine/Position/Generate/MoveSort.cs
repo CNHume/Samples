@@ -57,7 +57,7 @@ namespace Engine {
     protected void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
       //[Test]Debug.Assert(mValue > EvalUndefined, "rewardMove(EvalUndefined)");
 #if NoMaterial
-      var bMaterial = (move & Move.Material) != 0;
+      var bMaterial = move.Has(Move.Material);
       if (bMaterial) return;
 #endif
       var moveMasked = move & Move.NormalMask;
@@ -211,7 +211,7 @@ namespace Engine {
         //unpackMove2(gm.Move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor && BottleBothSides
-        var bWhiteMove = (gm.Move & Move.WTM) != 0;
+        var bWhiteMove = gm.Move.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [sortMoves]");
           DisplayCurrent("sortMoves()");
