@@ -65,7 +65,9 @@ namespace Engine {
 
       var fBlackSide = blackSide.FlagsSide;
       var fWhiteSide = whiteSide.FlagsSide;
-      if (((fBlackSide | fWhiteSide) & SideFlags.CanCastleMask) == 0)
+      var fEitherSide = fBlackSide | fWhiteSide;
+
+      if (!fEitherSide.Has(SideFlags.CanCastleMask))
         sb.Append("-");
       else if (IsChess960) {
         var blackRule = blackSide.Rule;

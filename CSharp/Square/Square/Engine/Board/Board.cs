@@ -295,8 +295,13 @@ namespace Engine {
 
       var bSideEqual = true;
       for (var nSide = 0; nSide < Side.Length; nSide++) {
-        if (board.Side[nSide].Piece != Side[nSide].Piece ||
-            ((board.Side[nSide].FlagsSide ^ Side[nSide].FlagsSide) & SideFlags.Copy) != 0) {
+        if (board.Side[nSide].Piece != Side[nSide].Piece) {
+          bSideEqual = false;
+          break;
+        }
+
+        var fSideDelta = board.Side[nSide].FlagsSide ^ Side[nSide].FlagsSide;
+        if (fSideDelta.Has(SideFlags.Copy)) {
           bSideEqual = false;
           break;
         }
@@ -369,7 +374,7 @@ namespace Engine {
 
     //[Compiler]move.Has(Move.CaptiveMask) does not work here!
     internal static Boolean isCapture(Move move) {
-      return (move & Move.CaptiveMask) != 0;
+      return move.Has(Move.CaptiveMask);
     }
 
     internal static Boolean equalMoves(Move move1, Move move2) {

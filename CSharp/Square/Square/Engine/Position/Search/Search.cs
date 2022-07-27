@@ -548,7 +548,7 @@ namespace Engine {
       //
       // Increment appropriate PVS Node Count:
       //
-      if (FlagsMode.Has(ModeFlags.ZWS))                   // True ZWS [>200x PVSimple] is most frequent
+      if (FlagsMode.Has(ModeFlags.ZWS))                       // True ZWS [>200x PVSimple] is most frequent
         AtomicIncrement(ref State.ZWSimpleTotal);
       else if (!bTryZWS)                                      // Primary Search was a FWS
         AtomicIncrement(ref State.PVSimpleTotal);
