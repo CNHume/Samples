@@ -114,7 +114,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void setEPFile(Int32 nEP) {
       // Any Square on the EP File will do
-      FlagsLo |= (LoFlags)((LoFlags)nEP & LoFlags.EPFile | LoFlags.Passed);
+      FlagsLo |= (LoFlags)nEP & LoFlags.EPFile | LoFlags.Passed;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

@@ -271,7 +271,7 @@ namespace Engine {
 #endif
     protected Eval rewardKBNvKMateCorner() {
       var bWhiteAttacker = FlagsEG.Has(EGFlags.BlackAlone);
-      (BoardSide attacker, BoardSide defender) = getSides(bWhiteAttacker);
+      var (attacker, defender) = getSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
 
       // Bishop color determines the mating corner
@@ -318,8 +318,8 @@ namespace Engine {
     //
     protected Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
       Eval mBehind = 0;
-      (BoardSide attacker, BoardSide defender) = getSides(bWhiteRook);
 
+      var (attacker, defender) = getSides(bWhiteRook);
       var qpAttacker = attacker.Piece & Rook;
       var qpDefender = defender.Piece & Rook;
 
