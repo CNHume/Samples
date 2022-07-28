@@ -294,7 +294,7 @@ namespace Engine {
         return false;
 
       var bSideEqual = true;
-      for (var nSide = 0; nSide < Side.Length; nSide++) {
+      for (var nSide = 0; nSide < Side?.Length; nSide++) {
         if (board.Side[nSide].Piece != Side[nSide].Piece) {
           bSideEqual = false;
           break;
@@ -459,8 +459,9 @@ namespace Engine {
 
     #region Unpack Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void unpack1(Move move, out Int32 nFrom, out Int32 nTo,
-                                 out UInt32 uPiece, out Boolean bCapture) {
+    internal static void unpack1(
+      Move move, out Int32 nFrom, out Int32 nTo,
+      out UInt32 uPiece, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = from(move);
       nTo = to(move);
@@ -470,9 +471,10 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void unpack2(Move move, out Int32 nFrom, out Int32 nTo,
-                                 out UInt32 uPiece, out UInt32 uPromotion,
-                                 out Boolean bCastles, out Boolean bCapture) {
+    internal static void unpack2(
+      Move move, out Int32 nFrom, out Int32 nTo,
+      out UInt32 uPiece, out UInt32 uPromotion,
+      out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       nFrom = from(move);
       nTo = to(move);
@@ -485,8 +487,9 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpackMove1(Move move, out sq sqFrom, out sq sqTo,
-                                      out Piece piece, out Piece promotion, out Boolean bCapture) {
+    protected static void unpackMove1(
+      Move move, out sq sqFrom, out sq sqTo,
+      out Piece piece, out Piece promotion, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       sqFrom = (sq)from(move);
       sqTo = (sq)to(move);
@@ -498,9 +501,10 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void unpackMove2(Move move, out sq sqFrom, out sq sqTo,
-                                      out Piece piece, out Piece promotion, out Piece capture,
-                                      out Boolean bCastles, out Boolean bCapture) {
+    protected static void unpackMove2(
+      Move move, out sq sqFrom, out sq sqTo,
+      out Piece piece, out Piece promotion, out Piece capture,
+      out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(isDefinite(move), "Indefinite Move");
       sqFrom = (sq)from(move);
       sqTo = (sq)to(move);
@@ -514,8 +518,9 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void unpackShort(Move move, out Int32 nFrom, out Int32 nTo,
-                                     out UInt32 uPromotion, out Boolean bCastles) {
+    internal static void unpackShort(
+      Move move, out Int32 nFrom, out Int32 nTo,
+      out UInt32 uPromotion, out Boolean bCastles) {
       nFrom = from(move);
       nTo = to(move);
 
@@ -524,7 +529,8 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void unpackHistory(Move move, out Int32 nFrom, out Int32 nTo) {
+    internal static void unpackHistory(
+      Move move, out Int32 nFrom, out Int32 nTo) {
 #if HistoryFromTo
       nFrom = from(move);
 #else

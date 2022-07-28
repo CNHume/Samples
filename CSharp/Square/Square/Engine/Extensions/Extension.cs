@@ -693,7 +693,7 @@ namespace Engine {
     }
 
     public static StringBuilder AppendOperations(
-      this StringBuilder sb, Dictionary<String, List<String>?> operations) {
+      this StringBuilder sb, Dictionary<String, List<String>?>? operations) {
       if (operations is not null) {
         foreach (var op in operations) {        // .OrderBy(op => op.Key)
           sb.Append(sSpace).Append(op.Key);

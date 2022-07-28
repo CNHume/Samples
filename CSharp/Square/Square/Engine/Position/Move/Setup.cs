@@ -385,20 +385,26 @@ namespace Engine {
     }
 
     private void setupPawns() {
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
       var vPiece = vP6;
       var nBlack = (Int32)sq.a7;
       var nWhite = (Int32)sq.a2;
       for (var nFile = 0; nFile < nFiles; nFile++, nBlack++, nWhite++) {
-        Side[Black].PlacePiece(vPiece, nBlack);
-        Side[White].PlacePiece(vPiece, nWhite);
+        blackSide.PlacePiece(vPiece, nBlack);
+        whiteSide.PlacePiece(vPiece, nWhite);
       }
     }
 
     private void setupPiece(Byte vPiece, Int32 nWhite) {
       if (nWhite < nFiles) {            //[Safe]
+        var blackSide = Side[Black];
+        var whiteSide = Side[White];
+
         var nBlack = nRankLast + nWhite;
-        Side[Black].PlacePiece(vPiece, nBlack);
-        Side[White].PlacePiece(vPiece, nWhite);
+        blackSide.PlacePiece(vPiece, nBlack);
+        whiteSide.PlacePiece(vPiece, nWhite);
       }
       else {
         Trace.Assert(nWhite < nFiles, $"nWhite = {nWhite} >= nFiles {nFiles}");
@@ -412,7 +418,6 @@ namespace Engine {
       foreach (var side in Side) {
         var qpRook = Rook & side.Piece;
         var nSetup = side.Parameter.StartRank;
-        var nSide = (Int32)side.Parameter.SideName;
         var rule = side.Rule;
 
         //

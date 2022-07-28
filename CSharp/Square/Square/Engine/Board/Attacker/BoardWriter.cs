@@ -248,8 +248,10 @@ namespace Engine {
       if (vPiece > vK6)
         sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
       else {
-        sb.Append((Side[White].Piece & qp) != 0 ?
-          Parameter[White].Symbol : Parameter[Black].Symbol);
+        var sBlack = Parameter[Black].Symbol;
+        var sWhite = Parameter[White].Symbol;
+        var bWhite = (Side[White].Piece & qp) != 0;
+        sb.Append(bWhite ? sWhite : sBlack);
         sb.Append(PieceSymbol(vPiece));
       }
     }
