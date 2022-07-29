@@ -18,26 +18,31 @@ namespace Command {
     //"";
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
-    // [18-ply trace in 5:07] eval 9.95 after: 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4
+    // [18-ply in 7:12 @1.4927 over 644.9 Mnode] eval 11.1 after:
+    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Kh7 50. d8=Q Qb1 51. Qd5 Qb4+
+    // 52. Qde4+ Qxe4+ 53. Qxe4+ Kg8 54. Qe8+ Kh7 55. Qd7 Kg8 56. Qe6+ Kh7 57. Qe8 h5
     // [20-ply trace in 56:36.63 @1.384 MHz over 4.7 Gnode] eval 11.1 after taking all of the pawns:
     // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
     // 52. Qxg6+ Kxg6 53. Qe6+ Kh7 54. Qf5+ g6 55. Qf7+ Kh8 56. Qxg6 h5 57. Qxh5+ Kg7 [58.Qxa5]
-    // Enabling QuietMate avoids a quiet() stalemate anomaly [19-ply trace in 22:10] maintains eval 9.95 after:
+    //
+    // Enabling QuietMate avoided a quiet() stalemate anomaly [19-ply trace in 22:10] maintains eval 9.95 after:
     // 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
-    // Disabling QuietMate exhibits the anomaly seen after [19-ply trace in 35:28 @1.226 MHz] eval 11.0 after:
+    // Disabling QuietMate exhibited the anomaly [19-ply trace in 35:28 @1.226 MHz] eval 11.0 after:
     // 49... Kh7 50. Qe4 Qxe4+ 51. Kxe4 Kg6 52. d8=Q h5 53. Qxa5 Kh6 54. Qb6+ Kg5 55. Qd8+ Kg4 56. Qd7+ Kh4 57. Qxg7 stalemate
     //"8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57"; // stalemate
     //
     //"8/6B1/1N4kP/2p5/2P5/1p6/2r5/1K6 w - - 0 56"; // Jordan Van Foreest v Liem Quan Le Line1 2022 Oslo Esports Cup 2022-04-28
     //"8/3N2Bk/7P/2p5/2P5/1p6/2r5/1K6 w - - 0 57"; // Jordan Van Foreest v Liem Quan Le #21 Line2 2022 Oslo Esports Cup 2022-04-28
-    //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [15-ply trace in 53.7 @1.42 MHz]
+    //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [17-ply in 1:37.8 @1.495 MHz over 146.2 Mnode]
+    // 1... d1=B 2. Nxh2+ Kg3 3. Kg1 Be3+ 4. Kf1 Bh5 5. Ke1 Kxh2 6. Kf1 Bg4 7. Ke1 Kg3 8. Kf1 Be3d2
     //"2r5/5pk1/6p1/6P1/1K6/8/3R4/8 b - - 0 66"; // Vidit Gujrathi v Rameshbabu Praggnanandhaa Endgame 2022 Tata Steel Masters R10 2022-01-26
     //"3r2k1/2pqnpp1/1p5p/p2P4/P2p1rP1/2P1N1P1/1PQ2P2/3RR1K1 b - - 0 23"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 [~22-ply]
     // moves d4e3 g3f4 d7g4 g1f1 g4h3 f1g1
     //"3r2k1/2p1npp1/1p5p/p2P4/P4P2/2P1p2q/1PQ2P2/3RR1K1 b - - 0 26"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 Line
     // moves e3f2 c2f2 d8d6 f2f1 d6g6 g1f2 h3h2 f2e3 g6g3 e3d4 e7f5 d4e4 h2c2 d1d3 f5d6 e4d4
     //"6k1/4bpp1/1p1p4/5R1P/4PQ2/5P2/r4q1P/2R4K w - - 0 49"; // Carlsen v Karjakin 2016 WCC R16 2016-11-30 #8
-    // [12-ply trace in 20.07 sec @1.3 MHz to find 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+]
+    // [12-ply in 17.27 sec @1.516 MHz over 26.18 Mnode] after:
+    // 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+ Kc6 54. Rc8+ Kb7 55. Qd7+ Ka6 56. Ra8#
     //"2rq1rk1/pb1n1ppN/4p3/1pb5/3P1Pn1/P1N5/1PQ1B1PP/R1B2RK1 b - - 0 16"; // Aronian v Anand 2013-01-16 Tata Steel [13-ply to find 16... Nde5!]
     //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
     //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
@@ -85,11 +90,14 @@ namespace Command {
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
     // [20-ply trace in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne1? 69. Kb2 Nf3 70. Bc2 d4 71. Bb1 dxc3+ 72. Ka2 c2 73. Bxc2 Kxc2
+    // [21-ply in 1:26:16 @1.262 MHz over 6.533 Gnode] eval -3.25
+    // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bf5 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Bh7 d3 72. Bxd3 cxd3 73. cxd3 Kxd3 74. Ka1 Nf1 75. Kb1 Kd3c3
+    // Formerly:
     // [21-ply trace in 1:34:58 @1.212 MHz over 6.9 Gnode] eval -3.6
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
     // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5 e1c2 b5a4 c2e3 b1b2
@@ -100,8 +108,8 @@ namespace Command {
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 trace in 29:37.534 @1.07 MHz over 1.8 Gnode]
-    // [18-ply trace in 1:20:15 @1.166 MHz over 5.614 Gnode] to find #18
+    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply to find #20 trace in 29:37.534 @1.07 MHz over 1.8 Gnode]
+    // [18-ply in 1:18:10.6 @1.197 MHz over 5.614 Gnode] to find #18
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Rh4 Rxd5+ 8. Kxd5 Kb7 9. Rh3 Kb6 10. Rb3+ Kc7 11. Rb3b5
     // [20-Ply in 3:57:34 @1.2834 MHz over 18.294 Gnode]finds #20 currently, due to some pruning bug
     // [20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
@@ -202,7 +210,7 @@ namespace Command {
     // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8.Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
     // 11. Kh4 Kf5 12. Kg3 Ng4 13. Kf3 Bc4 14. Kg3 Bd5 15. Kh3 Kf4 16. Kh4 Be6
     // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
-    //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12, 18-ply trace in 46.58 sec
+    //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12 [19-ply in 53.4 sec @1.598 MHz]
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 (startpos) in 24 sec @5,428 MHz over 130.36 Mnode
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 30.475 sec @6.747 MHz over 205.63 Mnode
