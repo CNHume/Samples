@@ -65,34 +65,38 @@ namespace Engine {
 
       var fBlackSide = blackSide.FlagsSide;
       var fWhiteSide = whiteSide.FlagsSide;
-      var fEitherSide = fBlackSide | fWhiteSide;
+      var fColorSide = fBlackSide | fWhiteSide;
 
-      if (!fEitherSide.Has(SideFlags.CanCastleMask))
+      if (!fColorSide.Has(SideFlags.CanCastleMask))
         sb.Append("-");
       else if (IsChess960) {
-        var blackRule = blackSide.Rule;
-        var whiteRule = whiteSide.Rule;
-
-        if (fWhiteSide.Has(SideFlags.CanOO) && whiteRule.RookOOFrom.HasValue)
-          sb.Append((Char)('A' + whiteRule.RookOOFrom));
-        if (fWhiteSide.Has(SideFlags.CanOOO) && whiteRule.RookOOOFrom.HasValue)
-          sb.Append((Char)('A' + whiteRule.RookOOOFrom));
-
-        if (fBlackSide.Has(SideFlags.CanOO) && blackRule.RookOOFrom.HasValue)
-          sb.Append((Char)('a' + blackRule.RookOOFrom - nRankLast));
-        if (fBlackSide.Has(SideFlags.CanOOO) && blackRule.RookOOOFrom.HasValue)
-          sb.Append((Char)('a' + blackRule.RookOOOFrom - nRankLast));
+        sb.AppendChess960CastleRights(whiteSide, 'A');
+        sb.AppendChess960CastleRights(blackSide, 'a');
       }
       else {
         if (fWhiteSide.Has(SideFlags.CanOO))
           sb.Append('K');
         if (fWhiteSide.Has(SideFlags.CanOOO))
           sb.Append('Q');
+
         if (fBlackSide.Has(SideFlags.CanOO))
           sb.Append('k');
         if (fBlackSide.Has(SideFlags.CanOOO))
           sb.Append('q');
       }
+
+      return sb;
+    }
+
+    public static StringBuilder AppendChess960CastleRights(
+      this StringBuilder sb, BoardSide side, Char cRookFile) {
+      var fside = side.FlagsSide;
+      var rule = side.Rule;
+
+      if (fside.Has(SideFlags.CanOO) && rule.RookOOFrom.HasValue)
+        sb.Append((Char)(cRookFile + x(rule.RookOOFrom.Value)));
+      if (fside.Has(SideFlags.CanOOO) && rule.RookOOOFrom.HasValue)
+        sb.Append((Char)(cRookFile + x(rule.RookOOOFrom.Value)));
 
       return sb;
     }
