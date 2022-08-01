@@ -67,7 +67,7 @@ namespace Engine {
     }
 
     private void setNameIfLegal(String? sId = default) {
-      //[Note]Calling IsLegal() affects FlagsLo and FlagsDraw
+      //[Note]Calling IsLegal() affects FlagsTurn and FlagsDraw
       if (!IsLegal())
         LogInfo(Level.error, "Illegal Setup");
       setName(sId);
@@ -432,7 +432,7 @@ namespace Engine {
     #region Chess960 Setup Diagnostics
     private static void hasColor(Int32 n, Plane qpColor, String sName, String sPossessive = "its") {
       var qp = BIT0 << n;
-      var sHas = (qpColor & qp) != 0 ? "has" : "does not have";
+      var sHas = (qp & qpColor) != 0 ? "has" : "does not have";
       LogLine($"The {sName} at {(sq)n} {sHas} {sPossessive} color.");
     }
     #endregion

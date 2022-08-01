@@ -122,7 +122,7 @@ namespace Engine {
         Side[nSide] = new BoardSide(this, parameter, RuleParameter[nSide]);
       }
 
-      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
     }
 
@@ -145,7 +145,7 @@ namespace Engine {
       for (var nSide = 0; nSide < Side?.Length; nSide++)
         board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
 
-      board.FlagsLo = FlagsLo & LoFlags.Copy;
+      board.FlagsTurn = FlagsTurn & TurnFlags.Copy;
       board.FlagsEG = FlagsEG & EGFlags.Copy;
       board.FlagsDraw = FlagsDraw & DrawFlags.Copy;
       board.FlagsMode = FlagsMode & ModeFlags.Copy;
@@ -165,7 +165,7 @@ namespace Engine {
         board.Side[nSide].PawnA8H1Atx = Side[nSide].PawnA8H1Atx;// 8-bytes
       }
 
-      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (board.Friend, board.Foe) = board.getSides(WTM());
     }
     #endregion                          // BoardSide
@@ -173,7 +173,7 @@ namespace Engine {
     //
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
-    // LoFlags include WTM.  WTM determines which side is to move; and should agree with the Ply Parity.
+    // TurnFlags include WTM.  WTM determines which side is to move; and should agree with the Ply Parity.
     // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     public void CopyTo(Board board) {
@@ -309,7 +309,7 @@ namespace Engine {
 
       var bEqual = bSideEqual &&
         board.Pawn == Pawn &&
-        ((board.FlagsLo ^ FlagsLo) & LoFlags.Copy) == 0 &&
+        ((board.FlagsTurn ^ FlagsTurn) & TurnFlags.Copy) == 0 &&
         board.King == King &&
         board.Knight == Knight &&
         board.DiagPiece == DiagPiece &&
@@ -543,47 +543,47 @@ namespace Engine {
 
     #region Flag Methods
     public Boolean WTM() {
-      return FlagsLo.Has(LoFlags.WTM);
+      return FlagsTurn.Has(TurnFlags.WTM);
     }
 
     protected void setWTM(Boolean bWTM) {
       if (bWTM)
-        FlagsLo |= LoFlags.WTM;
+        FlagsTurn |= TurnFlags.WTM;
       else
-        FlagsLo &= ~LoFlags.WTM;
+        FlagsTurn &= ~TurnFlags.WTM;
 
-      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
     }
 
     protected void setLegal(Boolean bLegal) {
       if (bLegal)
-        FlagsLo &= ~LoFlags.Illegal;
+        FlagsTurn &= ~TurnFlags.Illegal;
       else
-        FlagsLo |= LoFlags.Illegal;
+        FlagsTurn |= TurnFlags.Illegal;
     }
 
     protected void setInCheck(Boolean bInCheck) {
       if (bInCheck)
-        FlagsLo |= LoFlags.InCheck;
+        FlagsTurn |= TurnFlags.InCheck;
       else
-        FlagsLo &= ~LoFlags.InCheck;
+        FlagsTurn &= ~TurnFlags.InCheck;
     }
 
     protected void setFinal() {
-      FlagsLo |= LoFlags.Final;
+      FlagsTurn |= TurnFlags.Final;
     }
 
     public Boolean IsFinal() {
-      return FlagsLo.Has(LoFlags.Final);
+      return FlagsTurn.Has(TurnFlags.Final);
     }
 
     public Boolean InCheck() {
-      return FlagsLo.Has(LoFlags.InCheck);
+      return FlagsTurn.Has(TurnFlags.InCheck);
     }
 
     public Boolean IsPassed() {
-      return FlagsLo.Has(LoFlags.Passed);
+      return FlagsTurn.Has(TurnFlags.Passed);
     }
 
     public Boolean IsDraw() {
@@ -650,7 +650,7 @@ namespace Engine {
       FlagsDraw |= bDraw3 ? DrawFlags.Draw3 : DrawFlags.Draw2;
     }
 
-    protected DrawFlags fdr() {
+    protected DrawFlags fdraw() {
       return FlagsDraw & (DrawFlags.Draw3 | DrawFlags.Draw2);
     }
 

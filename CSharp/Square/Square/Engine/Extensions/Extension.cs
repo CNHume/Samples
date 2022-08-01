@@ -314,12 +314,29 @@ namespace Engine {
     #endregion
 
     #region Enum Methods
-    //[Speed]Use of Enum.HasFlag() carries a significant performance penalty.
+    //[Speed]Enum.HasFlag() incurs significant performance overhead, due to reflection.
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean Has(this LoFlags enumeration, LoFlags flags) {
+    // Based on the Stack Overflow question:
+    //"Most common C# bitwise operations on enums"
+    // https://stackoverflow.com/questions/93744/most-common-c-sharp-bitwise-operations-on-enums
+    public static Boolean HasFlag2<T>(this T enumeration, T flags) where T : Enum {
+      // The following throws
+      // InvalidCastException: Unable to cast object of type 'TurnFlags' to type 'System.Int32'
+      var e = (Int32)(Object)enumeration;
+      var f = (Int32)(Object)flags;
+      return (e & f) != 0;
+    }
+#if TestHasFlag2
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this TurnFlags enumeration, TurnFlags flags) {
+      return enumeration.HasFlag2(flags);
+    }
+#else
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Boolean Has(this TurnFlags enumeration, TurnFlags flags) {
       return (enumeration & flags) != 0;
     }
-
+#endif                                  // TestHasFlag2
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean Has(this SideFlags enumeration, SideFlags flags) {
       return (enumeration & flags) != 0;

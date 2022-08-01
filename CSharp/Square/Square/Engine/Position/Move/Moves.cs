@@ -165,9 +165,9 @@ namespace Engine {
             // Null Moves do not count as repetition of the position; but the
             // Draw3 and Draw2 flags are copied to expedite subsequent search:
             //
-            FlagsDraw |= position.fdr();
+            FlagsDraw |= position.fdraw();
           else
-            setRepetition(position.fdr() != 0);
+            setRepetition(position.fdraw() != 0);
 
           break;
         }
@@ -180,7 +180,7 @@ namespace Engine {
     }
 #if DebugDraw2
     protected Boolean validateDraw2() {
-      var bDraw2 = fdr() != 0;
+      var bDraw2 = fdraw() != 0;
 
       if (bDraw2) {
         var nCount = 1;

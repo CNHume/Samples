@@ -104,10 +104,10 @@ namespace Engine {
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;
     public Byte HalfMoveClock;
-    public LoFlags FlagsLo;             //[flo]Final | InCheck | Illegal | Passed | WTM | EPFile
+    public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | Passed | WTM | EPFile
     public EGFlags FlagsEG;             //[feg]OutsideSquare | KBN | KingAlone
-    public DrawFlags FlagsDraw;         //[fdr]DrawMask | Draw0
-    public ModeFlags FlagsMode;         //[fmd]Trace | NullMade | Reduced
+    public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
+    public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced
     public Hashcode Hash;               //[Note]Hash also appears in Transposition Table entries
     public Hashcode HashPawn;
 

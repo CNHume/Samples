@@ -45,8 +45,8 @@ namespace Engine {
     internal const String sSpace2 = sSpace + sSpace;
     internal const String sSpace3 = sSpace + sSpace2;
 
-    internal static LoFlags[] loFlags =
-      { LoFlags.Final, LoFlags.InCheck, LoFlags.Illegal, LoFlags.WTM };
+    internal static TurnFlags[] turnFlags =
+      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.WTM };
 
     internal static SideFlags[] sideFlags =
       { SideFlags.Insufficient, SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
@@ -54,21 +54,21 @@ namespace Engine {
     internal static EGFlags[] egFlags =
       { EGFlags.KQvKP, EGFlags.KBNvK, EGFlags.OutsideSquare, EGFlags.BlackAlone, EGFlags.WhiteAlone };
 
-    internal static DrawFlags[] drFlags =
+    internal static DrawFlags[] drawFlags =
       { DrawFlags.DrawIM, DrawFlags.Draw50, DrawFlags.Draw3, DrawFlags.Draw2, DrawFlags.Draw0 };
 
-    internal static ModeFlags[] mdFlags =
+    internal static ModeFlags[] modeFlags =
       { ModeFlags.Trace, ModeFlags.Reduced, ModeFlags.ZWS, ModeFlags.NullMade };
     #endregion
 
     #region Flag Diagnostics
-    public static String FormatFlags(ModeFlags fmd) {
-      var en = mdFlags.Where(f => fmd.Has(f));
+    public static String FormatFlags(ModeFlags fmode) {
+      var en = modeFlags.Where(f => fmode.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(DrawFlags fdr) {
-      var en = drFlags.Where(f => fdr.Has(f));
+    public static String FormatFlags(DrawFlags fdraw) {
+      var en = drawFlags.Where(f => fdraw.Has(f));
       return Join(sSpace, en);
     }
 
@@ -82,21 +82,21 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(LoFlags flo) {
-      var en = loFlags.Where(f => flo.Has(f));
+    public static String FormatFlags(TurnFlags fturn) {
+      var en = turnFlags.Where(f => fturn.Has(f));
       var s = Join(sSpace, en);
 
-      if (flo.Has(LoFlags.Passed)) {
+      if (fturn.Has(TurnFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (sq)ep(flo) + sSpace + LoFlags.Passed;
+        s += sPrefix + (sq)ep(fturn) + sSpace + TurnFlags.Passed;
       }
 
       return s;
     }
 
     public static String FormatFlags(
-      ModeFlags fmd, DrawFlags fdr, EGFlags feg, SideFlags fBlackSide, SideFlags fWhiteSide, LoFlags flo) {
-      if (fmd == 0 && fdr == 0 && feg == 0 && fBlackSide == 0 && fWhiteSide == 0 && flo == 0)
+      ModeFlags fmode, DrawFlags fdraw, EGFlags feg, SideFlags fBlackSide, SideFlags fWhiteSide, TurnFlags fturn) {
+      if (fmode == 0 && fdraw == 0 && feg == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
       var sBlackSide = FormatFlags(fBlackSide);
@@ -106,12 +106,12 @@ namespace Engine {
 
       const Int32 nCapacity = 6;
       var sFlags = new List<String>(nCapacity)
-        .AddNotEmpty(FormatFlags(fmd))
-        .AddNotEmpty(FormatFlags(fdr))
+        .AddNotEmpty(FormatFlags(fmode))
+        .AddNotEmpty(FormatFlags(fdraw))
         .AddNotEmpty(FormatFlags(feg))
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled)
-        .AddNotEmpty(FormatFlags(flo));
+        .AddNotEmpty(FormatFlags(fturn));
 
       return Join(sSpace, sFlags);
     }
@@ -180,7 +180,7 @@ namespace Engine {
         sb.Append(" -");
       else {
         sb.Append(sSpace);
-        sb.Append((sq)ep(FlagsLo));     // EP
+        sb.Append((sq)ep(FlagsTurn));   // EP
       }
     }
 
@@ -220,7 +220,7 @@ namespace Engine {
       const String sDark = "*";
       var vPiece = getPieceIndex(n);
       if (vPiece > vK6)
-        sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
+        sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
       else
         sb.Append(PieceSymbol(vPiece));
     }
@@ -246,11 +246,11 @@ namespace Engine {
 
       var vPiece = getPieceIndex(n);
       if (vPiece > vK6)
-        sb.Append((LiteSquare & qp) != 0 ? sLite : sDark);
+        sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
       else {
         var sBlack = Parameter[Black].Symbol;
         var sWhite = Parameter[White].Symbol;
-        var bWhite = (Side[White].Piece & qp) != 0;
+        var bWhite = (qp & Side[White].Piece) != 0;
         sb.Append(bWhite ? sWhite : sBlack);
         sb.Append(PieceSymbol(vPiece));
       }
@@ -305,7 +305,7 @@ namespace Engine {
 #endif
 #if DisplayFlags
         .Append("Flags: ")
-        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, fBlackSide, fWhiteSide, FlagsLo))
+        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, fBlackSide, fWhiteSide, FlagsTurn))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif

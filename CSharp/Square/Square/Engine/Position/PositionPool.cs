@@ -23,7 +23,7 @@ namespace Engine {
       if (Parent is null) {
         GamePly = 0;                    //[Init]
         NullPly = 0;
-        FlagsLo = default;              //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
+        FlagsTurn = default;            //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
         foreach (var side in Side)
           side.FlagsSide = default;     //[Safe]
         FlagsEG = default;              //[Safe]
@@ -38,7 +38,7 @@ namespace Engine {
       }
       else {
         //
-        // Ensure that FlagsLo starts with Parent WTM.  This allows
+        // Ensure that FlagsTurn starts with Parent WTM.  This allows
         // IsLegal() to ascertain whether tryMove() was ever called:
         //
         //[Note]Flags will be reset when resetMove() calls CopyTo()

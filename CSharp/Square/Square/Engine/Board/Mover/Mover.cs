@@ -102,7 +102,7 @@ namespace Engine {
         Hash ^= epHash();
 
         //[Note]Preserve WTM
-        FlagsLo &= ~(LoFlags.Passed | LoFlags.EPFile);
+        FlagsTurn &= ~(TurnFlags.Passed | TurnFlags.EPFile);
       }
     }
 
@@ -114,13 +114,13 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void setEPFile(Int32 nEP) {
       // Any Square on the EP File will do
-      FlagsLo |= (LoFlags)nEP & LoFlags.EPFile | LoFlags.Passed;
+      FlagsTurn |= (TurnFlags)nEP & TurnFlags.EPFile | TurnFlags.Passed;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 ep(LoFlags flo) {
-      var x = (Int32)(flo & LoFlags.EPFile);
-      var bWTM = flo.Has(LoFlags.WTM);
+    internal static Int32 ep(TurnFlags fturn) {
+      var x = (Int32)(fturn & TurnFlags.EPFile);
+      var bWTM = fturn.Has(TurnFlags.WTM);
       //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
       return (Int32)(bWTM ? sq.a6 : sq.a3) + x;
     }
@@ -221,11 +221,11 @@ namespace Engine {
     internal void toggleWTM() {
       GamePly++;                        // GamePly should be even iff WTM
       Hash ^= ZobristTurn;
-      FlagsLo ^= LoFlags.WTM;
+      FlagsTurn ^= TurnFlags.WTM;
 #if VerifyGamePlyColor
       Trace.Assert(ColorParity(GamePly), "Incorrect GamePly Color (WTM != Even Ply)");
 #endif
-      //[Note]Friend and Foe must always correspond to LoFlags.WTM
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
     }
 
@@ -283,7 +283,7 @@ namespace Engine {
         tryEP(nEnPassant.Value);
 
       //
-      // LoFlags.Passed will be referenced by generate() methods, to add En Passant
+      // TurnFlags.Passed is referenced by the generate() methods to add En Passant
       // captures for the next Ply.  resetEP() is called by resetMove() just before
       // this method is called.
       //

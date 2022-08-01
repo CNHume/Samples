@@ -71,8 +71,8 @@ namespace Engine {
       // determined to be Final, i.e., that there are no Legal Moves available
       // for the child.
       //
-      // Restore LoFlags.Final to annotate the parent's move; and to prevent a
-      // redundant search.
+      // Restore TurnFlags.Final to annotate the parent's move; and to prevent
+      // a redundant search.
       //
       if (isEmptyMove(moveFound)) {
         setFinal();

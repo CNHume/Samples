@@ -481,8 +481,8 @@ namespace Engine {
           // them.
           //
           // tryEP() was added for proper Draw3 handling; and has eliminated the need for the
-          // PasserPin Exemption.  This is because LoFlags.Passed is only set if at least one
-          // legal En Passant move can be played.
+          // PasserPin Exemption.  TurnFlags.Passed is only set where a legal En Passant move
+          // can be played.
           //
           var bPasserPin = false;
 #if ExemptPasserPin

@@ -170,7 +170,7 @@ namespace Engine {
       var bCapture = (qpTo & qpFoe) != 0;
       if (bCapture)
         vCapture = vPieceTo;
-      else if (vPieceFrom == vP6 && IsPassed() && nTo == ep(FlagsLo)) {
+      else if (vPieceFrom == vP6 && IsPassed() && nTo == ep(FlagsTurn)) {
         bCapture = true;
         vCapture = vEP6;
       }

@@ -23,10 +23,10 @@ namespace Engine {
     public enum SideName : byte { Black, White }
     #endregion
 
-    #region LoFlags Enum
+    #region TurnFlags Enum
     //
-    // LoFlags  0:8
-    // ------------
+    // TurnFlags  0:8
+    // --------------
     //  0:3 EPFile
     //  3:1 WTM
     //  4:1 Passed
@@ -37,7 +37,7 @@ namespace Engine {
     private const Int32 nPassedBit = 3; // pbl of nFiles
 
     [Flags]
-    public enum LoFlags : byte {
+    public enum TurnFlags : byte {
       None = 0,
       Passed = 1 << nPassedBit,         // Bit 3
       EPFile = Passed - 1,              // EPFile Flags

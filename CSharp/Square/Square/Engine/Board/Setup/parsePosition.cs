@@ -343,7 +343,7 @@ namespace Engine {
       Operations = operations;
 
       //
-      // FlagsLo/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
+      // FlagsTurn/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
       //
       setWTM(bWTM);
       parsePassed(sEnPassant);

@@ -49,7 +49,7 @@ namespace Engine {
     #region Search Methods
     [Conditional("ThrowFinal")]
     private void throwFinalPosition() {
-      //[Assume]LoFlags have been set by Search()
+      //[Assume]TurnFlags have been set by Search()
       if (IsFinal() || IsInsufficient()) {
         String sMessage;
         if (IsInsufficient())

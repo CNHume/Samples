@@ -132,7 +132,7 @@ namespace Engine {
 
           var qpPawnCapture = qpChx;
           if (IsPassed() && (qpChx & Pawn) != 0)
-            qpPawnCapture |= BIT0 << ep(FlagsLo);
+            qpPawnCapture |= BIT0 << ep(FlagsTurn);
 
           Friend.AddPawnCaptures(this, qpPawnCapture);
           Friend.AddPawnMoves(this, qpRay);
@@ -144,7 +144,7 @@ namespace Engine {
         var qpFoe = Foe.Piece;
         var qpPawnCapture = qpFoe;
         if (IsPassed())
-          qpPawnCapture |= BIT0 << ep(FlagsLo);
+          qpPawnCapture |= BIT0 << ep(FlagsTurn);
 
         Friend.AddPawnCaptures(this, qpPawnCapture);
         Friend.AddPawnMoves(this, ~RankPiece);
@@ -193,7 +193,7 @@ namespace Engine {
 
             var qpPawnCapture = qpChx;
             if (IsPassed() && (qpChx & Pawn) != 0)
-              qpPawnCapture |= BIT0 << ep(FlagsLo);
+              qpPawnCapture |= BIT0 << ep(FlagsTurn);
 
             Friend.AddPawnCaptures(this, qpPawnCapture);
             Friend.AddPromotions(this, qpRay);
@@ -206,7 +206,7 @@ namespace Engine {
 
         var qpPawnCapture = qpFoe;
         if (IsPassed())
-          qpPawnCapture |= BIT0 << ep(FlagsLo);
+          qpPawnCapture |= BIT0 << ep(FlagsTurn);
 
         Friend.AddPawnCaptures(this, qpPawnCapture);
         Friend.AddPromotions(this, ~RankPiece);
