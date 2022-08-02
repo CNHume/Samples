@@ -21,9 +21,9 @@ namespace Command {
     // [18-ply in 7:12 @1.4927 over 644.9 Mnode] eval 11.1 after:
     // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Kh7 50. d8=Q Qb1 51. Qd5 Qb4+
     // 52. Qde4+ Qxe4+ 53. Qxe4+ Kg8 54. Qe8+ Kh7 55. Qd7 Kg8 56. Qe6+ Kh7 57. Qe8 h5
-    // [20-ply trace in 56:36.63 @1.384 MHz over 4.7 Gnode] eval 11.1 after taking all of the pawns:
-    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
-    // 52. Qxg6+ Kxg6 53. Qe6+ Kh7 54. Qf5+ g6 55. Qf7+ Kh8 56. Qxg6 h5 57. Qxh5+ Kg7 [58.Qxa5]
+    // [20-ply in 1:01:57 @1.581 MHz over 5.877 Gnode] eval 11.65 after:
+    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Kh7 50. d8=Q Qb1 51. Qe5!? Qf1+ 52. Kg3 Qb1 53. Qed6 Qb3+
+    // 54. Kh2 Qc4 55. Qe5 Qg8 56. Qd8xa5
     //
     // Enabling QuietMate avoided a quiet() stalemate anomaly [19-ply trace in 22:10] maintains eval 9.95 after:
     // 52. Qf5 Qxf5+ 53. Kxf5 h5 54. Kg5 h4 55. Kxh4 Kg6 56. Qg5+ Kf7 57. Qxa5
@@ -69,7 +69,7 @@ namespace Command {
     // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {transposing}) 3. Ne6+ 1-0
     //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
     //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
-    //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [15-ply to find #-9 trace in 82 sec @1.325.259 KHz]
+    //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [15-ply to find #-9 in 72.41 sec @1.5 MHz over 100.63 Mnode]
     // 1... Nd4 2. d6 Nf3 3. Nd5+ Kf2 4. Rxf3+ Kxf3 5. Ne3 Ra1+ 6. Nf1 Rxf1+ 7. Kh2 g3+ 8. Kh3 Rh1#
     //"r1bnknr1/1pp1qp2/p3p1p1/3pP1Np/3P3R/2NB1RQ1/PPP2PP1/2K5 w q - 0 1"; // Stockfish 8 v Alpha Zero (1-0) too deep to find Bc4!
     // See https://www.youtube.com/watch?v=Fwzq7qK6MMQ for Stockfish 8 variations
@@ -90,7 +90,7 @@ namespace Command {
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
     // [20-ply trace in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 after:
@@ -119,7 +119,7 @@ namespace Command {
     //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 1:45 @1.539 MHz over 161.4 Mnode] eval 4.5 after:
     // 37. g4! Qc6 38. Qxc6 Nxc6 39. gxf5 Nxd4 40. Nxd4+-
     //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
-    //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [16-ply trace in 12.5 sec] to find 62. Be5+
+    //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [17-ply in 12.23 sec @1.288 MHz over 15.76 Mnode] to find 62. Be5+
     //"Nn6/8/1pPk4/1K1bpB2/1p6/8/8/8 w - - 0 1"; // Fischer Endgame
     //"4k3/2R5/2n1r3/3R4/7P/5BP1/7K/4q3 w - - 0 54"; // 2017-01-21 Carlsen v Giri Line
     //"4r1k1/5pp1/1b4p1/3n4/3p2qP/3Q2P1/1P1B1P2/2N1R1K1 b - - 0 35"; // 2017-01-27 Carlsen v Adhiban Line
@@ -178,8 +178,9 @@ namespace Command {
     //"2kr4/3q1R2/p1pp4/4p3/2P1n2r/4Q3/PBP4P/5R1K b - - 0 23";  // Harmon-Vellotti v Troff 2014-06-26 #5 (trivial)
     //"8/8/5pk1/6p1/1pp5/3q1P2/1P1N2P1/2K1R3 b - - 0 38"; // Gelfand v Inarkiev 2016-07-12 #6 11-ply
     // underpromotion line: moves b4b3 c1d1 c4c3 e1e2 c3d2 e2e1 d3c2 d1e2 d2d1n e2f1 c2f2
-    //"8/5k1N/4q1p1/3pB1Q1/r7/5P2/5KP1/8 w - - 0 44"; // Carlsen v Giri (1-0) 2016-07-22 [11-ply trace in 9.1 sec @1.173 MHz]
-    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [16-ply trace in 5:01 @1.32 MHz over 398 Mnode] to find 28. Be4!
+    //"8/5k1N/4q1p1/3pB1Q1/r7/5P2/5KP1/8 w - - 0 44"; // Carlsen v Giri (1-0) 2016-07-22 [11-ply in 9.04 sec @1.188 MHz over 10.737 Mnode]
+    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [16-ply in 4:24.35 @1.5053 MHz over 398 Mnode] eval 1.33 after:
+    // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f5 33. Nf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+
     //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
     //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
     //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1"; // Abbreviation Tests
@@ -220,11 +221,12 @@ namespace Command {
     //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win trace in 4, Zwischenzug followed by Zugzwang] 8-ply trace in 1.25
     //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
     //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61";  // Radjabov vs Karjakin 2012
-    //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply trace in 92.45 sec @1.292 MHz]
+    "5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply trace in 92.45 sec @1.292 MHz]
     //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8 [15-ply in 6:46.1 @1.266 MHz over 514.2 Mnode]
     // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics!, eval = 3.65, 12-ply trace in 60 sec, eval = 9.0 16-ply 1:17:21
-    //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6, 10-ply trace in 2.8 sec @1.258 MHz for Ra6 (or Ra5) followed by Qa4
+    //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6, [10-ply in 2.675 sec @1.3125 MHz over 3.5 Mnode]
+    // 4. Ra6 Rd8 5. Qa4 Ra7 6. Rxa7 Rd5 7. Ra8+ Kb7 8. Bxd5+ Kxb6 9. Qc6#
     //"1k1q3r/1r4pp/1PQ5/4pB2/R7/7P/5PP1/6K1 w - - 0 2";      // Mavo Nice Mate2 [5-ply longer]
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3";     // Mavo Nice Mate3 [9 + 2 = 11-ply trace in 6:30, for the rook intermezzo]
     //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker vs Averbach [10-ply trace in 52.5 sec]
