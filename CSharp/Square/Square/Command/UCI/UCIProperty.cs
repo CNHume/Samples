@@ -132,7 +132,7 @@ namespace Command {
     // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
     // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
     // 67. Kf4 Ra4+ 68. Kf5 Rd4 69. Rd8 Rd5+ 70. Kg4 Kf7 71. Rf8+ Kg7 72. Rg8+ Kf7 73. Nf6
-    // "8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [12-ply trace in 3.5 sec to find 1. Bd7!]
+    //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
     //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike's "Famous Study"
     // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
     // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
@@ -153,8 +153,8 @@ namespace Command {
     // 69. Qf7+! Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
     // 73. Qb6+ Kxc4 74. Qxf2 Kb5 75. Qa2 Kc5 76. Qa6
     //
-    //"5Q2/5p1p/1pPr2p1/6k1/8/3pP2P/2q2PP1/3R1K2 w - - 0 44"; // Khismatullin v Eljanov 2015-03-06 0.20 at 12-ply trace in 90.34 @1.156 MHz [0.87 at 13-ply trace in 4:24.6]
-    //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1"; // Taimanov v Kuzminykh 1950 [2.35 at 13-ply trace in 3:21] [2.55 at 14-ply] [3.25 at 15-ply]
+    //"5Q2/5p1p/1pPr2p1/6k1/8/3pP2P/2q2PP1/3R1K2 w - - 0 44"; // Khismatullin v Eljanov 2015-03-06 [12-ply in 1:19.3 @1.317 MHz] eval 0.20 [13-ply in 3:52.4 @1.323 MHz] eval 0.87
+    "r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1"; // Taimanov v Kuzminykh 1950 [2.35 at 13-ply trace in 3:21] [2.55 at 14-ply] [3.25 at 15-ply]
     //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989
     //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer, 6-ply
     //"r1b1r1k1/ppq2p1p/3b2pQ/3pn3/8/2P4P/PPBN1PP1/R1B1R1K1 b - -"; // Hit Rate 1 15.8% hits [plus 1.1% Qxnt] at 12-ply, expecting ~25%
@@ -205,8 +205,8 @@ namespace Command {
     //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K #9 [15-ply in 15.76 sec sec @1.563 MHz over 24.63 Mnode]
     //"8/8/3n1b2/8/7K/1k6/8/8 w - - 0 67";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Deeper
     //"8/8/3n1b2/8/5K2/3k4/8/8 w - - 4 69";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Easier
-    //"8/8/3n4/8/3b4/8/4k3/7K b - - 9 71";  // Paehtz v Hou Yifan KBN #29, 23-ply trace in 4:50:19 [16.957 Gnodes @973.5 KHz]
-    //"8/8/8/8/8/5k2/3n3b/4K3 b - - 0 79";  // Paehtz v Hou Yifan KBN #12, 18-ply trace in 37.51 sec
+    //"8/8/3n4/8/3b4/8/4k3/7K b - - 9 71";  // Paehtz v Hou Yifan KBN #21 [23-ply in 4:18:07 @1.095 MHz over 16.957 Gnode] to find #29
+    //"8/8/8/8/8/5k2/3n3b/4K3 b - - 0 79";  // Paehtz v Hou Yifan KBN #12 [18-ply in 33.4 sec @1.6 MHz over 53.4 Mnode]
     //"8/8/7K/4k2P/6b1/6n1/8/8 w - - 0 1";  // KBN v K Endgame Test #26
     // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8.Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
     // 11. Kh4 Kf5 12. Kg3 Ng4 13. Kf3 Bc4 14. Kg3 Bd5 15. Kh3 Kf4 16. Kh4 Be6
@@ -218,10 +218,10 @@ namespace Command {
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 41.432 sec @5.282 MHz over 218.84 Mnode
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:02.5 @6.2628 MHz over 767.28 Mnode
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 17.18 sec @5.1 MHz over 87.6 Mnode
-    //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win trace in 4, Zwischenzug followed by Zugzwang] 8-ply trace in 1.25
+    //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
     //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
     //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61";  // Radjabov vs Karjakin 2012
-    "5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply trace in 92.45 sec @1.292 MHz]
+    //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply in 80.9 sec @1.476 MHz over 119.4 Mnode]
     //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8 [15-ply in 6:46.1 @1.266 MHz over 514.2 Mnode]
     // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics!, eval = 3.65, 12-ply trace in 60 sec, eval = 9.0 16-ply 1:17:21
@@ -231,13 +231,14 @@ namespace Command {
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3";     // Mavo Nice Mate3 [9 + 2 = 11-ply trace in 6:30, for the rook intermezzo]
     //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker vs Averbach [10-ply trace in 52.5 sec]
     //"r1bk3r/2p2ppp/1pK5/p2pp3/8/P7/1PPP2PP/R1BQ2NR b - - 0 1"; // Hamppe vs Meitner, 7-ply
-    //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [3.63 at 17-ply trace in 3:00]
+    //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [17-ply in 2:45.54 @1.141 MHz over 94.77 Mnode] eval 3.63
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
     //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8, in 13-ply 38.217 sec @1.522 MHz over 58.18 Mnode
-    //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [13-ply trace in 2:45.1 over 197.6 Mnode @1.197 MHz]
-    //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply trace in 6:57 over 427.4 Mnode @1.025 MHz, formerly 2:44:55]
-    //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply trace in 19:26.27 over 1.22 Gnode @1.046 MHz, formerly 23:22:50]
+    //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";    // Byrne vs Fischer 35 #9 [14-ply in 3:00.3 over 268.66 Mnode @1.49 MHz]
+    // 35... Bc5+ 36. Kh2 Nd2 37. Kh1 Ra1+ 38. Kh2 Nf1+ 39. Kh1 Ng3+ 40. Kh2 Bf2 41. Qf8+ Kxf8 42. Nxg6+ fxg6 43. Kh3 Rh1#
+    //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 8:23 over 713 Mnode @1.418 MHz] eval -1.47
+    //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15"; // Byrne vs Fischer 15 [14-ply in 15:52.5 over 1.353 Gnode @1.42 MHz] eval -1.07
     //"r2q1rk1/pp2ppbp/2p2np1/6B1/3PP1b1/Q1P2N2/P4PPP/3RKB1R b K - 0 13"; // Byrne vs Fischer 13
     //"r2q1rk1/pp2ppbp/1np2np1/2Q3B1/3PP1b1/2N2N2/PP3PPP/3RKB1R b K - 0 11"; // Byrne vs Fischer 11 >11-ply
     //"8/K1P5/8/3q4/4k3/8/8/8 b - - 0 1";
@@ -251,15 +252,16 @@ namespace Command {
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - - 0 1"; // Draw3N
     //"7r/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua0
-    //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [at 22-ply trace in 1:19:31.5] to find h6h5 f6f5 h5h4 f5h3 h4g5 h3f5 g5h4 f5h3 h4g5 h3f5 g5h6 f5f6 h6h7 f6f7 h7h8 f7f8 h8h7 f8f7 h7h8 f7f8 h8h7 f8f7
-    // or: moves h6h5 f6f7 h5g4 f7f5 g4h4 f5f6 h4h5 f6f5 h5h6 f5f6 h6h7 f6f7 h7h6 f7f6 [once inevitable, postponing a draw is not favored]
+    //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [22-ply in 10:08.6 @1.33 MHz over 809.6 Mnode] eval -4.1
+    // moves h6h5 f6f5 h5h4 f5h3 h4g5 h3f5 g5h4 f5h3 h4g5 h3f5 g5h6 f5f6 h6h7 f6f7 h7h8 f7f8 h8h7 f8f7 h7h8 f7f8 h8h7 f8f7, or:
+    // moves h6h5 f6f7 h5g4 f7f5 g4h4 f5f6 h4h5 f6f5 h5h6 f5f6 h6h7 f6f7 h7h6 f7f6 [once inevitable, postponing a draw is not favored]
     //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen vs Urkedal 2013 #10, 12-ply trace in 1:06 on new PC
     //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen vs Urkedal 2013 #9, 11-ply trace in 0:50 [10-ply trace in 0:30 w 8 checks]
     //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // #8, 8-ply trace in 7.125 w 8 checks; #7, 10-ply w 6 checks in 8.45 sec full line
     //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // #6 in 13-ply!? w 6 checks.  Not due to Futility nor to Delta Pruning
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
-    //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1), 13-ply trace in 2:15.1 @1.374 MHz
-    //"3r2k1/1p3pp1/p1p5/8/1Pr5/P3PqBp/1Q3P1P/R3RK2 b - - 0 30"; // 1964 Bielicki v Smyslov (0-1) #9, 15-ply 78 sec @1.633 MHz
+    //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [13-ply in 2:00 @1.548 MHz over 185.7 Mnode] eval -9.35
+    //"3r2k1/1p3pp1/p1p5/8/1Pr5/P3PqBp/1Q3P1P/R3RK2 b - - 0 30"; // 1964 Bielicki v Smyslov (0-1) #9 [15-ply 1:18 @1.633 MHz]
     //"6k1/1p3pp1/p1p5/8/1P4r1/P3PqBp/1Q3P1P/3rRK2 w - - 0 32";
     //"3r2k1/1p3pp1/p1p5/8/1P4r1/P3PqBp/1Q3P1P/R3RK2 w - - 0 31"; // 1964 Bielicki v Smyslov (0-1) Final
     //"6k1/1p3pp1/p1p5/8/1P6/P3PqBp/2R2P1P/3rRK2 w - - 0 32"; // 1964 Bielicki v Smyslov (0-1) Line, 15-ply
