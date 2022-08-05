@@ -693,8 +693,14 @@ namespace Engine {
       FlagsMode &= ~ModeFlags.Trace;
     }
 
+    //[Speed]Use of params is slow.
     protected void setTrace(params Hashcode[] qHashcodes) {
       if (qHashcodes.Any(qHashcode => qHashcode == Hash))
+        FlagsMode |= ModeFlags.Trace;
+    }
+
+    protected void setTrace(Hashcode qHashcode) {
+      if (qHashcode == Hash)
         FlagsMode |= ModeFlags.Trace;
     }
     #endregion
