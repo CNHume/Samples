@@ -26,7 +26,7 @@ namespace Engine {
         FlagsTurn = default;            //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
         foreach (var side in Side)
           side.FlagsSide = default;     //[Safe]
-        FlagsEG = default;              //[Safe]
+        FlagsGame = default;            //[Safe]
         FlagsDraw = default;            //[Safe]
         FlagsMode = default;            //[Safe]
 

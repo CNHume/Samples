@@ -111,7 +111,7 @@ namespace Command {
     "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply in 30:41 @1.223 MHz over 2.251 Gnode] eval 7.75
     // [18-ply in 1:18:10.6 @1.197 MHz over 5.614 Gnode] to find #18
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Rh4 Rxd5+ 8. Kxd5 Kb7 9. Rh3 Kb6 10. Rb3+ Kc7 11. Rb3b5
-    // [20-Ply in 3:57:34 @1.2834 MHz over 18.294 Gnode]finds #20 currently, due to some pruning bug
+    // [20-Ply in 3:57:34 @1.2834 MHz over 18.294 Gnode]finds #20 currently.  Due to Futility Pruning in UpdateBest()?
     // [20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kb7
     // [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6

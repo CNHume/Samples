@@ -51,8 +51,8 @@ namespace Engine {
     internal static SideFlags[] sideFlags =
       { SideFlags.Insufficient, SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
 
-    internal static EGFlags[] egFlags =
-      { EGFlags.KQvKP, EGFlags.KBNvK, EGFlags.OutsideSquare, EGFlags.BlackAlone, EGFlags.WhiteAlone };
+    internal static GameFlags[] gameFlags =
+      { GameFlags.KQvKP, GameFlags.KBNvK, GameFlags.OutsideSquare, GameFlags.BlackAlone, GameFlags.WhiteAlone };
 
     internal static DrawFlags[] drawFlags =
       { DrawFlags.DrawIM, DrawFlags.Draw50, DrawFlags.Draw3, DrawFlags.Draw2, DrawFlags.Draw0 };
@@ -72,8 +72,8 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(EGFlags feg) {
-      var en = egFlags.Where(f => feg.Has(f));
+    public static String FormatFlags(GameFlags fgame) {
+      var en = gameFlags.Where(f => fgame.Has(f));
       return Join(sSpace, en);
     }
 
@@ -95,8 +95,8 @@ namespace Engine {
     }
 
     public static String FormatFlags(
-      ModeFlags fmode, DrawFlags fdraw, EGFlags feg, SideFlags fBlackSide, SideFlags fWhiteSide, TurnFlags fturn) {
-      if (fmode == 0 && fdraw == 0 && feg == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
+      ModeFlags fmode, DrawFlags fdraw, GameFlags fgame, SideFlags fBlackSide, SideFlags fWhiteSide, TurnFlags fturn) {
+      if (fmode == 0 && fdraw == 0 && fgame == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
       var sBlackSide = FormatFlags(fBlackSide);
@@ -108,7 +108,7 @@ namespace Engine {
       var sFlags = new List<String>(nCapacity)
         .AddNotEmpty(FormatFlags(fmode))
         .AddNotEmpty(FormatFlags(fdraw))
-        .AddNotEmpty(FormatFlags(feg))
+        .AddNotEmpty(FormatFlags(fgame))
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled)
         .AddNotEmpty(FormatFlags(fturn));
@@ -305,7 +305,7 @@ namespace Engine {
 #endif
 #if DisplayFlags
         .Append("Flags: ")
-        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsEG, fBlackSide, fWhiteSide, FlagsTurn))
+        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsGame, fBlackSide, fWhiteSide, FlagsTurn))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif

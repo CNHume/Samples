@@ -105,8 +105,8 @@ namespace Engine {
     public Ply GamePly;
     public Byte HalfMoveClock;
     public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | Passed | WTM | EPFile
-    public EGFlags FlagsEG;             //[feg]OutsideSquare | KBN | KingAlone
     public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
+    public GameFlags FlagsGame;         //[fgame]OutsideSquare | KBN | KingAlone
     public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced
     public Hashcode Hash;               //[Note]Hash also appears in Transposition Table entries
     public Hashcode HashPawn;

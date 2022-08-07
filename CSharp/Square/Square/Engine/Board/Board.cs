@@ -146,7 +146,7 @@ namespace Engine {
         board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
 
       board.FlagsTurn = FlagsTurn & TurnFlags.Copy;
-      board.FlagsEG = FlagsEG & EGFlags.Copy;
+      board.FlagsGame = FlagsGame & GameFlags.Copy;
       board.FlagsDraw = FlagsDraw & DrawFlags.Copy;
       board.FlagsMode = FlagsMode & ModeFlags.Copy;
     }

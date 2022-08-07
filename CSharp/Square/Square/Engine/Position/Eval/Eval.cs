@@ -162,33 +162,33 @@ namespace Engine {
       return bEndgame;
     }
 
-    public EGFlags getEndGameFlags() {
-      EGFlags feg = default;
-      if (Side[Black].IsAlone()) feg |= EGFlags.BlackAlone;
-      if (Side[White].IsAlone()) feg |= EGFlags.WhiteAlone;
+    public GameFlags getEndGameFlags() {
+      GameFlags fgame = default;
+      if (Side[Black].IsAlone()) fgame |= GameFlags.BlackAlone;
+      if (Side[White].IsAlone()) fgame |= GameFlags.WhiteAlone;
 
-      if (!feg.Has(EGFlags.KingAlone)) {
-        if (isKQvKPEndgame()) feg |= EGFlags.KQvKP;
+      if (!fgame.Has(GameFlags.KingAlone)) {
+        if (isKQvKPEndgame()) fgame |= GameFlags.KQvKP;
       }
       else if (RectPiece == 0) {        // No Rooks or Queens
-        feg |= EGFlags.OutsideSquare;
-        var bWhiteAttacker = feg.Has(EGFlags.BlackAlone);
+        fgame |= GameFlags.OutsideSquare;
+        var bWhiteAttacker = fgame.Has(GameFlags.BlackAlone);
         var attacker = getSide(bWhiteAttacker);
-        if (isKBNvKEndgame(attacker.FlagsSide)) feg |= EGFlags.KBNvK;
+        if (isKBNvKEndgame(attacker.FlagsSide)) fgame |= GameFlags.KBNvK;
       }
 
-      return feg;
+      return fgame;
     }
 
     private void setEndGameFlags() {
-      FlagsEG &= ~EGFlags.EndGame;
-      FlagsEG |= getEndGameFlags();
+      FlagsGame &= ~GameFlags.EndGame;
+      FlagsGame |= getEndGameFlags();
     }
     #endregion
 
     #region King Outside Square of the Pawn
     protected Eval punishOutsideSquare() {
-      var bWhiteAlone = FlagsEG.Has(EGFlags.WhiteAlone);
+      var bWhiteAlone = FlagsGame.Has(GameFlags.WhiteAlone);
       var bWTM = WTM();
       var parameter = Parameter[bWTM ? White : Black];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
@@ -270,7 +270,7 @@ namespace Engine {
     }
 #endif
     protected Eval rewardKBNvKMateCorner() {
-      var bWhiteAttacker = FlagsEG.Has(EGFlags.BlackAlone);
+      var bWhiteAttacker = FlagsGame.Has(GameFlags.BlackAlone);
       var (attacker, defender) = getSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
 
@@ -584,7 +584,7 @@ namespace Engine {
       //
       if (Pawn == 0) {                  // PawnHash == default(Hashcode)}
 #if EvalKBNvKMateCorner
-        if (FlagsEG.Has(EGFlags.KBNvK)) {
+        if (FlagsGame.Has(GameFlags.KBNvK)) {
           var mReward = rewardKBNvKMateCorner();
           mValue += mReward;
         }
@@ -592,13 +592,13 @@ namespace Engine {
       }
       else {
 #if EvalOutsideSquare
-        if (FlagsEG.Has(EGFlags.OutsideSquare)) {
+        if (FlagsGame.Has(GameFlags.OutsideSquare)) {
           var mReward = punishOutsideSquare();
           mValue += mReward;
         }
 #endif
 #if EvalKQvKPDistance
-        if (FlagsEG.Has(EGFlags.KQvKP)) {
+        if (FlagsGame.Has(GameFlags.KQvKP)) {
           var mReward = rewardKQvKPProximity();
           mValue += mReward;
         }

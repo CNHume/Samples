@@ -86,8 +86,8 @@ namespace Engine {
 
     #region EGFlags Enum
     //
-    // EGFlags  0:5
-    // ------------
+    // GameFlags  0:5
+    // --------------
     //  0:1 WhiteAlone
     //  1:1 BlackAlone
     //  2:1 OutsideSquare
@@ -95,7 +95,7 @@ namespace Engine {
     //  4:1 KQvKP
     //
     [Flags]
-    public enum EGFlags : byte {
+    public enum GameFlags : byte {
       None = 0,
       WhiteAlone = 1,                   // Bit 0 End Game Flags
       BlackAlone = WhiteAlone << 1,     // Bit 1

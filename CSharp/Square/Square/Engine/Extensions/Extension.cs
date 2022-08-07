@@ -348,7 +348,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean Has(this EGFlags enumeration, EGFlags flags) {
+    public static Boolean Has(this GameFlags enumeration, GameFlags flags) {
       return (enumeration & flags) != 0;
     }
 

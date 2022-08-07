@@ -14,6 +14,7 @@ namespace Engine {
 
   using System;
   using System.Collections.Generic;
+  using System.Runtime.CompilerServices;
 
   using static MoveOrder.TypedMove;
 
@@ -99,6 +100,12 @@ namespace Engine {
     #endregion
 
     #region Search Move Generators
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected Plane includeEnPassant(Plane qpFoe) {
+      return IsPassed() && (qpFoe & Pawn) != 0 ?
+        qpFoe | BIT0 << ep(FlagsTurn) : qpFoe;
+    }
+
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
     protected Int32 generate(List<Move> moves, Boolean bSwap) {
       var bInCheck = InCheck();
@@ -130,23 +137,13 @@ namespace Engine {
           if (qpTo != 0)
             addPieceCapturesAndMoves(qpTo, qpFriend);
 
-          var qpPawnCapture = qpChx;
-          if (IsPassed() && (qpChx & Pawn) != 0)
-            qpPawnCapture |= BIT0 << ep(FlagsTurn);
-
-          Friend.AddPawnCaptures(this, qpPawnCapture);
+          Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
           Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~qpFriend, qpFriend);
-
-        var qpFoe = Foe.Piece;
-        var qpPawnCapture = qpFoe;
-        if (IsPassed())
-          qpPawnCapture |= BIT0 << ep(FlagsTurn);
-
-        Friend.AddPawnCaptures(this, qpPawnCapture);
+        Friend.AddPawnCaptures(this, includeEnPassant(Foe.Piece));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
@@ -186,16 +183,16 @@ namespace Engine {
         var bSingleCheck = qpChx2 == 0;
 
         if (bSingleCheck) {
+          //
+          // Interposition includes capture of the checking
+          // piece, and interpositions along a ray giving check.
+          // Only Moves for these To Squares will be considered:
+          //
           var qpRay = interpositions(nChx, vKingPos);
 
           if (qpChx != 0) {
             addPieceCaptures(qpChx, qpFriend);
-
-            var qpPawnCapture = qpChx;
-            if (IsPassed() && (qpChx & Pawn) != 0)
-              qpPawnCapture |= BIT0 << ep(FlagsTurn);
-
-            Friend.AddPawnCaptures(this, qpPawnCapture);
+            Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
             Friend.AddPromotions(this, qpRay);
           }
         }                               // bSingleCheck
@@ -203,12 +200,7 @@ namespace Engine {
       else {
         var qpFoe = Foe.Piece;
         addPieceCaptures(qpFoe, qpFriend);
-
-        var qpPawnCapture = qpFoe;
-        if (IsPassed())
-          qpPawnCapture |= BIT0 << ep(FlagsTurn);
-
-        Friend.AddPawnCaptures(this, qpPawnCapture);
+        Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
         Friend.AddPromotions(this, ~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
