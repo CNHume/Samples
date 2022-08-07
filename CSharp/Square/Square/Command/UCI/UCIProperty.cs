@@ -66,7 +66,7 @@ namespace Command {
     //"2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.  [14-ply to find 1. f5!]
     //"3k4/1P6/2K5/8/4N3/8/7b/8 b - - 0 1"; // Magnus Carlsen vs. Ian Nepomniachtchi - MC Invitational (2020)
     // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
-    // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {transposing}) 3. Ne6+ 1-0
+    // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xpos}) 3. Ne6+ 1-0
     //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
     //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
     //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [15-ply to find #-9 in 72.41 sec @1.5 MHz over 100.63 Mnode]
@@ -90,7 +90,7 @@ namespace Command {
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
     // [20-ply trace in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 after:
@@ -108,7 +108,7 @@ namespace Command {
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply in 30:41 @1.223 MHz over 2.251 Gnode] eval 7.75
+    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply in 30:41 @1.223 MHz over 2.251 Gnode] eval 7.75
     // [18-ply in 1:18:10.6 @1.197 MHz over 5.614 Gnode] to find #18
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Rh4 Rxd5+ 8. Kxd5 Kb7 9. Rh3 Kb6 10. Rb3+ Kc7 11. Rb3b5
     // [20-Ply in 3:57:34 @1.2834 MHz over 18.294 Gnode]finds #20 currently.  Due to Futility Pruning in UpdateBest()?
@@ -151,7 +151,7 @@ namespace Command {
     // [15-Ply in 17:17 @1.327 over 1.3762 Gnode] eval 5.95, [16-Ply in 6:56:40 @1.317 MHz over 32.922 Gnode] eval 8.30
     // 66. Be8+ Kf5 67. Bd7+ Ke4 68. Bc6+ Ke3 69. Qb6+ Ke2 70. Qxf2+ Kxf2 71. g4 Be5 72. g5 Bb8 73. g6 Be5 74. g7 Bxg7 75. b8=Q Bh6 76. Bb5
     //
-    // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {transposing})
+    // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {xpos})
     // 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+! Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
     // 73. Qb6+ Kxc4 74. Qxf2 Kb5 75. Qa2 Kc5 76. Qa6
     //
@@ -159,8 +159,11 @@ namespace Command {
     // [13-ply in 3:52.4 @1.323 MHz] eval 0.87
     //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1"; // Taimanov v Kuzminykh 1950 [13-ply in 1:40 @1.472 over 161.9 Mnode] eval 2.35,
     // [14-ply in 5:59.1 @1.3865 MHz over 497.9 Mnode] eval 2.35, [15-ply in 15:59 @1.387 MHz over 1.33 Gnode] eval 2.55
-    //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989
-    //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer, 6-ply
+    //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989 [20-ply in 5:05:01 @1.288 MHz over 23.571 Gnode] eval 0.03
+    // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed for shelter}
+    // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xpos}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
+    // 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
+    //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
     //"r1b1r1k1/ppq2p1p/3b2pQ/3pn3/8/2P4P/PPBN1PP1/R1B1R1K1 b - -"; // Hit Rate 1 15.8% hits [plus 1.1% Qxnt] at 12-ply, expecting ~25%
     //"6k1/5p1p/P1pb1nq1/6p1/3P4/1BP2PP1/1P1Nb2P/R1B3K1 b - -"; // Hit Rate 2 26.6% at 12-ply [plus 4% Qxnt], exceeding ~30% Hits
     //"8/k7/3p4/p2P1p2/P2P1P2/8/8/K7 w - -"; //[Fine 70]87% Hits at 37-ply, should solve by 26-ply
