@@ -93,8 +93,8 @@ namespace Command {
     "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
-    // [20-ply trace in 48:37.9 @1.107 MHz over 3.23 Gnode] eval -3.35 after:
-    // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne1? 69. Kb2 Nf3 70. Bc2 d4 71. Bb1 dxc3+ 72. Ka2 c2 73. Bxc2 Kxc2
+    // [20-ply in 26:16.5 @1.224 MHz over 1.93 Gnode] eval -3.2 after:
+    // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bc6 Nd1+ 69. Kb1 Ne3 70. Ba4 d4 71. Ka2 Nxc2 72. Bxc2 Kxc2 73. a4 c3 74. Ka3 d3
     // [21-ply in 1:26:16 @1.262 MHz over 6.533 Gnode] eval -3.25
     // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bf5 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Bh7 d3 72. Bxd3 cxd3 73. cxd3 Kxd3 74. Ka1 Nf1 75. Kb1 Kd3c3
     // Formerly:
