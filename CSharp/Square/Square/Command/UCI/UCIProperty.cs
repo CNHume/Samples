@@ -90,7 +90,7 @@ namespace Command {
     //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
     //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
     //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-    "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+    //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
     // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
     // [20-ply in 26:16.5 @1.224 MHz over 1.93 Gnode] eval -3.2 after:
@@ -266,7 +266,7 @@ namespace Command {
     //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen vs Urkedal 2013 #10 [16-ply in 14:39 @1.9 MHz over 1.67 Gnode]
     // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
     //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen vs Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
-    //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz]
+    "rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz]
     //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
     //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [13-ply in 2:00 @1.548 MHz over 185.7 Mnode] eval -9.35
