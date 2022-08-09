@@ -52,13 +52,12 @@ namespace Engine {
       //
       //[Time]timeRoots();
       //[Time]timeEval();
-      //[Time]
-      timeMove((Move)0x00140759);       //[Perft3]b4f4
-      //[Time]
-      timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
+      //[Time]timeMove((Move)0x00140759);       //[Perft3]b4f4
+      //[Time]timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
       //timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
-      //[Time]timeAddPieceCapturesAndMoves();
+      //[Time]
+      timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
       //[Time]timeRectAtx();
       //[Time]timeSafe();
@@ -144,14 +143,12 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    //~600 KHz, ~900 KHz sans List<Move>.Add()
+    // 13 MHz
     protected void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {
       var sw = TimerStart(nameof(addPieceCapturesAndMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        addPieceCapturesAndMoves2(MASK64, Side[White].Piece);
-        //addPieceCapturesAndMoves2(MASK64, Side[Black].Piece);
-
+        addPieceCapturesAndMoves2(MASK64);
         clearPseudoCaptures();
         clearPseudoMoves();
       }

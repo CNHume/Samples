@@ -196,8 +196,8 @@ namespace Engine {
       addPieceCaptures(PseudoKingCapture, PseudoKingCapture, moveFrom, qpMoveTo);
     }
 
-    private void addKnightCapturesAndMoves(Plane qpTo, Plane qpFriend) {
-      var qpKnight = qpFriend & Knight;
+    private void addKnightCapturesAndMoves(Plane qpTo) {
+      var qpKnight = Friend.Piece & Knight;
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
         var moveFrom = KnightMove | fromMove(nFrom);
@@ -207,8 +207,8 @@ namespace Engine {
       }
     }
 
-    private void addKnightCaptures(Plane qpTo, Plane qpFriend) {
-      var qpKnight = qpFriend & Knight;
+    private void addKnightCaptures(Plane qpTo) {
+      var qpKnight = Friend.Piece & Knight;
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
         var moveFrom = KnightMove | fromMove(nFrom);
@@ -217,8 +217,8 @@ namespace Engine {
       }
     }
 
-    private void addBishopCapturesAndMoves(Plane qpTo, Plane qpFriend) {
-      var qpBishop = qpFriend & Bishop;
+    private void addBishopCapturesAndMoves(Plane qpTo) {
+      var qpBishop = Friend.Piece & Bishop;
       while (qpBishop != 0) {
         var nFrom = RemoveLo(ref qpBishop);
         var moveFrom = BishopMove | fromMove(nFrom);
@@ -228,8 +228,8 @@ namespace Engine {
       }
     }
 
-    private void addBishopCaptures(Plane qpTo, Plane qpFriend) {
-      var qpBishop = qpFriend & Bishop;
+    private void addBishopCaptures(Plane qpTo) {
+      var qpBishop = Friend.Piece & Bishop;
       while (qpBishop != 0) {
         var nFrom = RemoveLo(ref qpBishop);
         var moveFrom = BishopMove | fromMove(nFrom);
@@ -238,8 +238,8 @@ namespace Engine {
       }
     }
 
-    private void addRookCapturesAndMoves(Plane qpTo, Plane qpFriend) {
-      var qpRook = qpFriend & Rook;
+    private void addRookCapturesAndMoves(Plane qpTo) {
+      var qpRook = Friend.Piece & Rook;
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
         var moveFrom = RookMove | fromMove(nFrom);
@@ -249,8 +249,8 @@ namespace Engine {
       }
     }
 
-    private void addRookCaptures(Plane qpTo, Plane qpFriend) {
-      var qpRook = qpFriend & Rook;
+    private void addRookCaptures(Plane qpTo) {
+      var qpRook = Friend.Piece & Rook;
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
         var moveFrom = RookMove | fromMove(nFrom);
@@ -259,8 +259,8 @@ namespace Engine {
       }
     }
 
-    private void addQueenCapturesAndMoves(Plane qpTo, Plane qpFriend) {
-      var qpQueen = qpFriend & Queen;
+    private void addQueenCapturesAndMoves(Plane qpTo) {
+      var qpQueen = Friend.Piece & Queen;
       while (qpQueen != 0) {
         var nFrom = RemoveLo(ref qpQueen);
         var moveFrom = QueenMove | fromMove(nFrom);
@@ -273,8 +273,8 @@ namespace Engine {
       }
     }
 
-    private void addQueenCaptures(Plane qpTo, Plane qpFriend) {
-      var qpQueen = qpFriend & Queen;
+    private void addQueenCaptures(Plane qpTo) {
+      var qpQueen = Friend.Piece & Queen;
       while (qpQueen != 0) {
         var nFrom = RemoveLo(ref qpQueen);
         var moveFrom = QueenMove | fromMove(nFrom);
@@ -285,29 +285,30 @@ namespace Engine {
       }
     }
 
-    // Used by generate()
-    private void addPieceCapturesAndMoves(Plane qpTo, Plane qpFriend) {  //~600 KHz, ~900 KHz sans List<Move>.Add()
-      addKnightCapturesAndMoves(qpTo, qpFriend);
-      addBishopCapturesAndMoves(qpTo, qpFriend);
-      addRookCapturesAndMoves(qpTo, qpFriend);
-      addQueenCapturesAndMoves(qpTo, qpFriend);
-    }
-
     //[Time]Called by performTests()
-    private void addPieceCapturesAndMoves2(Plane qpTo, Plane qpFriend) {  //~600 KHz, ~900 KHz sans List<Move>.Add()
-      addKnightCapturesAndMoves(qpTo, qpFriend);  //~1670 KHz
-      addBishopCapturesAndMoves(qpTo, qpFriend);  //~1940 KHz
-      addRookCapturesAndMoves(qpTo, qpFriend);    //~1700 KHz
-      addQueenCapturesAndMoves(qpTo, qpFriend);   //~1050 KHz
+    //~600 KHz, ~900 KHz sans List<Move>.Add()
+    private void addPieceCapturesAndMoves2(Plane qpTo) {
+      addKnightCapturesAndMoves(qpTo);  //~1670 KHz
+      addBishopCapturesAndMoves(qpTo);  //~1940 KHz
+      addRookCapturesAndMoves(qpTo);    //~1700 KHz
+      addQueenCapturesAndMoves(qpTo);   //~1050 KHz
       //~400 KHz
     }
 
+    // Used by generate()
+    private void addPieceCapturesAndMoves(Plane qpTo) {
+      addKnightCapturesAndMoves(qpTo);
+      addBishopCapturesAndMoves(qpTo);
+      addRookCapturesAndMoves(qpTo);
+      addQueenCapturesAndMoves(qpTo);
+    }
+
     // Used by generateSwaps()
-    private void addPieceCaptures(Plane qpTo, Plane qpFriend) {
-      addKnightCaptures(qpTo, qpFriend);
-      addBishopCaptures(qpTo, qpFriend);
-      addRookCaptures(qpTo, qpFriend);
-      addQueenCaptures(qpTo, qpFriend);
+    private void addPieceCaptures(Plane qpTo) {
+      addKnightCaptures(qpTo);
+      addBishopCaptures(qpTo);
+      addRookCaptures(qpTo);
+      addQueenCaptures(qpTo);
     }
     #endregion
   }

@@ -110,6 +110,7 @@ namespace Engine {
     protected Int32 generate(List<Move> moves, Boolean bSwap) {
       var bInCheck = InCheck();
       var qpFriend = Friend.Piece;
+      var qpFoe = Foe.Piece;
       var vKingPos = Friend.GetKingPos();
 
       clearPseudoMoveLists(moves, bSwap);
@@ -135,15 +136,15 @@ namespace Engine {
           var qpRay = interpositions(nChx, vKingPos);
           var qpTo = qpChx | qpRay;
           if (qpTo != 0)
-            addPieceCapturesAndMoves(qpTo, qpFriend);
+            addPieceCapturesAndMoves(qpTo);
 
           Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
           Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
-        addPieceCapturesAndMoves(~qpFriend, qpFriend);
-        Friend.AddPawnCaptures(this, includeEnPassant(Foe.Piece));
+        addPieceCapturesAndMoves(~qpFriend);
+        Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
@@ -165,7 +166,7 @@ namespace Engine {
     #region Quiet Move Generator
     protected Int32 generateMaterialMoves(List<Move> moves) {
       var bInCheck = InCheck();
-      var qpFriend = Friend.Piece;
+      var qpFoe = Foe.Piece;
       var vKingPos = Friend.GetKingPos();
 
       clearPseudoMaterialMoveLists(moves);
@@ -191,23 +192,22 @@ namespace Engine {
           var qpRay = interpositions(nChx, vKingPos);
 
           if (qpChx != 0) {
-            addPieceCaptures(qpChx, qpFriend);
+            addPieceCaptures(qpChx);
             Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
             Friend.AddPromotions(this, qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
-        var qpFoe = Foe.Piece;
-        addPieceCaptures(qpFoe, qpFriend);
+        addPieceCaptures(qpFoe);
         Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
         Friend.AddPromotions(this, ~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
-      addKingCaptures(~qpFriend, vKingPos, bRayCheck);
+      addKingCaptures(qpFoe, vKingPos, bRayCheck);
 #else
       var bWTM = WTM();
-      addKingCaptures(~qpFriend, vKingPos, bWTM);
+      addKingCaptures(qpFoe, vKingPos, bWTM);
 #endif
       addPseudoMaterialMoves(moves);
       return State.IncPseudoMoveTotal(moves.Count);
@@ -226,7 +226,7 @@ namespace Engine {
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpKing = Friend.Piece & King;
+        var qpKing = qpFriend & King;
         var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
@@ -236,14 +236,14 @@ namespace Engine {
           var qpFoe = qpChx & qpTo;
 
           if (qpFoe != 0) {
-            addPieceCaptures(qpFoe, qpFriend);
+            addPieceCaptures(qpFoe);
             Friend.AddPawnCaptures(this, qpFoe);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         var qpFoe = qpTo & ~qpFriend;
-        addPieceCaptures(qpFoe, qpFriend);
+        addPieceCaptures(qpFoe);
         Friend.AddPawnCaptures(this, qpFoe);
       }                                 //!bInCheck
 #if UnshadowRay2
