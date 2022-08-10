@@ -588,7 +588,7 @@ namespace Engine {
       // See https://www.chessprogramming.org/Razoring
       //
       if (State.IsOccam && wDepth <= wOccamDepthMax) {
-        if (bNonMateWindow && !(bReduced || bMateSearch || canPromote())) {
+        if (bNonMateWindow && !(bReduced || bMateSearch || CanPromote())) {
           var mAlpha2 = (Eval)(mAlpha - occamDelta(wDepth));  // mAlpha vs mBeta
 
           if (mPrunedValue <= mAlpha2) {//[<]Search

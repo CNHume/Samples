@@ -391,7 +391,7 @@ namespace Engine {
       }
 
       //
-      // The following is used by abbreviate() to avoid the overhead of buildAtxTo():
+      // The following is used by abbreviate() to avoid the overhead of BuildAtxTo():
       //
       public Plane PawnAtxTo(Int32 nTo) {
         var qpFrom = 0UL;
@@ -425,6 +425,42 @@ namespace Engine {
         return qpPawnTo;
       }
       #endregion                        // Attacker Methods
+
+      #region Move Builder
+      public Move BuildMove(
+        String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
+        Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
+
+        //
+        // Validate Non-Castling Move
+        //
+        var qpPieceAtx = Board.PieceAtx(vPiece, nFrom, bCapture);
+        var piece = indexPiece(vPiece);
+
+        if (!qpPieceAtx.HasValue)         //[Safe]
+          throw new ParseException($"Unexpected Piece in Move: {sPACN}");
+        else {
+          qpPieceAtx &= ~Piece;
+          if ((qpPieceAtx & qpTo) == 0)
+            throw new MoveException($"{piece} cannot move from {sqFrom} to {sqTo}");
+        }
+
+        //
+        // Validate Promotion
+        //
+        var bLastRank = (Parameter.RankLast & qpTo) != 0;
+        var bRequired = vPiece == vP6 && bLastRank;
+        var bSupplied = promotion != default;
+        if (bRequired != bSupplied) {
+          var sDiagnosis = bRequired ? "Required" : "Illegal";
+          throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");
+        }
+
+        var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
+        if (bCapture) move |= captureMove(indexPiece(vCapture));
+        return move;
+      }
+      #endregion
 
       #region Position Pawn Move Generators
       public void AddPawnCaptures(Position position, Plane qpTo) {
@@ -501,6 +537,42 @@ namespace Engine {
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void decSideCount(Byte vPiece) {
         Counts -= 1U << vPiece * nPerNibble;
+      }
+
+      public Int32 AtxCount() {
+        var nAtx = 0;
+        if (!KingPos.HasValue)
+          throw new ArgumentException(nameof(KingPos), "Invalid King Position");
+        Board.incTo(KingAtx[KingPos.Value]);
+
+        Board.incTo(PawnA1H8Atx);
+        Board.incTo(PawnA8H1Atx);
+
+        var qpAtxFrom = Piece & Board.Knight;
+        while (qpAtxFrom != 0) {
+          var n = RemoveLo(ref qpAtxFrom);
+          nAtx += Board.incTo(KnightAtx[n]);
+        }
+
+        qpAtxFrom = Piece & Board.Bishop;
+        while (qpAtxFrom != 0) {
+          var n = RemoveLo(ref qpAtxFrom);
+          nAtx += Board.incTo(Board.diagAtx(n));
+        }
+
+        qpAtxFrom = Piece & Board.Rook;
+        while (qpAtxFrom != 0) {
+          var n = RemoveLo(ref qpAtxFrom);
+          nAtx += Board.incTo(Board.rectAtx(n));
+        }
+
+        qpAtxFrom = Piece & Board.Queen;
+        while (qpAtxFrom != 0) {
+          var n = RemoveLo(ref qpAtxFrom);
+          nAtx += Board.incTo(Board.diagAtx(n) | Board.rectAtx(n));
+        }
+
+        return nAtx;
       }
       #endregion                        // Count Methods
 

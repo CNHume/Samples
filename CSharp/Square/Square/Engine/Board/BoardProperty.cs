@@ -3,6 +3,7 @@
 //
 // Conditionals:
 //
+//#define BuildAtxTo
 //#define Magic
 //#define TestMagic
 //#define InitDeBruijn
@@ -122,9 +123,18 @@ namespace Engine {
     public Plane A1H8Piece;
     public Plane A8H1Piece;
 #endif
+    #region Attacks and Control
+#if BuildAtxTo
+    protected Plane[] AtxTo;
+#endif
+    protected SByte[] ControlTo;
+    protected Plane AttackedSum;
+    protected Plane WhiteControlled;
+    protected Plane BlackControlled;
+    #endregion
+
     #region BoardSide
     public readonly BoardSide[]? Side;
-
     protected BoardSide Friend;
     protected BoardSide Foe;
     #endregion

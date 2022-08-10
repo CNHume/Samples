@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define BuildAtxTo
+//#define Controlled
 //#define PawnPositionByValue
 //#define DebugComposition
 //#define NoPieceHash
@@ -630,7 +631,7 @@ namespace Engine {
       Debug.Assert(mAbs < MateMin, "Mate value returned by staticEval()");
       if (mAbs <= mDeltaBaseWeight) {   //[ToDo]Define a new threshold
 #if BuildAtxTo
-        buildAtxTo(RankPiece);
+        BuildAtxTo(RankPiece);
 #endif
 #if Mobility
         mValue += mobility();
@@ -990,6 +991,72 @@ namespace Engine {
       }
 
       return (Eval)nAdjusted;
+    }
+    #endregion
+
+    #region Mobility and Square Control
+    //
+    // Pseudo Attacks are counted for both sides.
+    // Pawn Advances and Castling are not included.
+    //
+    protected Eval mobility() {
+      var nControlValue = 0;
+      var nMobileValue = 0;
+#if Controlled
+      var nControlTotal = 0;
+      var nControlDelta = 0;
+
+      // The following bit planes are only used to determine which side controls a given square:
+      AttackedSum =
+        BlackControlled =
+        WhiteControlled = 0UL;
+
+      Array.Clear(ControlTo, 0, ControlTo.Length);
+#endif
+      var nWhiteAtx = Side[White].AtxCount();
+      var nBlackAtx = Side[Black].AtxCount();
+#if Controlled
+      var qpAtx = AttackedSum;
+      while (qpAtx != 0) {
+        Plane qpTo;
+        var n = RemoveLo(ref qpAtx, out qpTo);
+        var z = ControlTo[n];
+        if (z > 0) {
+          WhiteControlled |= qpTo;
+          nControlDelta += Importance[n];
+          nControlTotal += Importance[n];
+        }
+        else if (z < 0) {
+          BlackControlled |= qpTo;
+          nControlDelta -= Importance[n];
+          nControlTotal += Importance[n];
+        }
+      }
+#if TestControlled
+      DisplayCurrent("mobility()");
+
+      LogLine("WhiteControlled\n");
+      writeRect(WhiteControlled);
+      LogLine();
+
+      LogLine("BlackControlled\n");
+      writeRect(BlackControlled);
+      LogLine();
+
+      var qpNeutral = AttackedSum & ~(WhiteControlled | BlackControlled);
+      LogLine("Neutral\n");
+      writeRect(qpNeutral);
+      LogLine();
+#endif
+      nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;
+#endif
+      var nMobileTotal = nWhiteAtx + nBlackAtx;
+      if (nMobileTotal != 0) {
+        var nMobileDelta = nWhiteAtx - nBlackAtx;
+        nMobileValue = 2 * mPawnWeight * nMobileDelta / nMobileTotal;
+      }
+
+      return (Eval)(nControlValue + nMobileValue);
     }
     #endregion
   }

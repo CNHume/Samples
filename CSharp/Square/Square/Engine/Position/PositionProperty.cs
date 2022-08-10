@@ -3,7 +3,6 @@
 //
 // Conditionals:
 //
-//#define BuildAtxTo
 #define UseMoveSort
 #define LazyMoveSort
 //#define TestPawnFeatures
@@ -54,14 +53,6 @@ namespace Engine {
 #if TestPawnFeatures
     public Plane[] FeatureRect;
 #endif
-#if BuildAtxTo
-    protected Plane[] AtxTo;
-#endif
-    protected SByte[] ControlTo;
-    protected Plane AttackedSum;
-    protected Plane WhiteControlled;
-    protected Plane BlackControlled;
-
     protected Plane[] Restricted;
     protected Plane PinnedPiece;
 

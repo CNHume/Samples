@@ -107,39 +107,6 @@ namespace Engine {
       return false;
     }
 
-    private Move buildMove(String sPACN, sq? sqFrom, sq? sqTo, Piece promotion,
-                           Int32 nFrom, Int32 nTo, Plane qpTo, Byte vPiece,
-                           Byte vCapture, Boolean bCapture) {
-      //
-      // Validate Non-Castling Move
-      //
-      var qpPieceAtx = pieceAtx(vPiece, nFrom, bCapture);
-      var piece = indexPiece(vPiece);
-
-      if (!qpPieceAtx.HasValue)         //[Safe]
-        throw new ParseException($"Unexpected Piece in Move: {sPACN}");
-      else {
-        qpPieceAtx &= ~Friend.Piece;
-        if ((qpPieceAtx & qpTo) == 0)
-          throw new MoveException($"{piece} cannot move from {sqFrom} to {sqTo}");
-      }
-
-      //
-      // Validate Promotion
-      //
-      var bLastRank = (Friend.Parameter.RankLast & qpTo) != 0;
-      var bRequired = vPiece == vP6 && bLastRank;
-      var bSupplied = promotion != default;
-      if (bRequired != bSupplied) {
-        var sDiagnosis = bRequired ? "Required" : "Illegal";
-        throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");
-      }
-
-      var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
-      if (bCapture) move |= captureMove(indexPiece(vCapture));
-      return move;
-    }
-
     private Int32 parseFromTo(String sPACN, ref Boolean bCastles, ref Move move) {
       var bWTM = WTM();
       if (!parsePACN(sPACN, out sq? sqFrom, out sq? sqTo, out Piece promotion))
@@ -178,7 +145,7 @@ namespace Engine {
         //
         //[Chess 960]OO/OOO notation is required in those cases where a King castles by
         // moving only one square.  However, cases where a King might otherwise be seen
-        // as capturing its own Rook are assumed to be attempts to castle.  canCastle()
+        // as capturing its own Rook are assumed to be attempts to castle.  CanCastle()
         // will be called if needed, when this method returns.
         //
         var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
@@ -192,9 +159,9 @@ namespace Engine {
       }
 
       if (!bCastles)
-        move = buildMove(sPACN, sqFrom, sqTo, promotion,
-                         nFrom, nTo, qpTo, vPieceFrom,
-                         vCapture, bCapture);
+        move = Friend.BuildMove(
+          sPACN, sqFrom, sqTo, promotion, nFrom, nTo,
+          qpTo, vPieceFrom, vCapture, bCapture);
       else if (promotion != Piece.None)
         throw new MoveException($"Cannot promote when castling: {sPACN}");
 
@@ -209,7 +176,7 @@ namespace Engine {
     // devised by [Warren] Smith.  UCI documentation incorrectly implies that
     //"The move format is in long algebraic notation."
     //
-    protected Move parsePACNMove(String sPACN) {
+    private Move parsePACNMove(String sPACN) {
       var sMove = sPACN.ToUpper();
       var rule = Friend.Rule;
 
@@ -234,7 +201,7 @@ namespace Engine {
       //
       //[Chess 960]Validate Castling in common with the OO/OOO notation cases:
       //
-      if (bCastles && !(nTo.HasValue && canCastle(nTo.Value)))
+      if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
         throw new MoveException($"Illegal Castle: {sPACN}");
 #if DebugParse
       var sb = new StringBuilder();

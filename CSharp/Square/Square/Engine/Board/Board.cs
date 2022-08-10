@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+//#define BuildAtxTo
 //#define Magic
 #define SafeEquals
 #define HashPieces
@@ -114,6 +115,7 @@ namespace Engine {
     public Board() {
       Side = new BoardSide[nSides];
       newSides();
+      newSquareControl();
     }
 
     private void newSides() {
@@ -124,6 +126,13 @@ namespace Engine {
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
+    }
+
+    private void newSquareControl() {
+#if BuildAtxTo
+      AtxTo = new Plane[nSquares];
+#endif
+      ControlTo = new SByte[nSquares];
     }
 
     //

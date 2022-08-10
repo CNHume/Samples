@@ -23,7 +23,6 @@
 #define InheritMoveTypes
 //#define LinkedTranspositions
 //#define TimeAtxFromUpdates
-//#define BuildAtxTo
 #define UseMoveSort                     // 12.24% Faster without UseMoveSort
 #define LazyMoveSort
 //#define ShowCornerCP
@@ -219,7 +218,6 @@ namespace Engine {
       newRestricted();
       newMoveTypes();
       newPseudoMoves();
-      newSquareControl();
     }
 
     private void newFeatures() {
@@ -234,13 +232,6 @@ namespace Engine {
 
     private void newRestricted() {
       Restricted = new Plane[nSquares];
-    }
-
-    private void newSquareControl() {
-#if BuildAtxTo
-      AtxTo = new Plane[nSquares];
-#endif
-      ControlTo = new SByte[nSquares];
     }
     #endregion
 

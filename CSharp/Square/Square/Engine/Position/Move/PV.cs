@@ -63,7 +63,7 @@ namespace Engine {
               out UInt32 uPiece, out Boolean bCapture);
 
       var vPiece = pieceIndex(uPiece);
-      var qpAtxTo = pieceAtxTo(nFrom, nTo, vPiece, bCapture);
+      var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
 
       if (qpAtxTo == 0) {
         var sMove = bCapture ? "capture" : "move";
