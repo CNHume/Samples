@@ -478,7 +478,7 @@ namespace Engine {
         }
       }
 
-      // The following two methods are used by generateMaterialMoves()
+      // The following method is used by generateMaterialMoves()
       public void AddPromotions(Position position, Plane qpTo) {
         var qpPawn = Piece & Board.Pawn;
         var qpAdvance1 = shiftl(qpPawn, Parameter.ShiftRank) & ~Board.RankPiece;
