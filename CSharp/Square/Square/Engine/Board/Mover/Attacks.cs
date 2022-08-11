@@ -29,21 +29,20 @@ namespace Engine {
     //
     // Attack Methods:
     //
-    // restrictPiece - Called once a pin is detected
-    // Checkers - Find pieces giving check
-    // PieceAtxTo - Used by abbreviate to detect potential move ambiguity
+    // incTo
+    // decTo
+    // BuildAtxTo
     //
-    // interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
-    //*pinRestrictions - Expedited version of interpositions
-    //
-    // attacks - Thorough version of IsAttacked, used to preempt Illegal King Moves
-    //*IsAttacked - Disallow castling through check
     // rankPath - Returns mask for squares that must not be obstructed (or attacked)
     //
+    // PieceAtxTo - Used by abbreviate to detect potential move ambiguity
     // PieceAtx - Called by BuildMove on behalf of parsePACNMove to verify From and To
-    // pawnAtx - Called by PieceAtx
     //
-    // getPiece - Returns Piece at any square
+    // CanOO
+    // CanOOO
+    // CanCastle
+    //
+    // getPieceIndex - Returns Piece at any square
     //
     // Move Generators:
     //

@@ -114,7 +114,7 @@ namespace Engine {
     { mPawnWeight, mKnightWeight, mBishopWeight, mRookWeight, mQueenWeight };
     #endregion
 
-    #region EGFlags Methods
+    #region End Game Detection
     public Boolean isKQvKPEndgame2(BoardSide attacker, BoardSide defender) {
       var qpAttackerPawn = attacker.Piece & Pawn;
       if (qpAttackerPawn != 0)
@@ -1000,6 +1000,9 @@ namespace Engine {
     // Pawn Advances and Castling are not included.
     //
     protected Eval mobility() {
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
       var nControlValue = 0;
       var nMobileValue = 0;
 #if Controlled
@@ -1013,8 +1016,8 @@ namespace Engine {
 
       Array.Clear(ControlTo, 0, ControlTo.Length);
 #endif
-      var nWhiteAtx = Side[White].AtxCount();
-      var nBlackAtx = Side[Black].AtxCount();
+      var nBlackAtx = blackSide.AtxCount();
+      var nWhiteAtx = whiteSide.AtxCount();
 #if Controlled
       var qpAtx = AttackedSum;
       while (qpAtx != 0) {

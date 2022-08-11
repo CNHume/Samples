@@ -23,6 +23,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
+    #region Methods
     #region Bishop Tests
     protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
       var blackPair = fBlackSide & SideFlags.Pair;
@@ -43,7 +44,7 @@ namespace Engine {
     protected static Boolean hasBishopPair(SideFlags fside) {
       return (fside & SideFlags.Pair) == SideFlags.Pair;
     }
-    #endregion
+    #endregion                          // Bishop Tests
 
     #region Square Pieces
     protected Byte getPieceIndex(Int32 n) {
@@ -162,6 +163,7 @@ namespace Engine {
 #endif
       HashPawn = Hash = 0UL;
     }
-    #endregion
+    #endregion                          // Square Pieces
+    #endregion                          // Methods
   }
 }

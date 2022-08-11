@@ -65,6 +65,36 @@ namespace Engine {
       #endregion
 
       #region Methods
+      //
+      // Passed
+      // clrPiece
+      // setPiece
+      // ResetPawnAtx
+      // RaisePiece
+      // RemovePiece
+      // LowerPiece
+      // PlacePiece
+      // RookCastles
+      // setInsufficient
+      // testInsufficient
+      // IsAlone
+      // GetKingPos
+      // Checkers - Find pieces giving check
+      // Safe - Thorough version of IsAttacked, used to preempt Illegal King Moves
+      //*IsAttacked - Disallow castling through check
+      // PawnAtxTo
+      // PawnTo - Called by PieceAtx
+      // BuildMove
+      // AddPawnCaptures
+      // AddPawnCaptures2
+      // AddPawnMoves
+      // AddPromotions
+      // incSideCount
+      // decSideCount
+      // AtxCount
+      // hashPiece
+      // HashPiece
+      //
       #region Init Methods
       public void Clear() {
         PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;

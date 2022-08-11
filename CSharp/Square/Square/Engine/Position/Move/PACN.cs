@@ -108,7 +108,6 @@ namespace Engine {
     }
 
     private Int32 parseFromTo(String sPACN, ref Boolean bCastles, ref Move move) {
-      var bWTM = WTM();
       if (!parsePACN(sPACN, out sq? sqFrom, out sq? sqTo, out Piece promotion))
         throw new MoveException($"Invalid Move: {sPACN}");
 

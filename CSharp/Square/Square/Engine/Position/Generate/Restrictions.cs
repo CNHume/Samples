@@ -18,6 +18,13 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Position : Board {
+    //
+    // Pin Restriction Methods:
+    //
+    // restrictPiece - Called once a pin is detected
+    // interpositions - Thorough version of pinRestrictions, used to find interpositions when in SingleCheck
+    //*pinRestrictions - Expedited version of interpositions
+    //
     #region Pin Restrictions
     //
     // The following is used to generate Check Evasions;
