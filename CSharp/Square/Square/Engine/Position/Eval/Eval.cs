@@ -446,10 +446,13 @@ namespace Engine {
     }
 
     protected MemoHashcode compositionHash(Boolean bWhiteHash) {
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
+
       if (bWhiteHash)
-        return (MemoHashcode)Side[Black].PieceHash << nHashPieceBits | (MemoHashcode)Side[White].PieceHash;
+        return (MemoHashcode)blackSide.PieceHash << nHashPieceBits | (MemoHashcode)whiteSide.PieceHash;
       else
-        return (MemoHashcode)Side[White].PieceHash << nHashPieceBits | (MemoHashcode)Side[Black].PieceHash;
+        return (MemoHashcode)whiteSide.PieceHash << nHashPieceBits | (MemoHashcode)blackSide.PieceHash;
     }
 #endif                                  // MaterialBalance
     private void clrEval() {
@@ -531,8 +534,11 @@ namespace Engine {
         mDelta += pp.Delta;
         mTotal += pp.Total;
 #if EvalWrongBishop
-        var fBlackSide = Side[Black].FlagsSide;
-        var fWhiteSide = Side[White].FlagsSide;
+        var blackSide = Side[Black];
+        var whiteSide = Side[White];
+
+        var fBlackSide = blackSide.FlagsSide;
+        var fWhiteSide = whiteSide.FlagsSide;
 
         if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, fBlackSide))
           mDelta += mWrongBishopWeight; // Black has Wrong Bishop

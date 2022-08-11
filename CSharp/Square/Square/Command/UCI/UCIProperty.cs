@@ -15,6 +15,14 @@ namespace Command {
   partial class UCI {
     #region FEN Constants
     private const String sDefaultFEN =
+    //
+    // Perft FEN
+    // ---------
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 (startpos) in 24 sec @5,428 MHz over 130.36 Mnode
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 30.475 sec @6.747 MHz over 205.63 Mnode
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 41.432 sec @5.282 MHz over 218.84 Mnode
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:02.5 @6.2628 MHz over 767.28 Mnode
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 17.18 sec @5.1 MHz over 87.6 Mnode
     //"";
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
@@ -222,11 +230,6 @@ namespace Command {
     // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
     //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14";// KBN v K Endgame Test Line #12 [19-ply in 53.4 sec @1.598 MHz]
     //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 (startpos) in 24 sec @5,428 MHz over 130.36 Mnode
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 30.475 sec @6.747 MHz over 205.63 Mnode
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 41.432 sec @5.282 MHz over 218.84 Mnode
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:02.5 @6.2628 MHz over 767.28 Mnode
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 17.18 sec @5.1 MHz over 87.6 Mnode
     //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
     //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
     //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61";  // Radjabov vs Karjakin 2012
@@ -262,14 +265,14 @@ namespace Command {
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - - 0 1"; // Draw3N
     //"7r/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua0
-    "8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [24-ply in 21:13 @1.3532 over 1.273 Gnode] eval 0.0
+    //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [24-ply in 21:13 @1.3532 over 1.273 Gnode] eval 0.0
     // moves h6h5 f6f5 h5h4 f5h3 h4g5 h3f5 g5h4 f5h3 h4g5 h3f5 g5h6 f5f6 h6h7 f6f7 h7h8 f7f8 h8h7 f8f7 h7h8 f7f8 h8h7 f8f7, or
     // moves h6h5 f6f7 h5g4 f7f5 g4h4 f5f6 h4h5 f6f5 h5h6 f5f6 h6h7 f6f7 h7h6 f7f6 [once inevitable, postponing a draw is not favored]
     //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen vs Urkedal 2013 #10 [16-ply in 14:39 @1.9 MHz over 1.67 Gnode]
     // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
     //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen vs Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
     //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz]
-    //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
+    "rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
     //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [13-ply in 2:00 @1.548 MHz over 185.7 Mnode] eval -9.35
     //"3r2k1/1p3pp1/p1p5/8/1Pr5/P3PqBp/1Q3P1P/R3RK2 b - - 0 30"; // 1964 Bielicki v Smyslov (0-1) #9 [15-ply 1:18 @1.633 MHz]
