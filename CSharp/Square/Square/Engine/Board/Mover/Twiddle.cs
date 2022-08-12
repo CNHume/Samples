@@ -61,7 +61,7 @@
 namespace Engine {
   using System;
   using System.Diagnostics;
-  using System.Numerics;
+  using System.Numerics;                // for BitOperations
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 #if ImportTwiddle
   using System.Runtime.InteropServices; // for [DllImport]

@@ -5,8 +5,8 @@
 //
 // Conditionals:
 //
+//#define BuildAtxTo
 //#define Magic
-#define HashPieces
 #define UnshadowRay
 
 namespace Engine {
@@ -17,17 +17,23 @@ namespace Engine {
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Text;
 
+  //
+  // Type Aliases:
+  //
+  using Hashcode = UInt64;
+  using Plane = UInt64;
+
   partial class Board {
     #region Methods
     //
     // getPieceIndex
     // verifyPieceColors
     //
+    // [Clr|Set][RayState|Rotations]
+    //
     // oppositeBishops
     // sameBishops
     // hasBishopPair
-    //
-    // [Clr|Set][RayState|Rotations]
     //
     #region Square Pieces
     protected Byte getPieceIndex(Int32 n) {
@@ -98,28 +104,6 @@ namespace Engine {
     }
     #endregion                          // Square Pieces
 
-    #region Bishop Tests
-    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
-      var blackPair = fBlackSide & SideFlags.Pair;
-      var whitePair = fWhiteSide & SideFlags.Pair;
-
-      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Dark) ||
-             (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
-    }
-
-    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
-      var blackPair = fBlackSide & SideFlags.Pair;
-      var whitePair = fWhiteSide & SideFlags.Pair;
-
-      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Lite) ||
-             (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
-    }
-
-    protected static Boolean hasBishopPair(SideFlags fside) {
-      return (fside & SideFlags.Pair) == SideFlags.Pair;
-    }
-    #endregion                          // Bishop Tests
-
     #region Rotations
 #if !Magic
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -162,6 +146,192 @@ namespace Engine {
     }
 #endif                                  // UnshadowRay
     #endregion                          // Rotations
+
+    #region Bishop Tests
+    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
+
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Dark) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
+    }
+
+    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
+
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Lite) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
+    }
+
+    protected static Boolean hasBishopPair(SideFlags fside) {
+      return (fside & SideFlags.Pair) == SideFlags.Pair;
+    }
+    #endregion                          // Bishop Tests
+
+    #region Flag Methods
+    public Boolean WTM() {
+      return FlagsTurn.Has(TurnFlags.WTM);
+    }
+
+    protected void setWTM(Boolean bWTM) {
+      if (bWTM)
+        FlagsTurn |= TurnFlags.WTM;
+      else
+        FlagsTurn &= ~TurnFlags.WTM;
+
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
+      (Friend, Foe) = getSides(WTM());
+    }
+
+    protected void setLegal(Boolean bLegal) {
+      if (bLegal)
+        FlagsTurn &= ~TurnFlags.Illegal;
+      else
+        FlagsTurn |= TurnFlags.Illegal;
+    }
+
+    protected void setInCheck(Boolean bInCheck) {
+      if (bInCheck)
+        FlagsTurn |= TurnFlags.InCheck;
+      else
+        FlagsTurn &= ~TurnFlags.InCheck;
+    }
+
+    protected void setFinal() {
+      FlagsTurn |= TurnFlags.Final;
+    }
+
+    public Boolean IsFinal() {
+      return FlagsTurn.Has(TurnFlags.Final);
+    }
+
+    public Boolean InCheck() {
+      return FlagsTurn.Has(TurnFlags.InCheck);
+    }
+
+    public Boolean IsPassed() {
+      return FlagsTurn.Has(TurnFlags.Passed);
+    }
+
+    public Boolean IsDraw() {
+      return FlagsDraw.Has(DrawFlags.DrawMask);
+    }
+
+    public Boolean IsDraw2() {
+      return FlagsDraw.Has(DrawFlags.Draw2);
+    }
+
+    public Boolean IsDraw50() {
+      return FlagsDraw.Has(DrawFlags.Draw50);
+    }
+
+    public Boolean IsInsufficient() {
+      return FlagsDraw.Has(DrawFlags.DrawIM);
+    }
+
+    public Boolean IsStalemate() {
+      return IsFinal() && !InCheck();
+    }
+
+    //
+    // Recognize Draw by Insufficient Material:
+    //
+    protected void setInsufficient() {
+      FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
+      if (IsInsufficient(RankPiece))
+        FlagsDraw |= DrawFlags.DrawIM;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Boolean IsInsufficient(Plane qpPiece) {
+      var qpPawn = qpPiece & Pawn;
+      var qpRect = qpPiece & RectPiece;
+      var qpDiag = qpPiece & DiagPiece;
+      var qpKnight = qpPiece & Knight;
+
+      // No Pawn, Rook or Queen:
+      if (qpPawn == 0 && qpRect == 0) {
+        //
+        // If either a single Knight or multiple Bishops covering squares
+        // of only one color remain, then even a helpmate is not possible.
+        //
+        if (qpDiag == 0) {              // Test for KK[N]:
+          if (IsOneOrNone(qpKnight))
+            return true;
+        }
+        else if (qpKnight == 0) {       // Test for KB*KB+ of same color:
+          if ((qpDiag & LiteSquare) == 0 ||
+              (qpDiag & DarkSquare) == 0)
+            return true;
+        }
+      }
+
+      return false;
+    }
+
+    protected void clrRepetition() {
+      FlagsDraw &= ~(DrawFlags.Draw3 | DrawFlags.Draw2);
+    }
+
+    protected void setRepetition(Boolean bDraw3) {
+      FlagsDraw |= bDraw3 ? DrawFlags.Draw3 : DrawFlags.Draw2;
+    }
+
+    protected DrawFlags fdraw() {
+      return FlagsDraw & (DrawFlags.Draw3 | DrawFlags.Draw2);
+    }
+
+    public Boolean IsDraw0() {
+      return FlagsDraw.Has(DrawFlags.Draw0);
+    }
+
+    protected void clrDraw0() {
+      FlagsDraw &= ~DrawFlags.Draw0;
+    }
+
+    protected void setDraw0() {
+      FlagsDraw |= DrawFlags.Draw0;
+    }
+
+    protected void setDraw50() {
+      if (HalfMoveClock < HalfMoveClockMax)
+        FlagsDraw &= ~DrawFlags.Draw50;
+      else                              // 50 Move Rule
+        FlagsDraw |= DrawFlags.Draw50;
+    }
+
+    protected Boolean IsNullMade() {
+      return FlagsMode.Has(ModeFlags.NullMade);
+    }
+
+    private void clrNullMade() {
+      FlagsMode &= ~ModeFlags.NullMade;
+    }
+
+    private void setNullMade() {
+      FlagsMode |= ModeFlags.NullMade;
+    }
+
+    protected bool IsTrace() {
+      return FlagsMode.Has(ModeFlags.Trace);
+    }
+
+    protected void clrTrace() {
+      FlagsMode &= ~ModeFlags.Trace;
+    }
+
+    //[Speed]Use of params is slow.
+    protected void setTrace(params Hashcode[] qHashcodes) {
+      if (qHashcodes.Any(qHashcode => qHashcode == Hash))
+        FlagsMode |= ModeFlags.Trace;
+    }
+
+    protected void setTrace(Hashcode qHashcode) {
+      if (qHashcode == Hash)
+        FlagsMode |= ModeFlags.Trace;
+    }
+    #endregion                          // Flag Methods
     #endregion                          // Methods
   }
 }
