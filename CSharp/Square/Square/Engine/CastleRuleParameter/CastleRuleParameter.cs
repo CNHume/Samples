@@ -32,6 +32,9 @@ namespace Engine {
     #endregion
 
     #region Methods
+    //
+    // rankPath - Returns mask for squares that must not be obstructed (or attacked)
+    //
     public void Clear() {
       //
       // Clear Castling State for parseFEN():

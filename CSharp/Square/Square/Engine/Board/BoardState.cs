@@ -1,7 +1,7 @@
 ﻿//
 // Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 //
-//[2012-09-15 CNHume]Split Piece into its own file
+//[2022-08-11 CNHume]Renamed file to BoardState
 //
 // Conditionals:
 //
@@ -20,9 +20,6 @@ namespace Engine {
   partial class Board {
     #region Methods
     //
-    // Clear
-    // [Clr|Set][RayState|Rotations]
-    //
     // getPieceIndex
     // verifyPieceColors
     //
@@ -30,60 +27,9 @@ namespace Engine {
     // sameBishops
     // hasBishopPair
     //
-    #region Init Methods
-    public virtual void Clear() {
-      foreach (var side in Side)
-        side.Clear();
-
-      RankPiece = Pawn = King = Knight = DiagPiece = RectPiece = 0UL;
-#if !Magic
-      A1H8Piece = A8H1Piece = FilePiece = 0UL;
-#endif
-      HashPawn = Hash = 0UL;
-    }
-    #endregion                          // Init Methods
-
+    // [Clr|Set][RayState|Rotations]
+    //
     #region Square Pieces
-#if UnshadowRay
-    //
-    // The following are called to remove and replace a King from the
-    // board to unshadow its destination squares from any ray attacks.
-    //
-    //[Warning]The Hash is not updated during this interval.
-    //
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void clrRayState(Int32 nFrom) {
-      var qp = BIT0 << nFrom;
-      RankPiece &= ~qp;
-#if !Magic
-      ClrRotations(nFrom);
-#endif
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void setRayState(Int32 nTo) {
-      var qp = BIT0 << nTo;
-      RankPiece |= qp;
-#if !Magic
-      SetRotations(nTo);
-#endif
-    }
-#endif
-#if !Magic
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal void ClrRotations(Int32 n) {
-      FilePiece &= ~FileBit[n];
-      A1H8Piece &= ~A1H8Bit[n];
-      A8H1Piece &= ~A8H1Bit[n];
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal void SetRotations(Int32 n) {
-      FilePiece |= FileBit[n];
-      A1H8Piece |= A1H8Bit[n];
-      A8H1Piece |= A8H1Bit[n];
-    }
-#endif
     protected Byte getPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
       var qp = BIT0 << n;
@@ -173,6 +119,49 @@ namespace Engine {
       return (fside & SideFlags.Pair) == SideFlags.Pair;
     }
     #endregion                          // Bishop Tests
+
+    #region Rotations
+#if !Magic
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal void ClrRotations(Int32 n) {
+      FilePiece &= ~FileBit[n];
+      A1H8Piece &= ~A1H8Bit[n];
+      A8H1Piece &= ~A8H1Bit[n];
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal void SetRotations(Int32 n) {
+      FilePiece |= FileBit[n];
+      A1H8Piece |= A1H8Bit[n];
+      A8H1Piece |= A8H1Bit[n];
+    }
+#endif
+#if UnshadowRay
+    //
+    // The following are called to remove and replace a King from the
+    // board to unshadow its destination squares from any ray attacks.
+    //
+    //[Warning]The Hash is not updated during this interval.
+    //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected void ClrRayState(Int32 nFrom) {
+      var qp = BIT0 << nFrom;
+      RankPiece &= ~qp;
+#if !Magic
+      ClrRotations(nFrom);
+#endif
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected void SetRayState(Int32 nTo) {
+      var qp = BIT0 << nTo;
+      RankPiece |= qp;
+#if !Magic
+      SetRotations(nTo);
+#endif
+    }
+#endif                                  // UnshadowRay
+    #endregion                          // Rotations
     #endregion                          // Methods
   }
 }

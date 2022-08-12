@@ -118,6 +118,7 @@ namespace Engine {
       newSquareControl();
     }
 
+    #region Init Methods
     private void newSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
@@ -134,6 +135,96 @@ namespace Engine {
 #endif
       ControlTo = new SByte[nSquares];
     }
+
+    // Called by ParsePosition() and Position.Clear()
+    public virtual void Clear() {
+      foreach (var side in Side)
+        side.Clear();
+
+      RankPiece = Pawn = King = Knight = DiagPiece = RectPiece = 0UL;
+#if !Magic
+      A1H8Piece = A8H1Piece = FilePiece = 0UL;
+#endif
+      HashPawn = Hash = 0UL;
+    }
+    #endregion                          // Init Methods
+
+    #region Static Initialization
+    public static void SetPieceSymbols(String sLanguage) {
+      if (sLanguage is null)
+        PieceSymbols = default;
+      else {
+        var found = Locales.FirstOrDefault(
+          locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
+        PieceSymbols = found?.Symbols;
+
+        if (PieceSymbols is null) {
+          Parameter[Black].Symbol = "B";
+          Parameter[White].Symbol = "W";
+        }
+        else {
+          Trace.Assert(nSymbols <= PieceSymbols.Length, "Insufficient number of Piece Symbols");
+          Parameter[Black].Symbol = PieceSymbols[vBlack].ToString();
+          Parameter[White].Symbol = PieceSymbols[vWhite].ToString();
+        }
+      }
+    }
+
+    protected static void initAttacks() {
+      //
+      // Whether the Ray Atx planes are Magic or Rotated,
+      // rotateRank() will be needed by [rank|rect]Atx().
+      //
+      newRankOffset();
+      loadRankOffset();
+#if Magic
+      newMagic();
+      loadMagic();
+#else
+      newRotation();
+      loadRotation();
+
+      newRectBit();
+      newDiagBit();
+
+      loadRectBit();
+      loadDiagBit();
+#endif
+      newKingAtx();
+      newKnightAtx();
+
+      loadPieceAtx();
+
+      newRectAtx();
+      newDiagAtx();
+
+      //
+      // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadRectAtx()
+      // require that A1H8Magic[], A8H1Magic[] and FileMagic[] have been built by loadMagic().
+      //
+      loadRectAtx();                    // Each of the following loads takes around 0.333 ms
+      loadDiagAtx();
+
+      newZobrist();
+      loadZobrist();
+#if InitDeBruijn
+#if ByteDeBruijn
+      deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3
+      loadDeBruijn(deBruijnByte, 3, vDeBruijn);
+#endif
+#if DeBruijn
+#if FullData
+      deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
+      loadDeBruijn(deBruijnFull, 6, qDeBruijn);
+#else                                   //!FullData
+      deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
+      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
+#endif                                  // FullData
+#endif                                  // DeBruijn
+#endif                                  // InitDeBruijn
+      colorSquares();
+    }
+    #endregion                          // Static Initialization
 
     //
     // Copy Constructor:
@@ -211,83 +302,6 @@ namespace Engine {
     #endregion                          // Copy Methods
     #endregion                          // Constructors
 
-    #region Static Initialization
-    public static void SetPieceSymbols(String sLanguage) {
-      if (sLanguage is null)
-        PieceSymbols = default;
-      else {
-        var found = Locales.FirstOrDefault(
-          locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
-        PieceSymbols = found?.Symbols;
-
-        if (PieceSymbols is null) {
-          Parameter[Black].Symbol = "B";
-          Parameter[White].Symbol = "W";
-        }
-        else {
-          Trace.Assert(nSymbols <= PieceSymbols.Length, "Insufficient number of Piece Symbols");
-          Parameter[Black].Symbol = PieceSymbols[vBlack].ToString();
-          Parameter[White].Symbol = PieceSymbols[vWhite].ToString();
-        }
-      }
-    }
-
-    protected static void initAttacks() {
-      //
-      // Whether the Ray Atx planes are Magic or Rotated,
-      // rotateRank() will be needed by [rank|rect]Atx().
-      //
-      newRankOffset();
-      loadRankOffset();
-#if Magic
-      newMagic();
-      loadMagic();
-#else
-      newRotation();
-      loadRotation();
-
-      newRectBit();
-      newDiagBit();
-
-      loadRectBit();
-      loadDiagBit();
-#endif
-      newKingAtx();
-      newKnightAtx();
-
-      loadPieceAtx();
-
-      newRectAtx();
-      newDiagAtx();
-
-      //
-      // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadRectAtx()
-      // require that A1H8Magic[], A8H1Magic[] and FileMagic[] have been built by loadMagic().
-      //
-      loadRectAtx();                    // Each of the following loads takes around 0.333 ms
-      loadDiagAtx();
-
-      newZobrist();
-      loadZobrist();
-#if InitDeBruijn
-#if ByteDeBruijn
-      deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3
-      loadDeBruijn(deBruijnByte, 3, vDeBruijn);
-#endif
-#if DeBruijn
-#if FullData
-      deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
-      loadDeBruijn(deBruijnFull, 6, qDeBruijn);
-#else                                   //!FullData
-      deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
-      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
-#endif                                  // FullData
-#endif                                  // DeBruijn
-#endif                                  // InitDeBruijn
-      colorSquares();
-    }
-    #endregion
-
     #region IEquatable Interface Methods
     public override Int32 GetHashCode() {
       var uHi = (UInt32)(Hash >> 32);
@@ -342,7 +356,7 @@ namespace Engine {
     public static Boolean operator !=(Board board1, Board board2) {
       return !Equals(board1, board2);
     }
-    #endregion
+    #endregion                          // IEquatable Interface Methods
 
     #region Ply Methods
     protected static UInt16 moveDelta(Ply wPly) {
@@ -358,7 +372,7 @@ namespace Engine {
     private static Ply plyCount(Ply wMove) {
       return (Ply)((wMove - 1) * 2);
     }
-    #endregion
+    #endregion                          // Ply Methods
 
     #region Move Methods
     internal static Boolean isDefinite(Move move) {
@@ -547,8 +561,8 @@ namespace Engine {
 #endif
       nTo = to(move);
     }
-    #endregion
-    #endregion
+    #endregion                          // Unpack Methods
+    #endregion                          // Move Methods
 
     #region Flag Methods
     public Boolean WTM() {
@@ -712,7 +726,7 @@ namespace Engine {
       if (qHashcode == Hash)
         FlagsMode |= ModeFlags.Trace;
     }
-    #endregion
+    #endregion                          // Flag Methods
 
     #region EPD Operation Methods
     protected void addOperation(
@@ -734,6 +748,6 @@ namespace Engine {
         addOperation(Operations, "id", sValue);
       }
     }
-    #endregion
+    #endregion                          // EPD Operation Methods
   }
 }

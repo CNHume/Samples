@@ -169,9 +169,9 @@ namespace Engine {
         // Briefly remove the King being moved from position to
         // unshadow its destination squares from ray attacks:
         //
-        clrRayState(vKingPos);
+        ClrRayState(vKingPos);
         qpMoveTo &= Foe.Safe(qpMoveTo);
-        setRayState(vKingPos);
+        SetRayState(vKingPos);
       }
       else
 #endif
@@ -196,9 +196,9 @@ namespace Engine {
         // Briefly remove the King being moved from position to
         // unshadow its destination squares from ray attacks:
         //
-        clrRayState(vKingPos);
+        ClrRayState(vKingPos);
         qpMoveTo &= Foe.Safe(qpMoveTo);
-        setRayState(vKingPos);
+        SetRayState(vKingPos);
       }
       else
 #endif

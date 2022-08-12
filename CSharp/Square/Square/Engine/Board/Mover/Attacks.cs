@@ -26,12 +26,11 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
+    #region Methods
     //
     // Attack Methods:
     //
     // BuildAtxTo
-    //
-    // rankPath - Returns mask for squares that must not be obstructed (or attacked)
     //
     // PieceAtxTo - Used by abbreviate to detect potential move ambiguity
     // PieceAtx - Called by BuildMove on behalf of parsePACNMove to verify From and To
@@ -40,10 +39,12 @@ namespace Engine {
     // CanOOO
     // CanCastle
     //
+    // Count Methods:
+    //
     // incTo
     // decTo
     //
-    #region Attacks
+    #region Attack Methods
     //
     // Distinct AtxTo[] and AtxFrom[] may be of help in evaluating Piece
     // Mobility and Square Control.
@@ -207,7 +208,7 @@ namespace Engine {
              (qpCapture & Friend.PawnA1H8Atx) != 0 ||
              (qpCapture & Friend.PawnA8H1Atx) != 0;
     }
-    #endregion                          // Attacks
+    #endregion                          // Attack Methods
 
     #region Count Methods
     private Int32 incTo(Plane qpAtxTo) {
@@ -242,5 +243,6 @@ namespace Engine {
       return nAtx;
     }
     #endregion                          // Count Methods
+    #endregion                          // Methods
   }
 }

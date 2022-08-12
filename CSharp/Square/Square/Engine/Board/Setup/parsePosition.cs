@@ -306,7 +306,6 @@ namespace Engine {
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
     protected Boolean ParsePosition(Scanner scanner, out String sPassed) {
-      Boolean bWTM;
       Clear();                          // Clear Board
 
       //
@@ -321,7 +320,7 @@ namespace Engine {
       // 2. Side to Move
       //
       var sToMove = scanner.HasTextSpan() ? scanner.Next() : "w";
-      bWTM = parseWTM(sToMove);
+      var bWTM = parseWTM(sToMove);
 
       //
       // 3. Castling Flags
