@@ -66,14 +66,11 @@ namespace Engine {
 
       #region Methods
       //
+      // [clr|set]Piece
+      // [Raise|Remove]Piece
+      // [Lower|Place]Piece
       // Passed
-      // clrPiece
-      // setPiece
       // ResetPawnAtx
-      // RaisePiece
-      // RemovePiece
-      // LowerPiece
-      // PlacePiece
       // RookCastles
       // setInsufficient
       // testInsufficient
@@ -89,8 +86,7 @@ namespace Engine {
       // AddPawnCaptures2
       // AddPawnMoves
       // AddPromotions
-      // incSideCount
-      // decSideCount
+      // [inc|dec]SideCount
       // AtxCount
       // hashPiece
       // HashPiece

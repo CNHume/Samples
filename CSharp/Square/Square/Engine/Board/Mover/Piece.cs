@@ -17,36 +17,73 @@ namespace Engine {
   using System.Runtime.CompilerServices;// for MethodImplAttribute
   using System.Text;
 
-  //
-  // Type Aliases:
-  //
-  using Plane = UInt64;
-
   partial class Board {
     #region Methods
-    #region Bishop Tests
-    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
-      var blackPair = fBlackSide & SideFlags.Pair;
-      var whitePair = fWhiteSide & SideFlags.Pair;
+    //
+    // Clear
+    // [Clr|Set][RayState|Rotations]
+    //
+    // getPieceIndex
+    // verifyPieceColors
+    //
+    // oppositeBishops
+    // sameBishops
+    // hasBishopPair
+    //
+    #region Init Methods
+    public virtual void Clear() {
+      foreach (var side in Side)
+        side.Clear();
 
-      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Dark) ||
-             (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
+      RankPiece = Pawn = King = Knight = DiagPiece = RectPiece = 0UL;
+#if !Magic
+      A1H8Piece = A8H1Piece = FilePiece = 0UL;
+#endif
+      HashPawn = Hash = 0UL;
     }
-
-    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
-      var blackPair = fBlackSide & SideFlags.Pair;
-      var whitePair = fWhiteSide & SideFlags.Pair;
-
-      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Lite) ||
-             (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
-    }
-
-    protected static Boolean hasBishopPair(SideFlags fside) {
-      return (fside & SideFlags.Pair) == SideFlags.Pair;
-    }
-    #endregion                          // Bishop Tests
+    #endregion                          // Init Methods
 
     #region Square Pieces
+#if UnshadowRay
+    //
+    // The following are called to remove and replace a King from the
+    // board to unshadow its destination squares from any ray attacks.
+    //
+    //[Warning]The Hash is not updated during this interval.
+    //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected void clrRayState(Int32 nFrom) {
+      var qp = BIT0 << nFrom;
+      RankPiece &= ~qp;
+#if !Magic
+      ClrRotations(nFrom);
+#endif
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected void setRayState(Int32 nTo) {
+      var qp = BIT0 << nTo;
+      RankPiece |= qp;
+#if !Magic
+      SetRotations(nTo);
+#endif
+    }
+#endif
+#if !Magic
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal void ClrRotations(Int32 n) {
+      FilePiece &= ~FileBit[n];
+      A1H8Piece &= ~A1H8Bit[n];
+      A8H1Piece &= ~A8H1Bit[n];
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    internal void SetRotations(Int32 n) {
+      FilePiece |= FileBit[n];
+      A1H8Piece |= A1H8Bit[n];
+      A8H1Piece |= A8H1Bit[n];
+    }
+#endif
     protected Byte getPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
       var qp = BIT0 << n;
@@ -113,57 +150,29 @@ namespace Engine {
         }
       }
     }
-#if UnshadowRay
-    //
-    // The following are called to remove and replace a King from the
-    // board to unshadow its destination squares from any ray attacks.
-    //
-    //[Warning]The Hash is not updated during this interval.
-    //
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void clrRayState(Int32 nFrom) {
-      var qp = BIT0 << nFrom;
-      RankPiece &= ~qp;
-#if !Magic
-      ClrRotations(nFrom);
-#endif
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void setRayState(Int32 nTo) {
-      var qp = BIT0 << nTo;
-      RankPiece |= qp;
-#if !Magic
-      SetRotations(nTo);
-#endif
-    }
-#endif
-#if !Magic
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal void ClrRotations(Int32 n) {
-      FilePiece &= ~FileBit[n];
-      A1H8Piece &= ~A1H8Bit[n];
-      A8H1Piece &= ~A8H1Bit[n];
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal void SetRotations(Int32 n) {
-      FilePiece |= FileBit[n];
-      A1H8Piece |= A1H8Bit[n];
-      A8H1Piece |= A8H1Bit[n];
-    }
-#endif
-    public virtual void Clear() {
-      foreach (var side in Side)
-        side.Clear();
-
-      RankPiece = Pawn = King = Knight = DiagPiece = RectPiece = 0UL;
-#if !Magic
-      A1H8Piece = A8H1Piece = FilePiece = 0UL;
-#endif
-      HashPawn = Hash = 0UL;
-    }
     #endregion                          // Square Pieces
+
+    #region Bishop Tests
+    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
+
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Dark) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
+    }
+
+    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+      var blackPair = fBlackSide & SideFlags.Pair;
+      var whitePair = fWhiteSide & SideFlags.Pair;
+
+      return (whitePair == SideFlags.Lite && blackPair == SideFlags.Lite) ||
+             (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
+    }
+
+    protected static Boolean hasBishopPair(SideFlags fside) {
+      return (fside & SideFlags.Pair) == SideFlags.Pair;
+    }
+    #endregion                          // Bishop Tests
     #endregion                          // Methods
   }
 }

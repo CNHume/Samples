@@ -29,8 +29,6 @@ namespace Engine {
     //
     // Attack Methods:
     //
-    // incTo
-    // decTo
     // BuildAtxTo
     //
     // rankPath - Returns mask for squares that must not be obstructed (or attacked)
@@ -42,25 +40,8 @@ namespace Engine {
     // CanOOO
     // CanCastle
     //
-    // getPieceIndex - Returns Piece at any square
-    //
-    // Move Generators:
-    //
-    // addCastles
-    // addPieceMoves
-    // addPieceCaptures
-    // addPawnMoves
-    // addPawnCaptures
-    //
-    // Move Methods:
-    //
-    // movePiece and its related methods:
-    // LowerPiece which is called by PlacePiece
-    // RaisePiece which is called by RemovePiece
-    //
-    // Rotation Methods:
-    //
-    // [set|clr][Piece|Rotations]
+    // incTo
+    // decTo
     //
     #region Attacks
     //
@@ -81,6 +62,7 @@ namespace Engine {
     // types of attack for either side.
     //
 #if BuildAtxTo
+    [Conditional("BuildAtxTo")]
     protected void BuildAtxTo(Plane qpPieceUpdate) {
       while (qpPieceUpdate != 0) {
         var nTo = RemoveLo(ref qpPieceUpdate);
@@ -105,38 +87,6 @@ namespace Engine {
       }
     }
 #endif
-    private Int32 incTo(Plane qpAtxTo) {
-      var nAtx = 0;
-#if Controlled
-      AttackedSum |= qpAtxTo;
-#endif
-      while (qpAtxTo != 0) {
-        var n = RemoveLo(ref qpAtxTo);
-#if Controlled
-        ControlTo[n]++;
-#endif
-        nAtx++;
-      }
-
-      return nAtx;
-    }
-
-    private Int32 decTo(Plane qpAtxTo) {
-      var nAtx = 0;
-#if Controlled
-      AttackedSum |= qpAtxTo;
-#endif
-      while (qpAtxTo != 0) {
-        var n = RemoveLo(ref qpAtxTo);
-#if Controlled
-        ControlTo[n]--;
-#endif
-        nAtx++;
-      }
-
-      return nAtx;
-    }
-
     //
     // The following is currently only needed for abbreviate().  It finds all
     // pieces of the specified type (for the side to move) which "attack" nTo.
@@ -258,5 +208,39 @@ namespace Engine {
              (qpCapture & Friend.PawnA8H1Atx) != 0;
     }
     #endregion                          // Attacks
+
+    #region Count Methods
+    private Int32 incTo(Plane qpAtxTo) {
+      var nAtx = 0;
+#if Controlled
+      AttackedSum |= qpAtxTo;
+#endif
+      while (qpAtxTo != 0) {
+        var n = RemoveLo(ref qpAtxTo);
+#if Controlled
+        ControlTo[n]++;
+#endif
+        nAtx++;
+      }
+
+      return nAtx;
+    }
+
+    private Int32 decTo(Plane qpAtxTo) {
+      var nAtx = 0;
+#if Controlled
+      AttackedSum |= qpAtxTo;
+#endif
+      while (qpAtxTo != 0) {
+        var n = RemoveLo(ref qpAtxTo);
+#if Controlled
+        ControlTo[n]--;
+#endif
+        nAtx++;
+      }
+
+      return nAtx;
+    }
+    #endregion                          // Count Methods
   }
 }

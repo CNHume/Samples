@@ -33,8 +33,19 @@ namespace Engine {
     protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
 
     protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
-    #endregion
+    #endregion                          // Constant Move Masks
 
+    #region Methods
+    // getPieceIndex - Returns Piece at any square
+    //
+    // Move Generators:
+    //
+    // addCastles
+    // addPieceMoves
+    // addPieceCaptures
+    // addPawnMoves
+    // addPawnCaptures
+    //
     #region Castling Moves
     protected void addCastles() {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
@@ -56,7 +67,7 @@ namespace Engine {
 #endif
       }
     }
-    #endregion
+    #endregion                          // Castling Moves
 
     #region Pawn Moves
     public void AddPawnCapture(
@@ -108,7 +119,7 @@ namespace Engine {
         moves.Add(move);
       }
     }
-    #endregion
+    #endregion                          // Pawn Moves
 
     #region Piece Moves
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -310,6 +321,7 @@ namespace Engine {
       addRookCaptures(qpTo);
       addQueenCaptures(qpTo);
     }
-    #endregion
+    #endregion                          // Piece Moves
+    #endregion                          // Methods
   }
 }

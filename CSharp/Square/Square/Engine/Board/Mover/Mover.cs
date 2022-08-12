@@ -31,6 +31,14 @@ namespace Engine {
     public const Byte HalfMoveClockMax = 100;   // 50-move (100-ply) rule
     #endregion
 
+    #region Methods
+    //
+    // Move Methods:
+    //
+    // movePiece and its BoardSide methods:
+    // LowerPiece which is called by PlacePiece
+    // RaisePiece which is called by RemovePiece
+    //
     #region Side Methods
     protected BoardSide getSide(Boolean bWTM) {
       return bWTM ?
@@ -314,7 +322,7 @@ namespace Engine {
 
       tracePosition();                  //[Conditional]
     }
-    #endregion
+    #endregion                          // Piece Mover
 
     #region Trace Positions
     // Called by playMove() and skipTurn()
@@ -368,6 +376,7 @@ namespace Engine {
       setTrace(
         0x62FE82784CA9DA62);            // 8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57
     }
-    #endregion
+    #endregion                          // Trace Positions
+    #endregion                          // Methods
   }
 }

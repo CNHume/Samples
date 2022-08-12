@@ -46,9 +46,9 @@ namespace Engine.CacheValue {
       WhitePRP = fWhitePRP;
       BlackPassers = qpBlackPassers;
       WhitePassers = qpWhitePassers;
-      weighPawnFeatures(out Delta, out Total,
-                        uBlackCounts, uWhiteCounts,
-                        qpBlackPassers, qpWhitePassers);
+      (Delta, Total) = weighPawnFeatures(
+        uBlackCounts, uWhiteCounts,
+        qpBlackPassers, qpWhitePassers);
     }
     #endregion
 
@@ -63,9 +63,9 @@ namespace Engine.CacheValue {
       WhitePRP = fWhitePRP;
       BlackPassers = qpBlackPassers;
       WhitePassers = qpWhitePassers;
-      weighPawnFeatures(out Delta, out Total,
-                        uBlackCounts, uWhiteCounts,
-                        qpBlackPassers, qpWhitePassers);
+      (Delta, Total) = weighPawnFeatures(
+        uBlackCounts, uWhiteCounts,
+        qpBlackPassers, qpWhitePassers);
     }
 #endif
     #endregion

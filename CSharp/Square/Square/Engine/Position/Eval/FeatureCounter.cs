@@ -225,9 +225,7 @@ namespace Engine {
       return (Eval)nValue;
     }
 
-    internal static void weighPawnFeatures(
-      out Eval Delta,
-      out Eval Total,
+    internal static (Eval delta, Eval total) weighPawnFeatures(
       FeatureCounter uBlackCounts,
       FeatureCounter uWhiteCounts,
       Plane qpBlackPassers,
@@ -253,8 +251,7 @@ namespace Engine {
       var mWhitePasserWeight = weighWhitePassers(qpWhitePassers);
       nValueDelta += mWhitePasserWeight - mBlackPasserWeight;
 
-      Delta = (Eval)nValueDelta;
-      Total = (Eval)nValueTotal;
+      return ((Eval)nValueDelta, (Eval)nValueTotal);
     }
     #endregion
   }
