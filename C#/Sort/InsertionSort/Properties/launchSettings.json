@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InsertionSort": {
+      "commandName": "Project",
+      "commandLineArgs": "50"
+    }
+  }
+}

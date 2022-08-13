@@ -1,4 +1,4 @@
-﻿//
+//
 // (C) Copyright 2014, Christopher N. Hume.  All rights reserved.
 //
 //[2014-07-16 CNHume]Converted to a Generic Class

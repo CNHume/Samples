@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MergeSort": {
+      "commandName": "Project",
+      "commandLineArgs": "1000000"
+    }
+  }
+}

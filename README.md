@@ -6,9 +6,9 @@ Code Samples written by Christopher N. Hume
 
 These samples are intended to be illustrative of my coding style. In addition to games, the other folders include implementations of Sorting and Searching and examples of more interesting algorithms as well.
 
-The LCS folder contains three implementations of my solution to The Longest Common Subsequence (LCS) Problem, which I have offered as the C++ implementation on Rosetta Code. LCS is perhaps best known as the algorithm used to identify the changes to made to a source file in a source control system.
+The C++/LCS folder contains three implementations of my solution to The Longest Common Subsequence (LCS) Problem, which I have offered as the C++ implementation on Rosetta Code. LCS is perhaps best known as the algorithm used to identify the changes to made to a source file in a source control system.
 
-I have held a long-standing interest in Functional Programming. In the allegro-projects folder I have included my implementation of a “graph-reducing combinator-compiler” for a head-first (a.k.a., lazy-evaluation) functional programming language that I refer to as SK.
+I have held long-standing interest in Functional Programming. In the Lisp folder I have included my Allegro Common Lisp (ACL) implementation of a “graph-reducing combinator-compiler” for a head-first (a.k.a., lazy-evaluation) functional programming language that I refer to as SK.
 
 This language is a more Lisp-like version SASL, a purely functional programming language developed by David Turner at the University of St Andrews in 1972.  The implementation thereby skirts the need for clever parsing, and makes use instead of the Lisp reader and macros (and the backquote operator).
 
@@ -18,7 +18,7 @@ I originally wrote this code for a Symbolics Lisp Machine. It was then ported to
 
 While working in Lisp, I became interested in understanding the RSA public-key encryption algorithm developed by Rivest, Shamir and Adleman. I include my Lisp implementation in the RSA sub-folder.
 
-The CSharp folder has a Square sub-folder which contains implementation of a Chess Engine written in C#.
+The C# folder has a Square sub-folder which contains implementation of a Chess Engine written in C#.
 
 The Sort sub-folder contains implementations of the standard Sorting Algorithms.
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "QuickSort": {
+      "commandName": "Project",
+      "commandLineArgs": "1000000"
+    }
+  }
+}

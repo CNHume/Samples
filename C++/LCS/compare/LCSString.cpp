@@ -50,7 +50,7 @@ string LCSString::Correspondence(const string& s1, const string& s2) {
 
 shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
-  MATCHES indexesOf2MatchedByIndex1;      // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
+  MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
   auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
 #ifdef SHOW_COUNTS
   cout << count << " indexesOf2MatchedByIndex1" << endl;
