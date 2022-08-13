@@ -170,6 +170,7 @@ namespace Engine {
     #endregion                          // Bishop Tests
 
     #region Flag Methods
+    #region TurnFlags
     public Boolean WTM() {
       return FlagsTurn.Has(TurnFlags.WTM);
     }
@@ -184,11 +185,8 @@ namespace Engine {
       (Friend, Foe) = getSides(WTM());
     }
 
-    protected void setLegal(Boolean bLegal) {
-      if (bLegal)
-        FlagsTurn &= ~TurnFlags.Illegal;
-      else
-        FlagsTurn |= TurnFlags.Illegal;
+    public Boolean InCheck() {
+      return FlagsTurn.Has(TurnFlags.InCheck);
     }
 
     protected void setInCheck(Boolean bInCheck) {
@@ -198,18 +196,27 @@ namespace Engine {
         FlagsTurn &= ~TurnFlags.InCheck;
     }
 
-    protected void setFinal() {
-      FlagsTurn |= TurnFlags.Final;
+    protected void setLegal(Boolean bLegal) {
+      if (bLegal)
+        FlagsTurn &= ~TurnFlags.Illegal;
+      else
+        FlagsTurn |= TurnFlags.Illegal;
     }
 
     public Boolean IsFinal() {
       return FlagsTurn.Has(TurnFlags.Final);
     }
 
-    public Boolean InCheck() {
-      return FlagsTurn.Has(TurnFlags.InCheck);
+    protected void setFinal() {
+      FlagsTurn |= TurnFlags.Final;
     }
 
+    public Boolean IsStalemate() {
+      return IsFinal() && !InCheck();
+    }
+    #endregion                          // TurnFlags
+
+    #region DrawFlags
     public Boolean IsPassed() {
       return FlagsTurn.Has(TurnFlags.Passed);
     }
@@ -228,10 +235,6 @@ namespace Engine {
 
     public Boolean IsInsufficient() {
       return FlagsDraw.Has(DrawFlags.DrawIM);
-    }
-
-    public Boolean IsStalemate() {
-      return IsFinal() && !InCheck();
     }
 
     //
@@ -300,7 +303,9 @@ namespace Engine {
       else                              // 50 Move Rule
         FlagsDraw |= DrawFlags.Draw50;
     }
+    #endregion                          // DrawFlags
 
+    #region ModeFlags
     protected Boolean IsNullMade() {
       return FlagsMode.Has(ModeFlags.NullMade);
     }
@@ -321,16 +326,17 @@ namespace Engine {
       FlagsMode &= ~ModeFlags.Trace;
     }
 
+    protected void setTrace(Hashcode qHashcode) {
+      if (qHashcode == Hash)
+        FlagsMode |= ModeFlags.Trace;
+    }
+
     //[Speed]Use of params is slow.
     protected void setTrace(params Hashcode[] qHashcodes) {
       if (qHashcodes.Any(qHashcode => qHashcode == Hash))
         FlagsMode |= ModeFlags.Trace;
     }
-
-    protected void setTrace(Hashcode qHashcode) {
-      if (qHashcode == Hash)
-        FlagsMode |= ModeFlags.Trace;
-    }
+    #endregion                          // ModeFlags
     #endregion                          // Flag Methods
     #endregion                          // Methods
   }

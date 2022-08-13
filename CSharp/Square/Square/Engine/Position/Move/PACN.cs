@@ -71,17 +71,19 @@ namespace Engine {
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
     private static sq? parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
+      const Boolean ignoreCase = true;
       sq? sq = default;
       if (nPos + 2 <= nLen) {
-        sq = TryParseSquare(sMove.Substring(nPos, 2));
+        sq = sMove.Substring(nPos, 2).TryParseEnum<sq>(ignoreCase);
         nPos += 2;
       }
       return sq;
     }
 
     private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
+      const Boolean ignoreCase = true;
       return nPos < nLen ?
-        TryParsePiece(sMove[nPos++].ToString()) : default;
+        sMove[nPos++].ToString().TryParseEnum<Piece>(ignoreCase) : default;
     }
 
     private Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {

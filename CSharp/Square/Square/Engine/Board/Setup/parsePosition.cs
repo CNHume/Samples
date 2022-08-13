@@ -82,10 +82,12 @@ namespace Engine {
     }
 
     private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
+      const Boolean ignoreCase = true;
+
       if (!IsDigit(cPlacement)) {
         wasDigit = false;
         var bWhiteSide = IsUpper(cPlacement);
-        var piece = TryParsePiece(cPlacement.ToString());
+        var piece = cPlacement.ToString().TryParseEnum<Piece>(ignoreCase);
         if (!piece.HasValue)
           throw new ParsePositionException($"Unexpected Piece Name = {cPlacement}");
 
@@ -253,6 +255,8 @@ namespace Engine {
     }
 
     protected void parsePassed(String sEnPassant) {
+      const Boolean ignoreCase = true;
+
       //
       //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
       // are needed for passed() and hence for tryEP() below.
@@ -262,7 +266,7 @@ namespace Engine {
       if (IsNullOrEmpty(sEnPassant) || sEnPassant == "-")
         return;
 
-      var sqEnPassant = TryParseSquare(sEnPassant);
+      var sqEnPassant = sEnPassant.TryParseEnum<sq>(ignoreCase);
       if (!sqEnPassant.HasValue)
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 

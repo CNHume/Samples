@@ -383,15 +383,5 @@ namespace Engine {
     #region PositionType Enum
     public enum PositionType : byte { Prefix, FEN, EPD }
     #endregion
-
-    #region Enum Parse Methods
-    protected static Piece? TryParsePiece(String s, Boolean ignoreCase = true) {
-      return s.TryParseEnum<Piece>(ignoreCase);
-    }
-
-    protected static sq? TryParseSquare(String s, Boolean ignoreCase = true) {
-      return s.TryParseEnum<sq>(ignoreCase);
-    }
-    #endregion
   }
 }
