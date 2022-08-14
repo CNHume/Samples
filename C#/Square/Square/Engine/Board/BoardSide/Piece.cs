@@ -553,7 +553,7 @@ namespace Engine {
 
       #region Hashcode Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected Hashcode pieceHash(Byte vPiece, Int32 n) {
+      private Hashcode pieceHash(Byte vPiece, Int32 n) {
         if (nPieces <= vPiece) {
           Debug.Assert(vPiece < nPieces, "pieceHash(nPieces <= vPiece)");
         }

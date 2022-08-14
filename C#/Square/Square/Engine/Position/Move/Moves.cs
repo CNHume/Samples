@@ -9,7 +9,7 @@
 //#define DebugNodeTotal
 //#define DisplayPosition
 //#define TimePlayMove
-//#define TestHash                        //[Enable]testHash() Conditional in Hash.cs
+//#define TestHash                        //[Enable]TestHash() Conditional in Hash.cs
 //#define TurnTest
 
 namespace Engine {
@@ -62,7 +62,7 @@ namespace Engine {
       if (Parent is not null && Parent.IsPassed())
         setDraw0();
 
-      testHash();                       //[Conditional]
+      TestHash();                       //[Conditional]
       var bLegal = IsLegal(bFindRepetition, bRestricted);
       if (isDefined(move)) {
         if (bLegal)
@@ -93,7 +93,7 @@ namespace Engine {
 
       //[Note]If En Passant was possible, any move ends a Transposition Group
       if (Parent.IsPassed()) setDraw0();
-      testHash();                       //[Conditional]
+      TestHash();                       //[Conditional]
       var bLegal = !InCheck();
       if (!bLegal)
         throw new BoardException("Illegal Null Move");

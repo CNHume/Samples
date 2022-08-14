@@ -247,7 +247,7 @@ namespace Engine {
       return hash(Pawn, vP6);
     }
 
-    protected Hashcode hashPieces() {
+    private Hashcode hashPieces() {
       Hashcode qHash = 0;
       qHash ^= hash(Rook, vR6);
       qHash ^= hash(Knight, vN6);
@@ -259,7 +259,7 @@ namespace Engine {
     }
 
     [Conditional("TestHash")]
-    protected void testHash() {
+    protected void TestHash() {
       var qHashPawn = hashPawn();
       var qHash = qHashPawn ^ hashPieces();
 #if DisplayHash
@@ -269,12 +269,12 @@ namespace Engine {
         LogLine($"IHash = {formatHash(Hash)}");
 #else
       if (qHashPawn != HashPawn) {
-        //DisplayCurrent("testHash()");
+        //DisplayCurrent("TestHash()");
         Trace.Assert(qHashPawn == HashPawn, "Full HashPawn differs from Incremental HashPawn");
       }
 
       if (qHash != Hash) {
-        //DisplayCurrent("testHash()");
+        //DisplayCurrent("TestHash()");
         Trace.Assert(qHash == Hash, "Full Hash differs from Incremental Hash");
       }
 #endif                                  // DisplayHash
