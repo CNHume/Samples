@@ -236,24 +236,24 @@ namespace Engine {
       return ZobristFile[(Int32)(FlagsTurn & TurnFlags.EPFile)];
     }
 
-    private Hashcode hashPiece(Plane qpPiece, Byte vPiece) {
+    private Hashcode hash(Plane qp, Byte vPiece) {
       Hashcode qHash = 0;
       foreach (var side in Side)
-        qHash ^= side.HashPiece(qpPiece & side.Piece, vPiece);
+        qHash ^= side.HashPiece(qp, vPiece);
       return qHash;
     }
 
     protected Hashcode hashPawn() {
-      return hashPiece(Pawn, vP6);
+      return hash(Pawn, vP6);
     }
 
     protected Hashcode hashPieces() {
       Hashcode qHash = 0;
-      qHash ^= hashPiece(Rook, vR6);
-      qHash ^= hashPiece(Knight, vN6);
-      qHash ^= hashPiece(Bishop, vB6);
-      qHash ^= hashPiece(Queen, vQ6);
-      qHash ^= hashPiece(King, vK6);
+      qHash ^= hash(Rook, vR6);
+      qHash ^= hash(Knight, vN6);
+      qHash ^= hash(Bishop, vB6);
+      qHash ^= hash(Queen, vQ6);
+      qHash ^= hash(King, vK6);
       qHash ^= hashFlags(WTM());
       return qHash;
     }

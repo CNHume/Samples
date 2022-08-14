@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Documents\Sourcetree\Samples\CSharp\Sort\HeapSort\HeapSort.xml</DocumentationFile>
+    <DocumentationFile>HeapSort.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

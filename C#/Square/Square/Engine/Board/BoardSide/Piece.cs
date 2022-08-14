@@ -16,6 +16,7 @@ namespace Engine {
 
   using System;
   using System.Diagnostics;
+  using System.Drawing;
   using System.Runtime.CompilerServices;
   using System.Text;
 
@@ -51,7 +52,7 @@ namespace Engine {
       // AddPromotions
       // [inc|dec]SideCount
       // AtxCount
-      // hashPiece
+      // pieceHash
       // HashPiece
       //
       #region Mover Methods
@@ -89,9 +90,9 @@ namespace Engine {
       }
 
       public Boolean RaisePiece(Byte vPiece, Int32 nFrom) {
-        var qHash = hashPiece(vPiece, nFrom);
-        if (vPiece == vP6) Board.HashPawn ^= qHash;
+        var qHash = pieceHash(vPiece, nFrom);
         Board.Hash ^= qHash;
+        if (vPiece == vP6) Board.HashPawn ^= qHash;
 
         var qp = BIT0 << nFrom;
 #if VerifySquarePiece
@@ -177,9 +178,9 @@ namespace Engine {
       }
 
       public Boolean LowerPiece(Byte vPiece, Int32 nTo) {
-        var qHash = hashPiece(vPiece, nTo);
-        if (vPiece == vP6) Board.HashPawn ^= qHash;
+        var qHash = pieceHash(vPiece, nTo);
         Board.Hash ^= qHash;
+        if (vPiece == vP6) Board.HashPawn ^= qHash;
         var qp = BIT0 << nTo;
 #if VerifySquarePiece
         foreach (var testSide in Board.Side) {
@@ -552,25 +553,26 @@ namespace Engine {
 
       #region Hashcode Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected Hashcode hashPiece(Byte vPiece, Int32 n) {
+      protected Hashcode pieceHash(Byte vPiece, Int32 n) {
         if (nPieces <= vPiece) {
-          Debug.Assert(vPiece < nPieces, "hashPiece(nPieces <= vPiece)");
+          Debug.Assert(vPiece < nPieces, "pieceHash(nPieces <= vPiece)");
         }
 
         if (n < 0) {
-          Debug.Assert(n >= 0, "hashPiece(n < 0)");
+          Debug.Assert(n >= 0, "pieceHash(n < 0)");
         }
         else if (nSquares <= n) {
-          Debug.Assert(n < nSquares, "hashPiece(nSquares <= n)");
+          Debug.Assert(n < nSquares, "pieceHash(nSquares <= n)");
         }
 
         var zobrist = Parameter.Zobrist;
         return zobrist[vPiece][n];
       }
 
-      public Hashcode HashPiece(Plane qpPiece, Byte vPiece) {
+      public Hashcode HashPiece(Plane qp, Byte vPiece) {
         var zobrist = Parameter.Zobrist;
         Hashcode qHash = 0;
+        var qpPiece = qp & Piece;
         while (qpPiece != 0) {
           var n = RemoveLo(ref qpPiece);
           qHash ^= zobrist[vPiece][n];
