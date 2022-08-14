@@ -27,7 +27,7 @@ def main():
   SETUP_PATH = u''
   BONUS_FILE = u'bonus'
   TILES_FILE = u'tiles'
-  WORDS_FILE = u'words'
+  WORDS_FILE = u'scrabbleWords'
   FILE_EXT = u'txt'                     # Default File Extension
   PLAYERS = 2
   BOARD_SIZE = 15

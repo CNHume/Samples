@@ -27,7 +27,7 @@ def main():
   # Command Line Defaults:
   SETUP_PATH = u''
   ART_FILE = u'art'                     # Hangman ASCII Art
-  WORD_FILE = u'words'                  # Word File (Hangman Dictionary)
+  WORD_FILE = u'hangmanWords'           # Word File (Hangman Dictionary)
   FILE_EXT = u'txt'                     # Word File Extension
   TRIALS = 6                            # Head, Body, 2 Arms, 2 Legs
 
