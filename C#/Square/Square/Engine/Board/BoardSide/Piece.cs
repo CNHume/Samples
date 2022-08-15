@@ -538,21 +538,23 @@ namespace Engine {
       #endregion                        // Count Methods
 
       #region Grant Castling
-      public void GrantCastling(Int32 nRookFrom, Boolean bChess960) {
+      public void GrantCastling(Int32 nRookFile, Boolean bChess960) {
+        var sideName = Parameter.SideName;
+        var nRookFrom = nRookFile + Parameter.StartRank;
         var qpRook = Board.Rook & Piece;
 
         if (!Rule.CastlesFrom.HasValue) {
           if (!KingPos.HasValue)
-            throw new ParsePositionException($"{Parameter.SideName} must have a King");
+            throw new ParsePositionException($"{sideName} must have a King");
 
           if (bChess960) {
             if (KingPos <= (Int32)sq.a1 + Parameter.StartRank ||
                 (Int32)sq.h1 + Parameter.StartRank <= KingPos)
-              throw new ParsePositionException($"{Parameter.SideName} King cannot castle");
+              throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
             if (KingPos != (Int32)sq.e1 + Parameter.StartRank)
-              throw new ParsePositionException($"{Parameter.SideName} King must castle from {sq.e1}");
+              throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 
           Rule.CastlesFrom = KingPos;
@@ -560,20 +562,20 @@ namespace Engine {
 
         if (nRookFrom < KingPos) {
           if (Rule.RookOOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {Parameter.SideName} OOO Ability");
+            throw new ParsePositionException($"Redundant {sideName} OOO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
-            throw new ParsePositionException($"No {Parameter.SideName} Rook for OOO");
+            throw new ParsePositionException($"No {sideName} Rook for OOO");
 
           Rule.RookOOOFrom = nRookFrom;
           SetCanOOO();
         }
         else {
           if (Rule.RookOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {Parameter.SideName} OO Ability");
+            throw new ParsePositionException($"Redundant {sideName} OO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
-            throw new ParsePositionException($"No {Parameter.SideName} Rook for OO");
+            throw new ParsePositionException($"No {sideName} Rook for OO");
 
           Rule.RookOOFrom = nRookFrom;
           SetCanOO();

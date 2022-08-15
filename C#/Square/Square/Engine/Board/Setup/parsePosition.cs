@@ -198,9 +198,8 @@ namespace Engine {
           var nRookFile = cPosLower - cFileMin;
           var bWhiteSide = IsUpper(cFlag);
           var side = getSide(bWhiteSide);
-          var nRank = side.Parameter.StartRank;
 
-          side.GrantCastling(nRookFile + nRank, State.IsChess960);
+          side.GrantCastling(nRookFile, State.IsChess960);
         }                               //[Next]Right
 
         if (State.IsChess960 && bOrthodox)
