@@ -540,7 +540,8 @@ namespace Engine {
       #region Grant Castling
       public void GrantCastling(Int32 nRookFile, Boolean bChess960) {
         var sideName = Parameter.SideName;
-        var nRookFrom = nRookFile + Parameter.StartRank;
+        var nRank = Parameter.StartRank;
+        var nRookFrom = nRank + nRookFile;
         var qpRook = Board.Rook & Piece;
 
         if (!Rule.CastlesFrom.HasValue) {
@@ -548,12 +549,11 @@ namespace Engine {
             throw new ParsePositionException($"{sideName} must have a King");
 
           if (bChess960) {
-            if (KingPos <= (Int32)sq.a1 + Parameter.StartRank ||
-                (Int32)sq.h1 + Parameter.StartRank <= KingPos)
+            if (KingPos <= nRank + (Int32)sq.a1 || nRank + (Int32)sq.h1 <= KingPos)
               throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
-            if (KingPos != (Int32)sq.e1 + Parameter.StartRank)
+            if (KingPos != nRank + (Int32)sq.e1)
               throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 

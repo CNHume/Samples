@@ -18,11 +18,11 @@ namespace Engine {
     #region Constructors
     public CastleRuleParameter(PositionParameter parameter) {
       Parameter = parameter;
-      var n = Parameter.StartRank;
-      KingOOTo = n + (Int32)sq.g1;
-      RookOOTo = n + (Int32)sq.f1;
-      KingOOOTo = n + (Int32)sq.c1;
-      RookOOOTo = n + (Int32)sq.d1;
+      var nRank = Parameter.StartRank;
+      KingOOTo = nRank + (Int32)sq.g1;
+      RookOOTo = nRank + (Int32)sq.f1;
+      KingOOOTo = nRank + (Int32)sq.c1;
+      RookOOOTo = nRank + (Int32)sq.d1;
 
       OO = Move.Undefined;
       OOO = Move.Undefined;
