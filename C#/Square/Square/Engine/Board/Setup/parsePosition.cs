@@ -161,11 +161,11 @@ namespace Engine {
         if (sCastleFlags.Length > 4)
           throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
-        //State.IsChess960 = false;
-        State.ClearCastleRule(Side);
-
-        foreach (var side in Side)
-          side.ClrCanCastle();
+        //
+        //[Chess960]Castle Rules are inferred from sCastleFlags.  These
+        // present the only difference between Orthodox Chess and Chess960.
+        //
+        State.ClearCastleRules(Side);
 
         for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
           var cFlag = sCastleFlags[nPos];

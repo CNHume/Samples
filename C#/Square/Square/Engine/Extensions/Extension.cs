@@ -516,7 +516,7 @@ namespace Engine {
               out Boolean bCastles, out Boolean _);
       var piece = (Piece)uPiece;
 
-      //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
+      //[Chess960]Avoid any ambiguity between castling and an ordinary King move
       if (IsChess960 && bCastles) {
         #region Chess960 Castles
         var sCastle = Empty;

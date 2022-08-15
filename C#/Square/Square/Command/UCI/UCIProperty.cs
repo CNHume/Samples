@@ -23,6 +23,8 @@ namespace Command {
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 41.432 sec @5.282 MHz over 218.84 Mnode
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:02.5 @6.2628 MHz over 767.28 Mnode
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 17.18 sec @5.1 MHz over 87.6 Mnode
+    //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
+    //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
@@ -64,7 +66,6 @@ namespace Command {
     //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
     //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2  [4-ply]
     // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
-    //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
     //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
     //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1";  // Q v RP draw
@@ -178,7 +179,6 @@ namespace Command {
     //"6k1/5p1p/P1pb1nq1/6p1/3P4/1BP2PP1/1P1Nb2P/R1B3K1 b - -"; // Hit Rate 2 26.6% at 12-ply [plus 4% Qxnt], exceeding ~30% Hits
     //"8/k7/3p4/p2P1p2/P2P1P2/8/8/K7 w - -"; //[Fine 70]87% Hits at 37-ply, should solve by 26-ply
     //"8/1pr5/PR6/1P4kp/2K3p1/6P1/8/8 w - - 0 53"; // Karjakin v Morozevich 2012-11-29
-    //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1";
     //"r5k1/1pq1Nppn/2pr4/p7/3P3Q/P5PB/1B3P2/R5K1 b - - 0 4";
     //"r2r2k1/1pq2ppn/2pbR1N1/p7/3P3Q/P5PB/1B3P2/R5K1 w - - 0 3";
     //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1";

@@ -52,8 +52,6 @@
 namespace Engine {
   using Command;                        // For Scanner
 
-  using Exceptions;
-
   using MoveOrder;                      // For MoveBottle
 
   using Resource;
@@ -89,7 +87,7 @@ namespace Engine {
     #region Constructors
     public GameState(ICommand Command) {
       if (Command is null)
-        throw new ArgumentNullException("Command");
+        throw new ArgumentNullException(nameof(Command));
 
       this.Command = Command;
 
@@ -247,14 +245,16 @@ namespace Engine {
     public void Clear() {               // Called by UCI.newGame()
       unwindPositions();
       MovePosition = new Position();
-      ClearCastleRule(MovePosition.Side);
+      ClearCastleRules(MovePosition.Side);
       ClearSearchCounts();              //[Init]Normally called by Position.start()
     }
 
-    public void ClearCastleRule(BoardSide[] sides, Boolean isChess960 = false) {
+    public void ClearCastleRules(BoardSide[] sides, Boolean isChess960 = false) {
       IsChess960 = isChess960;
-      foreach (var side in sides)
+      foreach (var side in sides) {
+        side.ClrCanCastle();
         side.Rule.Clear();
+      }
     }
 
     public static void SetLanguage(String? sLanguage) {

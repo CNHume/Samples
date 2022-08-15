@@ -375,8 +375,8 @@ namespace Engine {
       //
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
-      var bWTM = true;
-      InitCastleRules(nRookOOO, nRookOO, true);
+      const Boolean bChess960 = true, bWTM = true;
+      InitCastleRules(nRookOOO, nRookOO, bChess960);
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
@@ -412,14 +412,11 @@ namespace Engine {
     }
 
     private void InitCastleRules(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
-      //State.IsChess960 = bChess960;
-      State.ClearCastleRule(Side, bChess960);
-
+      State.ClearCastleRules(Side, bChess960);
       foreach (var side in Side) {
         //
         // Validation normally provided by parseCastleRights()
         //
-        side.ClrCanCastle();
         side.GrantCastling(nRookFromOOO, bChess960);
         side.GrantCastling(nRookFromOO, bChess960);
       }

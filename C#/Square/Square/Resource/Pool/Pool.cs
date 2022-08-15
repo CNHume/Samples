@@ -52,7 +52,7 @@ namespace Resource {
 
     public void Pop(ref T top) {
       if (top is null)
-        throw new ArgumentNullException("Pool.pop() called with null argument");
+        throw new ArgumentNullException(nameof(Pop));
 
       Inactive.Push(top);
       DecActive();

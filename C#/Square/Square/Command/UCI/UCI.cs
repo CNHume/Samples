@@ -465,15 +465,6 @@ namespace Command {
     }
 
     protected static void showOptions(Boolean IsDebug) {
-      //
-      //[Chess960]We might also have:
-      //
-      // option name Variant type combo default Orthodox var Chess960 var Orthodox
-      //
-      // However, Chess960 castling rules are currently inferred from the castling rights
-      // sub-string in the FEN.  These castling rules present the only difference in play
-      // between Chess960 and Orthodox Chess.
-      //
       foreach (var uciControl in GameState.Controls) {
         if (uciControl is not null)
           if (IsDebug || !uciControl.Option.IsHidden)
