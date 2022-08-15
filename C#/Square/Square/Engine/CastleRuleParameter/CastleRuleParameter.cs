@@ -16,7 +16,7 @@ namespace Engine {
 
   class CastleRuleParameter {
     #region Constructors
-    public CastleRuleParameter(PositionParameter parameter) {
+    public CastleRuleParameter(BoardParameter parameter) {
       Parameter = parameter;
       var nRank = Parameter.StartRank;
       KingOOTo = nRank + (Int32)sq.g1;
@@ -115,7 +115,7 @@ namespace Engine {
     #endregion
 
     #region Virtual Fields
-    public PositionParameter Parameter { get; init; }
+    public BoardParameter Parameter { get; init; }
 
     public readonly Int32 KingOOTo;
     public readonly Int32 RookOOTo;

@@ -18,7 +18,6 @@ namespace Engine {
 
   using System;
   using System.Diagnostics;
-  using System.Drawing;
   using System.Text;
 
   using static Board;
