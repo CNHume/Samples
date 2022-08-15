@@ -167,7 +167,7 @@ namespace Engine {
       var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
       var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
-      setEndGameFlags();                // Composition2 values do not depend on EGFlags.EndGame
+      setEndGameFlags();                // Composition2 values do not depend on GameFlags.EndGame
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;

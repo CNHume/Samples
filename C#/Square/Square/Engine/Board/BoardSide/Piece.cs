@@ -119,9 +119,9 @@ namespace Engine {
         case vR6:
           Board.RectPiece &= ~qp;
           if (nFrom == Rule.RookOOFrom)
-            FlagsSide &= ~SideFlags.CanOO;
+            ClrCanOO();
           else if (nFrom == Rule.RookOOOFrom)
-            FlagsSide &= ~SideFlags.CanOOO;
+            ClrCanOOO();
           break;
         case vN6:
           Board.Knight &= ~qp;
@@ -136,7 +136,7 @@ namespace Engine {
           break;
         case vK6:
           Board.King &= ~qp;
-          FlagsSide &= ~SideFlags.CanCastleMask;
+          ClrCanCastle();
           break;
         default:
           throw new PieceException("Unexpected Piece [raiseSide]");
@@ -150,17 +150,17 @@ namespace Engine {
         decSideCount(vPiece);
 
         //
-        // Update BishopMask, assuming Board.DiagPiece is up to date
+        // Update Pair, assuming Board.DiagPiece is up to date
         //
         if (vPiece == vB6) {
           var qpBishop = Piece & Board.Bishop;
 
           if (bLite) {
             if ((qpBishop & LiteSquare) == 0)
-              FlagsSide &= ~SideFlags.Lite;
+              ClrLite();
           }
           else if ((qpBishop & DarkSquare) == 0)
-            FlagsSide &= ~SideFlags.Dark;
+            ClrDark();
 #if HashPieces
           var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
           setTwoBits(ref PieceHash, 0, u);   // Piece == vHF
@@ -173,7 +173,7 @@ namespace Engine {
         }
 #endif
 #if EvalInsufficient
-        setInsufficient(ref FlagsSide);
+        setInsufficient();
 #endif
       }
 
@@ -231,10 +231,13 @@ namespace Engine {
         incSideCount(vPiece);
 
         //
-        // Update BishopMask
+        // Update Pair
         //
         if (vPiece == vB6) {
-          FlagsSide |= bLite ? SideFlags.Lite : SideFlags.Dark;
+          if (bLite)
+            SetLite();
+          else
+            SetDark();
 #if HashPieces
           var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
           setTwoBits(ref PieceHash, 0, u);   // Piece == vHF
@@ -247,7 +250,7 @@ namespace Engine {
         }
 #endif
 #if EvalInsufficient
-        setInsufficient(ref FlagsSide);
+        setInsufficient();
 #endif
       }
 
@@ -265,23 +268,6 @@ namespace Engine {
         else if (nTo == Rule.KingOOOTo && Rule.RookOOOFrom.HasValue) {
           RaisePiece(vR6, Rule.RookOOOFrom.Value);
           LowerPiece(vR6, Rule.RookOOOTo);
-        }
-      }
-
-      protected void setInsufficient(ref SideFlags fside) {
-        fside &= ~SideFlags.Insufficient;
-        if (Board.IsInsufficient(Piece))
-          fside |= SideFlags.Insufficient;
-      }
-
-      [Conditional("TestInsufficient")]
-      public void TestInsufficient() {
-        var sideInsufficient = Board.IsInsufficient(Piece);
-        var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
-        if (fsideInsufficient != sideInsufficient) {
-          var sideName = Parameter.SideName.ToString();
-          var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
-          Debug.Assert(fsideInsufficient == sideInsufficient, message);
         }
       }
       #endregion                        // Mover Methods
@@ -551,6 +537,50 @@ namespace Engine {
       }
       #endregion                        // Count Methods
 
+      #region Grant Castling
+      public void GrantCastling(Int32 nRookFrom, Boolean bChess960) {
+        var qpRook = Board.Rook & Piece;
+
+        if (!Rule.CastlesFrom.HasValue) {
+          if (!KingPos.HasValue)
+            throw new ParsePositionException($"{Parameter.SideName} must have a King");
+
+          if (bChess960) {
+            if (KingPos <= (Int32)sq.a1 + Parameter.StartRank ||
+                (Int32)sq.h1 + Parameter.StartRank <= KingPos)
+              throw new ParsePositionException($"{Parameter.SideName} King cannot castle");
+          }
+          else {
+            if (KingPos != (Int32)sq.e1 + Parameter.StartRank)
+              throw new ParsePositionException($"{Parameter.SideName} King must castle from {sq.e1}");
+          }
+
+          Rule.CastlesFrom = KingPos;
+        }
+
+        if (nRookFrom < KingPos) {
+          if (Rule.RookOOOFrom.HasValue)
+            throw new ParsePositionException($"Redundant {Parameter.SideName} OOO Ability");
+
+          if ((qpRook & BIT0 << nRookFrom) == 0)
+            throw new ParsePositionException($"No {Parameter.SideName} Rook for OOO");
+
+          Rule.RookOOOFrom = nRookFrom;
+          SetCanOOO();
+        }
+        else {
+          if (Rule.RookOOFrom.HasValue)
+            throw new ParsePositionException($"Redundant {Parameter.SideName} OO Ability");
+
+          if ((qpRook & BIT0 << nRookFrom) == 0)
+            throw new ParsePositionException($"No {Parameter.SideName} Rook for OO");
+
+          Rule.RookOOFrom = nRookFrom;
+          SetCanOO();
+        }
+      }
+      #endregion                        // Grant Castling
+
       #region Hashcode Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       private Hashcode pieceHash(Byte vPiece, Int32 n) {
@@ -580,6 +610,61 @@ namespace Engine {
         return qHash;
       }
       #endregion                        // Hashcode Methods
+
+      #region SideFlags Methods
+      protected void ClrCanOO() {
+        FlagsSide &= ~SideFlags.CanOO;
+      }
+
+      public void SetCanOO() {
+        FlagsSide |= SideFlags.CanOO;
+      }
+
+      protected void ClrCanOOO() {
+        FlagsSide &= ~SideFlags.CanOOO;
+      }
+
+      public void SetCanOOO() {
+        FlagsSide |= SideFlags.CanOOO;
+      }
+
+      public void ClrCanCastle() {
+        FlagsSide &= ~SideFlags.CanCastle;
+      }
+
+      protected void ClrDark() {
+        FlagsSide &= ~SideFlags.Dark;
+      }
+
+      protected void SetDark() {
+        FlagsSide |= SideFlags.Dark;
+      }
+
+      protected void ClrLite() {
+        FlagsSide &= ~SideFlags.Lite;
+      }
+
+      protected void SetLite() {
+        FlagsSide |= SideFlags.Lite;
+      }
+
+      private void setInsufficient() {
+        FlagsSide &= ~SideFlags.Insufficient;
+        if (Board.IsInsufficient(Piece))
+          FlagsSide |= SideFlags.Insufficient;
+      }
+
+      [Conditional("TestInsufficient")]
+      public void TestInsufficient() {
+        var sideInsufficient = Board.IsInsufficient(Piece);
+        var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
+        if (fsideInsufficient != sideInsufficient) {
+          var sideName = Parameter.SideName.ToString();
+          var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
+          Debug.Assert(fsideInsufficient == sideInsufficient, message);
+        }
+      }
+      #endregion                        // SideFlags Methods
       #endregion                        // Methods
     }
   }

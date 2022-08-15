@@ -259,9 +259,9 @@ namespace Engine {
         HalfMoveClock++;
 
       // Record Castling Abilities prior to RemovePiece()
-      var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastleMask;
+      var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastle;
       var nEnPassant = movePiece(ref move);
-      var fsideCanCastleNew = Friend.FlagsSide & SideFlags.CanCastleMask;
+      var fsideCanCastleNew = Friend.FlagsSide & SideFlags.CanCastle;
 
       #region Update Castling Rights Hash
       if (fsideCanCastleNew != fsideCanCastleOld) {

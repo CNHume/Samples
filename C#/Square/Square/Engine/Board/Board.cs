@@ -102,11 +102,9 @@ namespace Engine {
     private static void newParameters() {
       foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
         var nSide = (Int32)sideName;
-        var positionParameter = new PositionParameter(sideName);
-        Parameter[nSide] = positionParameter;
-        RuleParameter[nSide] = new CastleRuleParameter(
-          positionParameter.SideName,
-          positionParameter.StartRank);
+        var parameter = new PositionParameter(sideName);
+        Parameter[nSide] = parameter;
+        RuleParameter[nSide] = new CastleRuleParameter(parameter);
       }
     }
 

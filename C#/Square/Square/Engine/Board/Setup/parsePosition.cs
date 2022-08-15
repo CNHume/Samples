@@ -165,7 +165,7 @@ namespace Engine {
         State.ClearCastleRule(Side);
 
         foreach (var side in Side)
-          side.FlagsSide &= ~SideFlags.CanCastleMask;
+          side.ClrCanCastle();
 
         for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
           var cFlag = sCastleFlags[nPos];
@@ -198,10 +198,9 @@ namespace Engine {
           var nRookFile = cPosLower - cFileMin;
           var bWhiteSide = IsUpper(cFlag);
           var side = getSide(bWhiteSide);
-          var rule = side.Rule;
           var nRank = side.Parameter.StartRank;
 
-          side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFile + nRank, Rook & side.Piece, State.IsChess960);
+          side.GrantCastling(nRookFile + nRank, State.IsChess960);
         }                               //[Next]Right
 
         if (State.IsChess960 && bOrthodox)

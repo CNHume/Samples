@@ -22,7 +22,7 @@ namespace Engine {
   partial class Board {
     public partial class BoardSide {
       #region Virtual Fields
-      public SideFlags FlagsSide;       //[fside]BishopMask | CanCastleMask
+      public SideFlags FlagsSide;       //[fside]Pair | CanCastle
 
       public PieceCounter Counts;
 

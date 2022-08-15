@@ -416,16 +416,15 @@ namespace Engine {
       State.ClearCastleRule(Side, bChess960);
 
       foreach (var side in Side) {
-        var qpRook = Rook & side.Piece;
         var nSetup = side.Parameter.StartRank;
         var rule = side.Rule;
 
         //
         // Validation normally provided by parseCastleRights()
         //
-        side.FlagsSide &= ~SideFlags.CanCastleMask;
-        side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFromOOO + nSetup, qpRook, bChess960);
-        side.FlagsSide |= rule.GrantCastling(side.KingPos, nRookFromOO + nSetup, qpRook, bChess960);
+        side.ClrCanCastle();
+        side.GrantCastling(nRookFromOOO + nSetup, bChess960);
+        side.GrantCastling(nRookFromOO + nSetup, bChess960);
       }
     }
 

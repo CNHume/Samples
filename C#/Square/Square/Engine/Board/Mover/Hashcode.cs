@@ -221,7 +221,7 @@ namespace Engine {
       var nRights = 0;
       foreach (var side in Side) {
         nRights <<= nPerTwoBits;
-        var fside = side.FlagsSide & SideFlags.CanCastleMask;
+        var fside = side.FlagsSide & SideFlags.CanCastle;
         nRights += (Int32)fside;
       }
 

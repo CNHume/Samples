@@ -4,11 +4,10 @@
 //[2018-10-28 CNHume]Created Class
 //
 namespace Engine {
-  using Exceptions;
-
   using System;
 
   using static Board;
+  using static Position;
 
   //
   // Type Aliases:
@@ -17,14 +16,13 @@ namespace Engine {
 
   class CastleRuleParameter {
     #region Constructors
-    public CastleRuleParameter(SideName sideName, int startRank) {
-      SideName = sideName;
-      StartRank = startRank;
+    public CastleRuleParameter(PositionParameter parameter) {
+      Parameter = parameter;
 
-      KingOOTo = (Int32)sq.g1 + StartRank;
-      RookOOTo = (Int32)sq.f1 + StartRank;
-      KingOOOTo = (Int32)sq.c1 + StartRank;
-      RookOOOTo = (Int32)sq.d1 + StartRank;
+      KingOOTo = (Int32)sq.g1 + Parameter.StartRank;
+      RookOOTo = (Int32)sq.f1 + Parameter.StartRank;
+      KingOOOTo = (Int32)sq.c1 + Parameter.StartRank;
+      RookOOOTo = (Int32)sq.d1 + Parameter.StartRank;
 
       OO = Move.Undefined;
       OOO = Move.Undefined;
@@ -109,62 +107,15 @@ namespace Engine {
     public Move Castles(Int32 nTo) {
       if (nTo == KingOOTo)
         return OO;
-
-      if (nTo == KingOOOTo)
+      else if (nTo == KingOOOTo)
         return OOO;
-
-      return Move.Undefined;
-    }
-
-    public SideFlags GrantCastling(
-      Int32? nKingFrom, Int32 nRookFrom, Plane qpRook, Boolean bChess960) {
-      SideFlags fsideCanCastle = default;
-
-      if (!CastlesFrom.HasValue) {
-        if (!nKingFrom.HasValue)
-          throw new ParsePositionException($"{SideName} must have a King");
-
-        if (bChess960) {
-          if (nKingFrom <= (Int32)sq.a1 + StartRank ||
-              (Int32)sq.h1 + StartRank <= nKingFrom)
-            throw new ParsePositionException($"{SideName} King cannot castle");
-        }
-        else {
-          if (nKingFrom != (Int32)sq.e1 + StartRank)
-            throw new ParsePositionException($"{SideName} King must castle from {sq.e1}");
-        }
-
-        CastlesFrom = nKingFrom;
-      }
-
-      if (nRookFrom < nKingFrom) {
-        if (RookOOOFrom.HasValue)
-          throw new ParsePositionException($"Redundant {SideName} OOO Ability");
-
-        if ((qpRook & BIT0 << nRookFrom) == 0)
-          throw new ParsePositionException($"No {SideName} Rook for OOO");
-
-        RookOOOFrom = nRookFrom;
-        fsideCanCastle |= SideFlags.CanOOO;
-      }
-      else {
-        if (RookOOFrom.HasValue)
-          throw new ParsePositionException($"Redundant {SideName} OO Ability");
-
-        if ((qpRook & BIT0 << nRookFrom) == 0)
-          throw new ParsePositionException($"No {SideName} Rook for OO");
-
-        RookOOFrom = nRookFrom;
-        fsideCanCastle |= SideFlags.CanOO;
-      }
-
-      return fsideCanCastle;
+      else
+        return Move.Undefined;
     }
     #endregion
 
     #region Virtual Fields
-    public SideName SideName { get; init; }
-    public Int32 StartRank { get; init; }
+    public PositionParameter Parameter { get; init; }
 
     public readonly Int32 KingOOTo;
     public readonly Int32 RookOOTo;

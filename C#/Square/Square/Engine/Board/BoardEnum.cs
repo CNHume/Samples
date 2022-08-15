@@ -72,19 +72,19 @@ namespace Engine {
       None = 0,
       CanOO = 1,                            // Bit 0 Castle Rights
       CanOOO = CanOO << 1,                  // Bit 1
-      CanCastleMask = CanOOO | CanOO,
+      CanCastle = CanOOO | CanOO,
 
-      Lite = 1 << nBishopPairBit,           // Bit 2 Bishop Pair Flags
-      Dark = Lite << 1,                     // Bit 3
-      Pair = Dark | Lite,
+      Dark = 1 << nBishopPairBit,           // Bit 2 Bishop Pair Flags
+      Lite = Dark << 1,                     // Bit 3
+      Pair = Lite | Dark,
       Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
 
       Weight = Insufficient | Pair,         // Flags used by weighPieces()
-      Copy = Weight | CanCastleMask
+      Copy = Weight | CanCastle
     }
     #endregion
 
-    #region EGFlags Enum
+    #region GameFlags Enum
     //
     // GameFlags  0:5
     // --------------
