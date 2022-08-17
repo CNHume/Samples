@@ -125,7 +125,7 @@ namespace Engine {
     // The following are called to remove and replace a King from the
     // board to unshadow its destination squares from any ray attacks.
     //
-    //[Warning]The Hash is not updated during this interval.
+    //[Note]The Hash is not updated during this interval.
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ClrRayState(Int32 nFrom) {

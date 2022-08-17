@@ -622,7 +622,7 @@ namespace Engine {
       public void SetCanOO() {
         var fsideOld = FlagsSide;
         FlagsSide |= SideFlags.CanOO;
-        //[Unnecessary]Board.hashCastlingRights(fsideOld, FlagsSide);
+        Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       protected void ClrCanOOO() {
@@ -634,13 +634,17 @@ namespace Engine {
       public void SetCanOOO() {
         var fsideOld = FlagsSide;
         FlagsSide |= SideFlags.CanOOO;
-        //[Unnecessary]Board.hashCastlingRights(fsideOld, FlagsSide);
+        Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       public void ClrCanCastle() {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanCastle;
         Board.hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      public void InitCanCastle() {
+        FlagsSide &= ~SideFlags.CanCastle;
       }
 
       protected void ClrDark() {

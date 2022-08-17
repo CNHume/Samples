@@ -252,7 +252,7 @@ namespace Engine {
     public void ClearCastleRules(BoardSide[] sides, Boolean isChess960 = false) {
       IsChess960 = isChess960;
       foreach (var side in sides) {
-        side.ClrCanCastle();
+        side.InitCanCastle();
         side.Rule.Clear();
       }
     }
