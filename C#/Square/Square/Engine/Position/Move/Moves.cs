@@ -60,7 +60,7 @@ namespace Engine {
 
       //[Note]Every move ends the Transposition Group if En Passant was possible.
       if (Parent is not null && Parent.IsPassed())
-        setDraw0();
+        SetDraw0();
 
       TestHash();                       //[Conditional]
       var bLegal = IsLegal(bFindRepetition, bRestricted);
@@ -86,13 +86,13 @@ namespace Engine {
       return (bPrevented, bRestricted);
     }
 
-    protected Boolean nullMove() {
+    private Boolean nullMove() {
       CurrentMove = Move.NullMove;      // Current Pseudo Move
       resetMove();
-      skipTurn();
+      SkipTurn();
 
       //[Note]If En Passant was possible, any move ends a Transposition Group
-      if (Parent.IsPassed()) setDraw0();
+      if (Parent.IsPassed()) SetDraw0();
       TestHash();                       //[Conditional]
       var bLegal = !InCheck();
       if (!bLegal)
@@ -104,7 +104,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Boolean tryOrSkip(ref Move move) {
+    private Boolean tryOrSkip(ref Move move) {
       return isNullMove(move) ? nullMove() : tryMove(ref move);
     }
 
@@ -118,21 +118,21 @@ namespace Engine {
 #endif
       //[Assume]Restricted Moves are Legal
       var bLegal = bRestricted || !Friend.IsAttacked(King & Foe.Piece);
-      setLegal(bLegal);
+      SetLegal(bLegal);
 
       if (bLegal) {                     // Perform InCheck Test for Legal Moves
-        setInCheck(Foe.IsAttacked(King & Friend.Piece));
+        SetInCheck(Foe.IsAttacked(King & Friend.Piece));
 
         //
         // Draw Flags are included in dynamicHash() to maintain Search Stability,
         // because they influence eval().  They will be needed by probeXP().
         //
-        setInsufficient();
+        SetInsufficient();
 
         if (bFindRepetition)
           findRepetition();
         else
-          clrRepetition();
+          ClrRepetition();
       }
 #if DisplayPosition
       var sb = new StringBuilder();
@@ -143,9 +143,9 @@ namespace Engine {
     #endregion
 
     #region Draw By Repetition
-    protected void findRepetition() {
+    private void findRepetition() {
       GameState.AtomicIncrement(ref State.RepetitionSearches);
-      clrRepetition();
+      ClrRepetition();
       if (IsDraw0()) return;
       var bNullMade = IsNullMade();
 
@@ -167,7 +167,7 @@ namespace Engine {
             //
             FlagsDraw |= position.fdraw();
           else
-            setRepetition(position.fdraw() != 0);
+            SetRepetition(position.fdraw() != 0);
 
           break;
         }

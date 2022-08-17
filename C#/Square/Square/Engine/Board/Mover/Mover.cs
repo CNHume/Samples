@@ -259,27 +259,13 @@ namespace Engine {
         HalfMoveClock++;
 
       // Record Castling Abilities prior to RemovePiece()
-      var fsideCanCastleOld = Friend.FlagsSide & SideFlags.CanCastle;
       var nEnPassant = movePiece(ref move);
-      var fsideCanCastleNew = Friend.FlagsSide & SideFlags.CanCastle;
 
-      #region Update Castling Rights Hash
-      if (fsideCanCastleNew != fsideCanCastleOld) {
-        Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
-                ZobristRights[(Int32)fsideCanCastleNew];
-
-        //
-        // A new Transposition Group begins when Castling Rights change:
-        //
-        setDraw0();
-      }
-      else if (HalfMoveClock == 0) {
-        //
-        // A new Transposition Group begins when the 100-Ply Rule Clock is reset:
-        //
-        setDraw0();
-      }
-      #endregion                        // Update Castling Rights Hash
+      //
+      // A new Transposition Group begins when the 100-Ply Rule Clock is reset:
+      //
+      if (HalfMoveClock == 0)
+        SetDraw0();
 
       //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
       toggleWTM();
@@ -308,7 +294,7 @@ namespace Engine {
       tracePosition();                  //[Conditional]
     }
 
-    protected void skipTurn() {
+    protected void SkipTurn() {
       clrDraw0();
 
       //
@@ -325,7 +311,7 @@ namespace Engine {
     #endregion                          // Piece Mover
 
     #region Trace Positions
-    // Called by playMove() and skipTurn()
+    // Called by playMove() and SkipTurn()
     [Conditional("TracePosition")]
     protected void tracePosition() {
       clrTrace();

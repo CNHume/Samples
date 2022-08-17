@@ -175,7 +175,7 @@ namespace Engine {
       return FlagsTurn.Has(TurnFlags.WTM);
     }
 
-    protected void setWTM(Boolean bWTM) {
+    private void setWTM(Boolean bWTM) {
       if (bWTM)
         FlagsTurn |= TurnFlags.WTM;
       else
@@ -189,14 +189,14 @@ namespace Engine {
       return FlagsTurn.Has(TurnFlags.InCheck);
     }
 
-    protected void setInCheck(Boolean bInCheck) {
+    protected void SetInCheck(Boolean bInCheck) {
       if (bInCheck)
         FlagsTurn |= TurnFlags.InCheck;
       else
         FlagsTurn &= ~TurnFlags.InCheck;
     }
 
-    protected void setLegal(Boolean bLegal) {
+    protected void SetLegal(Boolean bLegal) {
       if (bLegal)
         FlagsTurn &= ~TurnFlags.Illegal;
       else
@@ -207,7 +207,7 @@ namespace Engine {
       return FlagsTurn.Has(TurnFlags.Final);
     }
 
-    protected void setFinal() {
+    protected void SetFinal() {
       FlagsTurn |= TurnFlags.Final;
     }
 
@@ -240,7 +240,7 @@ namespace Engine {
     //
     // Recognize Draw by Insufficient Material:
     //
-    protected void setInsufficient() {
+    protected void SetInsufficient() {
       FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
       if (IsInsufficient(RankPiece))
         FlagsDraw |= DrawFlags.DrawIM;
@@ -273,11 +273,11 @@ namespace Engine {
       return false;
     }
 
-    protected void clrRepetition() {
+    protected void ClrRepetition() {
       FlagsDraw &= ~(DrawFlags.Draw3 | DrawFlags.Draw2);
     }
 
-    protected void setRepetition(Boolean bDraw3) {
+    protected void SetRepetition(Boolean bDraw3) {
       FlagsDraw |= bDraw3 ? DrawFlags.Draw3 : DrawFlags.Draw2;
     }
 
@@ -289,19 +289,34 @@ namespace Engine {
       return FlagsDraw.Has(DrawFlags.Draw0);
     }
 
-    protected void clrDraw0() {
+    private void clrDraw0() {
       FlagsDraw &= ~DrawFlags.Draw0;
     }
 
-    protected void setDraw0() {
+    protected void SetDraw0() {
       FlagsDraw |= DrawFlags.Draw0;
     }
 
-    protected void setDraw50() {
+    protected void SetDraw50() {
       if (HalfMoveClock < HalfMoveClockMax)
         FlagsDraw &= ~DrawFlags.Draw50;
       else                              // 50 Move Rule
         FlagsDraw |= DrawFlags.Draw50;
+    }
+
+    private void hashCastlingRights(SideFlags fsideOld, SideFlags fsideNew) {
+      var fsideCanCastleOld = fsideOld & SideFlags.CanCastle;
+      var fsideCanCastleNew = fsideNew & SideFlags.CanCastle;
+
+      if (fsideCanCastleNew != fsideCanCastleOld) {
+        Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
+                ZobristRights[(Int32)fsideCanCastleNew];
+
+        //
+        // A new Transposition Group begins when Castling Rights change:
+        //
+        SetDraw0();
+      }
     }
     #endregion                          // DrawFlags
 
@@ -322,17 +337,17 @@ namespace Engine {
       return FlagsMode.Has(ModeFlags.Trace);
     }
 
-    protected void clrTrace() {
+    private void clrTrace() {
       FlagsMode &= ~ModeFlags.Trace;
     }
 
-    protected void setTrace(Hashcode qHashcode) {
+    private void setTrace(Hashcode qHashcode) {
       if (qHashcode == Hash)
         FlagsMode |= ModeFlags.Trace;
     }
 
     //[Speed]Use of params is slow.
-    protected void setTrace(params Hashcode[] qHashcodes) {
+    private void setTrace(params Hashcode[] qHashcodes) {
       if (qHashcodes.Any(qHashcode => qHashcode == Hash))
         FlagsMode |= ModeFlags.Trace;
     }

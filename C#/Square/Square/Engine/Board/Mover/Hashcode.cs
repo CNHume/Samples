@@ -232,7 +232,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Hashcode epHash() {
+    private Hashcode epHash() {
       return ZobristFile[(Int32)(FlagsTurn & TurnFlags.EPFile)];
     }
 
@@ -243,7 +243,7 @@ namespace Engine {
       return qHash;
     }
 
-    protected Hashcode hashPawn() {
+    private Hashcode hashPawn() {
       return hash(Pawn, vP6);
     }
 

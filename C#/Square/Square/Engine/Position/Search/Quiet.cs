@@ -44,7 +44,7 @@ namespace Engine {
       BestMoves.Clear();                //[Required]
 
       #region Test for Draw
-      if (IsDraw()) {                   //[Note]setDraw50() will not be called below
+      if (IsDraw()) {                   //[Note]SetDraw50() will not be called below
         State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
         return eval();
@@ -186,7 +186,7 @@ namespace Engine {
             #endregion
 
             //
-            //[Note]setDraw50() is not called because the point of quiet() is to continue
+            //[Note]SetDraw50() is not called because the point of quiet() is to continue
             // searching only so long as moves which alter the material balance are found.
             //
 #if QuietMate && !QuietCheck
@@ -233,7 +233,7 @@ namespace Engine {
           #endregion
 #if QuietMate
           if (uLegalMoves == 0 && isLeaf()) {
-            setFinal();                 // Mark Game Leaf
+            SetFinal();                 // Mark Game Leaf
             mBest = final();
           }
 #endif

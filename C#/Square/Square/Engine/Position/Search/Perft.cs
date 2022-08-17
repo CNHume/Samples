@@ -102,7 +102,7 @@ namespace Engine {
         }                               //[Next]Pseudo Move
 
         if (uLegalMoves == 0)           // No Move Found
-          setFinal();                   // Mark Game Leaf for annotation
+          SetFinal();                   // Mark Game Leaf for annotation
       }
       finally {
         Pop(ref child);                 // Pop Position used for this Ply

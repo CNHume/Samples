@@ -74,7 +74,7 @@ namespace Engine {
       BestMoves.Clear();                //[Required]
 
       #region Test for Draw
-      if (IsDraw()) {                   //[Note]setDraw50() must be called after tryMove(), below.
+      if (IsDraw()) {                   //[Note]SetDraw50() must be called after tryMove(), below.
         State.IncEvalType(EvalType.Exact);
         return eval();
       }
@@ -304,7 +304,7 @@ namespace Engine {
           //
           // The move is legal; so a 50th [or greater] move cannot have delivered Mate:
           //
-          setDraw50();
+          SetDraw50();
 
           if (IsDraw50()) {
             mBest = eval();
@@ -350,7 +350,7 @@ namespace Engine {
         #endregion
 
         if (uLegalMoves == 0) {         // No Move Found
-          setFinal();                   // Mark Game Leaf
+          SetFinal();                   // Mark Game Leaf
           mBest = final();
         }
 

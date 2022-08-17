@@ -75,7 +75,7 @@ namespace Engine {
       // a redundant search.
       //
       if (isEmptyMove(moveFound)) {
-        setFinal();
+        SetFinal();
         moveFound = Move.Undefined;
       }
 #if DebugMoveColor

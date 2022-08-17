@@ -35,7 +35,7 @@ namespace Engine {
       // Passed
       // ResetPawnAtx
       // RookCastles
-      // setInsufficient
+      // SetInsufficient
       // testInsufficient
       // IsAlone
       // GetKingPos
@@ -614,23 +614,33 @@ namespace Engine {
 
       #region SideFlags Methods
       protected void ClrCanOO() {
+        var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanOO;
+        Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       public void SetCanOO() {
+        var fsideOld = FlagsSide;
         FlagsSide |= SideFlags.CanOO;
+        //[Unnecessary]Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       protected void ClrCanOOO() {
+        var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanOOO;
+        Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       public void SetCanOOO() {
+        var fsideOld = FlagsSide;
         FlagsSide |= SideFlags.CanOOO;
+        //[Unnecessary]Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       public void ClrCanCastle() {
+        var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanCastle;
+        Board.hashCastlingRights(fsideOld, FlagsSide);
       }
 
       protected void ClrDark() {

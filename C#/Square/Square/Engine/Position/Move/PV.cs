@@ -198,7 +198,7 @@ namespace Engine {
         if (bTrace)
           DisplayCurrent("PVLookup()"); // CurrentMove set in [null|try]Move()
 #endif
-        setDraw50();                    // Mark Draw50 after having made the move
+        SetDraw50();                    // Mark Draw50 after having made the move
 
         //[Note]If Draw3 is set, this PVLookup() recursion must terminate!
         if (!IsDraw()) {
@@ -257,7 +257,7 @@ namespace Engine {
         if (bTrace)
           DisplayCurrent("abbreviateRefresh()");// CurrentMove set in [null|try]Move()
 #endif
-        setDraw50();                    // Mark Draw50 after having made the move
+        SetDraw50();                    // Mark Draw50 after having made the move
 
         //
         // Recursion vs. iteration links each Position to its parent;
