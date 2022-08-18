@@ -105,6 +105,7 @@ namespace Engine {
 
       public void InitCanCastle() {
         FlagsSide &= ~SideFlags.CanCastle;
+        Board.Hash ^= Parameter.ZobristRights[0];
       }
 
       protected void ClrDark() {
