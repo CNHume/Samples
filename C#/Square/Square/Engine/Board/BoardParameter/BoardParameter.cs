@@ -41,6 +41,7 @@ namespace Engine {
           Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
 
           Zobrist = ZobristBlack;
+          ZobristRights = ZobristRightsBlack;
           break;
 
         case SideName.White:
@@ -58,6 +59,7 @@ namespace Engine {
           Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
 
           Zobrist = ZobristWhite;
+          ZobristRights = ZobristRightsWhite;
           break;
         }
       }
@@ -85,6 +87,7 @@ namespace Engine {
       public String Symbol;
 
       public readonly Hashcode[][] Zobrist;
+      public readonly Hashcode[] ZobristRights;
       #endregion
     }
   }

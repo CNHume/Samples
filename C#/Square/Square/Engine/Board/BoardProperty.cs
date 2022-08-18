@@ -88,9 +88,10 @@ namespace Engine {
     protected static Hashcode ZobristTurn;
     protected static Hashcode[] ZobristDraw;
     protected static Hashcode[] ZobristFile;
-    protected static Hashcode[] ZobristRights;
-    protected static Hashcode[][] ZobristWhite;
+    protected static Hashcode[] ZobristRightsBlack;
+    protected static Hashcode[] ZobristRightsWhite;
     protected static Hashcode[][] ZobristBlack;
+    protected static Hashcode[][] ZobristWhite;
     protected static Hashcode[] ZobristExcludedFrom;
     protected static Hashcode[] ZobristExcludedTo;
     protected static Hashcode[] ZobristExcludedPromotion;

@@ -610,76 +610,23 @@ namespace Engine {
         }
         return qHash;
       }
-      #endregion                        // Hashcode Methods
 
-      #region SideFlags Methods
-      protected void ClrCanOO() {
-        var fsideOld = FlagsSide;
-        FlagsSide &= ~SideFlags.CanOO;
-        Board.hashCastlingRights(fsideOld, FlagsSide);
-      }
+      [Conditional("HashCastlingRights")]
+      private void hashCastlingRights(SideFlags fsideOld, SideFlags fsideNew) {
+        var fsideCanCastleOld = fsideOld & SideFlags.CanCastle;
+        var fsideCanCastleNew = fsideNew & SideFlags.CanCastle;
 
-      public void SetCanOO() {
-        var fsideOld = FlagsSide;
-        FlagsSide |= SideFlags.CanOO;
-        Board.hashCastlingRights(fsideOld, FlagsSide);
-      }
+        if (fsideCanCastleNew != fsideCanCastleOld) {
+          Board.Hash ^= Parameter.ZobristRights[(Int32)fsideCanCastleOld] ^
+                        Parameter.ZobristRights[(Int32)fsideCanCastleNew];
 
-      protected void ClrCanOOO() {
-        var fsideOld = FlagsSide;
-        FlagsSide &= ~SideFlags.CanOOO;
-        Board.hashCastlingRights(fsideOld, FlagsSide);
-      }
-
-      public void SetCanOOO() {
-        var fsideOld = FlagsSide;
-        FlagsSide |= SideFlags.CanOOO;
-        Board.hashCastlingRights(fsideOld, FlagsSide);
-      }
-
-      public void ClrCanCastle() {
-        var fsideOld = FlagsSide;
-        FlagsSide &= ~SideFlags.CanCastle;
-        Board.hashCastlingRights(fsideOld, FlagsSide);
-      }
-
-      public void InitCanCastle() {
-        FlagsSide &= ~SideFlags.CanCastle;
-      }
-
-      protected void ClrDark() {
-        FlagsSide &= ~SideFlags.Dark;
-      }
-
-      protected void SetDark() {
-        FlagsSide |= SideFlags.Dark;
-      }
-
-      protected void ClrLite() {
-        FlagsSide &= ~SideFlags.Lite;
-      }
-
-      protected void SetLite() {
-        FlagsSide |= SideFlags.Lite;
-      }
-
-      private void setInsufficient() {
-        FlagsSide &= ~SideFlags.Insufficient;
-        if (Board.IsInsufficient(Piece))
-          FlagsSide |= SideFlags.Insufficient;
-      }
-
-      [Conditional("TestInsufficient")]
-      public void TestInsufficient() {
-        var sideInsufficient = Board.IsInsufficient(Piece);
-        var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
-        if (fsideInsufficient != sideInsufficient) {
-          var sideName = Parameter.SideName.ToString();
-          var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
-          Debug.Assert(fsideInsufficient == sideInsufficient, message);
+          //
+          // A new Transposition Group begins when Castling Rights change:
+          //
+          Board.SetDraw0();
         }
       }
-      #endregion                        // SideFlags Methods
+      #endregion                        // Hashcode Methods
       #endregion                        // Methods
     }
   }

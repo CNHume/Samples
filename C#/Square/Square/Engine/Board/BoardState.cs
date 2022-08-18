@@ -303,21 +303,6 @@ namespace Engine {
       else                              // 50 Move Rule
         FlagsDraw |= DrawFlags.Draw50;
     }
-
-    private void hashCastlingRights(SideFlags fsideOld, SideFlags fsideNew) {
-      var fsideCanCastleOld = fsideOld & SideFlags.CanCastle;
-      var fsideCanCastleNew = fsideNew & SideFlags.CanCastle;
-
-      if (fsideCanCastleNew != fsideCanCastleOld) {
-        Hash ^= ZobristRights[(Int32)fsideCanCastleOld] ^
-                ZobristRights[(Int32)fsideCanCastleNew];
-
-        //
-        // A new Transposition Group begins when Castling Rights change:
-        //
-        SetDraw0();
-      }
-    }
     #endregion                          // DrawFlags
 
     #region ModeFlags

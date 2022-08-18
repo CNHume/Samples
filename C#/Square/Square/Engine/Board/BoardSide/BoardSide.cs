@@ -6,9 +6,11 @@
 // Conditionals:
 //
 #define HashPieces
+#define HashCastlingRights
 
 namespace Engine {
   using System;
+  using System.Diagnostics;
 
   using static Engine.Position;
 
@@ -54,6 +56,7 @@ namespace Engine {
       }
       #endregion                        // Constructors
 
+      #region Methods
       #region Init Methods
       public void Clear() {
         PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
@@ -68,6 +71,76 @@ namespace Engine {
 #endif
       }
       #endregion                        // Init Methods
+
+      #region SideFlags Methods
+      protected void ClrCanOO() {
+        var fsideOld = FlagsSide;
+        FlagsSide &= ~SideFlags.CanOO;
+        hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      public void SetCanOO() {
+        var fsideOld = FlagsSide;
+        FlagsSide |= SideFlags.CanOO;
+        hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      protected void ClrCanOOO() {
+        var fsideOld = FlagsSide;
+        FlagsSide &= ~SideFlags.CanOOO;
+        hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      public void SetCanOOO() {
+        var fsideOld = FlagsSide;
+        FlagsSide |= SideFlags.CanOOO;
+        hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      public void ClrCanCastle() {
+        var fsideOld = FlagsSide;
+        FlagsSide &= ~SideFlags.CanCastle;
+        hashCastlingRights(fsideOld, FlagsSide);
+      }
+
+      public void InitCanCastle() {
+        FlagsSide &= ~SideFlags.CanCastle;
+      }
+
+      protected void ClrDark() {
+        FlagsSide &= ~SideFlags.Dark;
+      }
+
+      protected void SetDark() {
+        FlagsSide |= SideFlags.Dark;
+      }
+
+      protected void ClrLite() {
+        FlagsSide &= ~SideFlags.Lite;
+      }
+
+      protected void SetLite() {
+        FlagsSide |= SideFlags.Lite;
+      }
+
+      private void setInsufficient() {
+        FlagsSide &= ~SideFlags.Insufficient;
+        if (Board.IsInsufficient(Piece))
+          FlagsSide |= SideFlags.Insufficient;
+      }
+
+      [Conditional("TestInsufficient")]
+      public void TestInsufficient() {
+        var sideInsufficient = Board.IsInsufficient(Piece);
+        var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
+        if (fsideInsufficient != sideInsufficient) {
+          var sideName = Parameter.SideName.ToString();
+          var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
+          Debug.Assert(fsideInsufficient == sideInsufficient, message);
+        }
+      }
+      #endregion                        // SideFlags Methods
+      #endregion                        // Methods
     }
   }
 }

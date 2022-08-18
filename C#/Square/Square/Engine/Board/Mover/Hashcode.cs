@@ -7,6 +7,7 @@
 //
 //#define DisplayHash
 //#define CryptoServiceProvider           // Performance will vary owing to non-constant seed
+#define HashCastlingRights
 //#define RNGStatistics
 //#define TestZobrist
 
@@ -29,7 +30,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
-    #region Plane Hash Methods
+    #region Hash Methods
     protected static Hashcode nextZobrist() {
 #if CryptoServiceProvider
       ZobristRNG.GetBytes(ZobristBuffer);
@@ -49,13 +50,15 @@ namespace Engine {
 #endif
       ZobristDraw = new Hashcode[2];
       ZobristFile = new Hashcode[8];
-      ZobristRights = new Hashcode[16];
+
+      ZobristRightsBlack = new Hashcode[4];
+      ZobristRightsWhite = new Hashcode[4];
 
       ZobristWhite = new Hashcode[nPieces][];
       ZobristBlack = new Hashcode[nPieces][];
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
-        ZobristWhite[nPiece] = new Hashcode[nSquares];
         ZobristBlack[nPiece] = new Hashcode[nSquares];
+        ZobristWhite[nPiece] = new Hashcode[nSquares];
       }
 
       ZobristExcludedFrom = new Hashcode[nSquares];
@@ -83,8 +86,10 @@ namespace Engine {
         ZobristFile[n] = nextZobrist();
 
       // For Castling Abilities:
-      for (var n = 0; n < ZobristRights.Length; n++)
-        ZobristRights[n] = nextZobrist();
+      for (var n = 0; n < ZobristRightsBlack.Length; n++)
+        ZobristRightsBlack[n] = nextZobrist();
+      for (var n = 0; n < ZobristRightsWhite.Length; n++)
+        ZobristRightsWhite[n] = nextZobrist();
 
       // For Pieces that can be held by each Square:
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
@@ -218,14 +223,6 @@ namespace Engine {
 
     protected Hashcode hashFlags(Boolean bWTM) {
       Hashcode qHash = 0;
-      var nRights = 0;
-      foreach (var side in Side) {
-        nRights <<= nPerTwoBits;
-        var fside = side.FlagsSide & SideFlags.CanCastle;
-        nRights += (Int32)fside;
-      }
-
-      qHash ^= ZobristRights[nRights];
       if (IsPassed()) qHash ^= epHash();
       if (!bWTM) qHash ^= ZobristTurn;
       return qHash;
@@ -255,6 +252,12 @@ namespace Engine {
       qHash ^= hash(Queen, vQ6);
       qHash ^= hash(King, vK6);
       qHash ^= hashFlags(WTM());
+#if HashCastlingRights
+      foreach (var side in Side) {
+        var fside = side.FlagsSide & SideFlags.CanCastle;
+        qHash ^= side.Parameter.ZobristRights[(Int32)fside];
+      }
+#endif
       return qHash;
     }
 
@@ -279,6 +282,6 @@ namespace Engine {
       }
 #endif                                  // DisplayHash
     }
-    #endregion
+    #endregion                          // Hash Methods
   }
 }
