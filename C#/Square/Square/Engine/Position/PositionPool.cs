@@ -66,7 +66,7 @@ namespace Engine {
       Name = default;
     }
 
-    // Called by setPosition() and setup960()
+    // Called by Push() and setup960()
     public override void Clear() {
       base.Clear();
       initNode();

@@ -288,7 +288,7 @@ namespace Engine {
 #if DEBUG
       LogLine($"setup960(Queen: {nQueen}, KnightPair: {nKnights}, BishopLite: {nBishopLite}, BishopDark: {nBishopDark})");
 #endif
-      TestBinomials();
+      TestBinomials();                  //[Conditional]
 
       Clear();                          // Clear Board
 

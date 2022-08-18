@@ -218,9 +218,9 @@ namespace Engine {
 
     public Position Push(Position? parent) {
       var child = PositionPool.Push();
-      child.Parent = parent;             //[Init]
+      child.Parent = parent;
       child.State = this;
-      child.Clear();
+      child.Clear();                    //[Init]ParsePosition() will repeat this
       return child;
     }
 
@@ -244,8 +244,7 @@ namespace Engine {
 
     public void Clear() {               // Called by UCI.newGame()
       unwindPositions();
-      MovePosition = new Position();
-      ClearCastleRules(MovePosition.Side);
+      MovePosition = default;
       ClearSearchCounts();              //[Init]Normally called by Position.start()
     }
 

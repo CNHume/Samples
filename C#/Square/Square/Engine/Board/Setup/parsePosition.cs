@@ -156,6 +156,7 @@ namespace Engine {
     //
     private Boolean parseCastleRights(String sCastleFlags) {
       var bOrthodox = false;
+      State.ClearCastleRules(Side);
 
       if (sCastleFlags != "-") {
         if (sCastleFlags.Length > 4)
@@ -165,8 +166,6 @@ namespace Engine {
         //[Chess960]Castle Rules are inferred from sCastleFlags.  These
         // present the only difference between Orthodox Chess and Chess960.
         //
-        State.ClearCastleRules(Side);
-
         for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
           var cFlag = sCastleFlags[nPos];
           switch (cFlag) {
@@ -308,7 +307,8 @@ namespace Engine {
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
     protected Boolean ParsePosition(Scanner scanner, out String sPassed) {
-      Clear();                          // Clear Board
+      // Clear() should have been performed by the Push() in NewGame()
+      //[Debug]Clear();
 
       //
       // 1. Scanner Pieces by Rank
