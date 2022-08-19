@@ -233,8 +233,9 @@ namespace Command {
     //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
     //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
     //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61";  // Radjabov vs Karjakin 2012
-    //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [12-ply in 80.9 sec @1.476 MHz over 119.4 Mnode]
-    //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8 [15-ply in 6:46.1 @1.266 MHz over 514.2 Mnode]
+    //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42";  // Nakamura vs Adams 2011 Line [13-ply in 3:55 @1.488 MHz over 349.6 Mnode] eval 3.70 after:
+    // 42. Nxf8 b1=Q 43. c8=Q Rd8 44. Qxd8 Qxe1+ 45. Qxe1 Qxd8 46. Nd7 Kg7 47. Re8 Qc7 48. Re7+ Kg8 49. Nxf6+
+    //"3r2k1/8/5RPK/6NP/2b5/8/8/8 w - - 0 66"; // Caruana v Aronian 2014-02-03 Zurich R5 #8 [15-ply in 6:18.51 @1.253 MHz over 474.2 Mnode]
     // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics! [12-ply in 18 sec @1.472 MHz] eval 7.85, [16-ply in 6:46.6 @1.469 over 597 Mnode] eval 9.1
     // 1. Bxf5 Qd1+ 2. Kh2 Qxa4 3. Qxa4 Rxb6 4. Be4 Kc8 5. Qa7 Rf6 6. Qa8+ Kd7 7. Qxh8 Rxf2 8. Qxg7+ Ke6 9. Qg8+ Ke7 10. Qd5 Kf6 11. Qd6+ Kg5 12. Qxe5+
