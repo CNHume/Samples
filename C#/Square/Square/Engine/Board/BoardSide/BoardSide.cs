@@ -73,6 +73,11 @@ namespace Engine {
       #endregion                        // Init Methods
 
       #region SideFlags Methods
+      public void InitCanCastle() {
+        FlagsSide &= ~SideFlags.CanCastle;
+        hashCastlingRights1(FlagsSide);
+      }
+
       protected void ClrCanOO() {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanOO;
@@ -101,11 +106,6 @@ namespace Engine {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanCastle;
         hashCastlingRights(fsideOld, FlagsSide);
-      }
-
-      public void InitCanCastle() {
-        FlagsSide &= ~SideFlags.CanCastle;
-        Board.Hash ^= Parameter.ZobristRights[0];
       }
 
       protected void ClrDark() {

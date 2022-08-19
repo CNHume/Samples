@@ -611,14 +611,23 @@ namespace Engine {
         return qHash;
       }
 
+      public Hashcode CastlingRightsHash(SideFlags fside) {
+        return Parameter.ZobristRights[(Int32)fside];
+      }
+
+      [Conditional("HashCastlingRights")]
+      private void hashCastlingRights1(SideFlags fside) {
+        Board.Hash ^= CastlingRightsHash(fside & SideFlags.CanCastle);
+      }
+
       [Conditional("HashCastlingRights")]
       private void hashCastlingRights(SideFlags fsideOld, SideFlags fsideNew) {
         var fsideCanCastleOld = fsideOld & SideFlags.CanCastle;
         var fsideCanCastleNew = fsideNew & SideFlags.CanCastle;
 
         if (fsideCanCastleNew != fsideCanCastleOld) {
-          Board.Hash ^= Parameter.ZobristRights[(Int32)fsideCanCastleOld] ^
-                        Parameter.ZobristRights[(Int32)fsideCanCastleNew];
+          Board.Hash ^= CastlingRightsHash(fsideCanCastleOld) ^
+                        CastlingRightsHash(fsideCanCastleNew);
 
           //
           // A new Transposition Group begins when Castling Rights change:

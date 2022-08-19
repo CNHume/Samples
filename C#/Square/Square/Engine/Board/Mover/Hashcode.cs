@@ -255,7 +255,7 @@ namespace Engine {
 #if HashCastlingRights
       foreach (var side in Side) {
         var fside = side.FlagsSide & SideFlags.CanCastle;
-        qHash ^= side.Parameter.ZobristRights[(Int32)fside];
+        qHash ^= side.CastlingRightsHash(fside);
       }
 #endif
       return qHash;
