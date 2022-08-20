@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define HashCastlingRights
 #define TestFEN
 //#define TestBinomials
 //#define Flip960

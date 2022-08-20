@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define HashCastlingRights
 //#define Magic
 
 namespace Engine {
@@ -151,69 +152,69 @@ namespace Engine {
       };
     }
 
-    //
-    //[Chess 960]InitCastleRules() and parseCastleRights() allow for Chess 960 castling
-    //
     private void parseCastleRights(String sCastleFlags) {
-      State.IsChess960 = false;
       foreach (var side in Side)
         side.ClearCastleRules();
 
-      if (sCastleFlags != "-") {
-        if (sCastleFlags.Length > 4)
-          throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
+      if (sCastleFlags != "-")
+        grantCastlingRights(sCastleFlags);
 
-        //
-        //[Chess960]Castle Rules are inferred from sCastleFlags.  These
-        // present the only difference between Orthodox Chess and Chess960.
-        //
-        var bOrthodoxFlags = false;
-        for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
-          var cFlag = sCastleFlags[nPos];
-          switch (cFlag) {
-          case 'K':
-            cFlag = 'H';
-            bOrthodoxFlags = true;
-            break;
-          case 'Q':
-            cFlag = 'A';
-            bOrthodoxFlags = true;
-            break;
-          case 'k':
-            cFlag = 'h';
-            bOrthodoxFlags = true;
-            break;
-          case 'q':
-            cFlag = 'a';
-            bOrthodoxFlags = true;
-            break;
-          default:
-            State.IsChess960 = true;
-            break;
-          }
-
-          var cPosLower = ToLower(cFlag);
-          if (cPosLower < cFileMin || cFileMax < cPosLower)
-            throw new ParsePositionException($"Unknown Castle Flag = {cFlag}");
-
-          var nRookFile = cPosLower - cFileMin;
-          var bWhiteSide = IsUpper(cFlag);
-          var side = getSide(bWhiteSide);
-
-          side.GrantCastling(nRookFile, State.IsChess960);
-        }                               //[Next]cFlag
-
-        if (State.IsChess960 && bOrthodoxFlags)
-          throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
-      }
+      validateCastlingRights();
 
       foreach (var side in Side)
         side.HashCastlingRights();
-
-      ValidateCastling();
     }
 
-    public void ValidateCastling() {
+    //
+    //[Chess960]Castle Rules are inferred from sCastleFlags.  These
+    // present the only difference between Orthodox Chess and Chess960.
+    //
+    private void grantCastlingRights(string sCastleFlags) {
+      if (sCastleFlags.Length > 4)
+        throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
+
+      State.IsChess960 = false;
+      var bOrthodoxFlags = false;
+      for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
+        var cFlag = sCastleFlags[nPos];
+        switch (cFlag) {
+        case 'K':
+          cFlag = 'H';
+          bOrthodoxFlags = true;
+          break;
+        case 'Q':
+          cFlag = 'A';
+          bOrthodoxFlags = true;
+          break;
+        case 'k':
+          cFlag = 'h';
+          bOrthodoxFlags = true;
+          break;
+        case 'q':
+          cFlag = 'a';
+          bOrthodoxFlags = true;
+          break;
+        default:
+          State.IsChess960 = true;
+          break;
+        }
+
+        var cPosLower = ToLower(cFlag);
+        if (cPosLower < cFileMin || cFileMax < cPosLower)
+          throw new ParsePositionException($"Unknown Castle Flag = {cFlag}");
+
+        var nRookFile = cPosLower - cFileMin;
+        var bWhiteSide = IsUpper(cFlag);
+        var side = getSide(bWhiteSide);
+
+        side.GrantCastling(nRookFile, State.IsChess960);
+      }                               //[Next]cFlag
+
+      if (State.IsChess960 && bOrthodoxFlags)
+        throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
+    }
+
+    private void validateCastlingRights() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
