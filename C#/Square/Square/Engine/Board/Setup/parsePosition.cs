@@ -154,9 +154,10 @@ namespace Engine {
     //
     //[Chess 960]InitCastleRules() and parseCastleRights() allow for Chess 960 castling
     //
-    private Boolean parseCastleRights(String sCastleFlags) {
-      var bOrthodox = false;
-      State.ClearCastleRules(Side);
+    private void parseCastleRights(String sCastleFlags) {
+      State.IsChess960 = false;
+      foreach (var side in Side)
+        side.ClearCastleRules();
 
       if (sCastleFlags != "-") {
         if (sCastleFlags.Length > 4)
@@ -166,24 +167,25 @@ namespace Engine {
         //[Chess960]Castle Rules are inferred from sCastleFlags.  These
         // present the only difference between Orthodox Chess and Chess960.
         //
+        var bOrthodoxFlags = false;
         for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
           var cFlag = sCastleFlags[nPos];
           switch (cFlag) {
           case 'K':
             cFlag = 'H';
-            bOrthodox = true;
+            bOrthodoxFlags = true;
             break;
           case 'Q':
             cFlag = 'A';
-            bOrthodox = true;
+            bOrthodoxFlags = true;
             break;
           case 'k':
             cFlag = 'h';
-            bOrthodox = true;
+            bOrthodoxFlags = true;
             break;
           case 'q':
             cFlag = 'a';
-            bOrthodox = true;
+            bOrthodoxFlags = true;
             break;
           default:
             State.IsChess960 = true;
@@ -199,15 +201,16 @@ namespace Engine {
           var side = getSide(bWhiteSide);
 
           side.GrantCastling(nRookFile, State.IsChess960);
-        }                               //[Next]Right
+        }                               //[Next]cFlag
 
-        if (State.IsChess960 && bOrthodox)
+        if (State.IsChess960 && bOrthodoxFlags)
           throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
-
-        ValidateCastling();
       }
 
-      return bOrthodox;
+      foreach (var side in Side)
+        side.HashCastlingRights();
+
+      ValidateCastling();
     }
 
     public void ValidateCastling() {

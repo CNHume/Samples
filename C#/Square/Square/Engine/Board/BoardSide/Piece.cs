@@ -611,13 +611,14 @@ namespace Engine {
         return qHash;
       }
 
-      public Hashcode CastlingRightsHash(SideFlags fside) {
-        return Parameter.ZobristRights[(Int32)fside];
+      public Hashcode CastlingRightsHash(SideFlags fsideCanCastle) {
+        var n = (Int32)fsideCanCastle;
+        return Parameter.ZobristRights[n];
       }
 
       [Conditional("HashCastlingRights")]
-      private void hashCastlingRights1(SideFlags fside) {
-        Board.Hash ^= CastlingRightsHash(fside & SideFlags.CanCastle);
+      public void HashCastlingRights() {
+        Board.Hash ^= CastlingRightsHash(FlagsSide & SideFlags.CanCastle);
       }
 
       [Conditional("HashCastlingRights")]

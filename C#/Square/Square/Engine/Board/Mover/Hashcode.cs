@@ -254,8 +254,8 @@ namespace Engine {
       qHash ^= hashFlags(WTM());
 #if HashCastlingRights
       foreach (var side in Side) {
-        var fside = side.FlagsSide & SideFlags.CanCastle;
-        qHash ^= side.CastlingRightsHash(fside);
+        var fside = side.FlagsSide;
+        qHash ^= side.CastlingRightsHash(fside & SideFlags.CanCastle);
       }
 #endif
       return qHash;

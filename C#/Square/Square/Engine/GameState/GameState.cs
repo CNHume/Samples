@@ -248,14 +248,6 @@ namespace Engine {
       ClearSearchCounts();              //[Init]Normally called by Position.start()
     }
 
-    public void ClearCastleRules(BoardSide[] sides, Boolean isChess960 = false) {
-      IsChess960 = isChess960;
-      foreach (var side in sides) {
-        side.InitCanCastle();
-        side.Rule.Clear();
-      }
-    }
-
     public static void SetLanguage(String? sLanguage) {
       Language = sLanguage;
       SetPieceSymbols(Language);
