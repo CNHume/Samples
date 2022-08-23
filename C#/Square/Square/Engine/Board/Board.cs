@@ -237,7 +237,7 @@ namespace Engine {
     //
     // Deep Copy:
     //
-    public void CopyFlagsTo(Board board) {
+    public void CopyFlagsTo(Board board) {                      // 1 byte
       for (var nSide = 0; nSide < Side?.Length; nSide++)
         board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
 
@@ -249,7 +249,7 @@ namespace Engine {
 
     #region BoardSide
     protected void CopySidesTo(Board board) {
-      for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 42 bytes + 1 nullable byte
+      for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 34 bytes + 1 nullable byte
 #if HashPieces
         board.Side[nSide].PieceHash = Side[nSide].PieceHash;    // 8-bytes
 #endif
@@ -273,7 +273,7 @@ namespace Engine {
     // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     public void CopyTo(Board board) {
-      CopyFlagsTo(board);                   // 6-bytes
+      CopyFlagsTo(board);                   // 6-bytes for Flags
 
       board.NullPly = NullPly;              // 2-bytes
       board.GamePly = GamePly;              // 2-bytes
@@ -293,7 +293,7 @@ namespace Engine {
       board.A1H8Piece = A1H8Piece;          // 8-bytes
       board.A8H1Piece = A8H1Piece;          // 8-bytes
 #endif
-      CopySidesTo(board);
+      CopySidesTo(board);                   // 2 x 35 = 70-bytes
     }
     #endregion                          // Copy Methods
     #endregion                          // Constructors

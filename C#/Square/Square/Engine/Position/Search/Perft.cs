@@ -70,7 +70,7 @@ namespace Engine {
       verifyMaterialMoves(moves);       //[Conditional]
 
       var child = Push();               // Push Position to make the moves
-      var sFEN = child.Parent?.ToString(PositionType.FEN);
+      //[Debug]var sFEN = child.Parent?.ToString(PositionType.FEN);
       try {
         var uLegalMoves = 0U;
         foreach (var mov in moves) {

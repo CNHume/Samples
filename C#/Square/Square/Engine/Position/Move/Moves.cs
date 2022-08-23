@@ -9,7 +9,7 @@
 //#define DebugNodeTotal
 //#define DisplayPosition
 //#define TimePlayMove
-//#define TestHash                        //[Enable]TestHash() Conditional in Hash.cs
+//#define TestHash                        //[Enable]TestHash() Conditional in Hashcode.cs
 //#define TurnTest
 
 namespace Engine {

@@ -19,16 +19,16 @@ namespace Engine {
 
   partial class Position : Board {
     #region Workspace Methods
-    protected void initNode() {
+    private void initNode() {
       if (Parent is null) {
         GamePly = 0;                    //[Init]
         NullPly = 0;
-        FlagsTurn = default;            //[Safe]These are reinitialized when ParseEPD|FEN() call InitPosition()
-        foreach (var side in Side)
-          side.FlagsSide = default;     //[Safe]
+        FlagsTurn = default;            //[Safe]
         FlagsGame = default;            //[Safe]
         FlagsDraw = default;            //[Safe]
         FlagsMode = default;            //[Safe]
+        foreach (var side in Side)
+          side.FlagsSide = default;     //[Safe]Initialized when ParsePosition() and Position.Clear() call Clear()
 
         //
         // Initialize Extension Counts at the Root
