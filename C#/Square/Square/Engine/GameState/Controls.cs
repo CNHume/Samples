@@ -77,7 +77,7 @@ namespace Engine {
         Option = new Option {
           Name = "QXPLength",
           Type = OptionType.spin,
-          Default = "4",
+          Default = "16",
           Min = 1,
           Max = 128
         }
@@ -95,7 +95,7 @@ namespace Engine {
         Option = new Option {
           Name = "XPLength",            //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
           Type = OptionType.spin,
-          Default = "16",
+          Default = "48",
           Min = 1,
           Max = 128
         }

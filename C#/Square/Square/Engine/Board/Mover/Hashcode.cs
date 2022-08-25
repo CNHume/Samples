@@ -48,18 +48,18 @@ namespace Engine {
 #if TestZobrist
       Zobrists = new List<Hashcode>();
 #endif
-      ZobristDraw = new Hashcode[2];
-      ZobristFile = new Hashcode[8];
-
-      ZobristRightsBlack = new Hashcode[4];
-      ZobristRightsWhite = new Hashcode[4];
-
       ZobristWhite = new Hashcode[nPieces][];
       ZobristBlack = new Hashcode[nPieces][];
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
         ZobristBlack[nPiece] = new Hashcode[nSquares];
         ZobristWhite[nPiece] = new Hashcode[nSquares];
       }
+
+      ZobristRightsBlack = new Hashcode[4];
+      ZobristRightsWhite = new Hashcode[4];
+
+      ZobristFile = new Hashcode[8];
+      ZobristDraw = new Hashcode[2];
 
       ZobristExcludedFrom = new Hashcode[nSquares];
       ZobristExcludedTo = new Hashcode[nSquares];
@@ -81,16 +81,6 @@ namespace Engine {
     protected static void loadZobrist() {
       ZobristTurn = nextZobrist();
 
-      // For En Passant File:
-      for (var n = 0; n < ZobristFile.Length; n++)
-        ZobristFile[n] = nextZobrist();
-
-      // For Castling Abilities:
-      for (var n = 0; n < ZobristRightsBlack.Length; n++)
-        ZobristRightsBlack[n] = nextZobrist();
-      for (var n = 0; n < ZobristRightsWhite.Length; n++)
-        ZobristRightsWhite[n] = nextZobrist();
-
       // For Pieces that can be held by each Square:
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
         var bPawn = nPiece == vP6;      //[Speed]Pawns cannot appear on their First or Last Rank:
@@ -104,6 +94,16 @@ namespace Engine {
           ZobristBlack[nPiece][n] = nextZobrist();
         }
       }
+
+      // For Castling Abilities:
+      for (var n = 0; n < ZobristRightsBlack.Length; n++)
+        ZobristRightsBlack[n] = nextZobrist();
+      for (var n = 0; n < ZobristRightsWhite.Length; n++)
+        ZobristRightsWhite[n] = nextZobrist();
+
+      // For En Passant File:
+      for (var n = 0; n < ZobristFile.Length; n++)
+        ZobristFile[n] = nextZobrist();
 
       // Distinguish actual Draws as well as Draw2:
       for (var n = 0; n < ZobristDraw.Length; n++)
@@ -152,14 +152,14 @@ namespace Engine {
 #endif
 #if TestZobrist
       Zobrists.Sort();
-      var qLastCode = default(Hashcode);
+      var qLastHash = default(Hashcode);
       foreach (var qHash in Zobrists) {
-        if (qHash == qLastCode) {
-          Trace.Assert(qHash != qLastCode, "Duplicate Hashcode Found");
+        if (qHash == qLastHash) {
+          Trace.Assert(qHash != qLastHash, "Duplicate Hashcode Found");
           break;
         }
 
-        qLastCode = qHash;
+        qLastHash = qHash;
       }
 #endif
     }
