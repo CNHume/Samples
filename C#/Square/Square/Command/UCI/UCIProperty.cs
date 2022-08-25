@@ -18,11 +18,11 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"// Perft1 (startpos) in 24 sec @5,428 MHz over 130.36 Mnode
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // Perft2 in 30.475 sec @6.747 MHz over 205.63 Mnode
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1";  // Perft3 in 41.432 sec @5.282 MHz over 218.84 Mnode
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // Perft4 in 2:02.5 @6.2628 MHz over 767.28 Mnode
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1";  // Perft5 in 17.18 sec @5.1 MHz over 87.6 Mnode
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-08-25 Perft1 (startpos) in 15 sec @8.729 MHz over 130.36 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-08-25 Perft2 in 23.6 sec @8.713 MHz over 205.63 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-08-25 Perft3 in 30.8 sec @7.108 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-08-25 Perft4 in 1:37.8 @7.846 MHz over 767.28 Mnode]
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-08-25 Perft5 in 14 sec @6.262 MHz over 87.6 Mnode]
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
