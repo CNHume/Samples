@@ -218,8 +218,8 @@ namespace Engine {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
-      var blackRule = blackSide.Rule;
-      var whiteRule = whiteSide.Rule;
+      var blackRule = blackSide.Parameter.Rule;
+      var whiteRule = whiteSide.Parameter.Rule;
 
       if (blackRule.CastlesFrom.HasValue && whiteRule.CastlesFrom.HasValue) {
         if (blackRule.CastlesFrom.Value != whiteRule.CastlesFrom.Value + nRankLast)
@@ -364,7 +364,7 @@ namespace Engine {
 
       if (IsValid(out string sInvalid)) {
         foreach (var side in Side)
-          side.Rule.Init();
+          side.Parameter.Rule.Init();
       }
       else {
         Display(sInvalid);

@@ -32,7 +32,6 @@ namespace Engine {
 
     #region Constant Fields
     public static readonly PositionParameter[] Parameter;
-    public static readonly CastleRuleParameter[] RuleParameter;
 
     public static Plane LiteSquare;
     public static Plane DarkSquare;
@@ -162,6 +161,6 @@ namespace Engine {
 
     public String? Name { get; set; }
     public Dictionary<String, List<String>?>? Operations { get; set; }
-#endregion
+    #endregion
   }
 }

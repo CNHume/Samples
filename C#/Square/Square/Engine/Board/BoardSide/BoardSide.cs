@@ -42,17 +42,14 @@ namespace Engine {
       #region Read-Only Properties
       public Board Board { get; }
       public PositionParameter Parameter { get; }
-      public CastleRuleParameter Rule { get; }
       #endregion
 
       #region Constructors
       public BoardSide(
         Board board,
-        PositionParameter parameter,
-        CastleRuleParameter ruleParameter) {
+        PositionParameter parameter) {
         Board = board;
         Parameter = parameter;
-        Rule = ruleParameter;
       }
       #endregion                        // Constructors
 
@@ -73,7 +70,7 @@ namespace Engine {
 
       public void ClearCastleRules() {
         FlagsSide &= ~SideFlags.CanCastle;
-        Rule.Clear();
+        Parameter.Rule.Clear();
       }
       #endregion                        // Init Methods
 

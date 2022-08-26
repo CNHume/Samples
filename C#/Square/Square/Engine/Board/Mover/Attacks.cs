@@ -163,7 +163,7 @@ namespace Engine {
     }
 
     protected Boolean CanOO() {
-      var rule = Friend.Rule;
+      var rule = Friend.Parameter.Rule;
       var bLegal = Friend.FlagsSide.Has(SideFlags.CanOO) &&
                    (rule.OOPath & RankPiece) == 0 &&
                    rule.OOSafe.HasValue &&
@@ -172,7 +172,7 @@ namespace Engine {
     }
 
     protected Boolean CanOOO() {
-      var rule = Friend.Rule;
+      var rule = Friend.Parameter.Rule;
       var bLegal = Friend.FlagsSide.Has(SideFlags.CanOOO) &&
                    (rule.OOOPath & RankPiece) == 0 &&
                    rule.OOOSafe.HasValue &&
@@ -188,7 +188,7 @@ namespace Engine {
         //
         // Verify Right, Path and Safety if castling
         //
-        var rule = Friend.Rule;
+        var rule = Friend.Parameter.Rule;
 
         if (nKingTo == rule.KingOOTo)
           bLegal = CanOO();

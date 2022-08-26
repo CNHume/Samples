@@ -309,7 +309,7 @@ namespace Engine {
 #if DebugPlace
     protected void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
       sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
-                        bWTM, GamePly, State.IsPure, State.Rule)
+                        bWTM, GamePly, State.IsPure, State.Parameter.Rule)
         .FlushLine();
     }
 #endif

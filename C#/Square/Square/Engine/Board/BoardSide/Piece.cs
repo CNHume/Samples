@@ -117,9 +117,9 @@ namespace Engine {
           break;
         case vR6:
           Board.RectPiece &= ~qp;
-          if (nFrom == Rule.RookOOFrom)
+          if (nFrom == Parameter.Rule.RookOOFrom)
             ClrCanOO();
-          else if (nFrom == Rule.RookOOOFrom)
+          else if (nFrom == Parameter.Rule.RookOOOFrom)
             ClrCanOOO();
           break;
         case vN6:
@@ -260,13 +260,13 @@ namespace Engine {
       // the castling partner To square in Chess 960.
       //
       public void RookCastles(Int32 nTo) {
-        if (nTo == Rule.KingOOTo && Rule.RookOOFrom.HasValue) {
-          RaisePiece(vR6, Rule.RookOOFrom.Value);
-          LowerPiece(vR6, Rule.RookOOTo);
+        if (nTo == Parameter.Rule.KingOOTo && Parameter.Rule.RookOOFrom.HasValue) {
+          RaisePiece(vR6, Parameter.Rule.RookOOFrom.Value);
+          LowerPiece(vR6, Parameter.Rule.RookOOTo);
         }
-        else if (nTo == Rule.KingOOOTo && Rule.RookOOOFrom.HasValue) {
-          RaisePiece(vR6, Rule.RookOOOFrom.Value);
-          LowerPiece(vR6, Rule.RookOOOTo);
+        else if (nTo == Parameter.Rule.KingOOOTo && Parameter.Rule.RookOOOFrom.HasValue) {
+          RaisePiece(vR6, Parameter.Rule.RookOOOFrom.Value);
+          LowerPiece(vR6, Parameter.Rule.RookOOOTo);
         }
       }
       #endregion                        // Mover Methods
@@ -543,7 +543,7 @@ namespace Engine {
         var nRookFrom = nRank + nRookFile;
         var qpRook = Board.Rook & Piece;
 
-        if (!Rule.CastlesFrom.HasValue) {
+        if (!Parameter.Rule.CastlesFrom.HasValue) {
           if (!KingPos.HasValue)
             throw new ParsePositionException($"{sideName} must have a King");
 
@@ -556,27 +556,27 @@ namespace Engine {
               throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
           }
 
-          Rule.CastlesFrom = KingPos;
+          Parameter.Rule.CastlesFrom = KingPos;
         }
 
         if (nRookFrom < KingPos) {
-          if (Rule.RookOOOFrom.HasValue)
+          if (Parameter.Rule.RookOOOFrom.HasValue)
             throw new ParsePositionException($"Redundant {sideName} OOO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OOO");
 
-          Rule.RookOOOFrom = nRookFrom;
+          Parameter.Rule.RookOOOFrom = nRookFrom;
           SetCanOOO();
         }
         else {
-          if (Rule.RookOOFrom.HasValue)
+          if (Parameter.Rule.RookOOFrom.HasValue)
             throw new ParsePositionException($"Redundant {sideName} OO Ability");
 
           if ((qpRook & BIT0 << nRookFrom) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OO");
 
-          Rule.RookOOFrom = nRookFrom;
+          Parameter.Rule.RookOOFrom = nRookFrom;
           SetCanOO();
         }
       }

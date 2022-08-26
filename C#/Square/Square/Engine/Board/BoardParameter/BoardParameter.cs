@@ -20,7 +20,7 @@ namespace Engine {
     public static readonly Int32 nSides = Enum.GetNames(typeof(SideName)).Length;
     #endregion
 
-    public class BoardParameter {
+    public partial class BoardParameter {
       #region Constructors
       public BoardParameter(SideName sideName) {
         SideName = sideName;
@@ -61,7 +61,12 @@ namespace Engine {
           Zobrist = ZobristWhite;
           ZobristRights = ZobristRightsWhite;
           break;
+
+        default:
+          throw new ArgumentException(nameof(sideName));
         }
+
+        Rule = new CastleRuleParameter(StartRank);
       }
       #endregion
 
@@ -84,7 +89,8 @@ namespace Engine {
       #region Virtual Fields
       public readonly SideName SideName;
 
-      public String Symbol;
+      public CastleRuleParameter Rule { get; set; }
+      public String? Symbol;
 
       public readonly Hashcode[][] Zobrist;
       public readonly Hashcode[] ZobristRights;

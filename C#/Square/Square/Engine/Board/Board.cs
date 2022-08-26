@@ -95,7 +95,6 @@ namespace Engine {
       initAttacks();
 
       Parameter = new PositionParameter[nSides];
-      RuleParameter = new CastleRuleParameter[nSides];
       newParameters();
     }
 
@@ -104,7 +103,6 @@ namespace Engine {
         var nSide = (Int32)sideName;
         var parameter = new PositionParameter(sideName);
         Parameter[nSide] = parameter;
-        RuleParameter[nSide] = new CastleRuleParameter(parameter);
       }
     }
 
@@ -118,7 +116,7 @@ namespace Engine {
     private void newSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
-        Side[nSide] = new BoardSide(this, parameter, RuleParameter[nSide]);
+        Side[nSide] = new BoardSide(this, parameter);
       }
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM

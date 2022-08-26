@@ -49,7 +49,7 @@ namespace Engine {
     #region Castling Moves
     protected void addCastles() {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
-      var friendRule = Friend.Rule;
+      var friendRule = Friend.Parameter.Rule;
 
       if (CanOO()) {
 #if DebugMoveColor

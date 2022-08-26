@@ -91,7 +91,7 @@ namespace Engine {
     public static StringBuilder AppendChess960CastleRights(
       this StringBuilder sb, BoardSide side, Char cRookFile) {
       var fside = side.FlagsSide;
-      var rule = side.Rule;
+      var rule = side.Parameter.Rule;
 
       if (fside.Has(SideFlags.CanOO) && rule.RookOOFrom.HasValue)
         sb.Append((Char)(cRookFile + x(rule.RookOOFrom.Value)));
@@ -423,7 +423,7 @@ namespace Engine {
         #region Castles
         var sCastle = Empty;
         foreach (var side in sides) {
-          var rule = side.Rule;
+          var rule = side.Parameter.Rule;
           if (nTo == rule.KingOOTo) {
             sCastle = sHyphenOO;
             break;
@@ -521,7 +521,7 @@ namespace Engine {
         #region Chess960 Castles
         var sCastle = Empty;
         foreach (var side in sides) {
-          var rule = side.Rule;
+          var rule = side.Parameter.Rule;
           if (nTo == rule.KingOOTo) {
             sCastle = sPureOO;
             break;
