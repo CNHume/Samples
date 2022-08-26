@@ -6,9 +6,6 @@
 namespace Engine {
   using System;
 
-  using static Board;
-  using static Position;
-
   //
   // Type Aliases:
   //
@@ -35,23 +32,6 @@ namespace Engine {
         //
         // rankPath - Returns mask for squares that must not be obstructed (or attacked)
         //
-        public void Clear() {
-          //
-          // Clear Castling State for parseFEN():
-          //
-          CastlesFrom = default;
-          RookOOFrom = default;
-          RookOOOFrom = default;
-
-          OOSafe = default;
-          OOPath = default;
-          OO = Move.Undefined;
-
-          OOOSafe = default;
-          OOOPath = default;
-          OOO = Move.Undefined;
-        }
-
         public void Init() {
           //
           //[Chess 960]Castles bit is needed to distinguish castles from ambiguous King moves:

@@ -67,11 +67,6 @@ namespace Engine {
         PieceHash = 0;
 #endif
       }
-
-      public void ClearCastleRules() {
-        FlagsSide &= ~SideFlags.CanCastle;
-        Parameter.Rule.Clear();
-      }
       #endregion                        // Init Methods
 
       #region SideFlags Methods
@@ -95,9 +90,13 @@ namespace Engine {
         FlagsSide |= SideFlags.CanOOO;
       }
 
+      public void InitCanCastle() {
+        FlagsSide &= ~SideFlags.CanCastle;
+      }
+
       public void ClrCanCastle() {
         var fsideOld = FlagsSide;
-        FlagsSide &= ~SideFlags.CanCastle;
+        InitCanCastle();
         hashCastlingRights(fsideOld, FlagsSide);
       }
 
