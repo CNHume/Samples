@@ -539,9 +539,9 @@ namespace Engine {
       LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
     }
-#endregion
+    #endregion
 
-#region Math Support
+    #region Math Support
     public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
       return (UInt16)Sqrt((Double)w);
     }
@@ -578,9 +578,9 @@ namespace Engine {
 #endif
       return root;
     }
-#endregion
+    #endregion
 
-#region Counter Methods
+    #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
@@ -614,9 +614,9 @@ namespace Engine {
     internal static Byte getNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
       return (Byte)nibble(wNibbleMask >> nIndex * nPerNibble);
     }
-#endregion
+    #endregion
 
-#region Nibble & TwoBits Methods
+    #region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Int32 nibble(Int32 input) {
       return input & vNibble;
@@ -636,9 +636,9 @@ namespace Engine {
     public static UInt32 twoBits(UInt32 input) {
       return input & vTwoBits;
     }
-#endregion
+    #endregion
 
-#region Shift Methods
+    #region Shift Methods
     //
     //[C#]The << and >> operators treat negative exponents
     // as unsigned p-bit values, where p is the PBL of the
@@ -646,14 +646,14 @@ namespace Engine {
     // intuitive semantics of additive, signed exponents:
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Plane shiftl(Plane qp, Int32 n) {
+    private static Plane shiftl(Plane qp, Int32 n) {
       return n < 0 ? qp >> -n : qp << n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Plane shiftr(Plane qp, Int32 n) {
+    private static Plane shiftr(Plane qp, Int32 n) {
       return shiftl(qp, -n);
     }
-#endregion
+    #endregion
   }
 }

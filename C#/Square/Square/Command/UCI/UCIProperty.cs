@@ -28,10 +28,10 @@ namespace Command {
     //"";
     //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Safe Sac [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
-    "7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
-    // [2022-08-20 18-ply in 4:14.3 @1.462 over 371.7 Mnode] eval 9.85 after:
-    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6
-    // 52. Qf5 h5 53. Qxg6+ Kxg6 54. Qg5+ Kf7 55. Qxh5+ g6 56. Qxa5 Kg8 57. Qb6
+    //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
+    // [2022-08-25 18-ply in 4:31.7 @1.407 over 382.3 Mnode] eval 9.85 after:
+    // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 h5 53. Qxg6+ Kxg6 54. Qg5+ Kf7
+    // 55. Qxh5+ g6 56. Qxa5 Ke6 57. Qb6+
     // [2022-08-25 20-ply in 31:38 @1.498 MHz over 2.843 Gnode] eval 11.85 after:
     // 6. Qe7 Qxg4 47. d7 Qf4+ 48. Kh3 Qf5+ 49. Kg3 Qd3+ 50. Kh2 g5 51. d8=Q+ Qxd8 52. Qxd8+ Kg7 53. g4 Kf7 54. Qh8 Ke7
     // 55. Qxh6 Kf7 56. Qxg5 Kf8 57. Qxa5 Ke8 58. g4g5
@@ -120,10 +120,15 @@ namespace Command {
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16 [17-ply in 30:41 @1.223 MHz over 2.251 Gnode] eval 7.75
-    // [18-ply in 1:18:10.6 @1.197 MHz over 5.614 Gnode] to find #18
-    // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Rh4 Rxd5+ 8. Kxd5 Kb7 9. Rh3 Kb6 10. Rb3+ Kc7 11. Rb3b5
-    // [20-Ply in 3:57:34 @1.2834 MHz over 18.294 Gnode]finds #20 currently.  Due to Futility Pruning in UpdateBest()?
+    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
+    // [2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
+    // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kb7 9. Kc5 Kc7 10. Ra1 Kb7 11. Rg1 Kc7
+    // [2022-08-25 19-ply in 25:14 @1.514 MHz over 1.9876 Gnode] to find #18
+    // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
+    // 12. Rg7 Ke8 13. Rg7g5
+    // [2022-08-25 20-Ply in 41:08 @1.299 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
+    // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kc7 9. Kc5 Kb7 10. Re4 Kc7 11. Re7+ Kc8
+    // 12. Kd5 Kd8 [13. Rg7 Kd8e8] 14. Rg7h7
     // [20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Ke8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kb7
     // [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6

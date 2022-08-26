@@ -70,13 +70,13 @@ namespace Engine {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void clrPiece(Plane qp) {
+      private void clrPiece(Plane qp) {
         Board.RankPiece &= ~qp;
         Piece &= ~qp;
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void setPiece(Plane qp) {
+      private void setPiece(Plane qp) {
         Board.RankPiece |= qp;
         Piece |= qp;
       }
