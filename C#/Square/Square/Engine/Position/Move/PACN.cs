@@ -152,7 +152,8 @@ namespace Engine {
         var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
         var bUnambiguousKing = (KingAtx[nFrom] & qpTo) == 0;
         if (bUnambiguousRook || bUnambiguousKing) {
-          move = Friend.Parameter.Rule.Castles(nTo);
+          var rule = Friend.Parameter.Rule;
+          move = rule.Castles(nTo);
           if (move == Move.Undefined)
             throw new MoveException($"Illegal King Move: {sPACN}");
           bCastles = true;

@@ -144,7 +144,7 @@ namespace Engine {
     #endregion                          // Init Methods
 
     #region Static Initialization
-    public static void SetPieceSymbols(String sLanguage) {
+    public static void SetPieceSymbols(String? sLanguage) {
       if (sLanguage is null)
         PieceSymbols = default;
       else {
