@@ -28,24 +28,21 @@ namespace Engine {
   //
   partial class Board {
     #region Position Setup
-    public Boolean IsValid(out String sInvalid) {       // Validate a new setup
+    public String? IsValid() {           // Validate a new setup
       foreach (var side in Side) {
         var nKings = (Int32)nibble(side.Counts >> vK6 * nPerNibble);
         if (nKings != 1) {
-          sInvalid = $"Invalid {side.Parameter.SideName} King Placement";
-          return false;
+          return $"Invalid {side.Parameter.SideName} King Placement";
         }
 
         if (((qpRank1 | qpRank8) & Pawn) != 0) {
-          sInvalid = "Invalid Pawn Placement";
-          return false;
+          return "Invalid Pawn Placement";
         }
 
         var nPawns = (Int32)nibble(side.Counts >> vP6 * nPerNibble);
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
-          sInvalid = $"Too many {side.Parameter.SideName} Pawns";
-          return false;
+          return $"Too many {side.Parameter.SideName} Pawns";
         }
 
         //
@@ -63,15 +60,12 @@ namespace Engine {
           var nExtra = nCount - nSetup;
           if (nExtra > 0) nLimit -= nExtra;
 
-          if (nLimit < 0) {
-            sInvalid = $"Too many {side.Parameter.SideName} pieces";
-            return false;
-          }
+          if (nLimit < 0)
+            return $"Too many {side.Parameter.SideName} pieces";
         }
       }
 
-      sInvalid = Empty;
-      return true;
+      return default;
     }
 
     private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
@@ -354,7 +348,8 @@ namespace Engine {
       State.MovePly = plyCount(wMoveNumber);
       if (!bWTM) State.MovePly++;
 
-      if (IsValid(out string sInvalid))
+      var sInvalid = IsValid();
+      if (IsNullOrEmpty(sInvalid))
         initCastleRules();
       else {
         Display(sInvalid);

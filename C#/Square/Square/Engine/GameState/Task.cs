@@ -11,11 +11,9 @@
 //#define StackTrace
 
 namespace Engine {
-  using static Board;
   using Command;
   using Command.Exceptions;
   using Exceptions;
-  using static Logging.Logger;
 
   using System;
   using System.Collections.Generic;
@@ -23,6 +21,10 @@ namespace Engine {
   using System.Text;
   using System.Threading;
   using System.Threading.Tasks;
+
+  using static Board;
+  using static Logging.Logger;
+  using static System.String;
 
   //
   // Type Aliases:
@@ -67,13 +69,16 @@ namespace Engine {
         throw new ChessException("Search in progress");
       else if (MovePosition is null)
         throw new ChessException("Uninitialized Position");
-      else if (!MovePosition.IsValid(out string sInvalid))
-        throw new InvalidPositionException("Invalid Position");
-      else if (!MovePosition.IsLegal())
-        throw new ChessException("Illegal Move");
+      else {
+        var sInvalid = MovePosition.IsValid();
+        if (!IsNullOrEmpty(sInvalid))
+          throw new InvalidPositionException(sInvalid);
+        else if (!MovePosition.IsLegal())
+          throw new ChessException("Illegal Move");
+      }
     }
 
-    protected List<Move>? startSearch(Position? position, SearchMode mode) {
+    private List<Move>? startSearch(Position? position, SearchMode mode) {
       try {
         if (position is null)
           throw new PositionException("Null Position");
