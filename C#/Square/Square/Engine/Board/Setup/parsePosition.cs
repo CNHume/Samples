@@ -152,7 +152,7 @@ namespace Engine {
       };
     }
 
-    private void parseCastleRights(String sCastleFlags) {
+    private void parseCastlingRights(String sCastleFlags) {
       foreach (var side in Side)
         side.ClearCanCastle();
 
@@ -332,7 +332,7 @@ namespace Engine {
       // 3. Castling Flags
       //
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
-      parseCastleRights(sCastleFlags);
+      parseCastlingRights(sCastleFlags);
 
       //
       // 4. Square Passed for En Passant
@@ -362,14 +362,17 @@ namespace Engine {
       State.MovePly = plyCount(wMoveNumber);
       if (!bWTM) State.MovePly++;
 
-      if (IsValid(out string sInvalid)) {
-        foreach (var side in Side)
-          side.Parameter.Rule.Init();
-      }
+      if (IsValid(out string sInvalid))
+        initCastleRules();
       else {
         Display(sInvalid);
         throw new InvalidPositionException(sInvalid);
       }
+    }
+
+    private void initCastleRules() {
+      foreach (var side in Side)
+        side.Parameter.Rule.Init();
     }
     #endregion
   }
