@@ -30,7 +30,7 @@ namespace Engine {
     #region Position Setup
     public String? IsValid() {           // Validate a new setup
       foreach (var side in Side) {
-        var nKings = (Int32)nibble(side.Counts >> vK6 * nPerNibble);
+        var nKings = (Int32)side.PieceCount(vK6);
         if (nKings != 1) {
           return $"Invalid {side.Parameter.SideName} King Placement";
         }
@@ -39,7 +39,7 @@ namespace Engine {
           return "Invalid Pawn Placement";
         }
 
-        var nPawns = (Int32)nibble(side.Counts >> vP6 * nPerNibble);
+        var nPawns = (Int32)side.PieceCount(vP6);
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
           return $"Too many {side.Parameter.SideName} Pawns";
