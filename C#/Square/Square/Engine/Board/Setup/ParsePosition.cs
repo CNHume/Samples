@@ -55,7 +55,7 @@ namespace Engine {
             nSetup = hasBishopPair(side.FlagsSide) ? 2 : 1;
 
           var vPiece = pieceIndex((UInt32)p);
-          var nCount = (Int32)nibble(side.Counts >> vPiece * nPerNibble);
+          var nCount = (Int32)side.PieceCount(vPiece);
 
           var nExtra = nCount - nSetup;
           if (nExtra > 0) nLimit -= nExtra;

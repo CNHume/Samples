@@ -167,7 +167,7 @@ namespace Engine {
         }
 #if HashPieces
         if (vP6 < vPiece && vPiece < vK6) {
-          var u = nibble(Counts >> vPiece * nPerNibble);
+          var u = PieceCount(vPiece);
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
@@ -244,7 +244,7 @@ namespace Engine {
         }
 #if HashPieces
         if (vP6 < vPiece && vPiece < vK6) {
-          var u = nibble(Counts >> vPiece * nPerNibble);
+          var u = PieceCount(vPiece);
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
@@ -274,10 +274,12 @@ namespace Engine {
       #endregion                        // Mover Methods
 
       #region Attacker Methods
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public Boolean IsAlone() {
         return IsOneOrNone(Piece);
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public Byte GetKingPos() {
         if (KingPos.HasValue) return KingPos.Value;
         throw new ArgumentNullException(nameof(KingPos));
@@ -499,6 +501,11 @@ namespace Engine {
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void decSideCount(Byte vPiece) {
         Counts -= 1U << vPiece * nPerNibble;
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public UInt32 PieceCount(Byte vPiece) {
+        return nibble(Counts >> vPiece * nPerNibble);
       }
 
       public Int32 AtxCount() {
