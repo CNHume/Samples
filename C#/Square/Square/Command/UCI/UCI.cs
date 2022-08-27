@@ -177,10 +177,10 @@ namespace Command {
           var newPosition = NewGame();
 
           //
-          //[Note]ParsePosition() will apply a sequence
+          //[Note]SetupPosition() will apply a sequence
           // of moves that follows the initial position.
           //
-          var parsePosition = Parser.ParsePosition(newPosition);
+          var parsePosition = Parser.SetupPosition(newPosition);
           State.MovePosition = parsePosition;
         }
         break;

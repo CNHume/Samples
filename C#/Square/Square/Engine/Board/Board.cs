@@ -130,7 +130,7 @@ namespace Engine {
       ControlTo = new SByte[nSquares];
     }
 
-    // Called by ParsePosition() and Position.Clear()
+    // Called by Position.Clear()
     public virtual void Clear() {
       foreach (var side in Side)
         side.Clear();

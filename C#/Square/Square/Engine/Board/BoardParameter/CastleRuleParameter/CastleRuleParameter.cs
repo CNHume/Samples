@@ -23,14 +23,37 @@ namespace Engine {
           KingOOOTo = StartRank + (Int32)sq.c1;
           RookOOOTo = StartRank + (Int32)sq.d1;
 
-          OO = Move.Undefined;
-          OOO = Move.Undefined;
+          Clear();
         }
         #endregion
 
         #region Methods
         //
+        // Clear
+        // Init - Called by Position.Init() following ParsePosition()
         // rankPath - Returns mask for squares that must not be obstructed (or attacked)
+        //
+        public void Clear() {
+          //
+          //[Chess 960]Castles From squares are set by BoardSide.GrantCastling():
+          //
+          CastlesFrom = default;
+          RookOOFrom = default;
+          RookOOOFrom = default;
+
+          //[Safe]
+          OO = Move.Undefined;
+          OOSafe = default;
+          OOPath = default;
+
+          //[Safe]
+          OOO = Move.Undefined;
+          OOOSafe = default;
+          OOOPath = default;
+        }
+
+        //
+        //[Assume]BoardSide.GrantCastling() has been called.
         //
         public void Init() {
           //
@@ -97,6 +120,9 @@ namespace Engine {
         #endregion
 
         #region Virtual Fields
+        //
+        // The following are readonly fields set by the Constructor:
+        //
         public Int32 StartRank { get; init; }
 
         public readonly Int32 KingOOTo;
@@ -104,20 +130,23 @@ namespace Engine {
         public readonly Int32 KingOOOTo;
         public readonly Int32 RookOOOTo;
 
-        public Plane? OOSafe;
-        public Plane? OOPath;
-        public Move OO = Move.Undefined;
-
-        public Plane? OOOSafe;
-        public Plane? OOOPath;
-        public Move OOO = Move.Undefined;
-
         //
-        //[Chess 960]Castles From squares are set by parseCastleRights():
+        //[Chess 960]Castles From squares are set by BoardSide.GrantCastling():
         //
         public Int32? CastlesFrom;
         public Int32? RookOOFrom;
         public Int32? RookOOOFrom;
+
+        //
+        // The following will be set by the Init() method:
+        //
+        public Move OO = Move.Undefined;
+        public Plane? OOSafe;
+        public Plane? OOPath;
+
+        public Move OOO = Move.Undefined;
+        public Plane? OOOSafe;
+        public Plane? OOOPath;
         #endregion
       }
     }

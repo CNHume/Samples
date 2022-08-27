@@ -154,7 +154,7 @@ namespace Engine {
 
     private void parseCastleRights(String sCastleFlags) {
       foreach (var side in Side)
-        side.InitCanCastle();
+        side.ClearCanCastle();
 
       if (sCastleFlags != "-")
         grantCastlingRights(sCastleFlags);

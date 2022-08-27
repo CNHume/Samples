@@ -291,7 +291,8 @@ namespace Engine {
 #endif
       TestBinomials();                  //[Conditional]
 
-      Clear();                          // Clear Board
+      // Clear() should have been performed by the Push() in NewGame()
+      //[Debug]Clear();
 
       #region Setup the Dark and Lite-Squared Bishops
       if (bFlip) {
@@ -416,7 +417,7 @@ namespace Engine {
     private void InitCastleRules(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
       State.IsChess960 = bChess960;
       foreach (var side in Side) {
-        side.InitCanCastle();
+        side.ClearCanCastle();
 
         //
         // Validation normally provided by parseCastleRights()

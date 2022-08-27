@@ -28,7 +28,7 @@ namespace Engine {
         FlagsDraw = default;            //[Safe]
         FlagsMode = default;            //[Safe]
         foreach (var side in Side)
-          side.FlagsSide = default;     //[Safe]Initialized when ParsePosition() and Position.Clear() call Clear()
+          side.FlagsSide = default;     //[Safe]
 
         //
         // Initialize Extension Counts at the Root
@@ -66,7 +66,7 @@ namespace Engine {
       Name = default;
     }
 
-    // Called by Push() and setup960()
+    // Called by Push()
     public override void Clear() {
       base.Clear();
       initNode();

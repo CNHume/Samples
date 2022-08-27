@@ -220,7 +220,7 @@ namespace Engine {
       var child = PositionPool.Push();
       child.Parent = parent;
       child.State = this;
-      child.Clear();                    //[Init]ParsePosition() will repeat this
+      child.Clear();
       return child;
     }
 

@@ -426,7 +426,7 @@ namespace Command {
       }
     }
 
-    public Position ParsePosition(Position position) {
+    public Position SetupPosition(Position position) {
       SpaceToken.Expect();
       setupTypeToken.Expect();
 

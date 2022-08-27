@@ -67,6 +67,12 @@ namespace Engine {
         PieceHash = 0;
 #endif
       }
+
+      // Called from parseCastleRights() and InitCastleRules()
+      public void ClearCanCastle() {
+        InitCanCastle();
+        Parameter.Rule.Clear();
+      }
       #endregion                        // Init Methods
 
       #region SideFlags Methods
