@@ -29,7 +29,7 @@ namespace Engine {
 
         #region Methods
         //
-        // Clear
+        // Clear - Called from parseCastlingRights() and setupCastlingRights()
         // Init - Called by Position.Init() following ParsePosition()
         // rankPath - Returns mask for squares that must not be obstructed (or attacked)
         //

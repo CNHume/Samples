@@ -29,29 +29,23 @@ namespace Engine {
   partial class Board {
     #region Position Setup
     public Boolean IsValid(out String sInvalid) {       // Validate a new setup
-      var bValid = true;
-      var sReason = Empty;
-
       foreach (var side in Side) {
         var nKings = (Int32)nibble(side.Counts >> vK6 * nPerNibble);
         if (nKings != 1) {
-          bValid = false;
-          sReason = $"Invalid {side.Parameter.SideName} King Placement";
-          break;
+          sInvalid = $"Invalid {side.Parameter.SideName} King Placement";
+          return false;
         }
 
         if (((qpRank1 | qpRank8) & Pawn) != 0) {
-          bValid = false;
-          sReason = "Invalid Pawn Placement";
-          break;
+          sInvalid = "Invalid Pawn Placement";
+          return false;
         }
 
         var nPawns = (Int32)nibble(side.Counts >> vP6 * nPerNibble);
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
-          bValid = false;
-          sReason = $"Too many {side.Parameter.SideName} Pawns";
-          break;
+          sInvalid = $"Too many {side.Parameter.SideName} Pawns";
+          return false;
         }
 
         //
@@ -70,16 +64,14 @@ namespace Engine {
           if (nExtra > 0) nLimit -= nExtra;
 
           if (nLimit < 0) {
-            bValid = false;
-            sReason = $"Too many {side.Parameter.SideName} pieces";
-            goto exit;
+            sInvalid = $"Too many {side.Parameter.SideName} pieces";
+            return false;
           }
         }
       }
 
-    exit:
-      sInvalid = sReason;
-      return bValid;
+      sInvalid = Empty;
+      return true;
     }
 
     private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
