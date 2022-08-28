@@ -18,6 +18,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
   using System.Text;
   using System.Threading;
   using System.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace Engine {
     #endregion
 
     #region Task Management
+    [MemberNotNull(nameof(MovePosition))]
     public void OnMoveCommand() {
       if (IsSearchInProgress)
         throw new ChessException("Search in progress");
@@ -230,6 +232,7 @@ namespace Engine {
     }
 
     public void Go(Parser parser) {
+      OnMoveCommand();
       BestMoves.Clear();
       if (Bound.ParseBounds(parser, MovePosition))
         StartTask((state) => startSearch((Position?)state, SearchMode.BestMove), MovePosition);

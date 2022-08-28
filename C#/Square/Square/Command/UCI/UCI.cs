@@ -138,8 +138,6 @@ namespace Command {
       case "timertest":
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
-          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         State.MovePosition.TimerTest();
@@ -208,8 +206,6 @@ namespace Command {
       case "moves":
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
-          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         var movesPosition = State.MovePosition.ParsePACNMakeMoves(Parser);
@@ -219,8 +215,6 @@ namespace Command {
       case "unmove":
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
-          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         if (ReferenceEquals(State.MovePosition, State.RootPosition))
@@ -269,7 +263,6 @@ namespace Command {
         if (State is null)
           throw new ChessException("Uninitialized Game");
 
-        State.OnMoveCommand();
         State.Go(Parser);
         break;
 
