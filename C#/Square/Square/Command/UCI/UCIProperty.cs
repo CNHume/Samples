@@ -120,7 +120,7 @@ namespace Command {
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
     //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-    "3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
+    //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
     // [2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kb7 9. Kc5 Kc7 10. Ra1 Kb7 11. Rg1 Kc7
     // [2022-08-25 19-ply in 25:14 @1.514 MHz over 1.9876 Gnode] to find #18
@@ -279,7 +279,7 @@ namespace Command {
     // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
     //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen vs Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
     //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz]
-    //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
+    "rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
     //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [13-ply in 2:00 @1.548 MHz over 185.7 Mnode] eval -9.35
     //"3r2k1/1p3pp1/p1p5/8/1Pr5/P3PqBp/1Q3P1P/R3RK2 b - - 0 30"; // 1964 Bielicki v Smyslov (0-1) #9 [15-ply 1:18 @1.633 MHz]

@@ -332,7 +332,7 @@ namespace Engine {
         // Show search progress:
         var bAbbreviate = false;
         var moves = position.MovesFromParent(MovePosition, bAbbreviate);
-        sb.AppendMoves(moves, MovePly, IsPure, position.Side, IsChess960)
+        sb.AppendNumberedMoves(moves, MovePly, IsPure, position.Side, IsChess960)
           .AppendLine()
           .FlushLine();
       }
