@@ -385,7 +385,7 @@ namespace Command {
         throw new ParseException($"Superfluous {sKeyword} keyword specified");
     }
 
-    public void ParseGetOption() {
+    public void GetOptionCommand() {
       var sKeyword = parseOptionName(out Control control);
       rejectValue(sKeyword);
       var setting = control.AsSetting();
@@ -394,19 +394,19 @@ namespace Command {
         LogLine(s);
     }
 
-    public void ParseResetOption() {
+    public void ResetOptionCommand() {
       var sKeyword = parseOptionName(out Control control);
       rejectValue(sKeyword);
       var setting = control.AsSetting();
       setting.SetDefault();
     }
 
-    public void ParseSetOption() {
+    public void SetOptionCommand() {
       var sValueKeyword = parseOptionName(out Control control);
       control.SetValue(parseOptionValue(sValueKeyword));
     }
 
-    public Boolean ParseList() {
+    public Boolean ListCommand() {
       return SpaceToken.Accept() && movesKeywordToken.Accept();
     }
 
@@ -416,17 +416,17 @@ namespace Command {
       return position;
     }
 
-    public void ParseTabiya(Position position) {
+    public void TabiyaCommand(Position position) {
       var state = position.State;
       var named = findNamedPosition(position, state.RootPosition);
       var sName = named?.Name;
       if (!IsNullOrEmpty(sName)) {
         named.Display(sName);
-        state.ListMovesFromParent(position, named, ParseList());
+        state.ListMovesFromParent(position, named, ListCommand());
       }
     }
 
-    public Position SetupPosition(Position position) {
+    public Position PositionCommand(Position position) {
       SpaceToken.Expect();
       setupTypeToken.Expect();
 
@@ -563,7 +563,7 @@ namespace Command {
     }
 
     public static String? GetSingleValue(
-      Dictionary<String, List<String>?> operations, String sOpcode, String? sDefault = default) {
+      Dictionary<String, List<String>?>? operations, String sOpcode, String? sDefault = default) {
       if (operations is null) return sDefault;
 
       operations.TryGetValue(sOpcode, out List<String>? operands);
@@ -587,22 +587,22 @@ namespace Command {
     }
 
     #region Numeric Parsers
-    public static Byte ParseByte(String sName, String sValue) {
+    public static Byte ParseByte(String sName, String? sValue) {
       if (Byte.TryParse(sValue, out Byte vValue)) return vValue;
       throw new ParseException($"Invalid {sName} = {sValue}");
     }
 
-    public static UInt16 ParseUInt16(String sName, String sValue) {
+    public static UInt16 ParseUInt16(String sName, String? sValue) {
       if (UInt16.TryParse(sValue, out UInt16 wValue)) return wValue;
       throw new ParseException($"Invalid {sName} = {sValue}");
     }
 
-    public static UInt32 ParseUInt32(String sName, String sValue) {
+    public static UInt32 ParseUInt32(String sName, String? sValue) {
       if (UInt32.TryParse(sValue, out UInt32 uValue)) return uValue;
       throw new ParseException($"Invalid {sName} = {sValue}");
     }
 
-    public static UInt64 ParseUInt64(String sName, String sValue) {
+    public static UInt64 ParseUInt64(String sName, String? sValue) {
       if (UInt64.TryParse(sValue, out UInt64 qValue)) return qValue;
       throw new ParseException($"Invalid {sName} = {sValue}");
     }

@@ -503,7 +503,7 @@ namespace Engine {
     //
     // Format a Move in Pure Algebraic Coordinate Notation (PACN).
     //
-    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960) {
+    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[]? sides, Boolean IsChess960) {
       if (isNullMove(move)) {
         return sb.Append(sNullMove);
       }
@@ -666,7 +666,7 @@ namespace Engine {
     }
 
     public static StringBuilder BestMove(
-      this StringBuilder sb, List<Move> bestMoves, BoardSide[] sides, Boolean IsChess960) {
+      this StringBuilder sb, List<Move> bestMoves, BoardSide[]? sides, Boolean IsChess960) {
       if (bestMoves.Count > 0) {
         if (sb.Length == 0) sb.Append("info ");
 

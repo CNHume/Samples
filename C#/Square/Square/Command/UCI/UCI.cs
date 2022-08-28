@@ -177,10 +177,10 @@ namespace Command {
           var newPosition = NewGame();
 
           //
-          //[Note]SetupPosition() will apply a sequence
-          // of moves that follows the initial position.
+          //[Note]PositionCommand() will parse and then make any
+          // sequence of moves that follows the initial position.
           //
-          var parsePosition = Parser.SetupPosition(newPosition);
+          var parsePosition = Parser.PositionCommand(newPosition);
           State.MovePosition = parsePosition;
         }
         break;
@@ -200,7 +200,7 @@ namespace Command {
         else if (State.MovePosition is null)
           throw new ChessException("Uninitialized Position");
 
-        Parser.ParseTabiya(State.MovePosition);
+        Parser.TabiyaCommand(State.MovePosition);
         break;
 
       case "moves":
@@ -229,21 +229,21 @@ namespace Command {
         else if (State.MovePosition is null)
           throw new ChessException("Uninitialized Position");
 
-        State.ListMovesFromRoot(State.MovePosition, Parser.ParseList());
+        State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
         break;
 
       case "getoption":                 //[Debug]
-        Parser.ParseGetOption();
+        Parser.GetOptionCommand();
         break;
 
       case "resetoption":               //[Debug]
         if (State is null) newState();  // Event Handler may require GameState
-        Parser.ParseResetOption();
+        Parser.ResetOptionCommand();
         break;
 
       case "setoption":                 //[UCI]
         if (State is null) newState();  // Event Handler may require GameState
-        Parser.ParseSetOption();
+        Parser.SetOptionCommand();
         break;
 
       case "debug":

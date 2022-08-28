@@ -74,7 +74,7 @@ namespace Engine {
       setName(sId);
     }
 
-    public void ParseEPD(String sPrefix, Dictionary<String, List<String>?> operations) {
+    public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       var scanner = new Scanner(sPrefix);
       try {
         var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
