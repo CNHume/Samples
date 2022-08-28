@@ -138,6 +138,8 @@ namespace Command {
       case "timertest":
         if (State is null)
           throw new ChessException("Uninitialized Game");
+        else if (State.MovePosition is null)    //[Safe]
+          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         State.MovePosition.TimerTest();
@@ -188,7 +190,7 @@ namespace Command {
       case "board":                     //[Test]In the absence of a GUI
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
         else
           State.MovePosition.Display();
@@ -197,7 +199,7 @@ namespace Command {
       case "tabiya":
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
 
         Parser.TabiyaCommand(State.MovePosition);
@@ -206,6 +208,8 @@ namespace Command {
       case "moves":
         if (State is null)
           throw new ChessException("Uninitialized Game");
+        else if (State.MovePosition is null)    //[Safe]
+          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         var movesPosition = State.MovePosition.ParsePACNMakeMoves(Parser);
@@ -215,6 +219,8 @@ namespace Command {
       case "unmove":
         if (State is null)
           throw new ChessException("Uninitialized Game");
+        else if (State.MovePosition is null)    //[Safe]
+          throw new ChessException("Uninitialized Position");
 
         State.OnMoveCommand();
         if (ReferenceEquals(State.MovePosition, State.RootPosition))
@@ -226,7 +232,7 @@ namespace Command {
       case "list":
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
 
         State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
@@ -270,7 +276,7 @@ namespace Command {
       case "best":                      //[Test]
         if (State is null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
         else if (State.BestMoves is not null) {
           var sb = new StringBuilder();
