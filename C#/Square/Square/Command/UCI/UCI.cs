@@ -254,16 +254,15 @@ namespace Command {
         if (State is null)
           throw new ChessException("Uninitialized Game");
 
-        State.OnMoveCommand();
         Parser.ExpectEOL();
-        State.Perft();
+        State.PerftSearch();
         break;
 
       case "go":                        //[UCI]
         if (State is null)
           throw new ChessException("Uninitialized Game");
 
-        State.Go(Parser);
+        State.BestMoveSearch(Parser);
         break;
 
       case "best":                      //[Test]

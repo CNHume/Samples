@@ -231,14 +231,15 @@ namespace Engine {
       return await Task.Run(fun);
     }
 
-    public void Go(Parser parser) {
+    public void BestMoveSearch(Parser parser) {
       OnMoveCommand();
       BestMoves.Clear();
       if (Bound.ParseBounds(parser, MovePosition))
         StartTask((state) => startSearch((Position?)state, SearchMode.BestMove), MovePosition);
     }
 
-    public void Perft() {
+    public void PerftSearch() {
+      OnMoveCommand();
       var bWTM = MovePosition.WTM();
       Bound.Clear(bWTM);
       StartTask((state) => startSearch((Position?)state, SearchMode.Perft), MovePosition);
