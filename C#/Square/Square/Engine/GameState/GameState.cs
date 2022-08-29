@@ -402,7 +402,7 @@ namespace Engine {
         sb.AppendFormat($" {MoveBottle.nKillers} Killers");
     }
 
-    private void herald(DateTime dtStarted, String sName) {
+    private void herald(DateTime dtStarted, String? sName) {
       var sb = new StringBuilder();
       sb.AppendLine();                  // Following UCI prompt
       sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");

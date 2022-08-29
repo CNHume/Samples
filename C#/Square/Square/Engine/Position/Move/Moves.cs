@@ -92,7 +92,9 @@ namespace Engine {
       SkipTurn();
 
       //[Note]If En Passant was possible, any move ends a Transposition Group
-      if (Parent.IsPassed()) SetDraw0();
+      if (Parent is not null && Parent.IsPassed())
+        SetDraw0();
+
       TestHash();                       //[Conditional]
       var bLegal = !InCheck();
       if (!bLegal)
