@@ -251,10 +251,10 @@ namespace Command {
         break;
 
       case "perft":                     //[Test]Look for corresponding Tabiya and run PerftCases
+        Parser.ExpectEOL();
         if (State is null)
           throw new ChessException("Uninitialized Game");
 
-        Parser.ExpectEOL();
         State.PerftSearch();
         break;
 
@@ -352,7 +352,7 @@ namespace Command {
     #endregion
 
     #region Command Helpers
-    protected static void initStaticFields() {
+    private static void initStaticFields() {
       //
       //[Init]Reference a static field in the Position class to force invocation of its
       // static constructor, following similar invocations for each of its base classes.
@@ -361,7 +361,7 @@ namespace Command {
     }
 
     [MemberNotNull(nameof(State))]
-    protected void newState() {
+    private void newState() {
       State = new GameState(this);
     }
 
@@ -378,15 +378,15 @@ namespace Command {
       return State.MovePosition;
     }
 
-    protected void newGameEPD(String? sEPD = null) {
+    private void newGameEPD(String? sEPD = null) {
       NewGame().SetEPD(sEPD);
     }
 
-    protected void newGameFEN(String? sFEN = null) {
+    private void newGameFEN(String? sFEN = null) {
       NewGame().SetFEN(sFEN);
     }
 
-    protected void parseDebug(Parser parser) {
+    private void parseDebug(Parser parser) {
       if (parser.AcceptEOL()) {
         var sKeyword = IsDebug ? "on" : "off";
         LogLine($"debug is {sKeyword}");
@@ -397,7 +397,7 @@ namespace Command {
     #endregion
 
     #region Static Helpers
-    public static void parseRegister(Parser parser) {
+    private static void parseRegister(Parser parser) {
       var bValidCommand = true;
       var bLater = false;
       String? sCode = default;
@@ -455,14 +455,14 @@ namespace Command {
       }
     }
 
-    protected static void showId() {
+    private static void showId() {
       LogLine($"id name {Product.ProductName} {Product.ProductVersion}");
       LogLine($"id author {Product.CompanyName}");
       LogLine($"id copyright {Product.Copyright}");
       LogLine($"id description {Product.Description}");
     }
 
-    protected static void showOptions(Boolean IsDebug) {
+    private static void showOptions(Boolean IsDebug) {
       foreach (var uciControl in GameState.Controls) {
         if (uciControl is not null)
           if (IsDebug || !uciControl.Option.IsHidden)
