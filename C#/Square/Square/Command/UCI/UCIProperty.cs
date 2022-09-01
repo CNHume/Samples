@@ -26,7 +26,8 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
-    //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Safe Sac [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
+    //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
+    // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
     //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
     // [2022-08-25 18-ply in 4:31.7 @1.407 over 382.3 Mnode] eval 9.85 after:
@@ -202,8 +203,8 @@ namespace Command {
     //"8/8/5pk1/6p1/1pp5/3q1P2/1P1N2P1/2K1R3 b - - 0 38"; // Gelfand v Inarkiev 2016-07-12 #6 11-ply
     // underpromotion line: moves b4b3 c1d1 c4c3 e1e2 c3d2 e2e1 d3c2 d1e2 d2d1n e2f1 c2f2
     //"8/5k1N/4q1p1/3pB1Q1/r7/5P2/5KP1/8 w - - 0 44"; // Carlsen v Giri (1-0) 2016-07-22 [11-ply in 9.04 sec @1.188 MHz over 10.737 Mnode]
-    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [16-ply in 4:24.35 @1.5053 MHz over 398 Mnode] eval 1.33 after:
-    // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f5 33. Nf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+
+    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [2022-08-31 17-ply in 16:40.57 @1.42 MHz over 1.421 Gnode] eval 2.45 after:
+    // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+ Kd7 38. Qxf7+ Qe7
     //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
     //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
     //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1"; // Abbreviation Tests
@@ -219,7 +220,7 @@ namespace Command {
     //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24";  // Wood v Sowell 2014-07-16
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
-    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [13-ply in 17.6 sec @1.619 MHz over 28.5 Mnode]
+    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2022-08-31 13-ply in 19.75 sec @1.505 MHz over 29.723 Mnode]
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [15-ply in 9:16.3 @1.413 MHz over 786.3 Mnode] eval 2.45 after:
     // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nc1 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Qb8+ Ke7 38. h4 Na2
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]

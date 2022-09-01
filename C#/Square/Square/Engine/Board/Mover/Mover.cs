@@ -226,7 +226,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal void toggleWTM() {
+    private void toggleWTM() {
       GamePly++;                        // GamePly should be even iff WTM
       Hash ^= ZobristTurn;
       FlagsTurn ^= TurnFlags.WTM;
