@@ -32,8 +32,8 @@ namespace Command {
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
     // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
     // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
-    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
-    // 12. a3 Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
+    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? 12. a3?! [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
+    // 12... Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
     //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // #3 4-ply
     // moves h4h5 g6h6 g5e6 g7g5
     //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
