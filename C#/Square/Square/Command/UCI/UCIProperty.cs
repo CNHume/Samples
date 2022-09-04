@@ -26,6 +26,14 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
+    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-01 14-ply in 42:20.5 @1.254 MHz over 3.185 Gnode] eval 1.63 after:
+    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
+    // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
+    // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
+    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6 12. a3 Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
+    //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // #3 4-ply
+    // moves h4h5 g6h6 g5e6 g7g5
     //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
     // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
     //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
@@ -166,8 +174,8 @@ namespace Command {
     //"4rbk1/1ppr1p2/5R2/pP6/2Q5/P7/1B2q1PP/5R1K w - - 0 30"; // Giri v Sunilduth Lyna, Narayanan 2015-12-20 #6 [9-ply in 7 sec @1.451 MHz over 10.19 Mnode]
     //"6rk/5p2/Q2pP2p/pNp1b2n/P3P1Nq/5R1P/3P2P1/6K1 b - - 0 30"; // Carlsen v Grischuk LCC R9 2015-12-13
     //"1b1Q4/1P6/6k1/1B6/5p2/6PK/5q2/8 w - - 0 66"; // Carlsen v Topalov 2015-06-16 (0-1 R1 Time Forfeit)
-    // [15-Ply in 17:17 @1.327 over 1.3762 Gnode] eval 5.95, [16-Ply in 6:56:40 @1.317 MHz over 32.922 Gnode] eval 8.30
-    // 66. Be8+ Kf5 67. Bd7+ Ke4 68. Bc6+ Ke3 69. Qb6+ Ke2 70. Qxf2+ Kxf2 71. g4 Be5 72. g5 Bb8 73. g6 Be5 74. g7 Bxg7 75. b8=Q Bh6 76. Bb5
+    // [2022-09-01 15-Ply in 36:28 @1.314 MHz over 2.874 Gnode] eval 4.9, [2022-09-01 16-Ply in 48:24.6 @1.337 MHz over 3.885 Gnode] eval 8.05
+    // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 73. Qb6+ Kxc4 74. Qxf2 Bd6 75. g5
     //
     // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {xpos})
     // 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+! Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
@@ -246,7 +254,7 @@ namespace Command {
     // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
     //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1";    // Mavo's Nice Tactics! [12-ply in 18 sec @1.472 MHz] eval 7.85, [16-ply in 6:46.6 @1.469 over 597 Mnode] eval 9.1
     // 1. Bxf5 Qd1+ 2. Kh2 Qxa4 3. Qxa4 Rxb6 4. Be4 Kc8 5. Qa7 Rf6 6. Qa8+ Kd7 7. Qxh8 Rxf2 8. Qxg7+ Ke6 9. Qg8+ Ke7 10. Qd5 Kf6 11. Qd6+ Kg5 12. Qxe5+
-    //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6 [10-ply in 2.675 sec @1.3125 MHz over 3.5 Mnode]
+    //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4";       // Mavo Nice Mate1 #6 [2022-09-01 10-ply in 2.788 sec @1.259 MHz over 3.511 Mnode]
     // 4. Ra6 Rd8 5. Qa4 Ra7 6. Rxa7 Rd5 7. Ra8+ Kb7 8. Bxd5+ Kxb6 9. Qc6#
     //"1k1q3r/1r4pp/1PQ5/4pB2/R7/7P/5PP1/6K1 w - - 0 2";      // Mavo Nice Mate2 [longer]
     //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3";     // Mavo Nice Mate3 #8 [12-ply in 14.17 sec @1.577 MHz]
