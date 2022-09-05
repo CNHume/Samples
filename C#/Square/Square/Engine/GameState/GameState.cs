@@ -7,6 +7,7 @@
 //
 #define ShowGC
 //#define ShowGCLatency
+//#define ShowSIMD
 #define QuiescentTryXP
 #define AddBestMoves
 //#define Magic
@@ -59,6 +60,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Numerics;
   using System.Runtime;
   using System.Text;
 
@@ -298,8 +300,13 @@ namespace Engine {
 #if QuiescentTryXP
       sb.Append(" TryXP");
 #endif
+#if ShowSIMD
+      // SIMD-Accelerated Numeric Types
+      var sHardware = Vector.IsHardwareAccelerated ? "Accelerated" : "None";
+      sb.AppendFormat($" SIMD={sHardware}");
+#endif
 #if ShowGC
-      var sServerGC = GCSettings.IsServerGC ? "server" : "workstation";
+      var sServerGC = GCSettings.IsServerGC ? "Server" : "Workstation";
       sb.AppendFormat($" GC={sServerGC}");
 #endif
 #if ShowGCLatency
