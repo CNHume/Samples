@@ -15,8 +15,16 @@ using namespace std;
 
 class LCSFile : protected LCSFormat {
 public:
+  enum Encoding {
+    ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7
+  };
+
   void Difference(const Command command);
+
+  const static vector<vector<unsigned char>> BOM;
+  const static vector<Encoding> encodings;
 
 protected:
   static RECORDS Read(const string& filename, bool isword);
+  static pair<Encoding, int> GetEncoding(const string& buffer);
 };
