@@ -31,6 +31,11 @@ int main(int argc, char* argv[]) {
   auto errorLevel = EXIT_FAILURE;
 
   try {
+    setlocale(LC_ALL, "");              // Set preferred locale vs. minimal C locale
+#ifdef _DEBUG
+    auto locale = setlocale(LC_ALL, NULL);
+    cout << "locale: " << locale << endl;
+#endif
     Command command;
     command.Parse(argc, argv);
 
