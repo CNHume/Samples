@@ -18,14 +18,18 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-08-25 Perft1 (startpos) in 15 sec @8.729 MHz over 130.36 Mnode]
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-08-25 Perft2 in 23.6 sec @8.713 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-08-25 Perft3 in 30.8 sec @7.108 MHz over 218.84 Mnode]
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-08-25 Perft4 in 1:37.8 @7.846 MHz over 767.28 Mnode]
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-08-25 Perft5 in 14 sec @6.262 MHz over 87.6 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-09-18 Perft1 (startpos) in 14.343 sec @9.089 MHz over 130.36 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-09-18 Perft2 in 22.57 sec @9.111 MHz over 205.63 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-09-18 Perft3 in 29.4 sec @7.444 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-09-18 Perft4 in 1:33.4 @8.215 MHz over 767.28 Mnode]
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-09-18 Perft5 in 13.37 sec @6.559 MHz over 87.6 Mnode]
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
+    // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. d7 Be7 39. Rc8 e3 40. Re8 Kg7f6
+    // [2022-09-16 17-ply in 1:20:28 @1.2 MHz over 5.795 Gnode] eval 2.65 after:
+    // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. Rc8 a4 39. d7 f4 40. h3 f3 41. gxf3 exf3 42. d8=Q Bxd8 43. Rxd8
     //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
     //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-01 14-ply in 42:20.5 @1.254 MHz over 3.185 Gnode] eval 1.63 after:
@@ -134,7 +138,7 @@ namespace Command {
     //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
     // [2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kb7 9. Kc5 Kc7 10. Ra1 Kb7 11. Rg1 Kc7
-    // [2022-08-25 19-ply in 25:14 @1.514 MHz over 1.9876 Gnode] to find #18
+    // [2022-09-17 19-ply in 24:42 @1.341 MHz over 1.9876 Gnode] to find #18
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
     // 12. Rg7 Ke8 13. Rg7g5
     // [2022-08-25 20-Ply in 41:08 @1.299 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
@@ -230,7 +234,7 @@ namespace Command {
     //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24";  // Wood v Sowell 2014-07-16
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
-    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2022-08-31 13-ply in 19.75 sec @1.505 MHz over 29.723 Mnode]
+    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2022-09-18 13-ply in 18.56 sec @1.601 MHz over 29.723 Mnode]
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [15-ply in 9:16.3 @1.413 MHz over 786.3 Mnode] eval 2.45 after:
     // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nc1 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Qb8+ Ke7 38. h4 Na2
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
@@ -265,7 +269,7 @@ namespace Command {
     //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [17-ply in 2:45.54 @1.141 MHz over 94.77 Mnode] eval 3.63
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8 [13-ply in 38.217 sec @1.522 MHz over 58.18 Mnode]
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8 [2022-09-18 13-ply in 38.52 sec @1.531 MHz over 58.97 Mnode]
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 #9 [14-ply in 3:00.3 over 268.66 Mnode @1.49 MHz]
     // 35... Bc5+ 36. Kh2 Nd2 37. Kh1 Ra1+ 38. Kh2 Nf1+ 39. Kh1 Ng3+ 40. Kh2 Bf2 41. Qf8+ Kxf8 42. Nxg6+ fxg6 43. Kh3 Rh1#
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 8:23 over 713 Mnode @1.418 MHz] eval -1.47
@@ -283,13 +287,13 @@ namespace Command {
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
     //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - - 0 1"; // Draw3N
     //"7r/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua0
-    //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [2022-08-28 21-ply in 7:43 @1.276 MHz over 591 Mnode] eval 0.0
+    //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [2022-09-18 21-ply in 7:30 @1.312 MHz over 590.566 Mnode] eval 0.0
     // moves h6h5 f6f5 h5h4 f5h3 h4g5 h3f5 g5h4 f5h3 h4g5 h3f5 g5h6 f5f6 h6h7 f6f7 h7h8 f7f8 h8h7 f8f7 h7h8 f7f8 h8h7 f8f7, or
     // moves h6h5 f6f7 h5g4 f7f5 g4h4 f5f6 h4h5 f6f5 h5h6 f5f6 h6h7 f6f7 h7h6 f7f6 [once inevitable, postponing a draw is not favored]
     //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen vs Urkedal 2013 #10 [16-ply in 14:39 @1.9 MHz over 1.67 Gnode]
     // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
     //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen vs Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
-    "rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz]
+    "rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17";  // Jensen vs Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz over 1.186 Mnode]
     //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen vs Urkedal 2013 #6 [12-ply?! in 1.8 sec @1.287 MHz over 2.3 Mnode]
     //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
     //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [2022-08-28 14-ply in 6:27 @1.518 MHz over 587.6 Mnode] eval -9.20
