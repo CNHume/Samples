@@ -53,9 +53,8 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   while (getline(input, buffer)) {
     auto record = buffer;
     if (count == 0) {
-      auto pair = GetEncoding(buffer);
-      auto encoding = pair.first;
-      record = &buffer[pair.second];
+      auto [encoding, length] = GetEncoding(buffer);
+      record = &buffer[length];
     }
 
     if (isword) {
@@ -78,7 +77,7 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   return records;
 }
 
-pair<LCSFile::Encoding, int> LCSFile::GetEncoding(const string& buffer) {
+tuple<LCSFile::Encoding, int> LCSFile::GetEncoding(const string& buffer) {
   int index = 0;
   for (const auto& bom : BOM) {
     int length = 0;

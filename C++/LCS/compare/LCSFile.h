@@ -27,5 +27,5 @@ public:
 
 protected:
   static RECORDS Read(const string& filename, bool isword);
-  static pair<Encoding, int> GetEncoding(const string& buffer);
+  static tuple<Encoding, int> GetEncoding(const string& buffer);
 };
