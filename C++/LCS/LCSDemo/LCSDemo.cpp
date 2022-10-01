@@ -81,16 +81,21 @@ protected:
           auto index3 = distance(threshold.begin(), limit);
 
           //
-          // Look ahead to the next index2 value to optimize space used in the Hunt
+          // Look ahead to the next index2 value to optimize Pairs used by the Hunt
           // and Szymanski algorithm.  If the next index2 is also an improvement on
           // the value currently held in threshold[index3], a new Pair will only be
           // superseded on the next index2 iteration.
           //
-          // Depending on match redundancy, the number of Pair constructions may be
-          // divided by factors ranging from 2 up to 10 or more.
+          // Verify the next value of index2 will be greater than the final element
+          // of the next shorter LCS at prev(limit):
           //
           auto preferNextIndex2 = next(it2) != dq2.rend() &&
             (limit == threshold.begin() || *prev(limit) < *next(it2));
+
+          //
+          // Depending on match redundancy, this optimization may reduce the number
+          // of Pair allocations by factors ranging from 2 up to 10 or more.
+          //
           if (preferNextIndex2) continue;
 
           if (limit == threshold.end()) {
