@@ -26,15 +26,19 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [14-ply in 1:35.35 1.213 MHz over 115.66 Mnode] eval -2.4 after:
+    // 1... Rxb2 2. Nxb2 c3 3. Rxb6 c4 4. Na4 c2 5. Rxe6 c1=Q+ 6. Kh2 Qf4+ 7. Kg1 c3 8. Ra6 c2
     //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. d7 Be7 39. Rc8 e3 40. Re8 Kg7f6
     // [2022-09-16 17-ply in 1:20:28 @1.2 MHz over 5.795 Gnode] eval 2.65 after:
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. Rc8 a4 39. d7 f4 40. h3 f3 41. gxf3 exf3 42. d8=Q Bxd8 43. Rxd8
     //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
-    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-01 14-ply in 42:20.5 @1.254 MHz over 3.185 Gnode] eval 1.63 after:
+    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-18 14-ply in 40:35 @1.308 MHz over 3.185 Gnode] eval 1.63 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
     // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
+    // [2022-09-18 15-ply in 52:48 @1.328 MHz over 4.206 Gnode] eval 1.62 after:
+    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bxh6 Qxc3+ 18. Kf1 Nxd4 19. Bd2 Qd3+
     // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? 12. a3?! [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
     // 12... Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
@@ -192,7 +196,7 @@ namespace Command {
     //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1"; // Taimanov v Kuzminykh 1950 [13-ply in 1:40 @1.472 over 161.9 Mnode] eval 2.35,
     // [14-ply in 5:59.1 @1.3865 MHz over 497.9 Mnode] eval 2.35, [15-ply in 15:59 @1.387 MHz over 1.33 Gnode] eval 2.55
     //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989 [20-ply in 5:05:01 @1.288 MHz over 23.571 Gnode] eval 0.03
-    // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed for shelter}
+    // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed to avoid checks}
     // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xpos}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
     // 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
     //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]

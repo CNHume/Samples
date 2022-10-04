@@ -15,7 +15,7 @@
     <RootNamespace>Engine</RootNamespace>
     <AssemblyName>Square</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Square</RepositoryUrl>
