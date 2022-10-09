@@ -3,6 +3,10 @@
 //
 //[2013-09-24 CNHume]Created Class
 //
+// Conditionals:
+//
+#define EnsureLogPathDirectoryExists
+
 namespace Logging {
   using Command;
 
@@ -17,7 +21,7 @@ namespace Logging {
     private const String sSpace = " ";
     private const String sInfo = "info";
     private const String sLogExtensionDefault = "log";
-    public const String sLogPathDefault = @"c:\ProgramData\Square\Logs";
+    private const String sLogRelativePath = @"Square\Logs";
     #endregion
 
     #region Enumerations
@@ -30,7 +34,7 @@ namespace Logging {
 
     #region Properties
     public static Level LogLevel { get; set; }
-    private static FileStream? LogStream { get; set; }
+    public static String? LogPathDefault;
     public static String? LogPath {
       get => sLogPath;
       set {
@@ -39,12 +43,16 @@ namespace Logging {
         LogStream = OpenLogStream(sLogPath);
       }
     }
+    private static FileStream? LogStream { get; set; }
     #endregion
 
     #region Constructors
     static Logger() {
       LogLevel = Level.data;
-      LogPath = sLogPathDefault;
+      // Using %LOCALAPPDATA% vs. %ALLUSERSPROFILE%
+      var sLogRootPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+      LogPathDefault = Path.Combine(sLogRootPath, sLogRelativePath);
+      LogPath = LogPathDefault;
     }
     #endregion
 
@@ -62,6 +70,9 @@ namespace Logging {
       FileStream? logStream = default;
       try {
         if (path is not null) {
+#if EnsureLogPathDirectoryExists
+          var di = Directory.CreateDirectory(path);
+#endif
           var sFullPath = combineFilename(path, Product.ProductName, sLogExtensionDefault);
           logStream = File.Open(sFullPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
           logStream.Seek(0, SeekOrigin.End);

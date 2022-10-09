@@ -339,7 +339,7 @@ namespace Engine {
         Option = new Option {
           Name = "LogPath",             //[Logger]
           Type = OptionType.@string,
-          Default = sLogPathDefault
+          Default = LogPathDefault
         }
       }
     };

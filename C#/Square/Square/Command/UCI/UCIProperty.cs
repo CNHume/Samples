@@ -26,6 +26,11 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"3q4/k1p2br1/1pQ5/p2pR3/P2P4/1P1B4/K1P5/8 w - - 0 39"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #12 [11-ply in 3.253 sec @1.255 MHz over 4.08 Mnode] eval 10.35 after:
+    // 39. Re7 Be8 40. Rxe8 Qxe8 41. Qxe8 c5 42. dxc5 bxc5 43. Qd8 c4 44. Qxa5+ Kb8 45. bxc4
+    //"4Q3/k5r1/1p6/p1pp4/P2P4/1P1B4/K1P5/8 w - - 0 42"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #9 Line (from move 42)
+    // 42. Qc6! cxd4 43. Qxd4 Re7 44. Qd8 Rb7 45. Be4 b5 46. axb5 Rxb5 47. Qc7+ Ka6 48. Qc6+ Rb6 49. Qc8+ Ka7 50. Qa8#
+    //
     //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [14-ply in 1:35.35 1.213 MHz over 115.66 Mnode] eval -2.4 after:
     // 1... Rxb2 2. Nxb2 c3 3. Rxb6 c4 4. Na4 c2 5. Rxe6 c1=Q+ 6. Kh2 Qf4+ 7. Kg1 c3 8. Ra6 c2
     //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
