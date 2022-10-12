@@ -61,9 +61,10 @@ Methods for the Square Engine fall into the following categories:
 
 ### Move Execution
 
+* Board Representation
 * Piece Moves & Captures
-* Pawn Moves & Captures (including Promotion & En Passant)
-* Castling and Chess 960 support
+* Pawn Moves & Captures, including Promotion & En Passant
+* Castling and Chess 960 Support
 
 ### Search Methods
 
@@ -71,9 +72,9 @@ Methods for the Square Engine fall into the following categories:
 * Principal Variation Search (PVS)
 * Backward Pruning Optimizations
 * Forward Pruning Heuristics
-* Quiescence Search
-* Static Exchange Evaluation (SEE)
-* Move Path Enumeration (Perft)
+* Quiescent Search
+* Static Exchange (Swap) Evaluation
+* Move Path Enumeration, for Perft
 
 ### Position Evaluation
 
@@ -86,13 +87,12 @@ Methods for the Square Engine fall into the following categories:
 ### Cache Methods
 
 * Transposition Tables
-* Material Memoization
+* Material Balance Memoization
 * Hash Functions
 
 ### Diagnostics & Statistics
 
-* Counters
-* Histograms
+* Counters & Histograms
 * Test Positions (Tabiya)
 * Timer Tests
 
