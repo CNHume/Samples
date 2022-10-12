@@ -6,7 +6,7 @@ by Christopher N. Hume, updated 2022-10-12
 
 Square is a Universal Chess Interface (UCI) Engine.  Please see [Description of UCI Protocol](https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol/) by Stefan Meyer-Kahlen.
 
-Source code for the [Square Chess Engine](https://github.com/CNHume/Samples/tree/master/C%23/Square) can be found on GitHub.  This code is available under the terms of the [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html).
+Source code for the [Square Chess Engine](https://github.com/CNHume/Samples/tree/master/C%23/Square) can be found on GitHub.  The code is available under terms of the [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html).
 
 ## Copyright and Licensing
 
@@ -84,10 +84,10 @@ Methods for the Square Engine fall into the following categories:
 ### Cache Methods
 
 * Transposition Tables
-* Eval Memoization
+* Material Memoization
 * Hash Functions
 
-### Diagnosics & Statistics
+### Diagnostics & Statistics
 
 * Counters
 * Histograms
