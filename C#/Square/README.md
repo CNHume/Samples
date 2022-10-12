@@ -54,6 +54,8 @@ Methods for the Square Engine fall into the following categories:
 ### Move Generation
 
 * Generator Methods
+* Check Evasions
+* Pin Restrictions
 * Move Ordering
 * Killer Move Heuristic
 
@@ -76,7 +78,7 @@ Methods for the Square Engine fall into the following categories:
 ### Position Evaluation
 
 * Eval Methods
-* Reward vs. Punish Heuristics
+* Reward vs. Punishment Heuristics
 * Pawn Features
 * Shortest Mate
 * Draw Detection
