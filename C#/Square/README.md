@@ -18,7 +18,7 @@ This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you 
 
 The Square .NET solution consists of the following projects:
 
-* Square - The Main Console Application Startup Project
+* Square - Console Application Startup Project
 * HeapSort - Heap Sort Library Project
 * HeapTest - Heap Sort Library Test Project
 
@@ -37,7 +37,7 @@ Methods for the Square Engine fall into the following categories:
 
 ### Output Methods
 
-* Move Notation
+* Move Notations
 * Board Display
 * Logger
 
@@ -54,14 +54,14 @@ Methods for the Square Engine fall into the following categories:
 ### Move Generation
 
 * Generator Methods
-* Move Sorting
-* Killer Heuristic
+* Move Ordering
+* Killer Move Heuristic
 
 ### Move Execution
 
 * Piece Moves & Captures
-* Pawn Moves & Captures (including En Passant & Promotion)
-* Castling (including Chess 960 support)
+* Pawn Moves & Captures (including Promotion & En Passant)
+* Castling and Chess 960 support
 
 ### Search Methods
 
@@ -73,16 +73,26 @@ Methods for the Square Engine fall into the following categories:
 * Static Exchange Evaluation (SEE)
 * Move Path Enumeration (Perft)
 
-### Evaluation
+### Position Evaluation
 
 * Eval Methods
+* Reward vs. Punish Heuristics
+* Pawn Features
+* Shortest Mate
 * Draw Detection
 
-### Cacheing
+### Cache Methods
 
 * Transposition Tables
 * Eval Memoization
 * Hash Functions
+
+### Diagnosics & Statistics
+
+* Counters
+* Histograms
+* Test Positions (Tabiya)
+* Timer Tests
 
 ## References
 
