@@ -17,8 +17,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Square</RepositoryUrl>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.html</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Square</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 

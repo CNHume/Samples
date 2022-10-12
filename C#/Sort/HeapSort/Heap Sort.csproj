@@ -18,7 +18,7 @@
     <ImplicitUsings>true</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
