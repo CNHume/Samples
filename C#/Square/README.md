@@ -32,12 +32,14 @@ Methods for the Square Engine fall into the following categories:
 
 ### Input Methods
 
+* Board Deserialization from FEN or EPD
 * Command Parser
 * Command Dispatch Loop
 
 ### Output Methods
 
-* Move Notations
+* Board Serialization to FEN or EPD
+* Move Notation
 * Board Display
 * Logger
 
@@ -48,7 +50,7 @@ Methods for the Square Engine fall into the following categories:
 
 ### Bitboard Methods
 
-* Trailing Zero Count (TZC)
+* Trailing Zero Count (TZC) vs. de Bruijn Sequence
 * Rotated Bitboards vs. Magic Methods
 
 ### Move Generation
