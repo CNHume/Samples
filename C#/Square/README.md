@@ -1,6 +1,6 @@
 # Application Notes for the Square Chess Engine
 
-by Christopher N. Hume, updated 2022-10-15
+by Christopher N. Hume, updated 2022-10-16
 
 ## Source Code
 
@@ -50,7 +50,7 @@ Methods for the Square Engine fall into the following categories:
 
 ### Bitboard Methods
 
-* de Bruijn Sequence vs. Trailing Zero Count (TZC)
+* de Bruijn Sequences vs. Trailing Zero Count (TZC)
 * Magic Methods vs. Rotated Bitboards
 
 ### Move Generation
@@ -70,14 +70,14 @@ Methods for the Square Engine fall into the following categories:
 
 ### Search Methods
 
-* Start Task for Search vs. Perft
-* Move Path Enumeration for Perft
-* Iterative Deepening Search
+* Iterative Deepening
+* Backward Pruning Optimizations
 * Principal Variation Search (PVS)
-* Backward Pruning Optimization
 * Forward Pruning Heuristics
 * Quiescent Search
 * Static Exchange (Swap) Evaluation
+* Move Path Enumeration Test (Perft)
+* Background Task for Search or Perft
 
 ### Position Evaluation
 
