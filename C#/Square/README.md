@@ -41,6 +41,7 @@ Methods for the Square Engine fall into the following categories:
 * Position Serialization to FEN or EPD
 * Move Notation
 * Board Display
+* Histogram Display
 * Logger
 
 ### Move Lookup Tables
@@ -71,9 +72,9 @@ Methods for the Square Engine fall into the following categories:
 ### Search Methods
 
 * Iterative Deepening
-* Backward Pruning Optimizations
+* Alpha-Beta Backward Pruning
 * Principal Variation Search (PVS)
-* Forward Pruning Heuristics
+* Forward Pruning, e.g., Null Move Heuristic
 * Quiescent Search
 * Static Exchange (Swap) Evaluation
 * Move Path Enumeration Test (Perft)
@@ -82,7 +83,7 @@ Methods for the Square Engine fall into the following categories:
 ### Position Evaluation
 
 * Eval Methods
-* Reward vs. Punishment Heuristics
+* Reward and Punishment Heuristics
 * Pawn Features
 * Shortest Mate
 * Draw Detection
@@ -95,11 +96,11 @@ Methods for the Square Engine fall into the following categories:
 
 ### Diagnostics & Statistics
 
-* Counters & Histograms
+* Counters
 * Test Positions (Tabiya)
 * Timer Tests
 
 ## References
 
-### The Programming Chess Wiki
+### Chess Programming Wiki
 * [Chess Programming Wiki Main Page](https://www.chessprogramming.org/Main_Page)
