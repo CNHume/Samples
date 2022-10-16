@@ -1,6 +1,6 @@
 # Application Notes for the Square Chess Engine
 
-by Christopher N. Hume, updated 2022-10-12
+by Christopher N. Hume, updated 2022-10-15
 
 ## Source Code
 
@@ -8,7 +8,7 @@ Square is a Universal Chess Interface (UCI) Engine.  See [Description of UCI Pro
 
 Source code for the [Square Chess Engine](https://github.com/CNHume/Samples/tree/master/C%23/Square) can be found on GitHub.  This code is available under terms of the [GNU General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.html).
 
-## Copyright and Licensing
+## Copyright and License
 
 Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 
@@ -32,13 +32,13 @@ Methods for the Square Engine fall into the following categories:
 
 ### Input Methods
 
-* Board Deserialization from FEN or EPD
+* Position Deserialization from FEN or EPD
 * Command Parser
 * Command Dispatch Loop
 
 ### Output Methods
 
-* Board Serialization to FEN or EPD
+* Position Serialization to FEN or EPD
 * Move Notation
 * Board Display
 * Logger
@@ -50,14 +50,14 @@ Methods for the Square Engine fall into the following categories:
 
 ### Bitboard Methods
 
-* Trailing Zero Count (TZC) vs. de Bruijn Sequence
-* Rotated Bitboards vs. Magic Methods
+* de Bruijn Sequence vs. Trailing Zero Count (TZC)
+* Magic Methods vs. Rotated Bitboards
 
 ### Move Generation
 
 * Generator Methods
-* Check Evasions
-* Pin Restrictions
+* Check Evasion
+* Pin Restriction
 * Move Ordering
 * Killer Move Heuristic
 
@@ -70,13 +70,14 @@ Methods for the Square Engine fall into the following categories:
 
 ### Search Methods
 
-* Iterative Deepening
+* Start Task for Search vs. Perft
+* Move Path Enumeration for Perft
+* Iterative Deepening Search
 * Principal Variation Search (PVS)
-* Backward Pruning Optimizations
+* Backward Pruning Optimization
 * Forward Pruning Heuristics
 * Quiescent Search
 * Static Exchange (Swap) Evaluation
-* Move Path Enumeration, for Perft
 
 ### Position Evaluation
 
