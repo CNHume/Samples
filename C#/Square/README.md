@@ -77,7 +77,7 @@ Methods for the Square Engine fall into the following categories:
 * Forward Pruning, e.g., Null Move Heuristic
 * Quiescent Search
 * Static Exchange (Swap) Evaluation
-* Move Path Enumeration Test (Perft)
+* Move Path Enumeration (Perft)
 * Background Task for Search or Perft
 
 ### Position Evaluation
