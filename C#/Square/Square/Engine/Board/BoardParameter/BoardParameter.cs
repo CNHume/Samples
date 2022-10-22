@@ -27,17 +27,17 @@ namespace Engine {
 
         switch (SideName) {
         case SideName.Black:
-          ShiftA1H8 = -nA1H8;
-          ShiftA8H1 = -nA8H1;
-          ShiftRank = -nFiles;
+          Direction = -1;
+          ShiftA1H8 = Direction * nA1H8;
+          ShiftA8H1 = Direction * nA8H1;
+          ShiftRank = Direction * nFiles;
 
           StartRank = nRankLast;
           EnPassantRank = 2;
 
+          (FileLeft, FileRight) = (qpFileH, qpFileA);
           RankLast = qpRank1;
           RankPass = qpRank6;
-          FileLeft = qpFileH;
-          FileRight = qpFileA;
           Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
 
           Zobrist = ZobristBlack;
@@ -45,17 +45,17 @@ namespace Engine {
           break;
 
         case SideName.White:
-          ShiftA1H8 = nA1H8;
-          ShiftA8H1 = nA8H1;
-          ShiftRank = nFiles;
+          Direction = 1;
+          ShiftA1H8 = Direction * nA1H8;
+          ShiftA8H1 = Direction * nA8H1;
+          ShiftRank = Direction * nFiles;
 
           StartRank = 0;
           EnPassantRank = invertRank(2);
 
+          (FileLeft, FileRight) = (qpFileA, qpFileH);
           RankLast = qpRank8;
           RankPass = qpRank3;
-          FileLeft = qpFileA;
-          FileRight = qpFileH;
           Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
 
           Zobrist = ZobristWhite;
@@ -71,6 +71,8 @@ namespace Engine {
       #endregion
 
       #region Pawn Advancement Fields
+      public readonly Int32 Direction;
+
       public readonly Int32 StartRank;
       public readonly Int32 EnPassantRank;
 
