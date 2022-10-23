@@ -33,10 +33,13 @@ namespace Command {
     // 16... Rxh2 17. Qb5+ c6 18. Qb7+ Ke6 19. Kxh2 Rh8+ 20. Kg1 Nf3+ 21. Bxf3 Bxf3 22. Qxc6+ Qd6 23. Qxd6+ Kxd6 24. Ba3+ Kc6 25. Rb6+ axb6 26. Bb2 Be2
     // moves h8h2 b7b5 c7c6 b5b7 d7e6 f1d1
     //"3r4/pQ3pp1/2p1kn2/4n1p1/2Pqp1b1/3P2P1/PBP2PBr/1R1R2K1 b - - 0 19"; // Richard Rapport v Shakhriyar Mamedyarov 2022-10-15 Line #-10
+    // [18-ply in 16:53:25 @563.3 KHz over 34.25 Gnode] -#10
     // 19... Rdh8 (19... Rxh2+ 20. Kxg2 Bh3+ 21. Kg1 Nf3+ 22. Kh1 Qxf2
     // (22... Bf1! 23. Qxc6+ Kf5 24. Qb5+ Kg6 25. Qxg5+ Kxg5 26. Bc1+ Kg4 27. Rb5 Rh8+ 28.Bh6 Rxh6+ 29. Rh5 Rxh5#)
     // 23. Qxc6+ Kf5 24. Qc5+ Qxc5 25. Bd4 Bf1! 26. dxe4+ Kg4 27. Rb8 Rxb8 28. Rxf1 Rh8+ 29. Kg2 Rh2#)
-    // 20. Qc8+ Rxc8 21. Bxd4 Rch8 22. f4 Bf3 23. Bxf3 exf3 24. f5+ Kxf5 25. g4+ Nfxg4 26. Kf1 Rg2 27. a3 Rh1 (27... Nh2+ 28. Ke1 Re2#) 28. Bg1 Rhxg1#
+    // 20. Qc8+ Rxc8 21. Bxd4 Rch8 22. f4 Bf3 23. Bxf3 exf3 24. Kf1
+    // (24. f5+ Kxf5 25. g4+ Nfxg4 26. Kf1 Rg2 27. a3 Rh1 (27... Nh2+ 28. Ke1 Re2#) 28. Bg1 Rhxg1#)
+    // 24... Rg2 25. Bg1 Rh1 26. f5+ Kxf5 27. g4+ Nfxg4 28. Rb5 Rhxg1#
     //
     //"3q4/k1p2br1/1pQ5/p2pR3/P2P4/1P1B4/K1P5/8 w - - 0 39"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #12 [11-ply in 3.253 sec @1.255 MHz over 4.08 Mnode] eval 10.35 after:
     // 39. Re7 Be8 40. Rxe8 Qxe8 41. Qxe8 c5 42. dxc5 bxc5 43. Qd8 c4 44. Qxa5+ Kb8 45. bxc4
