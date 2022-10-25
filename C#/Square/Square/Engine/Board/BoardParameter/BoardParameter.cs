@@ -101,22 +101,26 @@ namespace Engine {
       #region Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public Boolean IsAbove(Int32 nTo) {
-        var bAbove = PawnSense > 0 ?
-          nTo >= (Int32)sq.a5 : nTo <= (Int32)sq.h4;
-#if TestAbove
-        var sAbove = bAbove ? "above" : "below";
-        var sqTo = (sq)nTo;
-        if (sqTo == sq.a5 || sqTo == sq.a4)
-          Console.WriteLine($"{sqTo} is {sAbove} for {SideName}");
-#endif
-        return bAbove;
+        switch (SideName) {
+        case SideName.Black:
+          return nTo <= (Int32)sq.h4;
+        case SideName.White:
+          return nTo >= (Int32)sq.a5;
+        default:
+          throw new ArgumentException(nameof(SideName));
+        }
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public bool IsPromotion(int nTo) {
-        var bPromotion = PawnSense > 0 ?
-          nTo >= (Int32)sq.a8 : nTo <= (Int32)sq.h1;
-        return bPromotion;
+        switch (SideName) {
+        case SideName.Black:
+          return nTo <= (Int32)sq.h1;
+        case SideName.White:
+          return nTo >= (Int32)sq.a8;
+        default:
+          throw new ArgumentException(nameof(SideName));
+        }
       }
       #endregion                        // Methods
     }
