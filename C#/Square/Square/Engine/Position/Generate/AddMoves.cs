@@ -14,6 +14,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Drawing;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
   using static Logging.Logger;
@@ -126,6 +127,7 @@ namespace Engine {
     protected void addPieceCaptures(
       List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
+      var parameter = getSide(bWTM).Parameter;
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
@@ -133,7 +135,7 @@ namespace Engine {
 #if DebugMoveColor
         if (bWTM) move |= Move.WTM;
 #endif
-        var moves = isAbove(nTo, bWTM) ? aboveCaptures : belowCaptures;
+        var moves = parameter.IsAbove(nTo) ? aboveCaptures : belowCaptures;
         moves.Add(move);
       }
     }
@@ -142,6 +144,7 @@ namespace Engine {
     protected void addPieceMoves(
       List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
       var bWTM = WTM();
+      var parameter = getSide(bWTM).Parameter;
       qpMoveTo &= ~RankPiece;           // Find Moves
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
@@ -149,7 +152,7 @@ namespace Engine {
 #if DebugMoveColor
         if (bWTM) move |= Move.WTM;
 #endif
-        var moves = isAbove(nTo, bWTM) ? aboveMoves : belowMoves;
+        var moves = parameter.IsAbove(nTo) ? aboveMoves : belowMoves;
         moves.Add(move);
       }
     }

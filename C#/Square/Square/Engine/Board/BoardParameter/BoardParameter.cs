@@ -6,6 +6,7 @@
 
 namespace Engine {
   using System;
+  using System.Runtime.CompilerServices;
 
   //
   // Type Aliases:
@@ -38,7 +39,6 @@ namespace Engine {
           (FileLeft, FileRight) = (qpFileH, qpFileA);
           RankLast = qpRank1;
           RankPass = qpRank6;
-          Above = qpRank1 | qpRank2 | qpRank3 | qpRank4;
 
           Zobrist = ZobristBlack;
           ZobristRights = ZobristRightsBlack;
@@ -53,7 +53,6 @@ namespace Engine {
           StartRank = 0;
           EnPassantRank = invertRank(2);
 
-          Above = qpRank8 | qpRank7 | qpRank6 | qpRank5;
           RankLast = qpRank8;
           RankPass = qpRank3;
           (FileLeft, FileRight) = (qpFileA, qpFileH);
@@ -68,7 +67,7 @@ namespace Engine {
 
         Rule = new CastleRuleParameter(StartRank);
       }
-      #endregion
+      #endregion                        // Constructors
 
       #region Pawn Advancement Fields
       public readonly Int32 PawnSense;
@@ -80,7 +79,6 @@ namespace Engine {
       public readonly Int32 ShiftA8H1;
       public readonly Int32 ShiftRank;
 
-      public readonly Plane Above;
       public readonly Plane RankLast;
       public readonly Plane RankPass;
       public readonly Plane FileLeft;
@@ -90,12 +88,30 @@ namespace Engine {
       #region Virtual Fields
       public readonly SideName SideName;
 
-      public CastleRuleParameter Rule { get; set; }
       public String? Symbol;
 
       public readonly Hashcode[][] Zobrist;
       public readonly Hashcode[] ZobristRights;
-      #endregion
+      #endregion                        // Virtual Fields
+
+      #region Properties
+      public CastleRuleParameter Rule { get; set; }
+      #endregion                        // Properties
+
+      #region Methods
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public Boolean IsAbove(Int32 nTo) {
+        var bAbove = PawnSense > 0 ?
+          nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
+#if TestAbove
+        var sAbove = bAbove ? "above" : "below";
+        var sqTo = (sq)nTo;
+        if (sqTo == sq.a5 || sqTo == sq.a4)
+          Console.WriteLine($"{sqTo} is {sAbove} for {SideName}");
+#endif
+        return bAbove;
+      }
+      #endregion                        // Methods
     }
   }
 }

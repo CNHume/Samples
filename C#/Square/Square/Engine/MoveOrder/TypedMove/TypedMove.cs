@@ -52,12 +52,12 @@ namespace Engine.MoveOrder {
     #endregion
 
     #region Methods
-    public static MoveType moveType(Move move, Boolean bWTM) {
+    public static MoveType moveType(Move move, BoardParameter parameter) {
       MoveType type;
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean bCapture);
-      var bAbove = isAbove(nTo, bWTM);
 
+      var bAbove = parameter.IsAbove(nTo);
       switch (pieceIndex(uPiece)) {
       case vP6:
         type = bCapture ?

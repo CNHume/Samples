@@ -401,10 +401,6 @@ namespace Engine {
       return isCapture(move1) == isCapture(move2);
     }
 
-    internal static Boolean isAbove(Int32 nTo, Boolean bWTM) {
-      return bWTM ? nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
-    }
-
     #region Move Setter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Move fromMove(Int32 nFrom) {

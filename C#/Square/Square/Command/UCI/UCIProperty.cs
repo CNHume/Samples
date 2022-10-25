@@ -26,6 +26,8 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"1k1r4/1P2q3/1Q6/6p1/6Pp/7P/8/2R3K1 w - - 0 1"; // Promotion Fork [4-ply in 75 ms @121.77 KHz over 9,133 node] eval 3.25
+    // 1. Rc8+ Rxc8 2. Qa7+ Kxa7 3. bxc8=N+ Ka6 4. Nxe7
     //"3r3r/pQpk1pp1/5n2/4n1p1/2Pqp1b1/3P2P1/PBP2PBP/1R3RK1 b - - 0 16"; // Richard Rapport v Shakhriyar Mamedyarov 2022-10-15 -#13
     // [16-ply in 4:13:12 @1.323 MHz over 20.095 Gnode] eval -2.47 after:
     // 16... Rxh2 17. Qb5+ c6 18. Qb7+ Ke6 19. Kxh2 Nf3+ 20. Bxf3 Rh8+ 21. Kg1 Bxf3 22. Qxc6+ Qd6 23. Qxd6+ Kxd6 24. Ba3+ Kc6 25. Rb6+ axb6 26. Rb1 Rh8h1#

@@ -439,8 +439,8 @@ namespace Engine {
         while (qpFrom != 0) {
           var nFrom = RemoveLo(ref qpFrom);
           var nTo = nFrom + nDiag;
+          var bAbove = Parameter.IsAbove(nTo);
           var qpMoveTo = BIT0 << nTo;
-          var bAbove = (Parameter.Above & qpMoveTo) != 0;
           var bPromote = (Parameter.RankLast & qpMoveTo) != 0;
           var bEnPassant = nTo == nEP;
           position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
@@ -465,8 +465,8 @@ namespace Engine {
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
           var nTo = nFrom + Parameter.ShiftRank;
+          var bAbove = Parameter.IsAbove(nTo);
           var qpMoveTo = BIT0 << nTo;
-          var bAbove = (Parameter.Above & qpMoveTo) != 0;
           var bPromote = (Parameter.RankLast & qpMoveTo) != 0;
           position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
         }
