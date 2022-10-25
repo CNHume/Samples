@@ -102,7 +102,7 @@ namespace Engine {
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public Boolean IsAbove(Int32 nTo) {
         var bAbove = PawnSense > 0 ?
-          nTo >= (Int32)sq.a5 : nTo < (Int32)sq.a5;
+          nTo >= (Int32)sq.a5 : nTo <= (Int32)sq.h4;
 #if TestAbove
         var sAbove = bAbove ? "above" : "below";
         var sqTo = (sq)nTo;
@@ -110,6 +110,13 @@ namespace Engine {
           Console.WriteLine($"{sqTo} is {sAbove} for {SideName}");
 #endif
         return bAbove;
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public bool IsPromotion(int nTo) {
+        var bPromotion = PawnSense > 0 ?
+          nTo >= (Int32)sq.a8 : nTo <= (Int32)sq.h1;
+        return bPromotion;
       }
       #endregion                        // Methods
     }

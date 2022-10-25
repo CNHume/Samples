@@ -412,8 +412,7 @@ namespace Engine {
         //
         // Validate Promotion
         //
-        var bLastRank = (Parameter.RankLast & qpTo) != 0;
-        var bRequired = vPiece == vP6 && bLastRank;
+        var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
         var bSupplied = promotion != default;
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
@@ -440,10 +439,9 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpFrom);
           var nTo = nFrom + nDiag;
           var bAbove = Parameter.IsAbove(nTo);
-          var qpMoveTo = BIT0 << nTo;
-          var bPromote = (Parameter.RankLast & qpMoveTo) != 0;
+          var bPromotion = Parameter.IsPromotion(nTo);
           var bEnPassant = nTo == nEP;
-          position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
+          position.AddPawnCapture(nFrom, nTo, bAbove, bPromotion, bEnPassant);
         }
       }
 
@@ -466,9 +464,8 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpAdv1From);
           var nTo = nFrom + Parameter.ShiftRank;
           var bAbove = Parameter.IsAbove(nTo);
-          var qpMoveTo = BIT0 << nTo;
-          var bPromote = (Parameter.RankLast & qpMoveTo) != 0;
-          position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
+          var bPromotion = Parameter.IsPromotion(nTo);
+          position.AddPawnMove(nFrom, nTo, bAbove, bPromotion);
         }
 
         while (qpAdv2From != 0) {
