@@ -412,7 +412,7 @@ namespace Engine {
         //
         // Validate Promotion
         //
-        var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
+        var bRequired = vPiece == vP6 && Parameter.IsLastRank(nTo);
         var bSupplied = promotion != default;
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
@@ -439,7 +439,7 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpFrom);
           var nTo = nFrom + nDiag;
           var bAbove = Parameter.IsAbove(nTo);
-          var bPromotion = Parameter.IsPromotion(nTo);
+          var bPromotion = Parameter.IsLastRank(nTo);
           var bEnPassant = nTo == nEP;
           position.AddPawnCapture(nFrom, nTo, bAbove, bPromotion, bEnPassant);
         }
@@ -464,7 +464,7 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpAdv1From);
           var nTo = nFrom + Parameter.ShiftRank;
           var bAbove = Parameter.IsAbove(nTo);
-          var bPromotion = Parameter.IsPromotion(nTo);
+          var bPromotion = Parameter.IsLastRank(nTo);
           position.AddPawnMove(nFrom, nTo, bAbove, bPromotion);
         }
 
