@@ -50,7 +50,7 @@ namespace Engine {
       if (nIndex < 0)
         throw new PositionException($"Could not find the {type} MoveType");
       else if (nIndex > 0)
-        MoveTypes.Place(0, nIndex);
+        MoveTypes.Rotate(0, nIndex);
 
       //
       // New ordering inherited by subsequent children:

@@ -801,10 +801,16 @@ namespace Engine {
       return next;
     }
 
-    public static void Place<T>(this T[] entries, Int32 first, Int32 next) {
-      var entry = entries[next];
-      while (next > first) entries[next] = entries[--next];
-      entries[next] = entry;
+    //
+    // Rotate the entries[first:next] subrange such that entries[next] becomes
+    // the first element and the remaining entries are shifted upwards.
+    //
+    public static void Rotate<T>(this T[] entries, Int32 first, Int32 next) {
+      if (first < next) {
+        var entry = entries[next];
+        while (next > first) entries[next] = entries[--next];
+        entries[next] = entry;
+      }
     }
     #endregion
 
