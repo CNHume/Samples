@@ -29,11 +29,11 @@ namespace Engine {
         switch (SideName) {
         case SideName.Black:
           PawnSense = -1;
-          ShiftA1H8 = PawnSense * nA1H8;
-          ShiftA8H1 = PawnSense * nA8H1;
-          ShiftRank = PawnSense * nFiles;
+          PawnA1H8 = PawnSense * nA1H8;
+          PawnA8H1 = PawnSense * nA8H1;
+          PawnMove = PawnSense * nFiles;
 
-          StartRank = nRankLast;
+          SetupRank = (Int32)sq.a8;
           EnPassantRank = 2;
 
           (FileLeft, FileRight) = (qpFileH, qpFileA);
@@ -46,11 +46,11 @@ namespace Engine {
 
         case SideName.White:
           PawnSense = 1;
-          ShiftA1H8 = PawnSense * nA1H8;
-          ShiftA8H1 = PawnSense * nA8H1;
-          ShiftRank = PawnSense * nFiles;
+          PawnA1H8 = PawnSense * nA1H8;
+          PawnA8H1 = PawnSense * nA8H1;
+          PawnMove = PawnSense * nFiles;
 
-          StartRank = 0;
+          SetupRank = (Int32)sq.a1;
           EnPassantRank = invertRank(2);
 
           RankLast = qpRank8;
@@ -65,19 +65,19 @@ namespace Engine {
           throw new ArgumentException(nameof(sideName));
         }
 
-        Rule = new CastleRuleParameter(StartRank);
+        Rule = new CastleRuleParameter(SetupRank);
       }
       #endregion                        // Constructors
 
       #region Pawn Advancement Fields
       public readonly Int32 PawnSense;
 
-      public readonly Int32 StartRank;
+      public readonly Int32 SetupRank;
       public readonly Int32 EnPassantRank;
 
-      public readonly Int32 ShiftA1H8;
-      public readonly Int32 ShiftA8H1;
-      public readonly Int32 ShiftRank;
+      public readonly Int32 PawnA1H8;
+      public readonly Int32 PawnA8H1;
+      public readonly Int32 PawnMove;
 
       public readonly Plane RankLast;
       public readonly Plane RankPass;

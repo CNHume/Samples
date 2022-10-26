@@ -63,8 +63,8 @@ namespace Engine {
         var qpEnPassant = BIT0 << nEnPassant;
 
         var qpCaptureFrom =
-          shiftr(qpEnPassant & PawnA1H8Atx, Parameter.ShiftA1H8) |
-          shiftr(qpEnPassant & PawnA8H1Atx, Parameter.ShiftA8H1);
+          shiftr(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |
+          shiftr(qpEnPassant & PawnA8H1Atx, Parameter.PawnA8H1);
 
         return qpCaptureFrom;
       }
@@ -84,8 +84,8 @@ namespace Engine {
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ResetPawnAtx() {
         var qpPawn = Piece & Board.Pawn;
-        PawnA1H8Atx = shiftl(qpPawn & ~Parameter.FileRight, Parameter.ShiftA1H8);
-        PawnA8H1Atx = shiftl(qpPawn & ~Parameter.FileLeft, Parameter.ShiftA8H1);
+        PawnA1H8Atx = shiftl(qpPawn & ~Parameter.FileRight, Parameter.PawnA1H8);
+        PawnA8H1Atx = shiftl(qpPawn & ~Parameter.FileLeft, Parameter.PawnA8H1);
       }
 
       public Boolean RaisePiece(Byte vPiece, Int32 nFrom) {
@@ -304,8 +304,8 @@ namespace Engine {
         qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
         qpFrom |= Piece & Board.RectPiece & Board.rectAtx(vKingPos);
 
-        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.ShiftA1H8;
-        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.ShiftA8H1;
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.PawnA1H8;
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.PawnA8H1;
 
         return qpFrom;
       }
@@ -361,8 +361,8 @@ namespace Engine {
         var qpFrom = 0UL;
         var qpTo = BIT0 << nTo;
 
-        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.ShiftA1H8;
-        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.ShiftA8H1;
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.PawnA1H8;
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.PawnA8H1;
 
         return qpFrom;
       }
@@ -376,13 +376,13 @@ namespace Engine {
         var qpFrom = BIT0 << nFrom;
 
         if (bCapture) {
-          var qpA1H8Atx = shiftl(qpFrom & ~Parameter.FileRight, Parameter.ShiftA1H8);
-          var qpA8H1Atx = shiftl(qpFrom & ~Parameter.FileLeft, Parameter.ShiftA8H1);
+          var qpA1H8Atx = shiftl(qpFrom & ~Parameter.FileRight, Parameter.PawnA1H8);
+          var qpA8H1Atx = shiftl(qpFrom & ~Parameter.FileLeft, Parameter.PawnA8H1);
           qpPawnTo = qpA1H8Atx | qpA8H1Atx;
         }
         else {
-          var qpAdvance1 = shiftl(qpFrom, Parameter.ShiftRank) & ~Board.RankPiece;
-          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.ShiftRank) & ~Board.RankPiece;
+          var qpAdvance1 = shiftl(qpFrom, Parameter.PawnMove) & ~Board.RankPiece;
+          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnMove) & ~Board.RankPiece;
           qpPawnTo = qpAdvance1 | qpAdvance2;
         }
 
@@ -428,8 +428,8 @@ namespace Engine {
       #region Position Pawn Move Generators
       public void AddPawnCaptures(Position position, Plane qpTo) {
         var nEP = Board.IsPassed() ? ep(Board.FlagsTurn) : nSquares;
-        AddPawnCaptures2(position, PawnA1H8Atx & qpTo, Parameter.ShiftA1H8, nEP);
-        AddPawnCaptures2(position, PawnA8H1Atx & qpTo, Parameter.ShiftA8H1, nEP);
+        AddPawnCaptures2(position, PawnA1H8Atx & qpTo, Parameter.PawnA1H8, nEP);
+        AddPawnCaptures2(position, PawnA8H1Atx & qpTo, Parameter.PawnA8H1, nEP);
       }
 
       protected void AddPawnCaptures2(
@@ -451,10 +451,10 @@ namespace Engine {
         //
         // Pawn Advances:
         //
-        var qpAdvance1 = shiftl(qpPawn, Parameter.ShiftRank) & ~Board.RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.ShiftRank) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo, Parameter.ShiftRank);
-        var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.ShiftRank);
+        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnMove) & ~Board.RankPiece;
+        var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnMove) & ~Board.RankPiece;
+        var qpAdv1From = shiftr(qpAdvance1 & qpTo, Parameter.PawnMove);
+        var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.PawnMove);
 #if TestPawnAdvances
         LogLine("Pawn Advance:\n");
         writeRect(qpAdvance1 | qpAdvance2);
@@ -462,7 +462,7 @@ namespace Engine {
 #endif
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.ShiftRank;
+          var nTo = nFrom + Parameter.PawnMove;
           var bAbove = Parameter.IsAbove(nTo);
           var bPromote = Parameter.IsLastRank(nTo);
           position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
@@ -470,7 +470,7 @@ namespace Engine {
 
         while (qpAdv2From != 0) {
           var nFrom = RemoveLo(ref qpAdv2From);
-          var nTo = nFrom + 2 * Parameter.ShiftRank;
+          var nTo = nFrom + 2 * Parameter.PawnMove;
           position.AddPawnMove(nFrom, nTo, false, false);
         }
       }
@@ -478,12 +478,12 @@ namespace Engine {
       // The following method is used by generateMaterialMoves()
       public void AddPromotions(Position position, Plane qpTo) {
         var qpPawn = Piece & Board.Pawn;
-        var qpAdvance1 = shiftl(qpPawn, Parameter.ShiftRank) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.ShiftRank);
+        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnMove) & ~Board.RankPiece;
+        var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnMove);
 
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.ShiftRank;
+          var nTo = nFrom + Parameter.PawnMove;
           position.AddPawnMove(nFrom, nTo, true, true);
         }
       }
@@ -546,7 +546,7 @@ namespace Engine {
       public void GrantCastling(Int32 nRookFile, Boolean bChess960) {
         var rule = Parameter.Rule;
         var sideName = Parameter.SideName;
-        var nRank = Parameter.StartRank;
+        var nRank = Parameter.SetupRank;
         var nRookFrom = nRank + nRookFile;
         var qpRook = Board.Rook & Piece;
 
