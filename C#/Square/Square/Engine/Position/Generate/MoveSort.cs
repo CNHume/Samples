@@ -41,8 +41,11 @@ namespace Engine {
   partial class Position : Board {
     #region Move Order Heuristics
     private void rewardMoveType(Move move) {
-      var parameter = getSide(WTM()).Parameter;
-      var type = moveType(move, parameter);
+      //
+      //[Note]Assess IsAbove() from the pespective of the
+      // Foe because toggleWTM() was called by playMove().
+      //
+      var type = moveType(move, Foe.Parameter);
       var nIndex = Array.IndexOf(MoveTypes, type);
       if (nIndex < 0)
         throw new PositionException($"Could not find the {type} MoveType");

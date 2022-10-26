@@ -137,7 +137,7 @@ namespace Engine {
     // setEPFile(nEnPassant) iff the En Passant capture is legal.
     //
     private void tryEP(Int32 nEnPassant) {
-      var nMovedTo = nEnPassant + Foe.Parameter.PawnMove;
+      var nMovedTo = nEnPassant + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
       var qpCaptureFrom = Friend.Passed(nEnPassant);
       while (qpCaptureFrom != 0) {
@@ -199,7 +199,7 @@ namespace Engine {
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
         var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
-        var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnMove : nTo;
+        var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnStep : nTo;
         Foe.RemovePiece(vCapture, nCaptureFrom);
 
         if (vCapture == vP6)
@@ -214,8 +214,8 @@ namespace Engine {
         Friend.LowerPiece(vPiece, nTo);
 
       if (vPiece == vP6) {
-        if (nTo - nFrom == 2 * Friend.Parameter.PawnMove)
-          nEnPassant = nTo - Friend.Parameter.PawnMove;
+        if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
+          nEnPassant = nTo - Friend.Parameter.PawnStep;
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
         Friend.ResetPawnAtx();
@@ -258,7 +258,6 @@ namespace Engine {
       if (HalfMoveClock < HalfMoveClockMax) // Avoid Overflow
         HalfMoveClock++;
 
-      // Record Castling Abilities prior to RemovePiece()
       var nEnPassant = movePiece(ref move);
 
       //

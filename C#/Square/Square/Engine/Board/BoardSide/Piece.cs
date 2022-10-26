@@ -381,8 +381,8 @@ namespace Engine {
           qpPawnTo = qpA1H8Atx | qpA8H1Atx;
         }
         else {
-          var qpAdvance1 = shiftl(qpFrom, Parameter.PawnMove) & ~Board.RankPiece;
-          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnMove) & ~Board.RankPiece;
+          var qpAdvance1 = shiftl(qpFrom, Parameter.PawnStep) & ~Board.RankPiece;
+          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
           qpPawnTo = qpAdvance1 | qpAdvance2;
         }
 
@@ -451,10 +451,10 @@ namespace Engine {
         //
         // Pawn Advances:
         //
-        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnMove) & ~Board.RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnMove) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo, Parameter.PawnMove);
-        var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.PawnMove);
+        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
+        var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
+        var qpAdv1From = shiftr(qpAdvance1 & qpTo, Parameter.PawnStep);
+        var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.PawnStep);
 #if TestPawnAdvances
         LogLine("Pawn Advance:\n");
         writeRect(qpAdvance1 | qpAdvance2);
@@ -462,7 +462,7 @@ namespace Engine {
 #endif
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.PawnMove;
+          var nTo = nFrom + Parameter.PawnStep;
           var bAbove = Parameter.IsAbove(nTo);
           var bPromote = Parameter.IsLastRank(nTo);
           position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
@@ -470,7 +470,7 @@ namespace Engine {
 
         while (qpAdv2From != 0) {
           var nFrom = RemoveLo(ref qpAdv2From);
-          var nTo = nFrom + 2 * Parameter.PawnMove;
+          var nTo = nFrom + 2 * Parameter.PawnStep;
           position.AddPawnMove(nFrom, nTo, false, false);
         }
       }
@@ -478,12 +478,12 @@ namespace Engine {
       // The following method is used by generateMaterialMoves()
       public void AddPromotions(Position position, Plane qpTo) {
         var qpPawn = Piece & Board.Pawn;
-        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnMove) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnMove);
+        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
+        var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnStep);
 
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.PawnMove;
+          var nTo = nFrom + Parameter.PawnStep;
           position.AddPawnMove(nFrom, nTo, true, true);
         }
       }

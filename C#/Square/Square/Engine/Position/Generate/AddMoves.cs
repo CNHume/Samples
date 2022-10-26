@@ -126,8 +126,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void addPieceCaptures(
       List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
-      var bWTM = WTM();
-      var parameter = getSide(bWTM).Parameter;
+      var parameter = Friend.Parameter;
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
@@ -143,14 +142,13 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void addPieceMoves(
       List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
-      var bWTM = WTM();
-      var parameter = getSide(bWTM).Parameter;
+      var parameter = Friend.Parameter;
       qpMoveTo &= ~RankPiece;           // Find Moves
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
         var move = toMove(nTo) | moveFrom;
 #if DebugMoveColor
-        if (bWTM) move |= Move.WTM;
+        if (WTM()) move |= Move.WTM;
 #endif
         var moves = parameter.IsAbove(nTo) ? aboveMoves : belowMoves;
         moves.Add(move);

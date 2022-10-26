@@ -31,7 +31,7 @@ namespace Engine {
           PawnSense = -1;
           PawnA1H8 = PawnSense * nA1H8;
           PawnA8H1 = PawnSense * nA8H1;
-          PawnMove = PawnSense * nFiles;
+          PawnStep = PawnSense * nFiles;
 
           SetupRank = (Int32)sq.a8;
           EnPassantRank = 2;
@@ -48,7 +48,7 @@ namespace Engine {
           PawnSense = 1;
           PawnA1H8 = PawnSense * nA1H8;
           PawnA8H1 = PawnSense * nA8H1;
-          PawnMove = PawnSense * nFiles;
+          PawnStep = PawnSense * nFiles;
 
           SetupRank = (Int32)sq.a1;
           EnPassantRank = invertRank(2);
@@ -77,7 +77,7 @@ namespace Engine {
 
       public readonly Int32 PawnA1H8;
       public readonly Int32 PawnA8H1;
-      public readonly Int32 PawnMove;
+      public readonly Int32 PawnStep;
 
       public readonly Plane RankLast;
       public readonly Plane RankPass;

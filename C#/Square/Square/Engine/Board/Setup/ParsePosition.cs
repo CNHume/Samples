@@ -264,12 +264,12 @@ namespace Engine {
 
       var qpFoe = Foe.Piece;
       // The square actually holding the e.p. Pawn to be captured:
-      var nMovedTo = nEnPassant + Foe.Parameter.PawnMove;
+      var nMovedTo = nEnPassant + Foe.Parameter.PawnStep;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nEnPassant + Friend.Parameter.PawnMove;
+      var nStart = nEnPassant + Friend.Parameter.PawnStep;
       var qpStart = BIT0 << nStart;
       var qpEnPassant = BIT0 << nEnPassant;
       var qpVacant = qpStart | qpEnPassant;
