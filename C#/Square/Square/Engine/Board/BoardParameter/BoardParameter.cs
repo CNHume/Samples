@@ -112,7 +112,7 @@ namespace Engine {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public bool IsLastRank(int nTo) {
+      public bool IsLastRank(Int32 nTo) {
         switch (SideName) {
         case SideName.Black:
           return nTo <= (Int32)sq.h1;
