@@ -36,7 +36,6 @@ namespace Engine {
   //
   using Depth = UInt16;
   using Eval = Int16;
-  using MemoHashcode = UInt32;
 
   partial class Position : Board {
     #region Move Order Heuristics
@@ -45,7 +44,7 @@ namespace Engine {
       //[Note]Assess IsAbove() from the pespective of the
       // Foe because toggleWTM() was called by playMove().
       //
-      var type = moveType(move, Foe.Parameter);
+      var type = moveType(move, Foe.Parameter, Side, State.IsChess960);
       var nIndex = Array.IndexOf(MoveTypes, type);
       if (nIndex < 0)
         throw new PositionException($"Could not find the {type} MoveType");

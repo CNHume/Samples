@@ -18,12 +18,9 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
-  using static Position;
-
   //
   // Type Aliases:
   //
-  using Plane = UInt64;
   using Ply = UInt16;
 
   partial class Board {

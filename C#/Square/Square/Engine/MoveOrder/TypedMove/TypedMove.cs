@@ -5,16 +5,21 @@
 //
 // Conditionals:
 //
+#define TestRewardMove
+
 namespace Engine.MoveOrder {
-  using static Board;
+  using Exceptions;
 
   using System;
+  using System.Text;
+
+  using static Board;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
   //
   using MoveTypeOrdering = UInt64;
-  using Engine.Exceptions;
 
   static class TypedMove {
     #region MoveType Enum
@@ -52,7 +57,8 @@ namespace Engine.MoveOrder {
     #endregion
 
     #region Methods
-    public static MoveType moveType(Move move, BoardParameter parameter) {
+    public static MoveType moveType(
+      Move move, BoardParameter parameter, BoardSide[]? Side, Boolean bChess960) {
       MoveType type;
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean bCapture);
@@ -97,7 +103,12 @@ namespace Engine.MoveOrder {
       default:
         throw new PieceException("Unexpected Piece [moveType]");
       }
-
+#if TestRewardMove
+      var sb = new StringBuilder();
+      sb.AppendPACN(move, Side, bChess960);
+      sb.Append($" by {parameter.SideName} is {type}");
+      LogLine(sb.ToString());
+#endif
       return type;
     }
 

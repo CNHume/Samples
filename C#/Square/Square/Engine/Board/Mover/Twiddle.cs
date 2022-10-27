@@ -68,13 +68,14 @@ namespace Engine {
 #endif
   using static System.Math;
 #if TestDeBruijn
-  using SortTest.Extensions;            // For AppendDelim()
-
   using System.Text;
 
-  using static Logging.Logger;
+  using SortTest.Extensions;            // For AppendDelim()
+
   using static System.String;
 #endif
+  using static Logging.Logger;
+
   //
   // Type Aliases:
   //
@@ -574,7 +575,7 @@ namespace Engine {
       // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
       //
       if (root < 4294967293 && count > 0)
-        Console.WriteLine($"usqrt: n = {q}, root = {root}, count = {count}");
+        LogLine($"usqrt: n = {q}, root = {root}, count = {count}");
 #endif
       return root;
     }
