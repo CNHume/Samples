@@ -5,16 +5,12 @@
 //
 // Conditionals:
 //
-#define TestRewardMove
-
 namespace Engine.MoveOrder {
   using Exceptions;
 
   using System;
-  using System.Text;
 
   using static Board;
-  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -58,12 +54,9 @@ namespace Engine.MoveOrder {
 
     #region Methods
     public static MoveType moveType(
-      Move move, BoardParameter parameter, BoardSide[]? Side, Boolean bChess960) {
+      Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
       MoveType type;
-      unpack1(move, out Int32 nFrom, out Int32 nTo,
-              out UInt32 uPiece, out Boolean bCapture);
 
-      var bAbove = parameter.IsAbove(nTo);
       switch (pieceIndex(uPiece)) {
       case vP6:
         type = bCapture ?
@@ -103,12 +96,7 @@ namespace Engine.MoveOrder {
       default:
         throw new PieceException("Unexpected Piece [moveType]");
       }
-#if TestRewardMove
-      var sb = new StringBuilder();
-      sb.AppendPACN(move, Side, bChess960);
-      sb.Append($" by {parameter.SideName} is {type}");
-      LogLine(sb.ToString());
-#endif
+
       return type;
     }
 

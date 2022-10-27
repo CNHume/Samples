@@ -16,6 +16,7 @@
 #define LazyMoveSort                    // LazyMoveSort ~10% faster than a full Array.Sort()
 #define RewardMoveTypes
 #define TestGoodValue
+//#define TestRewardMove
 
 namespace Engine {
   using Exceptions;
@@ -40,15 +41,26 @@ namespace Engine {
   partial class Position : Board {
     #region Move Order Heuristics
     private void rewardMoveType(Move move) {
+      unpack1(move, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out Boolean bCapture);
+
       //
       //[Note]Assess IsAbove() from the pespective of the
       // Foe because toggleWTM() was called by playMove().
       //
-      var type = moveType(move, Foe.Parameter, Side, State.IsChess960);
+      var parameter = Foe.Parameter;
+      var bAbove = parameter.IsAbove(nTo);
+      var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
+#if TestRewardMove
+      var sb = new StringBuilder()
+        .AppendPACN(move, Side, State.IsChess960)
+        .Append($" by {parameter.SideName} is {type}");
+      LogLine(sb.ToString());
+#endif
       var nIndex = Array.IndexOf(MoveTypes, type);
       if (nIndex < 0)
         throw new PositionException($"Could not find the {type} MoveType");
-      else if (nIndex > 0)
+      else
         MoveTypes.Rotate(0, nIndex);
 
       //

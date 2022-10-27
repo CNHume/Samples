@@ -611,7 +611,7 @@ namespace Engine {
     internal static Boolean isRect(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
       // Are either of the coordinates equal?
-      return x(n) == 0 | y(n) == 0;
+      return x(n) == 0 || y(n) == 0;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
