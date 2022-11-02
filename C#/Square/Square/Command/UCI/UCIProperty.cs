@@ -19,7 +19,7 @@ namespace Command {
     // Perft FEN
     // ---------
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-09-18 Perft1 (startpos) in 14.343 sec @9.089 MHz over 130.36 Mnode]
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-09-18 Perft2 in 22.57 sec @9.111 MHz over 205.63 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-11-01 Perft2 in 22.415 sec @9.174 MHz over 205.63 Mnode]
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-09-18 Perft3 in 29.4 sec @7.444 MHz over 218.84 Mnode]
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-09-18 Perft4 in 1:33.4 @8.215 MHz over 767.28 Mnode]
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-09-18 Perft5 in 13.37 sec @6.559 MHz over 87.6 Mnode]
@@ -48,7 +48,7 @@ namespace Command {
     //"4Q3/k5r1/1p6/p1pp4/P2P4/1P1B4/K1P5/8 w - - 0 42"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #9 Line (from move 42)
     // 42. Qc6! cxd4 43. Qxd4 Re7 44. Qd8 Rb7 45. Be4 b5 46. axb5 Rxb5 47. Qc7+ Ka6 48. Qc6+ Rb6 49. Qc8+ Ka7 50. Qa8#
     //
-    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [14-ply in 1:35.35 1.213 MHz over 115.66 Mnode] eval -2.4 after:
+    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [2022-11-01 14-ply in 1:34.3 1.2265 MHz over 115.66 Mnode] eval -2.4 after:
     // 1... Rxb2 2. Nxb2 c3 3. Rxb6 c4 4. Na4 c2 5. Rxe6 c1=Q+ 6. Kh2 Qf4+ 7. Kg1 c3 8. Ra6 c2
     //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. d7 Be7 39. Rc8 e3 40. Re8 Kg7f6
@@ -191,15 +191,21 @@ namespace Command {
     // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
     // 67. Kf4 Ra4+ 68. Kf5 Rd4 69. Rd8 Rd5+ 70. Kg4 Kf7 71. Rf8+ Kg7 72. Rg8+ Kf7 73. Nf6
     //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1"; // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
-    //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike's "Famous Study"
+    //
+    //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike Anderson's Famous [Gijs van Breukelen] Study
     // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
     // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
     // 1. Nf6+ Kg7 2. Nh5+ Kg6 3. Bc2+!! Kxh5 Here Stockfish 12 shows +3.66 4. d8=Q Kg4
-    // [4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5! e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Nc2 13. Bxc2 Ne2 14. Bd1 -- 15. Bxe2#]
+    // [4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5! e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2
+    // [12... Nc2 13. Bxc2 Ne2 14. Bd1 -- 15. Bxe2#] 13. Bd1 Nf3 14. Bxe2 -- 15. Bxf3#]
     // 5. Bd1+ Kxg3 6. Qe8 c4+ 7. Kc6 Bc5 8. Qe5+ +-
     //
-    // Hint position after moves g4f6 h7g7 f6h5 g7g6 d1c2 g6h5 d7d8q g5f7 d6e6 f7d8 e6f5:
-    // 3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1 [18-ply]
+    // Position prior to 4... Nf7+? after moves g4f6 h7g7 f6h5 g7g6 d1c2 g6h5 d7d8q:
+    //"3Q4/8/n2K3p/2p3nk/1b6/2p1p1P1/2B5/8 b - - 0 4";
+    // Hint position after moves g5f7 d6e6 f7d8 e6f5:
+    //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [17-ply in 9:07:45 @1.288 MHz over 42.34 Gnode] #9 after:
+    // 1. Nf6+ Kg7 2. Nh5+ Kg6 3. Bc2+ Kxh5 4. d8=Q Nf7+ 5. Ke6 Nxd8+ 6. Kf5 e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N
+    // 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
     //
     //"r1r3k1/2q1bp1p/4b1pQ/p2pP3/P2B1R2/2PB4/6PP/5R1K w - - 0 25"; // Kamsky v D'Costa 2016-02-13 #14 Capelle La Grande [double rook sacrifice]
     //"r4rk1/p4pb1/bp5p/2pNqPp1/6P1/7Q/PPP3P1/2KR2BR w - - 0 1"; // Ninov vs Colovic 2015
