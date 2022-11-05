@@ -19,6 +19,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
   using System.Linq;
   using System.Runtime.CompilerServices;
 
@@ -113,6 +114,7 @@ namespace Engine {
     }
 
     #region Init Methods
+    [MemberNotNull(nameof(Friend), nameof(Foe))]
     private void newSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;

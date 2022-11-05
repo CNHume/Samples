@@ -134,7 +134,7 @@ namespace Engine {
     #endregion
 
     #region BoardSide
-    public readonly BoardSide[]? Side;
+    public readonly BoardSide[] Side;
     protected BoardSide Friend;
     protected BoardSide Foe;
     #endregion

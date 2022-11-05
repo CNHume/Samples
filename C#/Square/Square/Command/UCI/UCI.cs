@@ -144,7 +144,7 @@ namespace Command {
         break;
 
       case "test":                      //[ToDo]End gracefully when a Search is in progress!
-        if (State is null) newState();
+        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else
@@ -152,7 +152,7 @@ namespace Command {
         break;
 
       case "testepd":                   //[ToDo]End gracefully when a Search is in progress!
-        if (State is null) newState();
+        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else
@@ -161,8 +161,7 @@ namespace Command {
 
       case "reset":                     // Intuitive
       case "ucinewgame":                //[UCI]
-        if (State is null) newState();
-
+        EnsureState();
         if (State.IsSearchInProgress)
           State.Stop();
 
@@ -170,7 +169,7 @@ namespace Command {
         break;
 
       case "position":                  //[UCI]
-        if (State is null) newState();
+        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else {
@@ -237,12 +236,12 @@ namespace Command {
         break;
 
       case "resetoption":               //[Debug]
-        if (State is null) newState();  // Event Handler may require GameState
+        EnsureState();                  // Event Handler may require GameState
         Parser.ResetOptionCommand();
         break;
 
       case "setoption":                 //[UCI]
-        if (State is null) newState();  // Event Handler may require GameState
+        EnsureState();                  // Event Handler may require GameState
         Parser.SetOptionCommand();
         break;
 
@@ -340,6 +339,11 @@ namespace Command {
       }
 
       return bContinue;
+    }
+
+    [MemberNotNull(nameof(State))]
+    private void EnsureState() {
+      if (State is null) newState();
     }
 
     [MemberNotNull(nameof(Parser))]
