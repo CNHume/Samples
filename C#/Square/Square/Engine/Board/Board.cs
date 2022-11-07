@@ -110,24 +110,12 @@ namespace Engine {
     }
 
     public Board() {
-      newSide();
+      Side = new BoardSide[nSides];
       initSides();
       newSquareControl();
     }
 
-    [MemberNotNull(nameof(Side))]
-    private void newSide() {
-      Side = new BoardSide[nSides];
-    }
-
     #region Init Methods
-    [MemberNotNull(nameof(Friend), nameof(Foe))]
-    private void initSides() {
-      ensureSides();
-      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (Friend, Foe) = getSides(WTM());
-    }
-
     private void ensureSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
@@ -136,10 +124,11 @@ namespace Engine {
       }
     }
 
-    [MemberNotNull(nameof(AtxToControl))]
-    private void ensureSquareControl() {
-      if (AtxToControl is null)
-        newSquareControl();
+    [MemberNotNull(nameof(Friend), nameof(Foe))]
+    private void initSides() {
+      ensureSides();
+      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
+      (Friend, Foe) = getSides(WTM());
     }
 
     [MemberNotNull(nameof(AtxToControl))]
@@ -150,8 +139,10 @@ namespace Engine {
       AtxToControl = new SByte[nSquares];
     }
 
-    protected void CopySquareControlTo(Board board) {
-      Array.Copy(board.AtxToControl, AtxToControl, AtxToControl.Length);
+    [MemberNotNull(nameof(AtxToControl))]
+    private void ensureSquareControl() {
+      if (AtxToControl is null)
+        newSquareControl();
     }
 
     // Called by Position.Clear()
@@ -259,6 +250,10 @@ namespace Engine {
     //
     // Deep Copy:
     //
+    protected void CopySquareControlTo(Board board) {
+      Array.Copy(AtxToControl, board.AtxToControl, AtxToControl.Length);
+    }
+
     public void CopyFlagsTo(Board board) {                      // 1 byte
       for (var nSide = 0; nSide < Side?.Length; nSide++)
         board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
