@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define BuildAtxTo
+//#define BuildAtxToCount                 //[ToDo]
 //#define Magic
 #define SafeEquals
 #define HashPieces
@@ -31,6 +32,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
+#if BuildAtxTo
+  using Plane = UInt64;
+#endif
   using Ply = UInt16;
 
   partial class Board : ICloneable, IEquatable<Board> {
@@ -48,7 +52,7 @@ namespace Engine {
      * Char/String       c         s
      *    Type           t
      */
-    #region Constants
+#region Constants
     protected const Int32 nPerByte = 8;
     internal const Int32 nPerNibble = 4;
     internal const Int32 nPerTwoBits = 2;
@@ -65,14 +69,14 @@ namespace Engine {
 
     public const Int32 nA8H1 = 7;
     public const Int32 nA1H8 = 9;
-    #endregion
+#endregion
 
-    #region Constructors
+#region Constructors
     static Board() {
 #if DebugInit
       LogLine("Initializing Board...");
 #endif
-      #region Assertions
+#region Assertions
       Trace.Assert((UInt32)Piece.None == 0,     // Assumed by both CaptiveMask and PromoteMask
                    "Undefined Piece must be Zero");
       Trace.Assert(vK6 == nPieces - 1,          // Assumed by eval() and appendPiece()
@@ -88,7 +92,7 @@ namespace Engine {
                    "LimitMask does not preserve Null Move");
       Trace.Assert(Move.Undefined == (Move.Undefined & Move.LimitMask),
                    "LimitMask does not preserve Undefined Move");
-      #endregion
+#endregion
 
       //
       // Initialize static data used to find attacks:
@@ -112,10 +116,10 @@ namespace Engine {
     public Board() {
       Side = new BoardSide[nSides];
       initSides();
-      newSquareControl();
+      newAtxToCount();               //[Conditional]
     }
 
-    #region Init Methods
+#region Init Methods
     private void ensureSides() {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
@@ -130,19 +134,29 @@ namespace Engine {
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
     }
-
-    [MemberNotNull(nameof(AtxToControl))]
-    private void newSquareControl() {
 #if BuildAtxTo
+    [Conditional("BuildAtxTo")]
+    [MemberNotNull(nameof(AtxTo))]
+    private void newAtxTo() {
       AtxTo = new Plane[nSquares];
-#endif
-      AtxToControl = new SByte[nSquares];
     }
 
-    [MemberNotNull(nameof(AtxToControl))]
-    private void ensureSquareControl() {
-      if (AtxToControl is null)
-        newSquareControl();
+    [Conditional("BuildAtxTo")]
+    private void ensureAtxTo() {
+      if (AtxTo is null)
+        newAtxTo();
+    }
+#endif
+    [Conditional("BuildAtxToCount")]
+    [MemberNotNull(nameof(AtxToCount))]
+    private void newAtxToCount() {
+      AtxToCount = new SByte[nSquares];
+    }
+
+    [Conditional("BuildAtxToCount")]
+    private void ensureAtxToCount() {
+      if (AtxToCount is null)
+        newAtxToCount();
     }
 
     // Called by Position.Clear()
@@ -156,9 +170,9 @@ namespace Engine {
 #endif
       HashPawn = Hash = 0UL;
     }
-    #endregion                          // Init Methods
+#endregion                          // Init Methods
 
-    #region Static Initialization
+#region Static Initialization
     public static void SetPieceSymbols(String? sLanguage) {
       if (sLanguage is null)
         PieceSymbols = default;
@@ -233,7 +247,7 @@ namespace Engine {
 #endif                                  // InitDeBruijn
       colorSquares();
     }
-    #endregion                          // Static Initialization
+#endregion                          // Static Initialization
 
     //
     // Copy Constructor:
@@ -246,12 +260,13 @@ namespace Engine {
       return new Board(this);
     }
 
-    #region Copy Methods
+#region Copy Methods
     //
     // Deep Copy:
     //
-    protected void CopySquareControlTo(Board board) {
-      Array.Copy(AtxToControl, board.AtxToControl, AtxToControl.Length);
+    [Conditional("BuildAtxToCount")]
+    protected void CopyAtxToCountTo(Board board) {
+      Array.Copy(AtxToCount, board.AtxToCount, AtxToCount.Length);
     }
 
     public void CopyFlagsTo(Board board) {                      // 1 byte
@@ -264,7 +279,7 @@ namespace Engine {
       board.FlagsMode = FlagsMode & ModeFlags.Copy;
     }
 
-    #region BoardSide
+#region BoardSide
     [MemberNotNull(nameof(Friend), nameof(Foe))]
     protected void CopySidesTo(Board board) {
       for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 34 bytes + 1 nullable byte
@@ -282,7 +297,7 @@ namespace Engine {
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (board.Friend, board.Foe) = board.getSides(WTM());
     }
-    #endregion                          // BoardSide
+#endregion                          // BoardSide
 
     //
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three rotations,
@@ -314,13 +329,13 @@ namespace Engine {
       board.ensureSides();
       CopySidesTo(board);                   // 2 x 35 = 70-bytes
 
-      board.ensureSquareControl();
-      CopySquareControlTo(board);
+      board.ensureAtxToCount();         //[Conditional]
+      CopyAtxToCountTo(board);          //[Conditional] 64-bytes
     }
-    #endregion                          // Copy Methods
-    #endregion                          // Constructors
+#endregion                          // Copy Methods
+#endregion                          // Constructors
 
-    #region IEquatable Interface Methods
+#region IEquatable Interface Methods
     public override Int32 GetHashCode() {
       var uHi = (UInt32)(Hash >> 32);
       var uLo = (UInt32)Hash;
@@ -374,9 +389,9 @@ namespace Engine {
     public static Boolean operator !=(Board board1, Board board2) {
       return !Equals(board1, board2);
     }
-    #endregion                          // IEquatable Interface Methods
+#endregion                          // IEquatable Interface Methods
 
-    #region Ply Methods
+#region Ply Methods
     protected static UInt16 moveDelta(Ply wPly) {
       return (UInt16)((wPly + 1) / 2);
     }
@@ -390,9 +405,9 @@ namespace Engine {
     private static Ply plyCount(Ply wMove) {
       return (Ply)((wMove - 1) * 2);
     }
-    #endregion                          // Ply Methods
+#endregion                          // Ply Methods
 
-    #region Move Methods
+#region Move Methods
     internal static Boolean isDefinite(Move move) {
       return isDefined(move) && !isEmptyMove(move);
     }
@@ -425,7 +440,7 @@ namespace Engine {
       return isCapture(move1) == isCapture(move2);
     }
 
-    #region Move Setter Methods
+#region Move Setter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Move fromMove(Int32 nFrom) {
       return (Move)(nFrom << nFromBit);
@@ -455,9 +470,9 @@ namespace Engine {
     protected static Move promotionMove(Piece p) {
       return (Move)((UInt32)p << nPromoteBit);
     }
-    #endregion
+#endregion
 
-    #region Move Getter Methods
+#region Move Getter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 from(Move move) {
       return (Int32)move >> nFromBit & (Int32)uSquareMask;
@@ -492,9 +507,9 @@ namespace Engine {
     internal static UInt32 promoted(Move move) {
       return (UInt32)move >> nPromoteBit & vPieceMask;
     }
-    #endregion
+#endregion
 
-    #region Unpack Methods
+#region Unpack Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static void unpack1(
       Move move, out Int32 nFrom, out Int32 nTo,
@@ -575,10 +590,10 @@ namespace Engine {
 #endif
       nTo = to(move);
     }
-    #endregion                          // Unpack Methods
-    #endregion                          // Move Methods
+#endregion                          // Unpack Methods
+#endregion                          // Move Methods
 
-    #region EPD Operation Methods
+#region EPD Operation Methods
     protected void addOperation(
       Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
       if (operations is not null) {
@@ -598,6 +613,6 @@ namespace Engine {
         addOperation(Operations, "id", sValue);
       }
     }
-    #endregion                          // EPD Operation Methods
+#endregion                          // EPD Operation Methods
   }
 }

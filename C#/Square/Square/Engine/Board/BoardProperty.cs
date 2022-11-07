@@ -127,7 +127,7 @@ namespace Engine {
 #if BuildAtxTo
     protected Plane[] AtxTo;
 #endif
-    protected SByte[] AtxToControl;
+    protected SByte[] AtxToCount;
     protected Plane AttackedSum;
     protected Plane WhiteControlled;
     protected Plane BlackControlled;
