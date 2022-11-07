@@ -54,7 +54,7 @@ namespace Engine {
 
   static class Extension {
     #region Delegates
-    public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, BoardSide[]? sides, Boolean IsChess960);
+    public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960);
     #endregion
 
     #region Castle Rights
@@ -402,7 +402,7 @@ namespace Engine {
     //
     // Format a Move in the more User friendly Algebraic Notation (AN)
     //
-    public static StringBuilder AppendAN(this StringBuilder sb, Move move, BoardSide[]? sides, Boolean _) {
+    public static StringBuilder AppendAN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean _) {
       const Boolean bExpandFrom =
 #if RefreshPV
         false;                          //[Assume]abbreviate() has been called
@@ -503,7 +503,7 @@ namespace Engine {
     //
     // Format a Move in Pure Algebraic Coordinate Notation (PACN).
     //
-    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[]? sides, Boolean IsChess960) {
+    public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960) {
       if (isNullMove(move)) {
         return sb.Append(sNullMove);
       }
@@ -553,7 +553,7 @@ namespace Engine {
 
     public static StringBuilder AppendNumberedMoves(
       this StringBuilder sb, IEnumerable<Move> moves,
-      Ply wGamePly, Boolean bPure, BoardSide[]? sides, Boolean IsChess960) {
+      Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
       if (moves is null || !moves.Any())
         return sb;
 
@@ -618,7 +618,7 @@ namespace Engine {
     // Useful for listing candidate moves:
     //
     public static StringBuilder MapMoves(
-      this StringBuilder sb, MoveWriter mw, IEnumerable<Move> moves, BoardSide[]? sides, Boolean IsChess960) {
+      this StringBuilder sb, MoveWriter mw, IEnumerable<Move> moves, BoardSide[] sides, Boolean IsChess960) {
       if (moves is not null) {
         foreach (var move in moves) {
           mw(sb.Delimit(), move, sides, IsChess960);
@@ -629,7 +629,7 @@ namespace Engine {
     }
 
     public static StringBuilder WriteMoves(
-      this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, BoardSide[]? sides, Boolean IsChess960) {
+      this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
       return bPure ?
         sb.MapMoves(AppendPACN, moves, sides, IsChess960) :
         sb.AppendNumberedMoves(moves, wGamePly, bPure, sides, IsChess960);
@@ -666,7 +666,7 @@ namespace Engine {
     }
 
     public static StringBuilder BestMove(
-      this StringBuilder sb, List<Move> bestMoves, BoardSide[]? sides, Boolean IsChess960) {
+      this StringBuilder sb, List<Move> bestMoves, BoardSide[] sides, Boolean IsChess960) {
       if (bestMoves.Count > 0) {
         if (sb.Length == 0) sb.Append("info ");
 
