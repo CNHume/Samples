@@ -16,13 +16,6 @@ namespace Engine {
   using System.Linq;
   using System.Text;
 
-  using static Logging.Logger;
-
-  //
-  // Type Aliases:
-  //
-  using Plane = UInt64;
-
   partial class Position : Board {
     #region Constants
     // Castling:
@@ -70,14 +63,18 @@ namespace Engine {
     #endregion
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
-    private static sq? parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
+    private static sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
       const Boolean ignoreCase = true;
       sq? sq = default;
       if (nPos + 2 <= nLen) {
         sq = sMove.Substring(nPos, 2).TryParseEnum<sq>(ignoreCase);
         nPos += 2;
       }
-      return sq;
+
+      if (sq.HasValue)
+        return sq.Value;
+      else
+        throw new MoveException($"Invalid Square: {sMove}");
     }
 
     private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -86,33 +83,24 @@ namespace Engine {
         sMove[nPos++].ToString().TryParseEnum<Piece>(ignoreCase) : default;
     }
 
-    private Boolean parsePACN(String sMove, out sq? sqFrom, out sq? sqTo, out Piece promotion) {
+    private void parsePACN(String sMove, out sq sqFrom, out sq sqTo, out Piece promotion) {
       promotion = default;
       var nLen = sMove.Length;
       var nPos = 0;
       sqFrom = parseSquare(sMove, ref nPos, nLen);
       sqTo = parseSquare(sMove, ref nPos, nLen);
-      if (sqFrom.HasValue && sqTo.HasValue) {
-        var piece = parsePiece(sMove, ref nPos, nLen);
-        if (!piece.HasValue) {
-          return true;
-        }
-        else if (Promotions.Any(p => p == piece.Value)) {
+      var piece = parsePiece(sMove, ref nPos, nLen);
+      if (piece.HasValue) {
+        if (Promotions.Any(p => p == piece.Value))
           promotion = piece.Value;
-          return true;
-        }
-
-        //[Safe]pacnMoveTokenRules should prevent an Invalid Promotion Piece:
-        throw new MoveException($"Invalid Promotion Piece: {piece.Value}");
+        else
+          //[Safe]pacnMoveTokenRules should prevent an Invalid Promotion Piece:
+          throw new MoveException($"Invalid Promotion Piece: {piece.Value}");
       }
-
-      return false;
     }
 
-    private Int32 parseFromTo(String sPACN, ref Boolean bCastles, ref Move move) {
-      if (!parsePACN(sPACN, out sq? sqFrom, out sq? sqTo, out Piece promotion))
-        throw new MoveException($"Invalid Move: {sPACN}");
-
+    private Int32 parseFromTo(String sMove, ref Boolean bCastles, ref Move move) {
+      parsePACN(sMove, out sq sqFrom, out sq sqTo, out Piece promotion);
       var nFrom = (Int32)sqFrom;
       var nTo = (Int32)sqTo;
       var qpFrom = BIT0 << nFrom;
@@ -155,17 +143,17 @@ namespace Engine {
           var rule = Friend.Parameter.Rule;
           move = rule.Castles(nTo);
           if (move == Move.Undefined)
-            throw new MoveException($"Illegal King Move: {sPACN}");
+            throw new MoveException($"Illegal King Move: {sMove}");
           bCastles = true;
         }
       }
 
       if (!bCastles)
         move = Friend.BuildMove(
-          sPACN, sqFrom, sqTo, promotion, nFrom, nTo,
+          sMove, sqFrom, sqTo, promotion, nFrom, nTo,
           qpTo, vPieceFrom, vCapture, bCapture);
       else if (promotion != Piece.None)
-        throw new MoveException($"Cannot promote when castling: {sPACN}");
+        throw new MoveException($"Cannot promote when castling: {sMove}");
 
       return nTo;
     }
@@ -178,33 +166,33 @@ namespace Engine {
     // devised by [Warren] Smith.  UCI documentation incorrectly implies that
     //"The move format is in long algebraic notation."
     //
-    private Move parsePACNMove(String sPACN) {
-      var sMove = sPACN.ToUpper();
+    private Move parsePACNMove(String sMove) {
+      var sUpperMove = sMove.ToUpper();
       var rule = Friend.Parameter.Rule;
 
       var bCastles = false;
       Int32? nTo = default;
       var move = Move.Undefined;
-      if (sMove == sPureOO || sMove == sPure00) {
+      if (sUpperMove == sPureOO || sUpperMove == sPure00) {
         bCastles = true;
         nTo = rule.KingOOTo;
         move = rule.OO;
       }
-      else if (sMove == sPureOOO || sMove == sPure000) {
+      else if (sUpperMove == sPureOOO || sUpperMove == sPure000) {
         bCastles = true;
         nTo = rule.KingOOOTo;
         move = rule.OOO;
       }
-      else if (sMove == sNullMove)      //[UCI]
+      else if (sUpperMove == sNullMove) //[UCI]
         move = Move.NullMove;
       else                              //[PACN]
-        nTo = parseFromTo(sPACN, ref bCastles, ref move);
+        nTo = parseFromTo(sMove, ref bCastles, ref move);
 
       //
       //[Chess 960]Validate Castling in common with the OO/OOO notation cases:
       //
       if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
-        throw new MoveException($"Illegal Castle: {sPACN}");
+        throw new MoveException($"Illegal Castle: {sMove}");
 #if DebugParse
       var sb = new StringBuilder();
       sb.AppendPACN(move, Side, State.IsChess960);
@@ -224,16 +212,16 @@ namespace Engine {
         // Make each move sequentially, returning the final position
         //
         while (parser.PACNMoveToken.Accept()) {
-          var sPACN = parser.PACNMoveToken.Value;
+          var sMove = parser.PACNMoveToken.Value;
           var child = position.Push();  // See UCI.unmove()
           try {
-            var move = position.parsePACNMove(sPACN);
+            var move = position.parsePACNMove(sMove);
             if (child.tryOrSkip(ref move)) {
               position = child;
               position.setName();
             }
             else
-              throw new MoveException($"Illegal Move: {sPACN}");
+              throw new MoveException($"Illegal Move: {sMove}");
           }
           catch {
             // Reclaim *last* child if parsePACNMove() should fail to complete normally
@@ -263,12 +251,12 @@ namespace Engine {
             // Parse alternative moves, wrt the current position,
             // without actually making the moves.
             //
-            var sPACN = pacnMoveToken.Value;
-            var move = parsePACNMove(sPACN);
+            var sMove = pacnMoveToken.Value;
+            var move = parsePACNMove(sMove);
             if (child.tryOrSkip(ref move))
               parseMoves.Add(move);
             else
-              throw new MoveException($"Illegal Move: {sPACN}");
+              throw new MoveException($"Illegal Move: {sMove}");
 
             if (!spaceToken.Accept()) break;
           }
