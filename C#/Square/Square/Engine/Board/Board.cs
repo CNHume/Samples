@@ -96,41 +96,62 @@ namespace Engine {
       initAttacks();
 
       Parameter = new PositionParameter[nSides];
-      newParameters();
+      ensureParameters();
     }
 
-    private static void newParameters() {
-      foreach (var sideName in (SideName[])Enum.GetValues(typeof(SideName))) {
+    private static void ensureParameters() {
+      var sideNames = (SideName[])Enum.GetValues(typeof(SideName));
+      foreach (var sideName in sideNames) {
         var nSide = (Int32)sideName;
-        var parameter = new PositionParameter(sideName);
-        Parameter[nSide] = parameter;
+        if (Parameter[nSide] is null) {
+          Parameter[nSide] = new PositionParameter(sideName);
+        }
       }
     }
 
     public Board() {
-      Side = new BoardSide[nSides];
-      newSides();
+      newSide();
+      initSides();
       newSquareControl();
+    }
+
+    [MemberNotNull(nameof(Side))]
+    private void newSide() {
+      Side = new BoardSide[nSides];
     }
 
     #region Init Methods
     [MemberNotNull(nameof(Friend), nameof(Foe))]
-    private void newSides() {
-      foreach (var parameter in Parameter) {
-        var nSide = (Int32)parameter.SideName;
-        Side[nSide] = new BoardSide(this, parameter);
-      }
-
+    private void initSides() {
+      ensureSides();
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
     }
 
-    [MemberNotNull(nameof(ControlTo))]
+    private void ensureSides() {
+      foreach (var parameter in Parameter) {
+        var nSide = (Int32)parameter.SideName;
+        if (Side[nSide] is null)
+          Side[nSide] = new BoardSide(this, parameter);
+      }
+    }
+
+    [MemberNotNull(nameof(AtxToControl))]
+    private void ensureSquareControl() {
+      if (AtxToControl is null)
+        newSquareControl();
+    }
+
+    [MemberNotNull(nameof(AtxToControl))]
     private void newSquareControl() {
 #if BuildAtxTo
       AtxTo = new Plane[nSquares];
 #endif
-      ControlTo = new SByte[nSquares];
+      AtxToControl = new SByte[nSquares];
+    }
+
+    protected void CopySquareControlTo(Board board) {
+      Array.Copy(board.AtxToControl, AtxToControl, AtxToControl.Length);
     }
 
     // Called by Position.Clear()
@@ -249,6 +270,7 @@ namespace Engine {
     }
 
     #region BoardSide
+    [MemberNotNull(nameof(Friend), nameof(Foe))]
     protected void CopySidesTo(Board board) {
       for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 34 bytes + 1 nullable byte
 #if HashPieces
@@ -294,7 +316,11 @@ namespace Engine {
       board.A1H8Piece = A1H8Piece;          // 8-bytes
       board.A8H1Piece = A8H1Piece;          // 8-bytes
 #endif
+      board.ensureSides();
       CopySidesTo(board);                   // 2 x 35 = 70-bytes
+
+      board.ensureSquareControl();
+      CopySquareControlTo(board);
     }
     #endregion                          // Copy Methods
     #endregion                          // Constructors

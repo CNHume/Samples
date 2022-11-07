@@ -127,14 +127,14 @@ namespace Engine {
 #if BuildAtxTo
     protected Plane[] AtxTo;
 #endif
-    protected SByte[] ControlTo;
+    protected SByte[] AtxToControl;
     protected Plane AttackedSum;
     protected Plane WhiteControlled;
     protected Plane BlackControlled;
     #endregion
 
     #region BoardSide
-    public readonly BoardSide[] Side;
+    public BoardSide[] Side;
     protected BoardSide Friend;
     protected BoardSide Foe;
     #endregion
