@@ -107,7 +107,7 @@ namespace Engine {
         var nIndex = goodMoves.FindIndex(gm => equalMoves(gm.Move, move));
         if (nIndex >= 0) {
           nEarly++;
-          State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
+          State!.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
           var good = goodMoves[nIndex];
           var mGoodValue = good.Value;
           if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
@@ -117,7 +117,7 @@ namespace Engine {
       }
 
       var bWTM = WTM();
-      State.AddEarlyTotal(bWTM, nEarly);
+      State!.AddEarlyTotal(bWTM, nEarly);
 
       var mLateNext = mLateStart;
       var nGenerated = 0;

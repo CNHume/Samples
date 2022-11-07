@@ -159,7 +159,7 @@ namespace Engine {
       if (sCastleFlags.Length > 4)
         throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
-      State.IsChess960 = false;
+      State!.IsChess960 = false;
       var bOrthodoxFlags = false;
       for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
         var cFlag = sCastleFlags[nPos];
@@ -181,7 +181,7 @@ namespace Engine {
           bOrthodoxFlags = true;
           break;
         default:
-          State.IsChess960 = true;
+          State!.IsChess960 = true;
           break;
         }
 
@@ -193,10 +193,10 @@ namespace Engine {
         var bWhiteSide = IsUpper(cFlag);
         var side = getSide(bWhiteSide);
 
-        side.GrantCastling(nRookFile, State.IsChess960);
+        side.GrantCastling(nRookFile, State!.IsChess960);
       }                               //[Next]cFlag
 
-      if (State.IsChess960 && bOrthodoxFlags)
+      if (State!.IsChess960 && bOrthodoxFlags)
         throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
     }
 
@@ -345,8 +345,8 @@ namespace Engine {
       var wMoveNumber = ParseUInt16("Full Move Number", sFullMoveNumber);
       // Zero is sometimes used when the initial MoveNumber is unknown
       if (wMoveNumber == 0) wMoveNumber = 1;
-      State.MovePly = plyCount(wMoveNumber);
-      if (!bWTM) State.MovePly++;
+      State!.MovePly = plyCount(wMoveNumber);
+      if (!bWTM) State!.MovePly++;
 
       var sInvalid = IsValid();
       if (IsNullOrEmpty(sInvalid))

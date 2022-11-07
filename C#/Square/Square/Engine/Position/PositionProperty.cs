@@ -124,7 +124,7 @@ namespace Engine {
     #region Properties
     protected Boolean IsMovePosition {
       // MovePosition assumed by startTask() and heartbeat()
-      get { return ReferenceEquals(this, State.MovePosition); }
+      get { return ReferenceEquals(this, State!.MovePosition); }
     }
 
     private String DebugString {

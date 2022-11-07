@@ -75,7 +75,7 @@ namespace Engine {
 
       #region Test for Draw
       if (IsDraw()) {                   //[Note]SetDraw50() must be called after tryMove(), below.
-        State.IncEvalType(EvalType.Exact);
+        State!.IncEvalType(EvalType.Exact);
         return eval();
       }
       #endregion
@@ -84,7 +84,7 @@ namespace Engine {
       var bInCheck = InCheck();
       if (bInCheck) {                   // Check Extension
         if (extended(ref wDraft, SearchExtensions.Check))
-          AtomicIncrement(ref State.CheckExtCount);
+          AtomicIncrement(ref State!.CheckExtCount);
       }
 
       //
@@ -135,7 +135,7 @@ namespace Engine {
       #region Heuristic Tests
       var bReduced = FlagsMode.Has(ModeFlags.Reduced);
       if (bReduced)
-        AtomicIncrement(ref State.ReducedTotal);
+        AtomicIncrement(ref State!.ReducedTotal);
 
       var bTestSingular = false;
       var bPruneQuiet = false;
@@ -157,7 +157,7 @@ namespace Engine {
         }
 
         // Determine whether Futility Pruning should be performed at Frontier Nodes:
-        if (State.IsFutility && 0 < wDepth) {
+        if (State!.IsFutility && 0 < wDepth) {
           var bNonMateWindow = -MateMin < mAlpha && mBeta < MateMin;
           var bNonEndGame = (FlagsGame & GameFlags.EndGame) == 0;
           if (bNonMateWindow && bNonEndGame) {
@@ -188,7 +188,7 @@ namespace Engine {
         moves.AddRange(SearchMoves);
 #if DebugSearchMoves
         var sb = new StringBuilder("SearchMoves:");
-        sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
+        sb.MapMoves(Extension.AppendPACN, moves, Side, State!.IsChess960);
         LogLine(sb.ToString());
 #endif
       }
@@ -386,7 +386,7 @@ namespace Engine {
         //
         if (bPruneQuiet) {
           traceVal("Futility Prune", mBest);        //[Conditional]
-          AtomicIncrement(ref State.FutilePruneTotal);
+          AtomicIncrement(ref State!.FutilePruneTotal);
           mValue = (Eval)(-child.eval());
           //[Test](Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
           goto updateBest;
@@ -425,7 +425,7 @@ namespace Engine {
           // So, wDraft1 is restored at the beginning of every iteration.
           //
           child.incExtension(ref wDraft1, vSingular);
-          AtomicIncrement(ref State.SingularExtCount);
+          AtomicIncrement(ref State!.SingularExtCount);
         }
       }
 #endif
@@ -549,16 +549,16 @@ namespace Engine {
       // Increment appropriate PVS Node Count:
       //
       if (FlagsMode.Has(ModeFlags.ZWS))                       // True ZWS [>200x PVSimple] is most frequent
-        AtomicIncrement(ref State.ZWSimpleTotal);
+        AtomicIncrement(ref State!.ZWSimpleTotal);
       else if (!bTryZWS)                                      // Primary Search was a FWS
-        AtomicIncrement(ref State.PVSimpleTotal);
+        AtomicIncrement(ref State!.PVSimpleTotal);
       else if (mAlpha1 == mBeta && wDraft <= wReducedDraft)   // Primary Zero Window was the Full Window
-        AtomicIncrement(ref State.PVSingleTotal);             // Rare, traditionally counted as PVSingle
+        AtomicIncrement(ref State!.PVSingleTotal);            // Rare, traditionally counted as PVSingle
       else if (mValue <= mBest2 || mBeta <= mValue)           //[Note]mBest2 vs. mAlpha used for MultiPV > 1
-        AtomicIncrement(ref State.PVSingleTotal);             // Skip second search [occurs >20x more than PVDouble]
+        AtomicIncrement(ref State!.PVSingleTotal);            // Skip second search [occurs >20x more than PVDouble]
       else {                                                  // PVDouble Search is >10000x more rare than the other cases
-        AtomicIncrement(ref State.PVDoubleTotal);             // Second search required
-        State.IncPVDoubleCount(SearchPly);                    // Update PVDouble Histogram
+        AtomicIncrement(ref State!.PVDoubleTotal);            // Second search required
+        State!.IncPVDoubleCount(SearchPly);                   // Update PVDouble Histogram
 
         //
         // Perform Secondary Full Window Search (FWS) if necessary (PVDouble)
@@ -576,8 +576,8 @@ namespace Engine {
     protected Boolean prune(Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
                             Eval mValueFound, EvalType etFound, Boolean bMoveExcluded, out Eval mPrunedValue) {
       mPrunedValue = EvalUndefined;
-      var bDepthLimit = State.Bound.Plies <= wDepth;
-      var bMateSearch = State.Bound.MovesToMate.HasValue;
+      var bDepthLimit = State!.Bound.Plies <= wDepth;
+      var bMateSearch = State!.Bound.MovesToMate.HasValue;
       var bNonMateWindow = -MateMin < mAlpha && mBeta < MateMin;
       var bReduced = FlagsMode.Has(ModeFlags.Reduced);
       var wShallow = reduceShallow(wDraft);
@@ -587,7 +587,7 @@ namespace Engine {
       // does prune 25% of the nodes in some positions.
       // See https://www.chessprogramming.org/Razoring
       //
-      if (State.IsOccam && wDepth <= wOccamDepthMax) {
+      if (State!.IsOccam && wDepth <= wOccamDepthMax) {
         if (bNonMateWindow && !(bReduced || bMateSearch || CanPromote())) {
           var mAlpha2 = (Eval)(mAlpha - occamDelta(wDepth));  // mAlpha vs mBeta
 
@@ -601,7 +601,7 @@ namespace Engine {
 #endif
             if (mValue2 < mBeta2) {     // Prune
               traceVal("Occam Prune", mValue2); //[Conditional]
-              AtomicIncrement(ref State.OccamPruneTotal);
+              AtomicIncrement(ref State!.OccamPruneTotal);
               mPrunedValue = mValue2;
               return true;              // No moves made here - omit storeXP()
             }                           // Prune
@@ -617,7 +617,7 @@ namespace Engine {
       // isEndgame() is called to protect against ignoring Zugzwang.
       // [Null Moves might be used to help detect Zugzwang.]
       //
-      if (State.IsNullPrune && SearchPly > wNullPlyMin &&
+      if (State!.IsNullPrune && SearchPly > wNullPlyMin &&
           !(IsNullMade() || bMateSearch || bMoveExcluded || isEndgame())) {
         //
         // A significant material advantage may suggest that the opponent should prefer
@@ -671,7 +671,7 @@ namespace Engine {
               (Eval)(-child2.quiet((Eval)(-mBeta2), (Eval)(-mAlpha2)));
             if (mBeta2 <= mValue2) {    // Null Move did not improve mValue: Prune
               traceVal("Null Prune", mValue2);  //[Conditional]
-              AtomicIncrement(ref State.NullMovePruneTotal);
+              AtomicIncrement(ref State!.NullMovePruneTotal);
               if (wDepth < wVerifyDepthMin)
                 mPrunedValue = mValue2;
               else {                    //[ToDo]Improve verification
@@ -718,7 +718,7 @@ namespace Engine {
             incExtension(ref wDraft, vThreat);
             wDepth = depth(wDraft);     // Threat Adjusted Depth
             wShallow = reduceShallow(wDraft);
-            AtomicIncrement(ref State.ThreatExtCount);
+            AtomicIncrement(ref State!.ThreatExtCount);
           }
           else
             traceVal("Non-Mate Threat", mThreat);//[Conditional]
@@ -736,7 +736,7 @@ namespace Engine {
       //
       // Clone the Position to avoid interfering with the current moves enumeration
       //
-      var clone = State.Push(Parent);   //[Note]Parent may be null
+      var clone = State!.Push(Parent);  //[Note]Parent may be null
 
       try {
         //[Safe]if (bRootPosition)      // Any Parent should have the position already

@@ -415,7 +415,7 @@ namespace Engine {
     }
 
     private void setupCastlingRights(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
-      State.IsChess960 = bChess960;
+      State!.IsChess960 = bChess960;
       foreach (var side in Side) {
         side.ClearCanCastle();
 

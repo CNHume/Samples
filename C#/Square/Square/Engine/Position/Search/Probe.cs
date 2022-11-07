@@ -126,7 +126,7 @@ namespace Engine {
                             Move moveExcluded = Move.Undefined) {       // 10 MHz
       Trace.Assert(EvalUndefined < mValue, "storeXPM(EvalUndefined)");
       traceVal("storeXPM", mValue, et); //[Conditional]
-      State.IncEvalType(et);
+      State!.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
       var bWTM = WTM();
 #endif
@@ -157,10 +157,10 @@ namespace Engine {
       var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
                                    mAdjusted, et, moveBest);
 #else
-      var store = new PositionMove(qDynamic, State.MovePly, wDepth,
+      var store = new PositionMove(qDynamic, State!.MovePly, wDepth,
                                    mAdjusted, et, moveBest);
 #endif
-      State.XPMTank.Save(store);
+      State!.XPMTank.Save(store);
       return mValue;
     }
 
@@ -177,10 +177,10 @@ namespace Engine {
 #if XPHash128
       var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
 #else
-      var match = new PositionMove(qDynamic, State.MovePly, wDepth);
+      var match = new PositionMove(qDynamic, State!.MovePly, wDepth);
 #endif
       var matches = new List<PositionMove>();
-      State.XPMTank.Load(match, matches);
+      State!.XPMTank.Load(match, matches);
       var bFound = matches.Count > 0;
 
       foreach (var found in matches) {
@@ -201,7 +201,7 @@ namespace Engine {
                            Move moveExcluded = Move.Undefined) {  // 10 MHz
       Trace.Assert(EvalUndefined < mValue, "storeXP(EvalUndefined)");
       traceVal("storeXP", mValue, et);  //[Conditional]
-      State.IncEvalType(et);
+      State!.IncEvalType(et);
       var qDynamic = DynamicHash(moveExcluded);
       var mAdjusted = creditMate(mValue, SearchPly);
 
@@ -232,11 +232,11 @@ namespace Engine {
       var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #else
-      var store = new Transposition(qDynamic, State.MovePly, wDepth,
+      var store = new Transposition(qDynamic, State!.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #endif
 #endif
-      State.XPTank.Save(store);
+      State!.XPTank.Save(store);
       return mValue;
     }
 
@@ -253,10 +253,10 @@ namespace Engine {
 #if XPMoveTypes
       var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
 #else
-      var match = new Transposition(qDynamic, State.MovePly, wDepth);
+      var match = new Transposition(qDynamic, State!.MovePly, wDepth);
 #endif
 #endif
-      var bValid = State.XPTank.LoadFirst(ref match);
+      var bValid = State!.XPTank.LoadFirst(ref match);
 #if XPMoveTypes
       if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
@@ -275,7 +275,7 @@ namespace Engine {
                             Move moveBest = Move.Undefined) {
       Trace.Assert(EvalUndefined < mValue, "storeQXP(EvalUndefined)");
       traceVal("storeQXP", mValue, et); //[Conditional]
-      State.IncEvalType(et);
+      State!.IncEvalType(et);
       var mAdjusted = creditMate(mValue, SearchPly);
 
       if (IsFinal()) {
@@ -295,9 +295,9 @@ namespace Engine {
 #if QXPHash128
       var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
-      var store = new QuietPosition(Hash, State.MovePly, mAdjusted, et, moveBest);
+      var store = new QuietPosition(Hash, State!.MovePly, mAdjusted, et, moveBest);
 #endif
-      State.QXPTank.Save(store);
+      State!.QXPTank.Save(store);
       return mValue;
     }
 
@@ -306,9 +306,9 @@ namespace Engine {
 #if QXPHash128
       var match = new QuietPosition(Hash, State.MovePly, HashPawn);
 #else
-      var match = new QuietPosition(Hash, State.MovePly);
+      var match = new QuietPosition(Hash, State!.MovePly);
 #endif
-      var bValid = State.QXPTank.LoadFirst(ref match);
+      var bValid = State!.QXPTank.LoadFirst(ref match);
       var moveBest = adjustEmptyMove(match.BestMove);
       moveFound = isDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
       etFound = match.Type;                             //[out]2
@@ -349,7 +349,7 @@ namespace Engine {
 #if QuiescentTryXP
       const Depth wDepth = 0;
       bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
-      State.IncQxnt(bFoundValue);       //[Conditional]
+      State!.IncQxnt(bFoundValue);      //[Conditional]
 #endif
 #if TransposeQuiet
       if (!bFoundValue)                 //[C#]There is no Logical-OR assignment operator ||=
@@ -370,7 +370,7 @@ namespace Engine {
       traceVal("storeKiller", mValue, et);      //[Conditional]
       var mAdjusted = creditMate(mValue, SearchPly);
       var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
-      UInt32 wPly = State.MovePly;
+      UInt32 wPly = State!.MovePly;
 #if BottleGamePly
       wPly = GamePly;
 #else
@@ -385,13 +385,13 @@ namespace Engine {
 #else
       var nSide = 0;
 #endif
-      State.Bottle.Save(store, uMaskedMove, wPly, nSide);
+      State!.Bottle.Save(store, uMaskedMove, wPly, nSide);
     }
 
     protected Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
       var bWTM = WTM();
       const Boolean bFilterEvalUndefined = true;
-      UInt32 wPly = State.MovePly;
+      UInt32 wPly = State!.MovePly;
 #if BottleGamePly
       wPly += SearchPly;
 #else
@@ -406,7 +406,7 @@ namespace Engine {
 #else
       var nSide = 0;
 #endif
-      var killers = State.Bottle.Load(wPly, nSide);
+      var killers = State!.Bottle.Load(wPly, nSide);
       var bFound = killers.Count > 0;
 
       foreach (var killer in killers) {
@@ -426,7 +426,7 @@ namespace Engine {
     protected void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
       if (IsTrace()) {
         var sb = new StringBuilder();
-        sb.AppendFormat($"Trace #{State.NodeTotal}: {sLabel}");
+        sb.AppendFormat($"Trace #{State!.NodeTotal}: {sLabel}");
         if (mValue.HasValue) {
           var mEval = reflectValue(WTM(), (Eval)mValue);
           sb.Append(" Eval");

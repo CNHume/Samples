@@ -48,11 +48,11 @@ namespace Engine {
         Trace.Assert(filtered.Length == material.Length, "filtered.Length != material.Length");
         DisplayCurrent("Filtered vs. Material Moves:");
 
-        sb.MapMoves(Extension.AppendAN, filteredMoves, Side, State.IsChess960);
+        sb.MapMoves(Extension.AppendAN, filteredMoves, Side, State!.IsChess960);
         sb.AppendLine();
         sb.FlushLine();
 
-        sb.MapMoves(Extension.AppendAN, materialMoves, Side, State.IsChess960);
+        sb.MapMoves(Extension.AppendAN, materialMoves, Side, State!.IsChess960);
         sb.AppendLine();
         sb.FlushLine();
       }
@@ -64,7 +64,7 @@ namespace Engine {
     protected void perft(PlyDepth vPlies) {
       var moves = PseudoMoves;
       var vPlies1 = (PlyDepth)(vPlies - 1);
-      var pc = State.Case;
+      var pc = State!.Case;
 
       generate(moves, NoSwaps);
       verifyMaterialMoves(moves);       //[Conditional]
@@ -110,7 +110,7 @@ namespace Engine {
     }
 
     protected void countLeaf(Move move) {
-      var pc = State.Case;
+      var pc = State!.Case;
       pc.LeafNodes++;
 
       var bCapture = isCapture(move);

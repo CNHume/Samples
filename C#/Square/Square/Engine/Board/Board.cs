@@ -125,6 +125,7 @@ namespace Engine {
       (Friend, Foe) = getSides(WTM());
     }
 
+    [MemberNotNull(nameof(ControlTo))]
     private void newSquareControl() {
 #if BuildAtxTo
       AtxTo = new Plane[nSquares];

@@ -75,11 +75,11 @@ namespace Engine {
 
     #region Wrapper Methods for State.Push() and State.Pop()
     public Position Push() {
-      return State.Push(this);
+      return State!.Push(this);
     }
 
     public void Pop(ref Position child) {
-      child.State.Pop(ref child);
+      child.State!.Pop(ref child);
     }
     #endregion
   }

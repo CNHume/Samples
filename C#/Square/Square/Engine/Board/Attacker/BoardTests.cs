@@ -113,7 +113,7 @@ namespace Engine {
     }
 
     protected void testPieceMasks() {
-      var bFlip = State.IsFlip;
+      var bFlip = State!.IsFlip;
       testRect("RankPiece", RankPiece, false, bFlip);
 #if TestRotation && !Magic
       testRect("FilePiece", FilePiece, true, bFlip);
