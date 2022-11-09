@@ -442,8 +442,8 @@ namespace Engine {
       else {
         var sqTo = (sq)nTo;
         var sqFrom = (sq)nFrom;
-        var bFile = (move & Move.OnlyFile) == 0;
-        var bRank = (move & Move.OnlyRank) == 0;
+        var bAmbiguousRank = isAmbiguousRank(move);
+        var bAmbiguousFile = isAmbiguousFile(move);
         var bPawnCapture = false;
         var bEnPassant = false;
 
@@ -457,11 +457,11 @@ namespace Engine {
         // The From Square may be appended in its entirety,
         // or abbreviated to include only its Rank or File:
         //
-        if ((bPawnCapture || bFile) && bRank || bExpandFrom)
+        if ((bPawnCapture || bAmbiguousFile) && bAmbiguousRank || bExpandFrom)
           sb.Append(sqFrom);
-        else if (bPawnCapture || bFile || bRank) {
+        else if (bPawnCapture || bAmbiguousFile || bAmbiguousRank) {
           var s = sqFrom.ToString();
-          sb.Append(s[bRank ? 1 : 0]);
+          sb.Append(s[bAmbiguousRank ? 1 : 0]);
         }
         #endregion
 

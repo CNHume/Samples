@@ -246,7 +246,7 @@ namespace Engine {
 
       //
       //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
-      // are needed for passed() and hence for tryEP() below.
+      // will be needed when tryEP() calls Friend.Passed().
       //
       buildPawnAtx();
 
