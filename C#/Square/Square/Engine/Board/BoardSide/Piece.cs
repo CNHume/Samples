@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+//#define Magic
 #define EvalInsufficient
 #define HashPieces
 //#define TestPawnAdvances

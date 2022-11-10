@@ -23,6 +23,16 @@ namespace Command {
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-11-03 Perft3 in 29.18 sec @7.5 MHz over 218.84 Mnode]
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-11-03 Perft4 in 1:32.84 @8.264 MHz over 767.28 Mnode]
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-11-03 Perft5 in 13.363 sec @6.556 MHz over 87.6 Mnode]
+    //
+    // Abbreviation Tests
+    // ------------------
+    //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";
+    //"4BR2/6nk/8/3N2PN/8/8/7K/8 w - - 0 1";
+    //"4BR2/3N2nk/8/3N2P1/8/8/7K/8 w - - 0 1";
+    //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1";
+    //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
+    //"8/7p/8/8/4N1K1/2q5/6k1/1N6 w - - 0 1";
+    //
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
@@ -253,9 +263,6 @@ namespace Command {
     // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+ Kd7 38. Qxf7+ Qe7
     //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
     //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
-    //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1"; // Abbreviation Tests
-    //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
-    //"8/7p/8/8/4N1K1/2q5/6k1/1N6 w - - 0 1";
     //"r1bqr1k1/pp3ppp/2nB4/1N6/2Bn4/8/PP4PP/2RQR1K1 w - - 0 24"; // Kramnik v Meier 2012-07-22
     //"r1bqr3/pp5Q/2nB1kp1/1N6/3n4/8/PP4PP/2R1R1K1 w - - 0 4"; // Kramnik v Meier 2012-07-22 White Choice
     //"r1bqr3/ppN4Q/2nB1kp1/8/3n4/8/PP4PP/2R1R1K1 b - - 0 4"; // Kramnik v Meier 2012-07-22 Black Choice

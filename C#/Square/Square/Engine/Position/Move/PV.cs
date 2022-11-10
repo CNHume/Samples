@@ -6,6 +6,7 @@
 #define DebugMove
 //#define DebugMoveColor
 //#define DebugPlace
+//#define Magic
 //#define TraceVal
 //#define AbbreviateLookup
 #define TestDraw3
@@ -91,17 +92,16 @@ namespace Engine {
 #else
         var qpFileAtx = FileAtx[vEmptyState];
 #endif
+        // Is there another piece (of the type being moved) that attacks nTo from the same File?
         if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
-          // File distinguishes piece: Rank can be omitted
+          // File distinguishes the piece being moved: so its Rank can be omitted.
           move |= Move.OnlyRank;
         else {
-#if Magic
-          var qpRankAtx = RankAtx[RankMagic[vEmptyState]];
-#else
+          //[Note]RankAtx does not require Magic support.
           var qpRankAtx = RankAtx[vEmptyState];
-#endif
+          // Is there another piece (of the type being moved) that attacks nTo from the same Rank?
           if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
-            // Rank distinguishes piece: File can be omitted
+            // Rank distinguishes the piece being moved: so its File can be omitted.
             move |= Move.OnlyFile;
         }
       }
