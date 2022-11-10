@@ -87,13 +87,23 @@ namespace Engine {
         //
         const Byte vEmptyState = 0;
 #if Magic
-        if ((qpAtxTo & FileAtx[FileMagic[vEmptyState]][nFrom]) == 0)
+        var qpFileAtx = FileAtx[FileMagic[vEmptyState]];
 #else
-        if ((qpAtxTo & FileAtx[vEmptyState][nFrom]) == 0)
+        var qpFileAtx = FileAtx[vEmptyState];
 #endif
-          move |= Move.OnlyRank;        // File distinguishes piece: Rank can be omitted
-        else if ((qpAtxTo & RankAtx[vEmptyState][nFrom]) == 0)
-          move |= Move.OnlyFile;        // Rank distinguishes piece: File can be omitted
+        if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
+          // File distinguishes piece: Rank can be omitted
+          move |= Move.OnlyRank;
+        else {
+#if Magic
+          var qpRankAtx = RankAtx[RankMagic[vEmptyState]];
+#else
+          var qpRankAtx = RankAtx[vEmptyState];
+#endif
+          if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
+            // Rank distinguishes piece: File can be omitted
+            move |= Move.OnlyFile;
+        }
       }
 
       return move;
