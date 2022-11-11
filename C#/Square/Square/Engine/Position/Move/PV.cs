@@ -78,13 +78,16 @@ namespace Engine {
       // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
       //
       if (IsOneOrNone(qpAtxTo))
-        move |= Move.OnlyFile | Move.OnlyRank;
+        move |= Move.UniqueFile | Move.UniqueRank;
       else if (vPiece == vP6)
-        move |= Move.OnlyRank;          // Pawn captures come from two adjacent Files on one Rank
+        move |= Move.UniqueRank;          // Pawn captures come from two adjacent Files on one Rank
       else {
         //
         // Determine whether both Rank and File are required; or whether Rank or File suffices
         // to distinguish the piece.  File is preferred where either the Rank or File suffices.
+        //
+        //[Note]Ray Attacks are used to identify pieces of the type being moved along the Rank
+        // or File, whether or not any pieces intervene.
         //
         const Byte vEmptyState = 0;
 #if Magic
@@ -92,17 +95,17 @@ namespace Engine {
 #else
         var qpFileAtx = FileAtx[vEmptyState];
 #endif
-        // Is there another piece (of the type being moved) that attacks nTo from the same File?
+        // Is there another piece of the type being moved, which attacks nTo from the same File?
         if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
           // File distinguishes the piece being moved: so its Rank can be omitted.
-          move |= Move.OnlyRank;
+          move |= Move.UniqueRank;
         else {
           //[Note]RankAtx does not require Magic support.
           var qpRankAtx = RankAtx[vEmptyState];
-          // Is there another piece (of the type being moved) that attacks nTo from the same Rank?
+          // Is there another piece of the type being moved, which attacks nTo from the same Rank?
           if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
             // Rank distinguishes the piece being moved: so its File can be omitted.
-            move |= Move.OnlyFile;
+            move |= Move.UniqueFile;
         }
       }
 
@@ -185,7 +188,7 @@ namespace Engine {
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else                                   // Make it clear that the move was recovered via PVLookup()
-          moveNoted &= ~(Move.OnlyRank | Move.OnlyFile);
+          moveNoted &= ~(Move.UniqueRank | Move.UniqueFile);
 #endif
         }
 #if DebugMove

@@ -209,7 +209,7 @@ namespace Engine.CacheValue {
     }
 
     private const Int32 nIBVBits = 16;
-    private const Int32 nMoveBits = nOnlyFileBit;
+    private const Int32 nMoveBits = nUniqueFileBit;
     private const Int32 nPlyBits = 10;
     private const Int32 nDepthBits = 10;
 

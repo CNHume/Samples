@@ -408,12 +408,12 @@ namespace Engine {
     #endregion                          // Ply Methods
 
     #region Move Methods
-    internal static bool isAmbiguousRank(Move move) {
-      return (move & Move.OnlyRank) == 0;
+    internal static bool isUniqueRank(Move move) {
+      return (move & Move.UniqueRank) != 0;
     }
 
-    internal static bool isAmbiguousFile(Move move) {
-      return (move & Move.OnlyFile) == 0;
+    internal static bool isUniqueFile(Move move) {
+      return (move & Move.UniqueFile) != 0;
     }
 
     internal static Boolean isDefinite(Move move) {

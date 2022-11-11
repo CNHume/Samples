@@ -29,9 +29,9 @@ namespace Command {
     //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";
     //"4BR2/6nk/8/3N2PN/8/8/7K/8 w - - 0 1";
     //"4BR2/3N2nk/8/3N2P1/8/8/7K/8 w - - 0 1";
+    //"8/7p/8/8/4N1K1/2q5/6k1/1N6 w - - 0 1";
     //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1";
     //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
-    //"8/7p/8/8/4N1K1/2q5/6k1/1N6 w - - 0 1";
     //
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position

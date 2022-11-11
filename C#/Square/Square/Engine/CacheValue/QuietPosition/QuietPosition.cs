@@ -164,7 +164,7 @@ namespace Engine.CacheValue {
     }
 
     private const Int32 nIBVBits = 16;
-    private const Int32 nMoveBits = nOnlyFileBit;
+    private const Int32 nMoveBits = nUniqueFileBit;
     private const Int32 nPlyBits = 10;
 
     private const UInt16 wIBVMask = (UInt16)((1U << nIBVBits) - 1);

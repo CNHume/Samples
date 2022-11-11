@@ -442,8 +442,8 @@ namespace Engine {
       else {
         var sqTo = (sq)nTo;
         var sqFrom = (sq)nFrom;
-        var bAmbiguousRank = isAmbiguousRank(move);
-        var bAmbiguousFile = isAmbiguousFile(move);
+        var bAmbiguousRank = !isUniqueRank(move);
+        var bAmbiguousFile = !isUniqueFile(move);
         var bPawnCapture = false;
         var bEnPassant = false;
 
