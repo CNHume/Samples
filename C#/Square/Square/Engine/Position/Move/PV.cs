@@ -80,7 +80,7 @@ namespace Engine {
       if (IsOneOrNone(qpAtxTo))
         move |= Move.UniqueFile | Move.UniqueRank;
       else if (vPiece == vP6)
-        move |= Move.UniqueRank;          // Pawn captures come from two adjacent Files on one Rank
+        move |= Move.UniqueRank;        // Pawn captures come from two adjacent Files on one Rank
       else {
         //
         // Determine whether both Rank and File are required; or whether Rank or File suffices

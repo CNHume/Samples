@@ -442,26 +442,30 @@ namespace Engine {
       else {
         var sqTo = (sq)nTo;
         var sqFrom = (sq)nFrom;
-        var bAmbiguousRank = !isUniqueRank(move);
-        var bAmbiguousFile = !isUniqueFile(move);
         var bPawnCapture = false;
         var bEnPassant = false;
 
-        if (vPiece != vP6)              // Pawn piece aso elided when bExpandFrom
+        if (vPiece != vP6)              // Pawn symbols are also elided when bExpandFrom is set
           sb.Append(PieceSymbol(vPiece));
         else if (bCapture)
           bPawnCapture = true;
 
-        #region From Square
+        #region Abbreviate From Square
         //
         // The From Square may be appended in its entirety,
-        // or abbreviated to include only its Rank or File:
+        // or abbreviated to include only its File or Rank:
         //
-        if ((bPawnCapture || bAmbiguousFile) && bAmbiguousRank || bExpandFrom)
+        var bShowFile = bPawnCapture || !isUniqueFile(move);
+        var bShowRank = !isUniqueRank(move);
+
+        if (bShowFile && bShowRank || bExpandFrom)
           sb.Append(sqFrom);
-        else if (bPawnCapture || bAmbiguousFile || bAmbiguousRank) {
-          var s = sqFrom.ToString();
-          sb.Append(s[bAmbiguousRank ? 1 : 0]);
+        else {
+          var sFrom = sqFrom.ToString();
+          if (bShowFile)
+            sb.Append(sFrom[0]);
+          else if (bShowRank)
+            sb.Append(sFrom[1]);
         }
         #endregion
 
@@ -479,8 +483,6 @@ namespace Engine {
           }
 #endif
         }
-        else if (bExpandFrom)
-          sb.Append(sMoves);
 
         sb.Append(sqTo);
 
