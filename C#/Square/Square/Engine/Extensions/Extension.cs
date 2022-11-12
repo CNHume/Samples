@@ -455,8 +455,8 @@ namespace Engine {
         // The From Square may be appended in its entirety,
         // or abbreviated to include only its File or Rank:
         //
-        var bShowFile = bPawnCapture || !isUniqueFile(move);
-        var bShowRank = !isUniqueRank(move);
+        var bShowFile = bPawnCapture || !isOmitFile(move);
+        var bShowRank = !isOmitRank(move);
 
         if (bShowFile && bShowRank || bExpandFrom)
           sb.Append(sqFrom);

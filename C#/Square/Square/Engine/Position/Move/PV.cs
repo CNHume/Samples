@@ -78,10 +78,12 @@ namespace Engine {
       // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
       //
       if (IsOneOrNone(qpAtxTo))
-        move |= Move.UniqueFile | Move.UniqueRank;
+        move |= Move.OmitFile | Move.OmitRank;
       else if (vPiece == vP6)
-        move |= Move.UniqueRank;        // Pawn captures come from two adjacent Files on one Rank
+        move |= Move.OmitRank;          // Pawns capture from neighboring Files along one Rank.
       else {
+        //
+        // More than one piece of the type being moved attack nTo:
         //
         // Determine whether both Rank and File are required; or whether Rank or File suffices
         // to distinguish the piece.  File is preferred where either the Rank or File suffices.
@@ -97,15 +99,15 @@ namespace Engine {
 #endif
         // Is there another piece of the type being moved, which attacks nTo from the same File?
         if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
-          // File distinguishes the piece being moved: so its Rank can be omitted.
-          move |= Move.UniqueRank;
+          // File distinguishes the piece being moved: its Rank can be omitted.
+          move |= Move.OmitRank;
         else {
           //[Note]RankAtx does not require Magic support.
           var qpRankAtx = RankAtx[vEmptyState];
           // Is there another piece of the type being moved, which attacks nTo from the same Rank?
           if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
-            // Rank distinguishes the piece being moved: so its File can be omitted.
-            move |= Move.UniqueFile;
+            // Rank distinguishes the piece being moved: its File can be omitted.
+            move |= Move.OmitFile;
         }
       }
 
@@ -188,7 +190,7 @@ namespace Engine {
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else                                   // Make it clear that the move was recovered via PVLookup()
-          moveNoted &= ~(Move.UniqueRank | Move.UniqueFile);
+          moveNoted &= ~(Move.OmitRank | Move.OmitFile);
 #endif
         }
 #if DebugMove
