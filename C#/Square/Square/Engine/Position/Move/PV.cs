@@ -78,9 +78,9 @@ namespace Engine {
       // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
       //
       if (IsOneOrNone(qpAtxTo))
-        move |= Move.OmitFile | Move.OmitRank;
+        move |= Move.HideFile | Move.HideRank;
       else if (vPiece == vP6)
-        move |= Move.OmitRank;          // Pawns capture from neighboring Files along one Rank.
+        move |= Move.HideRank;          // Pawns capture from neighboring Files along one Rank.
       else {
         //
         // More than one piece of the type being moved attack nTo:
@@ -99,15 +99,16 @@ namespace Engine {
 #endif
         // Is there another piece of the type being moved, which attacks nTo from the same File?
         if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
-          // File distinguishes the piece being moved: its Rank can be omitted.
-          move |= Move.OmitRank;
+          // File distinguishes the piece being moved: Rank should be hidden.
+          move |= Move.HideRank;
         else {
           //[Note]RankAtx does not require Magic support.
           var qpRankAtx = RankAtx[vEmptyState];
           // Is there another piece of the type being moved, which attacks nTo from the same Rank?
           if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
-            // Rank distinguishes the piece being moved: its File can be omitted.
-            move |= Move.OmitFile;
+            // Rank distinguishes the piece being moved: File should be hidden.
+            move |= Move.HideFile;
+          //else neither File nor Rank should be hidden.
         }
       }
 
@@ -190,7 +191,7 @@ namespace Engine {
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else                                   // Make it clear that the move was recovered via PVLookup()
-          moveNoted &= ~(Move.OmitRank | Move.OmitFile);
+          moveNoted &= ~(Move.HideRank | Move.HideFile);
 #endif
         }
 #if DebugMove

@@ -127,9 +127,9 @@ namespace Engine {
           // necessarily have been that same check along the diagonal in the position prior to
           // the passer advance.  That position would therefore have been Illegal.
           //
-          // Removing a passer cannot constitute a pin along a file, because the guard pawn will
-          // immediately reoccupy that file in a the square behind the passer which will prevent
-          // discovery of any check along that file.
+          // Removing a passer cannot constitute a pin along a file because the guard pawn will
+          // reoccupy the square behind the passer on that file, thus preventing discovery of a
+          // check.
           //
           // The PasserPin exemption was introduced to prevent a mistaken Pin Restriction along
           // the 4th or 5th rank from being applied in cases where a guard pawn vacates its own

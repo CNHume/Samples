@@ -336,7 +336,7 @@ namespace Engine {
     public const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
     public const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
     public const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
-    public const Int32 nOmitFileBit = 28;
+    public const Int32 nHideFileBit = 28;
 
     //[Flags]
     public enum Move : uint {
@@ -350,10 +350,10 @@ namespace Engine {
       NoteDraw = NoteCheck << 1,        // Bit 26
       NoteDraw2 = NoteDraw << 1,        // Bit 27
 #endif
-      OmitFile = 1U << nOmitFileBit,    // Bit 28 4-bits for abbreviation and debug
-      StoreMask = OmitFile - 1,         // Mask28 Hi 4-bits masked from [Trans|Quiet]Position.BestMove
-      OmitRank = OmitFile << 1,         // Bit 29
-      Qxnt = OmitRank << 1,             // Bit 30 Used by abbreviateRefresh()
+      HideFile = 1U << nHideFileBit,    // Bit 28 4-bits for abbreviation and debug
+      StoreMask = HideFile - 1,         // Mask28 Hi 4-bits masked from [Trans|Quiet]Position.BestMove
+      HideRank = HideFile << 1,         // Bit 29
+      Qxnt = HideRank << 1,             // Bit 30 Used by abbreviateRefresh()
 #if DebugMoveColor
       WTM = Qxnt << 1,                  // Bit 31 for debugging
 #endif

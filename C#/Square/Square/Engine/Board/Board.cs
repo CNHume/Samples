@@ -409,11 +409,11 @@ namespace Engine {
 
     #region Move Methods
     internal static bool isShowRank(Move move) {
-      return (move & Move.OmitRank) == 0;
+      return (move & Move.HideRank) == 0;
     }
 
     internal static bool isShowFile(Move move) {
-      return (move & Move.OmitFile) == 0;
+      return (move & Move.HideFile) == 0;
     }
 
     internal static Boolean isDefinite(Move move) {

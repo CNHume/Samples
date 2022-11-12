@@ -452,8 +452,8 @@ namespace Engine {
 
         #region Abbreviate From Square
         //
-        // The From Square may be appended in its entirety,
-        // or abbreviated to include only its File or Rank:
+        // The From Square may be shown in its entirety,
+        // or abbreviated to show only its File or Rank:
         //
         var bShowFile = bPawnCapture || isShowFile(move);
         var bShowRank = isShowRank(move);
