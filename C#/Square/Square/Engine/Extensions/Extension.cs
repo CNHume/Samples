@@ -455,17 +455,17 @@ namespace Engine {
         // The From Square may be appended in its entirety,
         // or abbreviated to include only its File or Rank:
         //
-        var bShowFile = bPawnCapture || !isOmitFile(move);
-        var bShowRank = !isOmitRank(move);
+        var bShowFile = bPawnCapture || isShowFile(move);
+        var bShowRank = isShowRank(move);
 
         if (bShowFile && bShowRank || bExpandFrom)
           sb.Append(sqFrom);
         else {
           var sFrom = sqFrom.ToString();
           if (bShowFile)
-            sb.Append(sFrom[0]);
+            sb.Append(sFrom[File]);
           else if (bShowRank)
-            sb.Append(sFrom[1]);
+            sb.Append(sFrom[Rank]);
         }
         #endregion
 
