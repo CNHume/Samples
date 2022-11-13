@@ -442,13 +442,10 @@ namespace Engine {
       else {
         var sqTo = (sq)nTo;
         var sqFrom = (sq)nFrom;
-        var bPawnCapture = false;
         var bEnPassant = false;
 
         if (vPiece != vP6)              // Pawn symbols are also elided when bExpandFrom is set
           sb.Append(PieceSymbol(vPiece));
-        else if (bCapture)
-          bPawnCapture = true;
 
         #region Abbreviate From Square
         //
