@@ -177,9 +177,12 @@ namespace Command {
     // [2022-09-17 19-ply in 24:42 @1.341 MHz over 1.9876 Gnode] to find #18
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
     // 12. Rg7 Ke8 13. Rg7g5
-    // [2022-08-25 20-Ply in 41:08 @1.299 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
+    // [2022-11-12 20-Ply in 41:00 @1.303 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kc7 9. Kc5 Kb7 10. Re4 Kc7 11. Re7+ Kc8
     // 12. Kd5 Kd8 [13. Rg7 Kd8e8] 14. Rg7h7
+    // [2022-11-12 21-Ply in 1:43:45.5 sec, @1.2407 MHz over 7.724 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
+    // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kd8 11. Ra7 Kc8
+    // 12. Rf7 Kd8 13. Rg7[Ke8] 14. Kd5e6
     // [20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Kd8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 [6... Kd8?? 7. Bc4! Kc8 8. Be6+ Kd8 9. Rb8+ Rc8 10. Rxc8#]
     // 7. Ra4! Rxd5+ 8. Kxd5 Kb7 [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6

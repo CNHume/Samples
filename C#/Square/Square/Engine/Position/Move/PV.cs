@@ -77,10 +77,10 @@ namespace Engine {
       //
       // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
       //
-      if (IsOneOrNone(qpAtxTo))
-        move |= Move.HideFile | Move.HideRank;
-      else if (vPiece == vP6)
+      if (vPiece == vP6 && bCapture)
         move |= Move.HideRank;          // Pawns capture from neighboring Files along one Rank.
+      else if (IsOneOrNone(qpAtxTo))
+        move |= Move.HideFrom;
       else {
         //
         // More than one piece of the type being moved attack nTo:
@@ -190,8 +190,8 @@ namespace Engine {
         if (!State!.IsPure) {           // Standard Algebraic Notation (AN) supports abbreviation
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
-#else                                   // Make it clear that the move was recovered via PVLookup()
-          moveNoted &= ~(Move.HideRank | Move.HideFile);
+#else
+          moveNoted &= ~Move.HideFrom;  // Make it clear that the move was recovered via PVLookup()
 #endif
         }
 #if DebugMove

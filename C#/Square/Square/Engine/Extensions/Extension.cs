@@ -455,7 +455,7 @@ namespace Engine {
         // The From Square may be shown in its entirety,
         // or abbreviated to show only its File or Rank:
         //
-        var bShowFile = bPawnCapture || isShowFile(move);
+        var bShowFile = isShowFile(move);
         var bShowRank = isShowRank(move);
 
         if (bShowFile && bShowRank || bExpandFrom)

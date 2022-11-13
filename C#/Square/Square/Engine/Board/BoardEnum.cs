@@ -357,6 +357,7 @@ namespace Engine {
 #if DebugMoveColor
       WTM = Qxnt << 1,                  // Bit 31 for debugging
 #endif
+      HideFrom = HideRank | HideFile,   // Used to abbreviate From square
       FromToMask = (uSquareMask << nToBit) | (uSquareMask << nFromBit),
       PromoteMask = vPieceMask << nPromoteBit,
       ShortMask = Castles | PromoteMask | FromToMask,
