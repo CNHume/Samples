@@ -452,16 +452,13 @@ namespace Engine {
         // The From Square may be shown in its entirety,
         // or abbreviated to show only its File or Rank:
         //
-        var bShowFile = isShowFile(move);
-        var bShowRank = isShowRank(move);
-
-        if (bShowFile && bShowRank || bExpandFrom)
+        if (isShowFrom(move) || bExpandFrom)
           sb.Append(sqFrom);
         else {
           var sFrom = sqFrom.ToString();
-          if (bShowFile)
+          if (isShowFile(move))
             sb.Append(sFrom[File]);
-          else if (bShowRank)
+          else if (isShowRank(move))
             sb.Append(sFrom[Rank]);
         }
         #endregion

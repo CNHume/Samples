@@ -26,7 +26,7 @@ namespace Command {
     //
     // Abbreviation Tests
     // ------------------
-    //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";  // ShowFile && ShowRank
+    //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";  // ShowFrom
     //"4BR2/6nk/8/3N2PN/8/8/7K/8 w - - 0 1";    // ShowFile
     //"4BR2/3N2nk/8/3N2P1/8/8/7K/8 w - - 0 1";  // ShowRank
     //"8/7p/8/8/4N1K1/2q5/6k1/1N6 w - - 0 1";   // ShowFile || ShowRank

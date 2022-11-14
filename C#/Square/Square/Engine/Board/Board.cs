@@ -416,6 +416,10 @@ namespace Engine {
       return (move & Move.HideFile) == 0;
     }
 
+    internal static bool isShowFrom(Move move) {
+      return (move & Move.HideFrom) == 0;
+    }
+
     internal static Boolean isDefinite(Move move) {
       return isDefined(move) && !isEmptyMove(move);
     }
