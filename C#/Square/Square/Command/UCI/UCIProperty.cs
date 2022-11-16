@@ -215,10 +215,10 @@ namespace Command {
     //
     // Position prior to 4... Nf7+? after moves g4f6 h7g7 f6h5 g7g6 d1c2 g6h5 d7d8q:
     //"3Q4/8/n2K3p/2p3nk/1b6/2p1p1P1/2B5/8 b - - 0 4";
+    // 4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5!
     // Hint position after moves g5f7 d6e6 f7d8 e6f5:
     //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [17-ply in 9:07:45 @1.288 MHz over 42.34 Gnode] #9 after:
-    // 1. Nf6+ Kg7 2. Nh5+ Kg6 3. Bc2+ Kxh5 4. d8=Q Nf7+ 5. Ke6 Nxd8+ 6. Kf5 e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N
-    // 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
+    // 6... e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
     //
     //"r1r3k1/2q1bp1p/4b1pQ/p2pP3/P2B1R2/2PB4/6PP/5R1K w - - 0 25"; // Kamsky v D'Costa 2016-02-13 #14 Capelle La Grande [double rook sacrifice]
     //"r4rk1/p4pb1/bp5p/2pNqPp1/6P1/7Q/PPP3P1/2KR2BR w - - 0 1"; // Ninov vs Colovic 2015
@@ -262,7 +262,7 @@ namespace Command {
     //"8/8/5pk1/6p1/1pp5/3q1P2/1P1N2P1/2K1R3 b - - 0 38"; // Gelfand v Inarkiev 2016-07-12 -#6 11-ply
     // underpromotion line: moves b4b3 c1d1 c4c3 e1e2 c3d2 e2e1 d3c2 d1e2 d2d1n e2f1 c2f2
     //"8/5k1N/4q1p1/3pB1Q1/r7/5P2/5KP1/8 w - - 0 44"; // Carlsen v Giri (1-0) 2016-07-22 [11-ply in 9.04 sec @1.188 MHz over 10.737 Mnode]
-    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [2022-08-31 17-ply in 16:40.57 @1.42 MHz over 1.421 Gnode] eval 2.45 after:
+    //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970 [2022-11-15 17-ply in 15:29.2 @1.5294 MHz over 1.421 Gnode] eval 2.45 after:
     // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+ Kd7 38. Qxf7+ Qe7
     //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
     //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
