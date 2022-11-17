@@ -217,7 +217,7 @@ namespace Command {
     //"3Q4/8/n2K3p/2p3nk/1b6/2p1p1P1/2B5/8 b - - 0 4";
     // 4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5!
     // Hint position after moves g5f7 d6e6 f7d8 e6f5:
-    //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [17-ply in 9:07:45 @1.288 MHz over 42.34 Gnode] #9 after:
+    //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [2022-11-17 17-ply in 8:26:53.6 @1.392 MHz over 42.34 Gnode] #9 after:
     // 6... e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
     //
     //"r1r3k1/2q1bp1p/4b1pQ/p2pP3/P2B1R2/2PB4/6PP/5R1K w - - 0 25"; // Kamsky v D'Costa 2016-02-13 #14 Capelle La Grande [double rook sacrifice]
@@ -250,9 +250,12 @@ namespace Command {
     //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1";
     //"1K1n2q1/1p4pR/1prPPpPn/1RB1p1rP/8/1B2p3/2p2b2/1k2N3 w - - 0 1";
     //"8/8/4N3/p4K2/8/3k1n2/8/8 w - - 0 1";
-    //"3k4/6p1/7p/1Pp1Np2/p3nPP1/3K4/7P/8 b - - 0 56"; // Hao v Carlsen 2012-07-30
     //
-    // 56... fxg4 57. Kxe4 a3 58. b6 Kc8 59. b7+ Kxb7 60. Nd3 a2 61. Nxc5+ Kc6 62. Nb3 h5-+
+    //"3k4/6p1/7p/1Pp1Np2/p3nPP1/3K4/7P/8 b - - 0 56"; // Hao v Carlsen 2012-07-30 [2022-11-16 19-ply in 12:45:36.6] eval -2.45 after:
+    // 56... Nf2+ 57. Kc3 Nxg4 58. Nd3 Nf6 59. Kb2 Ne4 60. Ka3 Kc7 61. Kxa4 Kb6 62. Ne5 Nc3+ 63. Kb3 Nxb5 64. Kc4 Na3+ 65. Kd5 g5
+    // 66. Nd7 + Kc7 67. Nxc5 gxf4
+    //
+    // 56... fxg4! 57. Kxe4 a3 58. b6 Kc8 59. b7+ Kxb7 60. Nd3 a2 61. Nxc5+ Kc6 62. Nb3 h5-+
     // (56... Nf2+ 57. Kc4 Nxg4 58. b6 Kc8 59. Nc6 a3 60. Kb3 Kb7 61. Nd8+ Kxb6 62. Ne6
     // Nxh2 63. Nxg7 Nf3 64. Kxa3 Nd4 65. Kb2 c4 66. Nh5 Kc5 67. Kc3 Nb5+ 68. Kd2 c3+
     // 69. Kd3 Kb4 70. Ng3 Kb3 71. Nf1 Na3 72. Ne3 c2 73. Nxc2 Nxc2-+; 56... Nd6 57. gxf5 Nxb5
