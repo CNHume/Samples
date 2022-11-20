@@ -113,7 +113,7 @@ namespace Command {
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
     // [16-ply in 14:36 over 1.4341 Gnode @1.6373 MHz] eval 13.0 [17-ply] eval 14.2 [18-ply in 40:59 @1.529 MHz over 3.76 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
-    //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [10-ply 26.35 sec @1.2 MHz over 32 Mnode]
+    //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
     //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
@@ -286,8 +286,8 @@ namespace Command {
     // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nc1 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Qb8+ Ke7 38. h4 Na2
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
     // 34... Qc1+ 35. Kf2 Qc2+ 36. Kg3 Qd3+ 37. Kh4 Qe4+ 38. Kxh5 Qe2+ 39. Kh4 Qe4+ 40. g4 Qe1+ 41. Kh5
-    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [15-ply in 14.6 sec @1.5801 MHz over 23.08 Mnode]
-    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K -#9 [15-ply in 15.76 sec sec @1.563 MHz over 24.63 Mnode]
+    //"8/5B2/8/8/5KNk/8/8/8 b - - 0 13";  // KBN v K #9 [2022-11-20 15-ply in 18.37 sec @1.5246 MHz over 28 Mnode]
+    //"8/5b2/8/8/5knK/8/8/8 w - - 0 13";  // KBN v K -#9 [2022-11-20 15-ply in 16.78 sec @1.467 MHz over 24.615 Mnode]
     //"8/8/3n1b2/8/7K/1k6/8/8 w - - 0 67";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Deeper
     //"8/8/3n1b2/8/5K2/3k4/8/8 w - - 4 69";  // Paehtz v Hou Yifan (0-1) 2016-10-08 Isle of Man [KBN vs K Endgame] Easier
     //"8/8/3n4/8/3b4/8/4k3/7K b - - 9 71";  // Paehtz v Hou Yifan KBN -#21 [23-ply in 4:18:07 @1.095 MHz over 16.957 Gnode] to find #29
