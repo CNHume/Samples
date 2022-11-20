@@ -135,31 +135,18 @@ namespace Engine {
     // validate moves entered in Pure Algebraic Coordinate Notation (PACN):
     //
     public Plane? PieceAtx(Byte vPiece, Int32 nFrom, Boolean bCapture) {
-      Plane? qpPieceAtx = default;
-
       // Obtain possible Moves [and Captures]
-      switch (vPiece) {
-      case vP6:
-        qpPieceAtx = Friend.PawnTo(nFrom, bCapture);
-        break;
-      case vK6:
-        qpPieceAtx = KingAtx[nFrom];
-        break;
-      case vN6:
-        qpPieceAtx = KnightAtx[nFrom];
-        break;
-      case vB6:
-        qpPieceAtx = diagAtx(nFrom);
-        break;
-      case vR6:
-        qpPieceAtx = rectAtx(nFrom);
-        break;
-      case vQ6:
-        qpPieceAtx = diagAtx(nFrom) | rectAtx(nFrom);
-        break;
-      }
+      var qpAtxTo = vPiece switch {
+        vP6 => Friend.PawnTo(nFrom, bCapture),
+        vK6 => KingAtx[nFrom],
+        vN6 => KnightAtx[nFrom],
+        vB6 => diagAtx(nFrom),
+        vR6 => rectAtx(nFrom),
+        vQ6 => (ulong?)(diagAtx(nFrom) | rectAtx(nFrom)),
+        _ => default,
+      };
 
-      return qpPieceAtx;
+      return qpAtxTo;
     }
 
     protected Boolean CanOO() {

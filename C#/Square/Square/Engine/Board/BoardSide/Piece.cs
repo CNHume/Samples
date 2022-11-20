@@ -399,14 +399,14 @@ namespace Engine {
         //
         // Validate Non-Castling Move
         //
-        var qpPieceAtx = Board.PieceAtx(vPiece, nFrom, bCapture);
+        var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
         var piece = indexPiece(vPiece);
 
-        if (!qpPieceAtx.HasValue)         //[Safe]
+        if (!qpAtxTo.HasValue)          //[Safe]
           throw new ParseException($"Unexpected Piece in Move: {sPACN}");
         else {
-          qpPieceAtx &= ~Piece;
-          if ((qpPieceAtx & qpTo) == 0)
+          qpAtxTo &= ~Piece;
+          if ((qpAtxTo & qpTo) == 0)
             throw new MoveException($"{piece} cannot move from {sqFrom} to {sqTo}");
         }
 

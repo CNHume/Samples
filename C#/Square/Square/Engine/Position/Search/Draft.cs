@@ -66,30 +66,21 @@ namespace Engine {
     }
 
     private static Draft extensionDraft(Int32 nExt) {
-      var wDelta = wFullPly;
 #if Fractional
       //
       // SearchExtensions: Late, Check, Threat, Singular
       //
-      switch ((SearchExtensions)nExt) {
-      case SearchExtensions.Late:
-        wDelta = wFullPly;
-        break;
-
-      case SearchExtensions.Check:
-        wDelta = wFullPly * 7 / 8;
-        break;
-
-      case SearchExtensions.Threat:
-        wDelta = wFullPly * 3 / 2;
-        break;
-
-      case SearchExtensions.Singular:
-        wDelta = wFullPly;
-        break;
-      }
+      var se = (SearchExtensions)nExt;
+      return se switch {
+        SearchExtensions.Late => wFullPly,
+        SearchExtensions.Check => wFullPly * 7 / 8,
+        SearchExtensions.Threat => wFullPly * 3 / 2,
+        SearchExtensions.Singular => wFullPly,
+        _ => wFullPly,
+      };
+#else
+      return wFullPly;
 #endif
-      return wDelta;
     }
 
     protected void decExtension(ref Draft wDraft, Int32 nExt) {
