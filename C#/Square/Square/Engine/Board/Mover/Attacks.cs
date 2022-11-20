@@ -142,7 +142,7 @@ namespace Engine {
         vN6 => KnightAtx[nFrom],
         vB6 => diagAtx(nFrom),
         vR6 => rectAtx(nFrom),
-        vQ6 => (ulong?)(diagAtx(nFrom) | rectAtx(nFrom)),
+        vQ6 => diagAtx(nFrom) | rectAtx(nFrom),
         _ => default,
       };
 
