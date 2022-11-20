@@ -11,6 +11,7 @@
 namespace Engine {
   using System;
   using System.Diagnostics;
+  using System.Runtime.CompilerServices;
 
   using static Engine.Position;
 
@@ -82,6 +83,7 @@ namespace Engine {
         hashCastlingRights(fsideOld, FlagsSide);
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void SetCanOO() {
         FlagsSide |= SideFlags.CanOO;
       }
@@ -92,10 +94,12 @@ namespace Engine {
         hashCastlingRights(fsideOld, FlagsSide);
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void SetCanOOO() {
         FlagsSide |= SideFlags.CanOOO;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void InitCanCastle() {
         FlagsSide &= ~SideFlags.CanCastle;
       }
@@ -106,18 +110,22 @@ namespace Engine {
         hashCastlingRights(fsideOld, FlagsSide);
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void ClrDark() {
         FlagsSide &= ~SideFlags.Dark;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void SetDark() {
         FlagsSide |= SideFlags.Dark;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void ClrLite() {
         FlagsSide &= ~SideFlags.Lite;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void SetLite() {
         FlagsSide |= SideFlags.Lite;
       }

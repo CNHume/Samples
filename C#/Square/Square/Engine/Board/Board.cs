@@ -406,47 +406,58 @@ namespace Engine {
     #endregion                          // Ply Methods
 
     #region Move Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Plane bit(Int32 n) {
       return BIT0 << n;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static bool isShowRank(Move move) {
       return (move & Move.HideRank) == 0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static bool isShowFile(Move move) {
       return (move & Move.HideFile) == 0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static bool isShowFrom(Move move) {
       return (move & Move.HideFrom) == 0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isDefinite(Move move) {
       return isDefined(move) && !isEmptyMove(move);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isDefined(Move move) {
       return (move & Move.NormalMask) != Move.Undefined;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isEmptyMove(Move move) {
       return (move & Move.NormalMask) == Move.EmptyMove;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isNullMove(Move move) {
       return (move & Move.NormalMask) == Move.NullMove;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isCastles(Move move) {
       return move.Has(Move.Castles);
     }
 
     //[Compiler]move.Has(Move.CaptiveMask) does not work here!
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isCapture(Move move) {
       return move.Has(Move.CaptiveMask);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean equalMoves(Move move1, Move move2) {
       if ((move1 & Move.LimitMask) != (move2 & Move.LimitMask))
         return false;

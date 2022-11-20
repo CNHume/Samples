@@ -67,10 +67,11 @@ namespace Command {
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. Rc8 a4 39. d7 f4 40. h3 f3 41. gxf3 exf3 42. d8=Q Bxd8 43. Rxd8
     //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
+    //
     //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-18 14-ply in 40:35 @1.308 MHz over 3.185 Gnode] eval 1.63 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
     // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
-    // [2022-09-18 15-ply in 52:48 @1.328 MHz over 4.206 Gnode] eval 1.62 after:
+    // [2022-11-19 15-ply in 48:16 @1.452 MHz over 4.206 Gnode] eval 1.62 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bxh6 Qxc3+ 18. Kf1 Nxd4 19. Bd2 Qd3+
     // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? 12. a3?! [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
