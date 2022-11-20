@@ -32,9 +32,7 @@ namespace Engine {
   //
   // Type Aliases:
   //
-#if BuildAtxTo
   using Plane = UInt64;
-#endif
   using Ply = UInt16;
 
   partial class Board : ICloneable, IEquatable<Board> {
@@ -408,6 +406,10 @@ namespace Engine {
     #endregion                          // Ply Methods
 
     #region Move Methods
+    public static Plane bit(Int32 n) {
+      return BIT0 << n;
+    }
+
     internal static bool isShowRank(Move move) {
       return (move & Move.HideRank) == 0;
     }

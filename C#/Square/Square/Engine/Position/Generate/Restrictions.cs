@@ -36,7 +36,7 @@ namespace Engine {
     //
     protected Plane interpositions(Int32 nChx, Int32 nKing) {
       var qpRay = 0UL;
-      var qpCheck = BIT0 << nChx;
+      var qpCheck = bit(nChx);
 
       if ((RectPiece & qpCheck) != 0) { // Checker can move like a Rook
         if (((qpRay = rankAtx(nKing)) & qpCheck) != 0)
@@ -93,7 +93,7 @@ namespace Engine {
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean _);
       var piece = (Piece)uPiece;
-      var qpFrom = BIT0 << nFrom;
+      var qpFrom = bit(nFrom);
       if (piece == Piece.K || (qpFrom & PinnedPiece) != 0)
         return;
 
@@ -151,7 +151,7 @@ namespace Engine {
           var capture = (Piece)uCapture;
           if (capture == Piece.EP) {
             var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
-            var qpPasser = BIT0 << nCaptureFrom;
+            var qpPasser = bit(nCaptureFrom);
             bPasserPin = (qpRay & qpPasser) != 0;
           }
 #endif

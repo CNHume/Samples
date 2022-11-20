@@ -270,11 +270,11 @@ namespace Engine {
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
       var nStart = nEnPassant + Friend.Parameter.PawnStep;
-      var qpStart = BIT0 << nStart;
-      var qpEnPassant = BIT0 << nEnPassant;
+      var qpStart = bit(nStart);
+      var qpEnPassant = bit(nEnPassant);
       var qpVacant = qpStart | qpEnPassant;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
-                     (qpFoe & Pawn & BIT0 << nMovedTo) == 0;
+                     (qpFoe & Pawn & bit(nMovedTo)) == 0;
 
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");

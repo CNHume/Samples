@@ -103,8 +103,8 @@ namespace Engine {
       parsePACN(sMove, out sq sqFrom, out sq sqTo, out Piece promotion);
       var nFrom = (Int32)sqFrom;
       var nTo = (Int32)sqTo;
-      var qpFrom = BIT0 << nFrom;
-      var qpTo = BIT0 << nTo;
+      var qpFrom = bit(nFrom);
+      var qpTo = bit(nTo);
       var vPieceFrom = getPieceIndex(nFrom);
       var vPieceTo = getPieceIndex(nTo);
 

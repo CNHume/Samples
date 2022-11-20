@@ -38,7 +38,7 @@ namespace Engine {
     #region Square Pieces
     protected Byte getPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
-      var qp = BIT0 << n;
+      var qp = bit(n);
 
       //
       //[Speed]This is most often called to identify a captured piece.
@@ -129,7 +129,7 @@ namespace Engine {
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ClrRayState(Int32 nFrom) {
-      var qp = BIT0 << nFrom;
+      var qp = bit(nFrom);
       RankPiece &= ~qp;
 #if !Magic
       ClrRotations(nFrom);
@@ -138,7 +138,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetRayState(Int32 nTo) {
-      var qp = BIT0 << nTo;
+      var qp = bit(nTo);
       RankPiece |= qp;
 #if !Magic
       SetRotations(nTo);

@@ -92,7 +92,7 @@ namespace Engine {
             if (inBounds(nX, nY)) {
               //[Optimized]var nFrom = sqr(x, y);
               var nTo = sqr(nX, nY);
-              qpAtx[nFrom] |= BIT0 << nTo;
+              qpAtx[nFrom] |= bit(nTo);
             }
           }
       }
@@ -143,22 +143,22 @@ namespace Engine {
             var xUp = x + 1;
             var bLoop = xUp < nFiles;
             for (var m = 1 << xUp; bLoop; bLoop = (mState & m) == 0, m <<= 1, xUp++) {
-              RankAtx[vState][nRankPos] |= BIT0 << sqr(xUp, y);
+              RankAtx[vState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
-              FileAtx[FileMagic[vState]][nFilePos] |= BIT0 << sqr(yInverse, xUp);
+              FileAtx[FileMagic[vState]][nFilePos] |= bit(sqr(yInverse, xUp));
 #else
-              FileAtx[vState][nFilePos] |= BIT0 << sqr(yInverse, xUp);
+              FileAtx[vState][nFilePos] |= bit(sqr(yInverse, xUp));
 #endif
             }
 
             var xDn = x - 1;
             bLoop = x >= 1;
             for (var m = 1 << xDn; bLoop; bLoop = (mState & m) == 0, m >>= 1, xDn--) {
-              RankAtx[vState][nRankPos] |= BIT0 << sqr(xDn, y);
+              RankAtx[vState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
-              FileAtx[FileMagic[vState]][nFilePos] |= BIT0 << sqr(yInverse, xDn);
+              FileAtx[FileMagic[vState]][nFilePos] |= bit(sqr(yInverse, xDn));
 #else
-              FileAtx[vState][nFilePos] |= BIT0 << sqr(yInverse, xDn);
+              FileAtx[vState][nFilePos] |= bit(sqr(yInverse, xDn));
 #endif
             }
           }
@@ -195,11 +195,11 @@ namespace Engine {
                                             m <<= 1, xUp++, yUp++) {
               var xUpInverse = invertFile(xUp);
 #if Magic
-              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= BIT0 << sqr(xUp, yUp);
-              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= BIT0 << sqr(xUpInverse, yUp);
+              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #else
-              A1H8Atx[vState][nA1H8Pos] |= BIT0 << sqr(xUp, yUp);
-              A8H1Atx[vState][nA8H1Pos] |= BIT0 << sqr(xUpInverse, yUp);
+              A1H8Atx[vState][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              A8H1Atx[vState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #endif
             }
 
@@ -210,11 +210,11 @@ namespace Engine {
                                              m >>= 1, xDn--, yDn--) {
               var xDnInverse = invertFile(xDn);
 #if Magic
-              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= BIT0 << sqr(xDn, yDn);
-              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= BIT0 << sqr(xDnInverse, yDn);
+              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #else
-              A1H8Atx[vState][nA1H8Pos] |= BIT0 << sqr(xDn, yDn);
-              A8H1Atx[vState][nA8H1Pos] |= BIT0 << sqr(xDnInverse, yDn);
+              A1H8Atx[vState][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              A8H1Atx[vState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #endif
             }
           }
@@ -547,7 +547,7 @@ namespace Engine {
     // then A1*B1 will be congruent to A2*B2
     //
     protected static Byte hashFileHalf(Plane qp, Int32 n) {
-      const UInt16 wFileRem = (UInt16)((BIT0 << 32) % wFileModulus);    // 16
+      const UInt16 wFileRem = (UInt16)(bit(32) % wFileModulus); // 16
       var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
       var uHi = (UInt32)(qFileState >> 32);    // Avoiding 64-Bit Division
@@ -557,7 +557,7 @@ namespace Engine {
     }
 
     protected static Byte hashA1H8Half(Plane qp, Int32 n) {
-      const UInt16 wA1H8Rem = (UInt16)((BIT0 << 32) % wA1H8Modulus);    // 258
+      const UInt16 wA1H8Rem = (UInt16)(bit(32) % wA1H8Modulus); // 258
       var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
       var uHi = (UInt32)(qA1H8State >> 32);    // Avoiding 64-Bit Division
@@ -567,7 +567,7 @@ namespace Engine {
     }
 
     protected static Byte hashA8H1Half(Plane qp, Int32 n) {
-      const UInt16 wA8H1Rem = (UInt16)((BIT0 << 32) % wA8H1Modulus);    // 1
+      const UInt16 wA8H1Rem = (UInt16)(bit(32) % wA8H1Modulus); // 1
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;

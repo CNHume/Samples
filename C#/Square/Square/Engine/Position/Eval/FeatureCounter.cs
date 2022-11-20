@@ -64,7 +64,7 @@ namespace Engine {
       //
       if ((qpHelp & qpFriendPawnAtx) == 0) {
         var nStop = nPawn + Parameter[nSide].PawnStep;
-        var qpStop = BIT0 << nStop;
+        var qpStop = bit(nStop);
 
         if ((qpStop & qpFoePawn) != 0 ||
             (qpStop & qpFoePawnAtx) != 0) {
@@ -139,8 +139,8 @@ namespace Engine {
       while (qpFriendPawn != 0) {
         var nFound = TZC64(qpFriendPawn);
         var nFile = x(nFound);
-        Debug.Assert((vOccupied & (Byte)(BIT0 << nFile)) == 0, "File Previously Visited", $"File = {nFile}");
-        vOccupied |= (Byte)(BIT0 << nFile);
+        Debug.Assert((vOccupied & (Byte)bit(nFile)) == 0, "File Previously Visited", $"File = {nFile}");
+        vOccupied |= (Byte)bit(nFile);
         var qpFile = File[nFile];
         var qpFilePawn = qpFile & qpFriendPawn;
         qpFriendPawn &= ~qpFilePawn;    // Visit each occupied file only once

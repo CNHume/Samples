@@ -431,8 +431,7 @@ namespace Engine {
 
     #region Chess960 Setup Diagnostics
     private static void hasColor(Int32 n, Plane qpColor, String sName, String sPossessive = "its") {
-      var qp = BIT0 << n;
-      var sHas = (qp & qpColor) != 0 ? "has" : "does not have";
+      var sHas = (bit(n) & qpColor) != 0 ? "has" : "does not have";
       LogLine($"The {sName} at {(sq)n} {sHas} {sPossessive} color.");
     }
     #endregion

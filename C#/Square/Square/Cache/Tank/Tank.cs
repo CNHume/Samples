@@ -64,7 +64,7 @@ namespace Cache {
         // Given a common modulus: if A1 is congruent to A2; and B1 is congruent to B2
         // then A1*B1 will be congruent to A2*B2
         //
-        LengthRem = (UInt32)((BIT0 << 32) % LookupLength);
+        LengthRem = (UInt32)(bit(32) % LookupLength);
       }
     }
 

@@ -146,7 +146,7 @@ namespace Engine {
         if (y > 0)
           sb.Append("/");
 
-        var qp = BIT0 << sqr(0, yInverse);
+        var qp = bit(sqr(0, yInverse));
         for (var x = 0; x < nFiles; x++, qp <<= 1) {
           var vPiece = getPieceIndex(sqr(x, yInverse));
 
@@ -227,7 +227,7 @@ namespace Engine {
 
     private void append960(StringBuilder sb, Boolean bFlip = false) {
       const Int32 rank = 0;
-      var qp = BIT0 << sqr(0, rank);
+      var qp = bit(sqr(0, rank));
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
         var file = bFlip ? invertFile(x) : x;
         appendPiece1(sb, sqr(file, rank), qp);
@@ -258,7 +258,7 @@ namespace Engine {
 
     private void appendRank(StringBuilder sb, Int32 rank, Boolean bFlip = false) {
       var bRightRuler = bFlip;
-      var qp = BIT0 << sqr(0, rank);
+      var qp = bit(sqr(0, rank));
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
         var file = bFlip ? invertFile(x) : x;
         if (!bRightRuler)               // Left Pad
@@ -455,7 +455,7 @@ namespace Engine {
 
       for (var y = 0; y < nRanks; y++) {
         var yInverse = invertRank(y);
-        sb.AppendRectRotations(qpRect, BIT0 << sqr(0, yInverse))
+        sb.AppendRectRotations(qpRect, bit(sqr(0, yInverse)))
           .Append(cNewline);
       }
 
@@ -472,7 +472,7 @@ namespace Engine {
         var dInverse = invertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
         sb.AppendIndent(8 - nDiagLen)
-          .AppendDiagRotations(nDiagLen, qpDiag, BIT0 << DiagOffset[dInverse])
+          .AppendDiagRotations(nDiagLen, qpDiag, bit(DiagOffset[dInverse]))
           .Append(cNewline);
       }
 

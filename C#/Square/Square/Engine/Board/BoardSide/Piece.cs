@@ -61,7 +61,7 @@ namespace Engine {
       // the Foe Pawn that just passed through the nEnPassant square.
       //
       public Plane Passed(Int32 nEnPassant) {
-        var qpEnPassant = BIT0 << nEnPassant;
+        var qpEnPassant = bit(nEnPassant);
 
         var qpCaptureFrom =
           shiftr(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |
@@ -94,7 +94,7 @@ namespace Engine {
         Board.Hash ^= qHash;
         if (vPiece == vP6) Board.HashPawn ^= qHash;
 
-        var qp = BIT0 << nFrom;
+        var qp = bit(nFrom);
 #if VerifySquarePiece
         if ((qp & Board.RankPiece) == 0) {
           var sb = new StringBuilder($"Square empty where {Parameter.SideName} Piece was expected at")
@@ -181,7 +181,7 @@ namespace Engine {
         var qHash = pieceHash(vPiece, nTo);
         Board.Hash ^= qHash;
         if (vPiece == vP6) Board.HashPawn ^= qHash;
-        var qp = BIT0 << nTo;
+        var qp = bit(nTo);
 #if VerifySquarePiece
         foreach (var testSide in Board.Side) {
           if ((qp & testSide.Piece) != 0) {
@@ -305,8 +305,8 @@ namespace Engine {
         qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
         qpFrom |= Piece & Board.RectPiece & Board.rectAtx(vKingPos);
 
-        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.PawnA1H8;
-        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << vKingPos - Parameter.PawnA8H1;
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA1H8);
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA8H1);
 
         return qpFrom;
       }
@@ -360,10 +360,10 @@ namespace Engine {
       //
       public Plane PawnAtxTo(Int32 nTo) {
         var qpFrom = 0UL;
-        var qpTo = BIT0 << nTo;
+        var qpTo = bit(nTo);
 
-        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.PawnA1H8;
-        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= BIT0 << nTo - Parameter.PawnA8H1;
+        if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= bit(nTo - Parameter.PawnA1H8);
+        if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= bit(nTo - Parameter.PawnA8H1);
 
         return qpFrom;
       }
@@ -374,7 +374,7 @@ namespace Engine {
       //
       public Plane PawnTo(Int32 nFrom, Boolean bCapture) {
         Plane qpPawnTo;
-        var qpFrom = BIT0 << nFrom;
+        var qpFrom = bit(nFrom);
 
         if (bCapture) {
           var qpA1H8Atx = shiftl(qpFrom & ~Parameter.FileRight, Parameter.PawnA1H8);
@@ -571,7 +571,7 @@ namespace Engine {
           if (rule.RookOOOFrom.HasValue)
             throw new ParsePositionException($"Redundant {sideName} OOO Ability");
 
-          if ((qpRook & BIT0 << nRookFrom) == 0)
+          if ((qpRook & bit(nRookFrom)) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OOO");
 
           rule.RookOOOFrom = nRookFrom;
@@ -581,7 +581,7 @@ namespace Engine {
           if (rule.RookOOFrom.HasValue)
             throw new ParsePositionException($"Redundant {sideName} OO Ability");
 
-          if ((qpRook & BIT0 << nRookFrom) == 0)
+          if ((qpRook & bit(nRookFrom)) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OO");
 
           rule.RookOOFrom = nRookFrom;

@@ -65,10 +65,10 @@ namespace Engine {
 
           if (!CastlesFrom.HasValue) return;
 
-          var qpKing = BIT0 << CastlesFrom.Value;
+          var qpKing = bit(CastlesFrom.Value);
 
           if (RookOOFrom.HasValue) {
-            var qpRook = BIT0 << RookOOFrom.Value;
+            var qpRook = bit(RookOOFrom.Value);
             var qpMask = ~(qpKing | qpRook);
             var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
             OOSafe = rankPath(CastlesFrom.Value, KingOOTo);
@@ -79,7 +79,7 @@ namespace Engine {
           }
 
           if (RookOOOFrom.HasValue) {
-            var qpRook = BIT0 << RookOOOFrom.Value;
+            var qpRook = bit(RookOOOFrom.Value);
             var qpMask = ~(qpKing | qpRook);
             var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
             OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo);
@@ -104,7 +104,7 @@ namespace Engine {
           }
 
           var nBits = nTo + 1 - nFrom;
-          var nMask = (BIT0 << nBits) - 1;
+          var nMask = bit(nBits) - 1;
           var qpPath = nMask << nFrom;
           return qpPath;
         }

@@ -125,7 +125,7 @@ namespace Engine {
       else if (vPiece == vP6 && bCapture)
         qpPiece = Friend.PawnAtxTo(nTo);
       else
-        qpPiece = BIT0 << nFrom;        // King Moves and Pawn Advances are unambiguous
+        qpPiece = bit(nFrom);           // King Moves and Pawn Advances are unambiguous
 
       return qpPiece;
     }

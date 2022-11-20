@@ -158,7 +158,7 @@ namespace Engine {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
         var file = bFlip ? invertFile(x) : x;
-        var c = (uRect & BIT0 << file) == 0 ? cVacant : cOccupied;
+        var c = (uRect & bit(file)) == 0 ? cVacant : cOccupied;
         if (!bRightRuler)               // Left Pad
           sb.Append(sSpace);
         sb.Append(c);

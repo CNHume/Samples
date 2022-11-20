@@ -81,8 +81,8 @@ namespace Engine {
       var nFrom = from(move);
       var nTo = to(move);
 
-      var bRestricted = (PinnedPiece & BIT0 << nFrom) != 0;
-      var bPrevented = bRestricted && (Restricted[nFrom] & BIT0 << nTo) == 0;
+      var bRestricted = (PinnedPiece & bit(nFrom)) != 0;
+      var bPrevented = bRestricted && (Restricted[nFrom] & bit(nTo)) == 0;
       return (bPrevented, bRestricted);
     }
 

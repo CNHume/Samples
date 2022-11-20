@@ -34,7 +34,7 @@ namespace Engine {
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
       //
-      var qpWhite = BIT0 << nFiles;
+      var qpWhite = bit(nFiles);
       var qpBlack = BITHI >> nFiles;
 
       for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
@@ -125,8 +125,8 @@ namespace Engine {
       var qpBlack = 0UL;
 
       for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
-        qpWhite |= BIT0 << nFiles;
-        qpBlack |= BIT0 << nRankLast - 1;
+        qpWhite |= bit(nFiles);
+        qpBlack |= bit(nRankLast - 1);
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
@@ -162,7 +162,7 @@ namespace Engine {
         qpFree = Parameter[White].Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn >= nFiles * (nRanks - 1))
-          qpFree |= BIT0 << nRankLast + nPawn;
+          qpFree |= bit(nRankLast + nPawn);
 #endif
         break;
 
@@ -170,7 +170,7 @@ namespace Engine {
         qpFree = Parameter[Black].Help[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn < nFiles)
-          qpFree |= BIT0 << nFiles + nPawn;
+          qpFree |= bit(nFiles + nPawn);
 #endif
         break;
       }
@@ -191,14 +191,14 @@ namespace Engine {
       case Black:
         qpHelp = Parameter[White].Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= BIT0 << nFiles * (nRanks - 2) + x(nPawn);
+        qpHelp |= bit(nFiles * (nRanks - 2) + x(nPawn));
 #endif
         break;
 
       case White:
         qpHelp = Parameter[Black].Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= BIT0 << nFiles + x(nPawn);
+        qpHelp |= bit(nFiles + x(nPawn));
 #endif
         break;
       }

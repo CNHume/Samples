@@ -103,7 +103,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane includeEnPassant(Plane qpFoe) {
       return IsPassed() && (qpFoe & Pawn) != 0 ?
-        qpFoe | BIT0 << ep(FlagsTurn) : qpFoe;
+        qpFoe | bit(ep(FlagsTurn)) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
@@ -216,7 +216,7 @@ namespace Engine {
 
     #region Swap Move Generator
     protected Int32 generateSwaps(List<Move> moves, Int32 nTo) {
-      var qpTo = BIT0 << nTo;
+      var qpTo = bit(nTo);
       var qpFriend = Friend.Piece;
       var vKingPos = Friend.GetKingPos();
       var bInCheck = InCheck();
