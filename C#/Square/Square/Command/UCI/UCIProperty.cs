@@ -36,6 +36,7 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 #2 [4-ply 25,142 nodes]
     //"1k1r4/1P2q3/1Q6/6p1/6Pp/7P/8/2R3K1 w - - 0 1"; // Promotion Fork [4-ply in 75 ms @121.77 KHz over 9,133 node] eval 3.25
     // 1. Rc8+ Rxc8 2. Qa7+ Kxa7 3. bxc8=N+ Ka6 4. Nxe7
     //"3r3r/pQpk1pp1/5n2/4n1p1/2Pqp1b1/3P2P1/PBP2PBP/1R3RK1 b - - 0 16"; // Richard Rapport v Shakhriyar Mamedyarov 2022-10-15 -#13
@@ -251,7 +252,7 @@ namespace Command {
     //"1K1n2q1/1p4pR/1prPPpPn/1RB1p1rP/8/1B2p3/2p2b2/1k2N3 w - - 0 1";
     //"8/8/4N3/p4K2/8/3k1n2/8/8 w - - 0 1";
     //
-    //"3k4/6p1/7p/1Pp1Np2/p3nPP1/3K4/7P/8 b - - 0 56"; // Hao v Carlsen 2012-07-30 [2022-11-16 19-ply in 12:45:36.6] eval -2.45 after:
+    //"3k4/6p1/7p/1Pp1Np2/p3nPP1/3K4/7P/8 b - - 0 56"; // Hao v Carlsen 2012-07-30 [2022-11-19 19-ply in 12:38:22.5 @1.2 MHz over 54.6 Gnode] eval -2.45 after:
     // 56... Nf2+ 57. Kc3 Nxg4 58. Nd3 Nf6 59. Kb2 Ne4 60. Ka3 Kc7 61. Kxa4 Kb6 62. Ne5 Nc3+ 63. Kb3 Nxb5 64. Kc4 Na3+ 65. Kd5 g5
     // 66. Nd7 + Kc7 67. Nxc5 gxf4
     //
