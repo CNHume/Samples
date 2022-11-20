@@ -18,11 +18,11 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-11-12 Perft1 (startpos) in 13.868 sec, @9.4 MHz over 130.36 Mnode]
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-11-12 Perft2 in 21.744 sec, @9.457 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-11-12 Perft3 in 28.379 sec, @7.71 MHz over 218.84 Mnode]
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-11-20 Perft4 in @89.526 sec, 8.57 MHz over 767.28 Mnode]
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-11-12 Perft5 in 12.662 sec, @6.919 MHz over 87.6 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-11-12 Perft1 (startpos) in 13.868 sec @9.4 MHz over 130.36 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-11-12 Perft2 in 21.744 sec @9.457 MHz over 205.63 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-11-12 Perft3 in 28.379 sec @7.71 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-11-20 Perft4 in 89.526 sec @8.57 MHz over 767.28 Mnode]
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-11-12 Perft5 in 12.662 sec @6.919 MHz over 87.6 Mnode]
     //
     // Abbreviation Tests
     // ------------------
@@ -85,7 +85,7 @@ namespace Command {
     // [2022-08-25 18-ply in 4:31.7 @1.407 over 382.3 Mnode] eval 9.85 after:
     // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 h5 53. Qxg6+ Kxg6 54. Qg5+ Kf7
     // 55. Qxh5+ g6 56. Qxa5 Ke6 57. Qb6+
-    // [2022-08-25 20-ply in 31:38 @1.498 MHz over 2.843 Gnode] eval 11.85 after:
+    // [2022-11-20 20-ply in 30:49.73 @1.537 MHz over 2.843 Gnode] eval 11.85 after:
     // 6. Qe7 Qxg4 47. d7 Qf4+ 48. Kh3 Qf5+ 49. Kg3 Qd3+ 50. Kh2 g5 51. d8=Q+ Qxd8 52. Qxd8+ Kg7 53. g4 Kf7 54. Qh8 Ke7
     // 55. Qxh6 Kf7 56. Qxg5 Kf8 57. Qxa5 Ke8 58. g4g5
     //
@@ -182,14 +182,14 @@ namespace Command {
     // [2022-11-12 20-Ply in 41:00 @1.303 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kc7 9. Kc5 Kb7 10. Re4 Kc7 11. Re7+ Kc8
     // 12. Kd5 Kd8 [13. Rg7 Kd8e8] 14. Rg7h7
-    // [2022-11-12 21-Ply in 1:43:45.5 sec, @1.2407 MHz over 7.724 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
+    // [2022-11-12 21-Ply in 1:43:45.5 sec @1.2407 MHz over 7.724 Gnode] finds #19 currently.  Due to Futility Pruning in UpdateBest()?
     // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kd8 11. Ra7 Kc8
     // 12. Rf7 Kd8 13. Rg7[Ke8] 14. Kd5e6
     // [20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
     // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 [3... Kd8? 4. Rg7 Rf3 5. Bxf3] 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 [6... Kd8?? 7. Bc4! Kc8 8. Be6+ Kd8 9. Rb8+ Rc8 10. Rxc8#]
     // 7. Ra4! Rxd5+ 8. Kxd5 Kb7 [8... Kc7 9. Rb4] 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6
     // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
-    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [13-ply in 1:45 @1.539 MHz over 161.4 Mnode] eval 4.5 after:
+    //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04 [2022-11-20 13-ply in 1:43.4 @1.572 MHz over 162.6 Mnode] eval 4.5 after:
     // 37. g4! Qc6 38. Qxc6 Nxc6 39. gxf5 Nxd4 40. Nxd4+-
     //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
     //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line [17-ply in 12.23 sec @1.288 MHz over 15.76 Mnode] to find 62. Be5+
