@@ -276,6 +276,7 @@ namespace Engine {
     //
     public const Plane BIT0 = 1UL;
     public const Plane BIT7 = BIT0 << nFiles - 1;       // For findEmptyDn
+    public const Plane BIT32 = BIT0 << 32;
     protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
     protected const Plane MASK64 = UInt64.MaxValue;
 

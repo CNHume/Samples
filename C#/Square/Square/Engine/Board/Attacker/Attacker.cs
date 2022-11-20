@@ -547,7 +547,7 @@ namespace Engine {
     // then A1*B1 will be congruent to A2*B2
     //
     protected static Byte hashFileHalf(Plane qp, Int32 n) {
-      const UInt16 wFileRem = (UInt16)(bit(32) % wFileModulus); // 16
+      const UInt16 wFileRem = (UInt16)(BIT32 % wFileModulus);   // 16
       var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
       var uHi = (UInt32)(qFileState >> 32);    // Avoiding 64-Bit Division
@@ -557,7 +557,7 @@ namespace Engine {
     }
 
     protected static Byte hashA1H8Half(Plane qp, Int32 n) {
-      const UInt16 wA1H8Rem = (UInt16)(bit(32) % wA1H8Modulus); // 258
+      const UInt16 wA1H8Rem = (UInt16)(BIT32 % wA1H8Modulus);   // 258
       var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
       var uHi = (UInt32)(qA1H8State >> 32);    // Avoiding 64-Bit Division
@@ -567,7 +567,7 @@ namespace Engine {
     }
 
     protected static Byte hashA8H1Half(Plane qp, Int32 n) {
-      const UInt16 wA8H1Rem = (UInt16)(bit(32) % wA8H1Modulus); // 1
+      const UInt16 wA8H1Rem = (UInt16)(BIT32 % wA8H1Modulus);   // 1
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
