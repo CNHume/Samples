@@ -38,7 +38,7 @@ namespace Engine {
       var qpRay = 0UL;
       var qpCheck = bit(nChx);
 
-      if ((RectPiece & qpCheck) != 0) { // Checker can move like a Rook
+      if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
         if (((qpRay = rankAtx(nKing)) & qpCheck) != 0)
           return qpRay & rankAtx(nChx);
         else if (((qpRay = fileAtx(nKing)) & qpCheck) != 0)
@@ -67,7 +67,7 @@ namespace Engine {
     protected Plane pinRestrictions(Plane qpCheck, Int32 nKing) {
       var qpRay = 0UL;                  // Return Value
 
-      if ((RectPiece & qpCheck) != 0) { // Checker can move like a Rook
+      if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
         if (((qpRay = rankAtx(nKing)) & qpCheck) != 0)
           return qpRay;
         else if (((qpRay = fileAtx(nKing)) & qpCheck) != 0)

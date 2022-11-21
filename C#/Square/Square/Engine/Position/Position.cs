@@ -222,7 +222,7 @@ namespace Engine {
 
     private void newFeatures() {
 #if TestPawnFeatures
-      FeatureRect = new Plane[PawnFeatures.Length * 2];
+      FeatureOrth = new Plane[PawnFeatures.Length * 2];
 #endif
     }
 
@@ -255,8 +255,8 @@ namespace Engine {
       PseudoKnightMove = new List<Move>();
       PseudoDiagAboveMove = new List<Move>();
       PseudoDiagBelowMove = new List<Move>();
-      PseudoRectAboveMove = new List<Move>();
-      PseudoRectBelowMove = new List<Move>();
+      PseudoOrthAboveMove = new List<Move>();
+      PseudoOrthBelowMove = new List<Move>();
 
       PseudoPawnAboveCapture = new List<Move>();
       PseudoPawnBelowCapture = new List<Move>();
@@ -264,8 +264,8 @@ namespace Engine {
       PseudoKnightCapture = new List<Move>();
       PseudoDiagAboveCapture = new List<Move>();
       PseudoDiagBelowCapture = new List<Move>();
-      PseudoRectAboveCapture = new List<Move>();
-      PseudoRectBelowCapture = new List<Move>();
+      PseudoOrthAboveCapture = new List<Move>();
+      PseudoOrthBelowCapture = new List<Move>();
 
       PseudoGoodCaptures = new List<Move>();
       PseudoBadCaptures = new List<Move>();
@@ -285,8 +285,8 @@ namespace Engine {
       PseudoKnightMove = new List<Move>(2 * 8);
       PseudoDiagAboveMove = new List<Move>(2 * 13);
       PseudoDiagBelowMove = new List<Move>(2 * 13);
-      PseudoRectAboveMove = new List<Move>(2 * 14);
-      PseudoRectBelowMove = new List<Move>(2 * 14);
+      PseudoOrthAboveMove = new List<Move>(2 * 14);
+      PseudoOrthBelowMove = new List<Move>(2 * 14);
 
       PseudoPawnAboveCapture = new List<Move>(8 * 2);
       PseudoPawnBelowCapture = new List<Move>(8 * 2);
@@ -294,8 +294,8 @@ namespace Engine {
       PseudoKnightCapture = new List<Move>(2 * 6);
       PseudoDiagAboveCapture = new List<Move>(2 * 4);
       PseudoDiagBelowCapture = new List<Move>(2 * 4);
-      PseudoRectAboveCapture = new List<Move>(2 * 4);
-      PseudoRectBelowCapture = new List<Move>(2 * 4);
+      PseudoOrthAboveCapture = new List<Move>(2 * 4);
+      PseudoOrthBelowCapture = new List<Move>(2 * 4);
 
       PseudoGoodCaptures = new List<Move>(32);
       PseudoBadCaptures = new List<Move>(32);

@@ -53,7 +53,7 @@ namespace Engine {
         else //if ((qp & King) != 0)
           vPiece = vK6;
       }
-      else if ((qp & RectPiece) != 0) {
+      else if ((qp & OrthPiece) != 0) {
         if ((qp & DiagPiece) != 0)
           vPiece = vQ6;
         else
@@ -249,12 +249,12 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsInsufficient(Plane qpPiece) {
       var qpPawn = qpPiece & Pawn;
-      var qpRect = qpPiece & RectPiece;
+      var qpOrth = qpPiece & OrthPiece;
       var qpDiag = qpPiece & DiagPiece;
       var qpKnight = qpPiece & Knight;
 
       // No Pawn, Rook or Queen:
-      if (qpPawn == 0 && qpRect == 0) {
+      if (qpPawn == 0 && qpOrth == 0) {
         //
         // If either a single Knight or multiple Bishops covering squares
         // of only one color remain, then even a helpmate is not possible.

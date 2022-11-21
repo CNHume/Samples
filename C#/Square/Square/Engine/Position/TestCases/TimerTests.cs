@@ -59,7 +59,7 @@ namespace Engine {
       //[Time]
       timeAddPieceCapturesAndMoves();
       //[Time]timeAddPawnCapturesAndMoves();
-      //[Time]timeRectAtx();
+      //[Time]timeOrthAtx();
       //[Time]timeSafe();
       //[Time]timeMagic();
       //[Time]
@@ -87,8 +87,8 @@ namespace Engine {
     protected void testOutsideSquare(sq sq) {
       var n = (Int32)sq;
       foreach (var parameter in Parameter) {
-        testRect($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
-        testRect($"{parameter.SideName}PawnToMoveWins[{sq}]", parameter.PawnToMoveWins[n]);
+        testOrth($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
+        testOrth($"{parameter.SideName}PawnToMoveWins[{sq}]", parameter.PawnToMoveWins[n]);
       }
     }
 
@@ -194,14 +194,14 @@ namespace Engine {
     }
 
     // diagAtx() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
-    // rectAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
+    // orthAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
     // KnightAtx[] ~63 MHz [C++ 8.44x faster]
-    protected void timeRectAtx(UInt64 qTrials = 1000000000UL) {
-      var sw = TimerStart(nameof(rectAtx), qTrials);
+    protected void timeOrthAtx(UInt64 qTrials = 1000000000UL) {
+      var sw = TimerStart(nameof(orthAtx), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
-        var qpMoveTo = rectAtx(nFrom);
+        var qpMoveTo = orthAtx(nFrom);
       }
 
       TimerStop(sw, qTrials);
@@ -325,13 +325,13 @@ namespace Engine {
         loadMagic();
 #else
         loadRotation();
-        loadRectBit();
+        loadOrthBit();
         loadDiagBit();
 #endif
         colorSquares();
         loadPieceAtx();
 
-        loadRectAtx();
+        loadOrthAtx();
         loadDiagAtx();
 #if ByteDeBruijn
         loadDeBruijn(deBruijnByte, 3, vDeBruijn);

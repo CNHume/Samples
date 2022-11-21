@@ -51,7 +51,7 @@ namespace Engine {
     protected Eval StaticTotal;         // For isEndgame()
     protected ExtensionCounter ExtensionCounts;
 #if TestPawnFeatures
-    public Plane[] FeatureRect;
+    public Plane[] FeatureOrth;
 #endif
     protected Plane[] Restricted;
     protected Plane PinnedPiece;
@@ -79,8 +79,8 @@ namespace Engine {
 
     public List<Move> PseudoDiagAboveCapture;
     public List<Move> PseudoDiagBelowCapture;
-    public List<Move> PseudoRectAboveCapture;
-    public List<Move> PseudoRectBelowCapture;
+    public List<Move> PseudoOrthAboveCapture;
+    public List<Move> PseudoOrthBelowCapture;
 
     //
     // The following Pawn Moves will precede PseudoPawnAboveMove:
@@ -96,8 +96,8 @@ namespace Engine {
 
     public List<Move> PseudoDiagAboveMove;
     public List<Move> PseudoDiagBelowMove;
-    public List<Move> PseudoRectAboveMove;
-    public List<Move> PseudoRectBelowMove;
+    public List<Move> PseudoOrthAboveMove;
+    public List<Move> PseudoOrthBelowMove;
 
     //
     // Swap Move Lists:

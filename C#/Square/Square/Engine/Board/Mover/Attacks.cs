@@ -79,7 +79,7 @@ namespace Engine {
         var qpFrom = King & KingAtx[nTo] |
                      Knight & KnightAtx[nTo] |
                      DiagPiece & diagAtx(nTo) |
-                     RectPiece & rectAtx(nTo);
+                     OrthPiece & orthAtx(nTo);
 
         foreach (var side in Side)
           qpFrom |= side.PawnAtxTo(nTo);
@@ -108,14 +108,14 @@ namespace Engine {
           qpPiece &= Knight & KnightAtx[nTo];
           break;
         case vR6:
-          qpPiece &= Rook & rectAtx(nTo);
+          qpPiece &= Rook & orthAtx(nTo);
           break;
         case vB6:
           qpPiece &= Bishop & diagAtx(nTo);
           break;
         case vQ6:
           qpPiece &= Queen;
-          qpPiece = qpPiece & (diagAtx(nTo) | rectAtx(nTo));
+          qpPiece = qpPiece & (diagAtx(nTo) | orthAtx(nTo));
           break;
         default:
           qpPiece = 0UL;
@@ -141,8 +141,8 @@ namespace Engine {
         vK6 => KingAtx[nFrom],
         vN6 => KnightAtx[nFrom],
         vB6 => diagAtx(nFrom),
-        vR6 => rectAtx(nFrom),
-        vQ6 => diagAtx(nFrom) | rectAtx(nFrom),
+        vR6 => orthAtx(nFrom),
+        vQ6 => diagAtx(nFrom) | orthAtx(nFrom),
         _ => default,
       };
 

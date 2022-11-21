@@ -356,7 +356,7 @@ namespace Engine {
       printMapping(sLabel, n => map[n]);
     }
 
-    protected static void writeRect(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    protected static void writeOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       var sb = new StringBuilder();
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
@@ -368,8 +368,8 @@ namespace Engine {
         var c = (Char)(bRotateBoard ? cFileMax - rank : cRankMin + rank);
         if (!bRightRuler)               // Rank Ruler at Left
           sb.Append(c);
-        var uRect = (UInt32)(qp >> sqr(0, rank) & Byte.MaxValue);
-        sb.AppendRect(uRect, bFlip);
+        var uOrth = (UInt32)(qp >> sqr(0, rank) & Byte.MaxValue);
+        sb.AppendOrth(uOrth, bFlip);
         if (bRightRuler)                // Rank Ruler at Right
           sb.Append(c);
         sb.Append(cNewline);
@@ -380,10 +380,10 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected static void testRect(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    protected static void testOrth(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       LogLine($"{sLabel}");
       LogLine();
-      writeRect(qp, bRotateBoard, bFlip);
+      writeOrth(qp, bRotateBoard, bFlip);
     }
 
     protected static void writeDiagIndexes(Func<Int32, Int32> idxr) {
@@ -447,7 +447,7 @@ namespace Engine {
       writeDiag(qp, bRotateBoard);
     }
 
-    protected static void writeRectRotations(String sLabel, Plane[] qpRect) {
+    protected static void writeOrthRotations(String sLabel, Plane[] qpOrth) {
       var sb = new StringBuilder();
       sb.Append(sLabel)
         .Append(cNewline)
@@ -455,7 +455,7 @@ namespace Engine {
 
       for (var y = 0; y < nRanks; y++) {
         var yInverse = invertRank(y);
-        sb.AppendRectRotations(qpRect, bit(sqr(0, yInverse)))
+        sb.AppendOrthRotations(qpOrth, bit(sqr(0, yInverse)))
           .Append(cNewline);
       }
 

@@ -255,9 +255,9 @@ namespace Engine {
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
         var moveFrom = RookMove | fromMove(nFrom);
-        var qpMoveTo = rectAtx(nFrom) & qpTo;
-        addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpMoveTo);
-        addPieceMoves(PseudoRectAboveMove, PseudoRectBelowMove, moveFrom, qpMoveTo);
+        var qpMoveTo = orthAtx(nFrom) & qpTo;
+        addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
+        addPieceMoves(PseudoOrthAboveMove, PseudoOrthBelowMove, moveFrom, qpMoveTo);
       }
     }
 
@@ -266,8 +266,8 @@ namespace Engine {
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
         var moveFrom = RookMove | fromMove(nFrom);
-        var qpMoveTo = rectAtx(nFrom) & qpTo;
-        addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpMoveTo);
+        var qpMoveTo = orthAtx(nFrom) & qpTo;
+        addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
       }
     }
 
@@ -277,11 +277,11 @@ namespace Engine {
         var nFrom = RemoveLo(ref qpQueen);
         var moveFrom = QueenMove | fromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
-        var qpRectTo = rectAtx(nFrom) & qpTo;
+        var qpOrthTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);
-        addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpRectTo);
+        addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpOrthTo);
         addPieceMoves(PseudoDiagAboveMove, PseudoDiagBelowMove, moveFrom, qpDiagTo);
-        addPieceMoves(PseudoRectAboveMove, PseudoRectBelowMove, moveFrom, qpRectTo);
+        addPieceMoves(PseudoOrthAboveMove, PseudoOrthBelowMove, moveFrom, qpOrthTo);
       }
     }
 
@@ -291,9 +291,9 @@ namespace Engine {
         var nFrom = RemoveLo(ref qpQueen);
         var moveFrom = QueenMove | fromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
-        var qpRectTo = rectAtx(nFrom) & qpTo;
+        var qpOrthTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);
-        addPieceCaptures(PseudoRectAboveCapture, PseudoRectBelowCapture, moveFrom, qpRectTo);
+        addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpOrthTo);
       }
     }
 

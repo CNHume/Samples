@@ -10,7 +10,7 @@
 //#define TestDiagIndexers
 //#define TestWhiteSquares
 #define TestRankPiece
-#define TestRectAttacks
+#define TestOrthAttacks
 #define TestDiagAttacks
 #define TestKingAttacks
 #define TestKnightAttacks
@@ -85,11 +85,11 @@ namespace Engine {
     protected void testPawnAttacks() {
       foreach (var side in Side) {
         LogLine($"{side.Parameter.SideName} Pieces:\n");
-        writeRect(side.Piece);
+        writeOrth(side.Piece);
         LogLine();
 
         LogLine($"{side.Parameter.SideName} Pawn Attacks:\n");
-        writeRect(side.PawnA1H8Atx | side.PawnA8H1Atx);
+        writeOrth(side.PawnA1H8Atx | side.PawnA8H1Atx);
         LogLine();
       }
     }
@@ -105,8 +105,8 @@ namespace Engine {
 
     protected void testRotations() {
 #if TestRotation && !Magic
-      writeRectRotations("RankBit", RankBit);
-      writeRectRotations("FileBit", FileBit);
+      writeOrthRotations("RankBit", RankBit);
+      writeOrthRotations("FileBit", FileBit);
       writeDiagRotations("A1H8Bit", A1H8Bit);
       writeDiagRotations("A8H1Bit", A1H8Bit);
 #endif
@@ -114,9 +114,9 @@ namespace Engine {
 
     protected void testPieceMasks() {
       var bFlip = State!.IsFlip;
-      testRect("RankPiece", RankPiece, false, bFlip);
+      testOrth("RankPiece", RankPiece, false, bFlip);
 #if TestRotation && !Magic
-      testRect("FilePiece", FilePiece, true, bFlip);
+      testOrth("FilePiece", FilePiece, true, bFlip);
       testDiag("A1H8Piece", A1H8Piece, false);
       testDiag("A8H1Piece", A8H1Piece, true);
 #endif
@@ -130,29 +130,29 @@ namespace Engine {
 #endif
 #if TestWhiteSquares
       LogLine("WhiteSquare\n");
-      writeRect(WhiteSquare);
+      writeOrth(WhiteSquare);
       LogLine();
 #endif
 #if TestRankPiece
       LogLine("RankPiece\n");
-      writeRect(RankPiece);
+      writeOrth(RankPiece);
       LogLine();
 #endif
-#if TestRectAttacks
-      LogLine($"rectAtx({sq})\n");
-      writeRect(rectAtx(n));
+#if TestOrthAttacks
+      LogLine($"orthAtx({sq})\n");
+      writeOrth(orthAtx(n));
 #endif
 #if TestDiagAttacks
       LogLine($"diagAtx({sq})\n");
-      writeRect(diagAtx(n));
+      writeOrth(diagAtx(n));
 #endif
 #if TestKingAttacks
       LogLine("KingAtx\n");
-      writeRect(KingAtx[n]);
+      writeOrth(KingAtx[n]);
 #endif
 #if TestKnightAttacks
       LogLine("KnightAtx\n");
-      writeRect(KnightAtx[n]);
+      writeOrth(KnightAtx[n]);
 #endif
     }
     #endregion

@@ -32,8 +32,8 @@ namespace Engine {
       PseudoKingMove.Clear();
       PseudoDiagAboveMove.Clear();
       PseudoDiagBelowMove.Clear();
-      PseudoRectAboveMove.Clear();
-      PseudoRectBelowMove.Clear();
+      PseudoOrthAboveMove.Clear();
+      PseudoOrthBelowMove.Clear();
     }
 
     private void clearPseudoCaptures() {
@@ -43,8 +43,8 @@ namespace Engine {
       PseudoKingCapture.Clear();
       PseudoDiagAboveCapture.Clear();
       PseudoDiagBelowCapture.Clear();
-      PseudoRectAboveCapture.Clear();
-      PseudoRectBelowCapture.Clear();
+      PseudoOrthAboveCapture.Clear();
+      PseudoOrthBelowCapture.Clear();
     }
 
     //
@@ -121,7 +121,7 @@ namespace Engine {
         var qpKing = Friend.Piece & King;
         var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
-        bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
+        bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
         var qpChx2 = qpChx;
         var nChx = RemoveLo(ref qpChx2);
@@ -177,7 +177,7 @@ namespace Engine {
         var qpKing = Friend.Piece & King;
         var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
-        bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
+        bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
         var qpChx2 = qpChx;
         var nChx = RemoveLo(ref qpChx2);
@@ -229,7 +229,7 @@ namespace Engine {
         var qpKing = qpFriend & King;
         var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
-        bRayCheck = (qpChx & (DiagPiece | RectPiece)) != 0;
+        bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
         var bSingleCheck = IsOneOrNone(qpChx);
         if (bSingleCheck) {
@@ -286,11 +286,11 @@ namespace Engine {
         case MoveType.DiagBelowCapture:
           moves.AddRange(PseudoDiagBelowCapture);
           break;
-        case MoveType.RectAboveCapture:
-          moves.AddRange(PseudoRectAboveCapture);
+        case MoveType.OrthAboveCapture:
+          moves.AddRange(PseudoOrthAboveCapture);
           break;
-        case MoveType.RectBelowCapture:
-          moves.AddRange(PseudoRectBelowCapture);
+        case MoveType.OrthBelowCapture:
+          moves.AddRange(PseudoOrthBelowCapture);
           break;
         case MoveType.PawnAboveMove:
           moves.AddRange(PseudoQueenPromotion);
@@ -313,11 +313,11 @@ namespace Engine {
         case MoveType.DiagBelowMove:
           moves.AddRange(PseudoDiagBelowMove);
           break;
-        case MoveType.RectAboveMove:
-          moves.AddRange(PseudoRectAboveMove);
+        case MoveType.OrthAboveMove:
+          moves.AddRange(PseudoOrthAboveMove);
           break;
-        case MoveType.RectBelowMove:
-          moves.AddRange(PseudoRectBelowMove);
+        case MoveType.OrthBelowMove:
+          moves.AddRange(PseudoOrthBelowMove);
           break;
         default:
           throw new PositionException("Unexpected MoveType");
@@ -334,8 +334,8 @@ namespace Engine {
       captures.AddRange(PseudoKnightCapture);           // 4
       captures.AddRange(PseudoDiagAboveCapture);        // 3d
       captures.AddRange(PseudoDiagBelowCapture);        // 5
-      captures.AddRange(PseudoRectAboveCapture);        // 3r
-      captures.AddRange(PseudoRectBelowCapture);        // 6
+      captures.AddRange(PseudoOrthAboveCapture);        // 3r
+      captures.AddRange(PseudoOrthBelowCapture);        // 6
       captures.AddRange(PseudoEPCapture);               //[Note]Legality is assessed via tryMoves()
 
       sortSwaps(captures);
@@ -354,8 +354,8 @@ namespace Engine {
 
       moves.AddRange(PseudoDiagAboveMove);              // 9d
       moves.AddRange(PseudoDiagBelowMove);              // 11
-      moves.AddRange(PseudoRectAboveMove);              // 9r
-      moves.AddRange(PseudoRectBelowMove);              // 12
+      moves.AddRange(PseudoOrthAboveMove);              // 9r
+      moves.AddRange(PseudoOrthBelowMove);              // 12
       moves.AddRange(PseudoKnightMove);                 // 10
       moves.AddRange(PseudoKingCapture);                // 7
       moves.AddRange(PseudoCastles);                    // 13
@@ -377,8 +377,8 @@ namespace Engine {
       moves.AddRange(PseudoKnightCapture);              // 4
       moves.AddRange(PseudoDiagAboveCapture);           // 5
       moves.AddRange(PseudoDiagBelowCapture);           // 3d
-      moves.AddRange(PseudoRectAboveCapture);           // 6
-      moves.AddRange(PseudoRectBelowCapture);           // 3r
+      moves.AddRange(PseudoOrthAboveCapture);           // 6
+      moves.AddRange(PseudoOrthBelowCapture);           // 3r
       //moves.AddRange(PseudoEPCapture);                // Not needed for Swaps
     }
 
@@ -390,8 +390,8 @@ namespace Engine {
       moves.AddRange(PseudoKingCapture);                // 7
       moves.AddRange(PseudoDiagAboveCapture);           // 3d
       moves.AddRange(PseudoDiagBelowCapture);           // 5
-      moves.AddRange(PseudoRectAboveCapture);           // 3r
-      moves.AddRange(PseudoRectBelowCapture);           // 6
+      moves.AddRange(PseudoOrthAboveCapture);           // 3r
+      moves.AddRange(PseudoOrthBelowCapture);           // 6
       moves.AddRange(PseudoEPCapture);
       moves.AddRange(PseudoQueenPromotionCapture);      // 1A
       moves.AddRange(PseudoQueenPromotion);             // 1B

@@ -132,7 +132,7 @@ namespace Engine {
       if (!fgame.Has(GameFlags.KingAlone)) {
         if (isKQvKPEndgame()) fgame |= GameFlags.KQvKP;
       }
-      else if (RectPiece == 0) {        // No Rooks or Queens
+      else if (OrthPiece == 0) {        // No Rooks or Queens
         fgame |= GameFlags.OutsideSquare;
         var bWhiteAttacker = fgame.Has(GameFlags.BlackAlone);
         var attacker = getSide(bWhiteAttacker);
@@ -167,8 +167,8 @@ namespace Engine {
         var sideName = parameter.SideName;
         var sOutcome = bKingToMoveLoss ? "KingToMoveLoss" : "PawnToMoveWins";
         var sq = (sq)vDefendingKingPos;
-        testRect($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
-        testRect("Pawns", Pawn);
+        testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
+        testOrth("Pawns", Pawn);
         DisplayCurrent("OutsideSquare");
       }
 #endif
@@ -355,16 +355,16 @@ namespace Engine {
       DisplayCurrent("mobility()");
 
       LogLine("WhiteControlled\n");
-      writeRect(WhiteControlled);
+      writeOrth(WhiteControlled);
       LogLine();
 
       LogLine("BlackControlled\n");
-      writeRect(BlackControlled);
+      writeOrth(BlackControlled);
       LogLine();
 
       var qpNeutral = AttackedSum & ~(WhiteControlled | BlackControlled);
       LogLine("Neutral\n");
-      writeRect(qpNeutral);
+      writeOrth(qpNeutral);
       LogLine();
 #endif
       nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;

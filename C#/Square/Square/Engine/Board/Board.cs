@@ -162,7 +162,7 @@ namespace Engine {
       foreach (var side in Side)
         side.Clear();
 
-      RankPiece = Pawn = King = Knight = DiagPiece = RectPiece = 0UL;
+      RankPiece = Pawn = King = Knight = DiagPiece = OrthPiece = 0UL;
 #if !Magic
       A1H8Piece = A8H1Piece = FilePiece = 0UL;
 #endif
@@ -205,10 +205,10 @@ namespace Engine {
       newRotation();
       loadRotation();
 
-      newRectBit();
+      newOrthBit();
       newDiagBit();
 
-      loadRectBit();
+      loadOrthBit();
       loadDiagBit();
 #endif
       newKingAtx();
@@ -216,14 +216,14 @@ namespace Engine {
 
       loadPieceAtx();
 
-      newRectAtx();
+      newOrthAtx();
       newDiagAtx();
 
       //
-      // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadRectAtx()
+      // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadOrthAtx()
       // require that A1H8Magic[], A8H1Magic[] and FileMagic[] have been built by loadMagic().
       //
-      loadRectAtx();                    // Each of the following loads takes around 0.333 ms
+      loadOrthAtx();                    // Each of the following loads takes around 0.333 ms
       loadDiagAtx();
 
       newZobrist();
@@ -316,7 +316,7 @@ namespace Engine {
       board.King = King;                    // 8-bytes
       board.Knight = Knight;                // 8-bytes
       board.DiagPiece = DiagPiece;          // 8-bytes
-      board.RectPiece = RectPiece;          // 8-bytes
+      board.OrthPiece = OrthPiece;          // 8-bytes
 
       board.RankPiece = RankPiece;          // 8-bytes
 #if !Magic
@@ -367,7 +367,7 @@ namespace Engine {
         board.King == King &&
         board.Knight == Knight &&
         board.DiagPiece == DiagPiece &&
-        board.RectPiece == RectPiece;
+        board.OrthPiece == OrthPiece;
 
       Trace.Assert(bEqual, "Hashcode Collision Detected");
       return bEqual;

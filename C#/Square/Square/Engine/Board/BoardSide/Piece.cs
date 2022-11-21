@@ -117,7 +117,7 @@ namespace Engine {
           Board.Pawn &= ~qp;
           break;
         case vR6:
-          Board.RectPiece &= ~qp;
+          Board.OrthPiece &= ~qp;
           if (nFrom == Parameter.Rule.RookOOFrom)
             ClrCanOO();
           else if (nFrom == Parameter.Rule.RookOOOFrom)
@@ -132,7 +132,7 @@ namespace Engine {
           break;
         case vQ6:
           Board.DiagPiece &= ~qp;
-          Board.RectPiece &= ~qp;
+          Board.OrthPiece &= ~qp;
           break;
         case vK6:
           Board.King &= ~qp;
@@ -202,7 +202,7 @@ namespace Engine {
           Board.Pawn |= qp;
           break;
         case vR6:
-          Board.RectPiece |= qp;
+          Board.OrthPiece |= qp;
           break;
         case vN6:
           Board.Knight |= qp;
@@ -213,7 +213,7 @@ namespace Engine {
           break;
         case vQ6:
           Board.DiagPiece |= qp;
-          Board.RectPiece |= qp;
+          Board.OrthPiece |= qp;
           break;
         case vK6:
           Board.King |= qp;
@@ -303,7 +303,7 @@ namespace Engine {
         qpFrom |= Piece & Board.King & KingAtx[vKingPos];
         qpFrom |= Piece & Board.Knight & KnightAtx[vKingPos];
         qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
-        qpFrom |= Piece & Board.RectPiece & Board.rectAtx(vKingPos);
+        qpFrom |= Piece & Board.OrthPiece & Board.orthAtx(vKingPos);
 
         if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA1H8);
         if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA8H1);
@@ -326,7 +326,7 @@ namespace Engine {
           var n = RemoveLo(ref qpFriend, out Plane qp);
           if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
               (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-              (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+              (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
               (Piece & Board.King & KingAtx[n]) != 0)
             qpAttacked |= qp;
         }
@@ -347,7 +347,7 @@ namespace Engine {
           var n = RemoveLo(ref qpFriend);
           if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
               (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-              (Piece & Board.RectPiece & Board.rectAtx(n)) != 0 ||
+              (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
               (Piece & Board.King & KingAtx[n]) != 0)
             return true;
         }
@@ -458,7 +458,7 @@ namespace Engine {
         var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.PawnStep);
 #if TestPawnAdvances
         LogLine("Pawn Advance:\n");
-        writeRect(qpAdvance1 | qpAdvance2);
+        writeOrth(qpAdvance1 | qpAdvance2);
         LogLine();
 #endif
         while (qpAdv1From != 0) {
@@ -530,13 +530,13 @@ namespace Engine {
         qpAtxFrom = Piece & Board.Rook;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.rectAtx(n));
+          nAtx += Board.incTo(Board.orthAtx(n));
         }
 
         qpAtxFrom = Piece & Board.Queen;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.diagAtx(n) | Board.rectAtx(n));
+          nAtx += Board.incTo(Board.diagAtx(n) | Board.orthAtx(n));
         }
 
         return nAtx;

@@ -116,7 +116,7 @@ namespace Engine {
     public Plane King;
     public Plane Knight;
     public Plane DiagPiece;
-    public Plane RectPiece;
+    public Plane OrthPiece;
     public Plane RankPiece;             // Piece Union over both sides
 #if !Magic
     public Plane FilePiece;             // Piece Rotations
@@ -155,9 +155,9 @@ namespace Engine {
       get { return (Ply)(GamePly - State!.MovePly); }
     }
 
-    public Plane Bishop { get { return DiagPiece & ~RectPiece; } }
-    public Plane Queen { get { return DiagPiece & RectPiece; } }
-    public Plane Rook { get { return RectPiece & ~DiagPiece; } }
+    public Plane Bishop { get { return DiagPiece & ~OrthPiece; } }
+    public Plane Queen { get { return DiagPiece & OrthPiece; } }
+    public Plane Rook { get { return OrthPiece & ~DiagPiece; } }
 
     public String? Name { get; set; }
     public Dictionary<String, List<String>?>? Operations { get; set; }

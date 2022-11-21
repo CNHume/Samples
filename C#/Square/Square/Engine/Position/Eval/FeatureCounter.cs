@@ -181,12 +181,12 @@ namespace Engine {
 #if TestPawnFeatures
       var nOffset = nSide == White ? 0 : PawnFeatures.Length;
 
-      FeatureRect[vPawns + nOffset] = qpPawns;
-      FeatureRect[vPassers + nOffset] = qpPassers;
-      FeatureRect[vDivides + nOffset] = vOccupied;
-      FeatureRect[vIsolani + nOffset] = qpIsolani;
-      FeatureRect[vDoubled + nOffset] = qpDoubled;
-      FeatureRect[vAwkward + nOffset] = qpAwkward;
+      FeatureOrth[vPawns + nOffset] = qpPawns;
+      FeatureOrth[vPassers + nOffset] = qpPassers;
+      FeatureOrth[vDivides + nOffset] = vOccupied;
+      FeatureOrth[vIsolani + nOffset] = qpIsolani;
+      FeatureOrth[vDoubled + nOffset] = qpDoubled;
+      FeatureOrth[vAwkward + nOffset] = qpAwkward;
 
       var uCounter = uFeatureCounts;
       var sideName = Side[nSide].Parameter.SideName;
@@ -194,7 +194,7 @@ namespace Engine {
         var uCount = nibble(uCounter);
         LogLine($"{sideName} {(PawnFeature)n} = {uCount}");
         LogLine();
-        writeRect(FeatureRect[n + nOffset]);
+        writeOrth(FeatureOrth[n + nOffset]);
         LogLine();
       }
 #endif

@@ -105,7 +105,7 @@ namespace Engine {
     #endregion
 
     #region Atx Lookup Table Initialization
-    private static void newRectAtx() {
+    private static void newOrthAtx() {
       FileAtx = new Plane[nStates][];
       RankAtx = new Plane[nStates][];
 
@@ -129,7 +129,7 @@ namespace Engine {
     // When building the Ray Atx Tables, bLoop remains true until mState indicates
     // that the piece sliding from the reference square has run into another piece.
     //
-    protected static void loadRectAtx() {
+    protected static void loadOrthAtx() {
       for (Byte vState = 0; vState < nStates; vState++) {
         var mState = 1 << 7 | vState << 1 | 1;
 
@@ -421,7 +421,7 @@ namespace Engine {
       }
     }
 
-    private static void newRectBit() {
+    private static void newOrthBit() {
       FileBit = new Plane[nSquares];
       RankBit = new Plane[nSquares];
     }
@@ -431,7 +431,7 @@ namespace Engine {
       A8H1Bit = new Plane[nSquares];
     }
 
-    protected static void loadRectBit() {
+    protected static void loadOrthBit() {
       var qp = BIT0;
       for (var y = 0; y < nRanks; y++) {
         var yInverse = invertRank(y);
@@ -498,7 +498,7 @@ namespace Engine {
 #endif
     }
 
-    protected Plane rectAtx(Int32 n) {
+    protected Plane orthAtx(Int32 n) {
 #if Magic && HalfMagic
       return RankAtx[rotateRank(n)][n] | FileAtx[hashFileHalf(RankPiece, n)][n];
 #elif Magic
@@ -512,7 +512,7 @@ namespace Engine {
       return a1h8Atx(n) | a8h1Atx(n);
     }
 
-    protected Plane rectAtx(Int32 n) {
+    protected Plane orthAtx(Int32 n) {
       return rankAtx(n) | fileAtx(n);
     }
 #endif
@@ -608,7 +608,7 @@ namespace Engine {
 
     #region Board Coordinate Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isRect(Int32 nFrom, Int32 nTo) {
+    internal static Boolean isOrth(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
       // Are either of the coordinates equal?
       return x(n) == 0 || y(n) == 0;

@@ -154,11 +154,11 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendRect(this StringBuilder sb, UInt32 uRect, Boolean bFlip = false) {
+    public static StringBuilder AppendOrth(this StringBuilder sb, UInt32 uOrth, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
         var file = bFlip ? invertFile(x) : x;
-        var c = (uRect & bit(file)) == 0 ? cVacant : cOccupied;
+        var c = (uOrth & bit(file)) == 0 ? cVacant : cOccupied;
         if (!bRightRuler)               // Left Pad
           sb.Append(sSpace);
         sb.Append(c);
@@ -189,9 +189,9 @@ namespace Engine {
       throw new BoardException("Square Not Found");
     }
 
-    public static StringBuilder AppendRectRotations(this StringBuilder sb, Plane[] qpRect, Plane qp) {
+    public static StringBuilder AppendOrthRotations(this StringBuilder sb, Plane[] qpOrth, Plane qp) {
       for (var x = 0; x < nFiles; x++, qp <<= 1)
-        sb.Append(sSpace).Append(sqUsingBit(qpRect, qp));
+        sb.Append(sSpace).Append(sqUsingBit(qpOrth, qp));
       return sb;
     }
 

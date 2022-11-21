@@ -24,16 +24,16 @@ namespace Engine.MoveOrder {
       PawnBelowCapture,
       DiagAboveCapture,
       DiagBelowCapture,
-      RectAboveCapture,
-      RectBelowCapture,
+      OrthAboveCapture,
+      OrthBelowCapture,
       KnightCapture,
       KingCapture,
 
       KnightMove,
       DiagAboveMove,
       DiagBelowMove,
-      RectAboveMove,
-      RectBelowMove,
+      OrthAboveMove,
+      OrthBelowMove,
       KingMove,
       PawnAboveMove,
       PawnBelowMove,
@@ -76,14 +76,14 @@ namespace Engine.MoveOrder {
 
       case vR6:
         type = bCapture ?
-          bAbove ? MoveType.RectAboveCapture : MoveType.RectBelowCapture :
-          bAbove ? MoveType.RectAboveMove : MoveType.RectBelowMove;
+          bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
+          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove;
         break;
 
       case vQ6:
-        type = isRect(nFrom, nTo) ? bCapture ?
-          bAbove ? MoveType.RectAboveCapture : MoveType.RectBelowCapture :
-          bAbove ? MoveType.RectAboveMove : MoveType.RectBelowMove :
+        type = isOrth(nFrom, nTo) ? bCapture ?
+          bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
+          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove :
         bCapture ?
           bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
           bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove;
