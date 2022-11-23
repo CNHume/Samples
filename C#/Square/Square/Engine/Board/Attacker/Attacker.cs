@@ -5,7 +5,6 @@
 //
 // Conditionals:
 //
-//#define UnrollAtx
 //#define Magic                         //[Note]Magic is slightly slower than Rotation == !Magic
 #define HalfMagic                       // Avoiding 64-Bit Division is faster on 3 GHz Pentium 4
 //#define TestMagic
@@ -454,6 +453,7 @@ namespace Engine {
       }
     }
 #endif                                  //!Magic
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane a1h8Atx(Int32 n) {
 #if Magic && HalfMagic
       return A1H8Atx[hashA1H8Half(RankPiece, n)][n];
@@ -464,6 +464,7 @@ namespace Engine {
 #endif
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane a8h1Atx(Int32 n) {
 #if Magic && HalfMagic
       return A8H1Atx[hashA8H1Half(RankPiece, n)][n];
@@ -474,6 +475,7 @@ namespace Engine {
 #endif
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane fileAtx(Int32 n) {
 #if Magic && HalfMagic
       return FileAtx[hashFileHalf(RankPiece, n)][n];
@@ -484,38 +486,25 @@ namespace Engine {
 #endif
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane rankAtx(Int32 n) {
       return RankAtx[rotateRank(n)][n];
     }
-#if UnrollAtx
-    protected Plane diagAtx(Int32 n) {
-#if Magic && HalfMagic
-      return A1H8Atx[hashA1H8Half(RankPiece, n)][n] | A8H1Atx[hashA8H1Half(RankPiece, n)][n];
-#elif Magic
-      return A1H8Atx[hashA1H8Full(RankPiece, n)][n] | A8H1Atx[hashA8H1Full(RankPiece, n)][n];
-#else
-      return A1H8Atx[rotateA1H8(n)][n] | A8H1Atx[rotateA8H1(n)][n]; // 17.67 MHz
-#endif
-    }
 
-    protected Plane orthAtx(Int32 n) {
-#if Magic && HalfMagic
-      return RankAtx[rotateRank(n)][n] | FileAtx[hashFileHalf(RankPiece, n)][n];
-#elif Magic
-      return RankAtx[rotateRank(n)][n] | FileAtx[hashFileFull(RankPiece, n)][n];
-#else
-      return RankAtx[rotateRank(n)][n] | FileAtx[rotateFile(n)][n]; // 19 MHz
-#endif
-    }
-#else
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane diagAtx(Int32 n) {
       return a1h8Atx(n) | a8h1Atx(n);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane orthAtx(Int32 n) {
       return rankAtx(n) | fileAtx(n);
     }
-#endif
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected Plane rayAtx(Int32 n) {
+      return diagAtx(n) | orthAtx(n);
+    }
     #endregion
 
     #region Ray State Accessors

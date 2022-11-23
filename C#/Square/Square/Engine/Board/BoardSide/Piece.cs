@@ -296,9 +296,9 @@ namespace Engine {
       }
 
       //
-      // Checkers() is used to distinguish between single vs double checks,
-      // to determine whether an Interposition (or Capture) may be possible
-      // or whether only Evasion is to be considered.
+      // Checkers() is used to distinguish between single vs double check
+      // to determine whether Interposition or Capture may be possible or
+      // whether only Evasion should be considered.
       //
       // qpFrom returns squares with pieces that attack the opposing King.
       //
@@ -437,7 +437,7 @@ namespace Engine {
 
       #region Position Pawn Move Generators
       public void AddPawnCaptures(Position position, Plane qpTo) {
-        var nEP = Board.IsPassed() ? ep(Board.FlagsTurn) : nSquares;
+        var nEP = Board.IsPassed() ? ep(Board.FlagsTurn) : nSquareUndefined;
         AddPawnCaptures2(position, PawnA1H8Atx & qpTo, Parameter.PawnA1H8, nEP);
         AddPawnCaptures2(position, PawnA8H1Atx & qpTo, Parameter.PawnA8H1, nEP);
       }
@@ -545,7 +545,7 @@ namespace Engine {
         qpAtxFrom = Piece & Board.Queen;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.diagAtx(n) | Board.orthAtx(n));
+          nAtx += Board.incTo(Board.rayAtx(n));
         }
 
         return nAtx;

@@ -114,7 +114,7 @@ namespace Engine {
           qpPiece &= Bishop & diagAtx(nTo);
           break;
         case vQ6:
-          qpPiece &= Queen & (diagAtx(nTo) | orthAtx(nTo));
+          qpPiece &= Queen & rayAtx(nTo);
           break;
         default:
           qpPiece = 0UL;
@@ -141,7 +141,7 @@ namespace Engine {
         vN6 => KnightAtx[nFrom],
         vB6 => diagAtx(nFrom),
         vR6 => orthAtx(nFrom),
-        vQ6 => diagAtx(nFrom) | orthAtx(nFrom),
+        vQ6 => rayAtx(nFrom),
         _ => default,
       };
 

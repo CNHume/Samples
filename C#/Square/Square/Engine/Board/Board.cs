@@ -61,6 +61,7 @@ namespace Engine {
     public const Int32 nFiles = 8;
     public const Int32 nRanks = nFiles;
     public const Int32 nSquares = nRanks * nFiles;
+    public const Int32 nSquareUndefined = nSquares;
 
     public const Int32 nRankLast = nSquares - nFiles;
     internal const UInt32 uSquareMask = (1 << 6) - 1;
