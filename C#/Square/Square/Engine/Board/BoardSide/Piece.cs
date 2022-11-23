@@ -93,7 +93,11 @@ namespace Engine {
         var qHash = pieceHash(vPiece, nFrom);
         Board.Hash ^= qHash;
         if (vPiece == vP6) Board.HashPawn ^= qHash;
+        return raise(vPiece, nFrom);
+      }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      private Boolean raise(Byte vPiece, Int32 nFrom) {
         var qp = bit(nFrom);
 #if VerifySquarePiece
         if ((qp & Board.RankPiece) == 0) {
@@ -181,6 +185,11 @@ namespace Engine {
         var qHash = pieceHash(vPiece, nTo);
         Board.Hash ^= qHash;
         if (vPiece == vP6) Board.HashPawn ^= qHash;
+        return lower(vPiece, nTo);
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      private Boolean lower(Byte vPiece, Int32 nTo) {
         var qp = bit(nTo);
 #if VerifySquarePiece
         foreach (var testSide in Board.Side) {
