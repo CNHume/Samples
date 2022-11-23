@@ -114,8 +114,7 @@ namespace Engine {
           qpPiece &= Bishop & diagAtx(nTo);
           break;
         case vQ6:
-          qpPiece &= Queen;
-          qpPiece = qpPiece & (diagAtx(nTo) | orthAtx(nTo));
+          qpPiece &= Queen & (diagAtx(nTo) | orthAtx(nTo));
           break;
         default:
           qpPiece = 0UL;
