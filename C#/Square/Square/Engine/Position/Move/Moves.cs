@@ -127,7 +127,7 @@ namespace Engine {
 
         //
         // Draw Flags are included in dynamicHash() to maintain Search Stability,
-        // because they influence eval().  They will be needed by probeXP().
+        // because they influence eval().  They are also needed by probeXP().
         //
         SetInsufficient();
 

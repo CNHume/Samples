@@ -119,13 +119,19 @@ namespace Engine {
     //  3:1 Draw50
     //  4:1 DrawIM
     //
+    // Draw0 denotes the beginning of a new Transposition Group, which includes the
+    // current position and subsequent positions up to (but not including) the next
+    // Draw0 Position.
+    //
     // Draw0 marks a position where the previous move caused an irreversible change
     // such that prior positions can never be repeated.  This includes Captures and
     // Pawn moves [i.e., moves which reset the 100-Ply Rule Clock]; but it includes
     // Castling Rights changes and simple piece moves made in lieu of an En Passant.
     //
-    // Draw0 Positions begin a Transposition Group comprised of all positions until 
-    // the next Draw0 Position.  Draws by Repetition occur in a Transposition Group.
+    // Draw3 marks a position where Draw by 3-fold Repetition can be claimed, which
+    // can only occur within a Transposition Group.
+    //
+    // Draw50 marks positions where a 50-Move [or 100-Ply] Rule Draw can be claimed.
     //
     [Flags]
     public enum DrawFlags : byte {

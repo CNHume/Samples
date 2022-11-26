@@ -266,7 +266,7 @@ namespace Engine {
       toggleWTM();
 
       #region Update En Passant
-      // tryEP() must be assessed from the perspective
+      // tryEP() will be assessed from the perspective
       // of Foe having become Friend after toggleWTM()
       if (nEnPassant.HasValue)
         tryEP(nEnPassant.Value);

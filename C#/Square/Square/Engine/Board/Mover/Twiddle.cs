@@ -177,7 +177,7 @@ namespace Engine {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       return TZC8Single((Byte)s);
     }
-#if ByteDeBruijn                      // ByteDeBruijn
+#if ByteDeBruijn                        // ByteDeBruijn
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static Int32 TZC8Single(Int32 n) {
       if (n == 0) {
