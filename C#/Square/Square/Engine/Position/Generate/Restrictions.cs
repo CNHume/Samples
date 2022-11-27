@@ -85,10 +85,14 @@ namespace Engine {
       return qpRay;
     }
 
-    //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+    //
+    //[Note]playMove() has called toggleWTM() which inverts the
+    // sense of Friend and Foe to complete the current position.
+    //
     protected void restrictPiece(Move move) {
 #if DebugMove
-      unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1, out Piece promotion, out Boolean bCapture);
+      unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1,
+                  out Piece promotion, out Boolean bCapture);
 #endif
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean _);
@@ -100,8 +104,10 @@ namespace Engine {
       //
       // Determine how a piece is pinned, given that it has just
       // made an Illegal Move, and restrict its further movement
-      // so as not to violate the pin.  tryMove() skips PinnedPiece
-      // moves not marked in Restricted[] as being allowed.
+      // so as not to violate the pin.
+      //
+      // tryMove() skips PinnedPiece moves not marked as allowed
+      // in Restricted[].
       //
       byte vKingPos = Foe.GetKingPos();
       var qpKing = Foe.Piece & King;

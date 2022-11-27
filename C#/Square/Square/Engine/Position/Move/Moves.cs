@@ -58,7 +58,10 @@ namespace Engine {
       if (IsDraw0())
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
 
-      //[Note]Every move ends the Transposition Group if En Passant was possible.
+      //
+      //[Note]Any move begins a new Transposition Group when En Passant is possible because
+      // the right to this particular En Passant will expire whether or not it is exercised.
+      //
       if (Parent is not null && Parent.IsPassed())
         SetDraw0();
 

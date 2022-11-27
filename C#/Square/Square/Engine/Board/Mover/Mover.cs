@@ -9,7 +9,7 @@
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition                 //[Speed]Slows performance by 13%
-//#define VerifyGamePlyColor
+//#define VerifyGamePlyParity
 //#define VerifyPieceColor
 //#define VerifyPromotion
 
@@ -226,23 +226,11 @@ namespace Engine {
       GamePly++;                        // GamePly should be even iff WTM
       Hash ^= ZobristTurn;
       FlagsTurn ^= TurnFlags.WTM;
-#if VerifyGamePlyColor
-      Trace.Assert(ColorParity(GamePly), "Incorrect GamePly Color (WTM != Even Ply)");
+#if VerifyGamePlyParity
+      Trace.Assert(PlyParity(GamePly), "Incorrect GamePly Parity: Even Ply != WTM");
 #endif
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = getSides(WTM());
-    }
-
-    protected Boolean ColorParity(Ply wPly) {
-      return WTM() == IsEven(wPly);
-    }
-
-    public static Boolean IsEven(UInt32 u) {
-      return (u & 1) == 0;
-    }
-
-    public static Boolean IsOdd(UInt32 u) {
-      return (u & 1) != 0;
     }
 
     //
@@ -257,12 +245,12 @@ namespace Engine {
       var nEnPassant = movePiece(ref move);
 
       //
-      // A new Transposition Group begins when the 100-Ply Rule Clock is reset:
+      // A new Transposition Group begins whenever the 100-Ply Rule Clock is reset:
       //
       if (HalfMoveClock == 0)
         SetDraw0();
 
-      //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+      //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();
 
       #region Update En Passant

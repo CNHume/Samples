@@ -22,6 +22,7 @@ namespace Engine {
   //
   using Hashcode = UInt64;
   using Plane = UInt64;
+  using Ply = UInt16;
 
   partial class Board {
     #region Methods
@@ -338,6 +339,20 @@ namespace Engine {
     }
     #endregion                          // ModeFlags
     #endregion                          // Flag Methods
+
+    #region Ply Parity
+    protected Boolean PlyParity(Ply wPly) {
+      return WTM() == IsEven(wPly);
+    }
+
+    public static Boolean IsEven(UInt32 u) {
+      return (u & 1) == 0;
+    }
+
+    public static Boolean IsOdd(UInt32 u) {
+      return (u & 1) != 0;
+    }
+    #endregion                          // Ply Parity
     #endregion                          // Methods
   }
 }

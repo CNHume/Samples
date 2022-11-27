@@ -70,7 +70,7 @@ namespace Engine {
         var sMove = bCapture ? "capture" : "move";
         var sqFrom = (sq)nFrom;
         var sqTo = (sq)nTo;
-        Debug.Assert(qpAtxTo != 0, $"No Piece can {sMove} from {sqFrom} to {sqTo}.");
+        Debug.Assert(qpAtxTo != 0, $"There is no piece that can {sMove} from {sqFrom} to {sqTo}.");
         Display();
       }
 
