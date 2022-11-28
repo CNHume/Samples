@@ -250,12 +250,13 @@ namespace Engine {
     protected void playMove(ref Move move) {
       clrDraw0();
 
-      if (HalfMoveClock < HalfMoveClockMax) // Avoid Overflow
+      // Avoid Overflow
+      if (HalfMoveClock < HalfMoveClockMax)
         HalfMoveClock++;
 
       var nEnPassant = movePiece(ref move);
 
-      updateRepetitionCycle();
+      updateRepetitionCycle();          //[Conditional]
 
       //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();

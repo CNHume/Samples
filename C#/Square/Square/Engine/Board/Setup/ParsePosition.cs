@@ -350,7 +350,7 @@ namespace Engine {
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVC} = {HalfMoveClock} Must Be Zero");
       }
 
-      updateRepetitionCycle();
+      updateRepetitionCycle();          //[Conditional]
 
       var wMoveNumber = ParseUInt16(sFMVN, sFullMoveNumber);
       // Zero is sometimes used when the initial MoveNumber is unknown
