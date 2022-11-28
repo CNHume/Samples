@@ -648,7 +648,7 @@ namespace Engine {
                         CastlingRightsHash(fsideCanCastleNew);
 
           //
-          // A new Transposition Group begins when Castling Rights change:
+          // A new Repetition Cycle begins whenever the Castling Rights change:
           //
           Board.SetDraw0();
         }

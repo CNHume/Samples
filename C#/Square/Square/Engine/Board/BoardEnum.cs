@@ -119,9 +119,9 @@ namespace Engine {
     //  3:1 Draw50
     //  4:1 DrawIM
     //
-    // Draw0 denotes the beginning of a new Transposition Group, which includes the
-    // current position and subsequent positions up to (but not including) the next
-    // Draw0 Position.
+    // Draw0 denotes the beginning of a Repetition Cycle, which includes the current
+    // position and any subsequent position up to (but not including) the next Draw0
+    // Position.
     //
     // Draw0 marks a position where the previous move caused an irreversible change
     // such that prior positions can never be repeated.  This includes Captures and
@@ -129,7 +129,7 @@ namespace Engine {
     // Castling Rights changes and simple piece moves made in lieu of an En Passant.
     //
     // Draw3 marks a position where Draw by 3-fold Repetition can be claimed, which
-    // can only occur within a Transposition Group.
+    // can only occur within a Repetition Cycle.
     //
     // Draw50 marks positions where a 50-Move [or 100-Ply] Rule Draw can be claimed.
     //

@@ -9,6 +9,7 @@
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition                 //[Speed]Slows performance by 13%
+#define UpdateRepetitionCycle
 //#define VerifyGamePlyParity
 //#define VerifyPieceColor
 //#define VerifyPromotion
@@ -233,6 +234,16 @@ namespace Engine {
       (Friend, Foe) = getSides(WTM());
     }
 
+    [Conditional("UpdateRepetitionCycle")]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private void updateRepetitionCycle() {
+      //
+      // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset:
+      //
+      if (HalfMoveClock == 0)
+        SetDraw0();
+    }
+
     //
     //[Test]Validate any change made here by running Perft Tests!
     //
@@ -244,11 +255,7 @@ namespace Engine {
 
       var nEnPassant = movePiece(ref move);
 
-      //
-      // A new Transposition Group begins whenever the 100-Ply Rule Clock is reset:
-      //
-      if (HalfMoveClock == 0)
-        SetDraw0();
+      updateRepetitionCycle();
 
       //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();

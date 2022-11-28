@@ -7,6 +7,7 @@
 //
 #define HashCastlingRights
 //#define Magic
+//#define UpdateRepetitionCycle
 
 namespace Engine {
   using Command;                        // For Scanner
@@ -347,14 +348,9 @@ namespace Engine {
       if (IsPassed() && HalfMoveClock > 0) {
         var sqEP = (sq)ep(FlagsTurn);
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVC} = {HalfMoveClock} Must Be Zero");
-        HalfMoveClock = 0;
       }
 
-      //
-      // A new Transposition Group begins whenever the 100-Ply Rule Clock is reset:
-      //
-      if (HalfMoveClock == 0)
-        SetDraw0();
+      updateRepetitionCycle();
 
       var wMoveNumber = ParseUInt16(sFMVN, sFullMoveNumber);
       // Zero is sometimes used when the initial MoveNumber is unknown

@@ -38,6 +38,11 @@ namespace Engine {
 #endif
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private Boolean tryOrSkip(ref Move move) {
+      return isNullMove(move) ? nullMove() : tryMove(ref move);
+    }
+
     // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
     protected Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
       CurrentMove = move;               // Current Pseudo Move
@@ -58,14 +63,10 @@ namespace Engine {
       if (IsDraw0())
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
 
-      //
-      //[Note]Any move begins a new Transposition Group when En Passant is possible because
-      // the right to this particular En Passant will expire whether or not it is exercised.
-      //
-      if (Parent is not null && Parent.IsPassed())
-        SetDraw0();
+      expireEnPassant();
 
       TestHash();                       //[Conditional]
+
       var bLegal = IsLegal(bFindRepetition, bRestricted);
       if (isDefined(move)) {
         if (bLegal)
@@ -79,24 +80,12 @@ namespace Engine {
       return bLegal;
     }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected (bool bPrevented, bool bRestricted) isPinned(Move move) {
-      var nFrom = from(move);
-      var nTo = to(move);
-
-      var bRestricted = (PinnedPiece & bit(nFrom)) != 0;
-      var bPrevented = bRestricted && (Restricted[nFrom] & bit(nTo)) == 0;
-      return (bPrevented, bRestricted);
-    }
-
     private Boolean nullMove() {
       CurrentMove = Move.NullMove;      // Current Pseudo Move
       resetMove();
       SkipTurn();
 
-      //[Note]If En Passant was possible, any move ends a Transposition Group
-      if (Parent is not null && Parent.IsPassed())
-        SetDraw0();
+      expireEnPassant();
 
       TestHash();                       //[Conditional]
       var bLegal = !InCheck();
@@ -109,8 +98,23 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Boolean tryOrSkip(ref Move move) {
-      return isNullMove(move) ? nullMove() : tryMove(ref move);
+    protected (bool bPrevented, bool bRestricted) isPinned(Move move) {
+      var nFrom = from(move);
+      var nTo = to(move);
+
+      var bRestricted = (PinnedPiece & bit(nFrom)) != 0;
+      var bPrevented = bRestricted && (Restricted[nFrom] & bit(nTo)) == 0;
+      return (bPrevented, bRestricted);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private void expireEnPassant() {
+      //
+      //[Note]Any move begins a new Repetition Cycle when En Passant was possible
+      // because the right to En Passant expires whether it is exercised or not.
+      //
+      if (Parent is not null && Parent.IsPassed())
+        SetDraw0();
     }
 
     // IsLegal() detects Checks and sets Draw Flags when moves are tried.
@@ -162,7 +166,7 @@ namespace Engine {
         GameState.AtomicIncrement(ref State!.RepetitionPlies);
 
         //
-        // Include Positions for both sides, stopping when the Transposition Group ends.
+        // Include Positions for both sides, stopping when the Repetition Cycle ends.
         //
         if (Equals(position)) {
           if (bNullMade)
@@ -177,7 +181,7 @@ namespace Engine {
           break;
         }
         else if (position.IsDraw0())
-          break;                        // End of Transposition Group
+          break;                        // End of Repetition Cycle
       }
 #if DebugDraw2
       validateDraw2();
