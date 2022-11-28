@@ -330,6 +330,8 @@ namespace Engine {
     protected void Init(
       Boolean bWTM, String sEnPassant, String? sHalfMoveClock, String? sFullMoveNumber,
       Dictionary<String, List<String>?>? operations = default) {
+      const string sFMVN = "Full Move Number";
+      const string sHMVC = "Half Move Clock";
       // Preserve EPD Operations passed via ParseEPD()
       Operations = operations;
 
@@ -340,9 +342,21 @@ namespace Engine {
       parsePassed(sEnPassant);
       Hash ^= hashFlags(bWTM);
 
-      HalfMoveClock = ParseByte("Half Move Clock", sHalfMoveClock);
+      HalfMoveClock = ParseByte(sHMVC, sHalfMoveClock);
 
-      var wMoveNumber = ParseUInt16("Full Move Number", sFullMoveNumber);
+      if (IsPassed() && HalfMoveClock > 0) {
+        var sqEP = (sq)ep(FlagsTurn);
+        LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVC} = {HalfMoveClock} Must Be Zero");
+        HalfMoveClock = 0;
+      }
+
+      //
+      // A new Transposition Group begins whenever the 100-Ply Rule Clock is reset:
+      //
+      if (HalfMoveClock == 0)
+        SetDraw0();
+
+      var wMoveNumber = ParseUInt16(sFMVN, sFullMoveNumber);
       // Zero is sometimes used when the initial MoveNumber is unknown
       if (wMoveNumber == 0) wMoveNumber = 1;
       State!.MovePly = plyCount(wMoveNumber);
