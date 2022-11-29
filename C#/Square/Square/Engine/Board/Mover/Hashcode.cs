@@ -174,7 +174,7 @@ namespace Engine {
       //
       // Distinguish evaluations where the "best move" is excluded
       //
-      if (isDefined(moveExcluded)) {
+      if (IsDefined(moveExcluded)) {
 #if DebugMove
         unpack2(moveExcluded, out Int32 nFrom, out Int32 nTo,
                 out UInt32 uPiece, out UInt32 uPromotion,

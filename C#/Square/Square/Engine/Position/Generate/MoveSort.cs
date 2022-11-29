@@ -104,7 +104,7 @@ namespace Engine {
       var mLateStart = Eval.MaxValue;
       var nEarly = 0;                   //[Init]
       foreach (var move in moves) {
-        var nIndex = goodMoves.FindIndex(gm => equalMoves(gm.Move, move));
+        var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
         if (nIndex >= 0) {
           nEarly++;
           State!.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
@@ -122,7 +122,7 @@ namespace Engine {
       var mLateNext = mLateStart;
       var nGenerated = 0;
       foreach (var move in moves) {
-        var nIndex = goodMoves.FindIndex(gm => equalMoves(gm.Move, move));
+        var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
 #if TestGoodValue
         var mValue = EvalUndefined;
 

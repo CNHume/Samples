@@ -68,9 +68,9 @@ namespace Engine.MoveOrder {
       var nKiller = 0;
       for (; nKiller < nKillers; nKiller++) {
         var gm = Killers[nSide][nKiller][uIndex];
-        if (!isDefined(gm.Move))
+        if (!IsDefined(gm.Move))
           break;
-        else if (equalMoves(uMaskedMove, gm.Move)) {
+        else if (EqualMoves(uMaskedMove, gm.Move)) {
           bFound = true;
           break;
         }
@@ -89,7 +89,7 @@ namespace Engine.MoveOrder {
 
       for (; nKiller + 1 < nKillers; nKiller++) {
         var gm = Killers[nSide][nKiller + 1][uIndex];
-        if (!isDefined(gm.Move))
+        if (!IsDefined(gm.Move))
           break;
 
         Killers[nSide][nKiller][uIndex] = gm;

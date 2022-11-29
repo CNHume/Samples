@@ -40,7 +40,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean tryOrSkip(ref Move move) {
-      return isNullMove(move) ? nullMove() : tryMove(ref move);
+      return IsNullMove(move) ? nullMove() : tryMove(ref move);
     }
 
     // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
@@ -68,7 +68,7 @@ namespace Engine {
       TestHash();                       //[Conditional]
 
       var bLegal = IsLegal(bFindRepetition, bRestricted);
-      if (isDefined(move)) {
+      if (IsDefined(move)) {
         if (bLegal)
           CurrentMove = move = annotateEarly(move);
         else

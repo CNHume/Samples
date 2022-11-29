@@ -297,7 +297,7 @@ namespace Engine {
         mPromotion = weightP(pieceIndex(uPromotion));
       }
 
-      if (isCapture(move)) {
+      if (IsCapture(move)) {
         var nTo = to(move);
 #if DebugMove
         var sqTo = (sq)nTo;

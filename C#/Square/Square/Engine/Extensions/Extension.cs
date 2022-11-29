@@ -235,7 +235,7 @@ namespace Engine {
       StringBuilder sb,
       Ply wGamePly,
       String sSuffix) {
-      return sbLine.Append(moveNumber(wGamePly)).Append(sSuffix);
+      return sbLine.Append(MoveNumber(wGamePly)).Append(sSuffix);
     }
 
     public static StringBuilder Append(this StringBuilder sb, Command.SearchBound bound) {
@@ -417,7 +417,7 @@ namespace Engine {
 #else
         true;
 #endif
-      if (isNullMove(move) || !isDefinite(move)) {
+      if (IsNullMove(move) || !isDefinite(move)) {
         sb.Append(move);
         return sb;
       }
@@ -460,13 +460,13 @@ namespace Engine {
         // The From Square may be shown in its entirety,
         // or abbreviated to show only its File or Rank:
         //
-        if (isShowFrom(move) || bExpandFrom)
+        if (IsShowFrom(move) || bExpandFrom)
           sb.Append(sqFrom);
         else {
           var sFrom = sqFrom.ToString();
           if (isShowFile(move))
             sb.Append(sFrom[File]);
-          else if (isShowRank(move))
+          else if (IsShowRank(move))
             sb.Append(sFrom[Rank]);
         }
         #endregion
@@ -508,10 +508,10 @@ namespace Engine {
     // Format a Move in Pure Algebraic Coordinate Notation (PACN).
     //
     public static StringBuilder AppendPACN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960) {
-      if (isNullMove(move)) {
+      if (IsNullMove(move)) {
         return sb.Append(sNullMove);
       }
-      else if (!isDefined(move)) {
+      else if (!IsDefined(move)) {
         return sb.Append(move);
       }
 
@@ -702,8 +702,8 @@ namespace Engine {
       if (bestMoves is null)
         throw new BoardException("Null bestMoves Instance");
 
-      if (bestMoves.Count < 1 || !equalMoves(bestMoves[0], lineMoves[0]) ||
-          bestMoves.Count > 1 && bPonder && !equalMoves(bestMoves[1], lineMoves[1])) {
+      if (bestMoves.Count < 1 || !EqualMoves(bestMoves[0], lineMoves[0]) ||
+          bestMoves.Count > 1 && bPonder && !EqualMoves(bestMoves[1], lineMoves[1])) {
         //[Note]refreshPV() has not been called
         bestMoves.Clear();
         bestMoves.AddRange(lineMoves);

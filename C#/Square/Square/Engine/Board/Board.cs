@@ -391,16 +391,16 @@ namespace Engine {
     #endregion                          // IEquatable Interface Methods
 
     #region Ply Methods
-    protected static UInt16 moveDelta(Ply wPly) {
+    protected static UInt16 MoveDelta(Ply wPly) {
       return (UInt16)((wPly + 1) / 2);
     }
 
     // Inverse of plyCount()
-    internal static UInt16 moveNumber(Ply wPly) {
+    internal static UInt16 MoveNumber(Ply wPly) {
       return (UInt16)(wPly / 2 + 1);
     }
 
-    // Inverse of moveNumber()
+    // Inverse of MoveNumber()
     private static Ply plyCount(Ply wMove) {
       return (Ply)((wMove - 1) * 2);
     }
@@ -413,7 +413,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static bool isShowRank(Move move) {
+    internal static bool IsShowRank(Move move) {
       return (move & Move.HideRank) == 0;
     }
 
@@ -423,47 +423,47 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static bool isShowFrom(Move move) {
+    internal static bool IsShowFrom(Move move) {
       return (move & Move.HideFrom) == 0;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Boolean isDefinite(Move move) {
-      return isDefined(move) && !isEmptyMove(move);
+      return IsDefined(move) && !IsEmptyMove(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isDefined(Move move) {
+    internal static Boolean IsDefined(Move move) {
       return (move & Move.NormalMask) != Move.Undefined;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isEmptyMove(Move move) {
+    internal static Boolean IsEmptyMove(Move move) {
       return (move & Move.NormalMask) == Move.EmptyMove;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isNullMove(Move move) {
+    internal static Boolean IsNullMove(Move move) {
       return (move & Move.NormalMask) == Move.NullMove;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isCastles(Move move) {
+    internal static Boolean IsCastles(Move move) {
       return move.Has(Move.Castles);
     }
 
     //[Compiler]move.Has(Move.CaptiveMask) does not work here!
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isCapture(Move move) {
+    protected static Boolean IsCapture(Move move) {
       return move.Has(Move.CaptiveMask);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean equalMoves(Move move1, Move move2) {
+    internal static Boolean EqualMoves(Move move1, Move move2) {
       if ((move1 & Move.LimitMask) != (move2 & Move.LimitMask))
         return false;
 
-      return isCapture(move1) == isCapture(move2);
+      return IsCapture(move1) == IsCapture(move2);
     }
 
     #region Move Setter Methods
@@ -545,7 +545,7 @@ namespace Engine {
       nTo = to(move);
 
       uPiece = moved(move);
-      bCapture = isCapture(move);
+      bCapture = IsCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -560,8 +560,8 @@ namespace Engine {
       uPiece = moved(move);
       uPromotion = promoted(move);
 
-      bCastles = isCastles(move);
-      bCapture = isCapture(move);
+      bCastles = IsCastles(move);
+      bCapture = IsCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -575,7 +575,7 @@ namespace Engine {
       piece = (Piece)moved(move);
       promotion = (Piece)promoted(move);
 
-      bCapture = isCapture(move);
+      bCapture = IsCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -591,8 +591,8 @@ namespace Engine {
       promotion = (Piece)promoted(move);
       capture = (Piece)captured(move);
 
-      bCastles = isCastles(move);
-      bCapture = isCapture(move);
+      bCastles = IsCastles(move);
+      bCapture = IsCapture(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -603,7 +603,7 @@ namespace Engine {
       nTo = to(move);
 
       uPromotion = promoted(move);
-      bCastles = isCastles(move);
+      bCastles = IsCastles(move);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

@@ -140,7 +140,7 @@ namespace Engine {
       var bTestSingular = false;
       var bPruneQuiet = false;
       var bPVS = (FlagsMode & ModeFlags.ZWS) == 0;
-      var bMoveExcluded = isDefined(moveExcluded);
+      var bMoveExcluded = IsDefined(moveExcluded);
       var wReducedDraft = reduceShallow(wDraft);// Draft for Heuristic Searches
 
       if (!bInCheck) {
@@ -172,7 +172,7 @@ namespace Engine {
                         EvalUndefined < mValueFound &&
                         //[Test]More inclusion performs better than less!
                         Abs(mValueFound) < mQueenWeight &&
-                        isDefined(moveFound) && !(bReduced || bMoveExcluded) &&
+                        IsDefined(moveFound) && !(bReduced || bMoveExcluded) &&
                         canExtend(vSingular);   //[Ergo]child.canExtend(vSingular) below
 #endif
       }                                 // !bInCheck
@@ -294,7 +294,7 @@ namespace Engine {
           var wDraft1 = nextDraft(wDraft);
           var bEarly = nTried++ < nEarly;
 
-          if (equalMoves(move, moveExcluded) || !child.tryMove(ref move))
+          if (EqualMoves(move, moveExcluded) || !child.tryMove(ref move))
             continue;                   //[Note]Excluding moves may result in a Game Leaf
 
           uLegalMoves++;
@@ -318,7 +318,7 @@ namespace Engine {
           }
           #endregion
 
-          mValue = UpdateBest(
+          mValue = updateBest(
             child, wDepth, wDraft, ref wDraft1, wReducedDraft,
             uRaisedAlpha, mAlpha, mBeta, ref mBest, ref mBest2,
             piece, move, moveFound, ref moveBest, mValueFound,
@@ -371,7 +371,7 @@ namespace Engine {
       return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
     }
 
-    private Eval UpdateBest(
+    private Eval updateBest(
       Position child, Depth wDepth, Draft wDraft, ref Draft wDraft1, Draft wReducedDraft,
       UInt32 uRaisedAlpha, Eval mAlpha, Eval mBeta, ref Eval mBest, ref Eval mBest2,
       Piece piece, Move move, Move moveFound, ref Move moveBest, Eval mValueFound,
@@ -410,7 +410,7 @@ namespace Engine {
 
       #region Singular Extension
 #if SingularExtension
-      if (bTestSingular && equalMoves(move, moveFound)) {
+      if (bTestSingular && EqualMoves(move, moveFound)) {
 #if DeepSingular
         var wSingularDraft = reduceDeep(wDraft);
 #else
@@ -432,7 +432,7 @@ namespace Engine {
       #endregion
 
 #if GetSmart
-      //var bCastles = isCastles(move);
+      //var bCastles = IsCastles(move);
       var bReduce = bQuietMove && !bEarly && piece != Piece.K;
 
       //
@@ -444,7 +444,7 @@ namespace Engine {
 #else
       var wReduced = wDraft1;
 #endif
-      mValue = child.PVS(wDraft1, wReduced, mBest2, mAlpha, mBeta, bTryZWS);
+      mValue = child.pvs(wDraft1, wReduced, mBest2, mAlpha, mBeta, bTryZWS);
 
     updateBest:
       #region Update Best Move
@@ -529,7 +529,7 @@ namespace Engine {
     // has been searched.
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Eval PVS(Draft wDraft, Draft wReducedDraft, Eval mBest2, Eval mAlpha, Eval mBeta, Boolean bTryZWS) {
+    private Eval pvs(Draft wDraft, Draft wReducedDraft, Eval mBest2, Eval mAlpha, Eval mBeta, Boolean bTryZWS) {
       var mValue = EvalUndefined;
       var mAlpha1 = (Eval)(mAlpha + 1);
 
@@ -573,8 +573,8 @@ namespace Engine {
     #endregion
 
     #region Forward Pruning Heuristics
-    protected Boolean prune(Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
-                            Eval mValueFound, EvalType etFound, Boolean bMoveExcluded, out Eval mPrunedValue) {
+    private Boolean prune(Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
+                          Eval mValueFound, EvalType etFound, Boolean bMoveExcluded, out Eval mPrunedValue) {
       mPrunedValue = EvalUndefined;
       var bDepthLimit = State!.Bound.Plies <= wDepth;
       var bMateSearch = State!.Bound.MovesToMate.HasValue;
@@ -695,7 +695,7 @@ namespace Engine {
 
     #region Extension Heuristics
     [Conditional("MateThreat")]
-    protected void threat(ref Draft wDraft, ref Draft wShallow, ref Depth wDepth) {
+    private void threat(ref Draft wDraft, ref Draft wShallow, ref Depth wDepth) {
       if (wThreatDepthMin <= wDepth && !isEndgame() && canExtend(vThreat)) {
         var child2 = Push();            // Push Position for the search
         try {
@@ -729,8 +729,8 @@ namespace Engine {
       }
     }
 
-    protected Eval clonedSearch(Draft wDraft, Eval mAlpha, Eval mBeta,
-                                Move moveExcluded = Move.Undefined) {
+    private Eval clonedSearch(Draft wDraft, Eval mAlpha, Eval mBeta,
+                              Move moveExcluded = Move.Undefined) {
       var mValue = EvalUndefined;
 
       //

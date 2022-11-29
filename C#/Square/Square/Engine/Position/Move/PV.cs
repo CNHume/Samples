@@ -56,7 +56,7 @@ namespace Engine {
     }
 
     private Move abbreviate(Move move) {
-      if (isNullMove(move) || !isDefined(move)) //[Safe]
+      if (IsNullMove(move) || !IsDefined(move)) //[Safe]
         return move;
 
       unpack1(move, out Int32 nFrom, out Int32 nTo,
@@ -140,8 +140,8 @@ namespace Engine {
         var lineMoves = vn[nFinal].Moves;
         lineMoves.Clear();
 
-        if (!isDefined(move)) {
-          Debug.Assert(isDefined(move), "Undefined Move [AddPV]");
+        if (!IsDefined(move)) {
+          Debug.Assert(IsDefined(move), "Undefined Move [AddPV]");
           move = Move.NullMove;
         }
 
@@ -241,8 +241,8 @@ namespace Engine {
       }
       else {
         var moveNoted = moves[nMove];
-        if (!isDefined(moveNoted)) {
-          Debug.Assert(isDefined(moveNoted), "Undefined Move [abbreviateRefresh]");
+        if (!IsDefined(moveNoted)) {
+          Debug.Assert(IsDefined(moveNoted), "Undefined Move [abbreviateRefresh]");
           moveNoted = Move.NullMove;
         }
 
@@ -332,8 +332,8 @@ namespace Engine {
            !ReferenceEquals(position, parent);
            position = position.Parent) {
         var move = position.CurrentMove;
-        if (!isDefined(move)) {
-          Debug.Assert(isDefined(move), "Undefined CurrentMove");
+        if (!IsDefined(move)) {
+          Debug.Assert(IsDefined(move), "Undefined CurrentMove");
         }
         var mov = (bAbbreviate && position.Parent is not null) ?
           position.Parent.abbreviate(move) : move;

@@ -75,7 +75,7 @@ namespace Engine.CacheValue {
 #else
       return Hash == xpm.Hash &&
              (BestMove == Move.Undefined || xpm.BestMove == Move.Undefined ||
-              equalMoves(BestMove, xpm.BestMove));
+              EqualMoves(BestMove, xpm.BestMove));
 #endif
     }
     #endregion

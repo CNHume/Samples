@@ -113,13 +113,13 @@ namespace Engine {
       var pc = State!.Case;
       pc.LeafNodes++;
 
-      var bCapture = isCapture(move);
+      var bCapture = IsCapture(move);
       if (bCapture) {
         pc.Captures++;
         if ((Piece)captured(move) == Piece.EP)
           pc.EnPassant++;
       }
-      else if (isCastles(move))
+      else if (IsCastles(move))
         pc.Castles++;
 
       if ((move & Move.PromoteMask) != 0)

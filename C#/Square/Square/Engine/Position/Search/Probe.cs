@@ -74,7 +74,7 @@ namespace Engine {
       // Restore TurnFlags.Final to annotate the parent's move; and to prevent
       // a redundant search.
       //
-      if (isEmptyMove(moveFound)) {
+      if (IsEmptyMove(moveFound)) {
         SetFinal();
         moveFound = Move.Undefined;
       }
@@ -141,7 +141,7 @@ namespace Engine {
       var mAdjusted = creditMate(mValue, SearchPly);
 
       if (IsFinal()) {
-        Trace.Assert(!isDefined(moveBest), "moveBest defined in a Final position.");
+        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
@@ -207,7 +207,7 @@ namespace Engine {
       var mAdjusted = creditMate(mValue, SearchPly);
 
       if (IsFinal()) {
-        Trace.Assert(!isDefined(moveBest), "moveBest defined in a Final position.");
+        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
@@ -281,7 +281,7 @@ namespace Engine {
       var mAdjusted = creditMate(mValue, SearchPly);
 
       if (IsFinal()) {
-        Trace.Assert(!isDefined(moveBest), "moveBest defined in a Final position.");
+        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
@@ -312,7 +312,7 @@ namespace Engine {
 #endif
       var bValid = State!.QXPTank.LoadFirst(ref match);
       var moveBest = adjustEmptyMove(match.BestMove);
-      moveFound = isDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
+      moveFound = IsDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
       etFound = match.Type;                             //[out]2
       //[Note]Mate values are suspect because quiet moves were not considered
       var mValueFound = match.Value;
@@ -335,7 +335,7 @@ namespace Engine {
       bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out Eval mValue, out EvalType etFound);
 #endif
 #if TransposeQuiet
-      if (!isDefined(moveFound))
+      if (!IsDefined(moveFound))
         bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
 #endif
 #endif                                  // TransposeQuiet || QuiescentTryXP

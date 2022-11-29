@@ -641,7 +641,7 @@ namespace Engine {
       var nAdjusted = (Int32)mValue;
       if (EvalUndefined < mValue) {     //[Safe]
         if (MinusInfinity < mValue && mValue < PlusInfinity) {
-          var wSearchMoves = moveDelta(wSearchPlies);
+          var wSearchMoves = MoveDelta(wSearchPlies);
           // Credit wSearchMoves when storing a Search-relative Mate Value as a Position-relative Mate Value:
           if (MateMin <= mValue) {      // Mate [Plus]
             Debug.Assert(nAdjusted <= MateMax, "Position-relative MateRange Overflow [Plus]");
@@ -677,7 +677,7 @@ namespace Engine {
       var nAdjusted = (Int32)mValue;
       if (EvalUndefined < mValue) {     //[Safe]
         if (MinusInfinity < mValue && mValue < PlusInfinity) {
-          var wSearchMoves = moveDelta(wSearchPlies);
+          var wSearchMoves = MoveDelta(wSearchPlies);
           // Debit wSearchMoves when loading a Position-relative Mate Value as a Search-relative Mate Value:
           if (mValue >= MateMin) {      // Mate [Plus]
             Debug.Assert(mValue < PlusInfinity, "Search-relative Value too Large");
