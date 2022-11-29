@@ -30,9 +30,9 @@ namespace Engine {
       Parent.CopyTo(this);
       ResetEP();                      // Clear En Passant state just prior to making a move
 #if DebugNodeTotal
-      var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
-      if (State.NodeTotal != qNodeTotal) {
-        Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
+      var qNodeTotal = State!.MoveTotal + State!.NullMoveTotal;
+      if (State!.NodeTotal != qNodeTotal) {
+        Debug.Assert(State!.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
         DisplayCurrent("resetMove()");
       }
 #endif
@@ -161,7 +161,7 @@ namespace Engine {
 
       //
       //[Note]This search for 3-fold repetition extends to the initial position;
-      // not just to State.MovePosition where the current search began.
+      // not just to State!.MovePosition where the current search began.
       //
       for (var position = Parent; position is not null; position = position.Parent) {
         GameState.AtomicIncrement(ref State!.RepetitionPlies);

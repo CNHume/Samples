@@ -34,7 +34,7 @@ namespace Engine {
     // but can be omitted where Restricted[] marks how a Piece is Pinned.
     // This is because pieces are not allowed to leap over their King.
     //
-    protected Plane interpositions(Int32 nChx, Int32 nKing) {
+    private Plane interpositions(Int32 nChx, Int32 nKing) {
       var qpRay = 0UL;
       var qpCheck = bit(nChx);
 
@@ -64,7 +64,7 @@ namespace Engine {
     // can be omitted here, where Restricted[] marks a Piece as Pinned.
     // This is because pieces are not allowed to leap over their King.
     //
-    protected Plane pinRestrictions(Plane qpCheck, Int32 nKing) {
+    private Plane pinRestrictions(Plane qpCheck, Int32 nKing) {
       var qpRay = 0UL;                  // Return Value
 
       if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
@@ -89,7 +89,7 @@ namespace Engine {
     //[Note]PlayMove() has called toggleWTM() which inverts the
     // sense of Friend and Foe to complete the current position.
     //
-    protected void restrictPiece(Move move) {
+    private void restrictPiece(Move move) {
 #if DebugMove
       unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1,
                   out Piece promotion, out Boolean bCapture);

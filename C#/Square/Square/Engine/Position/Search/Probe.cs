@@ -101,7 +101,7 @@ namespace Engine {
 #if DEBUG
           var sb = new StringBuilder()
             .AppendFormat("Filtering ")
-            .AppendAN(moveFound, Side, State.IsChess960);
+            .AppendAN(moveFound, Side, State!.IsChess960);
           LogLine(sb.ToString());
 #endif
           return mValue;
@@ -131,7 +131,7 @@ namespace Engine {
       var bWTM = WTM();
 #endif
 #if XPMCompositionHash
-      UInt32 wPly = State.MovePly;
+      UInt32 wPly = State!.MovePly;
       var nSide = bWTM ? 0 : 1;
       var uMemoHash = compositionHash(bWTM);
       var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
@@ -154,7 +154,7 @@ namespace Engine {
       }
 #endif
 #if XPHash128
-      var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
+      var store = new PositionMove(qDynamic, HashPawn, State!.MovePly, wDepth,
                                    mAdjusted, et, moveBest);
 #else
       var store = new PositionMove(qDynamic, State!.MovePly, wDepth,
@@ -168,7 +168,7 @@ namespace Engine {
                              Move moveExcluded, List<GoodMove> goodMoves) {
 #if XPMCompositionHash
       var bWTM = WTM();
-      UInt32 wPly = State.MovePly;
+      UInt32 wPly = State!.MovePly;
       var nSide = bWTM ? 0 : 1;
       var uMemoHash = compositionHash(bWTM);
       var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
@@ -176,7 +176,7 @@ namespace Engine {
       var qDynamic = DynamicHash(moveExcluded);
 #endif
 #if XPHash128
-      var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
+      var match = new PositionMove(qDynamic, HashPawn, State!.MovePly, wDepth);
 #else
       var match = new PositionMove(qDynamic, State!.MovePly, wDepth);
 #endif
@@ -222,15 +222,15 @@ namespace Engine {
 #endif
 #if XPHash128
 #if XPMoveTypes
-      var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
+      var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State!.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #else
-      var store = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth,
+      var store = new Transposition(qDynamic, HashPawn, State!.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-      var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
+      var store = new Transposition(qDynamic, MoveTypeOrdering, State!.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #else
       var store = new Transposition(qDynamic, State!.MovePly, wDepth,
@@ -247,13 +247,13 @@ namespace Engine {
       var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
 #if XPMoveTypes
-      var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
+      var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State!.MovePly, wDepth);
 #else
-      var match = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth);
+      var match = new Transposition(qDynamic, HashPawn, State!.MovePly, wDepth);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-      var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
+      var match = new Transposition(qDynamic, MoveTypeOrdering, State!.MovePly, wDepth);
 #else
       var match = new Transposition(qDynamic, State!.MovePly, wDepth);
 #endif
@@ -295,7 +295,7 @@ namespace Engine {
       }
 #endif
 #if QXPHash128
-      var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
+      var store = new QuietPosition(Hash, State!.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
       var store = new QuietPosition(Hash, State!.MovePly, mAdjusted, et, moveBest);
 #endif
@@ -306,7 +306,7 @@ namespace Engine {
     private Boolean probeQXP(Eval mAlpha, Eval mBeta,
                              out Move moveFound, out Eval mValue, out EvalType etFound) {
 #if QXPHash128
-      var match = new QuietPosition(Hash, State.MovePly, HashPawn);
+      var match = new QuietPosition(Hash, State!.MovePly, HashPawn);
 #else
       var match = new QuietPosition(Hash, State!.MovePly);
 #endif

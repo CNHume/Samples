@@ -203,7 +203,7 @@ namespace Engine {
 #if DebugPseudoMoves
         DisplayCurrent($"Search(Depth = {wDepth})");
         var sb = new StringBuilder("PseudoMoves:");
-        sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+        sb.mapMoves(Extensions.AppendPACN, moves, State!.IsChess960);
         sb.FlushLine();
 #endif
       }
@@ -229,7 +229,7 @@ namespace Engine {
 #if DebugGoodMoves
         if (goodMoves.Count > 0) {
           var sb = new StringBuilder("goodMoves:");
-          sb.mapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
+          sb.mapMoves(Extensions.AppendPACN, goodMoves, State!.IsChess960);
           sb.FlushLine();
         }
 #endif
@@ -246,9 +246,9 @@ namespace Engine {
 #endif                                  // UseMoveSort
         var sb2 = new StringBuilder("Candidate Moves:");
 #if LazyMoveSort
-        sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
+        sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State!.IsChess960);
 #else
-        sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
+        sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State!.IsChess960);
 #endif
         sb2.FlushLine();
 #endif
@@ -288,7 +288,7 @@ namespace Engine {
 #endif
 #if DebugNextMove
           var sb = new StringBuilder("Next Move =");
-          sb.AppendPACN(move, State.IsChess960);
+          sb.AppendPACN(move, State!.IsChess960);
           LogLine(sb.ToString());
 #endif
           var wDraft1 = nextDraft(wDraft);

@@ -195,7 +195,7 @@ namespace Engine {
         throw new MoveException($"Illegal Castle: {sMove}");
 #if DebugParse
       var sb = new StringBuilder();
-      sb.AppendPACN(move, Side, State.IsChess960);
+      sb.AppendPACN(move, Side, State!.IsChess960);
       sb.FlushLine();
 #endif
       return move;

@@ -53,7 +53,7 @@ namespace Engine {
       var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
 #if TestRewardMove
       var sb = new StringBuilder()
-        .AppendPACN(move, Side, State.IsChess960)
+        .AppendPACN(move, Side, State!.IsChess960)
         .Append($" by {parameter.SideName} is {type}");
       LogLine(sb.ToString());
 #endif
@@ -69,7 +69,7 @@ namespace Engine {
       MoveTypeOrdering = Compress(MoveTypes);
     }
 
-    protected void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
+    private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
       //[Test]Debug.Assert(mValue > EvalUndefined, "rewardMove(EvalUndefined)");
 #if NoMaterial
       var bMaterial = move.Has(Move.Material);
@@ -97,7 +97,7 @@ namespace Engine {
     }
 
 #if UseMoveSort
-    protected Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
+    private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
       //[Test]goodMoves.Sort();
 
       var nMoves = moves.Count;
@@ -170,7 +170,7 @@ namespace Engine {
           var sm = SortMoves[nMoveIndex];
 #endif
           sb.Clear();
-          sb.AppendAN(sm.Move, Side, State.IsChess960);
+          sb.AppendAN(sm.Move, Side, State!.IsChess960);
           LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
 #if LazyMoveSort
           nMoveIndex++;
@@ -191,7 +191,7 @@ namespace Engine {
       return nEarly;
     }
 #else                                   // UseMoveSort
-    protected Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
+    private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
       var nStart = SiftedMoves.Count;
       Trace.Assert(nStart == 0, "nStart != 0");
 
@@ -213,7 +213,7 @@ namespace Engine {
       foreach (var move in moves) {
         if (goodMoves.Exists(gm => equalMoves(gm.Move, move))) {
           earlyMoves.Add(move);
-          State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
+          State!.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
         }
         else
           lateMoves.Add(move);
@@ -274,7 +274,7 @@ namespace Engine {
       }
 
       var nEarly = SiftedMoves.Count;
-      State.AddEarlyTotal(bWTM, nEarly);
+      State!.AddEarlyTotal(bWTM, nEarly);
 
       SiftedMoves.AddRange(lateMoves);
       var nGenerated = SiftedMoves.Count;

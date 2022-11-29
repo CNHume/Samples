@@ -201,7 +201,7 @@ namespace Engine {
           //[Chess 960]Avoid potential ambiguity of ordinary King moves with castling
           //
 #if HashExcludedChess960CastlesOnly
-          if (State.IsChess960)
+          if (State!.IsChess960)
             qDynamic ^= ZobristExcludedCastles;
 #else
           //

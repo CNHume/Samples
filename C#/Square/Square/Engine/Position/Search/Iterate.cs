@@ -198,7 +198,7 @@ namespace Engine {
 #if !TestRegression                     // Elide final prediction
             vDepth == vDepthLimit ? 0UL :
 #endif
-          State.Predict(vStartDepth, vDepth, qNodeDelta);
+          State!.Predict(vStartDepth, vDepth, qNodeDelta);
 
           GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
           qPredicted1 = qPredicted2;
@@ -251,7 +251,7 @@ namespace Engine {
           var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
           GameState.displayRate(dElapsedMS, qNodeDelta);
 #if DisplayPrediction
-          var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
+          var qPredicted2 = State!.Predict(0, vDepth, qNodeDelta);
           GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
           qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction

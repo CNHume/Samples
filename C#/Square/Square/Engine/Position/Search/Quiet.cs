@@ -128,7 +128,7 @@ namespace Engine {
 #if DebugPseudoMoves
           DisplayCurrent("quiet()";
           var sb = new StringBuilder("PseudoMoves:");
-          sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+          sb.mapMoves(Extensions.AppendPACN, moves, State!.IsChess960);
           sb.FlushLine();
 #endif
         }
