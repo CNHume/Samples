@@ -40,7 +40,7 @@ namespace Engine.MoveOrder {
       return uBottleHash % BottleLength;
     }
 
-    protected void allocate(UInt32 uBottleLength) {
+    private void allocate(UInt32 uBottleLength) {
       if (nKillers > 0) {
         Killers = new GoodMove[nBottleSides][][];
         for (var nSide = 0; nSide < nBottleSides; nSide++) {

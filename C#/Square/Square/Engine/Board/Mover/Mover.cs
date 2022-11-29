@@ -38,7 +38,7 @@ namespace Engine {
     // RaisePiece which is called by RemovePiece
     //
     #region Side Methods
-    protected BoardSide getSide(Boolean bWTM) {
+    protected BoardSide GetSide(Boolean bWTM) {
       return bWTM ?
         Side[White] : Side[Black];
     }

@@ -80,7 +80,7 @@ namespace Engine {
           throw new ParsePositionException($"Unexpected Piece Name = {cPlacement}");
 
         var vPiece = PieceIndex((UInt32)piece);
-        var side = getSide(bWhiteSide);
+        var side = GetSide(bWhiteSide);
         side.PlacePiece(vPiece, sqr(x, y));
         x++;                            // Placed Piece
       }
@@ -192,7 +192,7 @@ namespace Engine {
 
         var nRookFile = cPosLower - cFileMin;
         var bWhiteSide = IsUpper(cFlag);
-        var side = getSide(bWhiteSide);
+        var side = GetSide(bWhiteSide);
 
         side.GrantCastling(nRookFile, State!.IsChess960);
       }                               //[Next]cFlag

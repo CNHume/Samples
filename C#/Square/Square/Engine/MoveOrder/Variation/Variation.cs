@@ -35,7 +35,7 @@ namespace Engine.MoveOrder {
 
     #region IComparable Interface Methods
     // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
-    public Int32 CompareTo(Object obj) {
+    public Int32 CompareTo(Object? obj) {
       //if (obj is null) return 1;
       var variation = obj as Variation;
 

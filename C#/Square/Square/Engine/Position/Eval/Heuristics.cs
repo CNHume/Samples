@@ -135,7 +135,7 @@ namespace Engine {
       else if (OrthPiece == 0) {        // No Rooks or Queens
         fgame |= GameFlags.OutsideSquare;
         var bWhiteAttacker = fgame.Has(GameFlags.BlackAlone);
-        var attacker = getSide(bWhiteAttacker);
+        var attacker = GetSide(bWhiteAttacker);
         if (isKBNvKEndgame(attacker.FlagsSide)) fgame |= GameFlags.KBNvK;
       }
 
@@ -156,7 +156,7 @@ namespace Engine {
       var bKingToMoveLoss = bWhiteAlone == bWTM;
       var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
 
-      var side = getSide(bWhiteAlone);
+      var side = GetSide(bWhiteAlone);
       var vDefendingKingPos = side.GetKingPos();
       var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
       var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;
@@ -247,7 +247,7 @@ namespace Engine {
     private Eval rewardKQvKPProximity() {
       const Int32 nMaxPawnDistance = nFiles - 2;
       var bWhiteAttacker = (Side[Black].Piece & Pawn) != 0;
-      var attacker = getSide(bWhiteAttacker);
+      var attacker = GetSide(bWhiteAttacker);
       var vAttackerKingPos = attacker.GetKingPos();
       var qp = Pawn;
       var nPawnPos = RemoveLo(ref qp);
