@@ -782,8 +782,8 @@ namespace Engine {
       for (var v6 = vHF; v6 < vK6; v6++,
            wHashBlack >>= nPerTwoBits,
            wHashWhite >>= nPerTwoBits) {
-        var nBlack = twoBits(wHashBlack);
-        var nWhite = twoBits(wHashWhite);
+        var nBlack = TwoBits(wHashBlack);
+        var nWhite = TwoBits(wHashWhite);
         var s = v6 == vHF ? "F" : PieceSymbol(v6);
 
         sb.AppendFormat($" {blackSide.Parameter.Symbol}{s} {nBlack,2},")

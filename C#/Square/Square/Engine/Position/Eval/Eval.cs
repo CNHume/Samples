@@ -496,14 +496,14 @@ namespace Engine {
       if (mValue == EvalUndefined)
         return (Bval)EvalUndefined;
       else {
-        var nIBV = (mValue << nPerTwoBits) + twoBits((Int32)et);
+        var nIBV = (mValue << nPerTwoBits) + TwoBits((Int32)et);
         return (Bval)nIBV;
       }
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static EvalType IBType(Bval mIBV) {
-      return mIBV == EvalUndefined ? EvalType.Undefined : (EvalType)twoBits(mIBV & vTwoBits);
+      return mIBV == EvalUndefined ? EvalType.Undefined : (EvalType)TwoBits(mIBV & vTwoBits);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

@@ -584,7 +584,7 @@ namespace Engine {
     #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != twoBits(u);
+      var bOverflow = u != TwoBits(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "TwoBits Overflow");
         u &= vTwoBits;
@@ -629,12 +629,12 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 twoBits(Int32 input) {
+    public static Int32 TwoBits(Int32 input) {
       return input & vTwoBits;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static UInt32 twoBits(UInt32 input) {
+    public static UInt32 TwoBits(UInt32 input) {
       return input & vTwoBits;
     }
     #endregion
