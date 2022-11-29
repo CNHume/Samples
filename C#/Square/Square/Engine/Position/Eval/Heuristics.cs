@@ -76,7 +76,7 @@ namespace Engine {
     // the (290) 3-4-5-men files require 938 MB; and (730) 6-men files require 149 GB.
     //
     #region End Game Detection
-    public Boolean isKQvKPEndgame2(BoardSide attacker, BoardSide defender) {
+    private Boolean isKQvKPEndgame2(BoardSide attacker, BoardSide defender) {
       var qpAttackerPawn = attacker.Piece & Pawn;
       if (qpAttackerPawn != 0)
         return false;
@@ -112,7 +112,7 @@ namespace Engine {
         isKQvKPEndgame2(whiteSide, blackSide);
     }
 
-    public Boolean isKBNvKEndgame(SideFlags fside) {
+    private Boolean isKBNvKEndgame(SideFlags fside) {
       //[Assume]KingAlone and No Rooks or Queens
       if ((Bishop | Knight) == 0)       // At least one Bishop and one Knight
         return false;
@@ -124,7 +124,7 @@ namespace Engine {
       return bEndgame;
     }
 
-    public GameFlags getEndGameFlags() {
+    private GameFlags getEndGameFlags() {
       GameFlags fgame = default;
       if (Side[Black].IsAlone()) fgame |= GameFlags.BlackAlone;
       if (Side[White].IsAlone()) fgame |= GameFlags.WhiteAlone;
@@ -149,7 +149,7 @@ namespace Engine {
     #endregion                          // End Game Detection
 
     #region King Outside Square of the Pawn
-    protected Eval punishOutsideSquare() {
+    private Eval punishOutsideSquare() {
       var bWhiteAlone = FlagsGame.Has(GameFlags.WhiteAlone);
       var bWTM = WTM();
       var parameter = Parameter[bWTM ? White : Black];
@@ -177,61 +177,61 @@ namespace Engine {
     #endregion                          // King Outside Square of the Pawn
 
     #region KBN Endgame
-    protected static Int32 edgeDistance(Int32 n) {
+    private static Int32 edgeDistance(Int32 n) {
       var dx = Min(x(n), invertFile(x(n)));
       var dy = Min(y(n), invertRank(y(n)));
       return Min(dx, dy);
     }
 
-    protected static Int32 distance(Int32 m, Int32 n) {
+    private static Int32 distance(Int32 m, Int32 n) {
       var dx = Abs(x(n) - x(m));
       var dy = Abs(y(n) - y(m));
       return Max(dx, dy);
     }
 
-    protected static Int32 liteCornerDistance(Int32 n) {
+    private static Int32 liteCornerDistance(Int32 n) {
       var distA8 = distance((Int32)sq.a8, n);
       var distH1 = distance((Int32)sq.h1, n);
       return Min(distA8, distH1);
     }
 
-    protected static Int32 darkCornerDistance(Int32 n) {
+    private static Int32 darkCornerDistance(Int32 n) {
       var distA1 = distance((Int32)sq.a1, n);
       var distH8 = distance((Int32)sq.h8, n);
       return Min(distA1, distH8);
     }
 
-    protected static Int32 liteCornerDefender(Int32 n) {
+    private static Int32 liteCornerDefender(Int32 n) {
       return liteCornerDistance(n) + edgeDistance(n);
     }
 
-    protected static Int32 darkCornerDefender(Int32 n) {
+    private static Int32 darkCornerDefender(Int32 n) {
       return darkCornerDistance(n) + edgeDistance(n);
     }
 
-    protected static Int32 liteCornerReward(Int32 n) {
+    private static Int32 liteCornerReward(Int32 n) {
       var defence = liteCornerDefender(n);
       var offence = nFiles - defence;
       return mKBNvKMateCornerWeight * offence / nFiles;
     }
 
-    protected static Int32 darkCornerReward(Int32 n) {
+    private static Int32 darkCornerReward(Int32 n) {
       var defence = darkCornerDefender(n);
       var offence = nFiles - defence;
       return mKBNvKMateCornerWeight * offence / nFiles;
     }
 #if ShowCornerCP
-    protected static Int32 liteCornerCP(Int32 n) {
+    private static Int32 liteCornerCP(Int32 n) {
       var nReward = liteCornerReward(n);
       return Round(100 * nReward, mUnitWeight);
     }
 
-    protected static Int32 darkCornerCP(Int32 n) {
+    private static Int32 darkCornerCP(Int32 n) {
       var nReward = darkCornerReward(n);
       return Round(100 * nReward, mUnitWeight);
     }
 #endif
-    protected Eval rewardKBNvKMateCorner() {
+    private Eval rewardKBNvKMateCorner() {
       var bWhiteAttacker = FlagsGame.Has(GameFlags.BlackAlone);
       var (attacker, defender) = GetSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
@@ -244,7 +244,7 @@ namespace Engine {
       return (Eval)(bWhiteAttacker ? nReward : -nReward);
     }
 
-    protected Eval rewardKQvKPProximity() {
+    private Eval rewardKQvKPProximity() {
       const Int32 nMaxPawnDistance = nFiles - 2;
       var bWhiteAttacker = (Side[Black].Piece & Pawn) != 0;
       var attacker = getSide(bWhiteAttacker);
@@ -278,7 +278,7 @@ namespace Engine {
     //
     // Rooks Belong Behind Passed Pawns, whether they are on offence or defence:
     //
-    protected Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
+    private Eval rookBehindPasser(Boolean bWhiteRook, Plane qpPassers) {
       Eval mBehind = 0;
 
       var (attacker, defender) = GetSides(bWhiteRook);
@@ -315,7 +315,7 @@ namespace Engine {
     // Pseudo Attacks are counted for both sides.
     // Pawn Advances and Castling are not included.
     //
-    protected Eval mobility() {
+    private Eval mobility() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
