@@ -28,7 +28,6 @@ namespace Engine {
   //
   using Depth = UInt16;
   using Eval = Int16;
-  using Ply = UInt16;
 
   partial class Position : Board {
     #region Annotation Methods
@@ -48,7 +47,7 @@ namespace Engine {
       return move;
     }
 
-    protected Move annotateFinal(Move move) {
+    private Move annotateFinal(Move move) {
       if (IsFinal()) move |= Move.NoteFinal;
 #if TestDraw3
       if (IsDraw()) move |= Move.NoteDraw;
@@ -56,7 +55,7 @@ namespace Engine {
       return move;
     }
 
-    protected Move abbreviate(Move move) {
+    private Move abbreviate(Move move) {
       if (isNullMove(move) || !isDefined(move)) //[Safe]
         return move;
 
@@ -170,7 +169,7 @@ namespace Engine {
           sb.AppendFormat($"{sGrow} vn[{nPlace}]");
           LogInfo(Level.note, sb.ToString());
           sb.Clear();
-          State.MovePosition.writePV(sb, nPlace, bWTM);
+          State!.MovePosition.writePV(sb, nPlace, bWTM);
         }
 #endif
       }
@@ -181,7 +180,7 @@ namespace Engine {
       return bRoomToGrow ? mAlpha : bHasValue ? vn[nFinal].Value : mValue;
     }
 
-    protected void lookupPV(Eval mAlpha, Eval mBeta, List<Move> moves) {
+    private void lookupPV(Eval mAlpha, Eval mBeta, List<Move> moves) {
       //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
       probeMove(mAlpha, mBeta, out Move moveFound);
       // moveFound not always defined for EvalType.Upper [Fail Low]
@@ -291,7 +290,7 @@ namespace Engine {
     }
 
     [Conditional("RefreshPV")]
-    protected void refreshPV(Depth wDepth) {
+    private void refreshPV(Depth wDepth) {
       var child = Push();               // Push Position to make the moves
       try {
         var bWTM = WTM();
@@ -312,23 +311,20 @@ namespace Engine {
     #endregion
 
     #region Writer Methods
-    [Conditional("WritePV")]
-    protected void writeMultiPV() {
-      var bWTM = WTM();
-      var sb = new StringBuilder();
-      for (var nLine = 0; nLine < State!.VariationCount; nLine++) {
-        sb.WriteVariation(State!.Variation[nLine], nLine, State!.MultiPVLength > 1,
-                          bWTM, GamePly, State!.IsPure, Side, State!.IsChess960)
-          .FlushLine();
-      }
-    }
-#if DebugPlace
-    protected void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
-      sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
-                        bWTM, GamePly, State.IsPure, State.Parameter.Rule)
+    private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
+      sb.WriteVariation(State!.Variation[nLine], nLine, State!.MultiPVLength > 1,
+                        bWTM, GamePly, State!.IsPure, Side, State!.IsChess960)
         .FlushLine();
     }
-#endif
+
+    [Conditional("WritePV")]
+    private void writeMultiPV() {
+      var bWTM = WTM();
+      var sb = new StringBuilder();
+      for (var nLine = 0; nLine < State!.VariationCount; nLine++)
+        writePV(sb, nLine, bWTM);
+    }
+
     public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
       var moves = new List<Move>();
       for (var position = this;         // toPosition
