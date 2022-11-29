@@ -367,13 +367,13 @@ namespace Engine {
     // Dynamic Evaluation is invoked at the end of
     // a Search, e.g., when the Depth reaches Zero.
     //
-    protected Eval eval() {
+    private Eval eval() {
       var bWTM = WTM();
       var mValue = IsDraw() || IsStalemate() ? contempt() : fullEval();
       return ReflectValue(bWTM, mValue);
     }
 
-    protected Eval final() {
+    private Eval final() {
       //
       // The game is over if the side to move has no move.
       // If the King is in Check, this is a Checkmate and
@@ -429,7 +429,7 @@ namespace Engine {
       return mValue;
     }
 
-    protected Eval standpatval(Eval mValueFound, EvalType etFound) {
+    private Eval standpatval(Eval mValueFound, EvalType etFound) {
       if (EvalUndefined < mValueFound) {
         switch (etFound) {
         case EvalType.Exact:
@@ -447,7 +447,7 @@ namespace Engine {
       return boundValue(mValue, mValueFound, etFound);
     }
 
-    protected Eval pruneval(Draft wPruneDraft, Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound) {
+    private Eval pruneval(Draft wPruneDraft, Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound) {
       if (EvalUndefined < mValueFound) {
         switch (etFound) {
         case EvalType.Exact:

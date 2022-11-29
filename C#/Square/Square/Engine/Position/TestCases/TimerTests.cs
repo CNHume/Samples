@@ -84,7 +84,7 @@ namespace Engine {
     }
 
     [Conditional("TestOutsideSquare")]
-    protected void testOutsideSquare(sq sq) {
+    private void testOutsideSquare(sq sq) {
       var n = (Int32)sq;
       foreach (var parameter in Parameter) {
         testOrth($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
@@ -92,7 +92,7 @@ namespace Engine {
       }
     }
 
-    protected void everyRoot() {
+    private void everyRoot() {
       for (UInt16 w = 0; w < UInt16.MaxValue; w++) {
         var root = ISqrt(w);
       }
@@ -100,7 +100,7 @@ namespace Engine {
     #endregion
 
     #region Timer Tests
-    protected void timeRoots(UInt64 qTrials = 100000UL) {
+    private void timeRoots(UInt64 qTrials = 100000UL) {
       //verifyISqrt();
       var sw = TimerStart(nameof(everyRoot), qTrials);
 
@@ -110,7 +110,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeEval(UInt64 qTrials = 100000000UL) {
+    private void timeEval(UInt64 qTrials = 100000000UL) {
       var sw = TimerStart(nameof(staticEval), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
@@ -119,7 +119,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeWeighPieces(UInt64 qTrials = 1000000000UL) {
+    private void timeWeighPieces(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(weighPieces), qTrials);
 
       CompositionCounter wPieceCounts = default;
@@ -133,7 +133,7 @@ namespace Engine {
     }
 
     // Generates moves at ~18 MHz
-    protected void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {
+    private void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {
       var sw = TimerStart($"{nameof(generate)}({bSwap})", qTrials);
 
       var qMoveCount = 0UL;
@@ -144,7 +144,7 @@ namespace Engine {
     }
 
     // 13 MHz
-    protected void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {
+    private void timeAddPieceCapturesAndMoves(UInt64 qTrials = 10000000UL) {
       var sw = TimerStart(nameof(addPieceCapturesAndMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -156,7 +156,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
+    private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
       var sw = TimerStart(nameof(BoardSide.AddPawnMoves), qTrials);
       var whiteSide = Side[White];
       var blackSide = Side[Black];
@@ -178,7 +178,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
+    private void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
       var sw = TimerStart(nameof(BoardSide.Safe), qTrials);
       var blackSide = Side[Black];
       var whiteSide = Side[White];
@@ -196,7 +196,7 @@ namespace Engine {
     // diagAtx() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
     // orthAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
     // KnightAtx[] ~63 MHz [C++ 8.44x faster]
-    protected void timeOrthAtx(UInt64 qTrials = 1000000000UL) {
+    private void timeOrthAtx(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(orthAtx), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -225,7 +225,7 @@ namespace Engine {
     // Full Mask 46% faster for timeRemoveLo()
     // Half DeBruijn 2.5% faster for perft2
     //
-    protected void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
+    private void timeRemoveLo(UInt64 qTrials = 1000000000UL) {
       //Int32 n;
       //n = BitOperations.TrailingZeroCount((UInt64)0);
       //n = BitOperations.TrailingZeroCount((UInt32)0);
@@ -250,7 +250,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeMagic(UInt64 qTrials = 1000000000UL) {
+    private void timeMagic(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(rotateRank), qTrials);
       var n = (Int32)sq.e4;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -263,7 +263,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
+    private void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
       var sw = TimerStart(nameof(GetPieceIndex), qTrials);
       var nFrom = (Int32)sq.d1;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -278,7 +278,7 @@ namespace Engine {
     //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
     //
     [Conditional("TimePlayMove")]
-    protected void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
+    private void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sbMove = new StringBuilder();
       sbMove.AppendPACN(mov, Side, State!.IsChess960);
       var sw = TimerStart($"{nameof(PlayMove)}({sbMove})", qTrials);
@@ -293,7 +293,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeMove(Move move, UInt64 qTrials = 100000000UL) {
+    private void timeMove(Move move, UInt64 qTrials = 100000000UL) {
       var child = Push();               // Push Position to make the moves
       try {
         child.timePlayMove(move, qTrials);
@@ -303,7 +303,7 @@ namespace Engine {
       }
     }
 
-    protected void timeListAdd(UInt64 qTrials = 10000000UL) {      //~35.56 MHz
+    private void timeListAdd(UInt64 qTrials = 10000000UL) {      //~35.56 MHz
       var sw = TimerStart(nameof(List<Move>.Add), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -315,7 +315,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeStaticLoads(UInt64 qTrials = 10000UL) {
+    private void timeStaticLoads(UInt64 qTrials = 10000UL) {
       var sw = TimerStart("Static Load", qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -351,7 +351,7 @@ namespace Engine {
       TimerStop(sw, qTrials);
     }
 
-    protected void timeExecute(String sInput, UInt64 qTrials) {
+    private void timeExecute(String sInput, UInt64 qTrials) {
       using (var command = new UCI()) {
         var sw = TimerStart(nameof(command.Execute), qTrials);
         var qTrial = 0UL;
