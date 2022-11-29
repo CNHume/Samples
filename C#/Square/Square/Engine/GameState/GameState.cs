@@ -279,7 +279,7 @@ namespace Engine {
 
     #region Banner Methods
     [Conditional("DisplayOptions")]
-    protected void appendOptions(StringBuilder sb) {
+    private void appendOptions(StringBuilder sb) {
       // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
       sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
 #if XPHash128
@@ -428,7 +428,7 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected void displayCounts(SearchMode mode, Double dElapsedMS) {
+    private void displayCounts(SearchMode mode, Double dElapsedMS) {
       //
       // All of the following display methods are Conditional
       //

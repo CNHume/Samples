@@ -57,7 +57,7 @@ namespace Engine {
       return testCases;
     }
 
-    protected String? getName(String? sId = default) {
+    private String? getName(String? sId = default) {
       var tabiyaFound = findTabiya();
       return tabiyaFound is null ?
         sId : tabiyaFound.Name;
@@ -450,7 +450,7 @@ namespace Engine {
     }
 
     [Conditional("TestFEN")]
-    protected void verifyFEN(String sFEN) {
+    private void verifyFEN(String sFEN) {
       // Output FEN:
       var sFEN2 = ToString(PositionType.FEN);
       var nFENLength = sFEN.Length;

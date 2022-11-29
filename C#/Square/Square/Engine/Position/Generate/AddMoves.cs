@@ -14,7 +14,6 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Drawing;
   using System.Runtime.CompilerServices;// for MethodImplAttribute
 
   using static Logging.Logger;
@@ -124,7 +123,7 @@ namespace Engine {
 
     #region Piece Moves
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void addPieceCaptures(
+    private void addPieceCaptures(
       List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
       var parameter = Friend.Parameter;
       qpMoveTo &= RankPiece;            // Find Captures
@@ -140,7 +139,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void addPieceMoves(
+    private void addPieceMoves(
       List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
       var parameter = Friend.Parameter;
       qpMoveTo &= ~RankPiece;           // Find Moves
