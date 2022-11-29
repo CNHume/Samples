@@ -47,7 +47,7 @@ namespace Engine {
     // which allows Fractional Depth Extensions to be
     // represented via the 8-bit fractional component.
     //
-    protected static Draft draft(Depth wDepth) {
+    private static Draft draft(Depth wDepth) {
       return (Draft)(wDepth << nDepthScale);
     }
 
@@ -55,7 +55,7 @@ namespace Engine {
       return (Draft)(wDraft > wFullPly ? wDraft - wFullPly : 0);
     }
 
-    protected static Depth depth(Draft wDraft) {
+    private static Depth depth(Draft wDraft) {
       //[Warning]Zero depth must be allowed in order for
       // Search recursion to end with a Quiescent Search.
 #if RoundPly
@@ -83,25 +83,25 @@ namespace Engine {
 #endif
     }
 
-    protected void decExtension(ref Draft wDraft, Int32 nExt) {
+    private void decExtension(ref Draft wDraft, Int32 nExt) {
       // Govern dec as well as inc
       ExtensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
       wDraft -= extensionDraft(nExt);    // Decrement
     }
 
-    protected void incExtension(ref Draft wDraft, Int32 nExt) {
+    private void incExtension(ref Draft wDraft, Int32 nExt) {
       // Govern usage
       ExtensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
       wDraft += extensionDraft(nExt);   // Increment
     }
 
-    protected Boolean canExtend(Int32 nExt) {
+    private Boolean canExtend(Int32 nExt) {
       var vCount = getNibble(ExtensionCounts, nExt);
       var vLimit = getNibble(State!.ExtensionLimit, nExt);
       return vCount < vLimit;
     }
 
-    protected Boolean extended(ref Draft wDraft, SearchExtensions extension) {
+    private Boolean extended(ref Draft wDraft, SearchExtensions extension) {
       var nExt = (Int32)extension;
       var bExtended = canExtend(nExt);
 
@@ -114,7 +114,7 @@ namespace Engine {
     //
     // Reduced Draft used for Null Move and other Heuristic Searches
     //
-    protected Draft reduceShallow(Draft wDraft) {
+    private Draft reduceShallow(Draft wDraft) {
 #if LinearReduction
       var wDraft1 = (Draft)((wDraft + wFullPly) / 3);         // 1/3 vs 3/8
 #else
@@ -129,7 +129,7 @@ namespace Engine {
       return wDraft1 < wDraft ? wDraft1 : (Draft)0;
     }
 
-    protected Draft reduceDeep(Draft wDraft) {
+    private Draft reduceDeep(Draft wDraft) {
 #if LinearReduction
       var wDraft1 = (Draft)(4 * (wDraft + wFullPly) / 5);     // 4/5 vs 1/2
 #else
@@ -144,14 +144,14 @@ namespace Engine {
       return wDraft1 < wDraft ? wDraft1 : (Draft)0;
     }
 
-    internal void writeDepthShallow(PlyDepth vPliesLimit) {
+    private void writeDepthShallow(PlyDepth vPliesLimit) {
       for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Shallow({vPlies,2}) = {depth(reduceShallow(wDraft)),2}");
       }
     }
 
-    internal void writeDepthDeep(PlyDepth vPliesLimit) {
+    private void writeDepthDeep(PlyDepth vPliesLimit) {
       for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Deep({vPlies,2}) = {depth(reduceDeep(wDraft)),2}");
