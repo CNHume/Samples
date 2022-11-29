@@ -165,7 +165,7 @@ namespace Engine {
     }
 
     [Conditional("CountNodes")]
-    protected void displayNodeCounts(Double dElapsedMS) {
+    private void displayNodeCounts(Double dElapsedMS) {
       Debug.Assert(NodeTotal == MoveTotal + NullMoveTotal, "Inconsistent Node Total");
 
       if (dElapsedMS == 0)
@@ -178,7 +178,7 @@ namespace Engine {
     }
 
     [Conditional("TotalMoves")]
-    protected void displayPseudoMoveTotals() {
+    private void displayPseudoMoveTotals() {
       LogInfoNewLine(Level.data);
       LogInfo(Level.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
@@ -204,14 +204,14 @@ namespace Engine {
 #endif
     }
 
-    protected static String bar(Double percent, Int32 scale = 100) {
+    private static String bar(Double percent, Int32 scale = 100) {
       var v2 = (Byte)Round(2 * scale * percent / 100.0);
       var s = Empty.PadRight(v2 / 2, '@');
       var bHalf = Board.IsOdd(v2);
       return bHalf ? s + "&" : s;
     }
 
-    protected void displayPVDoubleHistogram() {
+    private void displayPVDoubleHistogram() {
       if (PVDoubleTotal <= 0) return;
 
       LogInfoNewLine(Level.data);
@@ -228,14 +228,14 @@ namespace Engine {
     }
 
     [Conditional("TotalPVS")]
-    protected void displayPVSTotals() {
+    private void displayPVSTotals() {
       LogInfo(Level.data, $"ZW Simple = {ZWSimpleTotal:n0}; PV Simple = {PVSimpleTotal:n0}");
       LogInfo(Level.data, $"PV Singles = {PVSingleTotal:n0}; PV Doubles = {PVDoubleTotal:n0}");
 
       displayPVDoubleHistogram();
     }
 
-    protected void displayEarlyMoveHistogram() {
+    private void displayEarlyMoveHistogram() {
       var lEarlyMoveTotal = WhiteEarlyMoveTotal + BlackEarlyMoveTotal;
       if (lEarlyMoveTotal <= 0) return;
 
@@ -265,7 +265,7 @@ namespace Engine {
     }
 
     [Conditional("TotalEarlyMoves")]
-    protected void displayEarlyMoveTotals() {
+    private void displayEarlyMoveTotals() {
       LogInfoNewLine(Level.data);
       displayEarlyMoveCounts(SideName.White, WhiteEarlyMoveTotal, WhiteSearchedPositionCount);
       displayEarlyMoveCounts(SideName.Black, BlackEarlyMoveTotal, BlackSearchedPositionCount);
@@ -274,7 +274,7 @@ namespace Engine {
     }
 
     [Conditional("ShowDetails")]
-    protected void displayDetails() {
+    private void displayDetails() {
       LogInfoNewLine(Level.data);
       if (RepetitionSearches > 0) {
         var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
@@ -317,7 +317,7 @@ namespace Engine {
     }
 
     [Conditional("CountCXP")]
-    protected void displayCXP() {
+    private void displayCXP() {
       if (CXPMemo is null)
         return;
 
@@ -330,7 +330,7 @@ namespace Engine {
     }
 
     [Conditional("CountPXP")]
-    protected void displayPXP() {
+    private void displayPXP() {
       if (PXPMemo is null)
         return;
 
@@ -343,7 +343,7 @@ namespace Engine {
     }
 
     [Conditional("CountQXP")]
-    protected void displayQXP() {
+    private void displayQXP() {
       if (QXPTank is null)
         return;                         //[Safe]
 
@@ -356,7 +356,7 @@ namespace Engine {
     }
 
     [Conditional("CountXP")]
-    protected void displayXP() {
+    private void displayXP() {
       if (XPTank is null)
         return;                         //[Safe]
 
@@ -377,7 +377,7 @@ namespace Engine {
     }
 
     [Conditional("CountXPM")]
-    protected void displayXPM() {
+    private void displayXPM() {
       if (XPMTank is null)
         return;                         //[Safe]
 
@@ -390,14 +390,14 @@ namespace Engine {
     }
 
     [Conditional("CountEvalTypes")]
-    protected void displayEvalTypeCounts() {
+    private void displayEvalTypeCounts() {
       //[Note]The EvalType Counts should add up to SetReads
       LogInfo(Level.data,
               $"{EvalType.Upper} = {UpperCount:n0}; {EvalType.Exact} = {ExactCount:n0}; {EvalType.Lower} = {LowerCount:n0}");
     }
 
     [Conditional("DisplayPositionPool")]
-    protected void displayPositionPool() {
+    private void displayPositionPool() {
       PositionPool.DisplayActive();
     }
 
