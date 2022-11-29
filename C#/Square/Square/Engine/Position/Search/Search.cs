@@ -68,8 +68,8 @@ namespace Engine {
     #endregion
 
     #region Search Methods
-    public Eval Search(Draft wDraft, Eval mAlpha, Eval mBeta,
-                       Move moveExcluded = Move.Undefined) {
+    private Eval search(Draft wDraft, Eval mAlpha, Eval mBeta,
+                        Move moveExcluded = Move.Undefined) {
       var moves = PseudoMoves;
       BestMoves.Clear();                //[Required]
 
@@ -539,11 +539,11 @@ namespace Engine {
       if (bTryZWS) {                    // PVS starts with a ZWS (after Raised Alpha)
         var moveFlags = FlagsMode;      //[Save]
         FlagsMode |= ModeFlags.ZWS;     //[Note]This allows prune()
-        mValue = (Eval)(-Search(wReducedDraft, (Eval)(-mAlpha1), (Eval)(-mAlpha)));
+        mValue = (Eval)(-search(wReducedDraft, (Eval)(-mAlpha1), (Eval)(-mAlpha)));
         FlagsMode = moveFlags;          //[Restore]
       }
       else
-        mValue = (Eval)(-Search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
+        mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
 
       //
       // Increment appropriate PVS Node Count:
@@ -565,7 +565,7 @@ namespace Engine {
         //
         // OK to leave Draw50 if it was set by the Initial Search
         //[Safe]FlagsDraw &= ~DrawFlags.Draw50;
-        mValue = (Eval)(-Search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));  //[Warning]mValue vs. mAlpha resulted in incremental score creep
+        mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));  //[Warning]mValue vs. mAlpha resulted in incremental score creep
       }
 
       return mValue;
@@ -667,7 +667,7 @@ namespace Engine {
             child2.FlagsMode |= ModeFlags.Reduced;
             // Limit wNullDraft = wDraft - R
             var mValue2 = wReducedDraftMin <= wNullDraft ?
-              (Eval)(-child2.Search(wNullDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2))) :
+              (Eval)(-child2.search(wNullDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2))) :
               (Eval)(-child2.quiet((Eval)(-mBeta2), (Eval)(-mAlpha2)));
             if (mBeta2 <= mValue2) {    // Null Move did not improve mValue: Prune
               traceVal("Null Prune", mValue2);  //[Conditional]
@@ -676,7 +676,7 @@ namespace Engine {
                 mPrunedValue = mValue2;
               else {                    //[ToDo]Improve verification
                 FlagsMode |= ModeFlags.Reduced;
-                mPrunedValue = Search(wDeep, mAlpha, mBeta);
+                mPrunedValue = search(wDeep, mAlpha, mBeta);
               }
               return true;              // No moves made here - omit storeXP()
             }
@@ -711,7 +711,7 @@ namespace Engine {
           var wThreatDraft = wShallow;
 #endif
           var mThreat =
-            (Eval)(-child2.Search(wThreatDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2)));
+            (Eval)(-child2.search(wThreatDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2)));
           if (EvalUndefined < mThreat && mThreat < mBeta2) {
             traceVal("Mate Threat", mThreat);   //[Conditional]
 
@@ -742,7 +742,7 @@ namespace Engine {
         //[Safe]if (bRootPosition)      // Any Parent should have the position already
         CloneTo(clone);                 // Prepare for resetMove()
         clone.FlagsMode |= ModeFlags.Reduced;
-        mValue = clone.Search(wDraft, mAlpha, mBeta, moveExcluded);
+        mValue = clone.search(wDraft, mAlpha, mBeta, moveExcluded);
       }
       finally {
         Pop(ref clone);                 // Pop Clone

@@ -49,7 +49,7 @@ namespace Engine {
     #region Search Methods
     [Conditional("ThrowFinal")]
     private void throwFinalPosition() {
-      //[Assume]TurnFlags have been set by Search()
+      //[Assume]TurnFlags have been set by search()
       if (IsFinal() || IsInsufficient()) {
         String sMessage;
         if (IsInsufficient())
@@ -123,7 +123,7 @@ namespace Engine {
         // Enter recursive search:
         //
         var wDraft = draft(vDepth);
-        mValue = Search(wDraft, mAlpha, mBeta);
+        mValue = search(wDraft, mAlpha, mBeta);
         throwFinalPosition();
 
         if (mAlpha < mValue && mValue < mBeta)

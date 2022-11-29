@@ -24,7 +24,7 @@ namespace Engine {
   partial class Position : Board {
     #region Search Methods
     [Conditional("VerifyMaterialMoves")]
-    protected void verifyMaterialMoves(List<Move> moves) {
+    private void verifyMaterialMoves(List<Move> moves) {
       var filteredMoves = moves.Where(m => m.Has(Move.Material));
       var filtered = filteredMoves.ToArray();
 #if OrderMoves
@@ -61,7 +61,7 @@ namespace Engine {
     //
     // For some published Perft Results, see http://www.chessprogramming.org/Perft_Results
     //
-    protected void perft(PlyDepth vPlies) {
+    private void perft(PlyDepth vPlies) {
       var moves = PseudoMoves;
       var vPlies1 = (PlyDepth)(vPlies - 1);
       var pc = State!.Case;
@@ -109,7 +109,7 @@ namespace Engine {
       }
     }
 
-    protected void countLeaf(Move move) {
+    private void countLeaf(Move move) {
       var pc = State!.Case;
       pc.LeafNodes++;
 

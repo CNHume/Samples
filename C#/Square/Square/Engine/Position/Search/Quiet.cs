@@ -39,7 +39,7 @@ namespace Engine {
     #endregion
 
     #region Search Methods
-    protected Eval quiet(Eval mAlpha, Eval mBeta) {
+    private Eval quiet(Eval mAlpha, Eval mBeta) {
       var moves = PseudoMoves;
       BestMoves.Clear();                //[Required]
 
