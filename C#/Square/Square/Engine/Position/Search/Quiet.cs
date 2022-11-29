@@ -302,7 +302,7 @@ namespace Engine {
 #if DebugMove
         var sqTo = (sq)nTo;
 #endif
-        var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
+        var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
         mCapture = weight(vCapture);
       }
 

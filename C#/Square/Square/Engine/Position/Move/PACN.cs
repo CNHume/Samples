@@ -105,8 +105,8 @@ namespace Engine {
       var nTo = (Int32)sqTo;
       var qpFrom = bit(nFrom);
       var qpTo = bit(nTo);
-      var vPieceFrom = getPieceIndex(nFrom);
-      var vPieceTo = getPieceIndex(nTo);
+      var vPieceFrom = GetPieceIndex(nFrom);
+      var vPieceTo = GetPieceIndex(nTo);
 
       var qpFriend = Friend.Piece;
       var qpFoe = Foe.Piece;
@@ -126,7 +126,7 @@ namespace Engine {
       var bCapture = (qpTo & qpFoe) != 0;
       if (bCapture)
         vCapture = vPieceTo;
-      else if (vPieceFrom == vP6 && IsPassed() && nTo == ep(FlagsTurn)) {
+      else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.ep()) {
         bCapture = true;
         vCapture = vEP6;
       }

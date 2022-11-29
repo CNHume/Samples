@@ -88,7 +88,7 @@ namespace Engine {
 
       if (fturn.Has(TurnFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (sq)ep(fturn) + sSpace + TurnFlags.Passed;
+        s += sPrefix + (sq)fturn.ep() + sSpace + TurnFlags.Passed;
       }
 
       return s;
@@ -148,7 +148,7 @@ namespace Engine {
 
         var qp = bit(sqr(0, yInverse));
         for (var x = 0; x < nFiles; x++, qp <<= 1) {
-          var vPiece = getPieceIndex(sqr(x, yInverse));
+          var vPiece = GetPieceIndex(sqr(x, yInverse));
 
           if (vPiece > vK6)
             nSkip++;
@@ -180,7 +180,7 @@ namespace Engine {
         sb.Append(" -");
       else {
         sb.Append(sSpace);
-        sb.Append((sq)ep(FlagsTurn));   // EP
+        sb.Append((sq)FlagsTurn.ep());
       }
     }
 
@@ -218,7 +218,7 @@ namespace Engine {
     private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {
       const String sLite = "-";
       const String sDark = "*";
-      var vPiece = getPieceIndex(n);
+      var vPiece = GetPieceIndex(n);
       if (vPiece > vK6)
         sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
       else
@@ -244,7 +244,7 @@ namespace Engine {
       const String sLite = "--";
       const String sDark = "**";
 
-      var vPiece = getPieceIndex(n);
+      var vPiece = GetPieceIndex(n);
       if (vPiece > vK6)
         sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
       else {

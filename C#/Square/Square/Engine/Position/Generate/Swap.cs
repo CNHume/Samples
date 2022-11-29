@@ -36,7 +36,7 @@ namespace Engine {
 #endif
           if (child.tryMove(ref move)) {
             //uLegalMoves++;
-            var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
+            var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
             var mCapture = weight(vCapture);
             var uPromotion2 = promoted(move);
             if (uPromotion2 > 0) {
@@ -72,7 +72,7 @@ namespace Engine {
           unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
           //unpackMove2(move, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-          var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
+          var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
           // EP unexpected here: Prior move was a capture
           Debug.Assert(!bEnPassant, "Unexpected EnPassant");
 

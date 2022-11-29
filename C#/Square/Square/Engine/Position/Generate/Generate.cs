@@ -50,7 +50,7 @@ namespace Engine {
     //
     //[Warning]Duplicate Moves can result in a number of strange, difficult to debug side-effects.
     //
-    protected void clearPseudoMoveLists(List<Move> moves, Boolean bSwap) {    // ~32 MHz
+    private void clearPseudoMoveLists(List<Move> moves, Boolean bSwap) {    // ~32 MHz
       moves.Clear();
       clearPseudoCaptures();
       clearPseudoMoves();
@@ -72,7 +72,7 @@ namespace Engine {
 #endif
     }
 
-    protected void clearPseudoMaterialMoveLists(List<Move> moves) {
+    private void clearPseudoMaterialMoveLists(List<Move> moves) {
       moves.Clear();
       clearPseudoCaptures();
 
@@ -86,7 +86,7 @@ namespace Engine {
     }
 
     // Called by generateSwaps()
-    protected void clearPseudoSwapLists(List<Move> moves) {
+    private void clearPseudoSwapLists(List<Move> moves) {
       moves.Clear();
       clearPseudoCaptures();
 
@@ -101,13 +101,13 @@ namespace Engine {
 
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane includeEnPassant(Plane qpFoe) {
+    private Plane includeEnPassant(Plane qpFoe) {
       return IsPassed() && (qpFoe & Pawn) != 0 ?
-        qpFoe | bit(ep(FlagsTurn)) : qpFoe;
+        qpFoe | bit(FlagsTurn.ep()) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
-    protected Int32 generate(List<Move> moves, Boolean bSwap) {
+    private Int32 generate(List<Move> moves, Boolean bSwap) {
       var bInCheck = InCheck();
       var qpFriend = Friend.Piece;
       var qpFoe = Foe.Piece;
@@ -164,7 +164,7 @@ namespace Engine {
     #endregion
 
     #region Quiet Move Generator
-    protected Int32 generateMaterialMoves(List<Move> moves) {
+    private Int32 generateMaterialMoves(List<Move> moves) {
       var bInCheck = InCheck();
       var qpFoe = Foe.Piece;
       var vKingPos = Friend.GetKingPos();
@@ -215,7 +215,7 @@ namespace Engine {
     #endregion
 
     #region Swap Move Generator
-    protected Int32 generateSwaps(List<Move> moves, Int32 nTo) {
+    private Int32 generateSwaps(List<Move> moves, Int32 nTo) {
       var qpTo = bit(nTo);
       var qpFriend = Friend.Piece;
       var vKingPos = Friend.GetKingPos();
@@ -260,7 +260,7 @@ namespace Engine {
     //
     // Arrange moves in a reasonable order, whether or not UseMoveSort is in effect:
     //
-    protected void addPseudoMoves(List<Move> moves) {
+    private void addPseudoMoves(List<Move> moves) {
       Expand(MoveTypes, MoveTypeOrdering);
 
       foreach (var moveType in MoveTypes) {
@@ -325,7 +325,7 @@ namespace Engine {
       }
     }
 
-    protected void addPseudoMovesGood(List<Move> moves) {
+    private void addPseudoMovesGood(List<Move> moves) {
       //expandMoveTypeOrdering();
       var captures = PseudoCaptures;
 
@@ -367,7 +367,7 @@ namespace Engine {
       moves.AddRange(PseudoBadCaptures);                // 8B
     }
 
-    protected void addPseudoSwaps(List<Move> moves) {
+    private void addPseudoSwaps(List<Move> moves) {
       //expandMoveTypeOrdering();
       moves.AddRange(PseudoQueenPromotionCapture);      // 1A
       //moves.AddRange(PseudoUnderPromotionCapture);    // 1C Not needed for Swaps
@@ -382,7 +382,7 @@ namespace Engine {
       //moves.AddRange(PseudoEPCapture);                // Not needed for Swaps
     }
 
-    protected void addPseudoMaterialMoves(List<Move> moves) {
+    private void addPseudoMaterialMoves(List<Move> moves) {
       //expandMoveTypeOrdering();
       moves.AddRange(PseudoPawnAboveCapture);           // 2a
       moves.AddRange(PseudoPawnBelowCapture);           // 2b

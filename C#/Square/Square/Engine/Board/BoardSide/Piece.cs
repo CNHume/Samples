@@ -437,7 +437,7 @@ namespace Engine {
 
       #region Position Pawn Move Generators
       public void AddPawnCaptures(Position position, Plane qpTo) {
-        var nEP = Board.IsPassed() ? ep(Board.FlagsTurn) : nSquareUndefined;
+        var nEP = Board.IsPassed() ? Board.FlagsTurn.ep() : nSquareUndefined;
         AddPawnCaptures2(position, PawnA1H8Atx & qpTo, Parameter.PawnA1H8, nEP);
         AddPawnCaptures2(position, PawnA8H1Atx & qpTo, Parameter.PawnA8H1, nEP);
       }

@@ -28,7 +28,7 @@ namespace Engine {
         throw new PositionException("resetMove() called at the Root Position");
 
       Parent.CopyTo(this);
-      resetEP();                      // Clear En Passant state just prior to making a move
+      ResetEP();                      // Clear En Passant state just prior to making a move
 #if DebugNodeTotal
       var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
       if (State.NodeTotal != qNodeTotal) {
@@ -58,7 +58,7 @@ namespace Engine {
       //
       timePlayMove(move);               //[Conditional]
       resetMove();
-      playMove(ref move);
+      PlayMove(ref move);
 
       if (IsDraw0())
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
@@ -88,6 +88,7 @@ namespace Engine {
       expireEnPassant();
 
       TestHash();                       //[Conditional]
+
       var bLegal = !InCheck();
       if (!bLegal)
         throw new BoardException("Illegal Null Move");

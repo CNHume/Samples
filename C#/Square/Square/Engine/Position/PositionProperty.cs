@@ -56,7 +56,7 @@ namespace Engine {
     protected Plane[] Restricted;
     protected Plane PinnedPiece;
 
-    public Move CurrentMove;            // Set by [null|try]Move() prior to calling Board.playMove()
+    public Move CurrentMove;            // Set by [null|try]Move() prior to calling Board.PlayMove()
     public List<Move> BestMoves;        // This is a line, not a set of alternative moves
 
     //

@@ -46,7 +46,7 @@ namespace Engine {
 
       //
       //[Note]Assess IsAbove() from the pespective of the
-      // Foe because toggleWTM() was called by playMove().
+      // Foe because toggleWTM() was called by PlayMove().
       //
       var parameter = Foe.Parameter;
       var bAbove = parameter.IsAbove(nTo);

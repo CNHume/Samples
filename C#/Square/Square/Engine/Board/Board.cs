@@ -131,7 +131,7 @@ namespace Engine {
     private void initSides() {
       ensureSides();
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (Friend, Foe) = getSides(WTM());
+      (Friend, Foe) = GetSides(WTM());
     }
 #if BuildAtxTo
     [Conditional("BuildAtxTo")]
@@ -294,7 +294,7 @@ namespace Engine {
       }
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (board.Friend, board.Foe) = board.getSides(WTM());
+      (board.Friend, board.Foe) = board.GetSides(WTM());
     }
     #endregion                          // BoardSide
 

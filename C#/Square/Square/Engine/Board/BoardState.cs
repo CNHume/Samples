@@ -27,7 +27,7 @@ namespace Engine {
   partial class Board {
     #region Methods
     //
-    // getPieceIndex
+    // GetPieceIndex
     // verifyPieceColors
     //
     // [Clr|Set][RayState|Rotations]
@@ -37,7 +37,7 @@ namespace Engine {
     // hasBishopPair
     //
     #region Square Pieces
-    protected Byte getPieceIndex(Int32 n) {
+    protected Byte GetPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
       var qp = bit(n);
 
@@ -67,7 +67,7 @@ namespace Engine {
     }
 
     [Conditional("VerifyPieceColor")]
-    protected void verifyPieceColors() {
+    private void verifyPieceColors() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -183,7 +183,7 @@ namespace Engine {
         FlagsTurn &= ~TurnFlags.WTM;
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (Friend, Foe) = getSides(WTM());
+      (Friend, Foe) = GetSides(WTM());
     }
 
     public Boolean InCheck() {

@@ -314,6 +314,14 @@ namespace Engine {
     #endregion
 
     #region Enum Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static Int32 ep(this TurnFlags fturn) {
+      var x = (Int32)(fturn & TurnFlags.EPFile);
+      var bWTM = fturn.Has(TurnFlags.WTM);
+      //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
+      return (Int32)(bWTM ? sq.a6 : sq.a3) + x;
+    }
+
     //[Speed]Enum.HasFlag() incurs significant performance overhead, due to reflection.
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Based on the Stack Overflow question:
@@ -469,7 +477,7 @@ namespace Engine {
           bEnPassant = vCapture == vEP6;
 
           sb.Append(sTakes);
-#if SaveCapture && BuildCapture         //[Note]This static method cannot invoke getPieceIndex()
+#if SaveCapture && BuildCapture         //[Note]This static method cannot invoke GetPieceIndex()
           var bPawnCaptive = vCapture == vP6 || bEnPassant;
           if (bExpandFrom && !bPawnCaptive) {
             var sCapture = PieceSymbol(vCapture);

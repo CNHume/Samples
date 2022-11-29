@@ -264,10 +264,10 @@ namespace Engine {
     }
 
     protected void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
-      var sw = TimerStart(nameof(getPieceIndex), qTrials);
+      var sw = TimerStart(nameof(GetPieceIndex), qTrials);
       var nFrom = (Int32)sq.d1;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        getPieceIndex(nFrom);
+        GetPieceIndex(nFrom);
       }
 
       TimerStop(sw, qTrials);
@@ -281,13 +281,13 @@ namespace Engine {
     protected void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sbMove = new StringBuilder();
       sbMove.AppendPACN(mov, Side, State!.IsChess960);
-      var sw = TimerStart($"{nameof(playMove)}({sbMove})", qTrials);
+      var sw = TimerStart($"{nameof(PlayMove)}({sbMove})", qTrials);
 
       // ~15 Mhz
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         resetMove();
         var move = mov;
-        playMove(ref move);
+        PlayMove(ref move);
       }
 
       TimerStop(sw, qTrials);

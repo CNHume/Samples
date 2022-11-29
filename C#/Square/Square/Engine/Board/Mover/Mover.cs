@@ -9,7 +9,7 @@
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition                 //[Speed]Slows performance by 13%
-#define UpdateRepetitionCycle
+#define UpdateRepetition
 //#define VerifyGamePlyParity
 //#define VerifyPieceColor
 //#define VerifyPromotion
@@ -43,7 +43,7 @@ namespace Engine {
         Side[White] : Side[Black];
     }
 
-    protected (BoardSide friend, BoardSide foe) getSides(Boolean bWTM) {
+    protected (BoardSide friend, BoardSide foe) GetSides(Boolean bWTM) {
       return bWTM ?
         (Side[White], Side[Black]) :
         (Side[Black], Side[White]);
@@ -52,13 +52,13 @@ namespace Engine {
 
     #region Piece Mover
     //
-    // Lazy Capture avoids calling getPieceIndex() until it becomes necessary.
+    // Lazy Capture avoids calling GetPieceIndex() until it becomes necessary.
     // The purpose of the following method is to update the move and to avoid
-    // calling getPieceIndex() again.
+    // calling GetPieceIndex() again.
     //
     // SaveCapture is required to show captures in AppendAN() if bExpandFrom.
     //
-    protected Byte captureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
+    protected Byte CaptureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
       bEnPassant = false;
       var vCapture = vPieceNull;
       var uCapture = captured(move);
@@ -69,11 +69,11 @@ namespace Engine {
         GameState.AtomicIncrement(ref State.CapturedPieceTotal);
 #endif
         //
-        // Between 2% and 20% of all Pseudo Moves require a call to getPieceIndex().
+        // Between 2% and 20% of all Pseudo Moves require a call to GetPieceIndex().
         // At the rate of 72 MHz when a Pawn is found; 68 MHz otherwise, the 1.5%
         // cost would be quite low even were it incurred for every generated move.
         //
-        vCapture = getPieceIndex(nTo);
+        vCapture = GetPieceIndex(nTo);
 
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                      $"There is no piece to capture on {(sq)nTo}.");
@@ -100,7 +100,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void resetEP() {
+    protected void ResetEP() {
       if (IsPassed()) {
         //
         // Adjust the incremental Hash and reset EPFlags, except for WTM:
@@ -112,23 +112,15 @@ namespace Engine {
       }
     }
 
-    protected void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
+    private void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
       foreach (var side in Side)
         side.ResetPawnAtx();
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void setEPFile(Int32 nEP) {
+    private void setEPFile(Int32 nEP) {
       // Any Square on the EP File will do
       FlagsTurn |= (TurnFlags)nEP & TurnFlags.EPFile | TurnFlags.Passed;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 ep(TurnFlags fturn) {
-      var x = (Int32)(fturn & TurnFlags.EPFile);
-      var bWTM = fturn.Has(TurnFlags.WTM);
-      //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
-      return (Int32)(bWTM ? sq.a6 : sq.a3) + x;
     }
 
     //
@@ -176,7 +168,7 @@ namespace Engine {
     }
 
     // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
-    protected Int32? movePiece(ref Move move) {
+    private Int32? movePiece(ref Move move) {
       Int32? nEnPassant = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
@@ -195,7 +187,7 @@ namespace Engine {
 
       if (bCapture) {
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
-        var vCapture = captureIndex(nTo, ref move, out Boolean bEnPassant);
+        var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
         var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnStep : nTo;
         Foe.RemovePiece(vCapture, nCaptureFrom);
 
@@ -231,12 +223,12 @@ namespace Engine {
       Trace.Assert(PlyParity(GamePly), "Incorrect GamePly Parity: Even Ply != WTM");
 #endif
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (Friend, Foe) = getSides(WTM());
+      (Friend, Foe) = GetSides(WTM());
     }
 
-    [Conditional("UpdateRepetitionCycle")]
+    [Conditional("UpdateRepetition")]
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void updateRepetitionCycle() {
+    private void updateRepetition() {
       //
       // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset:
       //
@@ -247,7 +239,7 @@ namespace Engine {
     //
     //[Test]Validate any change made here by running Perft Tests!
     //
-    protected void playMove(ref Move move) {
+    protected void PlayMove(ref Move move) {
       clrDraw0();
 
       // Avoid Overflow
@@ -256,7 +248,7 @@ namespace Engine {
 
       var nEnPassant = movePiece(ref move);
 
-      updateRepetitionCycle();          //[Conditional]
+      updateRepetition();               //[Conditional]
 
       //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();
@@ -269,7 +261,7 @@ namespace Engine {
 
       //
       // TurnFlags.Passed is referenced by the generate() methods to add En Passant
-      // captures for the next Ply.  resetEP() is called by resetMove() just before
+      // captures for the next Ply.  ResetEP() is called by resetMove() just before
       // this method is called.
       //
       if (IsPassed()) Hash ^= epHash();
@@ -302,9 +294,9 @@ namespace Engine {
     #endregion                          // Piece Mover
 
     #region Trace Positions
-    // Called by playMove() and SkipTurn()
+    // Called by PlayMove() and SkipTurn()
     [Conditional("TracePosition")]
-    protected void tracePosition() {
+    private void tracePosition() {
       clrTrace();
 
       //

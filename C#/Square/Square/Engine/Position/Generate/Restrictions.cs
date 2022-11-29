@@ -86,7 +86,7 @@ namespace Engine {
     }
 
     //
-    //[Note]playMove() has called toggleWTM() which inverts the
+    //[Note]PlayMove() has called toggleWTM() which inverts the
     // sense of Friend and Foe to complete the current position.
     //
     protected void restrictPiece(Move move) {

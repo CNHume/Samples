@@ -37,7 +37,7 @@ namespace Engine {
     #endregion                          // Constant Move Masks
 
     #region Methods
-    // getPieceIndex - Returns Piece at any square
+    // GetPieceIndex - Returns Piece at any square
     //
     // Move Generators:
     //

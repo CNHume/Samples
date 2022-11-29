@@ -7,7 +7,7 @@
 //
 #define HashCastlingRights
 //#define Magic
-//#define UpdateRepetitionCycle
+//#define UpdateRepetition
 
 namespace Engine {
   using Command;                        // For Scanner
@@ -329,10 +329,10 @@ namespace Engine {
     }
 
     protected void Init(
-      Boolean bWTM, String sEnPassant, String? sHalfMoveClock, String? sFullMoveNumber,
+      Boolean bWTM, String sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
-      const string sFMVN = "Full Move Number";
-      const string sHMVC = "Half Move Clock";
+      const string sFMVNName = "Full Move Number";
+      const string sHMVCName = "Half Move Clock";
       // Preserve EPD Operations passed via ParseEPD()
       Operations = operations;
 
@@ -343,16 +343,16 @@ namespace Engine {
       parsePassed(sEnPassant);
       Hash ^= hashFlags(bWTM);
 
-      HalfMoveClock = ParseByte(sHMVC, sHalfMoveClock);
+      HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (IsPassed() && HalfMoveClock > 0) {
-        var sqEP = (sq)ep(FlagsTurn);
-        LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVC} = {HalfMoveClock} Must Be Zero");
+        var sqEP = (sq)FlagsTurn.ep();
+        LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
-      updateRepetitionCycle();          //[Conditional]
+      updateRepetition();               //[Conditional]
 
-      var wMoveNumber = ParseUInt16(sFMVN, sFullMoveNumber);
+      var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
       // Zero is sometimes used when the initial MoveNumber is unknown
       if (wMoveNumber == 0) wMoveNumber = 1;
       State!.MovePly = plyCount(wMoveNumber);
