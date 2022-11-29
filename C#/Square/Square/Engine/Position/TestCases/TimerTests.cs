@@ -343,7 +343,7 @@ namespace Engine {
         loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif
 #endif                                  // DeBruijn
-        loadZobrist();
+        LoadZobrist();
         //var state = new GameState(null);
         //state.loadEndgameValue();
       }

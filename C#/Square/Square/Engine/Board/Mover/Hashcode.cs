@@ -31,7 +31,7 @@ namespace Engine {
 
   partial class Board {
     #region Hash Methods
-    protected static Hashcode nextZobrist() {
+    private static Hashcode nextZobrist() {
 #if CryptoServiceProvider
       ZobristRNG.GetBytes(ZobristBuffer);
 #else
@@ -44,7 +44,7 @@ namespace Engine {
       return qHash;
     }
 
-    protected static void newZobrist() {
+    private static void newZobrist() {
 #if TestZobrist
       Zobrists = new List<Hashcode>();
 #endif
@@ -78,7 +78,7 @@ namespace Engine {
 #endif
     }
 
-    protected static void loadZobrist() {
+    protected static void LoadZobrist() {
       ZobristTurn = nextZobrist();
 
       // For Pieces that can be held by each Square:
@@ -221,7 +221,7 @@ namespace Engine {
       return qDynamic;
     }
 
-    protected Hashcode hashFlags(Boolean bWTM) {
+    private Hashcode hashFlags(Boolean bWTM) {
       Hashcode qHash = 0;
       if (IsPassed()) qHash ^= epHash();
       if (!bWTM) qHash ^= ZobristTurn;
