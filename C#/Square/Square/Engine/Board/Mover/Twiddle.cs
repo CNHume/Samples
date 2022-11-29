@@ -507,14 +507,14 @@ namespace Engine {
 #endif                                  // DeBruijn
 #endif                                  //!ImportTwiddle
 #if InitDeBruijn
-    protected static Byte[] newDeBruijn(Int32 nLog) {
+    private static Byte[] newDeBruijn(Int32 nLog) {
       Debug.Assert(nLog <= 8, $"nLog = {nLog} too large");
       var nLength = 1 << nLog;
       return new Byte[nLength];
     }
 #endif                                  // InitDeBruijn
     [Conditional("InitDeBruijn")]
-    protected static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
+    private static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
       var nLength = 1 << nLog;
       Debug.Assert(
         deBruijnMap.Length == nLength,
@@ -583,7 +583,7 @@ namespace Engine {
 
     #region Counter Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
+    private static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != twoBits(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "TwoBits Overflow");
@@ -598,7 +598,7 @@ namespace Engine {
 
     //[UCI]Internal Method made available to the GameState class
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static void setNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
+    public static void SetNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
       var bOverflow = u != nibble(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "Nibble Overflow");
@@ -612,7 +612,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Byte getNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
+    public static Byte GetNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
       return (Byte)nibble(wNibbleMask >> nIndex * nPerNibble);
     }
     #endregion

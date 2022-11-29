@@ -436,7 +436,7 @@ namespace Engine {
       var setting = (Setting?)sender;
       if (setting is not null && setting.Selection.HasValue) {
         var uSelection = (UInt32)setting.Selection.Value;
-        setNibble(ref ExtensionLimit, vLate, uSelection);
+        SetNibble(ref ExtensionLimit, vLate, uSelection);
       }
     }
 
@@ -444,7 +444,7 @@ namespace Engine {
       var setting = (Setting?)sender;
       if (setting is not null && setting.Selection.HasValue) {
         var uSelection = (UInt32)setting.Selection.Value;
-        setNibble(ref ExtensionLimit, vCheck, uSelection);
+        SetNibble(ref ExtensionLimit, vCheck, uSelection);
       }
     }
 
@@ -452,7 +452,7 @@ namespace Engine {
       var setting = (Setting?)sender;
       if (setting is not null && setting.Selection.HasValue) {
         var uSelection = (UInt32)setting.Selection.Value;
-        setNibble(ref ExtensionLimit, vThreat, uSelection);
+        SetNibble(ref ExtensionLimit, vThreat, uSelection);
       }
     }
 
@@ -460,7 +460,7 @@ namespace Engine {
       var setting = (Setting?)sender;
       if (setting is not null && setting.Selection.HasValue) {
         var uSelection = (UInt32)setting.Selection.Value;
-        setNibble(ref ExtensionLimit, vSingular, uSelection);
+        SetNibble(ref ExtensionLimit, vSingular, uSelection);
       }
     }
 

@@ -363,7 +363,7 @@ namespace Engine {
         sb.AppendFormat($" {FutilityMargin.Length} Futility");
 
       foreach (var extension in Extensions) {
-        var vLimit = getNibble(ExtensionLimit, (Int32)extension);
+        var vLimit = GetNibble(ExtensionLimit, (Int32)extension);
 #if !LateMoveReduction
         if (extension == SearchExtensions.Late)
           continue;                     //[Disabled]
@@ -399,7 +399,7 @@ namespace Engine {
 #endif
       }
 #if MateThreat
-      if (getNibble(ExtensionLimit, vThreat) > 0)
+      if (GetNibble(ExtensionLimit, vThreat) > 0)
         sb.AppendFormat($" {wThreatDepthMin} ThreatMin");
 #endif
       if (MultiPVLength > 1)
