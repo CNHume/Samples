@@ -423,7 +423,7 @@ namespace Engine {
       appendOptions(sb);
 #if DisplayPosition
       sb.AppendLine();
-      MovePosition.Display(sb);
+      MovePosition?.Display(sb);
 #endif
       sb.FlushLine();
     }

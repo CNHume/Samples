@@ -28,7 +28,7 @@ namespace Engine {
   using Ply = UInt16;
 
   partial class GameState {
-    protected const Int32 nVariationsDefault = 12;      // Initial Allocation
+    private const Int32 nVariationsDefault = 12;    // Initial Allocation
 
     #region Memo Table Dimensions
     //
@@ -48,29 +48,29 @@ namespace Engine {
     // (1U << 17) - 1   // Largest 17-bit prime
     // (1U << 16) - 15  // Largest 16-bit prime - 65.5K
     //
-    protected const UInt32 uDefaultCompositions = 8179;         // 8191, 8179, 4093, 4091, 2999, 2039 and 1999 are prime; and so are 1021, 1019
-    protected const UInt32 uDefaultComposition2 = 1 << nHashPieceBits;
-    protected const UInt32 uDefaultPawnPositions = 1U << 16;    // +1 is prime
+    private const UInt32 uDefaultCompositions = 8179;         // 8191, 8179, 4093, 4091, 2999, 2039 and 1999 are prime; and so are 1021, 1019
+    private const UInt32 uDefaultComposition2 = 1 << nHashPieceBits;
+    private const UInt32 uDefaultPawnPositions = 1U << 16;    // +1 is prime
     #endregion
 
     #region Table Initializers
-    protected void newNodeDelta(Depth wDepths) {
+    private void newNodeDelta(Depth wDepths) {
       NodeDelta = new UInt64[wDepths];
       NodeDeltaLog = new Double[wDepths];
     }
 
-    protected void clearNodeDelta() {
+    private void clearNodeDelta() {
       Array.Clear(NodeDelta, 0, NodeDelta.Length);
       Array.Clear(NodeDeltaLog, 0, NodeDeltaLog.Length);
     }
 
     [Conditional("CountEarlyMoves")]
-    protected void newEarlyMoveCounts(Ply wPlies) {
+    private void newEarlyMoveCounts(Ply wPlies) {
       EarlyMoveCount = new Int64[wPlies];
     }
 
     [Conditional("CountEarlyMoves")]
-    protected void clearEarlyMoveCounts() {
+    private void clearEarlyMoveCounts() {
       EarlyMoveMinPly = Ply.MaxValue;
       EarlyMoveMaxPly = Ply.MinValue;
       WhiteSearchedPositionCount = WhiteEarlyMoveTotal = 0;
@@ -79,19 +79,19 @@ namespace Engine {
     }
 
     [Conditional("CountPVDoubles")]
-    protected void newPVDoubleCounts(Ply wPlies) {
+    private void newPVDoubleCounts(Ply wPlies) {
       PVDoubleCount = new Int64[wPlies];
     }
 
     [Conditional("CountPVDoubles")]
-    protected void clearPVDoubleCounts() {
+    private void clearPVDoubleCounts() {
       PVDoubleMinPly = Ply.MaxValue;
       PVDoubleMaxPly = Ply.MinValue;
       PVDoubleTotal = 0;
       Array.Clear(PVDoubleCount, 0, PVDoubleCount.Length);
     }
 
-    protected void loadEndgameValue() {
+    private void loadEndgameValue() {
       //
       // The following allows QP vs RBN as an endgame; but not
       // the QN vs RBN with 517 DTC [Bourzutschky and Konoval]
@@ -123,7 +123,7 @@ namespace Engine {
 #endif
     }
 
-    protected void newCXPMemo(UInt32 uLength) {
+    private void newCXPMemo(UInt32 uLength) {
       if (CXPMemo is null)
 #if MaterialBalance
         CXPMemo = new Memo2<Composition2>("CX2", uLength);
@@ -132,27 +132,27 @@ namespace Engine {
 #endif
     }
 
-    protected void newPXPMemo(UInt32 uLength) {
+    private void newPXPMemo(UInt32 uLength) {
       if (PXPMemo is null)
         PXPMemo = new Memo2<PawnPosition>("PXP", uLength);
     }
 
-    protected void newQXPTank() {
+    private void newQXPTank() {
       if (QXPTank is null)
         QXPTank = new Tank<QuietPosition>("QXP");
     }
 
-    protected void newXPTank() {
+    private void newXPTank() {
       if (XPTank is null)
         XPTank = new Tank<Transposition>("XP");
     }
 
-    protected void newXPMTank() {
+    private void newXPMTank() {
       if (XPMTank is null)
         XPMTank = new Tank<PositionMove>("XPM");
     }
 
-    protected void newVariations(Int32 nSelection) {
+    private void newVariations(Int32 nSelection) {
       if (Variation is null || Variation.Length < nSelection) {
         //
         // Currently, nVariationsDefault pre-allocates MultiPV Max value.
@@ -167,7 +167,7 @@ namespace Engine {
       MultiPVLength = (Byte)nSelection;
     }
 
-    protected void newVariations2(Int32 nVariations) {
+    private void newVariations2(Int32 nVariations) {
       VariationCount = 0;               //[Init]
       Variation = new Variation[nVariations];
       for (var nVariation = 0; nVariation < nVariations; nVariation++)
