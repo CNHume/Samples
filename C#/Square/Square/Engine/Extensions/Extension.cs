@@ -742,7 +742,7 @@ namespace Engine {
       var uPieceCounts = side.Counts;
       for (Byte v6 = 0; v6 < nPieces; v6++,
            uPieceCounts >>= nPerNibble) {
-        var u = nibble(uPieceCounts);
+        var u = Nibble(uPieceCounts);
         var s = PieceSymbol(v6);
 
         sb.AppendFormat($" {side.Parameter.Symbol}{s} {u,2}")
@@ -761,8 +761,8 @@ namespace Engine {
       for (Byte v6 = 0; v6 < nPieces; v6++,
            uBlackCounts >>= nPerNibble,
            uWhiteCounts >>= nPerNibble) {
-        var uBlack = nibble(uBlackCounts);
-        var uWhite = nibble(uWhiteCounts);
+        var uBlack = Nibble(uBlackCounts);
+        var uWhite = Nibble(uWhiteCounts);
         var s = PieceSymbol(v6);
 
         sb.AppendFormat($" {blackSide.Parameter.Symbol}{s} {uBlack,2}")

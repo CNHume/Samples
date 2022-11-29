@@ -587,7 +587,7 @@ namespace Engine {
       var nSum = 0;
       for (var vPiece = vCompositionOffset; vPiece < vK6; vPiece++,
            wPieceCounts >>= nPerNibble) {
-        nSum += nibble(wPieceCounts) * PieceWeight[vPiece];
+        nSum += Nibble(wPieceCounts) * PieceWeight[vPiece];
       }
 #if EvalBishopPair
       if (hasBishopPair(fside)) {

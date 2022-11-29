@@ -236,8 +236,8 @@ namespace Engine {
       for (var nFeature = 0; nFeature < PawnFeatures.Length; nFeature++,
            uBlackCounts >>= nPerNibble,
            uWhiteCounts >>= nPerNibble) {
-        var nBlack = (Int32)nibble(uBlackCounts);
-        var nWhite = (Int32)nibble(uWhiteCounts);
+        var nBlack = (Int32)Nibble(uBlackCounts);
+        var nWhite = (Int32)Nibble(uWhiteCounts);
 
         var nDelta = nWhite - nBlack;
         var nTotal = nWhite + nBlack;

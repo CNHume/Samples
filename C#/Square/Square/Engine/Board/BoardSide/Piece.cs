@@ -512,7 +512,7 @@ namespace Engine {
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public UInt32 PieceCount(Byte vPiece) {
-        return nibble(Counts >> vPiece * nPerNibble);
+        return Nibble(Counts >> vPiece * nPerNibble);
       }
 
       public Int32 AtxCount() {

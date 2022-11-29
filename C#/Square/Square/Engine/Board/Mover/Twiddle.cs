@@ -85,17 +85,17 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    protected const Int32 nBit0 = 1;
-    protected const Int32 nBit1 = nBit0 << 1;
-    protected const Int32 nBit2 = nBit1 << 1;
-    protected const Int32 nBit3 = nBit2 << 1;
-    protected const Int32 nBit4 = nBit3 << 1;
-    protected const Int32 nBit5 = nBit4 << 1;
-    protected const Int32 nBit6 = nBit5 << 1;
+    private const Int32 nBit0 = 1;
+    private const Int32 nBit1 = nBit0 << 1;
+    private const Int32 nBit2 = nBit1 << 1;
+    private const Int32 nBit3 = nBit2 << 1;
+    private const Int32 nBit4 = nBit3 << 1;
+    private const Int32 nBit5 = nBit4 << 1;
+    private const Int32 nBit6 = nBit5 << 1;
 
-    protected const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
+    private const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
 #if ByteDeBruijn && !InitDeBruijn
-    protected static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
+    private static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
 #endif
     //
     // The lowest bit in a word is isolated by performing an AND with the value in the word
@@ -113,20 +113,20 @@ namespace Engine {
     //
 #if DeBruijn
 #if FullData
-    protected const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
+    private const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
     // From http://www.chessprogramming.org/De_Bruijn_Sequence_Generator by Gerd Isenberg
 #if !InitDeBruijn
-    protected static readonly Byte[] deBruijnFull =
+    private static readonly Byte[] deBruijnFull =
     {  0,  1,  2, 53,  3,  7, 54, 27,  4, 38, 41,  8, 34, 55, 48, 28,
       62,  5, 39, 46, 44, 42, 22,  9, 24, 35, 59, 56, 49, 18, 29, 11,
       63, 52,  6, 26, 37, 40, 33, 47, 61, 45, 43, 21, 23, 58, 17, 10,
       51, 25, 36, 32, 60, 20, 57, 16, 50, 31, 19, 15, 30, 14, 13, 12 };
 #endif
 #else                                   //!FullData
-    protected const UInt32 uDeBruijn = 0x077CB531U;
+    private const UInt32 uDeBruijn = 0x077CB531U;
     // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
 #if !InitDeBruijn
-    protected static readonly Byte[] deBruijnHalf =
+    private static readonly Byte[] deBruijnHalf =
     {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
       31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
 #endif
@@ -173,7 +173,7 @@ namespace Engine {
 #else
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
-    public static Int32 TZC8(Byte r) {
+    private static Int32 TZC8(Byte r) {
       var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
       return TZC8Single((Byte)s);
     }
@@ -599,7 +599,7 @@ namespace Engine {
     //[UCI]Internal Method made available to the GameState class
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static void SetNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != nibble(u);
+      var bOverflow = u != Nibble(u);
       if (bOverflow) {
         Debug.Assert(!bOverflow, "Nibble Overflow");
         u &= vNibble;
@@ -613,18 +613,18 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Byte GetNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
-      return (Byte)nibble(wNibbleMask >> nIndex * nPerNibble);
+      return (Byte)Nibble(wNibbleMask >> nIndex * nPerNibble);
     }
     #endregion
 
     #region Nibble & TwoBits Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 nibble(Int32 input) {
+    public static Int32 Nibble(Int32 input) {
       return input & vNibble;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static UInt32 nibble(UInt32 input) {
+    public static UInt32 Nibble(UInt32 input) {
       return input & vNibble;
     }
 
