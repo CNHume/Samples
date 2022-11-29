@@ -158,7 +158,7 @@ namespace Engine {
 
         if (nPlace == 0) {
           var sb = new StringBuilder();
-          var mEval = reflectValue(bWTM, mValue);
+          var mEval = ReflectValue(bWTM, mValue);
           sb.UpdateBestInfo(State!.BestMoves, lineMoves, mEval, bPonder, Side, State!.IsChess960)
             .FlushLine();
         }
@@ -297,7 +297,7 @@ namespace Engine {
         for (var nLine = 0; nLine < State!.VariationCount; nLine++) {
           var nVInverse = State!.VariationCount - (nLine + 1);
           var vn = State!.Variation[nVInverse];
-          var mValue = reflectValue(bWTM, vn.Value);
+          var mValue = ReflectValue(bWTM, vn.Value);
           if (vn.Moves is not null) {
             child.resetMove();          // Usually called via [null|try]Move()
             child.AbbreviateRefresh(vn.Moves, 0, wDepth, mValue);

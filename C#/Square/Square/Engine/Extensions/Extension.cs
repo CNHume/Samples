@@ -644,7 +644,7 @@ namespace Engine {
       Int32 nLine, Boolean bMultiPV,
       Boolean bWTM, Ply wGamePly,
       Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
-      var mEval = reflectValue(bWTM, vn.Value);
+      var mEval = ReflectValue(bWTM, vn.Value);
       if (bPure) {
         sb.Append("info score")
           .AppendEvalInfo(mEval);

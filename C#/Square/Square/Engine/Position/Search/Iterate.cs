@@ -100,8 +100,8 @@ namespace Engine {
           mBeta = PlusInfinity;
 
         if (State!.IsAspiration && UCI.IsDebug) {
-          var mEvalAlpha = reflectValue(bWTM, mAlpha);
-          var mEvalBeta = reflectValue(bWTM, mBeta);
+          var mEvalAlpha = ReflectValue(bWTM, mAlpha);
+          var mEvalBeta = ReflectValue(bWTM, mBeta);
 
           sb.Append("searchRoot(")      // Display Aspiration Window
             .Append("Alpha =").AppendEvalTerm(mEvalAlpha)
@@ -129,7 +129,7 @@ namespace Engine {
         if (mAlpha < mValue && mValue < mBeta)
           break;                        // Aspiration Window was adequate;
         else if (UCI.IsDebug) {         // else loop with a larger Window
-          var mEval = reflectValue(bWTM, mValue);
+          var mEval = ReflectValue(bWTM, mValue);
           var sFailed = mValue < mBeta ? "Lo" : "Hi";
           sb.Append("Eval").AppendEvalTerm(mEval)
             .AppendFormat($" failed {sFailed} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");

@@ -370,7 +370,7 @@ namespace Engine {
     protected Eval eval() {
       var bWTM = WTM();
       var mValue = IsDraw() || IsStalemate() ? contempt() : fullEval();
-      return reflectValue(bWTM, mValue);
+      return ReflectValue(bWTM, mValue);
     }
 
     protected Eval final() {
@@ -390,7 +390,7 @@ namespace Engine {
       //
       var bWTM = WTM();
       var mValue = contempt();
-      return reflectValue(bWTM, mValue);
+      return ReflectValue(bWTM, mValue);
     }
 
     //
@@ -443,7 +443,7 @@ namespace Engine {
       var mValue = fullEval();
 
       var bWTM = WTM();
-      mValue = reflectValue(bWTM, mValue);
+      mValue = ReflectValue(bWTM, mValue);
       return boundValue(mValue, mValueFound, etFound);
     }
 
@@ -528,7 +528,7 @@ namespace Engine {
 #endif
     //[Note]"Side relative" values reflect to "White relative" values; and vice versa
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Eval reflectValue(Boolean bWTM, Eval mValue) {
+    public static Eval ReflectValue(Boolean bWTM, Eval mValue) {
       //
       // Note: In the NegaMax evaluation to be returned, a positive sign
       // will indicate that the Side to Move is winning.
@@ -630,7 +630,7 @@ namespace Engine {
     // This allows transpositions to be used by searches of varying
     // lengths while returning values that prefer the shortest mate.
     //
-    internal static Eval creditMate(Eval mValue, Ply wSearchPlies) {
+    private static Eval creditMate(Eval mValue, Ply wSearchPlies) {
 #if VerifyIBV
       var mIBV = IBV(mValue, EvalType.Exact);
       var mVerify = IBEval(mIBV);
@@ -673,7 +673,7 @@ namespace Engine {
       return (Eval)nAdjusted;
     }
 
-    protected static Eval debitMate(Eval mValue, Ply wSearchPlies) {
+    private static Eval debitMate(Eval mValue, Ply wSearchPlies) {
       var nAdjusted = (Int32)mValue;
       if (EvalUndefined < mValue) {     //[Safe]
         if (MinusInfinity < mValue && mValue < PlusInfinity) {
