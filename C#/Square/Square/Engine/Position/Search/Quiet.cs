@@ -65,7 +65,7 @@ namespace Engine {
       // BestMoves updated iff bFoundValue
       if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
         // moveFound not always defined for EvalType.Upper [Fail Low]
-        if (isDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
+        if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
           unpackMove1(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
           //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
@@ -291,14 +291,14 @@ namespace Engine {
       Eval mPromotion = 0;
       Eval mCapture = 0;
 
-      var uPromotion = promoted(move);
+      var uPromotion = Promoted(move);
       if (uPromotion > 0) {
         // Only Pawns Promote:
-        mPromotion = weightP(pieceIndex(uPromotion));
+        mPromotion = weightP(PieceIndex(uPromotion));
       }
 
       if (IsCapture(move)) {
-        var nTo = to(move);
+        var nTo = To(move);
 #if DebugMove
         var sqTo = (sq)nTo;
 #endif

@@ -61,7 +61,7 @@ namespace Engine {
     protected Byte CaptureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
       bEnPassant = false;
       var vCapture = vPieceNull;
-      var uCapture = captured(move);
+      var uCapture = Captured(move);
       var capture = (Piece)uCapture;
 
       if (capture == Piece.Capture) {
@@ -78,7 +78,7 @@ namespace Engine {
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                      $"There is no piece to capture on {(sq)nTo}.");
 #if SaveCapture
-        var captive = indexPiece(vCapture);
+        var captive = IndexPiece(vCapture);
         move &= ~Move.CaptiveMask;
         move |= (Move)((UInt32)captive << nCaptiveBit);
 #endif
@@ -91,7 +91,7 @@ namespace Engine {
         Debug.Assert(capture != Piece.None, "Unexpected Non-Capture");
       }
       else
-        vCapture = pieceIndex(uCapture);
+        vCapture = PieceIndex(uCapture);
 
       Debug.Assert(vCapture != vK6, "Unknown Captive",
                    $"No captive found for {(sq)nTo}.");
@@ -173,7 +173,7 @@ namespace Engine {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
-      var vPiece = pieceIndex(uPiece);
+      var vPiece = PieceIndex(uPiece);
       var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
       var bPromote = (bit(nTo) & Friend.Parameter.RankLast) != 0;
@@ -198,7 +198,7 @@ namespace Engine {
         Friend.RookCastles(nTo);
 
       if (bSupplied)
-        Friend.PlacePiece(pieceIndex(uPromotion), nTo);
+        Friend.PlacePiece(PieceIndex(uPromotion), nTo);
       else
         Friend.LowerPiece(vPiece, nTo);
 

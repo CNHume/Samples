@@ -62,7 +62,7 @@ namespace Engine {
       unpack1(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out Boolean bCapture);
 
-      var vPiece = pieceIndex(uPiece);
+      var vPiece = PieceIndex(uPiece);
       var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
 
       if (qpAtxTo == 0) {
@@ -184,7 +184,7 @@ namespace Engine {
       //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
       probeMove(mAlpha, mBeta, out Move moveFound);
       // moveFound not always defined for EvalType.Upper [Fail Low]
-      if (isDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
+      if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
         var moveNoted = moveFound;
         if (!State!.IsPure) {           // Standard Algebraic Notation (AN) supports abbreviation
 #if AbbreviateLookup

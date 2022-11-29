@@ -409,7 +409,7 @@ namespace Engine {
         // Validate Non-Castling Move
         //
         var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
-        var piece = indexPiece(vPiece);
+        var piece = IndexPiece(vPiece);
 
         if (!qpAtxTo.HasValue)          //[Safe]
           throw new ParseException($"Unexpected Piece in Move: {sPACN}");
@@ -429,8 +429,8 @@ namespace Engine {
           throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");
         }
 
-        var move = promotionMove(promotion) | pieceMove(piece) | fromToMove(nFrom, nTo);
-        if (bCapture) move |= captureMove(indexPiece(vCapture));
+        var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
+        if (bCapture) move |= CaptureMove(IndexPiece(vCapture));
         return move;
       }
       #endregion

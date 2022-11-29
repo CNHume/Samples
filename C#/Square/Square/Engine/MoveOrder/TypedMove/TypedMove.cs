@@ -57,7 +57,7 @@ namespace Engine.MoveOrder {
       Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
       MoveType type;
 
-      switch (pieceIndex(uPiece)) {
+      switch (PieceIndex(uPiece)) {
       case vP6:
         type = bCapture ?
           bAbove ? MoveType.PawnAboveCapture : MoveType.PawnBelowCapture :

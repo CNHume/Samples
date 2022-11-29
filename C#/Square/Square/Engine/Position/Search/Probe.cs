@@ -92,7 +92,7 @@ namespace Engine {
       var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
       // Note: Adjusted mValue may be EvalUndefined
       var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
-      if (bAllowValue && goodMoves is not null && isDefinite(moveFound)) {
+      if (bAllowValue && goodMoves is not null && IsDefinite(moveFound)) {
 #if DedupeGoodMoves
         //
         // Duplicates should be avoided; but will be filtered from SiftedMoves

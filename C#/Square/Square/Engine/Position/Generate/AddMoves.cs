@@ -77,7 +77,7 @@ namespace Engine {
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
       var capture = bEnPassant ? Piece.EP : Piece.Capture;
-      var move = captureMove(capture) | PawnMove | fromToMove(nFrom, nTo);
+      var move = CaptureMove(capture) | PawnMove | FromToMove(nFrom, nTo);
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
@@ -85,7 +85,7 @@ namespace Engine {
         foreach (var p in Promotions) {
           var moves = p == Piece.Q ?
             PseudoQueenPromotionCapture : PseudoUnderPromotionCapture;
-          moves.Add(promotionMove(p) | move);
+          moves.Add(PromotionMove(p) | move);
         }
       else if (bEnPassant) {
 #if DebugSquares
@@ -105,14 +105,14 @@ namespace Engine {
       Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
       Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
-      var move = PawnMove | fromToMove(nFrom, nTo);
+      var move = PawnMove | FromToMove(nFrom, nTo);
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
       if (bPromote)
         foreach (var p in Promotions) {
           var moves = p == Piece.Q ? PseudoQueenPromotion : PseudoUnderPromotion;
-          moves.Add(promotionMove(p) | move);
+          moves.Add(PromotionMove(p) | move);
         }
       else {
         var moves = bAbove ? PseudoPawnAboveMove : PseudoPawnBelowMove;
@@ -129,7 +129,7 @@ namespace Engine {
       qpMoveTo &= RankPiece;            // Find Captures
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
-        var move = PieceCapture | toMove(nTo) | moveFrom;
+        var move = PieceCapture | ToMove(nTo) | moveFrom;
 #if DebugMoveColor
         if (bWTM) move |= Move.WTM;
 #endif
@@ -145,7 +145,7 @@ namespace Engine {
       qpMoveTo &= ~RankPiece;           // Find Moves
       while (qpMoveTo != 0) {
         var nTo = RemoveLo(ref qpMoveTo);
-        var move = toMove(nTo) | moveFrom;
+        var move = ToMove(nTo) | moveFrom;
 #if DebugMoveColor
         if (WTM()) move |= Move.WTM;
 #endif
@@ -161,7 +161,7 @@ namespace Engine {
     private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
 #endif
       // Each side has one King
-      var moveFrom = KingMove | fromMove(vKingPos);
+      var moveFrom = KingMove | FromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
 #if UnshadowRay
       if (bRayCheck) {
@@ -188,12 +188,12 @@ namespace Engine {
     private void addKingCaptures(Plane qpTo, Byte vKingPos) {
 #endif
       // Each side has one King
-      var moveFrom = KingMove | fromMove(vKingPos);
+      var moveFrom = KingMove | FromMove(vKingPos);
       var qpMoveTo = KingAtx[vKingPos] & qpTo;
 #if UnshadowRay
       if (bRayCheck) {
         //
-        // Briefly remove the King being moved from position to
+        // Briefly remove the King being moved from position To
         // unshadow its destination squares from ray attacks:
         //
         ClrRayState(vKingPos);
@@ -211,7 +211,7 @@ namespace Engine {
       var qpKnight = Friend.Piece & Knight;
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
-        var moveFrom = KnightMove | fromMove(nFrom);
+        var moveFrom = KnightMove | FromMove(nFrom);
         var qpMoveTo = KnightAtx[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoKnightMove, PseudoKnightMove, moveFrom, qpMoveTo);
@@ -222,7 +222,7 @@ namespace Engine {
       var qpKnight = Friend.Piece & Knight;
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
-        var moveFrom = KnightMove | fromMove(nFrom);
+        var moveFrom = KnightMove | FromMove(nFrom);
         var qpMoveTo = KnightAtx[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
       }
@@ -232,7 +232,7 @@ namespace Engine {
       var qpBishop = Friend.Piece & Bishop;
       while (qpBishop != 0) {
         var nFrom = RemoveLo(ref qpBishop);
-        var moveFrom = BishopMove | fromMove(nFrom);
+        var moveFrom = BishopMove | FromMove(nFrom);
         var qpMoveTo = diagAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoDiagAboveMove, PseudoDiagBelowMove, moveFrom, qpMoveTo);
@@ -243,7 +243,7 @@ namespace Engine {
       var qpBishop = Friend.Piece & Bishop;
       while (qpBishop != 0) {
         var nFrom = RemoveLo(ref qpBishop);
-        var moveFrom = BishopMove | fromMove(nFrom);
+        var moveFrom = BishopMove | FromMove(nFrom);
         var qpMoveTo = diagAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
       }
@@ -253,7 +253,7 @@ namespace Engine {
       var qpRook = Friend.Piece & Rook;
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
-        var moveFrom = RookMove | fromMove(nFrom);
+        var moveFrom = RookMove | FromMove(nFrom);
         var qpMoveTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoOrthAboveMove, PseudoOrthBelowMove, moveFrom, qpMoveTo);
@@ -264,7 +264,7 @@ namespace Engine {
       var qpRook = Friend.Piece & Rook;
       while (qpRook != 0) {
         var nFrom = RemoveLo(ref qpRook);
-        var moveFrom = RookMove | fromMove(nFrom);
+        var moveFrom = RookMove | FromMove(nFrom);
         var qpMoveTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
       }
@@ -274,7 +274,7 @@ namespace Engine {
       var qpQueen = Friend.Piece & Queen;
       while (qpQueen != 0) {
         var nFrom = RemoveLo(ref qpQueen);
-        var moveFrom = QueenMove | fromMove(nFrom);
+        var moveFrom = QueenMove | FromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
         var qpOrthTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);
@@ -288,7 +288,7 @@ namespace Engine {
       var qpQueen = Friend.Piece & Queen;
       while (qpQueen != 0) {
         var nFrom = RemoveLo(ref qpQueen);
-        var moveFrom = QueenMove | fromMove(nFrom);
+        var moveFrom = QueenMove | FromMove(nFrom);
         var qpDiagTo = diagAtx(nFrom) & qpTo;
         var qpOrthTo = orthAtx(nFrom) & qpTo;
         addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);

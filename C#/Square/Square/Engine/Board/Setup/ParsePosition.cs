@@ -55,7 +55,7 @@ namespace Engine {
           if (p == Piece.B)
             nSetup = hasBishopPair(side.FlagsSide) ? 2 : 1;
 
-          var vPiece = pieceIndex((UInt32)p);
+          var vPiece = PieceIndex((UInt32)p);
           var nCount = (Int32)side.PieceCount(vPiece);
 
           var nExtra = nCount - nSetup;
@@ -79,7 +79,7 @@ namespace Engine {
         if (!piece.HasValue)
           throw new ParsePositionException($"Unexpected Piece Name = {cPlacement}");
 
-        var vPiece = pieceIndex((UInt32)piece);
+        var vPiece = PieceIndex((UInt32)piece);
         var side = getSide(bWhiteSide);
         side.PlacePiece(vPiece, sqr(x, y));
         x++;                            // Placed Piece

@@ -116,7 +116,7 @@ namespace Engine {
       var bCapture = IsCapture(move);
       if (bCapture) {
         pc.Captures++;
-        if ((Piece)captured(move) == Piece.EP)
+        if ((Piece)Captured(move) == Piece.EP)
           pc.EnPassant++;
       }
       else if (IsCastles(move))

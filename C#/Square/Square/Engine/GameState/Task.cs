@@ -188,7 +188,7 @@ namespace Engine {
         //
         // The .Net 4.5 Framework substantially simplifies this by
         // providing a CancelAfter() method for CancellationSource.
-        // This explicit apprach allows CancleTimer.Change() to be
+        // The explicit approach allows CancleTimer.Change() to be
         // called in ponderhit() below.
         //
         // Start CancelTimer, which uses the CancellationSource to

@@ -133,7 +133,7 @@ namespace Engine {
 
     #region ToString() Methods
     private static string coloredPiece(Boolean bWhite, Byte vPiece) {
-      var sPiece = indexPiece(vPiece).ToString();
+      var sPiece = IndexPiece(vPiece).ToString();
       return bWhite ? sPiece.ToUpper() : sPiece.ToLower();
     }
 
@@ -211,7 +211,7 @@ namespace Engine {
     #region Board Display
     public static String PieceSymbol(Byte vPiece) {
       var sSymbol = IsNullOrEmpty(PieceSymbols) ?
-        indexPiece(vPiece).ToString() : PieceSymbols[vPiece].ToString();
+        IndexPiece(vPiece).ToString() : PieceSymbols[vPiece].ToString();
       return sSymbol;
     }
 

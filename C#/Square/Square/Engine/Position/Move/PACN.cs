@@ -117,7 +117,7 @@ namespace Engine {
       else if ((qpFrom & qpFriend) == 0) {
         var friendSideName = Friend.Parameter.SideName;
         var foeSideName = Foe.Parameter.SideName;
-        var pieceFrom = indexPiece(vPieceFrom);
+        var pieceFrom = IndexPiece(vPieceFrom);
         throw new MoveException(
           $"{friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
       }

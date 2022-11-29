@@ -100,8 +100,8 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected (bool bPrevented, bool bRestricted) isPinned(Move move) {
-      var nFrom = from(move);
-      var nTo = to(move);
+      var nFrom = From(move);
+      var nTo = To(move);
 
       var bRestricted = (PinnedPiece & bit(nFrom)) != 0;
       var bPrevented = bRestricted && (Restricted[nFrom] & bit(nTo)) == 0;

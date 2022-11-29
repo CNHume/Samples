@@ -417,7 +417,7 @@ namespace Engine {
 #else
         true;
 #endif
-      if (IsNullMove(move) || !isDefinite(move)) {
+      if (IsNullMove(move) || !IsDefinite(move)) {
         sb.Append(move);
         return sb;
       }
@@ -425,7 +425,7 @@ namespace Engine {
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
-      var vPiece = pieceIndex(uPiece);
+      var vPiece = PieceIndex(uPiece);
 
       if (bCastles) {
         #region Castles
@@ -464,7 +464,7 @@ namespace Engine {
           sb.Append(sqFrom);
         else {
           var sFrom = sqFrom.ToString();
-          if (isShowFile(move))
+          if (IsShowFile(move))
             sb.Append(sFrom[File]);
           else if (IsShowRank(move))
             sb.Append(sFrom[Rank]);
@@ -472,8 +472,8 @@ namespace Engine {
         #endregion
 
         if (bCapture) {
-          var uCapture = captured(move);
-          var vCapture = pieceIndex(uCapture);
+          var uCapture = Captured(move);
+          var vCapture = PieceIndex(uCapture);
           bEnPassant = vCapture == vEP6;
 
           sb.Append(sTakes);
@@ -491,7 +491,7 @@ namespace Engine {
         #region Pawn Move Annotations
         if (vPiece == vP6) {
           if (uPromotion > 0) {
-            var vPromotion = pieceIndex(uPromotion);
+            var vPromotion = PieceIndex(uPromotion);
             var sPromotion = PieceSymbol(vPromotion);
             sb.Append(sNotePromotion).Append(sPromotion);
           }
