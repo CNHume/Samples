@@ -260,14 +260,14 @@ namespace Engine {
               yLo = d < nFiles ? 0 : d - 7,
               nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
 
-        var xLoInverse = invertFile(xLo);
+        var xLoInverse = InvertFile(xLo);
         var nA1H8Lo = sqr(xLo, yLo);
         var nA8H1Lo = sqr(xLoInverse, yLo);
 #if TestDiagLo
         LogLine($"d = {d,2}: A1H8Lo = {(sq)nA1H8Lo}, A8H1Lo = {(sq)nA8H1Lo}");
 #endif
         for (Int32 x = xLo, y = yLo, w = 0; w < nDiagLen; w++, x++, y++) {
-          var xInverse = invertFile(x);
+          var xInverse = InvertFile(x);
 
           A1H8Lo[sqr(x, y)] = nA1H8Lo;
           A8H1Lo[sqr(xInverse, y)] = nA8H1Lo;
@@ -510,19 +510,19 @@ namespace Engine {
     #region Ray State Accessors
 #if Magic
 #if TestMagic || !HalfMagic
-    protected static Byte hashFileFull(Plane qp, Int32 n) {
+    internal static Byte hashFileFull(Plane qp, Int32 n) {
       var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
       return (Byte)(qFileState % wFileModulus);
     }
 
-    protected static Byte hashA1H8Full(Plane qp, Int32 n) {
+    internal static Byte hashA1H8Full(Plane qp, Int32 n) {
       var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
       return (Byte)(qA1H8State % wA1H8Modulus);
     }
 
-    protected static Byte hashA8H1Full(Plane qp, Int32 n) {
+    internal static Byte hashA8H1Full(Plane qp, Int32 n) {
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
@@ -535,7 +535,7 @@ namespace Engine {
     // Given a common modulus: if A1 is congruent to A2; and B1 is congruent to B2
     // then A1*B1 will be congruent to A2*B2
     //
-    protected static Byte hashFileHalf(Plane qp, Int32 n) {
+    internal static Byte hashFileHalf(Plane qp, Int32 n) {
       const UInt16 wFileRem = (UInt16)(BIT32 % wFileModulus);   // 16
       var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
       qFileState += uOffset;
@@ -545,7 +545,7 @@ namespace Engine {
       return (Byte)(uFileState % wFileModulus);
     }
 
-    protected static Byte hashA1H8Half(Plane qp, Int32 n) {
+    internal static Byte hashA1H8Half(Plane qp, Int32 n) {
       const UInt16 wA1H8Rem = (UInt16)(BIT32 % wA1H8Modulus);   // 258
       var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
@@ -555,7 +555,7 @@ namespace Engine {
       return (Byte)(uA1H8State % wA1H8Modulus);
     }
 
-    protected static Byte hashA8H1Half(Plane qp, Int32 n) {
+    internal static Byte hashA8H1Half(Plane qp, Int32 n) {
       const UInt16 wA8H1Rem = (UInt16)(BIT32 % wA8H1Modulus);   // 1
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
       var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
@@ -568,17 +568,17 @@ namespace Engine {
     }
 #endif
 #else                                   //!Magic
-    protected Byte rotateA1H8(Int32 n) {
+    private Byte rotateA1H8(Int32 n) {
       var uA1H8Rotate = (UInt32)(A1H8Piece >> A1H8Offset[n]);
       return (Byte)(uA1H8Rotate & uStateMask);
     }
 
-    protected Byte rotateA8H1(Int32 n) {
+    private Byte rotateA8H1(Int32 n) {
       var uA8H1Rotate = (UInt32)(A8H1Piece >> A8H1Offset[n]);
       return (Byte)(uA8H1Rotate & uStateMask);
     }
 
-    protected Byte rotateFile(Int32 n) {
+    private Byte rotateFile(Int32 n) {
 #if NoFileOffset
       var nFileOffset = nFiles * invertFile(x(n)) + 1;
 #endif
@@ -586,7 +586,7 @@ namespace Engine {
       return (Byte)(uFileRotate & uStateMask);
     }
 #endif                                  //!Magic
-    protected Byte rotateRank(Int32 n) {
+    internal Byte rotateRank(Int32 n) {
 #if NoRankOffset
       var nRankOffset = nFiles * y(n) + 1;
 #endif
