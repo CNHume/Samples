@@ -81,7 +81,7 @@ namespace Engine.MoveOrder {
         break;
 
       case vQ6:
-        type = isOrth(nFrom, nTo) ? bCapture ?
+        type = IsOrth(nFrom, nTo) ? bCapture ?
           bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
           bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove :
         bCapture ?

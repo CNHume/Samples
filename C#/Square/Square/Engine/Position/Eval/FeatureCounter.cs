@@ -219,7 +219,7 @@ namespace Engine {
       while (qpPassers != 0) {
         var n = RemoveLo(ref qpPassers);
         // Black Pawns advance over 5 ranks, from the 7th down to the 2nd, then promote:
-        nValue += (invertRank(y(n)) - 1) * mPassedPawnPushWeight;
+        nValue += (InvertRank(y(n)) - 1) * mPassedPawnPushWeight;
       }
 
       return (Eval)nValue;

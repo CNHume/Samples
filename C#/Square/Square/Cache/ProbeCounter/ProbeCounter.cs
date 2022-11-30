@@ -45,17 +45,17 @@ namespace Cache {
     }
 
     public virtual void Display(UInt32 uCapacity, Int64 lGetReadsOffset = 0L, Int64 lGetHitsOffset = 0L) {
-      displayGets(lGetReadsOffset, lGetHitsOffset);
-      displayUsage(uCapacity);
+      DisplayGets(lGetReadsOffset, lGetHitsOffset);
+      DisplayUsage(uCapacity);
     }
 
-    protected void displayGets(Int64 lGetReadsOffset, Int64 lGetHitsOffset) {
+    protected void DisplayGets(Int64 lGetReadsOffset, Int64 lGetHitsOffset) {
       DisplayHits(Name, "Get",
                   (Int64)GetReads - lGetReadsOffset,
                   (Int64)GetHits - lGetHitsOffset);
     }
 
-    protected void displayUsage(UInt32 uCapacity) {
+    protected void DisplayUsage(UInt32 uCapacity) {
       var dSaturation = 100.0 * Added / uCapacity;
 
       if (Added == 0)
@@ -108,13 +108,13 @@ namespace Cache {
     }
 
     public override void Display(UInt32 uCapacity, Int64 lGetReadsOffset = 0L, Int64 lGetHitsOffset = 0L) {
-      displayGets(lGetReadsOffset, lGetHitsOffset);
-      displaySets();
+      DisplayGets(lGetReadsOffset, lGetHitsOffset);
+      DisplaySets();
       //[Note]uCapacity > 8M thrashed in 1GB RAM
-      displayUsage(uCapacity);
+      DisplayUsage(uCapacity);
     }
 
-    protected void displaySets() {
+    protected void DisplaySets() {
       DisplayHits(Name, "Set", (Int64)SetReads, (Int64)SetHits);
     }
     #endregion

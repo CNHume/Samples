@@ -51,7 +51,7 @@ namespace Engine {
           PawnStep = PawnSense * nFiles;
 
           SetupRank = (Int32)sq.a1;
-          EnPassantRank = invertRank(2);
+          EnPassantRank = InvertRank(2);
 
           RankLast = qpRank8;
           RankPass = qpRank3;

@@ -195,9 +195,9 @@ namespace Engine {
     private static void loadSquareImportance() {
       var n4 = 0;                       // Quartance[] defined over 16 squares of a quarter-board
       for (var y = 0; y < nRanks / 2; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
         for (var x = 0; x < nFiles / 2; x++, n4++) {
-          var xInverse = invertFile(x);
+          var xInverse = InvertFile(x);
 
           Importance[sqr(x, y)] = Quartance[n4];
           Importance[sqr(xInverse, y)] = Quartance[n4];

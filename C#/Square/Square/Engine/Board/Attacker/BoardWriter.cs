@@ -141,7 +141,7 @@ namespace Engine {
       var nSkip = 0;
 
       for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
 
         if (y > 0)
           sb.Append("/");
@@ -229,7 +229,7 @@ namespace Engine {
       const Int32 rank = 0;
       var qp = bit(sqr(0, rank));
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
-        var file = bFlip ? invertFile(x) : x;
+        var file = bFlip ? InvertFile(x) : x;
         appendPiece1(sb, sqr(file, rank), qp);
       }
     }
@@ -260,7 +260,7 @@ namespace Engine {
       var bRightRuler = bFlip;
       var qp = bit(sqr(0, rank));
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
-        var file = bFlip ? invertFile(x) : x;
+        var file = bFlip ? InvertFile(x) : x;
         if (!bRightRuler)               // Left Pad
           sb.Append(sSpace);
         appendPiece2(sb, sqr(file, rank), qp);
@@ -278,7 +278,7 @@ namespace Engine {
           .Append(cNewline);
 
       for (var y = 0; y < nRanks; y++) {
-        var rank = bFlip ? y : invertRank(y);
+        var rank = bFlip ? y : InvertRank(y);
         var c = (Char)(cRankMin + rank);
         if (!bRightRuler)               // Rank Ruler at Left
           sb.Append(c);
@@ -342,7 +342,7 @@ namespace Engine {
         .Append(cNewline);
 
       for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
         var s = Empty;
         for (var x = 0; x < nFiles; x++)
           sb.Append($"{mapper(sqr(x, yInverse)),3}");
@@ -364,7 +364,7 @@ namespace Engine {
         sb.AppendRuler(bRotateBoard, bFlip);
 
       for (var y = 0; y < nRanks; y++) {
-        var rank = bFlip ? y : invertRank(y);
+        var rank = bFlip ? y : InvertRank(y);
         var c = (Char)(bRotateBoard ? cFileMax - rank : cRankMin + rank);
         if (!bRightRuler)               // Rank Ruler at Left
           sb.Append(c);
@@ -389,7 +389,7 @@ namespace Engine {
     protected static void writeDiagIndexes(Func<Int32, Int32> idxr) {
       var sb = new StringBuilder();
       for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
         for (var x = 0; x < nFiles; x++)
           sb.Append($" {idxr(sqr(x, yInverse)),2}");
         sb.Append(cNewline);
@@ -454,7 +454,7 @@ namespace Engine {
         .Append(cNewline);
 
       for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
         sb.AppendOrthRotations(qpOrth, bit(sqr(0, yInverse)))
           .Append(cNewline);
       }

@@ -119,7 +119,7 @@ namespace Engine {
     public static StringBuilder AppendRanks(this StringBuilder sb, String s, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nRanks; x++) {
-        var rank = bFlip ? invertRank(x) : x;
+        var rank = bFlip ? InvertRank(x) : x;
         if (!bRightRuler)               // Left Pad
           sb.Append(s);
         sb.Append((Char)(cRankMin + rank));
@@ -132,7 +132,7 @@ namespace Engine {
     public static StringBuilder AppendFiles(this StringBuilder sb, String s, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
-        var file = bFlip ? invertFile(x) : x;
+        var file = bFlip ? InvertFile(x) : x;
         if (!bRightRuler)               // Left Pad
           sb.Append(s);
         sb.Append((Char)(cFileMin + file));
@@ -157,7 +157,7 @@ namespace Engine {
     public static StringBuilder AppendOrth(this StringBuilder sb, UInt32 uOrth, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
-        var file = bFlip ? invertFile(x) : x;
+        var file = bFlip ? InvertFile(x) : x;
         var c = (uOrth & bit(file)) == 0 ? cVacant : cOccupied;
         if (!bRightRuler)               // Left Pad
           sb.Append(sSpace);

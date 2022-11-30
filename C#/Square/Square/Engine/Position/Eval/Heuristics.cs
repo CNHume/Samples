@@ -178,8 +178,8 @@ namespace Engine {
 
     #region KBN Endgame
     private static Int32 edgeDistance(Int32 n) {
-      var dx = Min(x(n), invertFile(x(n)));
-      var dy = Min(y(n), invertRank(y(n)));
+      var dx = Min(x(n), InvertFile(x(n)));
+      var dy = Min(y(n), InvertRank(y(n)));
       return Min(dx, dy);
     }
 

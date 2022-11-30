@@ -52,11 +52,11 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
-    public const Eval EvalMask = (1 << 14) - 1;
-    public const Eval PlusInfinity = EvalMask >> 1;
-    public const Eval MinusInfinity = -PlusInfinity;
-    //[Old]public const Eval EvalUndefined = MinusInfinity - 1;
-    public const Eval EvalUndefined = Bval.MinValue;
+    internal const Eval EvalMask = (1 << 14) - 1;
+    internal const Eval PlusInfinity = EvalMask >> 1;
+    internal const Eval MinusInfinity = -PlusInfinity;
+    //[Old]internal const Eval EvalUndefined = MinusInfinity - 1;
+    internal const Eval EvalUndefined = Bval.MinValue;
 
     //
     //[Analysis]Is headroom needed to guard against MateRange Overflow or Underflow,
@@ -76,32 +76,32 @@ namespace Engine {
     // Positional Rewards = Max Score - Max Piece Score = 4
     //
     internal const Eval mUnitWeight = 60;
-    protected const Eval mHalfWeight = mUnitWeight / 2;
-    protected const Eval mThirdWeight = mUnitWeight / 3;
-    protected const Eval mQuarterWeight = mHalfWeight / 2;
-    protected const Eval mFifthWeight = mUnitWeight / 5;
-    protected const Eval mTenthWeight = mFifthWeight / 2;
+    private const Eval mHalfWeight = mUnitWeight / 2;
+    private const Eval mThirdWeight = mUnitWeight / 3;
+    private const Eval mQuarterWeight = mHalfWeight / 2;
+    private const Eval mFifthWeight = mUnitWeight / 5;
+    private const Eval mTenthWeight = mFifthWeight / 2;
 
-    protected const Eval mPawnWeight = mUnitWeight;
-    protected const Eval mRookWeight = 5 * mUnitWeight; // + mQuarterWeight
-    protected const Eval mKnightWeight = 3 * mUnitWeight + mQuarterWeight;
-    protected const Eval mBishopWeight = 3 * mUnitWeight + mQuarterWeight;
-    protected const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;
+    private const Eval mPawnWeight = mUnitWeight;
+    private const Eval mRookWeight = 5 * mUnitWeight; // + mQuarterWeight
+    private const Eval mKnightWeight = 3 * mUnitWeight + mQuarterWeight;
+    private const Eval mBishopWeight = 3 * mUnitWeight + mQuarterWeight;
+    private const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;
 
-    protected const Eval mInsufficientWeight = mHalfWeight;
-    protected const Eval mThreatWeight = mKnightWeight;
-    protected const Eval mStandPatWeight = mPawnWeight + mHalfWeight;//[Unused]
-    protected const Eval mDeltaBaseWeight = 2 * mPawnWeight;
-    protected const Eval mOccamBaseWeight = 4 * mPawnWeight;
-    protected const Eval mSingularWeight = 3 * mQuarterWeight;
-    protected const Eval mPassedPawnPushWeight = mFifthWeight / 2;
-    protected const Eval mKBNvKMateCornerWeight = 2 * mPawnWeight;// Divisible by nFiles
-    protected const Eval mKQvKPProximityWeight = mPawnWeight;
-    protected const Eval mOutsideSquareWeight = mRookWeight;
-    protected const Eval mWrongBishopWeight = mBishopWeight;      //[Note]Wrong Bishop test fails at large depth if this is small
-    protected const Eval mBishopPairWeight = 3 * mFifthWeight;
-    protected const Eval mRookBehindPasserAttacker = mQuarterWeight;
-    protected const Eval mRookBehindPasserDefender = mThirdWeight;
+    private const Eval mInsufficientWeight = mHalfWeight;
+    private const Eval mThreatWeight = mKnightWeight;
+    private const Eval mStandPatWeight = mPawnWeight + mHalfWeight;//[Unused]
+    private const Eval mDeltaBaseWeight = 2 * mPawnWeight;
+    private const Eval mOccamBaseWeight = 4 * mPawnWeight;
+    private const Eval mSingularWeight = 3 * mQuarterWeight;
+    private const Eval mPassedPawnPushWeight = mFifthWeight / 2;
+    private const Eval mKBNvKMateCornerWeight = 2 * mPawnWeight;// Divisible by nFiles
+    private const Eval mKQvKPProximityWeight = mPawnWeight;
+    private const Eval mOutsideSquareWeight = mRookWeight;
+    private const Eval mWrongBishopWeight = mBishopWeight;      //[Note]Wrong Bishop test fails at large depth if this is small
+    private const Eval mBishopPairWeight = 3 * mFifthWeight;
+    private const Eval mRookBehindPasserAttacker = mQuarterWeight;
+    private const Eval mRookBehindPasserDefender = mThirdWeight;
 
     //
     //[Assume]P, N, B, R, Q Piece Order
@@ -112,20 +112,20 @@ namespace Engine {
 
     #region Evaluation Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Boolean isEndgame(Eval mStaticTotal) {
+    private Boolean isEndgame(Eval mStaticTotal) {
       return mStaticTotal <= State!.EndgameValue;       // 22.25
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Boolean isEndgame() {
+    private Boolean isEndgame() {
       return isEndgame(StaticTotal);
     }
 
-    protected static Eval weight(Byte vPiece) {
+    private static Eval weight(Byte vPiece) {
       return PieceWeight[vPiece];
     }
 
-    protected static Eval weightP(Byte vPromotion) {
+    private static Eval weightP(Byte vPromotion) {
       return (Eval)(PieceWeight[vPromotion] - mPawnWeight);
     }
 
@@ -140,13 +140,13 @@ namespace Engine {
     // the estimated handicap to an equal evaluation of Zero depending
     // on the game phase, and the relative strength of the two players.
     //
-    protected Eval contempt() {
+    private Eval contempt() {
       GameState.AtomicIncrement(ref State!.DrawTotal);
       var mDrawValue = (Eval)(-State!.Contempt);        // Strength advantage of White over Black
       return mDrawValue;
     }
 #if MaterialBalance
-    protected (Eval mDelta, Eval mTotal) getValue() {
+    private (Eval mDelta, Eval mTotal) getValue() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -181,7 +181,7 @@ namespace Engine {
 #if NoPieceHash
     private static Composition comp = new Composition();
 #endif
-    protected (Eval mDelta, Eval mTotal) getValue() {
+    private (Eval mDelta, Eval mTotal) getValue() {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -206,7 +206,7 @@ namespace Engine {
       return ((Eval)comp.Delta, (Eval)comp.Total);
     }
 
-    protected MemoHashcode compositionHash(Boolean bWhiteHash) {
+    private MemoHashcode compositionHash(Boolean bWhiteHash) {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
@@ -221,7 +221,7 @@ namespace Engine {
       StaticTotal = Position.EvalUndefined;
     }
 
-    protected Eval staticEval(out PawnPosition? pp) {   //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
+    private Eval staticEval(out PawnPosition? pp) {   //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
       pp = default;
       if (IsInsufficient())
         return contempt();
@@ -579,7 +579,7 @@ namespace Engine {
     internal static Eval weighPieces(
       CompositionCounter wPieceCounts, SideFlags fside) {
 #if EvalInsufficient
-      if (IsInsufficient(fside))
+      if (isInsufficient(fside))
         return mInsufficientWeight;
 #endif
       // 218.34 MHz with both EvalInsufficient and EvalBishopPair;
@@ -598,7 +598,7 @@ namespace Engine {
     }
 
     // Side has Insufficient Material to Force Mate
-    protected static bool IsInsufficient(SideFlags fside) {
+    private static bool isInsufficient(SideFlags fside) {
       return fside.Has(SideFlags.Insufficient);
     }
     #endregion                          // Piece Evaluation

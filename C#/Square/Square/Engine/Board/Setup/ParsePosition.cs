@@ -113,7 +113,7 @@ namespace Engine {
       }
 
       for (var nRow = 0; nRow < nRows; nRow++) {
-        var y = invertRank(nRow);
+        var y = InvertRank(nRow);
         var sRank = rank[nRow];
         var nLength = sRank.Length;
         var nPos = 0;

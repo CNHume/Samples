@@ -26,13 +26,13 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    protected const Int32 nDiagonals = 15;      // nFiles + nRanks - 1
-    protected const Int32 nStates = 1 << 6;
-    protected const UInt32 uStateMask = nStates - 1;
+    private const Int32 nDiagonals = 15;        // nFiles + nRanks - 1
+    private const Int32 nStates = 1 << 6;
+    private const UInt32 uStateMask = nStates - 1;
 #if Magic
-    protected const Plane qpFileMask = 0x0101010101010101UL;
-    protected const Plane qpA1H8Mask = 0x8040201008040201UL;
-    protected const Plane qpA8H1Mask = 0x0102040810204080UL;
+    private const Plane qpFileMask = 0x0101010101010101UL;
+    private const Plane qpA1H8Mask = 0x8040201008040201UL;
+    private const Plane qpA8H1Mask = 0x0102040810204080UL;
 
     //
     // See http://www.dcs.bbk.ac.uk/~mark/download/bitboard_sliding_icga_final.pdf
@@ -133,7 +133,7 @@ namespace Engine {
         var mState = 1 << 7 | vState << 1 | 1;
 
         for (var y = 0; y < nRanks; y++) {
-          var yInverse = invertRank(y);
+          var yInverse = InvertRank(y);
 
           for (var x = 0; x < nFiles; x++) {
             var nRankPos = sqr(x, y);
@@ -179,7 +179,7 @@ namespace Engine {
           for (Int32 x = d < nFiles ? 7 - d : 0,
                      y = d < nFiles ? 0 : d - 7,
                      w = 0; w < nDiagLen; w++, x++, y++) {
-            var xInverse = invertFile(x);
+            var xInverse = InvertFile(x);
 #if DebugDiagIndexers
             Debug.Assert(diagA1H8(sqr(x, y)) == d, "A1H8 mismatch");
             Debug.Assert(diagA8H1(sqr(xInverse, y)) == d, "A8H1 mismatch");
@@ -192,7 +192,7 @@ namespace Engine {
             var bLoop = xUp < nFiles && yUp < nRanks;
             for (var m = 1 << w + 1; bLoop; bLoop = (mDiagState & m) == 0,
                                             m <<= 1, xUp++, yUp++) {
-              var xUpInverse = invertFile(xUp);
+              var xUpInverse = InvertFile(xUp);
 #if Magic
               A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
               A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
@@ -207,7 +207,7 @@ namespace Engine {
             bLoop = x >= 1 && y >= 1;
             for (var m = 1U << w - 1; bLoop; bLoop = (mDiagState & m) == 0,
                                              m >>= 1, xDn--, yDn--) {
-              var xDnInverse = invertFile(xDn);
+              var xDnInverse = InvertFile(xDn);
 #if Magic
               A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
               A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
@@ -411,7 +411,7 @@ namespace Engine {
       }
 
       for (var n = 0; n < nSquares; n++) {
-        var xInverse = invertFile(x(n));
+        var xInverse = InvertFile(x(n));
         //[Note]One is added to each Offset because status values consist only of the medial 6 bits:
         FileOffset[n] = (Byte)(nFiles * xInverse + 1);
 
@@ -433,7 +433,7 @@ namespace Engine {
     protected static void loadOrthBit() {
       var qp = BIT0;
       for (var y = 0; y < nRanks; y++) {
-        var yInverse = invertRank(y);
+        var yInverse = InvertRank(y);
         for (var x = 0; x < nFiles; x++, qp <<= 1)
           FileBit[sqr(yInverse, x)] = RankBit[sqr(x, y)] = qp;
       }
@@ -447,7 +447,7 @@ namespace Engine {
         for (Int32 x = d < nFiles ? 7 - d : 0,
                    y = d < nFiles ? 0 : d - 7,
                    w = 0; w < nDiagLen; w++, x++, y++, qp <<= 1) {
-          var xInverse = invertFile(x);
+          var xInverse = InvertFile(x);
           A8H1Bit[sqr(xInverse, y)] = A1H8Bit[sqr(x, y)] = qp;
         }
       }
@@ -597,7 +597,7 @@ namespace Engine {
 
     #region Board Coordinate Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean isOrth(Int32 nFrom, Int32 nTo) {
+    public static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
       // Are either of the coordinates equal?
       return x(n) == 0 || y(n) == 0;
@@ -605,7 +605,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Int32 diagA1H8(Int32 n) {
-      return invertFile(x(n)) + y(n);
+      return InvertFile(x(n)) + y(n);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -614,7 +614,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 sqr(Int32 x, Int32 y) {
+    protected static Int32 sqr(Int32 x, Int32 y) {
       return nFiles * y + x;
     }
 
@@ -629,12 +629,12 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 invertFile(Int32 x) {
+    public static Int32 InvertFile(Int32 x) {
       return nFiles - (x + 1);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 invertRank(Int32 y) {
+    public static Int32 InvertRank(Int32 y) {
       return nRanks - (y + 1);
     }
 
