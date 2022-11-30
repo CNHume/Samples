@@ -55,7 +55,7 @@ namespace Engine {
         (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
 
     //[Dark|Lite]Square is used to determine square color of the Bishops
-    protected static void colorSquares() {
+    internal static void colorSquares() {
       var qp = BIT0;
       for (var y = 0U; y < nRanks; y++)
         for (var x = 0U; x < nFiles; x++, qp <<= 1)
@@ -79,7 +79,7 @@ namespace Engine {
              nY >= 0 && nY < nRanks;
     }
 
-    private static void loadPiecetAtx(
+    private static void loadPieceAtx(
       Plane[] qpAtx, ValueTuple<Int32, Int32>[] deltas) {
       foreach (var (ndx, ndy) in deltas) {
         var nFrom = 0;
@@ -97,9 +97,9 @@ namespace Engine {
       }
     }
 
-    protected static void loadPieceAtx() {
-      loadPiecetAtx(KingAtx, KingDeltas);
-      loadPiecetAtx(KnightAtx, KnightDeltas);
+    internal static void loadPieceAtx() {
+      loadPieceAtx(KingAtx, KingDeltas);
+      loadPieceAtx(KnightAtx, KnightDeltas);
     }
     #endregion
 
@@ -128,7 +128,7 @@ namespace Engine {
     // When building the Ray Atx Tables, bLoop remains true until mState indicates
     // that the piece sliding from the reference square has run into another piece.
     //
-    protected static void loadOrthAtx() {
+    internal static void loadOrthAtx() {
       for (Byte vState = 0; vState < nStates; vState++) {
         var mState = 1 << 7 | vState << 1 | 1;
 
@@ -169,7 +169,7 @@ namespace Engine {
     // The approach used here is based on "Rotated bitmaps, a new twist on an old idea" by Dr. Robert Hyatt
     // See http://www.craftychess.com/hyatt/bitmaps.html
     //
-    protected static void loadDiagAtx() {
+    internal static void loadDiagAtx() {
       for (Byte vState = 0; vState < nStates; vState++) {
         for (var d = 0; d < nDiagonals; d++) {
           var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
@@ -227,7 +227,7 @@ namespace Engine {
       RankOffset = new Byte[nSquares];
     }
 
-    protected static void loadRankOffset() {
+    internal static void loadRankOffset() {
       for (var n = 0; n < nSquares; n++)
         RankOffset[n] = (Byte)(nFiles * y(n) + 1);
     }
@@ -403,7 +403,7 @@ namespace Engine {
       A8H1Offset = new Byte[nSquares];
     }
 
-    protected static void loadRotation() {
+    internal static void loadRotation() {
       var nDiagLen = 0;                 //[Note]DiagOffset increments by previous nDiagLen
       for (var d = 0; d < nDiagonals; d++) {
         DiagOffset[d] = (Byte)(d > 0 ? DiagOffset[d - 1] + nDiagLen : nDiagLen);
@@ -430,7 +430,7 @@ namespace Engine {
       A8H1Bit = new Plane[nSquares];
     }
 
-    protected static void loadOrthBit() {
+    internal static void loadOrthBit() {
       var qp = BIT0;
       for (var y = 0; y < nRanks; y++) {
         var yInverse = InvertRank(y);
@@ -439,7 +439,7 @@ namespace Engine {
       }
     }
 
-    protected static void loadDiagBit() {
+    internal static void loadDiagBit() {
       var qp = BIT0;
       for (var d = 0; d < nDiagonals; d++) {
         var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
@@ -614,17 +614,17 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Int32 sqr(Int32 x, Int32 y) {
+    public static Int32 sqr(Int32 x, Int32 y) {
       return nFiles * y + x;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 x(Int32 n) {
+    public static Int32 x(Int32 n) {
       return n % nFiles;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 y(Int32 n) {
+    public static Int32 y(Int32 n) {
       return n / nFiles;
     }
 
@@ -639,7 +639,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Int32 invertDiag(Int32 d) {
+    private static Int32 invertDiag(Int32 d) {
       return nDiagonals - (d + 1);
     }
     #endregion

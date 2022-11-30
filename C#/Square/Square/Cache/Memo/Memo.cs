@@ -27,7 +27,7 @@ namespace Cache {
           throw new ArgumentNullException(
             nameof(Entries), "No entries allocated.");
 
-        return Entries[index(uHash)];
+        return Entries[Index(uHash)];
       }
 
       set {
@@ -35,7 +35,7 @@ namespace Cache {
           throw new ArgumentNullException(
             nameof(Entries), "No entries allocated.");
 
-        Entries[index(uHash)] = value;
+        Entries[Index(uHash)] = value;
       }
     }
     #endregion
@@ -43,19 +43,19 @@ namespace Cache {
     #region Constructor
     public Memo(String Name, UInt32 uLength) {
       Counts = new SimpleCounter(Name);
-      allocate(uLength);
+      Allocate(uLength);
     }
     #endregion
 
     #region Methods
-    protected void allocate(UInt32 uLength) {
+    protected void Allocate(UInt32 uLength) {
       if (Entries is null || uLength > Entries.Length)
-        allocateNew(uLength);
+        AllocateNew(uLength);
       else if (LookupLength < Entries.Length)
         Clear(LookupLength);
     }
 
-    protected virtual void allocateNew(UInt32 uLength) {
+    protected virtual void AllocateNew(UInt32 uLength) {
       Entries = new T[uLength];
       LookupLength = uLength;
     }
@@ -64,7 +64,7 @@ namespace Cache {
       Array.Clear(Entries, 0, (Int32)uLength);
     }
 
-    internal virtual UInt32 index(MemoHashcode qHash) {
+    protected virtual UInt32 Index(MemoHashcode qHash) {
       var u = qHash % LookupLength;
       return u;
     }
@@ -114,26 +114,26 @@ namespace Cache {
     public Memo2(String Name, UInt32 uLength) : base(Name, uLength) {
     }
 
-    protected override void allocateNew(uint uLength) {
+    protected override void AllocateNew(uint uLength) {
       if (!IsOneOrNone(uLength))
         throw new ApplicationException("Memo2 Length must be a power of two");
 
-      base.allocateNew(uLength);
+      base.AllocateNew(uLength);
     }
     #endregion
 
     #region Methods
-    internal UInt32 index(PieceHashcode wHash) {
+    private UInt32 index(PieceHashcode wHash) {
       var u = wHash & LookupLength - 1;
       return u;
     }
 
-    internal override UInt32 index(MemoHashcode uHash) {
+    protected override UInt32 Index(MemoHashcode uHash) {
       var u = uHash & LookupLength - 1;
       return u;
     }
 
-    internal UInt32 index(Hashcode qHash) {
+    private UInt32 index(Hashcode qHash) {
       var q = qHash & LookupLength - 1;
       return (UInt32)q;
     }
