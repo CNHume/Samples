@@ -35,10 +35,10 @@ namespace Engine {
     #region Enumerations
     public enum SearchExtensions : byte { Late, Check, Threat, Singular };
 
-    public const Byte vLate = (Byte)SearchExtensions.Late;
-    public const Byte vCheck = (Byte)SearchExtensions.Check;
-    public const Byte vThreat = (Byte)SearchExtensions.Threat;
-    public const Byte vSingular = (Byte)SearchExtensions.Singular;
+    internal const Byte vLate = (Byte)SearchExtensions.Late;
+    internal const Byte vCheck = (Byte)SearchExtensions.Check;
+    internal const Byte vThreat = (Byte)SearchExtensions.Threat;
+    internal const Byte vSingular = (Byte)SearchExtensions.Singular;
     #endregion
 
     #region Fractional Depth Extension Methods

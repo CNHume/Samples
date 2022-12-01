@@ -26,7 +26,7 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    public const Byte HalfMoveClockMax = 100;   // 50-move (100-ply) rule
+    private const Byte vHalfMoveClockMax = 100; // 50-move (100-ply) rule
     #endregion
 
     #region Methods
@@ -243,7 +243,7 @@ namespace Engine {
       clrDraw0();
 
       // Avoid Overflow
-      if (HalfMoveClock < HalfMoveClockMax)
+      if (HalfMoveClock < vHalfMoveClockMax)
         HalfMoveClock++;
 
       var nEnPassant = movePiece(ref move);

@@ -62,10 +62,10 @@ namespace Engine {
     //[Analysis]Is headroom needed to guard against MateRange Overflow or Underflow,
     // due to Search Move adjustments?  This came up when testing Aspiration Search.
     //
-    public const Eval MateRange = 256;  // Max # of Moves to Mate
-    public const Eval MateMax = PlusInfinity - 1;
-    public const Eval MateMin = MateMax - MateRange;
-    public const Eval EvalMax = MateMin - 1;
+    internal const Eval MateRange = 256;  // Max # of Moves to Mate
+    internal const Eval MateMax = PlusInfinity - 1;
+    internal const Eval MateMin = MateMax - MateRange;
+    internal const Eval EvalMax = MateMin - 1;
 
     //
     // Unit Weight supports 14-bit evaluations, as follows:

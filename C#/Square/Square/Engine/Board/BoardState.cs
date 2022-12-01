@@ -299,7 +299,7 @@ namespace Engine {
     }
 
     protected void SetDraw50() {
-      if (HalfMoveClock < HalfMoveClockMax)
+      if (HalfMoveClock < vHalfMoveClockMax)
         FlagsDraw &= ~DrawFlags.Draw50;
       else                              // 50 Move Rule
         FlagsDraw |= DrawFlags.Draw50;

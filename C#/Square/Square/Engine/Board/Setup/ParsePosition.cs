@@ -242,7 +242,7 @@ namespace Engine {
       }
     }
 
-    protected void parsePassed(String sEnPassant) {
+    private void parsePassed(String sEnPassant) {
       const Boolean ignoreCase = true;
 
       //

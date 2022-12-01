@@ -29,11 +29,11 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    public const Char cSpace = ' ';
-    public const Char cFileMin = 'a';
-    public const Char cRankMin = '1';
-    public const Char cFileMax = (Char)(cFileMin + nFiles - 1);
-    public const Char cRankMax = (Char)(cRankMin + nRanks - 1);
+    internal const Char cSpace = ' ';
+    internal const Char cFileMin = 'a';
+    internal const Char cRankMin = '1';
+    internal const Char cFileMax = (Char)(cFileMin + nFiles - 1);
+    internal const Char cRankMax = (Char)(cRankMin + nRanks - 1);
 
     internal const Int16 mWrapLength = 144;
 
@@ -408,7 +408,7 @@ namespace Engine {
     #region Rotation Diagnostics
     private static Char ruler(Int32 d, Boolean bRotateBoard) {
       var c = cSpace;
-      var dInverse = invertDiag(d);
+      var dInverse = InvertDiag(d);
       if (dInverse < nFiles - 1)
         c = (Char)(bRotateBoard ?
                    cFileMin + dInverse + 1 :
@@ -425,7 +425,7 @@ namespace Engine {
         .Append(cNewline);
 
       for (var d = 0; d < nDiagonals; d++) {
-        var dInverse = invertDiag(d);
+        var dInverse = InvertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
         var vDiagMask = (Byte)((1 << nDiagLen) - 1);
         var uDiag = (UInt32)(qp >> DiagOffset[dInverse] & vDiagMask);
@@ -469,7 +469,7 @@ namespace Engine {
         .Append(cNewline);
 
       for (var d = 0; d < nDiagonals; d++) {
-        var dInverse = invertDiag(d);
+        var dInverse = InvertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
         sb.AppendIndent(8 - nDiagLen)
           .AppendDiagRotations(nDiagLen, qpDiag, bit(DiagOffset[dInverse]))

@@ -78,7 +78,7 @@ namespace Engine {
 
   partial class GameState : IDisposable {
     #region Constants
-    public const Depth wDepthMax = 48;  // Used by Predict()
+    internal const Depth wDepthMax = 48;  // Used by Predict()
     internal const Ply wPlyHistory = 64;
     #endregion
 

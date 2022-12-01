@@ -55,19 +55,19 @@ namespace Engine {
     internal const Int32 nPerNibble = 4;
     internal const Int32 nPerTwoBits = 2;
     protected const Byte vMod4 = 1 << nPerTwoBits;
-    internal const Byte vNibble = (1 << nPerNibble) - 1;
-    internal const Byte vTwoBits = vMod4 - 1;
+    protected const Byte vNibble = (1 << nPerNibble) - 1;
+    protected const Byte vTwoBits = vMod4 - 1;
 
-    public const Int32 nFiles = 8;
-    public const Int32 nRanks = nFiles;
-    public const Int32 nSquares = nRanks * nFiles;
-    public const Int32 nSquareUndefined = nSquares;
+    internal const Int32 nFiles = 8;
+    internal const Int32 nRanks = nFiles;
+    internal const Int32 nSquares = nRanks * nFiles;
+    internal const Int32 nSquareUndefined = nSquares;
 
-    public const Int32 nRankLast = nSquares - nFiles;
-    internal const UInt32 uSquareMask = (1 << 6) - 1;
+    protected const Int32 nRankLast = nSquares - nFiles;
+    private const UInt32 uSquareMask = (1 << 6) - 1;
 
-    public const Int32 nA8H1 = 7;
-    public const Int32 nA1H8 = 9;
+    private const Int32 nA8H1 = 7;
+    private const Int32 nA1H8 = 9;
     #endregion
 
     #region Constructors

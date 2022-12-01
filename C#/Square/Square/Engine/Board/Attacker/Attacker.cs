@@ -597,7 +597,7 @@ namespace Engine {
 
     #region Board Coordinate Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
+    internal static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
       // Are either of the coordinates equal?
       return x(n) == 0 || y(n) == 0;
@@ -614,32 +614,32 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 sqr(Int32 x, Int32 y) {
+    internal static Int32 sqr(Int32 x, Int32 y) {
       return nFiles * y + x;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 x(Int32 n) {
+    internal static Int32 x(Int32 n) {
       return n % nFiles;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 y(Int32 n) {
+    internal static Int32 y(Int32 n) {
       return n / nFiles;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 InvertFile(Int32 x) {
+    internal static Int32 InvertFile(Int32 x) {
       return nFiles - (x + 1);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 InvertRank(Int32 y) {
+    internal static Int32 InvertRank(Int32 y) {
       return nRanks - (y + 1);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 invertDiag(Int32 d) {
+    internal static Int32 InvertDiag(Int32 d) {
       return nDiagonals - (d + 1);
     }
     #endregion

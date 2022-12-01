@@ -16,8 +16,8 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    public const Int32 Black = (Int32)SideName.Black;
-    public const Int32 White = (Int32)SideName.White;
+    internal const Int32 Black = (Int32)SideName.Black;
+    internal const Int32 White = (Int32)SideName.White;
     public static readonly Int32 nSides = Enum.GetNames(typeof(SideName)).Length;
     #endregion
 

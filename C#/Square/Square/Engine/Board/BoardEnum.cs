@@ -64,8 +64,8 @@ namespace Engine {
     //  3:1 Dark
     //  4:1 Insufficient
     //
-    public const Int32 nBishopPairBit = 2;
-    public const Int32 nInsufficientBit = 4;
+    protected const Int32 nBishopPairBit = 2;
+    protected const Int32 nInsufficientBit = 4;
 
     [Flags]
     public enum SideFlags : byte {
@@ -233,25 +233,25 @@ namespace Engine {
 
     protected static readonly Piece[] Promotions = { Piece.Q, Piece.N, Piece.B, Piece.R };
 
-    public const Int32 nColors = 2;
-    public const Int32 nPieces = 6;
-    public const Int32 nSymbols = nPieces + nColors;
-    protected const Int32 nPieceCounterBits = nPieces * nPerNibble;
-    //protected const UInt64 qPieceCounterBit = 1UL << nPieceCounterBits;
+    private const Int32 nColors = 2;
+    internal const Int32 nPieces = 6;
+    private const Int32 nSymbols = nPieces + nColors;
+    private const Int32 nPieceCounterBits = nPieces * nPerNibble;
+    //private const UInt64 qPieceCounterBit = 1UL << nPieceCounterBits;
 
     protected const Byte vCompositionOffset = vP6 + 1;
-    internal const Int32 nCompositionOffsetBit = (vCompositionOffset - vP6) * nPerNibble;
+    protected const Int32 nCompositionOffsetBit = (vCompositionOffset - vP6) * nPerNibble;
     //protected const Int32 nCompositionBits = (vK6 - vCompositionOffset) * nPerNibble;
     //protected const UInt32 uCompositionBit = 1U << nCompositionBits;
     //protected const UInt32 uCompositionMask = uCompositionBit - 1 << nCompositionOffsetBit;
     internal const Int32 nHashPieceBits = (vK6 - vHF) * nPerTwoBits;
 
     protected const Byte vPieceNull = 1 << 3;
-    public const Byte vPieceMask = vPieceNull - 1;
+    protected const Byte vPieceMask = vPieceNull - 1;
 
-    internal const Byte vFirst = (Byte)(Piece.P);
+    protected const Byte vFirst = (Byte)(Piece.P);
     internal const Byte vP6 = (Byte)(Piece.P - vFirst);
-    internal const Byte vHF = vP6;      // Used for SideFlags within HashPiece
+    internal const Byte vHF = vP6;                      // For SideFlags within HashPiece
     internal const Byte vN6 = (Byte)(Piece.N - vFirst);
     internal const Byte vB6 = (Byte)(Piece.B - vFirst);
     internal const Byte vR6 = (Byte)(Piece.R - vFirst);
@@ -259,12 +259,12 @@ namespace Engine {
     internal const Byte vK6 = (Byte)(Piece.K - vFirst);
     internal const Byte vEP6 = (Byte)(Piece.EP - vFirst);
 
-    internal const Byte vBlack = (Byte)(vK6 + 1);
-    internal const Byte vWhite = (Byte)(vBlack + 1);
+    protected const Byte vBlack = (Byte)(vK6 + 1);      // For PieceSymbols[]
+    protected const Byte vWhite = (Byte)(vBlack + 1);
     #endregion
 
     #region Square Enum
-    public const Int32 File = 0, Rank = 1;
+    internal const Int32 File = 0, Rank = 1;
 
     public enum sq : byte {
       a1, b1, c1, d1, e1, f1, g1, h1,
@@ -280,31 +280,31 @@ namespace Engine {
     //
     // Plane:
     //
-    public const Plane BIT0 = 1UL;
-    public const Plane BIT7 = BIT0 << nFiles - 1;       // For findEmptyDn
-    public const Plane BIT32 = BIT0 << 32;
+    protected const Plane BIT0 = 1UL;
+    protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmpty()
+    internal const Plane BIT32 = BIT0 << 32;
     protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
     protected const Plane MASK64 = UInt64.MaxValue;
 
     // The following are used by resetWhite|BlackPawnAtx()
-    public const Plane qpFileA = 0x0101010101010101UL;
-    public const Plane qpFileB = qpFileA << 1;
-    public const Plane qpFileC = qpFileB << 1;
-    public const Plane qpFileD = qpFileC << 1;
-    public const Plane qpFileE = qpFileD << 1;
-    public const Plane qpFileF = qpFileE << 1;
-    public const Plane qpFileG = qpFileF << 1;
-    public const Plane qpFileH = qpFileG << 1;
+    protected const Plane qpFileA = 0x0101010101010101UL;
+    protected const Plane qpFileB = qpFileA << 1;
+    protected const Plane qpFileC = qpFileB << 1;
+    protected const Plane qpFileD = qpFileC << 1;
+    protected const Plane qpFileE = qpFileD << 1;
+    protected const Plane qpFileF = qpFileE << 1;
+    protected const Plane qpFileG = qpFileF << 1;
+    protected const Plane qpFileH = qpFileG << 1;
 
     // The following are used by Position.white|blackCanPromote()
-    public const Plane qpRank1 = 0xFFUL;
-    public const Plane qpRank2 = qpRank1 << nFiles;
-    public const Plane qpRank3 = qpRank2 << nFiles;
-    public const Plane qpRank4 = qpRank3 << nFiles;
-    public const Plane qpRank5 = qpRank4 << nFiles;
-    public const Plane qpRank6 = qpRank5 << nFiles;
-    public const Plane qpRank7 = qpRank6 << nFiles;
-    public const Plane qpRank8 = qpRank7 << nFiles;
+    protected const Plane qpRank1 = 0xFFUL;
+    protected const Plane qpRank2 = qpRank1 << nFiles;
+    protected const Plane qpRank3 = qpRank2 << nFiles;
+    protected const Plane qpRank4 = qpRank3 << nFiles;
+    protected const Plane qpRank5 = qpRank4 << nFiles;
+    protected const Plane qpRank6 = qpRank5 << nFiles;
+    protected const Plane qpRank7 = qpRank6 << nFiles;
+    protected const Plane qpRank8 = qpRank7 << nFiles;
     #endregion
 
     #region Move Enum
@@ -330,20 +330,20 @@ namespace Engine {
     // 31:1 Debug WTM
     //
 #if TestFromTo
-    public const Int32 nToBit = 0;                      // Bit 0
-    public const Int32 nFromBit = nToBit + 6;           // Bit 6
-    public const Int32 nPromoteBit = nFromBit + 6;      // Bit 12
+   protected const Int32 nToBit = 0;                      // Bit 0
+   protected const Int32 nFromBit = nToBit + 6;           // Bit 6
+   protected const Int32 nPromoteBit = nFromBit + 6;      // Bit 12
 #else
-    public const Int32 nFromBit = 0;                    // Bit 0
-    public const Int32 nToBit = nFromBit + 6;           // Bit 6
-    public const Int32 nPromoteBit = nToBit + 6;        // Bit 12 4-bits for promotion and castling
+    protected const Int32 nFromBit = 0;                    // Bit 0
+    protected const Int32 nToBit = nFromBit + 6;           // Bit 6
+    protected const Int32 nPromoteBit = nToBit + 6;        // Bit 12 4-bits for promotion and castling
 #endif
-    public const Int32 nCastlesBit = nPromoteBit + 3;   // Bit 15[Chess 960]
-    public const Int32 nPieceBit = nCastlesBit + 1;     // Bit 16 4-bits for piece and unused hi-bit
-    public const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
-    public const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
-    public const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
-    public const Int32 nHideFileBit = 28;
+    protected const Int32 nCastlesBit = nPromoteBit + 3;   // Bit 15[Chess 960]
+    protected const Int32 nPieceBit = nCastlesBit + 1;     // Bit 16 4-bits for piece and unused hi-bit
+    protected const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
+    protected const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
+    protected const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
+    internal const Int32 nHideFileBit = 28;
 
     //[Flags]
     public enum Move : uint {
