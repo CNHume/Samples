@@ -23,7 +23,7 @@ namespace Engine {
   partial class Position : Board {
     #region Move Processor
     // ~32 MHz on old PC
-    protected void resetMove() {
+    private void resetMove() {
       if (Parent is null)
         throw new PositionException("resetMove() called at the Root Position");
 
@@ -44,7 +44,7 @@ namespace Engine {
     }
 
     // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
-    protected Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
+    private Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
       CurrentMove = move;               // Current Pseudo Move
       var (bPrevented, bRestricted) = isPinned(move);
       if (bPrevented) {                 // Skip moves which violate known pins
@@ -99,7 +99,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected (bool bPrevented, bool bRestricted) isPinned(Move move) {
+    private (bool bPrevented, bool bRestricted) isPinned(Move move) {
       var nFrom = From(move);
       var nTo = To(move);
 
@@ -189,7 +189,7 @@ namespace Engine {
 #endif
     }
 #if DebugDraw2
-    protected Boolean validateDraw2() {
+    private Boolean validateDraw2() {
       var bDraw2 = fdraw() != 0;
 
       if (bDraw2) {

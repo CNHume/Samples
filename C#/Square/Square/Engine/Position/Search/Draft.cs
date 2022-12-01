@@ -24,12 +24,12 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
-    protected const Int32 nDepthScale = nPerByte;
-    protected const Draft wFourPly = wTwoPly << 1;
-    protected const Draft wThreePly = wTwoPly + wFullPly;
-    protected const Draft wTwoPly = 1 << nDepthScale + 1;
-    protected const Draft wFullPly = 1 << nDepthScale;
-    protected const Draft wHalfPly = 1 << nDepthScale - 1;
+    private const Int32 nDepthScale = nPerByte;
+    private const Draft wFourPly = wTwoPly << 1;
+    private const Draft wThreePly = wTwoPly + wFullPly;
+    private const Draft wTwoPly = 1 << nDepthScale + 1;
+    private const Draft wFullPly = 1 << nDepthScale;
+    private const Draft wHalfPly = 1 << nDepthScale - 1;
     #endregion
 
     #region Enumerations

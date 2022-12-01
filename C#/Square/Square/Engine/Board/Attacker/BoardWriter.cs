@@ -118,7 +118,7 @@ namespace Engine {
     #endregion
 
     #region Radix Conversion
-    protected static String formatHash(Hashcode qHash) {
+    private static String formatHash(Hashcode qHash) {
       return Convert.ToString((Int64)qHash, 16).ToUpper().PadLeft(16, '0');
     }
 
@@ -137,7 +137,7 @@ namespace Engine {
       return bWhite ? sPiece.ToUpper() : sPiece.ToLower();
     }
 
-    protected void appendPositionPieces(StringBuilder sb) {
+    private void appendPositionPieces(StringBuilder sb) {
       var nSkip = 0;
 
       for (var y = 0; y < nRanks; y++) {
@@ -170,7 +170,7 @@ namespace Engine {
       }
     }
 
-    protected void appendPosition(StringBuilder sb) {
+    private void appendPosition(StringBuilder sb) {
       appendPositionPieces(sb);
 
       var sSideToMove = WTM() ? " w " : " b ";
@@ -269,7 +269,7 @@ namespace Engine {
       }
     }
 
-    protected void appendBoard(StringBuilder sb, Boolean bFlip = false) {
+    private void appendBoard(StringBuilder sb, Boolean bFlip = false) {
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
       if (bTopRuler)                    // File Ruler at Top
@@ -293,7 +293,7 @@ namespace Engine {
           .Append(cNewline);
     }
 
-    protected void appendProperties(StringBuilder sb) {
+    private void appendProperties(StringBuilder sb) {
       var fBlackSide = Side[Black].FlagsSide;
       var fWhiteSide = Side[White].FlagsSide;
 
@@ -335,7 +335,7 @@ namespace Engine {
     #endregion
 
     #region Board Diagnostics
-    protected static void printMapping(String sLabel, Func<Int32, Int32> mapper) {
+    private static void printMapping(String sLabel, Func<Int32, Int32> mapper) {
       var sb = new StringBuilder();
       sb.Append(sLabel)
         .Append(cNewline)
@@ -352,11 +352,11 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected static void printSquares(String sLabel, Byte[] map) {
+    private static void printSquares(String sLabel, Byte[] map) {
       printMapping(sLabel, n => map[n]);
     }
 
-    protected static void writeOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    private static void writeOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       var sb = new StringBuilder();
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
@@ -380,13 +380,13 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected static void testOrth(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    internal static void testOrth(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       LogLine($"{sLabel}");
       LogLine();
       writeOrth(qp, bRotateBoard, bFlip);
     }
 
-    protected static void writeDiagIndexes(Func<Int32, Int32> idxr) {
+    private static void writeDiagIndexes(Func<Int32, Int32> idxr) {
       var sb = new StringBuilder();
       for (var y = 0; y < nRanks; y++) {
         var yInverse = InvertRank(y);
@@ -398,7 +398,7 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected static void testDiagIndexes(String sLabel, Func<Int32, Int32> idxr) {
+    private static void testDiagIndexes(String sLabel, Func<Int32, Int32> idxr) {
       LogLine(sLabel);
       LogLine();
       writeDiagIndexes(idxr);
@@ -441,13 +441,13 @@ namespace Engine {
         .FlushLine();
     }
 
-    protected static void testDiag(String sLabel, Plane qp, bool bRotateBoard = false) {
+    private static void testDiag(String sLabel, Plane qp, bool bRotateBoard = false) {
       LogLine($"{sLabel}");
       LogLine();
       writeDiag(qp, bRotateBoard);
     }
 
-    protected static void writeOrthRotations(String sLabel, Plane[] qpOrth) {
+    private static void writeOrthRotations(String sLabel, Plane[] qpOrth) {
       var sb = new StringBuilder();
       sb.Append(sLabel)
         .Append(cNewline)
@@ -462,7 +462,7 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    protected static void writeDiagRotations(String sLabel, Plane[] qpDiag) {
+    private static void writeDiagRotations(String sLabel, Plane[] qpDiag) {
       var sb = new StringBuilder();
       sb.Append(sLabel)
         .Append(cNewline)

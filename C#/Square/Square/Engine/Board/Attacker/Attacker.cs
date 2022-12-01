@@ -232,12 +232,12 @@ namespace Engine {
         RankOffset[n] = (Byte)(nFiles * y(n) + 1);
     }
 #if Magic
-    protected static void newDiagLo() {
+    private static void newDiagLo() {
       A1H8Lo = new Int32[nSquares];
       A8H1Lo = new Int32[nSquares];
     }
 
-    protected static void newMagic() {
+    internal static void newMagic() {
       newDiagLo();
 
       FileMagic = new Byte[nStates];
@@ -254,7 +254,7 @@ namespace Engine {
     // These Lo bit tables help quickly normalize Position State for diagonals
     // in the "magic" hash functions below - which return a Ray State index.
     //
-    protected static void loadDiagLo() {
+    private static void loadDiagLo() {
       for (var d = 0; d < nDiagonals; d++) {
         Int32 xLo = d < nFiles ? 7 - d : 0,
               yLo = d < nFiles ? 0 : d - 7,
@@ -280,7 +280,7 @@ namespace Engine {
 #endif
     }
 
-    protected static void loadMagic() {
+    internal static void loadMagic() {
       loadDiagLo();                     // Build hash function lookup tables
 #if TestMagic
       const Byte vUnused = Byte.MaxValue;
