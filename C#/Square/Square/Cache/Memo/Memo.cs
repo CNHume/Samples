@@ -73,7 +73,7 @@ namespace Cache {
 
   class Memo2<T> : Memo<T> {
     #region Indexers
-    public T this[PieceHashcode wHash] {// for GetCX2()
+    public T this[PieceHashcode wHash] {// For GetCX2()
       get {
         if (Entries == null)
           throw new ArgumentNullException(

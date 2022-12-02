@@ -14,7 +14,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Runtime.CompilerServices;// for MethodImplAttribute
+  using System.Runtime.CompilerServices;// For MethodImplAttribute
 
   using static Logging.Logger;
 

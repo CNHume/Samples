@@ -27,7 +27,7 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
-  using System.Text;                    // for StringBuilder
+  using System.Text;                    // For StringBuilder
 
   using static Logging.Logger;
   using static MoveOrder.TypedMove;

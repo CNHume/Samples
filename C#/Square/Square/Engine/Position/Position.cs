@@ -41,7 +41,7 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Diagnostics;
 
-  using HeapSort;                       // for Heap
+  using HeapSort;                       // For Heap
 
   using MoveOrder;
 

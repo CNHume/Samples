@@ -61,10 +61,10 @@
 namespace Engine {
   using System;
   using System.Diagnostics;
-  using System.Numerics;                // for BitOperations
-  using System.Runtime.CompilerServices;// for MethodImplAttribute
+  using System.Numerics;                // For BitOperations
+  using System.Runtime.CompilerServices;// For MethodImplAttribute
 #if ImportTwiddle
-  using System.Runtime.InteropServices; // for [DllImport]
+  using System.Runtime.InteropServices; // For [DllImport]
 #endif
   using static System.Math;
 #if TestDeBruijn

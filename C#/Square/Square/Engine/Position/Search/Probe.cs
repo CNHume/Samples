@@ -10,12 +10,12 @@
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 //#define BottleGamePly
 //#define DebugMoveColor
-#define CountEvalTypes                  // for IncEvalType()
+#define CountEvalTypes                  // For IncEvalType()
 #define TransposeQuiet
 #define QuiescentTryXP
 //#define DedupeGoodMoves
 //#define LoadMRU
-//#define TraceVal                        // for traceVal()
+//#define TraceVal                        // For traceVal()
 //#define FailHard
 //#define XPHash128                       // 128-bit Hashcodes take 9% more time to maintain;
 //#define QXPHash128                      // and another 3% more time to compare

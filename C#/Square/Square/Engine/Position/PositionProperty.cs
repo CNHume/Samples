@@ -13,7 +13,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
 
-  using HeapSort;                           // for Heap
+  using HeapSort;                           // For Heap
 
   using MoveOrder;
 

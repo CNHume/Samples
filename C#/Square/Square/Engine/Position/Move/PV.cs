@@ -17,7 +17,7 @@ namespace Engine {
   using System.Diagnostics;
   using System.Text;
 
-  using Command;                        // for UCI.IsDebug
+  using Command;                        // For UCI.IsDebug
 
   using static Logging.Logger;
 

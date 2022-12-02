@@ -15,7 +15,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Runtime.CompilerServices;// for MethodImplAttribute0
+  using System.Runtime.CompilerServices;// For MethodImplAttribute0
 #if CryptoServiceProvider
   using System.Security.Cryptography;
 #endif

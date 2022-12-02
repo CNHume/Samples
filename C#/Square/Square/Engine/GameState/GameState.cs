@@ -26,7 +26,7 @@
 #define CountQXP
 #define CountXP
 #define CountXPM
-#define CountEvalTypes                  // for displayEvalTypeCounts()
+#define CountEvalTypes                  // For displayEvalTypeCounts()
 //#define CountCapturedPiece
 #define CountEarlyMoves
 #define CountPVDoubles

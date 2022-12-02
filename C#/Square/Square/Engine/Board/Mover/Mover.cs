@@ -17,7 +17,7 @@
 namespace Engine {
   using System;
   using System.Diagnostics;
-  using System.Runtime.CompilerServices;// for MethodImplAttribute
+  using System.Runtime.CompilerServices;// For MethodImplAttribute
 
   //
   // Type Aliases:
