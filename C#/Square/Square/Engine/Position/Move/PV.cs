@@ -3,25 +3,23 @@
 //
 //[2012-03-01 CNHume]Created File
 //
+//#define AbbreviateLookup
 #define DebugMove
 //#define DebugMoveColor
 //#define DebugPlace
 //#define Magic
-//#define TraceVal
-//#define AbbreviateLookup
 #define TestDraw3
+//#define TraceVal
 
 namespace Engine {
-  using static Board;
-  using Command;                        // for UCI.IsDebug
-  using static Logging.Logger;
-  using static GameState;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  using System.Linq;
   using System.Text;
+
+  using Command;                        // for UCI.IsDebug
+
+  using static Logging.Logger;
 
   //
   // Type Aliases:
