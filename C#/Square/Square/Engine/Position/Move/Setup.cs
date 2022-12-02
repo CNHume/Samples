@@ -11,20 +11,20 @@
 //#define Flip960
 
 namespace Engine {
-  using Command;
-
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
 
+  using Command;
+
+  using Exceptions;
+
   using Test;
 
+  using static System.String;
   using static Command.Parser;
   using static Logging.Logger;
-  using static System.String;
 
   //
   // Type Aliases:

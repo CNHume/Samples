@@ -13,12 +13,12 @@
 //#define TurnTest
 
 namespace Engine {
-  using Exceptions;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
   using System.Text;
+
+  using Exceptions;
 
   partial class Position : Board {
     #region Move Processor

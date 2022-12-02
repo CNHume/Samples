@@ -8,13 +8,13 @@
 //#define DebugParse
 
 namespace Engine {
-  using Command;                        // For Scanner, Token
-  using Command.Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
+
+  using Command;                        // For Scanner, Token
+  using Command.Exceptions;
 
   partial class Position : Board {
     #region Constants

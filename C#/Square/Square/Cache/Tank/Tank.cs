@@ -11,23 +11,21 @@
 //#define ThreadSafeTank                  // Allow multi-threaded Tank access (performance cost is ~3%)
 #define TankInit
 #define RenewLXPMInOrder
-//#define TankRecycle
-//#define PreAllocated
-//#define TestHashMath
 //#define HalfHash                        // Avoiding 64-Bit Division of no benefit on a 3 GHz Pentium 4
 //#define HashPowerOfTwo
+//#define PreAllocated
+//#define TankRecycle
+//#define TestHashMath
 
 namespace Cache {
-  using Engine;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
-  //using System.Linq;
   using System.Runtime.CompilerServices;
 
+  using Engine;
+
   using static Engine.Board;            // For OneBitOrNone()
-  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -83,7 +81,7 @@ namespace Cache {
     #endregion
 
     #region Allocation
-    protected void allocate(UInt32 uLength, UInt16 wBuckets) {
+    private void allocate(UInt32 uLength, UInt16 wBuckets) {
 #if HashPowerOfTwo
       if (!OneBitOrNone(uLength))
         throw new ApplicationException("LookupLength must be a power of two");
@@ -104,7 +102,7 @@ namespace Cache {
       LookupBuckets = wBuckets;
     }
 
-    protected void allocateNew(UInt32 uLength, UInt16 wBuckets) {
+    private void allocateNew(UInt32 uLength, UInt16 wBuckets) {
 #if LinkedTranspositions
       Buckets = new LinkedList<T>[uLength];
 #else
@@ -150,29 +148,29 @@ namespace Cache {
     #region Static Methods
     // Used by findMatch() to expedite search where many Buckets are empty.
     // Relies on Init() to establish IsEmpty, since this is based on a non-default value.
-    protected static Boolean IsNullOrEmpty(T xp) {
+    private static Boolean isNullOrEmpty(T xp) {
       return xp is null || xp.IsEmpty;
     }
     #endregion
 
     #region Hash Methods
-    protected UInt32 indexTest(Hashcode qHash) {
+    private UInt32 indexTest(Hashcode qHash) {
       var qHi = ((qHash >> 32) * LengthRem) % LookupLength;
       var uLo = (UInt32)qHash % LookupLength;
       return (UInt32)(qHi + uLo) % LookupLength;
     }
 
-    protected UInt32 index2(Hashcode qHash) {
+    private UInt32 index2(Hashcode qHash) {
       var uHi = (UInt32)(qHash >> 32);  // Avoiding 64-Bit Division
       var uLo = (UInt32)qHash;
       return (uHi ^ uLo) % LookupLength;
     }
 #if HashPowerOfTwo
-    protected UInt32 index(Hashcode qHash) {
+    private UInt32 index(Hashcode qHash) {
       return (UInt32)(qHash & LookupLength - 1);
     }
 #else
-    protected UInt32 index(Hashcode qHash) {
+    private UInt32 index(Hashcode qHash) {
       return (UInt32)(qHash % LookupLength);
     }
 #endif
@@ -313,7 +311,7 @@ namespace Cache {
 #else
         found = Entries[nBucket][uIndex];
 #endif
-        if (IsNullOrEmpty(found))
+        if (isNullOrEmpty(found))
           break;
         if (match.Match(found)) {
           bFound = true;
@@ -379,7 +377,7 @@ namespace Cache {
 #else
         found = Entries[nBucket][uIndex];
 #endif
-        if (IsNullOrEmpty(found))
+        if (isNullOrEmpty(found))
           break;
         if (match.Match(found)) {
           bFound = true;
@@ -399,7 +397,7 @@ namespace Cache {
 #else
         var xp = Entries[nBucket + 1][uIndex];
 #endif
-        if (IsNullOrEmpty(xp))
+        if (isNullOrEmpty(xp))
           break;
 #if LotsForLittle
         Entries[uIndex][nBucket] = xp;
