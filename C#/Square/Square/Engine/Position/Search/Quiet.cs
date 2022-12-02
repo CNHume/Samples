@@ -17,13 +17,13 @@
 //#define VerifyUpper
 
 namespace Engine {
-  using static Logging.Logger;
-  using static GameState;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Text;
+
+  using static GameState;
+  using static Logging.Logger;
 
   //
   // Type Aliases:

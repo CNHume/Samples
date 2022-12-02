@@ -5,29 +5,29 @@
 //
 // Conditionals:
 //
+//#define DebugExactMatch
 //#define PreAllocated
 #define TranspositionByValue
-//#define DebugExactMatch
 //#define XPHash128
 //#define XPMoveTypes
 
 namespace Engine.CacheValue {
-  using static Board;
-  using Cache;
-  using static Logging.Logger;
-  using static Position;
-
   using System;
   using System.Diagnostics;
+
+  using Cache;
+
+  using static Board;
+  using static Logging.Logger;
+  using static Position;
 
   //
   // Type Aliases:
   //
-  using Depth = UInt16;
   using Bval = Int16;
+  using Depth = UInt16;
   using Eval = Int16;
   using Hashcode = UInt64;
-  using MoveTypeOrdering = UInt64;
   using Ply = UInt16;
 #if TranspositionByValue
   struct Transposition : ITankable<Transposition> {

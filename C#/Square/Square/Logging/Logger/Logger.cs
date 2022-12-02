@@ -8,11 +8,11 @@
 #define EnsureLogPathDirectoryExists
 
 namespace Logging {
-  using Command;
-
   using System;
   using System.IO;
   using System.Text;
+
+  using Command;
 
   using static System.String;
 

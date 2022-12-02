@@ -5,20 +5,18 @@
 //
 // Conditionals:
 //
-#define DebugMove
+//#define DebugMove
 
 namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
 
-  using static GameState;
   using static System.Math;
 
   //
   // Type Aliases:
   //
-  using Depth = UInt16;
   using Eval = Int16;
 
   partial class Position : Board {

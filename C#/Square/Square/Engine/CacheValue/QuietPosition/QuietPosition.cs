@@ -5,19 +5,20 @@
 //
 // Conditionals:
 //
-//#define QXPHash128
-//#define PreAllocated
-#define QuietPositionByValue
 //#define DebugExactMatch
+//#define PreAllocated
+//#define QXPHash128
+#define QuietPositionByValue
 
 namespace Engine.CacheValue {
-  using static Board;
-  using Cache;
-  using static Logging.Logger;
-  using static Position;
-
   using System;
   using System.Diagnostics;
+
+  using Cache;
+
+  using static Board;
+  using static Logging.Logger;
+  using static Position;
 
   //
   // Type Aliases:

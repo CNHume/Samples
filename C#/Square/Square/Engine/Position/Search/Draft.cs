@@ -10,17 +10,17 @@
 #define LinearReduction
 
 namespace Engine {
-  using static Logging.Logger;
-
   using System;
+
+  using static Logging.Logger;
 
   //
   // Type Aliases:
   //
-  using PlyDepth = Byte;
   using Depth = UInt16;
   using Draft = UInt16;
   using ExtensionCounter = UInt16;
+  using PlyDepth = Byte;
 
   partial class Position : Board {
     #region Constants

@@ -37,17 +37,16 @@
 //#define TestInitHelp
 
 namespace Engine {
-  using HeapSort;                       // for Heap
-
-  using MoveOrder;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
 
+  using HeapSort;                       // for Heap
+
+  using MoveOrder;
+
   using static Logging.Logger;
   using static MoveOrder.TypedMove;
-
   //
   // Type Aliases:
   //

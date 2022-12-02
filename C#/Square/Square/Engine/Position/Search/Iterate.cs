@@ -15,16 +15,16 @@
 #define ThrowFinal
 
 namespace Engine {
-  using Command;
-
-  using Exceptions;
-
   using System;
   using System.Diagnostics;
   using System.Text;
 
-  using static Logging.Logger;
+  using Command;
+
+  using Exceptions;
+
   using static System.Math;
+  using static Logging.Logger;
 
   //
   // Type Aliases:

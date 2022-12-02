@@ -8,14 +8,11 @@
 #define InheritMoveTypes
 
 namespace Engine {
-  using System;
-
   using static MoveOrder.TypedMove;
 
   //
   // Type Aliases:
   //
-  using ExtensionCounter = UInt16;
 
   partial class Position : Board {
     #region Workspace Methods

@@ -5,25 +5,25 @@
 //
 // Conditionals:
 //
-//#define XPMHash128
-//#define PreAllocated
-#define PositionMoveByValue
 //#define DebugExactMatch
+#define PositionMoveByValue
+//#define PreAllocated
+//#define XPMHash128
 
 namespace Engine.CacheValue {
-  using static Board;
-  using Cache;
-  using static Logging.Logger;
-  using static Position;
-
   using System;
   using System.Diagnostics;
+
+  using Cache;
+
+  using static Board;
+  using static Position;
 
   //
   // Type Aliases:
   //
-  using Depth = UInt16;
   using Bval = Int16;
+  using Depth = UInt16;
   using Eval = Int16;
   using Hashcode = UInt64;
   using Ply = UInt16;

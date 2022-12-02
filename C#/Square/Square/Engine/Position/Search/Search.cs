@@ -34,17 +34,18 @@
 //#define VerifyUpper
 
 namespace Engine {
-  using MoveOrder;
-  using static Logging.Logger;
-  using static GameState;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
-  using static System.Math;
   using System.Runtime.CompilerServices;
   using System.Text;                    // For StringBuilder
+
+  using MoveOrder;
+
+  using static System.Math;
+  using static GameState;
+  using static Logging.Logger;
 
   //
   // Type Aliases:

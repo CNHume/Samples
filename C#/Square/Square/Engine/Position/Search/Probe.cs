@@ -22,15 +22,17 @@
 //#define XPMoveTypes
 
 namespace Engine {
-  using CacheValue;
-  using MoveOrder;
-  using static Logging.Logger;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
   using System.Text;
+
+  using CacheValue;
+
+  using MoveOrder;
+
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -38,7 +40,6 @@ namespace Engine {
   using Depth = UInt16;
   using Eval = Int16;
   using Ply = UInt16;
-  using Hashcode = UInt64;
 
   partial class Position : Board {
     #region Helper Methods

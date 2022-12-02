@@ -8,10 +8,9 @@
 //#define PawnPositionByValue
 
 namespace Engine.CacheValue {
-  using static Position;
-
   using System;
-  using System.Diagnostics;
+
+  using static Position;
 
   //
   // Type Aliases:

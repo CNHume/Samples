@@ -4,9 +4,9 @@
 //[2012-02-12 CNHume]Created Class
 //
 namespace Engine.Test {
-  using static Logging.Logger;
   using System;
-  using System.Collections.Generic;
+
+  using static Logging.Logger;
 
   //
   // Type Aliases:

@@ -9,18 +9,16 @@
 #define CompositionByValue
 
 namespace Engine.CacheValue {
+  using System;
+
   using static Board;
   using static Position;
-
-  using System;
-  using System.Diagnostics;
 
   //
   // Type Aliases:
   //
   using CompositionCounter = UInt16;
   using Eval = Int16;
-  using Hashcode = UInt64;
 #if CompositionByValue
   struct Composition {
 #else

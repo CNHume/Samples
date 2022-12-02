@@ -14,26 +14,21 @@
 #define TimePlayMove
 
 namespace Engine {
-  using CacheValue;
-  using Command;
-
   using System;
-  using System.Diagnostics;
   using System.Collections.Generic;
-  using System.Numerics;
+  using System.Diagnostics;
   using System.Text;
 
-  using static Logging.Logger;
+  using CacheValue;
 
+  using Command;
+
+  using static Logging.Logger;
   //
   // Type Aliases:
   //
   using CompositionCounter = UInt16;
   using Eval = Int16;
-  using Ply = UInt16;
-  using PlyDepth = Byte;
-  using Depth = UInt16;
-  using Plane = UInt64;
 
   partial class Position : Board {
     #region Timer Test Selector
