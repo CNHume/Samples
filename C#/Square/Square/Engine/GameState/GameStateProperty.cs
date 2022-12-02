@@ -12,6 +12,12 @@
 //#define MaterialBalance
 
 namespace Engine {
+  using System;
+  using System.Collections.Generic;
+  using System.Diagnostics;
+  using System.Threading;
+  using System.Threading.Tasks;
+
   using Cache;
 
   using CacheValue;
@@ -22,17 +28,10 @@ namespace Engine {
 
   using Resource;
 
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Threading;
-  using System.Threading.Tasks;
-
   using Test;
 
   using static Board;
   using static Position;
-
   //
   // Type Aliases:
   //

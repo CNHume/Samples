@@ -14,11 +14,11 @@
 //#define TestInsufficient
 
 namespace Engine {
-  using CacheValue;
-
   using System;
   using System.Diagnostics;
   using System.Text;
+
+  using CacheValue;
 
   using static Board;
   using static CacheValue.PawnPosition;

@@ -15,31 +15,31 @@
 #define TestDraw3
 
 namespace Engine {
-  using Cache;
-  using Exceptions;
-
-  using MoveOrder;                      // For Variation
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Linq;
-  using System.Reflection;
   using System.Runtime.CompilerServices;
   using System.Text;
+
+  using Cache;
+
+  using Exceptions;
+
+  using MoveOrder;                      // For Variation
+
+  using static System.Math;
+  using static System.String;
 
   using static Board;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
   using static Position;
-  using static System.Math;
-  using static System.String;
 
   //
   // Type Aliases:
   //
   using Eval = Int16;
-  using PieceCounter = UInt32;
 
   //
   // Instead of storing the Pawn Count (mod 4) the least significant bit pair
@@ -48,13 +48,13 @@ namespace Engine {
   // successive Piece Counts (mod 4).  So, 5 bit pairs, or a total of 10 bits
   // are used per side.
   //
-  using PieceHashcode = UInt16;         // 10 bits
   using Plane = UInt64;
   using Ply = UInt16;
 
   static class Extension {
     #region Delegates
-    public delegate StringBuilder MoveWriter(StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960);
+    public delegate StringBuilder MoveWriter(
+      StringBuilder sb, Move move, BoardSide[] sides, Boolean IsChess960);
     #endregion
 
     #region Castle Rights

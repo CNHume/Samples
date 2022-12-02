@@ -24,6 +24,7 @@ namespace Engine {
   using Command;
 
   using static Logging.Logger;
+
   //
   // Type Aliases:
   //

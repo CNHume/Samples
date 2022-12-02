@@ -10,12 +10,12 @@
 //#define SyzygyControls
 
 namespace Engine {
+  using System;
+  using System.Linq;
+
   using Command;
 
   using Exceptions;
-
-  using System;
-  using System.Linq;
 
   using static Board;
   using static Logging.Logger;

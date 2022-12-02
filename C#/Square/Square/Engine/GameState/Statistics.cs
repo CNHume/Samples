@@ -15,21 +15,20 @@
 //#define CountCapturedPiece
 
 namespace Engine {
-  using Cache;                          // For ProbeCounter
-
-  using Exceptions;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
   using System.Threading;               // For AtomicMethods
 
-  using static Board;
-  using static Cache.SimpleCounter;
-  using static Logging.Logger;
+  using Cache;                          // For ProbeCounter
+
+  using Exceptions;
 
   using static System.Math;
   using static System.String;
+  using static Board;
+  using static Cache.SimpleCounter;
+  using static Logging.Logger;
 
   //
   // Type Aliases:

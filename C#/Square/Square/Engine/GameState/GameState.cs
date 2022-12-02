@@ -51,24 +51,23 @@
 //#define QXPHash128
 
 namespace Engine {
+  using System;
+  using System.Collections.Generic;
+  using System.Diagnostics;
+  using System.Runtime;
+  using System.Text;
+
   using Command;                        // For Scanner
 
   using MoveOrder;                      // For MoveBottle
 
   using Resource;
 
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Numerics;
-  using System.Runtime;
-  using System.Text;
-
   using Test;
 
+  using static System.String;
   using static Board;
   using static Position;
-  using static System.String;
 
   //
   // Type Aliases:
