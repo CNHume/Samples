@@ -10,11 +10,11 @@
 #define UseMoveSort
 
 namespace Engine {
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Runtime.CompilerServices;
+
+  using Exceptions;
 
   using static MoveOrder.TypedMove;
 

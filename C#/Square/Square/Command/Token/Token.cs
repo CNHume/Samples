@@ -8,13 +8,13 @@
 #define IgnoreSpace
 
 namespace Command {
-  using Exceptions;
-
   using System;
   using System.Linq;
 
-  using static Logging.Logger;
+  using Exceptions;
+
   using static System.String;
+  using static Logging.Logger;
 
   //
   // Adapted from the answer given by Paul Hollingsworth to the

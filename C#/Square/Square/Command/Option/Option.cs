@@ -5,8 +5,9 @@
 //
 namespace Command {
   using System;
-  using static System.String;
   using System.Text;
+
+  using static System.String;
 
   //
   // The (@) At Sign escapes the string keyword,

@@ -4,12 +4,9 @@
 //[CNH 22-Jul-14]Created ProbeCounter Class
 //
 namespace Cache {
-  using static Logging.Logger;
-
   using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
+
+  using static Logging.Logger;
 
   class SimpleCounter {
     #region Counter Fields

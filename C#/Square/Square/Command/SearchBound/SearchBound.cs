@@ -4,13 +4,15 @@
 //[2013-08-14 CNHume]Created Class
 //
 namespace Command {
-  using Engine;
-  using Exceptions;
-  using static Parser;
-
   using System;
   using System.Text;
   using System.Threading;
+
+  using Engine;
+
+  using Exceptions;
+
+  using static Parser;
 
   //
   // Type Aliases:

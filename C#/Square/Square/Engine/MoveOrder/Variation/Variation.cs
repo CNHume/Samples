@@ -7,10 +7,10 @@
 //
 
 namespace Engine.MoveOrder {
-  using static Board;
-
   using System;
   using System.Collections.Generic;
+
+  using static Board;
 
   //
   // Type Aliases:

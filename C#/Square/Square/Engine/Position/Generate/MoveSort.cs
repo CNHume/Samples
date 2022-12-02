@@ -19,17 +19,14 @@
 //#define TestRewardMove
 
 namespace Engine {
+  using System;
+  using System.Collections.Generic;
+  using System.Diagnostics;
+
   using Exceptions;
 
   using MoveOrder;
 
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Linq;
-  using System.Text;                    // For StringBuilder
-
-  using static Logging.Logger;
   using static MoveOrder.TypedMove;
 
   //

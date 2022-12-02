@@ -32,17 +32,17 @@
  *    F Rule Forfeit     A Adjudicated (Insufficient Losing Chances) or Declared (75-Move Rule)
  */
 namespace Command {
+  using System;
+  using System.Diagnostics.CodeAnalysis;
+  using System.Text;
+
   using Engine;
   using Engine.Exceptions;
 
   using Exceptions;
 
-  using System;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Text;
-
-  using static Logging.Logger;
   using static System.String;
+  using static Logging.Logger;
 
   partial class UCI : ICommand {
     #region Constructors

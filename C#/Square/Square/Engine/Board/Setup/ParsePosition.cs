@@ -10,19 +10,19 @@
 //#define UpdateRepetition
 
 namespace Engine {
-  using Command;                        // For Scanner
-
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Text;
 
-  using static Command.Parser;
-  using static Logging.Logger;
+  using Command;                        // For Scanner
+
+  using Exceptions;
 
   using static System.Char;
   using static System.String;
+
+  using static Command.Parser;
+  using static Logging.Logger;
 
   //
   // Type Aliases:

@@ -10,10 +10,6 @@
 namespace Engine {
   using static MoveOrder.TypedMove;
 
-  //
-  // Type Aliases:
-  //
-
   partial class Position : Board {
     #region Workspace Methods
     private void initNode() {

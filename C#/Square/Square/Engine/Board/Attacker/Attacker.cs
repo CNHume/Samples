@@ -13,11 +13,11 @@
 #define DebugDiagIndexers
 
 namespace Engine {
-  using static Logging.Logger;          // For TestMagic
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
+
+  using static Logging.Logger;          // For TestMagic
 
   //
   // Type Aliases:

@@ -13,12 +13,9 @@
 //#define LoadUpdateTo
 
 namespace Engine {
-  using Exceptions;
-
   using System;
-  using System.Diagnostics;
 
-  using static Logging.Logger;
+  using Exceptions;
 
   //
   // Type Aliases:

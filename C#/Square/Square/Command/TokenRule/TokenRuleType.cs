@@ -1,6 +1,4 @@
 ﻿namespace Command {
-  using System;
-
   #region Enumerations
   enum TokenRuleType : byte {
     None = 0,

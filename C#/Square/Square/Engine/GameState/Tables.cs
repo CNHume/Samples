@@ -8,14 +8,14 @@
 //#define MaterialBalance
 
 namespace Engine {
+  using System;
+  using System.Diagnostics;
+
   using Cache;
 
   using CacheValue;
 
   using MoveOrder;                      // For Variation
-
-  using System;
-  using System.Diagnostics;
 
   using static Board;
   using static Position;

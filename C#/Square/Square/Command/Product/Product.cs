@@ -9,11 +9,9 @@
 namespace Command {
   using System;
   using System.Diagnostics;             // For FileVersionInfo
-  using System.Linq;
   using System.Reflection;              // For Assembly, AssemblyTitleAttribute
-  using static System.String;
 
-  using Engine;
+  using static System.String;
 
   static class Product {
     #region Constants

@@ -26,17 +26,16 @@
 //#define VerifyIBV
 
 namespace Engine {
-  using CacheValue;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
   using System.Text;
 
-  using static CacheValue.PawnPosition;
-  using static Logging.Logger;
+  using CacheValue;
 
   using static System.Math;
+  using static CacheValue.PawnPosition;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -46,7 +45,6 @@ namespace Engine {
   using Depth = UInt16;
   using Draft = UInt16;
   using Eval = Int16;
-  using Hashcode = UInt64;
   using MemoHashcode = UInt32;
   using Ply = UInt16;
 

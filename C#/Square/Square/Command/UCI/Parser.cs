@@ -5,19 +5,19 @@
 //
 
 namespace Command {
-  using Engine;
-
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics.CodeAnalysis;
   using System.Linq;
   using System.Text.RegularExpressions;
 
-  using static Logging.Logger;
+  using Engine;
+
+  using Exceptions;
+
   using static System.String;
   using static System.Text.RegularExpressions.RegexOptions;
+  using static Logging.Logger;
 
   partial class Parser : IDisposable {
     #region Constants

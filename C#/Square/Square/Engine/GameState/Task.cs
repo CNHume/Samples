@@ -11,10 +11,6 @@
 //#define StackTrace
 
 namespace Engine {
-  using Command;
-  using Command.Exceptions;
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
@@ -23,10 +19,14 @@ namespace Engine {
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Command;
+  using Command.Exceptions;
+
+  using Exceptions;
+
+  using static System.String;
   using static Board;
   using static Logging.Logger;
-  using static System.String;
-
   //
   // Type Aliases:
   //

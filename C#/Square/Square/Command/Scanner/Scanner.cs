@@ -10,8 +10,6 @@
 // Conditionals:
 //
 namespace Command {
-  using Command.Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.IO;

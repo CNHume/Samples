@@ -23,11 +23,12 @@
 //#define StackTrace
 
 namespace Square {
-  using Command;
-  using static Logging.Logger;
-
   using System;
+
+  using Command;
+
   using static System.String;
+  using static Logging.Logger;
 
   static class Program {
     #region Constants

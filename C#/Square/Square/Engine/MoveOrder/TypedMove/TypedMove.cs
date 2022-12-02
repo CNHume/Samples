@@ -6,9 +6,9 @@
 // Conditionals:
 //
 namespace Engine.MoveOrder {
-  using Exceptions;
-
   using System;
+
+  using Exceptions;
 
   using static Board;
 

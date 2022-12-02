@@ -10,12 +10,12 @@
 #define UnshadowRay
 
 namespace Engine {
-  using Exceptions;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// For MethodImplAttribute
   using System.Text;
+
+  using Exceptions;
 
   //
   // Type Aliases:

@@ -8,16 +8,15 @@
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 
 namespace Engine.MoveOrder {
-  using static Board;
-
   using System;
   using System.Collections.Generic;
+
+  using static Board;
 
   //
   // Type Aliases:
   //
   using BottleHash = UInt32;
-  using Ply = UInt16;
 
   class MoveBottle {
     #region Constants

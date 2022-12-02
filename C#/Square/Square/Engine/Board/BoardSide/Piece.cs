@@ -12,13 +12,14 @@
 //#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
 
 namespace Engine {
-  using Command.Exceptions;
-  using Exceptions;
-
   using System;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
   using System.Text;
+
+  using Command.Exceptions;
+
+  using Exceptions;
 
   //
   // Type Aliases:
