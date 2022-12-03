@@ -99,6 +99,7 @@ namespace Engine {
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       private Boolean raise(Byte vPiece, Int32 nFrom) {
+        const String methodName = nameof(raise);
         var qp = bit(nFrom);
 #if VerifySquarePiece
         if ((qp & Board.RankPiece) == 0) {
@@ -144,7 +145,7 @@ namespace Engine {
           ClrCanCastle();
           break;
         default:
-          throw new PieceException("Unexpected Piece [raiseSide]");
+          throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]");
         }
 
         return bLite;
@@ -191,6 +192,7 @@ namespace Engine {
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       private Boolean lower(Byte vPiece, Int32 nTo) {
+        const String methodName = nameof(lower);
         var qp = bit(nTo);
 #if VerifySquarePiece
         foreach (var testSide in Board.Side) {
@@ -230,7 +232,7 @@ namespace Engine {
           KingPos = (Byte)nTo;
           break;
         default:
-          throw new PieceException("Unexpected Piece [lowerSide]");
+          throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]");
         }
 
         return bLite;

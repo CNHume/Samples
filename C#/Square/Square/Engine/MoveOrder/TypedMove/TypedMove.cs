@@ -55,47 +55,29 @@ namespace Engine.MoveOrder {
     #region Methods
     public static MoveType moveType(
       Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
-      MoveType type;
-
-      switch (PieceIndex(uPiece)) {
-      case vP6:
-        type = bCapture ?
+      const String methodName = nameof(moveType);
+      var vPiece = PieceIndex(uPiece);
+      var type = vPiece switch {
+        vP6 => bCapture ?
           bAbove ? MoveType.PawnAboveCapture : MoveType.PawnBelowCapture :
-          bAbove ? MoveType.PawnAboveMove : MoveType.PawnBelowMove;
-        break;
-
-      case vN6:
-        type = bCapture ? MoveType.KnightCapture : MoveType.KnightMove;
-        break;
-
-      case vB6:
-        type = bCapture ?
+          bAbove ? MoveType.PawnAboveMove : MoveType.PawnBelowMove,
+        vB6 => bCapture ?
           bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
-          bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove;
-        break;
-
-      case vR6:
-        type = bCapture ?
+          bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove,
+        vR6 => bCapture ?
           bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
-          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove;
-        break;
-
-      case vQ6:
-        type = IsOrth(nFrom, nTo) ? bCapture ?
-          bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
-          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove :
-        bCapture ?
-          bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
-          bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove;
-        break;
-
-      case vK6:
-        type = bCapture ? MoveType.KingCapture : MoveType.KingMove;
-        break;
-
-      default:
-        throw new PieceException("Unexpected Piece [moveType]");
-      }
+          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove,
+        vQ6 => IsOrth(nFrom, nTo) ?
+          bCapture ?
+            bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
+            bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove :
+          bCapture ?
+            bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
+            bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove,
+        vN6 => bCapture ? MoveType.KnightCapture : MoveType.KnightMove,
+        vK6 => bCapture ? MoveType.KingCapture : MoveType.KingMove,
+        _ => throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]"),
+      };
 
       return type;
     }

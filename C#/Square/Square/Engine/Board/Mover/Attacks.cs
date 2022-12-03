@@ -90,6 +90,7 @@ namespace Engine {
     // pieces of the specified type (for the side to move) which "attack" nTo.
     //
     protected Plane PieceAtxTo(Int32 nFrom, Int32 nTo, Byte vPiece, Boolean bCapture) {
+      const String methodName = nameof(PieceAtxTo);
       // Calculate AtxTo[nTo]
       Plane qpPiece;
       if (vPiece != vP6 && vPiece != vK6) {
@@ -115,7 +116,7 @@ namespace Engine {
           break;
         default:
           qpPiece = 0UL;
-          throw new PieceException("Unexpected Piece [pieceAtxTo]");
+          throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]");
         }
       }
       else if (vPiece == vP6 && bCapture)
