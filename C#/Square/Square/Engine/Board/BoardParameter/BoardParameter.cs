@@ -40,8 +40,8 @@ namespace Engine {
           RankLast = qpRank1;
           RankPass = qpRank6;
 
-          Zobrist = ZobristBlack;
-          ZobristRights = ZobristRightsBlack;
+          Zobrist = zobristBlack;
+          ZobristRights = zobristRightsBlack;
           break;
 
         case SideName.White:
@@ -57,8 +57,8 @@ namespace Engine {
           RankPass = qpRank3;
           (FileLeft, FileRight) = (qpFileA, qpFileH);
 
-          Zobrist = ZobristWhite;
-          ZobristRights = ZobristRightsWhite;
+          Zobrist = zobristWhite;
+          ZobristRights = zobristRightsWhite;
           break;
 
         default:

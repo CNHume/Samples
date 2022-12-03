@@ -6,7 +6,6 @@
 // Conditionals:
 //
 //#define DisplayHash
-//#define CryptoServiceProvider           // Performance will vary owing to non-constant seed
 #define HashCastlingRights
 //#define RNGStatistics
 //#define TestZobrist
@@ -16,9 +15,6 @@ namespace Engine {
   using System.Collections.Generic;
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// For MethodImplAttribute0
-#if CryptoServiceProvider
-  using System.Security.Cryptography;
-#endif
 
   using static System.Math;
   using static Logging.Logger;
@@ -32,54 +28,46 @@ namespace Engine {
   partial class Board {
     #region Hash Methods
     private static Hashcode nextZobrist() {
-#if CryptoServiceProvider
-      ZobristRNG.GetBytes(ZobristBuffer);
-#else
-      ZobristRandom.NextBytes(ZobristBuffer);
-#endif
-      var qHash = BitConverter.ToUInt64(ZobristBuffer, 0);
+      zobristRandom.NextBytes(zobristBuffer);
+      var qHash = BitConverter.ToUInt64(zobristBuffer, 0);
 #if TestZobrist
-      Zobrists.Add(qHash);
+      zobrists.Add(qHash);
 #endif
       return qHash;
     }
 
     private static void newZobrist() {
 #if TestZobrist
-      Zobrists = new List<Hashcode>();
+      zobrists = new List<Hashcode>();
 #endif
-      ZobristWhite = new Hashcode[nPieces][];
-      ZobristBlack = new Hashcode[nPieces][];
+      zobristWhite = new Hashcode[nPieces][];
+      zobristBlack = new Hashcode[nPieces][];
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
-        ZobristBlack[nPiece] = new Hashcode[nSquares];
-        ZobristWhite[nPiece] = new Hashcode[nSquares];
+        zobristBlack[nPiece] = new Hashcode[nSquares];
+        zobristWhite[nPiece] = new Hashcode[nSquares];
       }
 
-      ZobristRightsBlack = new Hashcode[4];
-      ZobristRightsWhite = new Hashcode[4];
+      zobristRightsBlack = new Hashcode[4];
+      zobristRightsWhite = new Hashcode[4];
 
-      ZobristFile = new Hashcode[8];
-      ZobristDraw = new Hashcode[2];
+      zobristFile = new Hashcode[8];
+      zobristDraw = new Hashcode[2];
 
-      ZobristExcludedFrom = new Hashcode[nSquares];
-      ZobristExcludedTo = new Hashcode[nSquares];
+      zobristExcludedFrom = new Hashcode[nSquares];
+      zobristExcludedTo = new Hashcode[nSquares];
 
       var nUnderPromotions = Promotions.Length - 1;
       if (nUnderPromotions > 0) {
         //Debug.Assert(Promotions[0] == Piece.Q, $"Promotion[0] should be {Piece.Q}");
-        ZobristExcludedPromotion = new Hashcode[nUnderPromotions];
+        zobristExcludedPromotion = new Hashcode[nUnderPromotions];
       }
 
-      ZobristBuffer = new Byte[8];
-#if CryptoServiceProvider
-      ZobristRNG = new RNGCryptoServiceProvider();
-#else
-      ZobristRandom = new Random(0);    // Fixed, repeatable seed
-#endif
+      zobristBuffer = new Byte[8];
+      zobristRandom = new Random(0);    // Fixed, repeatable seed
     }
 
     protected static void LoadZobrist() {
-      ZobristTurn = nextZobrist();
+      zobristTurn = nextZobrist();
 
       // For Pieces that can be held by each Square:
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
@@ -89,36 +77,36 @@ namespace Engine {
 
         for (var n = nMin; n <= nMax; n++) {
           // White Piece:
-          ZobristWhite[nPiece][n] = nextZobrist();
+          zobristWhite[nPiece][n] = nextZobrist();
           // Black Piece:
-          ZobristBlack[nPiece][n] = nextZobrist();
+          zobristBlack[nPiece][n] = nextZobrist();
         }
       }
 
       // For Castling Abilities:
-      for (var n = 0; n < ZobristRightsBlack.Length; n++)
-        ZobristRightsBlack[n] = nextZobrist();
-      for (var n = 0; n < ZobristRightsWhite.Length; n++)
-        ZobristRightsWhite[n] = nextZobrist();
+      for (var n = 0; n < zobristRightsBlack.Length; n++)
+        zobristRightsBlack[n] = nextZobrist();
+      for (var n = 0; n < zobristRightsWhite.Length; n++)
+        zobristRightsWhite[n] = nextZobrist();
 
       // For En Passant File:
-      for (var n = 0; n < ZobristFile.Length; n++)
-        ZobristFile[n] = nextZobrist();
+      for (var n = 0; n < zobristFile.Length; n++)
+        zobristFile[n] = nextZobrist();
 
       // Distinguish actual Draws as well as Draw2:
-      for (var n = 0; n < ZobristDraw.Length; n++)
-        ZobristDraw[n] = nextZobrist();
+      for (var n = 0; n < zobristDraw.Length; n++)
+        zobristDraw[n] = nextZobrist();
 
       // For Excluded Moves
       for (var n = 0; n < nSquares; n++) {
-        ZobristExcludedFrom[n] = nextZobrist();
-        ZobristExcludedTo[n] = nextZobrist();
+        zobristExcludedFrom[n] = nextZobrist();
+        zobristExcludedTo[n] = nextZobrist();
       }
 
-      for (var n = 0; n < ZobristExcludedPromotion.Length; n++)
-        ZobristExcludedPromotion[n] = nextZobrist();
+      for (var n = 0; n < zobristExcludedPromotion.Length; n++)
+        zobristExcludedPromotion[n] = nextZobrist();
 
-      ZobristExcludedCastles = nextZobrist();
+      zobristExcludedCastles = nextZobrist();
 #if RNGStatistics
       var nCount = Zobrists.Count;
       var decSum = 0M;
@@ -151,9 +139,9 @@ namespace Engine {
       }
 #endif
 #if TestZobrist
-      Zobrists.Sort();
+      zobrists.Sort();
       var qLastHash = default(Hashcode);
-      foreach (var qHash in Zobrists) {
+      foreach (var qHash in zobrists) {
         if (qHash == qLastHash) {
           Trace.Assert(qHash != qLastHash, "Duplicate Hashcode Found");
           break;
@@ -186,14 +174,14 @@ namespace Engine {
         unpackShort(moveExcluded, out Int32 nFrom, out Int32 nTo,
                     out UInt32 uPromotion, out Boolean bCastles);
 #endif
-        qDynamic ^= ZobristExcludedFrom[nFrom];
-        qDynamic ^= ZobristExcludedTo[nTo];
+        qDynamic ^= zobristExcludedFrom[nFrom];
+        qDynamic ^= zobristExcludedTo[nTo];
 
         if (uPromotion > 0) {
           var promotion = (Piece)uPromotion;
           var nIndex = Array.FindIndex(Promotions, p => p == promotion);
           if (nIndex > 0)               // Distinguish Excluded Promotions
-            qDynamic ^= ZobristExcludedPromotion[nIndex - 1];
+            qDynamic ^= zobristExcludedPromotion[nIndex - 1];
         }
 
         if (bCastles) {
@@ -208,15 +196,15 @@ namespace Engine {
           // It seems simplest to Hash excluded orthodox castling moves
           // as well as Chess960 castling moves
           //
-          qDynamic ^= ZobristExcludedCastles;
+          qDynamic ^= zobristExcludedCastles;
 #endif
         }
       }
 
       if (IsDraw())
-        qDynamic ^= ZobristDraw[0];
+        qDynamic ^= zobristDraw[0];
       else if (IsDraw2())
-        qDynamic ^= ZobristDraw[1];
+        qDynamic ^= zobristDraw[1];
 
       return qDynamic;
     }
@@ -224,13 +212,13 @@ namespace Engine {
     private Hashcode hashFlags(Boolean bWTM) {
       Hashcode qHash = 0;
       if (IsPassed()) qHash ^= epHash();
-      if (!bWTM) qHash ^= ZobristTurn;
+      if (!bWTM) qHash ^= zobristTurn;
       return qHash;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Hashcode epHash() {
-      return ZobristFile[(Int32)(FlagsTurn & TurnFlags.EPFile)];
+      return zobristFile[(Int32)(FlagsTurn & TurnFlags.EPFile)];
     }
 
     private Hashcode hash(Plane qp, Byte vPiece) {

@@ -217,7 +217,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void toggleWTM() {
       GamePly++;                        // GamePly should be even iff WTM
-      Hash ^= ZobristTurn;
+      Hash ^= zobristTurn;
       FlagsTurn ^= TurnFlags.WTM;
 #if VerifyGamePlyParity
       Trace.Assert(PlyParity(GamePly), "Incorrect GamePly Parity: Even Ply != WTM");

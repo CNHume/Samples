@@ -9,15 +9,11 @@
 //#define InitDeBruijn
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
-//#define CryptoServiceProvider
 //#define TestZobrist
 
 namespace Engine {
   using System;
   using System.Collections.Generic;
-#if CryptoServiceProvider
-  using System.Security.Cryptography;
-#endif
   using static Position;
 
   //
@@ -78,25 +74,21 @@ namespace Engine {
 #endif                                  // DeBruijn
 #endif                                  // InitDeBruijn
     #region Zobrist Hashing
-#if CryptoServiceProvider
-    protected static RNGCryptoServiceProvider ZobristRNG;
-#else
-    protected static Random ZobristRandom;
-#endif
-    protected static Byte[] ZobristBuffer;
-    protected static Hashcode ZobristTurn;
-    protected static Hashcode[] ZobristDraw;
-    protected static Hashcode[] ZobristFile;
-    protected static Hashcode[] ZobristRightsBlack;
-    protected static Hashcode[] ZobristRightsWhite;
-    protected static Hashcode[][] ZobristBlack;
-    protected static Hashcode[][] ZobristWhite;
-    protected static Hashcode[] ZobristExcludedFrom;
-    protected static Hashcode[] ZobristExcludedTo;
-    protected static Hashcode[] ZobristExcludedPromotion;
-    protected static Hashcode ZobristExcludedCastles;
+    private static Random zobristRandom;
+    private static Byte[] zobristBuffer;
+    private static Hashcode zobristTurn;
+    private static Hashcode[] zobristDraw;
+    private static Hashcode[] zobristFile;
+    private static Hashcode[] zobristRightsBlack;
+    private static Hashcode[] zobristRightsWhite;
+    private static Hashcode[][] zobristBlack;
+    private static Hashcode[][] zobristWhite;
+    private static Hashcode[] zobristExcludedFrom;
+    private static Hashcode[] zobristExcludedTo;
+    private static Hashcode[] zobristExcludedPromotion;
+    private static Hashcode zobristExcludedCastles;
 #if TestZobrist
-    protected static List<Hashcode> Zobrists;
+    private static List<Hashcode> zobrists;
 #endif
     #endregion                          // Zobrist Hashing
     #endregion                          // Constant Fields
