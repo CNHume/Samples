@@ -26,7 +26,7 @@ namespace Engine {
         //
         // Initialize Extension Counts at the Root
         //
-        ExtensionCounts = 0;
+        extensionCounts = 0;
         MoveTypeOrdering = DefaultMoveTypeOrdering;
       }
       else {
@@ -49,7 +49,7 @@ namespace Engine {
       // but moves are not made at the Root Position:
       //
       CurrentMove = Move.Undefined;
-      PinnedPiece = 0UL;
+      pinnedPiece = 0UL;
       AttackedSum =
         BlackControlled =
         WhiteControlled = 0UL;

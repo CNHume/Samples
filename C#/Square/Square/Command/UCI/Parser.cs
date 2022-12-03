@@ -21,60 +21,60 @@ namespace Command {
 
   partial class Parser : IDisposable {
     #region Constants
-    protected const String sSpace = " ";
-    protected const String sHyphen = "-";
-    protected const Char cDoubleQuote = '"';
-    protected const String sDoubleQuote = @"""";
-    protected const String sEscapedDoubleQuote = @"""""";
+    private const String sSpace = " ";
+    private const String sHyphen = "-";
+    private const Char cDoubleQuote = '"';
+    private const String sDoubleQuote = @"""";
+    private const String sEscapedDoubleQuote = @"""""";
     #endregion                          // Constants
 
     #region Fields
     private Boolean disposed = false;
     private Scanner? scanner;
 
-    protected static readonly TokenRule[] codeTokenRules;
-    protected static readonly TokenRule[] opcodeDelimiterTokenRules;
-    protected static readonly TokenRule[] eolTokenRules;
-    protected static readonly TokenRule[] lineTokenRules;
-    protected static readonly TokenRule[] spaceTokenRule;
+    private static readonly TokenRule[] codeTokenRules;
+    private static readonly TokenRule[] opcodeDelimiterTokenRules;
+    private static readonly TokenRule[] eolTokenRules;
+    private static readonly TokenRule[] lineTokenRules;
+    private static readonly TokenRule[] spaceTokenRule;
 
-    protected static readonly TokenRule[] enableKeywordTokenRules;
-    protected static readonly TokenRule[] registerKeywordTokenRules;
-    protected static readonly TokenRule[] goKeywordTokenRules;
-    protected static readonly TokenRule[] movesKeyworTokendRules;
-    protected static readonly TokenRule[] nameKeywordTokenRules;
-    protected static readonly TokenRule[] opcodeTokenRules;
-    protected static readonly TokenRule[] operandTokenRules;
-    protected static readonly TokenRule[] optionTokenRules;
-    protected static readonly TokenRule[] pacnMoveTokenRules;
-    protected static readonly TokenRule[] setupTokenRules;
-    protected static readonly TokenRule[] setupTypeTokenRules;
-    protected static readonly TokenRule[] countTokenRules;
-    protected static readonly TokenRule[] unsignedTokenRules;
-    protected static readonly TokenRule[] valueKeywordTokenRules;
-    protected static readonly TokenRule[] verbTokenRules;
+    private static readonly TokenRule[] enableKeywordTokenRules;
+    private static readonly TokenRule[] registerKeywordTokenRules;
+    private static readonly TokenRule[] goKeywordTokenRules;
+    private static readonly TokenRule[] movesKeyworTokendRules;
+    private static readonly TokenRule[] nameKeywordTokenRules;
+    private static readonly TokenRule[] opcodeTokenRules;
+    private static readonly TokenRule[] operandTokenRules;
+    private static readonly TokenRule[] optionTokenRules;
+    private static readonly TokenRule[] pacnMoveTokenRules;
+    private static readonly TokenRule[] setupTokenRules;
+    private static readonly TokenRule[] setupTypeTokenRules;
+    private static readonly TokenRule[] countTokenRules;
+    private static readonly TokenRule[] unsignedTokenRules;
+    private static readonly TokenRule[] valueKeywordTokenRules;
+    private static readonly TokenRule[] verbTokenRules;
 
-    protected Token codeToken;
-    protected Token eolToken;
-    protected Token opcodeDelimiterToken;
-    protected Token lineToken;
+    private Token codeToken;
+    private Token eolToken;
+    private Token opcodeDelimiterToken;
+    private Token lineToken;
     public Token SpaceToken;
 
-    protected Token enableKeywordToken;
+    private Token enableKeywordToken;
     public Token GoKeywordToken;
-    protected Token movesKeywordToken;
-    protected Token nameKeywordToken;
-    protected Token opcodeToken;
-    protected Token operandToken;
-    protected Token optionToken;
+    private Token movesKeywordToken;
+    private Token nameKeywordToken;
+    private Token opcodeToken;
+    private Token operandToken;
+    private Token optionToken;
     public Token PACNMoveToken;
     public Token RegisterKeywordToken;
     public Token SetupToken;
-    protected Token setupTypeToken;
+    private Token setupTypeToken;
     public Token CountToken;
     public Token UnsignedToken;
-    protected Token valueKeywordToken;
-    protected Token verbToken;
+    private Token valueKeywordToken;
+    private Token verbToken;
     #endregion                          // Fields
 
     #region Properties
@@ -92,7 +92,7 @@ namespace Command {
     #region Constructors
     public Parser(Boolean isVerbose = false) {
       IsVerbose = isVerbose;
-      Init();
+      init();
     }
 
     public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
@@ -205,7 +205,7 @@ namespace Command {
       nameof(valueKeywordToken),
       nameof(verbToken)
       )]
-    protected void Init() {
+    private void init() {
       codeToken = new Token(this, TokenType.code, codeTokenRules);
       eolToken = new Token(this, TokenType.eol, eolTokenRules);
       opcodeDelimiterToken = new Token(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
@@ -234,16 +234,16 @@ namespace Command {
       if (Scanner is null)       // Update existing Parser
         Scanner = NewScanner(sCommand);
       else                              // Update existing Scanner
-        Scanner.Reader = NewReader(sCommand);
+        Scanner.Reader = newReader(sCommand);
     }
 
     public static Scanner NewScanner(String sCommand) {
-      var reader = NewReader(sCommand);
+      var reader = newReader(sCommand);
       //return new StreamScanner((StreamReader)reader);
       return new Scanner(reader);
     }
 
-    protected static TextReader NewReader(String sCommand) {
+    private static TextReader newReader(String sCommand) {
       //return new StreamReader(
       //  new MemoryStream(
       //    Encoding.UTF8.GetBytes(sCommand)
@@ -410,7 +410,7 @@ namespace Command {
       return SpaceToken.Accept() && movesKeywordToken.Accept();
     }
 
-    protected static Position? findNamedPosition(Position? position, Position? parent) {
+    private static Position? findNamedPosition(Position? position, Position? parent) {
       while (position is not null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
         position = position.Parent;
       return position;

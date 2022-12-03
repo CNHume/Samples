@@ -228,7 +228,7 @@ namespace Engine {
       loadDiagAtx();
 
       newZobrist();
-      LoadZobrist();
+      loadZobrist();
 #if InitDeBruijn
 #if ByteDeBruijn
       deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3

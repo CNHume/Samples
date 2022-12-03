@@ -14,7 +14,7 @@
 // Futility & Delta Pruning
 // *XP and ID
 // Killer Heuristic
-// generators & PinnedPiece
+// generators & pinnedPiece
 // C++ vs C# around 2.5 times faster
 // Rotated BB not Magic
 //
@@ -72,7 +72,7 @@ namespace Engine {
   public enum EvalType : byte { Exact, Lower, Undefined, Upper };
   #endregion
 
-  [DebuggerDisplay("{DebugString}")]
+  [DebuggerDisplay("{debugString}")]
   partial class Position : Board, ICloneable {
     #region Constants
     protected const PlyDepth vStartDepthDefault = 6;
@@ -91,7 +91,7 @@ namespace Engine {
     internal const Depth wLateDepthMin = 2;
     protected const Int32 nFirstCapacity = 6;   // Transposition moveFound from prior Depth plus 2 Killers
 
-    protected static readonly Byte[] Quartance =
+    private static readonly Byte[] quartance =
     {  8,  4,  6,  8,                   // a8 b8 c8 d8
        8,  9,  8,  9,                   // a7 b7 c7 d7
        4,  6,  9, 10,                   // a6 b6 c6 d6
@@ -145,9 +145,9 @@ namespace Engine {
     //
     public void CopyTo(Position child) {
       base.CopyTo(child);
-      child.StaticDelta = StaticDelta;
-      child.StaticTotal = StaticTotal;
-      child.ExtensionCounts = ExtensionCounts;
+      child.staticDelta = staticDelta;
+      child.staticTotal = staticTotal;
+      child.extensionCounts = extensionCounts;
 #if InheritMoveTypes
       child.MoveTypeOrdering = MoveTypeOrdering;
 #endif
@@ -188,20 +188,20 @@ namespace Engine {
     }
 
     private static void newSquareImportance() {
-      Importance = new Byte[nSquares];
+      importance = new Byte[nSquares];
     }
 
     private static void loadSquareImportance() {
-      var n4 = 0;                       // Quartance[] defined over 16 squares of a quarter-board
+      var n4 = 0;                       // quartance[] defined over 16 squares of a quarter-board
       for (var y = 0; y < nRanks / 2; y++) {
         var yInverse = InvertRank(y);
         for (var x = 0; x < nFiles / 2; x++, n4++) {
           var xInverse = InvertFile(x);
 
-          Importance[sqr(x, y)] = Quartance[n4];
-          Importance[sqr(xInverse, y)] = Quartance[n4];
-          Importance[sqr(x, yInverse)] = Quartance[n4];
-          Importance[sqr(xInverse, yInverse)] = Quartance[n4];
+          importance[sqr(x, y)] = quartance[n4];
+          importance[sqr(xInverse, y)] = quartance[n4];
+          importance[sqr(x, yInverse)] = quartance[n4];
+          importance[sqr(xInverse, yInverse)] = quartance[n4];
         }
       }
 #if TestImportance
@@ -230,7 +230,7 @@ namespace Engine {
     }
 
     private void newRestricted() {
-      Restricted = new Plane[nSquares];
+      restricted = new Plane[nSquares];
     }
     #endregion
 

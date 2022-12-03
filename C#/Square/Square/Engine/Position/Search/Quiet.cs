@@ -310,7 +310,7 @@ namespace Engine {
       // Test isEndgame() based on the Total of material remaining for both sides:
       //
       var mPositionDelta = (Eval)(mPromotion - mCapture);
-      var mPositionTotal = (Eval)(StaticTotal + mPositionDelta);
+      var mPositionTotal = (Eval)(staticTotal + mPositionDelta);
 
       var bEndGame = isEndgame(mPositionTotal);
       if (!bEndGame) {

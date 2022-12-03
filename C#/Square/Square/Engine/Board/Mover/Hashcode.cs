@@ -66,7 +66,7 @@ namespace Engine {
       zobristRandom = new Random(0);    // Fixed, repeatable seed
     }
 
-    protected static void LoadZobrist() {
+    internal static void loadZobrist() {
       zobristTurn = nextZobrist();
 
       // For Pieces that can be held by each Square:

@@ -122,7 +122,7 @@ namespace Engine {
           unpackMove1(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
           //unpackMove2(moveFound, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-          if (IsMovePosition)           // Pass empty BestMoves, at top level
+          if (isMovePosition)           // Pass empty BestMoves, at top level
             AddPV(mAlpha, mValueFound, moveFound, BestMoves);
 #if AddBestMoves
           BestMoves.Add(moveFound);     // Safe to update BestMoves now
@@ -469,7 +469,7 @@ namespace Engine {
         }
       }
 
-      if (!IsMovePosition)
+      if (!isMovePosition)
         mBest2 = mBest;
       else if (mAlpha < mValue) {
         //[<=]See Johannessen vs Fischer #8 w Aspiration

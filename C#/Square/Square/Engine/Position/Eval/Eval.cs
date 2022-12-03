@@ -116,7 +116,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean isEndgame() {
-      return isEndgame(StaticTotal);
+      return isEndgame(staticTotal);
     }
 
     private static Eval weight(Byte vPiece) {
@@ -215,8 +215,8 @@ namespace Engine {
     }
 #endif                                  // MaterialBalance
     private void clrEval() {
-      StaticDelta = Position.EvalUndefined;
-      StaticTotal = Position.EvalUndefined;
+      staticDelta = Position.EvalUndefined;
+      staticTotal = Position.EvalUndefined;
     }
 
     private Eval staticEval(out PawnPosition? pp) {   //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
@@ -228,8 +228,8 @@ namespace Engine {
 
       setEndGameFlags();
 
-      if (EvalUndefined < StaticDelta)
-        return StaticDelta;
+      if (EvalUndefined < staticDelta)
+        return staticDelta;
 
       //
       // Retrieve material balance from the Composition:
@@ -277,10 +277,10 @@ namespace Engine {
       }
 #endif
       //
-      //[Note]staticEval() prepares StaticTotal for any isEndgame() tests
+      //[Note]staticEval() prepares staticTotal for any isEndgame() tests
       //
-      StaticTotal = mTotal;             // Update for isEndgame()
-      StaticDelta = mDelta;
+      staticTotal = mTotal;             // Update for isEndgame()
+      staticDelta = mDelta;
       return mDelta;
     }
 

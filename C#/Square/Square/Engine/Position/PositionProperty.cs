@@ -30,11 +30,11 @@ namespace Engine {
 
   partial class Position : Board {
     #region Static Fields
-    protected static Byte[] Importance;
+    private static Byte[] importance;
 
-    protected static readonly Draft wReducedDraftMin;
-    protected static readonly Draft wLateDrafthMin;
-    protected static readonly Draft wLerpDraftMax;
+    private static readonly Draft wReducedDraftMin;
+    private static readonly Draft wLateDrafthMin;
+    private static readonly Draft wLerpDraftMax;
     #endregion
 
     #region Pawn Feature Fields
@@ -47,14 +47,15 @@ namespace Engine {
 
     #region Virtual Fields
     public Position? Parent;
-    protected Eval StaticDelta;
-    protected Eval StaticTotal;         // For isEndgame()
-    protected ExtensionCounter ExtensionCounts;
+
+    private Eval staticDelta;
+    private Eval staticTotal;         // For isEndgame()
+    private ExtensionCounter extensionCounts;
 #if TestPawnFeatures
     public Plane[] FeatureOrth;
 #endif
-    protected Plane[] Restricted;
-    protected Plane PinnedPiece;
+    private Plane[] restricted;
+    private Plane pinnedPiece;
 
     public Move CurrentMove;            // Set by [null|try]Move() prior to calling Board.PlayMove()
     public List<Move> BestMoves;        // This is a line, not a set of alternative moves
@@ -122,12 +123,12 @@ namespace Engine {
     #endregion
 
     #region Properties
-    protected Boolean IsMovePosition {
+    private Boolean isMovePosition {
       // MovePosition assumed by startTask() and heartbeat()
       get { return ReferenceEquals(this, State!.MovePosition); }
     }
 
-    private String DebugString {
+    private String debugString {
       get { return ToString(); }
     }
     #endregion

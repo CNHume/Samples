@@ -203,7 +203,7 @@ namespace Engine {
       // Position instance contains the specific Pawn configuration.
       //
       // Passer weight could be optimized out where PawnFeature Delta
-      // is much less than the StaticDelta returned by staticEval().
+      // is much less than the staticDelta returned by staticEval().
       //
       // Wrong Bishops will be determined by Passed Rook Pawns.
       //

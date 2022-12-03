@@ -85,18 +85,18 @@ namespace Engine {
 
     private void decExtension(ref Draft wDraft, Int32 nExt) {
       // Govern dec as well as inc
-      ExtensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
+      extensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
       wDraft -= extensionDraft(nExt);    // Decrement
     }
 
     private void incExtension(ref Draft wDraft, Int32 nExt) {
       // Govern usage
-      ExtensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
+      extensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
       wDraft += extensionDraft(nExt);   // Increment
     }
 
     private Boolean canExtend(Int32 nExt) {
-      var vCount = GetNibble(ExtensionCounts, nExt);
+      var vCount = GetNibble(extensionCounts, nExt);
       var vLimit = GetNibble(State!.ExtensionLimit, nExt);
       return vCount < vLimit;
     }

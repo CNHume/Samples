@@ -31,7 +31,7 @@ namespace Engine {
     // and is similar to pinRestrictions()
     //
     //[Note]Exact intersections are needed here to choose interpositions;
-    // but can be omitted where Restricted[] marks how a Piece is Pinned.
+    // but can be omitted where restricted[] marks how a Piece is Pinned.
     // This is because pieces are not allowed to leap over their King.
     //
     private Plane interpositions(Int32 nChx, Int32 nKing) {
@@ -61,7 +61,7 @@ namespace Engine {
     // and is similar to interpositions()
     //
     //[Note]Exact intersections are needed to find interpositions; but
-    // can be omitted here, where Restricted[] marks a Piece as Pinned.
+    // can be omitted here, where restricted[] marks a Piece as Pinned.
     // This is because pieces are not allowed to leap over their King.
     //
     private Plane pinRestrictions(Plane qpCheck, Int32 nKing) {
@@ -98,7 +98,7 @@ namespace Engine {
               out UInt32 uPiece, out Boolean _);
       var piece = (Piece)uPiece;
       var qpFrom = bit(nFrom);
-      if (piece == Piece.K || (qpFrom & PinnedPiece) != 0)
+      if (piece == Piece.K || (qpFrom & pinnedPiece) != 0)
         return;
 
       //
@@ -106,8 +106,8 @@ namespace Engine {
       // made an Illegal Move, and restrict its further movement
       // so as not to violate the pin.
       //
-      // tryMove() skips PinnedPiece moves not marked as allowed
-      // in Restricted[].
+      // tryMove() skips pinnedPiece moves not marked as allowed
+      // in restricted[].
       //
       byte vKingPos = Foe.GetKingPos();
       var qpKing = Foe.Piece & King;
@@ -179,8 +179,8 @@ namespace Engine {
       // Test for Pin Restriction, subject to the PasserPin Exemption
       var bFromPin = (qpRay & qpFrom) != 0;
       if (bFromPin) {                   //[Safe]
-        Restricted[nFrom] = qpCheck | qpRay;
-        PinnedPiece |= qpFrom;          // Mark Restricted[nFrom] valid
+        restricted[nFrom] = qpCheck | qpRay;
+        pinnedPiece |= qpFrom;          // Mark restricted[nFrom] valid
       }
       else if (State!.IsSearchInProgress) {
         // Diagnose Engine Generated Moves, not User Moves made via ParsePACNMakeMoves()

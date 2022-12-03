@@ -103,8 +103,8 @@ namespace Engine {
       var nFrom = From(move);
       var nTo = To(move);
 
-      var bRestricted = (PinnedPiece & bit(nFrom)) != 0;
-      var bPrevented = bRestricted && (Restricted[nFrom] & bit(nTo)) == 0;
+      var bRestricted = (pinnedPiece & bit(nFrom)) != 0;
+      var bPrevented = bRestricted && (restricted[nFrom] & bit(nTo)) == 0;
       return (bPrevented, bRestricted);
     }
 
@@ -126,7 +126,7 @@ namespace Engine {
       var bBlackTurn = IsOdd(GamePly);
       Debug.Assert(bWhiteMoved == bBlackTurn, "Skipped Turn");
 #endif
-      //[Assume]Restricted Moves are Legal
+      //[Assume]restricted Moves are Legal
       var bLegal = bRestricted || !Friend.IsAttacked(King & Foe.Piece);
       SetLegal(bLegal);
 
