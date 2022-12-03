@@ -51,15 +51,15 @@
 //#define ValidateHeap
 
 namespace HeapSort {
-  using Exceptions;
-
-  using SortTest;
-  using SortTest.Extensions;
-
   using System;
   using System.Collections;        // For non-generic IEnumerable
   using System.Collections.Generic;
   using System.Diagnostics;
+
+  using Exceptions;
+
+  using SortTest;
+  using SortTest.Extensions;
 
   /// <summary>Heap Sort Class</summary>
   /// <typeparam name="T">Entry Type</typeparam>

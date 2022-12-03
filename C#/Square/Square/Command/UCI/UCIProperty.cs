@@ -68,7 +68,7 @@ namespace Command {
     //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
     //
-    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-09-18 14-ply in 40:35 @1.308 MHz over 3.185 Gnode] eval 1.63 after:
+    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-12-02 14-ply in 38:12 @1.389 MHz over 3.185 Gnode] eval 1.63 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
     // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
     // [2022-11-19 15-ply in 48:16 @1.452 MHz over 4.206 Gnode] eval 1.62 after:

@@ -2,14 +2,14 @@
 // Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
 //
 namespace SortTest.Extensions {
-  using Microsoft.Extensions.Logging;
-
   using System;
   using System.Collections.Generic;
   using System.ComponentModel.DataAnnotations;
   using System.Linq;
   using System.Reflection;
   using System.Text;
+
+  using Microsoft.Extensions.Logging;
 
   using static System.String;
   using static System.StringComparison;

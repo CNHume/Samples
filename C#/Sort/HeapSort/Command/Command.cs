@@ -7,11 +7,11 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
+  using System;
+
   using SortTest;
   using SortTest.Exceptions;
   using SortTest.Extensions;
-
-  using System;
 
   class Command {
     #region Properties
@@ -77,7 +77,7 @@ namespace Sort {
 
       usage |= n < count;               // superfluous argument specified
 
-      if (usage || !Length.HasValue)   // throw usage line if parse failed
+      if (usage || !Length.HasValue)    // throw usage line if parse failed
         throw new CommandException("Usage: HeapSort [-p] [-s (ascending | descending | random)] [-t trials] length");
 
       if (Length.Value >= SortData.LENGTH_MAX)
