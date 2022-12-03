@@ -33,8 +33,8 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
-    protected const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
-    protected const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    private const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
+    private const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     #endregion
 
     #region Serialization Methods
@@ -45,7 +45,7 @@ namespace Engine {
         .FirstOrDefault(tabiya => tabiya.FEN is not null && tabiya.FEN.StartsWith(sPrefix));
     }
 
-    protected PerfCase[] getTestCases() {
+    private PerfCase[] getTestCases() {
       var tabiyaFound = findTabiya();
       if (tabiyaFound is null)
         throw new PerftException("Test Position Not Found");

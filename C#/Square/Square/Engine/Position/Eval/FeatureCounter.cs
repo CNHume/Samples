@@ -42,7 +42,7 @@ namespace Engine {
     private void countPawn(
       Int32 nSide, Int32 nFile, Int32 nPawn, Plane qpFound, Plane qpFoePawn, Plane qpFoePawnAtx, Plane qpFriendPawnAtx,
       ref PRPFlags fprp, ref Plane qpPassers, ref Plane qpAwkward, ref UInt32 uPassers, ref UInt32 uAwkward) {
-      var (qpFree, qpHelp) = GetFreeHelp(nSide, nPawn);
+      var (qpFree, qpHelp) = getFreeHelp(nSide, nPawn);
 
       if ((qpFree & qpFoePawn) == 0 &&
           (qpFree & qpFoePawnAtx) == 0) {

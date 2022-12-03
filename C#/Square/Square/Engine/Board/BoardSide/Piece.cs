@@ -32,6 +32,7 @@ namespace Engine {
       #region Methods
       //
       // [clr|set]Piece
+      // [raise|lower]
       // [Raise|Remove]Piece
       // [Lower|Place]Piece
       // Passed

@@ -29,7 +29,7 @@ namespace Engine {
     // when intersected with Pawns for the side to move return any Pawns that cannot be
     // caught by the King - before they queen.
     //
-    protected static void loadOutsideSquare() {
+    private static void loadOutsideSquare() {
       //
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
@@ -152,7 +152,7 @@ namespace Engine {
     // Return squares that remain in front of each square,
     // as potential Pawn Advancements:
     //
-    protected static Plane free(Int32 nSide, Int32 nPawn) {
+    private static Plane free(Int32 nSide, Int32 nPawn) {
 #if InitFree
       var qpFree = Parameter[nSide].Free[nPawn];
 #else
@@ -182,7 +182,7 @@ namespace Engine {
     // Return the Pawn Stop square in front of each square;
     // and all help squares prior to that:
     //
-    protected static Plane help(Int32 nSide, Int32 nPawn) {
+    private static Plane help(Int32 nSide, Int32 nPawn) {
 #if InitHelp
       var qpHelp = Parameter[nSide].Help[nPawn];
 #else
@@ -206,7 +206,7 @@ namespace Engine {
       return qpHelp;
     }
 
-    protected static (ulong qpFree, ulong qpHelp) GetFreeHelp(Int32 nSide, Int32 nPawn) {
+    private static (ulong qpFree, ulong qpHelp) getFreeHelp(Int32 nSide, Int32 nPawn) {
       var qpFree = free(nSide, nPawn);
       var qpHelp = help(nSide, nPawn);
       return (qpFree, qpHelp);
@@ -217,7 +217,7 @@ namespace Engine {
         var n = (Int32)sq;
         foreach (var parameter in Parameter) {
           var nSide = (Int32)parameter.SideName;
-          var (qpFree, qpHelp) = GetFreeHelp(nSide, n);
+          var (qpFree, qpHelp) = getFreeHelp(nSide, n);
 #if TestInitFree
           LogLine($"free({parameter.SideName}, {sq})\n");
           writeOrth(qpFree);
