@@ -90,17 +90,17 @@ namespace Engine {
         //
         const Byte vEmptyState = 0;
 #if Magic
-        var qpFileAtx = FileAtx[FileMagic[vEmptyState]];
+        var qpFileAtx = AtxFile[MagicFile[vEmptyState]];
 #else
-        var qpFileAtx = FileAtx[vEmptyState];
+        var qpFileAtx = AtxFile[vEmptyState];
 #endif
         // Is there another piece of the type being moved, which attacks nTo from the same File?
         if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
           // File distinguishes the piece being moved: Rank should be hidden.
           move |= Move.HideRank;
         else {
-          //[Note]RankAtx does not require Magic support.
-          var qpRankAtx = RankAtx[vEmptyState];
+          //[Note]AtxRank does not require Magic support.
+          var qpRankAtx = AtxRank[vEmptyState];
           // Is there another piece of the type being moved, which attacks nTo from the same Rank?
           if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
             // Rank distinguishes the piece being moved: File should be hidden.

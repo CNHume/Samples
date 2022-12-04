@@ -138,7 +138,7 @@ namespace Engine {
         // will be called if needed, when this method returns.
         //
         var bUnambiguousRook = State!.IsChess960 && vPieceTo == vR6;
-        var bUnambiguousKing = (KingAtx[nFrom] & qpTo) == 0;
+        var bUnambiguousKing = (AtxKing[nFrom] & qpTo) == 0;
         if (bUnambiguousRook || bUnambiguousKing) {
           var rule = Friend.Parameter.Rule;
           move = rule.Castles(nTo);

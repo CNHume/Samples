@@ -135,7 +135,7 @@ namespace Engine {
           break;
         case vB6:
           Board.DiagPiece &= ~qp;
-          bLite = (qp & LiteSquare) != 0;
+          bLite = (qp & SquareLite) != 0;
           break;
         case vQ6:
           Board.DiagPiece &= ~qp;
@@ -163,10 +163,10 @@ namespace Engine {
           var qpBishop = Piece & Board.Bishop;
 
           if (bLite) {
-            if ((qpBishop & LiteSquare) == 0)
+            if ((qpBishop & SquareLite) == 0)
               ClrLite();
           }
-          else if ((qpBishop & DarkSquare) == 0)
+          else if ((qpBishop & SquareDark) == 0)
             ClrDark();
 #if HashPieces
           var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
@@ -222,7 +222,7 @@ namespace Engine {
           break;
         case vB6:
           Board.DiagPiece |= qp;
-          bLite = (qp & LiteSquare) != 0;
+          bLite = (qp & SquareLite) != 0;
           break;
         case vQ6:
           Board.DiagPiece |= qp;
@@ -313,8 +313,8 @@ namespace Engine {
       //
       public Plane Checkers(Byte vKingPos, Plane qpTo) {
         var qpFrom = 0UL;
-        qpFrom |= Piece & Board.King & KingAtx[vKingPos];
-        qpFrom |= Piece & Board.Knight & KnightAtx[vKingPos];
+        qpFrom |= Piece & Board.King & AtxKing[vKingPos];
+        qpFrom |= Piece & Board.Knight & AtxKnight[vKingPos];
         qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
         qpFrom |= Piece & Board.OrthPiece & Board.orthAtx(vKingPos);
 
@@ -337,10 +337,10 @@ namespace Engine {
 
         while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend, out Plane qp);
-          if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
+          if ((Piece & Board.Knight & AtxKnight[n]) != 0 ||
               (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
               (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
-              (Piece & Board.King & KingAtx[n]) != 0)
+              (Piece & Board.King & AtxKing[n]) != 0)
             qpAttacked |= qp;
         }
 
@@ -358,10 +358,10 @@ namespace Engine {
 
         while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend);
-          if ((Piece & Board.Knight & KnightAtx[n]) != 0 ||
+          if ((Piece & Board.Knight & AtxKnight[n]) != 0 ||
               (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
               (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
-              (Piece & Board.King & KingAtx[n]) != 0)
+              (Piece & Board.King & AtxKing[n]) != 0)
             return true;
         }
 
@@ -523,7 +523,7 @@ namespace Engine {
         var nAtx = 0;
         if (!KingPos.HasValue)
           throw new ArgumentException(nameof(KingPos), "Invalid King Position");
-        Board.incTo(KingAtx[KingPos.Value]);
+        Board.incTo(AtxKing[KingPos.Value]);
 
         Board.incTo(PawnA1H8Atx);
         Board.incTo(PawnA8H1Atx);
@@ -531,7 +531,7 @@ namespace Engine {
         var qpAtxFrom = Piece & Board.Knight;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(KnightAtx[n]);
+          nAtx += Board.incTo(AtxKnight[n]);
         }
 
         qpAtxFrom = Piece & Board.Bishop;

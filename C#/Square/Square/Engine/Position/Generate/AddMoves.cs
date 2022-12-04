@@ -162,7 +162,7 @@ namespace Engine {
 #endif
       // Each side has one King
       var moveFrom = KingMove | FromMove(vKingPos);
-      var qpMoveTo = KingAtx[vKingPos] & qpTo;
+      var qpMoveTo = AtxKing[vKingPos] & qpTo;
 #if UnshadowRay
       if (bRayCheck) {
         //
@@ -189,7 +189,7 @@ namespace Engine {
 #endif
       // Each side has one King
       var moveFrom = KingMove | FromMove(vKingPos);
-      var qpMoveTo = KingAtx[vKingPos] & qpTo;
+      var qpMoveTo = AtxKing[vKingPos] & qpTo;
 #if UnshadowRay
       if (bRayCheck) {
         //
@@ -212,7 +212,7 @@ namespace Engine {
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
         var moveFrom = KnightMove | FromMove(nFrom);
-        var qpMoveTo = KnightAtx[nFrom] & qpTo;
+        var qpMoveTo = AtxKnight[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
         addPieceMoves(PseudoKnightMove, PseudoKnightMove, moveFrom, qpMoveTo);
       }
@@ -223,7 +223,7 @@ namespace Engine {
       while (qpKnight != 0) {
         var nFrom = RemoveLo(ref qpKnight);
         var moveFrom = KnightMove | FromMove(nFrom);
-        var qpMoveTo = KnightAtx[nFrom] & qpTo;
+        var qpMoveTo = AtxKnight[nFrom] & qpTo;
         addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
       }
     }

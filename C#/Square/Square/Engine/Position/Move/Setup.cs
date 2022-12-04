@@ -304,8 +304,8 @@ namespace Engine {
       var nBishopDark2 = 2 * nBishopDark;
       var nBishopLite2 = 2 * nBishopLite + 1;
 #if DEBUG
-      hasColor(nBishopDark2, DarkSquare, "Dark Bishop");
-      hasColor(nBishopLite2, LiteSquare, "Lite Bishop");
+      hasColor(nBishopDark2, SquareDark, "Dark Bishop");
+      hasColor(nBishopLite2, SquareLite, "Lite Bishop");
 #endif
       setupPiece(vB6, nBishopDark2);
       setupPiece(vB6, nBishopLite2);
@@ -315,7 +315,7 @@ namespace Engine {
       var nQueen2 = 2 * nQueen;
       var nQueenSquare = findEmpty2(bFlip, nQueen2);
 #if DEBUG
-      hasColor(nQueenSquare, LiteSquare, "Queen", "her");
+      hasColor(nQueenSquare, SquareLite, "Queen", "her");
 #endif
       setupPiece(vQ6, nQueenSquare);
       #endregion

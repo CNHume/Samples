@@ -97,18 +97,18 @@ namespace Engine {
     internal static void testOffsets() {
       printSquares("RankOffset", RankOffset);
 #if TestRotation && !Magic
-      printSquares("FileOffset", FileOffset);
-      printSquares("A1H8Offset", A1H8Offset);
-      printSquares("A8H1Offset", A8H1Offset);
+      printSquares("OffsetFile", OffsetFile);
+      printSquares("OffsetA1H8", OffsetA1H8);
+      printSquares("OffsetA8H1", OffsetA8H1);
 #endif
     }
 
     protected void testRotations() {
 #if TestRotation && !Magic
-      writeOrthRotations("RankBit", RankBit);
-      writeOrthRotations("FileBit", FileBit);
-      writeDiagRotations("A1H8Bit", A1H8Bit);
-      writeDiagRotations("A8H1Bit", A1H8Bit);
+      writeOrthRotations("BitRank", BitRank);
+      writeOrthRotations("BitFile", BitFile);
+      writeDiagRotations("BitA1H8", BitA1H8);
+      writeDiagRotations("BitA8H1", BitA1H8);
 #endif
     }
 
@@ -147,12 +147,12 @@ namespace Engine {
       writeOrth(diagAtx(n));
 #endif
 #if TestKingAttacks
-      LogLine("KingAtx\n");
-      writeOrth(KingAtx[n]);
+      LogLine("AtxKing\n");
+      writeOrth(AtxKing[n]);
 #endif
 #if TestKnightAttacks
-      LogLine("KnightAtx\n");
-      writeOrth(KnightAtx[n]);
+      LogLine("AtxKnight\n");
+      writeOrth(AtxKnight[n]);
 #endif
     }
     #endregion

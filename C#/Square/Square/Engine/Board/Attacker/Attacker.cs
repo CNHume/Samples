@@ -59,19 +59,19 @@ namespace Engine {
       var qp = BIT0;
       for (var y = 0U; y < nRanks; y++)
         for (var x = 0U; x < nFiles; x++, qp <<= 1)
-          if (IsOdd(x + y)) LiteSquare |= qp;
+          if (IsOdd(x + y)) SquareLite |= qp;
 
-      DarkSquare = ~LiteSquare;
+      SquareDark = ~SquareLite;
     }
     #endregion
 
     #region Piece Atx
     private static void newKingAtx() {
-      KingAtx = new Plane[nSquares];
+      AtxKing = new Plane[nSquares];
     }
 
     private static void newKnightAtx() {
-      KnightAtx = new Plane[nSquares];
+      AtxKnight = new Plane[nSquares];
     }
 
     private static Boolean inBounds(Int32 nX, Int32 nY) {
@@ -98,29 +98,29 @@ namespace Engine {
     }
 
     internal static void loadPieceAtx() {
-      loadPieceAtx(KingAtx, KingDeltas);
-      loadPieceAtx(KnightAtx, KnightDeltas);
+      loadPieceAtx(AtxKing, KingDeltas);
+      loadPieceAtx(AtxKnight, KnightDeltas);
     }
     #endregion
 
     #region Atx Lookup Table Initialization
     private static void newOrthAtx() {
-      FileAtx = new Plane[nStates][];
-      RankAtx = new Plane[nStates][];
+      AtxFile = new Plane[nStates][];
+      AtxRank = new Plane[nStates][];
 
       for (var nState = 0; nState < nStates; nState++) {
-        FileAtx[nState] = new Plane[nSquares];
-        RankAtx[nState] = new Plane[nSquares];
+        AtxFile[nState] = new Plane[nSquares];
+        AtxRank[nState] = new Plane[nSquares];
       }
     }
 
     private static void newDiagAtx() {
-      A1H8Atx = new Plane[nStates][];
-      A8H1Atx = new Plane[nStates][];
+      AtxA1H8 = new Plane[nStates][];
+      AtxA8H1 = new Plane[nStates][];
 
       for (var nState = 0; nState < nStates; nState++) {
-        A1H8Atx[nState] = new Plane[nSquares];
-        A8H1Atx[nState] = new Plane[nSquares];
+        AtxA1H8[nState] = new Plane[nSquares];
+        AtxA8H1[nState] = new Plane[nSquares];
       }
     }
 
@@ -142,22 +142,22 @@ namespace Engine {
             var xUp = x + 1;
             var bLoop = xUp < nFiles;
             for (var m = 1 << xUp; bLoop; bLoop = (mState & m) == 0, m <<= 1, xUp++) {
-              RankAtx[vState][nRankPos] |= bit(sqr(xUp, y));
+              AtxRank[vState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
-              FileAtx[FileMagic[vState]][nFilePos] |= bit(sqr(yInverse, xUp));
+              AtxFile[MagicFile[vState]][nFilePos] |= bit(sqr(yInverse, xUp));
 #else
-              FileAtx[vState][nFilePos] |= bit(sqr(yInverse, xUp));
+              AtxFile[vState][nFilePos] |= bit(sqr(yInverse, xUp));
 #endif
             }
 
             var xDn = x - 1;
             bLoop = x >= 1;
             for (var m = 1 << xDn; bLoop; bLoop = (mState & m) == 0, m >>= 1, xDn--) {
-              RankAtx[vState][nRankPos] |= bit(sqr(xDn, y));
+              AtxRank[vState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
-              FileAtx[FileMagic[vState]][nFilePos] |= bit(sqr(yInverse, xDn));
+              AtxFile[MagicFile[vState]][nFilePos] |= bit(sqr(yInverse, xDn));
 #else
-              FileAtx[vState][nFilePos] |= bit(sqr(yInverse, xDn));
+              AtxFile[vState][nFilePos] |= bit(sqr(yInverse, xDn));
 #endif
             }
           }
@@ -194,11 +194,11 @@ namespace Engine {
                                             m <<= 1, xUp++, yUp++) {
               var xUpInverse = InvertFile(xUp);
 #if Magic
-              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+              AtxA1H8[MagicA1H8[vState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              AtxA8H1[MagicA8H1[vState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #else
-              A1H8Atx[vState][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              A8H1Atx[vState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+              AtxA1H8[vState][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              AtxA8H1[vState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #endif
             }
 
@@ -209,11 +209,11 @@ namespace Engine {
                                              m >>= 1, xDn--, yDn--) {
               var xDnInverse = InvertFile(xDn);
 #if Magic
-              A1H8Atx[A1H8Magic[vState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              A8H1Atx[A8H1Magic[vState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+              AtxA1H8[MagicA1H8[vState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              AtxA8H1[MagicA8H1[vState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #else
-              A1H8Atx[vState][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              A8H1Atx[vState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+              AtxA1H8[vState][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              AtxA8H1[vState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #endif
             }
           }
@@ -233,20 +233,20 @@ namespace Engine {
     }
 #if Magic
     private static void newDiagLo() {
-      A1H8Lo = new Int32[nSquares];
-      A8H1Lo = new Int32[nSquares];
+      LoA1H8 = new Int32[nSquares];
+      LoA8H1 = new Int32[nSquares];
     }
 
     internal static void newMagic() {
       newDiagLo();
 
-      FileMagic = new Byte[nStates];
-      A1H8Magic = new Byte[nStates];
-      A8H1Magic = new Byte[nStates];
+      MagicFile = new Byte[nStates];
+      MagicA1H8 = new Byte[nStates];
+      MagicA8H1 = new Byte[nStates];
 #if TestMagic
-      FileState = new Byte[nStates];
-      A1H8State = new Byte[nStates];
-      A8H1State = new Byte[nStates];
+      StateFile = new Byte[nStates];
+      StateA1H8 = new Byte[nStates];
+      StateA8H1 = new Byte[nStates];
 #endif
     }
 
@@ -269,8 +269,8 @@ namespace Engine {
         for (Int32 x = xLo, y = yLo, w = 0; w < nDiagLen; w++, x++, y++) {
           var xInverse = InvertFile(x);
 
-          A1H8Lo[sqr(x, y)] = nA1H8Lo;
-          A8H1Lo[sqr(xInverse, y)] = nA8H1Lo;
+          LoA1H8[sqr(x, y)] = nA1H8Lo;
+          LoA8H1[sqr(xInverse, y)] = nA8H1Lo;
         }
       }
 #if TestDiagLo
@@ -285,9 +285,9 @@ namespace Engine {
 #if TestMagic
       const Byte vUnused = Byte.MaxValue;
       for (var n = 0; n < nStates; n++) {
-        FileState[n] = vUnused;
-        A1H8State[n] = vUnused;
-        A8H1State[n] = vUnused;
+        StateFile[n] = vUnused;
+        StateA1H8[n] = vUnused;
+        StateA8H1[n] = vUnused;
       }
 
       var nUsed = 0;
@@ -341,52 +341,52 @@ namespace Engine {
         Debug.Assert(vA1H8Half == vA1H8Full, "A1H8Half != A1H8Full");
         Debug.Assert(vA8H1Half == vA8H1Full, "A8H1Half != A8H1Full");
 
-        if (FileState[vFileHalf] != vUnused) {
-          LogLine($"{++nUsed,2}) FileState[{vFileHalf,3}]");
-          writeBinary("Old", FileState[vFileHalf], 8);
+        if (StateFile[vFileHalf] != vUnused) {
+          LogLine($"{++nUsed,2}) StateFile[{vFileHalf,3}]");
+          writeBinary("Old", StateFile[vFileHalf], 8);
           writeBinary("New", mState, 8);
         }
 
-        if (A1H8State[vA1H8Half] != vUnused) {
-          LogLine($"{++nUsed,2}) A1H8State[{vA1H8Half,3}]");
-          writeBinary("Old", A1H8State[vA1H8Half], 8);
+        if (StateA1H8[vA1H8Half] != vUnused) {
+          LogLine($"{++nUsed,2}) StateA1H8[{vA1H8Half,3}]");
+          writeBinary("Old", StateA1H8[vA1H8Half], 8);
           writeBinary("New", mState, 8);
         }
 
-        if (A8H1State[vA8H1Half] != vUnused) {
-          LogLine($"{++nUsed,2}) A8H1State[{vA8H1Half,3}]");
-          writeBinary("Old", A8H1State[vA8H1Half], 8);
+        if (StateA8H1[vA8H1Half] != vUnused) {
+          LogLine($"{++nUsed,2}) StateA8H1[{vA8H1Half,3}]");
+          writeBinary("Old", StateA8H1[vA8H1Half], 8);
           writeBinary("New", mState, 8);
         }
 
-        FileState[vFile] = vState;
-        A1H8State[vA1H8] = vState;
-        A8H1State[vA8H1] = vState;
+        StateFile[vFile] = vState;
+        StateA1H8[vA1H8] = vState;
+        StateA8H1[vA8H1] = vState;
 #endif
-        FileMagic[vState] = vFile;
-        A1H8Magic[vState] = vA1H8;
-        A8H1Magic[vState] = vA8H1;
+        MagicFile[vState] = vFile;
+        MagicA1H8[vState] = vA1H8;
+        MagicA8H1[vState] = vA8H1;
       }
 #if TestMagic
       var nFileUsed = 0;
       var nA1H8Used = 0;
       var nA8H1Used = 0;
 
-      for (var n = 0; n < FileState.Length; n++)
-        if (FileState[n] == vUnused)
-          LogLine($"FileState[{n,2}] unused");
+      for (var n = 0; n < StateFile.Length; n++)
+        if (StateFile[n] == vUnused)
+          LogLine($"StateFile[{n,2}] unused");
         else
           nFileUsed++;
 
-      for (var n = 0; n < A1H8State.Length; n++)
-        if (A1H8State[n] == vUnused)
-          LogLine($"A1H8State[{n,2}] unused");
+      for (var n = 0; n < StateA1H8.Length; n++)
+        if (StateA1H8[n] == vUnused)
+          LogLine($"StateA1H8[{n,2}] unused");
         else
           nA1H8Used++;
 
-      for (var n = 0; n < A8H1State.Length; n++)
-        if (A8H1State[n] == vUnused)
-          LogLine($"A8H1State[{n,2}] unused");
+      for (var n = 0; n < StateA8H1.Length; n++)
+        if (StateA8H1[n] == vUnused)
+          LogLine($"StateA8H1[{n,2}] unused");
         else
           nA8H1Used++;
 
@@ -397,37 +397,37 @@ namespace Engine {
     }
 #else                                   //!Magic
     private static void newRotation() {
-      DiagOffset = new Byte[nDiagonals];
-      FileOffset = new Byte[nSquares];
-      A1H8Offset = new Byte[nSquares];
-      A8H1Offset = new Byte[nSquares];
+      OffsetDiag = new Byte[nDiagonals];
+      OffsetFile = new Byte[nSquares];
+      OffsetA1H8 = new Byte[nSquares];
+      OffsetA8H1 = new Byte[nSquares];
     }
 
     internal static void loadRotation() {
-      var nDiagLen = 0;                 //[Note]DiagOffset increments by previous nDiagLen
+      var nDiagLen = 0;                 //[Note]OffsetDiag increments by previous nDiagLen
       for (var d = 0; d < nDiagonals; d++) {
-        DiagOffset[d] = (Byte)(d > 0 ? DiagOffset[d - 1] + nDiagLen : nDiagLen);
+        OffsetDiag[d] = (Byte)(d > 0 ? OffsetDiag[d - 1] + nDiagLen : nDiagLen);
         nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
       }
 
       for (var n = 0; n < nSquares; n++) {
         var xInverse = InvertFile(x(n));
         //[Note]One is added to each Offset because status values consist only of the medial 6 bits:
-        FileOffset[n] = (Byte)(nFiles * xInverse + 1);
+        OffsetFile[n] = (Byte)(nFiles * xInverse + 1);
 
-        A1H8Offset[n] = (Byte)(DiagOffset[diagA1H8(n)] + 1);
-        A8H1Offset[n] = (Byte)(DiagOffset[diagA8H1(n)] + 1);
+        OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);
+        OffsetA8H1[n] = (Byte)(OffsetDiag[diagA8H1(n)] + 1);
       }
     }
 
     private static void newOrthBit() {
-      FileBit = new Plane[nSquares];
-      RankBit = new Plane[nSquares];
+      BitFile = new Plane[nSquares];
+      BitRank = new Plane[nSquares];
     }
 
     private static void newDiagBit() {
-      A1H8Bit = new Plane[nSquares];
-      A8H1Bit = new Plane[nSquares];
+      BitA1H8 = new Plane[nSquares];
+      BitA8H1 = new Plane[nSquares];
     }
 
     internal static void loadOrthBit() {
@@ -435,7 +435,7 @@ namespace Engine {
       for (var y = 0; y < nRanks; y++) {
         var yInverse = InvertRank(y);
         for (var x = 0; x < nFiles; x++, qp <<= 1)
-          FileBit[sqr(yInverse, x)] = RankBit[sqr(x, y)] = qp;
+          BitFile[sqr(yInverse, x)] = BitRank[sqr(x, y)] = qp;
       }
     }
 
@@ -448,7 +448,7 @@ namespace Engine {
                    y = d < nFiles ? 0 : d - 7,
                    w = 0; w < nDiagLen; w++, x++, y++, qp <<= 1) {
           var xInverse = InvertFile(x);
-          A8H1Bit[sqr(xInverse, y)] = A1H8Bit[sqr(x, y)] = qp;
+          BitA8H1[sqr(xInverse, y)] = BitA1H8[sqr(x, y)] = qp;
         }
       }
     }
@@ -456,39 +456,39 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane a1h8Atx(Int32 n) {
 #if Magic && HalfMagic
-      return A1H8Atx[hashA1H8Half(RankPiece, n)][n];
+      return AtxA1H8[hashA1H8Half(RankPiece, n)][n];
 #elif Magic
-      return A1H8Atx[hashA1H8Full(RankPiece, n)][n];
+      return AtxA1H8[hashA1H8Full(RankPiece, n)][n];
 #else
-      return A1H8Atx[rotateA1H8(n)][n];
+      return AtxA1H8[rotateA1H8(n)][n];
 #endif
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane a8h1Atx(Int32 n) {
 #if Magic && HalfMagic
-      return A8H1Atx[hashA8H1Half(RankPiece, n)][n];
+      return AtxA8H1[hashA8H1Half(RankPiece, n)][n];
 #elif Magic
-      return A8H1Atx[hashA8H1Full(RankPiece, n)][n];
+      return AtxA8H1[hashA8H1Full(RankPiece, n)][n];
 #else
-      return A8H1Atx[rotateA8H1(n)][n];
+      return AtxA8H1[rotateA8H1(n)][n];
 #endif
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane fileAtx(Int32 n) {
 #if Magic && HalfMagic
-      return FileAtx[hashFileHalf(RankPiece, n)][n];
+      return AtxFile[hashFileHalf(RankPiece, n)][n];
 #elif Magic
-      return FileAtx[hashFileFull(RankPiece, n)][n];
+      return AtxFile[hashFileFull(RankPiece, n)][n];
 #else
-      return FileAtx[rotateFile(n)][n];
+      return AtxFile[rotateFile(n)][n];
 #endif
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected Plane rankAtx(Int32 n) {
-      return RankAtx[rotateRank(n)][n];
+      return AtxRank[rotateRank(n)][n];
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -517,14 +517,14 @@ namespace Engine {
     }
 
     internal static Byte hashA1H8Full(Plane qp, Int32 n) {
-      var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
+      var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
       return (Byte)(qA1H8State % wA1H8Modulus);
     }
 
     internal static Byte hashA8H1Full(Plane qp, Int32 n) {
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
+      var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       return (Byte)(qA8H1State % wA8H1Modulus);
@@ -547,7 +547,7 @@ namespace Engine {
 
     internal static Byte hashA1H8Half(Plane qp, Int32 n) {
       const UInt16 wA1H8Rem = (UInt16)(BIT32 % wA1H8Modulus);   // 258
-      var qA1H8State = qp >> A1H8Lo[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
+      var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
       qA1H8State += uOffset;
       var uHi = (UInt32)(qA1H8State >> 32);    // Avoiding 64-Bit Division
       var uLo = (UInt32)qA1H8State;
@@ -558,7 +558,7 @@ namespace Engine {
     internal static Byte hashA8H1Half(Plane qp, Int32 n) {
       const UInt16 wA8H1Rem = (UInt16)(BIT32 % wA8H1Modulus);   // 1
       //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
-      var qA8H1State = qp >> A8H1Lo[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
+      var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
       qA8H1State <<= 6 - 1;
       qA8H1State += uOffset2;
       var uHi = (UInt32)(qA8H1State >> 32);    // Avoiding 64-Bit Division
@@ -569,12 +569,12 @@ namespace Engine {
 #endif
 #else                                   //!Magic
     private Byte rotateA1H8(Int32 n) {
-      var uA1H8Rotate = (UInt32)(A1H8Piece >> A1H8Offset[n]);
+      var uA1H8Rotate = (UInt32)(A1H8Piece >> OffsetA1H8[n]);
       return (Byte)(uA1H8Rotate & uStateMask);
     }
 
     private Byte rotateA8H1(Int32 n) {
-      var uA8H1Rotate = (UInt32)(A8H1Piece >> A8H1Offset[n]);
+      var uA8H1Rotate = (UInt32)(A8H1Piece >> OffsetA8H1[n]);
       return (Byte)(uA8H1Rotate & uStateMask);
     }
 
@@ -582,7 +582,7 @@ namespace Engine {
 #if NoFileOffset
       var nFileOffset = nFiles * invertFile(x(n)) + 1;
 #endif
-      var uFileRotate = (UInt32)(FilePiece >> FileOffset[n]);
+      var uFileRotate = (UInt32)(FilePiece >> OffsetFile[n]);
       return (Byte)(uFileRotate & uStateMask);
     }
 #endif                                  //!Magic

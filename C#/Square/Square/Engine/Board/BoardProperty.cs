@@ -29,39 +29,39 @@ namespace Engine {
     #region Constant Fields
     public static readonly PositionParameter[] Parameter;
 
-    public static Plane LiteSquare;
-    public static Plane DarkSquare;
+    protected static Plane SquareLite;
+    protected static Plane SquareDark;
 
-    public static Plane[] KingAtx;
-    public static Plane[] KnightAtx;
+    protected static Plane[] AtxKing;
+    protected static Plane[] AtxKnight;
 
-    public static Plane[][] RankAtx;
-    public static Plane[][] FileAtx;
-    public static Plane[][] A1H8Atx;
-    public static Plane[][] A8H1Atx;
+    protected static Plane[][] AtxRank;
+    protected static Plane[][] AtxFile;
+    protected static Plane[][] AtxA1H8;
+    protected static Plane[][] AtxA8H1;
 
     protected static Byte[] RankOffset;
 #if Magic
-    protected static Int32[] A1H8Lo;
-    protected static Int32[] A8H1Lo;
-    protected static Byte[] A1H8Magic;
-    protected static Byte[] A8H1Magic;
-    protected static Byte[] FileMagic;
+    protected static Int32[] LoA1H8;
+    protected static Int32[] LoA8H1;
+    protected static Byte[] MagicA1H8;
+    protected static Byte[] MagicA8H1;
+    protected static Byte[] MagicFile;
 #if TestMagic
-    public static Byte[] FileState;
-    public static Byte[] A1H8State;
-    public static Byte[] A8H1State;
+    protected static Byte[] StateFile;
+    protected static Byte[] StateA1H8;
+    protected static Byte[] StateA8H1;
 #endif
 #else
-    protected static Byte[] FileOffset;
-    protected static Byte[] DiagOffset; // Helps build A1H8Offset and A8H1Offset
-    protected static Byte[] A1H8Offset;
-    protected static Byte[] A8H1Offset;
+    protected static Byte[] OffsetFile;
+    protected static Byte[] OffsetDiag; // Helps build OffsetA1H8 and OffsetA8H1
+    protected static Byte[] OffsetA1H8;
+    protected static Byte[] OffsetA8H1;
 
-    protected static Plane[] RankBit;
-    protected static Plane[] FileBit;
-    protected static Plane[] A1H8Bit;
-    protected static Plane[] A8H1Bit;
+    protected static Plane[] BitRank;
+    protected static Plane[] BitFile;
+    protected static Plane[] BitA1H8;
+    protected static Plane[] BitA8H1;
 #endif
 #if InitDeBruijn
     protected static Byte[] deBruijnByte;

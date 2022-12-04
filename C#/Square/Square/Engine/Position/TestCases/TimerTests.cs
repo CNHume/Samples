@@ -179,10 +179,10 @@ namespace Engine {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
-      //var qpMoveTo = KingAtx[(Int32)sq.e4];
+      //var qpMoveTo = AtxKing[(Int32)sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
-        var qpMoveTo = KingAtx[nFrom];
+        var qpMoveTo = AtxKing[nFrom];
         qpMoveTo &= blackSide.Safe(qpMoveTo);
       }
 
@@ -191,7 +191,7 @@ namespace Engine {
 
     // diagAtx() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
     // orthAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
-    // KnightAtx[] ~63 MHz [C++ 8.44x faster]
+    // AtxKnight[] ~63 MHz [C++ 8.44x faster]
     private void timeOrthAtx(UInt64 qTrials = 1000000000UL) {
       var sw = timerStart(nameof(orthAtx), qTrials);
 

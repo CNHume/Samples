@@ -222,7 +222,7 @@ namespace Engine {
 
       //
       // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadOrthAtx()
-      // require that A1H8Magic[], A8H1Magic[] and FileMagic[] have been built by loadMagic().
+      // require that MagicA1H8[], MagicA8H1[] and MagicFile[] have been built by loadMagic().
       //
       loadOrthAtx();                    // Each of the following loads takes around 0.333 ms
       loadDiagAtx();

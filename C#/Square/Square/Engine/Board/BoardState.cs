@@ -109,16 +109,16 @@ namespace Engine {
 #if !Magic
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal void ClrRotations(Int32 n) {
-      FilePiece &= ~FileBit[n];
-      A1H8Piece &= ~A1H8Bit[n];
-      A8H1Piece &= ~A8H1Bit[n];
+      FilePiece &= ~BitFile[n];
+      A1H8Piece &= ~BitA1H8[n];
+      A8H1Piece &= ~BitA8H1[n];
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal void SetRotations(Int32 n) {
-      FilePiece |= FileBit[n];
-      A1H8Piece |= A1H8Bit[n];
-      A8H1Piece |= A8H1Bit[n];
+      FilePiece |= BitFile[n];
+      A1H8Piece |= BitA1H8[n];
+      A8H1Piece |= BitA8H1[n];
     }
 #endif
 #if UnshadowRay
@@ -265,8 +265,8 @@ namespace Engine {
             return true;
         }
         else if (qpKnight == 0) {       // Test for KB*KB+ of same color:
-          if ((qpDiag & LiteSquare) == 0 ||
-              (qpDiag & DarkSquare) == 0)
+          if ((qpDiag & SquareLite) == 0 ||
+              (qpDiag & SquareDark) == 0)
             return true;
         }
       }

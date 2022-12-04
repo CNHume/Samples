@@ -220,7 +220,7 @@ namespace Engine {
       const String sDark = "*";
       var vPiece = GetPieceIndex(n);
       if (vPiece > vK6)
-        sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
+        sb.Append((qp & SquareLite) != 0 ? sLite : sDark);
       else
         sb.Append(PieceSymbol(vPiece));
     }
@@ -246,7 +246,7 @@ namespace Engine {
 
       var vPiece = GetPieceIndex(n);
       if (vPiece > vK6)
-        sb.Append((qp & LiteSquare) != 0 ? sLite : sDark);
+        sb.Append((qp & SquareLite) != 0 ? sLite : sDark);
       else {
         var sBlack = Parameter[Black].Symbol;
         var sWhite = Parameter[White].Symbol;
@@ -428,7 +428,7 @@ namespace Engine {
         var dInverse = InvertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
         var vDiagMask = (Byte)((1 << nDiagLen) - 1);
-        var uDiag = (UInt32)(qp >> DiagOffset[dInverse] & vDiagMask);
+        var uDiag = (UInt32)(qp >> OffsetDiag[dInverse] & vDiagMask);
         sb.AppendIndent(8 - nDiagLen)
           .Append(ruler(d, bRotateBoard))
           .AppendDiag(nDiagLen, uDiag)
@@ -472,7 +472,7 @@ namespace Engine {
         var dInverse = InvertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
         sb.AppendIndent(8 - nDiagLen)
-          .AppendDiagRotations(nDiagLen, qpDiag, bit(DiagOffset[dInverse]))
+          .AppendDiagRotations(nDiagLen, qpDiag, bit(OffsetDiag[dInverse]))
           .Append(cNewline);
       }
 

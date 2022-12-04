@@ -103,7 +103,7 @@ namespace Engine {
         //
         switch (vPiece) {               // All pieces of the type that moved
         case vN6:
-          qpPiece &= Knight & KnightAtx[nTo];
+          qpPiece &= Knight & AtxKnight[nTo];
           break;
         case vR6:
           qpPiece &= Rook & orthAtx(nTo);
@@ -135,8 +135,8 @@ namespace Engine {
       // Obtain possible Moves [and Captures]
       var qpAtxTo = vPiece switch {
         vP6 => Friend.PawnTo(nFrom, bCapture),
-        vK6 => KingAtx[nFrom],
-        vN6 => KnightAtx[nFrom],
+        vK6 => AtxKing[nFrom],
+        vN6 => AtxKnight[nFrom],
         vB6 => diagAtx(nFrom),
         vR6 => orthAtx(nFrom),
         vQ6 => rayAtx(nFrom),
