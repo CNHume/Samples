@@ -152,8 +152,8 @@ namespace Engine {
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
-          (Foe.Piece & DiagPiece & diagAtx(vKing)) == 0 &&
-          (Foe.Piece & OrthPiece & orthAtx(vKing)) == 0;
+          (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
+          (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
         Foe.LowerPiece(vP6, nMovedTo);

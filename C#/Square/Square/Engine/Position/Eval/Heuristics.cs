@@ -288,21 +288,21 @@ namespace Engine {
 
       while (qpPassers != 0) {
         var nPasser = RemoveLo(ref qpPassers, out Plane qpPasser);
-        //[Speed]Omit fileAtx() lookup unless Pawn and Rook are on the same file
+        //[Speed]Omit RayFile() lookup unless Pawn and Rook are on the same file
         var nPasserFile = x(nPasser);
         var qpBehind = bWhiteRook ? qpPasser - 1 : MASK64 << nPasser + 1;
 
         var qpAttackerBehind = qpAttacker & qpBehind;
         while (qpAttackerBehind != 0) {
           var nRook = RemoveLo(ref qpAttackerBehind);
-          if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
+          if (x(nRook) == nPasserFile && (RayFile(nRook) & qpPasser) != 0)
             mBehind += mRookBehindPasserAttacker;
         }
 
         var qpDefenderBehind = qpDefender & qpBehind;
         while (qpDefenderBehind != 0) {
           var nRook = RemoveLo(ref qpDefenderBehind);
-          if (x(nRook) == nPasserFile && (fileAtx(nRook) & qpPasser) != 0)
+          if (x(nRook) == nPasserFile && (RayFile(nRook) & qpPasser) != 0)
             mBehind -= mRookBehindPasserDefender;
         }
       }

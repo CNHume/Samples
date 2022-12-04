@@ -39,18 +39,18 @@ namespace Engine {
       var qpCheck = bit(nChx);
 
       if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
-        if (((qpRay = rankAtx(nKing)) & qpCheck) != 0)
-          return qpRay & rankAtx(nChx);
-        else if (((qpRay = fileAtx(nKing)) & qpCheck) != 0)
-          return qpRay & fileAtx(nChx);
+        if (((qpRay = RayRank(nKing)) & qpCheck) != 0)
+          return qpRay & RayRank(nChx);
+        else if (((qpRay = RayFile(nKing)) & qpCheck) != 0)
+          return qpRay & RayFile(nChx);
       }
 
-      // Look for diagAtx() in case qpCheck is a Queen
+      // Look for RayDiag() in case qpCheck is a Queen
       if ((DiagPiece & qpCheck) != 0) { // Checker can move like a Bishop
-        if (((qpRay = a1h8Atx(nKing)) & qpCheck) != 0)
-          return qpRay & a1h8Atx(nChx);
-        else if (((qpRay = a8h1Atx(nKing)) & qpCheck) != 0)
-          return qpRay & a8h1Atx(nChx);
+        if (((qpRay = RayA1H8(nKing)) & qpCheck) != 0)
+          return qpRay & RayA1H8(nChx);
+        else if (((qpRay = RayA8H1(nKing)) & qpCheck) != 0)
+          return qpRay & RayA8H1(nChx);
       }
 
       return qpRay;
@@ -68,17 +68,17 @@ namespace Engine {
       var qpRay = 0UL;                  // Return Value
 
       if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
-        if (((qpRay = rankAtx(nKing)) & qpCheck) != 0)
+        if (((qpRay = RayRank(nKing)) & qpCheck) != 0)
           return qpRay;
-        else if (((qpRay = fileAtx(nKing)) & qpCheck) != 0)
+        else if (((qpRay = RayFile(nKing)) & qpCheck) != 0)
           return qpRay;
       }
 
-      // Look for diagAtx() in case qpCheck is a Queen
+      // Look for RayDiag() in case qpCheck is a Queen
       if ((DiagPiece & qpCheck) != 0) { // Checker can move like a Bishop
-        if (((qpRay = a1h8Atx(nKing)) & qpCheck) != 0)
+        if (((qpRay = RayA1H8(nKing)) & qpCheck) != 0)
           return qpRay;
-        else if (((qpRay = a8h1Atx(nKing)) & qpCheck) != 0)
+        else if (((qpRay = RayA8H1(nKing)) & qpCheck) != 0)
           return qpRay;
       }
 

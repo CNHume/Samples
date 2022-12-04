@@ -252,7 +252,7 @@ namespace Engine {
 
     //
     // These Lo bit tables help quickly normalize Position State for diagonals
-    // in the "magic" hash functions below - which return a Ray State index.
+    // in the "magic" hash functions below, which return a Ray State index.
     //
     private static void loadDiagLo() {
       for (var d = 0; d < nDiagonals; d++) {
@@ -454,7 +454,7 @@ namespace Engine {
     }
 #endif                                  //!Magic
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane a1h8Atx(Int32 n) {
+    protected Plane RayA1H8(Int32 n) {
 #if Magic && HalfMagic
       return AtxA1H8[hashA1H8Half(RankPiece, n)][n];
 #elif Magic
@@ -465,7 +465,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane a8h1Atx(Int32 n) {
+    protected Plane RayA8H1(Int32 n) {
 #if Magic && HalfMagic
       return AtxA8H1[hashA8H1Half(RankPiece, n)][n];
 #elif Magic
@@ -476,7 +476,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane fileAtx(Int32 n) {
+    protected Plane RayFile(Int32 n) {
 #if Magic && HalfMagic
       return AtxFile[hashFileHalf(RankPiece, n)][n];
 #elif Magic
@@ -487,23 +487,23 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane rankAtx(Int32 n) {
+    protected Plane RayRank(Int32 n) {
       return AtxRank[rotateRank(n)][n];
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane diagAtx(Int32 n) {
-      return a1h8Atx(n) | a8h1Atx(n);
+    protected Plane RayDiag(Int32 n) {
+      return RayA1H8(n) | RayA8H1(n);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane orthAtx(Int32 n) {
-      return rankAtx(n) | fileAtx(n);
+    protected Plane RayOrth(Int32 n) {
+      return RayRank(n) | RayFile(n);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane rayAtx(Int32 n) {
-      return diagAtx(n) | orthAtx(n);
+    protected Plane Ray(Int32 n) {
+      return RayDiag(n) | RayOrth(n);
     }
     #endregion
 

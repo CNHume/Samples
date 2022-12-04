@@ -106,13 +106,13 @@ namespace Engine {
           qpPiece &= Knight & AtxKnight[nTo];
           break;
         case vR6:
-          qpPiece &= Rook & orthAtx(nTo);
+          qpPiece &= Rook & RayOrth(nTo);
           break;
         case vB6:
-          qpPiece &= Bishop & diagAtx(nTo);
+          qpPiece &= Bishop & RayDiag(nTo);
           break;
         case vQ6:
-          qpPiece &= Queen & rayAtx(nTo);
+          qpPiece &= Queen & Ray(nTo);
           break;
         default:
           qpPiece = 0UL;
@@ -137,9 +137,9 @@ namespace Engine {
         vP6 => Friend.PawnTo(nFrom, bCapture),
         vK6 => AtxKing[nFrom],
         vN6 => AtxKnight[nFrom],
-        vB6 => diagAtx(nFrom),
-        vR6 => orthAtx(nFrom),
-        vQ6 => rayAtx(nFrom),
+        vB6 => RayDiag(nFrom),
+        vR6 => RayOrth(nFrom),
+        vQ6 => Ray(nFrom),
         _ => default,
       };
 

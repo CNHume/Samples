@@ -139,12 +139,12 @@ namespace Engine {
       LogLine();
 #endif
 #if TestOrthAttacks
-      LogLine($"orthAtx({sq})\n");
-      writeOrth(orthAtx(n));
+      LogLine($"RayOrth({sq})\n");
+      writeOrth(RayOrth(n));
 #endif
 #if TestDiagAttacks
-      LogLine($"diagAtx({sq})\n");
-      writeOrth(diagAtx(n));
+      LogLine($"RayDiag({sq})\n");
+      writeOrth(RayDiag(n));
 #endif
 #if TestKingAttacks
       LogLine("AtxKing\n");

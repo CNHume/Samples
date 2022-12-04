@@ -189,15 +189,15 @@ namespace Engine {
       timerStop(sw, qTrials);
     }
 
-    // diagAtx() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
-    // orthAtx() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
+    // RayDiag() 17.837 MHz [56 sec] for Rotations [C++ inline 3.14x faster]
+    // RayOrth() 19.365 MHz [52 sec] for Rotations [C++ inline 3.4x faster]
     // AtxKnight[] ~63 MHz [C++ 8.44x faster]
     private void timeOrthAtx(UInt64 qTrials = 1000000000UL) {
-      var sw = timerStart(nameof(orthAtx), qTrials);
+      var sw = timerStart(nameof(RayOrth), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
-        var qpMoveTo = orthAtx(nFrom);
+        var qpMoveTo = RayOrth(nFrom);
       }
 
       timerStop(sw, qTrials);

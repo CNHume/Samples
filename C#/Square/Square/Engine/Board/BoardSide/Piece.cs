@@ -315,8 +315,8 @@ namespace Engine {
         var qpFrom = 0UL;
         qpFrom |= Piece & Board.King & AtxKing[vKingPos];
         qpFrom |= Piece & Board.Knight & AtxKnight[vKingPos];
-        qpFrom |= Piece & Board.DiagPiece & Board.diagAtx(vKingPos);
-        qpFrom |= Piece & Board.OrthPiece & Board.orthAtx(vKingPos);
+        qpFrom |= Piece & Board.DiagPiece & Board.RayDiag(vKingPos);
+        qpFrom |= Piece & Board.OrthPiece & Board.RayOrth(vKingPos);
 
         if ((qpTo & PawnA1H8Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA1H8);
         if ((qpTo & PawnA8H1Atx) != 0) qpFrom |= bit(vKingPos - Parameter.PawnA8H1);
@@ -338,8 +338,8 @@ namespace Engine {
         while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend, out Plane qp);
           if ((Piece & Board.Knight & AtxKnight[n]) != 0 ||
-              (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-              (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
+              (Piece & Board.DiagPiece & Board.RayDiag(n)) != 0 ||
+              (Piece & Board.OrthPiece & Board.RayOrth(n)) != 0 ||
               (Piece & Board.King & AtxKing[n]) != 0)
             qpAttacked |= qp;
         }
@@ -359,8 +359,8 @@ namespace Engine {
         while (qpFriend != 0) {
           var n = RemoveLo(ref qpFriend);
           if ((Piece & Board.Knight & AtxKnight[n]) != 0 ||
-              (Piece & Board.DiagPiece & Board.diagAtx(n)) != 0 ||
-              (Piece & Board.OrthPiece & Board.orthAtx(n)) != 0 ||
+              (Piece & Board.DiagPiece & Board.RayDiag(n)) != 0 ||
+              (Piece & Board.OrthPiece & Board.RayOrth(n)) != 0 ||
               (Piece & Board.King & AtxKing[n]) != 0)
             return true;
         }
@@ -537,19 +537,19 @@ namespace Engine {
         qpAtxFrom = Piece & Board.Bishop;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.diagAtx(n));
+          nAtx += Board.incTo(Board.RayDiag(n));
         }
 
         qpAtxFrom = Piece & Board.Rook;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.orthAtx(n));
+          nAtx += Board.incTo(Board.RayOrth(n));
         }
 
         qpAtxFrom = Piece & Board.Queen;
         while (qpAtxFrom != 0) {
           var n = RemoveLo(ref qpAtxFrom);
-          nAtx += Board.incTo(Board.rayAtx(n));
+          nAtx += Board.incTo(Board.Ray(n));
         }
 
         return nAtx;
