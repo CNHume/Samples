@@ -604,12 +604,12 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Int32 diagA1H8(Int32 n) {
+    private static Int32 diagA1H8(Int32 n) {
       return InvertFile(x(n)) + y(n);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Int32 diagA8H1(Int32 n) {
+    private static Int32 diagA8H1(Int32 n) {
       return x(n) + y(n);
     }
 
