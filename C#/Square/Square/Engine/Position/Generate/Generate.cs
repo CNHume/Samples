@@ -131,7 +131,7 @@ namespace Engine {
           // piece, and interpositions along a ray giving check.
           // Only Moves for these To Squares will be considered:
           //
-          var qpRay = interpositions(nChx, vKingPos);
+          var qpRay = Interpositions(nChx, vKingPos);
           var qpTo = qpChx | qpRay;
           if (qpTo != 0)
             addPieceCapturesAndMoves(qpTo);
@@ -187,7 +187,7 @@ namespace Engine {
           // piece, and interpositions along a ray giving check.
           // Only Moves for these To Squares will be considered:
           //
-          var qpRay = interpositions(nChx, vKingPos);
+          var qpRay = Interpositions(nChx, vKingPos);
 
           if (qpChx != 0) {
             addPieceCaptures(qpChx);

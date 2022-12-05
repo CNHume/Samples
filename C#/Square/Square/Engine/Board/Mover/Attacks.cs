@@ -170,7 +170,7 @@ namespace Engine {
 
       if (!InCheck()) {
         //
-        // Verify Right, Path and Safety if castling
+        // Verify Right, Path, and Safety if castling
         //
         var rule = Friend.Parameter.Rule;
 
