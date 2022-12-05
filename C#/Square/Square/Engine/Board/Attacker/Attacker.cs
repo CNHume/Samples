@@ -597,7 +597,7 @@ namespace Engine {
 
     #region Board Coordinate Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
+    protected static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
       var n = nFrom ^ nTo;
       // Are either of the coordinates equal?
       return x(n) == 0 || y(n) == 0;

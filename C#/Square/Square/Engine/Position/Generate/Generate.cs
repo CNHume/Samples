@@ -16,8 +16,6 @@ namespace Engine {
 
   using Exceptions;
 
-  using static MoveOrder.TypedMove;
-
   //
   // Type Aliases:
   //
@@ -261,9 +259,9 @@ namespace Engine {
     // Arrange moves in a reasonable order, whether or not UseMoveSort is in effect:
     //
     private void addPseudoMoves(List<Move> moves) {
-      Expand(MoveTypes, MoveTypeOrdering);
+      expandMoveTypes(moveTypes, moveTypeOrdering);
 
-      foreach (var moveType in MoveTypes) {
+      foreach (var moveType in moveTypes) {
         switch (moveType) {
         case MoveType.PawnAboveCapture:
           moves.AddRange(PseudoQueenPromotionCapture);

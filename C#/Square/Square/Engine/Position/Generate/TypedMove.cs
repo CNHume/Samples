@@ -5,57 +5,20 @@
 //
 // Conditionals:
 //
-namespace Engine.MoveOrder {
-  using System;
 
+namespace Engine {
   using Exceptions;
-
-  using static Board;
 
   //
   // Type Aliases:
   //
   using MoveTypeOrdering = UInt64;
 
-  static class TypedMove {
-    #region MoveType Enum
-    public enum MoveType : byte {
-      PawnAboveCapture,
-      PawnBelowCapture,
-      DiagAboveCapture,
-      DiagBelowCapture,
-      OrthAboveCapture,
-      OrthBelowCapture,
-      KnightCapture,
-      KingCapture,
-
-      KnightMove,
-      DiagAboveMove,
-      DiagBelowMove,
-      OrthAboveMove,
-      OrthBelowMove,
-      KingMove,
-      PawnAboveMove,
-      PawnBelowMove,
-    }
-    #endregion
-
-    #region Static Fields
-    public static readonly MoveType[] DefaultMoveTypes;
-    public static readonly MoveTypeOrdering DefaultMoveTypeOrdering;
-    #endregion
-
-    #region Constructors
-    static TypedMove() {
-      DefaultMoveTypes = (MoveType[])Enum.GetValues(typeof(MoveType));
-      DefaultMoveTypeOrdering = Compress(DefaultMoveTypes);
-    }
-    #endregion
-
+  partial class Position {
     #region Methods
-    public static MoveType moveType(
-      Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
-      const String methodName = nameof(moveType);
+    private static MoveType moveType(
+      int nFrom, int nTo, uint uPiece, bool bCapture, bool bAbove) {
+      const string methodName = nameof(moveType);
       var vPiece = PieceIndex(uPiece);
       var type = vPiece switch {
         vP6 => bCapture ?
@@ -82,20 +45,20 @@ namespace Engine.MoveOrder {
       return type;
     }
 
-    public static MoveTypeOrdering Compress(MoveType[] moveTypes) {
+    private static MoveTypeOrdering compressMoveTypes(MoveType[] moveTypes) {
       MoveTypeOrdering ordering = 0;
       var nFinal = moveTypes.Length - 1;
       for (var n = 0; nFinal >= 0; n++, nFinal--) {
-        var moveType = (MoveTypeOrdering)Nibble((Int32)moveTypes[nFinal]);
+        var moveType = (MoveTypeOrdering)Nibble((int)moveTypes[nFinal]);
         ordering <<= nPerNibble;
         ordering |= moveType;
       }
       return ordering;
     }
 
-    public static void Expand(MoveType[] moveTypes, MoveTypeOrdering ordering) {
+    private static void expandMoveTypes(MoveType[] moveTypes, MoveTypeOrdering ordering) {
       for (var n = 0; n < moveTypes.Length; n++, ordering >>= nPerNibble) {
-        var moveType = (MoveType)Nibble((Int32)ordering);
+        var moveType = (MoveType)Nibble((int)ordering);
         moveTypes[n] = moveType;
       }
     }

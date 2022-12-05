@@ -17,8 +17,6 @@ namespace Engine {
 
   using MoveOrder;
 
-  using static MoveOrder.TypedMove;
-
   //
   // Type Aliases:
   //
@@ -30,6 +28,9 @@ namespace Engine {
 
   partial class Position : Board {
     #region Static Fields
+    private static readonly MoveType[] defaultMoveTypes;
+    private static readonly MoveTypeOrdering defaultMoveTypeOrdering;
+
     private static Byte[] importance;
 
     private static readonly Draft wReducedDraftMin;
@@ -63,8 +64,8 @@ namespace Engine {
     //
     // 16 members of the MoveType Enum, in their order of precedence:
     //
-    MoveTypeOrdering MoveTypeOrdering;
-    public MoveType[] MoveTypes;
+    private MoveTypeOrdering moveTypeOrdering;
+    private MoveType[] moveTypes;
 
     //
     // The following Pawn Captures will precede PseudoPawnAboveCapture:

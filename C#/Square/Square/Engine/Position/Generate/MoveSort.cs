@@ -27,8 +27,6 @@ namespace Engine {
 
   using MoveOrder;
 
-  using static MoveOrder.TypedMove;
-
   //
   // Type Aliases:
   //
@@ -54,16 +52,16 @@ namespace Engine {
         .Append($" by {parameter.SideName} is {type}");
       LogLine(sb.ToString());
 #endif
-      var nIndex = Array.IndexOf(MoveTypes, type);
+      var nIndex = Array.IndexOf(moveTypes, type);
       if (nIndex < 0)
         throw new PositionException($"Could not find the {type} MoveType");
       else
-        MoveTypes.Rotate(0, nIndex);
+        moveTypes.Rotate(0, nIndex);
 
       //
       // New ordering inherited by subsequent children:
       //
-      MoveTypeOrdering = Compress(MoveTypes);
+      moveTypeOrdering = compressMoveTypes(moveTypes);
     }
 
     private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {

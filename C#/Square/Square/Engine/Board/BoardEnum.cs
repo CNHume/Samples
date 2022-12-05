@@ -19,9 +19,10 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
+    #region Enumerations
     #region SideName Enum
     public enum SideName : byte { Black, White }
-    #endregion
+    #endregion                          // SideName Enum
 
     #region TurnFlags Enum
     //
@@ -52,7 +53,7 @@ namespace Engine {
       //
       Copy = WTM | Passed | EPFile      // EPFlags
     }
-    #endregion
+    #endregion                          // TurnFlags Enum
 
     #region SideFlags Enum
     //
@@ -82,7 +83,7 @@ namespace Engine {
       Weight = Insufficient | Pair,         // Flags used by weighPieces()
       Copy = Weight | CanCastle
     }
-    #endregion
+    #endregion                          // SideFlags Enum
 
     #region GameFlags Enum
     //
@@ -159,7 +160,7 @@ namespace Engine {
       //[Symptom]This limitation appeared in FormatFlags() overloads where names of "redundant"
       // zero values, followed by a comma, would be included in the enumeration of Flags.
     }
-    #endregion
+    #endregion                          // DrawFlags Enum
 
     #region ModeFlags Enum
     //
@@ -183,39 +184,7 @@ namespace Engine {
              | NullMade
 #endif
     }
-    #endregion
-
-    #region Locales
-    public class Locale {
-      public String? Symbols;
-      public String? Language;
-    }
-
-    //
-    // Czech,Danish,Dutch,English,Estonian,Finnish,French,German,Hungarian,Icelandic,Italian,Norwegian,Polish,Portuguese,Romanian,Spanish,Swedish
-    //
-    // The last two Symbols are single character abbreviations for the colors Black and White except for Hungarian, where both colors begin with
-    // the letter "F"; so Green and Red are used.
-    //
-    public static readonly Locale[] Locales = {
-      new Locale { Symbols = "PJSVDKCB", Language = "Czech" },
-      new Locale { Symbols = "BSLTDKSH", Language = "Danish" },
-      new Locale { Symbols = "OPLTDKZW", Language = "Dutch" },
-      new Locale { Symbols = "PNBRQKBW", Language = "English" },
-      new Locale { Symbols = "PROVLKMV", Language = "Estonian" },
-      new Locale { Symbols = "PRLTDKMV", Language = "Finnish" },
-      new Locale { Symbols = "PCFTDRNB", Language = "French" },
-      new Locale { Symbols = "BSLTDKSW", Language = "German" },
-      new Locale { Symbols = "GHFBVKZP", Language = "Hungarian" },
-      new Locale { Symbols = "PRBHDKSH", Language = "Icelandic" },
-      new Locale { Symbols = "PCATDRNB", Language = "Italian" },
-      new Locale { Symbols = "BSLTDKSH", Language = "Norwegian" },
-      new Locale { Symbols = "PSGWHKCB", Language = "Polish" },
-      new Locale { Symbols = "PCBTDRPB", Language = "Portuguese" },
-      new Locale { Symbols = "PCNTDRNA", Language = "Romanian" },
-      new Locale { Symbols = "PCATDRNB", Language = "Spanish" },
-      new Locale { Symbols = "BSLTDKSV", Language = "Swedish" } };
-    #endregion
+    #endregion                          // ModeFlags Enum
 
     #region Piece Enum
     //
@@ -264,8 +233,6 @@ namespace Engine {
     #endregion
 
     #region Square Enum
-    internal const Int32 File = 0, Rank = 1;
-
     public enum sq : byte {
       a1, b1, c1, d1, e1, f1, g1, h1,
       a2, b2, c2, d2, e2, f2, g2, h2,
@@ -276,36 +243,7 @@ namespace Engine {
       a7, b7, c7, d7, e7, f7, g7, h7,
       a8, b8, c8, d8, e8, f8, g8, h8
     }
-
-    //
-    // Plane:
-    //
-    protected const Plane BIT0 = 1UL;
-    protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmpty()
-    internal const Plane BIT32 = BIT0 << 32;
-    protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
-    protected const Plane MASK64 = UInt64.MaxValue;
-
-    // The following are used by resetWhite|BlackPawnAtx()
-    protected const Plane qpFileA = 0x0101010101010101UL;
-    protected const Plane qpFileB = qpFileA << 1;
-    protected const Plane qpFileC = qpFileB << 1;
-    protected const Plane qpFileD = qpFileC << 1;
-    protected const Plane qpFileE = qpFileD << 1;
-    protected const Plane qpFileF = qpFileE << 1;
-    protected const Plane qpFileG = qpFileF << 1;
-    protected const Plane qpFileH = qpFileG << 1;
-
-    // The following are used by Position.white|blackCanPromote()
-    protected const Plane qpRank1 = 0xFFUL;
-    protected const Plane qpRank2 = qpRank1 << nFiles;
-    protected const Plane qpRank3 = qpRank2 << nFiles;
-    protected const Plane qpRank4 = qpRank3 << nFiles;
-    protected const Plane qpRank5 = qpRank4 << nFiles;
-    protected const Plane qpRank6 = qpRank5 << nFiles;
-    protected const Plane qpRank7 = qpRank6 << nFiles;
-    protected const Plane qpRank8 = qpRank7 << nFiles;
-    #endregion
+    #endregion                          // Square Enum
 
     #region Move Enum
     //
@@ -388,10 +326,69 @@ namespace Engine {
       Undefined = Piece.K << nPromoteBit,
       EmptyMove = Castles | Undefined   // Denotes Final Position in Transposition
     }
-    #endregion
+    #endregion                          // Move Enum
+    #endregion                          // Enumerations
 
-    #region PositionType Enum
-    public enum PositionType : byte { Prefix, FEN, EPD }
-    #endregion
+    #region Locales
+    public class Locale {
+      public String? Symbols;
+      public String? Language;
+    }
+
+    //
+    // Czech,Danish,Dutch,English,Estonian,Finnish,French,German,Hungarian,Icelandic,Italian,Norwegian,Polish,Portuguese,Romanian,Spanish,Swedish
+    //
+    // The last two Symbols are single character abbreviations for the colors Black and White except for Hungarian, where both colors begin with
+    // the letter "F"; so Green and Red are used.
+    //
+    public static readonly Locale[] Locales = {
+      new Locale { Symbols = "PJSVDKCB", Language = "Czech" },
+      new Locale { Symbols = "BSLTDKSH", Language = "Danish" },
+      new Locale { Symbols = "OPLTDKZW", Language = "Dutch" },
+      new Locale { Symbols = "PNBRQKBW", Language = "English" },
+      new Locale { Symbols = "PROVLKMV", Language = "Estonian" },
+      new Locale { Symbols = "PRLTDKMV", Language = "Finnish" },
+      new Locale { Symbols = "PCFTDRNB", Language = "French" },
+      new Locale { Symbols = "BSLTDKSW", Language = "German" },
+      new Locale { Symbols = "GHFBVKZP", Language = "Hungarian" },
+      new Locale { Symbols = "PRBHDKSH", Language = "Icelandic" },
+      new Locale { Symbols = "PCATDRNB", Language = "Italian" },
+      new Locale { Symbols = "BSLTDKSH", Language = "Norwegian" },
+      new Locale { Symbols = "PSGWHKCB", Language = "Polish" },
+      new Locale { Symbols = "PCBTDRPB", Language = "Portuguese" },
+      new Locale { Symbols = "PCNTDRNA", Language = "Romanian" },
+      new Locale { Symbols = "PCATDRNB", Language = "Spanish" },
+      new Locale { Symbols = "BSLTDKSV", Language = "Swedish" } };
+    #endregion                          // Locales
+
+    #region Plane
+    internal const Int32 File = 0, Rank = 1;
+
+    protected const Plane BIT0 = 1UL;
+    protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmpty()
+    internal const Plane BIT32 = BIT0 << 32;
+    protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
+    protected const Plane MASK64 = UInt64.MaxValue;
+
+    // The following are used by resetWhite|BlackPawnAtx()
+    protected const Plane qpFileA = 0x0101010101010101UL;
+    protected const Plane qpFileB = qpFileA << 1;
+    protected const Plane qpFileC = qpFileB << 1;
+    protected const Plane qpFileD = qpFileC << 1;
+    protected const Plane qpFileE = qpFileD << 1;
+    protected const Plane qpFileF = qpFileE << 1;
+    protected const Plane qpFileG = qpFileF << 1;
+    protected const Plane qpFileH = qpFileG << 1;
+
+    // The following are used by Position.white|blackCanPromote()
+    protected const Plane qpRank1 = 0xFFUL;
+    protected const Plane qpRank2 = qpRank1 << nFiles;
+    protected const Plane qpRank3 = qpRank2 << nFiles;
+    protected const Plane qpRank4 = qpRank3 << nFiles;
+    protected const Plane qpRank5 = qpRank4 << nFiles;
+    protected const Plane qpRank6 = qpRank5 << nFiles;
+    protected const Plane qpRank7 = qpRank6 << nFiles;
+    protected const Plane qpRank8 = qpRank7 << nFiles;
+    #endregion                          // Plane
   }
 }

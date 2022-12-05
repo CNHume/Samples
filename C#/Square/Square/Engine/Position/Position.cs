@@ -46,7 +46,7 @@ namespace Engine {
   using MoveOrder;
 
   using static Logging.Logger;
-  using static MoveOrder.TypedMove;
+
   //
   // Type Aliases:
   //
@@ -56,6 +56,7 @@ namespace Engine {
   using PlyDepth = Byte;
 
   #region Enumerations
+  #region EvalType Enum
   //
   // A Value for the Best Move will be Exact when it is within the Search Window,
   // i.e., if it falls on the closed interval which includes both Alpha and Beta.
@@ -70,7 +71,34 @@ namespace Engine {
   // alternation of Lower and Upper while preserving Exact and Undefined:
   //
   public enum EvalType : byte { Exact, Lower, Undefined, Upper };
-  #endregion
+  #endregion                            // EvalType Enum
+
+  #region MoveType Enum
+  public enum MoveType : byte {
+    PawnAboveCapture,
+    PawnBelowCapture,
+    DiagAboveCapture,
+    DiagBelowCapture,
+    OrthAboveCapture,
+    OrthBelowCapture,
+    KnightCapture,
+    KingCapture,
+
+    KnightMove,
+    DiagAboveMove,
+    DiagBelowMove,
+    OrthAboveMove,
+    OrthBelowMove,
+    KingMove,
+    PawnAboveMove,
+    PawnBelowMove,
+  }
+  #endregion                            // MoveType Enum
+
+  #region PositionType Enum
+  public enum PositionType : byte { Prefix, FEN, EPD }
+  #endregion                            // PositionType Enum
+  #endregion                            // Enumerations
 
   [DebuggerDisplay("{debugString}")]
   partial class Position : Board, ICloneable {
@@ -134,6 +162,12 @@ namespace Engine {
       printMapping("liteCornerCP()", liteCornerCP);
       printMapping("darkCornerCP()", darkCornerCP);
 #endif
+
+      //
+      // Initialize Default MoveType Ordering:
+      //
+      defaultMoveTypes = (MoveType[])Enum.GetValues(typeof(MoveType));
+      defaultMoveTypeOrdering = compressMoveTypes(defaultMoveTypes);
     }
 
     public Position() {
@@ -149,7 +183,7 @@ namespace Engine {
       child.staticTotal = staticTotal;
       child.extensionCounts = extensionCounts;
 #if InheritMoveTypes
-      child.MoveTypeOrdering = MoveTypeOrdering;
+      child.moveTypeOrdering = moveTypeOrdering;
 #endif
     }
 
@@ -236,7 +270,7 @@ namespace Engine {
 
     #region Move List Initialization
     private void newMoveTypes() {
-      MoveTypes = new MoveType[DefaultMoveTypes.Length];
+      moveTypes = new MoveType[defaultMoveTypes.Length];
     }
 
     private void newPseudoMoves() {

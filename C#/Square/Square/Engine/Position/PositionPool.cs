@@ -8,8 +8,6 @@
 #define InheritMoveTypes
 
 namespace Engine {
-  using static MoveOrder.TypedMove;
-
   partial class Position : Board {
     #region Workspace Methods
     private void initNode() {
@@ -24,10 +22,11 @@ namespace Engine {
           side.FlagsSide = default;     //[Safe]
 
         //
-        // Initialize Extension Counts at the Root
+        // Initialize Extension Counts at the Root:
         //
         extensionCounts = 0;
-        MoveTypeOrdering = DefaultMoveTypeOrdering;
+
+        moveTypeOrdering = defaultMoveTypeOrdering;
       }
       else {
         //
@@ -38,9 +37,9 @@ namespace Engine {
         //
         Parent.CopyFlagsTo(this);
 #if InheritMoveTypes
-        MoveTypeOrdering = Parent.MoveTypeOrdering;
+        moveTypeOrdering = Parent.moveTypeOrdering;
 #else
-        MoveTypeOrdering = DefaultMoveTypeOrdering;
+        MoveTypeOrdering = defaultMoveTypeOrdering;
 #endif
       }
 
