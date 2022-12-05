@@ -55,51 +55,6 @@ namespace Engine {
   using Plane = UInt64;
   using PlyDepth = Byte;
 
-  #region Enumerations
-  #region EvalType Enum
-  //
-  // A Value for the Best Move will be Exact when it is within the Search Window,
-  // i.e., if it falls on the closed interval which includes both Alpha and Beta.
-  //
-  // Upper Bounds result from "Failing Low", with values below Alpha
-  // Lower Bounds result from "Failing High", with values above Beta
-  //
-  // Upper approximates LUB, Supremum, Join
-  // Lower approximates GLB, Infimum, Meet
-  //
-  //[Note]The EvalType values matter here.  Negating two bits results in
-  // alternation of Lower and Upper while preserving Exact and Undefined:
-  //
-  public enum EvalType : byte { Exact, Lower, Undefined, Upper };
-  #endregion                            // EvalType Enum
-
-  #region MoveType Enum
-  public enum MoveType : byte {
-    PawnAboveCapture,
-    PawnBelowCapture,
-    DiagAboveCapture,
-    DiagBelowCapture,
-    OrthAboveCapture,
-    OrthBelowCapture,
-    KnightCapture,
-    KingCapture,
-
-    KnightMove,
-    DiagAboveMove,
-    DiagBelowMove,
-    OrthAboveMove,
-    OrthBelowMove,
-    KingMove,
-    PawnAboveMove,
-    PawnBelowMove,
-  }
-  #endregion                            // MoveType Enum
-
-  #region PositionType Enum
-  public enum PositionType : byte { Prefix, FEN, EPD }
-  #endregion                            // PositionType Enum
-  #endregion                            // Enumerations
-
   [DebuggerDisplay("{debugString}")]
   partial class Position : Board, ICloneable {
     #region Constants
@@ -124,7 +79,7 @@ namespace Engine {
        8,  9,  8,  9,                   // a7 b7 c7 d7
        4,  6,  9, 10,                   // a6 b6 c6 d6
        6,  8, 12, 15 };                 // a5 b5 c5 d5
-    #endregion
+    #endregion                          // Constants
 
     #region Constructors
     static Position() {
