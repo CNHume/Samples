@@ -192,14 +192,14 @@ namespace Engine {
           if (qpChx != 0) {
             addPieceCaptures(qpChx);
             Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
-            Friend.AddPromotions(this, qpRay);
+            Friend.AddPromotionMoves(this, qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         addPieceCaptures(qpFoe);
         Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
-        Friend.AddPromotions(this, ~RankPiece);
+        Friend.AddPromotionMoves(this, ~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(qpFoe, vKingPos, bRayCheck);

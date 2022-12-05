@@ -51,7 +51,7 @@ namespace Engine {
       // AddPawnCaptures
       // AddPawnCaptures2
       // AddPawnMoves
-      // AddPromotions
+      // AddPromotionMoves
       // [inc|dec]SideCount
       // AtxCount
       // pieceHash
@@ -490,7 +490,7 @@ namespace Engine {
       }
 
       // The following method is used by generateMaterialMoves()
-      public void AddPromotions(Position position, Plane qpTo) {
+      public void AddPromotionMoves(Position position, Plane qpTo) {
         var qpPawn = Piece & Board.Pawn;
         var qpAdvance1 = shiftl(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
         var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnStep);

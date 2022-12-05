@@ -124,7 +124,7 @@ namespace Command {
       };
       verbTokenRules = new[] {
           new TokenRule(TokenRuleType.verb,
-            @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|status|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
+            @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
           IgnoreCase)
       };
       enableKeywordTokenRules = new[] {

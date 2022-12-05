@@ -412,7 +412,7 @@ namespace Engine {
 
       for (var n = 0; n < nSquares; n++) {
         var xInverse = InvertFile(x(n));
-        //[Note]One is added to each Offset because status values consist only of the medial 6 bits:
+        //[Note]One is added to each Offset because ray state values consist only of the medial 6 bits:
         OffsetFile[n] = (Byte)(nFiles * xInverse + 1);
 
         OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);
