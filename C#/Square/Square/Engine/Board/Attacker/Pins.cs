@@ -28,8 +28,10 @@ namespace Engine {
     // and is similar to PinRestrictions()
     //
     //[Note]Exact intersections are needed here to choose Interpositions;
-    // but can be omitted where restricted[] marks how a Piece is Pinned.
-    // This is because pieces are not allowed to leap over their King.
+    // but can be omitted where restricted[] marks how a Piece is Pinned
+    // because pieces are not allowed to leap over their King.
+    //
+    // Interpositions exclude nChx square of the checking piece.
     //
     protected Plane Interpositions(Int32 nChx, Int32 nKing) {
       var qpRay = 0UL;
@@ -60,6 +62,10 @@ namespace Engine {
     //[Note]Exact intersections are needed to find Interpositions; but
     // can be omitted here, where restricted[] marks a Piece as Pinned.
     // This is because pieces are not allowed to leap over their King.
+    //
+    // PinRestrictions include qpCheck of the checking piece.
+    //
+    //[Assume]IsOneOrNone(qpCheck)
     //
     protected Plane PinRestrictions(Plane qpCheck, Int32 nKing) {
       var qpRay = 0UL;                  // Return Value

@@ -62,8 +62,7 @@ namespace Engine {
       var bSingleCheck = IsOneOrNone(qpChx);
       if (bSingleCheck) {             //[Safe]
         if (qpChx != 0) {             // while loop unnecessary
-          var nChx = RemoveLo(ref qpChx, out Plane qpCheck);
-          var qpRay = PinRestrictions(qpCheck, vKingPos);
+          var qpRay = PinRestrictions(qpChx, vKingPos);
 
           //
           // A guard pawn on the 4th or 5th rank may be prevented from EP Capture of a passer due
@@ -106,7 +105,7 @@ namespace Engine {
             DisplayCurrent("Passer Pin");
           }
           else
-            addRestriction(nFrom, qpFrom, qpRay, qpCheck);
+            addRestriction(nFrom, qpFrom, qpRay, qpChx);
         }
       }
       else {
