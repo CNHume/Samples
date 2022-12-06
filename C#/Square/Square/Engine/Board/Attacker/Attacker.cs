@@ -124,13 +124,13 @@ namespace Engine {
       }
     }
 
-    //
-    // When building the Ray Atx Tables, bLoop remains true until mState indicates
-    // that the piece sliding from the reference square has run into another piece.
-    //
     internal static void loadOrthAtx() {
-      for (Byte vState = 0; vState < nStates; vState++) {
-        var mState = 1 << 7 | vState << 1 | 1;
+      for (UInt32 uState = 0; uState < nStates; uState++) {
+        //
+        // Ray State values consist only of the medial 6 bits.
+        // Add Hi and Lo limit bits here:
+        //
+        var uOrth = uBit(7) | uState << 1 | uBit(0);
 
         for (var y = 0; y < nRanks; y++) {
           var yInverse = InvertRank(y);
@@ -141,23 +141,27 @@ namespace Engine {
 
             var xUp = x + 1;
             var bLoop = xUp < nFiles;
-            for (var m = 1 << xUp; bLoop; bLoop = (mState & m) == 0, m <<= 1, xUp++) {
-              AtxRank[vState][nRankPos] |= bit(sqr(xUp, y));
+            //
+            // While building the Ray Atx Tables, bLoop remains true until uOrth indicates
+            // that the piece sliding from the reference square has run into another piece.
+            //
+            for (var m = 1 << xUp; bLoop; bLoop = (uOrth & m) == 0, m <<= 1, xUp++) {
+              AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
-              AtxFile[MagicFile[vState]][nFilePos] |= bit(sqr(yInverse, xUp));
+              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
 #else
-              AtxFile[vState][nFilePos] |= bit(sqr(yInverse, xUp));
+              AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xUp));
 #endif
             }
 
             var xDn = x - 1;
-            bLoop = x >= 1;
-            for (var m = 1 << xDn; bLoop; bLoop = (mState & m) == 0, m >>= 1, xDn--) {
-              AtxRank[vState][nRankPos] |= bit(sqr(xDn, y));
+            bLoop = x > 0;
+            for (var m = 1 << xDn; bLoop; bLoop = (uOrth & m) == 0, m >>= 1, xDn--) {
+              AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
-              AtxFile[MagicFile[vState]][nFilePos] |= bit(sqr(yInverse, xDn));
+              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
 #else
-              AtxFile[vState][nFilePos] |= bit(sqr(yInverse, xDn));
+              AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xDn));
 #endif
             }
           }
@@ -170,11 +174,15 @@ namespace Engine {
     // See http://www.craftychess.com/hyatt/bitmaps.html
     //
     internal static void loadDiagAtx() {
-      for (Byte vState = 0; vState < nStates; vState++) {
+      for (UInt32 uState = 0; uState < nStates; uState++) {
         for (var d = 0; d < nDiagonals; d++) {
           var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
-          var vDiagMask = (Byte)((1 << nDiagLen) - 1);
-          var mDiagState = (1 << nDiagLen - 1 | vState << 1 | 1) & vDiagMask;
+          var uDiagMask = uBit(nDiagLen) - 1;
+          //
+          // Ray State values consist only of the medial 6 bits.
+          // Add Hi and Lo limit bits here:
+          //
+          var uDiag = (uBit(nDiagLen - 1) | uState << 1 | uBit(0)) & uDiagMask;
 
           for (Int32 x = d < nFiles ? 7 - d : 0,
                      y = d < nFiles ? 0 : d - 7,
@@ -190,30 +198,34 @@ namespace Engine {
             var xUp = x + 1;
             var yUp = y + 1;
             var bLoop = xUp < nFiles && yUp < nRanks;
-            for (var m = 1 << w + 1; bLoop; bLoop = (mDiagState & m) == 0,
+            //
+            // While building the Ray Atx Tables, bLoop remains true until uDiag indicates
+            // that the piece sliding from the reference square has run into another piece.
+            //
+            for (var m = 1 << w + 1; bLoop; bLoop = (uDiag & m) == 0,
                                             m <<= 1, xUp++, yUp++) {
               var xUpInverse = InvertFile(xUp);
 #if Magic
-              AtxA1H8[MagicA1H8[vState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              AtxA8H1[MagicA8H1[vState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+              AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #else
-              AtxA1H8[vState][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              AtxA8H1[vState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+              AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xUp, yUp));
+              AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #endif
             }
 
             var xDn = x - 1;
             var yDn = y - 1;
-            bLoop = x >= 1 && y >= 1;
-            for (var m = 1U << w - 1; bLoop; bLoop = (mDiagState & m) == 0,
+            bLoop = x > 0 && y > 0;
+            for (var m = 1U << w - 1; bLoop; bLoop = (uDiag & m) == 0,
                                              m >>= 1, xDn--, yDn--) {
               var xDnInverse = InvertFile(xDn);
 #if Magic
-              AtxA1H8[MagicA1H8[vState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              AtxA8H1[MagicA8H1[vState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+              AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #else
-              AtxA1H8[vState][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              AtxA8H1[vState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+              AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xDn, yDn));
+              AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #endif
             }
           }
@@ -412,7 +424,7 @@ namespace Engine {
 
       for (var n = 0; n < nSquares; n++) {
         var xInverse = InvertFile(x(n));
-        //[Note]One is added to each Offset because ray state values consist only of the medial 6 bits:
+        //[Note]One is added to each Offset because Ray State values consist only of the medial 6 bits:
         OffsetFile[n] = (Byte)(nFiles * xInverse + 1);
 
         OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);

@@ -412,6 +412,11 @@ namespace Engine {
 
     #region Move Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static UInt32 uBit(Int32 n) {
+      return 1U << n;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Plane bit(Int32 n) {
       return BIT0 << n;
     }
