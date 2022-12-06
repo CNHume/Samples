@@ -131,7 +131,7 @@ namespace Engine {
         // Ray State values consist only of the medial 6 bits.
         // Add Hi and Lo limit bits here:
         //
-        var uOrth = uBit(nPerByte - 1) | uState << 1 | uBit(0);
+        var uOrth = uBit(nFiles - 1) | uState << 1 | uBit(0);
 
         for (var y = 0; y < nRanks; y++) {
           var yInverse = InvertRank(y);
