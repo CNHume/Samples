@@ -65,7 +65,7 @@ namespace Engine {
     }
     #endregion
 
-    #region Piece Atx
+    #region Piece Attacks Table Initialization
     private static void newKingAtx() {
       AtxKing = new Plane[nSquares];
     }
@@ -101,9 +101,9 @@ namespace Engine {
       loadPieceAtx(AtxKing, KingDeltas);
       loadPieceAtx(AtxKnight, KnightDeltas);
     }
-    #endregion
+    #endregion                        // Piece Attacks Table Initialization
 
-    #region Atx Lookup Table Initialization
+    #region Ray Attacks Table Initialization
     private static void newOrthAtx() {
       AtxFile = new Plane[nStates][];
       AtxRank = new Plane[nStates][];
@@ -124,6 +124,7 @@ namespace Engine {
       }
     }
 
+    #region Orthogonal Ray Attacks Tables
     internal static void loadOrthAtx() {
       for (UInt32 uState = 0; uState < nStates; uState++) {
         //
@@ -145,7 +146,7 @@ namespace Engine {
             // While building the Ray Atx Tables, bLoop remains true until uOrth indicates
             // that the piece sliding from the reference square has run into another piece.
             //
-            for (var u = 1 << xUp; bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
+            for (var u = uBit(xUp); bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
               AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
               AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
@@ -156,7 +157,7 @@ namespace Engine {
 
             var xDn = x - 1;
             bLoop = x > 0;
-            for (var u = 1 << xDn; bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
+            for (var u = uBit(xDn); bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
               AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
               AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
@@ -168,7 +169,9 @@ namespace Engine {
         }
       }
     }
+    #endregion                          // Orthogonal Ray Attacks Tables
 
+    #region Diagonal Ray Attacks Tables
     //
     // The approach used here is based on "Rotated bitmaps, a new twist on an old idea" by Dr. Robert Hyatt
     // See http://www.craftychess.com/hyatt/bitmaps.html
@@ -232,9 +235,10 @@ namespace Engine {
         }
       }
     }
-    #endregion
+    #endregion                          // Diagonal Ray Attacks
+    #endregion                          // Ray Attacks Table Initialization
 
-    #region Ray Atx
+    #region Ray Attacks Lookup
     private static void newRankOffset() {
       RankOffset = new Byte[nSquares];
     }
@@ -517,7 +521,7 @@ namespace Engine {
     protected Plane Ray(Int32 n) {
       return RayDiag(n) | RayOrth(n);
     }
-    #endregion
+    #endregion                          // Ray Attacks Lookup
 
     #region Ray State Accessors
 #if Magic
@@ -605,7 +609,7 @@ namespace Engine {
       var uRankRotate = (UInt32)(RankPiece >> RankOffset[n]);
       return (Byte)(uRankRotate & uStateMask);
     }
-    #endregion
+    #endregion                          // Ray State Accessors
 
     #region Board Coordinate Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -654,6 +658,6 @@ namespace Engine {
     internal static Int32 InvertDiag(Int32 d) {
       return nDiagonals - (d + 1);
     }
-    #endregion
+    #endregion                          // Board Coordinate Methods
   }
 }
