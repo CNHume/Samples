@@ -130,7 +130,7 @@ namespace Engine {
         // Ray State values consist only of the medial 6 bits.
         // Add Hi and Lo limit bits here:
         //
-        var uOrth = uBit(7) | uState << 1 | uBit(0);
+        var uOrth = uBit(nPerByte - 1) | uState << 1 | uBit(0);
 
         for (var y = 0; y < nRanks; y++) {
           var yInverse = InvertRank(y);
@@ -145,7 +145,7 @@ namespace Engine {
             // While building the Ray Atx Tables, bLoop remains true until uOrth indicates
             // that the piece sliding from the reference square has run into another piece.
             //
-            for (var m = 1 << xUp; bLoop; bLoop = (uOrth & m) == 0, m <<= 1, xUp++) {
+            for (var u = 1 << xUp; bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
               AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
               AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
@@ -156,7 +156,7 @@ namespace Engine {
 
             var xDn = x - 1;
             bLoop = x > 0;
-            for (var m = 1 << xDn; bLoop; bLoop = (uOrth & m) == 0, m >>= 1, xDn--) {
+            for (var u = 1 << xDn; bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
               AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
               AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
@@ -202,8 +202,8 @@ namespace Engine {
             // While building the Ray Atx Tables, bLoop remains true until uDiag indicates
             // that the piece sliding from the reference square has run into another piece.
             //
-            for (var m = 1 << w + 1; bLoop; bLoop = (uDiag & m) == 0,
-                                            m <<= 1, xUp++, yUp++) {
+            for (var u = uBit(w + 1); bLoop; bLoop = (uDiag & u) == 0,
+                                             u <<= 1, xUp++, yUp++) {
               var xUpInverse = InvertFile(xUp);
 #if Magic
               AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
@@ -217,8 +217,8 @@ namespace Engine {
             var xDn = x - 1;
             var yDn = y - 1;
             bLoop = x > 0 && y > 0;
-            for (var m = 1U << w - 1; bLoop; bLoop = (uDiag & m) == 0,
-                                             m >>= 1, xDn--, yDn--) {
+            for (var u = uBit(w - 1); bLoop; bLoop = (uDiag & u) == 0,
+                                             u >>= 1, xDn--, yDn--) {
               var xDnInverse = InvertFile(xDn);
 #if Magic
               AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
