@@ -85,13 +85,13 @@ namespace Engine {
 
     private void decExtension(ref Draft wDraft, Int32 nExt) {
       // Govern dec as well as inc
-      extensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
+      extensionCounts += (ExtensionCounter)uBit(nExt * nPerNibble);
       wDraft -= extensionDraft(nExt);    // Decrement
     }
 
     private void incExtension(ref Draft wDraft, Int32 nExt) {
       // Govern usage
-      extensionCounts += (ExtensionCounter)(1 << nExt * nPerNibble);
+      extensionCounts += (ExtensionCounter)uBit(nExt * nPerNibble);
       wDraft += extensionDraft(nExt);   // Increment
     }
 

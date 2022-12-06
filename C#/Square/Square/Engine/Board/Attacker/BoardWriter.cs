@@ -427,8 +427,8 @@ namespace Engine {
       for (var d = 0; d < nDiagonals; d++) {
         var dInverse = InvertDiag(d);
         var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
-        var vDiagMask = (Byte)((1 << nDiagLen) - 1);
-        var uDiag = (UInt32)(qp >> OffsetDiag[dInverse] & vDiagMask);
+        var uDiagMask = uBit(nDiagLen) - 1;
+        var uDiag = (UInt32)(qp >> OffsetDiag[dInverse] & uDiagMask);
         sb.AppendIndent(8 - nDiagLen)
           .Append(ruler(d, bRotateBoard))
           .AppendDiag(nDiagLen, uDiag)

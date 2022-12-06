@@ -179,7 +179,8 @@ namespace Engine {
     internal static void loadDiagAtx() {
       for (UInt32 uState = 0; uState < nStates; uState++) {
         for (var d = 0; d < nDiagonals; d++) {
-          var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
+          var dInverse = InvertDiag(d);
+          var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
           var uDiagMask = uBit(nDiagLen) - 1;
           //
           // Ray State values consist only of the medial 6 bits.
