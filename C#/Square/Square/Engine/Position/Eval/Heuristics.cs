@@ -120,7 +120,7 @@ namespace Engine {
 
       var bEndgame =
         IsOneOrNone(Knight) &&          // At most one Knight
-        !hasBishopPair(fside);          // No Bishop Pair
+        !HasBishopPair(fside);          // No Bishop Pair
 
       return bEndgame;
     }

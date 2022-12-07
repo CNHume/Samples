@@ -405,7 +405,7 @@ namespace Engine {
       #endregion                        // Attacker Methods
 
       #region Move Builder
-      public Move BuildMove(
+      internal Move BuildMove(
         String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 

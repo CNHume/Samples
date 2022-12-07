@@ -53,7 +53,7 @@ namespace Engine {
           var nSetup = p == Piece.Q ? 1 : 2;
 
           if (p == Piece.B)
-            nSetup = hasBishopPair(side.FlagsSide) ? 2 : 1;
+            nSetup = HasBishopPair(side.FlagsSide) ? 2 : 1;
 
           var vPiece = PieceIndex((UInt32)p);
           var nCount = (Int32)side.PieceCount(vPiece);

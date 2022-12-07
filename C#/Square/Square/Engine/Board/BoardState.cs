@@ -32,9 +32,9 @@ namespace Engine {
     //
     // [Clr|Set][RayState|Rotations]
     //
-    // oppositeBishops
-    // sameBishops
-    // hasBishopPair
+    // OppositeBishops
+    // SameBishops
+    // HasBishopPair
     //
     #region Square Pieces
     protected Byte GetPieceIndex(Int32 n) {
@@ -149,7 +149,7 @@ namespace Engine {
     #endregion                          // Rotations
 
     #region Bishop Tests
-    protected static Boolean oppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+    protected static Boolean OppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
       var blackPair = fBlackSide & SideFlags.Pair;
       var whitePair = fWhiteSide & SideFlags.Pair;
 
@@ -157,7 +157,7 @@ namespace Engine {
              (whitePair == SideFlags.Dark && blackPair == SideFlags.Lite);
     }
 
-    protected static Boolean sameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
+    protected static Boolean SameBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
       var blackPair = fBlackSide & SideFlags.Pair;
       var whitePair = fWhiteSide & SideFlags.Pair;
 
@@ -165,7 +165,7 @@ namespace Engine {
              (whitePair == SideFlags.Dark && blackPair == SideFlags.Dark);
     }
 
-    protected static Boolean hasBishopPair(SideFlags fside) {
+    protected static Boolean HasBishopPair(SideFlags fside) {
       return (fside & SideFlags.Pair) == SideFlags.Pair;
     }
     #endregion                          // Bishop Tests

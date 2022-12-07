@@ -588,7 +588,7 @@ namespace Engine {
         nSum += Nibble(wPieceCounts) * PieceWeight[vPiece];
       }
 #if EvalBishopPair
-      if (hasBishopPair(fside)) {
+      if (HasBishopPair(fside)) {
         nSum += mBishopPairWeight;
       }
 #endif

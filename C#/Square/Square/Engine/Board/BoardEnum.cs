@@ -65,8 +65,8 @@ namespace Engine {
     //  3:1 Dark
     //  4:1 Insufficient
     //
-    protected const Int32 nBishopPairBit = 2;
-    protected const Int32 nInsufficientBit = 4;
+    private const Int32 nBishopPairBit = 2;
+    private const Int32 nInsufficientBit = 4;
 
     [Flags]
     public enum SideFlags : byte {
