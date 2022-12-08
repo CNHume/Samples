@@ -148,6 +148,6 @@ namespace Engine {
       }
       #endregion                        // SideFlags Methods
       #endregion                        // Methods
-    }
-  }
+    }                                   // BoardSide
+  }                                     // Board
 }

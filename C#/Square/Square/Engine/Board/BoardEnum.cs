@@ -22,6 +22,11 @@ namespace Engine {
   partial class Board {
     #region Enumerations
     #region SideName Enum
+    internal static readonly Int32 nSides = Enum.GetNames(typeof(SideName)).Length;
+
+    internal const Int32 Black = (Int32)SideName.Black;
+    internal const Int32 White = (Int32)SideName.White;
+
     public enum SideName : byte { Black, White }
     #endregion                          // SideName Enum
 
@@ -288,6 +293,17 @@ namespace Engine {
     protected const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
     protected const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
     internal const Int32 nHideFileBit = 28;
+
+    #region Move Masks
+    protected const Move PawnMove = (Move)((Byte)Piece.P << nPieceBit);
+    protected const Move KnightMove = (Move)((Byte)Piece.N << nPieceBit);
+    protected const Move BishopMove = (Move)((Byte)Piece.B << nPieceBit);
+    protected const Move RookMove = (Move)((Byte)Piece.R << nPieceBit);
+    protected const Move QueenMove = (Move)((Byte)Piece.Q << nPieceBit);
+    protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
+
+    protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
+    #endregion                          // Move Masks
 
     //[Flags]
     public enum Move : uint {

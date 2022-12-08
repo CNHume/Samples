@@ -659,6 +659,6 @@ namespace Engine {
       }
       #endregion                        // Hashcode Methods
       #endregion                        // Methods
-    }
-  }
+    }                                   // BoardSide
+  }                                     // Board
 }

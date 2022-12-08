@@ -11,13 +11,15 @@
 //#define TestInitHelp
 
 namespace Engine {
+  using static Engine.Board.BoardSide;
+
   //
   // Type Aliases:
   //
   using Plane = UInt64;
 
   partial class Position : Board {
-    public class PositionParameter : BoardParameter {
+    internal class PositionParameter : BoardParameter {
       #region Constructors
       public PositionParameter(SideName sideName) : base(sideName) {
         KingToMoveLoss = new Plane[nSquares];

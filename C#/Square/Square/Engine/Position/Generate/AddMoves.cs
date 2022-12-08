@@ -24,17 +24,6 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Position : Board {
-    #region Constant Move Masks
-    protected const Move PawnMove = (Move)((Byte)Piece.P << nPieceBit);
-    protected const Move KnightMove = (Move)((Byte)Piece.N << nPieceBit);
-    protected const Move BishopMove = (Move)((Byte)Piece.B << nPieceBit);
-    protected const Move RookMove = (Move)((Byte)Piece.R << nPieceBit);
-    protected const Move QueenMove = (Move)((Byte)Piece.Q << nPieceBit);
-    protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
-
-    protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
-    #endregion                          // Constant Move Masks
-
     #region Methods
     // GetPieceIndex - Returns Piece at any square
     //

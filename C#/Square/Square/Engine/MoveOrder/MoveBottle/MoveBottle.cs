@@ -21,9 +21,9 @@ namespace Engine.MoveOrder {
   class MoveBottle {
     #region Constants
 #if BottleBothSides
-    internal static readonly Int32 nBottleSides = nSides;
+    private static readonly Int32 nBottleSides = nSides;
 #else
-    internal const Int32 nBottleSides = 1;
+    private const Int32 nBottleSides = 1;
 #endif
     internal const Int32 nKillers = 1;  // Multiple Killers
     #endregion
