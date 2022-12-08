@@ -23,7 +23,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
-    public partial class BoardSide {
+    internal partial class BoardSide {
       #region Virtual Fields
       public SideFlags FlagsSide;       //[fside]Pair | CanCastle
 

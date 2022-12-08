@@ -28,7 +28,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Board {
-    public partial class BoardSide {
+    internal partial class BoardSide {
       #region Methods
       //
       // [clr|set]Piece
@@ -405,7 +405,7 @@ namespace Engine {
       #endregion                        // Attacker Methods
 
       #region Move Builder
-      internal Move BuildMove(
+      public Move BuildMove(
         String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 

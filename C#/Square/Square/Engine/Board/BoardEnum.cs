@@ -12,6 +12,7 @@
 
 namespace Engine {
   using System;
+  using System.Diagnostics.CodeAnalysis;
 
   //
   // Type Aliases:
@@ -233,6 +234,10 @@ namespace Engine {
     #endregion
 
     #region Square Enum
+    //[Compiler]Suppress annoying warnings:
+    // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+#pragma warning disable CS8981
+    [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "sq unlikely to become a C# keyword")]
     public enum sq : byte {
       a1, b1, c1, d1, e1, f1, g1, h1,
       a2, b2, c2, d2, e2, f2, g2, h2,
@@ -243,6 +248,7 @@ namespace Engine {
       a7, b7, c7, d7, e7, f7, g7, h7,
       a8, b8, c8, d8, e8, f8, g8, h8
     }
+#pragma warning restore CS8981
     #endregion                          // Square Enum
 
     #region Move Enum
