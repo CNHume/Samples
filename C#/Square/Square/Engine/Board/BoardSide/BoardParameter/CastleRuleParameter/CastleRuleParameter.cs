@@ -61,11 +61,11 @@ namespace Engine {
             //[Chess 960]Castles bit is needed to distinguish castles from ambiguous King moves:
             //
             const Move castles = Move.Castles | KingMove;
-            var OOTo = castles | (Move)(KingOOTo << nToBit);
-            var OOOTo = castles | (Move)(KingOOOTo << nToBit);
 
             if (!CastlesFrom.HasValue) return;
 
+            var OOTo = castles | (Move)(KingOOTo << nToBit);
+            var OOOTo = castles | (Move)(KingOOOTo << nToBit);
             var qpKing = bit(CastlesFrom.Value);
 
             if (RookOOFrom.HasValue) {
@@ -124,7 +124,7 @@ namespace Engine {
           //
           // The following are readonly fields set by the Constructor:
           //
-          public Int32 SetupRank { get; init; }
+          protected Int32 SetupRank { get; init; }
 
           public readonly Int32 KingOOTo;
           public readonly Int32 RookOOTo;
