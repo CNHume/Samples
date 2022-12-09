@@ -24,7 +24,7 @@ namespace Engine {
 
   partial class Board {
     internal partial class BoardSide {
-      #region Virtual Fields
+      #region Fields
       public SideFlags FlagsSide;       //[fside]Pair | CanCastle
 
       public PieceCounter Counts;
@@ -40,10 +40,10 @@ namespace Engine {
 #endif
       #endregion
 
-      #region Read-Only Properties
+      #region Properties
       public Position Board { get; init; }
       public PositionParameter Parameter { get; init; }
-      #endregion
+      #endregion                        // Properties
 
       #region Constructors
       public BoardSide(

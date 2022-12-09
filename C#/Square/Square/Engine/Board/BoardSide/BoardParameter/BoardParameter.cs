@@ -80,14 +80,14 @@ namespace Engine {
         public readonly Plane FileRight;
         #endregion                      // Pawn Advancement Fields
 
-        #region Virtual Fields
+        #region Fields
         public readonly SideName SideName;
 
         public String? Symbol;
 
         public readonly Hashcode[][] Zobrist;
         public readonly Hashcode[] ZobristRights;
-        #endregion                      // Virtual Fields
+        #endregion                      // Fields
 
         #region Properties
         public CastleRuleParameter Rule { get; set; }

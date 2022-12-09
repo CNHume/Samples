@@ -26,7 +26,7 @@ namespace Engine {
 
             Clear();
           }
-          #endregion
+          #endregion                    // Constructors
 
           #region Methods
           //
@@ -118,9 +118,9 @@ namespace Engine {
             else
               return Move.Undefined;
           }
-          #endregion
+          #endregion                    // Methods
 
-          #region Virtual Fields
+          #region Fields
           //
           // The following are readonly fields set by the Constructor:
           //
@@ -148,7 +148,7 @@ namespace Engine {
           public Move OOO = Move.Undefined;
           public Plane? OOOSafe;
           public Plane? OOOPath;
-          #endregion
+          #endregion                    // Fields
         }                               // CastleRuleParameter
       }                                 // BoardParameter
     }                                   // BoardSide

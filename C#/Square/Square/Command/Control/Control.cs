@@ -47,14 +47,14 @@ namespace Command {
   }
 
   class Setting : Control {
-    #region Virtual Fields
+    #region Fields
     //
     // Current Value:
     //
     public Boolean? IsChecked;          // For type check or button
     public Int32? Selection;            // For type spin
     public String? Text;                // For type combo or string
-    #endregion
+    #endregion                          // Fields
 
     #region Properties
     public Object? Value {
@@ -75,7 +75,7 @@ namespace Command {
         }
       }
     }
-    #endregion
+    #endregion                          // Properties
 
     #region Events
     // Step 2/6: Declare Event [of the EventHandler Delegate Type]
@@ -150,11 +150,11 @@ namespace Command {
         throw new ControlException(
           $@"Could not set a default of ""{Option.Default}"" for the {Option.Name} {Option.Type} control");
     }
-    #endregion
+    #endregion                          // Methods
   }
 
   class Control {
-    #region Virtual Fields
+    #region Fields
     public Option Option;
     #endregion
 
@@ -210,6 +210,6 @@ namespace Command {
         break;
       }
     }
-    #endregion
+    #endregion                          // Methods
   }
 }

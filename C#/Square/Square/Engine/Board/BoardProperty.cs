@@ -95,7 +95,7 @@ namespace Engine {
     #endregion                          // Zobrist Hashing
     #endregion                          // Constant Fields
 
-    #region Virtual Fields
+    #region Fields
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;
     public Byte HalfMoveClock;
@@ -117,7 +117,7 @@ namespace Engine {
     public Plane A1H8Piece;
     public Plane A8H1Piece;
 #endif
-    #region Attacks and Control
+    #region Attacks and Control Fields
 #if BuildAtxTo
     protected Plane[] AtxTo;
 #endif
@@ -125,15 +125,15 @@ namespace Engine {
     protected Plane AttackedSum;
     protected Plane WhiteControlled;
     protected Plane BlackControlled;
-    #endregion
+    #endregion                          // Attacks and Control Fields
 
-    #region BoardSide
+    #region BoardSide Fields
     public readonly PositionSide[] Side;
 
     protected PositionSide Friend;
     protected PositionSide Foe;
-    #endregion
-    #endregion
+    #endregion                          // BoardSide Fields
+    #endregion                          // Fields
 
     #region Properties
     //

@@ -16,7 +16,7 @@ namespace Command {
   public enum OptionType : byte { none, check, spin, combo, button, @string };
 
   struct Option {
-    #region Virtual Fields
+    #region Fields
     public String Name;
     public OptionType Type;
     public String Default;
@@ -24,7 +24,7 @@ namespace Command {
     public Int32? Min;
     public Int32? Max;
     public Boolean IsHidden;
-    #endregion
+    #endregion                          // Fields
 
     #region Methods
     public override String ToString() {
@@ -54,6 +54,6 @@ namespace Command {
 
       return sb.ToString();
     }
-    #endregion
+    #endregion                          // Methods
   }
 }

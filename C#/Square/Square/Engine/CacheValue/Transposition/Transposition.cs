@@ -182,7 +182,7 @@ namespace Engine.CacheValue {
     }
     #endregion
 
-    #region Virtual Fields
+    #region Fields
 #if XPHash128
     public Hashcode HashPawn;
 #endif
@@ -190,7 +190,7 @@ namespace Engine.CacheValue {
     public Depth Depth;
     private Bval ibv;
     public Move BestMove;
-    #endregion
+    #endregion                          // Fields
 
     #region Properties
     public Ply Quality {
@@ -237,6 +237,6 @@ namespace Engine.CacheValue {
         Depth = (Depth)((UInt16)(value >> nDepthBit)/* & wDepthMask*/);
       }
     }
-    #endregion
+    #endregion                          // Properties
   }
 }

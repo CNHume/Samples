@@ -171,7 +171,7 @@ namespace Engine.CacheValue {
     }
     #endregion
 
-    #region Virtual Fields
+    #region Fields
 #if XPMHash128
     public Hashcode HashPawn;
 #endif

@@ -30,7 +30,7 @@ namespace Engine {
         Help = new Plane[nSquares];
 #endif
         }
-        #endregion
+        #endregion                      // Constructors
 
         #region Pawn Feature Fields
         public readonly Plane[] KingToMoveLoss;
@@ -41,7 +41,7 @@ namespace Engine {
 #if TestInitFree || InitHelp || !InitFree
       public readonly Plane[] Help;
 #endif
-        #endregion
+        #endregion                      // Pawn Feature Fields
       }                                 // PositionParameter
     }                                   // PositionSide
   }                                     // Position

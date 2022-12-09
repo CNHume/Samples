@@ -146,14 +146,14 @@ namespace Engine.CacheValue {
     }
     #endregion
 
-    #region Virtual Fields
+    #region Fields
 #if QXPHash128
     public Hashcode HashPawn;
 #endif
     public Ply MovePly;                 // To determine age
     private Bval ibv;
     public Move BestMove;
-    #endregion
+    #endregion                          // Fields
 
     #region Properties
     public EvalType Type {
@@ -188,6 +188,6 @@ namespace Engine.CacheValue {
         MovePly = (Ply)((UInt16)(value >> nMovePlyBit)/* & wPlyMask*/);
       }
     }
-    #endregion
+    #endregion                          // Properties
   }
 }

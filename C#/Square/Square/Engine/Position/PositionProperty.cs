@@ -46,7 +46,7 @@ namespace Engine {
 #endif
     #endregion
 
-    #region Virtual Fields
+    #region Fields
     public Position? Parent;
 
     private Eval staticDelta;
