@@ -13,7 +13,7 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;
 
-  using static Engine.Position;
+  using static Position.PositionSide;
 
   //
   // Type Aliases:
@@ -41,13 +41,13 @@ namespace Engine {
       #endregion
 
       #region Read-Only Properties
-      public Board Board { get; }
-      public PositionParameter Parameter { get; }
+      public Position Board { get; init; }
+      public PositionParameter Parameter { get; init; }
       #endregion
 
       #region Constructors
       public BoardSide(
-        Board board,
+        Position board,
         PositionParameter parameter) {
         Board = board;
         Parameter = parameter;

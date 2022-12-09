@@ -136,13 +136,13 @@ namespace Engine {
           if (qpTo != 0)
             addPieceCapturesAndMoves(qpTo);
 
-          Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
+          Friend.AddPawnCaptures(includeEnPassant(qpChx));
           Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~qpFriend);
-        Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
+        Friend.AddPawnCaptures(includeEnPassant(qpFoe));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
@@ -191,15 +191,15 @@ namespace Engine {
 
           if (qpChx != 0) {
             addPieceCaptures(qpChx);
-            Friend.AddPawnCaptures(this, includeEnPassant(qpChx));
-            Friend.AddPromotionMoves(this, qpRay);
+            Friend.AddPawnCaptures(includeEnPassant(qpChx));
+            Friend.AddPromotionMoves(qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         addPieceCaptures(qpFoe);
-        Friend.AddPawnCaptures(this, includeEnPassant(qpFoe));
-        Friend.AddPromotionMoves(this, ~RankPiece);
+        Friend.AddPawnCaptures(includeEnPassant(qpFoe));
+        Friend.AddPromotionMoves(~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(qpFoe, vKingPos, bRayCheck);
@@ -235,14 +235,14 @@ namespace Engine {
 
           if (qpFoe != 0) {
             addPieceCaptures(qpFoe);
-            Friend.AddPawnCaptures(this, qpFoe);
+            Friend.AddPawnCaptures(qpFoe);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         var qpFoe = qpTo & ~qpFriend;
         addPieceCaptures(qpFoe);
-        Friend.AddPawnCaptures(this, qpFoe);
+        Friend.AddPawnCaptures(qpFoe);
       }                                 //!bInCheck
 #if UnshadowRay2
       addKingCaptures(qpTo & ~qpFriend, vKingPos, bRayCheck);

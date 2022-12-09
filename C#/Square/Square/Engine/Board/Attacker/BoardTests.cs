@@ -85,11 +85,11 @@ namespace Engine {
     protected void testPawnAttacks() {
       foreach (var side in Side) {
         LogLine($"{side.Parameter.SideName} Pieces:\n");
-        writeOrth(side.Piece);
+        WriteOrth(side.Piece);
         LogLine();
 
         LogLine($"{side.Parameter.SideName} Pawn Attacks:\n");
-        writeOrth(side.PawnA1H8Atx | side.PawnA8H1Atx);
+        WriteOrth(side.PawnA1H8Atx | side.PawnA8H1Atx);
         LogLine();
       }
     }
@@ -135,24 +135,24 @@ namespace Engine {
 #endif
 #if TestRankPiece
       LogLine("RankPiece\n");
-      writeOrth(RankPiece);
+      WriteOrth(RankPiece);
       LogLine();
 #endif
 #if TestOrthAttacks
       LogLine($"RayOrth({sq})\n");
-      writeOrth(RayOrth(n));
+      WriteOrth(RayOrth(n));
 #endif
 #if TestDiagAttacks
       LogLine($"RayDiag({sq})\n");
-      writeOrth(RayDiag(n));
+      WriteOrth(RayDiag(n));
 #endif
 #if TestKingAttacks
       LogLine("AtxKing\n");
-      writeOrth(AtxKing[n]);
+      WriteOrth(AtxKing[n]);
 #endif
 #if TestKnightAttacks
       LogLine("AtxKnight\n");
-      writeOrth(AtxKnight[n]);
+      WriteOrth(AtxKnight[n]);
 #endif
     }
     #endregion

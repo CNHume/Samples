@@ -126,13 +126,20 @@ namespace Engine {
     }
 
     public Position() {
-      init();
+      EnsureSides(this);
+
+      newFeatures();
+      newBestMoves();
+      newRestricted();
+      newMoveTypes();
+      newPseudoMoves();
     }
 
     //
     // Used by resetMove()
     //
     public void CopyTo(Position child) {
+      child.EnsureSides(child);
       base.CopyTo(child);
       child.staticDelta = staticDelta;
       child.staticTotal = staticTotal;
@@ -200,14 +207,6 @@ namespace Engine {
     #endregion
 
     #region Instance Intialization
-    private void init() {
-      newFeatures();
-      newBestMoves();
-      newRestricted();
-      newMoveTypes();
-      newPseudoMoves();
-    }
-
     private void newFeatures() {
 #if TestPawnFeatures
       FeatureOrth = new Plane[PawnFeatures.Length * 2];

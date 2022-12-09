@@ -62,10 +62,10 @@ namespace Engine {
 
           Rule = new CastleRuleParameter(SetupRank);
         }
-        #endregion                        // Constructors
+        #endregion                      // Constructors
 
         #region Pawn Advancement Fields
-        public readonly Int32 PawnSense;
+        protected readonly Int32 PawnSense;
 
         public readonly Int32 SetupRank;
         public readonly Int32 EnPassantRank;
@@ -78,7 +78,7 @@ namespace Engine {
         public readonly Plane RankPass;
         public readonly Plane FileLeft;
         public readonly Plane FileRight;
-        #endregion
+        #endregion                      // Pawn Advancement Fields
 
         #region Virtual Fields
         public readonly SideName SideName;
@@ -87,11 +87,11 @@ namespace Engine {
 
         public readonly Hashcode[][] Zobrist;
         public readonly Hashcode[] ZobristRights;
-        #endregion                        // Virtual Fields
+        #endregion                      // Virtual Fields
 
         #region Properties
         public CastleRuleParameter Rule { get; set; }
-        #endregion                        // Properties
+        #endregion                      // Properties
 
         #region Methods
         [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -117,7 +117,7 @@ namespace Engine {
             throw new ArgumentException(nameof(SideName));
           }
         }
-        #endregion                        // Methods
+        #endregion                      // Methods
       }                                 // BoardParameter
     }                                   // BoardSide
   }                                     // Board

@@ -24,10 +24,11 @@ namespace Engine {
   using System.Linq;
   using System.Runtime.CompilerServices;
 
+  using static System.String;
   using static Command.Parser;
   using static Logging.Logger;
   using static Position;
-  using static System.String;
+  using static Position.PositionSide;
 
   //
   // Type Aliases:
@@ -113,23 +114,22 @@ namespace Engine {
     }
 
     public Board() {
-      Side = new BoardSide[nSides];
+      Side = new PositionSide[nSides];
       initSides();
       newAtxToCount();               //[Conditional]
     }
 
     #region Init Methods
-    private void ensureSides() {
+    protected void EnsureSides(Position position) {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
         if (Side[nSide] is null)
-          Side[nSide] = new BoardSide(this, parameter);
+          Side[nSide] = new PositionSide(position, parameter);
       }
     }
 
     [MemberNotNull(nameof(Friend), nameof(Foe))]
     private void initSides() {
-      ensureSides();
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = GetSides(WTM());
     }
@@ -329,7 +329,6 @@ namespace Engine {
       board.A1H8Piece = A1H8Piece;          // 8-bytes
       board.A8H1Piece = A8H1Piece;          // 8-bytes
 #endif
-      board.ensureSides();
       CopySidesTo(board);                   // 2 x 35 = 70-bytes
 
       board.ensureAtxToCount();         //[Conditional]

@@ -19,6 +19,8 @@ namespace Engine {
   using System.Diagnostics;
   using System.Runtime.CompilerServices;// For MethodImplAttribute
 
+  using static Position;
+
   //
   // Type Aliases:
   //
@@ -38,12 +40,12 @@ namespace Engine {
     // RaisePiece which is called by RemovePiece
     //
     #region Side Methods
-    protected BoardSide GetSide(Boolean bWTM) {
+    protected PositionSide GetSide(Boolean bWTM) {
       return bWTM ?
         Side[White] : Side[Black];
     }
 
-    protected (BoardSide friend, BoardSide foe) GetSides(Boolean bWTM) {
+    protected (PositionSide friend, PositionSide foe) GetSides(Boolean bWTM) {
       return bWTM ?
         (Side[White], Side[Black]) :
         (Side[Black], Side[White]);

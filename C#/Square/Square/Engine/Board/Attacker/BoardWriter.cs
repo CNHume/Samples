@@ -18,8 +18,8 @@ namespace Engine {
   using System.Linq;
   using System.Text;
 
-  using static Logging.Logger;
   using static System.String;
+  using static Logging.Logger;
 
   //
   // Type Aliases:
@@ -356,7 +356,7 @@ namespace Engine {
       printMapping(sLabel, n => map[n]);
     }
 
-    private static void writeOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    protected static void WriteOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       var sb = new StringBuilder();
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
@@ -383,7 +383,7 @@ namespace Engine {
     internal static void testOrth(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       LogLine($"{sLabel}");
       LogLine();
-      writeOrth(qp, bRotateBoard, bFlip);
+      WriteOrth(qp, bRotateBoard, bFlip);
     }
 
     private static void writeDiagIndexes(Func<Int32, Int32> idxr) {

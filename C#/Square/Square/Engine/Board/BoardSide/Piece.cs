@@ -8,7 +8,6 @@
 //#define Magic
 #define EvalInsufficient
 #define HashPieces
-//#define TestPawnAdvances
 //#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
 
 namespace Engine {
@@ -66,8 +65,8 @@ namespace Engine {
         var qpEnPassant = bit(nEnPassant);
 
         var qpCaptureFrom =
-          shiftr(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |
-          shiftr(qpEnPassant & PawnA8H1Atx, Parameter.PawnA8H1);
+          ShiftR(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |
+          ShiftR(qpEnPassant & PawnA8H1Atx, Parameter.PawnA8H1);
 
         return qpCaptureFrom;
       }
@@ -87,8 +86,8 @@ namespace Engine {
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ResetPawnAtx() {
         var qpPawn = Piece & Board.Pawn;
-        PawnA1H8Atx = shiftl(qpPawn & ~Parameter.FileRight, Parameter.PawnA1H8);
-        PawnA8H1Atx = shiftl(qpPawn & ~Parameter.FileLeft, Parameter.PawnA8H1);
+        PawnA1H8Atx = ShiftL(qpPawn & ~Parameter.FileRight, Parameter.PawnA1H8);
+        PawnA8H1Atx = ShiftL(qpPawn & ~Parameter.FileLeft, Parameter.PawnA8H1);
       }
 
       public Boolean RaisePiece(Byte vPiece, Int32 nFrom) {
@@ -390,13 +389,13 @@ namespace Engine {
         var qpFrom = bit(nFrom);
 
         if (bCapture) {
-          var qpA1H8Atx = shiftl(qpFrom & ~Parameter.FileRight, Parameter.PawnA1H8);
-          var qpA8H1Atx = shiftl(qpFrom & ~Parameter.FileLeft, Parameter.PawnA8H1);
+          var qpA1H8Atx = ShiftL(qpFrom & ~Parameter.FileRight, Parameter.PawnA1H8);
+          var qpA8H1Atx = ShiftL(qpFrom & ~Parameter.FileLeft, Parameter.PawnA8H1);
           qpPawnTo = qpA1H8Atx | qpA8H1Atx;
         }
         else {
-          var qpAdvance1 = shiftl(qpFrom, Parameter.PawnStep) & ~Board.RankPiece;
-          var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
+          var qpAdvance1 = ShiftL(qpFrom, Parameter.PawnStep) & ~Board.RankPiece;
+          var qpAdvance2 = ShiftL(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
           qpPawnTo = qpAdvance1 | qpAdvance2;
         }
 
@@ -438,70 +437,6 @@ namespace Engine {
         return move;
       }
       #endregion
-
-      #region Position Pawn Move Generators
-      public void AddPawnCaptures(Position position, Plane qpTo) {
-        var nEP = Board.IsPassed() ? Board.FlagsTurn.ep() : nSquareUndefined;
-        AddPawnCaptures2(position, PawnA1H8Atx & qpTo, Parameter.PawnA1H8, nEP);
-        AddPawnCaptures2(position, PawnA8H1Atx & qpTo, Parameter.PawnA8H1, nEP);
-      }
-
-      protected void AddPawnCaptures2(
-        Position position, Plane qpAtx, Int32 nDiag, Int32 nEP) {
-        var qpFrom = shiftr(qpAtx, nDiag);
-        while (qpFrom != 0) {
-          var nFrom = RemoveLo(ref qpFrom);
-          var nTo = nFrom + nDiag;
-          var bAbove = Parameter.IsAbove(nTo);
-          var bPromote = Parameter.IsLastRank(nTo);
-          var bEnPassant = nTo == nEP;
-          position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
-        }
-      }
-
-      public void AddPawnMoves(Position position, Plane qpTo) {
-        var qpPawn = Piece & Board.Pawn;
-
-        //
-        // Pawn Advances:
-        //
-        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
-        var qpAdvance2 = shiftl(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo, Parameter.PawnStep);
-        var qpAdv2From = shiftr(qpAdvance2 & qpTo, 2 * Parameter.PawnStep);
-#if TestPawnAdvances
-        LogLine("Pawn Advance:\n");
-        writeOrth(qpAdvance1 | qpAdvance2);
-        LogLine();
-#endif
-        while (qpAdv1From != 0) {
-          var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.PawnStep;
-          var bAbove = Parameter.IsAbove(nTo);
-          var bPromote = Parameter.IsLastRank(nTo);
-          position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
-        }
-
-        while (qpAdv2From != 0) {
-          var nFrom = RemoveLo(ref qpAdv2From);
-          var nTo = nFrom + 2 * Parameter.PawnStep;
-          position.AddPawnMove(nFrom, nTo, false, false);
-        }
-      }
-
-      // The following method is used by generateMaterialMoves()
-      public void AddPromotionMoves(Position position, Plane qpTo) {
-        var qpPawn = Piece & Board.Pawn;
-        var qpAdvance1 = shiftl(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
-        var qpAdv1From = shiftr(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnStep);
-
-        while (qpAdv1From != 0) {
-          var nFrom = RemoveLo(ref qpAdv1From);
-          var nTo = nFrom + Parameter.PawnStep;
-          position.AddPawnMove(nFrom, nTo, true, true);
-        }
-      }
-      #endregion                        // Move Generators
 
       #region Count Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

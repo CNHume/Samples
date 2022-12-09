@@ -16,6 +16,7 @@ namespace Engine {
   using System.Collections.Generic;
 
   using static Position;
+  using static Position.PositionSide;
 
   //
   // Type Aliases:
@@ -28,7 +29,7 @@ namespace Engine {
     protected static String? PieceSymbols;
 
     #region Constant Fields
-    public static readonly PositionParameter[] Parameter;
+    protected static readonly PositionParameter[] Parameter;
 
     protected static Plane SquareLite;
     protected static Plane SquareDark;
@@ -127,9 +128,10 @@ namespace Engine {
     #endregion
 
     #region BoardSide
-    public readonly BoardSide[] Side;
-    protected BoardSide Friend;
-    protected BoardSide Foe;
+    public readonly PositionSide[] Side;
+
+    protected PositionSide Friend;
+    protected PositionSide Foe;
     #endregion
     #endregion
 

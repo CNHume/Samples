@@ -647,13 +647,13 @@ namespace Engine {
     // intuitive semantics of additive, signed exponents:
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Plane shiftl(Plane qp, Int32 n) {
+    protected static Plane ShiftL(Plane qp, Int32 n) {
       return n < 0 ? qp >> -n : qp << n;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Plane shiftr(Plane qp, Int32 n) {
-      return shiftl(qp, -n);
+    protected static Plane ShiftR(Plane qp, Int32 n) {
+      return ShiftL(qp, -n);
     }
     #endregion
   }
