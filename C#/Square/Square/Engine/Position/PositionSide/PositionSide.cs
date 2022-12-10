@@ -19,8 +19,8 @@ namespace Engine {
   partial class Position : Board {
     internal partial class PositionSide : BoardSide {
       #region Constructors
-      public PositionSide(Position position, PositionParameter parameter) :
-        base(position, parameter) {
+      public PositionSide(Position position, PositionParameter positionParameter) :
+        base(position, positionParameter) {
       }
       #endregion                        // Constructors
 

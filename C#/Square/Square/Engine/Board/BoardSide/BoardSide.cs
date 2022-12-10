@@ -50,9 +50,9 @@ namespace Engine {
       #region Constructors
       public BoardSide(
         Position position,
-        PositionParameter parameter) {
+        PositionParameter positionParameter) {
         Position = position;
-        PositionParameter = parameter;
+        PositionParameter = positionParameter;
       }
       #endregion                        // Constructors
 
