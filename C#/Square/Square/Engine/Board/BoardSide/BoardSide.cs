@@ -41,16 +41,18 @@ namespace Engine {
       #endregion
 
       #region Properties
-      public Position Board { get; init; }
-      public PositionParameter Parameter { get; init; }
+      public Position Position { get; init; }
+      public Board Board => Position;
+      public PositionParameter PositionParameter { get; init; }
+      public BoardParameter Parameter => PositionParameter;
       #endregion                        // Properties
 
       #region Constructors
       public BoardSide(
-        Position board,
+        Position position,
         PositionParameter parameter) {
-        Board = board;
-        Parameter = parameter;
+        Position = position;
+        PositionParameter = parameter;
       }
       #endregion                        // Constructors
 

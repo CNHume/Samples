@@ -41,7 +41,7 @@ namespace Engine {
           var bAbove = Parameter.IsAbove(nTo);
           var bPromote = Parameter.IsLastRank(nTo);
           var bEnPassant = nTo == nEP;
-          Board.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
+          Position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
         }
       }
 
@@ -65,13 +65,13 @@ namespace Engine {
           var nTo = nFrom + Parameter.PawnStep;
           var bAbove = Parameter.IsAbove(nTo);
           var bPromote = Parameter.IsLastRank(nTo);
-          Board.AddPawnMove(nFrom, nTo, bAbove, bPromote);
+          Position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
         }
 
         while (qpAdv2From != 0) {
           var nFrom = RemoveLo(ref qpAdv2From);
           var nTo = nFrom + 2 * Parameter.PawnStep;
-          Board.AddPawnMove(nFrom, nTo, false, false);
+          Position.AddPawnMove(nFrom, nTo, false, false);
         }
       }
 
@@ -84,7 +84,7 @@ namespace Engine {
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
           var nTo = nFrom + Parameter.PawnStep;
-          Board.AddPawnMove(nFrom, nTo, true, true);
+          Position.AddPawnMove(nFrom, nTo, true, true);
         }
       }
       #endregion                        // Pawn Move Generators
