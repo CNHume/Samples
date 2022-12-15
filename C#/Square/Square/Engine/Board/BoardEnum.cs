@@ -35,8 +35,8 @@ namespace Engine {
     // TurnFlags  0:8
     // --------------
     //  0:3 EPFile
-    //  3:1 WTM
-    //  4:1 Passed
+    //  3:1 Passed
+    //  4:1 WTM
     //  5:1 Illegal
     //  6:1 InCheck
     //  7:1 Final
