@@ -254,7 +254,7 @@ namespace Engine {
       if (IsNullOrEmpty(sEnPassant) || sEnPassant == "-")
         return;
 
-      var sqEnPassant = sEnPassant.TryParseEnum<sq>(ignoreCase);
+      var sqEnPassant = sEnPassant.TryParseEnum<@sq>(ignoreCase);
       if (!sqEnPassant.HasValue)
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
@@ -346,7 +346,7 @@ namespace Engine {
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (IsPassed() && HalfMoveClock > 0) {
-        var sqEP = (sq)FlagsTurn.ep();
+        var sqEP = (@sq)FlagsTurn.ep();
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 

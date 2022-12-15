@@ -140,7 +140,7 @@ namespace Engine {
       return (qp - 1 & qp) == 0;
     }
 #if FindHi
-    protected static sq sqHi(UInt64 r) {
+    protected static @sq sqHi(UInt64 r) {
       for (var n = 0; n < nSquares; n++, r <<= 1)
         if ((r & BITHI) != 0) return (sq)(63 - n);
 

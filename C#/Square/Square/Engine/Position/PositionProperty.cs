@@ -42,7 +42,7 @@ namespace Engine {
     public static readonly PawnFeature[] PawnFeatures;
     public static readonly Int32 nFeatureBits;
 #if TestInitFree || TestInitHelp
-    private static readonly sq[] testSquares = { sq.a1, sq.a8, sq.c2, sq.c5, sq.d6, sq.e4, sq.f1, sq.g7, sq.h8 };
+    private static readonly sq[] testSquares = { @sq.a1, @sq.a8, @sq.c2, @sq.c5, @sq.d6, @sq.e4, @sq.f1, @sq.g7, @sq.h8 };
 #endif
     #endregion
 

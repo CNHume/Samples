@@ -88,7 +88,7 @@ namespace Engine {
 
       if (fturn.Has(TurnFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (sq)fturn.ep() + sSpace + TurnFlags.Passed;
+        s += sPrefix + (@sq)fturn.ep() + sSpace + TurnFlags.Passed;
       }
 
       return s;
@@ -180,7 +180,7 @@ namespace Engine {
         sb.Append(" -");
       else {
         sb.Append(sSpace);
-        sb.Append((sq)FlagsTurn.ep());
+        sb.Append((@sq)FlagsTurn.ep());
       }
     }
 

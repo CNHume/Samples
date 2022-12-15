@@ -212,7 +212,7 @@ namespace Engine {
       return (qpFree, qpHelp);
     }
 
-    private static void testFreeHelp(sq[] squares) {
+    private static void testFreeHelp(@sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
         foreach (var parameter in Parameter) {

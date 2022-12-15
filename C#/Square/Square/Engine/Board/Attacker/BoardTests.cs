@@ -122,7 +122,7 @@ namespace Engine {
 #endif
     }
 
-    protected void testAtxMasks(sq sq) {
+    protected void testAtxMasks(@sq sq) {
       var n = (Int32)sq;
 #if TestDiagIndexers
       testDiagIndexes("A1H8Diag", diagA1H8);

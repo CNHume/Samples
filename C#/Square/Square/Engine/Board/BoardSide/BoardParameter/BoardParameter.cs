@@ -28,7 +28,7 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = (Int32)sq.a8;
+            SetupRank = (Int32)@sq.a8;
             EnPassantRank = 2;
 
             (FileLeft, FileRight) = (qpFileH, qpFileA);
@@ -45,7 +45,7 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = (Int32)sq.a1;
+            SetupRank = (Int32)@sq.a1;
             EnPassantRank = InvertRank(2);
 
             RankLast = qpRank8;
@@ -98,9 +98,9 @@ namespace Engine {
         public Boolean IsAbove(Int32 nTo) {
           switch (SideName) {
           case SideName.Black:
-            return nTo <= (Int32)sq.h4;
+            return nTo <= (Int32)@sq.h4;
           case SideName.White:
-            return nTo >= (Int32)sq.a5;
+            return nTo >= (Int32)@sq.a5;
           default:
             throw new ArgumentException(nameof(SideName));
           }
@@ -110,9 +110,9 @@ namespace Engine {
         public bool IsLastRank(Int32 nTo) {
           switch (SideName) {
           case SideName.Black:
-            return nTo <= (Int32)sq.h1;
+            return nTo <= (Int32)@sq.h1;
           case SideName.White:
-            return nTo >= (Int32)sq.a8;
+            return nTo >= (Int32)@sq.a8;
           default:
             throw new ArgumentException(nameof(SideName));
           }

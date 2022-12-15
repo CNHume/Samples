@@ -65,8 +65,8 @@ namespace Engine {
 
       if (qpAtxTo == 0) {
         var sMove = bCapture ? "capture" : "move";
-        var sqFrom = (sq)nFrom;
-        var sqTo = (sq)nTo;
+        var sqFrom = (@sq)nFrom;
+        var sqTo = (@sq)nTo;
         Debug.Assert(qpAtxTo != 0, $"There is no piece that can {sMove} from {sqFrom} to {sqTo}.");
         Display();
       }
@@ -192,8 +192,8 @@ namespace Engine {
 #endif
         }
 #if DebugMove
-        unpackMove1(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(moveNoted, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(moveNoted, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
         var bWTM = WTM();
@@ -247,8 +247,8 @@ namespace Engine {
         if (!State!.IsPure)             // Standard Algebraic Notation (AN) supports abbreviation
           moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
-        unpackMove1(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveNoted, out sq sqFrom, out sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(moveNoted, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(moveNoted, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
         var bWTM = WTM();

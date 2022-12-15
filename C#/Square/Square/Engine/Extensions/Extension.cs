@@ -110,7 +110,7 @@ namespace Engine {
                                               String sDelimiter = sSpace) {
       while (qp != 0) {
         var n = RemoveLo(ref qp);
-        sb.Append(sDelimiter).Append((sq)n);
+        sb.Append(sDelimiter).Append((@sq)n);
       }
 
       return sb;
@@ -182,9 +182,9 @@ namespace Engine {
     }
 #if TestRotation
     // Find square holding bit based on Rotation Map:
-    private static sq sqUsingBit(Plane[] qpMask, Plane qp) {
+    private static @sq sqUsingBit(Plane[] qpMask, Plane qp) {
       for (var n = 0; n < nSquares; n++)
-        if (qpMask[n] == qp) return (sq)n;
+        if (qpMask[n] == qp) return (@sq)n;
 
       throw new BoardException("Square Not Found");
     }
@@ -319,7 +319,7 @@ namespace Engine {
       var x = (Int32)(fturn & TurnFlags.EPFile);
       var bWTM = fturn.Has(TurnFlags.WTM);
       //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
-      return (Int32)(bWTM ? sq.a6 : sq.a3) + x;
+      return (Int32)(bWTM ? @sq.a6 : @sq.a3) + x;
     }
 
     //[Speed]Enum.HasFlag() incurs significant performance overhead, due to reflection.
@@ -448,8 +448,8 @@ namespace Engine {
         #endregion
       }
       else {
-        var sqTo = (sq)nTo;
-        var sqFrom = (sq)nFrom;
+        var sqTo = (@sq)nTo;
+        var sqFrom = (@sq)nFrom;
         var bEnPassant = false;
 
         if (vPiece != vP6)              // Pawn symbols are also elided when bExpandFrom is set
@@ -542,7 +542,7 @@ namespace Engine {
         #endregion
       }
       else {
-        sb.Append((sq)nFrom).Append((sq)nTo);
+        sb.Append((@sq)nFrom).Append((@sq)nTo);
 
         if (uPromotion > 0) {
           Debug.Assert(piece == Piece.P, "Only Pawns are allowed to promote");

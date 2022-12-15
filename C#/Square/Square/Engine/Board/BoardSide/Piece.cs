@@ -405,7 +405,7 @@ namespace Engine {
 
       #region Move Builder
       public Move BuildMove(
-        String sPACN, sq? sqFrom, sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
+        String sPACN, @sq? sqFrom, @sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 
         //
@@ -504,12 +504,12 @@ namespace Engine {
             throw new ParsePositionException($"{sideName} must have a King");
 
           if (bChess960) {
-            if (KingPos <= nRank + (Int32)sq.a1 || nRank + (Int32)sq.h1 <= KingPos)
+            if (KingPos <= nRank + (Int32)@sq.a1 || nRank + (Int32)@sq.h1 <= KingPos)
               throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
-            if (KingPos != nRank + (Int32)sq.e1)
-              throw new ParsePositionException($"{sideName} King must castle from {sq.e1}");
+            if (KingPos != nRank + (Int32)@sq.e1)
+              throw new ParsePositionException($"{sideName} King must castle from {@sq.e1}");
           }
 
           rule.CastlesFrom = KingPos;

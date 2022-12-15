@@ -63,16 +63,16 @@ namespace Engine {
     #endregion
 
     #region Pure Algebraic Coordinate Notation (PACN) Methods
-    private static sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
+    private static @sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
       const Boolean ignoreCase = true;
-      sq? sq = default;
+      @sq? sq = default;
       if (nPos + 2 <= nLen) {
-        sq = sMove.Substring(nPos, 2).TryParseEnum<sq>(ignoreCase);
+        sq = sMove.Substring(nPos, 2).TryParseEnum<@sq>(ignoreCase);
         nPos += 2;
       }
 
-      if (sq.HasValue)
-        return sq.Value;
+      if (@sq.HasValue)
+        return @sq.Value;
       else
         throw new MoveException($"Invalid Square: {sMove}");
     }
@@ -83,7 +83,7 @@ namespace Engine {
         sMove[nPos++].ToString().TryParseEnum<Piece>(ignoreCase) : default;
     }
 
-    private void parsePACN(String sMove, out sq sqFrom, out sq sqTo, out Piece promotion) {
+    private void parsePACN(String sMove, out @sq sqFrom, out @sq sqTo, out Piece promotion) {
       promotion = default;
       var nLen = sMove.Length;
       var nPos = 0;
@@ -100,7 +100,7 @@ namespace Engine {
     }
 
     private Int32 parseFromTo(String sMove, ref Boolean bCastles, ref Move move) {
-      parsePACN(sMove, out sq sqFrom, out sq sqTo, out Piece promotion);
+      parsePACN(sMove, out @sq sqFrom, out @sq sqTo, out Piece promotion);
       var nFrom = (Int32)sqFrom;
       var nTo = (Int32)sqTo;
       var qpFrom = bit(nFrom);

@@ -574,11 +574,11 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void unpackMove1(
-      Move move, out sq sqFrom, out sq sqTo,
+      Move move, out @sq sqFrom, out @sq sqTo,
       out Piece piece, out Piece promotion, out Boolean bCapture) {
       Debug.Assert(IsDefinite(move), "Indefinite Move");
-      sqFrom = (sq)From(move);
-      sqTo = (sq)To(move);
+      sqFrom = (@sq)From(move);
+      sqTo = (@sq)To(move);
 
       piece = (Piece)moved(move);
       promotion = (Piece)Promoted(move);
@@ -588,12 +588,12 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static void unpackMove2(
-      Move move, out sq sqFrom, out sq sqTo,
+      Move move, out @sq sqFrom, out @sq sqTo,
       out Piece piece, out Piece promotion, out Piece capture,
       out Boolean bCastles, out Boolean bCapture) {
       Debug.Assert(IsDefinite(move), "Indefinite Move");
-      sqFrom = (sq)From(move);
-      sqTo = (sq)To(move);
+      sqFrom = (@sq)From(move);
+      sqTo = (@sq)To(move);
 
       piece = (Piece)moved(move);
       promotion = (Piece)Promoted(move);

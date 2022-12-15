@@ -37,13 +37,13 @@ namespace Engine {
       //[Test]writeDepthShallow((PlyDepth)32);
       //[Test]writeDepthDeep((PlyDepth)32);
       //
-      //[Test]testOutsideSquare(sq.c1);
+      //[Test]testOutsideSquare(@sq.c1);
       //[Test]testOffsets();
       //[Test]testRotations();
       //[Test]testPieceMasks();
       //[Test]testPawnAttacks();
       //[Test]
-      //for (sq sq = sq.a1; sq <= sq.h8; sq++)
+      //for (@sq sq = @sq.a1; sq <= @sq.h8; sq++)
       //  testAtxMasks(sq);
       //
       //[Time]timeRoots();
@@ -80,7 +80,7 @@ namespace Engine {
     }
 
     [Conditional("TestOutsideSquare")]
-    private void testOutsideSquare(sq sq) {
+    private void testOutsideSquare(@sq sq) {
       var n = (Int32)sq;
       foreach (var parameter in Parameter) {
         testOrth($"{parameter.SideName}KingToMoveLoss[{sq}]", parameter.KingToMoveLoss[n]);
@@ -179,7 +179,7 @@ namespace Engine {
       var blackSide = Side[Black];
       var whiteSide = Side[White];
 
-      //var qpMoveTo = AtxKing[(Int32)sq.e4];
+      //var qpMoveTo = AtxKing[(Int32)@sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = AtxKing[nFrom];
@@ -248,7 +248,7 @@ namespace Engine {
 
     private void timeMagic(UInt64 qTrials = 1000000000UL) {
       var sw = timerStart(nameof(rotateRank), qTrials);
-      var n = (Int32)sq.e4;
+      var n = (Int32)@sq.e4;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var vRank = rotateRank(n);                    // 11 sec, 90.65 MHz
         //var vFileHalf = hashFileHalf(RankPiece, n);    // 29.48 sec, 33.9 MHz
@@ -261,7 +261,7 @@ namespace Engine {
 
     private void timeCapturedPiece(UInt64 qTrials = 1000000000UL) {
       var sw = timerStart(nameof(GetPieceIndex), qTrials);
-      var nFrom = (Int32)sq.d1;
+      var nFrom = (Int32)@sq.d1;
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         GetPieceIndex(nFrom);
       }

@@ -31,7 +31,7 @@ namespace Engine {
     //
     private void restrictPiece(Move move) {
 #if DebugMove
-      unpackMove1(move, out sq sqFrom, out sq sqTo, out Piece piece1,
+      unpackMove1(move, out @sq sqFrom, out @sq sqTo, out Piece piece1,
                   out Piece promotion, out Boolean bCapture);
 #endif
       unpack1(move, out Int32 nFrom, out Int32 nTo,

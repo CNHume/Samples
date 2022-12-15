@@ -78,7 +78,7 @@ namespace Engine {
         vCapture = GetPieceIndex(nTo);
 
         Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
-                     $"There is no piece to capture on {(sq)nTo}.");
+                     $"There is no piece to capture on {(@sq)nTo}.");
 #if SaveCapture
         var captive = IndexPiece(vCapture);
         move &= ~Move.CaptiveMask;
@@ -96,7 +96,7 @@ namespace Engine {
         vCapture = PieceIndex(uCapture);
 
       Debug.Assert(vCapture != vK6, "Unknown Captive",
-                   $"No captive found for {(sq)nTo}.");
+                   $"No captive found for {(@sq)nTo}.");
 
       return vCapture;
     }
