@@ -99,7 +99,7 @@ namespace Engine {
         else if (mBeta == EvalUndefined)
           mBeta = PlusInfinity;
 
-        if (State!.IsAspiration && UCICommand.IsDebug) {
+        if (State!.IsAspiration && UCI.IsDebug) {
           var mEvalAlpha = ReflectValue(bWTM, mAlpha);
           var mEvalBeta = ReflectValue(bWTM, mBeta);
 
@@ -128,7 +128,7 @@ namespace Engine {
 
         if (mAlpha < mValue && mValue < mBeta)
           break;                        // Aspiration Window was adequate;
-        else if (UCICommand.IsDebug) {  // else loop with a larger Window
+        else if (UCI.IsDebug) {         // else loop with a larger Window
           var mEval = ReflectValue(bWTM, mValue);
           var sFailed = mValue < mBeta ? "Lo" : "Hi";
           sb.Append("Eval").AppendEvalTerm(mEval)
@@ -178,7 +178,7 @@ namespace Engine {
            !vDepthLimit.HasValue || vDepth <= vDepthLimit;
            vDepth++) {
 #if DisplayDepth
-        if (UCICommand.IsDebug) {
+        if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
           LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
@@ -186,7 +186,7 @@ namespace Engine {
         mValue = beginIteration(vDepth, mValue);
         endIteration(vDepth);
 #if DisplayDepth
-        if (UCICommand.IsDebug) {
+        if (UCI.IsDebug) {
           sw.Stop();
           var dElapsedMS = (Double)sw.ElapsedMilliseconds;
           var qTotal2 = (UInt64)State!.NodeTotal;
@@ -236,7 +236,7 @@ namespace Engine {
       foreach (var tc in testCases) {
         var vDepth = tc.Plies;
 #if DisplayDepth
-        if (UCICommand.IsDebug) {
+        if (UCI.IsDebug) {
           LogInfoNewLine(Level.note);
           LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
@@ -245,7 +245,7 @@ namespace Engine {
         pc.Clear();
         perft(vDepth);
 #if DisplayDepth
-        if (UCICommand.IsDebug) {
+        if (UCI.IsDebug) {
           sw.Stop();
           var dElapsedMS = (Double)sw.ElapsedMilliseconds;
           var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;

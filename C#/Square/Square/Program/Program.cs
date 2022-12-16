@@ -38,9 +38,9 @@ namespace Square {
 
     #region Methods
     private static void Main(String[] args) {
-      using (var command = new UCICommand()) {
+      using (var command = new UCI()) {
         try {
-          if (UCICommand.IsDebug) {
+          if (UCI.IsDebug) {
 #if NoteLaunchAndExit
             LogInfo(Level.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
