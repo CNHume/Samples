@@ -97,7 +97,7 @@ namespace Engine {
           StartDepth = 0;               //[Init]
           ClearSearchCounts();
 
-          if (UCI.IsDebug) {
+          if (UCICommand.IsDebug) {
             var dtStarted = DateTime.Now;
 #if Herald
             herald(dtStarted, position.Name);
@@ -145,7 +145,7 @@ namespace Engine {
         if (SearchTimer.IsRunning)
           SearchTimer.Stop();
 
-        if (UCI.IsDebug) {
+        if (UCICommand.IsDebug) {
           LogInfoNewLine(Level.note);
 #if NoteStartAndFinish
           LogInfo(Level.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");

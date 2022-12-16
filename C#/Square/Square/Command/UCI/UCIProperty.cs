@@ -12,7 +12,7 @@ namespace Command {
 
   using Engine;                         // For GameState
 
-  partial class UCI {
+  partial class UCICommand {
     #region FEN Constants
     private const String sDefaultFEN =
     //

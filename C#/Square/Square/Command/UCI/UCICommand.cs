@@ -44,13 +44,13 @@ namespace Command {
   using static System.String;
   using static Logging.Logger;
 
-  partial class UCI : ICommand {
+  partial class UCICommand : ICommand {
     #region Constructors
-    public UCI() {
+    public UCICommand() {
       IsVerbose = false;
     }
 
-    static UCI() {
+    static UCICommand() {
       IsDebug = true;                   //[UCI]Default
       IsRegistrationChecked = true;     //[UCI]Default
       IsRegistered = false;             //[UCI]Default
