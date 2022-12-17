@@ -4,12 +4,14 @@
 //[2013-09-08 CNHume]Created Class
 //
 namespace Command {
-  using Exceptions;
-
   using System;
   using System.Collections.Generic;
   using System.Linq;
+
+  using Exceptions;
+
   using static System.String;
+  using static Command.Control;
 
   //
   // Event Handler Implementation cf. New Control Checklist
@@ -30,11 +32,11 @@ namespace Command {
     #endregion
 
     #region Properties
-    public OptionType Type { get; private set; }
+    private OptionType Type { get; set; }
     #endregion
   }
 
-  class Button : Control {
+  public class Button : Control {
     #region Events
     internal event EventHandler? Click;
     #endregion
@@ -46,7 +48,7 @@ namespace Command {
     #endregion
   }
 
-  class Setting : Control {
+  public class Setting : Control {
     #region Fields
     //
     // Current Value:
@@ -153,9 +155,9 @@ namespace Command {
     #endregion                          // Methods
   }
 
-  class Control {
+  public partial class Control {
     #region Fields
-    public Option Option;
+    public ControlOption Option;
     #endregion
 
     #region Methods

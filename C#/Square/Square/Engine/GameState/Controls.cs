@@ -18,6 +18,7 @@ namespace Engine {
   using Exceptions;
 
   using static Board;
+  using static Command.Control;
   using static Logging.Logger;
   using static Position;
 
@@ -41,7 +42,7 @@ namespace Engine {
     public static readonly Control[] Controls = {
 #if TestOptionTypes
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Selectivity",         //[Example]
           Type = OptionType.spin,
           Default = "2",
@@ -50,7 +51,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Style",               //[Example]
           Type = OptionType.combo,
           Items = new String[] { "Solid", "BestMove", "Risky" },
@@ -59,13 +60,13 @@ namespace Engine {
       },
 #endif
       new Button {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Clear Hash",          // Example had compound name of "Clear Hash"
           Type = OptionType.button
         }
       },
       new Setting {                     // Step 1/6: Define Control its Limits and Default Value here
-        Option = new Option {
+        Option = new ControlOption {
           Name = "MultiPV",             //[UCI]
           Type = OptionType.spin,
           Default = "1",
@@ -74,7 +75,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "QXPLength",
           Type = OptionType.spin,
           Default = "16",
@@ -83,7 +84,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "QXPBuckets",
           Type = OptionType.spin,
           Default = "4",
@@ -92,7 +93,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "XPLength",            //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
           Type = OptionType.spin,
           Default = "48",
@@ -101,7 +102,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "XPBuckets",
           Type = OptionType.spin,
           Default = "2",
@@ -110,7 +111,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "XPMLength",
           Type = OptionType.spin,
           Default = "8",
@@ -119,7 +120,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "XPMBuckets",
           Type = OptionType.spin,
           Default = "6",
@@ -128,7 +129,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "ExpectedMoves",       // ExpectedMovesToGo for "sudden death" time controls
           Type = OptionType.spin,
           Default = "32",
@@ -137,7 +138,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Contempt",
           Type = OptionType.spin,
           Default = "0",
@@ -146,7 +147,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Late",
           Type = OptionType.spin,
           Default = "2",
@@ -155,7 +156,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Checks",
           Type = OptionType.spin,
           Default = "6",                // 8
@@ -164,7 +165,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Threat",              // Looks for Mate Threats, currently
           Type = OptionType.spin,
           Default = "0",
@@ -173,7 +174,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Singular",
           Type = OptionType.spin,
           Default = "2",
@@ -182,21 +183,21 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Aspiration",
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Flip",
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Futility",            // Only an option for testing purposes
           Type = OptionType.check,
           Default = "true",
@@ -204,7 +205,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "NullMove",
           Type = OptionType.check,
           Default = "true",
@@ -212,14 +213,14 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Occam",               // Forward Pruning is not a good idea
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Pure",                // PACN vs. AN [UCI vs. Command Line]
           Type = OptionType.check,
           Default = "false",
@@ -227,7 +228,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Heartbeat",
           Type = OptionType.check,
           Default = "false",
@@ -235,7 +236,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "HeartbeatMS",         // Heartbeat Period in msec
           Type = OptionType.spin,
           Default = "7500",
@@ -245,28 +246,28 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Ponder",              //[UCI]In case Time Management may be affected
           Type = OptionType.check,
           Default = "true"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "UCI_AnalyseMode",     //[UCI]This means the Engine is not playing a game
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "UCI_ShowCurrLine",    //[UCI]
           Type = OptionType.check,
           Default = "true"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "UCI_Opponent",        //[UCI]
           Type = OptionType.@string,
           Default = "Human"
@@ -274,14 +275,14 @@ namespace Engine {
       },
 #if SyzygyControls
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "SyzygyPath",          //[UCI]
           Type = OptionType.@string,
           Default = @"c:\Syzygy"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "SyzygyCache",         //[UCI]
           Type = OptionType.spin,
           Default = "4",
@@ -290,14 +291,14 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Syzygy50MoveRule",
           Type = OptionType.check,
           Default = "true"
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "SyzygyProbeDepth",
           Type = OptionType.spin,
           Default = "14",
@@ -306,7 +307,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "SyzygyProbeLimit",
           Type = OptionType.spin,
           Default = "5",
@@ -316,7 +317,7 @@ namespace Engine {
       },
 #endif
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "Language",
           Type = OptionType.combo,
           Items = Locales.Select(locale => locale.Language).ToArray<String>(),
@@ -325,7 +326,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "LogLevel",            //[Logger]
           Type = OptionType.combo,
           Items = Enum.GetValues(typeof(Level))
@@ -336,7 +337,7 @@ namespace Engine {
         }
       },
       new Setting {
-        Option = new Option {
+        Option = new ControlOption {
           Name = "LogPath",             //[Logger]
           Type = OptionType.@string,
           Default = LogPathDefault
