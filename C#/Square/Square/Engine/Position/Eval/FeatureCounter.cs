@@ -101,10 +101,10 @@ namespace Engine {
 
     //
     // Isolated Files have no intersection with FriendPawnAtx.
-    // Pawns are not Free iff Free[sq] & (FoePawnAtx | FoePawn).
+    // Pawns are not Free iff Free[n] & (FoePawnAtx | FoePawn).
     // Pawns are Backward when their Stop Squares are blocked, i.e.,
     // when their Stop Square is either attacked or occupied by a Foe,
-    // unless Help[sq] & FriendPawnAtx indicates that they can be helped.
+    // unless Help[n] & FriendPawnAtx indicates that they can be helped.
     //
     public FeatureCounter CountPawnFeatures(Int32 nSide, out Plane qpPassers, out PRPFlags fprp) {
       fprp = default;                   //[Init]

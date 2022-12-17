@@ -119,8 +119,8 @@ namespace Engine {
         // moveFound not always defined for EvalType.Upper [Fail Low]
         if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
-          unpackMove1(moveFound, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(moveFound, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
           if (isMovePosition)           // Pass empty BestMoves, at top level
             AddPV(mAlpha, mValueFound, moveFound, BestMoves);
@@ -278,8 +278,8 @@ namespace Engine {
 #endif
           #region Make Move
 #if DebugMove
-          unpackMove1(move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
           var bWhiteMove = move.Has(Move.WTM);

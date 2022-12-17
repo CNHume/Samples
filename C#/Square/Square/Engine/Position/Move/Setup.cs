@@ -336,7 +336,7 @@ namespace Engine {
 
       var nKnight2Square = findEmpty(false, nKnight2);
 #if DEBUG
-      var sqKnight2 = (@sq)nKnight2Square;
+      var sqKnight2 = (Sq)nKnight2Square;
 #endif
       //
       // Occupy square before making the second choice:
@@ -345,7 +345,7 @@ namespace Engine {
 
       var nKnight1Square = findEmpty(false, nKnight1);
 #if DEBUG
-      var sqKnight1 = (@sq)nKnight1Square;
+      var sqKnight1 = (Sq)nKnight1Square;
 #endif
       setupPiece(vN6, nKnight1Square);
       #endregion
@@ -392,8 +392,8 @@ namespace Engine {
       var whiteSide = Side[White];
 
       var vPiece = vP6;
-      var nBlack = (Int32)@sq.a7;
-      var nWhite = (Int32)@sq.a2;
+      var nBlack = (Int32)Sq.a7;
+      var nWhite = (Int32)Sq.a2;
       for (var nFile = 0; nFile < nFiles; nFile++, nBlack++, nWhite++) {
         blackSide.PlacePiece(vPiece, nBlack);
         whiteSide.PlacePiece(vPiece, nWhite);
@@ -432,7 +432,7 @@ namespace Engine {
     #region Chess960 Setup Diagnostics
     private static void hasColor(Int32 n, Plane qpColor, String sName, String sPossessive = "its") {
       var sHas = (bit(n) & qpColor) != 0 ? "has" : "does not have";
-      LogLine($"The {sName} at {(@sq)n} {sHas} {sPossessive} color.");
+      LogLine($"The {sName} at {(Sq)n} {sHas} {sPossessive} color.");
     }
     #endregion
 

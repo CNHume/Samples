@@ -72,8 +72,8 @@ namespace Engine {
       // For Pieces that can be held by each Square:
       for (var nPiece = 0; nPiece < nPieces; nPiece++) {
         var bPawn = nPiece == vP6;      //[Speed]Pawns cannot appear on their First or Last Rank:
-        var nMin = (Int32)(bPawn ? @sq.a2 : @sq.a1);
-        var nMax = (Int32)(bPawn ? @sq.h7 : @sq.h8);
+        var nMin = (Int32)(bPawn ? Sq.a2 : Sq.a1);
+        var nMax = (Int32)(bPawn ? Sq.h7 : Sq.h8);
 
         for (var n = nMin; n <= nMax; n++) {
           // White Piece:

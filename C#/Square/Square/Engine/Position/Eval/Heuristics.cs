@@ -191,14 +191,14 @@ namespace Engine {
     }
 
     private static Int32 liteCornerDistance(Int32 n) {
-      var distA8 = distance((Int32)@sq.a8, n);
-      var distH1 = distance((Int32)@sq.h1, n);
+      var distA8 = distance((Int32)Sq.a8, n);
+      var distH1 = distance((Int32)Sq.h1, n);
       return Min(distA8, distH1);
     }
 
     private static Int32 darkCornerDistance(Int32 n) {
-      var distA1 = distance((Int32)@sq.a1, n);
-      var distH8 = distance((Int32)@sq.h8, n);
+      var distA1 = distance((Int32)Sq.a1, n);
+      var distH8 = distance((Int32)Sq.h8, n);
       return Min(distA1, distH8);
     }
 

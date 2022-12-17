@@ -66,8 +66,8 @@ namespace Engine {
               var bOutsidePawnToMove = nSize1 < nDeltaX + 1 || nSize1 < nWhiteKingY + 1;
 
               //[Debug]King Positions
-              //var sqBlack = (sq)nBlack;
-              //var sqWhite = (sq)nWhite;
+              //var sqBlack = (Sq)nBlack;
+              //var sqWhite = (Sq)nWhite;
 
               //
               // Sum Pawn positions with King outside the Square of the Pawn:
@@ -212,7 +212,7 @@ namespace Engine {
       return (qpFree, qpHelp);
     }
 
-    private static void testFreeHelp(@sq[] squares) {
+    private static void testFreeHelp(Sq[] squares) {
       foreach (var sq in squares) {
         var n = (Int32)sq;
         foreach (var parameter in Parameter) {

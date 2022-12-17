@@ -19,10 +19,10 @@ namespace Engine {
           public CastleRuleParameter(Int32 nSetupRank) {
             SetupRank = nSetupRank;
 
-            KingOOTo = SetupRank + (Int32)@sq.g1;
-            RookOOTo = SetupRank + (Int32)@sq.f1;
-            KingOOOTo = SetupRank + (Int32)@sq.c1;
-            RookOOOTo = SetupRank + (Int32)@sq.d1;
+            KingOOTo = SetupRank + (Int32)Sq.g1;
+            RookOOTo = SetupRank + (Int32)Sq.f1;
+            KingOOOTo = SetupRank + (Int32)Sq.c1;
+            RookOOOTo = SetupRank + (Int32)Sq.d1;
 
             Clear();
           }
