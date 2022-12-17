@@ -16,6 +16,8 @@ namespace Engine {
   using Command;                        // For Scanner, Token
   using Command.Exceptions;
 
+  using static Command.Parser;
+
   partial class Position : Board {
     #region Constants
     // Castling:
