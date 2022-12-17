@@ -27,6 +27,7 @@ namespace Engine {
   using static System.String;
   using static Board;
   using static Logging.Logger;
+
   //
   // Type Aliases:
   //

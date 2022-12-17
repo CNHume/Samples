@@ -28,7 +28,7 @@ There is also a Java folder which contains a Bit-Board based Othello player.
 
 Most of the Python samples assume a Python 2.7 environment.
 
-C# Samples are written in C# 9.0 and target the NET5.0 Framework.
+Some of the C# projects are may require C# 11 features provided by Visual Studio 2022, and the NET7.0 Framework.  See the following Microsoft Download link to obtain the [Free Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/).  The installation includes the current release of the ASP.NET SDK.
 
 The Othello player was written in Java 1.8 using a NetBeans 8.0 IDE.
 
@@ -36,4 +36,4 @@ The allegro-projects can be run in the Free Express Edition of Allegro Common Li
 
 ### Who do I talk to?
 
-Send questions or comments to cnhume-software@yahoo.com
+Please send any comments or questions to cnhume-software@yahoo.com
