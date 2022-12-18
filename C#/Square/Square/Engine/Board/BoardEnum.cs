@@ -386,6 +386,8 @@ namespace Engine {
     protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
     protected const Plane MASK64 = UInt64.MaxValue;
 
+    private const Byte MASK8 = Byte.MaxValue;
+
     // The following are used by resetWhite|BlackPawnAtx()
     protected const Plane qpFileA = 0x0101010101010101UL;
     protected const Plane qpFileB = qpFileA << 1;

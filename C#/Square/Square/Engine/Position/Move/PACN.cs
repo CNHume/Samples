@@ -128,7 +128,7 @@ namespace Engine {
       var bCapture = (qpTo & qpFoe) != 0;
       if (bCapture)
         vCapture = vPieceTo;
-      else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.ep()) {
+      else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.sqrEP()) {
         bCapture = true;
         vCapture = vEP6;
       }

@@ -88,7 +88,7 @@ namespace Engine {
 
       if (fturn.Has(TurnFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (Sq)fturn.ep() + sSpace + TurnFlags.Passed;
+        s += sPrefix + (Sq)fturn.sqrEP() + sSpace + TurnFlags.Passed;
       }
 
       return s;
@@ -180,7 +180,7 @@ namespace Engine {
         sb.Append(" -");
       else {
         sb.Append(sSpace);
-        sb.Append((Sq)FlagsTurn.ep());
+        sb.Append((Sq)FlagsTurn.sqrEP());
       }
     }
 
@@ -368,7 +368,7 @@ namespace Engine {
         var c = (Char)(bRotateBoard ? cFileMax - rank : cRankMin + rank);
         if (!bRightRuler)               // Rank Ruler at Left
           sb.Append(c);
-        var uOrth = (UInt32)(qp >> sqr(0, rank) & Byte.MaxValue);
+        var uOrth = (UInt32)(qp >> sqr(0, rank) & MASK8);
         sb.AppendOrth(uOrth, bFlip);
         if (bRightRuler)                // Rank Ruler at Right
           sb.Append(c);

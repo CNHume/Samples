@@ -346,7 +346,7 @@ namespace Engine {
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (IsPassed() && HalfMoveClock > 0) {
-        var sqEP = (Sq)FlagsTurn.ep();
+        var sqEP = (Sq)FlagsTurn.sqrEP();
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 

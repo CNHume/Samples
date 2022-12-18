@@ -101,7 +101,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEnPassant(Plane qpFoe) {
       return IsPassed() && (qpFoe & Pawn) != 0 ?
-        qpFoe | bit(FlagsTurn.ep()) : qpFoe;
+        qpFoe | bit(FlagsTurn.sqrEP()) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz

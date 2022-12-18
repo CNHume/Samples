@@ -315,7 +315,7 @@ namespace Engine {
 
     #region Enum Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 ep(this TurnFlags fturn) {
+    public static Int32 sqrEP(this TurnFlags fturn) {
       var x = (Int32)(fturn & TurnFlags.EPFile);
       var bWTM = fturn.Has(TurnFlags.WTM);
       //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
