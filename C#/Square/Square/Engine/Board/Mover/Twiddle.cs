@@ -7,50 +7,6 @@
 //
 //#define FindHi
 //#define ImportTwiddle
-//
-// RemoveLo() 47% faster w Half de Bruijn: Avoiding 64-Bit Multiply on a Compaq 3 GHz Pentium 4
-//
-// Overall search performance was better for Half de Bruijn on the Dell i7-4702HQ at 2.2 GHz w 4-cores
-// x86 was 9.83% faster
-// x64 was 6.48% faster
-//
-// Using i7-9700K CPU at 3.60GHz w 8-cores
-//
-// Overall Search Rate "8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1" [16-ply]
-// -------------------
-// FullMask     [47:32.79] 764.538 KHz
-// HalfDeBruijn [46:12.32] 786.73  KHz +2.9%
-//
-//[2022-04-22]
-// Numerics Release
-//
-// StartPos [2022-11-22 3.0x faster]
-// Searched a total of 130,363,835 nodes in 41.536 sec, 3138.575 KHz +3.8352%
-//
-// Perft2 [2022-11-22 2.5x faster]
-// Searched a total of 205,629,265 nodes in 54.275 sec, 3788.655 KHz +4.2266%
-//
-// Perft3 [2022-11-22 3.22x faster]
-// Searched a total of 218,839,927 nodes in 91.324 sec, 2396.302 KHz +7.3387%
-//
-// Perft4 [2022-11-22 2.65x faster]
-// Searched a total of 767,280,050 nodes in 237.195 sec, 3234.807 KHz +4.812%
-//
-// ===========================================================================
-// HalfMask Release
-//
-// StartPos
-// Searched a total of 130,363,835 nodes in 43.129 sec, 3022.649 KHz
-//
-// Perft2
-// Searched a total of 205,629,265 nodes in 56.569 sec, 3635.017 KHz
-//
-// Perft3
-// Searched a total of 218,839,927 nodes in 98.026 sec, 2232.468 KHz
-//
-// Perft4
-// Searched a total of 767,280,050 nodes in 248.608 sec, 3086.305 KHz
-//
 //#define TestDeBruijn
 //#define InitDeBruijn
 //#define ByteDeBruijn
