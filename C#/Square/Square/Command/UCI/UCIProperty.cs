@@ -44,7 +44,8 @@ namespace Command {
     //"3r2k1/1P3ppp/2p3b1/8/p7/7P/5PP1/2Rn2K1 w - - 0 8"; // Arjun Erigaisi v Nihal Sarin Prep
     // [20-ply in 444,971.9 sec = 5d 3:36:12 @1.3157 MHz over 585 Gnode] eval 0.83 after:
     // 8. f3! Nc3 9. Rxc3 Bf5 10. Rc4 Rd1+ 11. Kf2 Rb1 12. Rxa4 Rb2+ 13. Ke3 Rb3+ 14. Kd4 Kf8 15. Ra8+ Ke7 16. b8=Q Rxb8 17. Rxb8 Kd6 18. Rb6 h6 19. Rb8
-    // 8. f3! Rf8 9. g4 a3 10. Ra1 +-
+    // 8. f3! Rf8? 9. g4 a3 10. Ra1 +-
+    // 8. f3! Nc3! 9. Rxc3 {forced} Kf8 10. Rxc6 Bf5 11. Ra6 Rd1+ 12. Kf2 Rb1 13. Ra8+ Ke7 14. b8=Q Rxb8 15. Rxb8 Be6 16. Ra8 Bb3 +=
     //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 #2 [4-ply 25,142 nodes]
     //"1k1r4/1P2q3/1Q6/6p1/6Pp/7P/8/2R3K1 w - - 0 1"; // Promotion Fork [4-ply in 75 ms @121.77 KHz over 9,133 node] eval 3.25
     // 1. Rc8+ Rxc8 2. Qa7+ Kxa7 3. bxc8=N+ Ka6 4. Nxe7
@@ -118,7 +119,9 @@ namespace Command {
     // 49. Rc8+ Bf8 50. Rxf8+ Kxf8 51. Rxf7+ Ke8 52. Rf8+ Kd7 53. Qf5+ Kc6 54. Rc8+ Kb7 55. Qd7+ Ka6 56. Ra8#
     //"2rq1rk1/pb1n1ppN/4p3/1pb5/3P1Pn1/P1N5/1PQ1B1PP/R1B2RK1 b - - 0 16"; // Aronian v Anand 2013-01-16 Tata Steel [13-ply to find 16... Nde5!]
     //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
-    //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply 0.53 sec]
+    //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply in 0.67 sec] eval 5.85
+    //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
+    // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
     // [16-ply in 14:36 over 1.4341 Gnode @1.6373 MHz] eval 13.0 [17-ply] eval 14.2 [18-ply in 40:59 @1.529 MHz over 3.76 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
@@ -127,7 +130,7 @@ namespace Command {
     //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
     //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
     //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
-    //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2  [4-ply]
+    //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2 [4-ply]
     // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
     //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
     //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
