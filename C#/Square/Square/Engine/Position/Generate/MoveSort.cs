@@ -217,8 +217,8 @@ namespace Engine {
       var bWTM = WTM();
       foreach (var gm in goodMoves) {   // Maintain goodMove priority for earlyMoves
 #if DebugMove
-        unpackMove1(gm.Move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(gm.Move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor && BottleBothSides
         var bWhiteMove = gm.Move.Has(Move.WTM);

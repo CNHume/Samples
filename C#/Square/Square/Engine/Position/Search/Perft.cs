@@ -75,8 +75,8 @@ namespace Engine {
         foreach (var mov in moves) {
           var move = mov;
 #if DebugMove
-          unpackMove1(move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out @sq sqFrom, out @sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
           if (!child.tryMove(ref move, NotFindRepetition))
             continue;

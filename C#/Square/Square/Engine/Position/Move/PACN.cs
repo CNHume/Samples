@@ -67,14 +67,14 @@ namespace Engine {
     #region Pure Algebraic Coordinate Notation (PACN) Methods
     private static Sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
       const Boolean ignoreCase = true;
-      Sq? sq = default;
+      Sq? result = default;
       if (nPos + 2 <= nLen) {
-        sq = sMove.Substring(nPos, 2).TryParseEnum<Sq>(ignoreCase);
+        result = sMove.Substring(nPos, 2).TryParseEnum<Sq>(ignoreCase);
         nPos += 2;
       }
 
-      if (@sq.HasValue)
-        return @sq.Value;
+      if (result.HasValue)
+        return result.Value;
       else
         throw new MoveException($"Invalid Square: {sMove}");
     }

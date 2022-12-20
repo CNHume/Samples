@@ -22,18 +22,18 @@
 // HalfDeBruijn [46:12.32] 786.73  KHz +2.9%
 //
 //[2022-04-22]
-// Lazy Numerics Release
+// Numerics Release
 //
-// StartPos
+// StartPos [2022-11-22 3.0x faster]
 // Searched a total of 130,363,835 nodes in 41.536 sec, 3138.575 KHz +3.8352%
 //
-// Perft2
+// Perft2 [2022-11-22 2.5x faster]
 // Searched a total of 205,629,265 nodes in 54.275 sec, 3788.655 KHz +4.2266%
 //
-// Perft3
+// Perft3 [2022-11-22 3.22x faster]
 // Searched a total of 218,839,927 nodes in 91.324 sec, 2396.302 KHz +7.3387%
 //
-// Perft4
+// Perft4 [2022-11-22 2.65x faster]
 // Searched a total of 767,280,050 nodes in 237.195 sec, 3234.807 KHz +4.812%
 //
 // ===========================================================================
@@ -140,7 +140,7 @@ namespace Engine {
       return (qp - 1 & qp) == 0;
     }
 #if FindHi
-    protected static @sq sqHi(UInt64 r) {
+    protected static Sq sqHi(UInt64 r) {
       for (var n = 0; n < nSquares; n++, r <<= 1)
         if ((r & BITHI) != 0) return (sq)(63 - n);
 
