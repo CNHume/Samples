@@ -69,24 +69,20 @@ namespace Engine {
             var qpKing = bit(CastlesFrom.Value);
 
             if (RookOOFrom.HasValue) {
-              var qpRook = bit(RookOOFrom.Value);
-              var qpMask = ~(qpKing | qpRook);
+              var qpMask = bit(RookOOFrom.Value) | qpKing;
               var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
-              OOSafe = rankPath(CastlesFrom.Value, KingOOTo);
-              OOPath = qpMask & (qpPath | OOSafe);
-              //[Safe]addCastles() should not be called InCheck
-              OOSafe |= qpKing;
+              //[Safe]addCastles() should not be called when InCheck
+              OOSafe = rankPath(CastlesFrom.Value, KingOOTo) | qpKing;
+              OOPath = (OOSafe | qpPath) & ~qpMask;
               OO = OOTo | FromMove(CastlesFrom.Value);
             }
 
             if (RookOOOFrom.HasValue) {
-              var qpRook = bit(RookOOOFrom.Value);
-              var qpMask = ~(qpKing | qpRook);
+              var qpMask = bit(RookOOOFrom.Value) | qpKing;
               var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
-              OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo);
-              OOOPath = qpMask & (qpPath | OOOSafe);
-              //[Safe]addCastles() should not be called InCheck
-              OOOSafe |= qpKing;
+              //[Safe]addCastles() should not be called when InCheck
+              OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo) | qpKing;
+              OOOPath = (OOOSafe | qpPath) & ~qpMask;
               OOO = OOOTo | FromMove(CastlesFrom.Value);
             }
           }
