@@ -64,8 +64,8 @@ namespace Engine {
 
             if (!CastlesFrom.HasValue) return;
 
-            var OOTo = castles | (Move)(KingOOTo << nToBit);
-            var OOOTo = castles | (Move)(KingOOOTo << nToBit);
+            var OOTo = castles | ToMove(KingOOTo);
+            var OOOTo = castles | ToMove(KingOOOTo);
             var qpKing = bit(CastlesFrom.Value);
 
             if (RookOOFrom.HasValue) {
@@ -76,7 +76,7 @@ namespace Engine {
               OOPath = qpMask & (qpPath | OOSafe);
               //[Safe]addCastles() should not be called InCheck
               OOSafe |= qpKing;
-              OO = OOTo | (Move)(CastlesFrom << nFromBit);
+              OO = OOTo | FromMove(CastlesFrom.Value);
             }
 
             if (RookOOOFrom.HasValue) {
@@ -87,7 +87,7 @@ namespace Engine {
               OOOPath = qpMask & (qpPath | OOOSafe);
               //[Safe]addCastles() should not be called InCheck
               OOOSafe |= qpKing;
-              OOO = OOOTo | (Move)(CastlesFrom << nFromBit);
+              OOO = OOOTo | FromMove(CastlesFrom.Value);
             }
           }
 
