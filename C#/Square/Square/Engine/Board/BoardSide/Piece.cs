@@ -414,13 +414,13 @@ namespace Engine {
         var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
         var piece = IndexPiece(vPiece);
 
-        if (!qpAtxTo.HasValue)          //[Safe]
-          throw new ParseException($"Unexpected Piece in Move: {sPACN}");
-        else {
+        if (qpAtxTo.HasValue) {         //[Safe]
           qpAtxTo &= ~Piece;
           if ((qpAtxTo & qpTo) == 0)
             throw new MoveException($"{piece} cannot move from {sqFrom} to {sqTo}");
         }
+        else
+          throw new ParseException($"Unexpected Piece in Move: {sPACN}");
 
         //
         // Validate Promotion

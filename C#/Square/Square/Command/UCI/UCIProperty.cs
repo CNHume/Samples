@@ -20,7 +20,7 @@ namespace Command {
     // ---------
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2022-11-22 Perft1 (startpos) in 13.842 sec @9.418 MHz over 130.36 Mnode]
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2022-11-12 Perft2 in 21.744 sec @9.457 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-11-12 Perft3 in 28.379 sec @7.71 MHz over 218.84 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2022-12-29 Perft3 in 28.194 sec @7.762 MHz over 218.84 Mnode]
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2022-11-20 Perft4 in 89.526 sec @8.57 MHz over 767.28 Mnode]
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2022-11-12 Perft5 in 12.662 sec @6.919 MHz over 87.6 Mnode]
     //
@@ -36,6 +36,7 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
     //"";
+    //"1k6/ppp2Rp1/n4b1p/8/5P2/qPQ5/P1P2P2/1K6 w - - 0 1"; // Interference Puzzle
     //"5k2/8/3P1K2/7b/2B5/8/8/8 w - - 0 1"; // Underpromotion #10 [12-ply in ~2.5 sec over 3.15 Mnode]
     // 1. d7 Be8 2. d8=B Bf7 3. Be7+ Kg8 4. Bxf7+ Kh7 5. Bh6+ Kh8 6. Bb1 Kg8 7. Kg6 Kh8 8. Bf5
     //"6k1/1p3ppp/3B2b1/1P6/p1PNr3/7P/1n3PP1/2R3K1 w - - 0 1"; // Arjun Erigaisi v Nihal Sarin Line
