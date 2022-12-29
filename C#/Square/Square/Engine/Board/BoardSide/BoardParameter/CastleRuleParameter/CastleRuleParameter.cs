@@ -54,9 +54,17 @@ namespace Engine {
           }
 
           //
-          //[Assume]BoardSide.GrantCastling() has been called.
+          // Setup Dependent CanOO() and CanOOO() Initialization
+          //
+          // Castling requires that the corresponding CanOO or CanOOO flag be set in SidFlags.
+          //
+          // No Path square can be obstructed by a Piece from either side other than the King and
+          // castling Rook themselves; and no Safe square (through which the King travels) can be
+          // under attack by the Foe.
           //
           public void Init() {
+            //
+            //[Assume]BoardSide.GrantCastling() has been called.
             //
             //[Chess 960]Castles bit is needed to distinguish castles from ambiguous King moves:
             //
@@ -135,7 +143,7 @@ namespace Engine {
           public Int32? RookOOOFrom;
 
           //
-          // The following will be set by the Init() method:
+          // The following are set by the Init() method:
           //
           public Move OO = Move.Undefined;
           public Plane? OOSafe;

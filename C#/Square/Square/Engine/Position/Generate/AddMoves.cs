@@ -38,21 +38,21 @@ namespace Engine {
     #region Castling Moves
     protected void addCastles() {
       Debug.Assert(!InCheck(), "addCastles() called while InCheck");
-      var friendRule = Friend.Parameter.Rule;
+      var rule = Friend.Parameter.Rule;
 
       if (CanOO()) {
 #if DebugMoveColor
-        PseudoCastles.Add(Move.WTM | friendRule.OO);
+        PseudoCastles.Add(Move.WTM | rule.OO);
 #else
-        PseudoCastles.Add(friendRule.OO);
+        PseudoCastles.Add(rule.OO);
 #endif
       }
 
       if (CanOOO()) {
 #if DebugMoveColor
-        PseudoCastles.Add(Move.WTM | friendRule.OOO);
+        PseudoCastles.Add(Move.WTM | rule.OOO);
 #else
-        PseudoCastles.Add(friendRule.OOO);
+        PseudoCastles.Add(rule.OOO);
 #endif
       }
     }
