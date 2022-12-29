@@ -69,19 +69,19 @@ namespace Engine {
             var qpKing = bit(CastlesFrom.Value);
 
             if (RookOOFrom.HasValue) {
-              var qpMask = bit(RookOOFrom.Value) | qpKing;
-              var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
               //[Safe]addCastles() should not be called when InCheck
               OOSafe = rankPath(CastlesFrom.Value, KingOOTo) | qpKing;
+              var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
+              var qpMask = bit(RookOOFrom.Value) | qpKing;
               OOPath = (OOSafe | qpPath) & ~qpMask;
               OO = OOTo | FromMove(CastlesFrom.Value);
             }
 
             if (RookOOOFrom.HasValue) {
-              var qpMask = bit(RookOOOFrom.Value) | qpKing;
-              var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
               //[Safe]addCastles() should not be called when InCheck
               OOOSafe = rankPath(CastlesFrom.Value, KingOOOTo) | qpKing;
+              var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
+              var qpMask = bit(RookOOOFrom.Value) | qpKing;
               OOOPath = (OOOSafe | qpPath) & ~qpMask;
               OOO = OOOTo | FromMove(CastlesFrom.Value);
             }

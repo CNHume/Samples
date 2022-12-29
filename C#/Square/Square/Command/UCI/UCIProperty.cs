@@ -33,8 +33,9 @@ namespace Command {
     //"8/8/3Q3Q/8/8/5q2/Q6Q/2Qbk1K1 w - - 0 1";
     //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
     //
-    //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
+    //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
+    // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
     //"1k6/ppp2Rp1/n4b1p/8/5P2/qPQ5/P1P2P2/1K6 w - - 0 1"; // Interference Puzzle
     //"5k2/8/3P1K2/7b/2B5/8/8/8 w - - 0 1"; // Underpromotion #10 [12-ply in ~2.5 sec over 3.15 Mnode]
