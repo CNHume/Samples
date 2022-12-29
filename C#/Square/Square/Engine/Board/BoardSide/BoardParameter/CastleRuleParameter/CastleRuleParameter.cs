@@ -54,9 +54,9 @@ namespace Engine {
           }
 
           //
-          // Setup Dependent CanOO() and CanOOO() Initialization
+          // Setup-dependent Initialization for CanOO() and CanOOO()
           //
-          // Castling requires that the corresponding CanOO or CanOOO flag be set in SidFlags.
+          // Castling requires that the corresponding CanOO or CanOOO flag be set in SideFlags.
           //
           // No Path square can be obstructed by a Piece from either side other than the King and
           // castling Rook themselves; and no Safe square (through which the King travels) can be
