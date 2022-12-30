@@ -245,7 +245,7 @@ namespace Engine {
       }
     }
 
-    private void parsePassed(String sEnPassant) {
+    private void parsePassed(String? sEnPassant) {
       const Boolean ignoreCase = true;
 
       //
@@ -332,7 +332,7 @@ namespace Engine {
     }
 
     protected void Init(
-      Boolean bWTM, String sEnPassant, String? sHMVCValue, String? sFMVNValue,
+      Boolean bWTM, String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
       const string sHMVCName = "Half Move Clock";

@@ -76,16 +76,18 @@ namespace Engine {
 
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       var scanner = new Scanner(sPrefix);
+      Boolean bWTM = true;
+      String? sEnPassant = default;
+      var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
+      var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
       try {
-        var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
-        var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
-        var bWTM = ParsePosition(scanner, out String sEnPassant);
-        Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
+        bWTM = ParsePosition(scanner, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
+        Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
         scanner.Close();
       }
 
@@ -98,14 +100,16 @@ namespace Engine {
 
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       var scanner = new Scanner(sPrefix);
+      Boolean bWTM = true;
+      String? sEnPassant = default;
       try {
-        var bWTM = ParsePosition(scanner, out String sEnPassant);
-        Init(bWTM, sEnPassant, sHalfMoveClock, sFullMoveNumber);
+        bWTM = ParsePosition(scanner, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
+        Init(bWTM, sEnPassant, sHalfMoveClock, sFullMoveNumber);
         scanner.Close();
       }
 
