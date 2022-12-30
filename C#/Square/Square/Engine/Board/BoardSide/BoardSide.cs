@@ -63,7 +63,7 @@ namespace Engine {
         KingPos = default;
 
         //
-        // Counts is used by IsValid() and eval()
+        // Counts is used by Validate() and eval()
         //
         Counts = 0U;
 #if HashPieces

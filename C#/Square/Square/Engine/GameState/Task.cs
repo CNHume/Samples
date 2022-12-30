@@ -73,10 +73,8 @@ namespace Engine {
       else if (MovePosition is null)
         throw new ChessException("Uninitialized Position");
       else {
-        var sInvalid = MovePosition.IsValid();
-        if (!IsNullOrEmpty(sInvalid))
-          throw new InvalidPositionException(sInvalid);
-        else if (!MovePosition.IsLegal())
+        MovePosition.Validate();
+        if (!MovePosition.IsLegal())
           throw new ChessException("Illegal Move");
       }
     }

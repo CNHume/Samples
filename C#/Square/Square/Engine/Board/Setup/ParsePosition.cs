@@ -29,21 +29,24 @@ namespace Engine {
   //
   partial class Board {
     #region Position Setup
-    public String? IsValid() {           // Validate a new setup
+    public void Validate() {
       foreach (var side in Side) {
         var nKings = (Int32)side.PieceCount(vK6);
         if (nKings != 1) {
-          return $"Invalid {side.Parameter.SideName} King Placement";
+          var message = $"Invalid {side.Parameter.SideName} King Placement";
+          throw new InvalidPositionException(message);
         }
 
         if (((qpRank1 | qpRank8) & Pawn) != 0) {
-          return "Invalid Pawn Placement";
+          var message = "Invalid Pawn Placement";
+          throw new InvalidPositionException(message);
         }
 
         var nPawns = (Int32)side.PieceCount(vP6);
         var nLimit = nFiles - nPawns;
         if (nLimit < 0) {
-          return $"Too many {side.Parameter.SideName} Pawns";
+          var message = $"Too many {side.Parameter.SideName} Pawns";
+          throw new InvalidPositionException(message);
         }
 
         //
@@ -61,12 +64,12 @@ namespace Engine {
           var nExtra = nCount - nSetup;
           if (nExtra > 0) nLimit -= nExtra;
 
-          if (nLimit < 0)
-            return $"Too many {side.Parameter.SideName} pieces";
+          if (nLimit < 0) {
+            var message = $"Too many {side.Parameter.SideName} pieces";
+            throw new InvalidPositionException(message);
+          }
         }
       }
-
-      return default;
     }
 
     private void parsePlacement(Char cPlacement, ref Boolean wasDigit, ref Int32 x, Int32 y) {
@@ -358,12 +361,13 @@ namespace Engine {
       State!.MovePly = plyCount(wMoveNumber);
       if (!bWTM) State!.MovePly++;
 
-      var sInvalid = IsValid();
-      if (IsNullOrEmpty(sInvalid))
+      try {
+        Validate();
         initCastleRules();
-      else {
-        Display(sInvalid);
-        throw new InvalidPositionException(sInvalid);
+      }
+      catch (InvalidPositionException ex) {
+        Display(ex.Message);
+        throw;
       }
     }
 
