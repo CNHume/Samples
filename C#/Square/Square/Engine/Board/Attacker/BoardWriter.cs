@@ -29,17 +29,20 @@ namespace Engine {
 
   partial class Board {
     #region Constants
-    internal const Char cSpace = ' ';
-    internal const Char cFileMin = 'a';
-    internal const Char cRankMin = '1';
-    internal const Char cFileMax = (Char)(cFileMin + nFiles - 1);
-    internal const Char cRankMax = (Char)(cRankMin + nRanks - 1);
-
     internal const Int16 mWrapLength = 144;
 
     internal const Char cVacant = '-';
     internal const Char cOccupied = 'X';
     internal const Char cNewline = '\n';
+
+    internal const Char cSpace = ' ';
+    internal const Char cFileMin = 'a';
+    internal const Char cRankMin = '1';
+
+    private const Char cFileMax = (Char)(cFileMin + nFiles - 1);
+    private const Char cRankMax = (Char)(cRankMin + nRanks - 1);
+
+    private const Char cSlash = '/';
 
     internal const String sSpace = " ";
     internal const String sSpace2 = sSpace + sSpace;
@@ -144,7 +147,7 @@ namespace Engine {
         var yInverse = InvertRank(y);
 
         if (y > 0)
-          sb.Append("/");
+          sb.Append(cSlash);
 
         var qp = bit(sqr(0, yInverse));
         for (var x = 0; x < nFiles; x++, qp <<= 1) {
@@ -174,13 +177,14 @@ namespace Engine {
       appendPositionPieces(sb);
 
       var sSideToMove = WTM() ? " w " : " b ";
-      sb.Append(sSideToMove).AppendCastleRights(Side, State!.IsChess960);
+      sb.Append(sSideToMove)
+        .AppendCastleRights(Side, State!.IsChess960);
 
       if (!IsPassed())
         sb.Append(" -");
       else {
-        sb.Append(sSpace);
-        sb.Append((Sq)FlagsTurn.sqrEP());
+        sb.Append(sSpace)
+          .Append((Sq)FlagsTurn.sqrEP());
       }
     }
 

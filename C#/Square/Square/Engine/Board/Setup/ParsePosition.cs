@@ -102,7 +102,6 @@ namespace Engine {
     }
 
     private void parseFENPlacements(String sPlacements) {
-      const Char cSlash = '/';
       var rank = sPlacements.Split(cSlash);
       var nRows = rank.Length;
 
