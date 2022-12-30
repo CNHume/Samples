@@ -75,8 +75,8 @@ namespace Engine {
     }
 
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
-      var scanner = new Scanner(sPrefix);
-      Boolean bWTM = true;
+      using var scanner = new Scanner(sPrefix);
+      var bWTM = bWhiteMovesFirst;
       String? sEnPassant = default;
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
@@ -88,7 +88,6 @@ namespace Engine {
       }
       finally {
         Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
-        scanner.Close();
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -99,8 +98,8 @@ namespace Engine {
     }
 
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
-      var scanner = new Scanner(sPrefix);
-      Boolean bWTM = true;
+      using var scanner = new Scanner(sPrefix);
+      var bWTM = bWhiteMovesFirst;
       String? sEnPassant = default;
       try {
         bWTM = ParsePosition(scanner, out sEnPassant);
@@ -110,7 +109,6 @@ namespace Engine {
       }
       finally {
         Init(bWTM, sEnPassant, sHalfMoveClock, sFullMoveNumber);
-        scanner.Close();
       }
 
       setNameIfLegal();
@@ -381,7 +379,7 @@ namespace Engine {
       //
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
-      const Boolean bChess960 = true, bWhiteMovesFirst = true;
+      const Boolean bChess960 = true;
       setupCastlingRights(nRookOOO, nRookOO, bChess960);
 
       var sEnPassant = Empty;

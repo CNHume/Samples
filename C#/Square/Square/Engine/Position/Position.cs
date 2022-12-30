@@ -74,6 +74,8 @@ namespace Engine {
     internal const Depth wLateDepthMin = 2;
     protected const Int32 nFirstCapacity = 6;   // Transposition moveFound from prior Depth plus 2 Killers
 
+    private const Boolean bWhiteMovesFirst = true;
+
     private static readonly Byte[] quartance =
     {  8,  4,  6,  8,                   // a8 b8 c8 d8
        8,  9,  8,  9,                   // a7 b7 c7 d7
