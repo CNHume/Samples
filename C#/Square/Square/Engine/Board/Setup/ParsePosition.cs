@@ -5,9 +5,9 @@
 //
 // Conditionals:
 //
+//#define DebugCastlingRights
 #define HashCastlingRights
 //#define Magic
-//#define UpdateRepetition
 
 namespace Engine {
   using System;
@@ -182,8 +182,9 @@ namespace Engine {
         var nRookFile = cPosLower - cFileMin;
         var bWhiteSide = IsUpper(cFlag);
         var side = GetSide(bWhiteSide);
-        var nRookFrom = sqr(0, side.Parameter.SetupRank) + nRookFile;
-#if DEBUG
+        var nSetup = sqr(0, side.Parameter.SetupRank);
+        var nRookFrom = nSetup + nRookFile;
+#if DebugCastlingRights
         var sqRookFrom = (Sq)nRookFrom;
         var sideName = side.Parameter.SideName;
 #endif
@@ -371,14 +372,16 @@ namespace Engine {
     }
 
     private void initCastlingRights(List<int> rookFromSquares) {
+      //[Test]rookFromSquares.Sort();
+
       foreach (var side in Side)
         side.ClearCanCastle();
 
       foreach (var nRookFrom in rookFromSquares) {
         var nSetupRank = y(nRookFrom);
-        var side = nSetupRank == Side[Black].Parameter.SetupRank ?
-          Side[Black] : Side[White];
-#if DEBUG
+        var side = nSetupRank == Side[White].Parameter.SetupRank ?
+          Side[White] : Side[Black];
+#if DebugCastlingRights
         var sqRookFrom = (Sq)nRookFrom;
         var sideName = side.Parameter.SideName;
 #endif

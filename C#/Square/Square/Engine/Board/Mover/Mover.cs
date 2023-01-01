@@ -9,7 +9,6 @@
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition                 //[Speed]Slows performance by 13%
-#define UpdateRepetition
 //#define VerifyGamePlyParity
 //#define VerifyPieceColor
 //#define VerifyPromotion
@@ -228,7 +227,6 @@ namespace Engine {
       (Friend, Foe) = GetSides(WTM());
     }
 
-    [Conditional("UpdateRepetition")]
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void updateRepetition() {
       //
@@ -250,7 +248,7 @@ namespace Engine {
 
       var nEnPassant = movePiece(ref move);
 
-      updateRepetition();               //[Conditional]
+      updateRepetition();
 
       //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();

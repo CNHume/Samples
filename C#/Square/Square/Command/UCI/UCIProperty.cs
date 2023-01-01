@@ -37,8 +37,8 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
-    //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Drawing [16-ply in ] eval 1.45 after:
-    // 1... Nd3 2. Kf5 Kd6 3. h4 Ne5 4. Be2 Nd7 5. Bd3 Nc5 6. h5 Ke7 7. h6 Nb7 8. Kf4 Nc5 9. h7
+    //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [17-ply in ] eval 1.48 after:
+    // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} [5... Nf8! {only move}] 6. Kf6
     // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2 moves d5e4" Fischer v Taimanov Losing [17-ply in ] eval 6.15 after:
     // 2. Bc8 Kf4 3. h4 Kg3 4. h5 Kh4 5. h6 Kh5 6. Kg7 Ng6 7. Bg4+ Kg5 8. h7 Nh8 9. Bf5 Kxf5 10. Kxh8 Kf6 11. Kh8g8 Kf6e5
     //"1k6/ppp2Rp1/n4b1p/8/5P2/qPQ5/P1P2P2/1K6 w - - 0 1"; // Interference Puzzle
