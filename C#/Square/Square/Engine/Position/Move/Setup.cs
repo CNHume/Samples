@@ -76,18 +76,19 @@ namespace Engine {
 
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       using var scanner = new Scanner(sPrefix);
+      var rookFromSquares = new List<Int32>(4);
       var bWTM = bWhiteMovesFirst;
       String? sEnPassant = default;
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
       try {
-        bWTM = ParsePosition(scanner, out sEnPassant);
+        bWTM = ParsePosition(scanner, out sEnPassant, rookFromSquares);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        Init(bWTM, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
+        Init(bWTM, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber, operations);
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -99,16 +100,17 @@ namespace Engine {
 
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       using var scanner = new Scanner(sPrefix);
+      var rookFromSquares = new List<Int32>(4);
       var bWTM = bWhiteMovesFirst;
       String? sEnPassant = default;
       try {
-        bWTM = ParsePosition(scanner, out sEnPassant);
+        bWTM = ParsePosition(scanner, out sEnPassant, rookFromSquares);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        Init(bWTM, sEnPassant, sHalfMoveClock, sFullMoveNumber);
+        Init(bWTM, sEnPassant, rookFromSquares, sHalfMoveClock, sFullMoveNumber);
       }
 
       setNameIfLegal();
@@ -238,7 +240,7 @@ namespace Engine {
     //
     // Return the last of nEmpty squares:
     //
-    private Int32 findEmpty(Boolean bFlip = false, Int32 nEmpty = 0) {
+    private Int32 findEmptyFile(Boolean bFlip = false, Int32 nEmpty = 0) {
       var qpPiece = Side[White].Piece;
       var qp = bFlip ? BIT7 : BIT0;
 
@@ -256,7 +258,7 @@ namespace Engine {
     }
 
     //
-    // The following variation on findEmpty() limits the choice to squares of the same color:
+    // The following variation on findEmptyFile() limits the choice to squares of the same color:
     //
     private Int32 findEmpty2(Boolean bFlip = false, Int32 nEmpty = 0, Boolean bOdd = true) {
       const Int32 nBy = 2;
@@ -336,7 +338,7 @@ namespace Engine {
         nKnight2 = 4 - nKnight2;
       }
 
-      var nKnight2Square = findEmpty(false, nKnight2);
+      var nKnight2Square = findEmptyFile(false, nKnight2);
 #if DEBUG
       var sqKnight2 = (Sq)nKnight2Square;
 #endif
@@ -345,7 +347,7 @@ namespace Engine {
       //
       setupPiece(vN6, nKnight2Square);
 
-      var nKnight1Square = findEmpty(false, nKnight1);
+      var nKnight1Square = findEmptyFile(false, nKnight1);
 #if DEBUG
       var sqKnight1 = (Sq)nKnight1Square;
 #endif
@@ -353,13 +355,13 @@ namespace Engine {
       #endregion
 
       #region Setup Queenside Rook, King, and Kingside Rook
-      var nRookOOO = findEmpty(bFlip);
-      setupPiece(vR6, nRookOOO);
+      var nRookFileOOO = findEmptyFile(bFlip);
+      setupPiece(vR6, nRookFileOOO);
 
-      setupPiece(vK6, findEmpty(bFlip));
+      setupPiece(vK6, findEmptyFile(bFlip));
 
-      var nRookOO = findEmpty(bFlip);
-      setupPiece(vR6, nRookOO);
+      var nRookFileOO = findEmptyFile(bFlip);
+      setupPiece(vR6, nRookFileOO);
       #endregion
 
       #region Setup the Pawns
@@ -379,13 +381,15 @@ namespace Engine {
       //
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
-      const Boolean bChess960 = true;
-      setupCastlingRights(nRookOOO, nRookOO, bChess960);
+      State!.IsChess960 = true;
+
+      var rookFromSquares = new List<Int32>(4);
+      setupCastlingRights(nRookFileOOO, nRookFileOO, rookFromSquares);
 
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
-      Init(bWhiteMovesFirst, sEnPassant, sHalfMoveCount, sFullMoveNumber);
+      Init(bWhiteMovesFirst, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber);
       #endregion
     }
 
@@ -416,18 +420,17 @@ namespace Engine {
       }
     }
 
-    private void setupCastlingRights(Int32 nRookFromOOO, Int32 nRookFromOO, Boolean bChess960) {
-      State!.IsChess960 = bChess960;
+    private void setupCastlingRights(Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
       foreach (var side in Side) {
-        side.ClearCanCastle();
-
         //
-        // Validation normally provided by parseCastlingRights()
+        // Validation normally provided by parseCastlingFlags()
         //
-        side.GrantCastling(nRookFromOOO, bChess960);
-        side.GrantCastling(nRookFromOO, bChess960);
+        var nSetup = sqr(0, side.Parameter.SetupRank);
+        var nRookFromOOO = nSetup + nRookFileOOO;
+        var nRookFromOO = nSetup + nRookFileOO;
 
-        side.HashCastlingRights();
+        rookFromSquares.Add(nRookFromOOO);
+        rookFromSquares.Add(nRookFromOO);
       }
     }
 

@@ -141,24 +141,11 @@ namespace Engine {
       };
     }
 
-    private void parseCastlingRights(String sCastleFlags) {
-      foreach (var side in Side)
-        side.ClearCanCastle();
-
-      if (sCastleFlags != "-")
-        grantCastlingRights(sCastleFlags);
-
-      validateCastlingRights();
-
-      foreach (var side in Side)
-        side.HashCastlingRights();
-    }
-
     //
     //[Chess960]Castle Rules are inferred from sCastleFlags.  These
     // present the only difference between Orthodox Chess and Chess960.
     //
-    private void grantCastlingRights(string sCastleFlags) {
+    private void parseCastlingFlags(string sCastleFlags, List<int> rookFromSquares) {
       if (sCastleFlags.Length > 4)
         throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
@@ -195,9 +182,13 @@ namespace Engine {
         var nRookFile = cPosLower - cFileMin;
         var bWhiteSide = IsUpper(cFlag);
         var side = GetSide(bWhiteSide);
-
-        side.GrantCastling(nRookFile, State!.IsChess960);
-      }                               //[Next]cFlag
+        var nRookFrom = sqr(0, side.Parameter.SetupRank) + nRookFile;
+#if DEBUG
+        var sqRookFrom = (Sq)nRookFrom;
+        var sideName = side.Parameter.SideName;
+#endif
+        rookFromSquares.Add(nRookFrom);
+      }                                 //[Next]cFlag
 
       if (State!.IsChess960 && bOrthodoxFlags)
         throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
@@ -299,7 +290,7 @@ namespace Engine {
     // An EPD opcode legend can also be found at
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
-    protected Boolean ParsePosition(Scanner scanner, out String sPassed) {
+    protected Boolean ParsePosition(Scanner scanner, out String sPassed, List<int> rookFromSquares) {
       // Clear() should have been performed by the Push() in NewGame()
       //[Debug]Clear();
 
@@ -321,7 +312,8 @@ namespace Engine {
       // 3. Castling Flags
       //
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
-      parseCastlingRights(sCastleFlags);
+      if (sCastleFlags != "-")
+        parseCastlingFlags(sCastleFlags, rookFromSquares);
 
       //
       // 4. Square Passed for En Passant
@@ -331,20 +323,27 @@ namespace Engine {
     }
 
     protected void Init(
-      Boolean bWTM, String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
+      Boolean bWTM, String? sEnPassant, List<int> rookFromSquares, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
       const string sHMVCName = "Half Move Clock";
-      // Preserve EPD Operations passed via ParseEPD()
-      Operations = operations;
 
+      #region EPD Operations
+      Operations = operations;
+      #endregion
+
+      #region WTM and EnPassant
       //
       // FlagsTurn/FlagsSide bits outside of their respective Equal Masks were reset by pushRoot()
       //
       setWTM(bWTM);
       parsePassed(sEnPassant);
       Hash ^= hashFlags(bWTM);
+      #endregion                        // WTM and EnPassant
 
+      initCastlingRights(rookFromSquares);
+
+      #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (IsPassed() && HalfMoveClock > 0) {
@@ -359,6 +358,7 @@ namespace Engine {
       if (wMoveNumber == 0) wMoveNumber = 1;
       State!.MovePly = plyCount(wMoveNumber);
       if (!bWTM) State!.MovePly++;
+      #endregion                        // Half Move Clock and Full Move Number
 
       try {
         Validate();
@@ -368,6 +368,27 @@ namespace Engine {
         Display(ex.Message);
         throw;
       }
+    }
+
+    private void initCastlingRights(List<int> rookFromSquares) {
+      foreach (var side in Side)
+        side.ClearCanCastle();
+
+      foreach (var nRookFrom in rookFromSquares) {
+        var nSetupRank = y(nRookFrom);
+        var side = nSetupRank == Side[Black].Parameter.SetupRank ?
+          Side[Black] : Side[White];
+#if DEBUG
+        var sqRookFrom = (Sq)nRookFrom;
+        var sideName = side.Parameter.SideName;
+#endif
+        side.GrantCastling(nRookFrom, State!.IsChess960);
+      }
+
+      validateCastlingRights();
+
+      foreach (var side in Side)
+        side.HashCastlingRights();
     }
 
     private void initCastleRules() {

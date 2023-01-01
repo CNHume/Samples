@@ -381,7 +381,7 @@ namespace Engine {
     internal const Int32 File = 0, Rank = 1;
 
     protected const Plane BIT0 = 1UL;
-    protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmpty()
+    protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmptyFile()
     internal const Plane BIT32 = BIT0 << 32;
     protected const Plane BITHI = BIT0 << nSquares - 1; // For loadPawnWins() and sqHi()
     protected const Plane MASK64 = UInt64.MaxValue;

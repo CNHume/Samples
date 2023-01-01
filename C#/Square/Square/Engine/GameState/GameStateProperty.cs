@@ -143,7 +143,7 @@ namespace Engine {
     public ICommand Command;
     public SearchBound Bound;
     //
-    //[Chess 960]Determined by parseCastlingRights() and setupCastlingRights():
+    //[Chess 960]Determined by parseCastlingFlags() and setupCastlingRights():
     //
     public Boolean IsChess960;
     public Position? MovePosition;

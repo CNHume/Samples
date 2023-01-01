@@ -28,7 +28,7 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = (Int32)Sq.a8;
+            SetupRank = y((Int32)Sq.a8);
             EnPassantRank = 2;
 
             (FileLeft, FileRight) = (qpFileH, qpFileA);
@@ -45,7 +45,7 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = (Int32)Sq.a1;
+            SetupRank = y((Int32)Sq.a1);
             EnPassantRank = InvertRank(2);
 
             RankLast = qpRank8;

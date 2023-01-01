@@ -18,11 +18,12 @@ namespace Engine {
           #region Constructors
           public CastleRuleParameter(Int32 nSetupRank) {
             SetupRank = nSetupRank;
+            var nSetup = sqr(0, SetupRank);
 
-            KingOOTo = SetupRank + (Int32)Sq.g1;
-            RookOOTo = SetupRank + (Int32)Sq.f1;
-            KingOOOTo = SetupRank + (Int32)Sq.c1;
-            RookOOOTo = SetupRank + (Int32)Sq.d1;
+            KingOOTo = nSetup + (Int32)Sq.g1;
+            RookOOTo = nSetup + (Int32)Sq.f1;
+            KingOOOTo = nSetup + (Int32)Sq.c1;
+            RookOOOTo = nSetup + (Int32)Sq.d1;
 
             Clear();
           }
@@ -30,7 +31,7 @@ namespace Engine {
 
           #region Methods
           //
-          // Clear - Called from parseCastlingRights() and setupCastlingRights()
+          // Clear - Called from parseCastlingFlags() and setupCastlingRights()
           // Init - Called by Position.Init() following ParsePosition()
           // rankPath - Returns mask for squares that must not be obstructed (or attacked)
           //
