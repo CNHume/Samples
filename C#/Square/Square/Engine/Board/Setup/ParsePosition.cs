@@ -312,9 +312,6 @@ namespace Engine {
       //
       // 3. Castling Flags
       //
-      foreach (var side in Side)
-        side.ClearCanCastle();
-
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
       if (sCastleFlags != "-")
         parseCastlingFlags(sCastleFlags, rookFromSquares);

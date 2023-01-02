@@ -69,11 +69,6 @@ namespace Engine {
 #if HashPieces
         PieceHash = 0;
 #endif
-      }
-
-      // Called from ParsePosition()
-      public void ClearCanCastle() {
-        InitCanCastle();
         Parameter.Rule.Clear();
       }
       #endregion                        // Init Methods
@@ -101,14 +96,9 @@ namespace Engine {
         FlagsSide |= SideFlags.CanOOO;
       }
 
-      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public void InitCanCastle() {
-        FlagsSide &= ~SideFlags.CanCastle;
-      }
-
       public void ClrCanCastle() {
         var fsideOld = FlagsSide;
-        InitCanCastle();
+        FlagsSide &= ~SideFlags.CanCastle;
         hashCastlingRights(fsideOld, FlagsSide);
       }
 
