@@ -289,9 +289,14 @@ namespace Engine {
       return bFlip ? nFiles - 1 - nEmpty : nEmpty;
     }
 
-    private void setup960(Boolean bFlip, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
+    private void setup960(
+      Boolean bFlip, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
 #if DEBUG
-      LogLine($"setup960(Queen: {nQueen}, KnightPair: {nKnights}, BishopLite: {nBishopLite}, BishopDark: {nBishopDark})");
+      LogLine(
+        $"setup960(Queen: {nQueen}, " +
+        $"KnightPair: {nKnights}, " +
+        $"BishopLite: {nBishopLite}, " +
+        $"BishopDark: {nBishopDark})");
 #endif
       TestBinomials();                  //[Conditional]
 
@@ -420,7 +425,10 @@ namespace Engine {
       }
     }
 
-    private void setupCastlingRights(Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
+    private void setupCastlingRights(
+      Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
+      ClearCastleRules();
+
       foreach (var side in Side) {
         //
         // Validation normally provided by parseCastlingFlags()
