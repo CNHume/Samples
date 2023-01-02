@@ -312,6 +312,9 @@ namespace Engine {
       //
       // 3. Castling Flags
       //
+      foreach (var side in Side)
+        side.ClearCanCastle();
+
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
       if (sCastleFlags != "-")
         parseCastlingFlags(sCastleFlags, rookFromSquares);
@@ -323,7 +326,7 @@ namespace Engine {
       return bWTM;
     }
 
-    protected void Init(
+    protected void InitRoot(
       Boolean bWTM, String? sEnPassant, List<int> rookFromSquares, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
@@ -352,7 +355,8 @@ namespace Engine {
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
-      updateRepetition();               //[Conditional]
+      // Parent is null for a Root Position; so SetDraw0 can be elided here.
+      //updateRepetitionCycle();
 
       var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
       // Zero is sometimes used when the initial MoveNumber is unknown
@@ -373,18 +377,8 @@ namespace Engine {
 
     private void initCastlingRights(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
-
-      foreach (var side in Side)
-        side.ClearCanCastle();
-
       foreach (var nRookFrom in rookFromSquares) {
-        var nSetupRank = y(nRookFrom);
-        var side = nSetupRank == Side[White].Parameter.SetupRank ?
-          Side[White] : Side[Black];
-#if DebugCastlingRights
-        var sqRookFrom = (Sq)nRookFrom;
-        var sideName = side.Parameter.SideName;
-#endif
+        var side = findRookSide(nRookFrom);
         side.GrantCastling(nRookFrom, State!.IsChess960);
       }
 
@@ -392,6 +386,15 @@ namespace Engine {
 
       foreach (var side in Side)
         side.HashCastlingRights();
+    }
+
+    private Position.PositionSide findRookSide(int nRookFrom) {
+      foreach (var side in Side)
+        if (side.Parameter.SetupRank == y(nRookFrom))
+          return side;
+
+      var sqRookFrom = (Sq)nRookFrom;
+      throw new ParsePositionException($"Side not found for Rook at {sqRookFrom}");
     }
 
     private void initCastleRules() {

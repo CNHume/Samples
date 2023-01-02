@@ -88,7 +88,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        Init(bWTM, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber, operations);
+        InitRoot(bWTM, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber, operations);
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -110,7 +110,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        Init(bWTM, sEnPassant, rookFromSquares, sHalfMoveClock, sFullMoveNumber);
+        InitRoot(bWTM, sEnPassant, rookFromSquares, sHalfMoveClock, sFullMoveNumber);
       }
 
       setNameIfLegal();
@@ -389,7 +389,7 @@ namespace Engine {
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
-      Init(bWhiteMovesFirst, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber);
+      InitRoot(bWhiteMovesFirst, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber);
       #endregion
     }
 

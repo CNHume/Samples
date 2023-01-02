@@ -71,7 +71,7 @@ namespace Engine {
 #endif
       }
 
-      // Called from parseCastlingFlags() and setupCastlingRights()
+      // Called from ParsePosition()
       public void ClearCanCastle() {
         InitCanCastle();
         Parameter.Rule.Clear();

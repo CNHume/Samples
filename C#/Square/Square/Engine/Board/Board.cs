@@ -119,7 +119,7 @@ namespace Engine {
       newAtxToCount();               //[Conditional]
     }
 
-    #region Init Methods
+    #region Initialization Methods
     protected void EnsureSides(Position position) {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
@@ -169,7 +169,7 @@ namespace Engine {
 #endif
       HashPawn = Hash = 0UL;
     }
-    #endregion                          // Init Methods
+    #endregion                          // Initialization Methods
 
     #region Static Initialization
     public static void SetPieceSymbols(String? sLanguage) {

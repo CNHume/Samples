@@ -32,7 +32,7 @@ namespace Engine {
           #region Methods
           //
           // Clear - Called from parseCastlingFlags() and setupCastlingRights()
-          // Init - Called by Position.Init() following ParsePosition()
+          // Init - Called by Position.initCastleRules() following ParsePosition()
           // rankPath - Returns mask for squares that must not be obstructed (or attacked)
           //
           public void Clear() {

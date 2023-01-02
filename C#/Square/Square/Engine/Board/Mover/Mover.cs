@@ -228,7 +228,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void updateRepetition() {
+    private void updateRepetitionCycle() {
       //
       // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset:
       //
@@ -248,7 +248,7 @@ namespace Engine {
 
       var nEnPassant = movePiece(ref move);
 
-      updateRepetition();
+      updateRepetitionCycle();
 
       //[Note]toggleWTM() inverts the sense of Friend and Foe.
       toggleWTM();
