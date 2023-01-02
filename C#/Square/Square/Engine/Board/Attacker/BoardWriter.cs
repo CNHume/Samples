@@ -203,7 +203,7 @@ namespace Engine {
           .Append(nMove);               // Full Move Number
         break;
       case PositionType.EPD:
-        if (Operations is null) newOperations();
+        if (Operations == null) newOperations();
         sb.AppendOperations(Operations);
         break;
       }
@@ -325,7 +325,7 @@ namespace Engine {
     }
 
     public StringBuilder Display(StringBuilder? sb = default) {
-      if (sb is null) sb = new StringBuilder();
+      if (sb == null) sb = new StringBuilder();
       appendProperties(sb);
       appendBoard(sb, State!.IsFlip);
       return sb.FlushLine();

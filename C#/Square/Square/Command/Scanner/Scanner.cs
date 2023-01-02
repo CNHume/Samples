@@ -38,7 +38,7 @@ namespace Command {
     public (Int32, Int32) Position { get => (Row, Column); set => Rewind(value); }
 
     // The following works for TextReader as well as StreamReader:
-    public Boolean EndOfStream { get => Text is null; }
+    public Boolean EndOfStream { get => Text == null; }
     public Boolean EndOfLine { get => IsNullOrEmpty(Text); }
 
     public TextReader? Reader {
@@ -157,7 +157,7 @@ namespace Command {
     }
 
     private void ensureTextSpans(String regex) {
-      if (TextSpans is null) SplitTextSpans(regex);
+      if (TextSpans == null) SplitTextSpans(regex);
     }
 
     public Boolean HasTextSpan(String regex = sWhitespacePlus) {

@@ -105,7 +105,7 @@ namespace Engine {
       }
       else {
         #region Generate Moves
-        if (SearchMoves is not null && SearchMoves.Count > 0) {
+        if (SearchMoves != null && SearchMoves.Count > 0) {
           moves.Clear();
           moves.AddRange(SearchMoves);
 #if DebugSearchMoves

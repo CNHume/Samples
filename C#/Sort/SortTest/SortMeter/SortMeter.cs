@@ -86,12 +86,12 @@ namespace SortTest {
     protected void Header(IEnumerable<T> entries, Type sortType, Boolean print = false) {
       if (print) {
         Console.WriteLine("input:");
-        if (entries is not null)
+        if (entries != null)
           Console.WriteLine(Join(commaSpace, entries));
       }
 
       var sb = new StringBuilder($"{DateTime.Now:HH:mm:ss.fff}");
-      if (sortType is not null) sb.Append(space).AppendTypeName(sortType);
+      if (sortType != null) sb.Append(space).AppendTypeName(sortType);
       if (!IsNullOrEmpty(Mode)) sb.Append(space).Append(Mode);
       Console.WriteLine(sb.ToString());
     }
@@ -108,7 +108,7 @@ namespace SortTest {
 
       if (print) {
         Console.WriteLine("output:");
-        if (entries is not null)
+        if (entries != null)
           Console.WriteLine(Join(commaSpace, entries));
       }
     }

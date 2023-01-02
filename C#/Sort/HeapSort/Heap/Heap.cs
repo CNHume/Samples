@@ -97,7 +97,7 @@ namespace HeapSort {
 
     /// <summary>Length of Entries Array</summary>
     /// <value>Entries Array Length</value>
-    public Int32 Length => entries is null ? 0 : entries.Length;
+    public Int32 Length => entries == null ? 0 : entries.Length;
 
     /// <summary>Count of entries currently in use</summary>
     public Int32 Count => counter;
@@ -137,7 +137,7 @@ namespace HeapSort {
     /// <param name="meter">Performance Meter</param>
     /// <param name="entries">Entries Array</param>
     public Heap(IMeter? meter, T[]? entries)
-      : this(meter, entries, entries is null ? 0 : entries.Length) {
+      : this(meter, entries, entries == null ? 0 : entries.Length) {
     }
 
     /// <summary>Heap Constructor</summary>
@@ -377,7 +377,7 @@ namespace HeapSort {
     /// <summary>Reverse Entries and Invert Heap sense</summary>
     /// <remarks>O(n): May be used after Sort() to restore Heap sense</remarks>
     protected void Reverse() {
-      if (Entries is not null && counter > 0) {
+      if (Entries != null && counter > 0) {
         for (Int32 left = 0, right = counter - 1; left < right; left++, right--)
           Swap(Entries, left, right);
       }
@@ -398,7 +398,7 @@ namespace HeapSort {
     public IEnumerator<T> GetEnumerator() {
       var count = counter;
 
-      while (Entries is not null && counter > 0) {
+      while (Entries != null && counter > 0) {
         //[Note]LHS Index evaluates prior to RHS side-effects
         yield return Entries[counter - 1] = Remove();
       }

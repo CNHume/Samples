@@ -107,7 +107,7 @@ namespace Engine {
       var sideNames = (SideName[])Enum.GetValues(typeof(SideName));
       foreach (var sideName in sideNames) {
         var nSide = (Int32)sideName;
-        if (Parameter[nSide] is null) {
+        if (Parameter[nSide] == null) {
           Parameter[nSide] = new PositionParameter(sideName);
         }
       }
@@ -123,7 +123,7 @@ namespace Engine {
     protected void EnsureSides(Position position) {
       foreach (var parameter in Parameter) {
         var nSide = (Int32)parameter.SideName;
-        if (Side[nSide] is null)
+        if (Side[nSide] == null)
           Side[nSide] = new PositionSide(position, parameter);
       }
     }
@@ -142,7 +142,7 @@ namespace Engine {
 
     [Conditional("BuildAtxTo")]
     private void ensureAtxTo() {
-      if (AtxTo is null)
+      if (AtxTo == null)
         newAtxTo();
     }
 #endif
@@ -154,7 +154,7 @@ namespace Engine {
 
     [Conditional("BuildAtxToCount")]
     private void ensureAtxToCount() {
-      if (AtxToCount is null)
+      if (AtxToCount == null)
         newAtxToCount();
     }
 
@@ -173,14 +173,14 @@ namespace Engine {
 
     #region Static Initialization
     public static void SetPieceSymbols(String? sLanguage) {
-      if (sLanguage is null)
+      if (sLanguage == null)
         PieceSymbols = default;
       else {
         var found = Locales.FirstOrDefault(
           locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
         PieceSymbols = found?.Symbols;
 
-        if (PieceSymbols is null) {
+        if (PieceSymbols == null) {
           Parameter[Black].Symbol = "B";
           Parameter[White].Symbol = "W";
         }
@@ -266,7 +266,7 @@ namespace Engine {
     [Conditional("BuildAtxToCount")]
     [MemberNotNull(nameof(AtxToCount))]
     protected void CopyAtxToCountTo(Board board) {
-      if (AtxToCount is null)
+      if (AtxToCount == null)
         throw new ArgumentNullException(nameof(AtxToCount));
 
       Array.Copy(AtxToCount, board.AtxToCount, AtxToCount.Length);
@@ -345,7 +345,7 @@ namespace Engine {
     }
 
     public Boolean Equals(Board? board) {
-      if (board is null)
+      if (board == null)
         return false;
 #if SafeEquals
       if (board.Hash != Hash)           //[Shortcut]
@@ -630,7 +630,7 @@ namespace Engine {
     #region EPD Operation Methods
     private void addOperation(
       Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
-      if (operations is not null) {
+      if (operations != null) {
         var values = new List<String>(sValues);
         operations.Add(sKey, values);
       }

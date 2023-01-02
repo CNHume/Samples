@@ -179,7 +179,7 @@ namespace Engine {
         // IsCompleted means a task has entered one of the Final States:
         // Canceled, Faulted or RanToCompletion
         //
-        return EngineTask is not null && !EngineTask.IsCompleted;
+        return EngineTask != null && !EngineTask.IsCompleted;
 #else
         return false;
 #endif

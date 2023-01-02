@@ -87,7 +87,7 @@ namespace Engine {
 
     #region Constructors
     public GameState(ICommand Command) {
-      if (Command is null)
+      if (Command == null)
         throw new ArgumentNullException(nameof(Command));
 
       this.Command = Command;
@@ -231,14 +231,14 @@ namespace Engine {
     }
 
     public void Unmove() {
-      if (MovePosition is null) return;
+      if (MovePosition == null) return;
       var parent = MovePosition.Parent;
       Pop(ref MovePosition);
       MovePosition = parent;
     }
 
     protected void unwindPositions() {
-      while (MovePosition is not null)
+      while (MovePosition != null)
         Unmove();
       RootPosition = default;
     }

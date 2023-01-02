@@ -21,7 +21,7 @@ namespace Command {
     #region Constructors
     static Product() {
       var assy = Assembly.GetEntryAssembly();   // GetExecutingAssembly() may refer to the local DLL
-      if (assy is null)
+      if (assy == null)
         return;
 
       //
@@ -46,7 +46,7 @@ namespace Command {
       var title = titleAttribute?.Title;
       if (IsNullOrWhiteSpace(title)) {
         var name = assy.GetName();
-        return name is null ? sDefaultTitle : name.Name;
+        return name == null ? sDefaultTitle : name.Name;
       }
       else
         return title;

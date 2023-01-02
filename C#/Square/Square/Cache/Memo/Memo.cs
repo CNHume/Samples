@@ -49,7 +49,7 @@ namespace Cache {
 
     #region Methods
     protected void Allocate(UInt32 uLength) {
-      if (Entries is null || uLength > Entries.Length)
+      if (Entries == null || uLength > Entries.Length)
         AllocateNew(uLength);
       else if (LookupLength < Entries.Length)
         Clear(LookupLength);

@@ -317,7 +317,7 @@ namespace Engine {
 
     [Conditional("CountCXP")]
     private void displayCXP() {
-      if (CXPMemo is null)
+      if (CXPMemo == null)
         return;
 
       var counts = CXPMemo.Counts;
@@ -330,7 +330,7 @@ namespace Engine {
 
     [Conditional("CountPXP")]
     private void displayPXP() {
-      if (PXPMemo is null)
+      if (PXPMemo == null)
         return;
 
       var counts = PXPMemo.Counts;
@@ -343,7 +343,7 @@ namespace Engine {
 
     [Conditional("CountQXP")]
     private void displayQXP() {
-      if (QXPTank is null)
+      if (QXPTank == null)
         return;                         //[Safe]
 
       var counts = QXPTank.Counts;
@@ -356,7 +356,7 @@ namespace Engine {
 
     [Conditional("CountXP")]
     private void displayXP() {
-      if (XPTank is null)
+      if (XPTank == null)
         return;                         //[Safe]
 
       var counts = XPTank.Counts;
@@ -377,7 +377,7 @@ namespace Engine {
 
     [Conditional("CountXPM")]
     private void displayXPM() {
-      if (XPMTank is null)
+      if (XPMTank == null)
         return;                         //[Safe]
 
       var counts = XPMTank.Counts;

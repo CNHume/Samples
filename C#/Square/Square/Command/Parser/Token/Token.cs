@@ -43,7 +43,7 @@ namespace Command {
 
       #region Methods
       public Boolean Accept(Boolean bShowMatch = true) {
-        return Parser?.Scanner?.Text is null ?
+        return Parser?.Scanner?.Text == null ?
           false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, bShowMatch));
       }
 

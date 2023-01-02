@@ -184,7 +184,7 @@ namespace Engine {
       // The "go searchmoves" UCI command sets SearchMoves
       // to restrict the set of candidate moves at the Root:
       //
-      if (SearchMoves is not null && SearchMoves.Count > 0) {
+      if (SearchMoves != null && SearchMoves.Count > 0) {
         moves.Clear();
         moves.AddRange(SearchMoves);
 #if DebugSearchMoves

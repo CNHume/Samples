@@ -42,7 +42,7 @@ namespace Engine {
     }
 
     private void freeCancelTimer() {
-      if (CancelTimer is not null) {
+      if (CancelTimer != null) {
         CancelTimer.Dispose();
         CancelTimer = default;
       }
@@ -57,7 +57,7 @@ namespace Engine {
       // posted by Richard Blewett 2015-12-22.
       // See https://blogs.rocksolidknowledge.com/2015/12/22/working-with-cancellationtoken
       //
-      if (CancellationTokenSource is not null) {
+      if (CancellationTokenSource != null) {
         CancellationToken = default(CancellationToken);
         CancellationTokenSource.Dispose();
         CancellationTokenSource = default;
@@ -70,7 +70,7 @@ namespace Engine {
     public void OnMoveCommand() {
       if (IsSearchInProgress)
         throw new ChessException("Search in progress");
-      else if (MovePosition is null)
+      else if (MovePosition == null)
         throw new ChessException("Uninitialized Position");
       else {
         MovePosition.Validate();
@@ -81,9 +81,9 @@ namespace Engine {
 
     private List<Move>? startSearch(Position? position, SearchMode mode) {
       try {
-        if (position is null)
+        if (position == null)
           throw new PositionException("Null Position");
-        else if (SearchTimer is null)
+        else if (SearchTimer == null)
           throw new PositionException("Null SearchTimer Stopwatch");
         else {
           SearchTimer.Reset();
@@ -157,8 +157,8 @@ namespace Engine {
       //
       //[Optional]Repeat final bestmove report:
       //
-      if (BestMoves is not null &&
-          position is not null) {
+      if (BestMoves != null &&
+          position != null) {
         var sb = new StringBuilder();
         //[Note]refreshPV() has been called
         sb.BestMove(BestMoves, position.Side, IsChess960);
@@ -171,7 +171,7 @@ namespace Engine {
 
     public void StartTask(Func<Object?, List<Move>?> fun, Position position) {
 #if UseTask
-      if (CancellationTokenSource is null)
+      if (CancellationTokenSource == null)
         CancellationToken = getCancellationToken();
 
       //
@@ -268,7 +268,7 @@ namespace Engine {
         var nTimeoutMS = Bound.MoveTime(ExpectedMovesToGo);
         if (nTimeoutMS != Timeout.Infinite) {
 #if UseTask
-          Debug.Assert(CancelTimer is not null, "Null CancelTimer Instance");
+          Debug.Assert(CancelTimer != null, "Null CancelTimer Instance");
           //[Note]Timeout.Infinite declares that the CancelTimer should not restart!
           CancelTimer.Change(nTimeoutMS, Timeout.Infinite);
 #endif
@@ -285,7 +285,7 @@ namespace Engine {
         // statistics to be written before this request completes.
         //
         const Int32 stopTimeoutMS = 5000;
-        if (CancelTimer is not null)
+        if (CancelTimer != null)
           CancelTimer.Change(stopTimeoutMS, Timeout.Infinite);
 
         FinishTask?.Wait();
@@ -362,7 +362,7 @@ namespace Engine {
 
     private void throwIfCancelled() {
 #if UseTask
-      if (CancellationTokenSource is not null) {
+      if (CancellationTokenSource != null) {
         //
         // Test for Cancellation
         //
@@ -386,7 +386,7 @@ namespace Engine {
 
     private void cancel() {
 #if UseTask
-      if (CancellationTokenSource is not null)
+      if (CancellationTokenSource != null)
         CancellationTokenSource.Cancel();
 #endif
     }

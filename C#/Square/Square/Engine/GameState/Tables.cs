@@ -124,7 +124,7 @@ namespace Engine {
     }
 
     private void newCXPMemo(UInt32 uLength) {
-      if (CXPMemo is null)
+      if (CXPMemo == null)
 #if MaterialBalance
         CXPMemo = new Memo2<Composition2>("CX2", uLength);
 #else
@@ -133,27 +133,27 @@ namespace Engine {
     }
 
     private void newPXPMemo(UInt32 uLength) {
-      if (PXPMemo is null)
+      if (PXPMemo == null)
         PXPMemo = new Memo2<PawnPosition>("PXP", uLength);
     }
 
     private void newQXPTank() {
-      if (QXPTank is null)
+      if (QXPTank == null)
         QXPTank = new Tank<QuietPosition>("QXP");
     }
 
     private void newXPTank() {
-      if (XPTank is null)
+      if (XPTank == null)
         XPTank = new Tank<Transposition>("XP");
     }
 
     private void newXPMTank() {
-      if (XPMTank is null)
+      if (XPMTank == null)
         XPMTank = new Tank<PositionMove>("XPM");
     }
 
     private void newVariations(Int32 nSelection) {
-      if (Variation is null || Variation.Length < nSelection) {
+      if (Variation == null || Variation.Length < nSelection) {
         //
         // Currently, nVariationsDefault pre-allocates MultiPV Max value.
         // Otherwise, a Search in progress might need its entries copied.

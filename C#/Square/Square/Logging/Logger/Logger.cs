@@ -69,7 +69,7 @@ namespace Logging {
     private static FileStream? OpenLogStream(String? path) {
       FileStream? logStream = default;
       try {
-        if (path is not null) {
+        if (path != null) {
 #if EnsureLogPathDirectoryExists
           var di = Directory.CreateDirectory(path);
 #endif
@@ -85,18 +85,18 @@ namespace Logging {
     }
 
     private static void CloseLogStream() {
-      if (LogStream is not null) {
+      if (LogStream != null) {
         LogStream.Dispose();
         LogStream = default;
       }
     }
 
     public static void LogFlush() {
-      if (LogStream is not null) LogStream.Flush();
+      if (LogStream != null) LogStream.Flush();
     }
 
     public static void LogWrite(String s) {
-      if (LogStream is not null && !IsNullOrEmpty(s)) {
+      if (LogStream != null && !IsNullOrEmpty(s)) {
         var encoding = new UnicodeEncoding();
         var buffer = encoding.GetBytes(s);
         LogStream.Write(buffer, 0, buffer.Length);
@@ -109,7 +109,7 @@ namespace Logging {
     }
 
     public static void LogWriteLine(String s) {
-      if (s is not null) {
+      if (s != null) {
         LogWrite(s);
         LogWriteLine();
       }
@@ -127,7 +127,7 @@ namespace Logging {
     }
 
     private static void WriteLine(String s) {
-      if (s is not null) {
+      if (s != null) {
         Write(s);
         WriteLine();
       }

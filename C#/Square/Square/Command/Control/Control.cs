@@ -122,10 +122,10 @@ namespace Command {
 
       case OptionType.combo:
         bValueValid = false;
-        if (Option.Items is not null) {
+        if (Option.Items != null) {
           var selection = Option.Items.FirstOrDefault(
             item => sValue.Equals(item, StringComparison.InvariantCultureIgnoreCase));
-          if (selection is not null) {
+          if (selection != null) {
             Text = selection;
             bValueValid = true;
           }
@@ -179,7 +179,7 @@ namespace Command {
 
     public Setting AsSetting() {
       var setting = this as Setting;
-      if (setting is null) {
+      if (setting == null) {
         var settingName = typeof(Setting).Name;
         throw new ControlException(
           $"{Option.Name} control of OptionType {Option.Type} is not a {settingName}");
@@ -203,7 +203,7 @@ namespace Command {
 
       default:
         var setting = (Setting)this;
-        if (sValue is null || !setting.TryParse(sValue))
+        if (sValue == null || !setting.TryParse(sValue))
           throw new ControlException(
             $"Could not parse {sValue} as a value for {Option.Type}");
 

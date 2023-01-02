@@ -47,7 +47,7 @@ namespace Command {
             if (Max.HasValue)
               sb.Append(" max ").Append(Max);
           }
-          else if (Type == OptionType.combo && Items is not null) {
+          else if (Type == OptionType.combo && Items != null) {
             const String sPrefix = " var ";
             sb.Append(sPrefix).Append(Join(sPrefix, Items));
           }

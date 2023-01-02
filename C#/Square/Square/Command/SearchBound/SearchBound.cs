@@ -85,7 +85,7 @@ namespace Command {
       Clear(bWTM);
 
       var searchMoves = position.SearchMoves;
-      if (searchMoves is not null)          // Clear any previous SearchMoves prior to a new go command
+      if (searchMoves != null)          // Clear any previous SearchMoves prior to a new go command
         searchMoves.Clear();
 
       IsDepth = false;
@@ -102,7 +102,7 @@ namespace Command {
             //
             // Parse a list of legal PACN moves to search from the current position:
             //
-            if (searchMoves is null) searchMoves = position.newSearchMoves();
+            if (searchMoves == null) searchMoves = position.newSearchMoves();
             position.ParsePACNSearchMoves(searchMoves, parser.SpaceToken, parser.PACNMoveToken);
             break;
           case "ponder":

@@ -132,7 +132,7 @@ namespace Engine {
         vn[nFinal].Value = mValue;
         bHasValue = true;
 
-        if (vn[nFinal].Moves is null)
+        if (vn[nFinal].Moves == null)
           vn[nFinal].Moves = new List<Move>();
 
         var lineMoves = vn[nFinal].Moves;
@@ -296,7 +296,7 @@ namespace Engine {
           var nVInverse = State!.VariationCount - (nLine + 1);
           var vn = State!.Variation[nVInverse];
           var mValue = ReflectValue(bWTM, vn.Value);
-          if (vn.Moves is not null) {
+          if (vn.Moves != null) {
             child.resetMove();          // Usually called via [null|try]Move()
             child.AbbreviateRefresh(vn.Moves, 0, wDepth, mValue);
           }
@@ -326,14 +326,14 @@ namespace Engine {
     public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
       var moves = new List<Move>();
       for (var position = this;         // toPosition
-           position is not null &&          //[Safe]
+           position != null &&          //[Safe]
            !ReferenceEquals(position, parent);
            position = position.Parent) {
         var move = position.CurrentMove;
         if (!IsDefined(move)) {
           Debug.Assert(IsDefined(move), "Undefined CurrentMove");
         }
-        var mov = (bAbbreviate && position.Parent is not null) ?
+        var mov = (bAbbreviate && position.Parent != null) ?
           position.Parent.abbreviate(move) : move;
         moves.Insert(0, mov);
       }

@@ -160,7 +160,7 @@ namespace Engine {
       var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
       var sw = State!.IterationTimer;
-      if (sw is null)
+      if (sw == null)
         throw new PositionException("Null IterationTimer Stopwatch");
       else
         sw.Start();
@@ -220,7 +220,7 @@ namespace Engine {
     public void IterateCases() {
 #if DisplayDepth
       var sw = State!.IterationTimer;
-      if (sw is null)
+      if (sw == null)
         throw new PositionException("Null IterationTimer Stopwatch");
       else
         sw.Start();

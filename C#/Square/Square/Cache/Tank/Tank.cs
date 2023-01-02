@@ -86,7 +86,7 @@ namespace Cache {
       if (!OneBitOrNone(uLength))
         throw new ApplicationException("LookupLength must be a power of two");
 #endif
-      if (Entries is null ||
+      if (Entries == null ||
 #if LotsForLittle
           uLength > Entries.Length ||
           wBuckets > Entries[0].Length)
@@ -149,7 +149,7 @@ namespace Cache {
     // Used by findMatch() to expedite search where many Buckets are empty.
     // Relies on Init() to establish IsEmpty, since this is based on a non-default value.
     private static Boolean isNullOrEmpty(T xp) {
-      return xp is null || xp.IsEmpty;
+      return xp == null || xp.IsEmpty;
     }
     #endregion
 

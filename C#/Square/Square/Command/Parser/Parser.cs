@@ -231,7 +231,7 @@ namespace Command {
 
     [MemberNotNull(nameof(Scanner))]
     public void EnsureScanner(String sCommand) {
-      if (Scanner is null)       // Update existing Parser
+      if (Scanner == null)       // Update existing Parser
         Scanner = NewScanner(sCommand);
       else                              // Update existing Scanner
         Scanner.Reader = newReader(sCommand);
@@ -272,7 +272,7 @@ namespace Command {
     }
 
     public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
-      if (Scanner is null)
+      if (Scanner == null)
         throw new ArgumentNullException(nameof(Scanner));
 
       var bAccepted = Scanner.EndOfLine || eolToken.Accept();
@@ -292,7 +292,7 @@ namespace Command {
       const String sContext = "Could not parse text at End of Line";
       var message = IsNullOrEmpty(sMethodName) ? sContext : $"{sMethodName} {sContext}";
 
-      if (Scanner is null)
+      if (Scanner == null)
         throw new ArgumentNullException(nameof(Scanner));
 
       return Scanner.AppendDetails(message);
@@ -300,7 +300,7 @@ namespace Command {
 
     //[ToDo]Refactor top-level Command Loop
     public IEnumerable<object?> Parse() {
-      if (Scanner is null)
+      if (Scanner == null)
         throw new ArgumentNullException(nameof(Scanner));
 
       while (!Scanner.EndOfStream) {
@@ -308,7 +308,7 @@ namespace Command {
         var sText = Scanner.Text;
 
         var obj = ParseRow();
-        var bAccepted = obj is not null;
+        var bAccepted = obj != null;
 
         if (bAccepted)
           yield return obj;
@@ -372,7 +372,7 @@ namespace Command {
 
     private String? parseOptionValue(String? sKeyword) {
       String? sValue = default;
-      if (sKeyword is not null) {
+      if (sKeyword != null) {
         SpaceToken.Accept();
         lineToken.Expect();
         sValue = lineToken.Value;
@@ -381,7 +381,7 @@ namespace Command {
     }
 
     private static void rejectValue(String sKeyword) {
-      if (sKeyword is not null)
+      if (sKeyword != null)
         throw new ParseException($"Superfluous {sKeyword} keyword specified");
     }
 
@@ -390,7 +390,7 @@ namespace Command {
       rejectValue(sKeyword);
       var setting = control.AsSetting();
       var s = setting.Value?.ToString();
-      if (s is not null)
+      if (s != null)
         LogLine(s);
     }
 
@@ -411,7 +411,7 @@ namespace Command {
     }
 
     private static Position? findNamedPosition(Position? position, Position? parent) {
-      while (position is not null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
+      while (position != null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
         position = position.Parent;
       return position;
     }
@@ -533,7 +533,7 @@ namespace Command {
           var operands = parseOperands(operations, sOpcode);
 
           if (operations.ContainsKey(sOpcode)) {
-            var sOperands = operands is null ?
+            var sOperands = operands == null ?
               String.Empty : Join(sSpace, operands);
             throw new ParseException($"EPD opcode already specified for: {sOpcode} {sOperands}");
           }
@@ -564,10 +564,10 @@ namespace Command {
 
     public static String? GetSingleValue(
       Dictionary<String, List<String>?>? operations, String sOpcode, String? sDefault = default) {
-      if (operations is null) return sDefault;
+      if (operations == null) return sDefault;
 
       operations.TryGetValue(sOpcode, out List<String>? operands);
-      if (operands is null) return sDefault;
+      if (operands == null) return sDefault;
 
       if (operands.Count == 0)          // The Opcode is assumed to provide a Single Value, i.e., an Operand
         throw new ParseException($"EPD opcode {sOpcode} has no operand");

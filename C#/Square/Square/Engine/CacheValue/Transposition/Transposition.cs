@@ -75,7 +75,7 @@ namespace Engine.CacheValue {
     #region ITankable Interface Methods
     public Boolean Match(Transposition xp) {
 #if !TranspositionByValue
-      if (xp is null)
+      if (xp == null)
         return false;
 #endif
 #if XPHash128

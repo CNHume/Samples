@@ -353,7 +353,7 @@ namespace Engine {
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
-      // Parent is null for a Root Position; so SetDraw0 can be elided here.
+      // Parent == null for a Root Position; so SetDraw0 can be elided here.
       //updateRepetitionCycle();
 
       var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);

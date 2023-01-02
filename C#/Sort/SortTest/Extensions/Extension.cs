@@ -100,7 +100,7 @@ namespace SortTest.Extensions {
             Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
           var found =
             name.Equals(field.Name, stringComparison) ||
-            attribute is not null && name.Equals(attribute.Name, stringComparison);
+            attribute != null && name.Equals(attribute.Name, stringComparison);
 
           if (found)
             return (TEnum?)field.GetValue(null);
@@ -113,7 +113,7 @@ namespace SortTest.Extensions {
       this string name, bool ignoreCase = default)
       where TEnum : Enum {
       var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
-      if (result is null) {
+      if (result == null) {
         var type = typeof(TEnum);
         throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
       }
@@ -124,12 +124,12 @@ namespace SortTest.Extensions {
     // See https://forums.asp.net/t/2085611.aspx?Enum+and+Display+Name+
     public static string GetDisplayName(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
-      return attr?.Name is not null ? attr.Name : enumeration.ToString();
+      return attr?.Name != null ? attr.Name : enumeration.ToString();
     }
 
     public static string GetDescription(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
-      return attr?.Description is not null ? attr.Description : enumeration.ToString();
+      return attr?.Description != null ? attr.Description : enumeration.ToString();
     }
 
     private static DisplayAttribute? GetDisplayAttribute(object obj) {
@@ -140,7 +140,7 @@ namespace SortTest.Extensions {
 
       // Get the enum field
       var name = obj.ToString();
-      if (name is null)
+      if (name == null)
         return default;
 
       var field = type.GetField(name);
@@ -166,7 +166,7 @@ namespace SortTest.Extensions {
       where TEnum : Enum
       where TLogger : ILogger {
       var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
-      if (result is null && !IsNullOrEmpty(name)) {
+      if (result == null && !IsNullOrEmpty(name)) {
         var type = typeof(TEnum);
         logger.LogError($"{type.Name} does not contain {name}");
       }
@@ -178,7 +178,7 @@ namespace SortTest.Extensions {
       where TStruct : struct
       where TLogger : ILogger {
       var result = name.TryParseEnum<TStruct>(ignoreCase);
-      if (result is null && !IsNullOrEmpty(name) && logger is not null) {
+      if (result == null && !IsNullOrEmpty(name) && logger != null) {
         var type = typeof(TStruct);
         logger.LogError($"{type.Name} does not contain {name}");
       }

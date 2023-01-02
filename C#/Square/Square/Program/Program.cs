@@ -51,7 +51,7 @@ namespace Square {
           while (bContinue) {
             Log(sPrompt);
             var sLine = Console.ReadLine();
-            if (sLine is null)
+            if (sLine == null)
               bContinue = false;
             else {
               LogWriteLine(sLine);

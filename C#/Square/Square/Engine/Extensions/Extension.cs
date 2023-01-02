@@ -558,7 +558,7 @@ namespace Engine {
     public static StringBuilder AppendNumberedMoves(
       this StringBuilder sb, IEnumerable<Move> moves,
       Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean IsChess960) {
-      if (moves is null || !moves.Any())
+      if (moves == null || !moves.Any())
         return sb;
 
       var sbLine = new StringBuilder().Append(sb);
@@ -623,7 +623,7 @@ namespace Engine {
     //
     public static StringBuilder MapMoves(
       this StringBuilder sb, MoveWriter mw, IEnumerable<Move> moves, BoardSide[] sides, Boolean IsChess960) {
-      if (moves is not null) {
+      if (moves != null) {
         foreach (var move in moves) {
           mw(sb.Delimit(), move, sides, IsChess960);
         }
@@ -699,7 +699,7 @@ namespace Engine {
       // variation to the previous BestMoves to inform the GUI of
       // changes to either of the Best or the Ponder moves.
       //
-      if (bestMoves is null)
+      if (bestMoves == null)
         throw new BoardException("Null bestMoves Instance");
 
       if (bestMoves.Count < 1 || !EqualMoves(bestMoves[0], lineMoves[0]) ||
@@ -719,11 +719,11 @@ namespace Engine {
 
     public static StringBuilder AppendOperations(
       this StringBuilder sb, Dictionary<String, List<String>?>? operations) {
-      if (operations is not null) {
+      if (operations != null) {
         foreach (var op in operations) {        // .OrderBy(op => op.Key)
           sb.Append(sSpace).Append(op.Key);
 
-          if (op.Value is not null) {
+          if (op.Value != null) {
             foreach (var operand in op.Value)
               sb.Append(sSpace).Append(operand);
           }

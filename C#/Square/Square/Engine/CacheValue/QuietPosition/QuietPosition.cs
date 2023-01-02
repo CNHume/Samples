@@ -65,7 +65,7 @@ namespace Engine.CacheValue {
     #region ITankable Interface Methods
     public Boolean Match(QuietPosition qxp) {
 #if !QuietPositionByValue
-      if (qxp is null)
+      if (qxp == null)
         return false;
 #endif
 #if QXPHash128

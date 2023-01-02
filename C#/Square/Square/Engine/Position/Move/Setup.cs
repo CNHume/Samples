@@ -42,16 +42,16 @@ namespace Engine {
       // Match on the Position Prefix, ignoring variability in the Half Move Clock and Full Move Number values:
       var sPrefix = ToString(PositionType.Prefix);
       return TestPositions
-        .FirstOrDefault(tabiya => tabiya.FEN is not null && tabiya.FEN.StartsWith(sPrefix));
+        .FirstOrDefault(tabiya => tabiya.FEN != null && tabiya.FEN.StartsWith(sPrefix));
     }
 
     private PerfCase[] getTestCases() {
       var tabiyaFound = findTabiya();
-      if (tabiyaFound is null)
+      if (tabiyaFound == null)
         throw new PerftException("Test Position Not Found");
 
       var testCases = tabiyaFound.PerfCases;
-      if (testCases is null)
+      if (testCases == null)
         throw new PerftException("No Perft Cases Found");
 
       return testCases;
@@ -59,7 +59,7 @@ namespace Engine {
 
     private String? getName(String? sId = default) {
       var tabiyaFound = findTabiya();
-      return tabiyaFound is null ?
+      return tabiyaFound == null ?
         sId : tabiyaFound.Name;
     }
 
@@ -300,8 +300,7 @@ namespace Engine {
 #endif
       TestBinomials();                  //[Conditional]
 
-      // Clear() should have been performed by the Push() in NewGame()
-      //[Debug]Clear();
+      // Position.Clear() is performed by Push() in NewGame()
 
       #region Setup the Dark and Lite-Squared Bishops
       if (bFlip) {

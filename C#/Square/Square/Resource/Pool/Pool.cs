@@ -38,20 +38,20 @@ namespace Resource {
     }
 
     public T Push() {
-      if (Inactive is null)
+      if (Inactive == null)
         throw new ApplicationException("No Inactive Pool");
 
       if (Inactive.Count == 0)
         Allocate(nDefaultAllocation);
 
       var top = Inactive.Pop();
-      Debug.Assert(top is not null, "Empty Inactive Pool");
+      Debug.Assert(top != null, "Empty Inactive Pool");
       IncActive();
       return top;
     }
 
     public void Pop(ref T top) {
-      if (top is null)
+      if (top == null)
         throw new ArgumentNullException(nameof(Pop));
 
       Inactive.Push(top);

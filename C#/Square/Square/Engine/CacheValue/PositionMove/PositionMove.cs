@@ -67,7 +67,7 @@ namespace Engine.CacheValue {
     #region ITankable Interface Methods
     public Boolean Match(PositionMove xpm) {
 #if !PositionMoveByValue
-      if (xpm is null)
+      if (xpm == null)
         return false;
 #endif
 #if XPMHash128
