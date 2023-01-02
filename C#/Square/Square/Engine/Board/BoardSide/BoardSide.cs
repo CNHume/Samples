@@ -69,6 +69,9 @@ namespace Engine {
 #if HashPieces
         PieceHash = 0;
 #endif
+      }
+
+      public void ClearCastleRule() {
         Parameter.Rule.Clear();
       }
       #endregion                        // Init Methods
