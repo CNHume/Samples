@@ -312,9 +312,7 @@ namespace Engine {
       //
       // 3. Castling Flags
       //
-      foreach (var side in Side)
-        side.ClearCastleRule();
-
+      clearCastleRules();
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
       if (sCastleFlags != "-")
         parseCastlingFlags(sCastleFlags, rookFromSquares);
@@ -397,9 +395,14 @@ namespace Engine {
       throw new ParsePositionException($"Side not found for Rook at {sqRookFrom}");
     }
 
+    private void clearCastleRules() {
+      foreach (var side in Side)
+        side.ClearCastleRule();
+    }
+
     private void initCastleRules() {
       foreach (var side in Side)
-        side.Parameter.Rule.Init();
+        side.InitCastleRule();
     }
     #endregion
   }

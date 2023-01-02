@@ -74,6 +74,10 @@ namespace Engine {
       public void ClearCastleRule() {
         Parameter.Rule.Clear();
       }
+
+      public void InitCastleRule() {
+        Parameter.Rule.Init();
+      }
       #endregion                        // Init Methods
 
       #region SideFlags Methods
