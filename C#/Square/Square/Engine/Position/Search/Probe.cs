@@ -91,7 +91,7 @@ namespace Engine {
                          Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
                          Boolean bFilterEvalUndefined = false) {
       var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
-      // Note: Adjusted mValue may be EvalUndefined
+      //[Note]Adjusted mValue may be EvalUndefined
       var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
       if (bAllowValue && goodMoves is not null && IsDefinite(moveFound)) {
 #if DedupeGoodMoves

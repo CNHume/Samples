@@ -528,8 +528,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Eval ReflectValue(Boolean bWTM, Eval mValue) {
       //
-      // Note: In the NegaMax evaluation to be returned, a positive sign
-      // will indicate that the Side to Move is winning.
+      // Positive NegaMax evaluations indicate that the Side to Move is winning.
       //
       // During the intermediate stages above (and also when alternative
       // variations are displayed by the GUI) positive signs may be used

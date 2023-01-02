@@ -30,7 +30,8 @@ namespace Engine {
     //
     // KKNN or KNKNN
     // KBKB opposite color
-    // KNKBN, KBKBN. KBKBB pair [Note: KNKBB pair can be won; but perhaps not in 50 moves]
+    // KNKBN, KBKBN. KBKBB pair.
+    // KNKBB pair can be won; but perhaps not in 50 moves
     //
     // More Complex Draws, assuming weaker side in time to defend:
     //

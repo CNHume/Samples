@@ -58,6 +58,7 @@ namespace Engine {
 
       #region Methods
       #region Init Methods
+      // Called for every new child node by Position.Push()
       public void Clear() {
         PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
         KingPos = default;
@@ -71,10 +72,12 @@ namespace Engine {
 #endif
       }
 
+      // Call only when ParsePosition() creates a new Root Position.
       public void ClearCastleRule() {
         Parameter.Rule.Clear();
       }
 
+      // Called from InitRoot() to complete a Root Position.
       public void InitCastleRule() {
         Parameter.Rule.Init();
       }
