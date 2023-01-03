@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -38,7 +38,7 @@ namespace MergeSort {
         else
           throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
 
-        if (Positions is null || Positions.Length != merges)
+        if (Positions == null || Positions.Length != merges)
           Positions = new UInt32[merges];
       }
     }

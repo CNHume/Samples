@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -96,8 +96,8 @@ namespace MergeSort {
         foreach (var range in ranges)
           if (range.Count > 0) {
             var next = range[0];
-            var isLess = found is null;
-            if (found is not null) {
+            var isLess = found == null;
+            if (found != null) {
               Meter?.IncCompare();
               isLess = node.CompareTo(next) > 0;
             }
@@ -108,7 +108,7 @@ namespace MergeSort {
             }
           }
 
-        if (found is null)
+        if (found == null)
           break;
 
         Meter?.IncMove(2);
