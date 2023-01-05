@@ -8,7 +8,7 @@
 #define HashCastlingRights
 #define TestFEN
 //#define TestBinomials
-//#define Flip960
+#define ReflectSetup960
 
 namespace Engine {
   using System;
@@ -33,6 +33,7 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
+    private const String sOrthodoxSetup = "RNBQKBNR";
     private const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
     private const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     #endregion
@@ -131,16 +132,16 @@ namespace Engine {
     public void SetFischerRandom(UInt16 wChess960) {
       //
       // Chess960, a.k.a. Fischer Random Chess, is a Chess Variant invented and advocated by Bobby Fischer.
-      // The Pawns are set up along the 2nd and 7th ranks in the same maner as they are in traditional, or
+      // The Pawns are set up along the 2nd and 7th rank in the same manner as they are in traditional, or
       // Orthodox Chess.
       //
       // The Pieces are set up randomly, subject to the following pair of constraints:
       //
-      // 1) The King and Rooks are placed randomly; but the Rooks must appear on opposite sides of the King.
-      // 2) There must be both one light-squared and one dark-squared Bishop.
+      // 1) The two Rooks must appear on opposite sides of the King.
+      // 2) One Bishop must be light-squared and the other dark-squared.
       //
-      //[Note]The initial Piece placements for both sides should be mirror images of each other, just as
-      // they are in Orthodox Chess.  So, each side will have the same piece standing on a file.
+      //[Note]Both sides have the same type of piece standing on each file.  So, initial Piece placements
+      // for the two sides should be mirror images of each other, just as they are in Orthodox Chess.
       //
       // To see that there are a total of 960 permutations for the Pieces, first note that there are four
       // squares for each of the two Bishops, for a total of 16 possible arrangements.  Then six possible
@@ -149,15 +150,15 @@ namespace Engine {
       // This leaves five possible squares for the two Knights.  Since Knights are not distinguished from
       // each other, there are 5 choose 2 = C(5, 2) = 10 possible combinations for their placement.
       //
-      // Three empty squares then remain on which to place the King and the two Rooks, without choice.
+      // Then three empty squares remain where the King and the two Rooks will be placed, without choice.
       // Thus, there are 4 * 4 * 6 * 10 = 960 permutations.
       //
       // The 960 permutations occur in pairs, whose elements are mirror images of each other.  In one case,
       // the color of the squares on which the Queens stand will match the color of the Queens; and in the
       // other case the color of the squares on which the Queens stand will be opposite that of the Queens.
       //
-      // We might refer to the case where "Queens get their color" as the normal representation and to its
-      // reflection as the alternative representation for each of the 480 pairs.
+      // We refer to the case where "Queens get their color" as the normal representation, and to the case
+      // where the Queens do not get their color as the reflected representation for each of the 480 pairs.
       //
       // Orthodox Startpos: 249
       // Mirrored Startpos: 249 + 480 = 729
@@ -173,9 +174,9 @@ namespace Engine {
       wChess960 /= 10;
       var nQueen = wChess960 % 3;
       wChess960 /= 3;
-      var bFlip = IsOdd(wChess960);
+      var bReflect = IsOdd(wChess960);
 
-      setup960(bFlip, nQueen, nKnights, nBishopDark, nBishopLite);
+      setup960(bReflect, nQueen, nKnights, nBishopDark, nBishopLite);
     }
 
     //
@@ -243,37 +244,37 @@ namespace Engine {
     //
     // Return the last of nEmpty squares:
     //
-    private Int32 findEmptyFile(Boolean bFlip = false, Int32 nEmpty = 0) {
+    private Int32 findEmptyFile(Boolean bReflect = false, Int32 nEmpty = 0) {
       var qpPiece = Side[White].Piece;
-      var qp = bFlip ? BIT7 : BIT0;
+      var qp = bReflect ? BIT7 : BIT0;
 
       for (var n = 0; n <= nEmpty; n++) {
         if ((qp & qpPiece) != 0)
           nEmpty++;                     // Extend the search
 
-        if (bFlip)
+        if (bReflect)
           qp >>= 1;
         else
           qp <<= 1;
       }
 
-      return bFlip ? nFiles - 1 - nEmpty : nEmpty;
+      return bReflect ? nFiles - 1 - nEmpty : nEmpty;
     }
 
     //
     // The following variation on findEmptyFile() limits the choice to squares of the same color:
     //
-    private Int32 findEmpty2(Boolean bFlip = false, Int32 nEmpty = 0, Boolean bOdd = true) {
+    private Int32 findEmpty2(Boolean bReflect = false, Int32 nEmpty = 0, Boolean bOdd = true) {
       const Int32 nBy = 2;
       var qpPiece = Side[White].Piece;
-      var qp = bFlip ? BIT7 : BIT0;
+      var qp = bReflect ? BIT7 : BIT0;
       var n = 0;
 
       if (bOdd) {
         nEmpty++;
         n++;
 
-        if (bFlip)
+        if (bReflect)
           qp >>= 1;
         else
           qp <<= 1;
@@ -283,17 +284,17 @@ namespace Engine {
         if ((qp & qpPiece) != 0)
           nEmpty += nBy;                // Extend the search
 
-        if (bFlip)
+        if (bReflect)
           qp >>= nBy;
         else
           qp <<= nBy;
       }
 
-      return bFlip ? nFiles - 1 - nEmpty : nEmpty;
+      return bReflect ? nFiles - 1 - nEmpty : nEmpty;
     }
 
     private void setup960(
-      Boolean bFlip, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
+      Boolean bReflect, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
 #if DEBUG
       LogLine(
         $"setup960(Queen: {nQueen}, " +
@@ -306,7 +307,7 @@ namespace Engine {
       // Position.Clear() is performed by Push() in NewGame()
 
       #region Setup the Dark and Lite-Squared Bishops
-      if (bFlip) {
+      if (bReflect) {
         nBishopDark = nPerNibble - 1 - nBishopDark;
         nBishopLite = nPerNibble - 1 - nBishopLite;
         Swap(ref nBishopDark, ref nBishopLite);
@@ -324,7 +325,7 @@ namespace Engine {
 
       #region Setup the Queen
       var nQueen2 = 2 * nQueen;
-      var nQueenSquare = findEmpty2(bFlip, nQueen2);
+      var nQueenSquare = findEmpty2(bReflect, nQueen2);
 #if DEBUG
       hasColor(nQueenSquare, SquareLite, "Queen", "her");
 #endif
@@ -340,7 +341,7 @@ namespace Engine {
       //
       // Find square for the wider choice first:
       //
-      if (bFlip) {
+      if (bReflect) {
         nKnight1 = 3 - nKnight1;
         nKnight2 = 4 - nKnight2;
       }
@@ -362,33 +363,32 @@ namespace Engine {
       #endregion
 
       #region Setup Queenside Rook, King, and Kingside Rook
-      var nRookFileOOO = findEmptyFile(bFlip);
+      var nRookFileOOO = findEmptyFile(bReflect);
       setupPiece(vR6, nRookFileOOO);
 
-      setupPiece(vK6, findEmptyFile(bFlip));
+      setupPiece(vK6, findEmptyFile(bReflect));
 
-      var nRookFileOO = findEmptyFile(bFlip);
+      var nRookFileOO = findEmptyFile(bReflect);
       setupPiece(vR6, nRookFileOO);
       #endregion
 
       #region Setup the Pawns
       setupPawns();
       #endregion
-#if DEBUG
-#if Flip960
-      var setup = PositionSetup(bFlip);
-      var sense = bFlip ? "Flipped" : "Normal";
-      LogLine($"{sense} Setup = {setup}");
+#if ReflectSetup960
+      var setup = PositionSetup(bReflect);
 #else
       var setup = PositionSetup();
-      LogLine($"Setup = {setup}");
 #endif
+#if DEBUG
+      var sense = bReflect ? "Reflected" : "Normal";
+      LogLine($"{sense} Setup = {setup}");
 #endif
       #region Grant Castling Rights and Init the Position
       //
       // With the Pieces and Pawns in place, the position can now be initialized:
       //
-      State!.IsChess960 = true;
+      State!.IsChess960 = setup != sOrthodoxSetup || bReflect;
 
       var rookFromSquares = new List<Int32>(4);
       setupCastlingRights(nRookFileOOO, nRookFileOO, rookFromSquares);
@@ -470,6 +470,6 @@ namespace Engine {
       if (sFEN != sFEN2Prefix)
         LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
     }
-    #endregion
+#endregion
   }
 }

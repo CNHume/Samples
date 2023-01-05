@@ -18,6 +18,8 @@ namespace Engine {
   using System.Linq;
   using System.Text;
 
+  using Exceptions;
+
   using static System.String;
   using static Logging.Logger;
 
@@ -43,6 +45,12 @@ namespace Engine {
     private const Char cRankMax = (Char)(cRankMin + nRanks - 1);
 
     private const Char cSlash = '/';
+
+    private const Char cLite = '-';
+    private const Char cDark = '*';
+
+    private const String sLite = "--";
+    private const String sDark = "**";
 
     internal const String sSpace = " ";
     internal const String sSpace2 = sSpace + sSpace;
@@ -219,45 +227,53 @@ namespace Engine {
       return sSymbol;
     }
 
-    private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {
-      const String sLite = "-";
-      const String sDark = "*";
+    private Position.PositionSide findSide(Plane qp) {
+      foreach (var side in Side) {
+        if ((qp & side.Piece) != 0)
+          return side;
+      }
+
+      var sb = new StringBuilder("Side not found for")
+        .AppendSquares(qp);
+      throw new ColorException(sb.ToString());
+    }
+
+    private void appendPiece2(StringBuilder sb, Int32 n, Plane qp) {
       var vPiece = GetPieceIndex(n);
-      if (vPiece > vK6)
-        sb.Append((qp & SquareLite) != 0 ? sLite : sDark);
+      if (vPiece > vK6) {
+        var sColor = (qp & SquareLite) != 0 ? sLite : sDark;
+        sb.Append(sColor);
+      }
+      else {
+        var side = findSide(qp);
+        sb.Append(side.Parameter.Symbol)
+          .Append(PieceSymbol(vPiece));
+      }
+    }
+
+    private void appendPiece1(StringBuilder sb, Int32 n, Plane qp) {
+      var vPiece = GetPieceIndex(n);
+      if (vPiece > vK6) {
+        var cColor = (qp & SquareLite) != 0 ? cLite : cDark;
+        sb.Append(cColor);
+      }
       else
         sb.Append(PieceSymbol(vPiece));
     }
 
-    private void append960(StringBuilder sb, Boolean bFlip = false) {
+    private void append960(StringBuilder sb, Boolean bReflect = false) {
       const Int32 rank = 0;
       var qp = bit(sqr(0, rank));
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
-        var file = bFlip ? InvertFile(x) : x;
+        var file = bReflect ? InvertFile(x) : x;
         appendPiece1(sb, sqr(file, rank), qp);
       }
     }
 
-    public String PositionSetup(Boolean bFlip = false) {
+    public String PositionSetup(Boolean bReflect = false) {
       var sb = new StringBuilder();
-      append960(sb, bFlip);
+      append960(sb, bReflect);
       return sb.ToString();
-    }
-
-    private void appendPiece2(StringBuilder sb, Int32 n, Plane qp) {
-      const String sLite = "--";
-      const String sDark = "**";
-
-      var vPiece = GetPieceIndex(n);
-      if (vPiece > vK6)
-        sb.Append((qp & SquareLite) != 0 ? sLite : sDark);
-      else {
-        var sBlack = Parameter[Black].Symbol;
-        var sWhite = Parameter[White].Symbol;
-        var bWhite = (qp & Side[White].Piece) != 0;
-        sb.Append(bWhite ? sWhite : sBlack);
-        sb.Append(PieceSymbol(vPiece));
-      }
     }
 
     private void appendRank(StringBuilder sb, Int32 rank, Boolean bFlip = false) {

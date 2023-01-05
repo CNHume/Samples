@@ -19,7 +19,7 @@
 // Conditionals:
 //
 #define NoteLaunchAndExit
-//#define PressEnter
+#define PressEnter
 //#define StackTrace
 
 namespace Square {
