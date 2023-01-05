@@ -375,7 +375,7 @@ namespace Engine {
     private void initCastlingRights(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
-        var side = findRookSide(nRookFrom);
+        var side = findSide(nRookFrom);
         side.GrantCastling(nRookFrom, State!.IsChess960);
       }
 
@@ -385,13 +385,15 @@ namespace Engine {
         side.HashCastlingRights();
     }
 
-    private Position.PositionSide findRookSide(int nRookFrom) {
+    private Position.PositionSide findSide(int nFrom) {
       foreach (var side in Side)
-        if (side.Parameter.PieceRank == y(nRookFrom))
+        if (side.Parameter.PieceRank == y(nFrom))
           return side;
 
-      var sqRookFrom = (Sq)nRookFrom;
-      throw new ParsePositionException($"Side not found for Rook at {sqRookFrom}");
+      var vPiece = GetPieceIndex(nFrom);
+      var piece = IndexPiece(vPiece);
+      var sqFrom = (Sq)nFrom;
+      throw new ParsePositionException($"Side not found for {piece} at {sqFrom}");
     }
 
     protected void ClearCastleRules() {
