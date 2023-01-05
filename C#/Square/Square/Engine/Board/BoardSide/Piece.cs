@@ -495,25 +495,25 @@ namespace Engine {
       public void GrantCastling(Int32 nRookFrom, Boolean bChess960) {
         var rule = Parameter.Rule;
         var sideName = Parameter.SideName;
-        var nSetup = sqr(0, Parameter.SetupRank);
-        var qpRook = Board.Rook & Piece;
 
         if (!rule.CastlesFrom.HasValue) {
           if (!KingPos.HasValue)
             throw new ParsePositionException($"{sideName} must have a King");
 
           if (bChess960) {
-            if (KingPos <= nSetup + (Int32)Sq.a1 || nSetup + (Int32)Sq.h1 <= KingPos)
+            if (KingPos <= sqr(x((Int32)Sq.a1), Parameter.PieceRank) ||
+                sqr(x((Int32)Sq.h1), Parameter.PieceRank) <= KingPos)
               throw new ParsePositionException($"{sideName} King cannot castle");
           }
           else {
-            if (KingPos != nSetup + (Int32)Sq.e1)
+            if (KingPos != sqr(x((Int32)Sq.e1), Parameter.PieceRank))
               throw new ParsePositionException($"{sideName} King must castle from {Sq.e1}");
           }
 
           rule.CastlesFrom = KingPos;
         }
 
+        var qpRook = Board.Rook & Piece;
         if (nRookFrom < KingPos) {
           if (rule.RookOOOFrom.HasValue)
             throw new ParsePositionException($"Redundant {sideName} OOO Ability");

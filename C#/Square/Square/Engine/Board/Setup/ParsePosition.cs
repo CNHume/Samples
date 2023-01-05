@@ -182,8 +182,7 @@ namespace Engine {
         var nRookFile = cPosLower - cFileMin;
         var bWhiteSide = IsUpper(cFlag);
         var side = GetSide(bWhiteSide);
-        var nSetup = sqr(0, side.Parameter.SetupRank);
-        var nRookFrom = nSetup + nRookFile;
+        var nRookFrom = sqr(nRookFile, side.Parameter.PieceRank);
 #if DebugCastlingRights
         var sqRookFrom = (Sq)nRookFrom;
         var sideName = side.Parameter.SideName;
@@ -388,7 +387,7 @@ namespace Engine {
 
     private Position.PositionSide findRookSide(int nRookFrom) {
       foreach (var side in Side)
-        if (side.Parameter.SetupRank == y(nRookFrom))
+        if (side.Parameter.PieceRank == y(nRookFrom))
           return side;
 
       var sqRookFrom = (Sq)nRookFrom;

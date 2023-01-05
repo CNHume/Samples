@@ -16,14 +16,13 @@ namespace Engine {
       internal partial class BoardParameter {
         internal class CastleRuleParameter {
           #region Constructors
-          public CastleRuleParameter(Int32 nSetupRank) {
-            SetupRank = nSetupRank;
-            var nSetup = sqr(0, SetupRank);
+          public CastleRuleParameter(Int32 nPieceRank) {
+            PieceRank = nPieceRank;
 
-            KingOOTo = nSetup + (Int32)Sq.g1;
-            RookOOTo = nSetup + (Int32)Sq.f1;
-            KingOOOTo = nSetup + (Int32)Sq.c1;
-            RookOOOTo = nSetup + (Int32)Sq.d1;
+            KingOOTo = sqr(x((Int32)Sq.g1), PieceRank);
+            RookOOTo = sqr(x((Int32)Sq.f1), PieceRank);
+            KingOOOTo = sqr(x((Int32)Sq.c1), PieceRank);
+            RookOOOTo = sqr(x((Int32)Sq.d1), PieceRank);
 
             Clear();
           }
@@ -129,7 +128,7 @@ namespace Engine {
           //
           // The following are readonly fields set by the Constructor:
           //
-          protected Int32 SetupRank { get; init; }
+          protected Int32 PieceRank { get; init; }
 
           public readonly Int32 KingOOTo;
           public readonly Int32 RookOOTo;

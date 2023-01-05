@@ -159,6 +159,9 @@ namespace Engine {
       // We might refer to the case where "Queens get their color" as the normal representation and to its
       // reflection as the alternative representation for each of the 480 pairs.
       //
+      // Orthodox Startpos: 249
+      // Mirrored Startpos: 249 + 480 = 729
+      //
 #if DEBUG
       LogLine($"SetFischerRandom({wChess960})");
 #endif
@@ -309,14 +312,14 @@ namespace Engine {
         Swap(ref nBishopDark, ref nBishopLite);
       }
 
-      var nBishopDark2 = 2 * nBishopDark;
-      var nBishopLite2 = 2 * nBishopLite + 1;
+      var nBishopDarkFile = 2 * nBishopDark;
+      var nBishopLiteFile = 2 * nBishopLite + 1;
 #if DEBUG
-      hasColor(nBishopDark2, SquareDark, "Dark Bishop");
-      hasColor(nBishopLite2, SquareLite, "Lite Bishop");
+      hasColor(nBishopDarkFile, SquareDark, "Dark Bishop");
+      hasColor(nBishopLiteFile, SquareLite, "Lite Bishop");
 #endif
-      setupPiece(vB6, nBishopDark2);
-      setupPiece(vB6, nBishopLite2);
+      setupPiece(vB6, nBishopDarkFile);
+      setupPiece(vB6, nBishopLiteFile);
       #endregion
 
       #region Setup the Queen
@@ -342,20 +345,20 @@ namespace Engine {
         nKnight2 = 4 - nKnight2;
       }
 
-      var nKnight2Square = findEmptyFile(false, nKnight2);
+      var nKnight2File = findEmptyFile(false, nKnight2);
 #if DEBUG
-      var sqKnight2 = (Sq)nKnight2Square;
+      var sqKnight2 = (Sq)nKnight2File;
 #endif
       //
       // Occupy square before making the second choice:
       //
-      setupPiece(vN6, nKnight2Square);
+      setupPiece(vN6, nKnight2File);
 
-      var nKnight1Square = findEmptyFile(false, nKnight1);
+      var nKnight1File = findEmptyFile(false, nKnight1);
 #if DEBUG
-      var sqKnight1 = (Sq)nKnight1Square;
+      var sqKnight1 = (Sq)nKnight1File;
 #endif
-      setupPiece(vN6, nKnight1Square);
+      setupPiece(vN6, nKnight1File);
       #endregion
 
       #region Setup Queenside Rook, King, and Kingside Rook
@@ -398,29 +401,24 @@ namespace Engine {
     }
 
     private void setupPawns() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
-
-      var vPiece = vP6;
-      var nBlack = (Int32)Sq.a7;
-      var nWhite = (Int32)Sq.a2;
-      for (var nFile = 0; nFile < nFiles; nFile++, nBlack++, nWhite++) {
-        blackSide.PlacePiece(vPiece, nBlack);
-        whiteSide.PlacePiece(vPiece, nWhite);
+      const Byte vPiece = vP6;
+      for (var nFile = 0; nFile < nFiles; nFile++) {
+        foreach (var side in Side) {
+          var nTo = sqr(nFile, side.Parameter.PawnRank);
+          side.PlacePiece(vPiece, nTo);
+        }
       }
     }
 
-    private void setupPiece(Byte vPiece, Int32 nWhite) {
-      if (nWhite < nFiles) {            //[Safe]
-        var blackSide = Side[Black];
-        var whiteSide = Side[White];
-
-        var nBlack = nRankLast + nWhite;
-        blackSide.PlacePiece(vPiece, nBlack);
-        whiteSide.PlacePiece(vPiece, nWhite);
+    private void setupPiece(Byte vPiece, Int32 nFile) {
+      if (nFile < nFiles) {            //[Safe]
+        foreach (var side in Side) {
+          var nTo = sqr(nFile, side.Parameter.PieceRank);
+          side.PlacePiece(vPiece, nTo);
+        }
       }
       else {
-        Trace.Assert(nWhite < nFiles, $"nWhite = {nWhite} >= nFiles {nFiles}");
+        Trace.Assert(nFile < nFiles, $"nFile = {nFile} >= nFiles {nFiles}");
       }
     }
 
@@ -432,9 +430,8 @@ namespace Engine {
         //
         // Validation normally provided by parseCastlingFlags()
         //
-        var nSetup = sqr(0, side.Parameter.SetupRank);
-        var nRookFromOOO = nSetup + nRookFileOOO;
-        var nRookFromOO = nSetup + nRookFileOO;
+        var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
+        var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);
 
         rookFromSquares.Add(nRookFromOOO);
         rookFromSquares.Add(nRookFromOO);

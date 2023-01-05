@@ -28,8 +28,9 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = y((Int32)Sq.a8);
-            EnPassantRank = 2;
+            PieceRank = y((Int32)Sq.a8);
+            PawnRank = y((Int32)Sq.a7);
+            EnPassantRank = y((Int32)Sq.a3);
 
             (FileLeft, FileRight) = (qpFileH, qpFileA);
             RankLast = qpRank1;
@@ -45,8 +46,9 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            SetupRank = y((Int32)Sq.a1);
-            EnPassantRank = InvertRank(2);
+            PieceRank = y((Int32)Sq.a1);
+            PawnRank = y((Int32)Sq.a2);
+            EnPassantRank = y((Int32)Sq.a6);
 
             RankLast = qpRank8;
             RankPass = qpRank3;
@@ -60,14 +62,15 @@ namespace Engine {
             throw new ArgumentException(nameof(sideName));
           }
 
-          Rule = new CastleRuleParameter(SetupRank);
+          Rule = new CastleRuleParameter(PieceRank);
         }
         #endregion                      // Constructors
 
         #region Pawn Advancement Fields
         protected readonly Int32 PawnSense;
 
-        public readonly Int32 SetupRank;
+        public readonly Int32 PieceRank;
+        public readonly Int32 PawnRank;
         public readonly Int32 EnPassantRank;
 
         public readonly Int32 PawnA1H8;
