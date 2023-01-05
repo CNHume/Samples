@@ -6,9 +6,9 @@
 // Conditionals:
 //
 #define HashCastlingRights
+#define ShowSetup960
 #define TestFEN
 //#define TestBinomials
-#define ReflectSetup960
 
 namespace Engine {
   using System;
@@ -375,29 +375,27 @@ namespace Engine {
       #region Setup the Pawns
       setupPawns();
       #endregion
-#if ReflectSetup960
-      var setup = PositionSetup(bReflect);
-#else
+
+      #region Grant Castling Rights
+      //
+      // Castling Rights can be determined now that the Pieces are in place:
+      //
       var setup = PositionSetup();
-#endif
-#if DEBUG
+      State!.IsChess960 = setup != sOrthodoxSetup;
+#if ShowSetup960
       var sense = bReflect ? "Reflected" : "Normal";
       LogLine($"{sense} Setup = {setup}");
 #endif
-      #region Grant Castling Rights and Init the Position
-      //
-      // With the Pieces and Pawns in place, the position can now be initialized:
-      //
-      State!.IsChess960 = setup != sOrthodoxSetup || bReflect;
-
       var rookFromSquares = new List<Int32>(4);
       setupCastlingRights(nRookFileOOO, nRookFileOO, rookFromSquares);
+      #endregion                        // Grant Castling Rights
 
+      #region Init Root Position
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
       InitRoot(bWhiteMovesFirst, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber);
-      #endregion
+      #endregion                        // Init Position
     }
 
     private void setupPawns() {
