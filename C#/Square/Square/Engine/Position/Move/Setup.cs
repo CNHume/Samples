@@ -426,7 +426,7 @@ namespace Engine {
 
       foreach (var side in Side) {
         //
-        // Validation normally provided by parseCastlingFlags()
+        // Validation will be performed by initCastlingRights()
         //
         var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
         var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);
@@ -468,6 +468,6 @@ namespace Engine {
       if (sFEN != sFEN2Prefix)
         LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
     }
-#endregion
+    #endregion
   }
 }
