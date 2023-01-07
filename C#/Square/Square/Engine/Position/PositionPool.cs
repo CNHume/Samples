@@ -11,7 +11,7 @@ namespace Engine {
   partial class Position : Board {
     #region Workspace Methods
     private void initNode() {
-      if (Parent == null) {
+      if (Parent is null) {
         GamePly = 0;                    //[Init]
         NullPly = 0;
         FlagsTurn = default;            //[Safe]

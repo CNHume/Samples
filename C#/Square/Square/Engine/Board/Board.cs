@@ -345,7 +345,7 @@ namespace Engine {
     }
 
     public Boolean Equals(Board? board) {
-      if (board == null)
+      if (board is null)
         return false;
 #if SafeEquals
       if (board.Hash != Hash)           //[Shortcut]

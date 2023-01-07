@@ -326,14 +326,14 @@ namespace Engine {
     public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
       var moves = new List<Move>();
       for (var position = this;         // toPosition
-           position != null &&          //[Safe]
+           position is not null &&          //[Safe]
            !ReferenceEquals(position, parent);
            position = position.Parent) {
         var move = position.CurrentMove;
         if (!IsDefined(move)) {
           Debug.Assert(IsDefined(move), "Undefined CurrentMove");
         }
-        var mov = (bAbbreviate && position.Parent != null) ?
+        var mov = (bAbbreviate && position.Parent is not null) ?
           position.Parent.abbreviate(move) : move;
         moves.Insert(0, mov);
       }

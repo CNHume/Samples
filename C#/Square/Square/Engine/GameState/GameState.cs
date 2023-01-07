@@ -231,14 +231,14 @@ namespace Engine {
     }
 
     public void Unmove() {
-      if (MovePosition == null) return;
+      if (MovePosition is null) return;
       var parent = MovePosition.Parent;
       Pop(ref MovePosition);
       MovePosition = parent;
     }
 
     protected void unwindPositions() {
-      while (MovePosition != null)
+      while (MovePosition is not null)
         Unmove();
       RootPosition = default;
     }

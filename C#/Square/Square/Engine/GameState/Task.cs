@@ -70,7 +70,7 @@ namespace Engine {
     public void OnMoveCommand() {
       if (IsSearchInProgress)
         throw new ChessException("Search in progress");
-      else if (MovePosition == null)
+      else if (MovePosition is null)
         throw new ChessException("Uninitialized Position");
       else {
         MovePosition.Validate();
@@ -81,7 +81,7 @@ namespace Engine {
 
     private List<Move>? startSearch(Position? position, SearchMode mode) {
       try {
-        if (position == null)
+        if (position is null)
           throw new PositionException("Null Position");
         else if (SearchTimer == null)
           throw new PositionException("Null SearchTimer Stopwatch");
@@ -158,7 +158,7 @@ namespace Engine {
       //[Optional]Repeat final bestmove report:
       //
       if (BestMoves != null &&
-          position != null) {
+          position is not null) {
         var sb = new StringBuilder();
         //[Note]refreshPV() has been called
         sb.BestMove(BestMoves, position.Side, IsChess960);

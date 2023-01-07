@@ -340,7 +340,7 @@ namespace Command {
       return verbToken.Value;
     }
 
-    private String parseOptionName(out Control control) {
+    private String? parseOptionName(out Control control) {
       SpaceToken.Accept();
       nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
 
@@ -411,7 +411,7 @@ namespace Command {
     }
 
     private static Position? findNamedPosition(Position? position, Position? parent) {
-      while (position != null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
+      while (position is not null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
         position = position.Parent;
       return position;
     }

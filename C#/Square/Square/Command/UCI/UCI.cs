@@ -187,7 +187,7 @@ namespace Command {
       case "board":                     //[Test]In the absence of a GUI
         if (State == null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition == null)    //[Safe]
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
         else
           State.MovePosition.Display();
@@ -196,7 +196,7 @@ namespace Command {
       case "tabiya":
         if (State == null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition == null)    //[Safe]
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
 
         Parser.TabiyaCommand(State.MovePosition);
@@ -225,7 +225,7 @@ namespace Command {
       case "list":
         if (State == null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition == null)    //[Safe]
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
 
         State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
@@ -267,7 +267,7 @@ namespace Command {
       case "best":                      //[Test]
         if (State == null)
           throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition == null)    //[Safe]
+        else if (State.MovePosition is null)    //[Safe]
           throw new ChessException("Uninitialized Position");
         else if (State.BestMoves != null) {
           var sb = new StringBuilder();

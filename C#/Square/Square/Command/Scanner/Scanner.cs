@@ -165,7 +165,7 @@ namespace Command {
       return Index < TextSpans?.Length;
     }
 
-    public String Peek(String regex = sWhitespacePlus) {
+    public String? Peek(String regex = sWhitespacePlus) {
       return HasTextSpan(regex) ? TextSpans[Index] : null;
     }
 

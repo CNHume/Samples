@@ -24,7 +24,7 @@ namespace Engine {
     #region Move Processor
     // ~32 MHz on old PC
     private void resetMove() {
-      if (Parent == null)
+      if (Parent is null)
         throw new PositionException("resetMove() called at the Root Position");
 
       Parent.CopyTo(this);
@@ -114,7 +114,7 @@ namespace Engine {
       //[Note]Any move begins a new Repetition Cycle when En Passant was possible
       // because the right to En Passant expires whether it is exercised or not.
       //
-      if (Parent != null && Parent.IsPassed())
+      if (Parent is not null && Parent.IsPassed())
         SetDraw0();
     }
 
@@ -163,7 +163,7 @@ namespace Engine {
       //[Note]This search for 3-fold repetition extends to the initial position;
       // not just to State!.MovePosition where the current search began.
       //
-      for (var position = Parent; position != null; position = position.Parent) {
+      for (var position = Parent; position is not null; position = position.Parent) {
         GameState.AtomicIncrement(ref State!.RepetitionPlies);
 
         //

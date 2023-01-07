@@ -320,7 +320,7 @@ namespace Engine {
         Option = new ControlOption {
           Name = "Language",
           Type = OptionType.combo,
-          Items = Locales.Select(locale => locale.Language).ToArray<String>(),
+          Items = Locales.Select(locale => locale.Language).ToArray(),
           Default = "English",
           IsHidden = true
         }
