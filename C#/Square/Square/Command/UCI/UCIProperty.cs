@@ -42,6 +42,7 @@ namespace Command {
     // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:
     // 2. Bc8 Kf4 3. h4 Kg3 4. h5 Kh4 5. h6 Kh5 6. Kg7 Ng6 7. Bg4+ Kg5 8. h7 Nh8 9. Bf5 Kxf5 10. Kxh8 Kf6 11. Kh8g8 Kf6e5
     //"1k6/ppp2Rp1/n4b1p/8/5P2/qPQ5/P1P2P2/1K6 w - - 0 1"; // Interference Puzzle
+    //"1B6/8/7P/4p3/3b3k/8/8/2K5 w - - 0 1"; // Promotion Puzzle [2023-01-07 16-ply in 53.434 sec @1.23 MHz over 65.72 Mnode] eval 5.05
     //"5k2/8/3P1K2/7b/2B5/8/8/8 w - - 0 1"; // Underpromotion #10 [12-ply in ~2.5 sec over 3.15 Mnode]
     // 1. d7 Be8 2. d8=B Bf7 3. Be7+ Kg8 4. Bxf7+ Kh7 5. Bh6+ Kh8 6. Bb1 Kg8 7. Kg6 Kh8 8. Bf5
     //"6k1/1p3ppp/3B2b1/1P6/p1PNr3/7P/1n3PP1/2R3K1 w - - 0 1"; // Arjun Erigaisi v Nihal Sarin Line
