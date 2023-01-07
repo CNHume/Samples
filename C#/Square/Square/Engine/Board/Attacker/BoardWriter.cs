@@ -343,11 +343,11 @@ namespace Engine {
 #endif
 #if DisplayCounts
         .AppendLine()
-        .AppendPieceCounts(whiteSide, blackSide)
+        .AppendPieceCounts(blackSide, whiteSide)
 #endif
 #if DisplayPieceHash
         .AppendLine()
-        .AppendPieceHash(whiteSide, blackSide)
+        .AppendPieceHash(blackSide, whiteSide)
 #endif
         .AppendLine();
     }
