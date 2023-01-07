@@ -106,9 +106,7 @@ namespace Engine {
       if ((Knight | Bishop | Rook) != 0)
         return false;
 
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
-
+      var (blackSide, whiteSide) = Side.GetBothSides();
       return
         isKQvKPEndgame2(blackSide, whiteSide) ||
         isKQvKPEndgame2(whiteSide, blackSide);
@@ -128,8 +126,10 @@ namespace Engine {
 
     private GameFlags getEndGameFlags() {
       GameFlags fgame = default;
-      if (Side[Black].IsAlone()) fgame |= GameFlags.BlackAlone;
-      if (Side[White].IsAlone()) fgame |= GameFlags.WhiteAlone;
+
+      var (blackSide, whiteSide) = Side.GetBothSides();
+      if (blackSide.IsAlone()) fgame |= GameFlags.BlackAlone;
+      if (whiteSide.IsAlone()) fgame |= GameFlags.WhiteAlone;
 
       if (!fgame.Has(GameFlags.KingAlone)) {
         if (isKQvKPEndgame()) fgame |= GameFlags.KQvKP;
@@ -248,7 +248,8 @@ namespace Engine {
 
     private Eval rewardKQvKPProximity() {
       const Int32 nMaxPawnDistance = nFiles - 2;
-      var bWhiteAttacker = (Side[Black].Piece & Pawn) != 0;
+      var blackSide = Side[Black];
+      var bWhiteAttacker = (blackSide.Piece & Pawn) != 0;
       var attacker = GetSide(bWhiteAttacker);
       var vAttackerKingPos = attacker.GetKingPos();
       var qp = Pawn;
@@ -318,8 +319,7 @@ namespace Engine {
     // Pawn Advances and Castling are not included.
     //
     private Eval mobility() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       var nControlValue = 0;
       var nMobileValue = 0;

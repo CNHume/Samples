@@ -152,12 +152,12 @@ namespace Engine {
         //DisplayCurrent("GetCXP()");
         sb.AppendLine();
         sb.Append("Old ");
-        sb.AppendPieceCounts(Side[Black], Side[White]);
+        sb.AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts);
         sb.AppendLine();
         sb.Append("New ");
-        sb.AppendPieceCounts(found.Side[Black], found.Side[White]);
+        sb.AppendPieceCounts(blackSide, whiteSide, found.BlackCounts, found.WhiteCounts);
         sb.AppendLine();
-        sb.AppendFormat($"Index = {memo.index(uMemoHash)}");
+        sb.AppendFormat($"Index = {uMemoHash}");
         sb.AppendLine();
         sb.FlushLine();
       }

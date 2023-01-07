@@ -153,9 +153,8 @@ namespace Engine {
     }
 
     private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
+      var (blackSide, whiteSide) = Side.GetBothSides();
       var sw = timerStart(nameof(PositionSide.AddPawnMoves), qTrials);
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         blackSide.AddPawnCaptures(whiteSide.Piece);
@@ -175,9 +174,8 @@ namespace Engine {
     }
 
     private void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
-      var sw = timerStart(nameof(BoardSide.Safe), qTrials);
       var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var sw = timerStart(nameof(BoardSide.Safe), qTrials);
 
       //var qpMoveTo = AtxKing[(Int32)Sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {

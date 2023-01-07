@@ -68,8 +68,7 @@ namespace Engine {
 
     [Conditional("VerifyPieceColor")]
     private void verifyPieceColors() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       var qpBoth = blackSide.Piece & whiteSide.Piece;
       if (qpBoth != 0) {

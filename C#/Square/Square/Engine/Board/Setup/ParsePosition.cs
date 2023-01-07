@@ -195,9 +195,7 @@ namespace Engine {
     }
 
     private void validateCastlingRights() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
-
+      var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
       var whiteRule = whiteSide.Parameter.Rule;
 

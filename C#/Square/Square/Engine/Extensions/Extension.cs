@@ -58,10 +58,15 @@ namespace Engine {
     #endregion
 
     #region Castle Rights
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static (PositionSide blackSide, PositionSide whiteSide) GetBothSides(
+      this PositionSide[] sides) {
+      return (sides[Black], sides[White]);
+    }
+
     public static StringBuilder AppendCastleRights(
-      this StringBuilder sb, BoardSide[] sides, Boolean IsChess960) {
-      var blackSide = sides[Black];
-      var whiteSide = sides[White];
+      this StringBuilder sb, PositionSide[] sides, Boolean IsChess960) {
+      var (blackSide, whiteSide) = sides.GetBothSides();
 
       var fBlackSide = blackSide.FlagsSide;
       var fWhiteSide = whiteSide.FlagsSide;
@@ -737,9 +742,9 @@ namespace Engine {
     #endregion
 
     #region Composition Diagnostics
-    public static StringBuilder AppendPieceCounts(this StringBuilder sb, BoardSide side) {
+    public static StringBuilder AppendPieceCounts(
+      this StringBuilder sb, BoardSide side, UInt32 uPieceCounts) {
       sb.AppendLine("Piece Counts:");
-      var uPieceCounts = side.Counts;
       for (Byte v6 = 0; v6 < nPieces; v6++,
            uPieceCounts >>= nPerNibble) {
         var u = Nibble(uPieceCounts);
@@ -753,10 +758,12 @@ namespace Engine {
     }
 
     public static StringBuilder AppendPieceCounts(
-      this StringBuilder sb, BoardSide blackSide, BoardSide whiteSide) {
+      this StringBuilder sb,
+      BoardSide blackSide,
+      BoardSide whiteSide,
+      UInt32 uBlackCounts,
+      UInt32 uWhiteCounts) {
       sb.AppendLine("Piece Counts:");
-      var uBlackCounts = blackSide.Counts;
-      var uWhiteCounts = whiteSide.Counts;
 
       for (Byte v6 = 0; v6 < nPieces; v6++,
            uBlackCounts >>= nPerNibble,

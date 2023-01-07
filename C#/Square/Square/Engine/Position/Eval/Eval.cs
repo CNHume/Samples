@@ -145,8 +145,7 @@ namespace Engine {
     }
 #if MaterialBalance
     private (Eval mDelta, Eval mTotal) getValue() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       //
       // Piece Counts ignore the number of Pawns
@@ -156,7 +155,7 @@ namespace Engine {
 #if DebugComposition
       var sb = new StringBuilder();
       foreach (var side in Side)
-        sb.AppendPieceCounts(side).AppendLine();
+        sb.AppendPieceCounts(side, side.Counts).AppendLine();
 
       sb.AppendPieceHash(blackSide, whiteSide);
       var sComposition = sb.ToString();
@@ -180,8 +179,7 @@ namespace Engine {
     private static Composition comp = new Composition();
 #endif
     private (Eval mDelta, Eval mTotal) getValue() {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
       var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
@@ -194,7 +192,7 @@ namespace Engine {
       var uMemoHash = compositionHash(true);
 #if DebugComposition
       var sb = new StringBuilder()
-        .AppendPieceCounts(blackSide, whiteSide).AppendLine()
+        .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts).AppendLine()
         .AppendPieceHash(blackSide, whiteSide);
       var sComposition = sb.ToString();
       LogLine(sComposition);
@@ -205,8 +203,7 @@ namespace Engine {
     }
 
     private MemoHashcode compositionHash(Boolean bWhiteHash) {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       if (bWhiteHash)
         return (MemoHashcode)blackSide.PieceHash << nHashPieceBits | (MemoHashcode)whiteSide.PieceHash;
@@ -242,9 +239,7 @@ namespace Engine {
         mDelta += pp.Delta;
         mTotal += pp.Total;
 #if EvalWrongBishop
-        var blackSide = Side[Black];
-        var whiteSide = Side[White];
-
+        var (blackSide, whiteSide) = Side.GetBothSides();
         var fBlackSide = blackSide.FlagsSide;
         var fWhiteSide = whiteSide.FlagsSide;
 

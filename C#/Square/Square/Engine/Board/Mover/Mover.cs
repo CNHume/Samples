@@ -39,11 +39,13 @@ namespace Engine {
     // RaisePiece which is called by RemovePiece
     //
     #region Side Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected PositionSide GetSide(Boolean bWTM) {
       return bWTM ?
         Side[White] : Side[Black];
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected (PositionSide friend, PositionSide foe) GetSides(Boolean bWTM) {
       return bWTM ?
         (Side[White], Side[Black]) :

@@ -319,8 +319,7 @@ namespace Engine {
     }
 
     private void appendProperties(StringBuilder sb) {
-      var blackSide = Side[Black];
-      var whiteSide = Side[White];
+      var (blackSide, whiteSide) = Side.GetBothSides();
 
       sb.Append("Hashcode = ").Append(formatHash(Hash))
 #if DisplayFEN
@@ -343,7 +342,7 @@ namespace Engine {
 #endif
 #if DisplayCounts
         .AppendLine()
-        .AppendPieceCounts(blackSide, whiteSide)
+        .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts)
 #endif
 #if DisplayPieceHash
         .AppendLine()
