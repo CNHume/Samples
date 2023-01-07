@@ -154,15 +154,15 @@ namespace Engine {
 
     private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
       var sw = timerStart(nameof(PositionSide.AddPawnMoves), qTrials);
-      var whiteSide = Side[White];
       var blackSide = Side[Black];
+      var whiteSide = Side[White];
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        whiteSide.AddPawnCaptures(blackSide.Piece);
-        whiteSide.AddPawnMoves(this, ~RankPiece);
-
         blackSide.AddPawnCaptures(whiteSide.Piece);
         blackSide.AddPawnMoves(this, ~RankPiece);
+
+        whiteSide.AddPawnCaptures(blackSide.Piece);
+        whiteSide.AddPawnMoves(this, ~RankPiece);
 
         PseudoPawnBelowCapture.Clear();
         PseudoPawnAboveCapture.Clear();

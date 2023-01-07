@@ -106,7 +106,12 @@ namespace Engine {
     }
 
     public static String FormatFlags(
-      ModeFlags fmode, DrawFlags fdraw, GameFlags fgame, SideFlags fBlackSide, SideFlags fWhiteSide, TurnFlags fturn) {
+      ModeFlags fmode,
+      DrawFlags fdraw,
+      GameFlags fgame,
+      SideFlags fBlackSide,
+      SideFlags fWhiteSide,
+      TurnFlags fturn) {
       if (fmode == 0 && fdraw == 0 && fgame == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
@@ -149,8 +154,8 @@ namespace Engine {
     }
 
     private void appendPositionPieces(StringBuilder sb) {
+      var whiteSide = Side[White];
       var nSkip = 0;
-
       for (var y = 0; y < nRanks; y++) {
         var yInverse = InvertRank(y);
 
@@ -169,7 +174,7 @@ namespace Engine {
               nSkip = 0;
             }
 
-            var bWhite = (qp & Side[White].Piece) != 0;
+            var bWhite = (qp & whiteSide.Piece) != 0;
             sb.Append(coloredPiece(bWhite, vPiece));
           }
         }
@@ -314,8 +319,8 @@ namespace Engine {
     }
 
     private void appendProperties(StringBuilder sb) {
-      var fBlackSide = Side[Black].FlagsSide;
-      var fWhiteSide = Side[White].FlagsSide;
+      var blackSide = Side[Black];
+      var whiteSide = Side[White];
 
       sb.Append("Hashcode = ").Append(formatHash(Hash))
 #if DisplayFEN
@@ -325,17 +330,24 @@ namespace Engine {
 #endif
 #if DisplayFlags
         .Append("Flags: ")
-        .AppendLine(FormatFlags(FlagsMode, FlagsDraw, FlagsGame, fBlackSide, fWhiteSide, FlagsTurn))
+        .AppendLine(
+          FormatFlags(
+            FlagsMode,
+            FlagsDraw,
+            FlagsGame,
+            blackSide.FlagsSide,
+            whiteSide.FlagsSide,
+            FlagsTurn))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif
 #if DisplayCounts
         .AppendLine()
-        .AppendPieceCounts(Side[White].Counts, Side[Black].Counts)
+        .AppendPieceCounts(whiteSide, blackSide)
 #endif
 #if DisplayPieceHash
         .AppendLine()
-        .AppendPieceHash(Side[White].PieceHash, Side[Black].PieceHash)
+        .AppendPieceHash(whiteSide, blackSide)
 #endif
         .AppendLine();
     }
