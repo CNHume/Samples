@@ -45,6 +45,7 @@ namespace Engine {
         Side[White] : Side[Black];
     }
 
+    //[Speed]Inlining the following increased performance by 5%
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected (PositionSide friend, PositionSide foe) GetSides(Boolean bWTM) {
       return bWTM ?
