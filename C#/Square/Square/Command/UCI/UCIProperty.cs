@@ -130,7 +130,8 @@ namespace Command {
     //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
     // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
-    // [16-ply in 14:36 over 1.4341 Gnode @1.6373 MHz] eval 13.0 [17-ply] eval 14.2 [18-ply in 40:59 @1.529 MHz over 3.76 Gnode] #10 after:
+    // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0 [2023-01-07 17-ply in 35:29] eval #11
+    // [2023-01-07 18-ply in 51:26 @1.483 MHz over 4.576 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
@@ -304,7 +305,7 @@ namespace Command {
     //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24";  // Wood v Sowell 2014-07-16
     //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
     //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
-    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2022-11-03 13-ply in 18.42 sec @1.6136 MHz over 29.723 Mnode]
+    //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-01-07 13-ply in 18.319 sec @1.6225 MHz over 29.723 Mnode]
     //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [15-ply in 9:16.3 @1.413 MHz over 786.3 Mnode] eval 2.45 after:
     // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nc1 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Qb8+ Ke7 38. h4 Na2
     // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
@@ -339,7 +340,7 @@ namespace Command {
     //"8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39";   // Aronian vs Caruana Line [17-ply in 2:45.54 @1.141 MHz over 94.77 Mnode] eval 3.63
     //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46";        // Aronian vs Caruana Rook Behind
     //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31";   // Johannessen vs Fischer Line
-    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8 [2022-11-03 13-ply in 37.815 sec @1.559 MHz over 58.97 Mnode]
+    //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37";     // Johannessen vs Fischer #8 [2023-01-07 13-ply in 37.268 sec @1.582 MHz over 58.97 Mnode]
     //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35";  // Byrne vs Fischer 35 -#9 [2022-11-03 14-ply in 3:00.5 over 275.52 Mnode @1.526 MHz]
     // 35... Bc5+ 36. Kh2 Nd2 37. Kh1 Ra1+ 38. Kh2 Nf1+ 39. Kh1 Ng3+ 40. Kh2 Bf2 41. Qf8+ Kxf8 42. Nxg6+ fxg6 43. Kh3 Rh1#
     //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne vs Fischer 17 [14-ply in 8:23 over 713 Mnode @1.418 MHz] eval -1.47
