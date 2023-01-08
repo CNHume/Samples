@@ -85,9 +85,9 @@ namespace Command {
     //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
     //
-    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2022-12-02 14-ply in 38:12 @1.389 MHz over 3.185 Gnode] eval 1.63 after:
-    // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6
-    // 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
+    //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2023-01-08 14-ply in 35:53 @1.479 MHz over 3.185 Gnode] eval 1.63 after:
+    // 9. Bxh7+! Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ [12. Qd3+! f5 13. h5+ Kh6 14. Nxe6+ f4 15. Nxf8 Bf5 16. Bxf4+ g5 17. hxg6(ep)+ Kg7 18. Bh6+ Kg8 19. Qe3 Nxg6 20. Nxg6 Bxg6 21. Qg3!]
+    // 12... Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
     // [2022-11-19 15-ply in 48:16 @1.452 MHz over 4.206 Gnode] eval 1.62 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bxh6 Qxc3+ 18. Kf1 Nxd4 19. Bd2 Qd3+
     // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
@@ -130,8 +130,8 @@ namespace Command {
     //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
     // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
-    // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0 [2023-01-07 17-ply in 35:29] eval #11
-    // [2023-01-07 18-ply in 51:26 @1.483 MHz over 4.576 Gnode] #10 after:
+    // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0 [2023-01-07 17-ply in 35:08.1] eval #11
+    // [2023-01-07 18-ply in 50:59 @1.496 MHz over 4.576 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
     //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
