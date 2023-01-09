@@ -52,9 +52,9 @@ namespace Engine {
       //[Time]timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
       //timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
+      //[Time]timeAddPieceCapturesAndMoves();
       //[Time]
-      timeAddPieceCapturesAndMoves();
-      //[Time]timeAddPawnCapturesAndMoves();
+      timeAddPawnCapturesAndMoves();
       //[Time]timeOrthAtx();
       //[Time]timeSafe();
       //[Time]timeMagic();
@@ -153,15 +153,12 @@ namespace Engine {
     }
 
     private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
-      var (blackSide, whiteSide) = Side.GetBothSides();
+      var (friend, foe) = GetSides(WTM());
       var sw = timerStart(nameof(PositionSide.AddPawnMoves), qTrials);
 
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-        blackSide.AddPawnCaptures(whiteSide.Piece);
-        blackSide.AddPawnMoves(this, ~RankPiece);
-
-        whiteSide.AddPawnCaptures(blackSide.Piece);
-        whiteSide.AddPawnMoves(this, ~RankPiece);
+        friend.AddPawnCaptures(foe.Piece);
+        friend.AddPawnMoves(this, ~RankPiece);
 
         PseudoPawnBelowCapture.Clear();
         PseudoPawnAboveCapture.Clear();
@@ -174,14 +171,14 @@ namespace Engine {
     }
 
     private void timeSafe(UInt64 qTrials = 100000000UL) { // 1.22 MHz
-      var blackSide = Side[Black];
+      var side = GetSide(WTM());
       var sw = timerStart(nameof(BoardSide.Safe), qTrials);
 
       //var qpMoveTo = AtxKing[(Int32)Sq.e4];
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         var nFrom = (Int32)(qTrial % nSquares);
         var qpMoveTo = AtxKing[nFrom];
-        qpMoveTo &= blackSide.Safe(qpMoveTo);
+        qpMoveTo &= side.Safe(qpMoveTo);
       }
 
       timerStop(sw, qTrials);
