@@ -11,7 +11,9 @@ namespace Engine {
   partial class Position : Board {
     #region Workspace Methods
     private void initNode() {
-      if (Parent is null) {
+      if (Parent is null) {             // Root Position
+        State!.IsChess960 = false;      //[Init]
+
         GamePly = 0;                    //[Init]
         NullPly = 0;
         FlagsTurn = default;            //[Safe]

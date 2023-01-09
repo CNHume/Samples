@@ -130,7 +130,7 @@ namespace Engine {
 #endif
 #if TestWhiteSquares
       LogLine("WhiteSquare\n");
-      writeOrth(WhiteSquare);
+      WriteOrth(WhiteSquare);
       LogLine();
 #endif
 #if TestRankPiece

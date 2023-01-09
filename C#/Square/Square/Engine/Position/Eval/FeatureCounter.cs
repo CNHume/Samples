@@ -194,7 +194,7 @@ namespace Engine {
         var uCount = nibble(uCounter);
         LogLine($"{sideName} {(PawnFeature)n} = {uCount}");
         LogLine();
-        writeOrth(FeatureOrth[n + nOffset]);
+        WriteOrth(FeatureOrth[n + nOffset]);
         LogLine();
       }
 #endif

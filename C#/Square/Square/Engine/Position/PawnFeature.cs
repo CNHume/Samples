@@ -220,12 +220,12 @@ namespace Engine {
           var (qpFree, qpHelp) = getFreeHelp(nSide, n);
 #if TestInitFree
           LogLine($"free({parameter.SideName}, {sq})\n");
-          writeOrth(qpFree);
+          WriteOrth(qpFree);
           LogLine();
 #endif
 #if TestInitHelp
           LogLine($"help({parameter.SideName}, {sq})\n");
-          writeOrth(qpHelp);
+          WriteOrth(qpHelp);
           LogLine();
 #endif
         }

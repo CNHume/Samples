@@ -357,16 +357,16 @@ namespace Engine {
       DisplayCurrent("mobility()");
 
       LogLine("WhiteControlled\n");
-      writeOrth(WhiteControlled);
+      WriteOrth(WhiteControlled);
       LogLine();
 
       LogLine("BlackControlled\n");
-      writeOrth(BlackControlled);
+      WriteOrth(BlackControlled);
       LogLine();
 
       var qpNeutral = AttackedSum & ~(WhiteControlled | BlackControlled);
       LogLine("Neutral\n");
-      writeOrth(qpNeutral);
+      WriteOrth(qpNeutral);
       LogLine();
 #endif
       nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;
