@@ -564,9 +564,12 @@ namespace Engine {
         //
         // Perform Secondary Full Window Search (FWS) if necessary (PVDouble)
         //
-        // OK to leave Draw50 if it was set by the Initial Search
+        // Not necessary to clear Draw50, if it was set by the Initial Search
         //[Safe]FlagsDraw &= ~DrawFlags.Draw50;
-        mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));  //[Warning]mValue vs. mAlpha resulted in incremental score creep
+        //
+        //[Warning]Passing in mValue vs. mAlpha resulted in incremental score creep here:
+        //
+        mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
       }
 
       return mValue;

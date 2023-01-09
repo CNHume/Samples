@@ -80,7 +80,7 @@ namespace Engine {
         moveFound = Move.Undefined;
       }
 #if DebugMoveColor
-      if (isDefined(moveFound) && WTM())
+      if (IsDefined(moveFound) && WTM())
         moveFound |= Move.WTM;
 #endif
       return moveFound;
@@ -146,7 +146,7 @@ namespace Engine {
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
-      if (isDefinite(moveBest)) {
+      if (IsDefinite(moveBest)) {
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeXPM]");
@@ -212,7 +212,7 @@ namespace Engine {
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
-      if (isDefinite(moveBest)) {
+      if (IsDefinite(moveBest)) {
         var bWTM = WTM();
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
@@ -286,7 +286,7 @@ namespace Engine {
         moveBest = Move.EmptyMove;
       }
 #if DebugMoveColor
-      if (isDefinite(moveBest)) {
+      if (IsDefinite(moveBest)) {
         var bWTM = WTM();
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
