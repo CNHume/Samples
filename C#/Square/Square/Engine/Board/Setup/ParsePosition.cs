@@ -149,7 +149,7 @@ namespace Engine {
       if (sCastleFlags.Length > 4)
         throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
-      State!.IsChess960 = false;
+      var bChess960Flags = false;
       var bOrthodoxFlags = false;
       for (var nPos = 0; nPos < sCastleFlags.Length; nPos++) {
         var cFlag = sCastleFlags[nPos];
@@ -171,7 +171,7 @@ namespace Engine {
           bOrthodoxFlags = true;
           break;
         default:
-          State!.IsChess960 = true;
+          bChess960Flags = true;
           break;
         }
 
@@ -190,8 +190,10 @@ namespace Engine {
         rookFromSquares.Add(nRookFrom);
       }                                 //[Next]cFlag
 
-      if (State!.IsChess960 && bOrthodoxFlags)
+      if (bChess960Flags && bOrthodoxFlags)
         throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
+
+      State!.IsChess960 = bChess960Flags;
     }
 
     private void validateCastlingRights() {
@@ -200,36 +202,36 @@ namespace Engine {
       var whiteRule = whiteSide.Parameter.Rule;
 
       if (blackRule.CastlesFrom.HasValue && whiteRule.CastlesFrom.HasValue) {
-        if (blackRule.CastlesFrom.Value != whiteRule.CastlesFrom.Value + nRankLast)
+        if (x(blackRule.CastlesFrom.Value) != x(whiteRule.CastlesFrom.Value))
           throw new ParsePositionException("Both Kings must castle from the same file");
       }
       else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
         if (blackRule.CastlesFrom.HasValue)
-          whiteRule.CastlesFrom = blackRule.CastlesFrom.Value - nRankLast;
+          whiteRule.CastlesFrom = sqr(x(blackRule.CastlesFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.CastlesFrom.HasValue)
-          blackRule.CastlesFrom = whiteRule.CastlesFrom.Value + nRankLast;
+          blackRule.CastlesFrom = sqr(x(whiteRule.CastlesFrom.Value), blackSide.Parameter.PieceRank);
       }
 
       if (blackRule.RookOOFrom.HasValue && whiteRule.RookOOFrom.HasValue) {
-        if (blackRule.RookOOFrom.Value != whiteRule.RookOOFrom.Value + nRankLast)
+        if (x(blackRule.RookOOFrom.Value) != x(whiteRule.RookOOFrom.Value))
           throw new ParsePositionException("Both sides must OO with Rooks from the same file");
       }
       else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
         if (blackRule.RookOOFrom.HasValue)
-          whiteRule.RookOOFrom = blackRule.RookOOFrom.Value - nRankLast;
+          whiteRule.RookOOFrom = sqr(x(blackRule.RookOOFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.RookOOFrom.HasValue)
-          blackRule.RookOOFrom = whiteRule.RookOOFrom.Value + nRankLast;
+          blackRule.RookOOFrom = sqr(x(whiteRule.RookOOFrom.Value), blackSide.Parameter.PieceRank);
       }
 
       if (blackRule.RookOOOFrom.HasValue && whiteRule.RookOOOFrom.HasValue) {
-        if (blackRule.RookOOOFrom.Value != whiteRule.RookOOOFrom.Value + nRankLast)
+        if (x(blackRule.RookOOOFrom.Value) != x(whiteRule.RookOOOFrom.Value))
           throw new ParsePositionException("Both sides must OOO with Rooks from the same file");
       }
       else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
         if (blackRule.RookOOOFrom.HasValue)
-          whiteRule.RookOOOFrom = blackRule.RookOOOFrom.Value - nRankLast;
+          whiteRule.RookOOOFrom = sqr(x(blackRule.RookOOOFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.RookOOOFrom.HasValue)
-          blackRule.RookOOOFrom = whiteRule.RookOOOFrom.Value + nRankLast;
+          blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
       }
     }
 
