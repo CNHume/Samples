@@ -120,7 +120,7 @@ namespace Engine {
         var nTo = RemoveLo(ref qpMoveTo);
         var move = PieceCapture | ToMove(nTo) | moveFrom;
 #if DebugMoveColor
-        if (bWTM) move |= Move.WTM;
+        if (WTM()) move |= Move.WTM;
 #endif
         var moves = parameter.IsAbove(nTo) ? aboveCaptures : belowCaptures;
         moves.Add(move);
