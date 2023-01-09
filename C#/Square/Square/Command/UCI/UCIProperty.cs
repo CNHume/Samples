@@ -16,6 +16,9 @@ namespace Command {
     #region FEN Constants
     private const String sDefaultFEN =
     //
+    // Since 2020-02-20: Timing Results have been obtained using an i7-9700K CPU at 3.60GHz w 8-cores,
+    // in a Dell XPS 8930 workstation with 32 GB RAM, running Windows 10 Pro.
+    //
     // Perft FEN
     // ---------
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-01-07 Perft1 (startpos) in 13.122 sec @9.935 MHz over 130.36 Mnode]
@@ -93,6 +96,8 @@ namespace Command {
     // [2022-09-03 16-ply in 19:51:54 @1.415 MHz over 101.2 Gnode] eval 1.77 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? 12. a3?! [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
     // 12... Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
+    //"r1bq1r2/pp2npp1/2n1p1k1/3pP1N1/1b1P3P/2N5/PP3PP1/R1BQK2R b KQ - 0 11"; // Greek Gift from French Advance Line [2023-01-09 16-ply in 2:40:15 @1.508 MHz over 14.5 Gnode] eval 2.85 after:
+    // 11... Qa5 12. Qd3+ Nf5 13. g4 f6 14. h5+ Kh6 15. Nxe6+ Kh7 16. Nxf8+ Bxf8 17. exf6 gxf6 18. gxf5 Ne7 19. h6 Bxf5 20. Qb5 Qxb5 21.Nxb5
     //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // #3 4-ply
     // moves h4h5 g6h6 g5e6 g7g5
     //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"

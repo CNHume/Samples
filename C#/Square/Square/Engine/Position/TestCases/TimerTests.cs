@@ -152,7 +152,7 @@ namespace Engine {
       timerStop(sw, qTrials);
     }
 
-    private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {      //~2690 KHz
+    private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {  // Using startpos [2023-01-09 15.456 MHz]
       var (friend, foe) = GetSides(WTM());
       var sw = timerStart(nameof(PositionSide.AddPawnMoves), qTrials);
 
@@ -208,7 +208,8 @@ namespace Engine {
     // x86 was 233.13 MHz
     // x64 was 301.45 MHz +29%
     //
-    // Using i7-9700K CPU at 3.60GHz w 8-cores:
+    // Since 2020-02-20: On a Dell XPS 8930 workstation with 32 GB RAM,
+    // using an i7-9700K CPU at 3.60GHz w 8-cores:
     //
     // Full Mask      =  22,564.195 KHz
     // Half DeBruijn  =  15,456.906 KHz
