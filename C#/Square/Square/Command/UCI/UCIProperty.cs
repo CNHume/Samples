@@ -40,6 +40,7 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
+    //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
     //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 sec @1.141 MHz over 381.8 Mnode] eval 1.48 after:
     // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} [5... Nf8! {only move}] 6. Kf6
     // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:

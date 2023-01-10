@@ -425,6 +425,9 @@ namespace Engine {
         Name = "Q v RP draw",
         FEN = "8/8/8/4QK2/8/8/p7/2k5 b - - 0 1" },
       new Tabiya {
+        Name = "Légal Trap",
+        FEN = "r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6" },
+      new Tabiya {
         Name = "Fischer v Panno 1970",  // 16-ply in 2:49:43 to find 28. Be4!
         FEN = "2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28" },
       new Tabiya {
