@@ -387,7 +387,8 @@ namespace Engine {
       printMapping(sLabel, n => map[n]);
     }
 
-    protected static void WriteOrth(Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    protected static void WriteOrth(
+      Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       var sb = new StringBuilder();
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
@@ -411,7 +412,8 @@ namespace Engine {
       sb.FlushLine();
     }
 
-    internal static void testOrth(String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
+    internal static void testOrth(
+      String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
       LogLine($"{sLabel}");
       LogLine();
       WriteOrth(qp, bRotateBoard, bFlip);
@@ -472,7 +474,8 @@ namespace Engine {
         .FlushLine();
     }
 
-    private static void testDiag(String sLabel, Plane qp, bool bRotateBoard = false) {
+    private static void testDiag(
+      String sLabel, Plane qp, bool bRotateBoard = false) {
       LogLine($"{sLabel}");
       LogLine();
       writeDiag(qp, bRotateBoard);

@@ -36,8 +36,9 @@ namespace Engine {
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
       //
-      var qpWhite = bit((Int32)Sq.a2);
-      var qpBlack = bit((Int32)Sq.h7);
+      var n = sqr(0, whiteParameter.PawnRank);
+      var qpWhite = bit(n);
+      var qpBlack = bit(InvertSquare(n));
 
       for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
         // Size of the Square depends on how close the Black Pawn is to queening
@@ -127,12 +128,13 @@ namespace Engine {
     private static void loadHelp() {
       var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
+      var n = sqr(0, whiteParameter.PawnRank);
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
       for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
-        qpWhite |= bit((Int32)Sq.a2);
-        qpBlack |= bit((Int32)Sq.h7);
+        qpWhite |= bit(n);
+        qpBlack |= bit(InvertSquare(n));
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = InvertSquare(nWhite);
@@ -169,16 +171,20 @@ namespace Engine {
       case Black:
         qpFree = whiteParameter.Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        if (nPawn >= nFiles * (nRanks - 1))
-          qpFree |= bit(nRankLast + nPawn);
+        if (y(nPawn) > blackParameter.PawnRank) {
+          var nFree = sqr(x(nPawn), blackParameter.PawnRank);
+          qpFree |= bit(nFree);
+        }
 #endif
         break;
 
       case White:
         qpFree = blackParameter.Help[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
-        if (nPawn < nFiles)
-          qpFree |= bit(nFiles + nPawn);
+        if (y(nPawn) < whiteParameter.PawnRank) {
+          var nFree = sqr(x(nPawn), whiteParameter.PawnRank);
+          qpFree |= bit(nFree);
+        }
 #endif
         break;
       }
@@ -201,14 +207,16 @@ namespace Engine {
       case Black:
         qpHelp = whiteParameter.Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= bit(nFiles * (nRanks - 2) + x(nPawn));
+        var nHelpBlack = sqr(x(nPawn), blackParameter.PawnRank);
+        qpHelp |= bit(nHelpBlack);
 #endif
         break;
 
       case White:
         qpHelp = blackParameter.Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
-        qpHelp |= bit(nFiles + x(nPawn));
+        var nHelpWhite = sqr(x(nPawn), whiteParameter.PawnRank);
+        qpHelp |= bit(nHelpWhite);
 #endif
         break;
       }
