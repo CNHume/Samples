@@ -64,7 +64,6 @@ namespace Engine {
     internal const Int32 nSquares = nRanks * nFiles;
     internal const Int32 nSquareUndefined = nSquares;
 
-    protected const Int32 nRankLast = nSquares - nFiles;
     private const UInt32 uSquareMask = (1 << 6) - 1;
 
     private const Int32 nA8H1 = 7;

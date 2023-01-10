@@ -258,7 +258,7 @@ namespace Engine {
           qp <<= 1;
       }
 
-      return bReflect ? nFiles - 1 - nEmpty : nEmpty;
+      return bReflect ? InvertFile(nEmpty) : nEmpty;
     }
 
     //
@@ -290,7 +290,7 @@ namespace Engine {
           qp <<= nBy;
       }
 
-      return bReflect ? nFiles - 1 - nEmpty : nEmpty;
+      return bReflect ? InvertFile(nEmpty) : nEmpty;
     }
 
     private void setup960(

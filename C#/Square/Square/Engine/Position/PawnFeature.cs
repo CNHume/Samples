@@ -36,8 +36,8 @@ namespace Engine {
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
       //
-      var qpWhite = bit(nFiles);
-      var qpBlack = BITHI >> nFiles;
+      var qpWhite = bit((Int32)Sq.a2);
+      var qpBlack = bit((Int32)Sq.h7);
 
       for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
         // Size of the Square depends on how close the Black Pawn is to queening
@@ -46,11 +46,11 @@ namespace Engine {
 
         for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpWhite <<= 1, qpBlack >>= 1) {
           for (Int32 nWhite = 0, nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
-            //var nBlackKingY = nRanks - 1 - nWhiteKingY;
+            //var nBlackKingY = InvertRank(nWhiteKingY);
 
             for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++, nWhite++) {
-              var nBlack = nSquares - 1 - nWhite;
-              var nBlackKingX = nFiles - 1 - nWhiteKingX;
+              var nBlack = InvertSquare(nWhite);
+              var nBlackKingX = InvertFile(nWhiteKingX);
               // Calculate King to Move 48 * 64 = 3,072 times
 
               //[Note]Calculate lateral distance with Pawn and King of opposite colors:
@@ -112,7 +112,7 @@ namespace Engine {
         // whereupon they will have advanced by one Rank:
         //
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
-          var nBlack = nSquares - 1 - nWhite;
+          var nBlack = InvertSquare(nWhite);
           blackParameter.Free[nBlack] = qpBlack;
           whiteParameter.Free[nWhite] = qpWhite;
         }
@@ -131,11 +131,11 @@ namespace Engine {
       var qpBlack = 0UL;
 
       for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
-        qpWhite |= bit(nFiles);
-        qpBlack |= bit(nRankLast - 1);
+        qpWhite |= bit((Int32)Sq.a2);
+        qpBlack |= bit((Int32)Sq.h7);
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
-          var nBlack = nSquares - 1 - nWhite;
+          var nBlack = InvertSquare(nWhite);
           blackParameter.Help[nBlack] = qpBlack;
           whiteParameter.Help[nWhite] = qpWhite;
         }

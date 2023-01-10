@@ -597,7 +597,7 @@ namespace Engine {
 
     private Byte rotateFile(Int32 n) {
 #if NoFileOffset
-      var nFileOffset = nFiles * invertFile(x(n)) + 1;
+      var nFileOffset = nFiles * InvertFile(x(n)) + 1;
 #endif
       var uFileRotate = (UInt32)(FilePiece >> OffsetFile[n]);
       return (Byte)(uFileRotate & uStateMask);
@@ -658,6 +658,11 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     internal static Int32 InvertDiag(Int32 d) {
       return nDiagonals - (d + 1);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected static Int32 InvertSquare(Int32 n) {
+      return nSquares - (n + 1);
     }
     #endregion                          // Board Coordinate Methods
   }

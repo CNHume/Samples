@@ -97,8 +97,11 @@ namespace Engine {
     }
 #if FindHi
     protected static Sq sqHi(UInt64 r) {
-      for (var n = 0; n < nSquares; n++, r <<= 1)
-        if ((r & BITHI) != 0) return (sq)(63 - n);
+      var q = bit(nSquares - 1);
+      for (var n = 0; n < nSquares; n++, q >>= 1) {
+        if ((q & r) != 0)
+          return (Sq)InvertSquare(n);
+      }
 
       throw new ApplicationException("Empty Bit Mask");
     }
@@ -503,8 +506,8 @@ namespace Engine {
       return (UInt16)Sqrt((Double)w);
     }
 
-    public UInt64 USqrt(UInt16 q) {
-      if (q == 0)
+    public UInt64 USqrt(UInt16 w) {
+      if (w == 0)
         return 0;
 
       //
@@ -512,14 +515,14 @@ namespace Engine {
       // but rounding must be corrected in a few cases.  We seek the greatest
       // integer whose square is no greater than N.
       //
-      var init = (UInt16)Sqrt((Double)q);
+      var init = (UInt16)Sqrt((Double)w);
       var root = (UInt64)init;
-      var mean = (root + (q / root)) / 2;
+      var mean = (root + (w / root)) / 2;
 
       var count = 0;
       while (root > mean) {
         root--;
-        mean = (root + (q / root)) / 2;
+        mean = (root + (w / root)) / 2;
         count++;
       }
 #if DEBUG
@@ -531,7 +534,7 @@ namespace Engine {
       // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
       //
       if (root < 4294967293 && count > 0)
-        LogLine($"usqrt: n = {q}, root = {root}, count = {count}");
+        LogLine($"usqrt: n = {w}, root = {root}, count = {count}");
 #endif
       return root;
     }
