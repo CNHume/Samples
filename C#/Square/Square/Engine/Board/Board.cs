@@ -176,18 +176,21 @@ namespace Engine {
       if (sLanguage == null)
         PieceSymbols = default;
       else {
+        var blackParameter = Parameter[Black];
+        var whiteParameter = Parameter[White];
+
         var found = Locales.FirstOrDefault(
           locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
         PieceSymbols = found?.Symbols;
 
         if (PieceSymbols == null) {
-          Parameter[Black].Symbol = "B";
-          Parameter[White].Symbol = "W";
+          blackParameter.Symbol = "B";
+          whiteParameter.Symbol = "W";
         }
         else {
           Trace.Assert(nSymbols <= PieceSymbols.Length, "Insufficient number of Piece Symbols");
-          Parameter[Black].Symbol = PieceSymbols[vBlack].ToString();
-          Parameter[White].Symbol = PieceSymbols[vWhite].ToString();
+          blackParameter.Symbol = PieceSymbols[vBlack].ToString();
+          whiteParameter.Symbol = PieceSymbols[vWhite].ToString();
         }
       }
     }

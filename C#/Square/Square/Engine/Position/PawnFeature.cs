@@ -30,6 +30,9 @@ namespace Engine {
     // caught by the King - before they queen.
     //
     private static void loadOutsideSquare() {
+      var blackParameter = Parameter[Black];
+      var whiteParameter = Parameter[White];
+
       //
       // Pawns cannot appear on the first or last ranks;
       // and start on the second or second-to-last rank:
@@ -73,13 +76,13 @@ namespace Engine {
               // Sum Pawn positions with King outside the Square of the Pawn:
               //
               if (bOutsideKingToMove) {
-                Parameter[Black].KingToMoveLoss[nBlack] |= qpWhite;
-                Parameter[White].KingToMoveLoss[nWhite] |= qpBlack;
+                blackParameter.KingToMoveLoss[nBlack] |= qpWhite;
+                whiteParameter.KingToMoveLoss[nWhite] |= qpBlack;
               }
 
               if (bOutsidePawnToMove) {
-                Parameter[Black].PawnToMoveWins[nWhite] |= qpBlack;
-                Parameter[White].PawnToMoveWins[nBlack] |= qpWhite;
+                blackParameter.PawnToMoveWins[nWhite] |= qpBlack;
+                whiteParameter.PawnToMoveWins[nBlack] |= qpWhite;
               }
             }                           // nKingX
           }                             // nKingY
@@ -95,6 +98,9 @@ namespace Engine {
     // as potential Pawn Advancements:
     //
     private static void loadFree() {
+      var blackParameter = Parameter[Black];
+      var whiteParameter = Parameter[White];
+
       //
       // Advance File masks forward by one Rank:
       //
@@ -109,8 +115,8 @@ namespace Engine {
         //
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Parameter[Black].Free[nBlack] = qpBlack;
-          Parameter[White].Free[nWhite] = qpWhite;
+          blackParameter.Free[nBlack] = qpBlack;
+          whiteParameter.Free[nWhite] = qpWhite;
         }
       }
     }
@@ -121,6 +127,9 @@ namespace Engine {
     // and all help squares prior to that:
     //
     private static void loadHelp() {
+      var blackParameter = Parameter[Black];
+      var whiteParameter = Parameter[White];
+
       var qpWhite = 0UL;
       var qpBlack = 0UL;
 
@@ -130,8 +139,8 @@ namespace Engine {
 
         for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
           var nBlack = nSquares - 1 - nWhite;
-          Parameter[Black].Help[nBlack] = qpBlack;
-          Parameter[White].Help[nWhite] = qpWhite;
+          blackParameter.Help[nBlack] = qpBlack;
+          whiteParameter.Help[nWhite] = qpWhite;
         }
       }
     }
@@ -156,10 +165,13 @@ namespace Engine {
 #if InitFree
       var qpFree = Parameter[nSide].Free[nPawn];
 #else
+      var blackParameter = Parameter[Black];
+      var whiteParameter = Parameter[White];
+
       Plane qpFree = default;
       switch (nSide) {
       case Black:
-        qpFree = Parameter[White].Help[nPawn] >> nFiles * 2;
+        qpFree = whiteParameter.Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn >= nFiles * (nRanks - 1))
           qpFree |= bit(nRankLast + nPawn);
@@ -167,7 +179,7 @@ namespace Engine {
         break;
 
       case White:
-        qpFree = Parameter[Black].Help[nPawn] << nFiles * 2;
+        qpFree = blackParameter.Help[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         if (nPawn < nFiles)
           qpFree |= bit(nFiles + nPawn);
@@ -186,17 +198,20 @@ namespace Engine {
 #if InitHelp
       var qpHelp = Parameter[nSide].Help[nPawn];
 #else
+      var blackParameter = Parameter[Black];
+      var whiteParameter = Parameter[White];
+
       Plane qpHelp = default;
       switch (nSide) {
       case Black:
-        qpHelp = Parameter[White].Free[nPawn] >> nFiles * 2;
+        qpHelp = whiteParameter.Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= bit(nFiles * (nRanks - 2) + x(nPawn));
 #endif
         break;
 
       case White:
-        qpHelp = Parameter[Black].Free[nPawn] << nFiles * 2;
+        qpHelp = blackParameter.Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
         qpHelp |= bit(nFiles + x(nPawn));
 #endif
