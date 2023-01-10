@@ -59,8 +59,14 @@ namespace Engine {
 
     #region Castle Rights
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static (PositionSide blackSide, PositionSide whiteSide) GetBothSides(
-      this PositionSide[] sides) {
+    public static (PositionSide.PositionParameter blackParameter, PositionSide.PositionParameter whiteParameter)
+      GetBothParameters(this PositionSide.PositionParameter[] parameters) {
+      return (parameters[Black], parameters[White]);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public static (PositionSide blackSide, PositionSide whiteSide)
+      GetBothSides(this PositionSide[] sides) {
       return (sides[Black], sides[White]);
     }
 

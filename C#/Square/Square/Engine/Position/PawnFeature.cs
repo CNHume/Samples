@@ -30,8 +30,7 @@ namespace Engine {
     // caught by the King - before they queen.
     //
     private static void loadOutsideSquare() {
-      var blackParameter = Parameter[Black];
-      var whiteParameter = Parameter[White];
+      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       //
       // Pawns cannot appear on the first or last ranks;
@@ -47,7 +46,7 @@ namespace Engine {
 
         for (var nPawnX = 0; nPawnX < nFiles; nPawnX++, qpWhite <<= 1, qpBlack >>= 1) {
           for (Int32 nWhite = 0, nWhiteKingY = 0; nWhiteKingY < nRanks; nWhiteKingY++) {
-            var nBlackKingY = nRanks - 1 - nWhiteKingY;
+            //var nBlackKingY = nRanks - 1 - nWhiteKingY;
 
             for (var nWhiteKingX = 0; nWhiteKingX < nFiles; nWhiteKingX++, nWhite++) {
               var nBlack = nSquares - 1 - nWhite;
@@ -98,8 +97,7 @@ namespace Engine {
     // as potential Pawn Advancements:
     //
     private static void loadFree() {
-      var blackParameter = Parameter[Black];
-      var whiteParameter = Parameter[White];
+      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       //
       // Advance File masks forward by one Rank:
@@ -127,8 +125,7 @@ namespace Engine {
     // and all help squares prior to that:
     //
     private static void loadHelp() {
-      var blackParameter = Parameter[Black];
-      var whiteParameter = Parameter[White];
+      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       var qpWhite = 0UL;
       var qpBlack = 0UL;
@@ -165,8 +162,7 @@ namespace Engine {
 #if InitFree
       var qpFree = Parameter[nSide].Free[nPawn];
 #else
-      var blackParameter = Parameter[Black];
-      var whiteParameter = Parameter[White];
+      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       Plane qpFree = default;
       switch (nSide) {
@@ -198,8 +194,7 @@ namespace Engine {
 #if InitHelp
       var qpHelp = Parameter[nSide].Help[nPawn];
 #else
-      var blackParameter = Parameter[Black];
-      var whiteParameter = Parameter[White];
+      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       Plane qpHelp = default;
       switch (nSide) {

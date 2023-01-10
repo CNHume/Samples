@@ -176,8 +176,7 @@ namespace Engine {
       if (sLanguage == null)
         PieceSymbols = default;
       else {
-        var blackParameter = Parameter[Black];
-        var whiteParameter = Parameter[White];
+        var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
         var found = Locales.FirstOrDefault(
           locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
