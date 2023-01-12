@@ -30,7 +30,7 @@ namespace Engine {
 
             PieceRank = y((Int32)Sq.a8);
             PawnRank = y((Int32)Sq.a7);
-            PassRank = y((Int32)Sq.a3);
+            PassRank = y((Int32)Sq.a6);
 
             (FileLeft, FileRight) = (qpFileH, qpFileA);
             PromotionMask = qpRank1;
@@ -48,7 +48,7 @@ namespace Engine {
 
             PieceRank = y((Int32)Sq.a1);
             PawnRank = y((Int32)Sq.a2);
-            PassRank = y((Int32)Sq.a6);
+            PassRank = y((Int32)Sq.a3);
 
             PromotionMask = qpRank8;
             EnPassantMask = qpRank3;
