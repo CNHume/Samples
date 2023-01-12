@@ -185,8 +185,8 @@ namespace Engine {
 
     public Boolean CanPromote() {
       var qpPawn = Friend.Piece & Pawn;
-      var qpAdvance1 = qpPawn << Friend.Parameter.PawnStep & ~RankPiece & Friend.Parameter.RankLast;
-      var qpCapture = Foe.Piece & Friend.Parameter.RankLast;
+      var qpAdvance1 = qpPawn << Friend.Parameter.PawnStep & ~RankPiece & Friend.Parameter.PromotionMask;
+      var qpCapture = Foe.Piece & Friend.Parameter.PromotionMask;
 
       return qpAdvance1 != 0 ||
              (qpCapture & Friend.PawnA1H8Atx) != 0 ||

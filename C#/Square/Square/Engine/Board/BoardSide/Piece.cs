@@ -395,7 +395,7 @@ namespace Engine {
         }
         else {
           var qpAdvance1 = ShiftL(qpFrom, Parameter.PawnStep) & ~Board.RankPiece;
-          var qpAdvance2 = ShiftL(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
+          var qpAdvance2 = ShiftL(qpAdvance1 & Parameter.EnPassantMask, Parameter.PawnStep) & ~Board.RankPiece;
           qpPawnTo = qpAdvance1 | qpAdvance2;
         }
 
@@ -425,7 +425,7 @@ namespace Engine {
         //
         // Validate Promotion
         //
-        var bRequired = vPiece == vP6 && Parameter.IsLastRank(nTo);
+        var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
         var bSupplied = promotion != default;
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";

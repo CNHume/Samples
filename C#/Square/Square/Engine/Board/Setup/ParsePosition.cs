@@ -253,7 +253,7 @@ namespace Engine {
 
       // The destination square to which an e.p. capturing Pawn will move:
       var nEnPassant = (Int32)sqEnPassant;
-      if (y(nEnPassant) != Friend.Parameter.EnPassantRank)
+      if (y(nEnPassant) != Friend.Parameter.PassRank)
         throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
       var qpFoe = Foe.Piece;

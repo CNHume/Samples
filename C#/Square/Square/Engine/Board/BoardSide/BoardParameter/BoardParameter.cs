@@ -30,11 +30,11 @@ namespace Engine {
 
             PieceRank = y((Int32)Sq.a8);
             PawnRank = y((Int32)Sq.a7);
-            EnPassantRank = y((Int32)Sq.a3);
+            PassRank = y((Int32)Sq.a3);
 
             (FileLeft, FileRight) = (qpFileH, qpFileA);
-            RankLast = qpRank1;
-            RankPass = qpRank6;
+            PromotionMask = qpRank1;
+            EnPassantMask = qpRank6;
 
             Zobrist = zobristBlack;
             ZobristRights = zobristRightsBlack;
@@ -48,10 +48,10 @@ namespace Engine {
 
             PieceRank = y((Int32)Sq.a1);
             PawnRank = y((Int32)Sq.a2);
-            EnPassantRank = y((Int32)Sq.a6);
+            PassRank = y((Int32)Sq.a6);
 
-            RankLast = qpRank8;
-            RankPass = qpRank3;
+            PromotionMask = qpRank8;
+            EnPassantMask = qpRank3;
             (FileLeft, FileRight) = (qpFileA, qpFileH);
 
             Zobrist = zobristWhite;
@@ -71,14 +71,14 @@ namespace Engine {
 
         public readonly Int32 PieceRank;
         public readonly Int32 PawnRank;
-        public readonly Int32 EnPassantRank;
+        public readonly Int32 PassRank;
 
         public readonly Int32 PawnA1H8;
         public readonly Int32 PawnA8H1;
         public readonly Int32 PawnStep;
 
-        public readonly Plane RankLast;
-        public readonly Plane RankPass;
+        public readonly Plane PromotionMask;
+        public readonly Plane EnPassantMask;
         public readonly Plane FileLeft;
         public readonly Plane FileRight;
         #endregion                      // Pawn Advancement Fields
@@ -110,15 +110,9 @@ namespace Engine {
         }
 
         [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-        public bool IsLastRank(Int32 nTo) {
-          switch (SideName) {
-          case SideName.Black:
-            return nTo <= (Int32)Sq.h1;
-          case SideName.White:
-            return nTo >= (Int32)Sq.a8;
-          default:
-            throw new ArgumentException(nameof(SideName));
-          }
+        public bool IsPromotion(Int32 nTo) {
+          var qp = bit(nTo);
+          return (qp & PromotionMask) != 0;
         }
         #endregion                      // Methods
       }                                 // BoardParameter

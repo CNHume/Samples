@@ -39,7 +39,7 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpFrom);
           var nTo = nFrom + nDiag;
           var bAbove = Parameter.IsAbove(nTo);
-          var bPromote = Parameter.IsLastRank(nTo);
+          var bPromote = Parameter.IsPromotion(nTo);
           var bEnPassant = nTo == nEP;
           Position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
         }
@@ -52,7 +52,7 @@ namespace Engine {
         // Pawn Advances:
         //
         var qpAdvance1 = ShiftL(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
-        var qpAdvance2 = ShiftL(qpAdvance1 & Parameter.RankPass, Parameter.PawnStep) & ~Board.RankPiece;
+        var qpAdvance2 = ShiftL(qpAdvance1 & Parameter.EnPassantMask, Parameter.PawnStep) & ~Board.RankPiece;
         var qpAdv1From = ShiftR(qpAdvance1 & qpTo, Parameter.PawnStep);
         var qpAdv2From = ShiftR(qpAdvance2 & qpTo, 2 * Parameter.PawnStep);
 #if TestPawnAdvances
@@ -64,7 +64,7 @@ namespace Engine {
           var nFrom = RemoveLo(ref qpAdv1From);
           var nTo = nFrom + Parameter.PawnStep;
           var bAbove = Parameter.IsAbove(nTo);
-          var bPromote = Parameter.IsLastRank(nTo);
+          var bPromote = Parameter.IsPromotion(nTo);
           Position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
         }
 
@@ -79,7 +79,7 @@ namespace Engine {
       public void AddPromotionMoves(Plane qpTo) {
         var qpPawn = Piece & Board.Pawn;
         var qpAdvance1 = ShiftL(qpPawn, Parameter.PawnStep) & ~Board.RankPiece;
-        var qpAdv1From = ShiftR(qpAdvance1 & qpTo & Parameter.RankLast, Parameter.PawnStep);
+        var qpAdv1From = ShiftR(qpAdvance1 & qpTo & Parameter.PromotionMask, Parameter.PawnStep);
 
         while (qpAdv1From != 0) {
           var nFrom = RemoveLo(ref qpAdv1From);
