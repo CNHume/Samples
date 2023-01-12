@@ -32,9 +32,9 @@ namespace Engine {
             PawnRank = y((Int32)Sq.a7);
             PassRank = y((Int32)Sq.a6);
 
-            (FileLeft, FileRight) = (qpFileH, qpFileA);
-            PromotionMask = qpRank1;
             EnPassantMask = qpRank6;
+            PromotionMask = qpRank1;
+            (FileLeft, FileRight) = (qpFileH, qpFileA);
 
             Zobrist = zobristBlack;
             ZobristRights = zobristRightsBlack;
@@ -50,8 +50,8 @@ namespace Engine {
             PawnRank = y((Int32)Sq.a2);
             PassRank = y((Int32)Sq.a3);
 
-            PromotionMask = qpRank8;
             EnPassantMask = qpRank3;
+            PromotionMask = qpRank8;
             (FileLeft, FileRight) = (qpFileA, qpFileH);
 
             Zobrist = zobristWhite;
@@ -69,16 +69,16 @@ namespace Engine {
         #region Pawn Advancement Fields
         protected readonly Int32 PawnSense;
 
-        public readonly Int32 PieceRank;
-        public readonly Int32 PawnRank;
-        public readonly Int32 PassRank;
-
         public readonly Int32 PawnA1H8;
         public readonly Int32 PawnA8H1;
         public readonly Int32 PawnStep;
 
-        public readonly Plane PromotionMask;
+        public readonly Int32 PieceRank;
+        public readonly Int32 PawnRank;
+        public readonly Int32 PassRank;
+
         public readonly Plane EnPassantMask;
+        public readonly Plane PromotionMask;
         public readonly Plane FileLeft;
         public readonly Plane FileRight;
         #endregion                      // Pawn Advancement Fields
