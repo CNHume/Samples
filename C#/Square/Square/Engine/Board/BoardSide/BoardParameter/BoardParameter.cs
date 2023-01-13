@@ -28,9 +28,10 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            PieceRank = y((Int32)Sq.a8);
-            PawnRank = y((Int32)Sq.a7);
-            PassRank = y((Int32)Sq.a6);
+            PieceRank = 7;
+            PawnRank = 6;
+            PassRank = 5;
+            BelowRank = 4;
 
             EnPassantMask = qpRank6;
             PromotionMask = qpRank1;
@@ -46,9 +47,10 @@ namespace Engine {
             PawnA8H1 = PawnSense * nA8H1;
             PawnStep = PawnSense * nFiles;
 
-            PieceRank = y((Int32)Sq.a1);
-            PawnRank = y((Int32)Sq.a2);
-            PassRank = y((Int32)Sq.a3);
+            PieceRank = 0;
+            PawnRank = 1;
+            PassRank = 2;
+            BelowRank = 3;
 
             EnPassantMask = qpRank3;
             PromotionMask = qpRank8;
@@ -73,9 +75,11 @@ namespace Engine {
         public readonly Int32 PawnA8H1;
         public readonly Int32 PawnStep;
 
+        //[Note]Ranks are Zero-based
         public readonly Int32 PieceRank;
         public readonly Int32 PawnRank;
         public readonly Int32 PassRank;
+        public readonly Int32 BelowRank;
 
         public readonly Plane EnPassantMask;
         public readonly Plane PromotionMask;
@@ -101,9 +105,9 @@ namespace Engine {
         public Boolean IsAbove(Int32 nTo) {
           switch (SideName) {
           case SideName.Black:
-            return nTo <= (Int32)Sq.h4;
+            return y(nTo) < BelowRank;
           case SideName.White:
-            return nTo >= (Int32)Sq.a5;
+            return y(nTo) > BelowRank;
           default:
             throw new ArgumentException(nameof(SideName));
           }
