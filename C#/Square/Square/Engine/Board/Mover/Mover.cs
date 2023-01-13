@@ -180,8 +180,7 @@ namespace Engine {
       var vPiece = PieceIndex(uPiece);
       var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
-      var bPromote = (bit(nTo) & Friend.Parameter.RankLast) != 0;
-      var bRequired = vPiece == vP6 && bPromote;
+      var bRequired = vPiece == vP6 && Friend.Parameter.IsPromotion(nTo);
       Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
       if (bSupplied)
