@@ -335,17 +335,20 @@ namespace Engine {
       Operations = operations;
       #endregion
 
-      #region WTM and EnPassant
       //
-      // Outside of their respective Equal Masks,
-      // the FlagsTurn/FlagsSide bits were reset by pushRoot()
+      // Outside of their Equal Masks, FlagsTurn and FlagsSide
+      // were reset by pushRoot()
       //
       setWTM(bWTM);
-      parsePassed(sEnPassant);
-      Hash ^= hashFlags(bWTM);
-      #endregion                        // WTM and EnPassant
 
+      #region EnPassant
+      parsePassed(sEnPassant);
+      Hash ^= hashFlags(bWTM);          // Includes epHash()
+      #endregion                        // EnPassant
+
+      #region Castling Rules
       initCastlingRules(bChess960, rookFromSquares);
+      #endregion                        // Castling Rules
 
       #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
