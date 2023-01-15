@@ -32,12 +32,6 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Position : Board {
-    #region Constants
-    private const String sOrthodoxSetup = "RNBQKBNR";
-    private const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
-    private const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    #endregion
-
     #region Serialization Methods
     private Tabiya? findTabiya() {
       // Match on the Position Prefix, ignoring variability in the Half Move Clock and Full Move Number values:
@@ -77,8 +71,10 @@ namespace Engine {
 
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       using var scanner = new Scanner(sPrefix);
-      var rookFromSquares = new List<Int32>(4);
       var bWTM = bWhiteMovesFirst;
+      var bChess960 = false;
+      var rookFromSquares = new List<Int32>(4);
+
       String? sEnPassant = default;
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
@@ -89,7 +85,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        InitRoot(bWTM, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber, operations);
+        InitRoot(bWTM, bChess960, rookFromSquares, sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -101,8 +97,10 @@ namespace Engine {
 
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       using var scanner = new Scanner(sPrefix);
-      var rookFromSquares = new List<Int32>(4);
       var bWTM = bWhiteMovesFirst;
+      var bChess960 = false;
+      var rookFromSquares = new List<Int32>(4);
+
       String? sEnPassant = default;
       try {
         bWTM = ParsePosition(scanner, out sEnPassant, rookFromSquares);
@@ -111,7 +109,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        InitRoot(bWTM, sEnPassant, rookFromSquares, sHalfMoveClock, sFullMoveNumber);
+        InitRoot(bWTM, bChess960, rookFromSquares, sEnPassant, sHalfMoveClock, sFullMoveNumber);
       }
 
       setNameIfLegal();
@@ -377,24 +375,24 @@ namespace Engine {
       #endregion
 
       #region Grant Castling Rights
-      //
-      // Castling Rights can be determined now that the Pieces are in place:
-      //
       var setup = PositionSetup();
-      State!.IsChess960 = setup != sOrthodoxSetup;
+      var bChess960 = setup != sOrthodoxSetup;
 #if ShowSetup960
       var sense = bReflect ? "Reflected" : "Normal";
       LogLine($"{sense} Setup = {setup}");
 #endif
+      //
+      // Castling Rules can be determined now that the Pieces are in place:
+      //
       var rookFromSquares = new List<Int32>(4);
-      setupCastlingRights(nRookFileOOO, nRookFileOO, rookFromSquares);
+      setupCastlingRules(nRookFileOOO, nRookFileOO, rookFromSquares);
       #endregion                        // Grant Castling Rights
 
       #region Init Root Position
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
-      InitRoot(bWhiteMovesFirst, sEnPassant, rookFromSquares, sHalfMoveCount, sFullMoveNumber);
+      InitRoot(bWhiteMovesFirst, bChess960, rookFromSquares, sEnPassant, sHalfMoveCount, sFullMoveNumber);
       #endregion                        // Init Position
     }
 
@@ -420,13 +418,13 @@ namespace Engine {
       }
     }
 
-    private void setupCastlingRights(
+    private void setupCastlingRules(
       Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
       ClearCastleRules();
 
       foreach (var side in Side) {
         //
-        // Validation will be performed by initCastlingRights()
+        // Validation will be performed by initCastlingRules()
         //
         var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
         var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);
@@ -452,21 +450,9 @@ namespace Engine {
         var sFullMoveNumber = parser.ParseCount("1");
         ParseFEN(parser.SetupToken.Value, sHalfMoveClock, sFullMoveNumber);
       }
-
-      verifyFEN(sFEN);
-    }
-
-    [Conditional("TestFEN")]
-    private void verifyFEN(String sFEN) {
-      // Output FEN:
-      var sFEN2 = ToString(PositionType.FEN);
-      var nFENLength = sFEN.Length;
-      // Input FEN abbreviations should match Output FEN Prefix:
-      var sFEN2Prefix = nFENLength < sFEN2.Length ?
-        sFEN2.Substring(0, nFENLength) : sFEN2;
-
-      if (sFEN != sFEN2Prefix)
-        LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
+#if TestFEN
+      VerifyFEN(sFEN);
+#endif
     }
     #endregion
   }

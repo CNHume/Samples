@@ -324,7 +324,8 @@ namespace Engine {
     }
 
     protected void InitRoot(
-      Boolean bWTM, String? sEnPassant, List<int> rookFromSquares, String? sHMVCValue, String? sFMVNValue,
+      Boolean bWTM, Boolean bChess960, List<int> rookFromSquares,
+      String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
       const string sHMVCName = "Half Move Clock";
@@ -342,7 +343,7 @@ namespace Engine {
       Hash ^= hashFlags(bWTM);
       #endregion                        // WTM and EnPassant
 
-      initCastlingRights(rookFromSquares);
+      initCastlingRules(rookFromSquares, bChess960);
 
       #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
@@ -372,11 +373,13 @@ namespace Engine {
       }
     }
 
-    private void initCastlingRights(List<int> rookFromSquares) {
+    private void initCastlingRules(List<int> rookFromSquares, Boolean bChess960) {
+      State!.IsChess960 = bChess960;
+
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
         var side = findSide(nRookFrom);
-        side.GrantCastling(nRookFrom, State!.IsChess960);
+        side.GrantCastling(nRookFrom, bChess960);
       }
 
       validateCastlingRights();

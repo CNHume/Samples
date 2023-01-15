@@ -223,6 +223,21 @@ namespace Engine {
 
       return sb.ToString();
     }
+
+    protected Boolean VerifyFEN(String sFEN) {
+      // Output FEN:
+      var nFENLength = sFEN.Length;
+      var sFEN2 = ToString(PositionType.FEN);
+      // Input FEN abbreviations should match Output FEN Prefix:
+      var sFEN2Prefix = nFENLength < sFEN2.Length ?
+        sFEN2.Substring(0, nFENLength) : sFEN2;
+
+      var verified = sFEN == sFEN2Prefix;
+      if (!verified)
+        LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
+
+      return verified;
+    }
     #endregion
 
     #region Board Display
