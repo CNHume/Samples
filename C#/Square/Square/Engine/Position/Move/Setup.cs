@@ -375,9 +375,9 @@ namespace Engine {
       #endregion
 
       #region Grant Castling Rights
-      var setup = PositionSetup();
-      var bChess960 = setup != sOrthodoxSetup;
+      var bChess960 = true;
 #if ShowSetup960
+      var setup = PositionSetup();
       var sense = bReflect ? "Reflected" : "Normal";
       LogLine($"{sense} Setup = {setup}");
 #endif
@@ -451,7 +451,8 @@ namespace Engine {
         ParseFEN(parser.SetupToken.Value, sHalfMoveClock, sFullMoveNumber);
       }
 #if TestFEN
-      VerifyFEN(sFEN);
+      if (!VerifyFEN(sFEN))
+        LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
 #endif
     }
     #endregion

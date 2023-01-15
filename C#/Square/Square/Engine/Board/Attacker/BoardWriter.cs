@@ -232,11 +232,7 @@ namespace Engine {
       var sFEN2Prefix = nFENLength < sFEN2.Length ?
         sFEN2.Substring(0, nFENLength) : sFEN2;
 
-      var verified = sFEN == sFEN2Prefix;
-      if (!verified)
-        LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
-
-      return verified;
+      return sFEN == sFEN2Prefix;
     }
     #endregion
 

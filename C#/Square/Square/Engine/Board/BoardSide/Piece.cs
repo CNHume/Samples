@@ -492,7 +492,7 @@ namespace Engine {
       #endregion                        // Count Methods
 
       #region Grant Castling
-      public void GrantCastling(Int32 nRookFrom, Boolean bChess960) {
+      public void GrantCastling(Boolean bChess960, Int32 nRookFrom) {
         var rule = Parameter.Rule;
         var sideName = Parameter.SideName;
 

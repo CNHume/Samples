@@ -379,15 +379,18 @@ namespace Engine {
     }
 
     private void initCastlingRules(Boolean bChess960, List<int> rookFromSquares) {
-      State!.IsChess960 = bChess960;
-
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
         var side = findSide(nRookFrom);
-        side.GrantCastling(nRookFrom, bChess960);
+        side.GrantCastling(bChess960, nRookFrom);
       }
 
       validateCastlingRights();
+
+      if (bChess960 && VerifyFEN(sOrthodoxStartFEN))
+        bChess960 = false;
+
+      State!.IsChess960 = bChess960;
 
       foreach (var side in Side)
         side.HashCastlingRights();
