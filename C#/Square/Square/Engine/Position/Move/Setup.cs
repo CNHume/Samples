@@ -79,7 +79,7 @@ namespace Engine {
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
       try {
-        bWTM = ParsePosition(scanner, out sEnPassant, rookFromSquares);
+        bWTM = ParsePosition(scanner, ref bChess960, rookFromSquares, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
@@ -103,7 +103,7 @@ namespace Engine {
 
       String? sEnPassant = default;
       try {
-        bWTM = ParsePosition(scanner, out sEnPassant, rookFromSquares);
+        bWTM = ParsePosition(scanner, ref bChess960, rookFromSquares, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
