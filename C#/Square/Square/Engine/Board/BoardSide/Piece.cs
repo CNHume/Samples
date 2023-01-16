@@ -492,50 +492,64 @@ namespace Engine {
       #endregion                        // Count Methods
 
       #region Grant Castling
+      private void verifyKingPosition(Boolean bChess960) {
+        var sideName = Parameter.SideName;
+        if (!KingPos.HasValue)
+          throw new ParsePositionException($"{sideName} must have a King");
+
+        var rule = Parameter.Rule;
+        if (!rule.CastlesFrom.HasValue)
+          rule.CastlesFrom = KingPos;
+
+        Boolean bCanCastleFrom;
+        var pieceRank = Parameter.PieceRank;
+        if (bChess960) {
+          var nLower = sqr(x((Int32)Sq.a1), pieceRank);
+          var nUpper = sqr(x((Int32)Sq.h1), pieceRank);
+          bCanCastleFrom = nLower <= KingPos && KingPos <= nUpper;
+        }
+        else {
+          var n = sqr(x((Int32)Sq.e1), pieceRank);
+          bCanCastleFrom = KingPos == n;
+        }
+
+        if (!bCanCastleFrom) {
+          var sq = (Sq)KingPos;
+          throw new ParsePositionException($"{sideName} King cannot castle from {sq}");
+        }
+      }
+
       public void GrantCastling(Boolean bChess960, Int32 nRookFrom) {
+        verifyKingPosition(bChess960);
+
         var rule = Parameter.Rule;
         var sideName = Parameter.SideName;
-
-        if (!rule.CastlesFrom.HasValue) {
-          if (!KingPos.HasValue)
-            throw new ParsePositionException($"{sideName} must have a King");
-
-          if (bChess960) {
-            if (KingPos <= sqr(x((Int32)Sq.a1), Parameter.PieceRank) ||
-                sqr(x((Int32)Sq.h1), Parameter.PieceRank) <= KingPos)
-              throw new ParsePositionException($"{sideName} King cannot castle");
-          }
-          else {
-            if (KingPos != sqr(x((Int32)Sq.e1), Parameter.PieceRank))
-              throw new ParsePositionException($"{sideName} King must castle from {Sq.e1}");
-          }
-
-          rule.CastlesFrom = KingPos;
-        }
 
         var qpRook = Board.Rook & Piece;
         if (nRookFrom < KingPos) {
           if (rule.RookOOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {sideName} OOO Ability");
+            throw new ParsePositionException($"Multiple {sideName} Rooks for OOO");
 
           if ((qpRook & bit(nRookFrom)) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OOO");
 
           rule.RookOOOFrom = nRookFrom;
+
           SetCanOOO();
         }
         else {
           if (rule.RookOOFrom.HasValue)
-            throw new ParsePositionException($"Redundant {sideName} OO Ability");
+            throw new ParsePositionException($"Multiple {sideName} Rooks for OO");
 
           if ((qpRook & bit(nRookFrom)) == 0)
             throw new ParsePositionException($"No {sideName} Rook for OO");
 
           rule.RookOOFrom = nRookFrom;
+
           SetCanOO();
         }
       }
-      #endregion                        // Grant Castling
+      #endregion                      // Grant Castling
 
       #region Hashcode Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
