@@ -40,15 +40,15 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
-    //"3nk3/p2R4/3P1Kp1/8/5p2/3bp3/3p4/8 w - - 0 1"; // Long Puzzle [17-ply] eval 0.00
+    //"3nk3/p2R4/3P1Kp1/8/5p2/3bp3/3p4/8 w - - 0 1"; // Long Puzzle [2023-01-16 17-ply in 5:18 @1.272 MHz over 402.36 Mnode] eval 0.00
     // 1. Re7+ Kf8 2. d7 Kg8 3. Re8+ Kh7 4. Rxd8 d1=Q 5. Rh8+ Kxh8 6. d8=Q+ Kh7 7. Qc7+ Kh6 8. Qxf4+ Kh7 9. Qc7+ Kh6 10. Qf4+@ Kh7@
-    // 11.Qc7 +@ Kh6@ 12. Qf4+=
+    // 11. Qc7 +@ Kh6@ 12. Qf4+=
     // moves d7e7 e8f8 d6d7 f8g8 e7e8 g8h7 e8d8 d2d1Q d8h8 h7h8 d7d8Q h8h7 d8c7 h7h6 c7f4 h6h7 f4h2 h7g8
     //"6k1/p7/5Kp1/8/8/3bp3/7Q/3q4 w - - 0 10"; // Long Puzzle Line [23-ply in ~4:13:06] eval 9.13
     // 10. Qb8+ Kh7 11. Qxa7+ Kh6 12. Qxe3+ Kh7 13. Qh3+ Kg8 14. Qe6+ Kh7 15. Qd7+ Kh6 16. Qh3+ Qh5 17. Qe3+ g5 18. Qxd3 Qe8
     // 19. Qh3+ Qh5 20. Qf5 g4 21. Qf4+ Kh7 22. Qc7+ Qf7+ 23. Qxf7+
     //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
-    //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 sec @1.141 MHz over 381.8 Mnode] eval 1.48 after:
+    //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 @1.141 MHz over 381.8 Mnode] eval 1.48 after:
     // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} [5... Nf8! {only move}] 6. Kf6
     // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:
     // 2. Bc8 Kf4 3. h4 Kg3 4. h5 Kh4 5. h6 Kh5 6. Kg7 Ng6 7. Bg4+ Kg5 8. h7 Nh8 9. Bf5 Kxf5 10. Kxh8 Kf6 11. Kh8g8 Kf6e5
@@ -87,7 +87,7 @@ namespace Command {
     //"4Q3/k5r1/1p6/p1pp4/P2P4/1P1B4/K1P5/8 w - - 0 42"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #9 Line (from move 42)
     // 42. Qc6! cxd4 43. Qxd4 Re7 44. Qd8 Rb7 45. Be4 b5 46. axb5 Rxb5 47. Qc7+ Ka6 48. Qc6+ Rb6 49. Qc8+ Ka7 50. Qa8#
     //
-    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [2022-11-01 14-ply in 1:34.3 1.2265 MHz over 115.66 Mnode] eval -2.4 after:
+    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [2022-11-01 14-ply in 1:34.3 @1.2265 MHz over 115.66 Mnode] eval -2.4 after:
     // 1... Rxb2 2. Nxb2 c3 3. Rxb6 c4 4. Na4 c2 5. Rxe6 c1=Q+ 6. Kh2 Qf4+ 7. Kg1 c3 8. Ra6 c2
     //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. d7 Be7 39. Rc8 e3 40. Re8 Kg7f6
