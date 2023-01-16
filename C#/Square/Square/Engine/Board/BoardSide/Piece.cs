@@ -53,6 +53,8 @@ namespace Engine {
       // AddPromotionMoves
       // [inc|dec]SideCount
       // AtxCount
+      // verifyKingPosition
+      // GrantCastling
       // pieceHash
       // HashPiece
       //
@@ -537,7 +539,7 @@ namespace Engine {
 
           SetCanOOO();
         }
-        else {
+        else if (KingPos < nRookFrom) {
           if (rule.RookOOFrom.HasValue)
             throw new ParsePositionException($"Multiple {sideName} Rooks for OO");
 

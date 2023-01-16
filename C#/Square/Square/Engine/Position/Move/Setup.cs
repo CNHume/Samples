@@ -385,7 +385,7 @@ namespace Engine {
       // Castling Rules can be determined now that the Pieces are in place:
       //
       var rookFromSquares = new List<Int32>(4);
-      setupCastlingRules(nRookFileOOO, nRookFileOO, rookFromSquares);
+      setupCastling(nRookFileOOO, nRookFileOO, rookFromSquares);
       #endregion                        // Grant Castling Rights
 
       #region Init Root Position
@@ -418,13 +418,13 @@ namespace Engine {
       }
     }
 
-    private void setupCastlingRules(
+    private void setupCastling(
       Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
       ClearCastleRules();
 
       foreach (var side in Side) {
         //
-        // Validation will be performed by initCastlingRules()
+        // Validation will be performed by initCastling()
         //
         var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
         var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);

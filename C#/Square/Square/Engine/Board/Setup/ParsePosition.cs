@@ -307,9 +307,9 @@ namespace Engine {
       Hash ^= hashFlags(bWTM);          // Includes epHash()
       #endregion                        // EnPassant
 
-      #region Castling Rules
-      initCastlingRules(bChess960, rookFromSquares);
-      #endregion                        // Castling Rules
+      #region Init Castling
+      initCastling(bChess960, rookFromSquares);
+      #endregion                        // Init Castling
 
       #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
@@ -339,7 +339,7 @@ namespace Engine {
       }
     }
 
-    private void validateCastlingRules() {
+    private void validateCastling() {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
       var whiteRule = whiteSide.Parameter.Rule;
@@ -378,14 +378,14 @@ namespace Engine {
       }
     }
 
-    private void initCastlingRules(Boolean bChess960, List<int> rookFromSquares) {
+    private void initCastling(Boolean bChess960, List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
         var side = findSide(nRookFrom);
         side.GrantCastling(bChess960, nRookFrom);
       }
 
-      validateCastlingRules();
+      validateCastling();
 
       if (bChess960 && VerifyFEN(sOrthodoxStartFEN))
         bChess960 = false;
