@@ -134,7 +134,7 @@ namespace Engine {
       }
       else if (vPieceFrom == vK6) {
         //
-        //[Chess 960]OO/OOO notation is required in those cases where a King castles by
+        //[Chess960]OO/OOO notation is required in those cases where a King castles by
         // moving only one square.  However, cases where a King might otherwise be seen
         // as capturing its own Rook are assumed to be attempts to castle.  CanCastle()
         // will be called if needed, when this method returns.
@@ -191,7 +191,7 @@ namespace Engine {
         nTo = parseFromTo(sMove, ref bCastles, ref move);
 
       //
-      //[Chess 960]Validate Castling in common with the OO/OOO notation cases:
+      //[Chess960]Validate Castling in common with the use of OO/OOO notation:
       //
       if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
         throw new MoveException($"Illegal Castle: {sMove}");

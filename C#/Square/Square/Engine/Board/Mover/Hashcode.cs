@@ -186,7 +186,7 @@ namespace Engine {
 
         if (bCastles) {
           //
-          //[Chess 960]Avoid potential ambiguity of ordinary King moves with castling
+          //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
           //
 #if HashExcludedChess960CastlesOnly
           if (State!.IsChess960)

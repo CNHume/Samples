@@ -281,7 +281,7 @@ namespace Engine {
     protected const Int32 nToBit = nFromBit + 6;           // Bit 6
     protected const Int32 nPromoteBit = nToBit + 6;        // Bit 12 4-bits for promotion and castling
 #endif
-    protected const Int32 nCastlesBit = nPromoteBit + 3;   // Bit 15[Chess 960]
+    protected const Int32 nCastlesBit = nPromoteBit + 3;   // Bit 15 [Chess960]
     protected const Int32 nPieceBit = nCastlesBit + 1;     // Bit 16 4-bits for piece and unused hi-bit
     protected const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
     protected const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit

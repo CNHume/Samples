@@ -145,7 +145,7 @@ namespace Engine {
     //[Chess960]Castle Rules are inferred from sCastleFlags.  These
     // present the only difference between Orthodox Chess and Chess960.
     //
-    private Boolean parseCastlingFlags(string sCastleFlags, List<int> rookFromSquares) {
+    private void parseCastlingFlags(string sCastleFlags, List<int> rookFromSquares) {
       if (sCastleFlags.Length > 4)
         throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
@@ -192,8 +192,6 @@ namespace Engine {
 
       if (bChess960Flags && bOrthodoxFlags)
         throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
-
-      return bChess960Flags;
     }
 
     private void parsePassed(String? sEnPassant) {
@@ -252,7 +250,7 @@ namespace Engine {
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
     protected Boolean ParsePosition(
-      Scanner scanner, ref Boolean bChess960, List<int> rookFromSquares, out String sPassed) {
+      Scanner scanner, List<int> rookFromSquares, out String sPassed) {
       // Clear() should have been performed by the Push() in NewGame()
       //[Debug]Clear();
 
@@ -276,7 +274,7 @@ namespace Engine {
       ClearCastleRules();
       var sCastleFlags = scanner.HasTextSpan() ? scanner.Next() : "-";
       if (sCastleFlags != "-")
-        bChess960 = parseCastlingFlags(sCastleFlags, rookFromSquares);
+        parseCastlingFlags(sCastleFlags, rookFromSquares);
 
       //
       // 4. Square Passed for En Passant
@@ -286,9 +284,8 @@ namespace Engine {
     }
 
     protected void InitRoot(
-      Boolean bWTM, Boolean bChess960, List<int> rookFromSquares,
-      String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
-      Dictionary<String, List<String>?>? operations = default) {
+      Boolean bWTM, List<int> rookFromSquares, String? sEnPassant,
+      String? sHMVCValue, String? sFMVNValue, Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
       const string sHMVCName = "Half Move Clock";
 
@@ -308,7 +305,7 @@ namespace Engine {
       #endregion                        // EnPassant
 
       #region Init Castling
-      initCastling(bChess960, rookFromSquares);
+      initCastling(rookFromSquares);
       #endregion                        // Init Castling
 
       #region Half Move Clock and Full Move Number
@@ -376,21 +373,18 @@ namespace Engine {
         else if (whiteRule.RookOOOFrom.HasValue)
           blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
       }
+
+      State!.IsChess960 = blackRule.IsChess960();
     }
 
-    private void initCastling(Boolean bChess960, List<int> rookFromSquares) {
+    private void initCastling(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
         var side = findSide(nRookFrom);
-        side.GrantCastling(bChess960, nRookFrom);
+        side.GrantCastling(nRookFrom);
       }
 
       validateCastling();
-
-      if (bChess960 && VerifyFEN(sOrthodoxStartFEN))
-        bChess960 = false;
-
-      State!.IsChess960 = bChess960;
 
       foreach (var side in Side)
         side.HashCastlingRights();

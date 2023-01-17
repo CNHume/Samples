@@ -36,7 +36,7 @@ namespace Engine {
           //
           public void Clear() {
             //
-            //[Chess 960]Castles From squares are set by BoardSide.GrantCastling():
+            //[Chess960]Castles From squares are set by BoardSide.GrantCastling():
             //
             CastlesFrom = default;
             RookOOFrom = default;
@@ -66,7 +66,7 @@ namespace Engine {
             //
             //[Assume]BoardSide.GrantCastling() has been called.
             //
-            //[Chess 960]Castles bit is needed to distinguish castles from ambiguous King moves:
+            //[Chess960]Castles bit needed to resolve ambiguity between castling and King moves:
             //
             const Move castles = Move.Castles | KingMove;
 
@@ -122,6 +122,15 @@ namespace Engine {
             else
               return Move.Undefined;
           }
+
+          public Boolean IsChess960() {
+            var bChess960 =
+              CastlesFrom.HasValue && x(CastlesFrom.Value) != x((Int32)Sq.e1) ||
+              RookOOOFrom.HasValue && x(RookOOOFrom.Value) != x((Int32)Sq.a1) ||
+              RookOOFrom.HasValue && x(RookOOFrom.Value) != x((Int32)Sq.h1);
+
+            return bChess960;
+          }
           #endregion                    // Methods
 
           #region Fields
@@ -136,7 +145,7 @@ namespace Engine {
           public readonly Int32 RookOOOTo;
 
           //
-          //[Chess 960]Castles From squares are set by BoardSide.GrantCastling():
+          //[Chess960]Castles From squares are set by BoardSide.GrantCastling():
           //
           public Int32? CastlesFrom;
           public Int32? RookOOFrom;

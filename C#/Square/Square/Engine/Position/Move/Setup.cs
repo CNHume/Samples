@@ -72,22 +72,21 @@ namespace Engine {
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       using var scanner = new Scanner(sPrefix);
       var bWTM = bWhiteMovesFirst;
-      var bChess960 = false;
       var rookFromSquares = new List<Int32>(4);
 
       String? sEnPassant = default;
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
       try {
-        bWTM = ParsePosition(scanner, ref bChess960, rookFromSquares, out sEnPassant);
+        bWTM = ParsePosition(scanner, rookFromSquares, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
         InitRoot(
-          bWTM, bChess960, rookFromSquares,
-          sEnPassant, sHalfMoveCount, sFullMoveNumber, operations);
+          bWTM, rookFromSquares, sEnPassant,
+          sHalfMoveCount, sFullMoveNumber, operations);
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -100,20 +99,19 @@ namespace Engine {
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       using var scanner = new Scanner(sPrefix);
       var bWTM = bWhiteMovesFirst;
-      var bChess960 = false;
       var rookFromSquares = new List<Int32>(4);
 
       String? sEnPassant = default;
       try {
-        bWTM = ParsePosition(scanner, ref bChess960, rookFromSquares, out sEnPassant);
+        bWTM = ParsePosition(scanner, rookFromSquares, out sEnPassant);
       }
       catch (PositionException ex) {
         LogInfo(Level.error, ex.Message);
       }
       finally {
         InitRoot(
-          bWTM, bChess960, rookFromSquares,
-          sEnPassant, sHalfMoveClock, sFullMoveNumber);
+          bWTM, rookFromSquares, sEnPassant,
+          sHalfMoveClock, sFullMoveNumber);
       }
 
       setNameIfLegal();
@@ -379,7 +377,6 @@ namespace Engine {
       #endregion
 
       #region Grant Castling Rights
-      var bChess960 = true;
 #if ShowSetup960
       var setup = PositionSetup();
       var sense = bReflect ? "Reflected" : "Normal";
@@ -397,7 +394,7 @@ namespace Engine {
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
       InitRoot(
-        bWhiteMovesFirst, bChess960, rookFromSquares,
+        bWhiteMovesFirst, rookFromSquares,
         sEnPassant, sHalfMoveCount, sFullMoveNumber);
       #endregion                        // Init Position
     }

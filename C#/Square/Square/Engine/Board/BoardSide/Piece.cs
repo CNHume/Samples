@@ -53,7 +53,7 @@ namespace Engine {
       // AddPromotionMoves
       // [inc|dec]SideCount
       // AtxCount
-      // verifyKingPosition
+      // verifyKingCanCastle
       // GrantCastling
       // pieceHash
       // HashPiece
@@ -269,7 +269,7 @@ namespace Engine {
       }
 
       //
-      //[Chess 960]Certain castling configurations require that both the Board.King and the Rook
+      //[Chess960]Certain castling configurations require that both the Board.King and the Rook
       // be removed before either is added back in their new positions.  Orthodox Castling
       // does not require this; but one or even both of the From squares may coincide with
       // the castling partner To square in Chess 960.
@@ -494,35 +494,21 @@ namespace Engine {
       #endregion                        // Count Methods
 
       #region Grant Castling
-      private void verifyKingPosition(Boolean bChess960) {
+      private void verifyKingCanCastle() {
         var sideName = Parameter.SideName;
         if (!KingPos.HasValue)
           throw new ParsePositionException($"{sideName} must have a King");
 
-        var rule = Parameter.Rule;
-        if (!rule.CastlesFrom.HasValue)
-          rule.CastlesFrom = KingPos;
-
-        Boolean bCanCastleFrom;
-        var pieceRank = Parameter.PieceRank;
-        if (bChess960) {
-          var nLower = sqr(x((Int32)Sq.a1), pieceRank);
-          var nUpper = sqr(x((Int32)Sq.h1), pieceRank);
-          bCanCastleFrom = nLower <= KingPos && KingPos <= nUpper;
-        }
-        else {
-          var n = sqr(x((Int32)Sq.e1), pieceRank);
-          bCanCastleFrom = KingPos == n;
-        }
-
-        if (!bCanCastleFrom) {
+        if (y(KingPos.Value) != Parameter.PieceRank) {
           var sq = (Sq)KingPos;
           throw new ParsePositionException($"{sideName} King cannot castle from {sq}");
         }
+
+        Parameter.Rule.CastlesFrom = KingPos;
       }
 
-      public void GrantCastling(Boolean bChess960, Int32 nRookFrom) {
-        verifyKingPosition(bChess960);
+      public void GrantCastling(Int32 nRookFrom) {
+        verifyKingCanCastle();
 
         var rule = Parameter.Rule;
         var sideName = Parameter.SideName;
