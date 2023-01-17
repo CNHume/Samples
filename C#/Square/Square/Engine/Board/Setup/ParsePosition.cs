@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define DebugCastlingRights
+//#define EnsureFromSquares
 #define HashCastlingRights
 //#define Magic
 
@@ -345,45 +346,47 @@ namespace Engine {
       return false;
     }
 
-    private void validateCastling() {
+    private void ensureCastlingSymmetry() {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
       var whiteRule = whiteSide.Parameter.Rule;
 
       if (blackRule.CastlesFrom.HasValue && whiteRule.CastlesFrom.HasValue) {
         if (x(blackRule.CastlesFrom.Value) != x(whiteRule.CastlesFrom.Value))
-          throw new ParsePositionException("Both Kings must castle from the same file");
+          throw new ParsePositionException("Kings must castle from the same file");
       }
+#if EnsureFromSquares
       else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
         if (blackRule.CastlesFrom.HasValue)
           whiteRule.CastlesFrom = sqr(x(blackRule.CastlesFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.CastlesFrom.HasValue)
           blackRule.CastlesFrom = sqr(x(whiteRule.CastlesFrom.Value), blackSide.Parameter.PieceRank);
       }
-
+#endif                                  // EnsureFromSquares
       if (blackRule.RookOOFrom.HasValue && whiteRule.RookOOFrom.HasValue) {
         if (x(blackRule.RookOOFrom.Value) != x(whiteRule.RookOOFrom.Value))
-          throw new ParsePositionException("Both sides must OO with Rooks from the same file");
+          throw new ParsePositionException("Rooks must OO from the same file");
       }
+#if EnsureFromSquares
       else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
         if (blackRule.RookOOFrom.HasValue)
           whiteRule.RookOOFrom = sqr(x(blackRule.RookOOFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.RookOOFrom.HasValue)
           blackRule.RookOOFrom = sqr(x(whiteRule.RookOOFrom.Value), blackSide.Parameter.PieceRank);
       }
-
+#endif                                  // EnsureFromSquares
       if (blackRule.RookOOOFrom.HasValue && whiteRule.RookOOOFrom.HasValue) {
         if (x(blackRule.RookOOOFrom.Value) != x(whiteRule.RookOOOFrom.Value))
-          throw new ParsePositionException("Both sides must OOO with Rooks from the same file");
+          throw new ParsePositionException("Rooks must OOO from the same file");
       }
+#if EnsureFromSquares
       else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
         if (blackRule.RookOOOFrom.HasValue)
           whiteRule.RookOOOFrom = sqr(x(blackRule.RookOOOFrom.Value), whiteSide.Parameter.PieceRank);
         else if (whiteRule.RookOOOFrom.HasValue)
           blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
       }
-
-      State!.IsChess960 = IsChess960();
+#endif                                  // EnsureFromSquares
     }
 
     private Position.PositionSide findSide(int nFrom) {
@@ -402,12 +405,12 @@ namespace Engine {
      *
      * side.FlagsSide = default                 // Clear Castling Rights
      * side.ClearCastleRule()
-     * rookFromSquares.Add(nRookFrom)           // Derived from sCastleFlags
-     * side.GrantCastling(nRookFrom)            // Set CastlingRights
-     * validateCastling()                       // Ensure side symmetry
-     * side.Parameter.Rule.IsOrthodoxCastling() // Set State.IsChess960
+     * rookFromSquares.Add(nRookFrom)           // Add rookFromSquares per sCastleFlags
+     * side.GrantCastling(nRookFrom)            // Set FromSquares and CastlingRights
+     * ensureCastlingSymmetry()
+     * IsChess960()
      * side.HashCastlingRights()
-     * side.InitCastleRule()                    // Set OOO and OO moves
+     * side.InitCastleRule()                    // Set OOO and OO rules
      */
     private void initCastling(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
@@ -416,7 +419,9 @@ namespace Engine {
         side.GrantCastling(nRookFrom);
       }
 
-      validateCastling();
+      ensureCastlingSymmetry();                 //[Safe]
+
+      State!.IsChess960 = IsChess960();
 
       foreach (var side in Side)
         side.HashCastlingRights();

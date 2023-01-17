@@ -142,15 +142,14 @@ namespace Engine {
     private Boolean disposed = false;   // IDisposable
     public ICommand Command;
     public SearchBound Bound;
-    //
-    //[Chess960]Determined by validateCastling().  Used by AppendCastleRights():
-    //
-    public Boolean IsChess960;
+
     public Position? MovePosition;
     public Position? RootPosition;
     public MoveBottle Bottle;
     public PerfCase Case;
     public Eval EndgameValue;
+
+    public Boolean IsChess960;          // Used by AppendCastlingRights()
     public Boolean IsAspiration;        // option
     public Boolean IsFlip;              // option
     public Boolean IsFutility;          // option

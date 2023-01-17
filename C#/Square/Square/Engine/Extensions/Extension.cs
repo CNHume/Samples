@@ -70,7 +70,7 @@ namespace Engine {
       return (sides[Black], sides[White]);
     }
 
-    public static StringBuilder AppendCastleRights(
+    public static StringBuilder AppendCastlingRights(
       this StringBuilder sb, PositionSide[] sides, Boolean bChess960) {
       var (blackSide, whiteSide) = sides.GetBothSides();
 

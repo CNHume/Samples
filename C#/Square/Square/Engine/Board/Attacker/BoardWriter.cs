@@ -191,7 +191,7 @@ namespace Engine {
 
       var sSideToMove = WTM() ? " w " : " b ";
       sb.Append(sSideToMove)
-        .AppendCastleRights(Side, State!.IsChess960);
+        .AppendCastlingRights(Side, State!.IsChess960);
 
       if (!IsPassed())
         sb.Append(" -");
