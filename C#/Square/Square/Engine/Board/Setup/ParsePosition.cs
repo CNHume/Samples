@@ -338,14 +338,6 @@ namespace Engine {
       }
     }
 
-    private Boolean IsChess960() {
-      foreach (var side in Side)
-        if (!side.Parameter.Rule.IsOrthodoxCastling())
-          return true;
-
-      return false;
-    }
-
     private void ensureCastlingSymmetry() {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
@@ -389,6 +381,14 @@ namespace Engine {
 #endif                                  // EnsureFromSquares
     }
 
+    private Boolean IsChess960() {
+      foreach (var side in Side)
+        if (!side.Parameter.Rule.IsOrthodoxCastling())
+          return true;
+
+      return false;
+    }
+
     private Position.PositionSide findSide(int nFrom) {
       foreach (var side in Side)
         if (side.Parameter.PieceRank == y(nFrom))
@@ -403,13 +403,13 @@ namespace Engine {
     /*
      * To build Castling Rules for Root Position:
      *
-     * side.FlagsSide = default                 // Clear Castling Rights
+     * side.FlagsSide = default                 // Clear Castling Rights from Position.Clear()
      * side.ClearCastleRule()
-     * rookFromSquares.Add(nRookFrom)           // Add rookFromSquares per sCastleFlags
+     * rookFromSquares.Add(nRookFrom)           // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
      * side.GrantCastling(nRookFrom)            // Set FromSquares and CastlingRights
-     * ensureCastlingSymmetry()
-     * IsChess960()
      * side.HashCastlingRights()
+     * ensureCastlingSymmetry()                 // Verify FromSquares
+     * IsChess960()
      * side.InitCastleRule()                    // Set OOO and OO rules
      */
     private void initCastling(List<int> rookFromSquares) {
@@ -419,12 +419,12 @@ namespace Engine {
         side.GrantCastling(nRookFrom);
       }
 
-      ensureCastlingSymmetry();                 //[Safe]
-
-      State!.IsChess960 = IsChess960();
-
       foreach (var side in Side)
         side.HashCastlingRights();
+
+      ensureCastlingSymmetry();
+
+      State!.IsChess960 = IsChess960();
     }
 
     protected void ClearCastleRules() {
