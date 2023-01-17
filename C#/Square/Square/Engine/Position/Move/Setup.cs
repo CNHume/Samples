@@ -85,8 +85,9 @@ namespace Engine {
       }
       finally {
         InitRoot(
-          bWTM, rookFromSquares, sEnPassant,
-          sHalfMoveCount, sFullMoveNumber, operations);
+          bWTM, rookFromSquares,
+          sEnPassant, sHalfMoveCount, sFullMoveNumber,
+          operations);
       }
 
       var sValue = GetSingleValue(operations, "id");
@@ -110,8 +111,8 @@ namespace Engine {
       }
       finally {
         InitRoot(
-          bWTM, rookFromSquares, sEnPassant,
-          sHalfMoveClock, sFullMoveNumber);
+          bWTM, rookFromSquares,
+          sEnPassant, sHalfMoveClock, sFullMoveNumber);
       }
 
       setNameIfLegal();
@@ -393,6 +394,7 @@ namespace Engine {
       var sEnPassant = Empty;
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
+
       InitRoot(
         bWhiteMovesFirst, rookFromSquares,
         sEnPassant, sHalfMoveCount, sFullMoveNumber);
@@ -427,7 +429,7 @@ namespace Engine {
 
       foreach (var side in Side) {
         //
-        // Validation will be performed by initCastling()
+        // Validation will be performed by validateCastling()
         //
         var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
         var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);
