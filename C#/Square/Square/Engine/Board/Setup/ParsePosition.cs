@@ -336,6 +336,14 @@ namespace Engine {
       }
     }
 
+    private Boolean IsChess960() {
+      foreach (var side in Side)
+        if (!side.Parameter.Rule.IsOrthodoxCastling())
+          return true;
+
+      return false;
+    }
+
     private void validateCastling() {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
@@ -374,7 +382,18 @@ namespace Engine {
           blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
       }
 
-      State!.IsChess960 = blackRule.IsChess960();
+      State!.IsChess960 = IsChess960();
+    }
+
+    private Position.PositionSide findSide(int nFrom) {
+      foreach (var side in Side)
+        if (side.Parameter.PieceRank == y(nFrom))
+          return side;
+
+      var vPiece = GetPieceIndex(nFrom);
+      var piece = IndexPiece(vPiece);
+      var sqFrom = (Sq)nFrom;
+      throw new ParsePositionException($"Side not found for {piece} at {sqFrom}");
     }
 
     private void initCastling(List<int> rookFromSquares) {
@@ -388,17 +407,6 @@ namespace Engine {
 
       foreach (var side in Side)
         side.HashCastlingRights();
-    }
-
-    private Position.PositionSide findSide(int nFrom) {
-      foreach (var side in Side)
-        if (side.Parameter.PieceRank == y(nFrom))
-          return side;
-
-      var vPiece = GetPieceIndex(nFrom);
-      var piece = IndexPiece(vPiece);
-      var sqFrom = (Sq)nFrom;
-      throw new ParsePositionException($"Side not found for {piece} at {sqFrom}");
     }
 
     protected void ClearCastleRules() {

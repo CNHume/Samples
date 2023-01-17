@@ -123,13 +123,13 @@ namespace Engine {
               return Move.Undefined;
           }
 
-          public Boolean IsChess960() {
-            var bChess960 =
-              CastlesFrom.HasValue && x(CastlesFrom.Value) != x((Int32)Sq.e1) ||
-              RookOOOFrom.HasValue && x(RookOOOFrom.Value) != x((Int32)Sq.a1) ||
-              RookOOFrom.HasValue && x(RookOOFrom.Value) != x((Int32)Sq.h1);
+          public Boolean IsOrthodoxCastling() {
+            var bOrthodox =
+              (!CastlesFrom.HasValue || x(CastlesFrom.Value) == x((Int32)Sq.e1)) &&
+              (!RookOOOFrom.HasValue || x(RookOOOFrom.Value) == x((Int32)Sq.a1)) &&
+              (!RookOOFrom.HasValue || x(RookOOFrom.Value) == x((Int32)Sq.h1));
 
-            return bChess960;
+            return bOrthodox;
           }
           #endregion                    // Methods
 
