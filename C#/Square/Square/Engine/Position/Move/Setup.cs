@@ -428,11 +428,13 @@ namespace Engine {
       ClearCastleRules();
 
       foreach (var side in Side) {
+        var pieceRank = side.Parameter.PieceRank;
+
         //
-        // Validation will be performed by validateCastling()
+        // RookFrom Validation will be performed by validateCastling()
         //
-        var nRookFromOOO = sqr(nRookFileOOO, side.Parameter.PieceRank);
-        var nRookFromOO = sqr(nRookFileOO, side.Parameter.PieceRank);
+        var nRookFromOOO = sqr(nRookFileOOO, pieceRank);
+        var nRookFromOO = sqr(nRookFileOO, pieceRank);
 
         rookFromSquares.Add(nRookFromOOO);
         rookFromSquares.Add(nRookFromOO);

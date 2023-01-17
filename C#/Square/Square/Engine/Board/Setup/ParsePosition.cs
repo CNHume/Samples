@@ -182,7 +182,8 @@ namespace Engine {
         var nRookFile = cPosLower - cFileMin;
         var bWhiteSide = IsUpper(cFlag);
         var side = GetSide(bWhiteSide);
-        var nRookFrom = sqr(nRookFile, side.Parameter.PieceRank);
+        var pieceRank = side.Parameter.PieceRank;
+        var nRookFrom = sqr(nRookFile, pieceRank);
 #if DebugCastlingRights
         var sqRookFrom = (Sq)nRookFrom;
         var sideName = side.Parameter.SideName;
@@ -396,6 +397,18 @@ namespace Engine {
       throw new ParsePositionException($"Side not found for {piece} at {sqFrom}");
     }
 
+    /*
+     * To build Castling Rules for Root Position:
+     *
+     * side.FlagsSide = default                 // Clear Castling Rights
+     * side.ClearCastleRule()
+     * rookFromSquares.Add(nRookFrom)           // Derived from sCastleFlags
+     * side.GrantCastling(nRookFrom)            // Set CastlingRights
+     * validateCastling()                       // Ensure side symmetry
+     * side.Parameter.Rule.IsOrthodoxCastling() // Set State.IsChess960
+     * side.HashCastlingRights()
+     * side.InitCastleRule()                    // Set OOO and OO moves
+     */
     private void initCastling(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
