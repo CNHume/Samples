@@ -499,7 +499,15 @@ namespace Engine {
         if (!KingPos.HasValue)
           throw new ParsePositionException($"{sideName} must have a King");
 
-        if (y(KingPos.Value) != Parameter.PieceRank) {
+        var nLower = x((Int32)Sq.a1);
+        var nUpper = x((Int32)Sq.h1);
+
+        var bCanCastleFrom =
+          nLower < x(KingPos.Value) &&
+          x(KingPos.Value) < nUpper &&
+          y(KingPos.Value) == Parameter.PieceRank;
+
+        if (!bCanCastleFrom) {
           var sq = (Sq)KingPos;
           throw new ParsePositionException($"{sideName} King cannot castle from {sq}");
         }
