@@ -47,6 +47,8 @@ namespace Command {
     //"6k1/p7/5Kp1/8/8/3bp3/7Q/3q4 w - - 0 10"; // Long Puzzle Line [2023-01-16 23-ply in 4:12:41 @1.407 MHz over 21.34 Gnode] eval 9.13
     // 10. Qb8+ Kh7 11. Qxa7+ Kh6 12. Qxe3+ Kh7 13. Qh3+ Kg8 14. Qe6+ Kh7 15. Qd7+ Kh6 16. Qh3+ Qh5 17. Qe3+ g5 18. Qxd3 Qe8
     // 19. Qh3+ Qh5 20. Qf5 g4 21. Qf4+ Kh7 22. Qc7+ Qf7+ 23. Qxf7+
+    // [2023-01-16 24-ply in 40:28:21 @1.247 MHz over 181.7548 Gnode] #17 after:
+    // 10. Qb8+ Kh7 11. Qxa7+ Kh6 12. Qxe3+ Kh7 13. Qa7+ Kh6 14. Qe3+@ Kh7@ 15. Qh3+ Kg8 16. Qc8+ Kh7 17. Qd7+ Kh6
     //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
     //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 @1.141 MHz over 381.8 Mnode] eval 1.48 after:
     // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} [5... Nf8! {only move}] 6. Kf6

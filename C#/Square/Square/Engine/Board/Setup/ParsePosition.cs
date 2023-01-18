@@ -308,7 +308,13 @@ namespace Engine {
       #endregion                        // EnPassant
 
       #region Init Castling
-      initCastling(rookFromSquares);
+      try {
+        initCastling(rookFromSquares);
+      }
+      catch (InvalidPositionException ex) {
+        Display(ex.Message);
+        throw;
+      }
       #endregion                        // Init Castling
 
       #region Half Move Clock and Full Move Number
@@ -333,24 +339,22 @@ namespace Engine {
 
       try {
         Validate();
+        initCastleRules();
       }
       catch (InvalidPositionException ex) {
         Display(ex.Message);
         throw;
       }
-      finally {
-        initCastleRules();
-      }
     }
 
-    private void ensureCastlingSymmetry() {
+    private void validateCastlingSymmetry() {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var blackRule = blackSide.Parameter.Rule;
       var whiteRule = whiteSide.Parameter.Rule;
 
       if (blackRule.CastlesFrom.HasValue && whiteRule.CastlesFrom.HasValue) {
         if (x(blackRule.CastlesFrom.Value) != x(whiteRule.CastlesFrom.Value))
-          throw new ParsePositionException("Kings must castle from the same file");
+          throw new InvalidPositionException("Kings must castle from the same file");
       }
 #if EnsureFromSquares
       else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
@@ -362,7 +366,7 @@ namespace Engine {
 #endif                                  // EnsureFromSquares
       if (blackRule.RookOOFrom.HasValue && whiteRule.RookOOFrom.HasValue) {
         if (x(blackRule.RookOOFrom.Value) != x(whiteRule.RookOOFrom.Value))
-          throw new ParsePositionException("Rooks must OO from the same file");
+          throw new InvalidPositionException("Rooks must OO from the same file");
       }
 #if EnsureFromSquares
       else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
@@ -374,7 +378,7 @@ namespace Engine {
 #endif                                  // EnsureFromSquares
       if (blackRule.RookOOOFrom.HasValue && whiteRule.RookOOOFrom.HasValue) {
         if (x(blackRule.RookOOOFrom.Value) != x(whiteRule.RookOOOFrom.Value))
-          throw new ParsePositionException("Rooks must OOO from the same file");
+          throw new InvalidPositionException("Rooks must OOO from the same file");
       }
 #if EnsureFromSquares
       else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
@@ -386,15 +390,7 @@ namespace Engine {
 #endif                                  // EnsureFromSquares
     }
 
-    private Boolean IsChess960() {
-      foreach (var side in Side)
-        if (!side.Parameter.Rule.IsOrthodoxCastling())
-          return true;
-
-      return false;
-    }
-
-    private Position.PositionSide findSide(int nFrom) {
+    private Position.PositionSide findCastleFromSide(int nFrom) {
       foreach (var side in Side)
         if (side.Parameter.PieceRank == y(nFrom))
           return side;
@@ -402,34 +398,42 @@ namespace Engine {
       var vPiece = GetPieceIndex(nFrom);
       var piece = IndexPiece(vPiece);
       var sqFrom = (Sq)nFrom;
-      throw new ParsePositionException($"Side not found for {piece} at {sqFrom}");
+      throw new ParsePositionException($"Side not found for {piece} castling from {sqFrom}");
     }
 
     /*
      * To build Castling Rules for Root Position:
      *
-     * side.FlagsSide = default                 // Clear Castling Rights from Position.Clear()
+     * side.FlagsSide = default         // Clear Castling Rights from Position.Clear()
      * side.ClearCastleRule()
-     * rookFromSquares.Add(nRookFrom)           // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
-     * side.GrantCastling(nRookFrom)            // Set FromSquares and CastlingRights
+     * rookFromSquares.Add(nRookFrom)   // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
+     * side.GrantCastling(nRookFrom)    // Set FromSquares and CastlingRights
      * side.HashCastlingRights()
-     * ensureCastlingSymmetry()                 // Verify FromSquares
-     * IsChess960()
-     * side.InitCastleRule()                    // Set OOO and OO rules
+     * validateCastlingSymmetry()       // Verify FromSquares
+     * isChess960()
+     * side.InitCastleRule()            // Set OOO and OO rules
      */
     private void initCastling(List<int> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
-        var side = findSide(nRookFrom);
+        var side = findCastleFromSide(nRookFrom);
         side.GrantCastling(nRookFrom);
       }
 
       foreach (var side in Side)
         side.HashCastlingRights();
 
-      ensureCastlingSymmetry();
+      validateCastlingSymmetry();
 
-      State!.IsChess960 = IsChess960();
+      State!.IsChess960 = isChess960();
+    }
+
+    private Boolean isChess960() {
+      foreach (var side in Side)
+        if (!side.Parameter.Rule.IsOrthodoxCastling())
+          return true;
+
+      return false;
     }
 
     protected void ClearCastleRules() {

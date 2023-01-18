@@ -431,7 +431,7 @@ namespace Engine {
         var pieceRank = side.Parameter.PieceRank;
 
         //
-        // RookFrom Validation will be performed by ensureCastlingSymmetry()
+        // RookFrom Validation will be performed by validateCastlingSymmetry()
         //
         var nRookFromOOO = sqr(nRookFileOOO, pieceRank);
         var nRookFromOO = sqr(nRookFileOO, pieceRank);
