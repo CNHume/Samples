@@ -286,8 +286,9 @@ namespace Engine {
     }
 
     protected void InitRoot(
-      Boolean bWTM, List<int> rookFromSquares, String? sEnPassant,
-      String? sHMVCValue, String? sFMVNValue, Dictionary<String, List<String>?>? operations = default) {
+      Boolean bWTM, List<int> rookFromSquares,
+      String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
+      Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
       const string sHMVCName = "Half Move Clock";
 
@@ -318,7 +319,9 @@ namespace Engine {
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
-      // Parent == null for a Root Position; so SetDraw0 can be elided here.
+      //
+      // SetDraw0 can be safely elided here because Parent == null for a Root Position.
+      //
       //updateRepetitionCycle();
 
       var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
@@ -330,11 +333,13 @@ namespace Engine {
 
       try {
         Validate();
-        initCastleRules();
       }
       catch (InvalidPositionException ex) {
         Display(ex.Message);
         throw;
+      }
+      finally {
+        initCastleRules();
       }
     }
 

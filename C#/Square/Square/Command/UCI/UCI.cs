@@ -336,6 +336,7 @@ namespace Command {
       }
       catch (PositionException ex) {
         LogLine(ex.Message);
+        NewGame();
       }
 
       return bContinue;
