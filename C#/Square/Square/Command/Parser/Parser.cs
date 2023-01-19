@@ -12,6 +12,7 @@ namespace Command {
   using System.Text.RegularExpressions;
 
   using Engine;
+  using Engine.Exceptions;
 
   using Exceptions;
 
@@ -426,19 +427,14 @@ namespace Command {
       }
     }
 
-    public Position PositionCommand(Position position) {
-      SpaceToken.Expect();
-      setupTypeToken.Expect();
-
-      var bFoundKeyword = true;
-      var sKeyword = setupTypeToken.Value;
+    private Boolean dispatchPositionCommand(String sKeyword, ref Position position) {
       switch (sKeyword.ToLower()) {
       case "epd":
         SpaceToken.Expect();
         SetupToken.Expect();
         var operations = ParseOperations();
         position.ParseEPD(SetupToken.Value, operations);
-        break;
+        return true;
       case "fen":
         SpaceToken.Expect();
         SetupToken.Expect();
@@ -446,7 +442,7 @@ namespace Command {
         var sFullMoveNumber = ParseCount("1");
         position.ParseFEN(SetupToken.Value, sHalfMoveCount, sFullMoveNumber);
         position = parseMoves(position);
-        break;
+        return true;
       case "random":
         UInt16 wChess960;
         if (SpaceToken.Accept() && UnsignedToken.Accept()) {
@@ -462,17 +458,32 @@ namespace Command {
           position.SetFischerRandom(wChess960);
           //[Note]A list of moves is disallowed, because the choice of position was random
         }
-        break;
+        return true;
       case "startpos":
         position.SetFEN();
         position = parseMoves(position);
-        break;
+        return true;
       default:
-        bFoundKeyword = false;
-        break;
+        return false;
+      }
+    }
+
+    public Position PositionCommand(Position position) {
+      SpaceToken.Expect();
+      setupTypeToken.Expect();
+      var sKeyword = setupTypeToken.Value;
+
+      Boolean bKeywordFound;
+      try {
+        //[Note]parseMoves() may result in a new position.
+        bKeywordFound = dispatchPositionCommand(sKeyword, ref position);
+      }
+      catch (InvalidPositionException) {
+        position.Display("Invalid Position");
+        throw;
       }
 
-      if (!bFoundKeyword)
+      if (!bKeywordFound)
         throw new ParseException($"Unknown {sKeyword} keyword");
 
       return position;

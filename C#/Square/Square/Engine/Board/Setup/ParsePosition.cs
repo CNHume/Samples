@@ -308,13 +308,7 @@ namespace Engine {
       #endregion                        // EnPassant
 
       #region Init Castling
-      try {
-        initCastling(rookFromSquares);
-      }
-      catch (InvalidPositionException ex) {
-        Display(ex.Message);
-        throw;
-      }
+      initCastling(rookFromSquares);
       #endregion                        // Init Castling
 
       #region Half Move Clock and Full Move Number
@@ -337,14 +331,8 @@ namespace Engine {
       if (!bWTM) State!.MovePly++;
       #endregion                        // Half Move Clock and Full Move Number
 
-      try {
-        Validate();
-        initCastleRules();
-      }
-      catch (InvalidPositionException ex) {
-        Display(ex.Message);
-        throw;
-      }
+      Validate();
+      initCastleRules();
     }
 
     private void validateCastlingSymmetry() {
