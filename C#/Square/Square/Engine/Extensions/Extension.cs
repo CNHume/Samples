@@ -476,9 +476,9 @@ namespace Engine {
         else {
           var sFrom = sqFrom.ToString();
           if (IsShowFile(move))
-            sb.Append(sFrom[File]);
+            sb.Append(sFrom[FilePos]);
           else if (IsShowRank(move))
-            sb.Append(sFrom[Rank]);
+            sb.Append(sFrom[RankPos]);
         }
         #endregion
 

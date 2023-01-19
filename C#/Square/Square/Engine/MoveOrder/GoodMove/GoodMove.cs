@@ -56,7 +56,7 @@ namespace Engine.MoveOrder {
 
     #region IComparable Interface Methods
     // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
-    public Int32 CompareTo(Object obj) {
+    public Int32 CompareTo(Object? obj) {
       //if (obj == null) return 1;
       if (obj is GoodMove) {
         var gm = (GoodMove)obj;

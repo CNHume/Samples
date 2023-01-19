@@ -378,7 +378,7 @@ namespace Engine {
     #endregion                          // Locales
 
     #region Plane
-    internal const Int32 File = 0, Rank = 1;
+    internal const Int32 FilePos = 0, RankPos = 1;
 
     protected const Plane BIT0 = 1UL;
     protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmptyFile()

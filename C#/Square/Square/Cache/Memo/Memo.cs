@@ -61,7 +61,8 @@ namespace Cache {
     }
 
     public void Clear(UInt32 uLength) {
-      Array.Clear(Entries, 0, (Int32)uLength);
+      if (Entries != null)
+        Array.Clear(Entries, 0, (Int32)uLength);
     }
 
     protected virtual UInt32 Index(MemoHashcode qHash) {
