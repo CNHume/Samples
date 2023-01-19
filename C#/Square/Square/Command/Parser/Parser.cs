@@ -341,7 +341,7 @@ namespace Command {
       return verbToken.Value;
     }
 
-    private String? parseOptionName(out Control control) {
+    private String? parseOptionName(out Control? control) {
       SpaceToken.Accept();
       nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
 
@@ -381,30 +381,30 @@ namespace Command {
       return sValue;
     }
 
-    private static void rejectValue(String sKeyword) {
+    private static void rejectValue(String? sKeyword) {
       if (sKeyword != null)
         throw new ParseException($"Superfluous {sKeyword} keyword specified");
     }
 
     public void GetOptionCommand() {
-      var sKeyword = parseOptionName(out Control control);
+      var sKeyword = parseOptionName(out Control? control);
       rejectValue(sKeyword);
-      var setting = control.AsSetting();
-      var s = setting.Value?.ToString();
+      var setting = control?.AsSetting();
+      var s = setting?.Value?.ToString();
       if (s != null)
         LogLine(s);
     }
 
     public void ResetOptionCommand() {
-      var sKeyword = parseOptionName(out Control control);
+      var sKeyword = parseOptionName(out Control? control);
       rejectValue(sKeyword);
-      var setting = control.AsSetting();
-      setting.SetDefault();
+      var setting = control?.AsSetting();
+      setting?.SetDefault();
     }
 
     public void SetOptionCommand() {
-      var sValueKeyword = parseOptionName(out Control control);
-      control.SetValue(parseOptionValue(sValueKeyword));
+      var sValueKeyword = parseOptionName(out Control? control);
+      control?.SetValue(parseOptionValue(sValueKeyword));
     }
 
     public Boolean ListCommand() {
@@ -419,11 +419,11 @@ namespace Command {
 
     public void TabiyaCommand(Position position) {
       var state = position.State;
-      var named = findNamedPosition(position, state.RootPosition);
+      var named = findNamedPosition(position, state?.RootPosition);
       var sName = named?.Name;
-      if (!IsNullOrEmpty(sName)) {
+      if (named is not null && !IsNullOrEmpty(sName)) {
         named.Display(sName);
-        state.ListMovesFromParent(position, named, ListCommand());
+        state?.ListMovesFromParent(position, named, ListCommand());
       }
     }
 
