@@ -164,6 +164,9 @@ namespace Engine {
       // Orthodox Startpos: 249
       // Mirrored Startpos: 249 + 480 = 729
       //
+      //[Note]There is an asymmetry in game-trees which follow from normal and reflected positions, due to
+      // the asymmetry in King and Rook positions resulting from queenside (OOO) vs kingside (OO) castling.
+      //
 #if DEBUG
       LogLine($"SetFischerRandom({wChess960})");
 #endif
@@ -298,7 +301,8 @@ namespace Engine {
       Boolean bReflect, Int32 nQueen, Int32 nKnights, Int32 nBishopDark, Int32 nBishopLite) {
 #if DEBUG
       LogLine(
-        $"setup960(Queen: {nQueen}, " +
+        $"{nameof(setup960)}(" +
+        $"Queen: {nQueen}, " +
         $"KnightPair: {nKnights}, " +
         $"BishopLite: {nBishopLite}, " +
         $"BishopDark: {nBishopDark})");
