@@ -267,6 +267,12 @@ namespace Command {
     }
     #endregion                          // IDisposable Interface
 
+    #region Enumerations
+    #region Position Setup Type Enum
+    protected enum SetupType : byte { None, EPD, FEN, Random, StartPos };
+    #endregion                          // Position Setup Type Enum
+    #endregion                          // Enumerations
+
     #region Methods
     public void Close() {
       Scanner?.Close();
@@ -420,30 +426,29 @@ namespace Command {
     public void TabiyaCommand(Position position) {
       var state = position.State;
       var named = findNamedPosition(position, state?.RootPosition);
-      var sName = named?.Name;
-      if (named is not null && !IsNullOrEmpty(sName)) {
-        named.Display(sName);
+      if (named is not null && !IsNullOrEmpty(named.Name)) {
+        named.Display(named.Name);
         state?.ListMovesFromParent(position, named, ListCommand());
       }
     }
 
-    private Boolean dispatchPositionCommand(String sKeyword, ref Position position) {
-      switch (sKeyword.ToLower()) {
-      case "epd":
+    private void setupPosition(SetupType setupType, ref Position position) {
+      switch (setupType) {
+      case SetupType.EPD:
         SpaceToken.Expect();
         SetupToken.Expect();
         var operations = ParseOperations();
         position.ParseEPD(SetupToken.Value, operations);
-        return true;
-      case "fen":
+        break;
+      case SetupType.FEN:
         SpaceToken.Expect();
         SetupToken.Expect();
         var sHalfMoveCount = ParseCount("0");
         var sFullMoveNumber = ParseCount("1");
         position.ParseFEN(SetupToken.Value, sHalfMoveCount, sFullMoveNumber);
         position = parseMoves(position);
-        return true;
-      case "random":
+        break;
+      case SetupType.Random:
         UInt16 wChess960;
         if (SpaceToken.Accept() && UnsignedToken.Accept()) {
           wChess960 = ParseUInt16("Chess960 Index", UnsignedToken.Value);
@@ -458,33 +463,34 @@ namespace Command {
           position.SetFischerRandom(wChess960);
           //[Note]A list of moves is disallowed, because the choice of position was random
         }
-        return true;
-      case "startpos":
+        break;
+      case SetupType.StartPos:
         position.SetFEN();
         position = parseMoves(position);
-        return true;
+        break;
       default:
-        return false;
+        throw new NotImplementedException($"{setupType}");
       }
     }
 
     public Position PositionCommand(Position position) {
+      const Boolean ignoreCase = true;
       SpaceToken.Expect();
       setupTypeToken.Expect();
       var sKeyword = setupTypeToken.Value;
 
-      Boolean bKeywordFound;
+      var setupType = sKeyword.TryParseEnum<SetupType>(ignoreCase);
+      if (!setupType.HasValue)
+        throw new ParseException($"Unknown Position Setup Type: {sKeyword}");
+
       try {
         //[Note]parseMoves() may result in a new position.
-        bKeywordFound = dispatchPositionCommand(sKeyword, ref position);
+        setupPosition(setupType.Value, ref position);
       }
       catch (InvalidPositionException) {
         position.Display("Invalid Position");
         throw;
       }
-
-      if (!bKeywordFound)
-        throw new ParseException($"Unknown {sKeyword} keyword");
 
       return position;
     }

@@ -323,10 +323,10 @@ namespace Engine {
         writePV(sb, nLine, bWTM);
     }
 
-    public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
+    public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
       var moves = new List<Move>();
       for (var position = this;         // toPosition
-           position is not null &&          //[Safe]
+           position is not null &&      //[Safe]
            !ReferenceEquals(position, parent);
            position = position.Parent) {
         var move = position.CurrentMove;

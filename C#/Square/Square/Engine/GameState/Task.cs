@@ -303,10 +303,11 @@ namespace Engine {
       }
     }
 
-    public void ListMovesFromParent(Position position, Position parent, Boolean bPure, Boolean bAbbreviate = true) {
+    public void ListMovesFromParent(Position position, Position? parent, Boolean bPure, Boolean bAbbreviate = true) {
       var moves = position.MovesFromParent(parent, bAbbreviate);
       var sb = new StringBuilder();
-      sb.WriteMoves(moves, RootPosition.GamePly, bPure, position.Side, IsChess960)
+      ushort wGamePly = RootPosition?.GamePly ?? 0;
+      sb.WriteMoves(moves, wGamePly, bPure, position.Side, IsChess960)
         .FlushLine();
     }
 
