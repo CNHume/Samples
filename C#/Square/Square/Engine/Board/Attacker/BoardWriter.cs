@@ -37,6 +37,7 @@ namespace Engine {
     internal const Char cOccupied = 'X';
     internal const Char cNewline = '\n';
 
+    internal const Char cSemi = ';';
     internal const Char cSpace = ' ';
     internal const Char cFileMin = 'a';
     internal const Char cRankMin = '1';

@@ -720,7 +720,7 @@ namespace Engine {
         bestMoves.Clear();
         bestMoves.AddRange(lineMoves);
         sb.BestMove(bestMoves, sides, bChess960);
-        sb.Append(" ");
+        sb.Append(cSpace);
       }
 
       sb.Append(sb.Length > 0 ? "score" : "info score");
@@ -733,14 +733,16 @@ namespace Engine {
       this StringBuilder sb, Dictionary<String, List<String>?>? operations) {
       if (operations != null) {
         foreach (var op in operations) {        // .OrderBy(op => op.Key)
-          sb.Append(sSpace).Append(op.Key);
+          sb.Append(sSpace)
+            .Append(op.Key);
 
           if (op.Value != null) {
             foreach (var operand in op.Value)
-              sb.Append(sSpace).Append(operand);
+              sb.Append(sSpace)
+                .Append(operand);
           }
 
-          sb.Append(";");
+          sb.Append(cSemi);
         }
       }
 
