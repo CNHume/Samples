@@ -306,7 +306,7 @@ namespace Engine {
     public void ListMovesFromParent(Position position, Position? parent, Boolean bPure, Boolean bAbbreviate = true) {
       var moves = position.MovesFromParent(parent, bAbbreviate);
       var sb = new StringBuilder();
-      ushort wGamePly = RootPosition?.GamePly ?? 0;
+      var wGamePly = RootPosition?.GamePly ?? 0;
       sb.WriteMoves(moves, wGamePly, bPure, position.Side, IsChess960)
         .FlushLine();
     }
@@ -342,7 +342,7 @@ namespace Engine {
       }
     }
 
-    private void pollSearchTime(Position position, ulong qTotal) {
+    private void pollSearchTime(Position position, UInt64 qTotal) {
       var lSearchMS = SearchTimer.ElapsedMilliseconds;
       var lElapsedMS = lSearchMS - LastBeatMS;
 

@@ -224,7 +224,7 @@ namespace Engine {
       return qpHelp;
     }
 
-    private static (ulong qpFree, ulong qpHelp) getFreeHelp(Int32 nSide, Int32 nPawn) {
+    private static (Plane qpFree, Plane qpHelp) getFreeHelp(Int32 nSide, Int32 nPawn) {
       var qpFree = free(nSide, nPawn);
       var qpHelp = help(nSide, nPawn);
       return (qpFree, qpHelp);

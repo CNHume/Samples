@@ -424,7 +424,7 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsShowRank(Move move) {
+    internal static Boolean IsShowRank(Move move) {
       return (move & Move.HideRank) == 0;
     }
 

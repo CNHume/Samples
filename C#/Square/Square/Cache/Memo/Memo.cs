@@ -115,7 +115,7 @@ namespace Cache {
     public Memo2(String Name, UInt32 uLength) : base(Name, uLength) {
     }
 
-    protected override void AllocateNew(uint uLength) {
+    protected override void AllocateNew(UInt32 uLength) {
       if (!IsOneOrNone(uLength))
         throw new ApplicationException("Memo2 Length must be a power of two");
 

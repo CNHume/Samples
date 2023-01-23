@@ -39,15 +39,9 @@ namespace Engine {
   //
   // Type Aliases:
   //
-  using Eval = Int16;
+  using Parameter = Position.PositionSide.PositionParameter;
 
-  //
-  // Instead of storing the Pawn Count (mod 4) the least significant bit pair
-  // represents EventFlag bits marking which of two Bishop colors are held by
-  // the current side. Then, the higher order bit pairs are used to represent
-  // successive Piece Counts (mod 4).  So, 5 bit pairs, or a total of 10 bits
-  // are used per side.
-  //
+  using Eval = Int16;
   using Plane = UInt64;
   using Ply = UInt16;
 
@@ -59,14 +53,14 @@ namespace Engine {
 
     #region Castle Rights
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static (PositionSide.PositionParameter blackParameter, PositionSide.PositionParameter whiteParameter)
-      GetBothParameters(this PositionSide.PositionParameter[] parameters) {
+    public static (Parameter blackParameter, Parameter whiteParameter) GetBothParameters(
+      this Parameter[] parameters) {
       return (parameters[Black], parameters[White]);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static (PositionSide blackSide, PositionSide whiteSide)
-      GetBothSides(this PositionSide[] sides) {
+    public static (PositionSide blackSide, PositionSide whiteSide) GetBothSides(
+      this PositionSide[] sides) {
       return (sides[Black], sides[White]);
     }
 
@@ -117,17 +111,19 @@ namespace Engine {
     //
     // Identify the Squares in a Plane
     //
-    public static StringBuilder AppendSquares(this StringBuilder sb, Plane qp,
-                                              String sDelimiter = sSpace) {
+    public static StringBuilder AppendSquares(
+      this StringBuilder sb, Plane qp, String sDelimiter = sSpace) {
       while (qp != 0) {
         var n = RemoveLo(ref qp);
-        sb.Append(sDelimiter).Append((Sq)n);
+        sb.Append(sDelimiter)
+          .Append((Sq)n);
       }
 
       return sb;
     }
 
-    public static StringBuilder AppendRanks(this StringBuilder sb, String s, Boolean bFlip = false) {
+    public static StringBuilder AppendRanks(
+      this StringBuilder sb, String s, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nRanks; x++) {
         var rank = bFlip ? InvertRank(x) : x;
@@ -140,7 +136,8 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendFiles(this StringBuilder sb, String s, Boolean bFlip = false) {
+    public static StringBuilder AppendFiles(
+      this StringBuilder sb, String s, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
         var file = bFlip ? InvertFile(x) : x;
@@ -153,7 +150,8 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendRuler(this StringBuilder sb, bool bRotateBoard = false, bool bFlip = false) {
+    public static StringBuilder AppendRuler(
+      this StringBuilder sb, Boolean bRotateBoard = false, bool bFlip = false) {
       var bRightRuler = bFlip;
       if (!bRightRuler)
         sb.Append(cSpace);
@@ -165,7 +163,8 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendOrth(this StringBuilder sb, UInt32 uOrth, Boolean bFlip = false) {
+    public static StringBuilder AppendOrth(
+      this StringBuilder sb, UInt32 uOrth, Boolean bFlip = false) {
       var bRightRuler = bFlip;
       for (var x = 0; x < nFiles; x++) {
         var file = bFlip ? InvertFile(x) : x;
@@ -184,7 +183,8 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder AppendDiag(this StringBuilder sb, Int32 nDiagLen, UInt32 uDiag) {
+    public static StringBuilder AppendDiag(
+      this StringBuilder sb, Int32 nDiagLen, UInt32 uDiag) {
       for (var z = 0U; z < nDiagLen; z++, uDiag >>= 1) {
         var c = IsOdd(uDiag) ? cOccupied : cVacant;
         sb.Append(sSpace3).Append(c);
@@ -200,13 +200,15 @@ namespace Engine {
       throw new BoardException("Square Not Found");
     }
 
-    public static StringBuilder AppendOrthRotations(this StringBuilder sb, Plane[] qpOrth, Plane qp) {
+    public static StringBuilder AppendOrthRotations(
+      this StringBuilder sb, Plane[] qpOrth, Plane qp) {
       for (var x = 0; x < nFiles; x++, qp <<= 1)
         sb.Append(sSpace).Append(sqUsingBit(qpOrth, qp));
       return sb;
     }
 
-    public static StringBuilder AppendDiagRotations(this StringBuilder sb, Int32 nDiagLen, Plane[] qpDiag, Plane qp) {
+    public static StringBuilder AppendDiagRotations(
+      this StringBuilder sb, Int32 nDiagLen, Plane[] qpDiag, Plane qp) {
       for (var z = 0U; z < nDiagLen; z++, qp <<= 1)
         sb.Append(sSpace2).Append(sqUsingBit(qpDiag, qp));
       return sb;
@@ -223,7 +225,8 @@ namespace Engine {
       return sb;
     }
 
-    public static StringBuilder Delimit(this StringBuilder sb, String sDelimiter = sSpace) {
+    public static StringBuilder Delimit(
+      this StringBuilder sb, String sDelimiter = sSpace) {
       if (sb.Length > 0)
         sb.Append(sDelimiter);
       return sb;
@@ -421,7 +424,8 @@ namespace Engine {
     //
     // Format a Move in the more User friendly Algebraic Notation (AN)
     //
-    public static StringBuilder AppendAN(this StringBuilder sb, Move move, BoardSide[] sides, Boolean _) {
+    public static StringBuilder AppendAN(
+      this StringBuilder sb, Move move, BoardSide[] sides, Boolean _) {
       const Boolean bExpandFrom =
 #if RefreshPV
         false;                          //[Assume]abbreviate() has been called
@@ -789,6 +793,15 @@ namespace Engine {
       return sb;
     }
 
+    //
+    // Piece Hashcode
+    // --------------
+    // Instead of storing the Pawn Count (mod 4) the least significant bit pair
+    // represents EventFlag bits marking which of two Bishop colors are held by
+    // the current side. Then, the higher order bit pairs are used to represent
+    // successive Piece Counts (mod 4).  So, 5 bit pairs, or a total of 10 bits
+    // are used per side.
+    //
     public static StringBuilder AppendPieceHash(
       this StringBuilder sb, BoardSide blackSide, BoardSide whiteSide) {
       sb.AppendLine("Piece Hashcode:");
@@ -836,14 +849,14 @@ namespace Engine {
 
     #region Parse Methods
     public static TStruct? TryParseEnum<TStruct>(
-      this string s, bool ignoreCase = default)
+      this string s, Boolean ignoreCase = default)
       where TStruct : struct {
       return Enum.TryParse(s, ignoreCase, out TStruct result) ?
         (TStruct?)result : default;
     }
 
     public static TEnum ParseEnum<TEnum>(
-      this string value, bool ignoreCase = default)
+      this string value, Boolean ignoreCase = default)
       where TEnum : Enum {
       return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
     }

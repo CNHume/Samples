@@ -17,7 +17,7 @@ namespace Engine {
   partial class Position {
     #region Methods
     private static MoveType moveType(
-      int nFrom, int nTo, uint uPiece, bool bCapture, bool bAbove) {
+      Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
       const string methodName = nameof(moveType);
       var vPiece = PieceIndex(uPiece);
       var type = vPiece switch {

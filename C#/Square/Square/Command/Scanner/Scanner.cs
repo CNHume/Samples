@@ -91,7 +91,7 @@ namespace Command {
       GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing) {
+    protected virtual void Dispose(Boolean disposing) {
       if (!disposed) {
         if (disposing) Reader?.Dispose();
         disposed = true;

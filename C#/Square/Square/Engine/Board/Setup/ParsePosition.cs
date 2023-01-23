@@ -381,7 +381,7 @@ namespace Engine {
 #endif                                  // EnsureFromSquares
     }
 
-    private Position.PositionSide findCastleFromSide(int nFrom) {
+    private Position.PositionSide findCastleFromSide(Int32 nFrom) {
       foreach (var side in Side)
         if (side.Parameter.PieceRank == y(nFrom))
           return side;
