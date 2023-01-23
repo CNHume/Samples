@@ -47,7 +47,11 @@ namespace Command {
           false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, bShowMatch));
       }
 
-      private Boolean match(Scanner scanner, TokenRule tokenRule, Boolean bShowMatch = true) {
+      private Boolean match(
+        Scanner scanner, TokenRule tokenRule, Boolean bShowMatch = true) {
+        if (scanner.Text == null)
+          return false;
+
         var match = tokenRule.Match(scanner.Text);
         if (match.Success) {
           TokenRuleType = tokenRule.TokenRuleType;

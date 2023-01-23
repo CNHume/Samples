@@ -166,10 +166,10 @@ namespace Command {
     }
 
     public String? Peek(String regex = sWhitespacePlus) {
-      return HasTextSpan(regex) ? TextSpans[Index] : null;
+      return HasTextSpan(regex) ? TextSpans?[Index] : null;
     }
 
-    public String Next(String regex = sWhitespacePlus) {
+    public String? Next(String regex = sWhitespacePlus) {
       var textSpan = Peek(regex);
       Index++;
       return textSpan;

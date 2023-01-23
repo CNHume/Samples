@@ -287,7 +287,6 @@ namespace Engine {
     }
 
     #region BoardSide
-    [MemberNotNull(nameof(Friend), nameof(Foe))]
     protected void CopySidesTo(Board board) {
       for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 34 bytes + 1 nullable byte
 #if HashPieces

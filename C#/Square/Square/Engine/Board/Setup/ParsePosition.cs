@@ -102,7 +102,10 @@ namespace Engine {
       }
     }
 
-    private void parseFENPlacements(String sPlacements) {
+    private void parsePiecePlacements(String? sPlacements) {
+      if (sPlacements == null)
+        throw new ParsePositionException("No piece placements found");
+
       var rank = sPlacements.Split(cSlash);
       var nRows = rank.Length;
 
@@ -134,8 +137,8 @@ namespace Engine {
       }                                 //[Next]Rank
     }
 
-    private static Boolean parseWTM(String sToMove) {
-      return sToMove.ToLower() switch {
+    private static Boolean parseWTM(String? sToMove) {
+      return sToMove?.ToLower() switch {
         "b" => false,
         "w" => true,
         _ => throw new ParsePositionException($"Unknown Side To Move = {sToMove}")
@@ -146,8 +149,10 @@ namespace Engine {
     //[Chess960]Castle Rules are inferred from sCastleFlags.  These
     // present the only difference between Orthodox Chess and Chess960.
     //
-    private void parseCastlingFlags(string sCastleFlags, List<int> rookFromSquares) {
-      if (sCastleFlags.Length > 4)
+    private void parseCastlingFlags(String? sCastleFlags, List<int> rookFromSquares) {
+      if (sCastleFlags == null)
+        throw new ParsePositionException($"No Castling Flags Found");
+      else if (sCastleFlags.Length > 4)
         throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
       var bChess960Flags = false;
@@ -252,17 +257,15 @@ namespace Engine {
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
     protected Boolean ParsePosition(
-      Scanner scanner, List<int> rookFromSquares, out String sPassed) {
+      Scanner scanner, List<int> rookFromSquares, out String? sPassed) {
       // Clear() should have been performed by the Push() in NewGame()
       //[Debug]Clear();
 
       //
       // 1. Scanner Pieces by Rank
       //
-      if (!scanner.HasTextSpan())
-        throw new ParsePositionException("No piece placements provided");
-
-      parseFENPlacements(scanner.Next());
+      var sPlacements = scanner.HasTextSpan() ? scanner.Next() : Empty;
+      parsePiecePlacements(sPlacements);
 
       //
       // 2. Side to Move
