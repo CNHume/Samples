@@ -196,6 +196,21 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(
+      nameof(zobristRandom),
+      nameof(zobristBuffer),
+      nameof(zobristTurn),
+      nameof(zobristDraw),
+      nameof(zobristFile),
+      nameof(zobristRightsBlack),
+      nameof(zobristRightsWhite),
+      nameof(zobristBlack),
+      nameof(zobristWhite),
+      nameof(zobristExcludedFrom),
+      nameof(zobristExcludedTo),
+      nameof(zobristExcludedCastles),
+      nameof(zobristExcludedPromotion)
+      )]
     private static void initAttacks() {
       //
       // Whether the Ray Atx planes are Magic or Rotated,

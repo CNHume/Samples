@@ -14,7 +14,10 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
   using System.Runtime.CompilerServices;// For MethodImplAttribute0
+
+  using Exceptions;
 
   using static System.Math;
   using static Logging.Logger;
@@ -36,6 +39,19 @@ namespace Engine {
       return qHash;
     }
 
+    [MemberNotNull(
+      nameof(zobristRandom),
+      nameof(zobristBuffer),
+      nameof(zobristDraw),
+      nameof(zobristFile),
+      nameof(zobristRightsBlack),
+      nameof(zobristRightsWhite),
+      nameof(zobristBlack),
+      nameof(zobristWhite),
+      nameof(zobristExcludedFrom),
+      nameof(zobristExcludedTo),
+      nameof(zobristExcludedPromotion)
+      )]
     private static void newZobrist() {
 #if TestZobrist
       zobrists = new List<Hashcode>();
@@ -58,14 +74,20 @@ namespace Engine {
 
       var nUnderPromotions = Promotions.Length - 1;
       if (nUnderPromotions > 0) {
-        //Debug.Assert(Promotions[0] == Piece.Q, $"Promotion[0] should be {Piece.Q}");
+        Debug.Assert(Promotions[0] == Piece.Q, $"Promotion[0] should be {Piece.Q}");
         zobristExcludedPromotion = new Hashcode[nUnderPromotions];
       }
+      else
+        throw new BoardException("No Underpromotions Defined");
 
       zobristBuffer = new Byte[8];
       zobristRandom = new Random(0);    // Fixed, repeatable seed
     }
 
+    [MemberNotNull(
+      nameof(zobristTurn),
+      nameof(zobristExcludedCastles)
+      )]
     internal static void loadZobrist() {
       zobristTurn = nextZobrist();
 
