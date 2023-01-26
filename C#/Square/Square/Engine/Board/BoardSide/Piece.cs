@@ -269,10 +269,9 @@ namespace Engine {
       }
 
       //
-      //[Chess960]Certain castling configurations require that both the Board.King and the Rook
-      // be removed before either is added back in their new positions.  Orthodox Castling
-      // does not require this; but one or even both of the From squares may coincide with
-      // the castling partner To square in Chess 960.
+      //[Chess960]Certain piece setups require both King and Rook to be raised before
+      // either can be lowered into their new position.  While Orthodox Castling does
+      // not require this, one or both of the To squares may be occupied in Chess 960.
       //
       public void RookCastles(Int32 nTo) {
         var rule = Parameter.Rule;
@@ -285,6 +284,8 @@ namespace Engine {
           RaisePiece(vR6, rule.RookOOOFrom.Value);
           LowerPiece(vR6, rule.RookOOOTo);
         }
+        else                            //[Safe]
+          throw new MoveException($"{Parameter.SideName} cannot castle");
       }
       #endregion                        // Mover Methods
 
