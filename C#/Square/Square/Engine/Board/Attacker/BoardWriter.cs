@@ -197,7 +197,7 @@ namespace Engine {
       if (!IsPassed())
         sb.Append(" -");
       else {
-        sb.Append(sSpace)
+        sb.Append(cSpace)
           .Append((Sq)FlagsTurn.sqrEP());
       }
     }
@@ -211,9 +211,9 @@ namespace Engine {
         break;
       case PositionType.FEN:
         var nMove = GamePly / 2 + 1;
-        sb.Append(sSpace)
+        sb.Append(cSpace)
           .Append(HalfMoveClock)        // Half-Move Clock for the 50-Move Rule
-          .Append(sSpace)
+          .Append(cSpace)
           .Append(nMove);               // Full Move Number
         break;
       case PositionType.EPD:
@@ -299,10 +299,10 @@ namespace Engine {
       for (var x = 0; x < nFiles; x++, qp <<= 1) {
         var file = bFlip ? InvertFile(x) : x;
         if (!bRightRuler)               // Left Pad
-          sb.Append(sSpace);
+          sb.Append(cSpace);
         appendPiece2(sb, sqr(file, rank), qp);
         if (bRightRuler)                // Right Pad
-          sb.Append(sSpace);
+          sb.Append(cSpace);
       }
     }
 
@@ -310,7 +310,7 @@ namespace Engine {
       var bTopRuler = bFlip;
       var bRightRuler = bFlip;
       if (bTopRuler)                    // File Ruler at Top
-        sb.Append(sSpace)
+        sb.Append(cSpace)
           .AppendFiles(sSpace2, bFlip)
           .Append(cNewline);
 

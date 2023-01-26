@@ -18,7 +18,8 @@ namespace Logging {
 
   static class Logger {
     #region Constants
-    private const String sSpace = " ";
+    private const Char cSpace = ' ';
+
     private const String sInfo = "info";
     private const String sLogExtensionDefault = "log";
     private const String sLogRelativePath = @"Square\Logs";
@@ -153,9 +154,9 @@ namespace Logging {
     public static void LogInfo(Level level, String sFormat, params Object[] oArgs) {
       if (LogLevel <= level) {
         var sb = new StringBuilder(sInfo);
-        sb.Append(sSpace);
+        sb.Append(cSpace);
         sb.Append(level);
-        sb.Append(sSpace);
+        sb.Append(cSpace);
         sb.AppendFormat(sFormat, oArgs);
         WriteLine(sb.ToString());
       }

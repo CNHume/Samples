@@ -414,7 +414,7 @@ namespace Engine {
       sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
 
       if (!IsNullOrEmpty(sName)) {
-        sb.Append(sSpace);
+        sb.Append(cSpace);
         sb.Append(sName);
       }
 

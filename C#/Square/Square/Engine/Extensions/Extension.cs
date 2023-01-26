@@ -170,10 +170,10 @@ namespace Engine {
         var file = bFlip ? InvertFile(x) : x;
         var c = (uOrth & bit(file)) == 0 ? cVacant : cOccupied;
         if (!bRightRuler)               // Left Pad
-          sb.Append(sSpace);
+          sb.Append(cSpace);
         sb.Append(c);
         if (bRightRuler)                // Right Pad
-          sb.Append(sSpace);
+          sb.Append(cSpace);
       }
       return sb;
     }
@@ -203,7 +203,7 @@ namespace Engine {
     public static StringBuilder AppendOrthRotations(
       this StringBuilder sb, Plane[] qpOrth, Plane qp) {
       for (var x = 0; x < nFiles; x++, qp <<= 1)
-        sb.Append(sSpace).Append(sqUsingBit(qpOrth, qp));
+        sb.Append(cSpace).Append(sqUsingBit(qpOrth, qp));
       return sb;
     }
 
@@ -404,7 +404,7 @@ namespace Engine {
         if (move.Has(Move.NoteCheck))
           sb.Append(sNoteCheckmate);
         else
-          sb.Append(sSpace)
+          sb.Append(cSpace)
             .Append(sTextStalemate);
       }
       else {
@@ -670,12 +670,12 @@ namespace Engine {
           .AppendEvalTerm(mEval);
       }
 
-      sb.Append(sSpace);
+      sb.Append(cSpace);
       var sPurePV = bPure ? "pv" : "pvan";
       if (bMultiPV) {
         sb.Append("multi")
           .Append(sPurePV)
-          .Append(sSpace)
+          .Append(cSpace)
           .Append(nLine + 1);           //[UCI]MultiPV are one-based
       }
       else
@@ -737,12 +737,12 @@ namespace Engine {
       this StringBuilder sb, Dictionary<String, List<String>?>? operations) {
       if (operations != null) {
         foreach (var op in operations) {        // .OrderBy(op => op.Key)
-          sb.Append(sSpace)
+          sb.Append(cSpace)
             .Append(op.Key);
 
           if (op.Value != null) {
             foreach (var operand in op.Value)
-              sb.Append(sSpace)
+              sb.Append(cSpace)
                 .Append(operand);
           }
 
