@@ -13,7 +13,7 @@ The set of matches **M** defines a relation over matches: **M**[i, j] &hArr; (i,
 
 Define a *non-strict* [product-order](https://en.wikipedia.org/wiki/Product_order) (&le;) over ordered pairs, such that (i1, j1) &le; (i2, j2) &hArr; i1 &le; i2 and j1 &le; j2.  We define (&ge;) similarly.
 
-We say m1, m2 are *comparable* if either m1 &le; m2 or m1 &ge; m2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither m1 &le; m2 nor m1 &ge; m2 are possible; and we say m1, m2 are *incomparable*.
+We say ordered pairs p1 and p2 are *comparable* if either p1 &le; p2 or p1 &ge; p2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither p1 &le; p2 nor p1 &ge; p2 are possible, and we say p1 and p2 are *incomparable*.
 
 Define the *strict* product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
 

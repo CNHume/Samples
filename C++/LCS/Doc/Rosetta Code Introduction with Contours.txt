@@ -12,7 +12,7 @@ The set of matches '''M''' defines a relation over matches: '''M'''[i, j] &hArr;
 
 Define a ''non-strict'' [https://en.wikipedia.org/wiki/Product_order product-order] (&le;) over ordered pairs, such that (i1, j1) &le; (i2, j2) &hArr; i1 &le; i2 and j1 &le; j2.  We define (&ge;) similarly.
 
-We say m1, m2 are ''comparable'' if either m1 &le; m2 or m1 &ge; m2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither m1 &le; m2 nor m1 &ge; m2 are possible; and we say m1, m2 are ''incomparable''.
+We say ordered pairs p1 and p2 are ''comparable'' if either p1 &le; p2 or p1 &ge; p2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither p1 &le; p2 nor p1 &ge; p2 are possible, and we say p1 and p2 are ''incomparable''.
 
 Define the ''strict'' product-order (&lt;) over ordered pairs, such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
 
@@ -20,7 +20,7 @@ A chain '''C''' is a subset of '''M''' consisting of at least one element m; and
 
 Every Common Sequence of length ''q'' corresponds to a chain of cardinality ''q'', over the set of matches '''M'''.  Thus, finding an LCS can be restated as the problem of finding a chain of maximum cardinality ''p''.
 
-A chain can be visualized as a strictly increasing curve that passes through matches (i, j) in the m\*n coordinate space of '''M'''[i, j].
+A chain can be visualized as a strictly increasing curve that passes through matches (i, j) in the m*n coordinate space of '''M'''[i, j].
 
 According to [Dilworth 1950], this cardinality ''p'' equals the minimum number of disjoint antichains into which '''M''' can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
 

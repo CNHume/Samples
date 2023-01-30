@@ -11,7 +11,7 @@ An ordered pair (i, j) will be called a match if *A*[i] = *B*[j], where 0 &lt; i
 
 Define a *non-strict* [product-order](https://en.wikipedia.org/wiki/Product_order) (&leq;) over ordered pairs, such that (i1, j1) &leq; (i2, j2) &hArr; i1 &leq; i2 and j1 &leq; j2.  We define (&geq;) similarly.
 
-We say m1, m2 are *comparable* if either m1 &leq; m2 or m1 &geq; m2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither m1 &leq; m2 nor m1 &geq; m2 are possible; and we say m1, m2 are *incomparable*.
+We say ordered pairs p1 and p2 are *comparable* if either p1 &le; p2 or p1 &ge; p2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither p1 &le; p2 nor p1 &ge; p2 are possible, and we say p1 and p2 are *incomparable*.
 
 We also define the *strict* product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
 
