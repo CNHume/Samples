@@ -19,9 +19,9 @@ Define the *strict* product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr
 
 A chain **C** is a subset of **M** consisting of at least one element; and where either m1 &lt; m2 or m1 &gt; m2 for any pair of distinct elements m1 and m2.  An antichain **D** is any subset of **M** in which every pair of distinct elements m1 and m2 are incomparable.
 
-Every Common Sequence of length *q* corresponds to a chain of cardinality *q*, over the set of matches **M**.  Thus, finding an LCS can be restated as the problem of finding a chain of maximum cardinality *p*.
-
 A chain can be visualized as a strictly increasing curve that passes through matches (i, j) in the m\*n coordinate space of **M**[i, j].
+
+Every Common Sequence of length *q* corresponds to a chain of cardinality *q*, over the set of matches **M**.  Thus, finding an LCS can be restated as the problem of finding a chain of maximum cardinality *p*.
 
 According to [Dilworth 1950][^1], this cardinality *p* is equal to the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition of **M** into the minimum number of disjoint antichains may not be unique.
 
@@ -33,7 +33,7 @@ The divide-and-conquer approach of [Hirschberg 1975][^3] limits the space requir
 
 This quadratic time dependency may become prohibitive, given very long input strings.  Thus, heuristics are often favored over optimal Dynamic Programming solutions.
 
-In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.  In this case the number of matches reduces to linear, O(*n*) growth.
+In the application of comparing file revisions, records from the input files form a large symbol space; and the number of symbols approaches the length of the LCS.  In this case the number of matches reduces to O(*n*) linear growth.
 
 A binary search optimization due to [Hunt and Szymanski 1977][^5] can be applied to the basic Dynamic Programming approach, resulting in an expected performance of O(*n log m*).  Performance can degrade to O(*m\*n log m*) time in the worst case, as the number of matches grows to O(*m\*n*).
 
