@@ -1,5 +1,5 @@
 ### [The Longest Common Subsequence Problem](http://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
-by Christopher Hume, updated 2022-03-21
+by Christopher Hume, updated 2023-01-29
 
 Define a *subsequence* to be any output string obtained by deleting zero or more symbols from an input string.
 
@@ -7,25 +7,27 @@ The Longest Common Subsequence or LCS is a subsequence of maximum length common 
 
 Let *A* &equiv; *A*[0]&hellip; *A*[m - 1] and *B* &equiv; *B*[0]&hellip; *B*[n - 1], m &lt; n be strings drawn from an alphabet &Sigma; of size s, containing every distinct symbol in A + B.
 
-An ordered pair (i, j) will be called a match if *A*[i] = *B*[j], where 0 &lt; i &leq; m and 0 &lt; j &leq; n.
+An ordered pair (i, j) will be called a match if *A*[i] = *B*[j], where 0 &le; i &lt; m and 0 &le; j &lt; n.
 
-Define a *non-strict* [product-order](https://en.wikipedia.org/wiki/Product_order) (&leq;) over ordered pairs, such that (i1, j1) &leq; (i2, j2) &hArr; i1 &leq; i2 and j1 &leq; j2.  We define (&geq;) similarly.
+The set of matches **M** defines a relation over matches: **M**[i, j] &hArr; (i, j) &isin; **M**.
+
+Define a *non-strict* [product-order](https://en.wikipedia.org/wiki/Product_order) (&le;) over ordered pairs, such that (i1, j1) &le; (i2, j2) &hArr; i1 &le; i2 and j1 &le; j2.  We define (&ge;) similarly.
 
 We say ordered pairs p1 and p2 are *comparable* if either p1 &le; p2 or p1 &ge; p2 holds.  If i1 &lt; i2 and j2 &lt; j1 (or i2 &lt; i1 and j1 &lt; j2) then neither p1 &le; p2 nor p1 &ge; p2 are possible, and we say p1 and p2 are *incomparable*.
 
-We also define the *strict* product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
+Define the *strict* product-order (&lt;), such that (i1, j1) &lt; (i2, j2) &hArr; i1 &lt; i2 and j1 &lt; j2.  We define (&gt;) similarly.
 
-Given a set of matches **M**, a chain **C** is a subset of **M** consisting of at least one element m; and where either m1 &lt; m2 or m1 &gt; m2 for every pair of distinct elements m1 and m2.  An antichain **D** is any subset of **M** in which every pair of distinct elements m1 and m2 are incomparable.
+A chain **C** is a subset of **M** consisting of at least one element; and where either m1 &lt; m2 or m1 &gt; m2 for any pair of distinct elements m1 and m2.  An antichain **D** is any subset of **M** in which every pair of distinct elements m1 and m2 are incomparable.
 
-The set **M** represents a relation over match pairs: **M**[i, j] &hArr; (i, j) &isin; **M**.  A chain can be visualized as a curve which strictly increases as it passes through each match pair in the m\*n coordinate space.
+Every Common Sequence of length *q* corresponds to a chain of cardinality *q*, over the set of matches **M**.  Thus, finding an LCS can be restated as the problem of finding a chain of maximum cardinality *p*.
 
-Finding an LCS can be restated as the problem of finding a chain of maximum cardinality p over the set of matches **M**.
+A chain can be visualized as a strictly increasing curve that passes through matches (i, j) in the m\*n coordinate space of **M**[i, j].
 
-According to [Dilworth 1950][^1], this cardinality p equals the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition into the minimal number p of disjoint antichains may not be unique.
+According to [Dilworth 1950][^1], this cardinality *p* is equal to the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition of **M** into the minimum number of disjoint antichains may not be unique.
 
 ## Background
 
-Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards quadratic, O(*m\*n*) growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
+Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards O(*m\*n*) quadratic growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
 
 The divide-and-conquer approach of [Hirschberg 1975][^3] limits the space required to O(*n*).  However, this approach requires O(*m\*n*) time even in the best case.
 
@@ -43,7 +45,7 @@ A binary search optimization due to [Hunt and Szymanski 1977][^5] can be applied
 
     A, B are input strings of lengths m, n respectively
     p is the length of the LCS
-    M is the set of match pairs (i, j) such that A[i] = B[j]
+    M is the set of matches (i, j) such that A[i] = B[j]
     r is the magnitude of M
     s is the magnitude of the alphabet Σ of distinct symbols in A + B
 
