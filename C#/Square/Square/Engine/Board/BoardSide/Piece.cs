@@ -276,16 +276,22 @@ namespace Engine {
       public void RookCastles(Int32 nTo) {
         var rule = Parameter.Rule;
 
-        if (nTo == rule.KingOOTo && rule.RookOOFrom.HasValue) {
+        if (rule.KingOOTo == nTo  &&
+            rule.RookOOFrom.HasValue) {
           RaisePiece(vR6, rule.RookOOFrom.Value);
           LowerPiece(vR6, rule.RookOOTo);
+          return;
         }
-        else if (nTo == rule.KingOOOTo && rule.RookOOOFrom.HasValue) {
+
+        if (rule.KingOOOTo == nTo &&
+            rule.RookOOOFrom.HasValue) {
           RaisePiece(vR6, rule.RookOOOFrom.Value);
           LowerPiece(vR6, rule.RookOOOTo);
+          return;
         }
-        else                            //[Safe]
-          throw new MoveException($"{Parameter.SideName} cannot castle");
+
+        //[Safe]
+        throw new MoveException($"{Parameter.SideName} cannot castle");
       }
       #endregion                        // Mover Methods
 
