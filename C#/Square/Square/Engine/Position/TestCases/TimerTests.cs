@@ -49,12 +49,15 @@ namespace Engine {
       //[Time]timeRoots();
       //[Time]timeEval();
       //[Time]timeMove((Move)0x00140759);       //[Perft3]b4f4
-      //[Time]timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
+      //[Time]
+      timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
+      //[Time]timeMove((Move)0x00010A61);       //[Perft3]b5b6
+      //[Time]timeMove((Move)0x00040699);       //[Perft3]b4c4
       //timeWeighPieces();
       //[Time]timeGenerate(PseudoMoves, NoSwaps);
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]
-      timeAddPawnCapturesAndMoves();
+      //timeAddPawnCapturesAndMoves();
       //[Time]timeOrthAtx();
       //[Time]timeSafe();
       //[Time]timeMagic();
@@ -279,6 +282,7 @@ namespace Engine {
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         resetMove();
         var move = mov;
+        //var nEnPassant = MovePiece(ref move);
         PlayMove(ref move);
       }
 

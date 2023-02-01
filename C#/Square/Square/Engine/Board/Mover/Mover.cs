@@ -34,7 +34,7 @@ namespace Engine {
     //
     // Move Methods:
     //
-    // movePiece and its BoardSide methods:
+    // MovePiece and its BoardSide methods:
     // LowerPiece which is called by PlacePiece
     // RaisePiece which is called by RemovePiece
     //
@@ -171,8 +171,8 @@ namespace Engine {
       }
     }
 
-    // Capture: ~6.3 MHz, Simple: ~10.5 MHz, Pawn: ~9.5 MHz
-    private Int32? movePiece(ref Move move) {
+    // Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
+    protected Int32? MovePiece(ref Move move) {
       Int32? nEnPassant = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
@@ -248,7 +248,7 @@ namespace Engine {
       if (HalfMoveClock < vHalfMoveClockMax)
         HalfMoveClock++;
 
-      var nEnPassant = movePiece(ref move);
+      var nEnPassant = MovePiece(ref move);
 
       updateRepetitionCycle();
 
