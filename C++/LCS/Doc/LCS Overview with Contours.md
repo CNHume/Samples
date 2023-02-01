@@ -1,5 +1,5 @@
 ### [The Longest Common Subsequence Problem](http://en.wikipedia.org/wiki/Longest_common_subsequence_problem)
-by Christopher Hume, updated 2023-01-29
+by Christopher Hume, updated 2023-01-31
 
 Define a *subsequence* to be any output string obtained by deleting zero or more symbols from an input string.
 
@@ -33,13 +33,31 @@ FC[1] consists of those elements m1 for which there exists no element m2 strictl
 
 FC[*k*] consists of those elements m1 for which there exists no element m2 strictly less than m1, for m1 and m2 not already members of FC[*l*] where *l* &lt; *k*.
 
-Reverse Contours RC[*k*] of *class k* are defined similarly.
+Reverse Contours RC[*k*] of *class k* are defined similarly, for elements m1 where there exists no m2 strictly greater than m1.
 
-A chain including any member (i, j) of FC[*k*] corresponds to a *common prefix* of length *k* which ends at (i, j).
+**Lemma 1a:** A chain including any member (i, j) of FC[*k*] corresponds to a *common prefix* of length *k* which ends at (i, j).
 
-A chain including any member (i, j) of RC[*k*] corresponds to a *common suffix* of length *k* which begins at (i, j).
+**Lemma 1b:** A chain including any member (i, j) of RC[*k*] corresponds to a *common suffix* of length *k* which begins at (i, j).
 
-**Lemma:** An LCS of length *p* has a common prefix of length *k* and a common suffix of length *p* - *k* + 1 for every *k* &isin; [1, *p*].
+**Proof** *by Induction on length k*
+
+*Initial Case, where length k = 1:*
+
+FC[1] contains matches having no predecessors, and RC[1] contains matches having no successors.
+
+These matches correspond to a prefix of length 1 ending at one of the matches in FC[1], and to a suffix of length 1 beginning at one of the matches in RC[1], respectively.
+
+*Induction from the Case of length k to the Case of length k + 1:*
+
+For each match m2 in FC[k + 1] there exists some match m1 in FC[k] such that m1 &lt; m2; otherwise m2 would be a member of FC[k] rather than FC[k + 1].
+
+It will therefore be possible to construct a prefix of length k + 1 ending at m2 by appending the element corresponding to any of the matches m2 to the prefix ending at m1.
+
+For each match m2 in RC[k + 1] there exists some match m1 in RC[k] such that m1 &gt; m2; otherwise m2 would be a member of RC[k] rather than RC[k + 1].
+
+It will therefore be possible to construct a suffix of length k + 1 beginning at m2 by prepending the element corresponding to any of the matches m2 to the suffix beginning at m1.
+
+**Lemma 2:** An LCS of length *p* has a common prefix of length *k* and a common suffix of length *p* - *k* + 1 for every *k* &isin; [1, *p*].
 
 ## Dominant Matches
 
