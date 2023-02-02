@@ -99,7 +99,9 @@ namespace Engine.CacheValue {
 
     public Boolean IsNew(QuietPosition store) {
       var bNew = false;                 // Assume Satisfactory
+#if DebugExactMatch
       var bShow = false;
+#endif
       var et = IBType(store.ibv);
       if (et == IBType(ibv)) {
         if (et == EvalType.Lower)

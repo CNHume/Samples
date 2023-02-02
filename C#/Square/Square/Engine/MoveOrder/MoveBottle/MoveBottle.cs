@@ -23,9 +23,9 @@ namespace Engine.MoveOrder {
 #if BottleBothSides
     private static readonly Int32 nBottleSides = nSides;
 #else
-    private const Int32 nBottleSides = 1;
+    private static readonly Int32 nBottleSides = 1;
 #endif
-    internal const Int32 nKillers = 1;  // Multiple Killers
+    internal static readonly Int32 nKillers = 1;
     #endregion
 
     #region Constructors

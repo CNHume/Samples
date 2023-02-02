@@ -127,7 +127,9 @@ namespace Engine.CacheValue {
 
     public Boolean IsNew(Transposition store) {
       var bNew = false;                 // Assume Satisfactory
+#if DebugExactMatch
       var bShow = false;
+#endif
       if (Quality < store.Quality)
         bNew = true;
       else if (Quality == store.Quality) {
