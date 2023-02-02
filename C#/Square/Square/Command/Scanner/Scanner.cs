@@ -63,7 +63,7 @@ namespace Command {
       }
     }
 
-    protected List<String> Rows { get; }
+    protected List<String?> Rows { get; }
 
     #region TextSpan Properties
     protected String[]? TextSpans { get; private set; }
@@ -74,7 +74,7 @@ namespace Command {
     #region Constructors
     public Scanner() {
       NextRow = 0;
-      Rows = new List<String>(nRowsCapacity);
+      Rows = new List<String?>(nRowsCapacity);
     }
 
     public Scanner(TextReader reader) : this() {

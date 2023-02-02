@@ -9,6 +9,7 @@
 
 namespace Command {
   using System;
+  using System.Diagnostics.CodeAnalysis;
   using System.Linq;
 
   using Exceptions;
@@ -29,7 +30,7 @@ namespace Command {
       private TokenRule[] TokenRules { get; }
       private TokenType TokenType { get; }
       private TokenRuleType TokenRuleType { get; set; }
-      public String Value { get; private set; }
+      public String? Value { get; private set; }
       public Boolean IsVerbose => Parser?.IsVerbose == true;
       #endregion
 
@@ -42,11 +43,13 @@ namespace Command {
       #endregion
 
       #region Methods
+      [MemberNotNullWhen(true, nameof(Value))]
       public Boolean Accept(Boolean bShowMatch = true) {
         return Parser?.Scanner?.Text == null ?
           false : TokenRules.Any(tokenRule => match(Parser.Scanner, tokenRule, bShowMatch));
       }
 
+      [MemberNotNullWhen(true, nameof(Value))]
       private Boolean match(
         Scanner scanner, TokenRule tokenRule, Boolean bShowMatch = true) {
         if (scanner.Text == null)
@@ -75,6 +78,7 @@ namespace Command {
         return match.Success;
       }
 
+      [MemberNotNull(nameof(Value))]
       public void Expect(Boolean bShowMatch = true) {
         if (Accept(bShowMatch)) return;
 

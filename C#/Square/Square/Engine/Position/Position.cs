@@ -40,6 +40,7 @@ namespace Engine {
   using System;
   using System.Collections.Generic;
   using System.Diagnostics;
+  using System.Diagnostics.CodeAnalysis;
 
   using HeapSort;                       // For Heap
 
@@ -159,17 +160,6 @@ namespace Engine {
       child.CurrentMove = CurrentMove;
       child.Name = Name;
     }
-
-    //
-    // Copy Constructor:
-    //
-    public Position(Position child) {
-      child.CloneTo(this);
-    }
-
-    public new Object Clone() {
-      return new Position(this);
-    }
     #endregion
 
     #region Static Intialization
@@ -229,6 +219,37 @@ namespace Engine {
       moveTypes = new MoveType[defaultMoveTypes.Length];
     }
 
+    [MemberNotNull(
+      nameof(PseudoQueenPromotionCapture),
+      nameof(PseudoUnderPromotionCapture),
+      nameof(PseudoEPCapture),
+      nameof(PseudoPawnAboveCapture),
+      nameof(PseudoPawnBelowCapture),
+      nameof(PseudoKnightCapture),
+      nameof(PseudoKingCapture),
+      nameof(PseudoDiagAboveCapture),
+      nameof(PseudoDiagBelowCapture),
+      nameof(PseudoOrthAboveCapture),
+      nameof(PseudoOrthBelowCapture),
+      nameof(PseudoQueenPromotion),
+      nameof(PseudoUnderPromotion),
+      nameof(PseudoPawnAboveMove),
+      nameof(PseudoPawnBelowMove),
+      nameof(PseudoKnightMove),
+      nameof(PseudoCastles),
+      nameof(PseudoKingMove),
+      nameof(PseudoDiagAboveMove),
+      nameof(PseudoDiagBelowMove),
+      nameof(PseudoOrthAboveMove),
+      nameof(PseudoOrthBelowMove),
+      nameof(PseudoGoodCaptures),
+      nameof(PseudoBadCaptures),
+      nameof(PseudoCaptures),
+      nameof(PseudoMoves),
+      nameof(SearchMoves),
+      nameof(SortMoves),
+      nameof(PriorityMove)
+      )]
     private void newPseudoMoves() {
 #if NoCapacity
       PseudoQueenPromotion = new List<Move>();
