@@ -11,10 +11,9 @@
 //#define TestOutsideSquare
 #define Mobility
 
-namespace Engine {
-  using System;
+using static System.Math;
 
-  using static System.Math;
+namespace Engine {
   using static CacheValue.PawnPosition;
 
   //

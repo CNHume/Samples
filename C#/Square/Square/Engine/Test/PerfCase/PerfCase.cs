@@ -4,8 +4,6 @@
 //[2012-02-12 CNHume]Created Class
 //
 namespace Engine.Test {
-  using System;
-
   using static Logging.Logger;
 
   //

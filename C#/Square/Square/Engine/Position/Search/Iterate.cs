@@ -14,11 +14,10 @@
 #define UseMoveSort
 #define ThrowFinal
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Text;
+using System.Diagnostics;
+using System.Text;
 
+namespace Engine {
   using Command;
 
   using Exceptions;

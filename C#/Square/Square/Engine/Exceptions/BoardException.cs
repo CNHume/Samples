@@ -1,10 +1,9 @@
 ﻿//
 // Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 //
-namespace Engine.Exceptions {
-  using System;
-  using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
+namespace Engine.Exceptions {
   [Serializable]
   class BoardException : ApplicationException, ISerializable {
     #region Constructors

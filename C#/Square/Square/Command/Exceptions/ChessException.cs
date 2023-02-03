@@ -6,10 +6,9 @@
 // Conditionals:
 //
 
-namespace Command.Exceptions {
-  using System;
-  using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
+namespace Command.Exceptions {
   [Serializable]
   class ChessException : ApplicationException, ISerializable {
     #region Constructors

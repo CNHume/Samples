@@ -76,8 +76,6 @@
                a
  */
 namespace Engine {
-  using System;
-
   using static Logging.Logger;
 
   partial class Board {

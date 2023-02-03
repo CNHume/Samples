@@ -7,12 +7,10 @@
 //
 //#define TestPawnFeatures
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
+using System.Diagnostics;
 
+namespace Engine {
   using static CacheValue.PawnPosition;
-  using static Logging.Logger;
 
   //
   // Type Aliases:

@@ -12,12 +12,10 @@
 //#define TestHash                        //[Enable]TestHash() Conditional in Hashcode.cs
 //#define TurnTest
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;
-  using System.Text;
+using System.Runtime.CompilerServices;
+using System.Text;
 
+namespace Engine {
   using Exceptions;
 
   partial class Position : Board {

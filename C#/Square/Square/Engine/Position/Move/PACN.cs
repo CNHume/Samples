@@ -7,12 +7,9 @@
 //
 //#define DebugParse
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
+using System.Text;
 
+namespace Engine {
   using Command;                        // For Scanner, Token
   using Command.Exceptions;
 

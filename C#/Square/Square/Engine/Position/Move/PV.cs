@@ -11,12 +11,10 @@
 #define TestDraw3
 //#define TraceVal
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Text;
+using System.Diagnostics;
+using System.Text;
 
+namespace Engine {
   using Command;                        // For UCI.IsDebug
 
   using static Logging.Logger;

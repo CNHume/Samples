@@ -7,11 +7,9 @@
 //
 //#define DebugPeak
 
-namespace Resource {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
+using System.Diagnostics;
 
+namespace Resource {
   using static Logging.Logger;
 
   class Pool<T> where T : class, new() {

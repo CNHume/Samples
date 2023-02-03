@@ -10,12 +10,9 @@
 #define TestFEN
 //#define TestBinomials
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Linq;
+using System.Diagnostics;
 
+namespace Engine {
   using Command;
 
   using Exceptions;

@@ -7,13 +7,11 @@
 //
 //#define DebugMove
 
+using System.Diagnostics;
+
+using static System.Math;
+
 namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-
-  using static System.Math;
-
   //
   // Type Aliases:
   //

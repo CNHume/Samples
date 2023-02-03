@@ -4,8 +4,6 @@
 //[2018-10-28 CNHume]Created Class
 //
 namespace Engine {
-  using System;
-
   //
   // Type Aliases:
   //

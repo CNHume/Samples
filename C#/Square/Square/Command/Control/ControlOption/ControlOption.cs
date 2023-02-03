@@ -3,12 +3,11 @@
 //
 //[2013-08-28 CNHume]Created Class
 //
+using System.Text;
+
+using static System.String;
+
 namespace Command {
-  using System;
-  using System.Text;
-
-  using static System.String;
-
   public partial class Control {
     //
     // The (@) At Sign escapes the string keyword,

@@ -9,15 +9,12 @@
 //
 // Conditionals:
 //
+using System.Text;
+using System.Text.RegularExpressions;
+
+using static System.String;
+
 namespace Command {
-  using System;
-  using System.Collections.Generic;
-  using System.IO;
-  using System.Text;
-  using System.Text.RegularExpressions;
-
-  using static System.String;
-
   public class Scanner : IDisposable {
     #region Constants
     protected const String sSpace = " ";

@@ -10,16 +10,15 @@
 //#define RNGStatistics
 //#define TestZobrist
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Runtime.CompilerServices;// For MethodImplAttribute0
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;  // For MethodImplAttribute0
 
+using static System.Math;
+
+namespace Engine {
   using Exceptions;
 
-  using static System.Math;
   using static Logging.Logger;
 
   //

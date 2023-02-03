@@ -4,8 +4,6 @@
 //[2014-10-03 CNHume]Created File
 //
 namespace Command {
-  using System;
-
   #region Interfaces
   public interface ICommand : IDisposable {
     Boolean Execute(String command);

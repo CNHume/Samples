@@ -16,15 +16,13 @@
 //#define FullData                        // Full vs Half
 #define DebugInit
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Linq;
-  using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
-  using static System.String;
+using static System.String;
+
+namespace Engine {
   using static Command.Parser;
   using static Logging.Logger;
   using static Position;

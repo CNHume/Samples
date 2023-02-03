@@ -13,12 +13,10 @@
 #define TestOutsideSquare
 #define TimePlayMove
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Text;
+using System.Diagnostics;
+using System.Text;
 
+namespace Engine {
   using CacheValue;
 
   using Command;

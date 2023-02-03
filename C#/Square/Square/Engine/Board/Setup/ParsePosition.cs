@@ -10,17 +10,15 @@
 #define HashCastlingRights
 //#define Magic
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Text;
+using System.Text;
 
+using static System.Char;
+using static System.String;
+
+namespace Engine {
   using Command;                        // For Scanner
 
   using Exceptions;
-
-  using static System.Char;
-  using static System.String;
 
   using static Command.Parser;
   using static Logging.Logger;

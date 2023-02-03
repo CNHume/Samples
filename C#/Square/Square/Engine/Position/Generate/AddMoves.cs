@@ -10,12 +10,10 @@
 #define UnshadowRay
 #define UnshadowRay2
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;// For MethodImplAttribute
+using System.Diagnostics;
+using System.Runtime.CompilerServices;  // For MethodImplAttribute
 
+namespace Engine {
   using static Logging.Logger;
 
   //

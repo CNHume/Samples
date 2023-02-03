@@ -10,10 +10,9 @@
 //#define PreAllocated
 //#define XPMHash128
 
-namespace Engine.CacheValue {
-  using System;
-  using System.Diagnostics;
+using System.Diagnostics;
 
+namespace Engine.CacheValue {
   using Cache;
 
   using static Board;

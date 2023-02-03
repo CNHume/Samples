@@ -7,8 +7,6 @@
 //
 
 namespace Engine {
-  using System;
-
   //
   // Type Aliases:
   //

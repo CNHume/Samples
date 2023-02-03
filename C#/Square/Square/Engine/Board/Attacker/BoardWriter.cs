@@ -12,12 +12,9 @@
 //#define DisplayCounts
 //#define DisplayPieceHash
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Text;
+using System.Text;
 
+namespace Engine {
   using Exceptions;
 
   using static System.String;

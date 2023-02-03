@@ -22,12 +22,11 @@
 #define PressEnter
 //#define StackTrace
 
-namespace Square {
-  using System;
+using static System.String;
 
+namespace Square {
   using Command;
 
-  using static System.String;
   using static Logging.Logger;
 
   static class Program {

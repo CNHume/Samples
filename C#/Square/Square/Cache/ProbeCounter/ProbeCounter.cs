@@ -4,8 +4,6 @@
 //[CNH 22-Jul-14]Created ProbeCounter Class
 //
 namespace Cache {
-  using System;
-
   using static Logging.Logger;
 
   class SimpleCounter {

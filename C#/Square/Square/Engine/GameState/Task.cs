@@ -10,21 +10,16 @@
 #define NoteStartAndFinish
 //#define StackTrace
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Text;
-  using System.Threading;
-  using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
+namespace Engine {
   using Command;
   using Command.Exceptions;
 
   using Exceptions;
 
-  using static System.String;
   using static Board;
   using static Logging.Logger;
 

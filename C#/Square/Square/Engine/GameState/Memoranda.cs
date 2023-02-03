@@ -13,11 +13,9 @@
 //#define MaterialBalance
 //#define TestInsufficient
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Text;
+using System.Text;
 
+namespace Engine {
   using CacheValue;
 
   using static Board;

@@ -3,11 +3,9 @@
 //
 //[2013-08-14 CNHume]Created Class
 //
-namespace Command {
-  using System;
-  using System.Text;
-  using System.Threading;
+using System.Text;
 
+namespace Command {
   using Engine;
 
   using Exceptions;

@@ -16,14 +16,10 @@
 //#define SwapOn
 //#define VerifyUpper
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Text;
+using System.Text;
 
+namespace Engine {
   using static GameState;
-  using static Logging.Logger;
 
   //
   // Type Aliases:

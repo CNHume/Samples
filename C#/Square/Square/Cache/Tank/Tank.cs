@@ -17,12 +17,10 @@
 //#define TankRecycle
 //#define TestHashMath
 
-namespace Cache {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+namespace Cache {
   using Engine;
 
   using static Engine.Board;            // For OneBitOrNone()

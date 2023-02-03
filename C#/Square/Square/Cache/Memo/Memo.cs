@@ -3,10 +3,8 @@
 //
 //[CNH 27-Nov-12]Created Memo Class to implement fast Hashtables
 //
-namespace Cache {
-  using System;
-  using System.Diagnostics;
 
+namespace Cache {
   using static Engine.Board;            // For OneBitOrNone()
 
   using Hashcode = UInt64;

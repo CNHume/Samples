@@ -4,13 +4,10 @@
 //[2016-09-05 CNHume]Created File
 //
 
-namespace Command {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Linq;
-  using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
+namespace Command {
   using Engine;
   using Engine.Exceptions;
 

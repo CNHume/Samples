@@ -10,9 +10,6 @@
 //#define TestInitHelp
 
 namespace Engine {
-  using System;
-  using System.Collections.Generic;
-
   using HeapSort;                           // For Heap
 
   using MoveOrder;

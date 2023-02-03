@@ -4,10 +4,9 @@
 //[2021-05-01 CNHume]Created Class
 //
 
-namespace Engine {
-  using System;
-  using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
+namespace Engine {
   //
   // Type Aliases:
   //

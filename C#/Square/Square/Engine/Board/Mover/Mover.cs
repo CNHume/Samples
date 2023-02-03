@@ -13,11 +13,10 @@
 //#define VerifyPieceColor
 //#define VerifyPromotion
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;// For MethodImplAttribute
+using System.Diagnostics;
+using System.Runtime.CompilerServices;  // For MethodImplAttribute
 
+namespace Engine {
   using static Position;
 
   //

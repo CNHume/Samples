@@ -9,8 +9,6 @@
 #define CompositionByValue
 
 namespace Engine.CacheValue {
-  using System;
-
   using static Board;
   using static Position;
 

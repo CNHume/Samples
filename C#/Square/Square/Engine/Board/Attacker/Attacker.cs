@@ -12,11 +12,10 @@
 #define TestRotation
 #define DebugDiagIndexers
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+namespace Engine {
   using static Logging.Logger;          // For TestMagic
 
   //

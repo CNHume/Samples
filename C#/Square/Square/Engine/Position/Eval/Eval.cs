@@ -25,15 +25,14 @@
 #define TraceInfinity
 //#define VerifyIBV
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;
-  using System.Text;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+using static System.Math;
+
+namespace Engine {
   using CacheValue;
 
-  using static System.Math;
   using static CacheValue.PawnPosition;
   using static Logging.Logger;
 

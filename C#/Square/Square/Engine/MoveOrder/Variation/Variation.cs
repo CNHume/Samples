@@ -7,9 +7,6 @@
 //
 
 namespace Engine.MoveOrder {
-  using System;
-  using System.Collections.Generic;
-
   using static Board;
 
   //

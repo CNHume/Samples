@@ -8,10 +8,9 @@
 //#define DebugMove
 //#define ExemptPasserPin
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
+using System.Diagnostics;
 
+namespace Engine {
   //
   // Type Aliases:
   //

@@ -14,12 +14,10 @@
 //#define MaterialBalance
 //#define CountCapturedPiece
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;
-  using System.Threading;               // For AtomicMethods
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+namespace Engine {
   using Cache;                          // For ProbeCounter
 
   using Exceptions;

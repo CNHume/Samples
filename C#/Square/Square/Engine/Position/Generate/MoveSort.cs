@@ -18,11 +18,9 @@
 #define TestGoodValue
 //#define TestRewardMove
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
+using System.Diagnostics;
 
+namespace Engine {
   using Exceptions;
 
   using MoveOrder;

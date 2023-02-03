@@ -11,13 +11,9 @@
 //#define CountCapturedPiece
 //#define MaterialBalance
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Threading;
-  using System.Threading.Tasks;
+using System.Diagnostics;
 
+namespace Engine {
   using Cache;
 
   using CacheValue;

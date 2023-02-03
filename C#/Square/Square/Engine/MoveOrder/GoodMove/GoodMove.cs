@@ -5,8 +5,6 @@
 //
 
 namespace Engine.MoveOrder {
-  using System;
-
   using static Board;
   using static Position;
 

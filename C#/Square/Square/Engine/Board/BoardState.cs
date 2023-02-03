@@ -9,12 +9,11 @@
 //#define Magic
 #define UnshadowRay
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Runtime.CompilerServices;// For MethodImplAttribute
-  using System.Text;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;  // For MethodImplAttribute
+using System.Text;
 
+namespace Engine {
   using Exceptions;
 
   //

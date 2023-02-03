@@ -14,22 +14,19 @@
 #define SaveCapture
 #define TestDraw3
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Linq;
-  using System.Runtime.CompilerServices;
-  using System.Text;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Text;
 
+using static System.Math;
+using static System.String;
+
+namespace Engine {
   using Cache;
 
   using Exceptions;
 
   using MoveOrder;                      // For Variation
-
-  using static System.Math;
-  using static System.String;
 
   using static Board;
   using static CacheValue.PawnPosition;

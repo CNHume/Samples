@@ -3,11 +3,8 @@
 //
 //[2013-09-08 CNHume]Created Class
 //
-namespace Command {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
 
+namespace Command {
   using Exceptions;
 
   using static System.String;

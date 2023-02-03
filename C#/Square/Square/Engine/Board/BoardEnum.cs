@@ -11,8 +11,6 @@
 #define HistoryFromTo
 
 namespace Engine {
-  using System;
-
   //
   // Type Aliases:
   //
