@@ -113,7 +113,7 @@ namespace Engine {
     // Complete Move List Outputs
     //
     public List<Move> PseudoMoves;
-    public List<Move> SearchMoves;
+    public List<Move>? SearchMoves;
 #if UseMoveSort
     public SortMove[] SortMoves;
 #if LazyMoveSort

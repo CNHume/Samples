@@ -50,13 +50,12 @@
 //#define XPHash128
 //#define QXPHash128
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Runtime;
-  using System.Text;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime;
+using System.Text;
 
+namespace Engine {
   using Command;                        // For Scanner
 
   using MoveOrder;                      // For MoveBottle
@@ -140,6 +139,11 @@ namespace Engine {
     #endregion
 
     #region Init Methods
+    [MemberNotNull(
+      nameof(QXPTank),
+      nameof(XPTank),
+      nameof(XPMTank)
+      )]
     protected void wireControls() {
       Opponent = default;
 
@@ -174,13 +178,18 @@ namespace Engine {
       wireLanguage();
     }
 
+    [MemberNotNull(nameof(BestMoves))]
     private void newBestMoves(Int32 nCapacity) {
       BestMoves = new List<Move>(nCapacity);
     }
 
+    [MemberNotNull(
+      nameof(IterationTimer),
+      nameof(SearchTimer)
+      )]
     private void newTimers() {
-      SearchTimer = new Stopwatch();
       IterationTimer = new Stopwatch();
+      SearchTimer = new Stopwatch();
     }
 
     public void ClearSearchCounts() {

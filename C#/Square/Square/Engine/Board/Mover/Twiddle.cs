@@ -14,21 +14,22 @@
 //#define FullData                        // Full vs Half
 #define BitOperations
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
-  using System.Numerics;                // For BitOperations
-  using System.Runtime.CompilerServices;// For MethodImplAttribute
+using System.Diagnostics;
+using System.Numerics;                  // For BitOperations
+using System.Runtime.CompilerServices;  // For MethodImplAttribute
 #if ImportTwiddle
-  using System.Runtime.InteropServices; // For [DllImport]
+using System.Runtime.InteropServices;   // For [DllImport]
 #endif
-  using static System.Math;
 #if TestDeBruijn
-  using System.Text;
+using System.Text;
 
+using static System.String;
+#endif
+using static System.Math;
+
+namespace Engine {
+#if TestDeBruijn
   using SortTest.Extensions;            // For AppendDelim()
-
-  using static System.String;
 #endif
   using static Logging.Logger;
 
@@ -88,7 +89,7 @@ namespace Engine {
 #endif
 #endif                                   // FullData
 #endif                                   // DeBruijn
-    #endregion
+#endregion
 
     #region Bit Twiddles
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

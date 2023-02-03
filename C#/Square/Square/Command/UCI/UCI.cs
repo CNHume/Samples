@@ -31,11 +31,10 @@
  *    T Time Forfeit     I Insufficient Material to Mate (KKN, KK or KB*KB* same color)
  *    F Rule Forfeit     A Adjudicated (Insufficient Losing Chances) or Declared (75-Move Rule)
  */
-namespace Command {
-  using System;
-  using System.Diagnostics.CodeAnalysis;
-  using System.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
+namespace Command {
   using Engine;
   using Engine.Exceptions;
 

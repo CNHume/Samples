@@ -36,12 +36,10 @@
 //#define TestInitFree
 //#define TestInitHelp
 
-namespace Engine {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
+namespace Engine {
   using HeapSort;                       // For Heap
 
   using MoveOrder;
@@ -130,8 +128,9 @@ namespace Engine {
 
     public Position() {
       EnsureSides(this);
-
+#if TestPawnFeatures
       newFeatures();
+#endif
       newBestMoves();
       newRestricted();
       newMoveTypes();
@@ -167,6 +166,7 @@ namespace Engine {
     //[Note]Apart from allocation time static loads for Board and for
     // the Position super class require less than one ms to complete
     //
+    [MemberNotNull(nameof(importance))]
     private static void initPosition() {
       loadOutsideSquare();
       loadFreeHelp();
@@ -175,6 +175,7 @@ namespace Engine {
       loadSquareImportance();
     }
 
+    [MemberNotNull(nameof(importance))]
     private static void newSquareImportance() {
       importance = new Byte[nSquares];
     }
@@ -199,22 +200,25 @@ namespace Engine {
     #endregion
 
     #region Instance Intialization
-    private void newFeatures() {
 #if TestPawnFeatures
+    [MemberNotNull(nameof(FeatureOrth))]
+    private void newFeatures() {
       FeatureOrth = new Plane[PawnFeatures.Length * 2];
-#endif
     }
-
+#endif
+    [MemberNotNull(nameof(BestMoves))]
     private void newBestMoves() {
       BestMoves = new List<Move>();
     }
 
+    [MemberNotNull(nameof(restricted))]
     private void newRestricted() {
       restricted = new Plane[nSquares];
     }
     #endregion
 
     #region Move List Initialization
+    [MemberNotNull(nameof(moveTypes))]
     private void newMoveTypes() {
       moveTypes = new MoveType[defaultMoveTypes.Length];
     }
@@ -246,7 +250,6 @@ namespace Engine {
       nameof(PseudoBadCaptures),
       nameof(PseudoCaptures),
       nameof(PseudoMoves),
-      nameof(SearchMoves),
       nameof(SortMoves),
       nameof(PriorityMove)
       )]

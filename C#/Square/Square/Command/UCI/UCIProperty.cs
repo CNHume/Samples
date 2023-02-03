@@ -8,8 +8,6 @@
 //#define UseScanMethods
 
 namespace Command {
-  using System;
-
   using Engine;                         // For GameState
 
   partial class UCI {

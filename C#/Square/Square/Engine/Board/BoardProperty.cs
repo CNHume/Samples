@@ -12,9 +12,6 @@
 //#define TestZobrist
 
 namespace Engine {
-  using System;
-  using System.Collections.Generic;
-
   using static Position;
   using static Position.PositionSide;
 

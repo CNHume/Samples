@@ -5,14 +5,12 @@
 //
 // Conditionals:
 //
+using System.Diagnostics;               // For FileVersionInfo
+using System.Reflection;                // For Assembly, AssemblyTitleAttribute
+
+using static System.String;
 
 namespace Command {
-  using System;
-  using System.Diagnostics;             // For FileVersionInfo
-  using System.Reflection;              // For Assembly, AssemblyTitleAttribute
-
-  using static System.String;
-
   static class Product {
     #region Constants
     private const String sDefaultTitle = "square";

@@ -7,10 +7,10 @@
 //
 //#define MaterialBalance
 
-namespace Engine {
-  using System;
-  using System.Diagnostics;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
+namespace Engine {
   using Cache;
 
   using CacheValue;
@@ -54,6 +54,10 @@ namespace Engine {
     #endregion
 
     #region Table Initializers
+    [MemberNotNull(
+      nameof(NodeDelta),
+      nameof(NodeDeltaLog)
+      )]
     private void newNodeDelta(Depth wDepths) {
       NodeDelta = new UInt64[wDepths];
       NodeDeltaLog = new Double[wDepths];
@@ -65,6 +69,7 @@ namespace Engine {
     }
 
     [Conditional("CountEarlyMoves")]
+    [MemberNotNull(nameof(EarlyMoveCount))]
     private void newEarlyMoveCounts(Ply wPlies) {
       EarlyMoveCount = new Int64[wPlies];
     }
@@ -123,6 +128,7 @@ namespace Engine {
 #endif
     }
 
+    [MemberNotNull(nameof(CXPMemo))]
     private void newCXPMemo(UInt32 uLength) {
       if (CXPMemo == null)
 #if MaterialBalance
@@ -132,21 +138,25 @@ namespace Engine {
 #endif
     }
 
+    [MemberNotNull(nameof(PXPMemo))]
     private void newPXPMemo(UInt32 uLength) {
       if (PXPMemo == null)
         PXPMemo = new Memo2<PawnPosition>("PXP", uLength);
     }
 
+    [MemberNotNull(nameof(QXPTank))]
     private void newQXPTank() {
       if (QXPTank == null)
         QXPTank = new Tank<QuietPosition>("QXP");
     }
 
+    [MemberNotNull(nameof(XPTank))]
     private void newXPTank() {
       if (XPTank == null)
         XPTank = new Tank<Transposition>("XP");
     }
 
+    [MemberNotNull(nameof(XPMTank))]
     private void newXPMTank() {
       if (XPMTank == null)
         XPMTank = new Tank<PositionMove>("XPM");

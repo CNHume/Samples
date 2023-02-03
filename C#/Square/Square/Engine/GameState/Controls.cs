@@ -9,10 +9,9 @@
 //#define TestOptionTypes
 //#define SyzygyControls
 
-namespace Engine {
-  using System;
-  using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
+namespace Engine {
   using Command;
 
   using Exceptions;
@@ -577,6 +576,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(QXPTank))]
     private void wireQXPBuckets() {
       newQXPTank();
 
@@ -587,6 +587,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(QXPTank))]
     private void wireQXP() {
       //
       //[Note]Establish BucketsDefault before calling Tank.init()
@@ -600,6 +601,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(XPTank))]
     private void wireXPBuckets() {
       newXPTank();
 
@@ -610,6 +612,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(XPTank))]
     private void wireXP() {
       //
       //[Note]Establish BucketsDefault before calling Tank.init()
@@ -623,6 +626,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(XPMTank))]
     private void wireXPMBuckets() {
       newXPMTank();
 
@@ -633,6 +637,7 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(nameof(XPMTank))]
     private void wireXPM() {
       //
       //[Note]Establish BucketsDefault before calling Tank.init()
