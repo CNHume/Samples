@@ -95,7 +95,7 @@ namespace Engine {
     internal static void testOffsets() {
       printSquares("RankOffset", RankOffset);
 #if TestRotation && !Magic
-      printSquares("OffsetFile", OffsetFile);
+      printSquares("OffsetOrth", OffsetOrth);
       printSquares("OffsetA1H8", OffsetA1H8);
       printSquares("OffsetA8H1", OffsetA8H1);
 #endif

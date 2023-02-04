@@ -195,6 +195,21 @@ namespace Engine {
     }
 
     [MemberNotNull(
+      nameof(AtxRank),
+      nameof(AtxFile),
+      nameof(AtxA1H8),
+      nameof(AtxA8H1),
+      nameof(AtxKing),
+      nameof(AtxKnight),
+      nameof(BitRank),
+      nameof(BitFile),
+      nameof(BitA1H8),
+      nameof(BitA8H1),
+      nameof(RankOffset),
+      nameof(OffsetDiag),
+      nameof(OffsetOrth),
+      nameof(OffsetA1H8),
+      nameof(OffsetA8H1),
       nameof(zobristRandom),
       nameof(zobristBuffer),
       nameof(zobristTurn),
@@ -269,6 +284,12 @@ namespace Engine {
     // Copy Constructor:
     //
     public Board(Board board) {
+      if (AtxToCount == null)
+        throw new ArgumentNullException(nameof(AtxToCount));
+
+      if (Side == null)
+        throw new ArgumentNullException(nameof(Side));
+
       board.CopyTo(this);
     }
 
@@ -281,11 +302,7 @@ namespace Engine {
     // Deep Copy:
     //
     [Conditional("BuildAtxToCount")]
-    [MemberNotNull(nameof(AtxToCount))]
     protected void CopyAtxToCountTo(Board board) {
-      if (AtxToCount == null)
-        throw new ArgumentNullException(nameof(AtxToCount));
-
       Array.Copy(AtxToCount, board.AtxToCount, AtxToCount.Length);
     }
 

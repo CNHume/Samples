@@ -13,6 +13,7 @@
 #define DebugDiagIndexers
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Engine {
@@ -65,10 +66,12 @@ namespace Engine {
     #endregion
 
     #region Piece Attacks Table Initialization
+    [MemberNotNull(nameof(AtxKing))]
     private static void newKingAtx() {
       AtxKing = new Plane[nSquares];
     }
 
+    [MemberNotNull(nameof(AtxKnight))]
     private static void newKnightAtx() {
       AtxKnight = new Plane[nSquares];
     }
@@ -103,6 +106,10 @@ namespace Engine {
     #endregion                        // Piece Attacks Table Initialization
 
     #region Ray Attacks Table Initialization
+    [MemberNotNull(
+      nameof(AtxRank),
+      nameof(AtxFile)
+      )]
     private static void newOrthAtx() {
       AtxFile = new Plane[nStates][];
       AtxRank = new Plane[nStates][];
@@ -113,6 +120,10 @@ namespace Engine {
       }
     }
 
+    [MemberNotNull(
+      nameof(AtxA1H8),
+      nameof(AtxA8H1)
+      )]
     private static void newDiagAtx() {
       AtxA1H8 = new Plane[nStates][];
       AtxA8H1 = new Plane[nStates][];
@@ -239,6 +250,7 @@ namespace Engine {
     #endregion                          // Ray Attacks Table Initialization
 
     #region Ray Attacks Lookup
+    [MemberNotNull(nameof(RankOffset))]
     private static void newRankOffset() {
       RankOffset = new Byte[nSquares];
     }
@@ -412,9 +424,15 @@ namespace Engine {
 #endif
     }
 #else                                   //!Magic
+    [MemberNotNull(
+      nameof(OffsetDiag),
+      nameof(OffsetOrth),
+      nameof(OffsetA1H8),
+      nameof(OffsetA8H1)
+      )]
     private static void newRotation() {
       OffsetDiag = new Byte[nDiagonals];
-      OffsetFile = new Byte[nSquares];
+      OffsetOrth = new Byte[nSquares];
       OffsetA1H8 = new Byte[nSquares];
       OffsetA8H1 = new Byte[nSquares];
     }
@@ -429,18 +447,26 @@ namespace Engine {
       for (var n = 0; n < nSquares; n++) {
         var xInverse = InvertFile(x(n));
         //[Note]One is added to each Offset because Ray State values consist only of the medial 6 bits:
-        OffsetFile[n] = (Byte)(nFiles * xInverse + 1);
+        OffsetOrth[n] = (Byte)(nFiles * xInverse + 1);
 
         OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);
         OffsetA8H1[n] = (Byte)(OffsetDiag[diagA8H1(n)] + 1);
       }
     }
 
+    [MemberNotNull(
+      nameof(BitRank),
+      nameof(BitFile)
+      )]
     private static void newOrthBit() {
       BitFile = new Plane[nSquares];
       BitRank = new Plane[nSquares];
     }
 
+    [MemberNotNull(
+      nameof(BitA1H8),
+      nameof(BitA8H1)
+      )]
     private static void newDiagBit() {
       BitA1H8 = new Plane[nSquares];
       BitA8H1 = new Plane[nSquares];
@@ -598,7 +624,7 @@ namespace Engine {
 #if NoFileOffset
       var nFileOffset = nFiles * InvertFile(x(n)) + 1;
 #endif
-      var uFileRotate = (UInt32)(FilePiece >> OffsetFile[n]);
+      var uFileRotate = (UInt32)(FilePiece >> OffsetOrth[n]);
       return (Byte)(uFileRotate & uStateMask);
     }
 #endif                                  //!Magic

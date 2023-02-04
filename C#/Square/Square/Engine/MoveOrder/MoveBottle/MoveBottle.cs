@@ -8,6 +8,8 @@
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 
 namespace Engine.MoveOrder {
+  using System.Diagnostics.CodeAnalysis;
+
   using static Board;
 
   //
@@ -110,7 +112,7 @@ namespace Engine.MoveOrder {
 
     #region Fields
     public UInt32 BottleLength;
-    public GoodMove[][][] Killers;
+    public GoodMove[][][]? Killers;
     #endregion
   }
 }

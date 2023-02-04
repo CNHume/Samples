@@ -84,6 +84,7 @@ namespace Engine {
     }
 
     [Conditional("CountPVDoubles")]
+    [MemberNotNull(nameof(PVDoubleCount))]
     private void newPVDoubleCounts(Ply wPlies) {
       PVDoubleCount = new Int64[wPlies];
     }
@@ -162,6 +163,7 @@ namespace Engine {
         XPMTank = new Tank<PositionMove>("XPM");
     }
 
+    [MemberNotNull(nameof(Variation))]
     private void newVariations(Int32 nSelection) {
       if (Variation == null || Variation.Length < nSelection) {
         //
@@ -177,6 +179,7 @@ namespace Engine {
       MultiPVLength = (Byte)nSelection;
     }
 
+    [MemberNotNull(nameof(Variation))]
     private void newVariations2(Int32 nVariations) {
       VariationCount = 0;               //[Init]
       Variation = new Variation[nVariations];

@@ -357,6 +357,7 @@ namespace Engine {
     }
 
     // Step 5/6: Define an Event Handler, following the standard naming convention
+    [MemberNotNull(nameof(Variation))]
     protected void MultiPVValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
       var setting = (Setting?)sender;
       if (setting != null && setting.Selection.HasValue)
@@ -567,6 +568,7 @@ namespace Engine {
         button.Click += ClearHashButton_Click;
     }
 
+    [MemberNotNull(nameof(Variation))]
     private void wireMultiPV() {
       var setting = (Setting?)findControl("MultiPV");
       if (setting != null) {

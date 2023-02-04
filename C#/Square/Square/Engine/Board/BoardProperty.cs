@@ -52,7 +52,7 @@ namespace Engine {
     protected static Byte[] StateA8H1;
 #endif
 #else
-    protected static Byte[] OffsetFile;
+    protected static Byte[] OffsetOrth;
     protected static Byte[] OffsetDiag; // Helps build OffsetA1H8 and OffsetA8H1
     protected static Byte[] OffsetA1H8;
     protected static Byte[] OffsetA8H1;

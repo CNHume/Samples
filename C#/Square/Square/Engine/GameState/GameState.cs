@@ -140,6 +140,7 @@ namespace Engine {
 
     #region Init Methods
     [MemberNotNull(
+      nameof(Variation),
       nameof(QXPTank),
       nameof(XPTank),
       nameof(XPMTank)

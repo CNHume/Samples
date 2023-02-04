@@ -679,7 +679,10 @@ namespace Engine {
         sb.Append(sPurePV);
 
       //[Note]Variations begin with BestMove from MovePosition
-      return sb.WriteMoves(vn.Moves, wGamePly, bPure, sides, bChess960);
+      if (vn.Moves != null)
+        sb.WriteMoves(vn.Moves, wGamePly, bPure, sides, bChess960);
+
+      return sb;
     }
 
     public static StringBuilder BestMove(

@@ -18,6 +18,7 @@
 //#define TestHashMath
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Cache {
@@ -68,7 +69,7 @@ namespace Cache {
 #if LinkedTranspositions
     public LinkedList<T>[] Entries;
 #else
-    protected T[][] Entries;
+    protected T[][]? Entries;
 #endif
     #endregion
 
@@ -79,6 +80,7 @@ namespace Cache {
     #endregion
 
     #region Allocation
+    [MemberNotNull(nameof(Entries))]
     private void allocate(UInt32 uLength, UInt16 wBuckets) {
 #if HashPowerOfTwo
       if (!OneBitOrNone(uLength))
@@ -100,6 +102,7 @@ namespace Cache {
       LookupBuckets = wBuckets;
     }
 
+    [MemberNotNull(nameof(Entries))]
     private void allocateNew(UInt32 uLength, UInt16 wBuckets) {
 #if LinkedTranspositions
       Buckets = new LinkedList<T>[uLength];
@@ -175,6 +178,7 @@ namespace Cache {
     #endregion
 
     #region Initializers
+    [MemberNotNull(nameof(Entries))]
     public void Init(Int32 nSelection) {
       //
       // LookupLength selections are expressed in "binary million" rather

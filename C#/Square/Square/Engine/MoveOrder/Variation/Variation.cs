@@ -26,7 +26,7 @@ namespace Engine.MoveOrder {
     #endregion
 
     #region Fields
-    public List<Move> Moves;
+    public List<Move>? Moves;
     public Eval Value;
     #endregion
 

@@ -34,13 +34,14 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
+using static System.String;
+
 namespace Command {
   using Engine;
   using Engine.Exceptions;
 
   using Exceptions;
 
-  using static System.String;
   using static Logging.Logger;
 
   partial class UCI : ICommand {
