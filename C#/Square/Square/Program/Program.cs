@@ -53,7 +53,7 @@ namespace Square {
             if (sLine == null)
               bContinue = false;
             else {
-              LogWriteLine(sLine);
+              LogLine(sLine, false);
               bContinue = command.Execute(sLine.Trim());
             }
           }

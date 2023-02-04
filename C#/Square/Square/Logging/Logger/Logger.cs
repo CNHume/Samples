@@ -9,10 +9,10 @@
 
 using System.Text;
 
+using static System.String;
+
 namespace Logging {
   using Command;
-
-  using static System.String;
 
   static class Logger {
     #region Constants
@@ -94,59 +94,38 @@ namespace Logging {
       if (LogStream != null) LogStream.Flush();
     }
 
-    public static void LogWrite(String s) {
-      if (LogStream != null && !IsNullOrEmpty(s)) {
-        var encoding = new UnicodeEncoding();
-        var buffer = encoding.GetBytes(s);
-        LogStream.Write(buffer, 0, buffer.Length);
-      }
+    public static void LogWrite(String? s) {
+      if (LogStream == null || IsNullOrEmpty(s)) return;
+
+      var encoding = new UnicodeEncoding();
+      var buffer = encoding.GetBytes(s);
+      LogStream.Write(buffer, 0, buffer.Length);
     }
 
-    public static void LogWriteLine() {
-      LogWrite("\n");
-      LogFlush();
-    }
-
-    public static void LogWriteLine(String s) {
-      if (s != null) {
-        LogWrite(s);
-        LogWriteLine();
-      }
-    }
-
-    private static void Write(String s) {
-      Console.Write(s);
+    public static void Log(String? s = default, Boolean bWriteToConsole = true) {
+      if (IsNullOrEmpty(s)) return;
+      if (bWriteToConsole) Console.Write(s);
       LogWrite(s);
     }
 
-    private static void WriteLine(String? s = default) {
-      if (s != null)
-        Write(s);
-
-      Write("\n");
+    public static void LogLine(String? s = default, Boolean bWriteToConsole = true) {
+      Log(s, bWriteToConsole);
+      Log("\n", bWriteToConsole);
       LogFlush();
-    }
-
-    public static void Log(String s) {
-      Write(s);
-    }
-
-    public static void LogLine(String? s = default) {
-      WriteLine(s);
     }
 
     public static void LogInfo(Level level, String? s = default) {
       if (level < LogLevel) return;
 
-      if (s == null)
-        WriteLine();
+      if (IsNullOrEmpty(s))
+        LogLine();                      // Omitting level
       else {
         var sb = new StringBuilder(sInfo);
         sb.Append(cSpace);
         sb.Append(level);
         sb.Append(cSpace);
         sb.Append(s);
-        WriteLine(sb.ToString());
+        LogLine(sb.ToString());
       }
     }
     #endregion
