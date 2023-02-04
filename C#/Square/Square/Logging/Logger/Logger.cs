@@ -38,8 +38,8 @@ namespace Logging {
       get => sLogPath;
       set {
         sLogPath = value;
-        CloseLogStream();
-        LogStream = OpenLogStream(sLogPath);
+        closeLogStream();
+        LogStream = openLogStream(sLogPath);
       }
     }
     private static FileStream? LogStream { get; set; }
@@ -65,7 +65,7 @@ namespace Logging {
       return Path.Combine(path, sFullFilename ?? Empty);
     }
 
-    private static FileStream? OpenLogStream(String? path) {
+    private static FileStream? openLogStream(String? path) {
       FileStream? logStream = default;
       try {
         if (path != null) {
@@ -83,35 +83,27 @@ namespace Logging {
       return logStream;
     }
 
-    private static void CloseLogStream() {
+    private static void closeLogStream() {
       if (LogStream != null) {
         LogStream.Dispose();
         LogStream = default;
       }
     }
 
-    public static void LogFlush() {
-      if (LogStream != null) LogStream.Flush();
-    }
+    public static void Log(String? s = default, Boolean bWriteToConsole = true) {
+      if (IsNullOrEmpty(s)) return;
+      if (bWriteToConsole) Console.Write(s);
 
-    public static void LogWrite(String? s) {
-      if (LogStream == null || IsNullOrEmpty(s)) return;
-
+      if (LogStream == null) return;
       var encoding = new UnicodeEncoding();
       var buffer = encoding.GetBytes(s);
       LogStream.Write(buffer, 0, buffer.Length);
     }
 
-    public static void Log(String? s = default, Boolean bWriteToConsole = true) {
-      if (IsNullOrEmpty(s)) return;
-      if (bWriteToConsole) Console.Write(s);
-      LogWrite(s);
-    }
-
     public static void LogLine(String? s = default, Boolean bWriteToConsole = true) {
       Log(s, bWriteToConsole);
       Log("\n", bWriteToConsole);
-      LogFlush();
+      LogStream?.Flush();
     }
 
     public static void LogInfo(Level level, String? s = default) {
