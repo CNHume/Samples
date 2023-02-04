@@ -140,7 +140,7 @@ namespace Engine {
           SearchTimer.Stop();
 
         if (UCI.IsDebug) {
-          LogInfoNewLine(Level.note);
+          LogInfo(Level.note);
 #if NoteStartAndFinish
           LogInfo(Level.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif

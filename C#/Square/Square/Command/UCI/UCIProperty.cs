@@ -38,8 +38,11 @@ namespace Command {
     //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
     // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
-    //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mated #10 [2023-02-04 13-ply in 3.251 sec @1.258 MHz over 4.089 Mnode] after:
-    // 1. Ng5+ hxg5 2. hxg5+ Bh6 3. Rxh6+ Kg7 4. Rdxh8 Nd3+ 5. Kb1 c2+ 6. Kxc2 Rxa2+ 7. Kxd3 Ra3+ 8. Kd4 Rd3+ 9. Kxd3 b5 10. R6h7#
+    //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mate #10 [2023-02-04 13-ply in 3.251 sec @1.258 MHz over 4.089 Mnode] after:
+    // 1. Ng5+ hxg5 2. hxg5+ Bh6 (2... Nh5?! 3. Rxh5+ gxh5? 4. Be4+ f5 5. exf6# {ep})
+    // 3. Rxh6+ Kg7 4. Rdxh8 Nd3+ 5. Kb1 c2+ 6. Kxc2 Rxa2+ 7. Kxd3 Ra3+ 8. Kd4 Rd3+ 9. Kxd3 b5 10. R6h7#
+    // moves f3g5 h6g5 h4g5 f4h5 h1h5 g6h5
+    //"3R3r/5pbk/1pB1p3/4P1Pp/8/r1p5/P4PP1/2K5 w - - 0 4"; // Carlsen ep Mate #2
     //"3nk3/p2R4/3P1Kp1/8/5p2/3bp3/3p4/8 w - - 0 1"; // Long Puzzle [2023-01-16 17-ply in 5:18 @1.272 MHz over 402.36 Mnode] eval 0.00 after:
     // 1. Re7+ Kf8 2. d7 Kg8 3. Re8+ Kh7 4. Rxd8 d1=Q 5. Rh8+ Kxh8 6. d8=Q+ Kh7 7. Qc7+ Kh6 8. Qxf4+ Kh7 9. Qc7+ Kh6 10. Qf4+@ Kh7@
     // 11. Qc7 +@ Kh6@ 12. Qf4+=
@@ -99,7 +102,7 @@ namespace Command {
     //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
     //
     //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2023-01-08 14-ply in 35:53 @1.479 MHz over 3.185 Gnode] eval 1.63 after:
-    // 9. Bxh7+! Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ [12. Qd3+! f5 13. h5+ Kh6 14. Nxe6+ f4 15. Nxf8 Bf5 16. Bxf4+ g5 17. hxg6(ep)+ Kg7 18. Bh6+ Kg8 19. Qe3 Nxg6 20. Nxg6 Bxg6 21. Qg3!]
+    // 9. Bxh7+! Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ [12. Qd3+! f5 13. h5+ Kh6 14. Nxe6+ f4 15. Nxf8 Bf5 16. Bxf4+ g5 17. hxg6+ {ep} Kg7 18. Bh6+ Kg8 19. Qe3 Nxg6 20. Nxg6 Bxg6 21. Qg3!]
     // 12... Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bc1xh6 Qa5xc3+ 18. Bh6d2 Qc3xd4
     // [2022-11-19 15-ply in 48:16 @1.452 MHz over 4.206 Gnode] eval 1.62 after:
     // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ Kh6 13. Nxe6+ Kh7 14. Nxf8+ Kg8 15. h6 Bxc3+ 16. bxc3 gxh6 17. Bxh6 Qxc3+ 18. Kf1 Nxd4 19. Bd2 Qd3+

@@ -114,55 +114,40 @@ namespace Logging {
       }
     }
 
-    private static void Write(String sFormat, params Object[] oArgs) {
-      var s = Format(sFormat, oArgs);
+    private static void Write(String s) {
       Console.Write(s);
       LogWrite(s);
     }
 
-    private static void WriteLine() {
+    private static void WriteLine(String? s = default) {
+      if (s != null)
+        Write(s);
+
       Write("\n");
       LogFlush();
     }
 
-    private static void WriteLine(String s) {
-      if (s != null) {
-        Write(s);
-        WriteLine();
-      }
+    public static void Log(String s) {
+      Write(s);
     }
 
-    private static void WriteLine(String sFormat, params Object[] oArgs) {
-      var s = Format(sFormat, oArgs);
+    public static void LogLine(String? s = default) {
       WriteLine(s);
     }
 
-    public static void Log(String sFormat, params Object[] oArgs) {
-      Write(sFormat, oArgs);
-    }
+    public static void LogInfo(Level level, String? s = default) {
+      if (level < LogLevel) return;
 
-    public static void LogLine(String sFormat, params Object[] oArgs) {
-      WriteLine(sFormat, oArgs);
-    }
-
-    public static void LogLine() {
-      WriteLine();
-    }
-
-    public static void LogInfo(Level level, String sFormat, params Object[] oArgs) {
-      if (LogLevel <= level) {
+      if (s == null)
+        WriteLine();
+      else {
         var sb = new StringBuilder(sInfo);
         sb.Append(cSpace);
         sb.Append(level);
         sb.Append(cSpace);
-        sb.AppendFormat(sFormat, oArgs);
+        sb.Append(s);
         WriteLine(sb.ToString());
       }
-    }
-
-    public static void LogInfoNewLine(Level level) {
-      if (LogLevel <= level)
-        WriteLine();
     }
     #endregion
   }

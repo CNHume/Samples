@@ -423,7 +423,7 @@ namespace Engine {
 
     internal static void testOrth(
       String sLabel, Plane qp, Boolean bRotateBoard = false, Boolean bFlip = false) {
-      LogLine($"{sLabel}");
+      LogLine(sLabel);
       LogLine();
       WriteOrth(qp, bRotateBoard, bFlip);
     }
@@ -485,7 +485,7 @@ namespace Engine {
 
     private static void testDiag(
       String sLabel, Plane qp, bool bRotateBoard = false) {
-      LogLine($"{sLabel}");
+      LogLine(sLabel);
       LogLine();
       writeDiag(qp, bRotateBoard);
     }

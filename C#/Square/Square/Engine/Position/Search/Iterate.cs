@@ -178,7 +178,7 @@ namespace Engine {
            vDepth++) {
 #if DisplayDepth
         if (UCI.IsDebug) {
-          LogInfoNewLine(Level.note);
+          LogInfo(Level.note);
           LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
 #endif
@@ -236,7 +236,7 @@ namespace Engine {
         var vDepth = tc.Plies;
 #if DisplayDepth
         if (UCI.IsDebug) {
-          LogInfoNewLine(Level.note);
+          LogInfo(Level.note);
           LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
         }
 #endif

@@ -176,7 +176,7 @@ namespace Engine {
 
     [Conditional("TotalMoves")]
     private void displayPseudoMoveTotals() {
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       LogInfo(Level.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
       if (MoveTotal != 0) {
@@ -211,7 +211,7 @@ namespace Engine {
     private void displayPVDoubleHistogram() {
       if (PVDoubleTotal <= 0) return;
 
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       for (var wSearchPlies = PVDoubleMinPly; wSearchPlies <= PVDoubleMaxPly; wSearchPlies++) {
         var wCountPly = modPly(wSearchPlies);
         var qResearches = PVDoubleCount[wCountPly];
@@ -236,7 +236,7 @@ namespace Engine {
       var lEarlyMoveTotal = WhiteEarlyMoveTotal + BlackEarlyMoveTotal;
       if (lEarlyMoveTotal <= 0) return;
 
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       for (var wSearchPlies = EarlyMoveMinPly; wSearchPlies <= EarlyMoveMaxPly; wSearchPlies++) {
         var wCountPly = modPly(wSearchPlies);
         var qResearches = EarlyMoveCount[wCountPly];
@@ -263,7 +263,7 @@ namespace Engine {
 
     [Conditional("TotalEarlyMoves")]
     private void displayEarlyMoveTotals() {
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       displayEarlyMoveCounts(SideName.White, WhiteEarlyMoveTotal, WhiteSearchedPositionCount);
       displayEarlyMoveCounts(SideName.Black, BlackEarlyMoveTotal, BlackSearchedPositionCount);
 
@@ -272,7 +272,7 @@ namespace Engine {
 
     [Conditional("ShowDetails")]
     private void displayDetails() {
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       if (RepetitionSearches > 0) {
         var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
         LogInfo(Level.data, $"Moves/Repetition = {dMovesPerRepetition:n2}");
@@ -294,7 +294,7 @@ namespace Engine {
 
     [Conditional("ShowEvals")]
     private void displayEvals() {
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
 
       if (LegalMoveTotal == 0) {
         var qStaticEvals = TotalEvals - FullEvals;
@@ -320,7 +320,7 @@ namespace Engine {
 
       var counts = CXPMemo.Counts;
       if (counts != default(SimpleCounter)) {
-        LogInfoNewLine(Level.data);
+        LogInfo(Level.data);
         var uCapacity = CXPMemo.LookupLength;
         counts.Display(uCapacity);
       }
@@ -333,7 +333,7 @@ namespace Engine {
 
       var counts = PXPMemo.Counts;
       if (counts != default(SimpleCounter)) {
-        LogInfoNewLine(Level.data);
+        LogInfo(Level.data);
         var uCapacity = PXPMemo.LookupLength;
         counts.Display(uCapacity);
       }
@@ -345,7 +345,7 @@ namespace Engine {
         return;                         //[Safe]
 
       var counts = QXPTank.Counts;
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       if (counts != default(ProbeCounter)) {
         var uCapacity = QXPTank.LookupLength * QXPTank.LookupBuckets;
         counts.Display(uCapacity);
@@ -358,7 +358,7 @@ namespace Engine {
         return;                         //[Safe]
 
       var counts = XPTank.Counts;
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
 #if QuiescentTryXP
       //
       //[Note]Qxnt counts track Quiescent XP Probes made by Quiet().
@@ -379,7 +379,7 @@ namespace Engine {
         return;                         //[Safe]
 
       var counts = XPMTank.Counts;
-      LogInfoNewLine(Level.data);
+      LogInfo(Level.data);
       if (counts != default(ProbeCounter)) {
         var uCapacity = XPMTank.LookupLength * XPMTank.LookupBuckets;
         counts.Display(uCapacity);

@@ -438,6 +438,7 @@ namespace Engine {
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
       var vPiece = PieceIndex(uPiece);
+      var bEnPassant = false;
 
       if (bCastles) {
         #region Castles
@@ -462,7 +463,6 @@ namespace Engine {
       else {
         var sqTo = (Sq)nTo;
         var sqFrom = (Sq)nFrom;
-        var bEnPassant = false;
 
         if (vPiece != vP6)              // Pawn symbols are also elided when bExpandFrom is set
           sb.Append(PieceSymbol(vPiece));
@@ -500,20 +500,23 @@ namespace Engine {
 
         sb.Append(sqTo);
 
-        #region Pawn Move Annotations
+        #region Promotion
         if (vPiece == vP6) {
           if (uPromotion > 0) {
             var vPromotion = PieceIndex(uPromotion);
             var sPromotion = PieceSymbol(vPromotion);
             sb.Append(sNotePromotion).Append(sPromotion);
           }
-          else if (bEnPassant)
-            sb.Append("(ep)");
         }
         #endregion
       }
 
-      return sb.annotation(move);
+      sb.annotation(move);
+
+      if (bEnPassant)
+        sb.Append(" {ep}");
+
+      return sb;
     }
 
     //
