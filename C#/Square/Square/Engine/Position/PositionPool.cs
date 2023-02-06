@@ -37,7 +37,7 @@ namespace Engine {
         //
         //[Note]Flags will be reset when resetMove() calls CopyTo()
         //
-        Parent.CopyFlagsTo(this);
+        CopyFlags(Parent);
 #if InheritMoveTypes
         moveTypeOrdering = Parent.moveTypeOrdering;
 #else

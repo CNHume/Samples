@@ -128,7 +128,9 @@ namespace Engine {
       }
     }
 
-    [MemberNotNull(nameof(Friend), nameof(Foe))]
+    [MemberNotNull(
+      nameof(Friend),
+      nameof(Foe))]
     private void initSides() {
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
       (Friend, Foe) = GetSides(WTM());
@@ -290,7 +292,7 @@ namespace Engine {
       if (Side == null)
         throw new ArgumentNullException(nameof(Side));
 
-      board.CopyTo(this);
+      Copy(board);
     }
 
     public Object Clone() {
@@ -302,36 +304,31 @@ namespace Engine {
     // Deep Copy:
     //
     [Conditional("BuildAtxToCount")]
-    protected void CopyAtxToCountTo(Board board) {
-      Array.Copy(AtxToCount, board.AtxToCount, AtxToCount.Length);
+    private void copyAtxToCount(Board board) {
+      Array.Copy(board.AtxToCount, AtxToCount, board.AtxToCount.Length);
     }
 
-    public void CopyFlagsTo(Board board) {                      // 1 byte
+    public void CopyFlags(Board board) {// 1 byte
       for (var nSide = 0; nSide < Side?.Length; nSide++)
-        board.Side[nSide].FlagsSide = Side[nSide].FlagsSide & SideFlags.Copy;
+        Side[nSide].CopyFlags(board.Side[nSide]);
 
-      board.FlagsTurn = FlagsTurn & TurnFlags.Copy;
-      board.FlagsGame = FlagsGame & GameFlags.Copy;
-      board.FlagsDraw = FlagsDraw & DrawFlags.Copy;
-      board.FlagsMode = FlagsMode & ModeFlags.Copy;
+      FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
+      FlagsGame = board.FlagsGame & GameFlags.Copy;
+      FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
+      FlagsMode = board.FlagsMode & ModeFlags.Copy;
     }
 
     #region BoardSide
-    protected void CopySidesTo(Board board) {
-      for (var nSide = 0; nSide < Side?.Length; nSide++) {      // 34 bytes + 1 nullable byte
-#if HashPieces
-        board.Side[nSide].PieceHash = Side[nSide].PieceHash;    // 8-bytes
-#endif
-        board.Side[nSide].Counts = Side[nSide].Counts;          // 2-bytes
-        board.Side[nSide].KingPos = Side[nSide].KingPos;        // 1-byte (nullable)
-
-        board.Side[nSide].Piece = Side[nSide].Piece;            // 8-bytes
-        board.Side[nSide].PawnA1H8Atx = Side[nSide].PawnA1H8Atx;// 8-bytes optimizing resetPawnAtx()
-        board.Side[nSide].PawnA8H1Atx = Side[nSide].PawnA8H1Atx;// 8-bytes
-      }
+    [MemberNotNull(
+      nameof(Friend),
+      nameof(Foe)
+      )]
+    private void copySides(Board board) {
+      for (var nSide = 0; nSide < Side?.Length; nSide++)
+        Side[nSide].Copy(board.Side[nSide]);
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (board.Friend, board.Foe) = board.GetSides(WTM());
+      (Friend, Foe) = GetSides(WTM());
     }
     #endregion                          // BoardSide
 
@@ -341,31 +338,35 @@ namespace Engine {
     // TurnFlags include WTM.  WTM determines which side is to move; and should agree with the Ply Parity.
     // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
     //
-    public void CopyTo(Board board) {
-      CopyFlagsTo(board);                   // 6-bytes for Flags
+    [MemberNotNull(
+      nameof(Friend),
+      nameof(Foe))]
+    public void Copy(Board board) {
+      CopyFlags(board);                 // 6-bytes for Flags
 
-      board.NullPly = NullPly;              // 2-bytes
-      board.GamePly = GamePly;              // 2-bytes
-      board.HalfMoveClock = HalfMoveClock;  // 1-byte
-      board.Hash = Hash;                    // 8-bytes
-      board.HashPawn = HashPawn;            // 8-bytes
+      NullPly = board.NullPly;          // 2-bytes
+      GamePly = board.GamePly;          // 2-bytes
+      HalfMoveClock =
+        board.HalfMoveClock;            // 1-byte
+      Hash = board.Hash;                // 8-bytes
+      HashPawn = board.HashPawn;        // 8-bytes
 
-      board.Pawn = Pawn;                    // 8-bytes
-      board.King = King;                    // 8-bytes
-      board.Knight = Knight;                // 8-bytes
-      board.DiagPiece = DiagPiece;          // 8-bytes
-      board.OrthPiece = OrthPiece;          // 8-bytes
+      Pawn = board.Pawn;                // 8-bytes
+      King = board.King;                // 8-bytes
+      Knight = board.Knight;            // 8-bytes
+      DiagPiece = board.DiagPiece;      // 8-bytes
+      OrthPiece = board.OrthPiece;      // 8-bytes
 
-      board.RankPiece = RankPiece;          // 8-bytes
+      RankPiece = board.RankPiece;      // 8-bytes
 #if !Magic
-      board.FilePiece = FilePiece;          // 8-bytes
-      board.A1H8Piece = A1H8Piece;          // 8-bytes
-      board.A8H1Piece = A8H1Piece;          // 8-bytes
+      FilePiece = board.FilePiece;      // 8-bytes
+      A1H8Piece = board.A1H8Piece;      // 8-bytes
+      A8H1Piece = board.A8H1Piece;      // 8-bytes
 #endif
-      CopySidesTo(board);                   // 2 x 35 = 70-bytes
+      copySides(board);                 // 2 x 35 = 70-bytes
 
-      board.ensureAtxToCount();         //[Conditional]
-      CopyAtxToCountTo(board);          //[Conditional] 64-bytes
+      ensureAtxToCount();               //[Conditional]
+      copyAtxToCount(board);            //[Conditional] 64-bytes
     }
     #endregion                          // Copy Methods
     #endregion                          // Constructors

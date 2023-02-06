@@ -51,6 +51,23 @@ namespace Engine {
         Position = position;
         Parameter = parameter;
       }
+
+      public void Copy(BoardSide side) {
+        // 34 bytes + 1 nullable byte
+#if HashPieces
+        PieceHash = side.PieceHash;     // 8-bytes
+#endif
+        Counts = side.Counts;           // 2-bytes
+        KingPos = side.KingPos;         // 1-byte (nullable)
+
+        Piece = side.Piece;             // 8-bytes
+        PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes optimizing resetPawnAtx()
+        PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
+      }
+
+      public void CopyFlags(BoardSide side) {
+        FlagsSide = side.FlagsSide & SideFlags.Copy;
+      }
       #endregion                        // Constructors
 
       #region Methods

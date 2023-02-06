@@ -142,7 +142,7 @@ namespace Engine {
     //
     public void CopyTo(Position child) {
       child.EnsureSides(child);
-      base.CopyTo(child);
+      child.Copy((Board)this);
       child.staticDelta = staticDelta;
       child.staticTotal = staticTotal;
       child.extensionCounts = extensionCounts;
