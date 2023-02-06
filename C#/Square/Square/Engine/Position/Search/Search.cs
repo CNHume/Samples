@@ -740,8 +740,7 @@ namespace Engine {
       var clone = State!.Push(Parent);  //[Note]Parent may be null
 
       try {
-        //[Safe]if (bRootPosition)      // Any Parent should have the position already
-        CloneTo(clone);                 // Prepare for resetMove()
+        clone.Clone(this);              // Prepare for resetMove()
         clone.FlagsMode |= ModeFlags.Reduced;
         mValue = clone.search(wDraft, mAlpha, mBeta, moveExcluded);
       }

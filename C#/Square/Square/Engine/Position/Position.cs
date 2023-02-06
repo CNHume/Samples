@@ -127,7 +127,7 @@ namespace Engine {
     }
 
     public Position() {
-      EnsureSides(this);
+      ensureSides();
 #if TestPawnFeatures
       newFeatures();
 #endif
@@ -137,27 +137,35 @@ namespace Engine {
       newPseudoMoves();
     }
 
+    private void ensureSides() {
+      foreach (var parameter in Parameter) {
+        var nSide = (Int32)parameter.SideName;
+        if (Side[nSide] == null)
+          Side[nSide] = new PositionSide(this, parameter);
+      }
+    }
+
     //
     // Used by resetMove()
     //
-    public void CopyTo(Position child) {
-      child.EnsureSides(child);
-      child.Copy((Board)this);
-      child.staticDelta = staticDelta;
-      child.staticTotal = staticTotal;
-      child.extensionCounts = extensionCounts;
+    public void Copy(Position position) {
+      //[Safe]ensureSides();
+      base.Copy(position);
+      staticDelta = position.staticDelta;
+      staticTotal = position.staticTotal;
+      extensionCounts = position.extensionCounts;
 #if InheritMoveTypes
-      child.moveTypeOrdering = moveTypeOrdering;
+      moveTypeOrdering = position.moveTypeOrdering;
 #endif
     }
 
     //
     // Deep Copy:
     //
-    public void CloneTo(Position child) {
-      CopyTo(child);
-      child.CurrentMove = CurrentMove;
-      child.Name = Name;
+    public void Clone(Position position) {
+      Copy(position);
+      CurrentMove = position.CurrentMove;
+      Name = position.Name;
     }
     #endregion
 

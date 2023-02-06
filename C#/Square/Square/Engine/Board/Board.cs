@@ -120,14 +120,6 @@ namespace Engine {
     }
 
     #region Initialization Methods
-    protected void EnsureSides(Position position) {
-      foreach (var parameter in Parameter) {
-        var nSide = (Int32)parameter.SideName;
-        if (Side[nSide] == null)
-          Side[nSide] = new PositionSide(position, parameter);
-      }
-    }
-
     [MemberNotNull(
       nameof(Friend),
       nameof(Foe))]

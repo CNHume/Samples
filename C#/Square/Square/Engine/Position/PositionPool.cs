@@ -35,7 +35,8 @@ namespace Engine {
         // Ensure that FlagsTurn starts with Parent WTM.  This allows
         // IsLegal() to ascertain whether tryMove() was ever called:
         //
-        //[Note]Flags will be reset when resetMove() calls CopyTo()
+        //[Note]Flags are reset when resetMove() calls Position.Copy(),
+        // which calls Board.Copy(), which calls Board.CopyFlags()
         //
         CopyFlags(Parent);
 #if InheritMoveTypes
