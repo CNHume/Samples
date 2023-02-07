@@ -62,13 +62,13 @@ namespace Engine {
     }
 
     private Eval beginIteration(PlyDepth vDepth, Eval mValue) {
-      State!.StartDepth = vDepth;
+      State.StartDepth = vDepth;
       var sb = new StringBuilder();
       var bWTM = WTM();
       var nLen = AspirationDelta.Length;
 
-      var nLo = State!.IsAspiration ? 0 : nLen;
-      var nHi = State!.IsAspiration ? 0 : nLen;
+      var nLo = State.IsAspiration ? 0 : nLen;
+      var nHi = State.IsAspiration ? 0 : nLen;
 
       var mAlpha = EvalUndefined;
       var mBeta = EvalUndefined;
@@ -98,7 +98,7 @@ namespace Engine {
         else if (mBeta == EvalUndefined)
           mBeta = PlusInfinity;
 
-        if (State!.IsAspiration && UCI.IsDebug) {
+        if (State.IsAspiration && UCI.IsDebug) {
           var mEvalAlpha = ReflectValue(bWTM, mAlpha);
           var mEvalBeta = ReflectValue(bWTM, mBeta);
 
@@ -116,7 +116,7 @@ namespace Engine {
         // Any Variation[] previously reported will now be overwritten.
         // Reset # of PV found in the current iteration:
         //
-        State!.VariationCount = 0;
+        State.VariationCount = 0;
 
         //
         // Enter recursive search:
@@ -158,13 +158,13 @@ namespace Engine {
       var vDepthLimit = bound.Plies;
       var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
-      var sw = State!.IterationTimer;
+      var sw = State.IterationTimer;
       if (sw == null)
         throw new PositionException("Null IterationTimer Stopwatch");
       else
         sw.Start();
 
-      var qTotal1 = (UInt64)State!.NodeTotal;
+      var qTotal1 = (UInt64)State.NodeTotal;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
 #endif
@@ -188,7 +188,7 @@ namespace Engine {
         if (UCI.IsDebug) {
           sw.Stop();
           var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-          var qTotal2 = (UInt64)State!.NodeTotal;
+          var qTotal2 = (UInt64)State.NodeTotal;
           var qNodeDelta = qTotal2 - qTotal1;
 
           GameState.displayRate(dElapsedMS, qNodeDelta);
@@ -197,7 +197,7 @@ namespace Engine {
 #if !TestRegression                     // Elide final prediction
             vDepth == vDepthLimit ? 0UL :
 #endif
-          State!.Predict(vStartDepth, vDepth, qNodeDelta);
+          State.Predict(vStartDepth, vDepth, qNodeDelta);
 
           GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
           qPredicted1 = qPredicted2;
@@ -218,20 +218,20 @@ namespace Engine {
 
     public void IterateCases() {
 #if DisplayDepth
-      var sw = State!.IterationTimer;
+      var sw = State.IterationTimer;
       if (sw == null)
         throw new PositionException("Null IterationTimer Stopwatch");
       else
         sw.Start();
 
-      var qTotal1 = State!.NodeTotal;
+      var qTotal1 = State.NodeTotal;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
 #endif
 #endif
       var testCases = getTestCases();
 
-      var pc = State!.Case;
+      var pc = State.Case;
       foreach (var tc in testCases) {
         var vDepth = tc.Plies;
 #if DisplayDepth
@@ -250,11 +250,11 @@ namespace Engine {
           var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
           GameState.displayRate(dElapsedMS, qNodeDelta);
 #if DisplayPrediction
-          var qPredicted2 = State!.Predict(0, vDepth, qNodeDelta);
+          var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
           GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
           qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
-          qTotal1 = State!.NodeTotal;
+          qTotal1 = State.NodeTotal;
           sw.Restart();
         }
 #endif                                  // DisplayDepth

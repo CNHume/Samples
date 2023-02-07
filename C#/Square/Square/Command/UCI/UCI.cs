@@ -307,8 +307,6 @@ namespace Command {
       return bContinue;
     }
 
-    [MemberNotNull(nameof(State))]
-
     [MemberNotNull(nameof(Parser))]
     protected void EnsureParser(String sCommand) {
       if (Parser == null)

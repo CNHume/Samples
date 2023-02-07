@@ -12,7 +12,7 @@ namespace Engine {
     #region Workspace Methods
     private void initNode() {
       if (Parent is null) {             // Root Position
-        State!.IsChess960 = false;      //[Init]
+        State.IsChess960 = false;       //[Init]
 
         GamePly = 0;                    //[Init]
         NullPly = 0;
@@ -70,11 +70,11 @@ namespace Engine {
 
     #region Wrapper Methods for State.Push() and State.Pop()
     public Position Push() {
-      return State!.Push(this);
+      return State.Push(this);
     }
 
     public void Pop(ref Position child) {
-      child.State!.Pop(ref child);
+      child.State.Pop(ref child);
     }
     #endregion
   }

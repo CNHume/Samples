@@ -456,7 +456,7 @@ namespace Command {
           //
           // The following generates a random Chess960 Index using a SeededRandom instance:
           //
-          wChess960 = (UInt16)position.State!.SeededRandom.Next(960);
+          wChess960 = (UInt16)position.State.SeededRandom.Next(960);
           position.SetFischerRandom(wChess960);
           //[Note]A list of moves is disallowed, because the choice of position was random
         }

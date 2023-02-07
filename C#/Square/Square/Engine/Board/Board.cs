@@ -34,7 +34,7 @@ namespace Engine {
   using Plane = UInt64;
   using Ply = UInt16;
 
-  partial class Board : ICloneable, IEquatable<Board> {
+  partial class Board : IEquatable<Board> {
     /*
      *            Hungarian Notation
      *
@@ -113,7 +113,8 @@ namespace Engine {
       }
     }
 
-    public Board() {
+    public Board(GameState state) {
+      State = state;
       Side = new PositionSide[nSides];
       initSides();
       newAtxToCount();               //[Conditional]
@@ -274,23 +275,6 @@ namespace Engine {
     }
     #endregion                          // Static Initialization
 
-    //
-    // Copy Constructor:
-    //
-    public Board(Board board) {
-      if (AtxToCount == null)
-        throw new ArgumentNullException(nameof(AtxToCount));
-
-      if (Side == null)
-        throw new ArgumentNullException(nameof(Side));
-
-      Copy(board);
-    }
-
-    public Object Clone() {
-      return new Board(this);
-    }
-
     #region Copy Methods
     //
     // Deep Copy:
@@ -332,8 +316,11 @@ namespace Engine {
     //
     [MemberNotNull(
       nameof(Friend),
-      nameof(Foe))]
+      nameof(Foe),
+      nameof(State))]
     public void Copy(Board board) {
+      State = board.State;
+
       CopyFlags(board);                 // 6-bytes for Flags
 
       NullPly = board.NullPly;          // 2-bytes

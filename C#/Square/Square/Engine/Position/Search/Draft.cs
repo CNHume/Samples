@@ -95,7 +95,7 @@ namespace Engine {
 
     private Boolean canExtend(Int32 nExt) {
       var vCount = GetNibble(extensionCounts, nExt);
-      var vLimit = GetNibble(State!.ExtensionLimit, nExt);
+      var vLimit = GetNibble(State.ExtensionLimit, nExt);
       return vCount < vLimit;
     }
 

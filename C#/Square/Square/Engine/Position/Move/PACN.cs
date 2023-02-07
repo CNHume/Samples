@@ -136,7 +136,7 @@ namespace Engine {
         // as capturing its own Rook are assumed to be attempts to castle.  CanCastle()
         // will be called if needed, when this method returns.
         //
-        var bUnambiguousRook = State!.IsChess960 && vPieceTo == vR6;
+        var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
         var bUnambiguousKing = (AtxKing[nFrom] & qpTo) == 0;
         if (bUnambiguousRook || bUnambiguousKing) {
           var rule = Friend.Parameter.Rule;
@@ -194,7 +194,7 @@ namespace Engine {
         throw new MoveException($"Illegal Castle: {sMove}");
 #if DebugParse
       var sb = new StringBuilder();
-      sb.AppendPACN(move, Side, State!.IsChess960);
+      sb.AppendPACN(move, Side, State.IsChess960);
       sb.FlushLine();
 #endif
       return move;

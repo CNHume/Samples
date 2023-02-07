@@ -137,14 +137,14 @@ namespace Engine {
     // State may well be made static.  This minimal overhead leaves
     // open the possibility of analyzing multiple games in parallel.
     //
-    internal GameState? State { get; set; }
+    internal GameState State { get; set; }
 
     public Ply SearchPly {
       //
       // GamePly, and therefore also SearchPly is advanced by toggleWTM().
       // GamePly should be even iff WTM.
       //
-      get { return (Ply)(GamePly - State!.MovePly); }
+      get { return (Ply)(GamePly - State.MovePly); }
     }
 
     public Plane Bishop { get { return DiagPiece & ~OrthPiece; } }

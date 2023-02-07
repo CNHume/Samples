@@ -89,7 +89,7 @@ namespace Engine {
       //
       //[ToDo]Allocate a separate Pool of positions for each thread:
       //
-      PositionPool = new Pool<Position>();
+      PositionPool = new PooledPosition(this);
 
       Bound = new SearchBound();
       IsChess960 = false;
@@ -225,7 +225,6 @@ namespace Engine {
     public Position Push(Position? parent) {
       var child = PositionPool.Push();
       child.Parent = parent;
-      child.State = this;
       child.Clear();
       return child;
     }

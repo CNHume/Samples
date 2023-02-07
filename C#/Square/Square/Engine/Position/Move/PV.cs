@@ -115,15 +115,15 @@ namespace Engine {
     public Eval AddPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {
       var bWTM = WTM();
       //[Lock]UCI may change this at any time.  See GameState.newVariations()
-      var bHasValue = 0 < State!.VariationCount;
-      var bGrow = State!.VariationCount < State!.MultiPVLength;
+      var bHasValue = 0 < State.VariationCount;
+      var bGrow = State.VariationCount < State.MultiPVLength;
 
       if (bGrow)
-        State!.VariationCount++;
+        State.VariationCount++;
 
-      var bRoomToGrow = State!.VariationCount < State!.MultiPVLength;
-      var vn = State!.Variation;
-      var nFinal = State!.VariationCount - 1;
+      var bRoomToGrow = State.VariationCount < State.MultiPVLength;
+      var vn = State.Variation;
+      var nFinal = State.VariationCount - 1;
       var bPlace = bGrow || bHasValue && mValue > vn[nFinal].Value;
 
       if (bPlace) {
@@ -155,7 +155,7 @@ namespace Engine {
         if (nPlace == 0) {
           var sb = new StringBuilder();
           var mEval = ReflectValue(bWTM, mValue);
-          sb.UpdateBestInfo(State!.BestMoves, lineMoves, mEval, bPonder, Side, State!.IsChess960)
+          sb.UpdateBestInfo(State.BestMoves, lineMoves, mEval, bPonder, Side, State.IsChess960)
             .FlushLine();
         }
 #if DebugPlace
@@ -165,7 +165,7 @@ namespace Engine {
           sb.AppendFormat($"{sGrow} vn[{nPlace}]");
           LogInfo(Level.note, sb.ToString());
           sb.Clear();
-          State!.MovePosition.writePV(sb, nPlace, bWTM);
+          State.MovePosition.writePV(sb, nPlace, bWTM);
         }
 #endif
       }
@@ -182,7 +182,7 @@ namespace Engine {
       // moveFound not always defined for EvalType.Upper [Fail Low]
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
         var moveNoted = moveFound;
-        if (!State!.IsPure) {           // Standard Algebraic Notation (AN) supports abbreviation
+        if (!State.IsPure) {            // Standard Algebraic Notation (AN) supports abbreviation
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else
@@ -242,7 +242,7 @@ namespace Engine {
           moveNoted = Move.NullMove;
         }
 
-        if (!State!.IsPure)             // Standard Algebraic Notation (AN) supports abbreviation
+        if (!State.IsPure)              // Standard Algebraic Notation (AN) supports abbreviation
           moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
         unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
@@ -290,9 +290,9 @@ namespace Engine {
       var child = Push();               // Push Position to make the moves
       try {
         var bWTM = WTM();
-        for (var nLine = 0; nLine < State!.VariationCount; nLine++) {
-          var nVInverse = State!.VariationCount - (nLine + 1);
-          var vn = State!.Variation[nVInverse];
+        for (var nLine = 0; nLine < State.VariationCount; nLine++) {
+          var nVInverse = State.VariationCount - (nLine + 1);
+          var vn = State.Variation[nVInverse];
           var mValue = ReflectValue(bWTM, vn.Value);
           if (vn.Moves != null) {
             child.resetMove();          // Usually called via [null|try]Move()
@@ -308,8 +308,8 @@ namespace Engine {
 
     #region Writer Methods
     private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
-      sb.WriteVariation(State!.Variation[nLine], nLine, State!.MultiPVLength > 1,
-                        bWTM, GamePly, State!.IsPure, Side, State!.IsChess960)
+      sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
+                        bWTM, GamePly, State.IsPure, Side, State.IsChess960)
         .FlushLine();
     }
 
@@ -317,7 +317,7 @@ namespace Engine {
     private void writeMultiPV() {
       var bWTM = WTM();
       var sb = new StringBuilder();
-      for (var nLine = 0; nLine < State!.VariationCount; nLine++)
+      for (var nLine = 0; nLine < State.VariationCount; nLine++)
         writePV(sb, nLine, bWTM);
     }
 
@@ -345,7 +345,7 @@ namespace Engine {
       Display(sLabel);
       // The following invokes Position.MovesFromParent()
       var bAbbreviate = false;
-      State!.ListMovesFromRoot(this, State!.IsPure, bAbbreviate);
+      State.ListMovesFromRoot(this, State.IsPure, bAbbreviate);
     }
     #endregion
   }

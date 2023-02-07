@@ -110,7 +110,7 @@ namespace Engine {
     #region Evaluation Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean isEndgame(Eval mStaticTotal) {
-      return mStaticTotal <= State!.EndgameValue;       // 22.25
+      return mStaticTotal <= State.EndgameValue;        // 22.25
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -138,8 +138,8 @@ namespace Engine {
     // on the game phase, and the relative strength of the two players.
     //
     private Eval contempt() {
-      GameState.AtomicIncrement(ref State!.DrawTotal);
-      var mDrawValue = (Eval)(-State!.Contempt);        // Strength advantage of White over Black
+      GameState.AtomicIncrement(ref State.DrawTotal);
+      var mDrawValue = (Eval)(-State.Contempt); // Strength advantage of White over Black
       return mDrawValue;
     }
 #if MaterialBalance
@@ -160,8 +160,8 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var compBlack = State!.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
-      var compWhite = State!.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
+      var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
+      var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
       setEndGameFlags();                // Composition2 values do not depend on GameFlags.EndGame
 
@@ -196,7 +196,7 @@ namespace Engine {
       var sComposition = sb.ToString();
       LogLine(sComposition);
 #endif
-      var comp = State!.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, blackSide, whiteSide);
+      var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, blackSide, whiteSide);
 #endif
       return ((Eval)comp.Delta, (Eval)comp.Total);
     }
@@ -215,12 +215,12 @@ namespace Engine {
       staticTotal = Position.EvalUndefined;
     }
 
-    private Eval staticEval(out PawnPosition? pp) {   //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
+    private Eval staticEval(out PawnPosition? pp) {     //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
       pp = default;
       if (IsInsufficient())
         return contempt();
 
-      GameState.AtomicIncrement(ref State!.TotalEvals); // vs. FullEvaluations
+      GameState.AtomicIncrement(ref State.TotalEvals);  // vs. FullEvaluations
 
       setEndGameFlags();
 
@@ -233,7 +233,7 @@ namespace Engine {
       (Eval mDelta, Eval mTotal) = getValue();
 
       if (Pawn != 0) {                  // Else PawnHash == default(Hashcode)
-        pp = State!.GetPXP(this);
+        pp = State.GetPXP(this);
 
         mDelta += pp.Delta;
         mTotal += pp.Total;
@@ -283,7 +283,7 @@ namespace Engine {
       //[Note]StaticEvaluations = TotalEvaluations - FullEvaluations
       // Draws are included; because they exit early.
       //
-      GameState.AtomicIncrement(ref State!.FullEvals);
+      GameState.AtomicIncrement(ref State.FullEvals);
 
       var mValue = staticEval(out PawnPosition? pp);
 
@@ -319,7 +319,7 @@ namespace Engine {
 #else
           var bDefault = pp == default(PawnPosition);
 #endif
-          if (bDefault) pp = State!.GetPXP(this);
+          if (bDefault) pp = State.GetPXP(this);
           const Boolean bWhiteRook = true;
           var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
           var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
@@ -372,7 +372,7 @@ namespace Engine {
       // the lowest possible evaluation is given.
       //
       if (InCheck()) {
-        GameState.AtomicIncrement(ref State!.MateTotal);
+        GameState.AtomicIncrement(ref State.MateTotal);
         return debitMate(-MateMax, SearchPly);
       }
 

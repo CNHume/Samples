@@ -189,7 +189,7 @@ namespace Engine {
 
       var sSideToMove = WTM() ? " w " : " b ";
       sb.Append(sSideToMove)
-        .AppendCastlingRights(Side, State!.IsChess960);
+        .AppendCastlingRights(Side, State.IsChess960);
 
       if (!IsPassed())
         sb.Append(" -");
@@ -363,7 +363,7 @@ namespace Engine {
     public StringBuilder Display(StringBuilder? sb = default) {
       if (sb == null) sb = new StringBuilder();
       appendProperties(sb);
-      appendBoard(sb, State!.IsFlip);
+      appendBoard(sb, State.IsFlip);
       return sb.FlushLine();
     }
 

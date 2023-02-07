@@ -55,7 +55,7 @@ namespace Engine {
   using PlyDepth = Byte;
 
   [DebuggerDisplay("{debugString}")]
-  partial class Position : Board, ICloneable {
+  partial class Position : Board {
     #region Constants
     protected const PlyDepth vStartDepthDefault = 6;
     protected const Depth wSwapDepthMax = 1;
@@ -126,7 +126,7 @@ namespace Engine {
       defaultMoveTypeOrdering = compressMoveTypes(defaultMoveTypes);
     }
 
-    public Position() {
+    public Position(GameState state) : base(state) {
       ensureSides();
 #if TestPawnFeatures
       newFeatures();

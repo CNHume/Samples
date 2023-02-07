@@ -37,7 +37,7 @@ namespace Engine {
 
   partial class GameState {
     #region Thread Management Fields
-    public Pool<Position> PositionPool;
+    public PooledPosition PositionPool;
 #if UseTask
     public CancellationTokenSource? CancellationTokenSource;
     public CancellationToken CancellationToken;

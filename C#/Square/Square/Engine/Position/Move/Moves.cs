@@ -28,9 +28,9 @@ namespace Engine {
       Copy(Parent);
       ResetEP();                      // Clear En Passant state just prior to making a move
 #if DebugNodeTotal
-      var qNodeTotal = State!.MoveTotal + State!.NullMoveTotal;
-      if (State!.NodeTotal != qNodeTotal) {
-        Debug.Assert(State!.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
+      var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
+      if (State.NodeTotal != qNodeTotal) {
+        Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
         DisplayCurrent("resetMove()");
       }
 #endif
@@ -46,7 +46,7 @@ namespace Engine {
       CurrentMove = move;               // Current Pseudo Move
       var (bPrevented, bRestricted) = isPinned(move);
       if (bPrevented) {                 // Skip moves which violate known pins
-        GameState.AtomicIncrement(ref State!.PinSkipTotal);
+        GameState.AtomicIncrement(ref State.PinSkipTotal);
         return false;
       }
 
@@ -73,8 +73,8 @@ namespace Engine {
           restrictPiece(move);
       }
 
-      State!.IncMove(bLegal, bQxnt);
-      State!.MonitorBound(this);        // Pass position so heartbeat() can build getCurrentMoves()
+      State.IncMove(bLegal, bQxnt);
+      State.MonitorBound(this);         // Pass position so heartbeat() can build getCurrentMoves()
       return bLegal;
     }
 
@@ -91,8 +91,8 @@ namespace Engine {
       if (!bLegal)
         throw new BoardException("Illegal Null Move");
 
-      GameState.AtomicIncrement(ref State!.NullMoveTotal);
-      State!.MonitorBound(this);
+      GameState.AtomicIncrement(ref State.NullMoveTotal);
+      State.MonitorBound(this);
       return bLegal;
     }
 
@@ -152,17 +152,17 @@ namespace Engine {
 
     #region Draw By Repetition
     private void findRepetition() {
-      GameState.AtomicIncrement(ref State!.RepetitionSearches);
+      GameState.AtomicIncrement(ref State.RepetitionSearches);
       ClrRepetition();
       if (IsDraw0()) return;
       var bNullMade = IsNullMade();
 
       //
       //[Note]This search for 3-fold repetition extends to the initial position;
-      // not just to State!.MovePosition where the current search began.
+      // not just to State.MovePosition where the current search began.
       //
       for (var position = Parent; position is not null; position = position.Parent) {
-        GameState.AtomicIncrement(ref State!.RepetitionPlies);
+        GameState.AtomicIncrement(ref State.RepetitionPlies);
 
         //
         // Include Positions for both sides, stopping when the Repetition Cycle ends.

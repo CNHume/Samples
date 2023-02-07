@@ -46,7 +46,7 @@ namespace Engine {
       var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
 #if TestRewardMove
       var sb = new StringBuilder()
-        .AppendPACN(move, Side, State!.IsChess960)
+        .AppendPACN(move, Side, State.IsChess960)
         .Append($" by {parameter.SideName} is {type}");
       LogLine(sb.ToString());
 #endif
@@ -100,7 +100,7 @@ namespace Engine {
         var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
         if (nIndex >= 0) {
           nEarly++;
-          State!.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
+          State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
           var good = goodMoves[nIndex];
           var mGoodValue = good.Value;
           if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
@@ -110,7 +110,7 @@ namespace Engine {
       }
 
       var bWTM = WTM();
-      State!.AddEarlyTotal(bWTM, nEarly);
+      State.AddEarlyTotal(bWTM, nEarly);
 
       var mLateNext = mLateStart;
       var nGenerated = 0;
@@ -163,7 +163,7 @@ namespace Engine {
           var sm = SortMoves[nMoveIndex];
 #endif
           sb.Clear();
-          sb.AppendAN(sm.Move, Side, State!.IsChess960);
+          sb.AppendAN(sm.Move, Side, State.IsChess960);
           LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
 #if LazyMoveSort
           nMoveIndex++;
@@ -206,7 +206,7 @@ namespace Engine {
       foreach (var move in moves) {
         if (goodMoves.Exists(gm => equalMoves(gm.Move, move))) {
           earlyMoves.Add(move);
-          State!.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
+          State.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
         }
         else
           lateMoves.Add(move);
@@ -267,7 +267,7 @@ namespace Engine {
       }
 
       var nEarly = SiftedMoves.Count;
-      State!.AddEarlyTotal(bWTM, nEarly);
+      State.AddEarlyTotal(bWTM, nEarly);
 
       SiftedMoves.AddRange(lateMoves);
       var nGenerated = SiftedMoves.Count;

@@ -155,7 +155,7 @@ namespace Engine {
       else
         addPseudoMoves(moves);
 
-      return State!.IncPseudoMoveTotal(moves.Count);
+      return State.IncPseudoMoveTotal(moves.Count);
     }
     #endregion
 
@@ -206,7 +206,7 @@ namespace Engine {
       addKingCaptures(qpFoe, vKingPos, bWTM);
 #endif
       addPseudoMaterialMoves(moves);
-      return State!.IncPseudoMoveTotal(moves.Count);
+      return State.IncPseudoMoveTotal(moves.Count);
     }
     #endregion
 
@@ -248,7 +248,7 @@ namespace Engine {
       addKingCaptures(qpTo & ~qpFriend, vKingPos);
 #endif
       addPseudoSwaps(moves);
-      return State!.IncPseudoMoveTotal(moves.Count);
+      return State.IncPseudoMoveTotal(moves.Count);
     }
     #endregion
 

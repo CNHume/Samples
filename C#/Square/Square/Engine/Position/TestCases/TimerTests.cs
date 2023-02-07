@@ -273,7 +273,7 @@ namespace Engine {
     [Conditional("TimePlayMove")]
     private void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
       var sbMove = new StringBuilder();
-      sbMove.AppendPACN(mov, Side, State!.IsChess960);
+      sbMove.AppendPACN(mov, Side, State.IsChess960);
       var sw = timerStart($"{nameof(PlayMove)}({sbMove})", qTrials);
 
       // ~15 Mhz

@@ -328,8 +328,8 @@ namespace Engine {
       var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
       // Zero is sometimes used when the initial MoveNumber is unknown
       if (wMoveNumber == 0) wMoveNumber = 1;
-      State!.MovePly = plyCount(wMoveNumber);
-      if (!bWTM) State!.MovePly++;
+      State.MovePly = plyCount(wMoveNumber);
+      if (!bWTM) State.MovePly++;
       #endregion                        // Half Move Clock and Full Move Number
 
       Validate();
@@ -414,7 +414,7 @@ namespace Engine {
 
       validateCastlingSymmetry();
 
-      State!.IsChess960 = isChess960();
+      State.IsChess960 = isChess960();
     }
 
     private Boolean isChess960() {

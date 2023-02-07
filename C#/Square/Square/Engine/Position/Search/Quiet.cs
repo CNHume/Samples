@@ -41,7 +41,7 @@ namespace Engine {
 
       #region Test for Draw
       if (IsDraw()) {                   //[Note]SetDraw50() will not be called below
-        State!.IncEvalType(EvalType.Exact);
+        State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
         return eval();
 #else
@@ -106,7 +106,7 @@ namespace Engine {
           moves.AddRange(SearchMoves);
 #if DebugSearchMoves
           var sb = new StringBuilder("SearchMoves:");
-          sb.MapMoves(Extension.AppendPACN, moves, Side, State!.IsChess960);
+          sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
           sb.FlushLine();
 #endif
         }
@@ -124,7 +124,7 @@ namespace Engine {
 #if DebugPseudoMoves
           DisplayCurrent("quiet()";
           var sb = new StringBuilder("PseudoMoves:");
-          sb.mapMoves(Extensions.AppendPACN, moves, State!.IsChess960);
+          sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
           sb.FlushLine();
 #endif
         }
@@ -161,12 +161,12 @@ namespace Engine {
 #else
               if (bNonMaterial) {
 #endif
-                AtomicIncrement(ref State!.QuietSkipTotal);
+                AtomicIncrement(ref State.QuietSkipTotal);
                 continue;
               }
 
               if (isDeltaPruned(ref move, mAlpha, mStand)) {
-                AtomicIncrement(ref State!.DeltaPruneTotal);
+                AtomicIncrement(ref State.DeltaPruneTotal);
                 continue;
               }
             }
@@ -187,7 +187,7 @@ namespace Engine {
             //
 #if QuietMate && !QuietCheck
             if (bNonMaterial) {         // Skip search of any Check Evasion.
-              State!.QuietSkipTotal++;
+              State.QuietSkipTotal++;
               continue;
             }
 #endif

@@ -120,7 +120,7 @@ namespace Engine {
         restricted[nFrom] = qpCheck | qpRay;
         pinnedPiece |= qpFrom;          // Mark restricted[nFrom] valid
       }
-      else if (State!.IsSearchInProgress) {
+      else if (State.IsSearchInProgress) {
         // Diagnose Engine Generated Moves, not User Moves made via ParsePACNMakeMoves()
         Debug.Assert(bFromPin, "Move fails to evade check");
         //[Debug]DisplayCurrent("restrictPiece()");
