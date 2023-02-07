@@ -696,7 +696,7 @@ namespace Command {
       }
     }
 
-    protected GameState? State { get; set; }
+    protected GameState State { get; init; }
 
     //[UCI]Diagnostic Info Enabled
     public static Boolean IsDebug { get; set; }

@@ -46,7 +46,8 @@ namespace Command {
 
   partial class UCI : ICommand {
     #region Constructors
-    public UCI(Boolean bVerbose = false) {
+    public UCI(GameState state, Boolean bVerbose = false) {
+      State = state;
       IsVerbose = bVerbose;
     }
 
@@ -136,15 +137,11 @@ namespace Command {
         break;
 
       case "timertest":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-
         State.OnMoveCommand();
         State.MovePosition.TimerTest();
         break;
 
       case "test":                      //[ToDo]End gracefully when a Search is in progress!
-        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else
@@ -152,7 +149,6 @@ namespace Command {
         break;
 
       case "testepd":                   //[ToDo]End gracefully when a Search is in progress!
-        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else
@@ -161,7 +157,6 @@ namespace Command {
 
       case "reset":                     // Intuitive
       case "ucinewgame":                //[UCI]
-        EnsureState();
         if (State.IsSearchInProgress)
           State.Stop();
 
@@ -169,7 +164,6 @@ namespace Command {
         break;
 
       case "position":                  //[UCI]
-        EnsureState();
         if (State.IsSearchInProgress)
           throw new ChessException("Search in progress");
         else {
@@ -185,36 +179,26 @@ namespace Command {
         break;
 
       case "board":                     //[Test]In the absence of a GUI
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
+        if (State.MovePosition is null) //[Safe]
           throw new ChessException("Uninitialized Position");
         else
           State.MovePosition.Display();
         break;
 
       case "tabiya":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
+        if (State.MovePosition is null) //[Safe]
           throw new ChessException("Uninitialized Position");
 
         Parser.TabiyaCommand(State.MovePosition);
         break;
 
       case "moves":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-
         State.OnMoveCommand();
         var movesPosition = State.MovePosition.ParsePACNMakeMoves(Parser);
         State.MovePosition = movesPosition;
         break;
 
       case "unmove":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-
         State.OnMoveCommand();
         if (ReferenceEquals(State.MovePosition, State.RootPosition))
           throw new ChessException("No Move has been made");
@@ -223,9 +207,7 @@ namespace Command {
         break;
 
       case "list":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
+        if (State.MovePosition is null) //[Safe]
           throw new ChessException("Uninitialized Position");
 
         State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
@@ -236,12 +218,10 @@ namespace Command {
         break;
 
       case "resetoption":               //[Debug]
-        EnsureState();                  // Event Handler may require GameState
         Parser.ResetOptionCommand();
         break;
 
       case "setoption":                 //[UCI]
-        EnsureState();                  // Event Handler may require GameState
         Parser.SetOptionCommand();
         break;
 
@@ -251,23 +231,15 @@ namespace Command {
 
       case "perft":                     //[Test]Look for corresponding Tabiya and run PerftCases
         Parser.ExpectEOL();
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-
         State.PerftSearch();
         break;
 
       case "go":                        //[UCI]
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-
         State.BestMoveSearch(Parser);
         break;
 
       case "best":                      //[Test]
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.MovePosition is null)    //[Safe]
+        if (State.MovePosition is null) //[Safe]
           throw new ChessException("Uninitialized Position");
         else if (State.BestMoves != null) {
           var sb = new StringBuilder();
@@ -279,34 +251,27 @@ namespace Command {
         break;
 
       case "ponderhit":                 //[UCI]
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else
-          State.Ponderhit();
+        State.Ponderhit();
         break;
 #if UseTask
       case "status":
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.EngineTask == null)
+        if (State.EngineTask == null)
           throw new ChessException("No search in progress");
 
         throw new ChessException($"Search is {State.EngineTask.Status}");
       //[Unreachable]break;
 
       case "stop":                      //[UCI]
-        if (State == null)
-          throw new ChessException("Uninitialized Game");
-        else if (State.EngineTask == null)
+        if (State.EngineTask == null ||
+            !State.IsSearchInProgress)
           throw new ChessException("No search in progress");
 
-        if (State.IsSearchInProgress)
-          State.Stop();
+        State.Stop();
         break;
 #endif
       case "exit":                      // Make it easy to quit
       case "quit":                      //[UCI]
-        if (State != null && State.IsSearchInProgress)
+        if (State.IsSearchInProgress)
           State.Stop();
         bContinue = false;
         break;
@@ -343,9 +308,6 @@ namespace Command {
     }
 
     [MemberNotNull(nameof(State))]
-    private void EnsureState() {
-      if (State == null) newState();
-    }
 
     [MemberNotNull(nameof(Parser))]
     protected void EnsureParser(String sCommand) {
@@ -357,6 +319,7 @@ namespace Command {
     #endregion
 
     #region Command Helpers
+    // Called by UCI "isready" command.
     private static void initStaticFields() {
       //
       //[Init]Reference a static field in the Position class to force invocation of its
@@ -365,16 +328,8 @@ namespace Command {
       var features = Position.PawnFeatures;
     }
 
-    [MemberNotNull(nameof(State))]
-    private void newState() {
-      State = new GameState(this);
-    }
-
     public Position NewGame() {
-      if (State == null)
-        newState();
-      else
-        State.Clear();
+      State.Clear();
 
       // Open new Root Position
       State.MovePosition =
@@ -467,10 +422,10 @@ namespace Command {
       LogLine($"id description {Product.Description}");
     }
 
-    private static void showOptions(Boolean IsDebug) {
+    private static void showOptions(Boolean bDebug) {
       foreach (var uciControl in GameState.Controls) {
         if (uciControl != null)
-          if (IsDebug || !uciControl.Option.IsHidden)
+          if (bDebug || !uciControl.Option.IsHidden)
             LogLine(uciControl.Option.ToString());
       }
     }

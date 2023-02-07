@@ -85,12 +85,7 @@ namespace Engine {
     #endregion
 
     #region Constructors
-    public GameState(ICommand Command) {
-      if (Command == null)
-        throw new ArgumentNullException(nameof(Command));
-
-      this.Command = Command;
-
+    public GameState() {
       //
       //[ToDo]Allocate a separate Pool of positions for each thread:
       //

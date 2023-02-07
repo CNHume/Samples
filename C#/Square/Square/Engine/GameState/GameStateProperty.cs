@@ -136,7 +136,6 @@ namespace Engine {
 
     #region Primary Field
     private Boolean disposed = false;   // IDisposable
-    public ICommand Command;
     public SearchBound Bound;
 
     public Position? MovePosition;

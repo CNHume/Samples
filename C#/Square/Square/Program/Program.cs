@@ -27,6 +27,8 @@ using static System.String;
 namespace Square {
   using Command;
 
+  using Engine;
+
   using static Logging.Logger;
 
   static class Program {
@@ -37,7 +39,8 @@ namespace Square {
 
     #region Methods
     private static void Main(String[] args) {
-      using (var command = new UCI()) {
+      var state = new GameState();
+      using (var command = new UCI(state)) {
         try {
           if (UCI.IsDebug) {
 #if NoteLaunchAndExit
