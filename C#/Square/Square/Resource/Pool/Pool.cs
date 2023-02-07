@@ -32,7 +32,7 @@ namespace Resource {
 
     private void Allocate(Int32 nAllocations) {
       for (var n = 0; n < nAllocations; n++)
-        Inactive.Push(new T());         // Lazy<T> would defer invocation of initBoard()
+        Inactive.Push(new T());         // Lazy<T> would defer invocation of initPosition()
     }
 
     public T Push() {

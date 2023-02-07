@@ -171,8 +171,9 @@ namespace Engine {
 
     #region Static Intialization
     //
-    //[Note]Apart from allocation time static loads for Board and for
-    // the Position super class require less than one ms to complete
+    //[Note]Apart from allocation time, static initialization for the
+    // Position class, and its Board sub-class, require less than one
+    // ms to complete.
     //
     [MemberNotNull(nameof(importance))]
     private static void initPosition() {

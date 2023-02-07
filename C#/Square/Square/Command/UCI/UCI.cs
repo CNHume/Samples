@@ -46,8 +46,8 @@ namespace Command {
 
   partial class UCI : ICommand {
     #region Constructors
-    public UCI() {
-      IsVerbose = false;
+    public UCI(Boolean bVerbose) {
+      IsVerbose = bVerbose;
     }
 
     static UCI() {

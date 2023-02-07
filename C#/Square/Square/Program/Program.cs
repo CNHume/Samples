@@ -37,7 +37,8 @@ namespace Square {
 
     #region Methods
     private static void Main(String[] args) {
-      using (var command = new UCI()) {
+      const Boolean bVerbose = true;
+      using (var command = new UCI(bVerbose)) {
         try {
           if (UCI.IsDebug) {
 #if NoteLaunchAndExit
