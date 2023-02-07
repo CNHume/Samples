@@ -700,7 +700,7 @@ namespace Command {
 
     //[UCI]Diagnostic Info Enabled
     public static Boolean IsDebug { get; set; }
-    public Boolean IsVerbose { get; }
+    public Boolean IsVerbose { get; init; }
 
     //[UCI]Registered Engine
     public static Boolean IsRegistered { get; set; }

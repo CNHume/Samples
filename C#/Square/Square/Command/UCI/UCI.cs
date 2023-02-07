@@ -46,9 +46,9 @@ namespace Command {
 
   partial class UCI : ICommand {
     #region Constructors
-    public UCI(GameState state, Boolean bVerbose = false) {
-      State = state;
+    public UCI(Boolean bVerbose = false) {
       IsVerbose = bVerbose;
+      State = new GameState();
     }
 
     static UCI() {
