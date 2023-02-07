@@ -346,8 +346,7 @@ namespace Engine {
     }
 
     private void timeExecute(String sInput, UInt64 qTrials) {
-      const Boolean bVerbose = false;
-      using (var command = new UCI(bVerbose)) {
+      using (var command = new UCI()) {
         var sw = timerStart(nameof(command.Execute), qTrials);
         var qTrial = 0UL;
         for (var bContinue = true; bContinue && qTrial < qTrials; qTrial++) {
