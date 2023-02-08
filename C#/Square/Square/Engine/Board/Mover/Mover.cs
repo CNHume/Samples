@@ -170,7 +170,7 @@ namespace Engine {
       }
     }
 
-    // Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
+    //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
     protected Int32? MovePiece(ref Move move) {
       Int32? nEnPassant = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,

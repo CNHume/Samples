@@ -19,11 +19,11 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-01-07 Perft1 (startpos) in 13.122 sec @9.935 MHz over 130.36 Mnode]
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-01-07 Perft2 in 20.809 sec @9.882 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-01-07 Perft3 in 26.979 sec @8.111 MHz over 218.84 Mnode]
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-01-07 Perft4 in 85.169 sec @9.009 MHz over 767.28 Mnode]
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-01-07 Perft5 in 12.278 sec @7.135 MHz over 87.6 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-02-07 Perft1 (startpos) in 12.683 sec @10.279 MHz over 130.36 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-02-07 Perft2 in 19.936 sec @10.314 MHz over 205.63 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-07 Perft3 in 26.947 sec @8.121 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-02-07 Perft4 in 84.964 sec @9.031 MHz over 767.28 Mnode]
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-02-07 Perft5 in 12.1 sec @7.24 MHz over 87.6 Mnode]
     //
     // Abbreviation Tests
     // ------------------
