@@ -320,17 +320,20 @@ namespace Engine {
           var bDefault = pp == default(PawnPosition);
 #endif
           if (bDefault) pp = State.GetPXP(this);
-          const Boolean bWhiteRook = true;
-          var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
-          var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
+
+          if (pp != default(PawnPosition)) {
+            const Boolean bWhiteRook = true;
+            var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
+            var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
 #if TestRookBehindPasser
-          if (mRooksBehindBlack != 0 ||
-              mRooksBehindWhite != 0) {
-            DisplayCurrent("pieceval()");
-          }
+            if (mRooksBehindBlack != 0 ||
+                mRooksBehindWhite != 0) {
+              DisplayCurrent("pieceval()");
+            }
 #endif
-          mValue += mRooksBehindWhite;
-          mValue -= mRooksBehindBlack;
+            mValue += mRooksBehindWhite;
+            mValue -= mRooksBehindBlack;
+          }
         }
 #endif
       }

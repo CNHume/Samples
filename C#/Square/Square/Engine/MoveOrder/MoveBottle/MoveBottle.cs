@@ -52,6 +52,8 @@ namespace Engine.MoveOrder {
     }
 
     public void Clear() {
+      if (Killers == null) return;
+
       for (var nSide = 0; nSide < nBottleSides; nSide++)
         for (var nKiller = 0; nKiller < nKillers; nKiller++) {
           for (var uIndex = 0U; uIndex < BottleLength; uIndex++)
@@ -60,6 +62,8 @@ namespace Engine.MoveOrder {
     }
 
     public void Save(GoodMove store, Move uMaskedMove, BottleHash uBottleHash, Int32 nSide) {
+      if (Killers == null) return;
+
       var uIndex = index(uBottleHash);
       var bReplace = true;              // Assume final write needed
       var bFound = false;
@@ -101,9 +105,12 @@ namespace Engine.MoveOrder {
     public List<GoodMove> Load(BottleHash uBottleHash, Int32 nSide) {
       var uIndex = index(uBottleHash);
       var killers = new List<GoodMove>();
-      for (var nKiller = 0; nKiller < nKillers; nKiller++) {
-        var killer = Killers[nSide][nKiller][uIndex];
-        killers.Add(killer);
+
+      if (Killers != null) {
+        for (var nKiller = 0; nKiller < nKillers; nKiller++) {
+          var killer = Killers[nSide][nKiller][uIndex];
+          killers.Add(killer);
+        }
       }
 
       return killers;

@@ -202,17 +202,19 @@ namespace Cache {
 #else
       {
 #endif
+        if (Entries != null) {
 #if LotsForLittle
-        Debug.Assert(nToPos <= Entries[0].Length, "nToPos > Entries[0].Length");
-        var nLength = nToPos - nFromPos;
-        for (var uIndex = 0U; uIndex < Entries.Length; uIndex++)
-          Array.Clear(Entries[uIndex], nFromPos, nLength);
+          Debug.Assert(nToPos <= Entries[0].Length, "nToPos > Entries[0].Length");
+          var nLength = nToPos - nFromPos;
+          for (var uIndex = 0U; uIndex < Entries.Length; uIndex++)
+            Array.Clear(Entries[uIndex], nFromPos, nLength);
 #else
-        Debug.Assert(nToPos <= Entries.Length, "nToPos > Entries.Length");
-        var nLength = Entries[0].Length;
-        for (var nBucket = nFromPos; nBucket < nToPos; nBucket++)
-          Array.Clear(Entries[nBucket], 0, nLength);
+          Debug.Assert(nToPos <= Entries.Length, "nToPos > Entries.Length");
+          var nLength = Entries[0].Length;
+          for (var nBucket = nFromPos; nBucket < nToPos; nBucket++)
+            Array.Clear(Entries[nBucket], 0, nLength);
 #endif
+        }
       }
     }
     #endregion
