@@ -50,12 +50,9 @@
 //#define ShowSort
 //#define ValidateHeap
 
-namespace HeapSort {
-  using System;
-  using System.Collections;        // For non-generic IEnumerable
-  using System.Collections.Generic;
-  using System.Diagnostics;
+using System.Collections;               // For non-generic IEnumerable
 
+namespace HeapSort {
   using Exceptions;
 
   using SortTest;
@@ -77,15 +74,19 @@ namespace HeapSort {
     /// <summary>Heap Sense</summary>
     public Boolean IsAscending {
       get => isAscending;
-      set => isAscending = value; }
+      set => isAscending = value;
+    }
 
     /// <summary>Assertion of Heap Validity</summary>
     public Boolean IsValid => Validate();
     //public Boolean IsSorted { get; protected set; }
 
     /// <summary>Entries Array</summary>
-    public T[]? Entries {
+    public T[] Entries {
       get {
+        if (entries == null)
+          throw new InvalidOperationException($"Uninitialized property: {nameof(Entries)}");
+
         return entries;
       }
 
@@ -97,7 +98,7 @@ namespace HeapSort {
 
     /// <summary>Length of Entries Array</summary>
     /// <value>Entries Array Length</value>
-    public Int32 Length => entries == null ? 0 : entries.Length;
+    public Int32 Length => Entries == null ? 0 : Entries.Length;
 
     /// <summary>Count of entries currently in use</summary>
     public Int32 Count => counter;
@@ -119,11 +120,11 @@ namespace HeapSort {
 
     #region Constructors
     /// <summary>Heap Constructor</summary>
-    /// <param name="meter">Performance Meter</param>
     /// <param name="entries">Entries Array</param>
     /// <param name="count"># of entries to use in Heap</param>
     /// <param name="ascending">Initial Heap sense</param>
-    public Heap(IMeter? meter, T[]? entries, Int32 count, Boolean ascending = true) {
+    /// <param name="meter">Performance Meter</param>
+    public Heap(T[] entries, Int32 count, Boolean ascending = true, IMeter? meter = default) {
       this.IsAscending = ascending;     // Must be set IsAscending prior to invoking the Count setter!
       //IsSorted = false;
       this.Meter = meter;
@@ -134,36 +135,36 @@ namespace HeapSort {
     }
 
     /// <summary>Heap Constructor</summary>
-    /// <param name="meter">Performance Meter</param>
     /// <param name="entries">Entries Array</param>
-    public Heap(IMeter? meter, T[]? entries)
-      : this(meter, entries, entries == null ? 0 : entries.Length) {
+    /// <param name="ascending">Initial Heap sense</param>
+    /// <param name="meter">Performance Meter</param>
+    public Heap(T[] entries, Boolean ascending = true, IMeter? meter = default) :
+      this(entries, entries.Length, ascending, meter) {
     }
 
     /// <summary>Heap Constructor</summary>
+    /// <param name="entries">Entries Array</param>
     /// <param name="meter">Performance Meter</param>
-    public Heap(IMeter? meter = default)
-      : this(meter, default) {
+    public Heap(T[] entries, IMeter meter) :
+      this(entries, entries.Length, true, meter) {
     }
-    #endregion
+    #endregion                          // Constructors
 
     #region Interface Methods
     /// <summary>Deep Copy</summary>
-    /// <param name="target">Target Heap</param>
-    public void CopyTo(Heap<T> target) {
-      if (Length > 0) {
-        target.entries = new T[Length];
-        Entries.CopyTo(target.entries, 0);
-      }
+    /// <param name="heap">Source Heap</param>
+    public void Copy(Heap<T> heap) {
+      Entries = new T[heap.Length];
+      heap.Entries.CopyTo(Entries, 0);
 
-      target.counter = Count;
-      target.IsAscending = IsAscending;
+      heap.counter = Count;
+      heap.IsAscending = IsAscending;
     }
 
     /// <summary>Copy Constructor</summary>
     /// <param name="heap">Heap to copy</param>
     public Heap(Heap<T> heap) {
-      heap.CopyTo(this);
+      Copy(heap);
     }
 
     /// <summary>Clone Heap</summary>
@@ -203,25 +204,25 @@ namespace HeapSort {
         var bRight = false;
         if (right < counter) {
           Meter?.IncCompare();
-          if (entries[left].IsPredecessor(entries[right], IsAscending))
+          if (Entries[left].IsPredecessor(Entries[right], IsAscending))
             bRight = true;
         }
 
         var child = (Int32)(bRight ? right : left);
         Meter?.IncCompare();
-        if (entries[child].IsPredecessor(value, IsAscending))
+        if (Entries[child].IsPredecessor(value, IsAscending))
           break;
         //[Assert]The new value either precedes or is equal to entries[child]
 
         // Sift Down
         Meter?.IncMove();
-        entries[root] = entries[child];
+        Entries[root] = Entries[child];
         root = child;                   // Continue with Child Heap
         left = Left(root);
       }
 
       Meter?.IncMove();
-      entries[root] = value;
+      Entries[root] = value;
     }
 
     /// <summary>Rearrange Entries into a Heap.</summary>
@@ -238,7 +239,7 @@ namespace HeapSort {
         // ordering operations depends on the height of the Heap.
         //
         for (var final = counter - 1; final >= 0; final--)
-          SiftDown(entries[final], final);
+          SiftDown(Entries[final], final);
 #if ValidateHeap
         Debug.Assert(IsValid, "Invalid Heap");
 #endif
@@ -264,25 +265,25 @@ namespace HeapSort {
       while (child > 0) {
         var parent = Parent(child);
         Meter?.IncCompare();
-        if (value.IsPredecessor(entries[parent], IsAscending))
+        if (value.IsPredecessor(Entries[parent], IsAscending))
           break;
         //[Assert]entries[parent] either precedes or is equal to the new value
 
         // Sift Up:
         Meter?.IncMove();
-        entries[child] = entries[parent];
+        Entries[child] = Entries[parent];
         child = parent;                 // Continue with Parent Heap
       }
 
       Meter?.IncMove();
-      entries[child] = value;
+      Entries[child] = value;
     }
 
     /// <summary>Extend the Heap with additional entries.</summary>
     /// <param name="count"># of entries to use</param>
     public void Extend(Int32 count) {
       while (counter < count)           // Add new Entries to the Heap
-        SiftUp(entries[counter]);
+        SiftUp(Entries[counter]);
 #if ValidateHeap
       Debug.Assert(IsValid, "Invalid Heap");
 #endif
@@ -301,10 +302,10 @@ namespace HeapSort {
     public T Remove() {                 // Remove minimum entry from the root of the Heap
       if (counter > 0) {
         Meter?.IncMove();
-        var value = entries[0];
+        var value = Entries[0];
 
         if (--counter > 0)              // Pre-Decrement Count
-          SiftDown(entries[counter], 0);// ReverseSort() overwrites this final Entry
+          SiftDown(Entries[counter], 0);// ReverseSort() overwrites this final Entry
 
         return value;
       }

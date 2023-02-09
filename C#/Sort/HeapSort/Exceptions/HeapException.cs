@@ -1,10 +1,9 @@
 ﻿//
 // Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 //
-namespace HeapSort.Exceptions {
-  using System;
-  using System.Runtime.Serialization;
+using System.Runtime.Serialization;
 
+namespace HeapSort.Exceptions {
   [Serializable]
   class HeapException : ApplicationException, ISerializable {
     #region Constructors

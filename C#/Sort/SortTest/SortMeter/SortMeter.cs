@@ -8,13 +8,10 @@
 //
 //#define ScaleLength
 
-namespace SortTest {
-  using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
-  using System.Linq;
-  using System.Text;
+using System.Diagnostics;
+using System.Text;
 
+namespace SortTest {
   using Extensions;
 
   using static System.String;

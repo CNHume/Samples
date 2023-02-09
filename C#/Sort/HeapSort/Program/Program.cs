@@ -9,8 +9,6 @@
 // 2012-04-04 CNHume  Created HeapSort
 //
 namespace Sort {
-  using System;
-
   using SortTest;
 
   class Program {

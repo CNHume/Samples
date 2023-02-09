@@ -7,8 +7,6 @@
 namespace SortTest {
   using SortTest.Extensions;
 
-  using System;
-
   public class SortData {
     #region Constants
     public const Int32 LENGTH_MAX = (1 << 11) - 1 << 20;
@@ -28,7 +26,7 @@ namespace SortTest {
     #region Methods
     public Int32[] BuildEntries(Int32 length) {
       if (length >= LENGTH_MAX)
-        throw new ArgumentException($"LENGTH_MAX = {LENGTH_MAX} <= {length}", nameof(length));
+        throw new ArgumentOutOfRangeException(nameof(length), $"LENGTH_MAX = {LENGTH_MAX} <= {length}");
 
       var dtNow = DateTime.Now;
       Console.WriteLine($"{dtNow:HH:mm:ss.fff} Building {length:n0} {SortCase.GetDisplayName()} Entries");
@@ -43,9 +41,8 @@ namespace SortTest {
       case SortCase.Rand:
         var seed = (Int32)dtNow.Ticks;
         return randomEntries(length, seed);
-
       default:
-        return null;
+        throw new ArgumentException($"Unexpected SortCase: {SortCase}", nameof(SortCase));
       }
     }
 
@@ -72,6 +69,6 @@ namespace SortTest {
 
       return entries;
     }
-#endregion
+    #endregion
   }
 }

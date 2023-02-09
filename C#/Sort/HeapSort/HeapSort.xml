@@ -31,25 +31,27 @@
             <summary>Perform Heap operations appropriate to setting the new value of Count</summary>
             <param name="count"># of entries to use</param>
         </member>
-        <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter,`0[],System.Int32,System.Boolean)">
+        <member name="M:HeapSort.Heap`1.#ctor(`0[],System.Int32,System.Boolean,SortTest.IMeter)">
             <summary>Heap Constructor</summary>
-            <param name="meter">Performance Meter</param>
             <param name="entries">Entries Array</param>
             <param name="count"># of entries to use in Heap</param>
             <param name="ascending">Initial Heap sense</param>
-        </member>
-        <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter,`0[])">
-            <summary>Heap Constructor</summary>
             <param name="meter">Performance Meter</param>
+        </member>
+        <member name="M:HeapSort.Heap`1.#ctor(`0[],System.Boolean,SortTest.IMeter)">
+            <summary>Heap Constructor</summary>
             <param name="entries">Entries Array</param>
-        </member>
-        <member name="M:HeapSort.Heap`1.#ctor(SortTest.IMeter)">
-            <summary>Heap Constructor</summary>
+            <param name="ascending">Initial Heap sense</param>
             <param name="meter">Performance Meter</param>
         </member>
-        <member name="M:HeapSort.Heap`1.CopyTo(HeapSort.Heap{`0})">
+        <member name="M:HeapSort.Heap`1.#ctor(`0[],SortTest.IMeter)">
+            <summary>Heap Constructor</summary>
+            <param name="entries">Entries Array</param>
+            <param name="meter">Performance Meter</param>
+        </member>
+        <member name="M:HeapSort.Heap`1.Copy(HeapSort.Heap{`0})">
             <summary>Deep Copy</summary>
-            <param name="target">Target Heap</param>
+            <param name="heap">Source Heap</param>
         </member>
         <member name="M:HeapSort.Heap`1.#ctor(HeapSort.Heap{`0})">
             <summary>Copy Constructor</summary>

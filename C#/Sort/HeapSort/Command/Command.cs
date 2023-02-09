@@ -7,8 +7,6 @@
 // 2017-10-30 CNHume  Added Command class
 //
 namespace Sort {
-  using System;
-
   using SortTest;
   using SortTest.Exceptions;
   using SortTest.Extensions;

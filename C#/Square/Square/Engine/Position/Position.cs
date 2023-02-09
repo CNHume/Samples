@@ -327,7 +327,7 @@ namespace Engine {
 #if UseMoveSort
       SortMoves = new SortMove[512];
 #if LazyMoveSort
-      PriorityMove = new Heap<SortMove>(default, SortMoves, 0);
+      PriorityMove = new Heap<SortMove>(SortMoves, 0);
 #endif
 #else
       SiftedMoves = new List<Move>(128);

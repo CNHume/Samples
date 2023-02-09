@@ -1,19 +1,16 @@
 ﻿//
 // Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 //
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text;
+
+using Microsoft.Extensions.Logging;
+
+using static System.String;
+using static System.StringComparison;
+
 namespace SortTest.Extensions {
-  using System;
-  using System.Collections.Generic;
-  using System.ComponentModel.DataAnnotations;
-  using System.Linq;
-  using System.Reflection;
-  using System.Text;
-
-  using Microsoft.Extensions.Logging;
-
-  using static System.String;
-  using static System.StringComparison;
-
   public static class Extension {
     #region Constants
     private const char grave = '`';

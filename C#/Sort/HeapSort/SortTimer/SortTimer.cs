@@ -6,10 +6,9 @@
 //#define TestRuntimeSort
 #define ShowCounts
 
-namespace Sort {
-  using System;
-  using System.Text;
+using System.Text;
 
+namespace Sort {
   using HeapSort;
 
   using SortTest;
@@ -41,7 +40,7 @@ namespace Sort {
       //       It does not make a private copy!
       //
       var meter = (IMeter)this;
-      var sorter = new Heap<T>(meter, entries, entries.Length);
+      var sorter = new Heap<T>(entries, meter);
 
       for (var trial = 0; trial < trials; trial++) {
         if (trial > 0) {

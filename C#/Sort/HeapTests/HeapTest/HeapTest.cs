@@ -1,15 +1,13 @@
 ﻿//
 // (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
+using static System.String;
+
 namespace HeapTests {
   using HeapSort;
 
-  using System;
-
   using Xunit;
   using Xunit.Abstractions;
-
-  using static System.String;
 
   public class HeapTest {
     #region Properties
@@ -29,7 +27,7 @@ namespace HeapTests {
 #if DEBUG
       OutputHelper.WriteLine("TestEnumerator");
 #endif
-      var heap = new Heap<Int32>(default, entries);
+      var heap = new Heap<Int32>(entries);
       //heap.Sort();
 #if DEBUG
       OutputHelper.WriteLine(Join(" ", heap));
@@ -43,7 +41,7 @@ namespace HeapTests {
 #if DEBUG
       OutputHelper.WriteLine("CloneTest");
 #endif
-      var heap = new Heap<Int32>(default, entries);
+      var heap = new Heap<Int32>(entries);
       var heap2 = (Heap<Int32>)heap.Clone();
       //heap.Sort();
 #if DEBUG
