@@ -9,14 +9,13 @@
 #define Tripartite
 #define ShowCounts
 
+using System.Text;
+
 namespace Sort {
   using QuickSort;
 
   using SortTest;
   using SortTest.Extensions;            // For AppendDelim()
-
-  using System;
-  using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants
@@ -58,7 +57,7 @@ namespace Sort {
         new QuickSortSwapInPlace<T>(meter);
 #else
       var sorter = insertionLimit.HasValue ?
-        new QuickSort<T>(meter, insertionLimit.Value) :
+        new QuickSort<T>(insertionLimit.Value, meter) :
         new QuickSort<T>(meter);
 #endif
       for (var trial = 0; trial < trials; trial++) {
@@ -81,6 +80,6 @@ namespace Sort {
         Footer(entries, print);
       }
     }
-#endregion
+    #endregion
   }
 }

@@ -11,8 +11,6 @@ namespace Sort {
   using SortTest.Exceptions;
   using SortTest.Extensions;
 
-  using System;
-
   class Command {
     #region Properties
     public Int32? Length { get; set; }

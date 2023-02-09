@@ -10,21 +10,19 @@
 namespace Sort {
   using SortTest;
 
-  using System;
-
   class Program {
     static void Main(String[] args) {
       try {
         var cmd = new Command();
         cmd.Parse(args);
 
-        var source = new SortData(cmd.SortCase);
-        var entries = cmd.Length.HasValue ?
-          source.BuildEntries(cmd.Length.Value) :
-          default;
+        if (cmd.Length.HasValue) {
+          var source = new SortData(cmd.SortCase);
+          var entries = source.BuildEntries(cmd.Length.Value);
 
-        var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.Print, cmd.Trials);
+          var timer = new SortTimer<Int32>();
+          timer.Sort(entries, cmd.Print, cmd.Trials);
+        }
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

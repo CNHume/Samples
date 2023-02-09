@@ -7,15 +7,12 @@
 //#define TestList
 #define ShowCounts
 
+using System.Text;
+
 namespace Sort {
   using InsertionSort;
 
   using SortTest;
-  using SortTest.Extensions;            // For AppendDelim()
-
-  using System;
-  using System.Linq;
-  using System.Text;
 
   class SortTimer<T> : SortMeter<T> where T : IComparable {
     #region Constants

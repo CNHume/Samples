@@ -18,15 +18,13 @@
 //
 #define Tripartite
 
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 namespace QuickSort {
   using InsertionSort;
 
   using SortTest;
-
-  using System;
-  using System.Diagnostics;
-  using System.Linq;
-  using System.Runtime.CompilerServices;
 
   public class QuickSort<T> where T : IComparable {
     #region Constants
@@ -35,10 +33,10 @@ namespace QuickSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; }
-    public UInt32 InsertionLimit { get; }
+    public IMeter? Meter { get; }
+    public UInt32? InsertionLimit { get; }
     private InsertionSort<T> InsertionSorter { get; }
-    private Random Random { get; init; }
+    private Random? Random { get; init; }
     private T[] Samples { get; }
 
     private Int32 Left { get; set; }
@@ -48,7 +46,7 @@ namespace QuickSort {
     #endregion
 
     #region Constructors
-    public QuickSort(IMeter meter, UInt32 insertionLimit, Random random) {
+    public QuickSort(UInt32 insertionLimit, Random? random, IMeter? meter) {
       this.Meter = meter;
       this.InsertionLimit = insertionLimit;
       this.InsertionSorter = new InsertionSort<T>(Meter);
@@ -56,14 +54,17 @@ namespace QuickSort {
       this.Random = random;
     }
 #if SampleRandomly                      // Sample randomly, without replacement:
-    public QuickSort(IMeter meter = default, Int32 insertionLimit = INSERTION_LIMIT_DEFAULT)
-      : this(meter, insertionLimit, new Random()) {
+    public QuickSort(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, IMeter? meter = default)
+      : this(insertionLimit, new Random(), meter) {
     }
 #else
-    public QuickSort(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT)
-      : this(meter, insertionLimit, default) {
+    public QuickSort(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, IMeter? meter = default)
+      : this(insertionLimit, default, meter) {
     }
 #endif
+    public QuickSort(IMeter? meter = default)
+      : this(INSERTION_LIMIT_DEFAULT, default, meter) {
+    }
     #endregion
 
     #region Sort Methods

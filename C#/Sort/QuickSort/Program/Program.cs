@@ -13,25 +13,23 @@
 namespace Sort {
   using SortTest;
 
-  using System;
-
   class Program {
     static void Main(String[] args) {
       try {
         var cmd = new Command();
         cmd.Parse(args);
 
-        //
-        //[Note]SortCase.Random ran about 4X faster over
-        // 108M entries under the Tripartite conditional
-        //
-        var source = new SortData(cmd.SortCase);
-        var entries = cmd.Length.HasValue ?
-          source.BuildEntries(cmd.Length.Value) :
-          default;
+        if (cmd.Length.HasValue) {
+          //
+          //[Note]SortCase.Random ran about 4X faster over
+          // 108M entries under the Tripartite conditional
+          //
+          var source = new SortData(cmd.SortCase);
+          var entries = source.BuildEntries(cmd.Length.Value);
 
-        var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.Print, cmd.Trials, cmd.InsertionLimit);
+          var timer = new SortTimer<Int32>();
+          timer.Sort(entries, cmd.Print, cmd.Trials, cmd.InsertionLimit);
+        }
       }
       catch (ApplicationException ex) {
         Console.WriteLine(ex.Message);

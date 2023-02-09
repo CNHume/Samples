@@ -8,17 +8,15 @@
 namespace InsertionSort {
   using SortTest;
 
-  using System;
-
   public class InsertionSort<T> where T : IComparable {
     #region Constructors
-    public InsertionSort(IMeter meter = default) {
+    public InsertionSort(IMeter? meter = default) {
       this.Meter = meter;
     }
     #endregion
 
     #region Properties
-    public IMeter Meter { get; }
+    public IMeter? Meter { get; }
     #endregion
 
     #region Methods
