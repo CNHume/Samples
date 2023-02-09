@@ -15,8 +15,6 @@ namespace MergeSort {
 
   using SortTest;
 
-  using System;
-
   public class MergeSort<T> where T : IComparable {
     #region Constants
     public const UInt32 INSERTION_LIMIT_DEFAULT = 12;
@@ -24,9 +22,9 @@ namespace MergeSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; }
+    public IMeter? Meter { get; }
     public UInt32 InsertionLimit { get; }
-    protected UInt32[] Positions { get; set; }
+    protected UInt32[]? Positions { get; set; }
 
     private Int32 merges;
     public Int32 Merges {
@@ -47,11 +45,14 @@ namespace MergeSort {
     #endregion
 
     #region Constructors
-    public MergeSort(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
-      this.Meter = meter;
-      this.InsertionLimit = insertionLimit;
-      this.Merges = merges;
-      this.InsertionSorter = new InsertionSort<T>(Meter);
+    public MergeSort(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT, IMeter? meter = default) {
+      Meter = meter;
+      InsertionLimit = insertionLimit;
+      Merges = merges;
+      InsertionSorter = new InsertionSort<T>(Meter);
+    }
+
+    public MergeSort(IMeter meter) : this(INSERTION_LIMIT_DEFAULT, MERGES_DEFAULT, meter) {
     }
     #endregion
 
@@ -65,7 +66,7 @@ namespace MergeSort {
     // Top-Down K-way Merge Sort
     public void Sort(T[] entries1, T[] entries2, Int32 first, Int32 last) {
       var length = last + 1 - first;
-      if (length < 2) return;      
+      if (length < 2) return;
       if (length < Merges || length < InsertionLimit) {
         InsertionSorter.Sort(entries1, first, last);
         return;
@@ -85,15 +86,15 @@ namespace MergeSort {
     #endregion
 
     #region Merge Methods
-    public void Merge(T[] entries1, T[] entries2, Int32 first, Int32 last) {
+    public void Merge(T[] entries1, T?[] entries2, Int32 first, Int32 last) {
       Array.Clear(Positions, 0, Merges);
       // This implementation has a quadratic time dependency on the number of merges
       for (var index = first; index <= last; index++)
         entries2[index] = remove(entries1, first, last);
     }
 
-    private T remove(T[] entries, Int32 first, Int32 last) {
-      T entry = default;
+    private T? remove(T[] entries, Int32 first, Int32 last) {
+      T? entry = default;
       Int32? found = default;
       var length = last + 1 - first;
 
@@ -107,7 +108,7 @@ namespace MergeSort {
           var isLess = !found.HasValue;
           if (found.HasValue) {
             Meter?.IncCompare();
-            isLess = entry.CompareTo(next) > 0;
+            isLess = next.CompareTo(entry) <= 0;
           }
 
           if (isLess) {

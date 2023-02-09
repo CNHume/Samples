@@ -11,10 +11,10 @@
 using System.Diagnostics;
 using System.Text;
 
+using static System.String;
+
 namespace SortTest {
   using Extensions;
-
-  using static System.String;
 
   public class SortMeter<T> : IMeter where T : IComparable {
     #region Constants

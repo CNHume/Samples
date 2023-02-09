@@ -34,7 +34,7 @@ namespace Sort {
       if (!trials.HasValue) trials = 1;
 #if TestList
       var input = entries.ToList();
-      Header(input, print, typeof(InsertionList<T>));
+      Header(input, typeof(InsertionList<T>), print);
 #else
       Header(entries, typeof(InsertionSort<T>), print);
 #endif

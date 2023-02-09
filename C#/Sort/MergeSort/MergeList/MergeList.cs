@@ -15,9 +15,6 @@ namespace MergeSort {
 
   using SortTest;
 
-  using System;
-  using System.Collections.Generic;
-
   public class MergeList<T> where T : IComparable {
     #region Constants
     public const UInt32 INSERTION_LIMIT_DEFAULT = 20;
@@ -25,9 +22,9 @@ namespace MergeSort {
     #endregion
 
     #region Properties
-    public IMeter Meter { get; }
+    public IMeter? Meter { get; }
     public UInt32 InsertionLimit { get; set; }
-    protected UInt32[] Positions { get; set; }
+    protected UInt32[]? Positions { get; set; }
     private Int32 merges;
     public Int32 Merges {
       get { return merges; }
@@ -46,11 +43,14 @@ namespace MergeSort {
     #endregion
 
     #region Constructors
-    public MergeList(IMeter meter = default, UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT) {
-      this.Meter = meter;
-      this.InsertionLimit = insertionLimit;
-      this.Merges = merges;
-      this.InsertionSorter = new InsertionList<T>(Meter);
+    public MergeList(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT, IMeter? meter = default) {
+      Meter = meter;
+      InsertionLimit = insertionLimit;
+      Merges = merges;
+      InsertionSorter = new InsertionList<T>(Meter);
+    }
+
+    public MergeList(IMeter meter) : this(INSERTION_LIMIT_DEFAULT, MERGES_DEFAULT, meter) {
     }
     #endregion
 
@@ -91,15 +91,15 @@ namespace MergeSort {
       var merge = new List<T>();
 
       while (true) {
-        List<T> found = default;
-        T node = default;
+        List<T>? found = default;
+        T? node = default;
         foreach (var range in ranges)
           if (range.Count > 0) {
             var next = range[0];
             var isLess = found == null;
             if (found != null) {
               Meter?.IncCompare();
-              isLess = node.CompareTo(next) > 0;
+              isLess = next.CompareTo(node) <= 0;
             }
 
             if (isLess) {
