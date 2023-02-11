@@ -164,7 +164,7 @@ namespace Engine {
     }
 
     [MemberNotNull(nameof(Variation))]
-    private void newVariations(Int32 nSelection) {
+    private void newVariations(Int32 nSelection = nVariationsDefault) {
       if (Variation == null || Variation.Length < nSelection) {
         //
         // Currently, nVariationsDefault pre-allocates MultiPV Max value.
