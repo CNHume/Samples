@@ -165,14 +165,12 @@ namespace Engine {
       get {
         if (MovePosition is null)
           throw new ArgumentNullException(nameof(MovePosition));
-
         return MovePosition.GamePly;
       }
 
       set {
         if (MovePosition is null)
           throw new ArgumentNullException(nameof(MovePosition));
-
         MovePosition.GamePly = value;
       }
     }

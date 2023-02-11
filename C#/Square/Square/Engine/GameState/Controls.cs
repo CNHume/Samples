@@ -377,7 +377,7 @@ namespace Engine {
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
-      //[Note]BucketsDefault must be updated before Tank.init() is called
+      //[Note]BucketsDefault must be updated before Tank.Init() is called
       if (setting != null && setting.Selection.HasValue)
         QXPTank.BucketsDefault = (UInt16)setting.Selection;
     }
@@ -396,7 +396,7 @@ namespace Engine {
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
-      //[Note]BucketsDefault must be updated before Tank.init() is called
+      //[Note]BucketsDefault must be updated before Tank.Init() is called
       if (setting != null && setting.Selection.HasValue)
         XPTank.BucketsDefault = (UInt16)setting.Selection;
     }
@@ -415,7 +415,7 @@ namespace Engine {
       if (IsSearchInProgress)
         throw new PositionException("Search in progress");
 
-      //[Note]BucketsDefault must be updated before Tank.init() is called
+      //[Note]BucketsDefault must be updated before Tank.Init() is called
       if (setting != null && setting.Selection.HasValue)
         XPMTank.BucketsDefault = (UInt16)setting.Selection;
     }
@@ -593,7 +593,7 @@ namespace Engine {
     [MemberNotNull(nameof(QXPTank))]
     private void wireQXP() {
       //
-      //[Note]Establish BucketsDefault before calling Tank.init()
+      //[Note]Establish BucketsDefault before calling Tank.Init()
       //
       wireQXPBuckets();
 
@@ -618,7 +618,7 @@ namespace Engine {
     [MemberNotNull(nameof(XPTank))]
     private void wireXP() {
       //
-      //[Note]Establish BucketsDefault before calling Tank.init()
+      //[Note]Establish BucketsDefault before calling Tank.Init()
       //
       wireXPBuckets();
 
@@ -643,7 +643,7 @@ namespace Engine {
     [MemberNotNull(nameof(XPMTank))]
     private void wireXPM() {
       //
-      //[Note]Establish BucketsDefault before calling Tank.init()
+      //[Note]Establish BucketsDefault before calling Tank.Init()
       //
       wireXPMBuckets();
 

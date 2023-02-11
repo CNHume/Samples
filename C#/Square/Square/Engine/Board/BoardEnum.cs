@@ -308,13 +308,14 @@ namespace Engine {
 #if TestDraw3
       NoteDraw = NoteCheck << 1,        // Bit 26
       NoteDraw2 = NoteDraw << 1,        // Bit 27
+      NoteDraws = NoteDraw | NoteDraw2, // Used by lookupPV() when Move Number is unknown
 #endif
       HideFile = 1U << nHideFileBit,    // Bit 28 4-bits for abbreviation and debug
       StoreMask = HideFile - 1,         // Mask28 Hi 4-bits masked from [Trans|Quiet]Position.BestMove
       HideRank = HideFile << 1,         // Bit 29
       Qxnt = HideRank << 1,             // Bit 30 Used by abbreviateRefresh()
 #if DebugMoveColor
-      WTM = Qxnt << 1,                  // Bit 31 for debugging
+      WTM = Qxnt << 1,                  // Bit 31 for debugging WTM
 #endif
       HideFrom = HideRank | HideFile,   // Used to abbreviate From square
       FromToMask = (uSquareMask << nToBit) | (uSquareMask << nFromBit),

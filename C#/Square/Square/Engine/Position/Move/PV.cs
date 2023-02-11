@@ -186,6 +186,9 @@ namespace Engine {
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
         var moveNoted = moveFound;
         if (!State.IsPure) {            // Standard Algebraic Notation (AN) supports abbreviation
+#if TestDraw3
+          moveNoted &= ~Move.NoteDraws; // probeMove() Draw Flags unreliable because Move Number is unknown
+#endif
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else
