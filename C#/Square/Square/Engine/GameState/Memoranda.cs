@@ -183,7 +183,7 @@ namespace Engine {
 #endif
     }
 #endif                                  // MaterialBalance
-    public PawnPosition GetPXP(Position position) {
+    public PawnPosition? GetPXP(Position position) {
       PXPMemo.Counts.GetReads++;
       var qHashPawn = position.HashPawn;
       var found = PXPMemo[qHashPawn];
@@ -192,7 +192,7 @@ namespace Engine {
 #else
       var bDefault = found == default(PawnPosition);
 #endif
-      if (!bDefault && found.HashPawn == qHashPawn) {
+      if (!bDefault && found?.HashPawn == qHashPawn) {
         PXPMemo.Counts.GetHits++;       // Match. i.e., Get Hit
         return found;
       }
@@ -219,16 +219,18 @@ namespace Engine {
 #else                                   // PawnPositionByValue
       if (bDefault) {
         PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
-        found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
-                                 uBlackCount, uWhiteCount,
-                                 qpBlackPassers, qpWhitePassers);
+        found = new PawnPosition(
+          qHashPawn, fBlackPRP, fWhitePRP,
+          uBlackCount, uWhiteCount,
+          qpBlackPassers, qpWhitePassers);
         PXPMemo[qHashPawn] = found;
         return found;
       }
       else {
-        found.Recycle(qHashPawn, fBlackPRP, fWhitePRP,
-                      uBlackCount, uWhiteCount,
-                      qpBlackPassers, qpWhitePassers);
+        found?.Recycle(
+          qHashPawn, fBlackPRP, fWhitePRP,
+          uBlackCount, uWhiteCount,
+          qpBlackPassers, qpWhitePassers);
         return found;
       }
 #endif

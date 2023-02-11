@@ -130,11 +130,14 @@ namespace Engine {
         vn[nFinal].Value = mValue;
         bHasValue = true;
 
-        if (vn[nFinal].Moves == null)
-          vn[nFinal].Moves = new List<Move>();
-
         var lineMoves = vn[nFinal].Moves;
-        lineMoves.Clear();
+
+        if (lineMoves == null) {
+          lineMoves = new List<Move>();
+          vn[nFinal].Moves = lineMoves;
+        }
+        else
+          lineMoves.Clear();
 
         if (!IsDefined(move)) {
           Debug.Assert(IsDefined(move), "Undefined Move [AddPV]");

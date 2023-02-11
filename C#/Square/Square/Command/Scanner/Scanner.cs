@@ -134,11 +134,11 @@ namespace Command {
 
     public void Skip(Int32 nLength) {
       Column += nLength;
-      Text = Text.Substring(nLength);
+      Text = Text?.Substring(nLength);
     }
 
-    public String Scan(Int32 nLength) {
-      var sValue = Text.Substring(0, nLength);
+    public String? Scan(Int32 nLength) {
+      var sValue = Text?.Substring(0, nLength);
       Skip(nLength);
       return sValue;
     }

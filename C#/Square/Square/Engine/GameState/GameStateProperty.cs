@@ -162,8 +162,19 @@ namespace Engine {
 
     #region Properties
     public Ply MovePly {
-      get { return MovePosition.GamePly; }
-      set { MovePosition.GamePly = value; }
+      get {
+        if (MovePosition is null)
+          throw new ArgumentNullException(nameof(MovePosition));
+
+        return MovePosition.GamePly;
+      }
+
+      set {
+        if (MovePosition is null)
+          throw new ArgumentNullException(nameof(MovePosition));
+
+        MovePosition.GamePly = value;
+      }
     }
 
     public Boolean IsSearchInProgress {
