@@ -232,23 +232,24 @@ namespace Engine {
       //
       (Eval mDelta, Eval mTotal) = getValue();
 
-      if (Pawn != 0) {                  // Else PawnHash == default(Hashcode)
+      if (Pawn != 0) {
         pp = State.GetPXP(this);
-
-        mDelta += pp.Delta;
-        mTotal += pp.Total;
+        if (pp != null) {
+          mDelta += pp.Delta;
+          mTotal += pp.Total;
 #if EvalWrongBishop
-        var (blackSide, whiteSide) = Side.GetBothSides();
-        var fBlackSide = blackSide.FlagsSide;
-        var fWhiteSide = whiteSide.FlagsSide;
+          var (blackSide, whiteSide) = Side.GetBothSides();
+          var fBlackSide = blackSide.FlagsSide;
+          var fWhiteSide = whiteSide.FlagsSide;
 
-        if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, fBlackSide))
-          mDelta += mWrongBishopWeight; // Black has Wrong Bishop
+          if (punishWrongBishop(pp.BlackPRP & PRPFlags.Both, fBlackSide))
+            mDelta += mWrongBishopWeight; // Black has Wrong Bishop
 
-        if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, fWhiteSide))
-          mDelta -= mWrongBishopWeight; // White has Wrong Bishop
+          if (punishWrongBishop(pp.WhitePRP & PRPFlags.Both, fWhiteSide))
+            mDelta -= mWrongBishopWeight; // White has Wrong Bishop
 #endif
-      }
+        }
+      } // else PawnHash == default(Hashcode)
 #if TradePieces
       if (mTotal > 0) {
         //
