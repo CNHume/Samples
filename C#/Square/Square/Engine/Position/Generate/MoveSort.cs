@@ -68,7 +68,7 @@ namespace Engine {
       var bMaterial = move.Has(Move.Material);
       if (bMaterial) return;
 #endif
-      var moveMasked = move & Move.NormalMask;
+      var moveMasked = move & Move.ProbeMask;
 #if UseKillers
       storeKiller(moveMasked, wDepth, mValue, et);      //[Conditional]
 #endif                                  // UseKillers
@@ -232,7 +232,7 @@ namespace Engine {
           //[Note]goodMoves may contain dupilicates
           if (!SiftedMoves.Exists(sm => equalMoves(sm, em))) {
 #if TestGoodCapture
-            var good = gm.Move & Move.NormalMask;
+            var good = gm.Move & Move.ProbeMask;
             if (good != em) {
               var goodCaptive = captured(good);
               var emCaptive = captured(em);

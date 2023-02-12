@@ -86,12 +86,12 @@ namespace Engine {
 
       Trace.Assert(Move.ShortMask == (Move)UInt16.MaxValue,
                    "ShortMask is not equal to UInt16.MaxValue");
-      Trace.Assert(Move.EmptyMove == (Move.EmptyMove & Move.LimitMask),
-                   "LimitMask does not preserve Empty Move");
-      Trace.Assert(Move.NullMove == (Move.NullMove & Move.LimitMask),
-                   "LimitMask does not preserve Null Move");
-      Trace.Assert(Move.Undefined == (Move.Undefined & Move.LimitMask),
-                   "LimitMask does not preserve Undefined Move");
+      Trace.Assert(Move.EmptyMove == (Move.EmptyMove & Move.EqualMask),
+                   "EqualMask does not preserve Empty Move");
+      Trace.Assert(Move.NullMove == (Move.NullMove & Move.EqualMask),
+                   "EqualMask does not preserve Null Move");
+      Trace.Assert(Move.Undefined == (Move.Undefined & Move.EqualMask),
+                   "EqualMask does not preserve Undefined Move");
       #endregion
 
       //
@@ -455,17 +455,17 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean IsDefined(Move move) {
-      return (move & Move.NormalMask) != Move.Undefined;
+      return (move & Move.EqualMask) != Move.Undefined;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected static Boolean IsEmptyMove(Move move) {
-      return (move & Move.NormalMask) == Move.EmptyMove;
+      return (move & Move.EqualMask) == Move.EmptyMove;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean IsNullMove(Move move) {
-      return (move & Move.NormalMask) == Move.NullMove;
+      return (move & Move.EqualMask) == Move.NullMove;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -481,7 +481,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean EqualMoves(Move move1, Move move2) {
-      if ((move1 & Move.LimitMask) != (move2 & Move.LimitMask))
+      if ((move1 & Move.EqualMask) != (move2 & Move.EqualMask))
         return false;
 
       return IsCapture(move1) == IsCapture(move2);

@@ -255,7 +255,7 @@ namespace Engine {
     //  3:3 RankFrom
     //  6:3 FileTo
     //  9:3 RankTo
-    // 12:3 Promotion [or Limit]
+    // 12:3 Promotion [or Limit Move]
     // 15:1 Castles
     //
     // Move Bits 16:16
@@ -297,6 +297,18 @@ namespace Engine {
     protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
     #endregion                          // Move Masks
 
+    //
+    // Move Mask Use Cases
+    //
+    // Bits Mask        Uses
+    // ---- ----        ----
+    //  16  ShortMask   Keep Castles Bit for Chess960 PACN
+    //  19  EqualMask   Keep PieceMask to distinguish NullMove, Undefined, EmptyMove
+    //  23  ProbeMask   Keep CaptiveMask for position-independent Killer Moves
+    //  26  StoreMask   Keep NoteCheck | NoteFinal; Omit NoteDraw | NoteDraw2 in QXP, XP, XPM
+    //  32  Move        Used to Search Lines
+    //
+
     //[Flags]
     public enum Move : uint {
       None = 0,
@@ -318,21 +330,21 @@ namespace Engine {
       FromToMask = (uSquareMask << nToBit) | (uSquareMask << nFromBit),
       PromoteMask = vPieceMask << nPromoteBit,
       ShortMask = Castles | PromoteMask | FromToMask,
-      LimitMask = (vPieceMask << nPieceBit) | ShortMask, // Include moving piece; but omit captures
+      EqualMask = (vPieceMask << nPieceBit) | ShortMask, // Include moving piece; but omit captures
       CaptiveMask = vPieceMask << nCaptiveBit,
       Material = CaptiveMask | PromoteMask, // To distinguish quiet maneuvers
 
       //
-      // NormalMask preserves CaptiveMask; but masks any annotation
+      // ProbeMask preserves CaptiveMask; but masks any annotation
       //
 #if DebugMoveColor
-      NormalMask = WTM | LimitMask | CaptiveMask,
+      ProbeMask = WTM | EqualMask | CaptiveMask,
 #else
-      NormalMask = LimitMask | CaptiveMask,
+      ProbeMask = EqualMask | CaptiveMask,
 #endif
 
       //
-      // The three Limit Values do not make use of CaptiveMask:
+      // EqualMask distinguishes the three Limit Moves:
       //
       NullMove = Piece.P << nPromoteBit,
       Undefined = Piece.K << nPromoteBit,
