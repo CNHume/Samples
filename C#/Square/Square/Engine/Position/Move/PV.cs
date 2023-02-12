@@ -186,13 +186,10 @@ namespace Engine {
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
         var moveNoted = moveFound;
         if (!State.IsPure) {            // Standard Algebraic Notation (AN) supports abbreviation
-#if TestDraw3
-          moveNoted &= ~Move.NoteDraws; // probeMove() Draw Flags unreliable because Move Number is unknown
-#endif
 #if AbbreviateLookup
           moveNoted = abbreviate(moveNoted);
 #else
-          moveNoted &= ~Move.HideFrom;  // Make it clear that the move was recovered via PVLookup()
+          moveNoted &= ~Move.HideFrom;  // Suppress abbreviation to indicate moves recovered by probeMove()
 #endif
         }
 #if DebugMove
@@ -213,11 +210,11 @@ namespace Engine {
 #if TraceVal
         var bTrace = IsTrace();
         if (bTrace)
-          DisplayCurrent("PVLookup()"); // CurrentMove set in [null|try]Move()
+          DisplayCurrent("lookupPV()"); // CurrentMove set in [null|try]Move()
 #endif
         SetDraw50();                    // Mark Draw50 after having made the move
 
-        //[Note]If Draw3 is set, this PVLookup() recursion must terminate!
+        //[Note]If Draw3 is set, this lookupPV() recursion must terminate!
         if (!IsDraw()) {
           //
           // Recursion vs. iteration links each Position to its parent;

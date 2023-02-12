@@ -6,7 +6,6 @@
 // Conditionals:
 //
 //#define DebugMoveColor
-#define TestDraw3
 #define RecursiveNullMade
 #define HistoryFromTo
 
@@ -151,7 +150,7 @@ namespace Engine {
       // the Hash prevents a call to IsLegal() for a Transposition
       //
       DrawMask = DrawIM | Draw50 | Draw3,
-      Copy = DrawMask | Draw2 | Draw0   // Avoid indefinite recursion in PVLookup()
+      Copy = DrawMask | Draw2 | Draw0   // Avoid indefinite recursion in lookupPV()
 
       //
       // From the article CA1008: Enums should have zero value
@@ -284,6 +283,7 @@ namespace Engine {
     protected const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
     protected const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
     protected const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
+    protected const Int32 nNoteDraw2Bit = 26;
     internal const Int32 nHideFileBit = 28;
 
     #region Move Masks
@@ -305,17 +305,14 @@ namespace Engine {
       CaptiveHi = 1 << nCaptiveHiBit,   // Bit 23 unused
       NoteFinal = CaptiveHi << 1,       // Bit 24 4-bits for annotations
       NoteCheck = NoteFinal << 1,       // Bit 25
-#if TestDraw3
-      NoteDraw = NoteCheck << 1,        // Bit 26
-      NoteDraw2 = NoteDraw << 1,        // Bit 27
-      NoteDraws = NoteDraw | NoteDraw2, // Used by lookupPV() when Move Number is unknown
-#endif
-      HideFile = 1U << nHideFileBit,    // Bit 28 4-bits for abbreviation and debug
-      StoreMask = HideFile - 1,         // Mask28 Hi 4-bits masked from [Trans|Quiet]Position.BestMove
+      NoteDraw2 = 1U << nNoteDraw2Bit,  // Bit 26
+      StoreMask = NoteDraw2 - 1,        // Mask26 Hi 6-bits omitted from [Trans|Quiet]Position.BestMove
+      NoteDraw = NoteDraw2 << 1,        // Bit 27
+      HideFile = 1U << nHideFileBit,    // Bit 28 Hi 4-bits are for abbreviation and debug
       HideRank = HideFile << 1,         // Bit 29
       Qxnt = HideRank << 1,             // Bit 30 Used by abbreviateRefresh()
 #if DebugMoveColor
-      WTM = Qxnt << 1,                  // Bit 31 for debugging WTM
+      WTM = Qxnt << 1,                  // Bit 31 Used to test WTM
 #endif
       HideFrom = HideRank | HideFile,   // Used to abbreviate From square
       FromToMask = (uSquareMask << nToBit) | (uSquareMask << nFromBit),
