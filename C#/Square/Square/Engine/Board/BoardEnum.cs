@@ -327,15 +327,15 @@ namespace Engine {
       WTM = Qxnt << 1,                  // Bit 31 Used to test WTM
 #endif
       HideFrom = HideRank | HideFile,   // Used to abbreviate From square
-      FromToMask = (uSquareMask << nToBit) | (uSquareMask << nFromBit),
+      FromToMask = uSquareMask << nToBit | uSquareMask << nFromBit,
       PromoteMask = vPieceMask << nPromoteBit,
       ShortMask = Castles | PromoteMask | FromToMask,
-      EqualMask = (vPieceMask << nPieceBit) | ShortMask, // Include moving piece; but omit captures
+      EqualMask = vPieceMask << nPieceBit | ShortMask,  // Include moving piece; but omit captures
       CaptiveMask = vPieceMask << nCaptiveBit,
-      Material = CaptiveMask | PromoteMask, // To distinguish quiet maneuvers
+      Material = CaptiveMask | PromoteMask,     // To distinguish quiet maneuvers
 
       //
-      // StoreMask preserves CaptiveMask; but masks any annotation
+      // StoreMask preserves CaptiveMask; but masks annotations
       //
 #if DebugMoveColor
       StoreMask = WTM | EqualMask | CaptiveMask,
