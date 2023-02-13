@@ -67,7 +67,7 @@ namespace Engine.CacheValue {
       MovePly = wMovePly;
       Depth = wDepth;
       ibv = IBV(mValue, et);
-      BestMove = moveBest & Move.StoreMask;
+      BestMove = moveBest & Move.CheckMask;
     }
     #endregion
 
@@ -233,7 +233,7 @@ namespace Engine.CacheValue {
 
       set {
         ibv = (Bval)(value/* & wIBVMask*/);
-        BestMove = (Move)(value >> nMoveLoBit) & Move.StoreMask;
+        BestMove = (Move)(value >> nMoveLoBit) & Move.CheckMask;
         MovePly = (Ply)((UInt16)(value >> nMovePlyBit) & wPlyMask);
         Depth = (Depth)((UInt16)(value >> nDepthBit)/* & wDepthMask*/);
       }

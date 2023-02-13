@@ -304,8 +304,8 @@ namespace Engine {
     // ---- ----        ----
     //  16  ShortMask   Keep Castles Bit for Chess960 PACN
     //  19  EqualMask   Keep PieceMask to distinguish NullMove, Undefined, EmptyMove
-    //  23  ProbeMask   Keep CaptiveMask for position-independent Killer Moves
-    //  26  StoreMask   Keep NoteCheck | NoteFinal; Omit NoteDraw | NoteDraw2 in QXP, XP, XPM
+    //  23  StoreMask   Keep CaptiveMask for position-independent Killer Moves
+    //  26  CheckMask   Keep NoteCheck | NoteFinal; Omit NoteDraw | NoteDraw2 in QXP, XP, XPM
     //  32  Move        Used to Search Lines
     //
 
@@ -318,7 +318,7 @@ namespace Engine {
       NoteFinal = CaptiveHi << 1,       // Bit 24 4-bits for annotations
       NoteCheck = NoteFinal << 1,       // Bit 25
       NoteDraw2 = 1U << nNoteDraw2Bit,  // Bit 26
-      StoreMask = NoteDraw2 - 1,        // Mask26 Hi 6-bits omitted from [Trans|Quiet]Position.BestMove
+      CheckMask = NoteDraw2 - 1,        // Mask26 Hi 6-bits omitted from [Trans|Quiet]Position.BestMove
       NoteDraw = NoteDraw2 << 1,        // Bit 27
       HideFile = 1U << nHideFileBit,    // Bit 28 Hi 4-bits are for abbreviation and debug
       HideRank = HideFile << 1,         // Bit 29
@@ -335,12 +335,12 @@ namespace Engine {
       Material = CaptiveMask | PromoteMask, // To distinguish quiet maneuvers
 
       //
-      // ProbeMask preserves CaptiveMask; but masks any annotation
+      // StoreMask preserves CaptiveMask; but masks any annotation
       //
 #if DebugMoveColor
-      ProbeMask = WTM | EqualMask | CaptiveMask,
+      StoreMask = WTM | EqualMask | CaptiveMask,
 #else
-      ProbeMask = EqualMask | CaptiveMask,
+      StoreMask = EqualMask | CaptiveMask,
 #endif
 
       //

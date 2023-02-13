@@ -754,7 +754,7 @@ namespace Engine {
     private Boolean singular(Draft wSingularDraft, Eval mValueFound, Move move) {
       var mBeta = (Eval)(mValueFound - mSingularWeight);
       var mAlpha = (Eval)(mBeta - 1);
-      var moveMasked = move & Move.ProbeMask;
+      var moveMasked = move & Move.StoreMask;
       var mValue = clonedSearch(wSingularDraft, mAlpha, mBeta, moveMasked);
       var bSingular = mValue < mBeta;
       var sTrace = bSingular ? "Singular Extension" : "Singular Non-Extension";
