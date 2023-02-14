@@ -329,18 +329,19 @@ namespace Engine {
       HideFrom = HideRank | HideFile,   // Used to abbreviate From square
       FromToMask = uSquareMask << nToBit | uSquareMask << nFromBit,
       PromoteMask = vPieceMask << nPromoteBit,
-      ShortMask = Castles | PromoteMask | FromToMask,
-      EqualMask = vPieceMask << nPieceBit | ShortMask,  // Include moving piece; but omit captures
+      PieceMask = vPieceMask << nPieceBit,
       CaptiveMask = vPieceMask << nCaptiveBit,
-      Material = CaptiveMask | PromoteMask,     // To distinguish quiet maneuvers
+      ShortMask = Castles | PromoteMask | FromToMask,
+      EqualMask = PieceMask | ShortMask,      // Include moving piece; but omit captures
+      Material = CaptiveMask | PromoteMask,   // To distinguish quiet maneuvers
 
       //
-      // StoreMask preserves CaptiveMask; but masks annotations
+      // StoreMask keeps CaptiveMask; but omits annotations
       //
 #if DebugMoveColor
-      StoreMask = WTM | EqualMask | CaptiveMask,
+      StoreMask = WTM | CaptiveMask | EqualMask,
 #else
-      StoreMask = EqualMask | CaptiveMask,
+      StoreMask = CaptiveMask | EqualMask,
 #endif
 
       //
