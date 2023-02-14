@@ -140,7 +140,7 @@ namespace Engine {
           lineMoves.Clear();
 
         if (!IsDefined(move)) {
-          Debug.Assert(IsDefined(move), "Undefined Move [AddPV]");
+          Debug.Assert(IsDefined(move), $"Undefined Move [{nameof(AddPV)}]");
           move = Move.NullMove;
         }
 
@@ -200,17 +200,17 @@ namespace Engine {
         var bWTM = WTM();
         var bWhiteMove = moveNoted.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [PVLookup]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(lookupPV)}]");
         }
 #endif
         moves.Add(moveNoted);
 
         var bLegal = tryOrSkip(ref moveNoted);
-        Debug.Assert(bLegal, "PVLookup obtained an Illegal Move");
+        Trace.Assert(bLegal, $"{nameof(lookupPV)} obtained an Illegal Move");
 #if TraceVal
-        var bTrace = IsTrace();
-        if (bTrace)
-          DisplayCurrent("lookupPV()"); // CurrentMove set in [null|try]Move()
+        // CurrentMove set in [null|try]Move()
+        if (IsTrace())
+          DisplayCurrent($"{nameof(lookupPV)}");
 #endif
         SetDraw50();                    // Mark Draw50 after having made the move
 
@@ -241,7 +241,7 @@ namespace Engine {
       else {
         var moveNoted = moves[nMove];
         if (!IsDefined(moveNoted)) {
-          Debug.Assert(IsDefined(moveNoted), "Undefined Move [abbreviateRefresh]");
+          Debug.Assert(IsDefined(moveNoted), $"Undefined Move [{nameof(AbbreviateRefresh)}]");
           moveNoted = Move.NullMove;
         }
 
@@ -255,7 +255,7 @@ namespace Engine {
         var bWTM = WTM();
         var bWhiteMove = moveNoted.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [Refresh]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(AbbreviateRefresh)}]");
         }
 #endif
         const EvalType et = EvalType.Exact;
@@ -265,11 +265,11 @@ namespace Engine {
           storeXP((Depth)nDepth, mValue, et, moveNoted);
 
         var bLegal = tryOrSkip(ref moveNoted);
-        Debug.Assert(bLegal, "PV contained an Illegal Move");
+        Trace.Assert(bLegal, $"{nameof(AbbreviateRefresh)} obtained an Illegal Move");
 #if TraceVal
-        var bTrace = IsTrace();
-        if (bTrace)
-          DisplayCurrent("abbreviateRefresh()");// CurrentMove set in [null|try]Move()
+        // CurrentMove set in [null|try]Move()
+        if (IsTrace())
+          DisplayCurrent($"{nameof(AbbreviateRefresh)}");
 #endif
         SetDraw50();                    // Mark Draw50 after having made the move
 
