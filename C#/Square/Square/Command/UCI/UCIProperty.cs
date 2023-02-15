@@ -19,9 +19,9 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-02-07 Perft1 (startpos) in 12.683 sec @10.279 MHz over 130.36 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-02-15 Perft1 (startpos) in 12.566 sec @10.374 MHz over 130.36 Mnode]
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-02-07 Perft2 in 19.936 sec @10.314 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-07 Perft3 in 26.947 sec @8.121 MHz over 218.84 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-15 Perft3 in 26.745 sec @8.182 MHz over 218.84 Mnode]
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-02-07 Perft4 in 84.964 sec @9.031 MHz over 767.28 Mnode]
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-02-07 Perft5 in 12.1 sec @7.24 MHz over 87.6 Mnode]
     //
@@ -399,11 +399,11 @@ namespace Command {
     #endregion
 
     #region EPD Constants
+    private const String sDefaultEPD =
     //
     // Bratko-Kopec Test Suite: 24 positions
     //
-    private const String sDefaultEPD =
-      @"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - hmvc 0; fmvn 37; id ""Fischer v Panno 1970 Line"";";
+    //@"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - hmvc 0; fmvn 37; id ""Fischer v Panno 1970 Line"";";
     //@"1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - bm Qd1+; id ""BK.01"";";
     //@"3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - bm d5; id ""BK.02"";";
     //@"2q1rr1k/3bbnnp/p2p1pp1/2pPp3/PpP1P1P1/1P2BNNP/2BQ1PRK/7R b - - bm f5; id ""BK.03"";";
@@ -432,7 +432,7 @@ namespace Command {
     //
     // Arasan Test Suite V18: 250 positions
     //
-    //@"r1bq1r1k/p1pnbpp1/1p2p3/6p1/3PB3/5N2/PPPQ1PPP/2KR3R w - - bm g4""; id ""arasan18.1""; c0 ""J. Polgar-Berkes, Budapest Hunguest Hotels 2003"";";
+    @"r1bq1r1k/p1pnbpp1/1p2p3/6p1/3PB3/5N2/PPPQ1PPP/2KR3R w - - bm g4; id ""arasan18.1""; c0 ""J. Polgar-Berkes, Budapest Hunguest Hotels 2003"";";
     //@"r1b2rk1/1p1nbppp/pq1p4/3B4/P2NP3/2N1p3/1PP3PP/R2Q1R1K w - - bm Rxf7; id ""arasan18.2""; c0 ""Van der Wiel-Ribli, IBM Amsterdam 1980"";";
     //@"r1br2k1/pp2qpp1/1b2p2p/3nB3/6P1/3B4/PPPNQP1P/1K1R3R w - - bm g5; id ""arasan18.3""; c0 ""Victorious (Stockfish 191013SL)-AKIM(Houdini 3 Pro), playchess.com 2013"";";
     //@"r3r1kb/1npb1p1p/2q2np1/4p1B1/ppP1P2Q/1P2RNNP/P1B2PP1/3R2K1 w - - bm Nf5; id ""arasan18.4""; c0 ""Salgado Lopez-Granda Zuniga, IV ch-IberoAmerican Final GpA 2012"";";
