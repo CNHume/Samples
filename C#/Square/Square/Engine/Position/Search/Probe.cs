@@ -148,7 +148,7 @@ namespace Engine {
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeXPM]");
-          DisplayCurrent("storeXPM()");
+          DisplayCurrent(nameof(storeXPM));
         }
       }
 #endif
@@ -215,7 +215,7 @@ namespace Engine {
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeXP]");
-          DisplayCurrent("storeXP()");
+          DisplayCurrent(nameof(storeXP));
         }
       }
 #endif
@@ -289,7 +289,7 @@ namespace Engine {
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeQXP]");
-          DisplayCurrent("storeQXP()");
+          DisplayCurrent(nameof(storeQXP));
         }
       }
 #endif

@@ -152,7 +152,7 @@ namespace Engine {
 #endif
 #if DebugMoveOrder
       if (IsTrace()) {
-        DisplayCurrent("sortMoves()");
+        DisplayCurrent(nameof(sortMoves));
 
         var sb = new StringBuilder();
 #if LazyMoveSort
@@ -222,7 +222,7 @@ namespace Engine {
         var bWhiteMove = gm.Move.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
           Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [sortMoves]");
-          DisplayCurrent("sortMoves()");
+          DisplayCurrent(nameof(sortMoves));
         }
 #endif
         //SiftedMoves was cleared in generate() via clearPseudoMoveLists()

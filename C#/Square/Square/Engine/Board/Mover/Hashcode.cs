@@ -17,6 +17,8 @@ using System.Runtime.CompilerServices;  // For MethodImplAttribute0
 using static System.Math;
 
 namespace Engine {
+  using System.Diagnostics.Contracts;
+
   using Exceptions;
 
   using static Logging.Logger;
@@ -270,8 +272,8 @@ namespace Engine {
       return qHash;
     }
 
-    [Conditional("TestHash")]
-    protected void TestHash() {
+    protected Boolean TestHash() {
+      Boolean bValid = true;
       var qHashPawn = hashPawn();
       var qHash = qHashPawn ^ hashPieces();
 #if DisplayHash
@@ -281,15 +283,16 @@ namespace Engine {
         LogLine($"IHash = {formatHash(Hash)}");
 #else
       if (qHashPawn != HashPawn) {
-        //DisplayCurrent("TestHash()");
         Trace.Assert(qHashPawn == HashPawn, "Full HashPawn differs from Incremental HashPawn");
+        bValid = false;
       }
 
       if (qHash != Hash) {
-        //DisplayCurrent("TestHash()");
         Trace.Assert(qHash == Hash, "Full Hash differs from Incremental Hash");
+        bValid = false;
       }
 #endif                                  // DisplayHash
+      return bValid;
     }
     #endregion                          // Hash Methods
   }

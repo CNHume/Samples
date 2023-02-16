@@ -122,7 +122,7 @@ namespace Engine {
           generateMaterialMoves(moves);
 #endif
 #if DebugPseudoMoves
-          DisplayCurrent("quiet()";
+          DisplayCurrent(nameof(quiet));
           var sb = new StringBuilder("PseudoMoves:");
           sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
           sb.FlushLine();

@@ -78,7 +78,7 @@ namespace Engine {
 #if DebugHashPieces
       else {
         var sb = new StringBuilder();
-        //DisplayCurrent("GetCX2()");
+        //DisplayCurrent(nameof(GetCX2));
         sb.AppendLine();
         sb.Append("Old ");
         sb.AppendPieceCounts(White, wPieceCounts);
@@ -147,7 +147,7 @@ namespace Engine {
 #if DebugHashPieces
       else {
         var sb = new StringBuilder();
-        //DisplayCurrent("GetCXP()");
+        //DisplayCurrent(nameof(GetCXP));
         sb.AppendLine();
         sb.Append("Old ");
         sb.AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts);

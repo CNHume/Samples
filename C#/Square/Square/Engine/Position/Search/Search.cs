@@ -199,7 +199,7 @@ namespace Engine {
 #endif
         //[Timer]timeGenerate(moves, NoSwaps);
 #if DebugPseudoMoves
-        DisplayCurrent($"Search(Depth = {wDepth})");
+        DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
         var sb = new StringBuilder("PseudoMoves:");
         sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
         sb.FlushLine();

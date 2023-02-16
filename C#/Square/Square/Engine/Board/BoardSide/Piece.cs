@@ -465,7 +465,7 @@ namespace Engine {
       public Int32 AtxCount() {
         var nAtx = 0;
         if (!KingPos.HasValue)
-          throw new ArgumentException(nameof(KingPos), "Invalid King Position");
+          throw new ArgumentException("Invalid King Position", nameof(KingPos));
         Board.incTo(AtxKing[KingPos.Value]);
 
         Board.incTo(PawnA1H8Atx);

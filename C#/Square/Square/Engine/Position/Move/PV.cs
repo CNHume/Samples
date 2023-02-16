@@ -210,7 +210,7 @@ namespace Engine {
 #if TraceVal
         // CurrentMove set in [null|try]Move()
         if (IsTrace())
-          DisplayCurrent($"{nameof(lookupPV)}");
+          DisplayCurrent(nameof(lookupPV));
 #endif
         SetDraw50();                    // Mark Draw50 after having made the move
 
@@ -269,7 +269,7 @@ namespace Engine {
 #if TraceVal
         // CurrentMove set in [null|try]Move()
         if (IsTrace())
-          DisplayCurrent($"{nameof(AbbreviateRefresh)}");
+          DisplayCurrent(nameof(AbbreviateRefresh));
 #endif
         SetDraw50();                    // Mark Draw50 after having made the move
 

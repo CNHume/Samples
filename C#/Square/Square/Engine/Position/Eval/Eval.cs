@@ -329,7 +329,7 @@ namespace Engine {
 #if TestRookBehindPasser
             if (mRooksBehindBlack != 0 ||
                 mRooksBehindWhite != 0) {
-              DisplayCurrent("pieceval()");
+              DisplayCurrent(nameof(fullEval));
             }
 #endif
             mValue += mRooksBehindWhite;

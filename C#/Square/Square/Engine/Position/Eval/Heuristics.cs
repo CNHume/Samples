@@ -167,10 +167,10 @@ namespace Engine {
       if (bOutside) {
         var sideName = parameter.SideName;
         var sOutcome = bKingToMoveLoss ? "KingToMoveLoss" : "PawnToMoveWins";
-        var sq = (sq)vDefendingKingPos;
+        var sq = (Sq)vDefendingKingPos;
         testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
         testOrth("Pawns", Pawn);
-        DisplayCurrent("OutsideSquare");
+        DisplayCurrent(nameof(punishOutsideSquare));
       }
 #endif
       return (Eval)nReward;
@@ -353,7 +353,7 @@ namespace Engine {
         }
       }
 #if TestControlled
-      DisplayCurrent("mobility()");
+      DisplayCurrent(nameof(mobility));
 
       LogLine("WhiteControlled\n");
       WriteOrth(WhiteControlled);

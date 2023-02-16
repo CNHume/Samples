@@ -63,7 +63,7 @@ namespace Engine.MoveOrder {
         return sense;
       }
       else
-        throw new ArgumentException(nameof(obj), "Is not a GoodMove");
+        throw new ArgumentException("Is not a GoodMove", nameof(obj));
     }
     #endregion
   }

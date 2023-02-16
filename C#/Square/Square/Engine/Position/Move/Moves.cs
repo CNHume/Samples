@@ -9,7 +9,7 @@
 //#define DebugNodeTotal
 //#define DisplayPosition
 //#define TimePlayMove
-//#define TestHash                        //[Enable]TestHash() Conditional in Hashcode.cs
+//#define TestHash
 //#define TurnTest
 
 using System.Runtime.CompilerServices;
@@ -31,7 +31,7 @@ namespace Engine {
       var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
       if (State.NodeTotal != qNodeTotal) {
         Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
-        DisplayCurrent("resetMove()");
+        DisplayCurrent(nameof(resetMove));
       }
 #endif
     }
@@ -62,9 +62,10 @@ namespace Engine {
         clrEval();                      // Captures and Pawn moves invalidate staticEval()
 
       expireEnPassant();
-
-      TestHash();                       //[Conditional]
-
+#if TestHash
+      if (!TestHash())
+        DisplayCurrent(nameof(tryMove));
+#endif
       var bLegal = IsLegal(bFindRepetition, bRestricted);
       if (IsDefined(move)) {
         if (bLegal)
@@ -84,9 +85,10 @@ namespace Engine {
       SkipTurn();
 
       expireEnPassant();
-
-      TestHash();                       //[Conditional]
-
+#if TestHash
+      if (!TestHash())
+        DisplayCurrent(nameof(nullMove));
+#endif
       var bLegal = !InCheck();
       if (!bLegal)
         throw new BoardException("Illegal Null Move");
@@ -200,7 +202,7 @@ namespace Engine {
         var bValid = nCount > 1 ? bDraw2 : !bDraw2;
 
         if (!bValid)
-          DisplayCurrent("validateDraw2()");
+          DisplayCurrent(nameof(validateDraw2));
 
         return bValid;
       }

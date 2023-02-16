@@ -123,7 +123,7 @@ namespace Engine {
       else if (State.IsSearchInProgress) {
         // Diagnose Engine Generated Moves, not User Moves made via ParsePACNMakeMoves()
         Debug.Assert(bFromPin, "Move fails to evade check");
-        //[Debug]DisplayCurrent("restrictPiece()");
+        //[Debug]DisplayCurrent(nameof(addRestriction));
       }
     }
     #endregion                          // Pin Restrictions

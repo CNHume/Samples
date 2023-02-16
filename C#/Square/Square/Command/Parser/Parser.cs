@@ -655,16 +655,16 @@ namespace Command {
 
     public static String VerbatimLiteralToString(String sValue) {
       if (!IsVerbatimLiteral(sValue))
-        throw new ArgumentException(nameof(sValue), "Not a verbatim literal");
+        throw new ArgumentException("Not a verbatim literal", nameof(sValue));
 
       if (sValue.Length < 2 || sValue[sValue.Length - 1] != cDoubleQuote)
-        throw new ArgumentException(nameof(sValue), "Improperly delimited verbatim literal");
+        throw new ArgumentException("Improperly delimited verbatim literal", nameof(sValue));
 
       var sBody = sValue.Substring(1, sValue.Length - 2);
       var split = Regex.Split(sBody, sEscapedDoubleQuote);
 
       if (split.Any(s => s.Contains(cDoubleQuote)))
-        throw new ArgumentException(nameof(sValue), "Contains an improperly escaped double quote");
+        throw new ArgumentException("Contains an improperly escaped double quote", nameof(sValue));
 
       return Join(sDoubleQuote, split);
     }
