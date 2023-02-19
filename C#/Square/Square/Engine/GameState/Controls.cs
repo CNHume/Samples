@@ -77,7 +77,7 @@ namespace Engine {
         Option = new ControlOption {
           Name = "QXPLength",
           Type = OptionType.spin,
-          Default = "16",
+          Default = nQXPSelectionDefault.ToString(),
           Min = 1,
           Max = 128
         }
@@ -95,7 +95,7 @@ namespace Engine {
         Option = new ControlOption {
           Name = "XPLength",            //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
           Type = OptionType.spin,
-          Default = "48",
+          Default = nXPSelectionDefault.ToString(),
           Min = 1,
           Max = 128
         }
@@ -113,7 +113,7 @@ namespace Engine {
         Option = new ControlOption {
           Name = "XPMLength",
           Type = OptionType.spin,
-          Default = "8",
+          Default = nXPMSelectionDefault.ToString(),
           Min = 1,
           Max = 128
         }

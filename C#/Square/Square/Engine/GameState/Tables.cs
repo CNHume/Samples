@@ -30,6 +30,10 @@ namespace Engine {
   partial class GameState {
     private const Int32 nVariationsDefault = 12;    // Initial Allocation
 
+    private const Int32 nQXPSelectionDefault = 16;
+    private const Int32 nXPSelectionDefault = 48;
+    private const Int32 nXPMSelectionDefault = 8;
+
     #region Memo Table Dimensions
     //
     // The following table lists the largest Primes fitting into the given # of bits.
@@ -146,21 +150,21 @@ namespace Engine {
     }
 
     [MemberNotNull(nameof(QXPTank))]
-    private void newQXPTank() {
+    private void newQXPTank(Int32 nSelection = nQXPSelectionDefault) {
       if (QXPTank == null)
-        QXPTank = new Tank<QuietPosition>("QXP");
+        QXPTank = new Tank<QuietPosition>("QXP", nSelection);
     }
 
     [MemberNotNull(nameof(XPTank))]
-    private void newXPTank() {
+    private void newXPTank(Int32 nSelection = nXPSelectionDefault) {
       if (XPTank == null)
-        XPTank = new Tank<Transposition>("XP");
+        XPTank = new Tank<Transposition>("XP", nSelection);
     }
 
     [MemberNotNull(nameof(XPMTank))]
-    private void newXPMTank() {
+    private void newXPMTank(Int32 nSelection = nXPMSelectionDefault) {
       if (XPMTank == null)
-        XPMTank = new Tank<PositionMove>("XPM");
+        XPMTank = new Tank<PositionMove>("XPM", nSelection);
     }
 
     [MemberNotNull(nameof(Variation))]

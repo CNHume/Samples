@@ -31,15 +31,7 @@ namespace Cache {
   //
   using Hashcode = UInt64;
 
-  partial class Tank<T> where T : ITankable<T>, new()
-#if PreAllocated
-    , new()
-#endif
-    {
-    #region Constants
-    const UInt64 BIT0 = 1UL;
-    #endregion
-
+  partial class Tank<T> where T : ITankable<T>, new() {
     #region Properties
 #if ThreadSafeTank                      // One lock for each instance of Tank
     private readonly Object bucketLock = new object();
@@ -69,13 +61,14 @@ namespace Cache {
 #if LinkedTranspositions
     public LinkedList<T>[] Entries;
 #else
-    protected T[][]? Entries;
+    protected T[][] Entries;
 #endif
     #endregion
 
     #region Constructor
-    public Tank(String Name) {
+    public Tank(String Name, Int32 nSelection) {
       Counts = new ProbeCounter(Name);
+      Init(nSelection);
     }
     #endregion
 

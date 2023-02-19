@@ -115,11 +115,13 @@ namespace Command {
 
     public void Rewind(Int32 nRow = 0, Int32 nColumn = 0) {
       if (Rows.Count < nRow)
-        throw new ArgumentException($"Row = {nRow} must be <= Rows.Count = {Rows.Count}", nameof(nRow));
+        throw new ArgumentException(
+          $"Row = {nRow} must be <= Rows.Count = {Rows.Count}", nameof(nRow));
 
       var nLength = Rows[nRow]?.Length;
       if (nLength < nColumn)
-        throw new ArgumentException($"Column = {nColumn} must be <= Rows[{nRow}].Length = {nLength}", nameof(nColumn));
+        throw new ArgumentException(
+          $"Column = {nColumn} must be <= Rows[{nRow}].Length = {nLength}", nameof(nColumn));
 
       NextRow = nRow;
       ReadLine();
