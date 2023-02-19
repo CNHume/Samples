@@ -28,11 +28,13 @@ namespace Engine {
   using Ply = UInt16;
 
   partial class GameState {
+    #region Constants
     private const Int32 nVariationsDefault = 12;    // Initial Allocation
 
     private const Int32 nQXPSelectionDefault = 16;
     private const Int32 nXPSelectionDefault = 48;
     private const Int32 nXPMSelectionDefault = 8;
+    #endregion                          // Constants
 
     #region Memo Table Dimensions
     //

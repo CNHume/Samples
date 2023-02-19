@@ -73,8 +73,8 @@ namespace Engine {
 #endif
         //
         // Between 2% and 20% of all Pseudo Moves require a call to GetPieceIndex().
-        // At the rate of 72 MHz when a Pawn is found; 68 MHz otherwise, the 1.5%
-        // cost would be quite low even were it incurred for every generated move.
+        // At the rate of 477.8 MHz [2023-02-19] the 1.5% cost would be quite low
+        // even were it incurred for every generated move.
         //
         vCapture = GetPieceIndex(nTo);
 

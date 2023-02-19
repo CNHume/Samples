@@ -47,8 +47,7 @@ namespace Engine {
       //[Time]timeRoots();
       //[Time]timeEval();
       //[Time]timeMove((Move)0x00140759);       //[Perft3]b4f4
-      //[Time]
-      timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
+      //[Time]timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
       //[Time]timeMove((Move)0x00010A61);       //[Perft3]b5b6
       //[Time]timeMove((Move)0x00040699);       //[Perft3]b4c4
       //timeWeighPieces();
@@ -62,7 +61,8 @@ namespace Engine {
       //[Time]
       //timeRemoveLo();
       //[Time]timeStaticLoads();
-      //[Time]timeCapturedPiece();
+      //[Time]
+      timeCapturedPiece();
       //[Test]timeExecute("test", 100000);
     }
 
