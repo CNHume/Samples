@@ -654,17 +654,19 @@ namespace Command {
     }
 
     public static String VerbatimLiteralToString(String sValue) {
+      const string paramName = nameof(sValue);
+
       if (!IsVerbatimLiteral(sValue))
-        throw new ArgumentException("Not a verbatim literal", nameof(sValue));
+        throw new ArgumentException("Not a verbatim literal", paramName);
 
       if (sValue.Length < 2 || sValue[sValue.Length - 1] != cDoubleQuote)
-        throw new ArgumentException("Improperly delimited verbatim literal", nameof(sValue));
+        throw new ArgumentException("Improperly delimited verbatim literal", paramName);
 
       var sBody = sValue.Substring(1, sValue.Length - 2);
       var split = Regex.Split(sBody, sEscapedDoubleQuote);
 
       if (split.Any(s => s.Contains(cDoubleQuote)))
-        throw new ArgumentException("Contains an improperly escaped double quote", nameof(sValue));
+        throw new ArgumentException("Contains an improperly escaped double quote", paramName);
 
       return Join(sDoubleQuote, split);
     }

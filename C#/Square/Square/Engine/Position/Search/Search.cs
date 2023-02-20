@@ -16,7 +16,6 @@
 //#define DebugCandidateMoves
 //#define DebugGoodMoves
 //#define DebugNextMove
-#define UseHistory
 #define UseMoveSort
 #define LazyMoveSort
 //#define LateMoveReduction

@@ -83,7 +83,8 @@ namespace Command {
         var scanner = Parser?.Scanner;
         var type = GetType();
         var message = IsNullOrEmpty(scanner?.Text) ?
-          $"{TokenType} expected" : $@"The {TokenType} {type.Name} does not accept ""{scanner.Text}""";
+          $"{TokenType} expected" :
+          $@"The {TokenType} {type.Name} does not accept ""{scanner.Text}""";
         throw new ChessException(message);
       }
       #endregion
