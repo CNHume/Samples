@@ -63,7 +63,7 @@ namespace Engine {
     }
 
     private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
-      //[Test]Debug.Assert(mValue > EvalUndefined, "rewardMove(EvalUndefined)");
+      //[Test]Debug.Assert(mValue > EvalUndefined, $"{nameof(rewardMove)}({nameof(EvalUndefined)})");
 #if NoMaterial
       var bMaterial = move.Has(Move.Material);
       if (bMaterial) return;

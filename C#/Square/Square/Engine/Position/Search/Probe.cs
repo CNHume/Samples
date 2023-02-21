@@ -123,8 +123,8 @@ namespace Engine {
     private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
                           Move moveBest = Move.Undefined,
                           Move moveExcluded = Move.Undefined) {       // 10 MHz
-      Trace.Assert(EvalUndefined < mValue, "storeXPM(EvalUndefined)");
-      traceVal("storeXPM", mValue, et); //[Conditional]
+      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
+      traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
       State.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
       var bWTM = WTM();
@@ -187,7 +187,7 @@ namespace Engine {
         var moveFound = adjustEmptyMove(found.BestMove);
         var etFound = found.Type;
         var mValueFound = found.Value;
-        traceVal("probeXPM", mValueFound, etFound);     //[Conditional]
+        traceVal(nameof(probeXPM), mValueFound, etFound);     //[Conditional]
         var mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);
       }
 
@@ -199,8 +199,8 @@ namespace Engine {
     private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
                          Move moveBest = Move.Undefined,
                          Move moveExcluded = Move.Undefined) {  // 10 MHz
-      Trace.Assert(EvalUndefined < mValue, "storeXP(EvalUndefined)");
-      traceVal("storeXP", mValue, et);  //[Conditional]
+      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
+      traceVal(nameof(storeXP), mValue, et);    //[Conditional]
       State.IncEvalType(et);
       var qDynamic = DynamicHash(moveExcluded);
       var mAdjusted = creditMate(mValue, SearchPly);
@@ -264,7 +264,7 @@ namespace Engine {
       moveFound = adjustEmptyMove(match.BestMove);      //[out]3
       etFound = match.Type;                             //[out]2
       var mValueFound = match.Value;
-      traceVal("probeXP", mValueFound, etFound);        //[Conditional]
+      traceVal(nameof(probeXP), mValueFound, etFound);  //[Conditional]
       mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
       var bValueDefined = EvalUndefined < mValue;
       return bValid && bValueDefined;
@@ -274,8 +274,8 @@ namespace Engine {
     #region QXP Methods
     private Eval storeQXP(Eval mValue, EvalType et,
                           Move moveBest = Move.Undefined) {
-      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}(EvalUndefined)");
-      traceVal("storeQXP", mValue, et); //[Conditional]
+      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
+      traceVal(nameof(storeQXP), mValue, et);   //[Conditional]
       State.IncEvalType(et);
       var mAdjusted = creditMate(mValue, SearchPly);
 
@@ -316,7 +316,7 @@ namespace Engine {
       //[Note]Mate values are suspect because quiet moves were not considered
       var mValueFound = match.Value;
       mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly); //[out]1
-      traceVal("probeQXP", mValue, etFound);            //[Conditional]
+      traceVal(nameof(probeQXP), mValue, etFound);      //[Conditional]
       var bValueDefined = EvalUndefined < mValue;
       return bValid && bValueDefined;
     }
@@ -367,8 +367,8 @@ namespace Engine {
     //
     private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
       var bWTM = WTM();
-      Trace.Assert(EvalUndefined < mValue, "storeKiller(EvalUndefined)");
-      traceVal("storeKiller", mValue, et);      //[Conditional]
+      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
+      traceVal(nameof(storeKiller), mValue, et);        //[Conditional]
       var mAdjusted = creditMate(mValue, SearchPly);
       var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
       UInt32 wPly = State.MovePly;
@@ -414,7 +414,7 @@ namespace Engine {
         var moveFound = killer.Move;
         var mValueFound = killer.Value;
         var etFound = killer.Type;
-        traceVal("probeKiller", mValueFound, etFound);  //[Conditional]
+        traceVal(nameof(probeKiller), mValueFound, etFound);  //[Conditional]
         addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound, bFilterEvalUndefined);
       }
 
