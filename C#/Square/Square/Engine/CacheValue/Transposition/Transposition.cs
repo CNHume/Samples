@@ -69,6 +69,16 @@ namespace Engine.CacheValue {
       ibv = IBV(mValue, et);
       BestMove = moveBest & Move.CheckMask;
     }
+    #endregion                          // Constructors
+
+    #region ITankable Interface Properties
+    public Hashcode Hash { get; set; }
+#if XPMoveTypes
+    public MoveTypeOrdering MoveTypeOrdering { get; set; }
+#endif
+    public Boolean IsEmpty {
+      get { return Hash == 0; }
+    }
     #endregion
 
     #region ITankable Interface Methods
@@ -83,19 +93,7 @@ namespace Engine.CacheValue {
       return Hash == xp.Hash;
 #endif
     }
-    #endregion
 
-    #region ITankable Interface Properties
-    public Hashcode Hash { get; set; }
-#if XPMoveTypes
-    public MoveTypeOrdering MoveTypeOrdering { get; set; }
-#endif
-    public Boolean IsEmpty {
-      get { return Hash == 0; }
-    }
-    #endregion
-
-    #region ITankable Interface Methods
     public ProbeResult Result(ref Transposition match) {
       //
       // 1) Is the match Valid at the current Search Depth?
@@ -159,7 +157,7 @@ namespace Engine.CacheValue {
 #endif
       return bNew;
     }
-    #endregion
+    #endregion                          // ITankable Interface Methods
 
     #region Methods
 #if !TranspositionByValue
@@ -178,10 +176,7 @@ namespace Engine.CacheValue {
       BestMove = store.BestMove;
     }
 #endif
-    public Ply Age(Ply wGamePly) {
-      return (Ply)(wGamePly - MovePly);
-    }
-    #endregion
+    #endregion                          // Methods
 
     #region Fields
 #if XPHash128
