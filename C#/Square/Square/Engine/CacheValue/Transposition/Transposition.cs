@@ -57,7 +57,7 @@ namespace Engine.CacheValue {
                          EvalType et = EvalType.Undefined,
                          Move moveBest = Move.Undefined) {
       Hash = qHash;
-      Debug.Assert(Hash != 0, "Zero Hash [Transposition]");
+      Debug.Assert(Hash != 0, $"Zero Hash [{nameof(Transposition)}]");
 #if XPHash128
       HashPawn = qHashPawn;
 #endif

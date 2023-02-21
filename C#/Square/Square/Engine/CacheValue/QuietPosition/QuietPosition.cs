@@ -51,7 +51,7 @@ namespace Engine.CacheValue {
                          EvalType et = EvalType.Undefined,
                          Move moveBest = Move.Undefined) {
       Hash = qHash;
-      Debug.Assert(Hash != 0, "Zero Hash [QuietPosition]");
+      Debug.Assert(Hash != 0, $"Zero Hash [{nameof(QuietPosition)}]");
 #if QXPHash128
       HashPawn = qHashPawn;
 #endif

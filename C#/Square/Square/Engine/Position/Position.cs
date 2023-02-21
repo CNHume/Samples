@@ -233,6 +233,10 @@ namespace Engine {
     }
 
     [MemberNotNull(
+#if UseMoveSort
+      nameof(SortMoves),
+      nameof(PriorityMove),
+#endif
       nameof(PseudoQueenPromotionCapture),
       nameof(PseudoUnderPromotionCapture),
       nameof(PseudoEPCapture),
@@ -258,9 +262,7 @@ namespace Engine {
       nameof(PseudoGoodCaptures),
       nameof(PseudoBadCaptures),
       nameof(PseudoCaptures),
-      nameof(PseudoMoves),
-      nameof(SortMoves),
-      nameof(PriorityMove)
+      nameof(PseudoMoves)
       )]
     private void newPseudoMoves() {
 #if NoCapacity

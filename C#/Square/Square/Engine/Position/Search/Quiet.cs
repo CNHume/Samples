@@ -16,6 +16,7 @@
 //#define SwapOn
 //#define VerifyUpper
 
+using System.Diagnostics;
 using System.Text;
 
 namespace Engine {
@@ -147,7 +148,7 @@ namespace Engine {
 #if DebugMoveColor
             var bWhiteMove = move.Has(Move.WTM);
             if (bDebugWTM != bWhiteMove) {
-              Debug.Assert(bDebugWTM == bWhiteMove, "WTM != WhiteMove [search]");
+              Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
             }
 #endif
             var bNonMaterial = !move.Has(Move.Material);

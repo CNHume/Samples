@@ -204,7 +204,7 @@ namespace Engine {
       // Sift up the elements of "moves" found in goodMoves:
       //
       foreach (var move in moves) {
-        if (goodMoves.Exists(gm => equalMoves(gm.Move, move))) {
+        if (goodMoves.Exists(gm => EqualMoves(gm.Move, move))) {
           earlyMoves.Add(move);
           State.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
         }
@@ -221,16 +221,16 @@ namespace Engine {
 #if DebugMoveColor && BottleBothSides
         var bWhiteMove = gm.Move.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [sortMoves]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(sortMoves)}]");
           DisplayCurrent(nameof(sortMoves));
         }
 #endif
         //SiftedMoves was cleared in generate() via clearPseudoMoveLists()
-        var nIndex = earlyMoves.FindIndex(em => equalMoves(em, gm.Move));
+        var nIndex = earlyMoves.FindIndex(em => EqualMoves(em, gm.Move));
         if (nIndex >= 0) {
           var em = earlyMoves[nIndex];
           //[Note]goodMoves may contain dupilicates
-          if (!SiftedMoves.Exists(sm => equalMoves(sm, em))) {
+          if (!SiftedMoves.Exists(sm => EqualMoves(sm, em))) {
 #if TestGoodCapture
             var good = gm.Move & Move.StoreMask;
             if (good != em) {

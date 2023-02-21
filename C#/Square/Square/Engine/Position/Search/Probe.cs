@@ -96,7 +96,7 @@ namespace Engine {
         //
         // Duplicates should be avoided; but will be filtered from SiftedMoves
         //
-        if (goodMoves.Exists(gm => equalMoves(gm.Move, moveFound))) {
+        if (goodMoves.Exists(gm => EqualMoves(gm.Move, moveFound))) {
 #if DEBUG
           var sb = new StringBuilder()
             .AppendFormat("Filtering ")
@@ -147,7 +147,7 @@ namespace Engine {
       if (IsDefinite(moveBest)) {
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeXPM]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXPM)}]");
           DisplayCurrent(nameof(storeXPM));
         }
       }
@@ -214,7 +214,7 @@ namespace Engine {
         var bWTM = WTM();
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeXP]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXP)}]");
           DisplayCurrent(nameof(storeXP));
         }
       }
@@ -274,7 +274,7 @@ namespace Engine {
     #region QXP Methods
     private Eval storeQXP(Eval mValue, EvalType et,
                           Move moveBest = Move.Undefined) {
-      Trace.Assert(EvalUndefined < mValue, "storeQXP(EvalUndefined)");
+      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}(EvalUndefined)");
       traceVal("storeQXP", mValue, et); //[Conditional]
       State.IncEvalType(et);
       var mAdjusted = creditMate(mValue, SearchPly);
@@ -288,7 +288,7 @@ namespace Engine {
         var bWTM = WTM();
         var bWhiteMove = moveBest.Has(Move.WTM);
         if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, "WTM != WhiteMove [storeQXP]");
+          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeQXP)}]");
           DisplayCurrent(nameof(storeQXP));
         }
       }

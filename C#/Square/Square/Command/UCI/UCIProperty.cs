@@ -150,7 +150,8 @@ namespace Command {
     //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
     // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
-    // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0 [2023-01-07 17-ply in 35:08.1] eval #11
+    // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0
+    // [2023-01-07 17-ply in 35:08.1] eval #11
     // [2023-01-07 18-ply in 50:59 @1.496 MHz over 4.576 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
