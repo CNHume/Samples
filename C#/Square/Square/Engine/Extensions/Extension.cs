@@ -70,7 +70,7 @@ namespace Engine {
       var fColorSide = fBlackSide | fWhiteSide;
 
       if (!fColorSide.Has(SideFlags.CanCastle))
-        sb.Append("-");
+        sb.Append(cMinus);
       else if (bChess960) {
         sb.AppendChess960CastleRights(whiteSide, 'A');
         sb.AppendChess960CastleRights(blackSide, 'a');
@@ -234,10 +234,11 @@ namespace Engine {
       StringBuilder sb,
       String sDelimiter = sSpace,
       Int16 mWrap = mWrapLength) {
-      if (sbLine.Length < mWrap)    // PGN style line wrap
+      if (sbLine.Length < mWrap)        // PGN style line wrap
         return sbLine.Delimit(sDelimiter);
 
-      sb.Append(sbLine).AppendLine();
+      sb.Append(sbLine)
+        .AppendLine();
       return sbLine.Clear();
     }
 
@@ -246,7 +247,10 @@ namespace Engine {
       StringBuilder sb,
       Ply wGamePly,
       String sSuffix) {
-      return sbLine.Append(MoveNumber(wGamePly)).Append(sSuffix);
+      return
+        sbLine
+          .Append(MoveNumber(wGamePly))
+          .Append(sSuffix);
     }
 
     public static StringBuilder Append(this StringBuilder sb, Command.SearchBound bound) {
@@ -262,7 +266,7 @@ namespace Engine {
 
     #region Eval Methods
     //
-    // Concise, User friendly Eval
+    // Concise, User-friendly Eval
     //
     public static StringBuilder AppendEvalTerm(this StringBuilder sb, Eval mEval) {
       sb.Delimit();
@@ -280,7 +284,8 @@ namespace Engine {
           sb.Append(sEvalMinus);
 
         if (mAbs <= MateMax)
-          sb.Append(sEvalMovesToMate).Append(MateMax - mAbs);
+          sb.Append(sEvalMovesToMate)
+            .Append(MateMax - mAbs);
         else if (mAbs == PlusInfinity)
           sb.Append(sEvalInfinity);
         else
@@ -304,7 +309,8 @@ namespace Engine {
       var mAbs = Abs(mEval);
       if (mAbs < MateMin) {
         var nCentiPawn = Round(100 * mEval, mUnitWeight);
-        sb.Append(sEvalUCICentiPawns).Append(nCentiPawn);
+        sb.Append(sEvalUCICentiPawns)
+          .Append(nCentiPawn);
       }
       else {
         sb.Append(sEvalUCIMovesToMate);
@@ -330,7 +336,8 @@ namespace Engine {
       var x = (Int32)(fturn & TurnFlags.EPFile);
       var bWTM = fturn.Has(TurnFlags.WTM);
       //[Note]EPFile identifies a Black pawn when it is White to move, and vice versa
-      return (Int32)(bWTM ? Sq.a6 : Sq.a3) + x;
+      var nRank = (Int32)(bWTM ? Sq.a6 : Sq.a3);
+      return nRank + x;
     }
 
     //[Speed]Enum.HasFlag() incurs significant performance overhead, due to reflection.
@@ -581,7 +588,8 @@ namespace Engine {
       sb.Clear();
 
       if (IsOdd(wGamePly) && !bPure)    // Odd Ply => Number Black Move
-        sbLine.Wrap(sb).appendMoveNumber(sb, wGamePly, sElipsis);
+        sbLine.Wrap(sb)
+              .appendMoveNumber(sb, wGamePly, sElipsis);
 
       const Int32 nCapacity = 1;
       var brackets = new Stack<String>(nCapacity);
@@ -595,7 +603,8 @@ namespace Engine {
           if (bQxnt && !bWasQxnt) {
             bWasQxnt = bQxnt;
             brackets.Push(sQxntClose);
-            sbLine.Wrap(sb).Append(sQxntOpen);
+            sbLine.Wrap(sb)
+                  .Append(sQxntOpen);
             bDelimited = true;
           }
           else if (bWasQxnt && !bQxnt) {
@@ -616,7 +625,8 @@ namespace Engine {
           sbLine.AppendPACN(move, sides, bChess960);
         else {
           if (IsEven(wGamePly))         // Even Ply => Number White Move
-            sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber).Wrap(sb);
+            sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber)
+                  .Wrap(sb);
 
           sbLine.AppendAN(move, sides, bChess960);
         }
