@@ -30,12 +30,14 @@ namespace Engine {
     #region Constants
     internal const Int16 mWrapLength = 144;
 
+    internal const Char cSemi = ';';
+    internal const Char cSpace = ' ';
+    internal const Char cMinus = '-';
+
     internal const Char cVacant = '-';
     internal const Char cOccupied = 'X';
     internal const Char cNewline = '\n';
 
-    internal const Char cSemi = ';';
-    internal const Char cSpace = ' ';
     internal const Char cFileMin = 'a';
     internal const Char cRankMin = '1';
 
@@ -187,16 +189,16 @@ namespace Engine {
     private void appendPosition(StringBuilder sb) {
       appendPositionPieces(sb);
 
-      var sSideToMove = WTM() ? " w " : " b ";
-      sb.Append(sSideToMove)
-        .AppendCastlingRights(Side, State.IsChess960);
+      sb.Append(cSpace)
+        .Append(WTM() ? 'w' : 'b')
+        .Append(cSpace)
+        .AppendCastlingRights(Side, State.IsChess960)
+        .Append(cSpace);
 
-      if (!IsPassed())
-        sb.Append(" -");
-      else {
-        sb.Append(cSpace)
-          .Append((Sq)FlagsTurn.sqrEP());
-      }
+      if (IsPassed())
+        sb.Append((Sq)FlagsTurn.sqrEP());
+      else
+        sb.Append(cMinus);
     }
 
     public String ToString(PositionType type = PositionType.FEN) {

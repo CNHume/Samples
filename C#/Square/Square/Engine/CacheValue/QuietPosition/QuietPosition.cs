@@ -67,7 +67,7 @@ namespace Engine.CacheValue {
     public Boolean IsEmpty {
       get { return Hash == 0; }
     }
-    #endregion
+    #endregion                          // ITankable Interface Properties
 
     #region ITankable Interface Methods
     public Boolean Match(QuietPosition qxp) {
