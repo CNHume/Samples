@@ -502,15 +502,15 @@ namespace Engine {
     // In both cases: score==mBest
     // In the latter case: n==mAlpha1, cur==mValue
     //
-    // The nomenclature of node types is surveyed at
+    // Node Type Nomenclature is surveyed at
     // https://www.chessprogramming.org/Node_Types
     //
-    // Knuth+ Marsland+ Value   Search
-    // Moore  Popowich  Bound   Window
-    // -----  --------  -----   ------
-    //   1      PV      Exact   Alpha <= Value < Beta
-    //   2      Cut     Lower   Fail High Beta <= Value
-    //   3      All     Upper   Fail Low  Value <= Alpha
+    // Knuth+ Marsland+ Eval    Fail    Search
+    // Moore  Popowich  Type    Type    Window
+    // -----  --------  -----   ----    ------
+    //   1      PV      Exact           Alpha < Value < Beta
+    //   2      Cut     Lower   High    Beta <= Value
+    //   3      All     Upper   Low     Value <= Alpha
     //
     // See "The DTS high-performance parallel tree search algorithm" at
     // http://www.craftychess.com/hyatt/search.html
@@ -583,8 +583,8 @@ namespace Engine {
       var wShallow = reduceShallow(wDraft);
 
       //
-      // Razoring is a risky Forward Pruning idea; but
-      // does prune 25% of the nodes in some positions.
+      // Razoring is a risky Forward Pruning idea which
+      // may prune 25% of the nodes in some positions.
       // See https://www.chessprogramming.org/Razoring
       //
       if (State.IsOccam && wDepth <= wOccamDepthMax) {
