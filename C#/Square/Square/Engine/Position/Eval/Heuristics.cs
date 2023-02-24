@@ -152,34 +152,46 @@ namespace Engine {
     #endregion                          // End Game Detection
 
     #region King Outside Square of the Pawn
-    private Eval punishOutsideSquare() {
-      var bWhiteAlone = FlagsGame.Has(GameFlags.WhiteAlone);
+    private bool isOutside(bool bWhiteAlone) {
+      var defender = GetSide(bWhiteAlone);
+      var vKingPos = defender.GetKingPos();
+
       var bWTM = WTM();
       var parameter = Parameter[bWTM ? White : Black];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
+
       var qpArray = bKingToMoveLoss ?
         parameter.KingToMoveLoss :
         parameter.PawnToMoveWins;
 
-      var side = GetSide(bWhiteAlone);
-      var vDefendingKingPos = side.GetKingPos();
-      var bOutside = (qpArray[vDefendingKingPos] & Pawn) != 0;
-      var nReward = bOutside ? (Int32)mOutsideSquareWeight : 0;
-
-      if (bWhiteAlone) nReward = -nReward;
+      var bOutside = (qpArray[vKingPos] & Pawn) != 0;
 #if TestOutsideSquare
       if (bOutside) {
         var sideName = parameter.SideName;
         var sOutcome = bKingToMoveLoss ?
           "KingToMoveLoss" :
           "PawnToMoveWins";
-        var sq = (Sq)vDefendingKingPos;
-        testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
+        var sq = (Sq)vKingPos;
+        testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vKingPos]);
         testOrth("Pawns", Pawn);
         DisplayCurrent(nameof(punishOutsideSquare));
       }
 #endif
-      return (Eval)nReward;
+      return bOutside;
+    }
+
+    private Eval punishOutsideSquare() {
+      Eval mReward = 0;
+
+      var bWhiteAlone = FlagsGame.Has(GameFlags.WhiteAlone);
+      var bOutside = isOutside(bWhiteAlone);
+
+      if (bOutside) {
+        mReward = bWhiteAlone ?
+          (Eval)(-mOutsideSquareWeight) : mOutsideSquareWeight;
+      }
+
+      return mReward;
     }
     #endregion                          // King Outside Square of the Pawn
 
