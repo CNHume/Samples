@@ -162,6 +162,11 @@ namespace Engine {
           Debug.Assert(fsideInsufficient == sideInsufficient, message);
         }
       }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public void SetLoneKing() {
+        FlagsSide |= SideFlags.LoneKing;
+      }
       #endregion                        // SideFlags Methods
       #endregion                        // Methods
     }                                   // BoardSide

@@ -59,14 +59,17 @@ namespace Engine {
     internal static TurnFlags[] turnFlags =
       { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.WTM };
 
-    internal static SideFlags[] sideFlags =
-      { SideFlags.Insufficient, SideFlags.Dark, SideFlags.Lite, SideFlags.CanOOO, SideFlags.CanOO };
+    internal static SideFlags[] sideFlags = {
+      SideFlags.LoneKing, SideFlags.Insufficient,
+      SideFlags.Dark, SideFlags.Lite,
+      SideFlags.CanOOO, SideFlags.CanOO };
 
-    internal static GameFlags[] gameFlags =
-      { GameFlags.KQvKP, GameFlags.KBNvK, GameFlags.OutsideSquare, GameFlags.BlackAlone, GameFlags.WhiteAlone };
+    internal static EvalFlags[] gameFlags =
+      { EvalFlags.KQvKP, EvalFlags.KBNvK, EvalFlags.OutsideSquare };
 
-    internal static DrawFlags[] drawFlags =
-      { DrawFlags.DrawIM, DrawFlags.Draw50, DrawFlags.Draw3, DrawFlags.Draw2, DrawFlags.Draw0 };
+    internal static DrawFlags[] drawFlags = {
+      DrawFlags.DrawIM, DrawFlags.Draw50,
+      DrawFlags.Draw3, DrawFlags.Draw2, DrawFlags.Draw0 };
 
     internal static ModeFlags[] modeFlags =
       { ModeFlags.Trace, ModeFlags.Reduced, ModeFlags.ZWS, ModeFlags.NullMade };
@@ -83,8 +86,8 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(GameFlags fgame) {
-      var en = gameFlags.Where(f => fgame.Has(f));
+    public static String FormatFlags(EvalFlags feval) {
+      var en = gameFlags.Where(f => feval.Has(f));
       return Join(sSpace, en);
     }
 
@@ -108,11 +111,11 @@ namespace Engine {
     public static String FormatFlags(
       ModeFlags fmode,
       DrawFlags fdraw,
-      GameFlags fgame,
+      EvalFlags feval,
       SideFlags fBlackSide,
       SideFlags fWhiteSide,
       TurnFlags fturn) {
-      if (fmode == 0 && fdraw == 0 && fgame == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
+      if (fmode == 0 && fdraw == 0 && feval == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
       var sBlackSide = FormatFlags(fBlackSide);
@@ -124,7 +127,7 @@ namespace Engine {
       var sFlags = new List<String>(nCapacity)
         .AddNotEmpty(FormatFlags(fmode))
         .AddNotEmpty(FormatFlags(fdraw))
-        .AddNotEmpty(FormatFlags(fgame))
+        .AddNotEmpty(FormatFlags(feval))
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled)
         .AddNotEmpty(FormatFlags(fturn));
@@ -344,7 +347,7 @@ namespace Engine {
           FormatFlags(
             FlagsMode,
             FlagsDraw,
-            FlagsGame,
+            FlagsEval,
             blackSide.FlagsSide,
             whiteSide.FlagsSide,
             FlagsTurn))

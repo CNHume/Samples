@@ -111,59 +111,68 @@ namespace Engine {
         isKQvKPEndgame2(whiteSide, blackSide);
     }
 
-    private Boolean isKBNvKEndgame(SideFlags fside) {
+    private Boolean isKBNvKEndgame(Boolean bBishopPair) {
       //[Assume]KingAlone and No Rooks or Queens
       if ((Bishop | Knight) == 0)       // At least one Bishop and one Knight
         return false;
 
       var bEndgame =
         IsOneOrNone(Knight) &&          // At most one Knight
-        !HasBishopPair(fside);          // No Bishop Pair
+        !bBishopPair;                   // No Bishop Pair
 
       return bEndgame;
     }
 
-    private GameFlags getEndGameFlags() {
-      GameFlags fgame = default;
+    private EvalFlags getEndGameFlags() {
+      EvalFlags feval = default;
+      var bLoneKing = false;
 
       var (blackSide, whiteSide) = Side.GetBothSides();
-      if (blackSide.IsAlone()) fgame |= GameFlags.BlackAlone;
-      if (whiteSide.IsAlone()) fgame |= GameFlags.WhiteAlone;
+      if (blackSide.IsAlone()) {
+        blackSide.SetLoneKing();
+        bLoneKing = true;
+      }
 
-      if (!fgame.Has(GameFlags.KingAlone)) {
-        if (isKQvKPEndgame()) fgame |= GameFlags.KQvKP;
+      if (whiteSide.IsAlone()) {
+        whiteSide.SetLoneKing();
+        bLoneKing = true;
+      }
+
+      if (!bLoneKing) {
+        if (isKQvKPEndgame()) feval |= EvalFlags.KQvKP;
       }
       else if (OrthPiece == 0) {        // No Rooks or Queens
-        var bWhiteAttacker = fgame.Has(GameFlags.BlackAlone);
+        var bWhiteAttacker = blackSide.FlagsSide.Has(SideFlags.LoneKing);
         var attacker = GetSide(bWhiteAttacker);
-        if ((attacker.Piece & Pawn) != 0)
-          fgame |= GameFlags.OutsideSquare;
-        else if (isKBNvKEndgame(attacker.FlagsSide))
-          fgame |= GameFlags.KBNvK;
+        if ((attacker.Piece & Pawn) == 0) {
+          if (isKBNvKEndgame(HasBishopPair(attacker.FlagsSide)))
+            feval |= EvalFlags.KBNvK;
+        }
+        else if (isOutsideSquare(whiteSide.FlagsSide.Has(SideFlags.LoneKing)))
+          feval |= EvalFlags.OutsideSquare;
       }
 
-      return fgame;
+      return feval;
     }
 
     private void setEndGameFlags() {
-      FlagsGame &= ~GameFlags.EndGame;
-      FlagsGame |= getEndGameFlags();
+      FlagsEval &= ~EvalFlags.EndGame;
+      FlagsEval |= getEndGameFlags();
     }
     #endregion                          // End Game Detection
 
     #region King Outside Square of the Pawn
-    private bool isOutside(bool bWhiteAlone) {
-      var defender = GetSide(bWhiteAlone);
-      var vKingPos = defender.GetKingPos();
-
+    private Boolean isOutsideSquare(Boolean bWhiteDefender) {
       var bWTM = WTM();
-      var parameter = Parameter[bWTM ? White : Black];
-      var bKingToMoveLoss = bWhiteAlone == bWTM;
+      var bKingToMoveLoss = bWhiteDefender == bWTM;
 
+      var parameter = Parameter[bWTM ? White : Black];
       var qpArray = bKingToMoveLoss ?
         parameter.KingToMoveLoss :
         parameter.PawnToMoveWins;
 
+      var defender = GetSide(bWhiteDefender);
+      var vKingPos = defender.GetKingPos();
       var bOutside = (qpArray[vKingPos] & Pawn) != 0;
 #if TestOutsideSquare
       if (bOutside) {
@@ -174,24 +183,16 @@ namespace Engine {
         var sq = (Sq)vKingPos;
         testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vKingPos]);
         testOrth("Pawns", Pawn);
-        DisplayCurrent(nameof(punishOutsideSquare));
+        DisplayCurrent(nameof(isOutsideSquare));
       }
 #endif
       return bOutside;
     }
 
-    private Eval punishOutsideSquare() {
-      Eval mReward = 0;
-
-      var bWhiteAlone = FlagsGame.Has(GameFlags.WhiteAlone);
-      var bOutside = isOutside(bWhiteAlone);
-
-      if (bOutside) {
-        mReward = bWhiteAlone ?
-          (Eval)(-mOutsideSquareWeight) : mOutsideSquareWeight;
-      }
-
-      return mReward;
+    private Eval punishOutsideSquare(Boolean bWhiteAlone) {
+      return bWhiteAlone ?
+           (Eval)(-mOutsideSquareWeight) :
+           mOutsideSquareWeight;
     }
     #endregion                          // King Outside Square of the Pawn
 
@@ -251,7 +252,8 @@ namespace Engine {
     }
 #endif
     private Eval rewardKBNvKMateCorner() {
-      var bWhiteAttacker = FlagsGame.Has(GameFlags.BlackAlone);
+      var fBlackSide = Side[Black].FlagsSide;
+      var bWhiteAttacker = fBlackSide.Has(SideFlags.LoneKing);
       var (attacker, defender) = GetSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
 
@@ -263,10 +265,8 @@ namespace Engine {
       return (Eval)(bWhiteAttacker ? nReward : -nReward);
     }
 
-    private Eval rewardKQvKPProximity() {
+    private Eval rewardKQvKPProximity(Boolean bWhiteAttacker) {
       const Int32 nMaxPawnDistance = nFiles - 2;
-      var blackSide = Side[Black];
-      var bWhiteAttacker = (blackSide.Piece & Pawn) != 0;
       var attacker = GetSide(bWhiteAttacker);
       var vAttackerKingPos = attacker.GetKingPos();
       var qp = Pawn;

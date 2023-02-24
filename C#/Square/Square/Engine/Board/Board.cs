@@ -289,7 +289,7 @@ namespace Engine {
         Side[nSide].CopyFlags(board.Side[nSide]);
 
       FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
-      FlagsGame = board.FlagsGame & GameFlags.Copy;
+      FlagsEval = board.FlagsEval & EvalFlags.Copy;
       FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
       FlagsMode = board.FlagsMode & ModeFlags.Copy;
     }

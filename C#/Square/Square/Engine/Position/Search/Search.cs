@@ -156,7 +156,7 @@ namespace Engine {
         // Determine whether Futility Pruning should be performed at Frontier Nodes:
         if (State.IsFutility && 0 < wDepth) {
           var bNonMateWindow = -MateMin < mAlpha && mBeta < MateMin;
-          var bNonEndGame = (FlagsGame & GameFlags.EndGame) == 0;
+          var bNonEndGame = (FlagsEval & EvalFlags.EndGame) == 0;
           if (bNonMateWindow && bNonEndGame) {
             var nMargin = wDepth - 1;
             if (nMargin < FutilityMargin.Length)

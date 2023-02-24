@@ -163,7 +163,7 @@ namespace Engine {
       var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
       var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
-      setEndGameFlags();                // Composition2 values do not depend on GameFlags.EndGame
+      setEndGameFlags();                // Composition2 values do not depend on EvalFlags.EndGame
 
       var mValueBlack = compBlack.Value;
       var mValueWhite = compWhite.Value;
@@ -294,22 +294,25 @@ namespace Engine {
       //
       if (Pawn == 0) {                  // PawnHash == default(Hashcode)}
 #if EvalKBNvKMateCorner
-        if (FlagsGame.Has(GameFlags.KBNvK)) {
+        if (FlagsEval.Has(EvalFlags.KBNvK)) {
           var mReward = rewardKBNvKMateCorner();
           mValue += mReward;
         }
 #endif
       }
-      else {
+      else {                            // Pawn != 0
 #if EvalOutsideSquare
-        if (FlagsGame.Has(GameFlags.OutsideSquare)) {
-          var mReward = punishOutsideSquare();
+        if (FlagsEval.Has(EvalFlags.OutsideSquare)) {
+          var fWhiteSide = Side[White].FlagsSide;
+          var mReward = punishOutsideSquare(fWhiteSide.Has(SideFlags.LoneKing));
           mValue += mReward;
         }
 #endif
 #if EvalKQvKPDistance
-        if (FlagsGame.Has(GameFlags.KQvKP)) {
-          var mReward = rewardKQvKPProximity();
+        if (FlagsEval.Has(EvalFlags.KQvKP)) {
+          var blackSide = Side[Black];
+          var bWhiteAttacker = (blackSide.Piece & Pawn) != 0;
+          var mReward = rewardKQvKPProximity(bWhiteAttacker);
           mValue += mReward;
         }
 #endif

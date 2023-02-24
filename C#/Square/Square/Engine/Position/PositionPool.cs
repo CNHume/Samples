@@ -17,7 +17,7 @@ namespace Engine {
         GamePly = 0;                    //[Init]
         NullPly = 0;
         FlagsTurn = default;            //[Safe]
-        FlagsGame = default;            //[Safe]
+        FlagsEval = default;            //[Safe]
         FlagsDraw = default;            //[Safe]
         FlagsMode = default;            //[Safe]
         foreach (var side in Side)

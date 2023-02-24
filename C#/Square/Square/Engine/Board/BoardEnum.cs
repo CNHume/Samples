@@ -81,32 +81,28 @@ namespace Engine {
       Lite = Dark << 1,                     // Bit 3
       Pair = Lite | Dark,
       Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
+      LoneKing,                             // Bit 5
 
       Weight = Insufficient | Pair,         // Flags used by weighPieces()
-      Copy = Weight | CanCastle
+      Copy = LoneKing | Weight | CanCastle
     }
     #endregion                          // SideFlags Enum
 
-    #region GameFlags Enum
+    #region EvalFlags Enum
     //
-    // GameFlags  0:5
+    // EvalFlags  0:5
     // --------------
-    //  0:1 WhiteAlone
-    //  1:1 BlackAlone
-    //  2:1 OutsideSquare
-    //  3:1 KBNvK
-    //  4:1 KQvKP
+    //  0:1 OutsideSquare
+    //  1:1 KBNvK
+    //  2:1 KQvKP
     //
     [Flags]
-    public enum GameFlags : byte {
+    public enum EvalFlags : byte {
       None = 0,
-      WhiteAlone = 1,                   // Bit 0 End Game Flags
-      BlackAlone = WhiteAlone << 1,     // Bit 1
-      OutsideSquare = BlackAlone << 1,  // Bit 2
-      KBNvK = OutsideSquare << 1,       // Bit 3
-      KQvKP = KBNvK << 1,               // Bit 4
-      KingAlone = BlackAlone | WhiteAlone,
-      EndGame = KQvKP | KBNvK | OutsideSquare | KingAlone,
+      OutsideSquare = 1,                // Bit 0 Eval Flags
+      KBNvK = OutsideSquare << 1,       // Bit 1
+      KQvKP = KBNvK << 1,               // Bit 2
+      EndGame = KQvKP | KBNvK | OutsideSquare,
 
       Copy = EndGame
     }

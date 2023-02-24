@@ -20,7 +20,7 @@ namespace Command {
       public String Name;
       public OptionType Type;
       public String Default;
-      public String[] Items;            // Enumerates possible values for options of type combo
+      public String?[] Items;           // Enumerates possible values for options of type combo
       public Int32? Min;
       public Int32? Max;
       public Boolean IsHidden;
