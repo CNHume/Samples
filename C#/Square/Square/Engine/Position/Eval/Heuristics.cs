@@ -134,10 +134,12 @@ namespace Engine {
         if (isKQvKPEndgame()) fgame |= GameFlags.KQvKP;
       }
       else if (OrthPiece == 0) {        // No Rooks or Queens
-        fgame |= GameFlags.OutsideSquare;
         var bWhiteAttacker = fgame.Has(GameFlags.BlackAlone);
         var attacker = GetSide(bWhiteAttacker);
-        if (isKBNvKEndgame(attacker.FlagsSide)) fgame |= GameFlags.KBNvK;
+        if ((attacker.Piece & Pawn) != 0)
+          fgame |= GameFlags.OutsideSquare;
+        else if (isKBNvKEndgame(attacker.FlagsSide))
+          fgame |= GameFlags.KBNvK;
       }
 
       return fgame;
@@ -155,7 +157,9 @@ namespace Engine {
       var bWTM = WTM();
       var parameter = Parameter[bWTM ? White : Black];
       var bKingToMoveLoss = bWhiteAlone == bWTM;
-      var qpArray = bKingToMoveLoss ? parameter.KingToMoveLoss : parameter.PawnToMoveWins;
+      var qpArray = bKingToMoveLoss ?
+        parameter.KingToMoveLoss :
+        parameter.PawnToMoveWins;
 
       var side = GetSide(bWhiteAlone);
       var vDefendingKingPos = side.GetKingPos();
@@ -166,7 +170,9 @@ namespace Engine {
 #if TestOutsideSquare
       if (bOutside) {
         var sideName = parameter.SideName;
-        var sOutcome = bKingToMoveLoss ? "KingToMoveLoss" : "PawnToMoveWins";
+        var sOutcome = bKingToMoveLoss ?
+          "KingToMoveLoss" :
+          "PawnToMoveWins";
         var sq = (Sq)vDefendingKingPos;
         testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vDefendingKingPos]);
         testOrth("Pawns", Pawn);

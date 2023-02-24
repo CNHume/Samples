@@ -7,14 +7,15 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
+using static System.String;
+using static System.Text.RegularExpressions.RegexOptions;
+
 namespace Command {
   using Engine;
   using Engine.Exceptions;
 
   using Exceptions;
 
-  using static System.String;
-  using static System.Text.RegularExpressions.RegexOptions;
   using static Logging.Logger;
 
   partial class Parser : IDisposable {
