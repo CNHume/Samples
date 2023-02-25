@@ -21,8 +21,8 @@ namespace Command {
     // ---------
     //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-02-25 Perft1 (startpos) in 12.347 sec @10.558 MHz over 130.36 Mnode]
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-02-25 Perft2 in 19.534 sec @10.527 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-25 Perft3 in 26.356 sec @8.303 MHz over 218.84 Mnode]
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-02-25 Perft4 in 83.031 sec @9.241 MHz over 767.28 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-25 Perft3 in 26.348 sec @8.306 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-02-25 Perft4 in 81.582 sec @9.405 MHz over 767.28 Mnode]
     //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-02-25 Perft5 in 11.869 sec @7.381 MHz over 87.6 Mnode]
     //
     // Abbreviation Tests
