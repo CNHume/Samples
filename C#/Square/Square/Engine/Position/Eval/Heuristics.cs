@@ -141,7 +141,7 @@ namespace Engine {
       if (!bLoneKing) {
         if (isKQvKPEndgame()) feval |= EvalFlags.KQvKP;
       }
-      else if (OrthPiece == 0) {        // No Rooks or Queens
+      else if (OrthPiece == 0) {        // No Rooks or Queens, at least one LoneKing
         var bWhiteAttacker = blackSide.FlagsSide.Has(SideFlags.LoneKing);
         var attacker = GetSide(bWhiteAttacker);
         if ((attacker.Piece & Pawn) == 0) {
@@ -189,8 +189,8 @@ namespace Engine {
       return bOutside;
     }
 
-    private Eval punishOutsideSquare(Boolean bWhiteAlone) {
-      return bWhiteAlone ?
+    private Eval punishOutsideSquare(Boolean bWhiteDefender) {
+      return bWhiteDefender ?
            (Eval)(-mOutsideSquareWeight) :
            mOutsideSquareWeight;
     }

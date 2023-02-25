@@ -81,10 +81,10 @@ namespace Engine {
       Lite = Dark << 1,                     // Bit 3
       Pair = Lite | Dark,
       Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
-      LoneKing,                             // Bit 5
+      LoneKing = Insufficient << 1,         // Bit 5 Lone King
 
       Weight = Insufficient | Pair,         // Flags used by weighPieces()
-      Copy = LoneKing | Weight | CanCastle
+      Copy = Weight | CanCastle             //[ToDo]Every Position must call SetLoneKing()
     }
     #endregion                          // SideFlags Enum
 
