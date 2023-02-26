@@ -164,10 +164,10 @@ namespace Engine {
 
           if (bLite) {
             if ((qpBishop & SquareLite) == 0)
-              ClrLite();
+              clrLite();
           }
           else if ((qpBishop & SquareDark) == 0)
-            ClrDark();
+            clrDark();
 #if HashPieces
           var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
           setTwoBits(ref PieceHash, 0, u);   // Piece == vHF
@@ -179,6 +179,7 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
+        setLoneKing();
 #if EvalInsufficient
         setInsufficient();
 #endif
@@ -248,9 +249,9 @@ namespace Engine {
         //
         if (vPiece == vB6) {
           if (bLite)
-            SetLite();
+            setLite();
           else
-            SetDark();
+            setDark();
 #if HashPieces
           var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
           setTwoBits(ref PieceHash, 0, u);   // Piece == vHF
@@ -262,6 +263,7 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
+        setLoneKing();
 #if EvalInsufficient
         setInsufficient();
 #endif

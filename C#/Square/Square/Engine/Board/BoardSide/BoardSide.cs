@@ -127,29 +127,39 @@ namespace Engine {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void ClrDark() {
+      private void clrDark() {
         FlagsSide &= ~SideFlags.Dark;
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void SetDark() {
+      private void setDark() {
         FlagsSide |= SideFlags.Dark;
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void ClrLite() {
+      private void clrLite() {
         FlagsSide &= ~SideFlags.Lite;
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      protected void SetLite() {
+      private void setLite() {
         FlagsSide |= SideFlags.Lite;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      private void setLoneKing() {
+        if (IsAlone())
+          FlagsSide |= SideFlags.LoneKing;
+        else
+          FlagsSide &= ~SideFlags.LoneKing;
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       private void setInsufficient() {
-        FlagsSide &= ~SideFlags.Insufficient;
         if (Board.IsInsufficient(Piece))
           FlagsSide |= SideFlags.Insufficient;
+        else
+          FlagsSide &= ~SideFlags.Insufficient;
       }
 
       [Conditional("TestInsufficient")]
@@ -161,11 +171,6 @@ namespace Engine {
           var message = $"f{sideName}SideInsufficient != {sideName.ToLower()}SideInsufficient";
           Debug.Assert(fsideInsufficient == sideInsufficient, message);
         }
-      }
-
-      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public void SetLoneKing() {
-        FlagsSide |= SideFlags.LoneKing;
       }
       #endregion                        // SideFlags Methods
       #endregion                        // Methods

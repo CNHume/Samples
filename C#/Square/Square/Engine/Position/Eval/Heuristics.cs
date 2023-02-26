@@ -125,30 +125,22 @@ namespace Engine {
 
     private EvalFlags getEndGameFlags() {
       EvalFlags feval = default;
-      var bLoneKing = false;
-
       var (blackSide, whiteSide) = Side.GetBothSides();
-      if (blackSide.IsAlone()) {
-        blackSide.SetLoneKing();
-        bLoneKing = true;
-      }
+      var fBlackSide = blackSide.FlagsSide;
+      var fWhiteSide = whiteSide.FlagsSide;
+      var fBothSides = fBlackSide | fWhiteSide;
 
-      if (whiteSide.IsAlone()) {
-        whiteSide.SetLoneKing();
-        bLoneKing = true;
-      }
-
-      if (!bLoneKing) {
+      if (!fBothSides.Has(SideFlags.LoneKing)) {
         if (isKQvKPEndgame()) feval |= EvalFlags.KQvKP;
       }
       else if (OrthPiece == 0) {        // No Rooks or Queens, at least one LoneKing
-        var bWhiteAttacker = blackSide.FlagsSide.Has(SideFlags.LoneKing);
+        var bWhiteAttacker = fBlackSide.Has(SideFlags.LoneKing);
         var attacker = GetSide(bWhiteAttacker);
         if ((attacker.Piece & Pawn) == 0) {
           if (isKBNvKEndgame(HasBishopPair(attacker.FlagsSide)))
             feval |= EvalFlags.KBNvK;
         }
-        else if (isOutsideSquare(whiteSide.FlagsSide.Has(SideFlags.LoneKing)))
+        else if (isOutsideSquare(fWhiteSide.Has(SideFlags.LoneKing)))
           feval |= EvalFlags.OutsideSquare;
       }
 

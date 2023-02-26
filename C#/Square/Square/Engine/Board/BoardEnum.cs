@@ -68,23 +68,24 @@ namespace Engine {
     //  4:1 Insufficient
     //
     private const Int32 nBishopPairBit = 2;
-    private const Int32 nInsufficientBit = 4;
+    private const Int32 nLoneKingBit = 4;
 
     [Flags]
     public enum SideFlags : byte {
       None = 0,
-      CanOO = 1,                            // Bit 0 Castle Rights
-      CanOOO = CanOO << 1,                  // Bit 1
+      CanOO = 1,                        // Bit 0 Castle Rights
+      CanOOO = CanOO << 1,              // Bit 1
       CanCastle = CanOOO | CanOO,
 
-      Dark = 1 << nBishopPairBit,           // Bit 2 Bishop Pair Flags
-      Lite = Dark << 1,                     // Bit 3
+      Dark = 1 << nBishopPairBit,       // Bit 2 Bishop Pair Flags
+      Lite = Dark << 1,                 // Bit 3
       Pair = Lite | Dark,
-      Insufficient = 1 << nInsufficientBit, // Bit 4 Insufficient Material to Force Mate
-      LoneKing = Insufficient << 1,         // Bit 5 Lone King
 
-      Weight = Insufficient | Pair,         // Flags used by weighPieces()
-      Copy = Weight | CanCastle             //[ToDo]Every Position must call SetLoneKing()
+      LoneKing = 1 << nLoneKingBit,     // Bit 4 Lone King
+      Insufficient = LoneKing << 1,     // Bit 5 Insufficient Material to Force Mate
+
+      Weight = Insufficient | Pair,     // Flags used by weighPieces()
+      Copy = LoneKing | Weight | CanCastle
     }
     #endregion                          // SideFlags Enum
 
@@ -106,7 +107,7 @@ namespace Engine {
 
       Copy = EndGame
     }
-    #endregion
+    #endregion                          // EvalFlags Enum
 
     #region DrawFlags Enum
     //

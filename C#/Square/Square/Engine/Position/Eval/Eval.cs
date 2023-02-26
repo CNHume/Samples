@@ -577,7 +577,7 @@ namespace Engine {
     internal static Eval weighPieces(
       CompositionCounter wPieceCounts, SideFlags fside) {
 #if EvalInsufficient
-      if (isInsufficient(fside))
+      if (fside.Has(SideFlags.Insufficient))
         return mInsufficientWeight;
 #endif
       // 218.34 MHz with both EvalInsufficient and EvalBishopPair;
@@ -593,11 +593,6 @@ namespace Engine {
       }
 #endif
       return (Eval)nSum;
-    }
-
-    // Side has Insufficient Material to Force Mate
-    private static bool isInsufficient(SideFlags fside) {
-      return fside.Has(SideFlags.Insufficient);
     }
     #endregion                          // Piece Evaluation
 
