@@ -111,16 +111,14 @@ namespace Engine {
         isKQvKPEndgame2(whiteSide, blackSide);
     }
 
-    private Boolean isKBNvKEndgame(Boolean bBishopPair) {
-      //[Assume]KingAlone and No Rooks or Queens
+    private Boolean isKBNvKEndgame() {
+      //
+      //[Assume]At least one King Alone; No Queen, Rooks, nor Bishop Pair
+      //
       if ((Bishop | Knight) == 0)       // At least one Bishop and one Knight
         return false;
 
-      var bEndgame =
-        IsOneOrNone(Knight) &&          // At most one Knight
-        !bBishopPair;                   // No Bishop Pair
-
-      return bEndgame;
+      return IsOneOrNone(Knight);       // At most one Knight
     }
 
     private EvalFlags getEndGameFlags() {
@@ -134,15 +132,17 @@ namespace Engine {
         // Neither King Alone
         if (isKQvKPEndgame()) feval |= EvalFlags.KQvKP;
       }
-      else if (OrthPiece == 0) {        // No Rooks or Queens
+      else if (OrthPiece == 0) {
         var bWhiteAttacker = fBlackSide.Has(SideFlags.Alone);
         var attacker = GetSide(bWhiteAttacker);
-        if ((attacker.Piece & Pawn) == 0) {
-          if (isKBNvKEndgame(HasBishopPair(attacker.FlagsSide)))
-            feval |= EvalFlags.KBNvK;
+        if (!HasBishopPair(attacker.FlagsSide)) {
+          // At least one King Alone; No Queen, Rooks, nor Bishop Pair
+          if ((attacker.Piece & Pawn) == 0) {
+            if (isKBNvKEndgame()) feval |= EvalFlags.KBNvK;
+          }
+          else if (isOutsideSquare(fWhiteSide.Has(SideFlags.Alone)))
+            feval |= EvalFlags.OutsideSquare;
         }
-        else if (isOutsideSquare(fWhiteSide.Has(SideFlags.Alone)))
-          feval |= EvalFlags.OutsideSquare;
       }
 
       return feval;
