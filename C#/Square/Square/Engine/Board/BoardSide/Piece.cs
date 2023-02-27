@@ -291,11 +291,6 @@ namespace Engine {
 
       #region Attacker Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      private Boolean isAlone() {
-        return IsOneOrNone(Piece);
-      }
-
-      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public Byte GetKingPos() {
         if (KingPos.HasValue) return KingPos.Value;
         throw new ArgumentNullException(nameof(KingPos));

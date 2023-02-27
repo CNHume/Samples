@@ -158,7 +158,7 @@ namespace Engine {
       private void setInsufficient() {
         FlagsSide &= ~SideFlags.AloneOrInsufficient;
 
-        if (isAlone())
+        if (IsOneOrNone(Piece))
           FlagsSide |= SideFlags.Alone;
         else if (Board.IsInsufficient(Piece))
           FlagsSide |= SideFlags.Insufficient;
