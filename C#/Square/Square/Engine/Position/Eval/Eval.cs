@@ -304,7 +304,7 @@ namespace Engine {
 #if EvalOutsideSquare
         if (FlagsEval.Has(EvalFlags.OutsideSquare)) {
           var fWhiteSide = Side[White].FlagsSide;
-          var mReward = punishOutsideSquare(fWhiteSide.Has(SideFlags.LoneKing));
+          var mReward = punishOutsideSquare(fWhiteSide.Has(SideFlags.Alone));
           mValue += mReward;
         }
 #endif
@@ -577,7 +577,7 @@ namespace Engine {
     internal static Eval weighPieces(
       CompositionCounter wPieceCounts, SideFlags fside) {
 #if EvalInsufficient
-      if (fside.Has(SideFlags.Insufficient))
+      if (fside.Has(SideFlags.AloneOrInsufficient))
         return mInsufficientWeight;
 #endif
       // 218.34 MHz with both EvalInsufficient and EvalBishopPair;

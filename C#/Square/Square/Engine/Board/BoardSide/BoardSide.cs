@@ -52,6 +52,7 @@ namespace Engine {
         Parameter = parameter;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void Copy(BoardSide side) {
         // 34 bytes + 1 nullable byte
 #if HashPieces
@@ -65,6 +66,7 @@ namespace Engine {
         PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void CopyFlags(BoardSide side) {
         FlagsSide = side.FlagsSide & SideFlags.Copy;
       }
@@ -73,6 +75,7 @@ namespace Engine {
       #region Methods
       #region Init Methods
       // Called for every new child node by Position.Push()
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void Clear() {
         PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
         KingPos = default;
@@ -87,17 +90,20 @@ namespace Engine {
       }
 
       // Call only when ParsePosition() creates a new Root Position.
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ClearCastleRule() {
         Parameter.Rule.Clear();
       }
 
       // Called from InitRoot() to complete a Root Position.
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void InitCastleRule() {
         Parameter.Rule.Init();
       }
       #endregion                        // Init Methods
 
       #region SideFlags Methods
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void ClrCanOO() {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanOO;
@@ -109,6 +115,7 @@ namespace Engine {
         FlagsSide |= SideFlags.CanOO;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void ClrCanOOO() {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanOOO;
@@ -120,6 +127,7 @@ namespace Engine {
         FlagsSide |= SideFlags.CanOOO;
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ClrCanCastle() {
         var fsideOld = FlagsSide;
         FlagsSide &= ~SideFlags.CanCastle;
@@ -147,19 +155,13 @@ namespace Engine {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      private void setLoneKing() {
-        if (IsAlone())
-          FlagsSide |= SideFlags.LoneKing;
-        else
-          FlagsSide &= ~SideFlags.LoneKing;
-      }
-
-      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       private void setInsufficient() {
-        if (Board.IsInsufficient(Piece))
+        FlagsSide &= ~SideFlags.AloneOrInsufficient;
+
+        if (isAlone())
+          FlagsSide |= SideFlags.Alone;
+        else if (Board.IsInsufficient(Piece))
           FlagsSide |= SideFlags.Insufficient;
-        else
-          FlagsSide &= ~SideFlags.Insufficient;
       }
 
       [Conditional("TestInsufficient")]

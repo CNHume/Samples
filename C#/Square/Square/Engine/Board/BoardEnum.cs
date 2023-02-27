@@ -65,10 +65,11 @@ namespace Engine {
     //  1:1 CanOOO
     //  2:1 Lite
     //  3:1 Dark
-    //  4:1 Insufficient
+    //  4:1 Alone
+    //  5:1 Insufficient
     //
     private const Int32 nBishopPairBit = 2;
-    private const Int32 nLoneKingBit = 4;
+    private const Int32 nAloneBit = 4;
 
     [Flags]
     public enum SideFlags : byte {
@@ -81,11 +82,13 @@ namespace Engine {
       Lite = Dark << 1,                 // Bit 3
       Pair = Lite | Dark,
 
-      LoneKing = 1 << nLoneKingBit,     // Bit 4 Lone King
-      Insufficient = LoneKing << 1,     // Bit 5 Insufficient Material to Force Mate
+      Alone = 1 << nAloneBit,           // Bit 4 Lone King
+      Insufficient = Alone << 1,        // Bit 5 Insufficient Material to Force Mate
+      AloneOrInsufficient = Insufficient | Alone,
 
-      Weight = Insufficient | Pair,     // Flags used by weighPieces()
-      Copy = LoneKing | Weight | CanCastle
+      // Flags used by weighPieces()
+      Weight = AloneOrInsufficient | Pair,
+      Copy = Weight | CanCastle
     }
     #endregion                          // SideFlags Enum
 

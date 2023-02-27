@@ -117,7 +117,7 @@ namespace Engine {
       State = state;
       Side = new PositionSide[nSides];
       initSides();
-      newAtxToCount();               //[Conditional]
+      newAtxToCount();                  //[Conditional]
     }
 
     #region Initialization Methods

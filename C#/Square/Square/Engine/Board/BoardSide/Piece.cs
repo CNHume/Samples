@@ -6,7 +6,6 @@
 // Conditionals:
 //
 //#define Magic
-#define EvalInsufficient
 #define HashPieces
 //#define VerifySquarePiece               // Ensure move from an occupied square to an empty square
 
@@ -179,10 +178,7 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
-        setLoneKing();
-#if EvalInsufficient
         setInsufficient();
-#endif
       }
 
       public Boolean LowerPiece(Byte vPiece, Int32 nTo) {
@@ -263,10 +259,7 @@ namespace Engine {
           setTwoBits(ref PieceHash, vPiece - vHF, u % vMod4);
         }
 #endif
-        setLoneKing();
-#if EvalInsufficient
         setInsufficient();
-#endif
       }
 
       //
@@ -298,7 +291,7 @@ namespace Engine {
 
       #region Attacker Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public Boolean IsAlone() {
+      private Boolean isAlone() {
         return IsOneOrNone(Piece);
       }
 

@@ -239,7 +239,7 @@ namespace Engine {
     //
     // Recognize Draw by Insufficient Material:
     //
-    protected void SetInsufficient() {
+    protected void SetDrawIM() {
       FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
       if (IsInsufficient(RankPiece))
         FlagsDraw |= DrawFlags.DrawIM;

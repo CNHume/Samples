@@ -60,8 +60,8 @@ namespace Engine {
       { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.WTM };
 
     internal static SideFlags[] sideFlags = {
-      SideFlags.LoneKing, SideFlags.Insufficient,
-      SideFlags.Dark, SideFlags.Lite,
+      SideFlags.Insufficient, SideFlags.Alone,
+      SideFlags.Lite, SideFlags.Dark,
       SideFlags.CanOOO, SideFlags.CanOO };
 
     internal static EvalFlags[] gameFlags =

@@ -137,7 +137,7 @@ namespace Engine {
         // Draw Flags are included in dynamicHash() to maintain Search Stability,
         // because they influence eval().  They are also needed by probeXP().
         //
-        SetInsufficient();
+        SetDrawIM();
 
         if (bFindRepetition)
           findRepetition();

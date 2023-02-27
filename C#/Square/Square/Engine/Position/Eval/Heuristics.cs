@@ -128,19 +128,20 @@ namespace Engine {
       var (blackSide, whiteSide) = Side.GetBothSides();
       var fBlackSide = blackSide.FlagsSide;
       var fWhiteSide = whiteSide.FlagsSide;
-      var fBothSides = fBlackSide | fWhiteSide;
+      var fEitherSide = fBlackSide | fWhiteSide;
 
-      if (!fBothSides.Has(SideFlags.LoneKing)) {
+      if (!fEitherSide.Has(SideFlags.Alone)) {
+        // Neither King Alone
         if (isKQvKPEndgame()) feval |= EvalFlags.KQvKP;
       }
-      else if (OrthPiece == 0) {        // No Rooks or Queens, at least one LoneKing
-        var bWhiteAttacker = fBlackSide.Has(SideFlags.LoneKing);
+      else if (OrthPiece == 0) {        // No Rooks or Queens
+        var bWhiteAttacker = fBlackSide.Has(SideFlags.Alone);
         var attacker = GetSide(bWhiteAttacker);
         if ((attacker.Piece & Pawn) == 0) {
           if (isKBNvKEndgame(HasBishopPair(attacker.FlagsSide)))
             feval |= EvalFlags.KBNvK;
         }
-        else if (isOutsideSquare(fWhiteSide.Has(SideFlags.LoneKing)))
+        else if (isOutsideSquare(fWhiteSide.Has(SideFlags.Alone)))
           feval |= EvalFlags.OutsideSquare;
       }
 
@@ -245,7 +246,7 @@ namespace Engine {
 #endif
     private Eval rewardKBNvKMateCorner() {
       var fBlackSide = Side[Black].FlagsSide;
-      var bWhiteAttacker = fBlackSide.Has(SideFlags.LoneKing);
+      var bWhiteAttacker = fBlackSide.Has(SideFlags.Alone);
       var (attacker, defender) = GetSides(bWhiteAttacker);
       var vDefenderKingPos = defender.GetKingPos();
 
