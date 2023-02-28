@@ -284,8 +284,9 @@ namespace Engine {
       Array.Copy(board.AtxToCount, AtxToCount, board.AtxToCount.Length);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public void CopyFlags(Board board) {// 1 byte
-      for (var nSide = 0; nSide < Side?.Length; nSide++)
+      for (var nSide = 0; nSide < Side.Length; nSide++)
         Side[nSide].CopyFlags(board.Side[nSide]);
 
       FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
@@ -299,8 +300,9 @@ namespace Engine {
       nameof(Friend),
       nameof(Foe)
       )]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void copySides(Board board) {
-      for (var nSide = 0; nSide < Side?.Length; nSide++)
+      for (var nSide = 0; nSide < Side.Length; nSide++)
         Side[nSide].Copy(board.Side[nSide]);
 
       //[Note]Friend and Foe must always correspond to TurnFlags.WTM
@@ -357,40 +359,38 @@ namespace Engine {
       return (Int32)(uHi ^ uLo);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private Boolean EqualFlags(Board board) {
+      var fTurnDelta = FlagsTurn ^ board.FlagsTurn;
+      return !fTurnDelta.Has(TurnFlags.Copy);
+    }
+
     public Boolean Equals(Board? board) {
       if (board is null)
         return false;
 #if SafeEquals
-      if (board.Hash != Hash)           //[Shortcut]
+      if (Hash != board.Hash)           //[Shortcut]
         return false;
 
-      var bSideEqual = true;
-      for (var nSide = 0; nSide < Side?.Length; nSide++) {
-        if (board.Side[nSide].Piece != Side[nSide].Piece) {
-          bSideEqual = false;
+      var bEqual = true;
+      for (var nSide = 0; nSide < Side.Length; nSide++)
+        if (!Side[nSide].Equals(board.Side[nSide])) {
+          bEqual = false;
           break;
         }
 
-        var fSideDelta = board.Side[nSide].FlagsSide ^ Side[nSide].FlagsSide;
-        if (fSideDelta.Has(SideFlags.Copy)) {
-          bSideEqual = false;
-          break;
-        }
-      }
-
-      var fTurnDelta = board.FlagsTurn ^ FlagsTurn;
-      var bEqual = bSideEqual &&
-        !fTurnDelta.Has(TurnFlags.Copy) &&
-        board.Pawn == Pawn &&
-        board.King == King &&
-        board.Knight == Knight &&
-        board.DiagPiece == DiagPiece &&
-        board.OrthPiece == OrthPiece;
+      bEqual = bEqual &&
+        Pawn == board.Pawn &&
+        EqualFlags(board) &&
+        King == board.King &&
+        Knight == board.Knight &&
+        DiagPiece == board.DiagPiece &&
+        OrthPiece == board.OrthPiece;
 
       Trace.Assert(bEqual, "Hashcode Collision Detected");
       return bEqual;
 #else                                   // SafeEquals
-      return board.Hash == Hash;
+      return Hash == board.Hash;
 #endif
     }
 

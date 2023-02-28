@@ -89,6 +89,19 @@ namespace Engine {
 #endif
       }
 
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public Boolean EqualFlags(BoardSide side) {
+        var fSideDelta = FlagsSide ^ side.FlagsSide;
+        return !fSideDelta.Has(SideFlags.Copy);
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public Boolean Equals(BoardSide side) {
+        return
+          Piece == side.Piece &&
+          EqualFlags(side);
+      }
+
       // Call only when ParsePosition() creates a new Root Position.
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ClearCastleRule() {

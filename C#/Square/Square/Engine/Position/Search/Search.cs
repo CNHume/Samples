@@ -550,12 +550,12 @@ namespace Engine {
       else if (!bTryZWS)                                      // Primary Search was a FWS
         AtomicIncrement(ref State.PVSimpleTotal);
       else if (mAlpha1 == mBeta && wDraft <= wReducedDraft)   // Primary Zero Window was the Full Window
-        AtomicIncrement(ref State.PVSingleTotal);            // Rare, traditionally counted as PVSingle
+        AtomicIncrement(ref State.PVSingleTotal);             // Rare, traditionally counted as PVSingle
       else if (mValue <= mBest2 || mBeta <= mValue)           //[Note]mBest2 vs. mAlpha used for MultiPV > 1
-        AtomicIncrement(ref State.PVSingleTotal);            // Skip second search [occurs >20x more than PVDouble]
+        AtomicIncrement(ref State.PVSingleTotal);             // Skip second search [occurs >20x more than PVDouble]
       else {                                                  // PVDouble Search is >10000x more rare than the other cases
-        AtomicIncrement(ref State.PVDoubleTotal);            // Second search required
-        State.IncPVDoubleCount(SearchPly);                   // Update PVDouble Histogram
+        AtomicIncrement(ref State.PVDoubleTotal);             // Second search required
+        State.IncPVDoubleCount(SearchPly);                    // Update PVDouble Histogram
 
         //
         // Perform Secondary Full Window Search (FWS) if necessary (PVDouble)
