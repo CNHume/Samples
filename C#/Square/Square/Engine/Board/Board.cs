@@ -378,9 +378,10 @@ namespace Engine {
         }
       }
 
+      var fTurnDelta = board.FlagsTurn ^ FlagsTurn;
       var bEqual = bSideEqual &&
+        !fTurnDelta.Has(TurnFlags.Copy) &&
         board.Pawn == Pawn &&
-        ((board.FlagsTurn ^ FlagsTurn) & TurnFlags.Copy) == 0 &&
         board.King == King &&
         board.Knight == Knight &&
         board.DiagPiece == DiagPiece &&
