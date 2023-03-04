@@ -19,11 +19,11 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-02-25 Perft1 (startpos) in 12.347 sec @10.558 MHz over 130.36 Mnode]
-    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-02-25 Perft2 in 19.534 sec @10.527 MHz over 205.63 Mnode]
-    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-02-25 Perft3 in 26.348 sec @8.306 MHz over 218.84 Mnode]
-    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-02-25 Perft4 in 81.582 sec @9.405 MHz over 767.28 Mnode]
-    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-02-25 Perft5 in 11.869 sec @7.381 MHz over 87.6 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-03-04 Perft1 (startpos) in 11.472 sec @11.364 MHz over 130.36 Mnode]
+    //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-03-04 Perft2 in 18.532 sec @11.096 MHz over 205.63 Mnode]
+    //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-03-04 Perft3 in 25.202 sec @8.683 MHz over 218.84 Mnode]
+    //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-03-04 Perft4 in 77.237 sec @9.934 MHz over 767.28 Mnode]
+    //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-03-04 Perft5 in 11.288 sec @7.761 MHz over 87.6 Mnode]
     //
     // Abbreviation Tests
     // ------------------
@@ -56,7 +56,7 @@ namespace Command {
     // 10. Qb8+ Kh7 11. Qxa7+ Kh6 12. Qxe3+ Kh7 13. Qa7+ Kh6 14. Qe3+@ Kh7@ 15. Qh3+ Kg8 16. Qc8+ Kh7 17. Qd7+ Kh6
     //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
     //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 @1.141 MHz over 381.8 Mnode] eval 1.48 after:
-    // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} [5... Nf8! {only move}] 6. Kf6
+    // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} (5... Nf8! {only move}) 6. Kf6
     // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:
     // 2. Bc8 Kf4 3. h4 Kg3 4. h5 Kh4 5. h6 Kh5 6. Kg7 Ng6 7. Bg4+ Kg5 8. h7 Nh8 9. Bf5 Kxf5 10. Kxh8 Kf6 11. Kh8g8 Kf6e5
     //"1k6/ppp2Rp1/n4b1p/8/5P2/qPQ5/P1P2P2/1K6 w - - 0 1"; // Interference Puzzle
@@ -213,8 +213,8 @@ namespace Command {
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
     // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5 e1c2 b5a4 c2e3 b1b2
     //"8/8/8/3p4/B1p5/P1P1n3/1K1k4/8 b - - 0 69"; // Critical Position from Caruana v Hou Yifan Line
-    // 69... Nd1+ 70. Bxd1 Kxd1 71. a4 Kd2 72. a5 d4 73. Ka2 dxc3 74. a6 c2 75. a7 c1=Q 76. a8=Q Qc2+
-    // 77. Ka1 Qc3+ 78. Kb1 Qb3+ 79. Ka1 Kc1 80. Qh1+ Qd1 81. Qxd1+ Kxd1 82. Kb2 Kd2 83. Ka2 c3 84. Ka1 c2 85. Ka2 c1=Q
+    // 69... Ng2 70. Bc2 Ne1 71. Bf5 Nd3+ 72. Kb1 (72. Bxd3 cxd3 73. a4 Ke3 74. a5 d2 75. Kc2 Ke2 76. Kb3 d1=Q+ 77. Kb4 Qa1 78. Kc5 Qxa5+ 79. Kd4 Qd8 80. Kc5 Kd3)
+    // 72... Kxc3 73. Be6 Nf4 74. Bf5 d4 75. Kc1 d3 76. Bg4 Nd5 77. Bd1 d2+ 78. Kb1 Ne3 79. Be2 Kb3 80. Bh5 Kxa3 81. Bd1 c3 82. Bd1c2
     //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:
     // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
     // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
