@@ -18,7 +18,7 @@
     <ImplicitUsings>true</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\quicksort.xml</DocumentationFile>
+    <DocumentationFile>quicksort.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +40,9 @@
 
   <ItemGroup>
     <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="quicksort.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

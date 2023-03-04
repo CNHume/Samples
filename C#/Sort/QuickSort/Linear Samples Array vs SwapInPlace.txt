@@ -1,6 +1,6 @@
 --------------------------------------------------------------------Linear Samples Array instead of SwapInPlace
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
 10:02:47.583 Building 1,000,000 Random Entries
 10:02:47.603 QuickSort<Int32> Starting Tripartite
 CompareCount = 90,037,181
@@ -9,7 +9,7 @@ PartCount = 4,384,032
 10:02:48.641 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 1.009 sec, Rate = 990.838 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
 10:03:53.387 Building 1,000,000 Descending Entries
 10:03:53.398 QuickSort<Int32> Starting Tripartite
 CompareCount = 37,609,568
@@ -18,7 +18,7 @@ PartCount = 1,774,553
 10:03:53.814 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 0.393 sec, Rate = 2547.687 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
 10:04:32.586 Building 1,000,000 Ascending Entries
 10:04:32.597 QuickSort<Int32> Starting Tripartite
 CompareCount = 24,620,332
@@ -29,7 +29,7 @@ Sorted a total of 1,000,000 entries in 0.28 sec, Rate = 3565.393 KHz
 
 --------------------------------------------------------------------SwapInPlace w SampleRandomly
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
 10:30:41.749 Building 1,000,000 Random Entries
 10:30:41.769 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 1,513,171,890
@@ -38,7 +38,7 @@ PartCount = 89,654,981
 10:30:59.528 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 17.735 sec, Rate = 56.386 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
 10:32:14.517 Building 1,000,000 Descending Entries
 10:32:14.527 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 1,694,699,392
@@ -47,7 +47,7 @@ PartCount = 110,135,558
 10:32:34.522 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 19.973 sec, Rate = 50.067 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
 10:33:32.550 Building 1,000,000 Ascending Entries
 10:33:32.561 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 1,216,326,176
@@ -58,7 +58,7 @@ Sorted a total of 1,000,000 entries in 14.458 sec, Rate = 69.168 KHz
 
 --------------------------------------------------------------------SwapInPlace w SampleLinearly
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -srand 1000000
 10:23:19.885 Building 1,000,000 Random Entries
 10:23:19.904 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 97,520,801
@@ -67,7 +67,7 @@ PartCount = 4,477,549
 10:23:21.011 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 1.076 sec, Rate = 929.308 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sdesc 1000000
 10:24:09.430 Building 1,000,000 Descending Entries
 10:24:09.441 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 60,839,139
@@ -76,7 +76,7 @@ PartCount = 2,864,872
 10:24:10.108 Finished, Sorted = True
 Sorted a total of 1,000,000 entries in 0.645 sec, Rate = 1550.624 KHz
 
-D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
+D:\Documents\Sourcetree\Samples\C#\Sort\QuickSort\bin\Release\net5.0>quicksort -i0 -sasc 1000000
 10:24:42.312 Building 1,000,000 Ascending Entries
 10:24:42.323 QuickSortSwapInPlace<Int32> Starting Tripartite
 CompareCount = 29,466,839

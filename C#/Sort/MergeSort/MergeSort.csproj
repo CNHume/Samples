@@ -12,7 +12,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Exe</OutputType>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
 
     <RootNamespace>MergeSort</RootNamespace>
@@ -21,7 +21,7 @@
     <ImplicitUsings>true</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Sort</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
@@ -31,9 +31,11 @@
     <Compile Remove="MergeSort\MergeSortRosettaCode.cs" />
   </ItemGroup>
 
+  <!--
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Documents\Sourcetree\Samples\CSharp\Sort\QuickSort\quicksort.xml</DocumentationFile>
+    <DocumentationFile>MergeSort.xml</DocumentationFile>
   </PropertyGroup>
+  -->
 
   <ItemGroup>
     <ProjectReference Include="..\InsertionSort\InsertionSort.csproj" />
@@ -59,5 +61,10 @@
     <None Update="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    
+    <None Update="MergeSort.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    
   </ItemGroup>
 </Project>
