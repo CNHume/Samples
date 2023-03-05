@@ -5,6 +5,8 @@
 //
 // Conditionals:
 //
+#define ShowClockSpeed
+//#define SlowManagementObjectPath
 #define ShowGC
 //#define ShowGCLatency
 //#define ShowSIMD
@@ -49,7 +51,6 @@
 //#define MaterialBalance
 //#define XPHash128
 //#define QXPHash128
-#define ShowClockSpeed
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -81,8 +82,6 @@ namespace Engine {
     #region Constants
     internal const Depth wDepthMax = 48;  // Used by Predict()
     internal const Ply wPlyHistory = 64;
-
-    private const string mosQuery = "select CurrentClockSpeed from Win32_Processor";
     #endregion
 
     #region Enumerations
@@ -287,9 +286,16 @@ namespace Engine {
 
     #region Banner Methods
     private UInt32? clockSpeed() {
-      UInt32? uSpeedMHz = default;
-      if (OperatingSystem.IsWindows()) {        // Suppress SupportedOSPlatform warnings
-        using var mos = new ManagementObjectSearcher(mosQuery);
+      UInt32? uSpeed = default;
+      //[Note]ManagementObjectSearcher performs significantly better than ManagementObject
+      if (OperatingSystem.IsWindows()) {// Suppress SupportedOSPlatform warnings
+#if SlowManagementObjectPath
+        const String sPath = "Win32_Processor.DeviceID='CPU0'";
+        using var mo = new ManagementObject(sPath);
+        uSpeed = (UInt32)mo["CurrentClockSpeed"];
+#else                                   //!SlowManagementObjectPath
+        const String sQuery = "select CurrentClockSpeed from Win32_Processor";
+        using var mos = new ManagementObjectSearcher(sQuery);
         foreach (var mbo in mos.Get()) {
           var properties = mbo.Properties.Cast<PropertyData>();
           var pd = properties.FirstOrDefault(pd =>
@@ -297,12 +303,13 @@ namespace Engine {
             pd.Name == "CurrentClockSpeed");
 
           if (pd != null) {
-            uSpeedMHz = (UInt32)pd.Value;
+            uSpeed = (UInt32)pd.Value;
             break;
           }
         }
+#endif                                  // SlowManagementObjectPath
       }
-      return uSpeedMHz;
+      return uSpeed;
     }
 
     [Conditional("DisplayOptions")]
