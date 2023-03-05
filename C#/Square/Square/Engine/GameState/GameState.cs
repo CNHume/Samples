@@ -81,6 +81,8 @@ namespace Engine {
     #region Constants
     internal const Depth wDepthMax = 48;  // Used by Predict()
     internal const Ply wPlyHistory = 64;
+
+    private const string mosQuery = "select CurrentClockSpeed from Win32_Processor";
     #endregion
 
     #region Enumerations
@@ -287,12 +289,11 @@ namespace Engine {
 #if ShowClockSpeed
     private UInt32? clockSpeed() {
       UInt32? uSpeedMHz = default;
-      using var mos = new ManagementObjectSearcher(
-        "select CurrentClockSpeed from Win32_Processor");
-      var moc = mos.Get();
-      foreach (var mbo in moc) {
-        var pds = mbo.Properties.Cast<PropertyData>();
-        var pd = pds.FirstOrDefault(pd => pd.Name == "CurrentClockSpeed");
+
+      using var mos = new ManagementObjectSearcher(mosQuery);
+      foreach (var mbo in mos.Get()) {
+        var properties = mbo.Properties.Cast<PropertyData>();
+        var pd = properties.FirstOrDefault(pd => pd.Name == "CurrentClockSpeed");
         if (pd != null) {
           uSpeedMHz = (UInt32)pd.Value;
           break;
