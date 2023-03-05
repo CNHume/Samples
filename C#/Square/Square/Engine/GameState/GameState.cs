@@ -286,23 +286,25 @@ namespace Engine {
     #endregion
 
     #region Banner Methods
-#if ShowClockSpeed
     private UInt32? clockSpeed() {
       UInt32? uSpeedMHz = default;
+      if (OperatingSystem.IsWindows()) {        // Suppress SupportedOSPlatform warnings
+        using var mos = new ManagementObjectSearcher(mosQuery);
+        foreach (var mbo in mos.Get()) {
+          var properties = mbo.Properties.Cast<PropertyData>();
+          var pd = properties.FirstOrDefault(pd =>
+            OperatingSystem.IsWindows() &&
+            pd.Name == "CurrentClockSpeed");
 
-      using var mos = new ManagementObjectSearcher(mosQuery);
-      foreach (var mbo in mos.Get()) {
-        var properties = mbo.Properties.Cast<PropertyData>();
-        var pd = properties.FirstOrDefault(pd => pd.Name == "CurrentClockSpeed");
-        if (pd != null) {
-          uSpeedMHz = (UInt32)pd.Value;
-          break;
+          if (pd != null) {
+            uSpeedMHz = (UInt32)pd.Value;
+            break;
+          }
         }
       }
-
       return uSpeedMHz;
     }
-#endif                                  // ShowClockSpeed
+
     [Conditional("DisplayOptions")]
     private void appendOptions(StringBuilder sb) {
 #if ShowClockSpeed
@@ -311,7 +313,7 @@ namespace Engine {
         var dSpeedGHz = (Double)uSpeedMHz.Value / 1000;
         sb.AppendFormat($" {dSpeedGHz:0.0##} GHz");
       }
-#endif
+#endif                                  // ShowClockSpeed
       // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
       sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
 #if XPHash128
