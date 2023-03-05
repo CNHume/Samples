@@ -49,11 +49,15 @@
 //#define MaterialBalance
 //#define XPHash128
 //#define QXPHash128
+#define ShowClockSpeed
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Management;
 using System.Runtime;
 using System.Text;
+
+using static System.String;
 
 namespace Engine {
   using Command;                        // For Scanner
@@ -64,7 +68,6 @@ namespace Engine {
 
   using Test;
 
-  using static System.String;
   using static Board;
   using static Position;
 
@@ -281,8 +284,33 @@ namespace Engine {
     #endregion
 
     #region Banner Methods
+#if ShowClockSpeed
+    private UInt32? clockSpeed() {
+      UInt32? uSpeedMHz = default;
+      using var mos = new ManagementObjectSearcher(
+        "select CurrentClockSpeed from Win32_Processor");
+      var moc = mos.Get();
+      foreach (var mbo in moc) {
+        var pds = mbo.Properties.Cast<PropertyData>();
+        var pd = pds.FirstOrDefault(pd => pd.Name == "CurrentClockSpeed");
+        if (pd != null) {
+          uSpeedMHz = (UInt32)pd.Value;
+          break;
+        }
+      }
+
+      return uSpeedMHz;
+    }
+#endif                                  // ShowClockSpeed
     [Conditional("DisplayOptions")]
     private void appendOptions(StringBuilder sb) {
+#if ShowClockSpeed
+      var uSpeedMHz = clockSpeed();
+      if (uSpeedMHz != null) {
+        var dSpeedGHz = (Double)uSpeedMHz.Value / 1000;
+        sb.AppendFormat($" {dSpeedGHz:0.0##} GHz");
+      }
+#endif
       // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
       sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
 #if XPHash128
