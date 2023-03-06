@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define ShowClockSpeed
-//#define SlowManagementObjectPath
+//#define TestSlowManagementObject
 #define ShowGC
 //#define ShowGCLatency
 //#define ShowSIMD
@@ -287,13 +287,13 @@ namespace Engine {
     #region Banner Methods
     private UInt32? clockSpeed() {
       UInt32? uSpeed = default;
-      //[Note]ManagementObjectSearcher performs significantly better than ManagementObject
       if (OperatingSystem.IsWindows()) {// Suppress SupportedOSPlatform warnings
-#if SlowManagementObjectPath
+#if TestSlowManagementObject
         const String sPath = "Win32_Processor.DeviceID='CPU0'";
         using var mo = new ManagementObject(sPath);
         uSpeed = (UInt32)mo["CurrentClockSpeed"];
-#else                                   //!SlowManagementObjectPath
+#else                                   //!TestSlowManagementObject
+        //[Note]Specifying the CurrentClockSpeed column improves performance
         const String sQuery = "select CurrentClockSpeed from Win32_Processor";
         using var mos = new ManagementObjectSearcher(sQuery);
         foreach (var mbo in mos.Get()) {
@@ -307,7 +307,7 @@ namespace Engine {
             break;
           }
         }
-#endif                                  // SlowManagementObjectPath
+#endif                                  // TestSlowManagementObject
       }
       return uSpeed;
     }
