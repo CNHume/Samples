@@ -212,11 +212,10 @@ namespace Engine {
       case PositionType.Prefix:
         break;
       case PositionType.FEN:
-        var nMove = GamePly / 2 + 1;
         sb.Append(cSpace)
           .Append(HalfMoveClock)        // Half-Move Clock for the 50-Move Rule
           .Append(cSpace)
-          .Append(nMove);               // Full Move Number
+          .Append(MoveNumber(GamePly)); // Full Move Number
         break;
       case PositionType.EPD:
         if (Operations == null) newOperations();

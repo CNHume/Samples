@@ -652,8 +652,8 @@ namespace Engine {
 
     private void newOperations() {
       Operations = new Dictionary<String, List<String>?>(4);
-      var nMove = GamePly / 2 + 1;
-      addOperation(Operations, "fmvn", nMove.ToString());
+      var wMove = MoveNumber(GamePly);
+      addOperation(Operations, "fmvn", wMove.ToString());
       addOperation(Operations, "hmvc", HalfMoveClock.ToString());
 
       if (!IsNullOrEmpty(Name)) {

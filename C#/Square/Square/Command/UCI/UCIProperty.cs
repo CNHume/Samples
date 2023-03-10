@@ -39,12 +39,15 @@ namespace Command {
     // moves f2f4 c7c5 g1f2 d8b6 OO OOO
     //"";
     // Daniel Naroditsky Endgame Lessons:
-    //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept [2023-03-09 14-ply in 4.16 sec @1.025 MHz over 4.262 Mnode] eval -0.85 after:
+    //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept [2023-03-09 14-ply in 4.14 sec @1.029 MHz over 4.262 Mnode] eval -0.85 after:
     // 1. Kc8! b5 2. Kd7 Bf5+ 3. Kd6 b4 4. Ke5! Bh3 5. Kd4 Bc8 6. Kc4 Ke2 7. Kxb4 Kd1 8. Ka3
     //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
     // moves f5h3 g2h3 e6f5 g1f2 f5e4
-    // 8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50  // Veselin Topalov v Alexey Shirov Line 1998-03-04 [2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
+    // 8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50  // Veselin Topalov v Alexey Shirov 1998-03-04 Line [2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
     // 50. Bb4 Kd3 51. Bc5 d4 52. Ke1 f5 53. Kd1 Ke3 54. Kc1 f4 55. Kd1 Kf3? (55... f3) 56. Bxd4 Kg3 57. Be5 Kxh4 58. Bxf4 Kxh3 59. Bc1 Kg2 60. Ke1 Kg1 61. Be3+ Kh1
+    //"position fen 8/8/5p2/3p4/p3k3/2B5/5K2/8 w - - 0 50";  // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified [2023-03-09 24-ply in 6:21:09 @1.074 MHz over 24.554 Gnode] eval -9.25 after:
+    // 50. Bb2 d4 51. Bc1 Kd3 52. Bb2 f5 53. Ke1 Kc4 54. Ba1 f4 [55. Bb2 f3 56. Bc1 Kc3 57. Bd2+ Kc2 58. Bb4 d3 59. Kf2 a3 60. Bxa3 d2 61. Kxf3 d1=Q+ 62. Kf4 Qf1+ 63. Ke4 Qd3+ 64. Kf4 Qd3xa3]
+    // moves c3b2 d5d4 b2c1 e4d3 c1b2 f6f5 f2e1 d3c4 b2a1 f5f4
     //"8/8/3P4/8/1pP5/pP1K4/1k6/8 w - - 0 1"; // 2023 Airthings Masters Puzzle [21-ply in 20:56:31 @1.065 MHz over 80.26 Gnode] eval 4.2 after:
     // 1. d7 a2 2. d8=B Kxb3 3. Bf6 Ka3 4. Ba1 Ka4 5. Kc2 b3+ 6. Kc3 Ka5 7. Kxb3 Ka6 8. Be5 Ka5 9. Bc3+ Ka6 10. Kxa2 Kb6 11. Bd4+ Ka5 12.c5 Ka5b5 13. Ka2b2
     //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mate #10 [2023-02-04 13-ply in 3.251 sec @1.258 MHz over 4.089 Mnode] after:

@@ -403,7 +403,7 @@ namespace Engine {
 
       #region Move Builder
       public Move BuildMove(
-        String sPACN, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
+        UInt16 wMove, String sPACN, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 
         //
@@ -412,13 +412,15 @@ namespace Engine {
         var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
         var piece = IndexPiece(vPiece);
 
+        var sideName = Parameter.SideName;
+
         if (qpAtxTo.HasValue) {         //[Safe]
           qpAtxTo &= ~Piece;
           if ((qpAtxTo & qpTo) == 0)
-            throw new MoveException($"{piece} cannot move from {sqFrom} to {sqTo}");
+            throw new MoveException($"Move {wMove}: {sideName} {piece} cannot move from {sqFrom} to {sqTo}.");
         }
         else
-          throw new ParseException($"Unexpected Piece in Move: {sPACN}");
+          throw new ParseException($"Move {wMove}: Unexpected {sideName} Piece in {sPACN}.");
 
         //
         // Validate Promotion
@@ -427,7 +429,7 @@ namespace Engine {
         var bSupplied = promotion != default;
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
-          throw new MoveException($"Promotion Piece {sDiagnosis} for {sPACN}");
+          throw new MoveException($"Move {wMove}: {sideName} Promotion Piece {sDiagnosis} in {sPACN}.");
         }
 
         var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);

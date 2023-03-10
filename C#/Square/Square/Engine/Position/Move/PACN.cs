@@ -110,15 +110,18 @@ namespace Engine {
       var qpFriend = Friend.Piece;
       var qpFoe = Foe.Piece;
 
+      var friendSideName = Friend.Parameter.SideName;
+      var foeSideName = Foe.Parameter.SideName;
+
+      var wMove = MoveNumber(GamePly);
+
       // Validate Piece Color
       if ((qpFrom & RankPiece) == 0)
-        throw new MoveException($"There is no piece to move from {sqFrom}");
+        throw new MoveException($"Move {wMove}: There is no {friendSideName} piece to move from {sqFrom}.");
       else if ((qpFrom & qpFriend) == 0) {
-        var friendSideName = Friend.Parameter.SideName;
-        var foeSideName = Foe.Parameter.SideName;
         var pieceFrom = IndexPiece(vPieceFrom);
         throw new MoveException(
-          $"{friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
+          $"Move {wMove}: {friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}.");
       }
 
       var vCapture = vPieceNull;
@@ -142,17 +145,17 @@ namespace Engine {
           var rule = Friend.Parameter.Rule;
           move = rule.Castles(nTo);
           if (move == Move.Undefined)
-            throw new MoveException($"Illegal King Move: {sMove}");
+            throw new MoveException($"Move {wMove}: {sMove} is an Illegal King Move.");
           bCastles = true;
         }
       }
 
       if (!bCastles)
         move = Friend.BuildMove(
-          sMove, sqFrom, sqTo, promotion, nFrom, nTo,
+          wMove, sMove, sqFrom, sqTo, promotion, nFrom, nTo,
           qpTo, vPieceFrom, vCapture, bCapture);
       else if (promotion != Piece.None)
-        throw new MoveException($"Cannot promote when castling: {sMove}");
+        throw new MoveException($"Move {wMove}: {friendSideName} cannot promote when castling.");
 
       return nTo;
     }
