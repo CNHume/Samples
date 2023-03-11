@@ -2,11 +2,12 @@
 
 using Command.Exceptions;
 
+using static Engine.Board;
 using static Extension;
 
 partial class Board {
   #region Pure Algebraic Coordinate Notation (PACN) Methods
-  private static Sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
+  private Sq parseSquare(UInt16 wGamePly, String sMove, ref Int32 nPos, Int32 nLen) {
     const Boolean ignoreCase = true;
     Sq? result = default;
     if (nPos + 2 <= nLen) {
@@ -16,8 +17,11 @@ partial class Board {
 
     if (result.HasValue)
       return result.Value;
-    else
-      throw new MoveException($"Invalid Square: {sMove}");
+
+    var wMove = MoveNumber(wGamePly);
+    var friendSideName = Friend.Parameter.SideName;
+    throw new MoveException(
+      $"Move {wMove} {friendSideName}: Invalid Square in {sMove}");
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -26,24 +30,30 @@ partial class Board {
       sMove[nPos++].ToString().TryParseEnum<Piece>(ignoreCase) : default;
   }
 
-  private void parsePACN(String sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion) {
+  private void parsePACN(
+    UInt16 wGamePly, String sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion) {
     promotion = default;
     var nLen = sMove.Length;
     var nPos = 0;
-    sqFrom = parseSquare(sMove, ref nPos, nLen);
-    sqTo = parseSquare(sMove, ref nPos, nLen);
+    sqFrom = parseSquare(wGamePly, sMove, ref nPos, nLen);
+    sqTo = parseSquare(wGamePly, sMove, ref nPos, nLen);
     var piece = parsePiece(sMove, ref nPos, nLen);
     if (piece.HasValue) {
-      if (Promotions.Any(p => p == piece.Value))
-        promotion = piece.Value;
-      else
-        //[Safe]pacnMoveTokenRules should prevent an Invalid Promotion Piece:
-        throw new MoveException($"Invalid Promotion Piece: {piece.Value}");
+      if (!Promotions.Any(p => p == piece.Value)) {
+        //[Safe]pacnMoveTokenRules should have prevented any Invalid Promotion Piece
+        var wMove = MoveNumber(wGamePly);
+        var friendSideName = Friend.Parameter.SideName;
+        throw new MoveException(
+          $"Move {wMove} {friendSideName}: Invalid Promotion Piece {piece.Value} in {sMove}");
+      }
+
+      promotion = piece.Value;
     }
   }
 
-  private Int32 parseFromTo(UInt16 wGamePly, String sMove, ref Boolean bCastles, ref Move move) {
-    parsePACN(sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion);
+  private Int32 parseFromTo(
+    UInt16 wGamePly, String sMove, ref Boolean bCastles, ref Move move) {
+    parsePACN(wGamePly, sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion);
     var nFrom = (Int32)sqFrom;
     var nTo = (Int32)sqTo;
     var qpFrom = bit(nFrom);
@@ -61,7 +71,7 @@ partial class Board {
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
-        $"Move {wMove} {friendSideName}: No piece can move from {sqFrom} to {sqTo}");
+        $"Move {wMove} {friendSideName}: There is no piece to move from {sqFrom} to {sqTo}");
     else if ((qpFrom & qpFriend) == 0) {
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
