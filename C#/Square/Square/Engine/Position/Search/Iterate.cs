@@ -24,7 +24,6 @@ namespace Engine {
 
   using Exceptions;
 
-  using static Extension;
   using static Logging.Logger;
 
   //
@@ -36,19 +35,20 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
+    protected static Eval[] AspirationDelta = {
+      //16, 40, 108, 256
+      //16, 42, 110, 288
+      //200
+      //64, 96, 160, 256
+      //75, 150, 225
+      //96, 192
+      //mPawnWeight + mHalfWeight, mRookWeight + mQuarterWeight
+      mBishopWeight + mHalfWeight
+    };
+
     internal const String sTextStalemate = "stalemate";
     private const String sTextCheckmate = "checkmate";
     private const String sTextInsufficient = "draw by insufficient material";
-
-    protected static Eval[] AspirationDelta =
-      //{ 16, 40, 108, 256 };
-      //{ 16, 42, 110, 288 };
-      //{ 200 };
-      //{ 64, 96, 160, 256 };
-      //{ 75, 150, 225 };
-      //{ 96, 192 };
-      //{ mPawnWeight + mHalfWeight, mRookWeight + mQuarterWeight };
-      { mBishopWeight + mHalfWeight };
     #endregion                          // Constants
 
     #region Search Methods
