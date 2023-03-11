@@ -147,7 +147,7 @@ namespace Engine {
     //[Chess960]Castle Rules are inferred from sCastleFlags.  These
     // present the only difference between Orthodox Chess and Chess960.
     //
-    private void parseCastlingFlags(String? sCastleFlags, List<int> rookFromSquares) {
+    private void parseCastlingFlags(String? sCastleFlags, List<Int32> rookFromSquares) {
       if (sCastleFlags == null)
         throw new ParsePositionException($"No Castling Flags Found");
       else if (sCastleFlags.Length > 4)
@@ -255,7 +255,7 @@ namespace Engine {
     // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
     //
     protected Boolean ParsePosition(
-      Scanner scanner, List<int> rookFromSquares, out String? sPassed) {
+      Scanner scanner, List<Int32> rookFromSquares, out String? sPassed) {
       // Clear() should have been performed by the Push() in NewGame()
       //[Debug]Clear();
 
@@ -287,7 +287,7 @@ namespace Engine {
     }
 
     protected void InitRoot(
-      Boolean bWTM, List<int> rookFromSquares,
+      Boolean bWTM, List<Int32> rookFromSquares,
       String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
       const string sFMVNName = "Full Move Number";
@@ -402,7 +402,7 @@ namespace Engine {
      * isChess960()
      * side.InitCastleRule()            // Set OOO and OO rules
      */
-    private void initCastling(List<int> rookFromSquares) {
+    private void initCastling(List<Int32> rookFromSquares) {
       //[Test]rookFromSquares.Sort();
       foreach (var nRookFrom in rookFromSquares) {
         var side = findCastleFromSide(nRookFrom);

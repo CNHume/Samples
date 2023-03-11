@@ -31,7 +31,7 @@ namespace Engine {
           var sMove = parser.PACNMoveToken.Value;
           var child = position.Push();  // See UCI.unmove()
           try {
-            var move = position.ParsePACNMove(GamePly, sMove);
+            var move = position.ParsePACNMove(position.GamePly, sMove);
             if (child.tryOrSkip(ref move)) {
               position = child;
               position.setName();

@@ -425,7 +425,7 @@ namespace Engine {
     }
 
     private void setupCastling(
-      Int32 nRookFileOOO, Int32 nRookFileOO, List<int> rookFromSquares) {
+      Int32 nRookFileOOO, Int32 nRookFileOO, List<Int32> rookFromSquares) {
       ClearCastleRules();
 
       foreach (var side in Side) {
