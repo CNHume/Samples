@@ -36,6 +36,10 @@ namespace Engine {
 
   partial class Position : Board {
     #region Constants
+    internal const String sTextStalemate = "stalemate";
+    private const String sTextCheckmate = "checkmate";
+    private const String sTextInsufficient = "draw by insufficient material";
+
     protected static Eval[] AspirationDelta =
       //{ 16, 40, 108, 256 };
       //{ 16, 42, 110, 288 };
@@ -45,7 +49,7 @@ namespace Engine {
       //{ 96, 192 };
       //{ mPawnWeight + mHalfWeight, mRookWeight + mQuarterWeight };
       { mBishopWeight + mHalfWeight };
-    #endregion
+    #endregion                          // Constants
 
     #region Search Methods
     [Conditional("ThrowFinal")]

@@ -44,6 +44,18 @@ namespace Engine {
 
   static class Extension {
     #region Constants
+    // Null Move:
+    internal const String sNullMove = "0000";
+
+    // Castling:
+    internal const String sPureOO = "OO";
+    internal const String sPure00 = "00";
+    private const String sHyphenOO = "O-O";
+
+    internal const String sPureOOO = "OOO";
+    internal const String sPure000 = "000";
+    private const String sHyphenOOO = "O-O-O";
+
     // User Friendly Algebraic Notation:
     private const String sTakes = "x";
 
@@ -61,20 +73,16 @@ namespace Engine {
     private const String sEvalInfinity = "Infinity";
     private const String sEvalOverflow = "Overflow";
 
-    // Move Annotatons:
+    // Move Annotations:
     private const String sNotePromotion = "=";
     private const String sNoteCheckmate = "#";
     private const String sNoteCheck = "+";
     private const String sNoteDraw2 = "@";
     private const String sNoteDraw = "=";
 
-    internal const String sTextInsufficient = "draw by insufficient material to mate";
-    internal const String sTextStalemate = "stalemate";
-    internal const String sTextCheckmate = "checkmate";
-
     // Quiescent Move Sequence:
-    internal const String sQxntOpen = "[";
-    internal const String sQxntClose = "]";
+    private const String sQxntOpen = "[";
+    private const String sQxntClose = "]";
     #endregion                          // Constants
 
     #region Delegates

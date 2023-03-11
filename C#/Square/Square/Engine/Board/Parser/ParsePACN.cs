@@ -2,20 +2,9 @@
 
 using Command.Exceptions;
 
+using static Extension;
+
 partial class Board {
-  #region Constants
-  // Castling:
-  internal const String sHyphenOO = "O-O";
-  internal const String sHyphenOOO = "O-O-O";
-  internal const String sPureOO = "OO";
-  internal const String sPure00 = "00";
-  internal const String sPureOOO = "OOO";
-  internal const String sPure000 = "000";
-
-  // Null Move:
-  internal const String sNullMove = "0000";
-  #endregion
-
   #region Pure Algebraic Coordinate Notation (PACN) Methods
   private static Sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
     const Boolean ignoreCase = true;
@@ -139,9 +128,9 @@ partial class Board {
       nTo = rule.KingOOOTo;
       move = rule.OOO;
     }
-    else if (sUpperMove == sNullMove) //[UCI]
+    else if (sUpperMove == sNullMove)   //[UCI]
       move = Move.NullMove;
-    else                              //[PACN]
+    else                                //[PACN]
       nTo = parseFromTo(wGamePly, sMove, ref bCastles, ref move);
 
     //
