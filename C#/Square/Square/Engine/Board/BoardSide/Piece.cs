@@ -270,7 +270,7 @@ namespace Engine {
       public void RookCastles(Int32 nTo) {
         var rule = Parameter.Rule;
 
-        if (rule.KingOOTo == nTo  &&
+        if (rule.KingOOTo == nTo &&
             rule.RookOOFrom.HasValue) {
           RaisePiece(vR6, rule.RookOOFrom.Value);
           LowerPiece(vR6, rule.RookOOTo);
@@ -403,7 +403,7 @@ namespace Engine {
 
       #region Move Builder
       public Move BuildMove(
-        UInt16 wGamePly, String sPACN, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
+        UInt16 wGamePly, String sMove, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 
         //
@@ -415,13 +415,14 @@ namespace Engine {
         var wMove = MoveNumber(wGamePly);
         var sideName = Parameter.SideName;
 
-        if (qpAtxTo.HasValue) {         //[Safe]
-          qpAtxTo &= ~Piece;
-          if ((qpAtxTo & qpTo) == 0)
-            throw new MoveException($"Move {wMove}: {sideName} {piece} cannot move from {sqFrom} to {sqTo}.");
-        }
-        else
-          throw new ParseException($"Move {wMove}: Unexpected {sideName} Piece in {sPACN}.");
+        if (!qpAtxTo.HasValue)          //[Safe]
+          throw new ParseException(
+            $"Move {wMove} {sideName}: Unexpected move of {piece} from {sqFrom} to {sqTo}");
+
+        qpAtxTo &= ~Piece;
+        if ((qpAtxTo & qpTo) == 0)
+          throw new MoveException(
+            $"Move {wMove} {sideName}: Cannot move {piece} from {sqFrom} to {sqTo}");
 
         //
         // Validate Promotion
@@ -430,7 +431,8 @@ namespace Engine {
         var bSupplied = promotion != default;
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
-          throw new MoveException($"Move {wMove}: {sideName} Promotion Piece {sDiagnosis} in {sPACN}.");
+          throw new MoveException(
+            $"Move {wMove} {sideName}: Promotion {sDiagnosis} in {sMove}");
         }
 
         var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);

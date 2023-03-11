@@ -60,11 +60,12 @@ partial class Board {
 
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
-      throw new MoveException($"Move {wMove}: There is no {friendSideName} piece to move from {sqFrom}.");
+      throw new MoveException(
+        $"Move {wMove} {friendSideName}: No piece can move from {sqFrom} to {sqTo}");
     else if ((qpFrom & qpFriend) == 0) {
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
-        $"Move {wMove}: {friendSideName} cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}.");
+        $"Move {wMove} {friendSideName}: Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
     }
 
     var vCapture = vPieceNull;
@@ -88,7 +89,8 @@ partial class Board {
         var rule = Friend.Parameter.Rule;
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
-          throw new MoveException($"Move {wMove}: {sMove} is an Illegal King Move.");
+          throw new MoveException(
+            $"Move {wMove} {friendSideName}: Illegal King Move from {sqFrom} to {sqTo}");
         bCastles = true;
       }
     }
@@ -98,7 +100,8 @@ partial class Board {
         wGamePly, sMove, sqFrom, sqTo, promotion, nFrom, nTo,
         qpTo, vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
-      throw new MoveException($"Move {wMove}: {friendSideName} cannot promote when castling.");
+      throw new MoveException(
+        $"Move {wMove} {friendSideName}: Illegal Promotion in King Move from {sqFrom} to {sqTo}");
 
     return nTo;
   }
@@ -134,15 +137,15 @@ partial class Board {
       nTo = parseFromTo(wGamePly, sMove, ref bCastles, ref move);
 
     //
-    //[Chess960]Validate Castling in common with the use of OO/OOO notation:
+    //[Chess960]Validate Castling:
     //
-    if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
-      throw new MoveException($"Illegal Castle: {sMove}");
-#if DebugParse
-      var sb = new StringBuilder();
-      sb.AppendPACN(move, Side, State.IsChess960);
-      sb.FlushLine();
-#endif
+    if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value))) {
+      var wMove = MoveNumber(wGamePly);
+      var friendSideName = Friend.Parameter.SideName;
+      throw new MoveException(
+        $"Move {wMove} {friendSideName}: Illegal Castling in {sMove}");
+    }
+
     return move;
   }
   #endregion                            // Pure Algebraic Coordinate Notation (PACN) Methods

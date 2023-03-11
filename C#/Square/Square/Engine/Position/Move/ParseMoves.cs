@@ -7,8 +7,6 @@
 //
 //#define DebugParse
 
-using System.Text;
-
 namespace Engine {
   using Command;                        // For Scanner, Token
   using Command.Exceptions;
@@ -31,16 +29,21 @@ namespace Engine {
           var sMove = parser.PACNMoveToken.Value;
           var child = position.Push();  // See UCI.unmove()
           try {
-            var move = position.ParsePACNMove(position.GamePly, sMove);
+            var wGamePly = position.GamePly;
+            var move = position.ParsePACNMove(wGamePly, sMove);
             if (child.tryOrSkip(ref move)) {
               position = child;
               position.setName();
             }
-            else
-              throw new MoveException($"Illegal Move: {sMove}");
+            else {
+              var wMove = MoveNumber(wGamePly);
+              var friendSideName = Friend.Parameter.SideName;
+              throw new MoveException(
+                $"Move {wMove} {friendSideName}: Illegal Move in {sMove}");
+            }
           }
           catch {
-            // Reclaim *last* child if parsePACNMove() should fail to complete normally
+            // Reclaim *last* child if ParsePACNMove() should fail to complete normally
             Pop(ref child);
             throw;
           }
@@ -71,14 +74,18 @@ namespace Engine {
             var move = ParsePACNMove(GamePly, sMove);
             if (child.tryOrSkip(ref move))
               parseMoves.Add(move);
-            else
-              throw new MoveException($"Illegal Move: {sMove}");
+            else {
+              var wMove = MoveNumber(GamePly);
+              var friendSideName = Friend.Parameter.SideName;
+              throw new MoveException(
+                $"Move {wMove} {friendSideName}: Illegal Move in {sMove}");
+            }
 
             if (!spaceToken.Accept()) break;
           }
         }
         finally {
-          // Reclaim child if parsePACNMove() should fail to complete normally
+          // Reclaim child if ParsePACNMove() should fail to complete normally
           Pop(ref child);
         }
       }
