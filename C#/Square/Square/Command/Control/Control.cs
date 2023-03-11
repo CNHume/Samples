@@ -91,7 +91,7 @@ namespace Command {
       PropertyChanged?.Invoke(this, e);
     }
 
-    public Boolean TryParse(String sValue) {
+    public Boolean TryParse(String? sValue) {
       if (IsNullOrEmpty(sValue))
         throw new ControlException($"No value specified for {Option.Type}");
 

@@ -403,7 +403,7 @@ namespace Engine {
 
       #region Move Builder
       public Move BuildMove(
-        UInt16 wMove, String sPACN, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
+        UInt16 wGamePly, String sPACN, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
         Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
 
         //
@@ -412,6 +412,7 @@ namespace Engine {
         var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
         var piece = IndexPiece(vPiece);
 
+        var wMove = MoveNumber(wGamePly);
         var sideName = Parameter.SideName;
 
         if (qpAtxTo.HasValue) {         //[Safe]

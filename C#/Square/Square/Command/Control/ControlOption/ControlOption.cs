@@ -19,7 +19,7 @@ namespace Command {
       #region Fields
       public String Name;
       public OptionType Type;
-      public String Default;
+      public String? Default;
       public String?[] Items;           // Enumerates possible values for options of type combo
       public Int32? Min;
       public Int32? Max;

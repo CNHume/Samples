@@ -17,12 +17,14 @@
 using System.Diagnostics;
 using System.Text;
 
+using static System.Math;
+
 namespace Engine {
   using Command;
 
   using Exceptions;
 
-  using static System.Math;
+  using static Extension;
   using static Logging.Logger;
 
   //

@@ -43,6 +43,40 @@ namespace Engine {
   using Ply = UInt16;
 
   static class Extension {
+    #region Constants
+    // User Friendly Algebraic Notation:
+    private const String sTakes = "x";
+
+    // Move Numbering:
+    private const String sElipsis = "...";
+    private const String sMoveNumber = ".";
+
+    // Evaluations:
+    private const String sEvalMinus = "-";
+    private const String sEvalMovesToMate = "#";
+    private const String sEvalUCIMovesToMate = "mate ";
+    private const String sEvalUCICentiPawns = "cp ";
+
+    private const String sEvalUndefined = "Undefined";
+    private const String sEvalInfinity = "Infinity";
+    private const String sEvalOverflow = "Overflow";
+
+    // Move Annotatons:
+    private const String sNotePromotion = "=";
+    private const String sNoteCheckmate = "#";
+    private const String sNoteCheck = "+";
+    private const String sNoteDraw2 = "@";
+    private const String sNoteDraw = "=";
+
+    internal const String sTextInsufficient = "draw by insufficient material to mate";
+    internal const String sTextStalemate = "stalemate";
+    internal const String sTextCheckmate = "checkmate";
+
+    // Quiescent Move Sequence:
+    internal const String sQxntOpen = "[";
+    internal const String sQxntClose = "]";
+    #endregion                          // Constants
+
     #region Delegates
     public delegate StringBuilder MoveWriter(
       StringBuilder sb, Move move, BoardSide[] sides, Boolean bChess960);
@@ -102,7 +136,7 @@ namespace Engine {
 
       return sb;
     }
-    #endregion
+    #endregion                          // Castle Rights
 
     #region Square Methods
     //

@@ -45,7 +45,7 @@ namespace Command {
     // moves f5h3 g2h3 e6f5 g1f2 f5e4
     // 8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50  // Veselin Topalov v Alexey Shirov 1998-03-04 Line [2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
     // 50. Bb4 Kd3 51. Bc5 d4 52. Ke1 f5 53. Kd1 Ke3 54. Kc1 f4 55. Kd1 Kf3? (55... f3) 56. Bxd4 Kg3 57. Be5 Kxh4 58. Bxf4 Kxh3 59. Bc1 Kg2 60. Ke1 Kg1 61. Be3+ Kh1
-    //"position fen 8/8/5p2/3p4/p3k3/2B5/5K2/8 w - - 0 50";  // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified [2023-03-09 24-ply in 6:21:09 @1.074 MHz over 24.554 Gnode] eval -9.25 after:
+    //"8/8/5p2/3p4/p3k3/2B5/5K2/8 w - - 0 50";  // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified [2023-03-09 24-ply in 6:21:09 @1.074 MHz over 24.554 Gnode] eval -9.25 after:
     // 50. Bb2 d4 51. Bc1 Kd3 52. Bb2 f5 53. Ke1 Kc4 54. Ba1 f4 [55. Bb2 f3 56. Bc1 Kc3 57. Bd2+ Kc2 58. Bb4 d3 59. Kf2 a3 60. Bxa3 d2 61. Kxf3 d1=Q+ 62. Kf4 Qf1+ 63. Ke4 Qd3+ 64. Kf4 Qd3xa3]
     // moves c3b2 d5d4 b2c1 e4d3 c1b2 f6f5 f2e1 d3c4 b2a1 f5f4
     //"8/8/3P4/8/1pP5/pP1K4/1k6/8 w - - 0 1"; // 2023 Airthings Masters Puzzle [21-ply in 20:56:31 @1.065 MHz over 80.26 Gnode] eval 4.2 after:

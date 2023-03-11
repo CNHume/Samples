@@ -113,7 +113,7 @@ namespace Engine {
       }
     }
 
-    public Board(GameState state) {
+    protected Board(GameState state) {
       State = state;
       Side = new PositionSide[nSides];
       initSides();
