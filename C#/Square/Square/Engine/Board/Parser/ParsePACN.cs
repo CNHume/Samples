@@ -19,7 +19,7 @@ partial class Board {
 
     //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
     throw new MoveException(
-      Friend.MoveError($"Invalid Square", sMove));
+      Friend.MoveError($"Invalid Square in {sMove}"));
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -39,7 +39,7 @@ partial class Board {
       if (!Promotions.Any(p => p == piece.Value))
         //[Safe]pacnMoveTokenRules should have prevented any Invalid Promotion Piece
         throw new MoveException(
-          Friend.MoveError($"Invalid Promotion Piece {piece.Value}", sMove));
+          Friend.MoveError($"Invalid Promotion Piece {piece.Value} in {sMove}"));
 
       promotion = piece.Value;
     }
@@ -143,7 +143,7 @@ partial class Board {
     //
     if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
       throw new MoveException(
-        Friend.MoveError($"Illegal Castling", sMove));
+        Friend.MoveError($"Illegal Castling in {sMove}"));
 
     return move;
   }

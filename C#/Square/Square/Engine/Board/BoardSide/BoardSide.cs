@@ -145,7 +145,7 @@ namespace Engine {
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
           throw new MoveException(
-            MoveError($"Promotion {sDiagnosis}", sMove));
+            MoveError($"Promotion {sDiagnosis} in {sMove}"));
         }
 
         var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
@@ -155,15 +155,11 @@ namespace Engine {
 
       public String MoveError(String sMessage) {
         var wMove = MoveNumber(Board.GamePly);
-        return $"Move {wMove} {Parameter.SideName}: " + sMessage;
+        return $"Move {wMove} {Parameter.SideName}: {sMessage}";
       }
 
       public String MoveError(String sMessage, Int32 nFrom, Int32 nTo) {
         return MoveError(sMessage + $" from {(Sq)nFrom} to {(Sq)nTo}");
-      }
-
-      public String MoveError(String sMessage, String sMove) {
-        return MoveError(sMessage + " in " + sMove);
       }
       #endregion                        // Move Methods
 
