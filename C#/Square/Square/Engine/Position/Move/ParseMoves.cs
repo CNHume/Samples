@@ -16,12 +16,9 @@ namespace Engine {
   partial class Position : Board {
     #region Parse Move Methods
     //
-    // The following advances through a line of PACN moves, pushing each position; and returns the final position
+    // Parse and make each PACN Move recursively, returning the final position:
     //
     public Position ParsePACNMakeMoves(Parser parser) {
-      //
-      // Parse and make each PACN Move recursively, returning the final position:
-      //
       if (parser.SpaceToken.Accept() &&
           parser.PACNMoveToken.Accept()) {
         var sMove = parser.PACNMoveToken.Value;
@@ -35,6 +32,8 @@ namespace Engine {
           }
 
           child.setName();
+
+          // Tail Recursion
           return child.ParsePACNMakeMoves(parser);
         }
         catch {
@@ -48,7 +47,7 @@ namespace Engine {
     }
 
     //
-    // The following parses a line of PACN move alternatives at the current position
+    // Parse PACN Move alternatives to be searched from the current position:
     //
     public void ParsePACNSearchMoves(Parser parser, List<Move> searchMoves) {
       searchMoves.Clear();
