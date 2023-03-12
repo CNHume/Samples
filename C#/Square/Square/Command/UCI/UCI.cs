@@ -18,6 +18,7 @@
 //
 // Conditionals:
 //
+//#define DisplayPositionPool
 #define UseTask
 
 /*
@@ -295,6 +296,7 @@ namespace Command {
         var sVerb = Parser.ParseVerb();
         bContinue = Dispatch(sVerb);
         Parser.ExpectEOL();
+        State.DisplayPositionPool();    //[Conditional]
       }
       catch (ChessException ex) {
         LogLine(ex.Message);

@@ -18,6 +18,7 @@ partial class Board {
     if (result.HasValue)
       return result.Value;
 
+    //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
     var wMove = MoveNumber(wGamePly);
     var friendSideName = Friend.Parameter.SideName;
     throw new MoveException(

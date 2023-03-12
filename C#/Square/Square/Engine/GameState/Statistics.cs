@@ -394,7 +394,7 @@ namespace Engine {
     }
 
     [Conditional("DisplayPositionPool")]
-    private void displayPositionPool() {
+    public void DisplayPositionPool() {
       PositionPool.DisplayActive();
     }
 

@@ -480,17 +480,17 @@ namespace Engine {
       // None of the following are counted in SearchMode.Perft:
       //
       if (mode == SearchMode.BestMove) {
-        displayPVSTotals();
-        displayEarlyMoveTotals();
-        displayDetails();
-        displayEvals();
-        displayCXP();
-        displayPXP();
-        displayXPM();
-        displayQXP();
-        displayXP();
-        displayEvalTypeCounts();
-        displayPositionPool();
+        displayPVSTotals();             //[Conditional]
+        displayEarlyMoveTotals();       //[Conditional]
+        displayDetails();               //[Conditional]
+        displayEvals();                 //[Conditional]
+        displayCXP();                   //[Conditional]
+        displayPXP();                   //[Conditional]
+        displayXPM();                   //[Conditional]
+        displayQXP();                   //[Conditional]
+        displayXP();                    //[Conditional]
+        displayEvalTypeCounts();        //[Conditional]
+        DisplayPositionPool();          //[Conditional]
       }
     }
     #endregion

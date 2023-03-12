@@ -19,46 +19,41 @@ namespace Engine {
     // The following advances through a line of PACN moves, pushing each position; and returns the final position
     //
     public Position ParsePACNMakeMoves(Parser parser) {
-      var position = this;
-
-      if (parser.SpaceToken.Accept()) {
-        //
-        // Make each move sequentially, returning the final position
-        //
-        while (parser.PACNMoveToken.Accept()) {
-          var sMove = parser.PACNMoveToken.Value;
-          var child = position.Push();  // See UCI.unmove()
-          try {
-            var wGamePly = position.GamePly;
-            var move = position.ParsePACNMove(wGamePly, sMove);
-            if (child.tryOrSkip(ref move)) {
-              position = child;
-              position.setName();
-            }
-            else {
-              var wMove = MoveNumber(wGamePly);
-              var friendSideName = Friend.Parameter.SideName;
-              throw new MoveException(
-                $"Move {wMove} {friendSideName}: Illegal Move in {sMove}");
-            }
-          }
-          catch {
-            // Reclaim *last* child if ParsePACNMove() should fail to complete normally
-            Pop(ref child);
-            throw;
+      //
+      // Parse and make each PACN Move recursively, returning the final position:
+      //
+      if (parser.SpaceToken.Accept() &&
+          parser.PACNMoveToken.Accept()) {
+        var sMove = parser.PACNMoveToken.Value;
+        var child = Push();             // See UCI.unmove()
+        try {
+          var wGamePly = GamePly;
+          var move = ParsePACNMove(wGamePly, sMove);
+          if (!child.tryOrSkip(ref move)) {
+            var wMove = MoveNumber(wGamePly);
+            var friendSideName = Friend.Parameter.SideName;
+            throw new MoveException(
+              $"Move {wMove} {friendSideName}: Illegal Move in {sMove}");
           }
 
-          if (!parser.SpaceToken.Accept()) break;
+          child.setName();
+          return child.ParsePACNMakeMoves(parser);
+        }
+        catch {
+          // Reclaim child if ParsePACNMove() should throw an Exception.
+          Pop(ref child);
+          throw;
         }
       }
 
-      return position;
+      return this;
     }
 
     //
     // The following parses a line of PACN move alternatives at the current position
     //
-    public void ParsePACNSearchMoves(List<Move> searchMoves, Token spaceToken, Token pacnMoveToken) {
+    public void ParsePACNSearchMoves(
+      List<Move> searchMoves, Token spaceToken, Token pacnMoveToken) {
       searchMoves.Clear();
       var parseMoves = new List<Move>();
 
@@ -67,20 +62,19 @@ namespace Engine {
         try {
           while (pacnMoveToken.Accept()) {
             //
-            // Parse alternative moves, wrt the current position,
-            // without actually making the moves.
+            // Parse alternative moves wrt the current position,
+            // without actually making any move.
             //
             var sMove = pacnMoveToken.Value;
             var move = ParsePACNMove(GamePly, sMove);
-            if (child.tryOrSkip(ref move))
-              parseMoves.Add(move);
-            else {
+            if (!child.tryOrSkip(ref move)) {
               var wMove = MoveNumber(GamePly);
               var friendSideName = Friend.Parameter.SideName;
               throw new MoveException(
                 $"Move {wMove} {friendSideName}: Illegal Move in {sMove}");
             }
 
+            parseMoves.Add(move);
             if (!spaceToken.Accept()) break;
           }
         }
