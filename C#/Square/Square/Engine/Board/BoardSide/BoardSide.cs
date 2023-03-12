@@ -12,6 +12,8 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Engine {
+  using Command.Exceptions;
+
   //
   // Type Aliases:
   //
@@ -115,6 +117,49 @@ namespace Engine {
       }
       #endregion                        // Init Methods
 
+      #region Move Methods
+      public Move BuildMove(
+        String sMove, Sq sqFrom, Sq sqTo, Piece promotion,
+        Int32 nFrom, Int32 nTo, Plane qpTo,
+        Byte vPiece, Byte vCapture, Boolean bCapture) {
+
+        //
+        // Validate Non-Castling Move
+        //
+        var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
+        var piece = IndexPiece(vPiece);
+
+        if (!qpAtxTo.HasValue)          //[Safe]
+          throw new ParseException(
+            MoveError($"Unexpected move of {piece} from {sqFrom} to {sqTo}"));
+
+        qpAtxTo &= ~Piece;
+        if ((qpAtxTo & qpTo) == 0)
+          throw new MoveException(
+            MoveError($"Cannot move {piece} from {sqFrom} to {sqTo}"));
+
+        //
+        // Validate Promotion
+        //
+        var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
+        var bSupplied = promotion != default;
+        if (bRequired != bSupplied) {
+          var sDiagnosis = bRequired ? "Required" : "Illegal";
+          throw new MoveException(
+            MoveError($"Promotion {sDiagnosis} in {sMove}"));
+        }
+
+        var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
+        if (bCapture) move |= CaptureMove(IndexPiece(vCapture));
+        return move;
+      }
+ 
+      public String MoveError(String sMessage) {
+        var wMove = MoveNumber(Board.GamePly);
+        return $"Move {wMove} {Parameter.SideName}: {sMessage}";
+      }
+      #endregion                        // Move Methods
+
       #region SideFlags Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void ClrCanOO() {
@@ -188,11 +233,6 @@ namespace Engine {
         }
       }
       #endregion                        // SideFlags Methods
-
-      public String MoveError(UInt16 wGamePly, String sMessage) {
-        var wMove = MoveNumber(wGamePly);
-        return $"Move {wMove} {Parameter.SideName}: {sMessage}";
-      }
       #endregion                        // Methods
     }                                   // BoardSide
   }                                     // Board

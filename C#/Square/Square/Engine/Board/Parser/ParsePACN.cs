@@ -2,12 +2,11 @@
 
 using Command.Exceptions;
 
-using static Engine.Board;
 using static Extension;
 
 partial class Board {
   #region Pure Algebraic Coordinate Notation (PACN) Methods
-  private Sq parseSquare(UInt16 wGamePly, String sMove, ref Int32 nPos, Int32 nLen) {
+  private Sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
     const Boolean ignoreCase = true;
     Sq? result = default;
     if (nPos + 2 <= nLen) {
@@ -20,7 +19,7 @@ partial class Board {
 
     //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
     throw new MoveException(
-      Friend.MoveError(wGamePly, $"Invalid Square in {sMove}"));
+      Friend.MoveError($"Invalid Square in {sMove}"));
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -29,27 +28,25 @@ partial class Board {
       sMove[nPos++].ToString().TryParseEnum<Piece>(ignoreCase) : default;
   }
 
-  private void parsePACN(
-    UInt16 wGamePly, String sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion) {
+  private void parsePACN(String sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion) {
     promotion = default;
     var nLen = sMove.Length;
     var nPos = 0;
-    sqFrom = parseSquare(wGamePly, sMove, ref nPos, nLen);
-    sqTo = parseSquare(wGamePly, sMove, ref nPos, nLen);
+    sqFrom = parseSquare(sMove, ref nPos, nLen);
+    sqTo = parseSquare(sMove, ref nPos, nLen);
     var piece = parsePiece(sMove, ref nPos, nLen);
     if (piece.HasValue) {
       if (!Promotions.Any(p => p == piece.Value))
         //[Safe]pacnMoveTokenRules should have prevented any Invalid Promotion Piece
         throw new MoveException(
-          Friend.MoveError(wGamePly, $"Invalid Promotion Piece {piece.Value} in {sMove}"));
+          Friend.MoveError($"Invalid Promotion Piece {piece.Value} in {sMove}"));
 
       promotion = piece.Value;
     }
   }
 
-  private Int32 parseFromTo(
-    UInt16 wGamePly, String sMove, ref Boolean bCastles, ref Move move) {
-    parsePACN(wGamePly, sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion);
+  private Int32 parseFromTo(String sMove, ref Boolean bCastles, ref Move move) {
+    parsePACN(sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion);
     var nFrom = (Int32)sqFrom;
     var nTo = (Int32)sqTo;
     var qpFrom = bit(nFrom);
@@ -63,12 +60,12 @@ partial class Board {
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
-        Friend.MoveError(wGamePly, $"There is no piece to move from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"There is no piece to move from {sqFrom} to {sqTo}"));
     else if ((qpFrom & qpFriend) == 0) {
       var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
-        Friend.MoveError(wGamePly, $"Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}"));
     }
 
     var vCapture = vPieceNull;
@@ -93,18 +90,19 @@ partial class Board {
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
           throw new MoveException(
-            Friend.MoveError(wGamePly, $"Illegal King Move from {sqFrom} to {sqTo}"));
+            Friend.MoveError($"Illegal King Move from {sqFrom} to {sqTo}"));
         bCastles = true;
       }
     }
 
     if (!bCastles)
       move = Friend.BuildMove(
-        wGamePly, sMove, sqFrom, sqTo, promotion, nFrom, nTo,
-        qpTo, vPieceFrom, vCapture, bCapture);
+        sMove, sqFrom, sqTo, promotion,
+        nFrom, nTo, qpTo,
+        vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
       throw new MoveException(
-        Friend.MoveError(wGamePly, $"Illegal Promotion in King Move from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"Illegal Promotion in King Move from {sqFrom} to {sqTo}"));
 
     return nTo;
   }
@@ -117,7 +115,7 @@ partial class Board {
   // devised by [Warren] Smith.  UCI documentation incorrectly implies that
   //"The move format is in long algebraic notation."
   //
-  protected Move ParsePACNMove(UInt16 wGamePly, String sMove) {
+  protected Move ParsePACNMove(String sMove) {
     var sUpperMove = sMove.ToUpper();
     var rule = Friend.Parameter.Rule;
 
@@ -139,14 +137,14 @@ partial class Board {
     else if (sUpperMove == sNullMove)   //[UCI]
       move = Move.NullMove;
     else                                //[PACN]
-      nTo = parseFromTo(wGamePly, sMove, ref bCastles, ref move);
+      nTo = parseFromTo(sMove, ref bCastles, ref move);
 
     //
     //[Chess960]Validate Castling:
     //
     if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
       throw new MoveException(
-        Friend.MoveError(wGamePly, $"Illegal Castling in {sMove}"));
+        Friend.MoveError($"Illegal Castling in {sMove}"));
 
     return move;
   }

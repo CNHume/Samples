@@ -286,7 +286,6 @@ namespace Engine {
 
     private static StringBuilder appendMoveNumber(
       this StringBuilder sbLine,
-      StringBuilder sb,
       Ply wGamePly,
       String sSuffix) {
       return
@@ -631,7 +630,7 @@ namespace Engine {
 
       if (IsOdd(wGamePly) && !bPure)    // Odd Ply => Number Black Move
         sbLine.Wrap(sb)
-              .appendMoveNumber(sb, wGamePly, sElipsis);
+              .appendMoveNumber(wGamePly, sElipsis);
 
       const Int32 nCapacity = 1;
       var brackets = new Stack<String>(nCapacity);
@@ -667,7 +666,7 @@ namespace Engine {
           sbLine.AppendPACN(move, sides, bChess960);
         else {
           if (IsEven(wGamePly))         // Even Ply => Number White Move
-            sbLine.appendMoveNumber(sb, wGamePly, sMoveNumber)
+            sbLine.appendMoveNumber(wGamePly, sMoveNumber)
                   .Wrap(sb);
 
           sbLine.AppendAN(move, sides, bChess960);

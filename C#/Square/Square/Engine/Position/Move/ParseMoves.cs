@@ -11,8 +11,6 @@ namespace Engine {
   using Command;                        // For Scanner, Token
   using Command.Exceptions;
 
-  using static Command.Parser;
-
   partial class Position : Board {
     #region Parse Move Methods
     //
@@ -21,14 +19,14 @@ namespace Engine {
     public Position ParsePACNMakeMoves(Parser parser) {
       if (parser.SpaceToken.Accept() &&
           parser.PACNMoveToken.Accept()) {
-        var sMove = parser.PACNMoveToken.Value;
         var child = Push();             // See UCI.unmove()
         try {
-          var move = ParsePACNMove(GamePly, sMove);
+          var sMove = parser.PACNMoveToken.Value;
+          var move = ParsePACNMove(sMove);
 
           if (!child.tryOrSkip(ref move))
             throw new MoveException(
-              Friend.MoveError(GamePly, $"Illegal Move in {sMove}"));
+              Friend.MoveError($"Illegal Move in {sMove}"));
 
           child.setName();
 
@@ -61,11 +59,11 @@ namespace Engine {
           //
           while (parser.PACNMoveToken.Accept()) {
             var sMove = parser.PACNMoveToken.Value;
-            var move = ParsePACNMove(GamePly, sMove);
+            var move = ParsePACNMove(sMove);
 
             if (!child.tryOrSkip(ref move))
               throw new MoveException(
-                Friend.MoveError(GamePly, $"Illegal Move in {sMove}"));
+                Friend.MoveError($"Illegal Move in {sMove}"));
 
             parseMoves.Add(move);
 

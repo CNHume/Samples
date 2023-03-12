@@ -401,43 +401,6 @@ namespace Engine {
       }
       #endregion                        // Attacker Methods
 
-      #region Move Builder
-      public Move BuildMove(
-        UInt16 wGamePly, String sMove, Sq? sqFrom, Sq? sqTo, Piece promotion, Int32 nFrom, Int32 nTo,
-        Plane qpTo, Byte vPiece, Byte vCapture, Boolean bCapture) {
-
-        //
-        // Validate Non-Castling Move
-        //
-        var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
-        var piece = IndexPiece(vPiece);
-
-        if (!qpAtxTo.HasValue)          //[Safe]
-          throw new ParseException(
-            MoveError(wGamePly, $"Unexpected move of {piece} from {sqFrom} to {sqTo}"));
-
-        qpAtxTo &= ~Piece;
-        if ((qpAtxTo & qpTo) == 0)
-          throw new MoveException(
-            MoveError(wGamePly, $"Cannot move {piece} from {sqFrom} to {sqTo}"));
-
-        //
-        // Validate Promotion
-        //
-        var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
-        var bSupplied = promotion != default;
-        if (bRequired != bSupplied) {
-          var sDiagnosis = bRequired ? "Required" : "Illegal";
-          throw new MoveException(
-            MoveError(wGamePly, $"Promotion {sDiagnosis} in {sMove}"));
-        }
-
-        var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
-        if (bCapture) move |= CaptureMove(IndexPiece(vCapture));
-        return move;
-      }
-      #endregion
-
       #region Count Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       protected void incSideCount(Byte vPiece) {
