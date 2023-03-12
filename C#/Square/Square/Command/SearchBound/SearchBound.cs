@@ -101,7 +101,7 @@ namespace Command {
             // Parse a list of legal PACN moves to search from the current position:
             //
             if (searchMoves == null) searchMoves = position.newSearchMoves();
-            position.ParsePACNSearchMoves(searchMoves, parser.SpaceToken, parser.PACNMoveToken);
+            position.ParsePACNSearchMoves(parser, searchMoves);
             break;
           case "ponder":
             //

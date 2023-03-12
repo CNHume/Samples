@@ -188,6 +188,11 @@ namespace Engine {
         }
       }
       #endregion                        // SideFlags Methods
+
+      public String MoveId(UInt16 wGamePly) {
+        var wMove = MoveNumber(wGamePly);
+        return $"Move {wMove} {Parameter.SideName}: ";
+      }
       #endregion                        // Methods
     }                                   // BoardSide
   }                                     // Board

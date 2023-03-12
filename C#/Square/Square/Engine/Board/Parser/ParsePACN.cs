@@ -19,10 +19,8 @@ partial class Board {
       return result.Value;
 
     //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
-    var wMove = MoveNumber(wGamePly);
-    var friendSideName = Friend.Parameter.SideName;
     throw new MoveException(
-      $"Move {wMove} {friendSideName}: Invalid Square in {sMove}");
+      $"{Friend.MoveId(wGamePly)}Invalid Square in {sMove}");
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -42,10 +40,8 @@ partial class Board {
     if (piece.HasValue) {
       if (!Promotions.Any(p => p == piece.Value)) {
         //[Safe]pacnMoveTokenRules should have prevented any Invalid Promotion Piece
-        var wMove = MoveNumber(wGamePly);
-        var friendSideName = Friend.Parameter.SideName;
         throw new MoveException(
-          $"Move {wMove} {friendSideName}: Invalid Promotion Piece {piece.Value} in {sMove}");
+          $"{Friend.MoveId(wGamePly)}Invalid Promotion Piece {piece.Value} in {sMove}");
       }
 
       promotion = piece.Value;
@@ -65,18 +61,15 @@ partial class Board {
     var qpFriend = Friend.Piece;
     var qpFoe = Foe.Piece;
 
-    var wMove = MoveNumber(wGamePly);
-    var friendSideName = Friend.Parameter.SideName;
-    var foeSideName = Foe.Parameter.SideName;
-
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
-        $"Move {wMove} {friendSideName}: There is no piece to move from {sqFrom} to {sqTo}");
+        $"{Friend.MoveId(wGamePly)}There is no piece to move from {sqFrom} to {sqTo}");
     else if ((qpFrom & qpFriend) == 0) {
+      var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
-        $"Move {wMove} {friendSideName}: Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
+        $"{Friend.MoveId(wGamePly)}Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}");
     }
 
     var vCapture = vPieceNull;
@@ -101,7 +94,7 @@ partial class Board {
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
           throw new MoveException(
-            $"Move {wMove} {friendSideName}: Illegal King Move from {sqFrom} to {sqTo}");
+            $"{Friend.MoveId(wGamePly)}Illegal King Move from {sqFrom} to {sqTo}");
         bCastles = true;
       }
     }
@@ -112,7 +105,7 @@ partial class Board {
         qpTo, vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
       throw new MoveException(
-        $"Move {wMove} {friendSideName}: Illegal Promotion in King Move from {sqFrom} to {sqTo}");
+        $"{Friend.MoveId(wGamePly)}Illegal Promotion in King Move from {sqFrom} to {sqTo}");
 
     return nTo;
   }
@@ -151,10 +144,8 @@ partial class Board {
     //[Chess960]Validate Castling:
     //
     if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value))) {
-      var wMove = MoveNumber(wGamePly);
-      var friendSideName = Friend.Parameter.SideName;
       throw new MoveException(
-        $"Move {wMove} {friendSideName}: Illegal Castling in {sMove}");
+        $"{Friend.MoveId(wGamePly)}Illegal Castling in {sMove}");
     }
 
     return move;

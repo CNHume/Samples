@@ -412,17 +412,14 @@ namespace Engine {
         var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
         var piece = IndexPiece(vPiece);
 
-        var wMove = MoveNumber(wGamePly);
-        var sideName = Parameter.SideName;
-
         if (!qpAtxTo.HasValue)          //[Safe]
           throw new ParseException(
-            $"Move {wMove} {sideName}: Unexpected move of {piece} from {sqFrom} to {sqTo}");
+            $"{MoveId(wGamePly)}Unexpected move of {piece} from {sqFrom} to {sqTo}");
 
         qpAtxTo &= ~Piece;
         if ((qpAtxTo & qpTo) == 0)
           throw new MoveException(
-            $"Move {wMove} {sideName}: Cannot move {piece} from {sqFrom} to {sqTo}");
+            $"{MoveId(wGamePly)}Cannot move {piece} from {sqFrom} to {sqTo}");
 
         //
         // Validate Promotion
@@ -432,7 +429,7 @@ namespace Engine {
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
           throw new MoveException(
-            $"Move {wMove} {sideName}: Promotion {sDiagnosis} in {sMove}");
+            $"{MoveId(wGamePly)}Promotion {sDiagnosis} in {sMove}");
         }
 
         var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
