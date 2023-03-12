@@ -189,9 +189,9 @@ namespace Engine {
       }
       #endregion                        // SideFlags Methods
 
-      public String MoveId(UInt16 wGamePly) {
+      public String MoveError(UInt16 wGamePly, String sMessage) {
         var wMove = MoveNumber(wGamePly);
-        return $"Move {wMove} {Parameter.SideName}: ";
+        return $"Move {wMove} {Parameter.SideName}: {sMessage}";
       }
       #endregion                        // Methods
     }                                   // BoardSide

@@ -26,10 +26,9 @@ namespace Engine {
         try {
           var move = ParsePACNMove(GamePly, sMove);
 
-          if (!child.tryOrSkip(ref move)) {
+          if (!child.tryOrSkip(ref move))
             throw new MoveException(
-              $"{Friend.MoveId(GamePly)}Illegal Move in {sMove}");
-          }
+              Friend.MoveError(GamePly, $"Illegal Move in {sMove}"));
 
           child.setName();
 
@@ -66,7 +65,7 @@ namespace Engine {
 
             if (!child.tryOrSkip(ref move))
               throw new MoveException(
-                $"{Friend.MoveId(GamePly)}Illegal Move in {sMove}");
+                Friend.MoveError(GamePly, $"Illegal Move in {sMove}"));
 
             parseMoves.Add(move);
 
@@ -81,7 +80,7 @@ namespace Engine {
 
       searchMoves.AddRange(parseMoves.Distinct());
       if (searchMoves.Count == 0)
-        throw new MoveException("No Search Move specified");
+        throw new ParseException("No Search Move specified");
     }
     #endregion
   }

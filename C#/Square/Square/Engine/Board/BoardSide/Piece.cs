@@ -285,7 +285,7 @@ namespace Engine {
         }
 
         //[Safe]
-        throw new MoveException($"{Parameter.SideName} cannot castle");
+        throw new ChessException($"{Parameter.SideName} cannot castle");
       }
       #endregion                        // Mover Methods
 
@@ -414,12 +414,12 @@ namespace Engine {
 
         if (!qpAtxTo.HasValue)          //[Safe]
           throw new ParseException(
-            $"{MoveId(wGamePly)}Unexpected move of {piece} from {sqFrom} to {sqTo}");
+            MoveError(wGamePly, $"Unexpected move of {piece} from {sqFrom} to {sqTo}"));
 
         qpAtxTo &= ~Piece;
         if ((qpAtxTo & qpTo) == 0)
           throw new MoveException(
-            $"{MoveId(wGamePly)}Cannot move {piece} from {sqFrom} to {sqTo}");
+            MoveError(wGamePly, $"Cannot move {piece} from {sqFrom} to {sqTo}"));
 
         //
         // Validate Promotion
@@ -429,7 +429,7 @@ namespace Engine {
         if (bRequired != bSupplied) {
           var sDiagnosis = bRequired ? "Required" : "Illegal";
           throw new MoveException(
-            $"{MoveId(wGamePly)}Promotion {sDiagnosis} in {sMove}");
+            MoveError(wGamePly, $"Promotion {sDiagnosis} in {sMove}"));
         }
 
         var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
