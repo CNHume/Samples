@@ -26,7 +26,7 @@ namespace Engine {
 
           if (!child.tryOrSkip(ref move))
             throw new MoveException(
-              Friend.MoveError($"Illegal Move in {sMove}"));
+              Friend.MoveError($"Illegal Move", sMove));
 
           child.setName();
 
@@ -63,7 +63,7 @@ namespace Engine {
 
             if (!child.tryOrSkip(ref move))
               throw new MoveException(
-                Friend.MoveError($"Illegal Move in {sMove}"));
+                Friend.MoveError($"Illegal Move", sMove));
 
             parseMoves.Add(move);
 

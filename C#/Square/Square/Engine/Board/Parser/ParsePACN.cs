@@ -19,7 +19,7 @@ partial class Board {
 
     //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
     throw new MoveException(
-      Friend.MoveError($"Invalid Square in {sMove}"));
+      Friend.MoveError($"Invalid Square", sMove));
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {
@@ -39,7 +39,7 @@ partial class Board {
       if (!Promotions.Any(p => p == piece.Value))
         //[Safe]pacnMoveTokenRules should have prevented any Invalid Promotion Piece
         throw new MoveException(
-          Friend.MoveError($"Invalid Promotion Piece {piece.Value} in {sMove}"));
+          Friend.MoveError($"Invalid Promotion Piece {piece.Value}", sMove));
 
       promotion = piece.Value;
     }
@@ -60,12 +60,12 @@ partial class Board {
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
-        Friend.MoveError($"There is no piece to move from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"There is no piece to move", nFrom, nTo));
     else if ((qpFrom & qpFriend) == 0) {
       var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
-        Friend.MoveError($"Cannot move {foeSideName} {pieceFrom} from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"Cannot move {foeSideName} {pieceFrom}", nFrom, nTo));
     }
 
     var vCapture = vPieceNull;
@@ -90,19 +90,18 @@ partial class Board {
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
           throw new MoveException(
-            Friend.MoveError($"Illegal King Move from {sqFrom} to {sqTo}"));
+            Friend.MoveError($"Illegal King Move", nFrom, nTo));
         bCastles = true;
       }
     }
 
     if (!bCastles)
       move = Friend.BuildMove(
-        sMove, sqFrom, sqTo, promotion,
-        nFrom, nTo, qpTo,
-        vPieceFrom, vCapture, bCapture);
+        sMove, promotion, nFrom, nTo,
+        qpTo, vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
       throw new MoveException(
-        Friend.MoveError($"Illegal Promotion in King Move from {sqFrom} to {sqTo}"));
+        Friend.MoveError($"Illegal Promotion in King Move", nFrom, nTo));
 
     return nTo;
   }
@@ -144,7 +143,7 @@ partial class Board {
     //
     if (bCastles && !(nTo.HasValue && CanCastle(nTo.Value)))
       throw new MoveException(
-        Friend.MoveError($"Illegal Castling in {sMove}"));
+        Friend.MoveError($"Illegal Castling", sMove));
 
     return move;
   }

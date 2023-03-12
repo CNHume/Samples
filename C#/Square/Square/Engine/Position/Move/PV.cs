@@ -63,9 +63,8 @@ namespace Engine {
 
       if (qpAtxTo == 0) {
         var sAction = bCapture ? "capture" : "move";
-        var sqFrom = (Sq)nFrom;
-        var sqTo = (Sq)nTo;
-        Debug.Assert(qpAtxTo != 0, $"There is no piece that can {sAction} from {sqFrom} to {sqTo}");
+        Debug.Assert(
+          qpAtxTo != 0, $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo}");
         Display();
       }
 
