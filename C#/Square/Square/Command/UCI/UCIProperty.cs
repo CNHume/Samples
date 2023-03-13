@@ -144,7 +144,7 @@ namespace Command {
     //
     //"8/6B1/1N4kP/2p5/2P5/1p6/2r5/1K6 w - - 0 56"; // Jordan Van Foreest v Liem Quan Le Line1 2022 Oslo Esports Cup 2022-04-28
     //"8/3N2Bk/7P/2p5/2P5/1p6/2r5/1K6 w - - 0 57"; // Jordan Van Foreest v Liem Quan Le #21 Line2 2022 Oslo Esports Cup 2022-04-28
-    //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [2023-02-25 17-ply in 1:41.51 @1.495 MHz over 151.78 Mnode]
+    //"8/8/8/8/5b2/5k2/3p3p/5N1K b - - 0 1"; // Underpromotion -#11 [2023-02-25 17-ply in 1:41.46 @1.494 MHz over 151.618 Mnode]
     // 1... d1=B 2. Nxh2+ Kg3 3. Kg1 Be3+ 4. Kf1 Bh5 5. Ke1 Kxh2 6. Kf1 Bg4 7. Ke1 Kg3 8. Kf1 Be3d2
     //"2r5/5pk1/6p1/6P1/1K6/8/3R4/8 b - - 0 66"; // Vidit Gujrathi v Rameshbabu Praggnanandhaa Endgame 2022 Tata Steel Masters R10 2022-01-26
     //"3r2k1/2pqnpp1/1p5p/p2P4/P2p1rP1/2P1N1P1/1PQ2P2/3RR1K1 b - - 0 23"; // Nepomniachtchi v Carlsen 2021 WCC R11 2021-12-10 [~22-ply]

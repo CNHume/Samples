@@ -36,10 +36,11 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;                      // For StringBuilder
 
+using static System.Math;
+
 namespace Engine {
   using MoveOrder;
 
-  using static System.Math;
   using static GameState;
   using static Logging.Logger;
 
@@ -172,7 +173,7 @@ namespace Engine {
                         IsDefined(moveFound) && !(bReduced || bMoveExcluded) &&
                         canExtend(vSingular);   //[Ergo]child.canExtend(vSingular) below
 #endif
-      }                                 // !bInCheck
+      }                                 //!bInCheck
       #endregion
 
       #region Generate Moves
@@ -373,7 +374,8 @@ namespace Engine {
       UInt32 uRaisedAlpha, Eval mAlpha, Eval mBeta, ref Eval mBest, ref Eval mBest2,
       Piece piece, Move move, Move moveFound, ref Move moveBest, Eval mValueFound,
       Boolean bPruneQuiet, Boolean bTestSingular, Boolean bEarly, Boolean bTryZWS) {
-      Eval mValue;
+      var mValue = EvalUndefined;
+
       #region Futility Pruning and LMR
       var bNonChecking = !child.InCheck();
       var bNonMaterial = !move.Has(Move.Material);
@@ -396,14 +398,14 @@ namespace Engine {
           var wLMRDraft = (Draft)(wDraft1 - extensionDraft(vLate));
           var safeMode = child.FlagsMode;
           child.FlagsMode |= ModeFlags.Reduced;
-          mValue = (Eval)(-child.Search(wLMRDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
+          mValue = (Eval)(-child.search(wLMRDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
           child.FlagsMode = safeMode;
           if (mValue <= mAlpha)
             goto updateBest;
         }
 #endif
       }
-      #endregion
+      #endregion                        // Futility Pruning and LMR
 
       #region Singular Extension
 #if SingularExtension
@@ -426,7 +428,7 @@ namespace Engine {
         }
       }
 #endif
-      #endregion
+      #endregion                      // Singular Extension
 
 #if GetSmart
       //var bCastles = IsCastles(move);
@@ -474,7 +476,7 @@ namespace Engine {
         //
         mBest2 = AddPV(mAlpha, mValue, moveNoted, child.BestMoves);
       }
-      #endregion
+      #endregion                        // Update Best Move
 
       return mValue;
     }
