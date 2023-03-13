@@ -130,12 +130,12 @@ namespace Engine {
 
         if (!qpAtxTo.HasValue)          //[Safe]
           throw new ParseException(
-            MoveError($"Unexpected move of {piece}", nFrom, nTo));
+            MoveError($"Unexpected move of {piece}", (Sq)nFrom, (Sq)nTo));
 
         qpAtxTo &= ~Piece;
         if ((qpAtxTo & qpTo) == 0)
           throw new MoveException(
-            MoveError($"Cannot move {piece}", nFrom, nTo));
+            MoveError($"Cannot move {piece}", (Sq)nFrom, (Sq)nTo));
 
         //
         // Validate Promotion
@@ -158,8 +158,8 @@ namespace Engine {
         return $"Move {wMove} {Parameter.SideName}: {sMessage}";
       }
 
-      public String MoveError(String sMessage, Int32 nFrom, Int32 nTo) {
-        return MoveError(sMessage + $" from {(Sq)nFrom} to {(Sq)nTo}");
+      public String MoveError(String sMessage, Sq sqFrom, Sq sqTo) {
+        return MoveError($"{sMessage} from {sqFrom} to {sqTo}");
       }
       #endregion                        // Move Methods
 

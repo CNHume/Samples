@@ -60,12 +60,12 @@ partial class Board {
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
-        Friend.MoveError($"There is no piece to move", nFrom, nTo));
+        Friend.MoveError($"There is no piece to move", sqFrom, sqTo));
     else if ((qpFrom & qpFriend) == 0) {
       var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
-        Friend.MoveError($"Cannot move {foeSideName} {pieceFrom}", nFrom, nTo));
+        Friend.MoveError($"Cannot move {foeSideName} {pieceFrom}", sqFrom, sqTo));
     }
 
     var vCapture = vPieceNull;
@@ -90,7 +90,7 @@ partial class Board {
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
           throw new MoveException(
-            Friend.MoveError($"Illegal King Move", nFrom, nTo));
+            Friend.MoveError($"Illegal King Move", sqFrom, sqTo));
         bCastles = true;
       }
     }
@@ -101,7 +101,7 @@ partial class Board {
         qpTo, vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
       throw new MoveException(
-        Friend.MoveError($"Illegal Promotion in King Move", nFrom, nTo));
+        Friend.MoveError($"Illegal Promotion in King Move", sqFrom, sqTo));
 
     return nTo;
   }
