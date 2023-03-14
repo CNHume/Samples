@@ -1,4 +1,6 @@
-﻿namespace Engine;
+﻿using static System.StringComparison;
+
+namespace Engine;
 
 using Command.Exceptions;
 
@@ -76,14 +78,17 @@ partial class Board {
     }
     else if (vPieceFrom == vK6) {
       //
-      //[Chess960]OO/OOO notation is required in those cases where a King castles by
-      // moving only one square.  However, cases where a King might otherwise be seen
-      // as capturing its own Rook are assumed to be attempts to castle.  CanCastle()
-      // will be called if needed, when this method returns.
+      //[Chess960]If a King is able to castle by moving one square, OO/OOO
+      // notation must be used to avoid ambiguity with a non-castling move.
       //
-      var bUnambiguousRook = State.IsChess960 && vPieceTo == vR6;
-      var bUnambiguousKing = (AtxKing[nFrom] & qpTo) == 0;
-      if (bUnambiguousRook || bUnambiguousKing) {
+      // However, moves where a King lands on a square occupied by its own
+      // Rook are assumed to be attempts to castle.
+      //
+      // CanCastle() is called if needed, when this method returns.
+      //
+      var bKingJump = (qpTo & AtxKing[nFrom]) == 0;
+      var bRookSwap = State.IsChess960 && vPieceTo == vR6;
+      if (bKingJump || bRookSwap) {
         var rule = Friend.Parameter.Rule;
         move = rule.Castles(nTo);
         if (move == Move.Undefined)
@@ -113,25 +118,24 @@ partial class Board {
   //"The move format is in long algebraic notation."
   //
   protected Move ParsePACNMove(String sMove) {
-    var sUpperMove = sMove.ToUpper();
+    var move = Move.Undefined;
+    Int32? nTo = default;
+    var bCastles = false;
     var rule = Friend.Parameter.Rule;
 
-    var bCastles = false;
-    Int32? nTo = default;
-    var move = Move.Undefined;
-    if (sUpperMove == sPureOO ||
-        sUpperMove == sPure00) {
+    if (sPureOO.Equals(sMove, InvariantCultureIgnoreCase) ||
+        sPure00 == sMove) {
       bCastles = true;
       nTo = rule.KingOOTo;
       move = rule.OO;
     }
-    else if (sUpperMove == sPureOOO ||
-             sUpperMove == sPure000) {
+    else if (sPureOOO.Equals(sMove, InvariantCultureIgnoreCase) ||
+             sPure000 == sMove) {
       bCastles = true;
       nTo = rule.KingOOOTo;
       move = rule.OOO;
     }
-    else if (sUpperMove == sNullMove)   //[UCI]
+    else if (sMove == sNullMove)        //[UCI]
       move = Move.NullMove;
     else                                //[PACN]
       nTo = parseFromTo(sMove, ref bCastles, ref move);
