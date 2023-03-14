@@ -160,6 +160,8 @@ namespace Command {
     //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply in 0.67 sec] eval 5.85
     //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
     // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
+    //[2022-03-13 16-ply in 10:53 @1.328 MHz over 866.64 Mnode] eval 6.15 after:
+    // 1. Rh1+ Kxh1 2. Nf3 Qg1 3. Nxg1 Ne3 4. Nh3 Nd1+ 5. Ka1 Nxf2 6. Nxf2+ Kg2 7. e4 Kxf2 8. e5 Kf1 9. e6 Ke2 10. Kb2 Ke1 [11. e7]
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
     // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0
     // [2023-01-07 17-ply in 35:08.1] eval #11
@@ -218,6 +220,9 @@ namespace Command {
     // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bc6 Nd1+ 69. Kb1 Ne3 70. Ba4 d4 71. Ka2 Nxc2 72. Bxc2 Kxc2 73. a4 c3 74. Ka3 d3
     // [21-ply in 1:26:16 @1.262 MHz over 6.533 Gnode] eval -3.25
     // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bf5 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Bh7 d3 72. Bxd3 cxd3 73. cxd3 Kxd3 74. Ka1 Nf1 75. Kb1 Kd3c3
+    // [2023-03-13 21-ply in 1:18:24 @1.259 MHz over 5.922 Gnode] eval -4.3 after:
+    // 64... a5 65. Kc1 Ne2+ 66. Kb2 Kd2 67. Bxd5 Nxc3 68. Bc6 Nd1+ 69. Kb1 Nc3+ 70. Kb2@ b4 71. axb4 axb4 72. Ba8 Nd1+
+    // 73. Kb1 Nc3+ 74.Kb2@ Nb5 75. Bd5 c3+ 76. Kb3 Nd4+ 77. Kxb4 Nxc2+ 78. Kb4a4 Nc2a1 79. Bd5e4
     // Formerly:
     // [21-ply trace in 1:34:58 @1.212 MHz over 6.9 Gnode] eval -3.6
     // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+

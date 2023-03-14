@@ -48,28 +48,26 @@ partial class Board {
   private Int32 parseFromTo(String sMove, ref Boolean bCastles, ref Move move) {
     parsePACN(sMove, out Sq sqFrom, out Sq sqTo, out Piece promotion);
     var nFrom = (Int32)sqFrom;
-    var nTo = (Int32)sqTo;
     var qpFrom = bit(nFrom);
-    var qpTo = bit(nTo);
     var vPieceFrom = GetPieceIndex(nFrom);
-    var vPieceTo = GetPieceIndex(nTo);
-
-    var qpFriend = Friend.Piece;
-    var qpFoe = Foe.Piece;
 
     // Validate Piece Color
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
         Friend.MoveError($"There is no piece to move", sqFrom, sqTo));
-    else if ((qpFrom & qpFriend) == 0) {
+    else if ((qpFrom & Friend.Piece) == 0) {
       var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
         Friend.MoveError($"Cannot move {foeSideName} {pieceFrom}", sqFrom, sqTo));
     }
 
+    var nTo = (Int32)sqTo;
+    var qpTo = bit(nTo);
+    var vPieceTo = GetPieceIndex(nTo);
+
     var vCapture = vPieceNull;
-    var bCapture = (qpTo & qpFoe) != 0;
+    var bCapture = (qpTo & Foe.Piece) != 0;
     if (bCapture)
       vCapture = vPieceTo;
     else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.sqrEP()) {

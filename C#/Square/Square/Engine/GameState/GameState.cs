@@ -389,7 +389,7 @@ namespace Engine {
       sb.Append(" QuietMate");
 #endif
 #if TestCornerCP
-      sb.AppendEvalInfo(mKBNMateCornerWeight);
+      sb.AppendEvalInfo(mKBNvKMateCornerWeight);
       sb.Append(" CornerWeight");
 #endif
       if (IsOccam)
