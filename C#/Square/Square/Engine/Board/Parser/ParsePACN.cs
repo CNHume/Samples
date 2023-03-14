@@ -123,14 +123,14 @@ partial class Board {
     var bCastles = false;
     var rule = Friend.Parameter.Rule;
 
-    if (sPureOO.Equals(sMove, InvariantCultureIgnoreCase) ||
-        sPure00 == sMove) {
+    if (sMove.Equals(sPureOO, InvariantCultureIgnoreCase) ||
+        sMove == sPure00) {
       bCastles = true;
       nTo = rule.KingOOTo;
       move = rule.OO;
     }
-    else if (sPureOOO.Equals(sMove, InvariantCultureIgnoreCase) ||
-             sPure000 == sMove) {
+    else if (sMove.Equals(sPureOOO, InvariantCultureIgnoreCase) ||
+             sMove == sPure000) {
       bCastles = true;
       nTo = rule.KingOOOTo;
       move = rule.OOO;
