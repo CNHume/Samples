@@ -104,7 +104,7 @@ namespace Command {
     //"4Q3/k5r1/1p6/p1pp4/P2P4/1P1B4/K1P5/8 w - - 0 42"; // Fabiano Caruana v Ruslan Ponomariov 2014-07-13 #9 Line (from move 42)
     // 42. Qc6! cxd4 43. Qxd4 Re7 44. Qd8 Rb7 45. Be4 b5 46. axb5 Rxb5 47. Qc7+ Ka6 48. Qc6+ Rb6 49. Qc8+ Ka7 50. Qa8#
     //
-    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [2022-11-01 14-ply in 1:34.3 @1.2265 MHz over 115.66 Mnode] eval -2.4 after:
+    //"8/pR4pk/1b2p3/2p3p1/N1p5/7P/PP1r2P1/6K1 b - - 0 1"; // Martin Ortueta Esteban v. Jose Sans Aguado 1933 [2023-03-15 14-ply in 1:32.72 @1.247 MHz over 115.66 Mnode] eval -2.4 after:
     // 1... Rxb2 2. Nxb2 c3 3. Rxb6 c4 4. Na4 c2 5. Rxe6 c1=Q+ 6. Kh2 Qf4+ 7. Kg1 c3 8. Ra6 c2
     //"1r4k1/1p3pbp/1P1P4/p1P2p2/4p3/8/1P2B1PP/3R3K w - - 0 33"; // Carlsen v. Grischuk 2009-03-05 [2022-09-16 16-ply in 5:53 @1.271 MHz over 448.4 Mnode] eval 2.8 after:
     // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. d7 Be7 39. Rc8 e3 40. Re8 Kg7f6
@@ -164,7 +164,7 @@ namespace Command {
     // 1. Rh1+ Kxh1 2. Nf3 Qg1 3. Nxg1 Ne3 4. Nh3 Nd1+ 5. Ka1 Nxf2 6. Nxf2+ Kg2 7. e4 Kxf2 8. e5 Kf1 9. e6 Ke2 10. Kb2 Ke1 [11. e7]
     //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang vs Gunay Mammadzada 2021-04-08 #10
     // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0
-    // [2023-01-07 17-ply in 35:08.1] eval #11
+    // [2023-03-16 17-ply in 36:28 @1.467 MHz over 3.21 Gnode] eval #11
     // [2023-01-07 18-ply in 50:59 @1.496 MHz over 4.576 Gnode] #10 after:
     // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
     //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
