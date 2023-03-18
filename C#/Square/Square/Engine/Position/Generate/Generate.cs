@@ -98,15 +98,12 @@ namespace Engine {
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEnPassant(Plane qpFoe) {
-      return IsPassed() && (qpFoe & Pawn) != 0 ?
-        qpFoe | bit(FlagsTurn.sqrEP()) : qpFoe;
+      return IsPassed() ? qpFoe | bit(FlagsTurn.sqrEP()) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
     private Int32 generate(List<Move> moves, Boolean bSwap) {
       var bInCheck = InCheck();
-      var qpFriend = Friend.Piece;
-      var qpFoe = Foe.Piece;
       var vKingPos = Friend.GetKingPos();
 
       clearPseudoMoveLists(moves, bSwap);
@@ -139,16 +136,16 @@ namespace Engine {
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
-        addPieceCapturesAndMoves(~qpFriend);
-        Friend.AddPawnCaptures(includeEnPassant(qpFoe));
+        addPieceCapturesAndMoves(~Friend.Piece);
+        Friend.AddPawnCaptures(includeEnPassant(Foe.Piece));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
       }                                 //!bInCheck
 #if UnshadowRay2
-      addKingCapturesAndMoves(~qpFriend, vKingPos, bRayCheck);
+      addKingCapturesAndMoves(~Friend.Piece, vKingPos, bRayCheck);
 #else
-      addKingCapturesAndMoves(~qpFriend, vKingPos);
+      addKingCapturesAndMoves(~Friend.Piece, vKingPos);
 #endif
       if (bSwap && !bInCheck)
         addPseudoMovesGood(moves);
@@ -162,7 +159,6 @@ namespace Engine {
     #region Quiet Move Generator
     private Int32 generateMaterialMoves(List<Move> moves) {
       var bInCheck = InCheck();
-      var qpFoe = Foe.Piece;
       var vKingPos = Friend.GetKingPos();
 
       clearPseudoMaterialMoveLists(moves);
@@ -195,15 +191,15 @@ namespace Engine {
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
-        addPieceCaptures(qpFoe);
-        Friend.AddPawnCaptures(includeEnPassant(qpFoe));
+        addPieceCaptures(Foe.Piece);
+        Friend.AddPawnCaptures(includeEnPassant(Foe.Piece));
         Friend.AddPromotionMoves(~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2
-      addKingCaptures(qpFoe, vKingPos, bRayCheck);
+      addKingCaptures(Foe.Piece, vKingPos, bRayCheck);
 #else
       var bWTM = WTM();
-      addKingCaptures(qpFoe, vKingPos, bWTM);
+      addKingCaptures(Foe.Piece, vKingPos, bWTM);
 #endif
       addPseudoMaterialMoves(moves);
       return State.IncPseudoMoveTotal(moves.Count);
@@ -213,7 +209,6 @@ namespace Engine {
     #region Swap Move Generator
     private Int32 generateSwaps(List<Move> moves, Int32 nTo) {
       var qpTo = bit(nTo);
-      var qpFriend = Friend.Piece;
       var vKingPos = Friend.GetKingPos();
       var bInCheck = InCheck();
 
@@ -222,7 +217,7 @@ namespace Engine {
       var bRayCheck = false;
 #endif
       if (bInCheck) {
-        var qpKing = qpFriend & King;
+        var qpKing = Friend.Piece & King;
         var qpChx = Foe.Checkers(vKingPos, qpKing);
 #if UnshadowRay
         bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
@@ -238,14 +233,14 @@ namespace Engine {
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
-        var qpFoe = qpTo & ~qpFriend;
+        var qpFoe = qpTo & ~Friend.Piece;
         addPieceCaptures(qpFoe);
         Friend.AddPawnCaptures(qpFoe);
       }                                 //!bInCheck
 #if UnshadowRay2
-      addKingCaptures(qpTo & ~qpFriend, vKingPos, bRayCheck);
+      addKingCaptures(qpTo & ~Friend.Piece, vKingPos, bRayCheck);
 #else
-      addKingCaptures(qpTo & ~qpFriend, vKingPos);
+      addKingCaptures(qpTo & ~Friend.Piece, vKingPos);
 #endif
       addPseudoSwaps(moves);
       return State.IncPseudoMoveTotal(moves.Count);

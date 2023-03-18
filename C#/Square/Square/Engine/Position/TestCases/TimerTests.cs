@@ -51,7 +51,7 @@ namespace Engine {
       //[Time]timeMove((Move)0x00010A61);       //[Perft3]b5b6
       //[Time]timeMove((Move)0x00040699);       //[Perft3]b4c4
       //timeWeighPieces();
-      //[Time]timeGenerate(PseudoMoves, NoSwaps);
+      //[Time]timeGenerate(PseudoMoves, !Swaps);
       //[Time]timeAddPieceCapturesAndMoves();
       //[Time]
       //timeAddPawnCapturesAndMoves();

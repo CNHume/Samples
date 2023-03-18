@@ -108,12 +108,10 @@ namespace Engine {
       fprp = default;                   //[Init]
       bool bWhiteAttacker = nSide == White;
       var (friend, foe) = GetSides(bWhiteAttacker);
+      var qpFriendPawn = friend.Piece & Pawn;
+      var qpFoePawn = foe.Piece & Pawn;
       var qpFriendPawnAtx = friend.PawnA1H8Atx | friend.PawnA8H1Atx;
       var qpFoePawnAtx = foe.PawnA1H8Atx | foe.PawnA8H1Atx;
-      var qpFriend = friend.Piece;
-      var qpFoe = foe.Piece;
-      var qpFriendPawn = Pawn & qpFriend;
-      var qpFoePawn = Pawn & qpFoe;
 #if TestPawnFeatures
       Display();
 #endif

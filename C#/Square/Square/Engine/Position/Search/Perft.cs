@@ -65,7 +65,7 @@ namespace Engine {
       var vPlies1 = (PlyDepth)(vPlies - 1);
       var pc = State.Case;
 
-      generate(moves, NoSwaps);
+      generate(moves, !Swaps);
       verifyMaterialMoves(moves);       //[Conditional]
 
       var child = Push();               // Push Position to make the moves

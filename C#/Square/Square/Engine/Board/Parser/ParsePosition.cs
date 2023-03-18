@@ -220,7 +220,6 @@ namespace Engine {
       if (y(nEnPassant) != Foe.Parameter.PassRank)
         throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
-      var qpFoe = Foe.Piece;
       // The square actually holding the e.p. Pawn to be captured:
       var nMovedTo = nEnPassant + Foe.Parameter.PawnStep;
 
@@ -232,7 +231,7 @@ namespace Engine {
       var qpEnPassant = bit(nEnPassant);
       var qpVacant = qpStart | qpEnPassant;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
-                     (qpFoe & Pawn & bit(nMovedTo)) == 0;
+                     (Foe.Piece & Pawn & bit(nMovedTo)) == 0;
 
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");

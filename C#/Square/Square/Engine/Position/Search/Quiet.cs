@@ -118,7 +118,7 @@ namespace Engine {
           generate(moves, Swaps);
 #elif QuietCheck || QuietMate
           if (bInCheck)
-            generate(moves, NoSwaps);
+            generate(moves, !Swaps);
           else
             generateMaterialMoves(moves);
 #else
@@ -263,7 +263,7 @@ namespace Engine {
 
     protected Boolean isLeaf() {
       var moves = PseudoMoves;
-      generate(moves, NoSwaps);
+      generate(moves, !Swaps);
       var child = Push();               // Push Position to find a legal move
       try {
         foreach (var mov in moves) {

@@ -54,7 +54,6 @@ namespace Engine {
   partial class Position : Board {
     #region Constants
     protected const Boolean Swaps = true;
-    protected const Boolean NoSwaps = !Swaps;
 
     //
     // Futility Prining is one type of Forward Pruning.
@@ -195,9 +194,9 @@ namespace Engine {
         var bSwap = wDepth < wSwapDepthMax;
         generate(moves, bSwap);
 #else
-        generate(moves, NoSwaps);
+        generate(moves, !Swaps);
 #endif
-        //[Timer]timeGenerate(moves, NoSwaps);
+        //[Timer]timeGenerate(moves, !Swaps);
 #if DebugPseudoMoves
         DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
         var sb = new StringBuilder("PseudoMoves:");

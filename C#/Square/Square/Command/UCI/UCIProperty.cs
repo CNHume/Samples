@@ -54,7 +54,7 @@ namespace Command {
     // 1. Ng5+ hxg5 2. hxg5+ Bh6 (2... Nh5?! 3. Rxh5+ gxh5? 4. Be4+ f5 5. exf6# {ep})
     // 3. Rxh6+ Kg7 4. Rdxh8 Nd3+ 5. Kb1 c2+ 6. Kxc2 Rxa2+ 7. Kxd3 Ra3+ 8. Kd4 Rd3+ 9. Kxd3 b5 10. R6h7#
     // moves f3g5 h6g5 h4g5 f4h5 h1h5 g6h5
-    //"3R3r/5pbk/1pB1p3/4P1Pp/8/r1p5/P4PP1/2K5 w - - 0 4"; // Carlsen ep Mate #2
+    //"3R3r/5pbk/1pB1p3/4P1Pp/8/r1p5/P4PP1/2K5 w - - 0 4"; // Carlsen ep Mate #2 [2-ply]
     //"3nk3/p2R4/3P1Kp1/8/5p2/3bp3/3p4/8 w - - 0 1"; // Long Puzzle [2023-01-16 17-ply in 5:18 @1.272 MHz over 402.36 Mnode] eval 0.00 after:
     // 1. Re7+ Kf8 2. d7 Kg8 3. Re8+ Kh7 4. Rxd8 d1=Q 5. Rh8+ Kxh8 6. d8=Q+ Kh7 7. Qc7+ Kh6 8. Qxf4+ Kh7 9. Qc7+ Kh6 10. Qf4+@ Kh7@
     // 11. Qc7 +@ Kh6@ 12. Qf4+=
@@ -387,8 +387,8 @@ namespace Command {
     //"8/K1P5/8/3q4/4k3/8/8/8 b - - 0 1";
     //"8/P1K5/8/3q4/4k3/8/8/8 w - - 0 1";
     //"2q2r1k/3brp2/7Q/8/2BPp3/6b1/1B4P1/6K1 b - d3 0 1"; // EPIllegal
-    //"k1n1K3/p7/8/B2pP3/8/8/6B1/8 w - d6 0 1"; // ep Mate
-    //"7k/b1n3q1/8/2PpP3/3K4/8/8/8 w - d6 0 1"; // EPIllegal, so Inconsistent FEN, 9-ply for #6 in 0:36
+    //"k1n1K3/p7/8/B2pP3/8/8/6B1/8 w - d6 0 1"; // ep Mate [3-ply]
+    //"7k/b1n3q1/8/2PpP3/3K4/8/8/8 w - d6 0 1"; // EPIllegal, so Inconsistent FEN for #6 [2023-03-23 10-ply in 6.2 sec @1.352 MHz over 8.387 Mnode]
     //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6
     //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
     //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
