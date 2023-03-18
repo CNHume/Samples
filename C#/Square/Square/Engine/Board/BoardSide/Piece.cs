@@ -83,6 +83,7 @@ namespace Engine {
         Piece |= qp;
       }
 
+      // Reset Pawn[A1H8|A8H1]Atx
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void ResetPawnAtx() {
         var qpPawn = Piece & Board.Pawn;

@@ -28,30 +28,29 @@ namespace Engine {
 
     #region TurnFlags Enum
     //
-    // TurnFlags  0:7
+    // TurnFlags  0:4
     // --------------
-    //  0:3 EPFile
-    //  3:1 Passed
-    //  4:1 Illegal
-    //  5:1 InCheck
-    //  6:1 Final
+    //  0:1 Passed
+    //  1:1 Illegal
+    //  2:1 InCheck
+    //  3:1 Final
     //
-    private const Int32 nPassedBit = 3; // pbl of nFiles
 
     [Flags]
     public enum TurnFlags : byte {
       None = 0,
-      Passed = 1 << nPassedBit,         // Bit 3
-      EPFile = Passed - 1,              // EPFile Flags
-      Illegal = Passed << 1,            // Bit 4 Check Flags
-      InCheck = Illegal << 1,           // Bit 5
-      Final = InCheck << 1,             // Bit 6
+      Passed = 1,                       // Bit 0
+      Illegal = Passed << 1,            // Bit 1 Check Flags
+      InCheck = Illegal << 1,           // Bit 2
+      Final = InCheck << 1,             // Bit 3
 
       //
       //[Note]Final, InCheck and Illegal are omitted from Hash to
       // prevent repeating calls to IsLegal() for a Transposition:
       //
-      Copy = Passed | EPFile            // EPFlags
+      //[C#]Can one distinguish which of two equal Flag values is displayed?
+      //[NonSerialized]
+      //Copy = Passed
     }
     #endregion                          // TurnFlags Enum
 
@@ -157,7 +156,7 @@ namespace Engine {
       //"Note that if multiple members that have the value zero occur in a flags-attributed
       // enumeration, Enum.ToString() returns incorrect results for members that are not zero."
       //
-      //[Symptom]This limitation appeared in FormatFlags() overloads where names of "redundant"
+      //[Symptom]This limitation appeared in formatFlags() overloads where names of "redundant"
       // zero values, followed by a comma, would be included in the enumeration of Flags.
     }
     #endregion                          // DrawFlags Enum

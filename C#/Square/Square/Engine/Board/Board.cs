@@ -289,7 +289,7 @@ namespace Engine {
       for (var nSide = 0; nSide < Side.Length; nSide++)
         Side[nSide].CopyFlags(board.Side[nSide]);
 
-      FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
+      FlagsTurn = board.FlagsTurn & TurnFlags.Passed;   //[C#]
       FlagsEval = board.FlagsEval & EvalFlags.Copy;
       FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
       FlagsMode = board.FlagsMode & ModeFlags.Copy;
@@ -362,7 +362,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean EqualFlags(Board board) {
       var fTurnDelta = FlagsTurn ^ board.FlagsTurn;
-      return !fTurnDelta.Has(TurnFlags.Copy);
+      return !fTurnDelta.Has(TurnFlags.Passed); //[C#]
     }
 
     public Boolean Equals(Board? board) {

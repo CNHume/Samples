@@ -97,8 +97,10 @@ namespace Engine {
 
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Plane includeEnPassant(Plane qpFoe) {
-      return IsPassed() ? qpFoe | bit(FlagsTurn.sqrEP(WTM())) : qpFoe;
+    private Plane includeEPSquare(Plane qpFoe) {
+      var nEP = sqrEP();
+      return IsPassed() && nEP.HasValue ?
+        qpFoe | bit(nEP.Value) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
@@ -131,13 +133,13 @@ namespace Engine {
           if (qpTo != 0)
             addPieceCapturesAndMoves(qpTo);
 
-          Friend.AddPawnCaptures(includeEnPassant(qpChx));
+          Friend.AddPawnCaptures(includeEPSquare(qpChx));
           Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~Friend.Piece);
-        Friend.AddPawnCaptures(includeEnPassant(Foe.Piece));
+        Friend.AddPawnCaptures(includeEPSquare(Foe.Piece));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
@@ -185,14 +187,14 @@ namespace Engine {
 
           if (qpChx != 0) {
             addPieceCaptures(qpChx);
-            Friend.AddPawnCaptures(includeEnPassant(qpChx));
+            Friend.AddPawnCaptures(includeEPSquare(qpChx));
             Friend.AddPromotionMoves(qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         addPieceCaptures(Foe.Piece);
-        Friend.AddPawnCaptures(includeEnPassant(Foe.Piece));
+        Friend.AddPawnCaptures(includeEPSquare(Foe.Piece));
         Friend.AddPromotionMoves(~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2

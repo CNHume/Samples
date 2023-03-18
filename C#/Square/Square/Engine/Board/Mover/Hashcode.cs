@@ -241,7 +241,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Hashcode epHash() {
-      return zobristFile[(Int32)(FlagsTurn & TurnFlags.EPFile)];
+      return EPSquare.HasValue ? zobristFile[x(EPSquare.Value)] : 0;
     }
 
     private Hashcode hash(Plane qp, Byte vPiece) {

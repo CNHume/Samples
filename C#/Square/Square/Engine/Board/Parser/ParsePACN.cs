@@ -74,7 +74,7 @@ partial class Board {
       vCapture = vPieceTo;
     else if (vPieceFrom == vP6 &&
              IsPassed() &&
-             nTo == FlagsTurn.sqrEP(WTM())) {
+             nTo == sqrEP()) {
       bCapture = true;
       vCapture = vEP6;
     }

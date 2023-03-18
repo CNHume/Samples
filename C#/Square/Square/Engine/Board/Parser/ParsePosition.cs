@@ -199,6 +199,11 @@ namespace Engine {
         throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
     }
 
+    private void buildPawnAtx() {
+      foreach (var side in Side)
+        side.ResetPawnAtx();
+    }
+
     private void parsePassed(String? sEnPassant) {
       const Boolean ignoreCase = true;
 
@@ -314,8 +319,8 @@ namespace Engine {
       #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
-      if (IsPassed() && HalfMoveClock > 0) {
-        var sqEP = (Sq)FlagsTurn.sqrEP(WTM());
+      if (HalfMoveClock > 0 && IsPassed()) {
+        var sqEP = (Sq?)sqrEP();
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 

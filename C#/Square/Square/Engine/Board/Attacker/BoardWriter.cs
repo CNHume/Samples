@@ -76,62 +76,61 @@ namespace Engine {
     #endregion
 
     #region Flag Diagnostics
-    public static String FormatFlags(ModeFlags fmode) {
+    private static String formatFlags(ModeFlags fmode) {
       var en = modeFlags.Where(f => fmode.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(DrawFlags fdraw) {
+    private static String formatFlags(DrawFlags fdraw) {
       var en = drawFlags.Where(f => fdraw.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(EvalFlags feval) {
+    private static String formatFlags(EvalFlags feval) {
       var en = gameFlags.Where(f => feval.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(SideFlags fside) {
+    private static String formatFlags(SideFlags fside) {
       var en = sideFlags.Where(f => fside.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(TurnFlags fturn) {
+    private static String formatFlags(TurnFlags fturn) {
       var en = turnFlags.Where(f => fturn.Has(f));
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(
+    private static String formatState(
       ModeFlags fmode,
       DrawFlags fdraw,
       EvalFlags feval,
       SideFlags fBlackSide,
       SideFlags fWhiteSide,
       TurnFlags fturn,
+      Int32? nEP,
       Boolean bWTM) {
       if (fmode == 0 && fdraw == 0 && feval == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
-      var sBlackSide = FormatFlags(fBlackSide);
-      var sWhiteSide = FormatFlags(fWhiteSide);
+      var sBlackSide = formatFlags(fBlackSide);
+      var sWhiteSide = formatFlags(fWhiteSide);
       var sBlackSideLabelled = IsNullOrEmpty(sBlackSide) ? Empty : $"Black[{sBlackSide}]";
       var sWhiteSideLabelled = IsNullOrEmpty(sWhiteSide) ? Empty : $"White[{sWhiteSide}]";
 
       const Int32 nCapacity = 8;
       var sFlags = new List<String>(nCapacity)
-        .AddNotEmpty(FormatFlags(fmode))
-        .AddNotEmpty(FormatFlags(fdraw))
-        .AddNotEmpty(FormatFlags(feval))
+        .AddNotEmpty(formatFlags(fmode))
+        .AddNotEmpty(formatFlags(fdraw))
+        .AddNotEmpty(formatFlags(feval))
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled);
 
-      if (fturn.Has(TurnFlags.Passed)) {
-        var nEP = fturn.sqrEP(bWTM);
-        sFlags.Add($"{(Sq)nEP}");
-      }
+      if (fturn.Has(TurnFlags.Passed))
+        sFlags.Add($"{(Sq?)nEP}");
 
       sFlags
-        .AddNotEmpty(FormatFlags(fturn));
+        .AddNotEmpty(formatFlags(fturn));
 
       if (bWTM) sFlags.Add("WTM");
 
@@ -201,8 +200,9 @@ namespace Engine {
         .AppendCastlingRights(Side, State.IsChess960)
         .Append(cSpace);
 
-      if (IsPassed())
-        sb.Append((Sq)FlagsTurn.sqrEP(WTM()));
+      var nEP = sqrEP();
+      if (IsPassed() && nEP.HasValue)
+        sb.Append((Sq)nEP);
       else
         sb.Append(cMinus);
     }
@@ -346,13 +346,14 @@ namespace Engine {
 #if DisplayFlags
         .Append("Flags: ")
         .AppendLine(
-          FormatFlags(
+          formatState(
             FlagsMode,
             FlagsDraw,
             FlagsEval,
             blackSide.FlagsSide,
             whiteSide.FlagsSide,
             FlagsTurn,
+            sqrEP(),
             WTM()))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")

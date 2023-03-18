@@ -26,7 +26,7 @@ namespace Engine {
         throw new PositionException("resetMove() called at the Root Position");
 
       Copy(Parent);
-      ResetEP();                      // Clear En Passant state just prior to making a move
+      ResetEP();                        // Clear En Passant state just prior to making a move
 #if DebugNodeTotal
       var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
       if (State.NodeTotal != qNodeTotal) {

@@ -85,25 +85,19 @@ namespace Engine {
         // Adjust the incremental Hash and reset EPFlags, except for WTM:
         //
         Hash ^= epHash();
-
-        //[Note]Preserve WTM
-        FlagsTurn &= ~(TurnFlags.Passed | TurnFlags.EPFile);
+        FlagsTurn &= ~TurnFlags.Passed;
+        EPSquare = default;
       }
     }
 
-    private void buildPawnAtx() {     // Reset Pawn[A1H8|A8H1]Atx
-      foreach (var side in Side)
-        side.ResetPawnAtx();
-    }
-
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void setEPFile(Int32 nEP) {
-      // Any Square on the EP File will do
-      FlagsTurn |= (TurnFlags)nEP & TurnFlags.EPFile | TurnFlags.Passed;
+    private void setEP(Int32 nEP) {
+      EPSquare = nEP;
+      FlagsTurn |= TurnFlags.Passed;
     }
 
     //
-    // setEPFile(nEP) iff the En Passant capture is legal.
+    // setEP(nEP) iff the En Passant capture is legal.
     //
     private void tryEP(Int32 nEP) {
       var nMovedTo = nEP + Foe.Parameter.PawnStep;
@@ -122,7 +116,7 @@ namespace Engine {
         // 5) Restore the Foe Pawn to its nMovedTo square.
         // 6) Remove the Friend Pawn placed on nEP;
         // 7) And restore the Pawn to its nCaptureFrom square.
-        // 8) If EP was Legal setEPFile(nEP) and break.
+        // 8) If EP was Legal setEP(nEP) and break.
         //
         Friend.RaisePiece(vP6, nCaptureFrom);
         Friend.LowerPiece(vP6, nEP);
@@ -140,7 +134,7 @@ namespace Engine {
         Friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
-          setEPFile(nEP);
+          setEP(nEP);
           break;
         }
       }

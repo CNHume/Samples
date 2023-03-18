@@ -96,7 +96,8 @@ namespace Engine {
     public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
     public Ply GamePly;
     public Byte HalfMoveClock;
-    public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | Passed | EPFile
+    public Int32? EPSquare;
+    public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | Passed
     public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
     public EvalFlags FlagsEval;         //[feval]OutsideSquare | KBN | KingAlone
     public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced

@@ -364,7 +364,12 @@ namespace Engine {
     public static Boolean IsOdd(UInt32 u) {
       return (u & 1) != 0;
     }
-    #endregion                          // Ply Parity
+    #endregion                          // Parity
+    
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Int32? sqrEP() {
+      return EPSquare;
+    }
     #endregion                          // Methods
   }
 }
