@@ -59,10 +59,10 @@ namespace Engine {
       #region Mover Methods
       //
       // Return Friend Pawns which may be able to capture En Passant
-      // the Foe Pawn that just passed through the nEnPassant square.
+      // the Foe Pawn that just passed through the nEP square.
       //
-      public Plane Passed(Int32 nEnPassant) {
-        var qpEnPassant = bit(nEnPassant);
+      public Plane Passed(Int32 nEP) {
+        var qpEnPassant = bit(nEP);
 
         var qpCaptureFrom =
           ShiftR(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |

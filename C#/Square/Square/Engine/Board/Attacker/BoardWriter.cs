@@ -57,7 +57,7 @@ namespace Engine {
     internal const String sSpace3 = sSpace + sSpace2;
 
     internal static TurnFlags[] turnFlags =
-      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal };
+      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.Passed };
 
     internal static SideFlags[] sideFlags = {
       SideFlags.Insufficient, SideFlags.Alone,
@@ -96,16 +96,9 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(TurnFlags fturn, Boolean bWTM) {
+    public static String FormatFlags(TurnFlags fturn) {
       var en = turnFlags.Where(f => fturn.Has(f));
-      var s = Join(sSpace, en);
-
-      if (fturn.Has(TurnFlags.Passed)) {
-        var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (Sq)fturn.sqrEP(bWTM) + sSpace + TurnFlags.Passed;
-      }
-
-      return s;
+      return Join(sSpace, en);
     }
 
     public static String FormatFlags(
@@ -124,14 +117,23 @@ namespace Engine {
       var sBlackSideLabelled = IsNullOrEmpty(sBlackSide) ? Empty : $"Black[{sBlackSide}]";
       var sWhiteSideLabelled = IsNullOrEmpty(sWhiteSide) ? Empty : $"White[{sWhiteSide}]";
 
-      const Int32 nCapacity = 6;
+      const Int32 nCapacity = 8;
       var sFlags = new List<String>(nCapacity)
         .AddNotEmpty(FormatFlags(fmode))
         .AddNotEmpty(FormatFlags(fdraw))
         .AddNotEmpty(FormatFlags(feval))
         .AddNotEmpty(sBlackSideLabelled)
-        .AddNotEmpty(sWhiteSideLabelled)
-        .AddNotEmpty(FormatFlags(fturn, bWTM));
+        .AddNotEmpty(sWhiteSideLabelled);
+
+      if (fturn.Has(TurnFlags.Passed)) {
+        var nEP = fturn.sqrEP(bWTM);
+        sFlags.Add($"{(Sq)nEP}");
+      }
+
+      sFlags
+        .AddNotEmpty(FormatFlags(fturn));
+
+      if (bWTM) sFlags.Add("WTM");
 
       return Join(sSpace, sFlags);
     }

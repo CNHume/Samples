@@ -280,7 +280,7 @@ namespace Engine {
       for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
         resetMove();
         var move = mov;
-        //var nEnPassant = MovePiece(ref move);
+        //var nEP = MovePiece(ref move);
         PlayMove(ref move);
       }
 

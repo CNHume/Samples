@@ -103,12 +103,12 @@ namespace Engine {
     }
 
     //
-    // setEPFile(nEnPassant) iff the En Passant capture is legal.
+    // setEPFile(nEP) iff the En Passant capture is legal.
     //
-    private void tryEP(Int32 nEnPassant) {
-      var nMovedTo = nEnPassant + Foe.Parameter.PawnStep;
+    private void tryEP(Int32 nEP) {
+      var nMovedTo = nEP + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
-      var qpCaptureFrom = Friend.Passed(nEnPassant);
+      var qpCaptureFrom = Friend.Passed(nEP);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
@@ -116,16 +116,16 @@ namespace Engine {
         // Test for legality, were Friend to play EP:
         //
         // 1) Remove the Friend Pawn from its nCaptureFrom square;
-        // 2) And place it on the nEnPassant square.
+        // 2) And place it on the nEP square.
         // 3) Remove the Foe Pawn from its nMovedTo square.
         // 4) Note whether the resulting position would be legal.
         // 5) Restore the Foe Pawn to its nMovedTo square.
-        // 6) Remove the Friend Pawn placed on nEnPassant;
+        // 6) Remove the Friend Pawn placed on nEP;
         // 7) And restore the Pawn to its nCaptureFrom square.
-        // 8) If EP was Legal setEPFile(nEnPassant) and break.
+        // 8) If EP was Legal setEPFile(nEP) and break.
         //
         Friend.RaisePiece(vP6, nCaptureFrom);
-        Friend.LowerPiece(vP6, nEnPassant);
+        Friend.LowerPiece(vP6, nEP);
         //[Speed]Remove Not Needed, because material balance will be restored below.
         Foe.RaisePiece(vP6, nMovedTo);
 
@@ -136,11 +136,11 @@ namespace Engine {
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
         Foe.LowerPiece(vP6, nMovedTo);
-        Friend.RaisePiece(vP6, nEnPassant);
+        Friend.RaisePiece(vP6, nEP);
         Friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
-          setEPFile(nEnPassant);
+          setEPFile(nEP);
           break;
         }
       }
@@ -148,7 +148,7 @@ namespace Engine {
 
     //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
     protected Int32? MovePiece(ref Move move) {
-      Int32? nEnPassant = default;
+      Int32? nEP = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
@@ -182,14 +182,14 @@ namespace Engine {
 
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
-          nEnPassant = nTo - Friend.Parameter.PawnStep;
+          nEP = nTo - Friend.Parameter.PawnStep;
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
         Friend.ResetPawnAtx();
       }
 
       verifyPieceColors();              //[Conditional]
-      return nEnPassant;
+      return nEP;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -219,7 +219,7 @@ namespace Engine {
       if (HalfMoveClock < vHalfMoveClockMax)
         HalfMoveClock++;
 
-      var nEnPassant = MovePiece(ref move);
+      var nEP = MovePiece(ref move);
 
       updateRepetitionCycle();
 
@@ -229,8 +229,8 @@ namespace Engine {
       #region Update En Passant
       // tryEP() will be assessed from the perspective
       // of Foe having become Friend after toggleWTM()
-      if (nEnPassant.HasValue)
-        tryEP(nEnPassant.Value);
+      if (nEP.HasValue)
+        tryEP(nEP.Value);
 
       //
       // TurnFlags.Passed is referenced by the generate() methods to add En Passant

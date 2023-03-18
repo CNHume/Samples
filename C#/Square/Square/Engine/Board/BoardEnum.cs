@@ -28,7 +28,7 @@ namespace Engine {
 
     #region TurnFlags Enum
     //
-    // TurnFlags  0:8
+    // TurnFlags  0:7
     // --------------
     //  0:3 EPFile
     //  3:1 Passed

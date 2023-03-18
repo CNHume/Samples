@@ -216,19 +216,19 @@ namespace Engine {
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
       // The destination square to which an e.p. capturing Pawn will move:
-      var nEnPassant = (Int32)sqEnPassant;
-      if (y(nEnPassant) != Foe.Parameter.PassRank)
+      var nEP = (Int32)sqEnPassant;
+      if (y(nEP) != Foe.Parameter.PassRank)
         throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
       // The square actually holding the e.p. Pawn to be captured:
-      var nMovedTo = nEnPassant + Foe.Parameter.PawnStep;
+      var nMovedTo = nEP + Foe.Parameter.PawnStep;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nEnPassant + Friend.Parameter.PawnStep;
+      var nStart = nEP + Friend.Parameter.PawnStep;
       var qpStart = bit(nStart);
-      var qpEnPassant = bit(nEnPassant);
+      var qpEnPassant = bit(nEP);
       var qpVacant = qpStart | qpEnPassant;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
                      (Foe.Piece & Pawn & bit(nMovedTo)) == 0;
@@ -236,7 +236,7 @@ namespace Engine {
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
-      tryEP(nEnPassant);
+      tryEP(nEP);
 
       if (!IsPassed())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
