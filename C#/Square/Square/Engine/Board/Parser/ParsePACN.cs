@@ -72,7 +72,7 @@ partial class Board {
     var bCapture = (qpTo & Foe.Piece) != 0;
     if (bCapture)
       vCapture = vPieceTo;
-    else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.sqrEP()) {
+    else if (vPieceFrom == vP6 && IsPassed() && nTo == FlagsTurn.sqrEP(WTM())) {
       bCapture = true;
       vCapture = vEP6;
     }

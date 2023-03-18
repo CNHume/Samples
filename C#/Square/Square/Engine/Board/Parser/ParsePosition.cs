@@ -300,7 +300,7 @@ namespace Engine {
       // Outside of their Equal Masks, FlagsTurn and FlagsSide
       // were reset by pushRoot()
       //
-      setWTM(bWTM);
+      setSides(bWTM);
 
       #region EnPassant
       parsePassed(sEnPassant);
@@ -315,7 +315,7 @@ namespace Engine {
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (IsPassed() && HalfMoveClock > 0) {
-        var sqEP = (Sq)FlagsTurn.sqrEP();
+        var sqEP = (Sq)FlagsTurn.sqrEP(WTM());
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 

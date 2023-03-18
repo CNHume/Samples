@@ -57,7 +57,7 @@ namespace Engine {
     internal const String sSpace3 = sSpace + sSpace2;
 
     internal static TurnFlags[] turnFlags =
-      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.WTM };
+      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal };
 
     internal static SideFlags[] sideFlags = {
       SideFlags.Insufficient, SideFlags.Alone,
@@ -96,13 +96,13 @@ namespace Engine {
       return Join(sSpace, en);
     }
 
-    public static String FormatFlags(TurnFlags fturn) {
+    public static String FormatFlags(TurnFlags fturn, Boolean bWTM) {
       var en = turnFlags.Where(f => fturn.Has(f));
       var s = Join(sSpace, en);
 
       if (fturn.Has(TurnFlags.Passed)) {
         var sPrefix = IsNullOrEmpty(s) ? Empty : sSpace;
-        s += sPrefix + (Sq)fturn.sqrEP() + sSpace + TurnFlags.Passed;
+        s += sPrefix + (Sq)fturn.sqrEP(bWTM) + sSpace + TurnFlags.Passed;
       }
 
       return s;
@@ -114,7 +114,8 @@ namespace Engine {
       EvalFlags feval,
       SideFlags fBlackSide,
       SideFlags fWhiteSide,
-      TurnFlags fturn) {
+      TurnFlags fturn,
+      Boolean bWTM) {
       if (fmode == 0 && fdraw == 0 && feval == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
 
@@ -130,7 +131,7 @@ namespace Engine {
         .AddNotEmpty(FormatFlags(feval))
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled)
-        .AddNotEmpty(FormatFlags(fturn));
+        .AddNotEmpty(FormatFlags(fturn, bWTM));
 
       return Join(sSpace, sFlags);
     }
@@ -199,7 +200,7 @@ namespace Engine {
         .Append(cSpace);
 
       if (IsPassed())
-        sb.Append((Sq)FlagsTurn.sqrEP());
+        sb.Append((Sq)FlagsTurn.sqrEP(WTM()));
       else
         sb.Append(cMinus);
     }
@@ -349,7 +350,8 @@ namespace Engine {
             FlagsEval,
             blackSide.FlagsSide,
             whiteSide.FlagsSide,
-            FlagsTurn))
+            FlagsTurn,
+            WTM()))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif

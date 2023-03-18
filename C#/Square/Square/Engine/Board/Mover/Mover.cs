@@ -9,7 +9,6 @@
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition
-//#define VerifyGamePlyParity
 //#define VerifyPieceColor
 //#define VerifyPromotion
 
@@ -17,13 +16,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;  // For MethodImplAttribute
 
 namespace Engine {
-  using static Position;
-
-  //
-  // Type Aliases:
-  //
-  using Ply = UInt16;
-
   partial class Board {
     #region Constants
     private const Byte vHalfMoveClockMax = 100; // 50-move (100-ply) rule
@@ -37,22 +29,6 @@ namespace Engine {
     // LowerPiece which is called by PlacePiece
     // RaisePiece which is called by RemovePiece
     //
-    #region Side Methods
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected PositionSide GetSide(Boolean bWTM) {
-      return bWTM ?
-        Side[White] : Side[Black];
-    }
-
-    //[Speed]Inlining the following increased performance by 5%
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected (PositionSide friend, PositionSide foe) GetSides(Boolean bWTM) {
-      return bWTM ?
-        (Side[White], Side[Black]) :
-        (Side[Black], Side[White]);
-    }
-    #endregion
-
     #region Piece Mover
     //
     // Lazy Capture avoids calling GetPieceIndex() until it becomes necessary.
@@ -220,11 +196,7 @@ namespace Engine {
     private void toggleWTM() {
       GamePly++;                        // GamePly should be even iff WTM
       Hash ^= zobristTurn;
-      FlagsTurn ^= TurnFlags.WTM;
-#if VerifyGamePlyParity
-      Trace.Assert(PlyParity(GamePly), "Incorrect GamePly Parity: Even Ply != WTM");
-#endif
-      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
+      //[Note]Friend and Foe must always correspond to the value of WTM()
       (Friend, Foe) = GetSides(WTM());
     }
 

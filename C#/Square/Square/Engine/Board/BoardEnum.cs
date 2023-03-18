@@ -32,10 +32,9 @@ namespace Engine {
     // --------------
     //  0:3 EPFile
     //  3:1 Passed
-    //  4:1 WTM
-    //  5:1 Illegal
-    //  6:1 InCheck
-    //  7:1 Final
+    //  4:1 Illegal
+    //  5:1 InCheck
+    //  6:1 Final
     //
     private const Int32 nPassedBit = 3; // pbl of nFiles
 
@@ -44,16 +43,15 @@ namespace Engine {
       None = 0,
       Passed = 1 << nPassedBit,         // Bit 3
       EPFile = Passed - 1,              // EPFile Flags
-      WTM = Passed << 1,                // Bit 4
-      Illegal = WTM << 1,               // Bit 5 Check Flags
-      InCheck = Illegal << 1,           // Bit 6
-      Final = InCheck << 1,             // Bit 7
+      Illegal = Passed << 1,            // Bit 4 Check Flags
+      InCheck = Illegal << 1,           // Bit 5
+      Final = InCheck << 1,             // Bit 6
 
       //
       //[Note]Final, InCheck and Illegal are omitted from Hash to
       // prevent repeating calls to IsLegal() for a Transposition:
       //
-      Copy = WTM | Passed | EPFile      // EPFlags
+      Copy = Passed | EPFile            // EPFlags
     }
     #endregion                          // TurnFlags Enum
 

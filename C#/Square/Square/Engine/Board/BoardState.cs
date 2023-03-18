@@ -16,15 +16,21 @@ using System.Text;
 namespace Engine {
   using Exceptions;
 
+  using static Engine.Position;
+
   //
   // Type Aliases:
   //
   using Hashcode = UInt64;
   using Plane = UInt64;
-  using Ply = UInt16;
 
   partial class Board {
     #region Methods
+    //
+    // WTM
+    // GetSide
+    // GetSides
+    // setSides
     //
     // GetPieceIndex
     // verifyPieceColors
@@ -35,6 +41,32 @@ namespace Engine {
     // SameBishops
     // HasBishopPair
     //
+    #region Side Methods
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Boolean WTM() {
+      return IsEven(GamePly);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected PositionSide GetSide(Boolean bWTM) {
+      return bWTM ?
+        Side[White] : Side[Black];
+    }
+
+    //[Speed]Inlining the following increased performance by 5%
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected (PositionSide friend, PositionSide foe) GetSides(Boolean bWTM) {
+      return bWTM ?
+        (Side[White], Side[Black]) :
+        (Side[Black], Side[White]);
+    }
+
+    private void setSides(Boolean bWTM) {
+      //[Note]Friend and Foe must remained synchronised to WTM()
+      (Friend, Foe) = GetSides(WTM());
+    }
+    #endregion                          // Side Methods
+
     #region Square Pieces
     protected Byte GetPieceIndex(Int32 n) {
       var vPiece = vPieceNull;          // Return Value
@@ -170,20 +202,6 @@ namespace Engine {
 
     #region Flag Methods
     #region TurnFlags
-    public Boolean WTM() {
-      return FlagsTurn.Has(TurnFlags.WTM);
-    }
-
-    private void setWTM(Boolean bWTM) {
-      if (bWTM)
-        FlagsTurn |= TurnFlags.WTM;
-      else
-        FlagsTurn &= ~TurnFlags.WTM;
-
-      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
-      (Friend, Foe) = GetSides(WTM());
-    }
-
     public Boolean InCheck() {
       return FlagsTurn.Has(TurnFlags.InCheck);
     }
@@ -338,11 +356,7 @@ namespace Engine {
     #endregion                          // ModeFlags
     #endregion                          // Flag Methods
 
-    #region Ply Parity
-    protected Boolean PlyParity(Ply wPly) {
-      return WTM() == IsEven(wPly);
-    }
-
+    #region Parity
     public static Boolean IsEven(UInt32 u) {
       return (u & 1) == 0;
     }

@@ -98,7 +98,7 @@ namespace Engine {
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEnPassant(Plane qpFoe) {
-      return IsPassed() ? qpFoe | bit(FlagsTurn.sqrEP()) : qpFoe;
+      return IsPassed() ? qpFoe | bit(FlagsTurn.sqrEP(WTM())) : qpFoe;
     }
 
     // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz

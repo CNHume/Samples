@@ -125,7 +125,7 @@ namespace Engine {
       nameof(Friend),
       nameof(Foe))]
     private void initSides() {
-      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
+      //[Note]Friend and Foe must always correspond to the value of WTM()
       (Friend, Foe) = GetSides(WTM());
     }
 #if BuildAtxTo
@@ -305,7 +305,7 @@ namespace Engine {
       for (var nSide = 0; nSide < Side.Length; nSide++)
         Side[nSide].Copy(board.Side[nSide]);
 
-      //[Note]Friend and Foe must always correspond to TurnFlags.WTM
+      //[Note]Friend and Foe must always correspond to the value of WTM()
       (Friend, Foe) = GetSides(WTM());
     }
     #endregion                          // BoardSide
@@ -313,7 +313,7 @@ namespace Engine {
     //
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
-    // TurnFlags include WTM.  WTM determines which side is to move; and should agree with the Ply Parity.
+    // WTM() determines White To Move, which is true iff GamePly is even.
     // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     [MemberNotNull(
