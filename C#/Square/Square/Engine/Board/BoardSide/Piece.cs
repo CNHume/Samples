@@ -32,7 +32,7 @@ namespace Engine {
       // [raise|lower]
       // [Raise|Remove]Piece
       // [Lower|Place]Piece
-      // Passed
+      // PawnPassed
       // ResetPawnAtx
       // RookCastles
       // SetInsufficient
@@ -61,7 +61,7 @@ namespace Engine {
       // Return Friend Pawns which may be able to capture En Passant
       // the Foe Pawn that just passed through the nEP square.
       //
-      public Plane Passed(Int32 nEP) {
+      public Plane PawnPassed(Int32 nEP) {
         var qpEnPassant = bit(nEP);
 
         var qpCaptureFrom =

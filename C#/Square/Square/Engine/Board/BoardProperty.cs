@@ -97,7 +97,7 @@ namespace Engine {
     public Ply GamePly;
     public Byte HalfMoveClock;
     public Int32? EPSquare;
-    public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | Passed
+    public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | EPLegal
     public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
     public EvalFlags FlagsEval;         //[feval]OutsideSquare | KBN | KingAlone
     public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced

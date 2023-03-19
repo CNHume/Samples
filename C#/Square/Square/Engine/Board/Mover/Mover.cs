@@ -91,18 +91,17 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void setEP(Int32 nEP) {
-      EPSquare = nEP;
+    private void setEP() {
       FlagsTurn |= TurnFlags.EPLegal;
     }
 
-    //
-    // setEP(nEP) iff the En Passant capture is legal.
-    //
     private void tryEP(Int32 nEP) {
+      // Assign nEP to EPSquare whether or not En Passant capture is Legal:
+      EPSquare = nEP;
+
       var nMovedTo = nEP + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
-      var qpCaptureFrom = Friend.Passed(nEP);
+      var qpCaptureFrom = Friend.PawnPassed(nEP);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
@@ -116,7 +115,7 @@ namespace Engine {
         // 5) Restore the Foe Pawn to its nMovedTo square.
         // 6) Remove the Friend Pawn placed on nEP;
         // 7) And restore the Pawn to its nCaptureFrom square.
-        // 8) If EP was Legal setEP(nEP) and break.
+        // 8) If EP was Legal setEP() and break.
         //
         Friend.RaisePiece(vP6, nCaptureFrom);
         Friend.LowerPiece(vP6, nEP);
@@ -134,7 +133,10 @@ namespace Engine {
         Friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
-          setEP(nEP);
+          //
+          // setEP() iff the En Passant capture is Legal:
+          //
+          setEP();
           break;
         }
       }
@@ -227,9 +229,9 @@ namespace Engine {
         tryEP(nEP.Value);
 
       //
-      // TurnFlags.Passed is referenced by the generate() methods to add En Passant
-      // captures for the next Ply.  ResetEP() is called by resetMove() just before
-      // this method is called.
+      // TurnFlags.EPLegal is referenced when generate() methods add En Passant captures
+      // for the next Ply, so ResetEP() is called by resetMove() just before this method
+      // is called.
       //
       if (IsEPLegal()) Hash ^= epHash();
       #endregion                        // Update En Passant

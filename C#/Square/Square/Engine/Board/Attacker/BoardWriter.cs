@@ -108,7 +108,6 @@ namespace Engine {
       SideFlags fBlackSide,
       SideFlags fWhiteSide,
       TurnFlags fturn,
-      Int32? nEP,
       Boolean bWTM) {
       if (fmode == 0 && fdraw == 0 && feval == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
         return "None";
@@ -124,12 +123,7 @@ namespace Engine {
         .AddNotEmpty(formatFlags(fdraw))
         .AddNotEmpty(formatFlags(feval))
         .AddNotEmpty(sBlackSideLabelled)
-        .AddNotEmpty(sWhiteSideLabelled);
-
-      if (fturn.Has(TurnFlags.EPLegal))
-        sFlags.Add($"{(Sq?)nEP}");
-
-      sFlags
+        .AddNotEmpty(sWhiteSideLabelled)
         .AddNotEmpty(formatFlags(fturn));
 
       if (bWTM) sFlags.Add("WTM");
@@ -201,7 +195,7 @@ namespace Engine {
         .Append(cSpace);
 
       var nEP = sqrEP();
-      if (IsEPLegal() && nEP.HasValue)
+      if (nEP.HasValue)
         sb.Append((Sq)nEP);
       else
         sb.Append(cMinus);
@@ -353,7 +347,6 @@ namespace Engine {
             blackSide.FlagsSide,
             whiteSide.FlagsSide,
             FlagsTurn,
-            sqrEP(),
             WTM()))
 #else
         .AppendLine($"{getSide(WTM()).SideName} to Move")
