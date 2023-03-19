@@ -80,13 +80,14 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
+      EPSquare = default;
+
       if (IsEPLegal()) {
         //
         // Adjust the incremental Hash and reset EPFlags, except for WTM:
         //
         Hash ^= epHash();
         FlagsTurn &= ~TurnFlags.EPLegal;
-        EPSquare = default;
       }
     }
 

@@ -86,7 +86,7 @@ namespace Engine {
           // them.
           //
           // tryEP() was added for proper Draw3 handling; and has eliminated the need for the
-          // PasserPin Exemption.  TurnFlags.EPLegal is only set if an En Passant move can be
+          // PasserPin Exemption.  TurnFlags.EPLegal is set only if an En Passant move can be
           // legally played.
           //
           var bPasserPin = false;

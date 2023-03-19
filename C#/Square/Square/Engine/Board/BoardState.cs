@@ -63,7 +63,7 @@ namespace Engine {
 
     private void setSides(Boolean bWTM) {
       //[Note]Friend and Foe must remained synchronised to WTM()
-      (Friend, Foe) = GetSides(WTM());
+      (Friend, Foe) = GetSides(bWTM);
     }
     #endregion                          // Side Methods
 
