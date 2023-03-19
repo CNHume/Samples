@@ -98,12 +98,10 @@ namespace Engine {
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEPSquare(Plane qpFoe) {
-      var nEP = sqrEP();
-      return IsEPLegal() && nEP.HasValue ?
-        qpFoe | bit(nEP.Value) : qpFoe;
+      return IsEPLegal() && EPTarget.HasValue ?
+        qpFoe | bit(EPTarget.Value) : qpFoe;
     }
 
-    // Adds all Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
     private Int32 generate(List<Move> moves, Boolean bSwap) {
       var bInCheck = InCheck();
       var vKingPos = Friend.GetKingPos();

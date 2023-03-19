@@ -365,11 +365,6 @@ namespace Engine {
       return (u & 1) != 0;
     }
     #endregion                          // Parity
-    
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public Int32? sqrEP() {
-      return EPSquare;
-    }
     #endregion                          // Methods
   }
 }

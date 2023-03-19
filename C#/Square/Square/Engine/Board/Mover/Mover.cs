@@ -80,7 +80,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
-      EPSquare = default;
+      EPTarget = default;
 
       if (IsEPLegal()) {
         //
@@ -92,17 +92,22 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void setEP() {
+    private void setEPLegal() {
       FlagsTurn |= TurnFlags.EPLegal;
     }
 
-    private void tryEP(Int32 nEP) {
-      // Assign nEP to EPSquare whether or not En Passant capture is Legal:
-      EPSquare = nEP;
+    private void tryEP(Byte vEPTarget) {
+      //
+      // Set EPTarget whether or not En Passant is Legal conforming
+      // to the X-FEN Definition for Encoding En Passant.
+      //
+      // See https://en.wikipedia.org/wiki/X-FEN#Encoding_en-passant
+      //
+      EPTarget = vEPTarget;
 
-      var nMovedTo = nEP + Foe.Parameter.PawnStep;
+      var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
-      var qpCaptureFrom = Friend.PawnPassed(nEP);
+      var qpCaptureFrom = Friend.PawnPassed(vEPTarget);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
@@ -110,16 +115,16 @@ namespace Engine {
         // Test for legality, were Friend to play EP:
         //
         // 1) Remove the Friend Pawn from its nCaptureFrom square;
-        // 2) And place it on the nEP square.
+        // 2) And place it on the vEPTarget square.
         // 3) Remove the Foe Pawn from its nMovedTo square.
         // 4) Note whether the resulting position would be legal.
         // 5) Restore the Foe Pawn to its nMovedTo square.
-        // 6) Remove the Friend Pawn placed on nEP;
+        // 6) Remove the Friend Pawn placed on vEPTarget;
         // 7) And restore the Pawn to its nCaptureFrom square.
-        // 8) If EP was Legal setEP() and break.
+        // 8) If EP was Legal setEPLegal() and break.
         //
         Friend.RaisePiece(vP6, nCaptureFrom);
-        Friend.LowerPiece(vP6, nEP);
+        Friend.LowerPiece(vP6, vEPTarget);
         //[Speed]Remove Not Needed, because material balance will be restored below.
         Foe.RaisePiece(vP6, nMovedTo);
 
@@ -130,22 +135,19 @@ namespace Engine {
 
         //[Speed]placePiece Not Needed, because a Remove was not performed.
         Foe.LowerPiece(vP6, nMovedTo);
-        Friend.RaisePiece(vP6, nEP);
+        Friend.RaisePiece(vP6, vEPTarget);
         Friend.LowerPiece(vP6, nCaptureFrom);
 
         if (bLegal) {
-          //
-          // setEP() iff the En Passant capture is Legal:
-          //
-          setEP();
+          setEPLegal();
           break;
         }
       }
     }
 
     //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
-    protected Int32? MovePiece(ref Move move) {
-      Int32? nEP = default;
+    protected Byte? MovePiece(ref Move move) {
+      Byte? vEPTarget = default;
       unpack2(move, out Int32 nFrom, out Int32 nTo,
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
@@ -179,14 +181,14 @@ namespace Engine {
 
       if (vPiece == vP6) {
         if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
-          nEP = nTo - Friend.Parameter.PawnStep;
+          vEPTarget = (Byte)(nTo - Friend.Parameter.PawnStep);
 
         HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
         Friend.ResetPawnAtx();
       }
 
       verifyPieceColors();              //[Conditional]
-      return nEP;
+      return vEPTarget;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -216,7 +218,7 @@ namespace Engine {
       if (HalfMoveClock < vHalfMoveClockMax)
         HalfMoveClock++;
 
-      var nEP = MovePiece(ref move);
+      var vEPTarget = MovePiece(ref move);
 
       updateRepetitionCycle();
 
@@ -226,8 +228,8 @@ namespace Engine {
       #region Update En Passant
       // tryEP() will be assessed from the perspective
       // of Foe having become Friend after toggleWTM()
-      if (nEP.HasValue)
-        tryEP(nEP.Value);
+      if (vEPTarget.HasValue)
+        tryEP(vEPTarget.Value);
 
       //
       // TurnFlags.EPLegal is referenced when generate() methods add En Passant captures

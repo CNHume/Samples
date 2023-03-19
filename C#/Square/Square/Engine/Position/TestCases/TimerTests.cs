@@ -129,7 +129,7 @@ namespace Engine {
       timerStop(sw, qTrials);
     }
 
-    // Generates moves at ~18 MHz
+    // generate() adds Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
     private void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {
       var sw = timerStart($"{nameof(generate)}({bSwap})", qTrials);
 

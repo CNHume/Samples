@@ -221,19 +221,19 @@ namespace Engine {
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
       // The destination square to which an e.p. capturing Pawn will move:
-      var nEP = (Int32)sqEnPassant;
-      if (y(nEP) != Foe.Parameter.PassRank)
+      var vEPTarget = (Byte)sqEnPassant;
+      if (y(vEPTarget) != Foe.Parameter.PassRank)
         throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
 
       // The square actually holding the e.p. Pawn to be captured:
-      var nMovedTo = nEP + Foe.Parameter.PawnStep;
+      var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
 
       //
       // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
       //
-      var nStart = nEP + Friend.Parameter.PawnStep;
+      var nStart = vEPTarget + Friend.Parameter.PawnStep;
       var qpStart = bit(nStart);
-      var qpEnPassant = bit(nEP);
+      var qpEnPassant = bit(vEPTarget);
       var qpVacant = qpStart | qpEnPassant;
       var bInvalid = (qpVacant & RankPiece) != 0 ||
                      (Foe.Piece & Pawn & bit(nMovedTo)) == 0;
@@ -241,7 +241,7 @@ namespace Engine {
       if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
-      tryEP(nEP);
+      tryEP(vEPTarget);
 
       if (!IsEPLegal())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
@@ -320,8 +320,7 @@ namespace Engine {
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (HalfMoveClock > 0 && IsEPLegal()) {
-        var sqEP = (Sq?)sqrEP();
-        LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
+        LogInfo(Level.warn, $"ep({(Sq?)EPTarget}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
       //
