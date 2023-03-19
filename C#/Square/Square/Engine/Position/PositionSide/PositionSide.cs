@@ -27,7 +27,7 @@ namespace Engine {
       #region Methods
       #region Pawn Move Generators
       public void AddPawnCaptures(Plane qpTo) {
-        var nEP = Board.IsPassed() ? Board.sqrEP() : nSquareUndefined;
+        var nEP = Board.IsEPLegal() ? Board.sqrEP() : nSquareUndefined;
         AddPawnCaptures2(PawnA1H8Atx & qpTo, Parameter.PawnA1H8, nEP);
         AddPawnCaptures2(PawnA8H1Atx & qpTo, Parameter.PawnA8H1, nEP);
       }

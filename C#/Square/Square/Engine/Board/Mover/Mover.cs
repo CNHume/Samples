@@ -80,12 +80,12 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
-      if (IsPassed()) {
+      if (IsEPLegal()) {
         //
         // Adjust the incremental Hash and reset EPFlags, except for WTM:
         //
         Hash ^= epHash();
-        FlagsTurn &= ~TurnFlags.Passed;
+        FlagsTurn &= ~TurnFlags.EPLegal;
         EPSquare = default;
       }
     }
@@ -93,7 +93,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void setEP(Int32 nEP) {
       EPSquare = nEP;
-      FlagsTurn |= TurnFlags.Passed;
+      FlagsTurn |= TurnFlags.EPLegal;
     }
 
     //
@@ -231,7 +231,7 @@ namespace Engine {
       // captures for the next Ply.  ResetEP() is called by resetMove() just before
       // this method is called.
       //
-      if (IsPassed()) Hash ^= epHash();
+      if (IsEPLegal()) Hash ^= epHash();
       #endregion                        // Update En Passant
 #if RecursiveNullMade
       //

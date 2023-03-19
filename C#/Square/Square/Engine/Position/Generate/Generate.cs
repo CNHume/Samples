@@ -99,7 +99,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEPSquare(Plane qpFoe) {
       var nEP = sqrEP();
-      return IsPassed() && nEP.HasValue ?
+      return IsEPLegal() && nEP.HasValue ?
         qpFoe | bit(nEP.Value) : qpFoe;
     }
 

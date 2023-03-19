@@ -73,7 +73,7 @@ partial class Board {
     if (bCapture)
       vCapture = vPieceTo;
     else if (vPieceFrom == vP6 &&
-             IsPassed() &&
+             IsEPLegal() &&
              nTo == sqrEP()) {
       bCapture = true;
       vCapture = vEP6;

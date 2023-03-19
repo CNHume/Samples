@@ -234,7 +234,7 @@ namespace Engine {
 
     private Hashcode hashFlags(Boolean bWTM) {
       Hashcode qHash = 0;
-      if (IsPassed()) qHash ^= epHash();
+      if (IsEPLegal()) qHash ^= epHash();
       if (!bWTM) qHash ^= zobristTurn;
       return qHash;
     }

@@ -243,7 +243,7 @@ namespace Engine {
 
       tryEP(nEP);
 
-      if (!IsPassed())
+      if (!IsEPLegal())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
     }
 
@@ -319,7 +319,7 @@ namespace Engine {
       #region Half Move Clock and Full Move Number
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
-      if (HalfMoveClock > 0 && IsPassed()) {
+      if (HalfMoveClock > 0 && IsEPLegal()) {
         var sqEP = (Sq?)sqrEP();
         LogInfo(Level.warn, $"ep({sqEP}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }

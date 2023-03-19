@@ -68,10 +68,11 @@ namespace Engine {
 
     public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
       using var scanner = new Scanner(sPrefix);
+      const Int32 nCapacity = 4;
+      var rookFromSquares = new List<Int32>(nCapacity);
       var bWTM = bWhiteMovesFirst;
-      var rookFromSquares = new List<Int32>(4);
-
       String? sEnPassant = default;
+
       var sHalfMoveCount = GetSingleValue(operations, "hmvc", "0");
       var sFullMoveNumber = GetSingleValue(operations, "fmvn", "0");
       try {
@@ -96,10 +97,11 @@ namespace Engine {
 
     public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
       using var scanner = new Scanner(sPrefix);
+      const Int32 nCapacity = 4;
+      var rookFromSquares = new List<Int32>(nCapacity);
       var bWTM = bWhiteMovesFirst;
-      var rookFromSquares = new List<Int32>(4);
-
       String? sEnPassant = default;
+
       try {
         bWTM = ParsePosition(scanner, rookFromSquares, out sEnPassant);
       }

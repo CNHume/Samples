@@ -114,7 +114,7 @@ namespace Engine {
       //[Note]Any move begins a new Repetition Cycle when En Passant was possible
       // because the right to En Passant expires whether it is exercised or not.
       //
-      if (Parent is not null && Parent.IsPassed())
+      if (Parent is not null && Parent.IsEPLegal())
         SetDraw0();
     }
 

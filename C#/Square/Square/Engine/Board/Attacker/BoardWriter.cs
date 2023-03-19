@@ -57,7 +57,7 @@ namespace Engine {
     internal const String sSpace3 = sSpace + sSpace2;
 
     internal static TurnFlags[] turnFlags =
-      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.Passed };
+      { TurnFlags.Final, TurnFlags.InCheck, TurnFlags.Illegal, TurnFlags.EPLegal };
 
     internal static SideFlags[] sideFlags = {
       SideFlags.Insufficient, SideFlags.Alone,
@@ -126,7 +126,7 @@ namespace Engine {
         .AddNotEmpty(sBlackSideLabelled)
         .AddNotEmpty(sWhiteSideLabelled);
 
-      if (fturn.Has(TurnFlags.Passed))
+      if (fturn.Has(TurnFlags.EPLegal))
         sFlags.Add($"{(Sq?)nEP}");
 
       sFlags
@@ -201,7 +201,7 @@ namespace Engine {
         .Append(cSpace);
 
       var nEP = sqrEP();
-      if (IsPassed() && nEP.HasValue)
+      if (IsEPLegal() && nEP.HasValue)
         sb.Append((Sq)nEP);
       else
         sb.Append(cMinus);

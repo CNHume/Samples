@@ -234,8 +234,8 @@ namespace Engine {
     #endregion                          // TurnFlags
 
     #region DrawFlags
-    public Boolean IsPassed() {
-      return FlagsTurn.Has(TurnFlags.Passed);
+    public Boolean IsEPLegal() {
+      return FlagsTurn.Has(TurnFlags.EPLegal);
     }
 
     public Boolean IsDraw() {

@@ -30,7 +30,7 @@ namespace Engine {
     //
     // TurnFlags  0:4
     // --------------
-    //  0:1 Passed
+    //  0:1 EPLegal
     //  1:1 Illegal
     //  2:1 InCheck
     //  3:1 Final
@@ -39,8 +39,8 @@ namespace Engine {
     [Flags]
     public enum TurnFlags : byte {
       None = 0,
-      Passed = 1,                       // Bit 0
-      Illegal = Passed << 1,            // Bit 1 Check Flags
+      EPLegal = 1,                      // Bit 0
+      Illegal = EPLegal << 1,           // Bit 1 Check Flags
       InCheck = Illegal << 1,           // Bit 2
       Final = InCheck << 1,             // Bit 3
 
@@ -50,7 +50,7 @@ namespace Engine {
       //
       //[C#]Can one distinguish which of two equal Flag values is displayed?
       //[NonSerialized]
-      //Copy = Passed
+      //Copy = EPLegal
     }
     #endregion                          // TurnFlags Enum
 
