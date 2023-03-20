@@ -57,9 +57,24 @@ namespace Engine {
     //
     // IsDraw
     // IsDraw2
-    // IsDraw50
     // IsInsufficient
     // SetDrawIM
+    //
+    // [Clr|Set]Repetition
+    // fdraw
+    // [clr|set]Draw0
+    // IsDraw0
+    //
+    // SetDraw50
+    // IsDraw50
+    //
+    // [clr|set]NullMade
+    // IsNullMade
+    // [clr|set]Trace
+    // IsTrace
+    //
+    // IsEven
+    // IsOdd
     //
     #region Side Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -232,6 +247,7 @@ namespace Engine {
       FlagsTurn |= TurnFlags.EPLegal;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsEPLegal() {
       return FlagsTurn.Has(TurnFlags.EPLegal);
     }
@@ -255,10 +271,12 @@ namespace Engine {
       clrEPLegal();
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean InCheck() {
       return FlagsTurn.Has(TurnFlags.InCheck);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetInCheck(Boolean bInCheck) {
       if (bInCheck)
         FlagsTurn |= TurnFlags.InCheck;
@@ -266,6 +284,7 @@ namespace Engine {
         FlagsTurn &= ~TurnFlags.InCheck;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetLegal(Boolean bLegal) {
       if (bLegal)
         FlagsTurn &= ~TurnFlags.Illegal;
@@ -273,10 +292,12 @@ namespace Engine {
         FlagsTurn |= TurnFlags.Illegal;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetFinal() {
       FlagsTurn |= TurnFlags.Final;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsFinal() {
       return FlagsTurn.Has(TurnFlags.Final);
     }
@@ -287,20 +308,14 @@ namespace Engine {
     #endregion                          // TurnFlags
 
     #region DrawFlags
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsDraw() {
       return FlagsDraw.Has(DrawFlags.DrawMask);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsDraw2() {
       return FlagsDraw.Has(DrawFlags.Draw2);
-    }
-
-    public Boolean IsDraw50() {
-      return FlagsDraw.Has(DrawFlags.Draw50);
-    }
-
-    public Boolean IsInsufficient() {
-      return FlagsDraw.Has(DrawFlags.DrawIM);
     }
 
     //
@@ -310,6 +325,11 @@ namespace Engine {
       FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
       if (IsInsufficient(RankPiece))
         FlagsDraw |= DrawFlags.DrawIM;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Boolean IsInsufficient() {
+      return FlagsDraw.Has(DrawFlags.DrawIM);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -339,59 +359,72 @@ namespace Engine {
       return false;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ClrRepetition() {
       FlagsDraw &= ~(DrawFlags.Draw3 | DrawFlags.Draw2);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetRepetition(Boolean bDraw3) {
       FlagsDraw |= bDraw3 ? DrawFlags.Draw3 : DrawFlags.Draw2;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected DrawFlags fdraw() {
       return FlagsDraw & (DrawFlags.Draw3 | DrawFlags.Draw2);
     }
 
-    public Boolean IsDraw0() {
-      return FlagsDraw.Has(DrawFlags.Draw0);
-    }
-
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void clrDraw0() {
       FlagsDraw &= ~DrawFlags.Draw0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetDraw0() {
       FlagsDraw |= DrawFlags.Draw0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Boolean IsDraw0() {
+      return FlagsDraw.Has(DrawFlags.Draw0);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void SetDraw50() {
       if (HalfMoveClock < vHalfMoveClockMax)
         FlagsDraw &= ~DrawFlags.Draw50;
       else                              // 50 Move Rule
         FlagsDraw |= DrawFlags.Draw50;
     }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    public Boolean IsDraw50() {
+      return FlagsDraw.Has(DrawFlags.Draw50);
+    }
     #endregion                          // DrawFlags
 
     #region ModeFlags
-    protected Boolean IsNullMade() {
-      return FlagsMode.Has(ModeFlags.NullMade);
-    }
-
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void clrNullMade() {
       FlagsMode &= ~ModeFlags.NullMade;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void setNullMade() {
       FlagsMode |= ModeFlags.NullMade;
     }
 
-    protected bool IsTrace() {
-      return FlagsMode.Has(ModeFlags.Trace);
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected Boolean IsNullMade() {
+      return FlagsMode.Has(ModeFlags.NullMade);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void clrTrace() {
       FlagsMode &= ~ModeFlags.Trace;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void setTrace(Hashcode qHashcode) {
       if (qHashcode == Hash)
         FlagsMode |= ModeFlags.Trace;
@@ -402,14 +435,21 @@ namespace Engine {
       if (qHashcodes.Any(qHashcode => qHashcode == Hash))
         FlagsMode |= ModeFlags.Trace;
     }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected bool IsTrace() {
+      return FlagsMode.Has(ModeFlags.Trace);
+    }
     #endregion                          // ModeFlags
     #endregion                          // Flag Methods
 
     #region Parity
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean IsEven(UInt32 u) {
       return (u & 1) == 0;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public static Boolean IsOdd(UInt32 u) {
       return (u & 1) != 0;
     }
