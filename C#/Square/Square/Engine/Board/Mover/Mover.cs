@@ -80,7 +80,7 @@ namespace Engine {
 
     private void tryEP(Byte vEPTarget) {
       //
-      // Set EPTarget whether or not En Passant is Legal conforming
+      // Set EPTarget whether or not En Passant is Legal, conforming
       // to the X-FEN Definition for Encoding En Passant.
       //
       // See https://en.wikipedia.org/wiki/X-FEN#Encoding_en-passant
@@ -94,7 +94,7 @@ namespace Engine {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
         //
-        // Test for legality, were Friend to play EP:
+        // Test whether pins prevent any En Passant capture at the EPTarget square:
         //
         // 1) Remove the Friend Pawn from its nCaptureFrom square;
         // 2) And place it on the EPTarget square.
@@ -107,7 +107,7 @@ namespace Engine {
         //
         Friend.RaisePiece(vP6, nCaptureFrom);
         Friend.LowerPiece(vP6, vEPTarget);
-        //[Speed]Remove Not Needed, because material balance will be restored below.
+        //[Speed]RemovePiece Not Needed, because material balance is restored below.
         Foe.RaisePiece(vP6, nMovedTo);
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
@@ -115,7 +115,7 @@ namespace Engine {
           (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
           (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
 
-        //[Speed]placePiece Not Needed, because a Remove was not performed.
+        //[Speed]PlacePiece Not Needed, because RemovePiece was not performed.
         Foe.LowerPiece(vP6, nMovedTo);
         Friend.RaisePiece(vP6, vEPTarget);
         Friend.LowerPiece(vP6, nCaptureFrom);
