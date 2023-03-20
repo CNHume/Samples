@@ -385,7 +385,8 @@ namespace Engine {
         King == board.King &&
         Knight == board.Knight &&
         DiagPiece == board.DiagPiece &&
-        OrthPiece == board.OrthPiece;
+        OrthPiece == board.OrthPiece &&
+        (EPTarget == board.EPTarget || !IsEPLegal());
 
       Trace.Assert(bEqual, "Hashcode Collision Detected");
       return bEqual;

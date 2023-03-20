@@ -26,7 +26,7 @@ namespace Engine {
         throw new PositionException("resetMove() called at the Root Position");
       Copy(Parent);
 
-      // Clear En Passant state just prior to making a move
+      // Reset En Passant state just prior to calling PlayMove()
       ResetEP();
 #if DebugNodeTotal
       var qNodeTotal = State.MoveTotal + State.NullMoveTotal;

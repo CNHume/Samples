@@ -78,16 +78,6 @@ namespace Engine {
       return vCapture;
     }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected void ResetEP() {
-      EPTarget = default;
-
-      if (IsEPLegal()) {
-        clrEPLegal();
-        Hash ^= epHash();
-      }
-    }
-
     private void tryEP(Byte vEPTarget) {
       //
       // Set EPTarget whether or not En Passant is Legal conforming
@@ -223,12 +213,7 @@ namespace Engine {
       if (vEPTarget.HasValue)
         tryEP(vEPTarget.Value);
 
-      //
-      // TurnFlags.EPLegal is referenced when generate() methods add En Passant captures
-      // for the next Ply, so ResetEP() is called by resetMove() just before this method
-      // is called.
-      //
-      if (IsEPLegal()) Hash ^= epHash();
+      toggleEPHash();
       #endregion                        // Update En Passant
 #if RecursiveNullMade
       //

@@ -41,6 +41,26 @@ namespace Engine {
     // SameBishops
     // HasBishopPair
     //
+    // clrEPLegal
+    // setEPLegal
+    // IsEPLegal
+    // toggleEPHash
+    // ResetEP
+    //
+    // InCheck
+    // SetInCheck
+    // SetLegal
+    //
+    // SetFinal
+    // IsFinal
+    // IsStalemate
+    //
+    // IsDraw
+    // IsDraw2
+    // IsDraw50
+    // IsInsufficient
+    // SetDrawIM
+    //
     #region Side Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean WTM() {
@@ -212,6 +232,29 @@ namespace Engine {
       FlagsTurn |= TurnFlags.EPLegal;
     }
 
+    public Boolean IsEPLegal() {
+      return FlagsTurn.Has(TurnFlags.EPLegal);
+    }
+
+    //
+    // The following is called by ResetEP() below,
+    // and when TurnFlags.EPLegal is set by tryEP().
+    //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private void toggleEPHash() {
+      if (IsEPLegal()) Hash ^= epHash();
+    }
+
+    //
+    // The following is called by resetMove()
+    //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    protected void ResetEP() {
+      EPTarget = default;
+      toggleEPHash();
+      clrEPLegal();
+    }
+
     public Boolean InCheck() {
       return FlagsTurn.Has(TurnFlags.InCheck);
     }
@@ -230,12 +273,12 @@ namespace Engine {
         FlagsTurn |= TurnFlags.Illegal;
     }
 
-    public Boolean IsFinal() {
-      return FlagsTurn.Has(TurnFlags.Final);
-    }
-
     protected void SetFinal() {
       FlagsTurn |= TurnFlags.Final;
+    }
+
+    public Boolean IsFinal() {
+      return FlagsTurn.Has(TurnFlags.Final);
     }
 
     public Boolean IsStalemate() {
@@ -244,10 +287,6 @@ namespace Engine {
     #endregion                          // TurnFlags
 
     #region DrawFlags
-    public Boolean IsEPLegal() {
-      return FlagsTurn.Has(TurnFlags.EPLegal);
-    }
-
     public Boolean IsDraw() {
       return FlagsDraw.Has(DrawFlags.DrawMask);
     }
