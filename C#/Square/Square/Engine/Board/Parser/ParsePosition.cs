@@ -209,7 +209,7 @@ namespace Engine {
 
       //
       //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
-      // will be needed when tryEP() calls Friend.PawnPassed().
+      // will be needed when tryEP() calls Friend.EPGuard().
       //
       buildPawnAtx();
 
@@ -320,7 +320,8 @@ namespace Engine {
       HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
       if (HalfMoveClock > 0 && IsEPLegal()) {
-        LogInfo(Level.warn, $"ep({(Sq?)EPTarget}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
+        var sq = (Sq?)EPTarget;
+        LogInfo(Level.warn, $"ep({sq}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
       }
 
       //

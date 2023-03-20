@@ -194,9 +194,9 @@ namespace Engine {
         .AppendCastlingRights(Side, State.IsChess960)
         .Append(cSpace);
 
-      var sqEPTarget = (Sq?)EPTarget;
-      if (sqEPTarget.HasValue)
-        sb.Append(sqEPTarget.Value);
+      var sq = (Sq?)EPTarget;
+      if (sq.HasValue)
+        sb.Append(sq.Value);
       else
         sb.Append(cMinus);
     }

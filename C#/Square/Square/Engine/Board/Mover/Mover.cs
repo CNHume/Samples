@@ -83,17 +83,9 @@ namespace Engine {
       EPTarget = default;
 
       if (IsEPLegal()) {
-        //
-        // Adjust the incremental Hash and reset EPFlags, except for WTM:
-        //
+        clrEPLegal();
         Hash ^= epHash();
-        FlagsTurn &= ~TurnFlags.EPLegal;
       }
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void setEPLegal() {
-      FlagsTurn |= TurnFlags.EPLegal;
     }
 
     private void tryEP(Byte vEPTarget) {
@@ -107,7 +99,7 @@ namespace Engine {
 
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
-      var qpCaptureFrom = Friend.PawnPassed(vEPTarget);
+      var qpCaptureFrom = Friend.EPGuard(vEPTarget);
       while (qpCaptureFrom != 0) {
         var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
 
@@ -115,11 +107,11 @@ namespace Engine {
         // Test for legality, were Friend to play EP:
         //
         // 1) Remove the Friend Pawn from its nCaptureFrom square;
-        // 2) And place it on the vEPTarget square.
+        // 2) And place it on the EPTarget square.
         // 3) Remove the Foe Pawn from its nMovedTo square.
         // 4) Note whether the resulting position would be legal.
         // 5) Restore the Foe Pawn to its nMovedTo square.
-        // 6) Remove the Friend Pawn placed on vEPTarget;
+        // 6) Remove the Friend Pawn placed on EPTarget;
         // 7) And restore the Pawn to its nCaptureFrom square.
         // 8) If EP was Legal setEPLegal() and break.
         //

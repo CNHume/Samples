@@ -202,6 +202,16 @@ namespace Engine {
 
     #region Flag Methods
     #region TurnFlags
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private void clrEPLegal() {
+      FlagsTurn &= ~TurnFlags.EPLegal;
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private void setEPLegal() {
+      FlagsTurn |= TurnFlags.EPLegal;
+    }
+
     public Boolean InCheck() {
       return FlagsTurn.Has(TurnFlags.InCheck);
     }

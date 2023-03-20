@@ -32,7 +32,7 @@ namespace Engine {
       // [raise|lower]
       // [Raise|Remove]Piece
       // [Lower|Place]Piece
-      // PawnPassed
+      // EPGuard
       // ResetPawnAtx
       // RookCastles
       // SetInsufficient
@@ -58,15 +58,15 @@ namespace Engine {
       //
       #region Mover Methods
       //
-      // Return Friend Pawns which may be able to capture En Passant
-      // the Foe Pawn that just passed through the nEP square.
+      // Return Friend Pawns able to capture the Foe Pawn
+      // that passed through the En Passant Target square.
       //
-      public Plane PawnPassed(Int32 nEP) {
-        var qpEnPassant = bit(nEP);
+      public Plane EPGuard(Byte vEPTarget) {
+        var qpCaptureTo = bit(vEPTarget);
 
         var qpCaptureFrom =
-          ShiftR(qpEnPassant & PawnA1H8Atx, Parameter.PawnA1H8) |
-          ShiftR(qpEnPassant & PawnA8H1Atx, Parameter.PawnA8H1);
+          ShiftR(qpCaptureTo & PawnA1H8Atx, Parameter.PawnA1H8) |
+          ShiftR(qpCaptureTo & PawnA8H1Atx, Parameter.PawnA8H1);
 
         return qpCaptureFrom;
       }
