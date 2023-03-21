@@ -194,6 +194,9 @@ namespace Engine {
         .AppendCastlingRights(Side, State.IsChess960)
         .Append(cSpace);
 
+      //
+      // If EPTarget.HasValue serialize its corresponding Sq into the FEN or EPD:
+      //
       var sq = (Sq?)EPTarget;
       if (sq.HasValue)
         sb.Append(sq.Value);

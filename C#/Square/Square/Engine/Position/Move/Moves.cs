@@ -140,10 +140,9 @@ namespace Engine {
         //
         SetDrawIM();
 
+        ClrRepetition();
         if (bFindRepetition)
           findRepetition();
-        else
-          ClrRepetition();
       }
 #if DisplayPosition
       var sb = new StringBuilder();
@@ -156,7 +155,6 @@ namespace Engine {
     #region Draw By Repetition
     private void findRepetition() {
       GameState.AtomicIncrement(ref State.RepetitionSearches);
-      ClrRepetition();
       if (IsDraw0()) return;
       var bNullMade = IsNullMade();
 

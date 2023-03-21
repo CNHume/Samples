@@ -56,7 +56,7 @@ namespace Engine {
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void Copy(BoardSide side) {
-        // 34 bytes + 1 nullable byte
+        // 35 bytes + 1 nullable byte
 #if HashPieces
         PieceHash = side.PieceHash;     // 8-bytes
 #endif

@@ -311,10 +311,10 @@ namespace Engine {
     #endregion                          // BoardSide
 
     //
-    // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three rotations,
+    // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three Rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
-    // WTM() determines White To Move, which is true iff GamePly is even.
-    // ~186 Bytes for simple Rotation [24 Bytes less for Magic]
+    // WTM() determines White To Move, and is true iff GamePly is even.
+    // ~172 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     [MemberNotNull(
       nameof(Friend),
@@ -327,6 +327,7 @@ namespace Engine {
 
       NullPly = board.NullPly;          // 2-bytes
       GamePly = board.GamePly;          // 2-bytes
+      EPTarget = board.EPTarget;        // 1-byte
       HalfMoveClock =
         board.HalfMoveClock;            // 1-byte
       Hash = board.Hash;                // 8-bytes
@@ -344,7 +345,7 @@ namespace Engine {
       A1H8Piece = board.A1H8Piece;      // 8-bytes
       A8H1Piece = board.A8H1Piece;      // 8-bytes
 #endif
-      copySides(board);                 // 2 x 35 = 70-bytes
+      copySides(board);                 // 2 x 36 = 72-bytes
 
       ensureAtxToCount();               //[Conditional]
       copyAtxToCount(board);            //[Conditional] 64-bytes
