@@ -124,6 +124,7 @@ namespace Engine {
     [MemberNotNull(
       nameof(Friend),
       nameof(Foe))]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void initSides() {
       //[Note]Friend and Foe must always correspond to the value of WTM()
       (Friend, Foe) = GetSides(WTM());
@@ -143,17 +144,20 @@ namespace Engine {
 #endif
     [Conditional("BuildAtxToCount")]
     [MemberNotNull(nameof(AtxToCount))]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void newAtxToCount() {
       AtxToCount = new SByte[nSquares];
     }
 
     [Conditional("BuildAtxToCount")]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void ensureAtxToCount() {
       if (AtxToCount == null)
         newAtxToCount();
     }
 
     // Called by Position.Clear()
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public virtual void Clear() {
       foreach (var side in Side)
         side.Clear();
@@ -280,16 +284,15 @@ namespace Engine {
     // Deep Copy:
     //
     [Conditional("BuildAtxToCount")]
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void copyAtxToCount(Board board) {
       Array.Copy(board.AtxToCount, AtxToCount, board.AtxToCount.Length);
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public void CopyFlags(Board board) {// 1 byte
-      for (var nSide = 0; nSide < Side.Length; nSide++)
-        Side[nSide].CopyFlags(board.Side[nSide]);
-
-      FlagsTurn = board.FlagsTurn & TurnFlags.EPLegal;  //[C#]
+    public void CopyFlags(Board board) {
+      //[C#]Avoid ambiguity with TurnFlags.Copy
+      FlagsTurn = board.FlagsTurn & TurnFlags.EPLegal;
       FlagsEval = board.FlagsEval & EvalFlags.Copy;
       FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
       FlagsMode = board.FlagsMode & ModeFlags.Copy;
@@ -314,7 +317,7 @@ namespace Engine {
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three Rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
     // WTM() determines White To Move, and is true iff GamePly is even.
-    // ~172 Bytes for simple Rotation [24 Bytes less for Magic]
+    // ~170 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     [MemberNotNull(
       nameof(Friend),
@@ -322,14 +325,14 @@ namespace Engine {
       nameof(State))]
     public void Copy(Board board) {
       State = board.State;
-
-      CopyFlags(board);                 // 6-bytes for Flags
+      CopyFlags(board);                 // 4-bytes for Board Flags
 
       NullPly = board.NullPly;          // 2-bytes
       GamePly = board.GamePly;          // 2-bytes
-      EPTarget = board.EPTarget;        // 1-byte
+      EPTarget = board.EPTarget;        // 1-byte (nullable)
       HalfMoveClock =
         board.HalfMoveClock;            // 1-byte
+
       Hash = board.Hash;                // 8-bytes
       HashPawn = board.HashPawn;        // 8-bytes
 

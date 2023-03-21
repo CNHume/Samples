@@ -36,7 +36,7 @@ namespace Engine {
         // IsLegal() to ascertain whether tryMove() was ever called:
         //
         //[Note]Flags are reset when resetMove() calls Position.Copy(),
-        // which calls Board.Copy(), which calls Board.CopyFlags()
+        // which calls Board.Copy() which also calls Board.CopyFlags().
         //
         CopyFlags(Parent);
 #if InheritMoveTypes

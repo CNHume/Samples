@@ -55,22 +55,22 @@ namespace Engine {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      private void copyFlags(BoardSide side) {
+        FlagsSide = side.FlagsSide & SideFlags.Copy;
+      }
+
       public void Copy(BoardSide side) {
         // 35 bytes + 1 nullable byte
+        Piece = side.Piece;             // 8-bytes
+        PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes optimizing resetPawnAtx()
+        PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
 #if HashPieces
         PieceHash = side.PieceHash;     // 8-bytes
 #endif
         Counts = side.Counts;           // 2-bytes
         KingPos = side.KingPos;         // 1-byte (nullable)
 
-        Piece = side.Piece;             // 8-bytes
-        PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes optimizing resetPawnAtx()
-        PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
-      }
-
-      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public void CopyFlags(BoardSide side) {
-        FlagsSide = side.FlagsSide & SideFlags.Copy;
+        copyFlags(side);                // 1-byte for BoardSide Flags
       }
       #endregion                        // Constructors
 
