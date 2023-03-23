@@ -235,7 +235,6 @@ namespace Engine {
       //
       toggleWTM();
 
-      NullPly++;
       setNullMade();                    // Prevent two consecutive Null Moves
 
       tracePosition();                  //[Conditional]

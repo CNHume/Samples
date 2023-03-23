@@ -230,6 +230,7 @@ namespace Engine {
       var child = PositionPool.Push();
       child.Parent = parent;
       child.Clear();
+      child.InitNode();
       return child;
     }
 

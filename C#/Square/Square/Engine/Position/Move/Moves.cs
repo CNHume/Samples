@@ -53,7 +53,7 @@ namespace Engine {
 
       //
       //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
-      // a window between the time initNode() initializes a node and when resetMove() is first called.
+      // a window between the time InitNode() initializes a node and when resetMove() is first called.
       //
       timePlayMove(move);               //[Conditional]
       resetMove();

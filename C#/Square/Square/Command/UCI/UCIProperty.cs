@@ -19,7 +19,7 @@ namespace Command {
     //
     // Perft FEN
     // ---------
-    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-03-04 Perft1 (startpos) in 11.472 sec @11.364 MHz over 130.36 Mnode]
+    //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-03-22 Perft1 (startpos) in 11.45 sec @11.385 MHz over 130.36 Mnode]
     //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-03-04 Perft2 in 18.532 sec @11.096 MHz over 205.63 Mnode]
     //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-03-14 Perft3 in 24.84 sec @8.81 MHz over 218.84 Mnode]
     //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-03-14 Perft4 in 77.058 sec @9.957 MHz over 767.28 Mnode]

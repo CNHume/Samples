@@ -25,19 +25,16 @@ namespace Engine {
     internal partial class BoardSide {
       #region Fields
       public SideFlags FlagsSide;       //[fside]Pair | CanCastle
+      public Byte? KingPos;             //[Nullable]
+      public PieceCounter Counts;       // For Validate() and eval()
 
-      public PieceCounter Counts;
-
-      public Byte? KingPos;
-
-      public Plane PawnA1H8Atx;         // Attacked by Pawns
+      public Plane Piece;               // Pieces belonging to Side
+      public Plane PawnA1H8Atx;         // Pawn Attack Squares to optimize resetPawnAtx()
       public Plane PawnA8H1Atx;
-
-      public Plane Piece;               // Pieces belonging to side
 #if HashPieces
-      public PieceHashcode PieceHash;
+      public PieceHashcode PieceHash;   // Composition Hash
 #endif
-      #endregion
+      #endregion                        // Fields
 
       #region Properties
       public Position Position { get; init; }
@@ -61,16 +58,16 @@ namespace Engine {
 
       public void Copy(BoardSide side) {
         // 35 bytes + 1 nullable byte
+        copyFlags(side);                // 1-byte for BoardSide Flags
+        KingPos = side.KingPos;         // 1-byte (nullable)
+        Counts = side.Counts;           // 2-bytes
+
         Piece = side.Piece;             // 8-bytes
-        PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes optimizing resetPawnAtx()
+        PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes
         PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
 #if HashPieces
         PieceHash = side.PieceHash;     // 8-bytes
 #endif
-        Counts = side.Counts;           // 2-bytes
-        KingPos = side.KingPos;         // 1-byte (nullable)
-
-        copyFlags(side);                // 1-byte for BoardSide Flags
       }
       #endregion                        // Constructors
 
@@ -79,12 +76,11 @@ namespace Engine {
       // Called for every new child node by Position.Push()
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void Clear() {
-        PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
+        FlagsSide = default;
         KingPos = default;
 
-        //
-        // Counts is used by Validate() and eval()
-        //
+        PawnA8H1Atx = PawnA1H8Atx = Piece = 0UL;
+
         Counts = 0U;
 #if HashPieces
         PieceHash = 0;

@@ -93,16 +93,17 @@ namespace Engine {
     #endregion                          // Constant Fields
 
     #region Fields
-    public Ply NullPly;                 //[Test]May be used to limit recursive Null Move Pruning
-    public Ply GamePly;
-    public Byte HalfMoveClock;
-    public Byte? EPTarget;              //[Nullable]
     public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | EPLegal
     public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
     public EvalFlags FlagsEval;         //[feval]OutsideSquare | KBN | KingAlone
     public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced
-    public Hashcode Hash;               //[Note]Hash also appears in Transposition Table entries
-    public Hashcode HashPawn;
+
+    public Ply GamePly;                 // WTM iff IsEven(GamePly)
+    public Byte HalfMoveClock;          // 100-Ply Clock for 50-Move Rule
+    public Byte? EPTarget;              //[Nullable]
+
+    public Hashcode Hash;               // Transposition and QuietPosition Hash
+    public Hashcode HashPawn;           // PawnPosition Hash
 
     public Plane Pawn;                  // Piece Types
     public Plane King;
@@ -128,7 +129,7 @@ namespace Engine {
     #region BoardSide Fields
     public readonly PositionSide[] Side;
 
-    protected PositionSide Friend;
+    protected PositionSide Friend;      // Friend and Foe as determined by WTM()
     protected PositionSide Foe;
     #endregion                          // BoardSide Fields
     #endregion                          // Fields
@@ -142,8 +143,7 @@ namespace Engine {
 
     public Ply SearchPly {
       //
-      // GamePly, and therefore also SearchPly is advanced by toggleWTM().
-      // GamePly should be even iff WTM.
+      // GamePly (and therefore also SearchPly) is advanced by toggleWTM()
       //
       get { return (Ply)(GamePly - State.MovePly); }
     }

@@ -10,61 +10,40 @@
 namespace Engine {
   partial class Position : Board {
     #region Workspace Methods
-    private void initNode() {
-      if (Parent is null) {             // Root Position
-        State.IsChess960 = false;       //[Init]
-
-        GamePly = 0;                    //[Init]
-        NullPly = 0;
-        FlagsTurn = default;            //[Safe]
-        FlagsEval = default;            //[Safe]
-        FlagsDraw = default;            //[Safe]
-        FlagsMode = default;            //[Safe]
-        foreach (var side in Side)
-          side.FlagsSide = default;     //[Safe]
-
-        //
-        // Initialize Extension Counts at the Root:
-        //
-        extensionCounts = 0;
-
-        moveTypeOrdering = defaultMoveTypeOrdering;
-      }
-      else {
-        //
-        // Ensure that FlagsTurn starts with Parent WTM.  This allows
-        // IsLegal() to ascertain whether tryMove() was ever called:
-        //
-        //[Note]Flags are reset when resetMove() calls Position.Copy(),
-        // which calls Board.Copy() which also calls Board.CopyFlags().
-        //
-        CopyFlags(Parent);
-#if InheritMoveTypes
-        moveTypeOrdering = Parent.moveTypeOrdering;
-#else
-        MoveTypeOrdering = defaultMoveTypeOrdering;
-#endif
-      }
-
+    public void InitNode() {
       //
       // The following are initialized for all nodes;
       // but moves are not made at the Root Position:
       //
       CurrentMove = Move.Undefined;
       pinnedPiece = 0UL;
-      AttackedSum =
-        BlackControlled =
-        WhiteControlled = 0UL;
 
-      HalfMoveClock = 0;
       clrEval();
-      Name = default;
+
+      if (Parent is null) {             // Root Position
+        State.IsChess960 = false;       //[Init]
+        GamePly = 0;                    //[Init]
+
+        extensionCounts = 0;            //[Init]
+        moveTypeOrdering = defaultMoveTypeOrdering;
+      }
+      else {
+        //
+        //[Note]All Move Commands call OnMoveCommand()
+        // which calls IsLegal(), which requires WTM()
+        //
+        GamePly = Parent.GamePly;
+#if InheritMoveTypes
+        moveTypeOrdering = Parent.moveTypeOrdering;
+#else
+        MoveTypeOrdering = defaultMoveTypeOrdering;
+#endif
+      }
     }
 
     // Called by Push()
     public override void Clear() {
       base.Clear();
-      initNode();
     }
     #endregion
 

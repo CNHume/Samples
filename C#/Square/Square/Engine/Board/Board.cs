@@ -159,14 +159,32 @@ namespace Engine {
     // Called by Position.Clear()
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public virtual void Clear() {
-      foreach (var side in Side)
-        side.Clear();
+      //
+      //[Note]Flags are reset when resetMove() calls Position.Copy(),
+      // which calls Board.Copy() which also calls Board.CopyFlags().
+      //
+      FlagsTurn = default;
+      FlagsEval = default;
+      FlagsDraw = default;
+      FlagsMode = default;
+
+      HalfMoveClock = 0;
+      EPTarget = default;
 
       RankPiece = Pawn = King = Knight = DiagPiece = OrthPiece = 0UL;
 #if !Magic
       A1H8Piece = A8H1Piece = FilePiece = 0UL;
 #endif
       HashPawn = Hash = 0UL;
+
+      AttackedSum =
+        BlackControlled =
+        WhiteControlled = 0UL;
+
+      Name = default;
+
+      foreach (var side in Side)
+        side.Clear();
     }
     #endregion                          // Initialization Methods
 
@@ -317,7 +335,7 @@ namespace Engine {
     // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three Rotations,
     // Flags (e.g., Castle Rights and EnPassant) a 100-ply HalfMoveClock to detect 50-move draws, Piece Counters and two Hashcodes.
     // WTM() determines White To Move, and is true iff GamePly is even.
-    // ~170 Bytes for simple Rotation [24 Bytes less for Magic]
+    // ~168 Bytes for simple Rotation [24 Bytes less for Magic]
     //
     [MemberNotNull(
       nameof(Friend),
@@ -327,7 +345,6 @@ namespace Engine {
       State = board.State;
       CopyFlags(board);                 // 4-bytes for Board Flags
 
-      NullPly = board.NullPly;          // 2-bytes
       GamePly = board.GamePly;          // 2-bytes
       EPTarget = board.EPTarget;        // 1-byte (nullable)
       HalfMoveClock =
