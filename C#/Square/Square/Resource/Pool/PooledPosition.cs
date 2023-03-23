@@ -34,7 +34,7 @@ namespace Resource {
 
     private void Allocate(Int32 nAllocations) {
       for (var n = 0; n < nAllocations; n++)
-        Inactive.Push(new Position(State));     // Lazy<T> would defer invocation of initPosition()
+        Inactive.Push(new Position(State));     // Lazy<T> would defer invocation of initParameters()
     }
 
     public Position Push() {

@@ -27,7 +27,7 @@ namespace Engine {
   // Type Aliases:
   //
   partial class Board {
-    #region Position Setup
+    #region Board Setup
     public void Validate() {
       foreach (var side in Side) {
         var nKings = (Int32)side.PieceCount(vK6);
@@ -290,7 +290,7 @@ namespace Engine {
       return bWTM;
     }
 
-    protected void InitRoot(
+    protected void SetUp(
       Boolean bWTM, List<Int32> rookFromSquares,
       String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
@@ -325,7 +325,7 @@ namespace Engine {
       }
 
       //
-      // SetDraw0 can be safely elided here because Parent == null for a Root Position.
+      // SetDraw0 can be safely elided here because Parent == null for the Root Position.
       //
       //updateRepetitionCycle();
 
@@ -438,6 +438,6 @@ namespace Engine {
       foreach (var side in Side)
         side.InitCastleRule();
     }
-    #endregion
+    #endregion                          // Board Setup
   }
 }

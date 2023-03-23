@@ -106,7 +106,7 @@ namespace Engine {
         Parameter.Rule.Clear();
       }
 
-      // Called from InitRoot() to complete a Root Position.
+      // Called from SetUp() to complete the Root Position.
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
       public void InitCastleRule() {
         Parameter.Rule.Init();

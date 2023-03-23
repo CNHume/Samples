@@ -29,7 +29,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Position : Board {
-    #region Serialization Methods
+    #region Position Serialization Methods
     private Tabiya? findTabiya() {
       // Match on the Position Prefix, ignoring variability in the Half Move Clock and Full Move Number values:
       var sPrefix = ToString(PositionType.Prefix);
@@ -82,7 +82,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        InitRoot(
+        SetUp(
           bWTM, rookFromSquares,
           sEnPassant, sHalfMoveCount, sFullMoveNumber,
           operations);
@@ -109,7 +109,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        InitRoot(
+        SetUp(
           bWTM, rookFromSquares,
           sEnPassant, sHalfMoveClock, sFullMoveNumber);
       }
@@ -398,7 +398,7 @@ namespace Engine {
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
 
-      InitRoot(
+      SetUp(
         bWhiteMovesFirst, rookFromSquares,
         sEnPassant, sHalfMoveCount, sFullMoveNumber);
       #endregion                        // Init Position
@@ -465,6 +465,6 @@ namespace Engine {
         LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
 #endif
     }
-    #endregion
+    #endregion                          // Position Serialization Methods
   }
 }

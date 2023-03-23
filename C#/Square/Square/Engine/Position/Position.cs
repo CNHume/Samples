@@ -106,7 +106,7 @@ namespace Engine {
       nFeatureBits = PawnFeatures.Length * nPerNibble;
       #endregion
 
-      initPosition();
+      initParameters();
 #if TestCorner
       printMapping("edgeDistance()", edgeDistance);
       printMapping("liteCornerDistance()", liteCornerDistance);
@@ -176,7 +176,7 @@ namespace Engine {
     // ms to complete.
     //
     [MemberNotNull(nameof(importance))]
-    private static void initPosition() {
+    private static void initParameters() {
       loadOutsideSquare();
       loadFreeHelp();
 
