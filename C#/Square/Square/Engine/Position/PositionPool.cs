@@ -10,7 +10,7 @@
 namespace Engine {
   partial class Position : Board {
     #region Workspace Methods
-    public void InitNode() {
+    private void initNode() {
       //
       // The following are initialized for all nodes;
       // but moves are not made at the Root Position:
@@ -44,6 +44,7 @@ namespace Engine {
     // Called by Push()
     public override void Clear() {
       base.Clear();
+      initNode();
     }
     #endregion
 

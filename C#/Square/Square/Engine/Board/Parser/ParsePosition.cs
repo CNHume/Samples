@@ -290,7 +290,7 @@ namespace Engine {
       return bWTM;
     }
 
-    protected void SetUp(
+    protected void Setup(
       Boolean bWTM, List<Int32> rookFromSquares,
       String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
       Dictionary<String, List<String>?>? operations = default) {
@@ -329,11 +329,9 @@ namespace Engine {
       //
       //updateRepetitionCycle();
 
+      // SearchPly is defined wrt MovePly
       var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
-      // Zero is sometimes used when the initial MoveNumber is unknown
-      if (wMoveNumber == 0) wMoveNumber = 1;
-      State.MovePly = plyCount(wMoveNumber);
-      if (!bWTM) State.MovePly++;
+      State.MovePly = ply(wMoveNumber, bWTM);
       #endregion                        // Half Move Clock and Full Move Number
 
       Validate();

@@ -434,14 +434,17 @@ namespace Engine {
       return (UInt16)((wPly + 1) / 2);
     }
 
-    // Inverse of plyCount()
+    // Inverse of ply()
     public static UInt16 MoveNumber(Ply wPly) {
       return (UInt16)(wPly / 2 + 1);
     }
 
     // Inverse of MoveNumber()
-    private static Ply plyCount(Ply wMove) {
-      return (Ply)((wMove - 1) * 2);
+    private static Ply ply(Ply wMoveNumber, Boolean bWTM) {
+      // Zero is sometimes used when the initial MoveNumber is unknown
+      var nMoveNumber = wMoveNumber > 0 ? wMoveNumber : 1;
+      var nPly = (nMoveNumber - 1) * 2;
+      return (Ply)(bWTM ? nPly : nPly + 1);
     }
     #endregion                          // Ply Methods
 

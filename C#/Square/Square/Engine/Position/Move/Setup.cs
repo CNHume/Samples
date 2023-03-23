@@ -82,7 +82,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        SetUp(
+        Setup(
           bWTM, rookFromSquares,
           sEnPassant, sHalfMoveCount, sFullMoveNumber,
           operations);
@@ -109,7 +109,7 @@ namespace Engine {
         LogInfo(Level.error, ex.Message);
       }
       finally {
-        SetUp(
+        Setup(
           bWTM, rookFromSquares,
           sEnPassant, sHalfMoveClock, sFullMoveNumber);
       }
@@ -398,7 +398,7 @@ namespace Engine {
       var sHalfMoveCount = "0";
       var sFullMoveNumber = "1";
 
-      SetUp(
+      Setup(
         bWhiteMovesFirst, rookFromSquares,
         sEnPassant, sHalfMoveCount, sFullMoveNumber);
       #endregion                        // Init Position

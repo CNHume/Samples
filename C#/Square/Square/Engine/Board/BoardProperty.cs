@@ -143,7 +143,7 @@ namespace Engine {
 
     public Ply SearchPly {
       //
-      // GamePly (and therefore also SearchPly) is advanced by toggleWTM()
+      // toggleWTM() advances GamePly, and therefore also SearchPly
       //
       get { return (Ply)(GamePly - State.MovePly); }
     }
