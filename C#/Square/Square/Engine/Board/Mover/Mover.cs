@@ -175,7 +175,7 @@ namespace Engine {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void toggleWTM() {
-      GamePly++;                        // GamePly should be even iff WTM
+      GamePly++;                        // WTM iff IsEven(GamePly)
       Hash ^= zobristTurn;
       //[Note]Friend and Foe must always correspond to the value of WTM()
       (Friend, Foe) = GetSides(WTM());

@@ -41,6 +41,8 @@ namespace Command {
     // Daniel Naroditsky Endgame Lessons:
     //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept [2023-03-09 14-ply in 4.14 sec @1.029 MHz over 4.262 Mnode] eval -0.85 after:
     // 1. Kc8! b5 2. Kd7 Bf5+ 3. Kd6 b4 4. Ke5! Bh3 5. Kd4 Bc8 6. Kc4 Ke2 7. Kxb4 Kd1 8. Ka3
+    //"8/6kp/Q2p4/3P4/8/6qP/3pBrP1/6RK b - - 0 37"; [2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
+    // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
     //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
     // moves f5h3 g2h3 e6f5 g1f2 f5e4
     // 8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50  // Veselin Topalov v Alexey Shirov 1998-03-04 Line [2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
