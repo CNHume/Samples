@@ -192,7 +192,7 @@ namespace Engine {
       SearchTimer = new Stopwatch();
     }
 
-    public void ClearSearchCounts() {
+    private void clearSearchCounts() {
 #if UseKillers
       Bottle.Clear();
 #endif                                  // UseKillers
@@ -245,16 +245,15 @@ namespace Engine {
       MovePosition = parent;
     }
 
-    protected void unwindPositions() {
+    private void unwindGame() {
       while (MovePosition is not null)
         Unmove();
       RootPosition = default;
     }
 
-    public void Clear() {               // Called by UCI.newGame()
-      unwindPositions();
-      MovePosition = default;
-      ClearSearchCounts();              //[Init]Normally called by Position.start()
+    public void Clear() {               // Called by UCI.NewGame()
+      unwindGame();
+      clearSearchCounts();              //[Init]Normally called by startSearch()
     }
 
     public static void SetLanguage(String? sLanguage) {

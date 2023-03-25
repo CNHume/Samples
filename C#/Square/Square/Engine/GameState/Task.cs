@@ -89,7 +89,7 @@ namespace Engine {
 
         if (position.IsLegal()) {
           StartDepth = 0;               //[Init]
-          ClearSearchCounts();
+          clearSearchCounts();
 
           if (UCI.IsDebug) {
             var dtStarted = DateTime.Now;

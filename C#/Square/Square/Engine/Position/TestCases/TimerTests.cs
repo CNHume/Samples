@@ -32,8 +32,8 @@ namespace Engine {
   partial class Position : Board {
     #region Timer Test Selector
     internal void TimerTest() {
-      //[Test]writeDepthShallow((PlyDepth)32);
-      //[Test]writeDepthDeep((PlyDepth)32);
+      //[Test]writeShallowDepth((PlyDepth)32);
+      //[Test]writeDeepDepth((PlyDepth)32);
       //
       //[Test]testOutsideSquare(Sq.c1);
       //[Test]testOffsets();
