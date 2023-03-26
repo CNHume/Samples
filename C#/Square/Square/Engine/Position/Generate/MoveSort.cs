@@ -119,11 +119,11 @@ namespace Engine {
 #if TestGoodValue
         var mValue = EvalUndefined;
 
-        if (nIndex < 0)
-          mValue = --mLateNext;
+        if (nIndex < 0)                 // Move not found among goodMoves
+          mValue = --mLateNext;         // Next value below Eval.MaxValue
         else {
           var good = goodMoves[nIndex];
-          var mGoodValue = good.Value;
+          var mGoodValue = good.Value;  // goodMove Eval
           //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
           if (EvalUndefined < mGoodValue)
             mValue = mGoodValue;

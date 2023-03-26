@@ -39,20 +39,19 @@ namespace Engine.MoveOrder {
     // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
     public Int32 CompareTo(Object? obj) {
       //if (obj == null) return 1;
-      if (obj is SortMove) {
-        var sm = (SortMove)obj;
-        // Prefer greater Score
-        var better = Value.CompareTo(sm.Value);
+      if (obj is not SortMove)
+        throw new ArgumentException("Is not a SortMove", nameof(obj));
+
+      var sm = (SortMove)obj;
+      // Prefer greater Score
+      var better = Value.CompareTo(sm.Value);
 #if StableSort
-        // Prefer lesser Index
-        var sense = better == 0 ? -Index.CompareTo(sm.Index) : better;
+      // Prefer lesser Index
+      var sense = better == 0 ? -Index.CompareTo(sm.Index) : better;
 #else
-        var sense = better;
+      var sense = better;
 #endif
-        return sense;
-      }
-      else
-        throw new ArgumentException("Object is not a SortMove");
+      return sense;
     }
     #endregion
   }

@@ -56,14 +56,13 @@ namespace Engine.MoveOrder {
     // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
     public Int32 CompareTo(Object? obj) {
       //if (obj == null) return 1;
-      if (obj is GoodMove) {
-        var gm = (GoodMove)obj;
-        // Prefer greater Score
-        var sense = Value.CompareTo(gm.Value);
-        return sense;
-      }
-      else
+      if (obj is not GoodMove)
         throw new ArgumentException("Is not a GoodMove", nameof(obj));
+
+      var gm = (GoodMove)obj;
+      // Prefer greater Score
+      var sense = Value.CompareTo(gm.Value);
+      return sense;
     }
     #endregion
   }

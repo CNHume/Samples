@@ -105,7 +105,7 @@ namespace Engine {
 #endif
           return mValue;
         }
-#endif                                  // DedupeKillers
+#endif                                  // DedupeGoodMoves
         // moveFound may be either annotated or abbreviated
         var good = new GoodMove(moveFound, wDepth, mValue, etFound);
 #if LoadMRU

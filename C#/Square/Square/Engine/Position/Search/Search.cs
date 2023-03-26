@@ -249,7 +249,7 @@ namespace Engine {
 #endif
         sb2.FlushLine();
 #endif
-        #endregion
+        #endregion                      // DebugCandidateMoves
 
         #region Move Loop
 #if DebugMoveColor
