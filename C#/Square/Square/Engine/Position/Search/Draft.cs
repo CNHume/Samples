@@ -142,14 +142,14 @@ namespace Engine {
       return wDraft1 < wDraft ? wDraft1 : (Draft)0;
     }
 
-    private void writeShallowDepth(PlyDepth vPliesLimit) {
+    private void writeShallow(PlyDepth vPliesLimit) {
       for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Shallow({vPlies,2}) = {depth(reduceShallow(wDraft)),2}");
       }
     }
 
-    private void writeDeepDepth(PlyDepth vPliesLimit) {
+    private void writeDeep(PlyDepth vPliesLimit) {
       for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
         var wDraft = draft((Depth)vPlies);
         LogLine($"Deep({vPlies,2}) = {depth(reduceDeep(wDraft)),2}");
