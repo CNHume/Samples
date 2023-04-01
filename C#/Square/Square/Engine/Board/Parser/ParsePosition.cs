@@ -236,11 +236,12 @@ namespace Engine {
       var qpStart = bit(nStart);
       var qpEnPassant = bit(vEPTarget);
       var qpVacant = qpStart | qpEnPassant;
-      var bEPValid = (qpVacant & RankPiece) == 0 &&
-                     (Foe.Piece & Pawn & bit(nMovedTo)) != 0 &&
-                     Friend.EPGuard(vEPTarget) != 0;
+      var bInvalid =
+        (qpVacant & RankPiece) != 0 ||
+        (Foe.Piece & Pawn & bit(nMovedTo)) == 0 ||
+        Friend.EPGuard(vEPTarget) == 0;
 
-      if (!bEPValid)
+      if (bInvalid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
       tryEP(vEPTarget);

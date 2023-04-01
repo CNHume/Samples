@@ -89,37 +89,36 @@ namespace Engine {
       // See https://en.wikipedia.org/wiki/X-FEN#Encoding_en-passant
       //
       EPTarget = vEPTarget;
-
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
+
+      //
+      // Test whether pins prevent any En Passant capture at the EPTarget square:
+      //
+      // 1) Remove Foe Pawn from its nMovedTo square.
+      // 2) Lower Friend Pawn onto the EPTarget square.
+      // -- For Each Guard --
+      // 3) Raise Friend Pawn from its nGuard square.
+      // 4) Note whether the EP capture would be legal.
+      // 5) Lower Friend Pawn onto its nGuard square.
+      // -- Next Guard --
+      // 6) Raise Friend Pawn placed on EPTarget.
+      // 7) Restore Foe Pawn to its nMovedTo square.
+      // 8) If EP was Legal setEPLegal() and break.
+      //
+      //[Speed]RemovePiece Not Needed, because material balance is restored below.
+      Foe.RaisePiece(vP6, nMovedTo);
+      Friend.LowerPiece(vP6, vEPTarget);
+
       while (qpGuard != 0) {
         var nGuard = RemoveLo(ref qpGuard);
-
-        //
-        // Test whether pins prevent any En Passant capture at the EPTarget square:
-        //
-        // 1) Remove Friend Pawn from its nGuard square;
-        // 2) and place it on the EPTarget square.
-        // 3) Remove Foe Pawn from its nMovedTo square.
-        // 4) Note whether the resulting position would be legal.
-        // 5) Restore Foe Pawn to its nMovedTo square.
-        // 6) Remove Friend Pawn placed on EPTarget;
-        // 7) and restore the Pawn to its nGuard square.
-        // 8) If EP was Legal setEPLegal() and break.
-        //
         Friend.RaisePiece(vP6, nGuard);
-        Friend.LowerPiece(vP6, vEPTarget);
-        //[Speed]RemovePiece Not Needed, because material balance is restored below.
-        Foe.RaisePiece(vP6, nMovedTo);
 
         //[Note]buildPawnAtx() is not needed to find Ray Checks
         var bLegal =
           (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
           (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
 
-        //[Speed]PlacePiece Not Needed, because RemovePiece was not performed.
-        Foe.LowerPiece(vP6, nMovedTo);
-        Friend.RaisePiece(vP6, vEPTarget);
         Friend.LowerPiece(vP6, nGuard);
 
         if (bLegal) {
@@ -127,6 +126,10 @@ namespace Engine {
           break;
         }
       }
+
+      Friend.RaisePiece(vP6, vEPTarget);
+      //[Speed]PlacePiece Not Needed, because RemovePiece was not performed.
+      Foe.LowerPiece(vP6, nMovedTo);
     }
 
     //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
