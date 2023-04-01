@@ -9,6 +9,7 @@
 //#define EnsureFromSquares
 #define HashCastlingRights
 //#define Magic
+#define TestEPLegal
 
 using System.Text;
 
@@ -208,8 +209,7 @@ namespace Engine {
       const Boolean ignoreCase = true;
 
       //
-      //[Init]buildPawnAtx() is called here because Pawn[A1H8|A8H1]Atx
-      // will be needed when tryEP() calls Friend.EPGuard().
+      //[Init]Define Pawn[A1H8|A8H1]Atx for Friend.EPGuard():
       //
       buildPawnAtx();
 
@@ -229,22 +229,25 @@ namespace Engine {
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
 
       //
-      // The square on nTo must have a Pawn; and both squares "behind" nTo must be vacant:
+      // Both squares behind nTo must be vacant, nTo must hold a Pawn,
+      // and an EPGuard must be present.
       //
       var nStart = vEPTarget + Friend.Parameter.PawnStep;
       var qpStart = bit(nStart);
       var qpEnPassant = bit(vEPTarget);
       var qpVacant = qpStart | qpEnPassant;
-      var bInvalid = (qpVacant & RankPiece) != 0 ||
-                     (Foe.Piece & Pawn & bit(nMovedTo)) == 0;
+      var bEPValid = (qpVacant & RankPiece) == 0 &&
+                     (Foe.Piece & Pawn & bit(nMovedTo)) != 0 &&
+                     Friend.EPGuard(vEPTarget) != 0;
 
-      if (bInvalid)
+      if (!bEPValid)
         throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
 
       tryEP(vEPTarget);
-
+#if TestEPLegal
       if (!IsEPLegal())
         LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
+#endif                                  // TestEPLegal
     }
 
     //

@@ -97,7 +97,7 @@ namespace Engine {
 
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Plane includeEPSquare(Plane qpFoe) {
+    private Plane includeEPTarget(Plane qpFoe) {
       return IsEPLegal() && EPTarget.HasValue ?
         qpFoe | bit(EPTarget.Value) : qpFoe;
     }
@@ -131,13 +131,13 @@ namespace Engine {
           if (qpTo != 0)
             addPieceCapturesAndMoves(qpTo);
 
-          Friend.AddPawnCaptures(includeEPSquare(qpChx));
+          Friend.AddPawnCaptures(includeEPTarget(qpChx));
           Friend.AddPawnMoves(this, qpRay);
         }                               // bSingleCheck
       }
       else {                            //!bInCheck
         addPieceCapturesAndMoves(~Friend.Piece);
-        Friend.AddPawnCaptures(includeEPSquare(Foe.Piece));
+        Friend.AddPawnCaptures(includeEPTarget(Foe.Piece));
         Friend.AddPawnMoves(this, ~RankPiece);
 
         addCastles();
@@ -185,14 +185,14 @@ namespace Engine {
 
           if (qpChx != 0) {
             addPieceCaptures(qpChx);
-            Friend.AddPawnCaptures(includeEPSquare(qpChx));
+            Friend.AddPawnCaptures(includeEPTarget(qpChx));
             Friend.AddPromotionMoves(qpRay);
           }
         }                               // bSingleCheck
       }                                 //!bInCheck
       else {
         addPieceCaptures(Foe.Piece);
-        Friend.AddPawnCaptures(includeEPSquare(Foe.Piece));
+        Friend.AddPawnCaptures(includeEPTarget(Foe.Piece));
         Friend.AddPromotionMoves(~RankPiece);
       }                                 //!bInCheck
 #if UnshadowRay2

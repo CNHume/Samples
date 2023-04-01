@@ -79,6 +79,9 @@ namespace Engine {
     }
 
     private void tryEP(Byte vEPTarget) {
+      var qpGuard = Friend.EPGuard(vEPTarget);
+      if (qpGuard == 0) return;         // An EPGuard must be present
+
       //
       // Set EPTarget whether or not En Passant is Legal, conforming
       // to the X-FEN Definition for Encoding En Passant.
@@ -89,23 +92,22 @@ namespace Engine {
 
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
-      var qpCaptureFrom = Friend.EPGuard(vEPTarget);
-      while (qpCaptureFrom != 0) {
-        var nCaptureFrom = RemoveLo(ref qpCaptureFrom);
+      while (qpGuard != 0) {
+        var nGuard = RemoveLo(ref qpGuard);
 
         //
         // Test whether pins prevent any En Passant capture at the EPTarget square:
         //
-        // 1) Remove the Friend Pawn from its nCaptureFrom square;
-        // 2) And place it on the EPTarget square.
-        // 3) Remove the Foe Pawn from its nMovedTo square.
+        // 1) Remove Friend Pawn from its nGuard square;
+        // 2) and place it on the EPTarget square.
+        // 3) Remove Foe Pawn from its nMovedTo square.
         // 4) Note whether the resulting position would be legal.
-        // 5) Restore the Foe Pawn to its nMovedTo square.
-        // 6) Remove the Friend Pawn placed on EPTarget;
-        // 7) And restore the Pawn to its nCaptureFrom square.
+        // 5) Restore Foe Pawn to its nMovedTo square.
+        // 6) Remove Friend Pawn placed on EPTarget;
+        // 7) and restore the Pawn to its nGuard square.
         // 8) If EP was Legal setEPLegal() and break.
         //
-        Friend.RaisePiece(vP6, nCaptureFrom);
+        Friend.RaisePiece(vP6, nGuard);
         Friend.LowerPiece(vP6, vEPTarget);
         //[Speed]RemovePiece Not Needed, because material balance is restored below.
         Foe.RaisePiece(vP6, nMovedTo);
@@ -118,7 +120,7 @@ namespace Engine {
         //[Speed]PlacePiece Not Needed, because RemovePiece was not performed.
         Foe.LowerPiece(vP6, nMovedTo);
         Friend.RaisePiece(vP6, vEPTarget);
-        Friend.LowerPiece(vP6, nCaptureFrom);
+        Friend.LowerPiece(vP6, nGuard);
 
         if (bLegal) {
           setEPLegal();
