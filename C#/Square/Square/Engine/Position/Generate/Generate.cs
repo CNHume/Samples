@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define DebugEPTarget
 #define UnshadowRay
 #define UnshadowRay2
 #define UseMoveSort
@@ -20,7 +21,7 @@ namespace Engine {
   using Plane = UInt64;
 
   partial class Position : Board {
-    #region Pseudo Move Clears
+    #region Clear Pseudo Moves
     private void clearPseudoMoves() {
       PseudoPawnAboveMove.Clear();
       PseudoPawnBelowMove.Clear();
@@ -93,13 +94,21 @@ namespace Engine {
       PseudoBadCaptures.Clear();
       PseudoGoodCaptures.Clear();
     }
-    #endregion
+    #endregion                          // Clear Pseudo Moves
 
     #region Search Move Generators
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Plane includeEPTarget(Plane qpFoe) {
-      return IsEPLegal() && EPTarget.HasValue ?
-        qpFoe | bit(EPTarget.Value) : qpFoe;
+      if (IsEPLegal()) {
+        if (EPTarget.HasValue)
+          return qpFoe | bit(EPTarget.Value);
+#if DebugEPTarget
+        var sMessage = "Cannot include En Passant Square";
+        DisplayCurrent(sMessage);
+#endif                                  // DebugEPTarget
+      }
+
+      return qpFoe;
     }
 
     private Int32 generate(List<Move> moves, Boolean bSwap) {

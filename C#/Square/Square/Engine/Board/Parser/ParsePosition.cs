@@ -216,14 +216,14 @@ namespace Engine {
       if (IsNullOrEmpty(sEnPassant) || sEnPassant == "-")
         return;
 
-      var sqEnPassant = sEnPassant.TryParseEnum<Sq>(ignoreCase);
-      if (!sqEnPassant.HasValue)
+      var sqEP = sEnPassant.TryParseEnum<Sq>(ignoreCase);
+      if (!sqEP.HasValue)
         throw new ParsePositionException($"Invalid En Passant String = {sEnPassant}");
 
       // The destination square to which an e.p. capturing Pawn will move:
-      var vEPTarget = (Byte)sqEnPassant;
+      var vEPTarget = (Byte)sqEP;
       if (y(vEPTarget) != Foe.Parameter.PassRank)
-        throw new ParsePositionException($"Invalid En Passant Rank = {sqEnPassant}");
+        throw new ParsePositionException($"Invalid Rank for En Passant Square: {sqEP}");
 
       // The square actually holding the e.p. Pawn to be captured:
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
@@ -242,12 +242,12 @@ namespace Engine {
         Friend.EPGuard(vEPTarget) == 0;
 
       if (bInvalid)
-        throw new ParsePositionException($"Invalid En Passant Square = {sqEnPassant}");
+        throw new ParsePositionException($"Invalid En Passant Square: {sqEP}");
 
       tryEP(vEPTarget);
 #if TestEPLegal
       if (!IsEPLegal())
-        LogInfo(Level.warn, $"Illegal En Passant Square = {sqEnPassant}");
+        LogInfo(Level.warn, $"Illegal En Passant Square: {sqEP}");
 #endif                                  // TestEPLegal
     }
 
