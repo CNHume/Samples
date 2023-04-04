@@ -89,6 +89,7 @@ namespace Engine {
       // See https://en.wikipedia.org/wiki/X-FEN#Encoding_en-passant
       //
       EPTarget = vEPTarget;
+
       var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
       var vKing = Friend.GetKingPos();
 
@@ -213,8 +214,8 @@ namespace Engine {
       toggleWTM();
 
       #region Update En Passant
-      // tryEP() will be assessed from the perspective
-      // of Foe having become Friend after toggleWTM()
+      // tryEP() is assessed after toggleWTM(), when
+      // the roles Friend and Foe have been reversed.
       if (vEPTarget.HasValue)
         tryEP(vEPTarget.Value);
 

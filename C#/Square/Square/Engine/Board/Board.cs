@@ -310,7 +310,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public void CopyFlags(Board board) {
       //[C#]Avoid ambiguity with TurnFlags.Copy
-      FlagsTurn = board.FlagsTurn & TurnFlags.EPLegal;
+      FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
       FlagsEval = board.FlagsEval & EvalFlags.Copy;
       FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
       FlagsMode = board.FlagsMode & ModeFlags.Copy;
@@ -383,7 +383,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Boolean EqualFlags(Board board) {
       var fTurnDelta = FlagsTurn ^ board.FlagsTurn;
-      return !fTurnDelta.Has(TurnFlags.EPLegal);//[C#]
+      return !fTurnDelta.Has(TurnFlags.Copy);   //[C#]
     }
 
     public Boolean Equals(Board? board) {

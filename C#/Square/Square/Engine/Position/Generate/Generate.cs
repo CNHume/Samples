@@ -103,7 +103,7 @@ namespace Engine {
         if (EPTarget.HasValue)
           return qpFoe | bit(EPTarget.Value);
 #if DebugEPTarget
-        var sMessage = "Cannot include En Passant Square";
+        var sMessage = "No En Passant Square";
         DisplayCurrent(sMessage);
 #endif                                  // DebugEPTarget
       }

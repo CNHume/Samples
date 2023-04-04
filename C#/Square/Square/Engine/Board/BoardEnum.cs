@@ -50,7 +50,7 @@ namespace Engine {
       //
       //[C#]Can one distinguish which of two equal Flag values is displayed?
       //[NonSerialized]
-      //Copy = EPLegal
+      Copy = EPLegal                    // EPLegal
     }
     #endregion                          // TurnFlags Enum
 

@@ -240,6 +240,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void clrEPLegal() {
       FlagsTurn &= ~TurnFlags.EPLegal;
+      EPTarget = default;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -266,7 +267,6 @@ namespace Engine {
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
-      EPTarget = default;
       toggleEPHash();
       clrEPLegal();
     }
