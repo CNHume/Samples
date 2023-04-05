@@ -268,7 +268,7 @@ namespace Engine {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
       toggleEPHash(ref Hash);
-      clrEPLegal();
+      clrEPLegal();                     //[Note]toggleEPHash() calls epHash() which requires EPTarget.
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

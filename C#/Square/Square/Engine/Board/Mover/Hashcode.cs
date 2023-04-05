@@ -230,6 +230,7 @@ namespace Engine {
       return qDynamic;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void hashFlags(Boolean bWTM, ref Hashcode qHash) {
       toggleEPHash(ref qHash);
       if (!bWTM) qHash ^= zobristTurn;
