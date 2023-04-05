@@ -391,6 +391,15 @@ namespace Engine {
       return EPTarget == board.EPTarget;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private Boolean equalSides(Board board) {
+      for (var nSide = 0; nSide < Side.Length; nSide++) {
+        if (!Side[nSide].Equals(board.Side[nSide]))
+          return false;
+      }
+      return true;
+    }
+
     public Boolean Equals(Board? board) {
       if (board is null)
         return false;
@@ -398,14 +407,7 @@ namespace Engine {
       if (Hash != board.Hash)           //[Shortcut]
         return false;
 
-      var bEqual = true;
-      for (var nSide = 0; nSide < Side.Length; nSide++)
-        if (!Side[nSide].Equals(board.Side[nSide])) {
-          bEqual = false;
-          break;
-        }
-
-      bEqual = bEqual &&
+      var bEqual = equalSides(board) &&
         Pawn == board.Pawn &&
         King == board.King &&
         Knight == board.Knight &&
