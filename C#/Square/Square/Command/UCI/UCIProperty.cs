@@ -52,7 +52,7 @@ namespace Command {
     // moves c3b2 d5d4 b2c1 e4d3 c1b2 f6f5 f2e1 d3c4 b2a1 f5f4
     //"8/8/3P4/8/1pP5/pP1K4/1k6/8 w - - 0 1"; // 2023 Airthings Masters Puzzle [21-ply in 20:56:31 @1.065 MHz over 80.26 Gnode] eval 4.2 after:
     // 1. d7 a2 2. d8=B Kxb3 3. Bf6 Ka3 4. Ba1 Ka4 5. Kc2 b3+ 6. Kc3 Ka5 7. Kxb3 Ka6 8. Be5 Ka5 9. Bc3+ Ka6 10. Kxa2 Kb6 11. Bd4+ Ka5 12.c5 Ka5b5 13. Ka2b2
-    //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mate #10 [2023-02-04 13-ply in 3.251 sec @1.258 MHz over 4.089 Mnode] after:
+    //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mate #10 [2023-04-04 13-ply in 3.242 sec @1.261 MHz over 4.089 Mnode] after:
     // 1. Ng5+ hxg5 2. hxg5+ Bh6 (2... Nh5?! 3. Rxh5+ gxh5? 4. Be4+ f5 5. exf6# {ep})
     // 3. Rxh6+ Kg7 4. Rdxh8 Nd3+ 5. Kb1 c2+ 6. Kxc2 Rxa2+ 7. Kxd3 Ra3+ 8. Kd4 Rd3+ 9. Kxd3 b5 10. R6h7#
     // moves f3g5 h6g5 h4g5 f4h5 h1h5 g6h5

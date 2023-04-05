@@ -156,7 +156,7 @@ namespace Engine {
         newAtxToCount();
     }
 
-    // Called by Position.Clear()
+    // Virtual method called by Position.Clear()
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public virtual void Clear() {
       //
@@ -381,9 +381,14 @@ namespace Engine {
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Boolean EqualFlags(Board board) {
+    private Boolean equalEPLegal(Board board) {
       var fTurnDelta = FlagsTurn ^ board.FlagsTurn;
-      return !fTurnDelta.Has(TurnFlags.Copy);   //[C#]
+      return !fTurnDelta.Has(TurnFlags.EPLegal);
+    }
+
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+    private Boolean equalEPTarget(Board board) {
+      return EPTarget == board.EPTarget;
     }
 
     public Boolean Equals(Board? board) {
@@ -402,12 +407,12 @@ namespace Engine {
 
       bEqual = bEqual &&
         Pawn == board.Pawn &&
-        EqualFlags(board) &&
         King == board.King &&
         Knight == board.Knight &&
         DiagPiece == board.DiagPiece &&
         OrthPiece == board.OrthPiece &&
-        (EPTarget == board.EPTarget || !IsEPLegal());
+        equalEPLegal(board) &&
+        (equalEPTarget(board) || !IsEPLegal());
 
       Trace.Assert(bEqual, "Hashcode Collision Detected");
       return bEqual;
