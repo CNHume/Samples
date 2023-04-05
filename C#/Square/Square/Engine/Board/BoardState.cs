@@ -258,8 +258,8 @@ namespace Engine {
     // and when TurnFlags.EPLegal is set by tryEP().
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private void toggleEPHash() {
-      if (IsEPLegal()) Hash ^= epHash();
+    private void toggleEPHash(ref Hashcode qHash) {
+      if (IsEPLegal()) qHash ^= epHash();
     }
 
     //
@@ -267,7 +267,7 @@ namespace Engine {
     //
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     protected void ResetEP() {
-      toggleEPHash();
+      toggleEPHash(ref Hash);
       clrEPLegal();
     }
 

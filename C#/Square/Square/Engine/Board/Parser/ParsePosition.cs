@@ -313,7 +313,7 @@ namespace Engine {
 
       #region EnPassant
       parsePassed(sEnPassant);
-      Hash ^= hashFlags(bWTM);          // Including epHash()
+      hashFlags(bWTM, ref Hash);        // Including epHash()
       #endregion                        // EnPassant
 
       #region Init Castling

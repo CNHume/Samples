@@ -214,12 +214,14 @@ namespace Engine {
       toggleWTM();
 
       #region Update En Passant
-      // tryEP() is assessed after toggleWTM(), when
-      // the roles Friend and Foe have been reversed.
+      //
+      // tryEP() is assessed after toggleWTM() when the
+      // roles of Friend and Foe have been inverted.
+      //
       if (vEPTarget.HasValue)
         tryEP(vEPTarget.Value);
 
-      toggleEPHash();
+      toggleEPHash(ref Hash);
       #endregion                        // Update En Passant
 #if RecursiveNullMade
       //

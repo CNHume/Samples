@@ -230,11 +230,9 @@ namespace Engine {
       return qDynamic;
     }
 
-    private Hashcode hashFlags(Boolean bWTM) {
-      Hashcode qHash = 0;
-      if (IsEPLegal()) qHash ^= epHash();
+    private void hashFlags(Boolean bWTM, ref Hashcode qHash) {
+      toggleEPHash(ref qHash);
       if (!bWTM) qHash ^= zobristTurn;
-      return qHash;
     }
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -242,7 +240,7 @@ namespace Engine {
       return EPTarget.HasValue ? zobristFile[x(EPTarget.Value)] : 0;
     }
 
-    private Hashcode hash(Plane qp, Byte vPiece) {
+    private Hashcode hashPiece(Byte vPiece, Plane qp) {
       Hashcode qHash = 0;
       foreach (var side in Side)
         qHash ^= side.HashPiece(qp, vPiece);
@@ -250,17 +248,17 @@ namespace Engine {
     }
 
     private Hashcode hashPawn() {
-      return hash(Pawn, vP6);
+      return hashPiece(vP6, Pawn);
     }
 
     private Hashcode hashPieces() {
       Hashcode qHash = 0;
-      qHash ^= hash(Rook, vR6);
-      qHash ^= hash(Knight, vN6);
-      qHash ^= hash(Bishop, vB6);
-      qHash ^= hash(Queen, vQ6);
-      qHash ^= hash(King, vK6);
-      qHash ^= hashFlags(WTM());
+      qHash ^= hashPiece(vR6, Rook);
+      qHash ^= hashPiece(vN6, Knight);
+      qHash ^= hashPiece(vB6, Bishop);
+      qHash ^= hashPiece(vQ6, Queen);
+      qHash ^= hashPiece(vK6, King);
+      hashFlags(WTM(), ref qHash);
 #if HashCastlingRights
       foreach (var side in Side) {
         var fside = side.FlagsSide;
