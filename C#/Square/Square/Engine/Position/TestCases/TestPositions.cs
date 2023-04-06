@@ -470,7 +470,7 @@ namespace Engine {
         Name = "Taimanov v Kuzminykh 1950",     //+3.85 at 14-ply, 11:48:15
         FEN = "r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1" },
       new Tabiya {
-        Name = "Jensen vs Urkedal 2013 #10",    // 13-ply in 5:42 [w 6 checks]
+        Name = "Jensen v Urkedal 2013 #10",     // 13-ply in 5:42 [w 6 checks]
         FEN = "rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14" },
       new Tabiya {
         Name = "Kramnik v Meier 2012-07-22",    // 13-ply in 7:18:41
@@ -485,7 +485,7 @@ namespace Engine {
         Name = "Botvinnik v Capablanca 1938 AVRO R11",  // 16-ply in 6:14:06 [14.152 Gnode]
         FEN = "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 0 30" },
       new Tabiya {
-        Name = "Ninov vs Colovic 2015",
+        Name = "Ninov v Colovic 2015",
         FEN = "r4rk1/p4pb1/bp5p/2pNqPp1/6P1/7Q/PPP3P1/2KR2BR w - - 0 1" },
       new Tabiya {
         Name = "Pin and Tempo Combo",   // Pin and Tempo [Edouard-Novikov 2011-02-13]
@@ -494,7 +494,7 @@ namespace Engine {
         Name = "Benko Mate",            // Pal Benko for Bobby Fischer, 6-ply
         FEN = "8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1" },
       new Tabiya {
-        Name = "Aronian vs Caruana 2012",
+        Name = "Aronian v Caruana 2012",
         FEN = "8/5pk1/5np1/2p4p/2Pp4/P3p1P1/3qB2P/1Q3RK1 w - - 0 38"  },
       new Tabiya {
         Name = "Website Mate",
@@ -509,10 +509,10 @@ namespace Engine {
         Name = "Draw3",
         FEN = "2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1" },
       new Tabiya {
-        Name = "Radjabov vs Karjakin 2012",
+        Name = "Radjabov v Karjakin 2012",
         FEN = "8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61" },
       new Tabiya {
-        Name = "Unzicker vs Averbakh",  // 11-ply, see below
+        Name = "Unzicker v Averbakh",   // 11-ply, see below
         FEN = "5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1" },
       new Tabiya {
         Name = "DrawQvBP",
@@ -524,31 +524,31 @@ namespace Engine {
         Name = "DrawN",
         FEN = "8/8/4K3/8/8/2n5/3k4/8 w - - 0 1" },
       new Tabiya {
-        Name = "Byrne vs Fischer 35",   // 35... Bc5+ { #9, 11-ply }
+        Name = "Byrne v Fischer 35",    // 35... Bc5+ { #9, 11-ply }
         FEN = "1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35" },
       new Tabiya {
-        Name = "Byrne vs Fischer 17",   // 17... Be6!!
+        Name = "Byrne v Fischer 17",    // 17... Be6!!
         // 17... Bg4-e6 18. Qa3xNc3! { best at 11-ply, 6:15 } Qb6xBc5 19. d4xc5 Bg7xQc3 20. Bc4xBe6 f7xe6
         // 21. Nf3-e1 Bc3xNe1 22. Rd1xBe1 Ra8-b8 23. Kf1-g1 Rb8-c8 24. Re1-a1 { 14-ply, 04:50:22 }
         FEN = "r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17" },
       new Tabiya {
-        Name = "Byrne vs Fischer 15",   // 15... Nxc3!, 14-ply in 23:22:50
+        Name = "Byrne v Fischer 15",    // 15... Nxc3!, 14-ply in 23:22:50
         FEN = "r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15" },
       new Tabiya {
-        Name = "Byrne vs Fischer 13",   // 13... Nxe4!, >12-ply
+        Name = "Byrne v Fischer 13",    // 13... Nxe4!, >12-ply
         FEN = "r2q1rk1/pp2ppbp/2p2np1/6B1/3PP1b1/Q1P2N2/P4PPP/3RKB1R b K - 0 13" },
       new Tabiya {
-        Name = "Byrne vs Fischer 11",   // 11... Na4!!, >11-ply
+        Name = "Byrne v Fischer 11",    // 11... Na4!!, >11-ply
         FEN = "r2q1rk1/pp2ppbp/1np2np1/2Q3B1/3PP1b1/2N2N2/PP3PPP/3RKB1R b K - 0 11" },
       new Tabiya {
-        Name = "Johannessen vs Fischer",// 26... Rxf4!? 16-ply
+        Name = "Johannessen v Fischer", // 26... Rxf4!? 16-ply
         FEN = "r6k/pb2pr1p/2q3p1/2p1b1B1/5N1Q/6PP/PP4B1/R5K1 b - - 0 26" },
       new Tabiya {
-        Name = "Johannessen vs Fischer Line",
+        Name = "Johannessen v Fischer Line",
         // arises after 26... Rxf4!? 27.Bxc6 Bd4+ 28.Kh2 Rf2+ 29.Kg1 Rxb2+ 30.Kf1?! Bxc6 14-ply
         FEN = "r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31" },
       new Tabiya {
-        Name = "Johannessen vs Fischer #8",     // #8, 11-ply in 14:53
+        Name = "Johannessen v Fischer #8",      // #8, 11-ply in 14:53
         // 31. Bxe7 Bb5+ 32. Ke1 Re8 33. a4 Bc4 34. Kd1 Bb3+ 35. Kc1 Rc2+ 36. Kd1 Bxa1 37. Qf4 Bc3 38. Bf6+ Bxf6
         // 39. Qxf6+ Kg8 40. Qf1 Rf2+ 41. Kc1 Rxf1+ 42. Kb2 Rf3 43. Ka1 Rf2 44. Kb1 Re1# { 12-ply in 1:32:48 }
         FEN = "4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37" },
@@ -556,16 +556,16 @@ namespace Engine {
         Name = "Mavo Nice Mate1 #6",            // #6, 11-ply in 92 sec
         FEN = "1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4" },
       new Tabiya {
-        Name = "Aronian vs Caruana Line",     // Horizon beyond 14-ply in 1:10:14 [advanced pawn couple]
+        Name = "Aronian v Caruana Line",        // Horizon beyond 14-ply in 1:10:14 [advanced pawn couple]
         FEN = "8/4Qpk1/5np1/2p4p/2Pp4/P3p1P1/4q2P/5RK1 b - - 0 39" },
       new Tabiya {
-        Name = "Hamppe vs Meitner",           // 7-ply
+        Name = "Hamppe v Meitner",              // 7-ply
         FEN = "r1bk3r/2p2ppp/1pK5/p2pp3/8/P7/1PPP2PP/R1BQ2NR b - - 0 1" },
       new Tabiya {
-        Name = "Nakamura vs Adams 2011",      // 11-ply in ~39 min
+        Name = "Nakamura v Adams 2011",         // 11-ply in ~39 min
         FEN = "5r1k/2P4p/1q2Np2/1r1P4/6p1/2Q1Rb2/1p5P/4R1K1 b - - 0 41" },
       new Tabiya {
-        Name = "Nakamura vs Adams 2011 Line",
+        Name = "Nakamura v Adams 2011 Line",
         FEN = "5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42" },
       new Tabiya {
         Name = "1964 Bielicki v Smyslov (0-1) Key",     // 15-ply in <14h
@@ -574,7 +574,7 @@ namespace Engine {
         Name = "1964 Bielicki v Smyslov (0-1) Line",    // 15-ply
         FEN = "6k1/1p3pp1/p1p5/8/1P6/P3PqBp/2R2P1P/3rRK2 w - - 0 32" },
       new Tabiya {
-        Name = "Réti vs Tartakower 1910",
+        Name = "Réti v Tartakower 1910",
         FEN = "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 9" },
       new Tabiya {
         Name = "Réti Draw",
@@ -636,7 +636,7 @@ namespace Engine {
     };
 
     /*
-     * Solution to Unzicker vs Averbakh Draw [now found in 11-ply]:
+     * Solution to Unzicker v Averbakh Draw [now found in 11-ply]:
      *
      * 1... Rxc7! 2. Qxc7 Ng4 3. hxg4 Qf2+= 4. Kh2 Qh4+ 5. Kg1 Qf2+ 6. Kh1 Qh4+ 7. Kg1 Qf2+ {3X}
      *

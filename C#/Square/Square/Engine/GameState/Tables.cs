@@ -105,8 +105,8 @@ namespace Engine {
 
     private void loadEndgameValue() {
       //
-      // The following allows QP vs RBN as an endgame; but not
-      // the QN vs RBN with 517 DTC [Bourzutschky and Konoval]
+      // The following allows QP v RBN as an endgame; but not
+      // the QN v RBN with 517 DTC [Bourzutschky and Konoval]
       //
       EndgameValue = 0;
       for (var vPiece = vP6; vPiece < vK6; vPiece++)
@@ -124,7 +124,7 @@ namespace Engine {
       //[Note]The following defaults are now specified via Option.Default properties in GameState.Controls:
       //
       // CheckExtensionLimit = 4 sufficient for Caruana v Gustafsson Mate [in 12-ply] w zMateDepthMin = 4
-      // 6 sufficient to solve Johannessen vs Fischer #8 [in 11-ply]
+      // 6 sufficient to solve Johannessen v Fischer #8 [in 11-ply]
       // 6 solves Perpetual [in 13-ply]
       // 8 solves Perpetual faster and finds Kramnik v Meier 2012-07-22 [in 12-ply]
       //

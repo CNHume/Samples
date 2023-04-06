@@ -213,14 +213,15 @@ namespace Engine {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Occam",               // Forward Pruning is not a good idea
+          Name = "Occam",               // Forward Pruning is not recommended
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Pure",                // PACN vs. AN [UCI vs. Command Line]
+          // Pure Algebraic Coordinate Notation (PACN) vs. Algebraic Notation (AN)
+          Name = "Pure",
           Type = OptionType.check,
           Default = "false",
           IsHidden = true               //[Debug]

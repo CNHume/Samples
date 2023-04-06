@@ -256,7 +256,7 @@ namespace Engine {
       clrTrace();
 
       //
-      // From Johannessen vs Fischer #8
+      // From Johannessen v Fischer #8
       // Child: Hash = 1C67654C9374A387; FEN = 4r1k1/p6p/5Qp1/2p5/P7/1b4PP/2r5/3K4 w - - 0 40
       //
       // From Caruana v Gustafsson 2012-07-17 #8

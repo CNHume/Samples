@@ -469,7 +469,7 @@ namespace Engine {
       if (!isMovePosition)
         mBest2 = mBest;
       else if (mAlpha < mValue) {
-        //[<=]See Johannessen vs Fischer #8 w Aspiration
+        //[<=]See Johannessen v Fischer #8 w Aspiration
         //
         //[Note]mAlpha may be less than mBest here: to admit weaker MultiPV lines.
         //
