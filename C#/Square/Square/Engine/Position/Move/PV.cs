@@ -216,7 +216,7 @@ namespace Engine {
         //[Note]If Draw3 is set, this lookupPV() recursion must terminate!
         if (!IsDraw()) {
           //
-          // Recursion vs. iteration links each Position to its parent;
+          // Recursion vs iteration links each Position to its parent;
           // and allows findRepetition() to operate correctly:
           //
           var child = Push();           // Push Position to make the moves
@@ -273,7 +273,7 @@ namespace Engine {
         SetDraw50();                    // Mark Draw50 after having made the move
 
         //
-        // Recursion vs. iteration links each Position to its parent;
+        // Recursion vs iteration links each Position to its parent;
         // and allows findRepetition() to operate correctly:
         //
         var child = Push();             // Push Position to make the moves

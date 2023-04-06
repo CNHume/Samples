@@ -220,7 +220,7 @@ namespace Engine {
       },
       new Setting {
         Option = new ControlOption {
-          // Pure Algebraic Coordinate Notation (PACN) vs. Algebraic Notation (AN)
+          // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
           Name = "Pure",
           Type = OptionType.check,
           Default = "false",

@@ -150,7 +150,7 @@ namespace Engine {
     public Boolean IsFutility;          // option
     public Boolean IsNullPrune;         // option
     public Boolean IsOccam;             // option
-    public Boolean IsPure;              // Write moves in PACN vs. AN
+    public Boolean IsPure;              // Write moves in PACN vs AN
     public Boolean IsPonderEnabled;     //[UCI Option]For Time Control
     public Boolean IsAnalyseMode;       //[UCI Option]
     public Boolean IsShowingLine;       //[UCI Option]

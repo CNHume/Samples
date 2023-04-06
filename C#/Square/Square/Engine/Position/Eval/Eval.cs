@@ -220,7 +220,7 @@ namespace Engine {
       if (IsInsufficient())
         return contempt();
 
-      GameState.AtomicIncrement(ref State.TotalEvals);  // vs. FullEvaluations
+      GameState.AtomicIncrement(ref State.TotalEvals);  // vs FullEvaluations
 
       setEndGameFlags();
 

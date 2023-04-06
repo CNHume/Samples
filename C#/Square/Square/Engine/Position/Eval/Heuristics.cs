@@ -35,7 +35,7 @@ namespace Engine {
     // More Complex Draws, assuming weaker side in time to defend:
     //
     // KKP if weaker side maintains opposition
-    // Distant Opposition vs. Key/Critical Squares vs Corresponding or Relative Squares!?
+    // Distant Opposition vs Key/Critical Squares vs Corresponding or Relative Squares!?
     //
     // KBKBP of opposite color
     // KPKQ if P to queen on ACFH-file and sronger K too far to help

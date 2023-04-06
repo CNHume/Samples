@@ -552,7 +552,7 @@ namespace Engine {
         AtomicIncrement(ref State.PVSimpleTotal);
       else if (mAlpha1 == mBeta && wDraft <= wReducedDraft)   // Primary Zero Window was the Full Window
         AtomicIncrement(ref State.PVSingleTotal);             // Rare, traditionally counted as PVSingle
-      else if (mValue <= mBest2 || mBeta <= mValue)           //[Note]mBest2 vs. mAlpha used for MultiPV > 1
+      else if (mValue <= mBest2 || mBeta <= mValue)           //[Note]mBest2 vs mAlpha used for MultiPV > 1
         AtomicIncrement(ref State.PVSingleTotal);             // Skip second search [occurs >20x more than PVDouble]
       else {                                                  // PVDouble Search is >10000x more rare than the other cases
         AtomicIncrement(ref State.PVDoubleTotal);             // Second search required
@@ -564,7 +564,7 @@ namespace Engine {
         // Not necessary to clear Draw50, if it was set by the Initial Search
         //[Safe]FlagsDraw &= ~DrawFlags.Draw50;
         //
-        //[Warning]Passing in mValue vs. mAlpha resulted in incremental score creep here:
+        //[Warning]Passing in mValue vs mAlpha resulted in incremental score creep here:
         //
         mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
       }

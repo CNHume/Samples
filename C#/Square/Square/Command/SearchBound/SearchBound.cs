@@ -215,7 +215,7 @@ namespace Command {
     public UInt16? MovesToMate;
     public UInt64? Nodes;
 
-    public Boolean IsDepth;             // Depth Bound explicitly set vs. implied by MovesToMate
+    public Boolean IsDepth;             // Depth Bound explicitly set vs implied by MovesToMate
     public Boolean IsInfinite;
     public Boolean IsPonder;
     public Boolean WTM;

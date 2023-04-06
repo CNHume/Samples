@@ -45,7 +45,7 @@ namespace Engine {
       else {
         var sb = new StringBuilder();
         Trace.Assert(filtered.Length == material.Length, "filtered.Length != material.Length");
-        DisplayCurrent("Filtered vs. Material Moves:");
+        DisplayCurrent("Filtered vs Material Moves:");
 
         sb.MapMoves(Extension.AppendAN, filteredMoves, Side, State.IsChess960);
         sb.AppendLine();

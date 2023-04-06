@@ -48,7 +48,7 @@ namespace Logging {
     #region Constructors
     static Logger() {
       LogLevel = Level.data;
-      // Using %LOCALAPPDATA% vs. %ALLUSERSPROFILE%
+      // Using %LOCALAPPDATA% vs %ALLUSERSPROFILE%
       var sLogRootPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
       LogPathDefault = Path.Combine(sLogRootPath, sLogRelativePath);
       LogPath = LogPathDefault;
