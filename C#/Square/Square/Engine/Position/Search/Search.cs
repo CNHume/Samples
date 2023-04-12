@@ -39,6 +39,7 @@ using System.Text;                      // For StringBuilder
 using static System.Math;
 
 namespace Engine;
+
 using MoveOrder;
 
 using static GameState;

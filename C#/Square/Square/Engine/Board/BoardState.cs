@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;  // For MethodImplAttribute
 using System.Text;
 
 namespace Engine;
+
 using Exceptions;
 
 using static Engine.Position;

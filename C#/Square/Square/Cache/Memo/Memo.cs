@@ -5,6 +5,7 @@
 //
 
 namespace Cache;
+
 using static Engine.Board;            // For OneBitOrNone()
 
 using Hashcode = UInt64;

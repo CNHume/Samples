@@ -22,6 +22,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Cache;
+
 using Engine;
 
 using static Engine.Board;            // For OneBitOrNone()

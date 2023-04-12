@@ -10,6 +10,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace Command;
+
 using Exceptions;
 
 using static System.String;

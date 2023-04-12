@@ -21,6 +21,7 @@
 using System.Diagnostics;
 
 namespace Engine;
+
 using Exceptions;
 
 using MoveOrder;

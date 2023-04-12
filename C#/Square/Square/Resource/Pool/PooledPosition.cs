@@ -10,6 +10,7 @@
 using Engine;
 
 namespace Resource;
+
 using static Logging.Logger;
 
 class PooledPosition {

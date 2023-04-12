@@ -12,6 +12,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace Engine;
+
 using Command;
 
 using Exceptions;

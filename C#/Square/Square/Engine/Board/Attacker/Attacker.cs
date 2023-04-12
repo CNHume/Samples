@@ -17,6 +17,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Engine;
+
 using static Logging.Logger;          // For TestMagic
 
 //

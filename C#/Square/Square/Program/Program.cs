@@ -25,6 +25,7 @@
 using static System.String;
 
 namespace Square;
+
 using Command;
 
 using static Logging.Logger;

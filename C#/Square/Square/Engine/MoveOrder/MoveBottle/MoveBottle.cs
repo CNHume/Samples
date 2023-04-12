@@ -10,6 +10,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 namespace MoveOrder;
+
 using Engine;
 
 using static Engine.Board;

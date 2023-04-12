@@ -9,6 +9,7 @@
 #define CompositionByValue
 
 namespace CacheValue;
+
 using static Engine.Board;
 using static Engine.Position;
 

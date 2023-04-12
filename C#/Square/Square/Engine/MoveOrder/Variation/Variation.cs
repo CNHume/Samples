@@ -7,6 +7,7 @@
 //
 
 namespace MoveOrder;
+
 using static Engine.Board;
 
 //

@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;  // For MethodImplAttribute0
 using static System.Math;
 
 namespace Engine;
+
 using Exceptions;
 
 using static Logging.Logger;

@@ -8,6 +8,7 @@
 //#define PawnPositionByValue
 
 namespace CacheValue;
+
 using static Engine.Position;
 
 //

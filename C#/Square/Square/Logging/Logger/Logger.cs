@@ -12,6 +12,7 @@ using System.Text;
 using static System.String;
 
 namespace Logging;
+
 using Command;
 
 static class Logger {

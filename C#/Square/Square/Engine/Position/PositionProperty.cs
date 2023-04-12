@@ -10,6 +10,7 @@
 //#define TestInitHelp
 
 namespace Engine;
+
 using HeapSort;                           // For Heap
 
 using MoveOrder;

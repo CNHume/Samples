@@ -5,6 +5,7 @@
 //
 
 namespace Command;
+
 using Exceptions;
 
 using static System.String;

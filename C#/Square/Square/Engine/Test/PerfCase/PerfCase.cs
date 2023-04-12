@@ -4,6 +4,7 @@
 //[2012-02-12 CNHume]Created Class
 //
 namespace Test;
+
 using static Logging.Logger;
 
 //

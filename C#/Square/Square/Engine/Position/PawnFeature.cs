@@ -13,6 +13,7 @@
 //#define TestInvalidPawnPositions
 
 namespace Engine;
+
 using static Logging.Logger;
 
 //

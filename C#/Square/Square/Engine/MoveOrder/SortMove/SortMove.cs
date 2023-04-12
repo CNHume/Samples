@@ -9,6 +9,7 @@
 #define StableSort
 
 namespace MoveOrder;
+
 using static Engine.Board;
 using static Engine.Position;
 

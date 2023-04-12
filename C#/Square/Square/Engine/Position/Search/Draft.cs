@@ -10,6 +10,7 @@
 #define LinearReduction
 
 namespace Engine;
+
 using static Logging.Logger;
 
 //

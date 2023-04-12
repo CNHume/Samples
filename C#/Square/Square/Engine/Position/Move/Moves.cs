@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Engine;
+
 using Exceptions;
 
 partial class Position : Board {

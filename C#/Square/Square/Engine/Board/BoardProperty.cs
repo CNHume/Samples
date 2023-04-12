@@ -12,6 +12,7 @@
 //#define TestZobrist
 
 namespace Engine;
+
 using static Position;
 using static Position.PositionSide;
 

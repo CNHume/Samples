@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Text;
 
 namespace Engine;
+
 using Command;                        // For UCI.IsDebug
 
 using static Logging.Logger;

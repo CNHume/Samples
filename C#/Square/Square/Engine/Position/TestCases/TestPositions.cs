@@ -4,6 +4,7 @@
 //[2012-09-15 CNHume]Split TestCases into their own file
 //
 namespace Engine;
+
 using Test;
 
 partial class Position : Board {
