@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;  // For MethodImplAttribute
 
 namespace Engine;
+
 partial class Board {
   #region Constants
   private const Byte vHalfMoveClockMax = 100; // 50-move (100-ply) rule

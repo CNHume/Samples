@@ -54,7 +54,7 @@ partial class Board {
 #endif
 #else
   protected static Byte[] OffsetOrth;
-  protected static Byte[] OffsetDiag; // Helps build OffsetA1H8 and OffsetA8H1
+  protected static Byte[] OffsetDiag;   // Helps build OffsetA1H8 and OffsetA8H1
   protected static Byte[] OffsetA1H8;
   protected static Byte[] OffsetA8H1;
 
@@ -91,29 +91,29 @@ partial class Board {
     private static List<Hashcode> zobrists;
 #endif
   #endregion                          // Zobrist Hashing
-  #endregion                          // Constant Fields
+  #endregion                            // Constant Fields
 
   #region Fields
-  public TurnFlags FlagsTurn;         //[fturn]Final | InCheck | Illegal | EPLegal
-  public DrawFlags FlagsDraw;         //[fdraw]DrawMask | Draw0
-  public EvalFlags FlagsEval;         //[feval]OutsideSquare | KBN | KingAlone
-  public ModeFlags FlagsMode;         //[fmode]Trace | NullMade | Reduced
+  public TurnFlags FlagsTurn;           //[fturn]Final | InCheck | Illegal | EPLegal
+  public DrawFlags FlagsDraw;           //[fdraw]DrawMask | Draw0
+  public EvalFlags FlagsEval;           //[feval]OutsideSquare | KBN | KingAlone
+  public ModeFlags FlagsMode;           //[fmode]Trace | NullMade | Reduced
 
-  public Ply GamePly;                 // WTM iff IsEven(GamePly)
-  public Byte HalfMoveClock;          // 100-Ply Clock for 50-Move Rule
-  public Byte? EPTarget;              //[Nullable]
+  public Ply GamePly;                   // WTM iff IsEven(GamePly)
+  public Byte HalfMoveClock;            // 100-Ply Clock for 50-Move Rule
+  public Byte? EPTarget;                //[Nullable]
 
-  public Hashcode Hash;               // Transposition and QuietPosition Hash
-  public Hashcode HashPawn;           // PawnPosition Hash
+  public Hashcode Hash;                 // Transposition and QuietPosition Hash
+  public Hashcode HashPawn;             // PawnPosition Hash
 
-  public Plane Pawn;                  // Piece Types
+  public Plane Pawn;                    // Piece Types
   public Plane King;
   public Plane Knight;
   public Plane DiagPiece;
   public Plane OrthPiece;
-  public Plane RankPiece;             // Piece Union over both sides
+  public Plane RankPiece;               // Piece Union over both sides
 #if !Magic
-  public Plane FilePiece;             // Piece Rotations
+  public Plane FilePiece;               // Piece Rotations
   public Plane A1H8Piece;
   public Plane A8H1Piece;
 #endif
@@ -125,15 +125,15 @@ partial class Board {
   protected Plane AttackedSum;
   protected Plane WhiteControlled;
   protected Plane BlackControlled;
-  #endregion                          // Attacks and Control Fields
+  #endregion                            // Attacks and Control Fields
 
   #region BoardSide Fields
   public readonly PositionSide[] Side;
 
-  protected PositionSide Friend;      // Friend and Foe as determined by WTM()
+  protected PositionSide Friend;        // Friend and Foe as determined by WTM()
   protected PositionSide Foe;
-  #endregion                          // BoardSide Fields
-  #endregion                          // Fields
+  #endregion                            // BoardSide Fields
+  #endregion                            // Fields
 
   #region Properties
   //

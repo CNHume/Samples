@@ -1,4 +1,5 @@
 ﻿namespace Command;
+
 partial class Parser : IDisposable {
   #region Enumerations
   internal enum TokenType : byte {

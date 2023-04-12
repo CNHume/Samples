@@ -8,6 +8,7 @@
 using System.Text.RegularExpressions;
 
 namespace Command;
+
 partial class Parser : IDisposable {
   internal class TokenRule {
     #region Properties

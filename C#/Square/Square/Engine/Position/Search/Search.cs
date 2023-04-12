@@ -22,7 +22,7 @@
 #define MateThreat
 #define SingularExtension
 //#define DebugSingular
-//#define OccawReduced
+//#define OccamReduced
 //#define SwapOn
 #define CountPVDoubles
 //#define DeepSingular
@@ -94,17 +94,17 @@ partial class Position : Board {
 #if Quiescence
       return quiet(mAlpha, mBeta);
 #else
-        return boundValue(eval(), mAlpha, mBeta);
+      return boundValue(eval(), mAlpha, mBeta);
 #endif
     }
     #endregion
 
     #region Transposition Table Lookup
 #if TraceVal
-      var bTrace = IsTrace();
-      if (IsTrace()) {                  //[Note]CurrentMove Undefined
-        Display($"Search(Depth = {wDepth})");
-      }
+    var bTrace = IsTrace();
+    if (IsTrace()) {                  //[Note]CurrentMove Undefined
+      Display($"Search(Depth = {wDepth})");
+    }
 #endif
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
@@ -192,17 +192,17 @@ partial class Position : Board {
     }
     else {
 #if SwapOn
-        var bSwap = wDepth < wSwapDepthMax;
-        generate(moves, bSwap);
+      var bSwap = wDepth < wSwapDepthMax;
+      generate(moves, bSwap);
 #else
       generate(moves, !Swaps);
 #endif
       //[Timer]timeGenerate(moves, !Swaps);
 #if DebugPseudoMoves
-        DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
-        var sb = new StringBuilder("PseudoMoves:");
-        sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
-        sb.FlushLine();
+      DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
+      var sb = new StringBuilder("PseudoMoves:");
+      sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+      sb.FlushLine();
 #endif
     }
     #endregion
@@ -225,30 +225,30 @@ partial class Position : Board {
       addMoves(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);
       var nEarly = sortMoves(moves, goodMoves, wDepth);
 #if DebugGoodMoves
-        if (goodMoves.Count > 0) {
-          var sb = new StringBuilder("goodMoves:");
-          sb.mapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
-          sb.FlushLine();
-        }
+      if (goodMoves.Count > 0) {
+        var sb = new StringBuilder("goodMoves:");
+        sb.mapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
+        sb.FlushLine();
+      }
 #endif
 #if DebugCandidateMoves
-        //
-        // Take care not to perturb the moves enumeration:
-        //
+      //
+      // Take care not to perturb the moves enumeration:
+      //
 #if !UseMoveSort
-        var pm2 = new List<Move>(SiftedMoves);
+      var pm2 = new List<Move>(SiftedMoves);
 #elif LazyMoveSort
-        var pm2 = (Heap<SortMove>)PriorityMove.Clone();
+      var pm2 = (Heap<SortMove>)PriorityMove.Clone();
 #else
-        var pm2 = new List<Move>(moves);
+      var pm2 = new List<Move>(moves);
 #endif                                  // UseMoveSort
-        var sb2 = new StringBuilder("Candidate Moves:");
+      var sb2 = new StringBuilder("Candidate Moves:");
 #if LazyMoveSort
-        sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
+      sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
 #else
-        sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
+      sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
 #endif
-        sb2.FlushLine();
+      sb2.FlushLine();
 #endif
       #endregion                      // DebugCandidateMoves
 
@@ -279,15 +279,15 @@ partial class Position : Board {
         //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
-          var bWhiteMove = move.Has(Move.WTM);
-          if (bDebugWTM != bWhiteMove) {
-            Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
-          }
+        var bWhiteMove = move.Has(Move.WTM);
+        if (bDebugWTM != bWhiteMove) {
+          Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
+        }
 #endif
 #if DebugNextMove
-          var sb = new StringBuilder("Next Move =");
-          sb.AppendPACN(move, State.IsChess960);
-          LogLine(sb.ToString());
+        var sb = new StringBuilder("Next Move =");
+        sb.AppendPACN(move, State.IsChess960);
+        LogLine(sb.ToString());
 #endif
         var wDraft1 = nextDraft(wDraft);
         var bEarly = nTried++ < nEarly;
@@ -330,8 +330,8 @@ partial class Position : Board {
 
           if (mBeta <= mAlpha) {
 #if TraceVal
-              if (bTrace)
-                LogLine("Trace: Failed High");
+            if (bTrace)
+              LogLine("Trace: Failed High");
 #endif
             et = EvalType.Lower;      // Cutoff Reached: Ignore further moves and Fail High
             rewardMove(move, wDepth, mValue, et, moveExcluded);
@@ -360,11 +360,11 @@ partial class Position : Board {
 
   exit:
 #if VerifyUpper
-      var bUpper = et == EvalType.Upper;
-      var bUndefined = moveBest == Move.Undefined;
-      if (bUpper != bUndefined) {
-        Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
-      }
+    var bUpper = et == EvalType.Upper;
+    var bUndefined = moveBest == Move.Undefined;
+    if (bUpper != bUndefined) {
+      Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
+    }
 #endif
     return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
   }
@@ -391,18 +391,18 @@ partial class Position : Board {
         goto updateBest;
       }
 #if LateMoveReduction
-        //
-        // Late Move Reduction [LMR]:
-        //
-        if (!bEarly && wLateDrafthMin <= wDraft) {
-          var wLMRDraft = (Draft)(wDraft1 - extensionDraft(vLate));
-          var safeMode = child.FlagsMode;
-          child.FlagsMode |= ModeFlags.Reduced;
-          mValue = (Eval)(-child.search(wLMRDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
-          child.FlagsMode = safeMode;
-          if (mValue <= mAlpha)
-            goto updateBest;
-        }
+      //
+      // Late Move Reduction [LMR]:
+      //
+      if (!bEarly && wLateDrafthMin <= wDraft) {
+        var wLMRDraft = (Draft)(wDraft1 - extensionDraft(vLate));
+        var safeMode = child.FlagsMode;
+        child.FlagsMode |= ModeFlags.Reduced;
+        mValue = (Eval)(-child.search(wLMRDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
+        child.FlagsMode = safeMode;
+        if (mValue <= mAlpha)
+          goto updateBest;
+      }
 #endif
     }
     #endregion                        // Futility Pruning and LMR
@@ -411,13 +411,13 @@ partial class Position : Board {
 #if SingularExtension
     if (bTestSingular && EqualMoves(move, moveFound)) {
 #if DeepSingular
-        var wSingularDraft = reduceDeep(wDraft);
+      var wSingularDraft = reduceDeep(wDraft);
 #else
       var wSingularDraft = wReducedDraft;
 #endif
       if (singular(wSingularDraft, mValueFound, move)) {
 #if DebugSingular
-          child.DisplayCurrent($"Singular Extension at Depth = {wDepth}");
+        child.DisplayCurrent($"Singular Extension at Depth = {wDepth}");
 #endif
         //
         //[Note]The Singular Extension should apply to this child only:
@@ -441,7 +441,7 @@ partial class Position : Board {
     var bSmart = bReduce && uRaisedAlpha > 1 && wSmartDepthMin <= wDepth && SearchPly < wSmartPlyMax;
     var wReduced = bSmart ? nextDraft(wDraft1) : wDraft1;
 #else
-      var wReduced = wDraft1;
+    var wReduced = wDraft1;
 #endif
     mValue = child.pvs(wDraft1, wReduced, mBest2, mAlpha, mBeta, bTryZWS);
 
@@ -547,17 +547,17 @@ partial class Position : Board {
     //
     // Increment appropriate PVS Node Count:
     //
-    if (FlagsMode.Has(ModeFlags.ZWS))                       // True ZWS [>200x PVSimple] is most frequent
+    if (FlagsMode.Has(ModeFlags.ZWS))                         // True ZWS [>200x PVSimple] is most frequent
       AtomicIncrement(ref State.ZWSimpleTotal);
-    else if (!bTryZWS)                                      // Primary Search was a FWS
+    else if (!bTryZWS)                                        // Primary Search was a FWS
       AtomicIncrement(ref State.PVSimpleTotal);
-    else if (mAlpha1 == mBeta && wDraft <= wReducedDraft)   // Primary Zero Window was the Full Window
-      AtomicIncrement(ref State.PVSingleTotal);             // Rare, traditionally counted as PVSingle
-    else if (mValue <= mBest2 || mBeta <= mValue)           //[Note]mBest2 vs mAlpha used for MultiPV > 1
-      AtomicIncrement(ref State.PVSingleTotal);             // Skip second search [occurs >20x more than PVDouble]
-    else {                                                  // PVDouble Search is >10000x more rare than the other cases
-      AtomicIncrement(ref State.PVDoubleTotal);             // Second search required
-      State.IncPVDoubleCount(SearchPly);                    // Update PVDouble Histogram
+    else if (mAlpha1 == mBeta && wDraft <= wReducedDraft)     // Primary Zero Window was the Full Window
+      AtomicIncrement(ref State.PVSingleTotal);               // Rare, traditionally counted as PVSingle
+    else if (mValue <= mBest2 || mBeta <= mValue)             //[Note]mBest2 vs mAlpha used for MultiPV > 1
+      AtomicIncrement(ref State.PVSingleTotal);               // Skip second search [occurs >20x more than PVDouble]
+    else {                                                    // PVDouble Search is >10000x more rare than the other cases
+      AtomicIncrement(ref State.PVDoubleTotal);               // Second search required
+      State.IncPVDoubleCount(SearchPly);                      // Update PVDouble Histogram
 
       //
       // Perform Secondary Full Window Search (FWS) if necessary (PVDouble)
@@ -595,9 +595,9 @@ partial class Position : Board {
 
         if (mPrunedValue <= mAlpha2) {//[<]Search
           var mBeta2 = (Eval)(mAlpha2 + 1);
-#if OccawReduced
-            FlagsMode |= ModeFlags.Reduced;
-            var mValue2 = Search(wShallow, mAlpha2, mBeta2));
+#if OccamReduced
+          FlagsMode |= ModeFlags.Reduced;
+          var mValue2 = Search(wShallow, mAlpha2, mBeta2));
 #else
           var mValue2 = quiet(mAlpha2, mBeta2);
 #endif
@@ -656,12 +656,12 @@ partial class Position : Board {
           var wNullDraft = wShallow;
 #endif
 #if TestLerp
-            //
-            // Prune aggressively at lower depth; more conservatively at higher depth.
-            //
-            var mAbs = Abs(mBeta);
-            var mBeta2 = MateMin <= mAbs ?
-              mBeta : (Eval)Interpolate(wNullDraft, wReducedDraftMin, mBeta, wLerpDraftMax, mPrunedValue);
+          //
+          // Prune aggressively at lower depth; more conservatively at higher depth.
+          //
+          var mAbs = Abs(mBeta);
+          var mBeta2 = MateMin <= mAbs ?
+            mBeta : (Eval)Interpolate(wNullDraft, wReducedDraftMin, mBeta, wLerpDraftMax, mPrunedValue);
 #else
           var mBeta2 = mBeta;
 #endif
@@ -708,7 +708,7 @@ partial class Position : Board {
         var mBeta2 = (Eval)(mAlpha2 + 1);     // vs -EvalMax
         child2.FlagsMode |= ModeFlags.Reduced;
 #if DeepThreat
-          var wThreatDraft = reduceDeep(wDraft);
+        var wThreatDraft = reduceDeep(wDraft);
 #else
         var wThreatDraft = wShallow;
 #endif

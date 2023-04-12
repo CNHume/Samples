@@ -11,6 +11,7 @@ using System.Reflection;                // For Assembly, AssemblyTitleAttribute
 using static System.String;
 
 namespace Command;
+
 static class Product {
   #region Constants
   private const String sDefaultTitle = "square";

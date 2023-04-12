@@ -208,9 +208,9 @@ partial class Position : Board {
       var bLegal = tryOrSkip(ref moveNoted);
       Trace.Assert(bLegal, $"{nameof(lookupPV)} obtained an Illegal Move");
 #if TraceVal
-        // CurrentMove set in [null|try]Move()
-        if (IsTrace())
-          DisplayCurrent(nameof(lookupPV));
+      // CurrentMove set in [null|try]Move()
+      if (IsTrace())
+        DisplayCurrent(nameof(lookupPV));
 #endif
       SetDraw50();                    // Mark Draw50 after having made the move
 
@@ -267,9 +267,9 @@ partial class Position : Board {
       var bLegal = tryOrSkip(ref moveNoted);
       Trace.Assert(bLegal, $"{nameof(AbbreviateRefresh)} obtained an Illegal Move");
 #if TraceVal
-        // CurrentMove set in [null|try]Move()
-        if (IsTrace())
-          DisplayCurrent(nameof(AbbreviateRefresh));
+      // CurrentMove set in [null|try]Move()
+      if (IsTrace())
+        DisplayCurrent(nameof(AbbreviateRefresh));
 #endif
       SetDraw50();                    // Mark Draw50 after having made the move
 

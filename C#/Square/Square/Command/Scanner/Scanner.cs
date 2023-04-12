@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using static System.String;
 
 namespace Command;
+
 public class Scanner : IDisposable {
   #region Constants
   protected const String sSpace = " ";

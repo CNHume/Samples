@@ -8,6 +8,7 @@ using System.Text;
 using static System.String;
 
 namespace Command;
+
 public partial class Control {
   //
   // The (@) At Sign escapes the string keyword,

@@ -56,11 +56,11 @@ partial class Position : Board {
 
     #region Transposition Table Lookup
 #if TraceVal
-      var bTrace = IsTrace();
-      if (bTrace) {
-        const String sLabel = "quiet()";
-        Display(sLabel);                //[Note]Undefined CurrentMove
-      }
+    var bTrace = IsTrace();
+    if (bTrace) {
+      const String sLabel = "quiet()";
+      Display(sLabel);                //[Note]Undefined CurrentMove
+    }
 #endif
     // BestMoves updated iff bFoundValue
     if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
@@ -218,8 +218,8 @@ partial class Position : Board {
               mAlpha = mBest;
               if (mBeta <= mAlpha) {
 #if TraceVal
-                  if (bTrace)
-                    LogLine("Trace: Quiet Failed High");
+                if (bTrace)
+                  LogLine("Trace: Quiet Failed High");
 #endif
                 et = EvalType.Lower;  // Cutoff Reached: Ignore further moves and Fail High
                 goto exit;

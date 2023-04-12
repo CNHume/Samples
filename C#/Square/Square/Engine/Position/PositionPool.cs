@@ -8,6 +8,7 @@
 #define InheritMoveTypes
 
 namespace Engine;
+
 partial class Position : Board {
   #region Workspace Methods
   private void initNode() {
