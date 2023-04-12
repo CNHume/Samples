@@ -3,12 +3,12 @@
 //
 //[2012-09-15 CNHume]Split TestCases into their own file
 //
-namespace Engine {
-  using Test;
+namespace Engine;
+using Test;
 
-  partial class Position : Board {
-    #region Constants
-    protected static readonly Tabiya[] TestPositions = {
+partial class Position : Board {
+  #region Constants
+  protected static readonly Tabiya[] TestPositions = {
       new Tabiya {
         Name = "Start Position",
         FEN = sOrthodoxStartFEN,
@@ -635,24 +635,23 @@ namespace Engine {
         FEN = "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1" }
     };
 
-    /*
-     * Solution to Unzicker v Averbakh Draw [now found in 11-ply]:
-     *
-     * 1... Rxc7! 2. Qxc7 Ng4 3. hxg4 Qf2+= 4. Kh2 Qh4+ 5. Kg1 Qf2+ 6. Kh1 Qh4+ 7. Kg1 Qf2+ {3X}
-     *
-     * For Website Mate, see http://www.usefulchess.com/problems/chessproblem3_2.html
-     *
-     * Full Solution:
-     * 
-      1. Rg7 Ke4 
+  /*
+   * Solution to Unzicker v Averbakh Draw [now found in 11-ply]:
+   *
+   * 1... Rxc7! 2. Qxc7 Ng4 3. hxg4 Qf2+= 4. Kh2 Qh4+ 5. Kg1 Qf2+ 6. Kh1 Qh4+ 7. Kg1 Qf2+ {3X}
+   *
+   * For Website Mate, see http://www.usefulchess.com/problems/chessproblem3_2.html
+   *
+   * Full Solution:
+   * 
+    1. Rg7 Ke4 
 
-        1. ... f5 2. Rg6 Ke4 3. Nc3 1-0 
-        1. ... Ke4 2. Nc3+ Kf5 3. Bg4 1-0 
-        1. ... Kxc6 2. Bc4 f6 3. Rc7 1-0 
-        1. ... Ke6 2. Bc4+ Kf5 3. Nd6 1-0
+      1. ... f5 2. Rg6 Ke4 3. Nc3 1-0 
+      1. ... Ke4 2. Nc3+ Kf5 3. Bg4 1-0 
+      1. ... Kxc6 2. Bc4 f6 3. Rc7 1-0 
+      1. ... Ke6 2. Bc4+ Kf5 3. Nd6 1-0
 
-        2. Nc3+ Kf5 3. Bg4 1-0
-     */
-    #endregion
-  }
+      2. Nc3+ Kf5 3. Bg4 1-0
+   */
+  #endregion
 }

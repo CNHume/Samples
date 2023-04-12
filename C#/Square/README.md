@@ -10,8 +10,7 @@ Source code for the [Square Chess Engine](https://github.com/CNHume/Samples/tree
 
 ## Copyright and License
 
-Copyright (C) 2010-2022, Christopher N. Hume.  All rights reserved.
-
+Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
 This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See **COPYING.txt** and **COPYING_LESSER.txt** for details.
 
 ## Solution and Project Structure

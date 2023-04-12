@@ -25,73 +25,73 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Engine {
-  using CacheValue;
+namespace Engine;
+using CacheValue;
 
-  using MoveOrder;
+using MoveOrder;
 
-  using static Logging.Logger;
+using static Logging.Logger;
 
-  //
-  // Type Aliases:
-  //
-  using Depth = UInt16;
-  using Eval = Int16;
-  using Ply = UInt16;
+//
+// Type Aliases:
+//
+using Depth = UInt16;
+using Eval = Int16;
+using Ply = UInt16;
 
-  partial class Position : Board {
-    #region Helper Methods
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Eval adjustValue(Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound, Ply wSearchPlies) {
-      var mValue = EvalUndefined;
+partial class Position : Board {
+  #region Helper Methods
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Eval adjustValue(Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound, Ply wSearchPlies) {
+    var mValue = EvalUndefined;
 
-      if (EvalUndefined < mValueFound) {
-        mValueFound = debitMate(mValueFound, wSearchPlies);
+    if (EvalUndefined < mValueFound) {
+      mValueFound = debitMate(mValueFound, wSearchPlies);
 #if FailHard
         mValue = boundValue(mValue, mAlpha, mBeta);
 #endif
-        //
-        // Lower Bound reliable when mBeta <= mValue
-        // Upper Bound reliable when mValue <= mAlpha
-        //
-        if ((etFound == EvalType.Lower && mBeta <= mValueFound) ||
-            (etFound == EvalType.Upper && mValueFound <= mAlpha) ||
-            etFound == EvalType.Exact)
-          mValue = mValueFound;
-      }
-
-      return mValue;
+      //
+      // Lower Bound reliable when mBeta <= mValue
+      // Upper Bound reliable when mValue <= mAlpha
+      //
+      if ((etFound == EvalType.Lower && mBeta <= mValueFound) ||
+          (etFound == EvalType.Upper && mValueFound <= mAlpha) ||
+          etFound == EvalType.Exact)
+        mValue = mValueFound;
     }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Move adjustEmptyMove(Move moveFound) {
-      //
-      // The Final Move Flag is set when the resulting child position has been
-      // determined to be Final, i.e., that there are no Legal Moves available
-      // for the child.
-      //
-      // Restore TurnFlags.Final to annotate the parent's move; and to prevent
-      // a redundant search.
-      //
-      if (IsEmptyMove(moveFound)) {
-        SetFinal();
-        moveFound = Move.Undefined;
-      }
+    return mValue;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private Move adjustEmptyMove(Move moveFound) {
+    //
+    // The Final Move Flag is set when the resulting child position has been
+    // determined to be Final, i.e., that there are no Legal Moves available
+    // for the child.
+    //
+    // Restore TurnFlags.Final to annotate the parent's move; and to prevent
+    // a redundant search.
+    //
+    if (IsEmptyMove(moveFound)) {
+      SetFinal();
+      moveFound = Move.Undefined;
+    }
 #if DebugMoveColor
       if (IsDefined(moveFound) && WTM())
         moveFound |= Move.WTM;
 #endif
-      return moveFound;
-    }
+    return moveFound;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private Eval addMove(Move moveFound, List<GoodMove>? goodMoves,
-                         Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
-                         Boolean bFilterEvalUndefined = false) {
-      var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
-      //[Note]Adjusted mValue may be EvalUndefined
-      var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
-      if (bAllowValue && goodMoves != null && IsDefinite(moveFound)) {
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private Eval addMove(Move moveFound, List<GoodMove>? goodMoves,
+                       Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
+                       Boolean bFilterEvalUndefined = false) {
+    var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
+    //[Note]Adjusted mValue may be EvalUndefined
+    var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
+    if (bAllowValue && goodMoves != null && IsDefinite(moveFound)) {
 #if DedupeGoodMoves
         //
         // Duplicates should be avoided; but will be filtered from SiftedMoves
@@ -106,26 +106,26 @@ namespace Engine {
           return mValue;
         }
 #endif                                  // DedupeGoodMoves
-        // moveFound may be either annotated or abbreviated
-        var good = new GoodMove(moveFound, wDepth, mValue, etFound);
+      // moveFound may be either annotated or abbreviated
+      var good = new GoodMove(moveFound, wDepth, mValue, etFound);
 #if LoadMRU
         goodMoves.Insert(0, good);      // MRU order
 #else
-        goodMoves.Add(good);            // LRU works best
+      goodMoves.Add(good);            // LRU works best
 #endif
-      }
-
-      return mValue;
     }
-    #endregion
 
-    #region XPM Methods
-    private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
-                          Move moveBest = Move.Undefined,
-                          Move moveExcluded = Move.Undefined) {       // 10 MHz
-      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
-      traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
-      State.IncEvalType(et);
+    return mValue;
+  }
+  #endregion
+
+  #region XPM Methods
+  private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
+                        Move moveBest = Move.Undefined,
+                        Move moveExcluded = Move.Undefined) {       // 10 MHz
+    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
+    traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
+    State.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
       var bWTM = WTM();
 #endif
@@ -135,14 +135,14 @@ namespace Engine {
       var uMemoHash = compositionHash(bWTM);
       var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
 #else
-      var qDynamic = DynamicHash(moveExcluded);
+    var qDynamic = DynamicHash(moveExcluded);
 #endif
-      var mAdjusted = creditMate(mValue, SearchPly);
+    var mAdjusted = creditMate(mValue, SearchPly);
 
-      if (IsFinal()) {
-        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
-        moveBest = Move.EmptyMove;
-      }
+    if (IsFinal()) {
+      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      moveBest = Move.EmptyMove;
+    }
 #if DebugMoveColor
       if (IsDefinite(moveBest)) {
         var bWhiteMove = moveBest.Has(Move.WTM);
@@ -156,15 +156,15 @@ namespace Engine {
       var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
                                    mAdjusted, et, moveBest);
 #else
-      var store = new PositionMove(qDynamic, State.MovePly, wDepth,
-                                   mAdjusted, et, moveBest);
+    var store = new PositionMove(qDynamic, State.MovePly, wDepth,
+                                 mAdjusted, et, moveBest);
 #endif
-      State.XPMTank.Save(store);
-      return mValue;
-    }
+    State.XPMTank.Save(store);
+    return mValue;
+  }
 
-    private Boolean probeXPM(Depth wDepth, Eval mAlpha, Eval mBeta,
-                             Move moveExcluded, List<GoodMove> goodMoves) {
+  private Boolean probeXPM(Depth wDepth, Eval mAlpha, Eval mBeta,
+                           Move moveExcluded, List<GoodMove> goodMoves) {
 #if XPMCompositionHash
       var bWTM = WTM();
       UInt32 wPly = State.MovePly;
@@ -172,43 +172,43 @@ namespace Engine {
       var uMemoHash = compositionHash(bWTM);
       var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
 #else
-      var qDynamic = DynamicHash(moveExcluded);
+    var qDynamic = DynamicHash(moveExcluded);
 #endif
 #if XPHash128
       var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
 #else
-      var match = new PositionMove(qDynamic, State.MovePly, wDepth);
+    var match = new PositionMove(qDynamic, State.MovePly, wDepth);
 #endif
-      var matches = new List<PositionMove>();
-      State.XPMTank.Load(match, matches);
-      var bFound = matches.Count > 0;
+    var matches = new List<PositionMove>();
+    State.XPMTank.Load(match, matches);
+    var bFound = matches.Count > 0;
 
-      foreach (var found in matches) {
-        var moveFound = adjustEmptyMove(found.BestMove);
-        var etFound = found.Type;
-        var mValueFound = found.Value;
-        traceVal(nameof(probeXPM), mValueFound, etFound);     //[Conditional]
-        var mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);
-      }
-
-      return bFound;
+    foreach (var found in matches) {
+      var moveFound = adjustEmptyMove(found.BestMove);
+      var etFound = found.Type;
+      var mValueFound = found.Value;
+      traceVal(nameof(probeXPM), mValueFound, etFound);     //[Conditional]
+      var mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);
     }
-    #endregion
 
-    #region XP Methods
-    private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
-                         Move moveBest = Move.Undefined,
-                         Move moveExcluded = Move.Undefined) {  // 10 MHz
-      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
-      traceVal(nameof(storeXP), mValue, et);    //[Conditional]
-      State.IncEvalType(et);
-      var qDynamic = DynamicHash(moveExcluded);
-      var mAdjusted = creditMate(mValue, SearchPly);
+    return bFound;
+  }
+  #endregion
 
-      if (IsFinal()) {
-        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
-        moveBest = Move.EmptyMove;
-      }
+  #region XP Methods
+  private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
+                       Move moveBest = Move.Undefined,
+                       Move moveExcluded = Move.Undefined) {  // 10 MHz
+    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
+    traceVal(nameof(storeXP), mValue, et);    //[Conditional]
+    State.IncEvalType(et);
+    var qDynamic = DynamicHash(moveExcluded);
+    var mAdjusted = creditMate(mValue, SearchPly);
+
+    if (IsFinal()) {
+      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      moveBest = Move.EmptyMove;
+    }
 #if DebugMoveColor
       if (IsDefinite(moveBest)) {
         var bWTM = WTM();
@@ -232,18 +232,18 @@ namespace Engine {
       var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
                                     mAdjusted, et, moveBest);
 #else
-      var store = new Transposition(qDynamic, State.MovePly, wDepth,
-                                    mAdjusted, et, moveBest);
+    var store = new Transposition(qDynamic, State.MovePly, wDepth,
+                                  mAdjusted, et, moveBest);
 #endif
 #endif
-      State.XPTank.Save(store);
-      return mValue;
-    }
+    State.XPTank.Save(store);
+    return mValue;
+  }
 
-    private Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta,
-                            Move moveExcluded, List<GoodMove>? goodMoves,
-                            out Move moveFound, out Eval mValue, out EvalType etFound) {
-      var qDynamic = DynamicHash(moveExcluded);
+  private Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta,
+                          Move moveExcluded, List<GoodMove>? goodMoves,
+                          out Move moveFound, out Eval mValue, out EvalType etFound) {
+    var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
 #if XPMoveTypes
       var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
@@ -254,35 +254,35 @@ namespace Engine {
 #if XPMoveTypes
       var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
 #else
-      var match = new Transposition(qDynamic, State.MovePly, wDepth);
+    var match = new Transposition(qDynamic, State.MovePly, wDepth);
 #endif
 #endif
-      var bValid = State.XPTank.LoadFirst(ref match);
+    var bValid = State.XPTank.LoadFirst(ref match);
 #if XPMoveTypes
       if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
-      moveFound = adjustEmptyMove(match.BestMove);      //[out]3
-      etFound = match.Type;                             //[out]2
-      var mValueFound = match.Value;
-      traceVal(nameof(probeXP), mValueFound, etFound);  //[Conditional]
-      mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
-      var bValueDefined = EvalUndefined < mValue;
-      return bValid && bValueDefined;
+    moveFound = adjustEmptyMove(match.BestMove);      //[out]3
+    etFound = match.Type;                             //[out]2
+    var mValueFound = match.Value;
+    traceVal(nameof(probeXP), mValueFound, etFound);  //[Conditional]
+    mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
+    var bValueDefined = EvalUndefined < mValue;
+    return bValid && bValueDefined;
+  }
+  #endregion
+
+  #region QXP Methods
+  private Eval storeQXP(Eval mValue, EvalType et,
+                        Move moveBest = Move.Undefined) {
+    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
+    traceVal(nameof(storeQXP), mValue, et);   //[Conditional]
+    State.IncEvalType(et);
+    var mAdjusted = creditMate(mValue, SearchPly);
+
+    if (IsFinal()) {
+      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      moveBest = Move.EmptyMove;
     }
-    #endregion
-
-    #region QXP Methods
-    private Eval storeQXP(Eval mValue, EvalType et,
-                          Move moveBest = Move.Undefined) {
-      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
-      traceVal(nameof(storeQXP), mValue, et);   //[Conditional]
-      State.IncEvalType(et);
-      var mAdjusted = creditMate(mValue, SearchPly);
-
-      if (IsFinal()) {
-        Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
-        moveBest = Move.EmptyMove;
-      }
 #if DebugMoveColor
       if (IsDefinite(moveBest)) {
         var bWTM = WTM();
@@ -296,152 +296,151 @@ namespace Engine {
 #if QXPHash128
       var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
-      var store = new QuietPosition(Hash, State.MovePly, mAdjusted, et, moveBest);
+    var store = new QuietPosition(Hash, State.MovePly, mAdjusted, et, moveBest);
 #endif
-      State.QXPTank.Save(store);
-      return mValue;
-    }
+    State.QXPTank.Save(store);
+    return mValue;
+  }
 
-    private Boolean probeQXP(Eval mAlpha, Eval mBeta,
-                             out Move moveFound, out Eval mValue, out EvalType etFound) {
+  private Boolean probeQXP(Eval mAlpha, Eval mBeta,
+                           out Move moveFound, out Eval mValue, out EvalType etFound) {
 #if QXPHash128
       var match = new QuietPosition(Hash, State.MovePly, HashPawn);
 #else
-      var match = new QuietPosition(Hash, State.MovePly);
+    var match = new QuietPosition(Hash, State.MovePly);
 #endif
-      var bValid = State.QXPTank.LoadFirst(ref match);
-      var moveBest = adjustEmptyMove(match.BestMove);
-      moveFound = IsDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
-      etFound = match.Type;                             //[out]2
-      //[Note]Mate values are suspect because quiet moves were not considered
-      var mValueFound = match.Value;
-      mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly); //[out]1
-      traceVal(nameof(probeQXP), mValue, etFound);      //[Conditional]
-      var bValueDefined = EvalUndefined < mValue;
-      return bValid && bValueDefined;
-    }
-    #endregion
+    var bValid = State.QXPTank.LoadFirst(ref match);
+    var moveBest = adjustEmptyMove(match.BestMove);
+    moveFound = IsDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
+    etFound = match.Type;                             //[out]2
+                                                      //[Note]Mate values are suspect because quiet moves were not considered
+    var mValueFound = match.Value;
+    mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly); //[out]1
+    traceVal(nameof(probeQXP), mValue, etFound);      //[Conditional]
+    var bValueDefined = EvalUndefined < mValue;
+    return bValid && bValueDefined;
+  }
+  #endregion
 
-    #region Combined XP and QXP Methods
-    // For lookupPV()
-    private void probeMove(Eval mAlpha, Eval mBeta, out Move moveFound) {
-      var bFoundValue = false;
-      Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
+  #region Combined XP and QXP Methods
+  // For lookupPV()
+  private void probeMove(Eval mAlpha, Eval mBeta, out Move moveFound) {
+    var bFoundValue = false;
+    Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 #if TransposeQuiet || QuiescentTryXP
-      moveFound = Move.Undefined;
+    moveFound = Move.Undefined;
 #if QuiescentTryXP
-      const Depth wDepth = 0;
-      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out Eval mValue, out EvalType etFound);
+    const Depth wDepth = 0;
+    bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out Eval mValue, out EvalType etFound);
 #endif
 #if TransposeQuiet
-      if (!IsDefined(moveFound))
-        bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
+    if (!IsDefined(moveFound))
+      bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
 #endif
 #endif                                  // TransposeQuiet || QuiescentTryXP
-    }
+  }
 
-    private Boolean probeQxnt(Eval mAlpha, Eval mBeta, out Move moveFound, out Eval mValue, out EvalType etFound) {
-      var bFoundValue = false;
-      etFound = EvalType.Undefined;
-      Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
+  private Boolean probeQxnt(Eval mAlpha, Eval mBeta, out Move moveFound, out Eval mValue, out EvalType etFound) {
+    var bFoundValue = false;
+    etFound = EvalType.Undefined;
+    Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 #if TransposeQuiet || QuiescentTryXP
-      moveFound = Move.Undefined;
-      mValue = EvalUndefined;
+    moveFound = Move.Undefined;
+    mValue = EvalUndefined;
 #if QuiescentTryXP
-      const Depth wDepth = 0;
-      bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
-      State.IncQxnt(bFoundValue);       //[Conditional]
+    const Depth wDepth = 0;
+    bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
+    State.IncQxnt(bFoundValue);       //[Conditional]
 #endif
 #if TransposeQuiet
-      if (!bFoundValue)                 //[C#]There is no Logical-OR assignment operator ||=
-        bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
+    if (!bFoundValue)                 //[C#]There is no Logical-OR assignment operator ||=
+      bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
 #endif
 #endif                                  // TransposeQuiet || QuiescentTryXP
-      return bFoundValue;
-    }
-    #endregion
+    return bFoundValue;
+  }
+  #endregion
 
-    #region Killer Methods
-    //
-    //[ToDo]Killer updates are not thread safe.  See also the references, e.g., in sortMoves().
-    //
-    private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
-      var bWTM = WTM();
-      Trace.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
-      traceVal(nameof(storeKiller), mValue, et);        //[Conditional]
-      var mAdjusted = creditMate(mValue, SearchPly);
-      var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
-      UInt32 wPly = State.MovePly;
+  #region Killer Methods
+  //
+  //[ToDo]Killer updates are not thread safe.  See also the references, e.g., in sortMoves().
+  //
+  private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
+    var bWTM = WTM();
+    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
+    traceVal(nameof(storeKiller), mValue, et);        //[Conditional]
+    var mAdjusted = creditMate(mValue, SearchPly);
+    var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
+    UInt32 wPly = State.MovePly;
 #if BottleGamePly
       wPly = GamePly;
 #else
-      wPly += wDepth;                   //[Note]wDepth value may not guarantee Ply/Color Parity
+    wPly += wDepth;                   //[Note]wDepth value may not guarantee Ply/Color Parity
 #endif
 #if KillerCompositionHash
       var uMemoHash = compositionHash(true);
       wPly *= uMemoHash;
 #endif
 #if BottleBothSides
-      var nSide = bWTM ? 0 : 1;
+    var nSide = bWTM ? 0 : 1;
 #else
       var nSide = 0;
 #endif
-      State.Bottle.Save(store, uMaskedMove, wPly, nSide);
-    }
+    State.Bottle.Save(store, uMaskedMove, wPly, nSide);
+  }
 
-    private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
-      var bWTM = WTM();
-      const Boolean bFilterEvalUndefined = true;
-      UInt32 wPly = State.MovePly;
+  private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
+    var bWTM = WTM();
+    const Boolean bFilterEvalUndefined = true;
+    UInt32 wPly = State.MovePly;
 #if BottleGamePly
       wPly += SearchPly;
 #else
-      wPly += wDepth;
+    wPly += wDepth;
 #endif
 #if KillerCompositionHash
       var uMemoHash = compositionHash(true);
       wPly *= uMemoHash;
 #endif
 #if BottleBothSides
-      var nSide = bWTM ? 0 : 1;
+    var nSide = bWTM ? 0 : 1;
 #else
       var nSide = 0;
 #endif
-      var killers = State.Bottle.Load(wPly, nSide);
-      var bFound = killers.Count > 0;
+    var killers = State.Bottle.Load(wPly, nSide);
+    var bFound = killers.Count > 0;
 
-      foreach (var killer in killers) {
-        var moveFound = killer.Move;
-        var mValueFound = killer.Value;
-        var etFound = killer.Type;
-        traceVal(nameof(probeKiller), mValueFound, etFound);  //[Conditional]
-        addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound, bFilterEvalUndefined);
-      }
-
-      return bFound;
+    foreach (var killer in killers) {
+      var moveFound = killer.Move;
+      var mValueFound = killer.Value;
+      var etFound = killer.Type;
+      traceVal(nameof(probeKiller), mValueFound, etFound);  //[Conditional]
+      addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound, bFilterEvalUndefined);
     }
-    #endregion
 
-    #region Traced Position Diagnostic
-    [Conditional("TraceVal")]
-    private void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
-      if (IsTrace()) {
-        var sb = new StringBuilder();
-        sb.AppendFormat($"Trace #{State.NodeTotal}: {sLabel}");
-        if (mValue.HasValue) {
-          var mEval = ReflectValue(WTM(), (Eval)mValue);
-          sb.Append(" Eval");
-          sb.AppendEvalTerm((Eval)mEval);
-          if (mValue != EvalUndefined)
-            sb.AppendFormat($" {et}");
-        }
+    return bFound;
+  }
+  #endregion
+
+  #region Traced Position Diagnostic
+  [Conditional("TraceVal")]
+  private void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
+    if (IsTrace()) {
+      var sb = new StringBuilder();
+      sb.AppendFormat($"Trace #{State.NodeTotal}: {sLabel}");
+      if (mValue.HasValue) {
+        var mEval = ReflectValue(WTM(), (Eval)mValue);
+        sb.Append(" Eval");
+        sb.AppendEvalTerm((Eval)mEval);
+        if (mValue != EvalUndefined)
+          sb.AppendFormat($" {et}");
+      }
 #if DebugStand
         if (Enum.TryParse<EvalType>(sLabel, out EvalType etLabel)) {
         }
 #endif
-        LogLine(sb.ToString());
-      }
+      LogLine(sb.ToString());
     }
-    #endregion
   }
+  #endregion
 }

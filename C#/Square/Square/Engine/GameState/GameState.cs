@@ -60,285 +60,285 @@ using System.Text;
 
 using static System.String;
 
-namespace Engine {
-  using Command;                        // For Scanner
+namespace Engine;
+using Command;                        // For Scanner
 
-  using MoveOrder;                      // For MoveBottle
+using MoveOrder;                      // For MoveBottle
 
-  using Resource;
+using Resource;
 
-  using Test;
+using Test;
 
-  using static Board;
-  using static Position;
+using static Board;
+using static Position;
 
-  //
-  // Type Aliases:
-  //
-  using Depth = UInt16;
-  using Ply = UInt16;
+//
+// Type Aliases:
+//
+using Depth = UInt16;
+using Ply = UInt16;
 
-  partial class GameState : IDisposable {
-    #region Constants
-    internal const Depth wDepthMax = 48;  // Used by Predict()
-    internal const Ply wPlyHistory = 64;
-    #endregion
+partial class GameState : IDisposable {
+  #region Constants
+  internal const Depth wDepthMax = 48;  // Used by Predict()
+  internal const Ply wPlyHistory = 64;
+  #endregion
 
-    #region Enumerations
-    public enum SearchMode : byte { BestMove, Perft };
-    #endregion
+  #region Enumerations
+  public enum SearchMode : byte { BestMove, Perft };
+  #endregion
 
-    #region Constructors
-    public GameState() {
-      //
-      //[ToDo]Allocate a separate Pool of positions for each thread:
-      //
-      PositionPool = new PooledPosition(this);
+  #region Constructors
+  public GameState() {
+    //
+    //[ToDo]Allocate a separate Pool of positions for each thread:
+    //
+    PositionPool = new PooledPosition(this);
 
-      Bound = new SearchBound();
-      IsChess960 = false;
-      Case = new PerfCase();
+    Bound = new SearchBound();
+    IsChess960 = false;
+    Case = new PerfCase();
 
-      newBestMoves(wDepthMax);
-      newTimers();
-      SeededRandom = new Random();      // Variable seed based on Environment.TickCount
+    newBestMoves(wDepthMax);
+    newTimers();
+    SeededRandom = new Random();      // Variable seed based on Environment.TickCount
 
-      loadEndgameValue();
-      loadExtensionLimit();
+    loadEndgameValue();
+    loadExtensionLimit();
 #if KillerCompositionHash
       var uBottleLength = 8191U;
 #else
-      var uBottleLength = wPlyHistory;
+    var uBottleLength = wPlyHistory;
 #endif
 #if UseKillers
-      Bottle = new MoveBottle(uBottleLength);
+    Bottle = new MoveBottle(uBottleLength);
 #endif                                  // UseKillers
-      wireControls();
+    wireControls();
 
-      newNodeDelta(wDepthMax);
-      newEarlyMoveCounts(wPlyHistory);
-      newPVDoubleCounts(wPlyHistory);
+    newNodeDelta(wDepthMax);
+    newEarlyMoveCounts(wPlyHistory);
+    newPVDoubleCounts(wPlyHistory);
 #if MaterialBalance
       newCXPMemo(uDefaultComposition2);
 #else
-      newCXPMemo(uDefaultCompositions);
+    newCXPMemo(uDefaultCompositions);
 #endif
-      newPXPMemo(uDefaultPawnPositions);
+    newPXPMemo(uDefaultPawnPositions);
 
-      //clear();
-    }
+    //clear();
+  }
 
-    static GameState() {
-      Extensions = (SearchExtensions[])Enum.GetValues(typeof(SearchExtensions));
-    }
+  static GameState() {
+    Extensions = (SearchExtensions[])Enum.GetValues(typeof(SearchExtensions));
+  }
 
-    ~GameState() {
-      Dispose(false);
-    }
-    #endregion
+  ~GameState() {
+    Dispose(false);
+  }
+  #endregion
 
-    #region Init Methods
-    [MemberNotNull(
-      nameof(Variation),
-      nameof(QXPTank),
-      nameof(XPTank),
-      nameof(XPMTank)
-      )]
-    protected void wireControls() {
-      Opponent = default;
+  #region Init Methods
+  [MemberNotNull(
+    nameof(Variation),
+    nameof(QXPTank),
+    nameof(XPTank),
+    nameof(XPMTank)
+    )]
+  protected void wireControls() {
+    Opponent = default;
 
-      //
-      // Wire up the Event Handlers to listen for UCI Option changes:
-      //
-      wireClearHash();
-      wireMultiPV();                    // Step 6/6: Wireup
-      wireQXP();
-      wireXP();
-      wireXPM();
-      wireExpectedMovesToGo();
-      wireContempt();
-      wireLate();
-      wireChecks();
-      wireThreat();
-      wireSingular();
-      wireAspiration();
-      wireFlip();
-      wireFutility();
-      wireNullPrune();
-      wireOccam();
-      wirePure();
-      wireHeartbeat();
-      wireHeartbeatMS();
-      wirePonder();
-      wireAnalyseMode();
-      wireShowingLine();
-      wireOpponent();
-      wireLogLevel();
-      wireLogPath();
-      wireLanguage();
-    }
+    //
+    // Wire up the Event Handlers to listen for UCI Option changes:
+    //
+    wireClearHash();
+    wireMultiPV();                    // Step 6/6: Wireup
+    wireQXP();
+    wireXP();
+    wireXPM();
+    wireExpectedMovesToGo();
+    wireContempt();
+    wireLate();
+    wireChecks();
+    wireThreat();
+    wireSingular();
+    wireAspiration();
+    wireFlip();
+    wireFutility();
+    wireNullPrune();
+    wireOccam();
+    wirePure();
+    wireHeartbeat();
+    wireHeartbeatMS();
+    wirePonder();
+    wireAnalyseMode();
+    wireShowingLine();
+    wireOpponent();
+    wireLogLevel();
+    wireLogPath();
+    wireLanguage();
+  }
 
-    [MemberNotNull(nameof(BestMoves))]
-    private void newBestMoves(Int32 nCapacity) {
-      BestMoves = new List<Move>(nCapacity);
-    }
+  [MemberNotNull(nameof(BestMoves))]
+  private void newBestMoves(Int32 nCapacity) {
+    BestMoves = new List<Move>(nCapacity);
+  }
 
-    [MemberNotNull(
-      nameof(IterationTimer),
-      nameof(SearchTimer)
-      )]
-    private void newTimers() {
-      IterationTimer = new Stopwatch();
-      SearchTimer = new Stopwatch();
-    }
+  [MemberNotNull(
+    nameof(IterationTimer),
+    nameof(SearchTimer)
+    )]
+  private void newTimers() {
+    IterationTimer = new Stopwatch();
+    SearchTimer = new Stopwatch();
+  }
 
-    private void clearSearchCounts() {
+  private void clearSearchCounts() {
 #if UseKillers
-      Bottle.Clear();
+    Bottle.Clear();
 #endif                                  // UseKillers
-      XPTank.Counts.Clear();
-      QXPTank.Counts.Clear();
-      PXPMemo.Counts.Clear();
-      CXPMemo.Counts.Clear();
+    XPTank.Counts.Clear();
+    QXPTank.Counts.Clear();
+    PXPMemo.Counts.Clear();
+    CXPMemo.Counts.Clear();
 
-      NodeTotal = PseudoMoveTotal =
-        RepetitionPlies = RepetitionSearches =
-        PinSkipTotal = QuietSkipTotal =
+    NodeTotal = PseudoMoveTotal =
+      RepetitionPlies = RepetitionSearches =
+      PinSkipTotal = QuietSkipTotal =
 #if CountCapturedPiece
         CapturedPieceTotal =
 #endif
-        NullMoveTotal = NullMovePruneTotal =
-        DeltaPruneTotal = FutilePruneTotal = OccamPruneTotal =
-        CheckExtCount = ThreatExtCount = SingularExtCount =
-        DrawTotal = MateTotal =
-        WhiteSearchedPositionCount = WhiteEarlyMoveTotal =
-        BlackSearchedPositionCount = BlackEarlyMoveTotal =
-        PVDoubleTotal = PVSimpleTotal = PVSingleTotal = ZWSimpleTotal =
-        ReducedTotal = TotalEvals = FullEvals =
-        LowerCount = UpperCount = ExactCount =
+      NullMoveTotal = NullMovePruneTotal =
+      DeltaPruneTotal = FutilePruneTotal = OccamPruneTotal =
+      CheckExtCount = ThreatExtCount = SingularExtCount =
+      DrawTotal = MateTotal =
+      WhiteSearchedPositionCount = WhiteEarlyMoveTotal =
+      BlackSearchedPositionCount = BlackEarlyMoveTotal =
+      PVDoubleTotal = PVSimpleTotal = PVSingleTotal = ZWSimpleTotal =
+      ReducedTotal = TotalEvals = FullEvals =
+      LowerCount = UpperCount = ExactCount =
 #if QuiescentTryXP
-        XPGetHitsQxnt = XPGetReadsQxnt =
+      XPGetHitsQxnt = XPGetReadsQxnt =
 #endif
-        LegalMoves = LegalMovesQxnt = IllegalMoves = IllegalMovesQxnt = 0L;
+      LegalMoves = LegalMovesQxnt = IllegalMoves = IllegalMovesQxnt = 0L;
 
-      clearNodeDelta();                 // See DisplayPrediction
-      clearEarlyMoveCounts();           //[Conditional]
-      clearPVDoubleCounts();            //[Conditional]
+    clearNodeDelta();                 // See DisplayPrediction
+    clearEarlyMoveCounts();           //[Conditional]
+    clearPVDoubleCounts();            //[Conditional]
+  }
+
+  public Position Push(Position? parent) {
+    var child = PositionPool.Push();
+    child.Parent = parent;
+    child.Clear();
+    return child;
+  }
+
+  public void Pop(ref Position child) {
+    child.Parent = default;
+    PositionPool.Pop(ref child);
+  }
+
+  public void Unmove() {
+    if (MovePosition is null) return;
+    var parent = MovePosition.Parent;
+    Pop(ref MovePosition);
+    MovePosition = parent;
+  }
+
+  private void unwindGame() {
+    while (MovePosition is not null)
+      Unmove();
+    RootPosition = default;
+  }
+
+  public void Clear() {               // Called by UCI.NewGame()
+    unwindGame();
+    clearSearchCounts();              //[Init]Normally called by startSearch()
+  }
+
+  public static void SetLanguage(String? sLanguage) {
+    Language = sLanguage;
+    SetPieceSymbols(Language);
+  }
+  #endregion
+
+  #region Interface Methods
+  void IDisposable.Dispose() {
+    Close();
+  }
+
+  private void Close() {
+    Dispose(true);
+    GC.SuppressFinalize(this);
+  }
+
+  protected virtual void Dispose(Boolean bDisposeManaged) {
+    if (disposed) return;
+
+    if (bDisposeManaged) {
+      disposeTask();
     }
 
-    public Position Push(Position? parent) {
-      var child = PositionPool.Push();
-      child.Parent = parent;
-      child.Clear();
-      return child;
-    }
+    disposed = true;
+  }
+  #endregion
 
-    public void Pop(ref Position child) {
-      child.Parent = default;
-      PositionPool.Pop(ref child);
-    }
-
-    public void Unmove() {
-      if (MovePosition is null) return;
-      var parent = MovePosition.Parent;
-      Pop(ref MovePosition);
-      MovePosition = parent;
-    }
-
-    private void unwindGame() {
-      while (MovePosition is not null)
-        Unmove();
-      RootPosition = default;
-    }
-
-    public void Clear() {               // Called by UCI.NewGame()
-      unwindGame();
-      clearSearchCounts();              //[Init]Normally called by startSearch()
-    }
-
-    public static void SetLanguage(String? sLanguage) {
-      Language = sLanguage;
-      SetPieceSymbols(Language);
-    }
-    #endregion
-
-    #region Interface Methods
-    void IDisposable.Dispose() {
-      Close();
-    }
-
-    private void Close() {
-      Dispose(true);
-      GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(Boolean bDisposeManaged) {
-      if (disposed) return;
-
-      if (bDisposeManaged) {
-        disposeTask();
-      }
-
-      disposed = true;
-    }
-    #endregion
-
-    #region Banner Methods
-    private UInt32? clockSpeed() {
-      UInt32? uSpeed = default;
-      if (OperatingSystem.IsWindows()) {// Suppress SupportedOSPlatform warnings
+  #region Banner Methods
+  private UInt32? clockSpeed() {
+    UInt32? uSpeed = default;
+    if (OperatingSystem.IsWindows()) {// Suppress SupportedOSPlatform warnings
 #if TestSlowManagementObject
         const String sPath = "Win32_Processor.DeviceID='CPU0'";
         using var mo = new ManagementObject(sPath);
         uSpeed = (UInt32)mo["CurrentClockSpeed"];
 #else                                   //!TestSlowManagementObject
-        //[Note]Specifying the CurrentClockSpeed column improves performance
-        const String sQuery = "select CurrentClockSpeed from Win32_Processor";
-        using var mos = new ManagementObjectSearcher(sQuery);
-        foreach (var mbo in mos.Get()) {
-          var properties = mbo.Properties.Cast<PropertyData>();
-          var pd = properties.FirstOrDefault(pd =>
-            OperatingSystem.IsWindows() &&
-            pd.Name == "CurrentClockSpeed");
+      //[Note]Specifying the CurrentClockSpeed column improves performance
+      const String sQuery = "select CurrentClockSpeed from Win32_Processor";
+      using var mos = new ManagementObjectSearcher(sQuery);
+      foreach (var mbo in mos.Get()) {
+        var properties = mbo.Properties.Cast<PropertyData>();
+        var pd = properties.FirstOrDefault(pd =>
+          OperatingSystem.IsWindows() &&
+          pd.Name == "CurrentClockSpeed");
 
-          if (pd != null) {
-            uSpeed = (UInt32)pd.Value;
-            break;
-          }
+        if (pd != null) {
+          uSpeed = (UInt32)pd.Value;
+          break;
         }
+      }
 #endif                                  // TestSlowManagementObject
-      }
-      return uSpeed;
     }
+    return uSpeed;
+  }
 
-    [Conditional("DisplayOptions")]
-    private void appendOptions(StringBuilder sb) {
+  [Conditional("DisplayOptions")]
+  private void appendOptions(StringBuilder sb) {
 #if ShowClockSpeed
-      var uSpeedMHz = clockSpeed();
-      if (uSpeedMHz != null) {
-        var dSpeedGHz = (Double)uSpeedMHz.Value / 1000;
-        sb.AppendFormat($" {dSpeedGHz:0.0##} GHz");
-      }
+    var uSpeedMHz = clockSpeed();
+    if (uSpeedMHz != null) {
+      var dSpeedGHz = (Double)uSpeedMHz.Value / 1000;
+      sb.AppendFormat($" {dSpeedGHz:0.0##} GHz");
+    }
 #endif                                  // ShowClockSpeed
-      // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
-      sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
+    // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
+    sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
 #if XPHash128
       var sXPM = "XPM128";
       var sXP = "XP128";
 #else
-      var sXPM = "XPM";
-      var sXP = "XP";
+    var sXPM = "XPM";
+    var sXP = "XP";
 #endif
 #if QXPHash128
       var sQXP = "QXP128";
 #else
-      var sQXP = "QXP";
+    var sQXP = "QXP";
 #endif
-      sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}");
-      sb.AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}");
-      sb.AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
+    sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}");
+    sb.AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}");
+    sb.AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
 #if QuiescentTryXP
-      sb.Append(" TryXP");
+    sb.Append(" TryXP");
 #endif
 #if ShowSIMD
       // SIMD-Accelerated Numeric Types
@@ -346,8 +346,8 @@ namespace Engine {
       sb.AppendFormat($" SIMD={sHardware}");
 #endif
 #if ShowGC
-      var sServerGC = GCSettings.IsServerGC ? "Server" : "Workstation";
-      sb.AppendFormat($" GC={sServerGC}");
+    var sServerGC = GCSettings.IsServerGC ? "Server" : "Workstation";
+    sb.AppendFormat($" GC={sServerGC}");
 #endif
 #if ShowGCLatency
       var sLatency = GCSettings.LatencyMode;
@@ -357,11 +357,11 @@ namespace Engine {
       sb.Append(" Safe");
 #endif
 #if GetSmart
-      sb.Append(" Smart");
+    sb.Append(" Smart");
 #endif
 #if UseMoveSort
 #if LazyMoveSort
-      sb.Append(" Lazy");
+    sb.Append(" Lazy");
 #else
       sb.Append(" Sort");
 #endif
@@ -369,7 +369,7 @@ namespace Engine {
 #if !AddBestMoves
       sb.Append(" sans BestMoves");
 #endif
-      sb.AppendTZCMode();
+    sb.AppendTZCMode();
 #if Magic
       sb.Append(" Magic");
 #endif
@@ -377,7 +377,7 @@ namespace Engine {
       sb.Append(" Controlled");
 #endif
 #if Mobility
-      sb.Append(" Mobility");
+    sb.Append(" Mobility");
 #endif
 #if SwapOn
       sb.Append(" SwapOn");
@@ -385,113 +385,112 @@ namespace Engine {
 #if QuietCheck
       sb.Append(" QuietCheck");
 #elif QuietMate
-      sb.Append(" QuietMate");
+    sb.Append(" QuietMate");
 #endif
 #if TestCornerCP
       sb.AppendEvalInfo(mKBNvKMateCornerWeight);
       sb.Append(" CornerWeight");
 #endif
-      if (IsOccam)
-        sb.Append(" Occam");
+    if (IsOccam)
+      sb.Append(" Occam");
 
-      if (IsAspiration)
-        sb.Append(" Aspiration");
+    if (IsAspiration)
+      sb.Append(" Aspiration");
 
-      if (!IsFutility)
-        sb.Append(" sans Futility");
-      else if (FutilityMargin.Length != 1)
-        sb.AppendFormat($" {FutilityMargin.Length} Futility");
+    if (!IsFutility)
+      sb.Append(" sans Futility");
+    else if (FutilityMargin.Length != 1)
+      sb.AppendFormat($" {FutilityMargin.Length} Futility");
 
-      foreach (var extension in Extensions) {
-        var vLimit = GetNibble(ExtensionLimit, (Int32)extension);
+    foreach (var extension in Extensions) {
+      var vLimit = GetNibble(ExtensionLimit, (Int32)extension);
 #if !LateMoveReduction
-        if (extension == SearchExtensions.Late)
-          continue;                     //[Disabled]
+      if (extension == SearchExtensions.Late)
+        continue;                     //[Disabled]
 #endif
-        if (extension == SearchExtensions.Threat) {
+      if (extension == SearchExtensions.Threat) {
 #if MateThreat
-          if (vLimit == 0) {
+        if (vLimit == 0) {
 #else
           if (true) {
 #endif
-            sb.Append(" No Threats");
-            continue;                   //[Disabled]
-          }
+          sb.Append(" No Threats");
+          continue;                   //[Disabled]
         }
+      }
 #if !SingularExtension
         if (extension == SearchExtensions.Singular)
           continue;                     //[Disabled]
 #endif
-        if (vLimit > 0) {
-          sb.AppendFormat($" {vLimit} {extension}");
+      if (vLimit > 0) {
+        sb.AppendFormat($" {vLimit} {extension}");
 
-          if (vLimit != 1)              // Plural
-            sb.Append("s");
-        }
+        if (vLimit != 1)              // Plural
+          sb.Append("s");
       }
+    }
 
-      sb.AppendFormat($" {wPVSDepthMin} PVSMin");
+    sb.AppendFormat($" {wPVSDepthMin} PVSMin");
 
-      if (IsNullPrune) {
-        sb.AppendFormat($" {wReducedDepthMin} ReducedMin");
+    if (IsNullPrune) {
+      sb.AppendFormat($" {wReducedDepthMin} ReducedMin");
 #if TestLerp
         sb.AppendFormat($" {wLerpDepthMax} LerpMax");
 #endif
-      }
+    }
 #if MateThreat
-      if (GetNibble(ExtensionLimit, vThreat) > 0)
-        sb.AppendFormat($" {wThreatDepthMin} ThreatMin");
+    if (GetNibble(ExtensionLimit, vThreat) > 0)
+      sb.AppendFormat($" {wThreatDepthMin} ThreatMin");
 #endif
-      if (MultiPVLength > 1)
-        sb.AppendFormat($" {MultiPVLength} MultiPV");
+    if (MultiPVLength > 1)
+      sb.AppendFormat($" {MultiPVLength} MultiPV");
 
-      if (MoveBottle.nKillers != 1)
-        sb.AppendFormat($" {MoveBottle.nKillers} Killers");
-    }
-
-    private void herald(DateTime dtStarted, String? sName) {
-      var sb = new StringBuilder();
-      sb.AppendLine();                  // Following UCI prompt
-      sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
-
-      if (!IsNullOrEmpty(sName)) {
-        sb.Append(cSpace);
-        sb.Append(sName);
-      }
-
-      Bound.AppendBounds(sb);
-      appendOptions(sb);
-#if DisplayPosition
-      sb.AppendLine();
-      MovePosition?.Display(sb);
-#endif
-      sb.FlushLine();
-    }
-
-    private void displayCounts(SearchMode mode, Double dElapsedMS) {
-      //
-      // All of the following display methods are Conditional
-      //
-      displayNodeCounts(dElapsedMS);
-      displayPseudoMoveTotals();
-
-      //
-      // None of the following are counted in SearchMode.Perft:
-      //
-      if (mode == SearchMode.BestMove) {
-        displayPVSTotals();             //[Conditional]
-        displayEarlyMoveTotals();       //[Conditional]
-        displayDetails();               //[Conditional]
-        displayEvals();                 //[Conditional]
-        displayCXP();                   //[Conditional]
-        displayPXP();                   //[Conditional]
-        displayXPM();                   //[Conditional]
-        displayQXP();                   //[Conditional]
-        displayXP();                    //[Conditional]
-        displayEvalTypeCounts();        //[Conditional]
-        DisplayPositionPool();          //[Conditional]
-      }
-    }
-    #endregion
+    if (MoveBottle.nKillers != 1)
+      sb.AppendFormat($" {MoveBottle.nKillers} Killers");
   }
+
+  private void herald(DateTime dtStarted, String? sName) {
+    var sb = new StringBuilder();
+    sb.AppendLine();                  // Following UCI prompt
+    sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
+
+    if (!IsNullOrEmpty(sName)) {
+      sb.Append(cSpace);
+      sb.Append(sName);
+    }
+
+    Bound.AppendBounds(sb);
+    appendOptions(sb);
+#if DisplayPosition
+    sb.AppendLine();
+    MovePosition?.Display(sb);
+#endif
+    sb.FlushLine();
+  }
+
+  private void displayCounts(SearchMode mode, Double dElapsedMS) {
+    //
+    // All of the following display methods are Conditional
+    //
+    displayNodeCounts(dElapsedMS);
+    displayPseudoMoveTotals();
+
+    //
+    // None of the following are counted in SearchMode.Perft:
+    //
+    if (mode == SearchMode.BestMove) {
+      displayPVSTotals();             //[Conditional]
+      displayEarlyMoveTotals();       //[Conditional]
+      displayDetails();               //[Conditional]
+      displayEvals();                 //[Conditional]
+      displayCXP();                   //[Conditional]
+      displayPXP();                   //[Conditional]
+      displayXPM();                   //[Conditional]
+      displayQXP();                   //[Conditional]
+      displayXP();                    //[Conditional]
+      displayEvalTypeCounts();        //[Conditional]
+      DisplayPositionPool();          //[Conditional]
+    }
+  }
+  #endregion
 }

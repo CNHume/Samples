@@ -19,41 +19,41 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace Engine {
-  using static GameState;
+namespace Engine;
+using static GameState;
 
-  using static Logging.Logger;
+using static Logging.Logger;
 
-  //
-  // Type Aliases:
-  //
-  using Eval = Int16;
+//
+// Type Aliases:
+//
+using Eval = Int16;
 
-  partial class Position : Board {
-    #region Constants
-    private const Boolean Qxnt = true;
-    //private const Boolean NotQxnt = !Qxnt;
-    private const Boolean FindRepetition = true;
-    private const Boolean NotFindRepetition = !FindRepetition;
-    #endregion
+partial class Position : Board {
+  #region Constants
+  private const Boolean Qxnt = true;
+  //private const Boolean NotQxnt = !Qxnt;
+  private const Boolean FindRepetition = true;
+  private const Boolean NotFindRepetition = !FindRepetition;
+  #endregion
 
-    #region Search Methods
-    private Eval quiet(Eval mAlpha, Eval mBeta) {
-      var moves = PseudoMoves;
-      BestMoves.Clear();                //[Required]
+  #region Search Methods
+  private Eval quiet(Eval mAlpha, Eval mBeta) {
+    var moves = PseudoMoves;
+    BestMoves.Clear();                //[Required]
 
-      #region Test for Draw
-      if (IsDraw()) {                   //[Note]SetDraw50() will not be called below
-        State.IncEvalType(EvalType.Exact);
+    #region Test for Draw
+    if (IsDraw()) {                   //[Note]SetDraw50() will not be called below
+      State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
-        return eval();
+      return eval();
 #else
         return boundValue(eval(), mAlpha, mBeta);
 #endif
-      }
-      #endregion
+    }
+    #endregion
 
-      #region Transposition Table Lookup
+    #region Transposition Table Lookup
 #if TraceVal
       var bTrace = IsTrace();
       if (bTrace) {
@@ -61,66 +61,66 @@ namespace Engine {
         Display(sLabel);                //[Note]Undefined CurrentMove
       }
 #endif
-      // BestMoves updated iff bFoundValue
-      if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
-        // moveFound not always defined for EvalType.Upper [Fail Low]
-        if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
+    // BestMoves updated iff bFoundValue
+    if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
+      // moveFound not always defined for EvalType.Upper [Fail Low]
+      if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
-          unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if AddBestMoves
-          BestMoves.Add(moveFound);
+        BestMoves.Add(moveFound);
 #endif
-        }
-
-        return mValueFound;
       }
-      #endregion
 
-      #region Move Loop Initializaton
+      return mValueFound;
+    }
+    #endregion
+
+    #region Move Loop Initializaton
 #if QuietCheck || QuietMate
-      var bInCheck = InCheck();
+    var bInCheck = InCheck();
 #endif
-      var et = EvalType.Upper;          //[Init]Fail Low is the default assumption
-                                        // Stand Pat (tests Draw Flags)
-      var mStand = standpatval(mValueFound, etFound);
+    var et = EvalType.Upper;          //[Init]Fail Low is the default assumption
+                                      // Stand Pat (tests Draw Flags)
+    var mStand = standpatval(mValueFound, etFound);
 
-      var moveBest = Move.Undefined;    //[Init]
-      var mValue = EvalUndefined;
-      var mBest = EvalUndefined;
+    var moveBest = Move.Undefined;    //[Init]
+    var mValue = EvalUndefined;
+    var mBest = EvalUndefined;
 
-      var bStandPat = mAlpha/*+ mStandPatWeight*/ < mStand;
-      if (bStandPat) {
-        mBest = mStand;
+    var bStandPat = mAlpha/*+ mStandPatWeight*/ < mStand;
+    if (bStandPat) {
+      mBest = mStand;
 
-        if (mAlpha < mBest)
-          mAlpha = mBest;
-      }
-      #endregion
+      if (mAlpha < mBest)
+        mAlpha = mBest;
+    }
+    #endregion
 
-      if (mBeta <= mAlpha) {
-        //[Test]return boundValue(mBest, mAlpha, mBeta);
+    if (mBeta <= mAlpha) {
+      //[Test]return boundValue(mBest, mAlpha, mBeta);
+    }
+    else {
+      #region Generate Moves
+      if (SearchMoves != null && SearchMoves.Count > 0) {
+        moves.Clear();
+        moves.AddRange(SearchMoves);
+#if DebugSearchMoves
+        var sb = new StringBuilder("SearchMoves:");
+        sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
+        sb.FlushLine();
+#endif
       }
       else {
-        #region Generate Moves
-        if (SearchMoves != null && SearchMoves.Count > 0) {
-          moves.Clear();
-          moves.AddRange(SearchMoves);
-#if DebugSearchMoves
-          var sb = new StringBuilder("SearchMoves:");
-          sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
-          sb.FlushLine();
-#endif
-        }
-        else {
 #if SwapOn
           generate(moves, Swaps);
 #elif QuietCheck || QuietMate
-          if (bInCheck)
-            generate(moves, !Swaps);
-          else
-            generateMaterialMoves(moves);
+        if (bInCheck)
+          generate(moves, !Swaps);
+        else
+          generateMaterialMoves(moves);
 #else
           generateMaterialMoves(moves);
 #endif
@@ -130,22 +130,22 @@ namespace Engine {
           sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
           sb.FlushLine();
 #endif
-        }
-        #endregion
+      }
+      #endregion
 
-        var child = Push();             // Push Position to make the moves
-        try {
-          #region Move Loop
+      var child = Push();             // Push Position to make the moves
+      try {
+        #region Move Loop
 #if DebugMoveColor
           var bDebugWTM = WTM();
 #endif
-          var uLegalMoves = 0U;
-          foreach (var mov in moves) {
-            var move = mov;             // Allow tryMove(ref move) below
-            #region Delta Prune or Make Move
+        var uLegalMoves = 0U;
+        foreach (var mov in moves) {
+          var move = mov;             // Allow tryMove(ref move) below
+          #region Delta Prune or Make Move
 #if DebugMove
-            unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-            //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
             var bWhiteMove = move.Has(Move.WTM);
@@ -153,97 +153,97 @@ namespace Engine {
               Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
             }
 #endif
-            var bNonMaterial = !move.Has(Move.Material);
+          var bNonMaterial = !move.Has(Move.Material);
 #if QuietMate
-            if (uLegalMoves > 0) {
+          if (uLegalMoves > 0) {
 #else
             if (true) {
 #endif
 #if QuietCheck
               if (bNonMaterial && !bInCheck) {
 #else
-              if (bNonMaterial) {
+            if (bNonMaterial) {
 #endif
-                AtomicIncrement(ref State.QuietSkipTotal);
-                continue;
-              }
-
-              if (isDeltaPruned(ref move, mAlpha, mStand)) {
-                AtomicIncrement(ref State.DeltaPruneTotal);
-                continue;
-              }
+              AtomicIncrement(ref State.QuietSkipTotal);
+              continue;
             }
 
-            //
-            //[Note]DrawFlags.Draw3 would only be set on entry, because the point of quiet() is to
-            // continue searching only so long as moves which alter the material balance are found.
-            //
-            if (!child.tryMove(ref move, NotFindRepetition, Qxnt))
+            if (isDeltaPruned(ref move, mAlpha, mStand)) {
+              AtomicIncrement(ref State.DeltaPruneTotal);
               continue;
+            }
+          }
 
-            uLegalMoves++;
-            #endregion
+          //
+          //[Note]DrawFlags.Draw3 would only be set on entry, because the point of quiet() is to
+          // continue searching only so long as moves which alter the material balance are found.
+          //
+          if (!child.tryMove(ref move, NotFindRepetition, Qxnt))
+            continue;
 
-            //
-            //[Note]SetDraw50() is not called because the point of quiet() is to continue
-            // searching only so long as moves which alter the material balance are found.
-            //
+          uLegalMoves++;
+          #endregion
+
+          //
+          //[Note]SetDraw50() is not called because the point of quiet() is to continue
+          // searching only so long as moves which alter the material balance are found.
+          //
 #if QuietMate && !QuietCheck
-            if (bNonMaterial) {         // Skip search of any Check Evasion.
-              State.QuietSkipTotal++;
-              continue;
-            }
+          if (bNonMaterial) {         // Skip search of any Check Evasion.
+            State.QuietSkipTotal++;
+            continue;
+          }
 #endif
-            mValue = (Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
+          mValue = (Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
 
-            #region Update Best Move
-            if (mBest < mValue) {
-              mBest = mValue;
+          #region Update Best Move
+          if (mBest < mValue) {
+            mBest = mValue;
 
-              if (mAlpha < mBest) {
-                //
-                //[Note]Annotation is made from the child position resulting from each move.
-                //
-                moveBest =
-                  child.CurrentMove = child.annotateFinal(move);
+            if (mAlpha < mBest) {
+              //
+              //[Note]Annotation is made from the child position resulting from each move.
+              //
+              moveBest =
+                child.CurrentMove = child.annotateFinal(move);
 #if AddBestMoves
-                BestMoves.Clear();
-                BestMoves.Add(moveBest);
+              BestMoves.Clear();
+              BestMoves.Add(moveBest);
 #if AddRangeBestMoves
-                BestMoves.AddRange(child.BestMoves);
+              BestMoves.AddRange(child.BestMoves);
 #endif
 #endif
-                traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
-                mAlpha = mBest;
-                if (mBeta <= mAlpha) {
+              traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
+              mAlpha = mBest;
+              if (mBeta <= mAlpha) {
 #if TraceVal
                   if (bTrace)
                     LogLine("Trace: Quiet Failed High");
 #endif
-                  et = EvalType.Lower;  // Cutoff Reached: Ignore further moves and Fail High
-                  goto exit;
-                }
-
-                et = EvalType.Exact;
+                et = EvalType.Lower;  // Cutoff Reached: Ignore further moves and Fail High
+                goto exit;
               }
-            }
-            #endregion
-          }                             //[Next]Pseudo Move
-          #endregion
-#if QuietMate
-          if (uLegalMoves == 0 && isLeaf()) {
-            SetFinal();                 // Mark Game Leaf
-            mBest = final();
-          }
-#endif
-          traceVal("Quiet Failed Low", mBest);  //[Conditional]
-        }
-        finally {
-          Pop(ref child);               // Pop Position used for this Ply
-        }
-      }
 
-    exit:
+              et = EvalType.Exact;
+            }
+          }
+          #endregion
+        }                             //[Next]Pseudo Move
+        #endregion
+#if QuietMate
+        if (uLegalMoves == 0 && isLeaf()) {
+          SetFinal();                 // Mark Game Leaf
+          mBest = final();
+        }
+#endif
+        traceVal("Quiet Failed Low", mBest);  //[Conditional]
+      }
+      finally {
+        Pop(ref child);               // Pop Position used for this Ply
+      }
+    }
+
+  exit:
 #if VerifyUpper
       var bUpper = et == EvalType.Upper;
       var bUndefined = moveBest == Move.Undefined;
@@ -251,79 +251,78 @@ namespace Engine {
         Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
       }
 #endif
-      if (mBest == EvalUndefined)
-        mBest = mStand;
+    if (mBest == EvalUndefined)
+      mBest = mStand;
 
 #if TransposeQuiet
-      return storeQXP(mBest, et, moveBest);
+    return storeQXP(mBest, et, moveBest);
 #else
       return boundValue(mBest, mAlpha, mBeta);
 #endif
-    }
-
-    protected Boolean isLeaf() {
-      var moves = PseudoMoves;
-      generate(moves, !Swaps);
-      var child = Push();               // Push Position to find a legal move
-      try {
-        foreach (var mov in moves) {
-          var move = mov;
-          if (child.tryMove(ref move, NotFindRepetition))
-            return false;
-        }
-
-        return true;
-      }
-      finally {
-        Pop(ref child);                 // Pop Position used for this test
-      }
-    }
-
-    #region Delta Pruning Method
-    //
-    // Delta Pruning Heuristic: Skip insufficient captures and promotions,
-    // unless an endgame has arisen.  The evaluation is estimated and the
-    // move made only if the cutoff is met.  Check is not considered here.
-    //
-    private Boolean isDeltaPruned(ref Move move, Eval mAlpha, Eval mStand) {
-      var bPrune = false;
-      Eval mPromotion = 0;
-      Eval mCapture = 0;
-
-      var uPromotion = Promoted(move);
-      if (uPromotion > 0) {
-        // Only Pawns Promote:
-        mPromotion = weightP(PieceIndex(uPromotion));
-      }
-
-      if (IsCapture(move)) {
-        var nTo = To(move);
-#if DebugMove
-        var sqTo = (Sq)nTo;
-#endif
-        var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
-        mCapture = weight(vCapture);
-      }
-
-      //
-      // Test isEndgame() based on the Total of material remaining for both sides:
-      //
-      var mPositionDelta = (Eval)(mPromotion - mCapture);
-      var mPositionTotal = (Eval)(staticTotal + mPositionDelta);
-
-      var bEndGame = isEndgame(mPositionTotal);
-      if (!bEndGame) {
-        var mMoveDelta = (Eval)(mPromotion + mCapture);
-        var mDelta = (Eval)(mDeltaBaseWeight + mMoveDelta);
-        var mValue = (Eval)(mStand + mDelta);
-        bPrune = mValue <= mAlpha;
-        if (bPrune)
-          traceVal("Quiet Delta Pruned", mValue);       //[Conditional]
-      }
-
-      return bPrune;
-    }
-    #endregion
-    #endregion
   }
+
+  protected Boolean isLeaf() {
+    var moves = PseudoMoves;
+    generate(moves, !Swaps);
+    var child = Push();               // Push Position to find a legal move
+    try {
+      foreach (var mov in moves) {
+        var move = mov;
+        if (child.tryMove(ref move, NotFindRepetition))
+          return false;
+      }
+
+      return true;
+    }
+    finally {
+      Pop(ref child);                 // Pop Position used for this test
+    }
+  }
+
+  #region Delta Pruning Method
+  //
+  // Delta Pruning Heuristic: Skip insufficient captures and promotions,
+  // unless an endgame has arisen.  The evaluation is estimated and the
+  // move made only if the cutoff is met.  Check is not considered here.
+  //
+  private Boolean isDeltaPruned(ref Move move, Eval mAlpha, Eval mStand) {
+    var bPrune = false;
+    Eval mPromotion = 0;
+    Eval mCapture = 0;
+
+    var uPromotion = Promoted(move);
+    if (uPromotion > 0) {
+      // Only Pawns Promote:
+      mPromotion = weightP(PieceIndex(uPromotion));
+    }
+
+    if (IsCapture(move)) {
+      var nTo = To(move);
+#if DebugMove
+      var sqTo = (Sq)nTo;
+#endif
+      var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
+      mCapture = weight(vCapture);
+    }
+
+    //
+    // Test isEndgame() based on the Total of material remaining for both sides:
+    //
+    var mPositionDelta = (Eval)(mPromotion - mCapture);
+    var mPositionTotal = (Eval)(staticTotal + mPositionDelta);
+
+    var bEndGame = isEndgame(mPositionTotal);
+    if (!bEndGame) {
+      var mMoveDelta = (Eval)(mPromotion + mCapture);
+      var mDelta = (Eval)(mDeltaBaseWeight + mMoveDelta);
+      var mValue = (Eval)(mStand + mDelta);
+      bPrune = mValue <= mAlpha;
+      if (bPrune)
+        traceVal("Quiet Delta Pruned", mValue);       //[Conditional]
+    }
+
+    return bPrune;
+  }
+  #endregion
+  #endregion
 }

@@ -3,64 +3,63 @@
 //
 using System.Runtime.Serialization;
 
-namespace Engine.Exceptions {
-  [Serializable]
-  class BoardException : ApplicationException, ISerializable {
-    #region Constructors
-    public BoardException() {
-    }
-    public BoardException(string message)
-      : base(message) {
-    }
-    public BoardException(string message, Exception inner)
-      : base(message, inner) {
-    }
-    #endregion
-
-    #region ISerializable Interface
-    protected BoardException(SerializationInfo info, StreamingContext context)
-      : base(info, context) {
-    }
-    #endregion
+namespace Exceptions;
+[Serializable]
+class BoardException : ApplicationException, ISerializable {
+  #region Constructors
+  public BoardException() {
   }
-
-  [Serializable]
-  class PieceException : BoardException, ISerializable {
-    #region Constructors
-    public PieceException() {
-    }
-    public PieceException(string message)
-      : base(message) {
-    }
-    public PieceException(string message, Exception inner)
-      : base(message, inner) {
-    }
-    #endregion
-
-    #region ISerializable Interface
-    protected PieceException(SerializationInfo info, StreamingContext context)
-      : base(info, context) {
-    }
-    #endregion
+  public BoardException(string message)
+    : base(message) {
   }
-
-  [Serializable]
-  class ColorException : PieceException, ISerializable {
-    #region Constructors
-    public ColorException() {
-    }
-    public ColorException(string message)
-      : base(message) {
-    }
-    public ColorException(string message, Exception inner)
-      : base(message, inner) {
-    }
-    #endregion
-
-    #region ISerializable Interface
-    protected ColorException(SerializationInfo info, StreamingContext context)
-      : base(info, context) {
-    }
-    #endregion
+  public BoardException(string message, Exception inner)
+    : base(message, inner) {
   }
+  #endregion
+
+  #region ISerializable Interface
+  protected BoardException(SerializationInfo info, StreamingContext context)
+    : base(info, context) {
+  }
+  #endregion
+}
+
+[Serializable]
+class PieceException : BoardException, ISerializable {
+  #region Constructors
+  public PieceException() {
+  }
+  public PieceException(string message)
+    : base(message) {
+  }
+  public PieceException(string message, Exception inner)
+    : base(message, inner) {
+  }
+  #endregion
+
+  #region ISerializable Interface
+  protected PieceException(SerializationInfo info, StreamingContext context)
+    : base(info, context) {
+  }
+  #endregion
+}
+
+[Serializable]
+class ColorException : PieceException, ISerializable {
+  #region Constructors
+  public ColorException() {
+  }
+  public ColorException(string message)
+    : base(message) {
+  }
+  public ColorException(string message, Exception inner)
+    : base(message, inner) {
+  }
+  #endregion
+
+  #region ISerializable Interface
+  protected ColorException(SerializationInfo info, StreamingContext context)
+    : base(info, context) {
+  }
+  #endregion
 }

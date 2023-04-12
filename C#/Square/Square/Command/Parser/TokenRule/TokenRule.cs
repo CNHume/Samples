@@ -7,27 +7,26 @@
 //
 using System.Text.RegularExpressions;
 
-namespace Command {
-  partial class Parser : IDisposable {
-    internal class TokenRule {
-      #region Properties
-      internal TokenRuleType TokenRuleType { get; }
-      private Regex Regex { get; }
-      #endregion
+namespace Command;
+partial class Parser : IDisposable {
+  internal class TokenRule {
+    #region Properties
+    internal TokenRuleType TokenRuleType { get; }
+    private Regex Regex { get; }
+    #endregion
 
-      #region Constructors
-      public TokenRule(TokenRuleType tokenRuleType, String regex, RegexOptions options = RegexOptions.None) {
-        TokenRuleType = tokenRuleType;
-        var anchor = $"^({regex})";
-        Regex = new Regex(anchor, options);
-      }
-      #endregion
-
-      #region Methods
-      public Match Match(String input) {
-        return Regex.Match(input);
-      }
-      #endregion
+    #region Constructors
+    public TokenRule(TokenRuleType tokenRuleType, String regex, RegexOptions options = RegexOptions.None) {
+      TokenRuleType = tokenRuleType;
+      var anchor = $"^({regex})";
+      Regex = new Regex(anchor, options);
     }
+    #endregion
+
+    #region Methods
+    public Match Match(String input) {
+      return Regex.Match(input);
+    }
+    #endregion
   }
 }

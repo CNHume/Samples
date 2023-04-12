@@ -16,19 +16,19 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace Engine {
-  using static Logging.Logger;          // For TestMagic
+namespace Engine;
+using static Logging.Logger;          // For TestMagic
 
-  //
-  // Type Aliases:
-  //
-  using Plane = UInt64;
+//
+// Type Aliases:
+//
+using Plane = UInt64;
 
-  partial class Board {
-    #region Constants
-    private const Int32 nDiagonals = 15;        // nFiles + nRanks - 1
-    private const Int32 nStates = 1 << 6;
-    private const UInt32 uStateMask = nStates - 1;
+partial class Board {
+  #region Constants
+  private const Int32 nDiagonals = 15;        // nFiles + nRanks - 1
+  private const Int32 nStates = 1 << 6;
+  private const UInt32 uStateMask = nStates - 1;
 #if Magic
     private const Plane qpFileMask = 0x0101010101010101UL;
     private const Plane qpA1H8Mask = 0x8040201008040201UL;
@@ -47,218 +47,218 @@ namespace Engine {
     private const UInt32 uOffset = 42;  // ((1 << (N / 2 * 2)) - 1) * 2 / 3, where N = 6
     private const UInt32 uOffset2 = 21; // Obtained empirically, paper may be in error
 #endif
-    private static readonly ValueTuple<Int32, Int32>[] KingDeltas =
-      { ( 1, 0), ( 1, 1), ( 0, 1), (-1, 1),
+  private static readonly ValueTuple<Int32, Int32>[] KingDeltas =
+    { ( 1, 0), ( 1, 1), ( 0, 1), (-1, 1),
         (-1, 0), (-1,-1), ( 0,-1), ( 1,-1) };
-    private static readonly ValueTuple<Int32, Int32>[] KnightDeltas =
-      { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1),
+  private static readonly ValueTuple<Int32, Int32>[] KnightDeltas =
+    { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1),
         (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
 
-    //[Dark|Lite]Square is used to determine square color of the Bishops
-    internal static void colorSquares() {
-      var qp = BIT0;
-      for (var y = 0U; y < nRanks; y++)
-        for (var x = 0U; x < nFiles; x++, qp <<= 1)
-          if (IsOdd(x + y)) SquareLite |= qp;
+  //[Dark|Lite]Square is used to determine square color of the Bishops
+  internal static void colorSquares() {
+    var qp = BIT0;
+    for (var y = 0U; y < nRanks; y++)
+      for (var x = 0U; x < nFiles; x++, qp <<= 1)
+        if (IsOdd(x + y)) SquareLite |= qp;
 
-      SquareDark = ~SquareLite;
-    }
-    #endregion
+    SquareDark = ~SquareLite;
+  }
+  #endregion
 
-    #region Piece Attacks Table Initialization
-    [MemberNotNull(nameof(AtxKing))]
-    private static void newKingAtx() {
-      AtxKing = new Plane[nSquares];
-    }
+  #region Piece Attacks Table Initialization
+  [MemberNotNull(nameof(AtxKing))]
+  private static void newKingAtx() {
+    AtxKing = new Plane[nSquares];
+  }
 
-    [MemberNotNull(nameof(AtxKnight))]
-    private static void newKnightAtx() {
-      AtxKnight = new Plane[nSquares];
-    }
+  [MemberNotNull(nameof(AtxKnight))]
+  private static void newKnightAtx() {
+    AtxKnight = new Plane[nSquares];
+  }
 
-    private static Boolean inBounds(Int32 nX, Int32 nY) {
-      return nX >= 0 && nX < nFiles &&
-             nY >= 0 && nY < nRanks;
-    }
+  private static Boolean inBounds(Int32 nX, Int32 nY) {
+    return nX >= 0 && nX < nFiles &&
+           nY >= 0 && nY < nRanks;
+  }
 
-    private static void loadPieceAtx(
-      Plane[] qpAtx, ValueTuple<Int32, Int32>[] deltas) {
-      foreach (var (ndx, ndy) in deltas) {
-        var nFrom = 0;
-        for (var y = 0; y < nRanks; y++)
-          for (var x = 0; x < nFiles; x++, nFrom++) {
-            var nX = x + ndx;
-            var nY = y + ndy;
+  private static void loadPieceAtx(
+    Plane[] qpAtx, ValueTuple<Int32, Int32>[] deltas) {
+    foreach (var (ndx, ndy) in deltas) {
+      var nFrom = 0;
+      for (var y = 0; y < nRanks; y++)
+        for (var x = 0; x < nFiles; x++, nFrom++) {
+          var nX = x + ndx;
+          var nY = y + ndy;
 
-            if (inBounds(nX, nY)) {
-              //[Optimized]var nFrom = sqr(x, y);
-              var nTo = sqr(nX, nY);
-              qpAtx[nFrom] |= bit(nTo);
-            }
+          if (inBounds(nX, nY)) {
+            //[Optimized]var nFrom = sqr(x, y);
+            var nTo = sqr(nX, nY);
+            qpAtx[nFrom] |= bit(nTo);
           }
+        }
+    }
+  }
+
+  internal static void loadPieceAtx() {
+    loadPieceAtx(AtxKing, KingDeltas);
+    loadPieceAtx(AtxKnight, KnightDeltas);
+  }
+  #endregion                        // Piece Attacks Table Initialization
+
+  #region Ray Attacks Table Initialization
+  [MemberNotNull(
+    nameof(AtxRank),
+    nameof(AtxFile)
+    )]
+  private static void newOrthAtx() {
+    AtxFile = new Plane[nStates][];
+    AtxRank = new Plane[nStates][];
+
+    for (var nState = 0; nState < nStates; nState++) {
+      AtxFile[nState] = new Plane[nSquares];
+      AtxRank[nState] = new Plane[nSquares];
+    }
+  }
+
+  [MemberNotNull(
+    nameof(AtxA1H8),
+    nameof(AtxA8H1)
+    )]
+  private static void newDiagAtx() {
+    AtxA1H8 = new Plane[nStates][];
+    AtxA8H1 = new Plane[nStates][];
+
+    for (var nState = 0; nState < nStates; nState++) {
+      AtxA1H8[nState] = new Plane[nSquares];
+      AtxA8H1[nState] = new Plane[nSquares];
+    }
+  }
+
+  #region Orthogonal Ray Attacks Tables
+  internal static void loadOrthAtx() {
+    for (UInt32 uState = 0; uState < nStates; uState++) {
+      //
+      // Ray State values consist only of the medial 6 bits.
+      // Add Hi and Lo limit bits here:
+      //
+      var uOrth = uBit(nFiles - 1) | uState << 1 | uBit(0);
+
+      for (var y = 0; y < nRanks; y++) {
+        var yInverse = InvertRank(y);
+
+        for (var x = 0; x < nFiles; x++) {
+          var nRankPos = sqr(x, y);
+          var nFilePos = sqr(yInverse, x);
+
+          var xUp = x + 1;
+          var bLoop = xUp < nFiles;
+          //
+          // While building the Ray Atx Tables, bLoop remains true until uOrth indicates
+          // that the piece sliding from the reference square has run into another piece.
+          //
+          for (var u = uBit(xUp); bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
+            AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
+#if Magic
+              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
+#else
+            AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xUp));
+#endif
+          }
+
+          var xDn = x - 1;
+          bLoop = x > 0;
+          for (var u = uBit(xDn); bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
+            AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
+#if Magic
+              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
+#else
+            AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xDn));
+#endif
+          }
+        }
       }
     }
+  }
+  #endregion                          // Orthogonal Ray Attacks Tables
 
-    internal static void loadPieceAtx() {
-      loadPieceAtx(AtxKing, KingDeltas);
-      loadPieceAtx(AtxKnight, KnightDeltas);
-    }
-    #endregion                        // Piece Attacks Table Initialization
-
-    #region Ray Attacks Table Initialization
-    [MemberNotNull(
-      nameof(AtxRank),
-      nameof(AtxFile)
-      )]
-    private static void newOrthAtx() {
-      AtxFile = new Plane[nStates][];
-      AtxRank = new Plane[nStates][];
-
-      for (var nState = 0; nState < nStates; nState++) {
-        AtxFile[nState] = new Plane[nSquares];
-        AtxRank[nState] = new Plane[nSquares];
-      }
-    }
-
-    [MemberNotNull(
-      nameof(AtxA1H8),
-      nameof(AtxA8H1)
-      )]
-    private static void newDiagAtx() {
-      AtxA1H8 = new Plane[nStates][];
-      AtxA8H1 = new Plane[nStates][];
-
-      for (var nState = 0; nState < nStates; nState++) {
-        AtxA1H8[nState] = new Plane[nSquares];
-        AtxA8H1[nState] = new Plane[nSquares];
-      }
-    }
-
-    #region Orthogonal Ray Attacks Tables
-    internal static void loadOrthAtx() {
-      for (UInt32 uState = 0; uState < nStates; uState++) {
+  #region Diagonal Ray Attacks Tables
+  //
+  // The approach used here is based on "Rotated bitmaps, a new twist on an old idea" by Dr. Robert Hyatt
+  // See http://www.craftychess.com/hyatt/bitmaps.html
+  //
+  internal static void loadDiagAtx() {
+    for (UInt32 uState = 0; uState < nStates; uState++) {
+      for (var d = 0; d < nDiagonals; d++) {
+        var dInverse = InvertDiag(d);
+        var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
+        var uDiagMask = uBit(nDiagLen) - 1;
         //
         // Ray State values consist only of the medial 6 bits.
         // Add Hi and Lo limit bits here:
         //
-        var uOrth = uBit(nFiles - 1) | uState << 1 | uBit(0);
+        var uDiag = (uBit(nDiagLen - 1) | uState << 1 | uBit(0)) & uDiagMask;
 
-        for (var y = 0; y < nRanks; y++) {
-          var yInverse = InvertRank(y);
-
-          for (var x = 0; x < nFiles; x++) {
-            var nRankPos = sqr(x, y);
-            var nFilePos = sqr(yInverse, x);
-
-            var xUp = x + 1;
-            var bLoop = xUp < nFiles;
-            //
-            // While building the Ray Atx Tables, bLoop remains true until uOrth indicates
-            // that the piece sliding from the reference square has run into another piece.
-            //
-            for (var u = uBit(xUp); bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
-              AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
-#if Magic
-              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
-#else
-              AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xUp));
-#endif
-            }
-
-            var xDn = x - 1;
-            bLoop = x > 0;
-            for (var u = uBit(xDn); bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
-              AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
-#if Magic
-              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
-#else
-              AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xDn));
-#endif
-            }
-          }
-        }
-      }
-    }
-    #endregion                          // Orthogonal Ray Attacks Tables
-
-    #region Diagonal Ray Attacks Tables
-    //
-    // The approach used here is based on "Rotated bitmaps, a new twist on an old idea" by Dr. Robert Hyatt
-    // See http://www.craftychess.com/hyatt/bitmaps.html
-    //
-    internal static void loadDiagAtx() {
-      for (UInt32 uState = 0; uState < nStates; uState++) {
-        for (var d = 0; d < nDiagonals; d++) {
-          var dInverse = InvertDiag(d);
-          var nDiagLen = d < nFiles ? d + 1 : dInverse + 1;
-          var uDiagMask = uBit(nDiagLen) - 1;
-          //
-          // Ray State values consist only of the medial 6 bits.
-          // Add Hi and Lo limit bits here:
-          //
-          var uDiag = (uBit(nDiagLen - 1) | uState << 1 | uBit(0)) & uDiagMask;
-
-          for (Int32 x = d < nFiles ? 7 - d : 0,
-                     y = d < nFiles ? 0 : d - 7,
-                     w = 0; w < nDiagLen; w++, x++, y++) {
-            var xInverse = InvertFile(x);
+        for (Int32 x = d < nFiles ? 7 - d : 0,
+                   y = d < nFiles ? 0 : d - 7,
+                   w = 0; w < nDiagLen; w++, x++, y++) {
+          var xInverse = InvertFile(x);
 #if DebugDiagIndexers
-            Debug.Assert(diagA1H8(sqr(x, y)) == d, "A1H8 mismatch");
-            Debug.Assert(diagA8H1(sqr(xInverse, y)) == d, "A8H1 mismatch");
+          Debug.Assert(diagA1H8(sqr(x, y)) == d, "A1H8 mismatch");
+          Debug.Assert(diagA8H1(sqr(xInverse, y)) == d, "A8H1 mismatch");
 #endif
-            var nA1H8Pos = sqr(x, y);
-            var nA8H1Pos = sqr(xInverse, y);
+          var nA1H8Pos = sqr(x, y);
+          var nA8H1Pos = sqr(xInverse, y);
 
-            var xUp = x + 1;
-            var yUp = y + 1;
-            var bLoop = xUp < nFiles && yUp < nRanks;
-            //
-            // While building the Ray Atx Tables, bLoop remains true until uDiag indicates
-            // that the piece sliding from the reference square has run into another piece.
-            //
-            for (var u = uBit(w + 1); bLoop; bLoop = (uDiag & u) == 0,
-                                             u <<= 1, xUp++, yUp++) {
-              var xUpInverse = InvertFile(xUp);
+          var xUp = x + 1;
+          var yUp = y + 1;
+          var bLoop = xUp < nFiles && yUp < nRanks;
+          //
+          // While building the Ray Atx Tables, bLoop remains true until uDiag indicates
+          // that the piece sliding from the reference square has run into another piece.
+          //
+          for (var u = uBit(w + 1); bLoop; bLoop = (uDiag & u) == 0,
+                                           u <<= 1, xUp++, yUp++) {
+            var xUpInverse = InvertFile(xUp);
 #if Magic
               AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
               AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #else
-              AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+            AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xUp, yUp));
+            AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #endif
-            }
+          }
 
-            var xDn = x - 1;
-            var yDn = y - 1;
-            bLoop = x > 0 && y > 0;
-            for (var u = uBit(w - 1); bLoop; bLoop = (uDiag & u) == 0,
-                                             u >>= 1, xDn--, yDn--) {
-              var xDnInverse = InvertFile(xDn);
+          var xDn = x - 1;
+          var yDn = y - 1;
+          bLoop = x > 0 && y > 0;
+          for (var u = uBit(w - 1); bLoop; bLoop = (uDiag & u) == 0,
+                                           u >>= 1, xDn--, yDn--) {
+            var xDnInverse = InvertFile(xDn);
 #if Magic
               AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
               AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #else
-              AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+            AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xDn, yDn));
+            AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #endif
-            }
           }
         }
       }
     }
-    #endregion                          // Diagonal Ray Attacks
-    #endregion                          // Ray Attacks Table Initialization
+  }
+  #endregion                          // Diagonal Ray Attacks
+  #endregion                          // Ray Attacks Table Initialization
 
-    #region Ray Attacks Lookup
-    [MemberNotNull(nameof(RankOffset))]
-    private static void newRankOffset() {
-      RankOffset = new Byte[nSquares];
-    }
+  #region Ray Attacks Lookup
+  [MemberNotNull(nameof(RankOffset))]
+  private static void newRankOffset() {
+    RankOffset = new Byte[nSquares];
+  }
 
-    internal static void loadRankOffset() {
-      for (var n = 0; n < nSquares; n++)
-        RankOffset[n] = (Byte)(nFiles * y(n) + 1);
-    }
+  internal static void loadRankOffset() {
+    for (var n = 0; n < nSquares; n++)
+      RankOffset[n] = (Byte)(nFiles * y(n) + 1);
+  }
 #if Magic
     private static void newDiagLo() {
       LoA1H8 = new Int32[nSquares];
@@ -424,132 +424,132 @@ namespace Engine {
 #endif
     }
 #else                                   //!Magic
-    [MemberNotNull(
-      nameof(OffsetDiag),
-      nameof(OffsetOrth),
-      nameof(OffsetA1H8),
-      nameof(OffsetA8H1)
-      )]
-    private static void newRotation() {
-      OffsetDiag = new Byte[nDiagonals];
-      OffsetOrth = new Byte[nSquares];
-      OffsetA1H8 = new Byte[nSquares];
-      OffsetA8H1 = new Byte[nSquares];
+  [MemberNotNull(
+    nameof(OffsetDiag),
+    nameof(OffsetOrth),
+    nameof(OffsetA1H8),
+    nameof(OffsetA8H1)
+    )]
+  private static void newRotation() {
+    OffsetDiag = new Byte[nDiagonals];
+    OffsetOrth = new Byte[nSquares];
+    OffsetA1H8 = new Byte[nSquares];
+    OffsetA8H1 = new Byte[nSquares];
+  }
+
+  internal static void loadRotation() {
+    var nDiagLen = 0;                 //[Note]OffsetDiag increments by previous nDiagLen
+    for (var d = 0; d < nDiagonals; d++) {
+      OffsetDiag[d] = (Byte)(d > 0 ? OffsetDiag[d - 1] + nDiagLen : nDiagLen);
+      nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
     }
 
-    internal static void loadRotation() {
-      var nDiagLen = 0;                 //[Note]OffsetDiag increments by previous nDiagLen
-      for (var d = 0; d < nDiagonals; d++) {
-        OffsetDiag[d] = (Byte)(d > 0 ? OffsetDiag[d - 1] + nDiagLen : nDiagLen);
-        nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
+    for (var n = 0; n < nSquares; n++) {
+      var xInverse = InvertFile(x(n));
+      //[Note]One is added to each Offset because Ray State values consist only of the medial 6 bits:
+      OffsetOrth[n] = (Byte)(nFiles * xInverse + 1);
+
+      OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);
+      OffsetA8H1[n] = (Byte)(OffsetDiag[diagA8H1(n)] + 1);
+    }
+  }
+
+  [MemberNotNull(
+    nameof(BitRank),
+    nameof(BitFile)
+    )]
+  private static void newOrthBit() {
+    BitFile = new Plane[nSquares];
+    BitRank = new Plane[nSquares];
+  }
+
+  [MemberNotNull(
+    nameof(BitA1H8),
+    nameof(BitA8H1)
+    )]
+  private static void newDiagBit() {
+    BitA1H8 = new Plane[nSquares];
+    BitA8H1 = new Plane[nSquares];
+  }
+
+  internal static void loadOrthBit() {
+    var qp = BIT0;
+    for (var y = 0; y < nRanks; y++) {
+      var yInverse = InvertRank(y);
+      for (var x = 0; x < nFiles; x++, qp <<= 1)
+        BitFile[sqr(yInverse, x)] = BitRank[sqr(x, y)] = qp;
+    }
+  }
+
+  internal static void loadDiagBit() {
+    var qp = BIT0;
+    for (var d = 0; d < nDiagonals; d++) {
+      var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
+
+      for (Int32 x = d < nFiles ? 7 - d : 0,
+                 y = d < nFiles ? 0 : d - 7,
+                 w = 0; w < nDiagLen; w++, x++, y++, qp <<= 1) {
+        var xInverse = InvertFile(x);
+        BitA8H1[sqr(xInverse, y)] = BitA1H8[sqr(x, y)] = qp;
       }
-
-      for (var n = 0; n < nSquares; n++) {
-        var xInverse = InvertFile(x(n));
-        //[Note]One is added to each Offset because Ray State values consist only of the medial 6 bits:
-        OffsetOrth[n] = (Byte)(nFiles * xInverse + 1);
-
-        OffsetA1H8[n] = (Byte)(OffsetDiag[diagA1H8(n)] + 1);
-        OffsetA8H1[n] = (Byte)(OffsetDiag[diagA8H1(n)] + 1);
-      }
     }
-
-    [MemberNotNull(
-      nameof(BitRank),
-      nameof(BitFile)
-      )]
-    private static void newOrthBit() {
-      BitFile = new Plane[nSquares];
-      BitRank = new Plane[nSquares];
-    }
-
-    [MemberNotNull(
-      nameof(BitA1H8),
-      nameof(BitA8H1)
-      )]
-    private static void newDiagBit() {
-      BitA1H8 = new Plane[nSquares];
-      BitA8H1 = new Plane[nSquares];
-    }
-
-    internal static void loadOrthBit() {
-      var qp = BIT0;
-      for (var y = 0; y < nRanks; y++) {
-        var yInverse = InvertRank(y);
-        for (var x = 0; x < nFiles; x++, qp <<= 1)
-          BitFile[sqr(yInverse, x)] = BitRank[sqr(x, y)] = qp;
-      }
-    }
-
-    internal static void loadDiagBit() {
-      var qp = BIT0;
-      for (var d = 0; d < nDiagonals; d++) {
-        var nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
-
-        for (Int32 x = d < nFiles ? 7 - d : 0,
-                   y = d < nFiles ? 0 : d - 7,
-                   w = 0; w < nDiagLen; w++, x++, y++, qp <<= 1) {
-          var xInverse = InvertFile(x);
-          BitA8H1[sqr(xInverse, y)] = BitA1H8[sqr(x, y)] = qp;
-        }
-      }
-    }
+  }
 #endif                                  //!Magic
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayA1H8(Int32 n) {
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayA1H8(Int32 n) {
 #if Magic && HalfMagic
       return AtxA1H8[hashA1H8Half(RankPiece, n)][n];
 #elif Magic
       return AtxA1H8[hashA1H8Full(RankPiece, n)][n];
 #else
-      return AtxA1H8[rotateA1H8(n)][n];
+    return AtxA1H8[rotateA1H8(n)][n];
 #endif
-    }
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayA8H1(Int32 n) {
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayA8H1(Int32 n) {
 #if Magic && HalfMagic
       return AtxA8H1[hashA8H1Half(RankPiece, n)][n];
 #elif Magic
       return AtxA8H1[hashA8H1Full(RankPiece, n)][n];
 #else
-      return AtxA8H1[rotateA8H1(n)][n];
+    return AtxA8H1[rotateA8H1(n)][n];
 #endif
-    }
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayFile(Int32 n) {
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayFile(Int32 n) {
 #if Magic && HalfMagic
       return AtxFile[hashFileHalf(RankPiece, n)][n];
 #elif Magic
       return AtxFile[hashFileFull(RankPiece, n)][n];
 #else
-      return AtxFile[rotateFile(n)][n];
+    return AtxFile[rotateFile(n)][n];
 #endif
-    }
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayRank(Int32 n) {
-      return AtxRank[rotateRank(n)][n];
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayRank(Int32 n) {
+    return AtxRank[rotateRank(n)][n];
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayDiag(Int32 n) {
-      return RayA1H8(n) | RayA8H1(n);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayDiag(Int32 n) {
+    return RayA1H8(n) | RayA8H1(n);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane RayOrth(Int32 n) {
-      return RayRank(n) | RayFile(n);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane RayOrth(Int32 n) {
+    return RayRank(n) | RayFile(n);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected Plane Ray(Int32 n) {
-      return RayDiag(n) | RayOrth(n);
-    }
-    #endregion                          // Ray Attacks Lookup
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Plane Ray(Int32 n) {
+    return RayDiag(n) | RayOrth(n);
+  }
+  #endregion                          // Ray Attacks Lookup
 
-    #region Ray State Accessors
+  #region Ray State Accessors
 #if Magic
 #if TestMagic || !HalfMagic
     internal static Byte hashFileFull(Plane qp, Int32 n) {
@@ -610,85 +610,84 @@ namespace Engine {
     }
 #endif
 #else                                   //!Magic
-    private Byte rotateA1H8(Int32 n) {
-      var uA1H8Rotate = (UInt32)(A1H8Piece >> OffsetA1H8[n]);
-      return (Byte)(uA1H8Rotate & uStateMask);
-    }
+  private Byte rotateA1H8(Int32 n) {
+    var uA1H8Rotate = (UInt32)(A1H8Piece >> OffsetA1H8[n]);
+    return (Byte)(uA1H8Rotate & uStateMask);
+  }
 
-    private Byte rotateA8H1(Int32 n) {
-      var uA8H1Rotate = (UInt32)(A8H1Piece >> OffsetA8H1[n]);
-      return (Byte)(uA8H1Rotate & uStateMask);
-    }
+  private Byte rotateA8H1(Int32 n) {
+    var uA8H1Rotate = (UInt32)(A8H1Piece >> OffsetA8H1[n]);
+    return (Byte)(uA8H1Rotate & uStateMask);
+  }
 
-    private Byte rotateFile(Int32 n) {
+  private Byte rotateFile(Int32 n) {
 #if NoFileOffset
       var nFileOffset = nFiles * InvertFile(x(n)) + 1;
 #endif
-      var uFileRotate = (UInt32)(FilePiece >> OffsetOrth[n]);
-      return (Byte)(uFileRotate & uStateMask);
-    }
+    var uFileRotate = (UInt32)(FilePiece >> OffsetOrth[n]);
+    return (Byte)(uFileRotate & uStateMask);
+  }
 #endif                                  //!Magic
-    internal Byte rotateRank(Int32 n) {
+  internal Byte rotateRank(Int32 n) {
 #if NoRankOffset
       var nRankOffset = nFiles * y(n) + 1;
 #endif
-      var uRankRotate = (UInt32)(RankPiece >> RankOffset[n]);
-      return (Byte)(uRankRotate & uStateMask);
-    }
-    #endregion                          // Ray State Accessors
-
-    #region Board Coordinate Methods
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
-      var n = nFrom ^ nTo;
-      // Are either of the coordinates equal?
-      return x(n) == 0 || y(n) == 0;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 diagA1H8(Int32 n) {
-      return InvertFile(x(n)) + y(n);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 diagA8H1(Int32 n) {
-      return x(n) + y(n);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 sqr(Int32 x, Int32 y) {
-      return nFiles * y + x;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 x(Int32 n) {
-      return n % nFiles;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 y(Int32 n) {
-      return n / nFiles;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 InvertFile(Int32 x) {
-      return nFiles - (x + 1);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 InvertRank(Int32 y) {
-      return nRanks - (y + 1);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    internal static Int32 InvertDiag(Int32 d) {
-      return nDiagonals - (d + 1);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Int32 InvertSquare(Int32 n) {
-      return nSquares - (n + 1);
-    }
-    #endregion                          // Board Coordinate Methods
+    var uRankRotate = (UInt32)(RankPiece >> RankOffset[n]);
+    return (Byte)(uRankRotate & uStateMask);
   }
+  #endregion                          // Ray State Accessors
+
+  #region Board Coordinate Methods
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Boolean IsOrth(Int32 nFrom, Int32 nTo) {
+    var n = nFrom ^ nTo;
+    // Are either of the coordinates equal?
+    return x(n) == 0 || y(n) == 0;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 diagA1H8(Int32 n) {
+    return InvertFile(x(n)) + y(n);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 diagA8H1(Int32 n) {
+    return x(n) + y(n);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 sqr(Int32 x, Int32 y) {
+    return nFiles * y + x;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 x(Int32 n) {
+    return n % nFiles;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 y(Int32 n) {
+    return n / nFiles;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 InvertFile(Int32 x) {
+    return nFiles - (x + 1);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 InvertRank(Int32 y) {
+    return nRanks - (y + 1);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  internal static Int32 InvertDiag(Int32 d) {
+    return nDiagonals - (d + 1);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Int32 InvertSquare(Int32 n) {
+    return nSquares - (n + 1);
+  }
+  #endregion                          // Board Coordinate Methods
 }

@@ -20,133 +20,133 @@
 
 using System.Diagnostics;
 
-namespace Engine {
-  using Exceptions;
+namespace Engine;
+using Exceptions;
 
-  using MoveOrder;
+using MoveOrder;
 
-  //
-  // Type Aliases:
-  //
-  using Depth = UInt16;
-  using Eval = Int16;
+//
+// Type Aliases:
+//
+using Depth = UInt16;
+using Eval = Int16;
 
-  partial class Position : Board {
-    #region Move Order Heuristics
-    private void rewardMoveType(Move move) {
-      unpack1(move, out Int32 nFrom, out Int32 nTo,
-              out UInt32 uPiece, out Boolean bCapture);
+partial class Position : Board {
+  #region Move Order Heuristics
+  private void rewardMoveType(Move move) {
+    unpack1(move, out Int32 nFrom, out Int32 nTo,
+            out UInt32 uPiece, out Boolean bCapture);
 
-      //
-      //[Note]Assess IsAbove() from the pespective of the
-      // Foe because toggleWTM() was called by PlayMove().
-      //
-      var parameter = Foe.Parameter;
-      var bAbove = parameter.IsAbove(nTo);
-      var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
+    //
+    //[Note]Assess IsAbove() from the pespective of the
+    // Foe because toggleWTM() was called by PlayMove().
+    //
+    var parameter = Foe.Parameter;
+    var bAbove = parameter.IsAbove(nTo);
+    var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
 #if TestRewardMove
       var sb = new StringBuilder()
         .AppendPACN(move, Side, State.IsChess960)
         .Append($" by {parameter.SideName} is {type}");
       LogLine(sb.ToString());
 #endif
-      var nIndex = Array.IndexOf(moveTypes, type);
-      if (nIndex < 0)
-        throw new PositionException($"Could not find the {type} MoveType");
-      else
-        moveTypes.Rotate(0, nIndex);
+    var nIndex = Array.IndexOf(moveTypes, type);
+    if (nIndex < 0)
+      throw new PositionException($"Could not find the {type} MoveType");
+    else
+      moveTypes.Rotate(0, nIndex);
 
-      //
-      // New ordering inherited by subsequent children:
-      //
-      moveTypeOrdering = compressMoveTypes(moveTypes);
-    }
+    //
+    // New ordering inherited by subsequent children:
+    //
+    moveTypeOrdering = compressMoveTypes(moveTypes);
+  }
 
-    private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
-      //[Test]Debug.Assert(mValue > EvalUndefined, $"{nameof(rewardMove)}({nameof(EvalUndefined)})");
+  private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
+    //[Test]Debug.Assert(mValue > EvalUndefined, $"{nameof(rewardMove)}({nameof(EvalUndefined)})");
 #if NoMaterial
       var bMaterial = move.Has(Move.Material);
       if (bMaterial) return;
 #endif
-      var moveMasked = move & Move.StoreMask;
+    var moveMasked = move & Move.StoreMask;
 #if UseKillers
-      storeKiller(moveMasked, wDepth, mValue, et);      //[Conditional]
+    storeKiller(moveMasked, wDepth, mValue, et);      //[Conditional]
 #endif                                  // UseKillers
 #if UseHistory
-      storeXPM(wDepth, mValue, et, moveMasked, moveExcluded);
+    storeXPM(wDepth, mValue, et, moveMasked, moveExcluded);
 #endif
 #if RewardMoveTypes
-      rewardMoveType(move);
+    rewardMoveType(move);
 #endif
-    }
+  }
 
-    private void addMoves(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
+  private void addMoves(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
 #if UseHistory
-      var bFound = probeXPM(wDepth, mAlpha, mBeta, moveExcluded, goodMoves);
+    var bFound = probeXPM(wDepth, mAlpha, mBeta, moveExcluded, goodMoves);
 #endif
 #if UseKillers
-      probeKiller(goodMoves, wDepth, mAlpha, mBeta);    //[Conditional]
+    probeKiller(goodMoves, wDepth, mAlpha, mBeta);    //[Conditional]
 #endif                                  // UseKillers
-    }
+  }
 
 #if UseMoveSort
-    private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
-      //[Test]goodMoves.Sort();
+  private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
+    //[Test]goodMoves.Sort();
 
-      var nMoves = moves.Count;
-      var mLateStart = Eval.MaxValue;
-      var nEarly = 0;                   //[Init]
-      foreach (var move in moves) {
-        var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
-        if (nIndex >= 0) {
-          nEarly++;
-          State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
-          var good = goodMoves[nIndex];
-          var mGoodValue = good.Value;
-          if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
-            mLateStart = mGoodValue;
-          }
+    var nMoves = moves.Count;
+    var mLateStart = Eval.MaxValue;
+    var nEarly = 0;                   //[Init]
+    foreach (var move in moves) {
+      var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
+      if (nIndex >= 0) {
+        nEarly++;
+        State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
+        var good = goodMoves[nIndex];
+        var mGoodValue = good.Value;
+        if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
+          mLateStart = mGoodValue;
         }
       }
+    }
 
-      var bWTM = WTM();
-      State.AddEarlyTotal(bWTM, nEarly);
+    var bWTM = WTM();
+    State.AddEarlyTotal(bWTM, nEarly);
 
-      var mLateNext = mLateStart;
-      var nGenerated = 0;
-      foreach (var move in moves) {
-        var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
+    var mLateNext = mLateStart;
+    var nGenerated = 0;
+    foreach (var move in moves) {
+      var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
 #if TestGoodValue
-        var mValue = EvalUndefined;
+      var mValue = EvalUndefined;
 
-        if (nIndex < 0)                 // Move not found among goodMoves
-          mValue = --mLateNext;         // Next value below Eval.MaxValue
-        else {
-          var good = goodMoves[nIndex];
-          var mGoodValue = good.Value;  // goodMove Eval
-          //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
-          if (EvalUndefined < mGoodValue)
-            mValue = mGoodValue;
-          else
-            mValue = (Eval)(mLateStart - nIndex);
-        }
+      if (nIndex < 0)                 // Move not found among goodMoves
+        mValue = --mLateNext;         // Next value below Eval.MaxValue
+      else {
+        var good = goodMoves[nIndex];
+        var mGoodValue = good.Value;  // goodMove Eval
+                                      //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
+        if (EvalUndefined < mGoodValue)
+          mValue = mGoodValue;
+        else
+          mValue = (Eval)(mLateStart - nIndex);
+      }
 #else
         var mValue = nIndex < 0 ? EvalUndefined : (Eval)(Eval.MaxValue - nIndex);
 #endif
-        //
-        // nGenerated index is included in SortMove so a Stable
-        // Sort can be implemented on its IComparable interface
-        //
-        SortMoves[nGenerated++] = new SortMove(move, nGenerated, mValue, wDepth);
-      }
+      //
+      // nGenerated index is included in SortMove so a Stable
+      // Sort can be implemented on its IComparable interface
+      //
+      SortMoves[nGenerated++] = new SortMove(move, nGenerated, mValue, wDepth);
+    }
 #if LazyMoveSort
-      PriorityMove.Truncate();          // Truncate Heap, preparing to rebuild.
-      PriorityMove.IsAscending = true;
+    PriorityMove.Truncate();          // Truncate Heap, preparing to rebuild.
+    PriorityMove.IsAscending = true;
 
-      //
-      // Convert SortMoves[] into a Heap:
-      //
-      PriorityMove.Build(nGenerated);
+    //
+    // Convert SortMoves[] into a Heap:
+    //
+    PriorityMove.Build(nGenerated);
 #else
       Array.Sort<SortMove>(SortMoves, 0, nGenerated);
 #endif
@@ -176,13 +176,13 @@ namespace Engine {
 #endif
       }
 #endif                                  // DebugMoveOrder
-      if (nGenerated != nMoves) {
-        Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
-      }
-
-      //[Commented]Scale(bWTM, wPly, 0.75f);
-      return nEarly;
+    if (nGenerated != nMoves) {
+      Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
     }
+
+    //[Commented]Scale(bWTM, wPly, 0.75f);
+    return nEarly;
+  }
 #else                                   // UseMoveSort
     private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
       var nStart = SiftedMoves.Count;
@@ -279,6 +279,5 @@ namespace Engine {
       return nEarly;
     }
 #endif                                  // UseMoveSort
-    #endregion
-  }
+  #endregion
 }

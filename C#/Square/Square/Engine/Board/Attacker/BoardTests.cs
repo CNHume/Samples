@@ -75,53 +75,53 @@
              b  A1
                a
  */
-namespace Engine {
-  using static Logging.Logger;
+namespace Engine;
+using static Logging.Logger;
 
-  partial class Board {
-    #region Unit Test
-    protected void testPawnAttacks() {
-      foreach (var side in Side) {
-        LogLine($"{side.Parameter.SideName} Pieces:\n");
-        WriteOrth(side.Piece);
-        LogLine();
+partial class Board {
+  #region Unit Test
+  protected void testPawnAttacks() {
+    foreach (var side in Side) {
+      LogLine($"{side.Parameter.SideName} Pieces:\n");
+      WriteOrth(side.Piece);
+      LogLine();
 
-        LogLine($"{side.Parameter.SideName} Pawn Attacks:\n");
-        WriteOrth(side.PawnA1H8Atx | side.PawnA8H1Atx);
-        LogLine();
-      }
+      LogLine($"{side.Parameter.SideName} Pawn Attacks:\n");
+      WriteOrth(side.PawnA1H8Atx | side.PawnA8H1Atx);
+      LogLine();
     }
+  }
 
-    internal static void testOffsets() {
-      printSquares("RankOffset", RankOffset);
+  internal static void testOffsets() {
+    printSquares("RankOffset", RankOffset);
 #if TestRotation && !Magic
-      printSquares("OffsetOrth", OffsetOrth);
-      printSquares("OffsetA1H8", OffsetA1H8);
-      printSquares("OffsetA8H1", OffsetA8H1);
+    printSquares("OffsetOrth", OffsetOrth);
+    printSquares("OffsetA1H8", OffsetA1H8);
+    printSquares("OffsetA8H1", OffsetA8H1);
 #endif
-    }
+  }
 
-    protected void testRotations() {
+  protected void testRotations() {
 #if TestRotation && !Magic
-      writeOrthRotations("BitRank", BitRank);
-      writeOrthRotations("BitFile", BitFile);
-      writeDiagRotations("BitA1H8", BitA1H8);
-      writeDiagRotations("BitA8H1", BitA1H8);
+    writeOrthRotations("BitRank", BitRank);
+    writeOrthRotations("BitFile", BitFile);
+    writeDiagRotations("BitA1H8", BitA1H8);
+    writeDiagRotations("BitA8H1", BitA1H8);
 #endif
-    }
+  }
 
-    protected void testPieceMasks() {
-      var bFlip = State.IsFlip;
-      testOrth("RankPiece", RankPiece, false, bFlip);
+  protected void testPieceMasks() {
+    var bFlip = State.IsFlip;
+    testOrth("RankPiece", RankPiece, false, bFlip);
 #if TestRotation && !Magic
-      testOrth("FilePiece", FilePiece, true, bFlip);
-      testDiag("A1H8Piece", A1H8Piece, false);
-      testDiag("A8H1Piece", A8H1Piece, true);
+    testOrth("FilePiece", FilePiece, true, bFlip);
+    testDiag("A1H8Piece", A1H8Piece, false);
+    testDiag("A8H1Piece", A8H1Piece, true);
 #endif
-    }
+  }
 
-    protected void testAtxMasks(Sq sq) {
-      var n = (Int32)sq;
+  protected void testAtxMasks(Sq sq) {
+    var n = (Int32)sq;
 #if TestDiagIndexers
       testDiagIndexes("A1H8Diag", diagA1H8);
       testDiagIndexes("A8H1Diag", diagA8H1);
@@ -132,27 +132,26 @@ namespace Engine {
       LogLine();
 #endif
 #if TestRankPiece
-      LogLine("RankPiece\n");
-      WriteOrth(RankPiece);
-      LogLine();
+    LogLine("RankPiece\n");
+    WriteOrth(RankPiece);
+    LogLine();
 #endif
 #if TestOrthAttacks
-      LogLine($"RayOrth({sq})\n");
-      WriteOrth(RayOrth(n));
+    LogLine($"RayOrth({sq})\n");
+    WriteOrth(RayOrth(n));
 #endif
 #if TestDiagAttacks
-      LogLine($"RayDiag({sq})\n");
-      WriteOrth(RayDiag(n));
+    LogLine($"RayDiag({sq})\n");
+    WriteOrth(RayDiag(n));
 #endif
 #if TestKingAttacks
-      LogLine("AtxKing\n");
-      WriteOrth(AtxKing[n]);
+    LogLine("AtxKing\n");
+    WriteOrth(AtxKing[n]);
 #endif
 #if TestKnightAttacks
-      LogLine("AtxKnight\n");
-      WriteOrth(AtxKnight[n]);
+    LogLine("AtxKnight\n");
+    WriteOrth(AtxKnight[n]);
 #endif
-    }
-    #endregion
   }
+  #endregion
 }

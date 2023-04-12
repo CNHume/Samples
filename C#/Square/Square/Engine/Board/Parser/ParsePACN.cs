@@ -2,7 +2,7 @@
 
 namespace Engine;
 
-using Command.Exceptions;
+using Exceptions;
 
 using static Extension;
 

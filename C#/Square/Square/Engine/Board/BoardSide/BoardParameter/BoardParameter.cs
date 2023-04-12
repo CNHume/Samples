@@ -6,119 +6,118 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Engine {
-  //
-  // Type Aliases:
-  //
-  using Hashcode = UInt64;
-  using Plane = UInt64;
+namespace Engine;
+//
+// Type Aliases:
+//
+using Hashcode = UInt64;
+using Plane = UInt64;
 
-  partial class Board {
-    internal partial class BoardSide {
-      internal partial class BoardParameter {
-        #region Constructors
-        public BoardParameter(SideName sideName) {
-          SideName = sideName;
+partial class Board {
+  internal partial class BoardSide {
+    internal partial class BoardParameter {
+      #region Constructors
+      public BoardParameter(SideName sideName) {
+        SideName = sideName;
 
-          switch (SideName) {
-          case SideName.Black:
-            PawnSense = -1;
-            PawnA1H8 = PawnSense * nA1H8;
-            PawnA8H1 = PawnSense * nA8H1;
-            PawnStep = PawnSense * nFiles;
+        switch (SideName) {
+        case SideName.Black:
+          PawnSense = -1;
+          PawnA1H8 = PawnSense * nA1H8;
+          PawnA8H1 = PawnSense * nA8H1;
+          PawnStep = PawnSense * nFiles;
 
-            PieceRank = 7;
-            PawnRank = 6;
-            PassRank = 5;
-            BelowRank = 4;
+          PieceRank = 7;
+          PawnRank = 6;
+          PassRank = 5;
+          BelowRank = 4;
 
-            EnPassantMask = qpRank6;
-            PromotionMask = qpRank1;
-            (FileLeft, FileRight) = (qpFileH, qpFileA);
+          EnPassantMask = qpRank6;
+          PromotionMask = qpRank1;
+          (FileLeft, FileRight) = (qpFileH, qpFileA);
 
-            Zobrist = zobristBlack;
-            ZobristRights = zobristRightsBlack;
-            break;
+          Zobrist = zobristBlack;
+          ZobristRights = zobristRightsBlack;
+          break;
 
-          case SideName.White:
-            PawnSense = 1;
-            PawnA1H8 = PawnSense * nA1H8;
-            PawnA8H1 = PawnSense * nA8H1;
-            PawnStep = PawnSense * nFiles;
+        case SideName.White:
+          PawnSense = 1;
+          PawnA1H8 = PawnSense * nA1H8;
+          PawnA8H1 = PawnSense * nA8H1;
+          PawnStep = PawnSense * nFiles;
 
-            PieceRank = 0;
-            PawnRank = 1;
-            PassRank = 2;
-            BelowRank = 3;
+          PieceRank = 0;
+          PawnRank = 1;
+          PassRank = 2;
+          BelowRank = 3;
 
-            EnPassantMask = qpRank3;
-            PromotionMask = qpRank8;
-            (FileLeft, FileRight) = (qpFileA, qpFileH);
+          EnPassantMask = qpRank3;
+          PromotionMask = qpRank8;
+          (FileLeft, FileRight) = (qpFileA, qpFileH);
 
-            Zobrist = zobristWhite;
-            ZobristRights = zobristRightsWhite;
-            break;
+          Zobrist = zobristWhite;
+          ZobristRights = zobristRightsWhite;
+          break;
 
-          default:
-            throw new ArgumentException(nameof(sideName));
-          }
-
-          Rule = new CastleRuleParameter(PieceRank);
-        }
-        #endregion                      // Constructors
-
-        #region Pawn Advancement Fields
-        protected readonly Int32 PawnSense;
-
-        public readonly Int32 PawnA1H8;
-        public readonly Int32 PawnA8H1;
-        public readonly Int32 PawnStep;
-
-        //[Note]Ranks are Zero-based
-        public readonly Int32 PieceRank;
-        public readonly Int32 PawnRank;
-        public readonly Int32 PassRank;
-        public readonly Int32 BelowRank;
-
-        public readonly Plane EnPassantMask;
-        public readonly Plane PromotionMask;
-        public readonly Plane FileLeft;
-        public readonly Plane FileRight;
-        #endregion                      // Pawn Advancement Fields
-
-        #region Fields
-        public readonly SideName SideName;
-
-        public String? Symbol;
-
-        public readonly Hashcode[][] Zobrist;
-        public readonly Hashcode[] ZobristRights;
-        #endregion                      // Fields
-
-        #region Properties
-        public CastleRuleParameter Rule { get; set; }
-        #endregion                      // Properties
-
-        #region Methods
-        [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-        public Boolean IsAbove(Int32 nTo) {
-          switch (SideName) {
-          case SideName.Black:
-            return y(nTo) < BelowRank;
-          case SideName.White:
-            return y(nTo) > BelowRank;
-          default:
-            throw new ArgumentException(nameof(SideName));
-          }
+        default:
+          throw new ArgumentException(nameof(sideName));
         }
 
-        [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-        public bool IsPromotion(Int32 nTo) {
-          var qp = bit(nTo);
-          return (qp & PromotionMask) != 0;
+        Rule = new CastleRuleParameter(PieceRank);
+      }
+      #endregion                      // Constructors
+
+      #region Pawn Advancement Fields
+      protected readonly Int32 PawnSense;
+
+      public readonly Int32 PawnA1H8;
+      public readonly Int32 PawnA8H1;
+      public readonly Int32 PawnStep;
+
+      //[Note]Ranks are Zero-based
+      public readonly Int32 PieceRank;
+      public readonly Int32 PawnRank;
+      public readonly Int32 PassRank;
+      public readonly Int32 BelowRank;
+
+      public readonly Plane EnPassantMask;
+      public readonly Plane PromotionMask;
+      public readonly Plane FileLeft;
+      public readonly Plane FileRight;
+      #endregion                      // Pawn Advancement Fields
+
+      #region Fields
+      public readonly SideName SideName;
+
+      public String? Symbol;
+
+      public readonly Hashcode[][] Zobrist;
+      public readonly Hashcode[] ZobristRights;
+      #endregion                      // Fields
+
+      #region Properties
+      public CastleRuleParameter Rule { get; set; }
+      #endregion                      // Properties
+
+      #region Methods
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public Boolean IsAbove(Int32 nTo) {
+        switch (SideName) {
+        case SideName.Black:
+          return y(nTo) < BelowRank;
+        case SideName.White:
+          return y(nTo) > BelowRank;
+        default:
+          throw new ArgumentException(nameof(SideName));
         }
-        #endregion                      // Methods
-      }                                 // BoardParameter
-    }                                   // BoardSide
-  }                                     // Board
-}
+      }
+
+      [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+      public bool IsPromotion(Int32 nTo) {
+        var qp = bit(nTo);
+        return (qp & PromotionMask) != 0;
+      }
+      #endregion                      // Methods
+    }                                 // BoardParameter
+  }                                   // BoardSide
+}                                     // Board

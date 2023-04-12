@@ -17,6 +17,7 @@
 using System.Diagnostics;
 using System.Numerics;                  // For BitOperations
 using System.Runtime.CompilerServices;  // For MethodImplAttribute
+
 #if ImportTwiddle
 using System.Runtime.InteropServices;   // For [DllImport]
 #endif
@@ -27,47 +28,47 @@ using static System.String;
 #endif
 using static System.Math;
 
-namespace Engine {
+namespace Engine;
 #if TestDeBruijn
   using SortTest.Extensions;            // For AppendDelim()
 #endif
-  using static Logging.Logger;
+using static Logging.Logger;
 
-  //
-  // Type Aliases:
-  //
-  using ExtensionCounter = UInt16;
-  using PieceHashcode = UInt16;         // 10 bits
-  using Plane = UInt64;
+//
+// Type Aliases:
+//
+using ExtensionCounter = UInt16;
+using PieceHashcode = UInt16;         // 10 bits
+using Plane = UInt64;
 
-  partial class Board {
-    #region Constants
-    private const Int32 nBit0 = 1;
-    private const Int32 nBit1 = nBit0 << 1;
-    private const Int32 nBit2 = nBit1 << 1;
-    private const Int32 nBit3 = nBit2 << 1;
-    private const Int32 nBit4 = nBit3 << 1;
-    private const Int32 nBit5 = nBit4 << 1;
-    private const Int32 nBit6 = nBit5 << 1;
+partial class Board {
+  #region Constants
+  private const Int32 nBit0 = 1;
+  private const Int32 nBit1 = nBit0 << 1;
+  private const Int32 nBit2 = nBit1 << 1;
+  private const Int32 nBit3 = nBit2 << 1;
+  private const Int32 nBit4 = nBit3 << 1;
+  private const Int32 nBit5 = nBit4 << 1;
+  private const Int32 nBit6 = nBit5 << 1;
 
-    private const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
+  private const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
 #if ByteDeBruijn && !InitDeBruijn
     private static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
 #endif
-    //
-    // The lowest bit in a word is isolated by performing an AND with the value in the word
-    // and its two's complement: v & -v.  The bit position n within the m-bit word can then
-    // be obtained after multiplying an m-bit de Bruijn constant by this isolated bit value
-    // and extracting the unique bit pattern from the high order p-bit byte, where p is the
-    // PBL of m.  A lookup table corresponding to the de Bruijn constant is then indexed by
-    // the unique p-bit value to obtain the bit position n.
-    //
-    // Note that m-bit multiplies will suffice.  It is also easy to implement half-multiply,
-    // which is faster in the case of a 64-bits, because the isolated bit is a power of two.
-    //
-    // See "Using de Bruijn Sequences to Index a 1 in a Computer Word"
-    // Charles E. Leiserson, Harald Prokop, Keith H. Randall, 1998-07-07, MIT LCS
-    //
+  //
+  // The lowest bit in a word is isolated by performing an AND with the value in the word
+  // and its two's complement: v & -v.  The bit position n within the m-bit word can then
+  // be obtained after multiplying an m-bit de Bruijn constant by this isolated bit value
+  // and extracting the unique bit pattern from the high order p-bit byte, where p is the
+  // PBL of m.  A lookup table corresponding to the de Bruijn constant is then indexed by
+  // the unique p-bit value to obtain the bit position n.
+  //
+  // Note that m-bit multiplies will suffice.  It is also easy to implement half-multiply,
+  // which is faster in the case of a 64-bits, because the isolated bit is a power of two.
+  //
+  // See "Using de Bruijn Sequences to Index a 1 in a Computer Word"
+  // Charles E. Leiserson, Harald Prokop, Keith H. Randall, 1998-07-07, MIT LCS
+  //
 #if DeBruijn
 #if FullData
     private const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
@@ -89,13 +90,13 @@ namespace Engine {
 #endif
 #endif                                   // FullData
 #endif                                   // DeBruijn
-#endregion
+  #endregion
 
-    #region Bit Twiddles
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean IsOneOrNone(Plane qp) {
-      return (qp - 1 & qp) == 0;
-    }
+  #region Bit Twiddles
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Boolean IsOneOrNone(Plane qp) {
+    return (qp - 1 & qp) == 0;
+  }
 #if FindHi
     protected static Sq sqHi(UInt64 r) {
       var q = bit(nSquares - 1);
@@ -108,28 +109,28 @@ namespace Engine {
     }
 #endif                                  // FindHi
 #if BitOperations
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    // Trailing Zero Count (TZC), formerly known as FindLo()
-    private static Int32 TZC8(Byte r) {
-      Debug.Assert(r != 0, "No Bit Found");
-      return BitOperations.TrailingZeroCount(r);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  // Trailing Zero Count (TZC), formerly known as FindLo()
+  private static Int32 TZC8(Byte r) {
+    Debug.Assert(r != 0, "No Bit Found");
+    return BitOperations.TrailingZeroCount(r);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r, out Byte s) {
-      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BitOperations.TrailingZeroCount(s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r, out Byte s) {
+    s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
+    Debug.Assert(s != 0, "No Bit Found");
+    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    return BitOperations.TrailingZeroCount(s);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r) {
-      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BitOperations.TrailingZeroCount(s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r) {
+    var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
+    Debug.Assert(s != 0, "No Bit Found");
+    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    return BitOperations.TrailingZeroCount(s);
+  }
 #else
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
@@ -229,28 +230,28 @@ namespace Engine {
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
     extern public static Int32 RemoveLo(ref UInt64 r);
 #elif BitOperations
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    // Trailing Zero Count (TZC), formerly known as FindLo()
-    public static Int32 TZC64(UInt64 r) {
-      Debug.Assert(r != 0, "No Bit Found");
-      return BitOperations.TrailingZeroCount(r);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  // Trailing Zero Count (TZC), formerly known as FindLo()
+  public static Int32 TZC64(UInt64 r) {
+    Debug.Assert(r != 0, "No Bit Found");
+    return BitOperations.TrailingZeroCount(r);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BitOperations.TrailingZeroCount(s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+    s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
+    Debug.Assert(s != 0, "No Bit Found");
+    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    return BitOperations.TrailingZeroCount(s);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      Debug.Assert(s != 0, "No Bit Found");
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      return BitOperations.TrailingZeroCount(s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r) {
+    var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+    Debug.Assert(s != 0, "No Bit Found");
+    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    return BitOperations.TrailingZeroCount(s);
+  }
 #else                                   //!(ImportTwiddle || BitOperations)
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     // Trailing Zero Count (TZC), formerly known as FindLo()
@@ -473,24 +474,24 @@ namespace Engine {
       return new Byte[nLength];
     }
 #endif                                  // InitDeBruijn
-    [Conditional("InitDeBruijn")]
-    private static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
-      var nLength = 1 << nLog;
-      Debug.Assert(
-        deBruijnMap.Length == nLength,
-        "Inconsistent Length",
-        $"Length = {deBruijnMap.Length} != 1 << {nLog}");
+  [Conditional("InitDeBruijn")]
+  private static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
+    var nLength = 1 << nLog;
+    Debug.Assert(
+      deBruijnMap.Length == nLength,
+      "Inconsistent Length",
+      $"Length = {deBruijnMap.Length} != 1 << {nLog}");
 
-      var vMask = (Byte)(nLength - 1);
-      var m = qDeBruijnNumber;
-      for (var n = 0; n < nLength; n++, m <<= 1) {
-        var p = vMask & (m >> nLength - nLog);
-        Debug.Assert(
-          (Int32)p < deBruijnMap.Length,
-          "Index Out of Range",
-          $"Index = {p}, Length = {deBruijnMap.Length}");
-        deBruijnMap[p] = (Byte)n;
-      }
+    var vMask = (Byte)(nLength - 1);
+    var m = qDeBruijnNumber;
+    for (var n = 0; n < nLength; n++, m <<= 1) {
+      var p = vMask & (m >> nLength - nLog);
+      Debug.Assert(
+        (Int32)p < deBruijnMap.Length,
+        "Index Out of Range",
+        $"Index = {p}, Length = {deBruijnMap.Length}");
+      deBruijnMap[p] = (Byte)n;
+    }
 #if TestDeBruijn
       var methodName = nameof(loadDeBruijn);
       var sb = new StringBuilder();
@@ -499,122 +500,121 @@ namespace Engine {
       }
       LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
-    }
-    #endregion
-
-    #region Math Support
-    public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
-      return (UInt16)Sqrt((Double)w);
-    }
-
-    public UInt64 USqrt(UInt16 w) {
-      if (w == 0)
-        return 0;
-
-      //
-      // The double precision floating point instruction is fast and accurate;
-      // but rounding must be corrected in a few cases.  We seek the greatest
-      // integer whose square is no greater than N.
-      //
-      var init = (UInt16)Sqrt((Double)w);
-      var root = (UInt64)init;
-      var mean = (root + (w / root)) / 2;
-
-      var count = 0;
-      while (root > mean) {
-        root--;
-        mean = (root + (w / root)) / 2;
-        count++;
-      }
-#if DEBUG
-      //
-      // Once root reaches 4294967293, root == mean in all but three cases:
-      //
-      // usqrt: n = 18446744073709551615, root = 4294967295, count = 1
-      // usqrt: n = 18446744065119617024, root = 4294967294, count = 1
-      // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
-      //
-      if (root < 4294967293 && count > 0)
-        LogLine($"usqrt: n = {w}, root = {root}, count = {count}");
-#endif
-      return root;
-    }
-    #endregion
-
-    #region Counter Methods
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != TwoBits(u);
-      if (bOverflow) {
-        Debug.Assert(!bOverflow, "TwoBits Overflow");
-        u &= vTwoBits;
-      }
-
-      var nOffset = nIndex * nPerTwoBits;
-      var wFieldMask = (PieceHashcode)(vTwoBits << nOffset);
-      wTwoBitMask &= (PieceHashcode)~wFieldMask;
-      wTwoBitMask |= (PieceHashcode)(u << nOffset);
-    }
-
-    //[UCI]Internal Method made available to the GameState class
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static void SetNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
-      var bOverflow = u != Nibble(u);
-      if (bOverflow) {
-        Debug.Assert(!bOverflow, "Nibble Overflow");
-        u &= vNibble;
-      }
-
-      var nOffset = nIndex * nPerNibble;
-      var wFieldMask = (ExtensionCounter)(vNibble << nOffset);
-      wNibbleMask &= (ExtensionCounter)~wFieldMask;
-      wNibbleMask |= (ExtensionCounter)(u << nOffset);
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Byte GetNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
-      return (Byte)Nibble(wNibbleMask >> nIndex * nPerNibble);
-    }
-    #endregion
-
-    #region Nibble & TwoBits Methods
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 Nibble(Int32 input) {
-      return input & vNibble;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static UInt32 Nibble(UInt32 input) {
-      return input & vNibble;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 TwoBits(Int32 input) {
-      return input & vTwoBits;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static UInt32 TwoBits(UInt32 input) {
-      return input & vTwoBits;
-    }
-    #endregion
-
-    #region Shift Methods
-    //
-    //[C#]The << and >> operators treat negative exponents
-    // as unsigned p-bit values, where p is the PBL of the
-    // data type size.  The shift overloads implement more
-    // intuitive semantics of additive, signed exponents:
-    //
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Plane ShiftL(Plane qp, Int32 n) {
-      return n < 0 ? qp >> -n : qp << n;
-    }
-
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    protected static Plane ShiftR(Plane qp, Int32 n) {
-      return ShiftL(qp, -n);
-    }
-    #endregion
   }
+  #endregion
+
+  #region Math Support
+  public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
+    return (UInt16)Sqrt((Double)w);
+  }
+
+  public UInt64 USqrt(UInt16 w) {
+    if (w == 0)
+      return 0;
+
+    //
+    // The double precision floating point instruction is fast and accurate;
+    // but rounding must be corrected in a few cases.  We seek the greatest
+    // integer whose square is no greater than N.
+    //
+    var init = (UInt16)Sqrt((Double)w);
+    var root = (UInt64)init;
+    var mean = (root + (w / root)) / 2;
+
+    var count = 0;
+    while (root > mean) {
+      root--;
+      mean = (root + (w / root)) / 2;
+      count++;
+    }
+#if DEBUG
+    //
+    // Once root reaches 4294967293, root == mean in all but three cases:
+    //
+    // usqrt: n = 18446744073709551615, root = 4294967295, count = 1
+    // usqrt: n = 18446744065119617024, root = 4294967294, count = 1
+    // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
+    //
+    if (root < 4294967293 && count > 0)
+      LogLine($"usqrt: n = {w}, root = {root}, count = {count}");
+#endif
+    return root;
+  }
+  #endregion
+
+  #region Counter Methods
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
+    var bOverflow = u != TwoBits(u);
+    if (bOverflow) {
+      Debug.Assert(!bOverflow, "TwoBits Overflow");
+      u &= vTwoBits;
+    }
+
+    var nOffset = nIndex * nPerTwoBits;
+    var wFieldMask = (PieceHashcode)(vTwoBits << nOffset);
+    wTwoBitMask &= (PieceHashcode)~wFieldMask;
+    wTwoBitMask |= (PieceHashcode)(u << nOffset);
+  }
+
+  //[UCI]Internal Method made available to the GameState class
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static void SetNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
+    var bOverflow = u != Nibble(u);
+    if (bOverflow) {
+      Debug.Assert(!bOverflow, "Nibble Overflow");
+      u &= vNibble;
+    }
+
+    var nOffset = nIndex * nPerNibble;
+    var wFieldMask = (ExtensionCounter)(vNibble << nOffset);
+    wNibbleMask &= (ExtensionCounter)~wFieldMask;
+    wNibbleMask |= (ExtensionCounter)(u << nOffset);
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Byte GetNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
+    return (Byte)Nibble(wNibbleMask >> nIndex * nPerNibble);
+  }
+  #endregion
+
+  #region Nibble & TwoBits Methods
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 Nibble(Int32 input) {
+    return input & vNibble;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static UInt32 Nibble(UInt32 input) {
+    return input & vNibble;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 TwoBits(Int32 input) {
+    return input & vTwoBits;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static UInt32 TwoBits(UInt32 input) {
+    return input & vTwoBits;
+  }
+  #endregion
+
+  #region Shift Methods
+  //
+  //[C#]The << and >> operators treat negative exponents
+  // as unsigned p-bit values, where p is the PBL of the
+  // data type size.  The shift overloads implement more
+  // intuitive semantics of additive, signed exponents:
+  //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Plane ShiftL(Plane qp, Int32 n) {
+    return n < 0 ? qp >> -n : qp << n;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Plane ShiftR(Plane qp, Int32 n) {
+    return ShiftL(qp, -n);
+  }
+  #endregion
 }

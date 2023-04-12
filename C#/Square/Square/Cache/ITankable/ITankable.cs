@@ -8,31 +8,30 @@
 #define TankInit
 //#define TankRecycle
 
-namespace Cache {
-  //
-  // Type Aliases:
-  //
-  using Hashcode = UInt64;
+namespace Cache;
+//
+// Type Aliases:
+//
+using Hashcode = UInt64;
 
-  #region Enumerations
-  [Flags]
-  public enum ProbeResult : byte { None, Match, Value, Renew, Valid };
-  #endregion
+#region Enumerations
+[Flags]
+public enum ProbeResult : byte { None, Match, Value, Renew, Valid };
+#endregion
 
-  #region Interfaces
-  public interface ITankable<T> {
-    Hashcode Hash { get; set; }
-    UInt64 Data { get; set; }
-    Boolean IsEmpty { get; }
-    Boolean IsNew(T store);
-    ProbeResult Result(ref T match);
+#region Interfaces
+public interface ITankable<T> {
+  Hashcode Hash { get; set; }
+  UInt64 Data { get; set; }
+  Boolean IsEmpty { get; }
+  Boolean IsNew(T store);
+  ProbeResult Result(ref T match);
 #if TankInit
-    void Init();
+  void Init();
 #endif
-    Boolean Match(T entry);
+  Boolean Match(T entry);
 #if TankRecycle
     void Recycle(T store);
 #endif
-  }
-  #endregion
 }
+#endregion

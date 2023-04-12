@@ -8,51 +8,50 @@
 //
 #define StableSort
 
-namespace Engine.MoveOrder {
-  using static Board;
-  using static Position;
+namespace MoveOrder;
+using static Engine.Board;
+using static Engine.Position;
 
-  //
-  // Type Aliases:
-  //
-  using Depth = UInt16;
-  using Eval = Int16;
+//
+// Type Aliases:
+//
+using Depth = UInt16;
+using Eval = Int16;
 
-  struct SortMove : IComparable {
-    #region Fields
-    public Move Move;
-    public Int32 Index;
-    public Eval Value;
-    public Depth Depth;
-    #endregion
+struct SortMove : IComparable {
+  #region Fields
+  public Move Move;
+  public Int32 Index;
+  public Eval Value;
+  public Depth Depth;
+  #endregion
 
-    #region Constructors
-    public SortMove(Move move, Int32 nIndex, Eval mValue = EvalUndefined, Depth wDepth = 0) {
-      Move = move;
-      Index = nIndex;
-      Value = mValue;
-      Depth = wDepth;
-    }
-    #endregion
+  #region Constructors
+  public SortMove(Move move, Int32 nIndex, Eval mValue = EvalUndefined, Depth wDepth = 0) {
+    Move = move;
+    Index = nIndex;
+    Value = mValue;
+    Depth = wDepth;
+  }
+  #endregion
 
-    #region IComparable Interface Methods
-    // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
-    public Int32 CompareTo(Object? obj) {
-      //if (obj == null) return 1;
-      if (obj is not SortMove)
-        throw new ArgumentException("Is not a SortMove", nameof(obj));
+  #region IComparable Interface Methods
+  // Returns -1: if this < obj, 1: if this > obj, else 0: if this == obj
+  public Int32 CompareTo(Object? obj) {
+    //if (obj == null) return 1;
+    if (obj is not SortMove)
+      throw new ArgumentException("Is not a SortMove", nameof(obj));
 
-      var sm = (SortMove)obj;
-      // Prefer greater Score
-      var better = Value.CompareTo(sm.Value);
+    var sm = (SortMove)obj;
+    // Prefer greater Score
+    var better = Value.CompareTo(sm.Value);
 #if StableSort
-      // Prefer lesser Index
-      var sense = better == 0 ? -Index.CompareTo(sm.Index) : better;
+    // Prefer lesser Index
+    var sense = better == 0 ? -Index.CompareTo(sm.Index) : better;
 #else
       var sense = better;
 #endif
-      return sense;
-    }
-    #endregion
+    return sense;
   }
+  #endregion
 }

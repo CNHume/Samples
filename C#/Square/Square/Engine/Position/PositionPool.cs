@@ -7,55 +7,54 @@
 //
 #define InheritMoveTypes
 
-namespace Engine {
-  partial class Position : Board {
-    #region Workspace Methods
-    private void initNode() {
+namespace Engine;
+partial class Position : Board {
+  #region Workspace Methods
+  private void initNode() {
+    //
+    // The following are initialized for all nodes;
+    // but moves are not made at the Root Position:
+    //
+    CurrentMove = Move.Undefined;
+    pinnedPiece = 0UL;
+
+    clrEval();
+
+    if (Parent is null) {             // Root Position
+      State.IsChess960 = false;       //[Init]
+      GamePly = 0;                    //[Init]
+
+      extensionCounts = 0;            //[Init]
+      moveTypeOrdering = defaultMoveTypeOrdering;
+    }
+    else {
       //
-      // The following are initialized for all nodes;
-      // but moves are not made at the Root Position:
+      //[Note]All Move Commands call OnMoveCommand()
+      // which calls IsLegal(), which requires WTM()
       //
-      CurrentMove = Move.Undefined;
-      pinnedPiece = 0UL;
-
-      clrEval();
-
-      if (Parent is null) {             // Root Position
-        State.IsChess960 = false;       //[Init]
-        GamePly = 0;                    //[Init]
-
-        extensionCounts = 0;            //[Init]
-        moveTypeOrdering = defaultMoveTypeOrdering;
-      }
-      else {
-        //
-        //[Note]All Move Commands call OnMoveCommand()
-        // which calls IsLegal(), which requires WTM()
-        //
-        GamePly = Parent.GamePly;
+      GamePly = Parent.GamePly;
 #if InheritMoveTypes
-        moveTypeOrdering = Parent.moveTypeOrdering;
+      moveTypeOrdering = Parent.moveTypeOrdering;
 #else
         MoveTypeOrdering = defaultMoveTypeOrdering;
 #endif
-      }
     }
-
-    // Called by Push()
-    public override void Clear() {
-      base.Clear();
-      initNode();
-    }
-    #endregion
-
-    #region Wrapper Methods for State.Push() and State.Pop()
-    public Position Push() {
-      return State.Push(this);
-    }
-
-    public void Pop(ref Position child) {
-      child.State.Pop(ref child);
-    }
-    #endregion
   }
+
+  // Called by Push()
+  public override void Clear() {
+    base.Clear();
+    initNode();
+  }
+  #endregion
+
+  #region Wrapper Methods for State.Push() and State.Pop()
+  public Position Push() {
+    return State.Push(this);
+  }
+
+  public void Pop(ref Position child) {
+    child.State.Pop(ref child);
+  }
+  #endregion
 }

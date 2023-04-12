@@ -3,12 +3,11 @@
 //
 //[2012-02-12 CNHume]Created Class
 //
-namespace Engine.Test {
-  class Tabiya {
-    #region Properties
-    public String? Name { get; set; }
-    public String? FEN { get; set; }
-    public PerfCase[]? PerfCases { get; set; }
-    #endregion
-  }
+namespace Test;
+class Tabiya {
+  #region Properties
+  public String? Name { get; set; }
+  public String? FEN { get; set; }
+  public PerfCase[]? PerfCases { get; set; }
+  #endregion
 }
