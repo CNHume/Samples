@@ -34,7 +34,7 @@ partial class Board {
     zobristRandom.NextBytes(zobristBuffer);
     var qHash = BitConverter.ToUInt64(zobristBuffer, 0);
 #if TestZobrist
-      zobrists.Add(qHash);
+    zobrists.Add(qHash);
 #endif
     return qHash;
   }
@@ -54,7 +54,7 @@ partial class Board {
     )]
   private static void newZobrist() {
 #if TestZobrist
-      zobrists = new List<Hashcode>();
+    zobrists = new List<Hashcode>();
 #endif
     zobristWhite = new Hashcode[nPieces][];
     zobristBlack = new Hashcode[nPieces][];
@@ -130,47 +130,47 @@ partial class Board {
 
     zobristExcludedCastles = nextZobrist();
 #if RNGStatistics
-      var nCount = Zobrists.Count;
-      var decSum = 0M;
-      LogLine($"\nHashcodes = {Zobrists.Count}");
-      foreach (var qHash in Zobrists) {
-        decSum += qHash;
+    var nCount = Zobrists.Count;
+    var decSum = 0M;
+    LogLine($"\nHashcodes = {Zobrists.Count}");
+    foreach (var qHash in Zobrists) {
+      decSum += qHash;
 #if DumpZobrist
-        LogLine(formatHash(qHash));
+      LogLine(formatHash(qHash));
 #endif
+    }
+
+    var dMean = (Double)decSum / nCount;
+    var dRange = Pow(2, 64);
+    var dMeanIdeal = dRange / 2;
+    var dMeanError = dMean / dMeanIdeal - 1;
+    LogLine($"Mean = {dMean:e} {100 * dMeanError:n2}%");
+
+    if (nCount > 1) {
+      var dSquareSum = 0.0;
+      foreach (var qHash in Zobrists) {
+        var dDelta = qHash - dMean;
+        dSquareSum += dDelta * dDelta;
       }
 
-      var dMean = (Double)decSum / nCount;
-      var dRange = Pow(2, 64);
-      var dMeanIdeal = dRange / 2;
-      var dMeanError = dMean / dMeanIdeal - 1;
-      LogLine($"Mean = {dMean:e} {100 * dMeanError:n2}%");
-
-      if (nCount > 1) {
-        var dSquareSum = 0.0;
-        foreach (var qHash in Zobrists) {
-          var dDelta = qHash - dMean;
-          dSquareSum += dDelta * dDelta;
-        }
-
-        var dVariance = dSquareSum / (nCount - 1);
-        var dDeviation = Sqrt(dVariance);
-        var dDeviationIdeal = dRange / Sqrt(12.0);
-        var dDeviationError = dDeviation / dDeviationIdeal - 1;
-        LogLine($"s.d. = {dDeviation:e} {100 * dDeviationError:n2}%");
-      }
+      var dVariance = dSquareSum / (nCount - 1);
+      var dDeviation = Sqrt(dVariance);
+      var dDeviationIdeal = dRange / Sqrt(12.0);
+      var dDeviationError = dDeviation / dDeviationIdeal - 1;
+      LogLine($"s.d. = {dDeviation:e} {100 * dDeviationError:n2}%");
+    }
 #endif
 #if TestZobrist
-      zobrists.Sort();
-      var qLastHash = default(Hashcode);
-      foreach (var qHash in zobrists) {
-        if (qHash == qLastHash) {
-          Trace.Assert(qHash != qLastHash, "Duplicate Hashcode Found");
-          break;
-        }
-
-        qLastHash = qHash;
+    zobrists.Sort();
+    var qLastHash = default(Hashcode);
+    foreach (var qHash in zobrists) {
+      if (qHash == qLastHash) {
+        Trace.Assert(qHash != qLastHash, "Duplicate Hashcode Found");
+        break;
       }
+
+      qLastHash = qHash;
+    }
 #endif
   }
 
@@ -186,12 +186,12 @@ partial class Board {
     //
     if (IsDefined(moveExcluded)) {
 #if DebugMove
-        unpack2(moveExcluded, out Int32 nFrom, out Int32 nTo,
-                out UInt32 uPiece, out UInt32 uPromotion,
-                out Boolean bCastles, out Boolean bCapture);
-        var piece = (Piece)uPiece;
-        var sqFrom = (sq)nFrom;
-        var sqTo = (sq)nTo;
+      unpack2(moveExcluded, out Int32 nFrom, out Int32 nTo,
+              out UInt32 uPiece, out UInt32 uPromotion,
+              out Boolean bCastles, out Boolean bCapture);
+      var piece = (Piece)uPiece;
+      var sqFrom = (sq)nFrom;
+      var sqTo = (sq)nTo;
 #else
       unpackShort(moveExcluded, out Int32 nFrom, out Int32 nTo,
                   out UInt32 uPromotion, out Boolean bCastles);
@@ -211,8 +211,8 @@ partial class Board {
         //[Chess960]Avoid potential ambiguity of ordinary King moves with castling
         //
 #if HashExcludedChess960CastlesOnly
-          if (State.IsChess960)
-            qDynamic ^= ZobristExcludedCastles;
+        if (State.IsChess960)
+          qDynamic ^= ZobristExcludedCastles;
 #else
         //
         // It seems simplest to Hash excluded orthodox castling moves
@@ -275,10 +275,10 @@ partial class Board {
     var qHashPawn = hashPawn();
     var qHash = qHashPawn ^ hashPieces();
 #if DisplayHash
-      LogLine($" Hash = {formatHash(Hash)}");
+    LogLine($" Hash = {formatHash(Hash)}");
 
-      if (qHash != Hash)
-        LogLine($"IHash = {formatHash(Hash)}");
+    if (qHash != Hash)
+      LogLine($"IHash = {formatHash(Hash)}");
 #else
     if (qHashPawn != HashPawn) {
       Trace.Assert(qHashPawn == HashPawn, "Full HashPawn differs from Incremental HashPawn");

@@ -46,7 +46,7 @@ partial class Board {
 
     if (capture == Piece.Capture) {
 #if CountCapturedPiece
-        GameState.AtomicIncrement(ref State.CapturedPieceTotal);
+      GameState.AtomicIncrement(ref State.CapturedPieceTotal);
 #endif
       //
       // Between 2% and 20% of all Pseudo Moves require a call to GetPieceIndex().
@@ -143,8 +143,8 @@ partial class Board {
     var vPiece = PieceIndex(uPiece);
     var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
-      var bRequired = vPiece == vP6 && Friend.Parameter.IsPromotion(nTo);
-      Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
+    var bRequired = vPiece == vP6 && Friend.Parameter.IsPromotion(nTo);
+    Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
     if (bSupplied)
       Friend.RemovePiece(vPiece, nFrom);

@@ -30,7 +30,7 @@ using static System.Math;
 
 namespace Engine;
 #if TestDeBruijn
-  using SortTest.Extensions;            // For AppendDelim()
+using SortTest.Extensions;              // For AppendDelim()
 #endif
 using static Logging.Logger;
 
@@ -38,7 +38,7 @@ using static Logging.Logger;
 // Type Aliases:
 //
 using ExtensionCounter = UInt16;
-using PieceHashcode = UInt16;         // 10 bits
+using PieceHashcode = UInt16;           // 10 bits
 using Plane = UInt64;
 
 partial class Board {
@@ -53,7 +53,7 @@ partial class Board {
 
   private const Byte vDeBruijn = 0x1D;    //[CNH]0001 1101
 #if ByteDeBruijn && !InitDeBruijn
-    private static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
+  private static readonly Byte[] deBruijnByte = { 0, 1, 6, 2, 7, 5, 4, 3 };
 #endif
   //
   // The lowest bit in a word is isolated by performing an AND with the value in the word
@@ -71,25 +71,25 @@ partial class Board {
   //
 #if DeBruijn
 #if FullData
-    private const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
-    // From http://www.chessprogramming.org/De_Bruijn_Sequence_Generator by Gerd Isenberg
+  private const UInt64 qDeBruijn = 0x022FDD63CC95386DUL;
+  // From http://www.chessprogramming.org/De_Bruijn_Sequence_Generator by Gerd Isenberg
 #if !InitDeBruijn
-    private static readonly Byte[] deBruijnFull =
-    {  0,  1,  2, 53,  3,  7, 54, 27,  4, 38, 41,  8, 34, 55, 48, 28,
-      62,  5, 39, 46, 44, 42, 22,  9, 24, 35, 59, 56, 49, 18, 29, 11,
-      63, 52,  6, 26, 37, 40, 33, 47, 61, 45, 43, 21, 23, 58, 17, 10,
-      51, 25, 36, 32, 60, 20, 57, 16, 50, 31, 19, 15, 30, 14, 13, 12 };
+  private static readonly Byte[] deBruijnFull =
+  {  0,  1,  2, 53,  3,  7, 54, 27,  4, 38, 41,  8, 34, 55, 48, 28,
+    62,  5, 39, 46, 44, 42, 22,  9, 24, 35, 59, 56, 49, 18, 29, 11,
+    63, 52,  6, 26, 37, 40, 33, 47, 61, 45, 43, 21, 23, 58, 17, 10,
+    51, 25, 36, 32, 60, 20, 57, 16, 50, 31, 19, 15, 30, 14, 13, 12 };
 #endif
 #else                                   //!FullData
-    private const UInt32 uDeBruijn = 0x077CB531U;
-    // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
+  private const UInt32 uDeBruijn = 0x077CB531U;
+  // From the Paper: 0000 0111 0111 1100 1011 0101 0011 0001
 #if !InitDeBruijn
-    private static readonly Byte[] deBruijnHalf =
-    {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
-      31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
+  private static readonly Byte[] deBruijnHalf =
+  {  0,  1, 28,  2, 29, 14, 24,  3, 30, 22, 20, 15, 25, 17,  4,  8,
+    31, 27, 13, 23, 21, 19, 16,  7, 26, 12, 18,  6, 11,  5, 10,  9 };
 #endif
-#endif                                   // FullData
-#endif                                   // DeBruijn
+#endif                                  // FullData
+#endif                                  // DeBruijn
   #endregion
 
   #region Bit Twiddles
@@ -98,15 +98,15 @@ partial class Board {
     return (qp - 1 & qp) == 0;
   }
 #if FindHi
-    protected static Sq sqHi(UInt64 r) {
-      var q = bit(nSquares - 1);
-      for (var n = 0; n < nSquares; n++, q >>= 1) {
-        if ((q & r) != 0)
-          return (Sq)InvertSquare(n);
-      }
-
-      throw new ApplicationException("Empty Bit Mask");
+  protected static Sq sqHi(UInt64 r) {
+    var q = bit(nSquares - 1);
+    for (var n = 0; n < nSquares; n++, q >>= 1) {
+      if ((q & r) != 0)
+        return (Sq)InvertSquare(n);
     }
+
+    throw new ApplicationException("Empty Bit Mask");
+  }
 #endif                                  // FindHi
 #if BitOperations
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -118,117 +118,117 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r, out Byte s) {
-    s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
+    s = (Byte)(r & (~r + 1));           // s = r & -r to isolate lowest/first bit
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
     return BitOperations.TrailingZeroCount(s);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r) {
-    var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
+    var s = (Byte)(r & (~r + 1));       // s = r & -r to isolate lowest/first bit
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
     return BitOperations.TrailingZeroCount(s);
   }
 #else
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    // Trailing Zero Count (TZC), formerly known as FindLo()
-    private static Int32 TZC8(Byte r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      return TZC8Single((Byte)s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  // Trailing Zero Count (TZC), formerly known as FindLo()
+  private static Int32 TZC8(Byte r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    return TZC8Single((Byte)s);
+  }
 #if ByteDeBruijn                        // ByteDeBruijn
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC8Single(Int32 n) {
-      if (n == 0) {
-        Debug.Assert(n != 0, "No Bit Found");
-        return nBit5;
-      }
-      var p = (Byte)(n * vDeBruijn) >> 8 - 3;
-      return deBruijnByte[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC8Single(Int32 n) {
+    if (n == 0) {
+      Debug.Assert(n != 0, "No Bit Found");
+      return nBit5;
     }
+    var p = (Byte)(n * vDeBruijn) >> 8 - 3;
+    return deBruijnByte[p];
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r, out Byte s) {
-      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit5;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = (Byte)(s * vDeBruijn) >> 8 - 3;
-      return deBruijnByte[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r, out Byte s) {
+    s = (Byte)(r & (~r + 1));           // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var p = (Byte)(s * vDeBruijn) >> 8 - 3;
+    return deBruijnByte[p];
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit5;
-      }
-      r ^= (Byte)s;                     // r = r & (r - 1) to subtract s from r
-      var p = (Byte)(s * vDeBruijn) >> 8 - 3;
-      return deBruijnByte[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit5;
     }
+    r ^= (Byte)s;                       // r = r & (r - 1) to subtract s from r
+    var p = (Byte)(s * vDeBruijn) >> 8 - 3;
+    return deBruijnByte[p];
+  }
 #else                                   //!ByteDeBruijn
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC8Single(UInt32 u) {
-      if (u == 0) {
-        Debug.Assert(u != 0, "No Bit Found");
-        return nBit5;
-      }
-      var n = 0;
-      if ((u & 0xAA) != 0) n |= nBit0;
-      if ((u & 0xCC) != 0) n |= nBit1;
-      if ((u & 0xF0) != 0) n |= nBit2;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC8Single(UInt32 u) {
+    if (u == 0) {
+      Debug.Assert(u != 0, "No Bit Found");
+      return nBit5;
     }
+    var n = 0;
+    if ((u & 0xAA) != 0) n |= nBit0;
+    if ((u & 0xCC) != 0) n |= nBit1;
+    if ((u & 0xF0) != 0) n |= nBit2;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r, out Byte s) {
-      s = (Byte)(r & (~r + 1));         // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit5;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var n = 0;
-      if ((s & 0xAA) != 0) n |= nBit0;
-      if ((s & 0xCC) != 0) n |= nBit1;
-      if ((s & 0xF0) != 0) n |= nBit2;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r, out Byte s) {
+    s = (Byte)(r & (~r + 1));           // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var n = 0;
+    if ((s & 0xAA) != 0) n |= nBit0;
+    if ((s & 0xCC) != 0) n |= nBit1;
+    if ((s & 0xF0) != 0) n |= nBit2;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref Byte r) {
-      var s = (Byte)(r & (~r + 1));     // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit5;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var n = 0;
-      if ((s & 0xAA) != 0) n |= nBit0;
-      if ((s & 0xCC) != 0) n |= nBit1;
-      if ((s & 0xF0) != 0) n |= nBit2;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref Byte r) {
+    var s = (Byte)(r & (~r + 1));       // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var n = 0;
+    if ((s & 0xAA) != 0) n |= nBit0;
+    if ((s & 0xCC) != 0) n |= nBit1;
+    if ((s & 0xF0) != 0) n |= nBit2;
+    return n;
+  }
 #endif                                  //!ByteDeBruijn
 #endif                                  // BitOperations
 #if ImportTwiddle
-    [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
-                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-    extern public static Int32 TZC64(UInt64 r);
+  [DllImport("twiddle.dll", EntryPoint = "?FindLo@Twiddle@CSquare@@SA?BH_K@Z",
+              CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+  extern public static Int32 TZC64(UInt64 r);
 
-    [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K0@Z",
-                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-    extern public static Int32 RemoveLo(ref UInt64 r, out UInt64 s);
+  [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K0@Z",
+              CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+  extern public static Int32 RemoveLo(ref UInt64 r, out UInt64 s);
 
-    [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K@Z",
-                CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-    extern public static Int32 RemoveLo(ref UInt64 r);
+  [DllImport("twiddle.dll", EntryPoint = "?RemoveLo@Twiddle@CSquare@@SA?BHAA_K@Z",
+              CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+  extern public static Int32 RemoveLo(ref UInt64 r);
 #elif BitOperations
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   // Trailing Zero Count (TZC), formerly known as FindLo()
@@ -239,240 +239,240 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
+    s = r & (~r + 1);                   // s = r & -r to isolate lowest/first bit
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
     return BitOperations.TrailingZeroCount(s);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                           // r = r & (r - 1) to subtract s from r
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
     return BitOperations.TrailingZeroCount(s);
   }
 #else                                   //!(ImportTwiddle || BitOperations)
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    // Trailing Zero Count (TZC), formerly known as FindLo()
-    public static Int32 TZC64(UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      return TZC64Single(s);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  // Trailing Zero Count (TZC), formerly known as FindLo()
+  public static Int32 TZC64(UInt64 r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    return TZC64Single(s);
+  }
 #if DeBruijn
 #if FullData
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC64Single(UInt64 q) {
-      if (q == 0) {
-        Debug.Assert(q != 0, "No Bit Found");
-        return nBit6;
-      }
-      var p = q * qDeBruijn >> nBit6 - 6;
-      return deBruijnFull[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC64Single(UInt64 q) {
+    if (q == 0) {
+      Debug.Assert(q != 0, "No Bit Found");
+      return nBit6;
     }
+    var p = q * qDeBruijn >> nBit6 - 6;
+    return deBruijnFull[p];
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit6;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = s * qDeBruijn >> nBit6 - 6;
-      return deBruijnFull[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+    s = r & (~r + 1);                   // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit6;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var p = s * qDeBruijn >> nBit6 - 6;
+    return deBruijnFull[p];
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit6;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = s * qDeBruijn >> nBit6 - 6;
-      return deBruijnFull[p];
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit6;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var p = s * qDeBruijn >> nBit6 - 6;
+    return deBruijnFull[p];
+  }
 #else                                   //!FullData
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC64Single(UInt64 q) {
-      var u = (UInt32)q;                // Half de Bruijn: Avoiding 64-Bit Multiply
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC64Single(UInt64 q) {
+    var u = (UInt32)q;                  // Half de Bruijn: Avoiding 64-Bit Multiply
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(q >> 32);
       if (u == 0) {
-        u = (UInt32)(q >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      var p = u * uDeBruijn >> nBit5 - 5;
-      return deBruijnHalf[p] | n;
+      n = nBit5;
     }
+    var p = u * uDeBruijn >> nBit5 - 5;
+    return deBruijnHalf[p] | n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiply
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+    s = r & (~r + 1);                   // s = r & -r to isolate lowest/first bit
+    var u = (UInt32)s;                  // Half de Bruijn: Avoiding 64-Bit Multiply
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(s >> 32);
       if (u == 0) {
-        u = (UInt32)(s >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = u * uDeBruijn >> nBit5 - 5;
-      return deBruijnHalf[p] | n;
+      n = nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var p = u * uDeBruijn >> nBit5 - 5;
+    return deBruijnHalf[p] | n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half de Bruijn: Avoiding 64-Bit Multiply
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    var u = (UInt32)s;                  // Half de Bruijn: Avoiding 64-Bit Multiply
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(s >> 32);
       if (u == 0) {
-        u = (UInt32)(s >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var p = u * uDeBruijn >> nBit5 - 5;
-      return deBruijnHalf[p] | n;
+      n = nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var p = u * uDeBruijn >> nBit5 - 5;
+    return deBruijnHalf[p] | n;
+  }
 #endif                                  // FullData
 #else                                   //!DeBruijn
 #if FullData
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC64Single(UInt64 q) {
-      if (q == 0) {
-        Debug.Assert(q != 0, "No Bit Found");
-        return nBit6;
-      }
-      var n = 0;
-      if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
-      if ((q & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
-      if ((q & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
-      if ((q & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
-      if ((q & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
-      if ((q & 0xFFFFFFFF00000000) != 0) n |= nBit5;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC64Single(UInt64 q) {
+    if (q == 0) {
+      Debug.Assert(q != 0, "No Bit Found");
+      return nBit6;
     }
+    var n = 0;
+    if ((q & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+    if ((q & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+    if ((q & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+    if ((q & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+    if ((q & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+    if ((q & 0xFFFFFFFF00000000) != 0) n |= nBit5;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit6;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var n = 0;
-      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
-      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
-      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
-      if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
-      if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
-      if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+    s = r & (~r + 1);                   // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit6;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var n = 0;
+    if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+    if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+    if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+    if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+    if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+    if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      if (s == 0) {
-        Debug.Assert(s != 0, "No Bit Found");
-        return nBit6;
-      }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      var n = 0;
-      if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
-      if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
-      if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
-      if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
-      if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
-      if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
-      return n;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    if (s == 0) {
+      Debug.Assert(s != 0, "No Bit Found");
+      return nBit6;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    var n = 0;
+    if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
+    if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
+    if ((s & 0xF0F0F0F0F0F0F0F0) != 0) n |= nBit2;
+    if ((s & 0xFF00FF00FF00FF00) != 0) n |= nBit3;
+    if ((s & 0xFFFF0000FFFF0000) != 0) n |= nBit4;
+    if ((s & 0xFFFFFFFF00000000) != 0) n |= nBit5;
+    return n;
+  }
 #else                                   //!FullData
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    private static Int32 TZC64Single(UInt64 q) {
-      var u = (UInt32)q;                // Half Data: Avoiding 64-Bit Masks
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 TZC64Single(UInt64 q) {
+    var u = (UInt32)q;                  // Half Data: Avoiding 64-Bit Masks
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(q >> 32);
       if (u == 0) {
-        u = (UInt32)(q >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
-      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
-      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
-      if ((u & 0xFF00FF00) != 0) n |= nBit3;
-      if ((u & 0xFFFF0000) != 0) n |= nBit4;
-      return n;
+      n = nBit5;
     }
+    if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+    if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+    if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+    if ((u & 0xFF00FF00) != 0) n |= nBit3;
+    if ((u & 0xFFFF0000) != 0) n |= nBit4;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-      s = r & (~r + 1);                 // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit Masks
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
+    s = r & (~r + 1);                   // s = r & -r to isolate lowest/first bit
+    var u = (UInt32)s;                  // Half Data: Avoiding 64-Bit Masks
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(s >> 32);
       if (u == 0) {
-        u = (UInt32)(s >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
-      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
-      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
-      if ((u & 0xFF00FF00) != 0) n |= nBit3;
-      if ((u & 0xFFFF0000) != 0) n |= nBit4;
-      return n;
+      n = nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+    if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+    if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+    if ((u & 0xFF00FF00) != 0) n |= nBit3;
+    if ((u & 0xFFFF0000) != 0) n |= nBit4;
+    return n;
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Int32 RemoveLo(ref UInt64 r) {
-      var s = r & (~r + 1);             // s = r & -r to isolate lowest/first bit
-      var u = (UInt32)s;                // Half Data: Avoiding 64-Bit Masks
-      var n = 0;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Int32 RemoveLo(ref UInt64 r) {
+    var s = r & (~r + 1);               // s = r & -r to isolate lowest/first bit
+    var u = (UInt32)s;                  // Half Data: Avoiding 64-Bit Masks
+    var n = 0;
+    if (u == 0) {
+      u = (UInt32)(s >> 32);
       if (u == 0) {
-        u = (UInt32)(s >> 32);
-        if (u == 0) {
-          Debug.Assert(u != 0, "No Bit Found");
-          return nBit6;
-        }
-        n = nBit5;
+        Debug.Assert(u != 0, "No Bit Found");
+        return nBit6;
       }
-      r ^= s;                           // r = r & (r - 1) to subtract s from r
-      if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
-      if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
-      if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
-      if ((u & 0xFF00FF00) != 0) n |= nBit3;
-      if ((u & 0xFFFF0000) != 0) n |= nBit4;
-      return n;
+      n = nBit5;
     }
+    r ^= s;                             // r = r & (r - 1) to subtract s from r
+    if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
+    if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
+    if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
+    if ((u & 0xFF00FF00) != 0) n |= nBit3;
+    if ((u & 0xFFFF0000) != 0) n |= nBit4;
+    return n;
+  }
 #endif                                  // FullData
 #endif                                  // DeBruijn
 #endif                                  //!ImportTwiddle
 #if InitDeBruijn
-    private static Byte[] newDeBruijn(Int32 nLog) {
-      Debug.Assert(nLog <= 8, $"nLog = {nLog} too large");
-      var nLength = 1 << nLog;
-      return new Byte[nLength];
-    }
+  private static Byte[] newDeBruijn(Int32 nLog) {
+    Debug.Assert(nLog <= 8, $"nLog = {nLog} too large");
+    var nLength = 1 << nLog;
+    return new Byte[nLength];
+  }
 #endif                                  // InitDeBruijn
   [Conditional("InitDeBruijn")]
   private static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
@@ -493,18 +493,18 @@ partial class Board {
       deBruijnMap[p] = (Byte)n;
     }
 #if TestDeBruijn
-      var methodName = nameof(loadDeBruijn);
-      var sb = new StringBuilder();
-      for (var n = 0; n < nLength; n++) {
-        sb.AppendDelim($"{deBruijnMap[n],2}");
-      }
-      LogLine($"{methodName}({nLog}): {sb}");
+    var methodName = nameof(loadDeBruijn);
+    var sb = new StringBuilder();
+    for (var n = 0; n < nLength; n++) {
+      sb.AppendDelim($"{deBruijnMap[n],2}");
+    }
+    LogLine($"{methodName}({nLog}): {sb}");
 #endif                                  // TestDeBruijn
   }
   #endregion
 
   #region Math Support
-  public UInt16 ISqrt(UInt16 w) {     // 1.4 GHz
+  public UInt16 ISqrt(UInt16 w) {       // 1.4 GHz
     return (UInt16)Sqrt((Double)w);
   }
 

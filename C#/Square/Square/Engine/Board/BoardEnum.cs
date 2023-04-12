@@ -24,7 +24,7 @@ partial class Board {
   internal const Int32 White = (Int32)SideName.White;
 
   public enum SideName : byte { Black, White }
-  #endregion                          // SideName Enum
+  #endregion                            // SideName Enum
 
   #region TurnFlags Enum
   //
@@ -39,10 +39,10 @@ partial class Board {
   [Flags]
   public enum TurnFlags : byte {
     None = 0,
-    EPLegal = 1,                      // Bit 0
-    Illegal = EPLegal << 1,           // Bit 1 Check Flags
-    InCheck = Illegal << 1,           // Bit 2
-    Final = InCheck << 1,             // Bit 3
+    EPLegal = 1,                        // Bit 0
+    Illegal = EPLegal << 1,             // Bit 1 Check Flags
+    InCheck = Illegal << 1,             // Bit 2
+    Final = InCheck << 1,               // Bit 3
 
     //
     //[Note]Final, InCheck and Illegal are omitted from Hash to
@@ -50,9 +50,9 @@ partial class Board {
     //
     //[C#]Can one distinguish which of two equal Flag values is displayed?
     //[NonSerialized]
-    Copy = EPLegal                    // EPLegal
+    Copy = EPLegal                      // EPLegal
   }
-  #endregion                          // TurnFlags Enum
+  #endregion                            // TurnFlags Enum
 
   #region SideFlags Enum
   //
@@ -71,23 +71,23 @@ partial class Board {
   [Flags]
   public enum SideFlags : byte {
     None = 0,
-    CanOO = 1,                        // Bit 0 Castle Rights
-    CanOOO = CanOO << 1,              // Bit 1
+    CanOO = 1,                          // Bit 0 Castle Rights
+    CanOOO = CanOO << 1,                // Bit 1
     CanCastle = CanOOO | CanOO,
 
-    Dark = 1 << nBishopPairBit,       // Bit 2 Bishop Pair Flags
-    Lite = Dark << 1,                 // Bit 3
+    Dark = 1 << nBishopPairBit,         // Bit 2 Bishop Pair Flags
+    Lite = Dark << 1,                   // Bit 3
     Pair = Lite | Dark,
 
-    Alone = 1 << nAloneBit,           // Bit 4 Lone King
-    Insufficient = Alone << 1,        // Bit 5 Insufficient Material to Force Mate
+    Alone = 1 << nAloneBit,             // Bit 4 Lone King
+    Insufficient = Alone << 1,          // Bit 5 Insufficient Material to Force Mate
     AloneOrInsufficient = Insufficient | Alone,
 
     // Flags used by weighPieces()
     Weight = AloneOrInsufficient | Pair,
     Copy = Weight | CanCastle
   }
-  #endregion                          // SideFlags Enum
+  #endregion                            // SideFlags Enum
 
   #region EvalFlags Enum
   //
@@ -100,14 +100,14 @@ partial class Board {
   [Flags]
   public enum EvalFlags : byte {
     None = 0,
-    OutsideSquare = 1,                // Bit 0 Eval Flags
-    KBNvK = OutsideSquare << 1,       // Bit 1
-    KQvKP = KBNvK << 1,               // Bit 2
+    OutsideSquare = 1,                  // Bit 0 Eval Flags
+    KBNvK = OutsideSquare << 1,         // Bit 1
+    KQvKP = KBNvK << 1,                 // Bit 2
     EndGame = KQvKP | KBNvK | OutsideSquare,
 
     Copy = EndGame
   }
-  #endregion                          // EvalFlags Enum
+  #endregion                            // EvalFlags Enum
 
   #region DrawFlags Enum
   //
@@ -136,11 +136,11 @@ partial class Board {
   [Flags]
   public enum DrawFlags : byte {
     None = 0,
-    Draw0 = 1,                        // Bit 0 Draw Flags
-    Draw2 = Draw0 << 1,               // Bit 1
-    Draw3 = Draw2 << 1,               // Bit 2
-    Draw50 = Draw3 << 1,              // Bit 3
-    DrawIM = Draw50 << 1,             // Bit 4
+    Draw0 = 1,                          // Bit 0 Draw Flags
+    Draw2 = Draw0 << 1,                 // Bit 1
+    Draw3 = Draw2 << 1,                 // Bit 2
+    Draw50 = Draw3 << 1,                // Bit 3
+    DrawIM = Draw50 << 1,               // Bit 4
 
     //
     //[Note]Omitting Draw0, Draw2, Draw3, Draw50 and DrawIM from
@@ -173,17 +173,17 @@ partial class Board {
   [Flags]
   public enum ModeFlags : byte {
     None = 0,
-    NullMade = 1,                     // Bit 0 Mode Flags
-    ZWS = NullMade << 1,              // Bit 1
-    Reduced = ZWS << 1,               // Bit 2
-    Trace = Reduced << 1,             // Bit 3
+    NullMade = 1,                       // Bit 0 Mode Flags
+    ZWS = NullMade << 1,                // Bit 1
+    Reduced = ZWS << 1,                 // Bit 2
+    Trace = Reduced << 1,               // Bit 3
 
     Copy = Trace | Reduced | ZWS
 #if !RecursiveNullMade
-             | NullMade
+            | NullMade
 #endif
   }
-  #endregion                          // ModeFlags Enum
+  #endregion                            // ModeFlags Enum
 
   #region Piece Enum
   //
@@ -227,7 +227,7 @@ partial class Board {
   internal const Byte vK6 = (Byte)(Piece.K - vFirst);
   internal const Byte vEP6 = (Byte)(Piece.EP - vFirst);
 
-  protected const Byte vBlack = (Byte)(vK6 + 1);      // For PieceSymbols[]
+  protected const Byte vBlack = (Byte)(vK6 + 1);        // For PieceSymbols[]
   protected const Byte vWhite = (Byte)(vBlack + 1);
   #endregion
 
@@ -242,7 +242,7 @@ partial class Board {
     a7, b7, c7, d7, e7, f7, g7, h7,
     a8, b8, c8, d8, e8, f8, g8, h8
   }
-  #endregion                          // Square Enum
+  #endregion                            // Square Enum
 
   #region Move Enum
   //
@@ -267,19 +267,19 @@ partial class Board {
   // 31:1 Debug WTM
   //
 #if TestFromTo
-   protected const Int32 nToBit = 0;                      // Bit 0
-   protected const Int32 nFromBit = nToBit + 6;           // Bit 6
-   protected const Int32 nPromoteBit = nFromBit + 6;      // Bit 12
+  protected const Int32 nToBit = 0;                     // Bit 0
+  protected const Int32 nFromBit = nToBit + 6;          // Bit 6
+  protected const Int32 nPromoteBit = nFromBit + 6;     // Bit 12
 #else
-  protected const Int32 nFromBit = 0;                    // Bit 0
-  protected const Int32 nToBit = nFromBit + 6;           // Bit 6
-  protected const Int32 nPromoteBit = nToBit + 6;        // Bit 12 4-bits for promotion and castling
+  protected const Int32 nFromBit = 0;                   // Bit 0
+  protected const Int32 nToBit = nFromBit + 6;          // Bit 6
+  protected const Int32 nPromoteBit = nToBit + 6;       // Bit 12 4-bits for promotion and castling
 #endif
-  protected const Int32 nCastlesBit = nPromoteBit + 3;   // Bit 15 [Chess960]
-  protected const Int32 nPieceBit = nCastlesBit + 1;     // Bit 16 4-bits for piece and unused hi-bit
-  protected const Int32 nPieceHiBit = nPieceBit + 3;     // Bit 19 unused
-  protected const Int32 nCaptiveBit = nPieceHiBit + 1;   // Bit 20 4-bits for captures and unused hi-bit
-  protected const Int32 nCaptiveHiBit = nCaptiveBit + 3; // Bit 23 unused
+  protected const Int32 nCastlesBit = nPromoteBit + 3;  // Bit 15 [Chess960]
+  protected const Int32 nPieceBit = nCastlesBit + 1;    // Bit 16 4-bits for piece and unused hi-bit
+  protected const Int32 nPieceHiBit = nPieceBit + 3;    // Bit 19 unused
+  protected const Int32 nCaptiveBit = nPieceHiBit + 1;  // Bit 20 4-bits for captures and unused hi-bit
+  protected const Int32 nCaptiveHiBit = nCaptiveBit + 3;// Bit 23 unused
   protected const Int32 nNoteDraw2Bit = 26;
   internal const Int32 nHideFileBit = 28;
 
@@ -292,7 +292,7 @@ partial class Board {
   protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
 
   protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
-  #endregion                          // Move Masks
+  #endregion                            // Move Masks
 
   //
   // Move Mask Use Cases
@@ -309,21 +309,21 @@ partial class Board {
   //[Flags]
   public enum Move : uint {
     None = 0,
-    Castles = 1 << nCastlesBit,       // Bit 15 Lo 16-bits suffice for PACN
-                                      //PieceHi = 1 << nPieceHiBit,     // Bit 19 unused
-    CaptiveHi = 1 << nCaptiveHiBit,   // Bit 23 unused
-    NoteFinal = CaptiveHi << 1,       // Bit 24 4-bits for annotations
-    NoteCheck = NoteFinal << 1,       // Bit 25
-    NoteDraw2 = 1U << nNoteDraw2Bit,  // Bit 26
-    CheckMask = NoteDraw2 - 1,        // Mask26 Hi 6-bits omitted from [Trans|Quiet]Position.BestMove
-    NoteDraw = NoteDraw2 << 1,        // Bit 27
-    HideFile = 1U << nHideFileBit,    // Bit 28 Hi 4-bits are for abbreviation and debug
-    HideRank = HideFile << 1,         // Bit 29
-    Qxnt = HideRank << 1,             // Bit 30 Used by abbreviateRefresh()
+    Castles = 1 << nCastlesBit,         // Bit 15 Lo 16-bits suffice for PACN
+    //PieceHi = 1 << nPieceHiBit,       // Bit 19 unused
+    CaptiveHi = 1 << nCaptiveHiBit,     // Bit 23 unused
+    NoteFinal = CaptiveHi << 1,         // Bit 24 4-bits for annotations
+    NoteCheck = NoteFinal << 1,         // Bit 25
+    NoteDraw2 = 1U << nNoteDraw2Bit,    // Bit 26
+    CheckMask = NoteDraw2 - 1,          // Mask26 Hi 6-bits omitted from [Trans|Quiet]Position.BestMove
+    NoteDraw = NoteDraw2 << 1,          // Bit 27
+    HideFile = 1U << nHideFileBit,      // Bit 28 Hi 4-bits are for abbreviation and debug
+    HideRank = HideFile << 1,           // Bit 29
+    Qxnt = HideRank << 1,               // Bit 30 Used by abbreviateRefresh()
 #if DebugMoveColor
-      WTM = Qxnt << 1,                  // Bit 31 Used to test WTM
+    WTM = Qxnt << 1,                    // Bit 31 Used to test WTM
 #endif
-    HideFrom = HideRank | HideFile,   // Used to abbreviate From square
+    HideFrom = HideRank | HideFile,     // Used to abbreviate From square
     FromToMask = uSquareMask << nToBit | uSquareMask << nFromBit,
     PromoteMask = vPieceMask << nPromoteBit,
     PieceMask = vPieceMask << nPieceBit,
@@ -336,7 +336,7 @@ partial class Board {
     // StoreMask keeps CaptiveMask; but omits annotations
     //
 #if DebugMoveColor
-      StoreMask = WTM | CaptiveMask | EqualMask,
+    StoreMask = WTM | CaptiveMask | EqualMask,
 #else
     StoreMask = CaptiveMask | EqualMask,
 #endif
@@ -346,10 +346,10 @@ partial class Board {
     //
     NullMove = Piece.P << nPromoteBit,
     Undefined = Piece.K << nPromoteBit,
-    EmptyMove = Castles | Undefined   // Denotes Final Position in Transposition
+    EmptyMove = Castles | Undefined     // Denotes Final Position in Transposition
   }
-  #endregion                          // Move Enum
-  #endregion                          // Enumerations
+  #endregion                            // Move Enum
+  #endregion                            // Enumerations
 
   #region Locales
   public class Locale {
@@ -381,13 +381,13 @@ partial class Board {
       new Locale { Symbols = "PCNTDRNA", Language = "Romanian" },
       new Locale { Symbols = "PCATDRNB", Language = "Spanish" },
       new Locale { Symbols = "BSLTDKSV", Language = "Swedish" } };
-  #endregion                          // Locales
+  #endregion                            // Locales
 
   #region Plane
   internal const Int32 FilePos = 0, RankPos = 1;
 
   protected const Plane BIT0 = 1UL;
-  protected const Plane BIT7 = BIT0 << nFiles - 1;    // For findEmptyFile()
+  protected const Plane BIT7 = BIT0 << nFiles - 1;      // For findEmptyFile()
   internal const Plane BIT32 = BIT0 << 32;
   protected const Plane MASK64 = UInt64.MaxValue;
 

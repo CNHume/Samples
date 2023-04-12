@@ -59,30 +59,30 @@ partial class Board {
   // types of attack for either side.
   //
 #if BuildAtxTo
-    [Conditional("BuildAtxTo")]
-    protected void BuildAtxTo(Plane qpPieceUpdate) {
-      while (qpPieceUpdate != 0) {
-        var nTo = RemoveLo(ref qpPieceUpdate);
+  [Conditional("BuildAtxTo")]
+  protected void BuildAtxTo(Plane qpPieceUpdate) {
+    while (qpPieceUpdate != 0) {
+      var nTo = RemoveLo(ref qpPieceUpdate);
 
-        //
-        // For each square being updated, AtxTo[] should be updated to
-        // identify squares with pieces that attack the Indexed Square.
-        //
-        // These are squares that would be attacked by pieces standing
-        // on the Indexed Square using each type of attack that pieces
-        // on the AtxTo[] square are capable of:
-        //
-        var qpFrom = King & KingAtx[nTo] |
-                     Knight & KnightAtx[nTo] |
-                     DiagPiece & diagAtx(nTo) |
-                     OrthPiece & orthAtx(nTo);
+      //
+      // For each square being updated, AtxTo[] should be updated to
+      // identify squares with pieces that attack the Indexed Square.
+      //
+      // These are squares that would be attacked by pieces standing
+      // on the Indexed Square using each type of attack that pieces
+      // on the AtxTo[] square are capable of:
+      //
+      var qpFrom = King & KingAtx[nTo] |
+                    Knight & KnightAtx[nTo] |
+                    DiagPiece & diagAtx(nTo) |
+                    OrthPiece & orthAtx(nTo);
 
-        foreach (var side in Side)
-          qpFrom |= side.PawnAtxTo(nTo);
+      foreach (var side in Side)
+        qpFrom |= side.PawnAtxTo(nTo);
 
-        AtxTo[nTo] = qpFrom;
-      }
+      AtxTo[nTo] = qpFrom;
     }
+  }
 #endif
   //
   // The following is currently only needed for abbreviate().  It finds all
@@ -100,7 +100,7 @@ partial class Board {
       //[Future]IsLegal() might maintain LegalTo[] to ignore pinned pieces;
       // but abbreviating on this basis in a PGN may confuse some programs.
       //
-      switch (vPiece) {               // All pieces of the type that moved
+      switch (vPiece) {                 // All pieces of the type that moved
       case vN6:
         qpPiece &= Knight & AtxKnight[nTo];
         break;
@@ -121,7 +121,7 @@ partial class Board {
     else if (vPiece == vP6 && bCapture)
       qpPiece = Friend.PawnAtxTo(nTo);
     else
-      qpPiece = bit(nFrom);           // King Moves and Pawn Advances are unambiguous
+      qpPiece = bit(nFrom);             // King Moves and Pawn Advances are unambiguous
 
     return qpPiece;
   }
@@ -191,18 +191,18 @@ partial class Board {
            (qpCapture & Friend.PawnA1H8Atx) != 0 ||
            (qpCapture & Friend.PawnA8H1Atx) != 0;
   }
-  #endregion                          // Attack Methods
+  #endregion                            // Attack Methods
 
   #region Count Methods
   private Int32 incTo(Plane qpAtxTo) {
     var nAtx = 0;
 #if Controlled
-      AttackedSum |= qpAtxTo;
+    AttackedSum |= qpAtxTo;
 #endif
     while (qpAtxTo != 0) {
       var n = RemoveLo(ref qpAtxTo);
 #if Controlled
-        ControlTo[n]++;
+      ControlTo[n]++;
 #endif
       nAtx++;
     }
@@ -213,18 +213,18 @@ partial class Board {
   private Int32 decTo(Plane qpAtxTo) {
     var nAtx = 0;
 #if Controlled
-      AttackedSum |= qpAtxTo;
+    AttackedSum |= qpAtxTo;
 #endif
     while (qpAtxTo != 0) {
       var n = RemoveLo(ref qpAtxTo);
 #if Controlled
-        ControlTo[n]--;
+      ControlTo[n]--;
 #endif
       nAtx++;
     }
 
     return nAtx;
   }
-  #endregion                          // Count Methods
-  #endregion                          // Methods
+  #endregion                            // Count Methods
+  #endregion                            // Methods
 }
