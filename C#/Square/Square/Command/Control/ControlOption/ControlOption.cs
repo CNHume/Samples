@@ -21,11 +21,11 @@ public partial class Control {
     public String Name;
     public OptionType Type;
     public String? Default;
-    public String?[] Items;           // Enumerates possible values for options of type combo
+    public String?[] Items;             // Enumerates possible values for options of type combo
     public Int32? Min;
     public Int32? Max;
     public Boolean IsHidden;
-    #endregion                        // Fields
+    #endregion                          // Fields
 
     #region Methods
     public override String ToString() {
@@ -55,6 +55,6 @@ public partial class Control {
 
       return sb.ToString();
     }
-    #endregion                        // Methods
+    #endregion                          // Methods
   }
 }

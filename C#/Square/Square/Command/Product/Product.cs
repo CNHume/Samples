@@ -19,7 +19,7 @@ static class Product {
 
   #region Constructors
   static Product() {
-    var assy = Assembly.GetEntryAssembly();   // GetExecutingAssembly() may refer to the local DLL
+    var assy = Assembly.GetEntryAssembly();     // GetExecutingAssembly() may refer to the local DLL
     if (assy == null)
       return;
 
@@ -30,7 +30,7 @@ static class Product {
     var descriptionAttribute = assy.GetCustomAttribute<AssemblyDescriptionAttribute>();
     var fvi = FileVersionInfo.GetVersionInfo(assy.Location);
 
-    Title = getTitle(assy);           // Name for display purposes
+    Title = getTitle(assy);             // Name for display purposes
     CompanyName = fvi.CompanyName;
     Copyright = fvi.LegalCopyright;
     Description = descriptionAttribute?.Description;

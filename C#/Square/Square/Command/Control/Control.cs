@@ -27,11 +27,11 @@ public class PropertyChangedEventArgs : EventArgs {
   public PropertyChangedEventArgs(OptionType Type) {
     this.Type = Type;
   }
-  #endregion
+  #endregion                            // Constructors
 
   #region Properties
   private OptionType Type { get; set; }
-  #endregion
+  #endregion                            // Properties
 }
 
 public class Button : Control {
@@ -43,7 +43,7 @@ public class Button : Control {
   internal virtual void OnClick(EventArgs e) {
     Click?.Invoke(this, e);
   }
-  #endregion
+  #endregion                            // Methods
 }
 
 public class Setting : Control {
@@ -51,10 +51,10 @@ public class Setting : Control {
   //
   // Current Value:
   //
-  public Boolean? IsChecked;          // For type check or button
-  public Int32? Selection;            // For type spin
-  public String? Text;                // For type combo or string
-  #endregion                          // Fields
+  public Boolean? IsChecked;            // For type check or button
+  public Int32? Selection;              // For type spin
+  public String? Text;                  // For type combo or string
+  #endregion                            // Fields
 
   #region Properties
   public Object? Value {
@@ -75,13 +75,13 @@ public class Setting : Control {
       }
     }
   }
-  #endregion                          // Properties
+  #endregion                            // Properties
 
   #region Events
   // Step 2/6: Declare Event [of the EventHandler Delegate Type]
   // Step 2a: Provide explicit implementation of the add and remove accessors
   public event EventHandler<PropertyChangedEventArgs>? PropertyChanged;
-  #endregion
+  #endregion                            // Events
 
   #region Methods
   //
@@ -134,7 +134,7 @@ public class Setting : Control {
       Text = sValue;
       break;
 
-    default:                          //[Note]Option.button case should not occur
+    default:                            //[Note]Option.button case should not occur
       bValueValid =
         bTypeParsed = false;
       break;
@@ -150,7 +150,7 @@ public class Setting : Control {
       throw new ControlException(
         $@"Could not set a default of ""{Option.Default}"" for the {Option.Name} {Option.Type} control");
   }
-  #endregion                          // Methods
+  #endregion                            // Methods
 }
 
 public partial class Control {
@@ -210,5 +210,5 @@ public partial class Control {
       break;
     }
   }
-  #endregion                          // Methods
+  #endregion                            // Methods
 }

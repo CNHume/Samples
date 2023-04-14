@@ -25,7 +25,7 @@ namespace Cache;
 
 using Engine;
 
-using static Engine.Board;            // For OneBitOrNone()
+using static Engine.Board;              // For OneBitOrNone()
 
 //
 // Type Aliases:
@@ -34,8 +34,8 @@ using Hashcode = UInt64;
 
 partial class Tank<T> where T : ITankable<T>, new() {
   #region Properties
-#if ThreadSafeTank                      // One lock for each instance of Tank
-    private readonly Object bucketLock = new object();
+#if ThreadSafeTank                        // One lock for each instance of Tank
+  private readonly Object bucketLock = new object();
 #endif
   public ProbeCounter Counts { get; set; }
   public UInt16 BucketsDefault { get; set; }
@@ -60,7 +60,7 @@ partial class Tank<T> where T : ITankable<T>, new() {
 
   public UInt32 LengthRem { get; protected set; }
 #if LinkedTranspositions
-    public LinkedList<T>[] Entries;
+  public LinkedList<T>[] Entries;
 #else
   protected T[][] Entries;
 #endif
@@ -77,13 +77,13 @@ partial class Tank<T> where T : ITankable<T>, new() {
   [MemberNotNull(nameof(Entries))]
   private void allocate(UInt32 uLength, UInt16 wBuckets) {
 #if HashPowerOfTwo
-      if (!OneBitOrNone(uLength))
-        throw new ApplicationException("LookupLength must be a power of two");
+    if (!OneBitOrNone(uLength))
+      throw new ApplicationException("LookupLength must be a power of two");
 #endif
     if (Entries == null ||
 #if LotsForLittle
-          uLength > Entries.Length ||
-          wBuckets > Entries[0].Length)
+        uLength > Entries.Length ||
+        wBuckets > Entries[0].Length)
 #else
         wBuckets > Entries.Length ||
         uLength > Entries[0].Length)
@@ -99,25 +99,25 @@ partial class Tank<T> where T : ITankable<T>, new() {
   [MemberNotNull(nameof(Entries))]
   private void allocateNew(UInt32 uLength, UInt16 wBuckets) {
 #if LinkedTranspositions
-      Buckets = new LinkedList<T>[uLength];
+    Buckets = new LinkedList<T>[uLength];
 #else
 #if LotsForLittle
-      Entries = new T[uLength][];
-      for (var uIndex = 0U; uIndex < uLength; uIndex++) {
-        Entries[uIndex] = new T[wBuckets];
-        if (!typeof(T).IsValueType) {
+    Entries = new T[uLength][];
+    for (var uIndex = 0U; uIndex < uLength; uIndex++) {
+      Entries[uIndex] = new T[wBuckets];
+      if (!typeof(T).IsValueType) {
 #if TankInit
-          for (var uIndex = 0U; uIndex < uLength; uIndex++)
-            Entries[nBucket][uIndex].Init();
+        for (var uIndex = 0U; uIndex < uLength; uIndex++)
+          Entries[nBucket][uIndex].Init();
 #endif
-        }
-        else {
-#if PreAllocated
-          for (var nBucket = 0; nBucket < wBuckets; nBucket++)
-            Entries[uIndex][nBucket] = new T();
-#endif
-        }
       }
+      else {
+#if PreAllocated
+        for (var nBucket = 0; nBucket < wBuckets; nBucket++)
+          Entries[uIndex][nBucket] = new T();
+#endif
+      }
+    }
 #else
     Entries = new T[wBuckets][];
     for (var nBucket = 0; nBucket < wBuckets; nBucket++) {
@@ -130,8 +130,8 @@ partial class Tank<T> where T : ITankable<T>, new() {
       }
       else {
 #if PreAllocated
-          for (var uIndex = 0U; uIndex < uLength; uIndex++)
-            Entries[nBucket][uIndex] = new T();
+        for (var uIndex = 0U; uIndex < uLength; uIndex++)
+          Entries[nBucket][uIndex] = new T();
 #endif
       }
     }
@@ -156,14 +156,14 @@ partial class Tank<T> where T : ITankable<T>, new() {
   }
 
   private UInt32 index2(Hashcode qHash) {
-    var uHi = (UInt32)(qHash >> 32);  // Avoiding 64-Bit Division
+    var uHi = (UInt32)(qHash >> 32);    // Avoiding 64-Bit Division
     var uLo = (UInt32)qHash;
     return (uHi ^ uLo) % LookupLength;
   }
 #if HashPowerOfTwo
-    private UInt32 index(Hashcode qHash) {
-      return (UInt32)(qHash & LookupLength - 1);
-    }
+  private UInt32 index(Hashcode qHash) {
+    return (UInt32)(qHash & LookupLength - 1);
+  }
 #else
   private UInt32 index(Hashcode qHash) {
     return (UInt32)(qHash % LookupLength);
@@ -192,16 +192,16 @@ partial class Tank<T> where T : ITankable<T>, new() {
     // needed otherwise: to reduce GC overhead.
     //
 #if ThreadSafeTank
-      lock (bucketLock) {               //[Safe]In case a search may be in progress
+    lock (bucketLock) {                 //[Safe]In case a search may be in progress
 #else
     {
 #endif
       if (Entries != null) {
 #if LotsForLittle
-          Debug.Assert(nToPos <= Entries[0].Length, "nToPos > Entries[0].Length");
-          var nLength = nToPos - nFromPos;
-          for (var uIndex = 0U; uIndex < Entries.Length; uIndex++)
-            Array.Clear(Entries[uIndex], nFromPos, nLength);
+        Debug.Assert(nToPos <= Entries[0].Length, "nToPos > Entries[0].Length");
+        var nLength = nToPos - nFromPos;
+        for (var uIndex = 0U; uIndex < Entries.Length; uIndex++)
+          Array.Clear(Entries[uIndex], nFromPos, nLength);
 #else
         Debug.Assert(nToPos <= Entries.Length, "nToPos > Entries.Length");
         var nLength = Entries[0].Length;
@@ -227,37 +227,37 @@ partial class Tank<T> where T : ITankable<T>, new() {
   public void Save(T store) {
     Counts.SetReads++;
     //[Test]return;
-    var bReplace = true;              // Assume final write needed
+    var bReplace = true;                // Assume final write needed
 #if ThreadSafeTank
       lock (bucketLock) {
 #else
     {
 #endif
       if (!findMatch(out T found, out UInt32 uIndex, out Int32 nBucket, store)) {
-        found = store;                // Non-Match Case: Add new Entry
+        found = store;                  // Non-Match Case: Add new Entry
         Counts.Added++;
 
-        if (nBucket < LookupBuckets) {// Bucket Not Full: Add newest and return
+        if (nBucket < LookupBuckets) {  // Bucket Not Full: Add newest and return
 #if LotsForLittle
-            Entries[uIndex][nBucket] = found;
+          Entries[uIndex][nBucket] = found;
 #else
           Entries[nBucket][uIndex] = found;
 #endif
           return;
         }
         else
-          nBucket = 0;                // Bucket Full: Remove Oldest Entry
-      }                               // Non-Match Case
-      else if (found.IsNew(store)) {  // Unsatisfactory Match: Replace
+          nBucket = 0;                  // Bucket Full: Remove Oldest Entry
+      }                                 // Non-Match Case
+      else if (found.IsNew(store)) {    // Unsatisfactory Match: Replace
 #if TankRecycle
-          found.Recycle(store);
-          bReplace = false;
+        found.Recycle(store);
+        bReplace = false;
 #else
         found = store;
 #endif
-      }                               // Unsatisfactory Match
-      else {                          // Satisfactory Match, a.k.a. Set Hit
-        bReplace = false;             // found only written if it moves
+      }                                 // Unsatisfactory Match
+      else {                            // Satisfactory Match, a.k.a. Set Hit
+        bReplace = false;               // found only written if it moves
         Counts.SetHits++;
       }
 
@@ -296,16 +296,16 @@ partial class Tank<T> where T : ITankable<T>, new() {
     found = new T();
     var qHash = match.Hash;
 #if HalfHash
-      uIndex = index2(qHash);
+    uIndex = index2(qHash);
 #else
     uIndex = index(qHash);
 #if TestHashMath
-      Debug.Assert(indexTest(qHash) == uIndex, "indexTest() != index()");
+    Debug.Assert(indexTest(qHash) == uIndex, "indexTest() != index()");
 #endif
 #endif
     for (nBucket = 0; nBucket < LookupBuckets; nBucket++) {
 #if LotsForLittle
-        found = Entries[uIndex][nBucket];
+      found = Entries[uIndex][nBucket];
 #else
       found = Entries[nBucket][uIndex];
 #endif
@@ -327,7 +327,7 @@ partial class Tank<T> where T : ITankable<T>, new() {
     UInt32 uIndex;
     Int32 nBucket = 0;
 #if ThreadSafeTank
-      lock (bucketLock) {
+    lock (bucketLock) {
 #else
     {
 #endif
@@ -362,16 +362,16 @@ partial class Tank<T> where T : ITankable<T>, new() {
     found = new T();
     var qHash = match.Hash;
 #if HalfHash
-      uIndex = index2(qHash);
+    uIndex = index2(qHash);
 #else
     uIndex = index(qHash);
 #if TestHashMath
-      Debug.Assert(indexTest(qHash) == uIndex, "indexTest() != index()");
+    Debug.Assert(indexTest(qHash) == uIndex, "indexTest() != index()");
 #endif
 #endif
     for (; nBucket < LookupBuckets; nBucket++) {
 #if LotsForLittle
-        found = Entries[uIndex][nBucket];
+      found = Entries[uIndex][nBucket];
 #else
       found = Entries[nBucket][uIndex];
 #endif
@@ -391,23 +391,23 @@ partial class Tank<T> where T : ITankable<T>, new() {
   private void renew(T found, UInt32 uIndex, Int32 nBucket, Boolean bReplace = false) {
     for (; nBucket + 1 < LookupBuckets; nBucket++) {
 #if LotsForLittle
-        var xp = Entries[uIndex][nBucket + 1];
+      var xp = Entries[uIndex][nBucket + 1];
 #else
       var xp = Entries[nBucket + 1][uIndex];
 #endif
       if (isNullOrEmpty(xp))
         break;
 #if LotsForLittle
-        Entries[uIndex][nBucket] = xp;
+      Entries[uIndex][nBucket] = xp;
 #else
       Entries[nBucket][uIndex] = xp;
 #endif
       bReplace = true;
     }
 
-    if (bReplace) {                   // No replace needed if found was already renewed
+    if (bReplace) {                     // No replace needed if found was already renewed
 #if LotsForLittle
-        Entries[uIndex][nBucket] = found;
+      Entries[uIndex][nBucket] = found;
 #else
       Entries[nBucket][uIndex] = found;
 #endif

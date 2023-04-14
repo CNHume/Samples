@@ -6,11 +6,11 @@
 
 namespace Cache;
 
-using static Engine.Board;            // For OneBitOrNone()
+using static Engine.Board;              // For OneBitOrNone()
 
 using Hashcode = UInt64;
 using MemoHashcode = UInt32;
-using PieceHashcode = UInt16;         // 10 bits
+using PieceHashcode = UInt16;           // 10 bits
 
 class Memo<T> {
   #region Properties
@@ -19,7 +19,7 @@ class Memo<T> {
   public SimpleCounter Counts { get; set; }
   #endregion
 
-  #region Indexer
+  #region Indexers
   public T this[MemoHashcode uHash] {
     get {
       if (Entries == null)
@@ -37,14 +37,14 @@ class Memo<T> {
       Entries[Index(uHash)] = value;
     }
   }
-  #endregion
+  #endregion                            // Indexers
 
-  #region Constructor
+  #region Constructors
   public Memo(String Name, UInt32 uLength) {
     Counts = new SimpleCounter(Name);
     Allocate(uLength);
   }
-  #endregion
+  #endregion                            // Constructors
 
   #region Methods
   protected void Allocate(UInt32 uLength) {
@@ -68,7 +68,7 @@ class Memo<T> {
     var u = qHash % LookupLength;
     return u;
   }
-  #endregion
+  #endregion                            // Methods
 }
 
 class Memo2<T> : Memo<T> {
@@ -108,9 +108,9 @@ class Memo2<T> : Memo<T> {
       Entries[index(qHash)] = value;
     }
   }
-  #endregion
+  #endregion                            // Indexers
 
-  #region Constructor
+  #region Constructors
   public Memo2(String Name, UInt32 uLength) : base(Name, uLength) {
   }
 
@@ -120,7 +120,7 @@ class Memo2<T> : Memo<T> {
 
     base.AllocateNew(uLength);
   }
-  #endregion
+  #endregion                            // Constructors
 
   #region Methods
   private UInt32 index(PieceHashcode wHash) {
@@ -137,5 +137,5 @@ class Memo2<T> : Memo<T> {
     var q = qHash & LookupLength - 1;
     return (UInt32)q;
   }
-  #endregion
+  #endregion                            // Methods
 }

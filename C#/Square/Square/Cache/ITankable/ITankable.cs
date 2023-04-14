@@ -31,7 +31,7 @@ public interface ITankable<T> {
 #endif
   Boolean Match(T entry);
 #if TankRecycle
-    void Recycle(T store);
+  void Recycle(T store);
 #endif
 }
 #endregion

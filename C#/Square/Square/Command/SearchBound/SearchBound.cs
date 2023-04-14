@@ -43,7 +43,7 @@ struct SearchBound {
       nMoveTimeMS = (Int32)MoveTimeMS;
     else {
       var nMoves = MovesToGo.HasValue ? (Int32)MovesToGo : wExpectedMovesToGo;
-      if (nMoves < 1)                 //[Safe]Preventing DBZ below
+      if (nMoves < 1)                   //[Safe]Preventing DBZ below
         nMoves = 1;
 
       if (WTM) {
@@ -83,8 +83,11 @@ struct SearchBound {
     var bWTM = position.WTM();
     Clear(bWTM);
 
+    //
+    // Clear any previous SearchMoves prior to a new go command:
+    //
     var searchMoves = position.SearchMoves;
-    if (searchMoves != null)          // Clear any previous SearchMoves prior to a new go command
+    if (searchMoves != null)
       searchMoves.Clear();
 
     IsDepth = false;
@@ -216,7 +219,7 @@ struct SearchBound {
   public UInt16? MovesToMate;
   public UInt64? Nodes;
 
-  public Boolean IsDepth;             // Depth Bound explicitly set vs implied by MovesToMate
+  public Boolean IsDepth;               // Depth Bound explicitly set vs implied by MovesToMate
   public Boolean IsInfinite;
   public Boolean IsPonder;
   public Boolean WTM;

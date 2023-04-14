@@ -21,13 +21,13 @@ public class Scanner : IDisposable {
   protected const String sSpace = " ";
   protected const String sWhitespacePlus = @"\s+";
   private const Int32 nRowsCapacity = 64;
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Fields
   private Boolean disposed = false;
   private TextReader? reader;
   private String? sText;
-  #endregion                          // Fields
+  #endregion                            // Fields
 
   #region Properties
   protected Int32 NextRow { get; set; }
@@ -66,8 +66,8 @@ public class Scanner : IDisposable {
   #region TextSpan Properties
   protected String[]? TextSpans { get; private set; }
   protected Int32 Index { get; set; }
-  #endregion                          // TextSpan Properties
-  #endregion                          // Properties
+  #endregion                            // TextSpan Properties
+  #endregion                            // Properties
 
   #region Constructors
   public Scanner() {
@@ -81,7 +81,7 @@ public class Scanner : IDisposable {
 
   public Scanner(String text) : this(new StringReader(text)) {
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region IDisposable Interface
   public void Dispose() {
@@ -95,7 +95,7 @@ public class Scanner : IDisposable {
       disposed = true;
     }
   }
-  #endregion                          // IDisposable Interface
+  #endregion                            // IDisposable Interface
 
   #region Methods
   public void Close() {
@@ -186,8 +186,8 @@ public class Scanner : IDisposable {
     }
     return sb.ToString();
   }
-  #endregion
-  #endregion                          // Methods
+  #endregion                            // TextSpan Methods
+  #endregion                            // Methods
 }
 
 public class StreamScanner : Scanner {
@@ -196,7 +196,7 @@ public class StreamScanner : Scanner {
     get => (StreamReader?)base.Reader;
     set => base.Reader = value;
   }
-  #endregion                          // Properties
+  #endregion                            // Properties
 
   #region Constructors
   public StreamScanner() : base() {
@@ -211,7 +211,7 @@ public class StreamScanner : Scanner {
         Encoding.UTF8.GetBytes(text)
         ))) {
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region Methods
   //
@@ -231,5 +231,5 @@ public class StreamScanner : Scanner {
   //public override void Rewind(Int32 nRow = 0, Int32 nColumn = 0) {
   //  base.Rewind(nRow, nColumn);
   //}
-  #endregion                          // Methods
+  #endregion                            // Methods
 }

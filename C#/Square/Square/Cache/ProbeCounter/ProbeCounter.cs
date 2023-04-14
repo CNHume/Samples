@@ -16,7 +16,7 @@ class SimpleCounter {
 
   #region Constructors
   public SimpleCounter(String sName) {
-    this.Name = sName;
+    Name = sName;
   }
   #endregion
 

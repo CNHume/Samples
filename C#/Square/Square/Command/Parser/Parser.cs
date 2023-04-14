@@ -25,7 +25,7 @@ partial class Parser : IDisposable {
   private const Char cDoubleQuote = '"';
   private const String sDoubleQuote = @"""";
   private const String sEscapedDoubleQuote = @"""""";
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Fields
   private Boolean disposed = false;
@@ -74,7 +74,7 @@ partial class Parser : IDisposable {
   public Token UnsignedToken;
   private Token valueKeywordToken;
   private Token verbToken;
-  #endregion                          // Fields
+  #endregion                            // Fields
 
   #region Properties
   public Scanner? Scanner {
@@ -86,7 +86,7 @@ partial class Parser : IDisposable {
   }
 
   public Boolean IsVerbose { get; }
-  #endregion                          // Properties
+  #endregion                            // Properties
 
   #region Constructors
   public Parser(Boolean isVerbose = false) {
@@ -230,9 +230,9 @@ partial class Parser : IDisposable {
 
   [MemberNotNull(nameof(Scanner))]
   public void EnsureScanner(String sCommand) {
-    if (Scanner == null)       // Update existing Parser
+    if (Scanner == null)                // Update existing Parser
       Scanner = NewScanner(sCommand);
-    else                              // Update existing Scanner
+    else                                // Update existing Scanner
       Scanner.Reader = newReader(sCommand);
   }
 
@@ -249,7 +249,7 @@ partial class Parser : IDisposable {
     //    ));
     return new StringReader(sCommand);
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region IDisposable Interface
   public void Dispose() {
@@ -263,13 +263,13 @@ partial class Parser : IDisposable {
       disposed = true;
     }
   }
-  #endregion                          // IDisposable Interface
+  #endregion                            // IDisposable Interface
 
   #region Enumerations
   #region Position Setup Type Enum
   protected enum SetupType : byte { None, EPD, FEN, Random, StartPos };
-  #endregion                          // Position Setup Type Enum
-  #endregion                          // Enumerations
+  #endregion                            // Position Setup Type Enum
+  #endregion                            // Enumerations
 
   #region Methods
   public void Close() {
@@ -347,7 +347,7 @@ partial class Parser : IDisposable {
 
   private String? parseOptionName(out Control? control) {
     SpaceToken.Accept();
-    nameKeywordToken.Accept();        //[UCI]Technically, the option "name" keyword is required.
+    nameKeywordToken.Accept();          //[UCI]Technically, the option "name" keyword is required.
 
     String? sKeyword = default;
     String? sName = default;
@@ -647,7 +647,7 @@ partial class Parser : IDisposable {
 
     return bEnabled;
   }
-  #endregion                          // Numeric Parsers
+  #endregion                            // Numeric Parsers
 
   #region Verbatim Literal Methods
   public static Boolean IsVerbatimLiteral(String sValue) {
@@ -675,6 +675,6 @@ partial class Parser : IDisposable {
   public static String StringToVerbatimLiteral(String sInput) {
     return $@"""{sInput.Replace(sDoubleQuote, sEscapedDoubleQuote)}""";
   }
-  #endregion                          // Verbatim Literal Methods
-  #endregion                          // Methods
+  #endregion                            // Verbatim Literal Methods
+  #endregion                            // Methods
 }
