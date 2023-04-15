@@ -102,16 +102,16 @@ partial class Board {
       const String methodName = nameof(raise);
       var qp = bit(nFrom);
 #if VerifySquarePiece
-        if ((qp & Board.RankPiece) == 0) {
-          var sb = new StringBuilder($"Square empty where {Parameter.SideName} Piece was expected at")
-            .AppendSquares(qp);
-          throw new MoveException(sb.ToString());
-        }
-        else if ((qp & Piece) == 0) {
-          var sb = new StringBuilder($"{Parameter.SideName} Piece was expected at")
-            .AppendSquares(qp);
-          throw new MoveException(sb.ToString());
-        }
+      if ((qp & Board.RankPiece) == 0) {
+        var sb = new StringBuilder($"Square empty where {Parameter.SideName} Piece was expected at")
+          .AppendSquares(qp);
+        throw new MoveException(sb.ToString());
+      }
+      else if ((qp & Piece) == 0) {
+        var sb = new StringBuilder($"{Parameter.SideName} Piece was expected at")
+          .AppendSquares(qp);
+        throw new MoveException(sb.ToString());
+      }
 #endif
       clrPiece(qp);
 #if !Magic
@@ -193,14 +193,14 @@ partial class Board {
       const String methodName = nameof(lower);
       var qp = bit(nTo);
 #if VerifySquarePiece
-        foreach (var testSide in Board.Side) {
-          if ((qp & testSide.Piece) != 0) {
-            var sb = new StringBuilder();
-            sb.Append($"{testSide.Parameter.SideName} Piece prevents placement of {Parameter.SideName} Piece at")
-              .AppendSquares(qp);
-            throw new MoveException(sb.ToString());
-          }
+      foreach (var testSide in Board.Side) {
+        if ((qp & testSide.Piece) != 0) {
+          var sb = new StringBuilder();
+          sb.Append($"{testSide.Parameter.SideName} Piece prevents placement of {Parameter.SideName} Piece at")
+            .AppendSquares(qp);
+          throw new MoveException(sb.ToString());
         }
+      }
 #endif
       setPiece(qp);
 #if !Magic
@@ -287,7 +287,7 @@ partial class Board {
       //[Safe]
       throw new ChessException($"{Parameter.SideName} cannot castle");
     }
-    #endregion                        // Mover Methods
+    #endregion                          // Mover Methods
 
     #region Attacker Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -399,7 +399,7 @@ partial class Board {
 
       return qpPawnTo;
     }
-    #endregion                        // Attacker Methods
+    #endregion                          // Attacker Methods
 
     #region Count Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -452,7 +452,7 @@ partial class Board {
 
       return nAtx;
     }
-    #endregion                        // Count Methods
+    #endregion                          // Count Methods
 
     #region Grant Castling
     private void verifyKingCanCastle() {
@@ -506,7 +506,7 @@ partial class Board {
         SetCanOO();
       }
     }
-    #endregion                      // Grant Castling
+    #endregion                        // Grant Castling
 
     #region Hashcode Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -562,7 +562,7 @@ partial class Board {
         Board.SetDraw0();
       }
     }
-    #endregion                        // Hashcode Methods
-    #endregion                        // Methods
-  }                                   // BoardSide
-}                                     // Board
+    #endregion                          // Hashcode Methods
+    #endregion                          // Methods
+  }                                     // BoardSide
+}                                       // Board

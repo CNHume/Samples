@@ -110,7 +110,12 @@ partial class Board {
     SideFlags fWhiteSide,
     TurnFlags fturn,
     Boolean bWTM) {
-    if (fmode == 0 && fdraw == 0 && feval == 0 && fBlackSide == 0 && fWhiteSide == 0 && fturn == 0)
+    if (fmode == 0 &&
+        fdraw == 0 &&
+        feval == 0 &&
+        fBlackSide == 0 &&
+        fWhiteSide == 0 &&
+        fturn == 0)
       return "None";
 
     var sBlackSide = formatFlags(fBlackSide);
@@ -214,9 +219,9 @@ partial class Board {
       break;
     case PositionType.FEN:
       sb.Append(cSpace)
-        .Append(HalfMoveClock)        // Half-Move Clock for the 50-Move Rule
+        .Append(HalfMoveClock)          // Half-Move Clock for the 50-Move Rule
         .Append(cSpace)
-        .Append(MoveNumber(GamePly)); // Full Move Number
+        .Append(MoveNumber(GamePly));   // Full Move Number
       break;
     case PositionType.EPD:
       if (Operations == null) newOperations();
@@ -300,10 +305,10 @@ partial class Board {
     var qp = bit(sqr(0, rank));
     for (var x = 0; x < nFiles; x++, qp <<= 1) {
       var file = bFlip ? InvertFile(x) : x;
-      if (!bRightRuler)               // Left Pad
+      if (!bRightRuler)                 // Left Pad
         sb.Append(cSpace);
       appendPiece2(sb, sqr(file, rank), qp);
-      if (bRightRuler)                // Right Pad
+      if (bRightRuler)                  // Right Pad
         sb.Append(cSpace);
     }
   }
@@ -311,7 +316,7 @@ partial class Board {
   private void appendBoard(StringBuilder sb, Boolean bFlip = false) {
     var bTopRuler = bFlip;
     var bRightRuler = bFlip;
-    if (bTopRuler)                    // File Ruler at Top
+    if (bTopRuler)                      // File Ruler at Top
       sb.Append(cSpace)
         .AppendFiles(sSpace2, bFlip)
         .Append(cNewline);
@@ -319,15 +324,15 @@ partial class Board {
     for (var y = 0; y < nRanks; y++) {
       var rank = bFlip ? y : InvertRank(y);
       var c = (Char)(cRankMin + rank);
-      if (!bRightRuler)               // Rank Ruler at Left
+      if (!bRightRuler)                 // Rank Ruler at Left
         sb.Append(c);
       appendRank(sb, rank, bFlip);
-      if (bRightRuler)                // Rank Ruler at Right
+      if (bRightRuler)                  // Rank Ruler at Right
         sb.Append(c);
       sb.Append(cNewline);
     }
 
-    if (!bTopRuler)                   // File Ruler at Bottom
+    if (!bTopRuler)                     // File Ruler at Bottom
       sb.AppendFiles(sSpace2, bFlip)
         .Append(cNewline);
   }
@@ -337,7 +342,7 @@ partial class Board {
 
     sb.Append("Hashcode = ").Append(formatHash(Hash))
 #if DisplayFEN
-        .Append("; FEN = ").AppendLine(ToString(PositionType.FEN))
+      .Append("; FEN = ").AppendLine(ToString(PositionType.FEN))
 #else
       .Append("; EPD = ").AppendLine(ToString(PositionType.EPD))
 #endif
@@ -353,15 +358,15 @@ partial class Board {
           FlagsTurn,
           WTM()))
 #else
-        .AppendLine($"{getSide(WTM()).SideName} to Move")
+      .AppendLine($"{getSide(WTM()).SideName} to Move")
 #endif
 #if DisplayCounts
-        .AppendLine()
-        .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts)
+      .AppendLine()
+      .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts)
 #endif
 #if DisplayPieceHash
-        .AppendLine()
-        .AppendPieceHash(blackSide, whiteSide)
+      .AppendLine()
+      .AppendPieceHash(blackSide, whiteSide)
 #endif
       .AppendLine();
   }
@@ -407,17 +412,17 @@ partial class Board {
     var sb = new StringBuilder();
     var bTopRuler = bFlip;
     var bRightRuler = bFlip;
-    if (bTopRuler)                    // File Ruler at Top
+    if (bTopRuler)                      // File Ruler at Top
       sb.AppendRuler(bRotateBoard, bFlip);
 
     for (var y = 0; y < nRanks; y++) {
       var rank = bFlip ? y : InvertRank(y);
       var c = (Char)(bRotateBoard ? cFileMax - rank : cRankMin + rank);
-      if (!bRightRuler)               // Rank Ruler at Left
+      if (!bRightRuler)                 // Rank Ruler at Left
         sb.Append(c);
       var uOrth = (UInt32)(qp >> sqr(0, rank) & MASK8);
       sb.AppendOrth(uOrth, bFlip);
-      if (bRightRuler)                // Rank Ruler at Right
+      if (bRightRuler)                  // Rank Ruler at Right
         sb.Append(c);
       sb.Append(cNewline);
     }

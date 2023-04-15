@@ -65,7 +65,7 @@ partial class Board {
 
         Rule = new CastleRuleParameter(PieceRank);
       }
-      #endregion                      // Constructors
+      #endregion                        // Constructors
 
       #region Pawn Advancement Fields
       protected readonly Int32 PawnSense;
@@ -84,7 +84,7 @@ partial class Board {
       public readonly Plane PromotionMask;
       public readonly Plane FileLeft;
       public readonly Plane FileRight;
-      #endregion                      // Pawn Advancement Fields
+      #endregion                        // Pawn Advancement Fields
 
       #region Fields
       public readonly SideName SideName;
@@ -93,11 +93,11 @@ partial class Board {
 
       public readonly Hashcode[][] Zobrist;
       public readonly Hashcode[] ZobristRights;
-      #endregion                      // Fields
+      #endregion                        // Fields
 
       #region Properties
       public CastleRuleParameter Rule { get; set; }
-      #endregion                      // Properties
+      #endregion                        // Properties
 
       #region Methods
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -118,6 +118,6 @@ partial class Board {
         return (qp & PromotionMask) != 0;
       }
       #endregion                      // Methods
-    }                                 // BoardParameter
-  }                                   // BoardSide
-}                                     // Board
+    }                                   // BoardParameter
+  }                                     // BoardSide
+}                                       // Board

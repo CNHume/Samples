@@ -100,10 +100,10 @@ partial class Board {
         //
         private static Plane rankPath(Int32 nFrom, Int32 nTo) {
           if (nFrom < nTo)
-            nFrom++;                      // Skip Lo
+            nFrom++;                    // Skip Lo
           else if (nFrom > nTo) {
-            nFrom--;                      // Skip Hi
-            (nFrom, nTo) = (nTo, nFrom);  // Swap
+            nFrom--;                    // Skip Hi
+            (nFrom, nTo) = (nTo, nFrom);// Swap
           }
 
           var nBits = nTo + 1 - nFrom;
@@ -159,8 +159,8 @@ partial class Board {
         public Move OOO = Move.Undefined;
         public Plane? OOOSafe;
         public Plane? OOOPath;
-        #endregion                    // Fields
-      }                               // CastleRuleParameter
-    }                                 // BoardParameter
-  }                                   // BoardSide
-}                                     // Board
+        #endregion                      // Fields
+      }                                 // CastleRuleParameter
+    }                                   // BoardParameter
+  }                                     // BoardSide
+}                                       // Board

@@ -35,7 +35,7 @@ partial class Board {
     var qpRay = 0UL;
     var qpCheck = bit(nChx);
 
-    if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
+    if ((OrthPiece & qpCheck) != 0) {   // Checker can move like a Rook
       if (((qpRay = RayRank(nKing)) & qpCheck) != 0)
         return qpRay & RayRank(nChx);
       else if (((qpRay = RayFile(nKing)) & qpCheck) != 0)
@@ -43,7 +43,7 @@ partial class Board {
     }
 
     // Look for RayDiag() in case qpCheck is a Queen
-    if ((DiagPiece & qpCheck) != 0) { // Checker can move like a Bishop
+    if ((DiagPiece & qpCheck) != 0) {   // Checker can move like a Bishop
       if (((qpRay = RayA1H8(nKing)) & qpCheck) != 0)
         return qpRay & RayA1H8(nChx);
       else if (((qpRay = RayA8H1(nKing)) & qpCheck) != 0)
@@ -66,9 +66,9 @@ partial class Board {
   //[Assume]IsOneOrNone(qpCheck)
   //
   protected Plane PinRestrictions(Plane qpCheck, Int32 nKing) {
-    var qpRay = 0UL;                  // Return Value
+    var qpRay = 0UL;                    // Return Value
 
-    if ((OrthPiece & qpCheck) != 0) { // Checker can move like a Rook
+    if ((OrthPiece & qpCheck) != 0) {   // Checker can move like a Rook
       if (((qpRay = RayRank(nKing)) & qpCheck) != 0)
         return qpRay;
       else if (((qpRay = RayFile(nKing)) & qpCheck) != 0)
@@ -76,7 +76,7 @@ partial class Board {
     }
 
     // Look for RayDiag() in case qpCheck is a Queen
-    if ((DiagPiece & qpCheck) != 0) { // Checker can move like a Bishop
+    if ((DiagPiece & qpCheck) != 0) {   // Checker can move like a Bishop
       if (((qpRay = RayA1H8(nKing)) & qpCheck) != 0)
         return qpRay;
       else if (((qpRay = RayA8H1(nKing)) & qpCheck) != 0)
@@ -85,6 +85,6 @@ partial class Board {
 
     return qpRay;
   }
-  #endregion                          // Pin Restrictions
-  #endregion                          // Methods
+  #endregion                            // Pin Restrictions
+  #endregion                            // Methods
 }

@@ -19,7 +19,7 @@ using Exceptions;
 // Type Aliases:
 //
 using PieceCounter = UInt32;
-using PieceHashcode = UInt16;         // 10 bits
+using PieceHashcode = UInt16;           // 10 bits
 using Plane = UInt64;
 
 partial class Board {
@@ -42,7 +42,7 @@ partial class Board {
     public Board Board => Position;
 
     public BoardParameter Parameter { get; init; }
-    #endregion                        // Properties
+    #endregion                          // Properties
 
     #region Constructors
     public BoardSide(
@@ -59,18 +59,18 @@ partial class Board {
 
     public void Copy(BoardSide side) {
       // 35 bytes + 1 nullable byte
-      copyFlags(side);                // 1-byte for BoardSide Flags
-      KingPos = side.KingPos;         // 1-byte (nullable)
-      Counts = side.Counts;           // 2-bytes
+      copyFlags(side);                  // 1-byte for BoardSide Flags
+      KingPos = side.KingPos;           // 1-byte (nullable)
+      Counts = side.Counts;             // 2-bytes
 
-      Piece = side.Piece;             // 8-bytes
-      PawnA1H8Atx = side.PawnA1H8Atx; // 8-bytes
-      PawnA8H1Atx = side.PawnA8H1Atx; // 8-bytes
+      Piece = side.Piece;               // 8-bytes
+      PawnA1H8Atx = side.PawnA1H8Atx;   // 8-bytes
+      PawnA8H1Atx = side.PawnA8H1Atx;   // 8-bytes
 #if HashPieces
-      PieceHash = side.PieceHash;     // 8-bytes
+      PieceHash = side.PieceHash;       // 8-bytes
 #endif
     }
-    #endregion                        // Constructors
+    #endregion                          // Constructors
 
     #region Methods
     #region Init Methods
@@ -112,7 +112,7 @@ partial class Board {
     public void InitCastleRule() {
       Parameter.Rule.Init();
     }
-    #endregion                        // Init Methods
+    #endregion                          // Init Methods
 
     #region Move Methods
     public Move BuildMove(
@@ -125,7 +125,7 @@ partial class Board {
       var qpAtxTo = Board.PieceAtx(vPiece, nFrom, bCapture);
       var piece = IndexPiece(vPiece);
 
-      if (!qpAtxTo.HasValue)          //[Safe]
+      if (!qpAtxTo.HasValue)            //[Safe]
         throw new ParseException(
           MoveError($"Unexpected move of {piece}", (Sq)nFrom, (Sq)nTo));
 
@@ -158,7 +158,7 @@ partial class Board {
     public String MoveError(String sMessage, Sq sqFrom, Sq sqTo) {
       return MoveError($"{sMessage} from {sqFrom} to {sqTo}");
     }
-    #endregion                        // Move Methods
+    #endregion                          // Move Methods
 
     #region SideFlags Methods
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -232,7 +232,7 @@ partial class Board {
         Debug.Assert(fsideInsufficient == sideInsufficient, message);
       }
     }
-    #endregion                        // SideFlags Methods
-    #endregion                        // Methods
-  }                                   // BoardSide
-}                                     // Board
+    #endregion                          // SideFlags Methods
+    #endregion                          // Methods
+  }                                     // BoardSide
+}                                       // Board

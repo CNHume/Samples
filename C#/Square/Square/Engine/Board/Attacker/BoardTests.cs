@@ -124,13 +124,13 @@ partial class Board {
   protected void testAtxMasks(Sq sq) {
     var n = (Int32)sq;
 #if TestDiagIndexers
-      testDiagIndexes("A1H8Diag", diagA1H8);
-      testDiagIndexes("A8H1Diag", diagA8H1);
+    testDiagIndexes("A1H8Diag", diagA1H8);
+    testDiagIndexes("A8H1Diag", diagA8H1);
 #endif
 #if TestWhiteSquares
-      LogLine("WhiteSquare\n");
-      WriteOrth(WhiteSquare);
-      LogLine();
+    LogLine("WhiteSquare\n");
+    WriteOrth(WhiteSquare);
+    LogLine();
 #endif
 #if TestRankPiece
     LogLine("RankPiece\n");
