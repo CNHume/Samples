@@ -53,9 +53,9 @@ partial class UCI : ICommand {
   }
 
   static UCI() {
-    IsDebug = true;                   //[UCI]Default
-    IsRegistrationChecked = true;     //[UCI]Default
-    IsRegistered = false;             //[UCI]Default
+    IsDebug = true;                     //[UCI]Default
+    IsRegistrationChecked = true;       //[UCI]Default
+    IsRegistered = false;               //[UCI]Default
     RegistrationCode = default;
     RegistrationName = default;
     DefaultEPD = sDefaultEPD;
@@ -121,19 +121,19 @@ partial class UCI : ICommand {
 
     var bContinue = true;
     switch (sVerb.ToLower()) {
-    case "":                          // Empty Command String
+    case "":                            // Empty Command String
       break;
 
-    case "uci":                       //[UCI]
+    case "uci":                         //[UCI]
       Info();
       break;
 
-    case "isready":                   //[UCI]
+    case "isready":                     //[UCI]
       initStaticFields();
       LogLine("readyok");
       break;
 
-    case "register":                  //[UCI]
+    case "register":                    //[UCI]
       parseRegister(Parser);
       break;
 
@@ -142,29 +142,29 @@ partial class UCI : ICommand {
       State.MovePosition.TimerTest();
       break;
 
-    case "test":                      //[ToDo]End gracefully when a Search is in progress!
+    case "test":                        //[ToDo]End gracefully when a Search is in progress!
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
       else
         newGameFEN(DefaultFEN);
       break;
 
-    case "testepd":                   //[ToDo]End gracefully when a Search is in progress!
+    case "testepd":                     //[ToDo]End gracefully when a Search is in progress!
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
       else
         newGameEPD(DefaultEPD);
       break;
 
-    case "reset":                     // Intuitive
-    case "ucinewgame":                //[UCI]
+    case "reset":                       // Intuitive
+    case "ucinewgame":                  //[UCI]
       if (State.IsSearchInProgress)
         State.Stop();
 
       newGameFEN();
       break;
 
-    case "position":                  //[UCI]
+    case "position":                    //[UCI]
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
       else {
@@ -179,15 +179,15 @@ partial class UCI : ICommand {
       }
       break;
 
-    case "board":                     //[Test]In the absence of a GUI
-      if (State.MovePosition is null) //[Safe]
+    case "board":                       //[Test]In the absence of a GUI
+      if (State.MovePosition is null)   //[Safe]
         throw new ChessException("Uninitialized Position");
       else
         State.MovePosition.Display();
       break;
 
     case "tabiya":
-      if (State.MovePosition is null) //[Safe]
+      if (State.MovePosition is null)   //[Safe]
         throw new ChessException("Uninitialized Position");
 
       Parser.TabiyaCommand(State.MovePosition);
@@ -208,21 +208,21 @@ partial class UCI : ICommand {
       break;
 
     case "list":
-      if (State.MovePosition is null) //[Safe]
+      if (State.MovePosition is null)   //[Safe]
         throw new ChessException("Uninitialized Position");
 
       State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
       break;
 
-    case "getoption":                 //[Debug]
+    case "getoption":                   //[Debug]
       Parser.GetOptionCommand();
       break;
 
-    case "resetoption":               //[Debug]
+    case "resetoption":                 //[Debug]
       Parser.ResetOptionCommand();
       break;
 
-    case "setoption":                 //[UCI]
+    case "setoption":                   //[UCI]
       Parser.SetOptionCommand();
       break;
 
@@ -230,17 +230,17 @@ partial class UCI : ICommand {
       parseDebug(Parser);
       break;
 
-    case "perft":                     //[Test]Look for corresponding Tabiya and run PerftCases
+    case "perft":                       //[Test]Look for corresponding Tabiya and run PerftCases
       Parser.ExpectEOL();
       State.PerftSearch();
       break;
 
-    case "go":                        //[UCI]
+    case "go":                          //[UCI]
       State.BestMoveSearch(Parser);
       break;
 
-    case "best":                      //[Test]
-      if (State.MovePosition is null) //[Safe]
+    case "best":                        //[Test]
+      if (State.MovePosition is null)   //[Safe]
         throw new ChessException("Uninitialized Position");
       else if (State.BestMoves != null) {
         var sb = new StringBuilder();
@@ -251,7 +251,7 @@ partial class UCI : ICommand {
       }
       break;
 
-    case "ponderhit":                 //[UCI]
+    case "ponderhit":                   //[UCI]
       State.Ponderhit();
       break;
 #if UseTask
@@ -262,7 +262,7 @@ partial class UCI : ICommand {
       throw new ChessException($"Search is {State.EngineTask.Status}");
     //[Unreachable]break;
 
-    case "stop":                      //[UCI]
+    case "stop":                        //[UCI]
       if (State.EngineTask == null ||
           !State.IsSearchInProgress)
         throw new ChessException("No search in progress");
@@ -270,8 +270,8 @@ partial class UCI : ICommand {
       State.Stop();
       break;
 #endif
-    case "exit":                      // Make it easy to quit
-    case "quit":                      //[UCI]
+    case "exit":                        // Make it easy to quit
+    case "quit":                        //[UCI]
       if (State.IsSearchInProgress)
         State.Stop();
       bContinue = false;
@@ -296,7 +296,7 @@ partial class UCI : ICommand {
       var sVerb = Parser.ParseVerb();
       bContinue = Dispatch(sVerb);
       Parser.ExpectEOL();
-      State.DisplayPositionPool();    //[Conditional]
+      State.DisplayPositionPool();      //[Conditional]
     }
     catch (ChessException ex) {
       LogLine(ex.Message);
@@ -431,7 +431,7 @@ partial class UCI : ICommand {
   }
 
   public static void Info() {
-    showId();                         // Respond with id and option strings
+    showId();                           // Respond with id and option strings
     showOptions(IsDebug);
     LogLine("uciok");
   }

@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 
 namespace Engine;
 
-using static Logging.Logger;          // For TestMagic
+using static Logging.Logger;            // For TestMagic
 
 //
 // Type Aliases:
@@ -27,26 +27,26 @@ using Plane = UInt64;
 
 partial class Board {
   #region Constants
-  private const Int32 nDiagonals = 15;        // nFiles + nRanks - 1
+  private const Int32 nDiagonals = 15;  // nFiles + nRanks - 1
   private const Int32 nStates = 1 << 6;
   private const UInt32 uStateMask = nStates - 1;
 #if Magic
-    private const Plane qpFileMask = 0x0101010101010101UL;
-    private const Plane qpA1H8Mask = 0x8040201008040201UL;
-    private const Plane qpA8H1Mask = 0x0102040810204080UL;
+  private const Plane qpFileMask = 0x0101010101010101UL;
+  private const Plane qpA1H8Mask = 0x8040201008040201UL;
+  private const Plane qpA8H1Mask = 0x0102040810204080UL;
 
-    //
-    // See http://www.dcs.bbk.ac.uk/~mark/download/bitboard_sliding_icga_final.pdf
-    //
-    // "Move Generation with Perfect Hash Functions" by Trevor Fenner and Mark Levine,
-    // 2008, School of CS and IT, Birkbeck College, University of London
-    //
-    private const UInt16 wFileModulus = 256 + 2;// (1 << nFiles) + 2
-    private const UInt16 wA1H8Modulus = 512 + 2;// (1 << nA1H8) + 2
-    private const UInt16 wA8H1Modulus = 256 + 1;// (1 << nA8H1 + 1) + 1
+  //
+  // See http://www.dcs.bbk.ac.uk/~mark/download/bitboard_sliding_icga_final.pdf
+  //
+  // "Move Generation with Perfect Hash Functions" by Trevor Fenner and Mark Levine,
+  // 2008, School of CS and IT, Birkbeck College, University of London
+  //
+  private const UInt16 wFileModulus = 256 + 2;// (1 << nFiles) + 2
+  private const UInt16 wA1H8Modulus = 512 + 2;// (1 << nA1H8) + 2
+  private const UInt16 wA8H1Modulus = 256 + 1;// (1 << nA8H1 + 1) + 1
 
-    private const UInt32 uOffset = 42;  // ((1 << (N / 2 * 2)) - 1) * 2 / 3, where N = 6
-    private const UInt32 uOffset2 = 21; // Obtained empirically, paper may be in error
+  private const UInt32 uOffset = 42;  // ((1 << (N / 2 * 2)) - 1) * 2 / 3, where N = 6
+  private const UInt32 uOffset2 = 21; // Obtained empirically, paper may be in error
 #endif
   private static readonly ValueTuple<Int32, Int32>[] KingDeltas =
     { ( 1, 0), ( 1, 1), ( 0, 1), (-1, 1),
@@ -104,7 +104,7 @@ partial class Board {
     loadPieceAtx(AtxKing, KingDeltas);
     loadPieceAtx(AtxKnight, KnightDeltas);
   }
-  #endregion                        // Piece Attacks Table Initialization
+  #endregion                            // Piece Attacks Table Initialization
 
   #region Ray Attacks Table Initialization
   [MemberNotNull(
@@ -160,7 +160,7 @@ partial class Board {
           for (var u = uBit(xUp); bLoop; bLoop = (uOrth & u) == 0, u <<= 1, xUp++) {
             AtxRank[uState][nRankPos] |= bit(sqr(xUp, y));
 #if Magic
-              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
+            AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xUp));
 #else
             AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xUp));
 #endif
@@ -171,7 +171,7 @@ partial class Board {
           for (var u = uBit(xDn); bLoop; bLoop = (uOrth & u) == 0, u >>= 1, xDn--) {
             AtxRank[uState][nRankPos] |= bit(sqr(xDn, y));
 #if Magic
-              AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
+            AtxFile[MagicFile[uState]][nFilePos] |= bit(sqr(yInverse, xDn));
 #else
             AtxFile[uState][nFilePos] |= bit(sqr(yInverse, xDn));
 #endif
@@ -180,7 +180,7 @@ partial class Board {
       }
     }
   }
-  #endregion                          // Orthogonal Ray Attacks Tables
+  #endregion                            // Orthogonal Ray Attacks Tables
 
   #region Diagonal Ray Attacks Tables
   //
@@ -221,8 +221,8 @@ partial class Board {
                                            u <<= 1, xUp++, yUp++) {
             var xUpInverse = InvertFile(xUp);
 #if Magic
-              AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
-              AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
+            AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xUp, yUp));
+            AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
 #else
             AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xUp, yUp));
             AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xUpInverse, yUp));
@@ -236,8 +236,8 @@ partial class Board {
                                            u >>= 1, xDn--, yDn--) {
             var xDnInverse = InvertFile(xDn);
 #if Magic
-              AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
-              AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
+            AtxA1H8[MagicA1H8[uState]][nA1H8Pos] |= bit(sqr(xDn, yDn));
+            AtxA8H1[MagicA8H1[uState]][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
 #else
             AtxA1H8[uState][nA1H8Pos] |= bit(sqr(xDn, yDn));
             AtxA8H1[uState][nA8H1Pos] |= bit(sqr(xDnInverse, yDn));
@@ -247,8 +247,8 @@ partial class Board {
       }
     }
   }
-  #endregion                          // Diagonal Ray Attacks
-  #endregion                          // Ray Attacks Table Initialization
+  #endregion                            // Diagonal Ray Attacks
+  #endregion                            // Ray Attacks Table Initialization
 
   #region Ray Attacks Lookup
   [MemberNotNull(nameof(RankOffset))]
@@ -261,169 +261,169 @@ partial class Board {
       RankOffset[n] = (Byte)(nFiles * y(n) + 1);
   }
 #if Magic
-    private static void newDiagLo() {
-      LoA1H8 = new Int32[nSquares];
-      LoA8H1 = new Int32[nSquares];
-    }
+  private static void newDiagLo() {
+    LoA1H8 = new Int32[nSquares];
+    LoA8H1 = new Int32[nSquares];
+  }
 
-    internal static void newMagic() {
-      newDiagLo();
+  internal static void newMagic() {
+    newDiagLo();
 
-      MagicFile = new Byte[nStates];
-      MagicA1H8 = new Byte[nStates];
-      MagicA8H1 = new Byte[nStates];
+    MagicFile = new Byte[nStates];
+    MagicA1H8 = new Byte[nStates];
+    MagicA8H1 = new Byte[nStates];
 #if TestMagic
-      StateFile = new Byte[nStates];
-      StateA1H8 = new Byte[nStates];
-      StateA8H1 = new Byte[nStates];
+    StateFile = new Byte[nStates];
+    StateA1H8 = new Byte[nStates];
+    StateA8H1 = new Byte[nStates];
 #endif
+  }
+
+  //
+  // These Lo bit tables help quickly normalize Position State for diagonals
+  // in the "magic" hash functions below, which return a Ray State index.
+  //
+  private static void loadDiagLo() {
+    for (var d = 0; d < nDiagonals; d++) {
+      Int32 xLo = d < nFiles ? 7 - d : 0,
+            yLo = d < nFiles ? 0 : d - 7,
+            nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
+
+      var xLoInverse = InvertFile(xLo);
+      var nA1H8Lo = sqr(xLo, yLo);
+      var nA8H1Lo = sqr(xLoInverse, yLo);
+#if TestDiagLo
+      LogLine($"d = {d,2}: A1H8Lo = {(sq)nA1H8Lo}, A8H1Lo = {(sq)nA8H1Lo}");
+#endif
+      for (Int32 x = xLo, y = yLo, w = 0; w < nDiagLen; w++, x++, y++) {
+        var xInverse = InvertFile(x);
+
+        LoA1H8[sqr(x, y)] = nA1H8Lo;
+        LoA8H1[sqr(xInverse, y)] = nA8H1Lo;
+      }
+    }
+#if TestDiagLo
+    LogLine();
+    printOffsets("A1H8Lo", A1H8Lo);
+    printOffsets("A8H1Lo", A8H1Lo);
+#endif
+  }
+
+  internal static void loadMagic() {
+    loadDiagLo();                       // Build hash function lookup tables
+#if TestMagic
+    const Byte vUnused = Byte.MaxValue;
+    for (var n = 0; n < nStates; n++) {
+      StateFile[n] = vUnused;
+      StateA1H8[n] = vUnused;
+      StateA8H1[n] = vUnused;
     }
 
-    //
-    // These Lo bit tables help quickly normalize Position State for diagonals
-    // in the "magic" hash functions below, which return a Ray State index.
-    //
-    private static void loadDiagLo() {
-      for (var d = 0; d < nDiagonals; d++) {
-        Int32 xLo = d < nFiles ? 7 - d : 0,
-              yLo = d < nFiles ? 0 : d - 7,
-              nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
-
-        var xLoInverse = InvertFile(xLo);
-        var nA1H8Lo = sqr(xLo, yLo);
-        var nA8H1Lo = sqr(xLoInverse, yLo);
-#if TestDiagLo
-        LogLine($"d = {d,2}: A1H8Lo = {(sq)nA1H8Lo}, A8H1Lo = {(sq)nA8H1Lo}");
+    var nUsed = 0;
 #endif
-        for (Int32 x = xLo, y = yLo, w = 0; w < nDiagLen; w++, x++, y++) {
-          var xInverse = InvertFile(x);
+    for (Byte vState = 0; vState < nStates; vState++) {
+      var mState = 1U << 7 | (UInt32)vState << 1 | 1U;
+      var m = 1U << 7;
 
-          LoA1H8[sqr(x, y)] = nA1H8Lo;
-          LoA8H1[sqr(xInverse, y)] = nA8H1Lo;
+      var qpFile = 0UL;
+      var qpA8H1 = 0UL;
+      var qpA1H8 = 0UL;
+
+      for (var n = 0; n < nFiles; n++, m >>= 1) {
+        qpFile <<= nFiles;
+        qpA8H1 <<= nA8H1;
+        qpA1H8 <<= nA1H8;
+
+        if ((mState & m) != 0) {
+          qpFile |= BIT0;
+          qpA1H8 |= BIT0;
+          qpA8H1 |= BIT0;
         }
       }
-#if TestDiagLo
-      LogLine();
-      printOffsets("A1H8Lo", A1H8Lo);
-      printOffsets("A8H1Lo", A8H1Lo);
-#endif
-    }
 
-    internal static void loadMagic() {
-      loadDiagLo();                     // Build hash function lookup tables
-#if TestMagic
-      const Byte vUnused = Byte.MaxValue;
-      for (var n = 0; n < nStates; n++) {
-        StateFile[n] = vUnused;
-        StateA1H8[n] = vUnused;
-        StateA8H1[n] = vUnused;
-      }
-
-      var nUsed = 0;
-#endif
-      for (Byte vState = 0; vState < nStates; vState++) {
-        var mState = 1U << 7 | (UInt32)vState << 1 | 1U;
-        var m = 1U << 7;
-
-        var qpFile = 0UL;
-        var qpA8H1 = 0UL;
-        var qpA1H8 = 0UL;
-
-        for (var n = 0; n < nFiles; n++, m >>= 1) {
-          qpFile <<= nFiles;
-          qpA8H1 <<= nA8H1;
-          qpA1H8 <<= nA1H8;
-
-          if ((mState & m) != 0) {
-            qpFile |= BIT0;
-            qpA1H8 |= BIT0;
-            qpA8H1 |= BIT0;
-          }
-        }
-
-        //
-        // The Plane values cover all permutations of piece placement corresponding to each State
-        // by starting from a1 and proceeding along their respective Ray.  Thus, Plane values can
-        // be hashed from the perspective of a1 with no further shifting.
-        //
+      //
+      // The Plane values cover all permutations of piece placement corresponding to each State
+      // by starting from a1 and proceeding along their respective Ray.  Thus, Plane values can
+      // be hashed from the perspective of a1 with no further shifting.
+      //
 #if TestMagic || HalfMagic
-        var vFileHalf = hashFileHalf(qpFile, 0);
-        var vA1H8Half = hashA1H8Half(qpA1H8, 0);
-        var vA8H1Half = hashA8H1Half(qpA8H1, 0);
+      var vFileHalf = hashFileHalf(qpFile, 0);
+      var vA1H8Half = hashA1H8Half(qpA1H8, 0);
+      var vA8H1Half = hashA8H1Half(qpA8H1, 0);
 #endif
 #if TestMagic || !HalfMagic
-        var vFileFull = hashFileFull(qpFile, 0);
-        var vA1H8Full = hashA1H8Full(qpA1H8, 0);
-        var vA8H1Full = hashA8H1Full(qpA8H1, 0);
+      var vFileFull = hashFileFull(qpFile, 0);
+      var vA1H8Full = hashA1H8Full(qpA1H8, 0);
+      var vA8H1Full = hashA8H1Full(qpA8H1, 0);
 #endif
 #if HalfMagic
-        var vFile = vFileHalf;
-        var vA1H8 = vA1H8Half;
-        var vA8H1 = vA8H1Half;
+      var vFile = vFileHalf;
+      var vA1H8 = vA1H8Half;
+      var vA8H1 = vA8H1Half;
 #else
-        var vFile = vFileFull;
-        var vA1H8 = vA1H8Full;
-        var vA8H1 = vA8H1Full;
+      var vFile = vFileFull;
+      var vA1H8 = vA1H8Full;
+      var vA8H1 = vA8H1Full;
 #endif
 #if TestMagic
-        Debug.Assert(vFileHalf == vFileFull, "FileHalf != FileFull");
-        Debug.Assert(vA1H8Half == vA1H8Full, "A1H8Half != A1H8Full");
-        Debug.Assert(vA8H1Half == vA8H1Full, "A8H1Half != A8H1Full");
+      Debug.Assert(vFileHalf == vFileFull, "FileHalf != FileFull");
+      Debug.Assert(vA1H8Half == vA1H8Full, "A1H8Half != A1H8Full");
+      Debug.Assert(vA8H1Half == vA8H1Full, "A8H1Half != A8H1Full");
 
-        if (StateFile[vFileHalf] != vUnused) {
-          LogLine($"{++nUsed,2}) StateFile[{vFileHalf,3}]");
-          writeBinary("Old", StateFile[vFileHalf], 8);
-          writeBinary("New", mState, 8);
-        }
-
-        if (StateA1H8[vA1H8Half] != vUnused) {
-          LogLine($"{++nUsed,2}) StateA1H8[{vA1H8Half,3}]");
-          writeBinary("Old", StateA1H8[vA1H8Half], 8);
-          writeBinary("New", mState, 8);
-        }
-
-        if (StateA8H1[vA8H1Half] != vUnused) {
-          LogLine($"{++nUsed,2}) StateA8H1[{vA8H1Half,3}]");
-          writeBinary("Old", StateA8H1[vA8H1Half], 8);
-          writeBinary("New", mState, 8);
-        }
-
-        StateFile[vFile] = vState;
-        StateA1H8[vA1H8] = vState;
-        StateA8H1[vA8H1] = vState;
-#endif
-        MagicFile[vState] = vFile;
-        MagicA1H8[vState] = vA1H8;
-        MagicA8H1[vState] = vA8H1;
+      if (StateFile[vFileHalf] != vUnused) {
+        LogLine($"{++nUsed,2}) StateFile[{vFileHalf,3}]");
+        writeBinary("Old", StateFile[vFileHalf], 8);
+        writeBinary("New", mState, 8);
       }
-#if TestMagic
-      var nFileUsed = 0;
-      var nA1H8Used = 0;
-      var nA8H1Used = 0;
 
-      for (var n = 0; n < StateFile.Length; n++)
-        if (StateFile[n] == vUnused)
-          LogLine($"StateFile[{n,2}] unused");
-        else
-          nFileUsed++;
+      if (StateA1H8[vA1H8Half] != vUnused) {
+        LogLine($"{++nUsed,2}) StateA1H8[{vA1H8Half,3}]");
+        writeBinary("Old", StateA1H8[vA1H8Half], 8);
+        writeBinary("New", mState, 8);
+      }
 
-      for (var n = 0; n < StateA1H8.Length; n++)
-        if (StateA1H8[n] == vUnused)
-          LogLine($"StateA1H8[{n,2}] unused");
-        else
-          nA1H8Used++;
+      if (StateA8H1[vA8H1Half] != vUnused) {
+        LogLine($"{++nUsed,2}) StateA8H1[{vA8H1Half,3}]");
+        writeBinary("Old", StateA8H1[vA8H1Half], 8);
+        writeBinary("New", mState, 8);
+      }
 
-      for (var n = 0; n < StateA8H1.Length; n++)
-        if (StateA8H1[n] == vUnused)
-          LogLine($"StateA8H1[{n,2}] unused");
-        else
-          nA8H1Used++;
-
-      LogLine($"FileUsed = {nFileUsed}");
-      LogLine($"A1H8Used = {nA1H8Used}");
-      LogLine($"A8H1Used = {nA8H1Used}");
+      StateFile[vFile] = vState;
+      StateA1H8[vA1H8] = vState;
+      StateA8H1[vA8H1] = vState;
 #endif
+      MagicFile[vState] = vFile;
+      MagicA1H8[vState] = vA1H8;
+      MagicA8H1[vState] = vA8H1;
     }
+#if TestMagic
+    var nFileUsed = 0;
+    var nA1H8Used = 0;
+    var nA8H1Used = 0;
+
+    for (var n = 0; n < StateFile.Length; n++)
+      if (StateFile[n] == vUnused)
+        LogLine($"StateFile[{n,2}] unused");
+      else
+        nFileUsed++;
+
+    for (var n = 0; n < StateA1H8.Length; n++)
+      if (StateA1H8[n] == vUnused)
+        LogLine($"StateA1H8[{n,2}] unused");
+      else
+        nA1H8Used++;
+
+    for (var n = 0; n < StateA8H1.Length; n++)
+      if (StateA8H1[n] == vUnused)
+        LogLine($"StateA8H1[{n,2}] unused");
+      else
+        nA8H1Used++;
+
+    LogLine($"FileUsed = {nFileUsed}");
+    LogLine($"A1H8Used = {nA1H8Used}");
+    LogLine($"A8H1Used = {nA8H1Used}");
+#endif
+  }
 #else                                   //!Magic
   [MemberNotNull(
     nameof(OffsetDiag),
@@ -439,7 +439,7 @@ partial class Board {
   }
 
   internal static void loadRotation() {
-    var nDiagLen = 0;                 //[Note]OffsetDiag increments by previous nDiagLen
+    var nDiagLen = 0;                   //[Note]OffsetDiag increments by previous nDiagLen
     for (var d = 0; d < nDiagonals; d++) {
       OffsetDiag[d] = (Byte)(d > 0 ? OffsetDiag[d - 1] + nDiagLen : nDiagLen);
       nDiagLen = d < nFiles ? d + 1 : nDiagonals - d;
@@ -499,9 +499,9 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Plane RayA1H8(Int32 n) {
 #if Magic && HalfMagic
-      return AtxA1H8[hashA1H8Half(RankPiece, n)][n];
+    return AtxA1H8[hashA1H8Half(RankPiece, n)][n];
 #elif Magic
-      return AtxA1H8[hashA1H8Full(RankPiece, n)][n];
+    return AtxA1H8[hashA1H8Full(RankPiece, n)][n];
 #else
     return AtxA1H8[rotateA1H8(n)][n];
 #endif
@@ -510,9 +510,9 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Plane RayA8H1(Int32 n) {
 #if Magic && HalfMagic
-      return AtxA8H1[hashA8H1Half(RankPiece, n)][n];
+    return AtxA8H1[hashA8H1Half(RankPiece, n)][n];
 #elif Magic
-      return AtxA8H1[hashA8H1Full(RankPiece, n)][n];
+    return AtxA8H1[hashA8H1Full(RankPiece, n)][n];
 #else
     return AtxA8H1[rotateA8H1(n)][n];
 #endif
@@ -521,9 +521,9 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Plane RayFile(Int32 n) {
 #if Magic && HalfMagic
-      return AtxFile[hashFileHalf(RankPiece, n)][n];
+    return AtxFile[hashFileHalf(RankPiece, n)][n];
 #elif Magic
-      return AtxFile[hashFileFull(RankPiece, n)][n];
+    return AtxFile[hashFileFull(RankPiece, n)][n];
 #else
     return AtxFile[rotateFile(n)][n];
 #endif
@@ -548,67 +548,67 @@ partial class Board {
   protected Plane Ray(Int32 n) {
     return RayDiag(n) | RayOrth(n);
   }
-  #endregion                          // Ray Attacks Lookup
+  #endregion                            // Ray Attacks Lookup
 
   #region Ray State Accessors
 #if Magic
 #if TestMagic || !HalfMagic
-    internal static Byte hashFileFull(Plane qp, Int32 n) {
-      var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
-      qFileState += uOffset;
-      return (Byte)(qFileState % wFileModulus);
-    }
+  internal static Byte hashFileFull(Plane qp, Int32 n) {
+    var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
+    qFileState += uOffset;
+    return (Byte)(qFileState % wFileModulus);
+  }
 
-    internal static Byte hashA1H8Full(Plane qp, Int32 n) {
-      var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
-      qA1H8State += uOffset;
-      return (Byte)(qA1H8State % wA1H8Modulus);
-    }
+  internal static Byte hashA1H8Full(Plane qp, Int32 n) {
+    var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
+    qA1H8State += uOffset;
+    return (Byte)(qA1H8State % wA1H8Modulus);
+  }
 
-    internal static Byte hashA8H1Full(Plane qp, Int32 n) {
-      //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
-      var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
-      qA8H1State <<= 6 - 1;
-      qA8H1State += uOffset2;
-      return (Byte)(qA8H1State % wA8H1Modulus);
-    }
+  internal static Byte hashA8H1Full(Plane qp, Int32 n) {
+    //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+    var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
+    qA8H1State <<= 6 - 1;
+    qA8H1State += uOffset2;
+    return (Byte)(qA8H1State % wA8H1Modulus);
+  }
 #endif
 #if TestMagic || HalfMagic
-    //
-    // Given a common modulus: if A1 is congruent to A2; and B1 is congruent to B2
-    // then A1*B1 will be congruent to A2*B2
-    //
-    internal static Byte hashFileHalf(Plane qp, Int32 n) {
-      const UInt16 wFileRem = (UInt16)(BIT32 % wFileModulus);   // 16
-      var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
-      qFileState += uOffset;
-      var uHi = (UInt32)(qFileState >> 32);    // Avoiding 64-Bit Division
-      var uLo = (UInt32)qFileState;
-      var uFileState = wFileRem * uHi + uLo;
-      return (Byte)(uFileState % wFileModulus);
-    }
+  //
+  // Given a common modulus: if A1 is congruent to A2; and B1 is congruent to B2
+  // then A1*B1 will be congruent to A2*B2
+  //
+  internal static Byte hashFileHalf(Plane qp, Int32 n) {
+    const UInt16 wFileRem = (UInt16)(BIT32 % wFileModulus);   // 16
+    var qFileState = qp >> x(n) + nFiles & (qpFileMask >> 2 * nFiles);
+    qFileState += uOffset;
+    var uHi = (UInt32)(qFileState >> 32);       // Avoiding 64-Bit Division
+    var uLo = (UInt32)qFileState;
+    var uFileState = wFileRem * uHi + uLo;
+    return (Byte)(uFileState % wFileModulus);
+  }
 
-    internal static Byte hashA1H8Half(Plane qp, Int32 n) {
-      const UInt16 wA1H8Rem = (UInt16)(BIT32 % wA1H8Modulus);   // 258
-      var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
-      qA1H8State += uOffset;
-      var uHi = (UInt32)(qA1H8State >> 32);    // Avoiding 64-Bit Division
-      var uLo = (UInt32)qA1H8State;
-      var uA1H8State = wA1H8Rem * uHi + uLo;
-      return (Byte)(uA1H8State % wA1H8Modulus);
-    }
+  internal static Byte hashA1H8Half(Plane qp, Int32 n) {
+    const UInt16 wA1H8Rem = (UInt16)(BIT32 % wA1H8Modulus);   // 258
+    var qA1H8State = qp >> LoA1H8[n] + nA1H8 & (qpA1H8Mask >> 2 * nA1H8);
+    qA1H8State += uOffset;
+    var uHi = (UInt32)(qA1H8State >> 32);       // Avoiding 64-Bit Division
+    var uLo = (UInt32)qA1H8State;
+    var uA1H8State = wA1H8Rem * uHi + uLo;
+    return (Byte)(uA1H8State % wA1H8Modulus);
+  }
 
-    internal static Byte hashA8H1Half(Plane qp, Int32 n) {
-      const UInt16 wA8H1Rem = (UInt16)(BIT32 % wA8H1Modulus);   // 1
-      //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
-      var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
-      qA8H1State <<= 6 - 1;
-      qA8H1State += uOffset2;
-      var uHi = (UInt32)(qA8H1State >> 32);    // Avoiding 64-Bit Division
-      var uLo = (UInt32)qA8H1State;
-      var uA8H1State = wA8H1Rem * uHi + uLo;
-      return (Byte)(uA8H1State % wA8H1Modulus);
-    }
+  internal static Byte hashA8H1Half(Plane qp, Int32 n) {
+    const UInt16 wA8H1Rem = (UInt16)(BIT32 % wA8H1Modulus);   // 1
+                                                              //[Note]qpA8H1Mask Lo Bit is 1 << nA8H1
+    var qA8H1State = qp >> LoA8H1[n] + nA8H1 & (qpA8H1Mask >> 3 * nA8H1);
+    qA8H1State <<= 6 - 1;
+    qA8H1State += uOffset2;
+    var uHi = (UInt32)(qA8H1State >> 32);       // Avoiding 64-Bit Division
+    var uLo = (UInt32)qA8H1State;
+    var uA8H1State = wA8H1Rem * uHi + uLo;
+    return (Byte)(uA8H1State % wA8H1Modulus);
+  }
 #endif
 #else                                   //!Magic
   private Byte rotateA1H8(Int32 n) {
@@ -623,7 +623,7 @@ partial class Board {
 
   private Byte rotateFile(Int32 n) {
 #if NoFileOffset
-      var nFileOffset = nFiles * InvertFile(x(n)) + 1;
+    var nFileOffset = nFiles * InvertFile(x(n)) + 1;
 #endif
     var uFileRotate = (UInt32)(FilePiece >> OffsetOrth[n]);
     return (Byte)(uFileRotate & uStateMask);
@@ -631,12 +631,12 @@ partial class Board {
 #endif                                  //!Magic
   internal Byte rotateRank(Int32 n) {
 #if NoRankOffset
-      var nRankOffset = nFiles * y(n) + 1;
+    var nRankOffset = nFiles * y(n) + 1;
 #endif
     var uRankRotate = (UInt32)(RankPiece >> RankOffset[n]);
     return (Byte)(uRankRotate & uStateMask);
   }
-  #endregion                          // Ray State Accessors
+  #endregion                            // Ray State Accessors
 
   #region Board Coordinate Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -690,5 +690,5 @@ partial class Board {
   protected static Int32 InvertSquare(Int32 n) {
     return nSquares - (n + 1);
   }
-  #endregion                          // Board Coordinate Methods
+  #endregion                            // Board Coordinate Methods
 }
