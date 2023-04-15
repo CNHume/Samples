@@ -81,7 +81,7 @@ partial class Board {
       throw new BoardException("No Underpromotions Defined");
 
     zobristBuffer = new Byte[8];
-    zobristRandom = new Random(0);    // Fixed, repeatable seed
+    zobristRandom = new Random(0);      // Fixed, repeatable seed
   }
 
   [MemberNotNull(
@@ -93,7 +93,7 @@ partial class Board {
 
     // For Pieces that can be held by each Square:
     for (var nPiece = 0; nPiece < nPieces; nPiece++) {
-      var bPawn = nPiece == vP6;      //[Speed]Pawns cannot appear on their First or Last Rank:
+      var bPawn = nPiece == vP6;        //[Speed]Pawns cannot appear on their First or Last Rank:
       var nMin = (Int32)(bPawn ? Sq.a2 : Sq.a1);
       var nMax = (Int32)(bPawn ? Sq.h7 : Sq.h8);
 
@@ -202,7 +202,7 @@ partial class Board {
       if (uPromotion > 0) {
         var promotion = (Piece)uPromotion;
         var nIndex = Array.FindIndex(Promotions, p => p == promotion);
-        if (nIndex > 0)               // Distinguish Excluded Promotions
+        if (nIndex > 0)                 // Distinguish Excluded Promotions
           qDynamic ^= zobristExcludedPromotion[nIndex - 1];
       }
 
@@ -292,5 +292,5 @@ partial class Board {
 #endif                                  // DisplayHash
     return bValid;
   }
-  #endregion                          // Hash Methods
+  #endregion                            // Hash Methods
 }

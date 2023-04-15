@@ -19,7 +19,7 @@ namespace Engine;
 
 partial class Board {
   #region Constants
-  private const Byte vHalfMoveClockMax = 100; // 50-move (100-ply) rule
+  private const Byte vHalfMoveClockMax = 100;   // 50-move (100-ply) rule
   #endregion
 
   #region Methods
@@ -81,7 +81,7 @@ partial class Board {
 
   private void tryEP(Byte vEPTarget) {
     var qpGuard = Friend.EPGuard(vEPTarget);
-    if (qpGuard == 0) return;         // An EPGuard must be present
+    if (qpGuard == 0) return;           // An EPGuard must be present
 
     //
     // Set EPTarget whether or not En Passant is Legal, conforming
@@ -152,7 +152,7 @@ partial class Board {
       Friend.RaisePiece(vPiece, nFrom);
 
     if (bCapture) {
-      HalfMoveClock = 0;              // HalfMoveClock Reset due to Capture
+      HalfMoveClock = 0;                // HalfMoveClock Reset due to Capture
       var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
       var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnStep : nTo;
       Foe.RemovePiece(vCapture, nCaptureFrom);
@@ -172,17 +172,17 @@ partial class Board {
       if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
         vEPTarget = (Byte)(nTo - Friend.Parameter.PawnStep);
 
-      HalfMoveClock = 0;              // HalfMoveClock Reset due to Pawn Move
+      HalfMoveClock = 0;                // HalfMoveClock Reset due to Pawn Move
       Friend.ResetPawnAtx();
     }
 
-    verifyPieceColors();              //[Conditional]
+    verifyPieceColors();                //[Conditional]
     return vEPTarget;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void toggleWTM() {
-    GamePly++;                        // WTM iff IsEven(GamePly)
+    GamePly++;                          // WTM iff IsEven(GamePly)
     Hash ^= zobristTurn;
     //[Note]Friend and Foe must always correspond to the value of WTM()
     (Friend, Foe) = GetSides(WTM());
@@ -223,7 +223,7 @@ partial class Board {
       tryEP(vEPTarget.Value);
 
     toggleEPHash(ref Hash);
-    #endregion                        // Update En Passant
+    #endregion                          // Update En Passant
 #if RecursiveNullMade
     //
     // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
@@ -232,7 +232,7 @@ partial class Board {
     //
     clrNullMade();
 #endif
-    tracePosition();                  //[Conditional]
+    tracePosition();                    //[Conditional]
   }
 
   protected void SkipTurn() {
@@ -244,11 +244,11 @@ partial class Board {
     //
     toggleWTM();
 
-    setNullMade();                    // Prevent two consecutive Null Moves
+    setNullMade();                      // Prevent two consecutive Null Moves
 
-    tracePosition();                  //[Conditional]
+    tracePosition();                    //[Conditional]
   }
-  #endregion                          // Piece Mover
+  #endregion                            // Piece Mover
 
   #region Trace Positions
   // Called by PlayMove() and SkipTurn()
@@ -291,7 +291,7 @@ partial class Board {
     // Child2 after Ra5: Hash = C8AAC46E31D79AF3; FEN = 1k5r/1r2q1pp/1PQ5/R3p3/4B3/7P/5PPK/8 b - - 1 4
     //
     //setTrace(
-    //  //0x0EA3665E88DC15B5,             // Parent: 1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4
+    //  //0x0EA3665E88DC15B5,           // Parent: 1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4
     //  0xF128B7F4E8794435,             // Child1 after Ra6: 1k5r/1r2q1pp/RPQ5/4p3/4B3/7P/5PPK/8 b - - 1 4
     //  0xC8AAC46E31D79AF3);            // Child2 after Ra5: 1k5r/1r2q1pp/1PQ5/R3p3/4B3/7P/5PPK/8 b - - 1 4
 
@@ -302,9 +302,9 @@ partial class Board {
     //setTrace(
     //  0x62FE82784CA9DA62);            // 8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57
 
-    setTrace(                         // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
+    setTrace(                           // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
       0xF647B837F53828CE);
   }
-  #endregion                          // Trace Positions
-  #endregion                          // Methods
+  #endregion                            // Trace Positions
+  #endregion                            // Methods
 }

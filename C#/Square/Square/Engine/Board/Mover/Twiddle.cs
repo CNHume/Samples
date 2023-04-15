@@ -475,7 +475,8 @@ partial class Board {
   }
 #endif                                  // InitDeBruijn
   [Conditional("InitDeBruijn")]
-  private static void loadDeBruijn(Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
+  private static void loadDeBruijn(
+    Byte[] deBruijnMap, Int32 nLog, UInt64 qDeBruijnNumber) {
     var nLength = 1 << nLog;
     Debug.Assert(
       deBruijnMap.Length == nLength,
@@ -544,7 +545,8 @@ partial class Board {
 
   #region Counter Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static void setTwoBits(ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
+  private static void setTwoBits(
+    ref PieceHashcode wTwoBitMask, Int32 nIndex, UInt32 u) {
     var bOverflow = u != TwoBits(u);
     if (bOverflow) {
       Debug.Assert(!bOverflow, "TwoBits Overflow");
@@ -559,7 +561,8 @@ partial class Board {
 
   //[UCI]Internal Method made available to the GameState class
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public static void SetNibble(ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
+  public static void SetNibble(
+    ref ExtensionCounter wNibbleMask, Int32 nIndex, UInt32 u) {
     var bOverflow = u != Nibble(u);
     if (bOverflow) {
       Debug.Assert(!bOverflow, "Nibble Overflow");
@@ -573,7 +576,8 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public static Byte GetNibble(ExtensionCounter wNibbleMask, Int32 nIndex) {
+  public static Byte GetNibble(
+    ExtensionCounter wNibbleMask, Int32 nIndex) {
     return (Byte)Nibble(wNibbleMask >> nIndex * nPerNibble);
   }
   #endregion
@@ -616,5 +620,5 @@ partial class Board {
   protected static Plane ShiftR(Plane qp, Int32 n) {
     return ShiftL(qp, -n);
   }
-  #endregion
+  #endregion                            // Shift Methods
 }

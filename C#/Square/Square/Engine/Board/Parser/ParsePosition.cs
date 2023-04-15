@@ -18,7 +18,7 @@ using static System.String;
 
 namespace Engine;
 
-using Command;                        // For Scanner
+using Command;                          // For Scanner
 
 using Exceptions;
 
@@ -123,18 +123,18 @@ partial class Board {
       var sRank = rank[nRow];
       var nLength = sRank.Length;
       var nPos = 0;
-      var wasDigit = false;           // Disallow double digits 
+      var wasDigit = false;             // Disallow double digits 
 
       for (var x = 0; x < nFiles; nPos++) {
         if (nPos < nLength)
           parsePlacement(sRank[nPos], ref wasDigit, ref x, y);
         else
           throw new ParsePositionException($"Too few characters for rank {y + 1}");
-      }                               //[Next]Char
+      }                                 //[Next]Char
 
       if (nPos < nLength)
         throw new ParsePositionException($"Too many characters for rank {y + 1}");
-    }                                 //[Next]Rank
+    }                                   //[Next]Rank
   }
 
   private static Boolean parseWTM(String? sToMove) {
@@ -195,7 +195,7 @@ partial class Board {
         var sideName = side.Parameter.SideName;
 #endif
       rookFromSquares.Add(nRookFrom);
-    }                                 //[Next]cFlag
+    }                                   //[Next]cFlag
 
     if (bChess960Flags && bOrthodoxFlags)
       throw new ParsePositionException("Mixed use of Chess 960 and Orthodox Castling Flags");
@@ -314,12 +314,12 @@ partial class Board {
 
     #region EnPassant
     parsePassed(sEnPassant);
-    hashFlags(bWTM, ref Hash);        // Including epHash()
-    #endregion                        // EnPassant
+    hashFlags(bWTM, ref Hash);          // Including epHash()
+    #endregion                          // EnPassant
 
     #region Init Castling
     initCastling(rookFromSquares);
-    #endregion                        // Init Castling
+    #endregion                          // Init Castling
 
     #region Half Move Clock and Full Move Number
     HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
@@ -337,7 +337,7 @@ partial class Board {
     // SearchPly is defined wrt MovePly
     var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);
     State.MovePly = ply(wMoveNumber, bWTM);
-    #endregion                        // Half Move Clock and Full Move Number
+    #endregion                          // Half Move Clock and Full Move Number
 
     Validate();
     initCastleRules();
@@ -353,36 +353,36 @@ partial class Board {
         throw new InvalidPositionException("Kings must castle from the same file");
     }
 #if EnsureFromSquares
-      else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
-        if (blackRule.CastlesFrom.HasValue)
-          whiteRule.CastlesFrom = sqr(x(blackRule.CastlesFrom.Value), whiteSide.Parameter.PieceRank);
-        else if (whiteRule.CastlesFrom.HasValue)
-          blackRule.CastlesFrom = sqr(x(whiteRule.CastlesFrom.Value), blackSide.Parameter.PieceRank);
-      }
+    else if (blackRule.CastlesFrom.HasValue || whiteRule.CastlesFrom.HasValue) {
+      if (blackRule.CastlesFrom.HasValue)
+        whiteRule.CastlesFrom = sqr(x(blackRule.CastlesFrom.Value), whiteSide.Parameter.PieceRank);
+      else if (whiteRule.CastlesFrom.HasValue)
+        blackRule.CastlesFrom = sqr(x(whiteRule.CastlesFrom.Value), blackSide.Parameter.PieceRank);
+    }
 #endif                                  // EnsureFromSquares
     if (blackRule.RookOOFrom.HasValue && whiteRule.RookOOFrom.HasValue) {
       if (x(blackRule.RookOOFrom.Value) != x(whiteRule.RookOOFrom.Value))
         throw new InvalidPositionException("Rooks must OO from the same file");
     }
 #if EnsureFromSquares
-      else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
-        if (blackRule.RookOOFrom.HasValue)
-          whiteRule.RookOOFrom = sqr(x(blackRule.RookOOFrom.Value), whiteSide.Parameter.PieceRank);
-        else if (whiteRule.RookOOFrom.HasValue)
-          blackRule.RookOOFrom = sqr(x(whiteRule.RookOOFrom.Value), blackSide.Parameter.PieceRank);
-      }
+    else if (blackRule.RookOOFrom.HasValue || whiteRule.RookOOFrom.HasValue) {
+      if (blackRule.RookOOFrom.HasValue)
+        whiteRule.RookOOFrom = sqr(x(blackRule.RookOOFrom.Value), whiteSide.Parameter.PieceRank);
+      else if (whiteRule.RookOOFrom.HasValue)
+        blackRule.RookOOFrom = sqr(x(whiteRule.RookOOFrom.Value), blackSide.Parameter.PieceRank);
+    }
 #endif                                  // EnsureFromSquares
     if (blackRule.RookOOOFrom.HasValue && whiteRule.RookOOOFrom.HasValue) {
       if (x(blackRule.RookOOOFrom.Value) != x(whiteRule.RookOOOFrom.Value))
         throw new InvalidPositionException("Rooks must OOO from the same file");
     }
 #if EnsureFromSquares
-      else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
-        if (blackRule.RookOOOFrom.HasValue)
-          whiteRule.RookOOOFrom = sqr(x(blackRule.RookOOOFrom.Value), whiteSide.Parameter.PieceRank);
-        else if (whiteRule.RookOOOFrom.HasValue)
-          blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
-      }
+    else if (blackRule.RookOOOFrom.HasValue || whiteRule.RookOOOFrom.HasValue) {
+      if (blackRule.RookOOOFrom.HasValue)
+        whiteRule.RookOOOFrom = sqr(x(blackRule.RookOOOFrom.Value), whiteSide.Parameter.PieceRank);
+      else if (whiteRule.RookOOOFrom.HasValue)
+        blackRule.RookOOOFrom = sqr(x(whiteRule.RookOOOFrom.Value), blackSide.Parameter.PieceRank);
+    }
 #endif                                  // EnsureFromSquares
   }
 
@@ -400,14 +400,14 @@ partial class Board {
   /*
    * To build Castling Rules for Root Position:
    *
-   * side.FlagsSide = default         // Clear Castling Rights from Position.Clear()
+   * side.FlagsSide = default           // Clear Castling Rights from Position.Clear()
    * side.ClearCastleRule()
-   * rookFromSquares.Add(nRookFrom)   // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
-   * side.GrantCastling(nRookFrom)    // Set FromSquares and CastlingRights
+   * rookFromSquares.Add(nRookFrom)     // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
+   * side.GrantCastling(nRookFrom)      // Set FromSquares and CastlingRights
    * side.HashCastlingRights()
-   * validateCastlingSymmetry()       // Verify FromSquares
+   * validateCastlingSymmetry()         // Verify FromSquares
    * isChess960()
-   * side.InitCastleRule()            // Set OOO and OO rules
+   * side.InitCastleRule()              // Set OOO and OO rules
    */
   private void initCastling(List<Int32> rookFromSquares) {
     //[Test]rookFromSquares.Sort();
@@ -441,5 +441,5 @@ partial class Board {
     foreach (var side in Side)
       side.InitCastleRule();
   }
-  #endregion                          // Board Setup
+  #endregion                            // Board Setup
 }
