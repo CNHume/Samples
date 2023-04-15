@@ -76,12 +76,12 @@ partial class Position : Board {
 
   private const Boolean bWhiteMovesFirst = true;
 
-  private static readonly Byte[] quartance =
-  {  8,  4,  6,  8,                   // a8 b8 c8 d8
-       8,  9,  8,  9,                   // a7 b7 c7 d7
-       4,  6,  9, 10,                   // a6 b6 c6 d6
-       6,  8, 12, 15 };                 // a5 b5 c5 d5
-  #endregion                          // Constants
+  private static readonly Byte[] quartance = {
+    8,  4,  6,  8,                      // a8 b8 c8 d8
+    8,  9,  8,  9,                      // a7 b7 c7 d7
+    4,  6,  9, 10,                      // a6 b6 c6 d6
+    6,  8, 12, 15 };                    // a5 b5 c5 d5
+  #endregion                            // Constants
 
   #region Constructors
   static Position() {

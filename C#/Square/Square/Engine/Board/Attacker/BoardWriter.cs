@@ -224,7 +224,7 @@ partial class Board {
         .Append(MoveNumber(GamePly));   // Full Move Number
       break;
     case PositionType.EPD:
-      if (Operations == null) newOperations();
+      ensureOperations();
       sb.AppendOperations(Operations);
       break;
     }

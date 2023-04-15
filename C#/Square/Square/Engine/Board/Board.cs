@@ -21,6 +21,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 using static System.String;
+using static System.StringComparison;
 
 namespace Engine;
 
@@ -70,7 +71,9 @@ partial class Board : IEquatable<Board> {
 
   protected const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
   protected const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  #endregion                          // Constants
+
+  public const int OperationsCapacity = 4;
+  #endregion                            // Constants
 
   #region Constructors
   static Board() {
@@ -78,9 +81,11 @@ partial class Board : IEquatable<Board> {
     LogLine("Initializing Board...");
 #endif
     #region Assertions
-    Trace.Assert((UInt32)Piece.None == 0,     // Assumed by both CaptiveMask and PromoteMask
+    // Assumed by both CaptiveMask and PromoteMask
+    Trace.Assert((UInt32)Piece.None == 0,
                  "Undefined Piece must be Zero");
-    Trace.Assert(vK6 == nPieces - 1,          // Assumed by eval() and appendPiece()
+    // Assumed by eval() and appendPiece()
+    Trace.Assert(vK6 == nPieces - 1,
                  "King assumed to be final Piece");
     Trace.Assert((UInt32)SideFlags.CanOOO << 1 == 1 << nBishopPairBit,
                  "Bishop Mask in unexpected position");
@@ -118,9 +123,10 @@ partial class Board : IEquatable<Board> {
     State = state;
     Side = new PositionSide[nSides];
     initSides();
-    newAtxToCount();                  //[Conditional]
+    newAtxToCount();                    //[Conditional]
   }
 
+  #region Methods
   #region Initialization Methods
   [MemberNotNull(
     nameof(Friend),
@@ -131,17 +137,17 @@ partial class Board : IEquatable<Board> {
     (Friend, Foe) = GetSides(WTM());
   }
 #if BuildAtxTo
-    [Conditional("BuildAtxTo")]
-    [MemberNotNull(nameof(AtxTo))]
-    private void newAtxTo() {
-      AtxTo = new Plane[nSquares];
-    }
+  [Conditional("BuildAtxTo")]
+  [MemberNotNull(nameof(AtxTo))]
+  private void newAtxTo() {
+    AtxTo = new Plane[nSquares];
+  }
 
-    [Conditional("BuildAtxTo")]
-    private void ensureAtxTo() {
-      if (AtxTo == null)
-        newAtxTo();
-    }
+  [Conditional("BuildAtxTo")]
+  private void ensureAtxTo() {
+    if (AtxTo == null)
+      newAtxTo();
+  }
 #endif
   [Conditional("BuildAtxToCount")]
   [MemberNotNull(nameof(AtxToCount))]
@@ -187,7 +193,31 @@ partial class Board : IEquatable<Board> {
     foreach (var side in Side)
       side.Clear();
   }
-  #endregion                          // Initialization Methods
+
+  #region EPD Operations
+  private void addOperation(
+    Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
+    if (operations != null) {
+      var values = new List<String>(sValues);
+      operations.Add(sKey, values);
+    }
+  }
+
+  private void ensureOperations() {
+    if (Operations != null) return;
+
+    Operations = new Dictionary<String, List<String>?>(OperationsCapacity);
+    var wMove = MoveNumber(GamePly);
+    addOperation(Operations, "fmvn", wMove.ToString());
+    addOperation(Operations, "hmvc", HalfMoveClock.ToString());
+
+    if (!IsNullOrEmpty(Name)) {
+      var sValue = StringToVerbatimLiteral(Name);
+      addOperation(Operations, "id", sValue);
+    }
+  }
+  #endregion                            // EPD Operations
+  #endregion                            // Initialization Methods
 
   #region Static Initialization
   public static void SetPieceSymbols(String? sLanguage) {
@@ -197,7 +227,7 @@ partial class Board : IEquatable<Board> {
       var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
       var found = Locales.FirstOrDefault(
-        locale => sLanguage.Equals(locale.Language, StringComparison.InvariantCultureIgnoreCase));
+        locale => sLanguage.Equals(locale.Language, InvariantCultureIgnoreCase));
       PieceSymbols = found?.Symbols;
 
       if (PieceSymbols == null) {
@@ -250,8 +280,8 @@ partial class Board : IEquatable<Board> {
     newRankOffset();
     loadRankOffset();
 #if Magic
-      newMagic();
-      loadMagic();
+    newMagic();
+    loadMagic();
 #else
     newRotation();
     loadRotation();
@@ -274,29 +304,29 @@ partial class Board : IEquatable<Board> {
     // Note the order dependency here:  If Magic is defined loadDiagAtx() and loadOrthAtx()
     // require that MagicA1H8[], MagicA8H1[] and MagicFile[] have been built by loadMagic().
     //
-    loadOrthAtx();                    // Each of the following loads takes around 0.333 ms
+    loadOrthAtx();                      // Each of the following loads takes around 0.333 ms
     loadDiagAtx();
 
     newZobrist();
     loadZobrist();
 #if InitDeBruijn
 #if ByteDeBruijn
-      deBruijnByte = newDeBruijn(3);    // 8 == 1 << 3
-      loadDeBruijn(deBruijnByte, 3, vDeBruijn);
+    deBruijnByte = newDeBruijn(3);      // 8 == 1 << 3
+    loadDeBruijn(deBruijnByte, 3, vDeBruijn);
 #endif
 #if DeBruijn
 #if FullData
-      deBruijnFull = newDeBruijn(6);    // 64 == 1 << 6
-      loadDeBruijn(deBruijnFull, 6, qDeBruijn);
+    deBruijnFull = newDeBruijn(6);      // 64 == 1 << 6
+    loadDeBruijn(deBruijnFull, 6, qDeBruijn);
 #else                                   //!FullData
-      deBruijnHalf = newDeBruijn(5);    // 32 == 1 << 5
-      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
+    deBruijnHalf = newDeBruijn(5);      // 32 == 1 << 5
+    loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif                                  // FullData
 #endif                                  // DeBruijn
 #endif                                  // InitDeBruijn
     colorSquares();
   }
-  #endregion                          // Static Initialization
+  #endregion                            // Static Initialization
 
   #region Copy Methods
   //
@@ -330,7 +360,7 @@ partial class Board : IEquatable<Board> {
     //[Note]Friend and Foe must always correspond to the value of WTM()
     (Friend, Foe) = GetSides(WTM());
   }
-  #endregion                          // BoardSide
+  #endregion                            // BoardSide
 
   //
   // The Board base class represents the state of the board, including Ply counts, 8 Planes (a.k.a, bit-boards), three Rotations,
@@ -344,35 +374,34 @@ partial class Board : IEquatable<Board> {
     nameof(State))]
   public void Copy(Board board) {
     State = board.State;
-    CopyFlags(board);                 // 4-bytes for Board Flags
+    CopyFlags(board);                   // 4-bytes for Board Flags
 
-    GamePly = board.GamePly;          // 2-bytes
-    EPTarget = board.EPTarget;        // 1-byte (nullable)
-    HalfMoveClock =
-      board.HalfMoveClock;            // 1-byte
+    GamePly = board.GamePly;            // 2-bytes
+    EPTarget = board.EPTarget;          // 1-byte (nullable)
+    HalfMoveClock = board.HalfMoveClock;// 1-byte
 
-    Hash = board.Hash;                // 8-bytes
-    HashPawn = board.HashPawn;        // 8-bytes
+    Hash = board.Hash;                  // 8-bytes
+    HashPawn = board.HashPawn;          // 8-bytes
 
-    Pawn = board.Pawn;                // 8-bytes
-    King = board.King;                // 8-bytes
-    Knight = board.Knight;            // 8-bytes
-    DiagPiece = board.DiagPiece;      // 8-bytes
-    OrthPiece = board.OrthPiece;      // 8-bytes
+    Pawn = board.Pawn;                  // 8-bytes
+    King = board.King;                  // 8-bytes
+    Knight = board.Knight;              // 8-bytes
+    DiagPiece = board.DiagPiece;        // 8-bytes
+    OrthPiece = board.OrthPiece;        // 8-bytes
 
-    RankPiece = board.RankPiece;      // 8-bytes
+    RankPiece = board.RankPiece;        // 8-bytes
 #if !Magic
-    FilePiece = board.FilePiece;      // 8-bytes
-    A1H8Piece = board.A1H8Piece;      // 8-bytes
-    A8H1Piece = board.A8H1Piece;      // 8-bytes
+    FilePiece = board.FilePiece;        // 8-bytes
+    A1H8Piece = board.A1H8Piece;        // 8-bytes
+    A8H1Piece = board.A8H1Piece;        // 8-bytes
 #endif
-    copySides(board);                 // 2 x 36 = 72-bytes
+    copySides(board);                   // 2 x 36 = 72-bytes
 
-    ensureAtxToCount();               //[Conditional]
-    copyAtxToCount(board);            //[Conditional] 64-bytes
+    ensureAtxToCount();                 //[Conditional]
+    copyAtxToCount(board);              //[Conditional] 64-bytes
   }
-  #endregion                          // Copy Methods
-  #endregion                          // Constructors
+  #endregion                            // Copy Methods
+  #endregion                            // Constructors
 
   #region IEquatable Interface Methods
   public override Int32 GetHashCode() {
@@ -405,7 +434,7 @@ partial class Board : IEquatable<Board> {
     if (board is null)
       return false;
 #if SafeEquals
-    if (Hash != board.Hash)           //[Shortcut]
+    if (Hash != board.Hash)             //[Shortcut]
       return false;
 
     var bEqual = equalSides(board) &&
@@ -435,7 +464,7 @@ partial class Board : IEquatable<Board> {
   public static Boolean operator !=(Board board1, Board board2) {
     return !Equals(board1, board2);
   }
-  #endregion                          // IEquatable Interface Methods
+  #endregion                            // IEquatable Interface Methods
 
   #region Ply Methods
   protected static UInt16 MoveDelta(Ply wPly) {
@@ -454,7 +483,7 @@ partial class Board : IEquatable<Board> {
     var nPly = (nMoveNumber - 1) * 2;
     return (Ply)(bWTM ? nPly : nPly + 1);
   }
-  #endregion                          // Ply Methods
+  #endregion                            // Ply Methods
 
   #region Move Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -665,34 +694,13 @@ partial class Board : IEquatable<Board> {
   protected static void unpackHistory(
     Move move, out Int32 nFrom, out Int32 nTo) {
 #if HistoryFromTo
-      nFrom = from(move);
+    nFrom = from(move);
 #else
     nFrom = PieceIndex((Byte)moved(move));
 #endif
     nTo = To(move);
   }
-  #endregion                          // Unpack Methods
-  #endregion                          // Move Methods
-
-  #region EPD Operation Methods
-  private void addOperation(
-    Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
-    if (operations != null) {
-      var values = new List<String>(sValues);
-      operations.Add(sKey, values);
-    }
-  }
-
-  private void newOperations() {
-    Operations = new Dictionary<String, List<String>?>(4);
-    var wMove = MoveNumber(GamePly);
-    addOperation(Operations, "fmvn", wMove.ToString());
-    addOperation(Operations, "hmvc", HalfMoveClock.ToString());
-
-    if (!IsNullOrEmpty(Name)) {
-      var sValue = StringToVerbatimLiteral(Name);
-      addOperation(Operations, "id", sValue);
-    }
-  }
-  #endregion                          // EPD Operation Methods
+  #endregion                            // Unpack Methods
+  #endregion                            // Move Methods
+  #endregion                            // Methods
 }

@@ -30,6 +30,10 @@ using static Logging.Logger;
 using Plane = UInt64;
 
 partial class Position : Board {
+  #region Constants
+  private const Int32 RooksCapacity = 4;
+  #endregion
+
   #region Position Serialization Methods
   private Tabiya? findTabiya() {
     // Match on the Position Prefix, ignoring variability in the Half Move Clock and Full Move Number values:
@@ -69,8 +73,7 @@ partial class Position : Board {
 
   public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
     using var scanner = new Scanner(sPrefix);
-    const Int32 nCapacity = 4;
-    var rookFromSquares = new List<Int32>(nCapacity);
+    var rookFromSquares = new List<Int32>(RooksCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -98,8 +101,7 @@ partial class Position : Board {
 
   public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
     using var scanner = new Scanner(sPrefix);
-    const Int32 nCapacity = 4;
-    var rookFromSquares = new List<Int32>(nCapacity);
+    var rookFromSquares = new List<Int32>(RooksCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
