@@ -194,7 +194,7 @@ partial class Board : IEquatable<Board> {
       side.Clear();
   }
 
-  #region EPD Operations
+  #region Ensure EPD Operations
   private void addOperation(
     Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
     if (operations != null) {
@@ -203,6 +203,9 @@ partial class Board : IEquatable<Board> {
     }
   }
 
+  //
+  // Ensure presence of Full Move Number and Half-Move Clock
+  //
   private void ensureOperations() {
     if (Operations != null) return;
 
@@ -216,7 +219,7 @@ partial class Board : IEquatable<Board> {
       addOperation(Operations, "id", sValue);
     }
   }
-  #endregion                            // EPD Operations
+  #endregion                            // Ensure EPD Operations
   #endregion                            // Initialization Methods
 
   #region Static Initialization

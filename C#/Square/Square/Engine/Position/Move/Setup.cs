@@ -31,7 +31,7 @@ using Plane = UInt64;
 
 partial class Position : Board {
   #region Constants
-  private const Int32 RooksCapacity = 4;
+  private const Int32 rookFromSquaresCapacity = 4;
   #endregion
 
   #region Position Serialization Methods
@@ -73,7 +73,7 @@ partial class Position : Board {
 
   public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
     using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Int32>(RooksCapacity);
+    var rookFromSquares = new List<Int32>(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -87,9 +87,8 @@ partial class Position : Board {
     }
     finally {
       Setup(
-        bWTM, rookFromSquares,
-        sEnPassant, sHalfMoveCount, sFullMoveNumber,
-        operations);
+        bWTM, rookFromSquares, sEnPassant,
+        sHalfMoveCount, sFullMoveNumber, operations);
     }
 
     var sValue = GetSingleValue(operations, "id");
@@ -101,7 +100,7 @@ partial class Position : Board {
 
   public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
     using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Int32>(RooksCapacity);
+    var rookFromSquares = new List<Int32>(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -113,8 +112,8 @@ partial class Position : Board {
     }
     finally {
       Setup(
-        bWTM, rookFromSquares,
-        sEnPassant, sHalfMoveClock, sFullMoveNumber);
+        bWTM, rookFromSquares, sEnPassant,
+        sHalfMoveClock, sFullMoveNumber);
     }
 
     setNameIfLegal();

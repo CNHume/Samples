@@ -42,15 +42,15 @@ partial class Board {
 
   protected static Byte[] RankOffset;
 #if Magic
-    protected static Int32[] LoA1H8;
-    protected static Int32[] LoA8H1;
-    protected static Byte[] MagicA1H8;
-    protected static Byte[] MagicA8H1;
-    protected static Byte[] MagicFile;
+  protected static Int32[] LoA1H8;
+  protected static Int32[] LoA8H1;
+  protected static Byte[] MagicA1H8;
+  protected static Byte[] MagicA8H1;
+  protected static Byte[] MagicFile;
 #if TestMagic
-    protected static Byte[] StateFile;
-    protected static Byte[] StateA1H8;
-    protected static Byte[] StateA8H1;
+  protected static Byte[] StateFile;
+  protected static Byte[] StateA1H8;
+  protected static Byte[] StateA8H1;
 #endif
 #else
   protected static Byte[] OffsetOrth;
@@ -64,12 +64,12 @@ partial class Board {
   protected static Plane[] BitA8H1;
 #endif
 #if InitDeBruijn
-    protected static Byte[] deBruijnByte;
+  protected static Byte[] deBruijnByte;
 #if DeBruijn
 #if FullData
-    protected static Byte[] deBruijnFull;
+  protected static Byte[] deBruijnFull;
 #else                                   //!FullData
-    protected static Byte[] deBruijnHalf;
+  protected static Byte[] deBruijnHalf;
 #endif                                  // FullData
 #endif                                  // DeBruijn
 #endif                                  // InitDeBruijn
@@ -88,9 +88,9 @@ partial class Board {
   private static Hashcode[] zobristExcludedPromotion;
   private static Hashcode zobristExcludedCastles;
 #if TestZobrist
-    private static List<Hashcode> zobrists;
+  private static List<Hashcode> zobrists;
 #endif
-  #endregion                          // Zobrist Hashing
+  #endregion                            // Zobrist Hashing
   #endregion                            // Constant Fields
 
   #region Fields
@@ -119,7 +119,7 @@ partial class Board {
 #endif
   #region Attacks and Control Fields
 #if BuildAtxTo
-    protected Plane[] AtxTo;
+  protected Plane[] AtxTo;
 #endif
   protected SByte[] AtxToCount;
   protected Plane AttackedSum;

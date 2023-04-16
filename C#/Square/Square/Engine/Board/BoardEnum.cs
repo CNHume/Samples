@@ -147,7 +147,7 @@ partial class Board {
     // the Hash prevents a call to IsLegal() for a Transposition
     //
     DrawMask = DrawIM | Draw50 | Draw3,
-    Copy = DrawMask | Draw2 | Draw0   // Avoid indefinite recursion in lookupPV()
+    Copy = DrawMask | Draw2 | Draw0     // Avoid indefinite recursion in lookupPV()
 
     //
     // From the article CA1008: Enums should have zero value
@@ -159,7 +159,7 @@ partial class Board {
     //[Symptom]This limitation appeared in formatFlags() overloads where names of "redundant"
     // zero values, followed by a comma, would be included in the enumeration of Flags.
   }
-  #endregion                          // DrawFlags Enum
+  #endregion                            // DrawFlags Enum
 
   #region ModeFlags Enum
   //
@@ -219,7 +219,7 @@ partial class Board {
 
   protected const Byte vFirst = (Byte)(Piece.P);
   internal const Byte vP6 = (Byte)(Piece.P - vFirst);
-  internal const Byte vHF = vP6;                      // For SideFlags within HashPiece
+  internal const Byte vHF = vP6;                        // For SideFlags within HashPiece
   internal const Byte vN6 = (Byte)(Piece.N - vFirst);
   internal const Byte vB6 = (Byte)(Piece.B - vFirst);
   internal const Byte vR6 = (Byte)(Piece.R - vFirst);
@@ -358,10 +358,11 @@ partial class Board {
   }
 
   //
-  // Czech,Danish,Dutch,English,Estonian,Finnish,French,German,Hungarian,Icelandic,Italian,Norwegian,Polish,Portuguese,Romanian,Spanish,Swedish
+  // Czech, Danish, Dutch, English, Estonian, Finnish, French, German, Hungarian,
+  // Icelandic, Italian, Norwegian, Polish, Portuguese, Romanian, Spanish, Swedish
   //
-  // The last two Symbols are single character abbreviations for the colors Black and White except for Hungarian, where both colors begin with
-  // the letter "F"; so Green and Red are used.
+  // The last two Symbols are single character abbreviations for the Black and White colors.
+  // The colors Black and White both begin with "F" in Hungarian, so Green and Red are used instead.
   //
   public static readonly Locale[] Locales = {
       new Locale { Symbols = "PJSVDKCB", Language = "Czech" },
@@ -412,5 +413,5 @@ partial class Board {
   protected const Plane qpRank6 = qpRank5 << nFiles;
   protected const Plane qpRank7 = qpRank6 << nFiles;
   protected const Plane qpRank8 = qpRank7 << nFiles;
-  #endregion                          // Plane
+  #endregion                            // Plane
 }

@@ -101,11 +101,11 @@ partial class Board {
     //[Note]Friend and Foe must remained synchronised to WTM()
     (Friend, Foe) = GetSides(bWTM);
   }
-  #endregion                          // Side Methods
+  #endregion                            // Side Methods
 
   #region Square Pieces
   protected Byte GetPieceIndex(Int32 n) {
-    var vPiece = vPieceNull;          // Return Value
+    var vPiece = vPieceNull;            // Return Value
     var qp = bit(n);
 
     //
@@ -169,7 +169,7 @@ partial class Board {
       }
     }
   }
-  #endregion                          // Square Pieces
+  #endregion                            // Square Pieces
 
   #region Rotations
 #if !Magic
@@ -212,7 +212,7 @@ partial class Board {
 #endif
   }
 #endif                                  // UnshadowRay
-  #endregion                          // Rotations
+  #endregion                            // Rotations
 
   #region Bishop Tests
   protected static Boolean OppositeBishops(SideFlags fBlackSide, SideFlags fWhiteSide) {
@@ -234,7 +234,7 @@ partial class Board {
   protected static Boolean HasBishopPair(SideFlags fside) {
     return (fside & SideFlags.Pair) == SideFlags.Pair;
   }
-  #endregion                          // Bishop Tests
+  #endregion                            // Bishop Tests
 
   #region Flag Methods
   #region TurnFlags
@@ -269,7 +269,7 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected void ResetEP() {
     toggleEPHash(ref Hash);
-    clrEPLegal();                     //[Note]toggleEPHash() calls epHash() which requires EPTarget.
+    clrEPLegal();                       //[Note]toggleEPHash() calls epHash() which requires EPTarget.
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -306,7 +306,7 @@ partial class Board {
   public Boolean IsStalemate() {
     return IsFinal() && !InCheck();
   }
-  #endregion                          // TurnFlags
+  #endregion                            // TurnFlags
 
   #region DrawFlags
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -323,7 +323,7 @@ partial class Board {
   // Recognize Draw by Insufficient Material:
   //
   protected void SetDrawIM() {
-    FlagsDraw &= ~DrawFlags.DrawIM;   //[Safe]
+    FlagsDraw &= ~DrawFlags.DrawIM;     //[Safe]
     if (IsInsufficient(RankPiece))
       FlagsDraw |= DrawFlags.DrawIM;
   }
@@ -346,11 +346,11 @@ partial class Board {
       // If either a single Knight or multiple Bishops covering squares
       // of only one color remain, then even a helpmate is not possible.
       //
-      if (qpDiag == 0) {              // Test for KK[N]:
+      if (qpDiag == 0) {                // Test for KK[N]:
         if (IsOneOrNone(qpKnight))
           return true;
       }
-      else if (qpKnight == 0) {       // Test for KB*KB+ of same color:
+      else if (qpKnight == 0) {         // Test for KB*KB+ of same color:
         if ((qpDiag & SquareLite) == 0 ||
             (qpDiag & SquareDark) == 0)
           return true;
@@ -394,7 +394,7 @@ partial class Board {
   protected void SetDraw50() {
     if (HalfMoveClock < vHalfMoveClockMax)
       FlagsDraw &= ~DrawFlags.Draw50;
-    else                              // 50 Move Rule
+    else                                // 50 Move Rule
       FlagsDraw |= DrawFlags.Draw50;
   }
 
@@ -402,7 +402,7 @@ partial class Board {
   public Boolean IsDraw50() {
     return FlagsDraw.Has(DrawFlags.Draw50);
   }
-  #endregion                          // DrawFlags
+  #endregion                            // DrawFlags
 
   #region ModeFlags
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -441,8 +441,8 @@ partial class Board {
   protected bool IsTrace() {
     return FlagsMode.Has(ModeFlags.Trace);
   }
-  #endregion                          // ModeFlags
-  #endregion                          // Flag Methods
+  #endregion                            // ModeFlags
+  #endregion                            // Flag Methods
 
   #region Parity
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -454,6 +454,6 @@ partial class Board {
   public static Boolean IsOdd(UInt32 u) {
     return (u & 1) != 0;
   }
-  #endregion                          // Parity
-  #endregion                          // Methods
+  #endregion                            // Parity
+  #endregion                            // Methods
 }

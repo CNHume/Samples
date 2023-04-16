@@ -224,6 +224,7 @@ partial class Board {
         .Append(MoveNumber(GamePly));   // Full Move Number
       break;
     case PositionType.EPD:
+      //[Note]Position may have resulted from ParseFEN() rather than ParseEPD()
       ensureOperations();
       sb.AppendOperations(Operations);
       break;
