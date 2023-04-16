@@ -27,7 +27,7 @@ using Cache;
 
 using Exceptions;
 
-using MoveOrder;                      // For Variation
+using MoveOrder;                        // For Variation
 
 using static Board;
 using static CacheValue.PawnPosition;
@@ -83,7 +83,7 @@ static class Extension {
   // Quiescent Move Sequence:
   private const String sQxntOpen = "[";
   private const String sQxntClose = "]";
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Delegates
   public delegate StringBuilder MoveWriter(
@@ -144,7 +144,7 @@ static class Extension {
 
     return sb;
   }
-  #endregion                          // Castle Rights
+  #endregion                            // Castle Rights
 
   #region Square Methods
   //
@@ -276,7 +276,7 @@ static class Extension {
     StringBuilder sb,
     String sDelimiter = sSpace,
     Int16 mWrap = mWrapLength) {
-    if (sbLine.Length < mWrap)        // PGN style line wrap
+    if (sbLine.Length < mWrap)          // PGN style line wrap
       return sbLine.Delimit(sDelimiter);
 
     sb.Append(sbLine)
@@ -385,10 +385,10 @@ static class Extension {
     return (e & f) != 0;
   }
 #if TestHasFlag2
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Boolean Has(this TurnFlags enumeration, TurnFlags flags) {
-      return enumeration.HasFlag2(flags);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Boolean Has(this TurnFlags enumeration, TurnFlags flags) {
+    return enumeration.HasFlag2(flags);
+  }
 #else
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Boolean Has(this TurnFlags enumeration, TurnFlags flags) {
@@ -464,9 +464,9 @@ static class Extension {
     this StringBuilder sb, Move move, BoardSide[] sides, Boolean _) {
     const Boolean bExpandFrom =
 #if RefreshPV
-      false;                          //[Assume]abbreviate() has been called
+      false;                            //[Assume]abbreviate() has been called
 #else
-        true;
+      true;
 #endif
     if (IsNullMove(move) || !IsDefinite(move)) {
       sb.Append(move);
@@ -503,7 +503,7 @@ static class Extension {
       var sqTo = (Sq)nTo;
       var sqFrom = (Sq)nFrom;
 
-      if (vPiece != vP6)              // Pawn symbols are also elided when bExpandFrom is set
+      if (vPiece != vP6)                // Pawn symbols are also elided when bExpandFrom is set
         sb.Append(PieceSymbol(vPiece));
 
       #region Abbreviate From Square
@@ -619,7 +619,7 @@ static class Extension {
     var sbLine = new StringBuilder().Append(sb);
     sb.Clear();
 
-    if (IsOdd(wGamePly) && !bPure)    // Odd Ply => Number Black Move
+    if (IsOdd(wGamePly) && !bPure)      // Odd Ply => Number Black Move
       sbLine.Wrap(sb)
             .appendMoveNumber(wGamePly, sElipsis);
 
@@ -656,7 +656,7 @@ static class Extension {
       if (bPure)
         sbLine.AppendPACN(move, sides, bChess960);
       else {
-        if (IsEven(wGamePly))         // Even Ply => Number White Move
+        if (IsEven(wGamePly))           // Even Ply => Number White Move
           sbLine.appendMoveNumber(wGamePly, sMoveNumber)
                 .Wrap(sb);
 
@@ -718,7 +718,7 @@ static class Extension {
       sb.Append("multi")
         .Append(sPurePV)
         .Append(cSpace)
-        .Append(nLine + 1);           //[UCI]MultiPV are one-based
+        .Append(nLine + 1);             //[UCI]MultiPV are one-based
     }
     else
       sb.Append(sPurePV);
@@ -781,7 +781,7 @@ static class Extension {
   public static StringBuilder AppendOperations(
     this StringBuilder sb, Dictionary<String, List<String>?>? operations) {
     if (operations != null) {
-      foreach (var op in operations) {        // .OrderBy(op => op.Key)
+      foreach (var op in operations) {  //.OrderBy(op => op.Key)
         sb.Append(cSpace)
           .Append(op.Key);
 
@@ -872,7 +872,7 @@ static class Extension {
   #region Partial Sort Methods
   public static Int32 Insert<T>(this T[] entries, Int32 next) where T : IComparable {
     const Int32 first = 0;
-    var entry = entries[next];        //[Assume]descending order
+    var entry = entries[next];          //[Assume]descending order
     while (next > first && entries[next - 1].CompareTo(entry) < 0)
       entries[next] = entries[--next];
     entries[next] = entry;
@@ -913,40 +913,40 @@ static class Extension {
 #if BitOperations
     sb.Append(" Numerics");
 #elif FullData                          // FullData
-      sb.Append(" Full");
+    sb.Append(" Full");
 #if DeBruijn
-      sb.Append("DeBruijn");
+    sb.Append("DeBruijn");
 #else                                   //!DeBruijn
-      sb.Append("Mask");
+    sb.Append("Mask");
 #endif                                  // DeBruijn
 #else                                   //!FullData
-      sb.Append(" Half");
+    sb.Append(" Half");
 #if DeBruijn
-      sb.Append("DeBruijn");
+    sb.Append("DeBruijn");
 #else                                   //!DeBruijn
-      sb.Append("Mask");
+    sb.Append("Mask");
 #endif                                  // DeBruijn
 #endif                                  // FullData
     sb.Append(" Debug");
 #else                                   //!DEBUG
 #if BitOperations
-      sb.Append(" Numerics");
+    sb.Append(" Numerics");
 #elif FullData                          // FullData
-      sb.Append(" Full");
+    sb.Append(" Full");
 #if DeBruijn
-      sb.Append("DeBruijn");
+    sb.Append("DeBruijn");
 #else                                   //!DeBruijn
-      sb.Append("Mask");
+    sb.Append("Mask");
 #endif                                  // DeBruijn
 #else                                   //!FullData
-      sb.Append(" Half");
+    sb.Append(" Half");
 #if DeBruijn
-      sb.Append("DeBruijn");
+    sb.Append("DeBruijn");
 #else                                   //!DeBruijn
-      sb.Append("Mask");
+    sb.Append("Mask");
 #endif                                  // DeBruijn
 #endif                                  // FullData
-      sb.Append(" Release");
+    sb.Append(" Release");
 #endif                                  // DEBUG
     return sb;
   }

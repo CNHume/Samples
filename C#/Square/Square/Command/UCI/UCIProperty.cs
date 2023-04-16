@@ -46,6 +46,7 @@ partial class UCI {
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
   //"";
+  //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode]
   //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
   // moves f5h3 g2h3 e6f5 g1f2 f5e4
