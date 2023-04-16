@@ -623,8 +623,8 @@ static class Extension {
       sbLine.Wrap(sb)
             .appendMoveNumber(wGamePly, sElipsis);
 
-    const Int32 nCapacity = 1;
-    var brackets = new Stack<String>(nCapacity);
+    const Int32 nNestedBracketsCapacity = 2;
+    var brackets = new Stack<String>(nNestedBracketsCapacity);
 
     var bWasQxnt = false;
     foreach (var move in moves) {

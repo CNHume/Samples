@@ -62,9 +62,9 @@ using static System.String;
 
 namespace Engine;
 
-using Command;                        // For Scanner
+using Command;                          // For Scanner
 
-using MoveOrder;                      // For MoveBottle
+using MoveOrder;                        // For MoveBottle
 
 using Resource;
 
@@ -102,7 +102,7 @@ partial class GameState : IDisposable {
 
     newBestMoves(wDepthMax);
     newTimers();
-    SeededRandom = new Random();      // Variable seed based on Environment.TickCount
+    SeededRandom = new Random();        // Variable seed based on Environment.TickCount
 
     loadEndgameValue();
     loadExtensionLimit();
@@ -152,7 +152,7 @@ partial class GameState : IDisposable {
     // Wire up the Event Handlers to listen for UCI Option changes:
     //
     wireClearHash();
-    wireMultiPV();                    // Step 6/6: Wireup
+    wireMultiPV();                      // Step 6/6: Wireup
     wireQXP();
     wireXP();
     wireXPM();
@@ -222,9 +222,9 @@ partial class GameState : IDisposable {
 #endif
       LegalMoves = LegalMovesQxnt = IllegalMoves = IllegalMovesQxnt = 0L;
 
-    clearNodeDelta();                 // See DisplayPrediction
-    clearEarlyMoveCounts();           //[Conditional]
-    clearPVDoubleCounts();            //[Conditional]
+    clearNodeDelta();                   // See DisplayPrediction
+    clearEarlyMoveCounts();             //[Conditional]
+    clearPVDoubleCounts();              //[Conditional]
   }
 
   public Position Push(Position? parent) {
@@ -252,9 +252,9 @@ partial class GameState : IDisposable {
     RootPosition = default;
   }
 
-  public void Clear() {               // Called by UCI.NewGame()
+  public void Clear() {                 // Called by UCI.NewGame()
     unwindGame();
-    clearSearchCounts();              //[Init]Normally called by startSearch()
+    clearSearchCounts();                //[Init]Normally called by startSearch()
   }
 
   public static void SetLanguage(String? sLanguage) {
@@ -287,7 +287,7 @@ partial class GameState : IDisposable {
   #region Banner Methods
   private UInt32? clockSpeed() {
     UInt32? uSpeed = default;
-    if (OperatingSystem.IsWindows()) {// Suppress SupportedOSPlatform warnings
+    if (OperatingSystem.IsWindows()) {  // Suppress SupportedOSPlatform warnings
 #if TestSlowManagementObject
         const String sPath = "Win32_Processor.DeviceID='CPU0'";
         using var mo = new ManagementObject(sPath);
@@ -324,14 +324,14 @@ partial class GameState : IDisposable {
     // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
     sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
 #if XPHash128
-      var sXPM = "XPM128";
-      var sXP = "XP128";
+    var sXPM = "XPM128";
+    var sXP = "XP128";
 #else
     var sXPM = "XPM";
     var sXP = "XP";
 #endif
 #if QXPHash128
-      var sQXP = "QXP128";
+    var sQXP = "QXP128";
 #else
     var sQXP = "QXP";
 #endif
@@ -342,20 +342,20 @@ partial class GameState : IDisposable {
     sb.Append(" TryXP");
 #endif
 #if ShowSIMD
-      // SIMD-Accelerated Numeric Types
-      var sHardware = Vector.IsHardwareAccelerated ? "Accelerated" : "None";
-      sb.AppendFormat($" SIMD={sHardware}");
+    // SIMD-Accelerated Numeric Types
+    var sHardware = Vector.IsHardwareAccelerated ? "Accelerated" : "None";
+    sb.AppendFormat($" SIMD={sHardware}");
 #endif
 #if ShowGC
     var sServerGC = GCSettings.IsServerGC ? "Server" : "Workstation";
     sb.AppendFormat($" GC={sServerGC}");
 #endif
 #if ShowGCLatency
-      var sLatency = GCSettings.LatencyMode;
-      sb.AppendFormat($" Latency={sLatency}");
+    var sLatency = GCSettings.LatencyMode;
+    sb.AppendFormat($" Latency={sLatency}");
 #endif
 #if ThreadSafeTank
-      sb.Append(" Safe");
+    sb.Append(" Safe");
 #endif
 #if GetSmart
     sb.Append(" Smart");
@@ -364,33 +364,33 @@ partial class GameState : IDisposable {
 #if LazyMoveSort
     sb.Append(" Lazy");
 #else
-      sb.Append(" Sort");
+    sb.Append(" Sort");
 #endif
 #endif                                  // UseMoveSort
 #if !AddBestMoves
-      sb.Append(" sans BestMoves");
+    sb.Append(" sans BestMoves");
 #endif
-    sb.AppendTZCMode();
+  sb.AppendTZCMode();
 #if Magic
-      sb.Append(" Magic");
+    sb.Append(" Magic");
 #endif
 #if Controlled
-      sb.Append(" Controlled");
+    sb.Append(" Controlled");
 #endif
 #if Mobility
-    sb.Append(" Mobility");
+  sb.Append(" Mobility");
 #endif
 #if SwapOn
-      sb.Append(" SwapOn");
+    sb.Append(" SwapOn");
 #endif
 #if QuietCheck
-      sb.Append(" QuietCheck");
+    sb.Append(" QuietCheck");
 #elif QuietMate
     sb.Append(" QuietMate");
 #endif
 #if TestCornerCP
-      sb.AppendEvalInfo(mKBNvKMateCornerWeight);
-      sb.Append(" CornerWeight");
+    sb.AppendEvalInfo(mKBNvKMateCornerWeight);
+    sb.Append(" CornerWeight");
 #endif
     if (IsOccam)
       sb.Append(" Occam");
@@ -407,26 +407,26 @@ partial class GameState : IDisposable {
       var vLimit = GetNibble(ExtensionLimit, (Int32)extension);
 #if !LateMoveReduction
       if (extension == SearchExtensions.Late)
-        continue;                     //[Disabled]
+        continue;                       //[Disabled]
 #endif
       if (extension == SearchExtensions.Threat) {
 #if MateThreat
         if (vLimit == 0) {
 #else
-          if (true) {
+        if (true) {
 #endif
           sb.Append(" No Threats");
-          continue;                   //[Disabled]
+          continue;                     //[Disabled]
         }
       }
 #if !SingularExtension
-        if (extension == SearchExtensions.Singular)
-          continue;                     //[Disabled]
+      if (extension == SearchExtensions.Singular)
+        continue;                       //[Disabled]
 #endif
       if (vLimit > 0) {
         sb.AppendFormat($" {vLimit} {extension}");
 
-        if (vLimit != 1)              // Plural
+        if (vLimit != 1)                // Plural
           sb.Append("s");
       }
     }
@@ -436,7 +436,7 @@ partial class GameState : IDisposable {
     if (IsNullPrune) {
       sb.AppendFormat($" {wReducedDepthMin} ReducedMin");
 #if TestLerp
-        sb.AppendFormat($" {wLerpDepthMax} LerpMax");
+      sb.AppendFormat($" {wLerpDepthMax} LerpMax");
 #endif
     }
 #if MateThreat
@@ -452,7 +452,7 @@ partial class GameState : IDisposable {
 
   private void herald(DateTime dtStarted, String? sName) {
     var sb = new StringBuilder();
-    sb.AppendLine();                  // Following UCI prompt
+    sb.AppendLine();                    // Following UCI prompt
     sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
 
     if (!IsNullOrEmpty(sName)) {
@@ -480,18 +480,18 @@ partial class GameState : IDisposable {
     // None of the following are counted in SearchMode.Perft:
     //
     if (mode == SearchMode.BestMove) {
-      displayPVSTotals();             //[Conditional]
-      displayEarlyMoveTotals();       //[Conditional]
-      displayDetails();               //[Conditional]
-      displayEvals();                 //[Conditional]
-      displayCXP();                   //[Conditional]
-      displayPXP();                   //[Conditional]
-      displayXPM();                   //[Conditional]
-      displayQXP();                   //[Conditional]
-      displayXP();                    //[Conditional]
-      displayEvalTypeCounts();        //[Conditional]
-      DisplayPositionPool();          //[Conditional]
+      displayPVSTotals();               //[Conditional]
+      displayEarlyMoveTotals();         //[Conditional]
+      displayDetails();                 //[Conditional]
+      displayEvals();                   //[Conditional]
+      displayCXP();                     //[Conditional]
+      displayPXP();                     //[Conditional]
+      displayXPM();                     //[Conditional]
+      displayQXP();                     //[Conditional]
+      displayXP();                      //[Conditional]
+      displayEvalTypeCounts();          //[Conditional]
+      DisplayPositionPool();            //[Conditional]
     }
   }
-  #endregion
+  #endregion                            // Banner Methods
 }

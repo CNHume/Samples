@@ -345,7 +345,7 @@ partial class GameState {
         }
       }
     };
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Event Handlers
   protected void ClearHashButton_Click(Object? sender, EventArgs e) {
@@ -556,7 +556,7 @@ partial class GameState {
     if (setting != null)
       SetLanguage(setting.Text);
   }
-  #endregion                          // Event Handlers
+  #endregion                            // Event Handlers
 
   #region Event Handler Subscriptions
   protected static Control? findControl(String sName) {
@@ -823,5 +823,5 @@ partial class GameState {
       setting.SetDefault();
     }
   }
-  #endregion                          // Event Handler Subscriptions
+  #endregion                            // Event Handler Subscriptions
 }
