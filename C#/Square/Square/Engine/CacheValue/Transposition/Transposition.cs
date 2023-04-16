@@ -34,7 +34,7 @@ using Ply = UInt16;
 #if TranspositionByValue
 struct Transposition : ITankable<Transposition> {
 #else
-  class Transposition : ITankable<Transposition> {
+class Transposition : ITankable<Transposition> {
 #endif
   #region Constructors
   public void Init() {
@@ -42,17 +42,17 @@ struct Transposition : ITankable<Transposition> {
     BestMove = Move.Undefined;
   }
 #if PreAllocated && !TranspositionByValue
-    //[Note]Structs cannot contain explicit parameterless constructors
-    public Transposition() {
-      Init();
-    }
+  //[Note]Structs cannot contain explicit parameterless constructors
+  public Transposition() {
+    Init();
+  }
 #endif
   public Transposition(Hashcode qHash,
 #if XPHash128
-                         Hashcode qHashPawn,
+                       Hashcode qHashPawn,
 #endif
 #if XPMoveTypes
-                         MoveTypeOrdering mtOrdering,
+                       MoveTypeOrdering mtOrdering,
 #endif
                        Ply wMovePly,
                        Depth wDepth,
@@ -62,36 +62,36 @@ struct Transposition : ITankable<Transposition> {
     Hash = qHash;
     Debug.Assert(Hash != 0, $"Zero Hash [{nameof(Transposition)}]");
 #if XPHash128
-      HashPawn = qHashPawn;
+    HashPawn = qHashPawn;
 #endif
 #if XPMoveTypes
-      MoveTypeOrdering = mtOrdering;
+    MoveTypeOrdering = mtOrdering;
 #endif
     MovePly = wMovePly;
     Depth = wDepth;
     ibv = IBV(mValue, et);
     BestMove = moveBest & Move.CheckMask;
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region ITankable Interface Properties
   public Hashcode Hash { get; set; }
 #if XPMoveTypes
-    public MoveTypeOrdering MoveTypeOrdering { get; set; }
+  public MoveTypeOrdering MoveTypeOrdering { get; set; }
 #endif
   public Boolean IsEmpty {
     get { return Hash == 0; }
   }
-  #endregion                          // ITankable Interface Properties
+  #endregion                            // ITankable Interface Properties
 
   #region ITankable Interface Methods
   public Boolean Match(Transposition xp) {
 #if !TranspositionByValue
-      if (xp == null)
-        return false;
+    if (xp == null)
+      return false;
 #endif
 #if XPHash128
-      return Hash == xp.Hash && HashPawn == xp.HashPawn;
+    return Hash == xp.Hash && HashPawn == xp.HashPawn;
 #else
     return Hash == xp.Hash;
 #endif
@@ -108,7 +108,7 @@ struct Transposition : ITankable<Transposition> {
 
     var bRenew = match.Quality <= Quality + 1;
     if (bRenew) {
-      pr |= ProbeResult.Renew;        // Useful for BestMove, worth renewing even if not Valid
+      pr |= ProbeResult.Renew;          // Useful for BestMove, worth renewing even if not Valid
       match.BestMove = BestMove;
 
       if (bValid = match.Quality <= Quality)
@@ -117,8 +117,8 @@ struct Transposition : ITankable<Transposition> {
 
     if (bValid ||
         Type == EvalType.Lower ||
-        Type == EvalType.Exact) {     // Value may be used to "stand pat" even if not Valid
-      pr |= ProbeResult.Value;        //[Debug]Use of EvalUndefined obviates the need for this Value Flag
+        Type == EvalType.Exact) {       // Value may be used to "stand pat" even if not Valid
+      pr |= ProbeResult.Value;          //[Debug]Use of EvalUndefined obviates the need for this Value Flag
       match.ibv = ibv;
     }
 
@@ -126,9 +126,9 @@ struct Transposition : ITankable<Transposition> {
   }
 
   public Boolean IsNew(Transposition store) {
-    var bNew = false;                 // Assume Satisfactory
+    var bNew = false;                   // Assume Satisfactory
 #if DebugExactMatch
-      var bShow = false;
+    var bShow = false;
 #endif
     if (Quality < store.Quality)
       bNew = true;
@@ -136,65 +136,66 @@ struct Transposition : ITankable<Transposition> {
       var et = IBType(store.ibv);
       if (et == IBType(ibv)) {
         if (et == EvalType.Lower)
-          bNew = store.ibv > ibv;     // Improve GLB
+          bNew = store.ibv > ibv;       // Improve GLB
         else if (et == EvalType.Upper)
-          bNew = store.ibv < ibv;     // Improve LUB
+          bNew = store.ibv < ibv;       // Improve LUB
 #if DebugExactMatch
-          else
-            bShow = store.Value != Value;
+        else
+          bShow = store.Value != Value;
 #endif
       }
-      else {                          // Upper or Lower can become Exact; but not vice versa
+      else {                            // Upper or Lower can become Exact; but not vice versa
         bNew = et == EvalType.Exact;
 #if DebugExactMatch
-          bShow = !bNew;
+        bShow = !bNew;
 #endif
       }
     }
 #if DebugExactMatch
-      if (bNew && bShow) {
-        // Noticed when filtering Draw2 Nodes
-        LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
-        LogLine($"Value is changed from {ibv} to {store.ibv}");
-      }
+    if (bNew && bShow) {
+      // Noticed when filtering Draw2 Nodes
+      LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
+      LogLine($"Value is changed from {ibv} to {store.ibv}");
+    }
 #endif
     return bNew;
   }
-  #endregion                          // ITankable Interface Methods
+  #endregion                            // ITankable Interface Methods
 
   #region Methods
 #if !TranspositionByValue
-    // Recycle to reduce garbage:
-    public void Recycle(Transposition store) {
-      Hash = store.Hash;
+  // Recycle to reduce garbage:
+  public void Recycle(Transposition store) {
+    Hash = store.Hash;
 #if XPHash128
-      HashPawn = store.HashPawn;
+    HashPawn = store.HashPawn;
 #endif
 #if XPMoveTypes
-      MoveTypeOrdering = store.MoveTypeOrdering;
+    MoveTypeOrdering = store.MoveTypeOrdering;
 #endif
-      MovePly = store.MovePly;
-      Depth = store.Depth;
-      ibv = store.ibv;
-      BestMove = store.BestMove;
-    }
+    MovePly = store.MovePly;
+    Depth = store.Depth;
+    ibv = store.ibv;
+    BestMove = store.BestMove;
+  }
 #endif
-  #endregion                          // Methods
+  #endregion                            // Methods
 
   #region Fields
 #if XPHash128
-    public Hashcode HashPawn;
+  public Hashcode HashPawn;
 #endif
-  public Ply MovePly;                 // To determine age
+  public Ply MovePly;                   // To determine age
   public Depth Depth;
   private Bval ibv;
   public Move BestMove;
-  #endregion                          // Fields
+  #endregion                            // Fields
 
   #region Properties
   public Ply Quality {
     //
-    // Deeper searches for preceding game plies are currently allowed for shallower searches from subsequent plies.
+    // Deeper searches for preceding game plies are currently
+    // allowed for shallower searches from subsequent plies.
     //
     get { return (Ply)(MovePly + Depth); }
   }

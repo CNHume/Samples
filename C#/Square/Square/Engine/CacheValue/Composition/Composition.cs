@@ -21,13 +21,13 @@ using Eval = Int16;
 #if CompositionByValue
 struct Composition {
 #else
-  class Composition {
+class Composition {
 #endif
   #region CVFlags Enum
   [Flags]
   public enum CVFlags : byte {
     //None = 0,
-    IsValid = 1                               // Bit 0
+    IsValid = 1                         // Bit 0
   }
   #endregion
 
@@ -51,22 +51,22 @@ struct Composition {
 
   #region Methods
 #if !CompositionByValue
-    // Recycle Compositions to reduce garbage:
-    public void Recycle(
-      CompositionCounter wBlackCounts,
-      CompositionCounter wWhiteCounts,
-      SideFlags fBlackSide,
-      SideFlags fWhiteSide) {
-      //HashPiece = qHashPiece;
-      BlackCounts = wBlackCounts;
-      WhiteCounts = wWhiteCounts;
-      FlagsCV = CVFlags.IsValid;
-      BlackFlagsSide = fBlackSide;
-      WhiteFlagsSide = fWhiteSide;
+  // Recycle Compositions to reduce garbage:
+  public void Recycle(
+    CompositionCounter wBlackCounts,
+    CompositionCounter wWhiteCounts,
+    SideFlags fBlackSide,
+    SideFlags fWhiteSide) {
+    //HashPiece = qHashPiece;
+    BlackCounts = wBlackCounts;
+    WhiteCounts = wWhiteCounts;
+    FlagsCV = CVFlags.IsValid;
+    BlackFlagsSide = fBlackSide;
+    WhiteFlagsSide = fWhiteSide;
 
-      BlackValue = weighPieces(BlackCounts, BlackFlagsSide);
-      WhiteValue = weighPieces(WhiteCounts, WhiteFlagsSide);
-    }
+    BlackValue = weighPieces(BlackCounts, BlackFlagsSide);
+    WhiteValue = weighPieces(WhiteCounts, WhiteFlagsSide);
+  }
 #endif
   #endregion
 
@@ -90,13 +90,13 @@ struct Composition {
 #if CompositionByValue
 struct Composition2 {
 #else
-  class Composition2 {
+class Composition2 {
 #endif
   #region CVFlags Enum
   [Flags]
   public enum CVFlags : byte {
     //None = 0,
-    IsValid = 1                               // Bit 0
+    IsValid = 1                         // Bit 0
   }
   #endregion
 
@@ -111,13 +111,13 @@ struct Composition2 {
 
   #region Methods
 #if !CompositionByValue
-    // Recycle Compositions to reduce garbage:
-    public void Recycle(CompositionCounter wPieceCounts, SideFlags fside) {
-      PieceCounts = wPieceCounts;
-      FlagsCV = CVFlags.IsValid;
-      FlagsSide = fside;
-      Value = weighPieces(wPieceCounts, fside);
-    }
+  // Recycle Compositions to reduce garbage:
+  public void Recycle(CompositionCounter wPieceCounts, SideFlags fside) {
+    PieceCounts = wPieceCounts;
+    FlagsCV = CVFlags.IsValid;
+    FlagsSide = fside;
+    Value = weighPieces(wPieceCounts, fside);
+  }
 #endif
   #endregion
 

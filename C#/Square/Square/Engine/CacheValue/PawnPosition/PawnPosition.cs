@@ -20,7 +20,7 @@ using Hashcode = UInt64;
 using Plane = UInt64;
 
 #if PawnPositionByValue
-  struct PawnPosition {
+struct PawnPosition {
 #else
 class PawnPosition {
 #endif
@@ -28,9 +28,9 @@ class PawnPosition {
   [Flags]
   public enum PRPFlags : byte {
     None = 0,
-    Dark = 1,                         // Bit 0 Wrong Bishop Flags
-    Lite = Dark << 1,                 // Bit 1
-    IsValid = Lite << 1,              // Bit 2
+    Dark = 1,                           // Bit 0 Wrong Bishop Flags
+    Lite = Dark << 1,                   // Bit 1
+    IsValid = Lite << 1,                // Bit 2
     Both = Lite | Dark,
   }
   #endregion
@@ -39,7 +39,7 @@ class PawnPosition {
   public PawnPosition(Hashcode qHashPawn, PRPFlags fBlackPRP, PRPFlags fWhitePRP,
                       FeatureCounter uBlackCounts, FeatureCounter uWhiteCounts,
                       Plane qpBlackPassers, Plane qpWhitePassers) {
-    HashPawn = qHashPawn;             // To verify Position Equality
+    HashPawn = qHashPawn;               // To verify Position Equality
     BlackPRP = fBlackPRP | PRPFlags.IsValid;
     WhitePRP = fWhitePRP;
     BlackPassers = qpBlackPassers;

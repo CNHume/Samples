@@ -32,7 +32,7 @@ using Ply = UInt16;
 #if PositionMoveByValue
 struct PositionMove : ITankable<PositionMove> {
 #else
-  class PositionMove : ITankable<PositionMove> {
+class PositionMove : ITankable<PositionMove> {
 #endif
   #region Constructors
   public void Init() {
@@ -40,14 +40,14 @@ struct PositionMove : ITankable<PositionMove> {
     BestMove = Move.Undefined;
   }
 #if PreAllocated && !PositionMoveByValue
-    //[Note]Structs cannot contain explicit parameterless constructors
-    public PositionMove() {
-      Init();
-    }
+  //[Note]Structs cannot contain explicit parameterless constructors
+  public PositionMove() {
+    Init();
+  }
 #endif
   public PositionMove(Hashcode qHash,
 #if XPMHash128
-                         Hashcode qHashPawn,
+                       Hashcode qHashPawn,
 #endif
                        Ply wMovePly,
                        Depth wDepth,
@@ -57,14 +57,14 @@ struct PositionMove : ITankable<PositionMove> {
     Hash = qHash;
     Debug.Assert(Hash != 0, $"Zero Hash [{nameof(PositionMove)}]");
 #if XPMHash128
-      HashPawn = qHashPawn;
+    HashPawn = qHashPawn;
 #endif
     MovePly = wMovePly;
     Depth = wDepth;
     ibv = IBV(mValue, et);
     BestMove = moveBest & Move.CheckMask;
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region ITankable Interface Properties
   public Hashcode Hash { get; set; }
@@ -72,16 +72,16 @@ struct PositionMove : ITankable<PositionMove> {
   public Boolean IsEmpty {
     get { return Hash == 0; }
   }
-  #endregion                          // ITankable Interface Properties
+  #endregion                            // ITankable Interface Properties
 
   #region ITankable Interface Methods
   public Boolean Match(PositionMove xpm) {
 #if !PositionMoveByValue
-      if (xpm == null)
-        return false;
+    if (xpm == null)
+      return false;
 #endif
 #if XPMHash128
-      return Hash == xpm.Hash && HashPawn == xpm.HashPawn && Id == xpm.Id;
+    return Hash == xpm.Hash && HashPawn == xpm.HashPawn && Id == xpm.Id;
 #else
     return Hash == xpm.Hash &&
            (BestMove == Move.Undefined || xpm.BestMove == Move.Undefined ||
@@ -100,7 +100,7 @@ struct PositionMove : ITankable<PositionMove> {
 
     var bRenew = match.Quality <= Quality + 1;
     if (bRenew) {
-      pr |= ProbeResult.Renew;        // Useful for BestMove, worth renewing even if not Valid
+      pr |= ProbeResult.Renew;          // Useful for BestMove, worth renewing even if not Valid
       match.BestMove = BestMove;
 
       if (bValid = match.Quality <= Quality)
@@ -109,8 +109,8 @@ struct PositionMove : ITankable<PositionMove> {
 
     if (bValid ||
         Type == EvalType.Lower ||
-        Type == EvalType.Exact) {     // Value may be used to "stand pat" even if not Valid
-      pr |= ProbeResult.Value;        //[Debug]Use of EvalUndefined obviates the need for this Value Flag
+        Type == EvalType.Exact) {       // Value may be used to "stand pat" even if not Valid
+      pr |= ProbeResult.Value;          //[Debug]Use of EvalUndefined obviates the need for this Value Flag
       match.ibv = ibv;
     }
 
@@ -118,9 +118,9 @@ struct PositionMove : ITankable<PositionMove> {
   }
 
   public Boolean IsNew(PositionMove store) {
-    var bNew = false;                 // Assume Satisfactory
+    var bNew = false;                   // Assume Satisfactory
 #if DebugExactMatch
-      var bShow = false;
+    var bShow = false;
 #endif
     if (Quality < store.Quality)
       bNew = true;
@@ -128,62 +128,63 @@ struct PositionMove : ITankable<PositionMove> {
       var et = IBType(store.ibv);
       if (et == IBType(ibv)) {
         if (et == EvalType.Lower)
-          bNew = store.ibv > ibv;     // Improve GLB
+          bNew = store.ibv > ibv;       // Improve GLB
         else if (et == EvalType.Upper)
-          bNew = store.ibv < ibv;     // Improve LUB
+          bNew = store.ibv < ibv;       // Improve LUB
 #if DebugExactMatch
           else
             bShow = store.Value != Value;
 #endif
       }
-      else {                          // Upper or Lower can become Exact; but not vice versa
+      else {                            // Upper or Lower can become Exact; but not vice versa
         bNew = et == EvalType.Exact;
 #if DebugExactMatch
-          bShow = !bNew;
+        bShow = !bNew;
 #endif
       }
     }
 #if DebugExactMatch
-      if (bNew && bShow) {
-        // Noticed when filtering Draw2 Nodes
-        LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
-        LogLine($"Value is changed from {ibv} to {store.ibv}");
-      }
+    if (bNew && bShow) {
+      // Noticed when filtering Draw2 Nodes
+      LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
+      LogLine($"Value is changed from {ibv} to {store.ibv}");
+    }
 #endif
     return bNew;
   }
-  #endregion                          // ITankable Interface Methods
+  #endregion                            // ITankable Interface Methods
 
   #region Methods
 #if !PositionMoveByValue
-    // Recycle to reduce garbage:
-    public void Recycle(PositionMove store) {
-      Hash = store.Hash;
+  // Recycle to reduce garbage:
+  public void Recycle(PositionMove store) {
+    Hash = store.Hash;
 #if XPMHash128
-      HashPawn = store.HashPawn;
+    HashPawn = store.HashPawn;
 #endif
-      MovePly = store.MovePly;
-      Depth = store.Depth;
-      ibv = store.ibv;
-      BestMove = store.BestMove;
-    }
+    MovePly = store.MovePly;
+    Depth = store.Depth;
+    ibv = store.ibv;
+    BestMove = store.BestMove;
+  }
 #endif
-  #endregion                          // Methods
+  #endregion                            // Methods
 
   #region Fields
 #if XPMHash128
-    public Hashcode HashPawn;
+  public Hashcode HashPawn;
 #endif
-  public Ply MovePly;                 // To determine age
+  public Ply MovePly;                   // To determine age
   public Depth Depth;
   private Bval ibv;
   public Move BestMove;
-  #endregion                          // Fields
+  #endregion                            // Fields
 
   #region Properties
   public Ply Quality {
     //
-    // Deeper searches for preceding game plies are currently allowed for shallower searches from subsequent plies.
+    // Deeper searches for preceding game plies are currently
+    // allowed for shallower searches from subsequent plies.
     //
     get { return (Ply)(MovePly + Depth); }
   }
@@ -226,5 +227,5 @@ struct PositionMove : ITankable<PositionMove> {
       Depth = (Depth)((UInt16)(value >> nDepthBit)/* & wDepthMask*/);
     }
   }
-  #endregion                          // Properties
+  #endregion                            // Properties
 }

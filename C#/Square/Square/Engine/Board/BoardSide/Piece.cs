@@ -250,7 +250,7 @@ partial class Board {
           setDark();
 #if HashPieces
         var u = (UInt32)(FlagsSide & SideFlags.Pair) >> nBishopPairBit;
-        setTwoBits(ref PieceHash, 0, u);   // Piece == vHF
+        setTwoBits(ref PieceHash, 0, u);// Piece == vHF
 #endif
       }
 #if HashPieces

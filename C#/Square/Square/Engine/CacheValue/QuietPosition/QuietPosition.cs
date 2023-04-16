@@ -32,7 +32,7 @@ using Ply = UInt16;
 #if QuietPositionByValue
 struct QuietPosition : ITankable<QuietPosition> {
 #else
-  class QuietPosition : ITankable<QuietPosition> {
+class QuietPosition : ITankable<QuietPosition> {
 #endif
   #region Constructors
   public void Init() {
@@ -40,14 +40,14 @@ struct QuietPosition : ITankable<QuietPosition> {
     BestMove = Move.Undefined;
   }
 #if PreAllocated && !QuietPositionByValue
-    //[Note]Structs cannot contain explicit parameterless constructors
-    public QuietPosition() {
-      Init();
-    }
+  //[Note]Structs cannot contain explicit parameterless constructors
+  public QuietPosition() {
+    Init();
+  }
 #endif
   public QuietPosition(Hashcode qHash,
 #if QXPHash128
-                         Hashcode qHashPawn,
+                       Hashcode qHashPawn,
 #endif
                        Ply wMovePly,
                        Eval mValue = EvalUndefined,
@@ -56,13 +56,13 @@ struct QuietPosition : ITankable<QuietPosition> {
     Hash = qHash;
     Debug.Assert(Hash != 0, $"Zero Hash [{nameof(QuietPosition)}]");
 #if QXPHash128
-      HashPawn = qHashPawn;
+    HashPawn = qHashPawn;
 #endif
     MovePly = wMovePly;
     ibv = IBV(mValue, et);
     BestMove = moveBest & Move.CheckMask;
   }
-  #endregion                          // Constructors
+  #endregion                            // Constructors
 
   #region ITankable Interface Properties
   public Hashcode Hash { get; set; }
@@ -70,7 +70,7 @@ struct QuietPosition : ITankable<QuietPosition> {
   public Boolean IsEmpty {
     get { return Hash == 0; }
   }
-  #endregion                          // ITankable Interface Properties
+  #endregion                            // ITankable Interface Properties
 
   #region ITankable Interface Methods
   public Boolean Match(QuietPosition qxp) {
@@ -79,7 +79,7 @@ struct QuietPosition : ITankable<QuietPosition> {
         return false;
 #endif
 #if QXPHash128
-      return Hash == qxp.Hash && HashPawn == qxp.HashPawn;
+    return Hash == qxp.Hash && HashPawn == qxp.HashPawn;
 #else
     return Hash == qxp.Hash;
 #endif
@@ -98,33 +98,33 @@ struct QuietPosition : ITankable<QuietPosition> {
   }
 
   public Boolean IsNew(QuietPosition store) {
-    var bNew = false;                 // Assume Satisfactory
+    var bNew = false;                   // Assume Satisfactory
 #if DebugExactMatch
-      var bShow = false;
+    var bShow = false;
 #endif
     var et = IBType(store.ibv);
     if (et == IBType(ibv)) {
       if (et == EvalType.Lower)
-        bNew = store.ibv > ibv;       // Improve GLB
+        bNew = store.ibv > ibv;         // Improve GLB
       else if (et == EvalType.Upper)
-        bNew = store.ibv < ibv;       // Improve LUB
+        bNew = store.ibv < ibv;         // Improve LUB
 #if DebugExactMatch
         else
           bShow = store.ibv != ibv;
 #endif
     }
-    else {                            // Upper or Lower can become Exact; but not vice versa
+    else {                              // Upper or Lower can become Exact; but not vice versa
       bNew = et == EvalType.Exact;
 #if DebugExactMatch
-        bShow = !bNew;
+      bShow = !bNew;
 #endif
     }
 #if DebugExactMatch
-      if (bNew && bShow) {
-        // Noticed when filtering Draw2 Nodes
-        LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
-        LogLine($"Value is changed from {ibv} to {store.ibv}");
-      }
+    if (bNew && bShow) {
+      // Noticed when filtering Draw2 Nodes
+      LogLine($"EvalType changed from {IBType(ibv)} to {IBType(store.ibv)}");
+      LogLine($"Value is changed from {ibv} to {store.ibv}");
+    }
 #endif
     return bNew;
   }
@@ -132,27 +132,27 @@ struct QuietPosition : ITankable<QuietPosition> {
 
   #region Methods
 #if !QuietPositionByValue
-    // Recycle QXPs to reduce garbage:
-    public void Recycle(QuietPosition store) {
-      Hash = store.Hash;
+  // Recycle QXPs to reduce garbage:
+  public void Recycle(QuietPosition store) {
+    Hash = store.Hash;
 #if QXPHash128
-      HashPawn = store.HashPawn;
+    HashPawn = store.HashPawn;
 #endif
-      MovePly = store.MovePly;
-      ibv = store.ibv;
-      BestMove = store.BestMove;
-    }
+    MovePly = store.MovePly;
+    ibv = store.ibv;
+    BestMove = store.BestMove;
+  }
 #endif
-  #endregion                          // Methods
+  #endregion                            // Methods
 
   #region Fields
 #if QXPHash128
-    public Hashcode HashPawn;
+  public Hashcode HashPawn;
 #endif
-  public Ply MovePly;                 // To determine age
+  public Ply MovePly;                   // To determine age
   private Bval ibv;
   public Move BestMove;
-  #endregion                          // Fields
+  #endregion                            // Fields
 
   #region Properties
   public EvalType Type {
@@ -187,5 +187,5 @@ struct QuietPosition : ITankable<QuietPosition> {
       MovePly = (Ply)((UInt16)(value >> nMovePlyBit)/* & wPlyMask*/);
     }
   }
-  #endregion                          // Properties
+  #endregion                            // Properties
 }
