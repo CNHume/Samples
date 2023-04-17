@@ -46,7 +46,13 @@ partial class UCI {
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
   //"";
-  //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode]
+  //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
+  // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. c4 f5 50. Qxf5
+  "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10 [2023-04-17 19-ply in 42:51 @1.263 MHz over 3.246 Gnode] after:
+  // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#
+  //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line [2023-04-17 20-ply in 2:00:54 @1.638 MHz over 11.88 Gnode] eval 13.3 after:
+  // 43. Nxg8 Qg5 44. Nxf6 Qxf6 45. Qb8+ Kh7 46. Ra8 Qh4+ 47. Kg1 Qxh5 48. Qg8+ Kg6 49. Qe8+ Kg5 50. f4+ Kh4 51. Qe1+ Kg4 52. Qe2+ Kxf4
+  // 53. Qxh5 a1=N 54. Rxa1 [Bh7]
   //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
   // moves f5h3 g2h3 e6f5 g1f2 f5e4
@@ -376,7 +382,7 @@ partial class UCI {
   // to find 66. Nh7 Re8 67. Rc6 Be6 68. Rc7 Rf8 69. Rg7+ Kh8 70. Nxf8 Ba2 71. Nd7 Bb1 72. Nf6 Bxg6 73. Rg8#
   //"1k5r/1r1B2pp/1PQ5/4pp2/R7/3q3P/5PP1/6K1 w - - 0 1"; // Mavo's Nice Tactics! [12-ply in 18 sec @1.472 MHz] eval 7.85, [16-ply in 6:46.6 @1.469 over 597 Mnode] eval 9.1
   // 1. Bxf5 Qd1+ 2. Kh2 Qxa4 3. Qxa4 Rxb6 4. Be4 Kc8 5. Qa7 Rf6 6. Qa8+ Kd7 7. Qxh8 Rxf2 8. Qxg7+ Ke6 9. Qg8+ Ke7 10. Qd5 Kf6 11. Qd6+ Kg5 12. Qxe5+
-  "1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4"; // Mavo Nice Mate1 #6 [2022-09-01 10-ply in 2.788 sec @1.259 MHz over 3.511 Mnode]
+  //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PPK/8 w - - 0 4"; // Mavo Nice Mate1 #6 [2022-09-01 10-ply in 2.788 sec @1.259 MHz over 3.511 Mnode]
   // 4. Ra6 Rd8 5. Qa4 Ra7 6. Rxa7 Rd5 7. Ra8+ Kb7 8. Bxd5+ Kxb6 9. Qc6#
   //"1k1q3r/1r4pp/1PQ5/4pB2/R7/7P/5PP1/6K1 w - - 0 2"; // Mavo Nice Mate2 [longer]
   //"1k5r/1r2q1pp/1PQ5/4p3/R3B3/7P/5PP1/6K1 w - - 0 3"; // Mavo Nice Mate3 #8 [12-ply in 14.17 sec @1.577 MHz]
