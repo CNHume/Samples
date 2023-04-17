@@ -20,15 +20,15 @@ using Eval = Int16;
 partial class Position : Board {
   #region Methods
   protected void sortSwaps(List<Move> moves) {
-    var child = Push();               // Push Position to make the moves
+    var child = Push();                 // Push Position to make the moves
     try {
       //var uLegalMoves = 0U;
       foreach (var mov in moves) {
         var move = mov;
         var nTo = To(move);
 #if DebugMove
-          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
         if (child.tryMove(ref move)) {
           //uLegalMoves++;
@@ -51,7 +51,7 @@ partial class Position : Board {
       }
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this Ply
+      Pop(ref child);                   // Pop Position used for this Ply
     }
   }
 
@@ -59,14 +59,14 @@ partial class Position : Board {
     var moves = PseudoCaptures;
     var mValue = mStand;
     generateSwaps(moves, nTo);
-    var child = Push();               // Push Position to make the moves
+    var child = Push();                 // Push Position to make the moves
     try {
       //var uLegalMoves = 0U;
       foreach (var mov in moves) {
         var move = mov;
 #if DebugMove
-          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
         var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
         // EP unexpected here: Prior move was a capture
@@ -88,10 +88,10 @@ partial class Position : Board {
       }
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this Ply
+      Pop(ref child);                   // Pop Position used for this Ply
     }
 
     return Max(mStand, mValue);
   }
-  #endregion
+  #endregion                            // Methods
 }

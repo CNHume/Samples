@@ -30,8 +30,8 @@ partial class Position : Board {
   //
   private void restrictPiece(Move move) {
 #if DebugMove
-      unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece1,
-                  out Piece promotion, out Boolean bCapture);
+    unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece1,
+                out Piece promotion, out Boolean bCapture);
 #endif
     unpack1(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out Boolean _);
@@ -59,8 +59,8 @@ partial class Position : Board {
     // failed to evade a Check.
     //
     var bSingleCheck = IsOneOrNone(qpChx);
-    if (bSingleCheck) {             //[Safe]
-      if (qpChx != 0) {             // while loop unnecessary
+    if (bSingleCheck) {                 //[Safe]
+      if (qpChx != 0) {                 // while loop unnecessary
         var qpRay = PinRestrictions(qpChx, vKingPos);
 
         //
@@ -91,13 +91,13 @@ partial class Position : Board {
         //
         var bPasserPin = false;
 #if ExemptPasserPin
-          var uCapture = captured(move);
-          var capture = (Piece)uCapture;
-          if (capture == Piece.EP) {
-            var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
-            var qpPasser = bit(nCaptureFrom);
-            bPasserPin = (qpRay & qpPasser) != 0;
-          }
+        var uCapture = captured(move);
+        var capture = (Piece)uCapture;
+        if (capture == Piece.EP) {
+          var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
+          var qpPasser = bit(nCaptureFrom);
+          bPasserPin = (qpRay & qpPasser) != 0;
+        }
 #endif
         if (bPasserPin) {
           Trace.Assert(!bPasserPin, "Passer Pin");
@@ -116,9 +116,9 @@ partial class Position : Board {
   private void addRestriction(Int32 nFrom, Plane qpFrom, Plane qpRay, Plane qpCheck) {
     // Test for Pin Restriction, subject to the PasserPin Exemption
     var bFromPin = (qpRay & qpFrom) != 0;
-    if (bFromPin) {                   //[Safe]
+    if (bFromPin) {                     //[Safe]
       restricted[nFrom] = qpCheck | qpRay;
-      pinnedPiece |= qpFrom;          // Mark restricted[nFrom] valid
+      pinnedPiece |= qpFrom;            // Mark restricted[nFrom] valid
     }
     else if (State.IsSearchInProgress) {
       // Diagnose Engine Generated Moves, not User Moves made via ParsePACNMakeMoves()
@@ -126,6 +126,6 @@ partial class Position : Board {
       //[Debug]DisplayCurrent(nameof(addRestriction));
     }
   }
-  #endregion                          // Pin Restrictions
-  #endregion                          // Methods
+  #endregion                            // Pin Restrictions
+  #endregion                            // Methods
 }

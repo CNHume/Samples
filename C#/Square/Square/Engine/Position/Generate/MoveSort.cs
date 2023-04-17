@@ -46,10 +46,10 @@ partial class Position : Board {
     var bAbove = parameter.IsAbove(nTo);
     var type = moveType(nFrom, nTo, uPiece, bCapture, bAbove);
 #if TestRewardMove
-      var sb = new StringBuilder()
-        .AppendPACN(move, Side, State.IsChess960)
-        .Append($" by {parameter.SideName} is {type}");
-      LogLine(sb.ToString());
+    var sb = new StringBuilder()
+      .AppendPACN(move, Side, State.IsChess960)
+      .Append($" by {parameter.SideName} is {type}");
+    LogLine(sb.ToString());
 #endif
     var nIndex = Array.IndexOf(moveTypes, type);
     if (nIndex < 0)
@@ -66,12 +66,12 @@ partial class Position : Board {
   private void rewardMove(Move move, Depth wDepth, Eval mValue, EvalType et, Move moveExcluded) {
     //[Test]Debug.Assert(mValue > EvalUndefined, $"{nameof(rewardMove)}({nameof(EvalUndefined)})");
 #if NoMaterial
-      var bMaterial = move.Has(Move.Material);
-      if (bMaterial) return;
+    var bMaterial = move.Has(Move.Material);
+    if (bMaterial) return;
 #endif
     var moveMasked = move & Move.StoreMask;
 #if UseKillers
-    storeKiller(moveMasked, wDepth, mValue, et);      //[Conditional]
+    storeKiller(moveMasked, wDepth, mValue, et);    //[Conditional]
 #endif                                  // UseKillers
 #if UseHistory
     storeXPM(wDepth, mValue, et, moveMasked, moveExcluded);
@@ -96,12 +96,12 @@ partial class Position : Board {
 
     var nMoves = moves.Count;
     var mLateStart = Eval.MaxValue;
-    var nEarly = 0;                   //[Init]
+    var nEarly = 0;                     //[Init]
     foreach (var move in moves) {
       var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
       if (nIndex >= 0) {
         nEarly++;
-        State.IncEarlyMoveCount(SearchPly);   // Update EarlyMove Histogram
+        State.IncEarlyMoveCount(SearchPly);     // Update EarlyMove Histogram
         var good = goodMoves[nIndex];
         var mGoodValue = good.Value;
         if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
@@ -120,20 +120,20 @@ partial class Position : Board {
 #if TestGoodValue
       var mValue = EvalUndefined;
 
-      if (nIndex < 0)                 // Move not found among goodMoves
-        mValue = --mLateNext;         // Next value below Eval.MaxValue
+      if (nIndex < 0)                   // Move not found among goodMoves
+        mValue = --mLateNext;           // Next value below Eval.MaxValue
       else {
         var good = goodMoves[nIndex];
-        var mGoodValue = good.Value;  // goodMove Eval
-                                      //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
+        var mGoodValue = good.Value;    // goodMove Eval
+                                        //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
         if (EvalUndefined < mGoodValue)
           mValue = mGoodValue;
         else
           mValue = (Eval)(mLateStart - nIndex);
       }
 #else
-        var mValue = nIndex < 0 ? EvalUndefined : (Eval)(Eval.MaxValue - nIndex);
-#endif
+      var mValue = nIndex < 0 ? EvalUndefined : (Eval)(Eval.MaxValue - nIndex);
+#endif                                  // TestGoodValue
       //
       // nGenerated index is included in SortMove so a Stable
       // Sort can be implemented on its IComparable interface
@@ -141,7 +141,7 @@ partial class Position : Board {
       SortMoves[nGenerated++] = new SortMove(move, nGenerated, mValue, wDepth);
     }
 #if LazyMoveSort
-    PriorityMove.Truncate();          // Truncate Heap, preparing to rebuild.
+    PriorityMove.Truncate();            // Truncate Heap, preparing to rebuild.
     PriorityMove.IsAscending = true;
 
     //
@@ -149,33 +149,33 @@ partial class Position : Board {
     //
     PriorityMove.Build(nGenerated);
 #else
-      Array.Sort<SortMove>(SortMoves, 0, nGenerated);
+    Array.Sort<SortMove>(SortMoves, 0, nGenerated);
 #endif
 #if DebugMoveOrder
-      if (IsTrace()) {
-        DisplayCurrent(nameof(sortMoves));
+    if (IsTrace()) {
+      DisplayCurrent(nameof(sortMoves));
 
-        var sb = new StringBuilder();
+      var sb = new StringBuilder();
 #if LazyMoveSort
-        var nMoveIndex = 0;
-        foreach (var sm in PriorityMove) {
+      var nMoveIndex = 0;
+      foreach (var sm in PriorityMove) {
 #else
-        for (var nMoveIndex = 0; nMoveIndex < nGenerated; nMoveIndex++) {
-          var sm = SortMoves[nMoveIndex];
+      for (var nMoveIndex = 0; nMoveIndex < nGenerated; nMoveIndex++) {
+        var sm = SortMoves[nMoveIndex];
 #endif
-          sb.Clear();
-          sb.AppendAN(sm.Move, Side, State.IsChess960);
-          LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
+        sb.Clear();
+        sb.AppendAN(sm.Move, Side, State.IsChess960);
+        LogLine($"{nMoveIndex}) {sb}: Depth = {sm.Depth}, Value = {sm.Value}, Index = {sm.Index}");
 #if LazyMoveSort
-          nMoveIndex++;
-#endif
-        }
-#if LazyMoveSort
-        Trace.Assert(!PriorityMove.IsAscending, "Heap Ascending after enumeration");
-        if (!PriorityMove.IsAscending)
-          PriorityMove.Reverse();
+        nMoveIndex++;
 #endif
       }
+#if LazyMoveSort
+      Trace.Assert(!PriorityMove.IsAscending, "Heap Ascending after enumeration");
+      if (!PriorityMove.IsAscending)
+        PriorityMove.Reverse();
+#endif
+    }
 #endif                                  // DebugMoveOrder
     if (nGenerated != nMoves) {
       Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
@@ -185,100 +185,100 @@ partial class Position : Board {
     return nEarly;
   }
 #else                                   // UseMoveSort
-    private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
-      var nStart = SiftedMoves.Count;
-      Trace.Assert(nStart == 0, "nStart != 0");
+  private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
+    var nStart = SiftedMoves.Count;
+    Trace.Assert(nStart == 0, "nStart != 0");
 
-      var nEarlyCapacity = goodMoves.Count;
-      var earlyMoves = new List<Move>(nEarlyCapacity);
+    var nEarlyCapacity = goodMoves.Count;
+    var earlyMoves = new List<Move>(nEarlyCapacity);
 
-      //
-      // goodMoves.Count is not subtracted from moves.Count because there
-      // is no guarantee that any of the goodMoves will be found in moves:
-      //
-      var nMoves = moves.Count;
-      var lateMoves = new List<Move>(nMoves);
+    //
+    // goodMoves.Count is not subtracted from moves.Count because there
+    // is no guarantee that any of the goodMoves will be found in moves:
+    //
+    var nMoves = moves.Count;
+    var lateMoves = new List<Move>(nMoves);
 
-      //
-      //[Note]The following operations are O(M*N) where N is the number of goodMoves
-      //
-      // Sift up the elements of "moves" found in goodMoves:
-      //
-      foreach (var move in moves) {
-        if (goodMoves.Exists(gm => EqualMoves(gm.Move, move))) {
-          earlyMoves.Add(move);
-          State.IncEarlyMoveCount(SearchPly);  // Update EarlyMove Histogram
-        }
-        else
-          lateMoves.Add(move);
+    //
+    //[Note]The following operations are O(M*N) where N is the number of goodMoves
+    //
+    // Sift up the elements of "moves" found in goodMoves:
+    //
+    foreach (var move in moves) {
+      if (goodMoves.Exists(gm => EqualMoves(gm.Move, move))) {
+        earlyMoves.Add(move);
+        State.IncEarlyMoveCount(SearchPly);     // Update EarlyMove Histogram
       }
+      else
+        lateMoves.Add(move);
+    }
 
-      var bWTM = WTM();
-      foreach (var gm in goodMoves) {   // Maintain goodMove priority for earlyMoves
+    var bWTM = WTM();
+    foreach (var gm in goodMoves) {     // Maintain goodMove priority for earlyMoves
 #if DebugMove
-        unpackMove1(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+      unpackMove1(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+      //unpackMove2(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor && BottleBothSides
-        var bWhiteMove = gm.Move.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(sortMoves)}]");
-          DisplayCurrent(nameof(sortMoves));
-        }
+      var bWhiteMove = gm.Move.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(sortMoves)}]");
+        DisplayCurrent(nameof(sortMoves));
+      }
 #endif
-        //SiftedMoves was cleared in generate() via clearPseudoMoveLists()
-        var nIndex = earlyMoves.FindIndex(em => EqualMoves(em, gm.Move));
-        if (nIndex >= 0) {
-          var em = earlyMoves[nIndex];
-          //[Note]goodMoves may contain dupilicates
-          if (!SiftedMoves.Exists(sm => EqualMoves(sm, em))) {
+      //SiftedMoves was cleared in generate() via clearPseudoMoveLists()
+      var nIndex = earlyMoves.FindIndex(em => EqualMoves(em, gm.Move));
+      if (nIndex >= 0) {
+        var em = earlyMoves[nIndex];
+        //[Note]goodMoves may contain dupilicates
+        if (!SiftedMoves.Exists(sm => EqualMoves(sm, em))) {
 #if TestGoodCapture
-            var good = gm.Move & Move.StoreMask;
-            if (good != em) {
-              var goodCaptive = captured(good);
-              var emCaptive = captured(em);
-              if (emCaptive != Piece.Capture) {
-                var sb = new StringBuilder();
-                sb.AppendAN(good, Side, false);
-                if (goodCaptive != Piece.None)
-                  sb.Append(goodCaptive);
+          var good = gm.Move & Move.StoreMask;
+          if (good != em) {
+            var goodCaptive = captured(good);
+            var emCaptive = captured(em);
+            if (emCaptive != Piece.Capture) {
+              var sb = new StringBuilder();
+              sb.AppendAN(good, Side, false);
+              if (goodCaptive != Piece.None)
+                sb.Append(goodCaptive);
 
-                sb.Append(" != ");
-                sb.AppendAN(em, Side, false);
-                if (emCaptive != Piece.None)
-                  sb.Append(emCaptive);
+              sb.Append(" != ");
+              sb.AppendAN(em, Side, false);
+              if (emCaptive != Piece.None)
+                sb.Append(emCaptive);
 
-                sb.FlushLine();
-              }
-              else if (goodCaptive != Piece.Capture) {
-                good &= ~Move.CaptiveMask;
-                good |= (Move)((Byte)Piece.Capture << nCaptiveBit);
-              }
+              sb.FlushLine();
             }
-#endif
-            //
-            //[Warning]It is necessary to Add(em) rather than gm here.
-            //
-            // An em capture will specify either Piece.Capture or Piece.EP; but a Killer gm
-            // can specify a capture from some other position and still match an em capture.
-            //
-            SiftedMoves.Add(em);
+            else if (goodCaptive != Piece.Capture) {
+              good &= ~Move.CaptiveMask;
+              good |= (Move)((Byte)Piece.Capture << nCaptiveBit);
+            }
           }
+#endif
+          //
+          //[Warning]It is necessary to Add(em) rather than gm here.
+          //
+          // An em capture will specify either Piece.Capture or Piece.EP; but a Killer gm
+          // can specify a capture from some other position and still match an em capture.
+          //
+          SiftedMoves.Add(em);
         }
       }
-
-      var nEarly = SiftedMoves.Count;
-      State.AddEarlyTotal(bWTM, nEarly);
-
-      SiftedMoves.AddRange(lateMoves);
-      var nGenerated = SiftedMoves.Count;
-
-      if (nGenerated != nMoves) {
-        Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
-      }
-
-      return nEarly;
     }
+
+    var nEarly = SiftedMoves.Count;
+    State.AddEarlyTotal(bWTM, nEarly);
+
+    SiftedMoves.AddRange(lateMoves);
+    var nGenerated = SiftedMoves.Count;
+
+    if (nGenerated != nMoves) {
+      Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
+    }
+
+    return nEarly;
+  }
 #endif                                  // UseMoveSort
-  #endregion
+  #endregion                            // Move Order Heuristics
 }

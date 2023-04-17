@@ -63,5 +63,5 @@ partial class Position {
       moveTypes[n] = moveType;
     }
   }
-  #endregion
+  #endregion                            // Methods
 }

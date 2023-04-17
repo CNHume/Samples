@@ -30,11 +30,11 @@ partial class Position : Board {
     // Reset En Passant state just prior to calling PlayMove()
     ResetEP();
 #if DebugNodeTotal
-      var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
-      if (State.NodeTotal != qNodeTotal) {
-        Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
-        DisplayCurrent(nameof(resetMove));
-      }
+    var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
+    if (State.NodeTotal != qNodeTotal) {
+      Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
+      DisplayCurrent(nameof(resetMove));
+    }
 #endif
   }
 
@@ -45,9 +45,9 @@ partial class Position : Board {
 
   // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
   private Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
-    CurrentMove = move;               // Current Pseudo Move
+    CurrentMove = move;                 // Current Pseudo Move
     var (bPrevented, bRestricted) = isPinned(move);
-    if (bPrevented) {                 // Skip moves which violate known pins
+    if (bPrevented) {                   // Skip moves which violate known pins
       GameState.AtomicIncrement(ref State.PinSkipTotal);
       return false;
     }
@@ -56,17 +56,17 @@ partial class Position : Board {
     //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
-    timePlayMove(move);               //[Conditional]
+    timePlayMove(move);                 //[Conditional]
     resetMove();
     PlayMove(ref move);
 
     if (IsDraw0())
-      clrEval();                      // Captures and Pawn moves invalidate staticEval()
+      clrEval();                        // Captures and Pawn moves invalidate staticEval()
 
     expireEnPassant();
 #if TestHash
-      if (!TestHash())
-        DisplayCurrent(nameof(tryMove));
+    if (!TestHash())
+      DisplayCurrent(nameof(tryMove));
 #endif
     var bLegal = IsLegal(bFindRepetition, bRestricted);
     if (IsDefined(move)) {
@@ -77,19 +77,19 @@ partial class Position : Board {
     }
 
     State.IncMove(bLegal, bQxnt);
-    State.MonitorBound(this);         // Pass position so heartbeat() can build getCurrentMoves()
+    State.MonitorBound(this);           // Pass position so heartbeat() can build getCurrentMoves()
     return bLegal;
   }
 
   private Boolean nullMove() {
-    CurrentMove = Move.NullMove;      // Current Pseudo Move
+    CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
     SkipTurn();
 
     expireEnPassant();
 #if TestHash
-      if (!TestHash())
-        DisplayCurrent(nameof(nullMove));
+    if (!TestHash())
+      DisplayCurrent(nameof(nullMove));
 #endif
     var bLegal = !InCheck();
     if (!bLegal)
@@ -124,15 +124,15 @@ partial class Position : Board {
   //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
   public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
 #if TurnTest
-      var bWhiteMoved = !WTM();
-      var bBlackTurn = IsOdd(GamePly);
-      Debug.Assert(bWhiteMoved == bBlackTurn, "Skipped Turn");
+    var bWhiteMoved = !WTM();
+    var bBlackTurn = IsOdd(GamePly);
+    Debug.Assert(bWhiteMoved == bBlackTurn, "Skipped Turn");
 #endif
     //[Assume]restricted Moves are Legal
     var bLegal = bRestricted || !Friend.IsAttacked(King & Foe.Piece);
     SetLegal(bLegal);
 
-    if (bLegal) {                     // Perform InCheck Test for Legal Moves
+    if (bLegal) {                       // Perform InCheck Test for Legal Moves
       SetInCheck(Foe.IsAttacked(King & Friend.Piece));
 
       //
@@ -146,8 +146,8 @@ partial class Position : Board {
         findRepetition();
     }
 #if DisplayPosition
-      var sb = new StringBuilder();
-      Display(sb);
+    var sb = new StringBuilder();
+    Display(sb);
 #endif
     return bLegal;
   }
@@ -182,33 +182,33 @@ partial class Position : Board {
         break;
       }
       else if (position.IsDraw0())
-        break;                        // End of Repetition Cycle
+        break;                          // End of Repetition Cycle
     }
 #if DebugDraw2
-      validateDraw2();
+    validateDraw2();
 #endif
   }
 #if DebugDraw2
-    private Boolean validateDraw2() {
-      var bDraw2 = fdraw() != 0;
+  private Boolean validateDraw2() {
+    var bDraw2 = fdraw() != 0;
 
-      if (bDraw2) {
-        var nCount = 1;
+    if (bDraw2) {
+      var nCount = 1;
 
-        for (var position = Parent; position != null; position = position.Parent) {
-          if (Equals(position)) nCount++;
-        }
-
-        var bValid = nCount > 1 ? bDraw2 : !bDraw2;
-
-        if (!bValid)
-          DisplayCurrent(nameof(validateDraw2));
-
-        return bValid;
+      for (var position = Parent; position != null; position = position.Parent) {
+        if (Equals(position)) nCount++;
       }
-      else
-        return true;
+
+      var bValid = nCount > 1 ? bDraw2 : !bDraw2;
+
+      if (!bValid)
+        DisplayCurrent(nameof(validateDraw2));
+
+      return bValid;
     }
-#endif
-  #endregion
+    else
+      return true;
+  }
+#endif                                  // DebugDraw2
+  #endregion                            // Draw By Repetition
 }
