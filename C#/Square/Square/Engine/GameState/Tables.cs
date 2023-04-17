@@ -16,7 +16,7 @@ using Cache;
 
 using CacheValue;
 
-using MoveOrder;                      // For Variation
+using MoveOrder;                        // For Variation
 
 using static Board;
 using static Position;
@@ -30,12 +30,12 @@ using Ply = UInt16;
 
 partial class GameState {
   #region Constants
-  private const Int32 nVariationsDefault = 12;    // Initial Allocation
+  private const Int32 nVariationsDefault = 12;  // Initial Allocation
 
   private const Int32 nQXPSelectionDefault = 16;
   private const Int32 nXPSelectionDefault = 48;
   private const Int32 nXPMSelectionDefault = 8;
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Memo Table Dimensions
   //
@@ -55,10 +55,10 @@ partial class GameState {
   // (1U << 17) - 1   // Largest 17-bit prime
   // (1U << 16) - 15  // Largest 16-bit prime - 65.5K
   //
-  private const UInt32 uDefaultCompositions = 8179;         // 8191, 8179, 4093, 4091, 2999, 2039 and 1999 are prime; and so are 1021, 1019
+  private const UInt32 uDefaultCompositions = 8179;       // 8191, 8179, 4093, 4091, 2999, 2039 and 1999 are prime; and so are 1021, 1019
   private const UInt32 uDefaultComposition2 = 1 << nHashPieceBits;
-  private const UInt32 uDefaultPawnPositions = 1U << 16;    // +1 is prime
-  #endregion
+  private const UInt32 uDefaultPawnPositions = 1U << 16;  // +1 is prime
+  #endregion                            // Memo Table Dimensions
 
   #region Table Initializers
   [MemberNotNull(
@@ -121,18 +121,18 @@ partial class GameState {
     ExtensionLimit = 0;
 
 #if OldExtensionLimitDefaults
-      //
-      //[Note]The following defaults are now specified via Option.Default properties in GameState.Controls:
-      //
-      // CheckExtensionLimit = 4 sufficient for Caruana v Gustafsson Mate [in 12-ply] w zMateDepthMin = 4
-      // 6 sufficient to solve Johannessen v Fischer #8 [in 11-ply]
-      // 6 solves Perpetual [in 13-ply]
-      // 8 solves Perpetual faster and finds Kramnik v Meier 2012-07-22 [in 12-ply]
-      //
-      setNibble(ref ExtensionLimit, vCheck, 6);
-      setNibble(ref ExtensionLimit, vLate, 2);
-      setNibble(ref ExtensionLimit, vThreat, 1);
-      setNibble(ref ExtensionLimit, vSingular, 1);
+    //
+    //[Note]The following defaults are now specified via Option.Default properties in GameState.Controls:
+    //
+    // CheckExtensionLimit = 4 sufficient for Caruana v Gustafsson Mate [in 12-ply] w zMateDepthMin = 4
+    // 6 sufficient to solve Johannessen v Fischer #8 [in 11-ply]
+    // 6 solves Perpetual [in 13-ply]
+    // 8 solves Perpetual faster and finds Kramnik v Meier 2012-07-22 [in 12-ply]
+    //
+    setNibble(ref ExtensionLimit, vCheck, 6);
+    setNibble(ref ExtensionLimit, vLate, 2);
+    setNibble(ref ExtensionLimit, vThreat, 1);
+    setNibble(ref ExtensionLimit, vSingular, 1);
 #endif
   }
 
@@ -140,7 +140,7 @@ partial class GameState {
   private void newCXPMemo(UInt32 uLength) {
     if (CXPMemo == null)
 #if MaterialBalance
-        CXPMemo = new Memo2<Composition2>("CX2", uLength);
+      CXPMemo = new Memo2<Composition2>("CX2", uLength);
 #else
       CXPMemo = new Memo<Composition>("CXP", uLength);
 #endif
@@ -193,5 +193,5 @@ partial class GameState {
     for (var nVariation = 0; nVariation < nVariations; nVariation++)
       Variation[nVariation] = new Variation();
   }
-  #endregion
+  #endregion                            // Table Initializers
 }

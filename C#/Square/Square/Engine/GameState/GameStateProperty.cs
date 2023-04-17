@@ -19,9 +19,9 @@ using Cache;
 
 using CacheValue;
 
-using Command;                        // For SearchBound
+using Command;                          // For SearchBound
 
-using MoveOrder;                      // For Variation
+using MoveOrder;                        // For Variation
 
 using Resource;
 
@@ -88,11 +88,11 @@ partial class GameState {
   public Int64 RepetitionSearches;
   public Int64 RepetitionPlies;
 #if CountCapturedPiece
-    public Int64 CapturedPieceTotal;    // For Capture or Static Evaluation
+  public Int64 CapturedPieceTotal;      // For Capture or Static Evaluation
 #endif
   public Int64 NullMovePruneTotal;
   public Int64 NullMoveTotal;
-  public Int64 NodeTotal;             // IllegalMoves + LegalMoves + NullMoveTotal
+  public Int64 NodeTotal;               // IllegalMoves + LegalMoves + NullMoveTotal
   public Int64 IllegalMoves;
   public Int64 IllegalMovesQxnt;
   public Int64 LegalMoves;
@@ -108,14 +108,14 @@ partial class GameState {
 #endif
   public UInt64[] NodeDelta;
   public Double[] NodeDeltaLog;
-  #endregion
+  #endregion                            // Count Fields
 
   #region Lookup Tables
   public Tank<QuietPosition> QXPTank;
   public Tank<Transposition> XPTank;
   public Tank<PositionMove> XPMTank;
 #if MaterialBalance
-    public Memo2<Composition2> CXPMemo;
+  public Memo2<Composition2> CXPMemo;
 #else
   public Memo<Composition> CXPMemo;
 #endif
@@ -123,20 +123,20 @@ partial class GameState {
   public PlyDepth StartDepth;
   public Variation[] Variation;
   public Byte VariationCount;
-  public Byte MultiPVLength;          //[UCI]Option
-  public UInt16 ExpectedMovesToGo;    // Option
-  public Eval Contempt;               // Option
+  public Byte MultiPVLength;            //[UCI]Option
+  public UInt16 ExpectedMovesToGo;      // Option
+  public Eval Contempt;                 // Option
   public Boolean IsHeartbeat;
   public UInt16 HeartbeatMS;
   public UInt16 ExtensionLimit;
-  #endregion
+  #endregion                            // Lookup Tables
 
-  #region Static Field
+  #region Static Fields
   public static readonly SearchExtensions[] Extensions;
-  #endregion
+  #endregion                            // Static Fields
 
-  #region Primary Field
-  private Boolean disposed = false;   // IDisposable
+  #region Primary Fields
+  private Boolean disposed = false;     // IDisposable
   public SearchBound Bound;
 
   public Position? MovePosition;
@@ -145,21 +145,21 @@ partial class GameState {
   public PerfCase Case;
   public Eval EndgameValue;
 
-  public Boolean IsChess960;          // Used by AppendCastlingRights()
-  public Boolean IsAspiration;        // option
-  public Boolean IsFlip;              // option
-  public Boolean IsFutility;          // option
-  public Boolean IsNullPrune;         // option
-  public Boolean IsOccam;             // option
-  public Boolean IsPure;              // Write moves in PACN vs AN
-  public Boolean IsPonderEnabled;     //[UCI Option]For Time Control
-  public Boolean IsAnalyseMode;       //[UCI Option]
-  public Boolean IsShowingLine;       //[UCI Option]
-  public String? Opponent;            //[UCI Option]
+  public Boolean IsChess960;            // Used by AppendCastlingRights()
+  public Boolean IsAspiration;          // option
+  public Boolean IsFlip;                // option
+  public Boolean IsFutility;            // option
+  public Boolean IsNullPrune;           // option
+  public Boolean IsOccam;               // option
+  public Boolean IsPure;                // Write moves in PACN vs AN
+  public Boolean IsPonderEnabled;       //[UCI Option]For Time Control
+  public Boolean IsAnalyseMode;         //[UCI Option]
+  public Boolean IsShowingLine;         //[UCI Option]
+  public String? Opponent;              //[UCI Option]
   public static String? Language;
   public List<Move> BestMoves;
   public Random SeededRandom;
-  #endregion
+  #endregion                            // Primary Fields
 
   #region Properties
   public Ply MovePly {
@@ -185,7 +185,7 @@ partial class GameState {
       //
       return EngineTask != null && !EngineTask.IsCompleted;
 #else
-        return false;
+      return false;
 #endif
     }
   }
@@ -205,5 +205,5 @@ partial class GameState {
   public Int64 MoveTotalQxnt {
     get { return IllegalMovesQxnt + LegalMovesQxnt; }
   }
-  #endregion
+  #endregion                            // Properties
 }

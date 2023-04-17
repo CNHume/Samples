@@ -8,8 +8,8 @@
 //#define DebugHashPieces
 #define CompositionByValue
 //#define PawnPositionByValue
-#define InitFree                      //[Default]
-//#define InitHelp                      //[Test]
+#define InitFree                        //[Default]
+//#define InitHelp                        //[Test]
 //#define MaterialBalance
 //#define TestInsufficient
 
@@ -30,7 +30,7 @@ using CompositionCounter = UInt16;
 using Eval = Int16;
 using Hashcode = UInt64;
 using MemoHashcode = UInt32;
-using PieceHashcode = UInt16;         // 10 bits
+using PieceHashcode = UInt16;           // 10 bits
 using Plane = UInt64;
 
 partial class GameState {
@@ -47,67 +47,67 @@ partial class GameState {
   // https://www.chess.com/article/view/the-evaluation-of-material-imbalances-by-im-larry-kaufman
   //
 #if MaterialBalance
-    public Composition2 GetCX2(
-      Position position,
-      PieceHashcode wMemoHash,
-      CompositionCounter wPieceCounts,
-      BoardSide side) {
-      side.TestInsufficient();
+  public Composition2 GetCX2(
+    Position position,
+    PieceHashcode wMemoHash,
+    CompositionCounter wPieceCounts,
+    BoardSide side) {
+    side.TestInsufficient();
 
-      CXPMemo.Counts.GetReads++;
-      var found = CXPMemo[wMemoHash];
+    CXPMemo.Counts.GetReads++;
+    var found = CXPMemo[wMemoHash];
 
-      //[Note]SideFlags.Weight are used to determine a Match, i.e., Get Hit
-      var fsideWeight = side.FlagsSide & SideFlags.Weight;
-      var fsideFoundWeight = found.FlagsSide & SideFlags.Weight;
+    //[Note]SideFlags.Weight are used to determine a Match, i.e., Get Hit
+    var fsideWeight = side.FlagsSide & SideFlags.Weight;
+    var fsideFoundWeight = found.FlagsSide & SideFlags.Weight;
 #if CompositionByValue
-      var bDefault = (found.FlagsCV & Composition2.CVFlags.IsValid) == 0;
+    var bDefault = (found.FlagsCV & Composition2.CVFlags.IsValid) == 0;
 #else
-      var bDefault = found == default(Composition2);
+    var bDefault = found == default(Composition2);
 #endif
-      if (!bDefault &&
-          found.PieceCounts == wPieceCounts &&
-          fsideWeight == fsideFoundWeight) {
-        CXPMemo.Counts.GetHits++;       // Match. i.e., Get Hit
-        return found;
-      }
+    if (!bDefault &&
+        found.PieceCounts == wPieceCounts &&
+        fsideWeight == fsideFoundWeight) {
+      CXPMemo.Counts.GetHits++;         // Match. i.e., Get Hit
+      return found;
+    }
 
 #if CompositionByValue
-      if (bDefault) {
-        CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-      }
+    if (bDefault) {
+      CXPMemo.Counts.Added++;           // Non-Match Case: Add new Composition
+    }
 #if DebugHashPieces
-      else {
-        var sb = new StringBuilder();
-        //DisplayCurrent(nameof(GetCX2));
-        sb.AppendLine();
-        sb.Append("Old ");
-        sb.AppendPieceCounts(White, wPieceCounts);
-        sb.AppendLine();
-        sb.Append("New ");
-        sb.AppendPieceCounts(White, found.PieceCounts);
-        sb.AppendLine();
-        sb.AppendFormat($"Index = {CXPMemo.index(wMemoHash)}");
-        sb.AppendLine();
-        sb.FlushLine();
-      }
+    else {
+      var sb = new StringBuilder();
+      //DisplayCurrent(nameof(GetCX2));
+      sb.AppendLine();
+      sb.Append("Old ");
+      sb.AppendPieceCounts(White, wPieceCounts);
+      sb.AppendLine();
+      sb.Append("New ");
+      sb.AppendPieceCounts(White, found.PieceCounts);
+      sb.AppendLine();
+      sb.AppendFormat($"Index = {CXPMemo.index(wMemoHash)}");
+      sb.AppendLine();
+      sb.FlushLine();
+    }
 #endif
+    found = new Composition2(wPieceCounts, fsideWeight);
+    CXPMemo[wMemoHash] = found;
+    return found;
+#else                                   // CompositionByValue
+    if (bDefault) {
+      CXPMemo.Counts.Added++;           // Non-Match Case: Add new Composition
       found = new Composition2(wPieceCounts, fsideWeight);
       CXPMemo[wMemoHash] = found;
       return found;
-#else                                   // CompositionByValue
-      if (bDefault) {
-        CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-        found = new Composition2(wPieceCounts, fsideWeight);
-        CXPMemo[wMemoHash] = found;
-        return found;
-      }
-      else {
-        found.Recycle(wPieceCounts, fsideWeight);
-        return found;
-      }
-#endif
     }
+    else {
+      found.Recycle(wPieceCounts, fsideWeight);
+      return found;
+    }
+#endif                                  // CompositionByValue
+  }
 #else                                   // MaterialBalance
   public Composition GetCXP(
     Position position,
@@ -128,7 +128,7 @@ partial class GameState {
 #if CompositionByValue
     var bDefault = (found.FlagsCV & Composition.CVFlags.IsValid) == 0;
 #else
-      var bDefault = found == default(Composition);
+    var bDefault = found == default(Composition);
 #endif
     if (!bDefault) {
       var fBlackSideFoundWeight = found.BlackFlagsSide & SideFlags.Weight;
@@ -137,29 +137,29 @@ partial class GameState {
           found.WhiteCounts == wWhiteCounts &&
           fBlackSideWeight == fBlackSideFoundWeight &&
           fWhiteSideWeight == fWhiteSideFoundWeight) {
-        CXPMemo.Counts.GetHits++;     // Match. i.e., Get Hit
+        CXPMemo.Counts.GetHits++;       // Match. i.e., Get Hit
         return found;
       }
     }
 #if CompositionByValue
     if (bDefault) {
-      CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
+      CXPMemo.Counts.Added++;           // Non-Match Case: Add new Composition
     }
 #if DebugHashPieces
-      else {
-        var sb = new StringBuilder();
-        //DisplayCurrent(nameof(GetCXP));
-        sb.AppendLine();
-        sb.Append("Old ");
-        sb.AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts);
-        sb.AppendLine();
-        sb.Append("New ");
-        sb.AppendPieceCounts(blackSide, whiteSide, found.BlackCounts, found.WhiteCounts);
-        sb.AppendLine();
-        sb.AppendFormat($"Index = {uMemoHash}");
-        sb.AppendLine();
-        sb.FlushLine();
-      }
+    else {
+      var sb = new StringBuilder();
+      //DisplayCurrent(nameof(GetCXP));
+      sb.AppendLine();
+      sb.Append("Old ");
+      sb.AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts);
+      sb.AppendLine();
+      sb.Append("New ");
+      sb.AppendPieceCounts(blackSide, whiteSide, found.BlackCounts, found.WhiteCounts);
+      sb.AppendLine();
+      sb.AppendFormat($"Index = {uMemoHash}");
+      sb.AppendLine();
+      sb.FlushLine();
+    }
 #endif
     found = new Composition(
       wBlackCounts, wWhiteCounts,
@@ -167,20 +167,20 @@ partial class GameState {
     CXPMemo[uMemoHash] = found;
     return found;
 #else                                   // CompositionByValue
-      if (bDefault) {
-        CXPMemo.Counts.Added++;         // Non-Match Case: Add new Composition
-        found = new Composition(
-          wBlackCounts, wWhiteCounts,
-          fBlackSideWeight, fWhiteSideWeight);
-        CXPMemo[uMemoHash] = found;
-        return found;
-      }
-      else {
-        found.Recycle(
-          wBlackCounts, wWhiteCounts,
-          fBlackSideWeight, fWhiteSideWeight);
-        return found;
-      }
+    if (bDefault) {
+      CXPMemo.Counts.Added++;           // Non-Match Case: Add new Composition
+      found = new Composition(
+        wBlackCounts, wWhiteCounts,
+        fBlackSideWeight, fWhiteSideWeight);
+      CXPMemo[uMemoHash] = found;
+      return found;
+    }
+    else {
+      found.Recycle(
+        wBlackCounts, wWhiteCounts,
+        fBlackSideWeight, fWhiteSideWeight);
+      return found;
+    }
 #endif
   }
 #endif                                  // MaterialBalance
@@ -189,12 +189,12 @@ partial class GameState {
     var qHashPawn = position.HashPawn;
     var found = PXPMemo[qHashPawn];
 #if PawnPositionByValue
-      var bDefault = (found.BlackPRP & PRPFlags.IsValid) == 0;
+    var bDefault = (found.BlackPRP & PRPFlags.IsValid) == 0;
 #else
     var bDefault = found == default(PawnPosition);
 #endif
     if (!bDefault && found?.HashPawn == qHashPawn) {
-      PXPMemo.Counts.GetHits++;       // Match. i.e., Get Hit
+      PXPMemo.Counts.GetHits++;         // Match. i.e., Get Hit
       return found;
     }
 
@@ -209,17 +209,17 @@ partial class GameState {
     var uBlackCount = position.CountPawnFeatures(Black, out Plane qpBlackPassers, out PRPFlags fBlackPRP);
     var uWhiteCount = position.CountPawnFeatures(White, out Plane qpWhitePassers, out PRPFlags fWhitePRP);
 #if PawnPositionByValue
-      if (bDefault)
-        PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
+    if (bDefault)
+      PXPMemo.Counts.Added++;           // Non-Match Case: Add new PawnPosition
 
-      found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
-                               uBlackCount, uWhiteCount,
-                               qpBlackPassers, qpWhitePassers);
-      PXPMemo[qHashPawn] = found;
-      return found;
+    found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
+                             uBlackCount, uWhiteCount,
+                             qpBlackPassers, qpWhitePassers);
+    PXPMemo[qHashPawn] = found;
+    return found;
 #else                                   // PawnPositionByValue
     if (bDefault) {
-      PXPMemo.Counts.Added++;         // Non-Match Case: Add new PawnPosition
+      PXPMemo.Counts.Added++;           // Non-Match Case: Add new PawnPosition
       found = new PawnPosition(
         qHashPawn, fBlackPRP, fWhitePRP,
         uBlackCount, uWhiteCount,
@@ -234,7 +234,7 @@ partial class GameState {
         qpBlackPassers, qpWhitePassers);
       return found;
     }
-#endif
+#endif                                  // PawnPositionByValue
   }
-  #endregion
+  #endregion                            // Evaluation Methods
 }

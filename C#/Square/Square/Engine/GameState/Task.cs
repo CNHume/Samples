@@ -216,9 +216,9 @@ partial class GameState {
       FinishTask = EngineTask.ContinueWith<List<Move>?>(fun2);
     }
 #else
-      FinishTask = EngineTask = default;
-      fun(position);
-#endif
+    FinishTask = EngineTask = default;
+    fun(position);
+#endif                                  // UseTask
   }
 
   public async Task<Eval> Split(Func<Eval> fun) {
@@ -266,7 +266,7 @@ partial class GameState {
         Debug.Assert(CancelTimer != null, "Null CancelTimer Instance");
         //[Note]Timeout.Infinite declares that the CancelTimer should not restart!
         CancelTimer.Change(nTimeoutMS, Timeout.Infinite);
-#endif
+#endif                                  // UseTask
       }
     }
   }
@@ -289,7 +289,7 @@ partial class GameState {
       //[Note]The old CancellationToken must be recycled after cancel() has been called.
       //
       freeCancellationToken();
-#endif
+#endif                                  // UseTask
     }
     catch (AggregateException aex) {
       var ex = aex.Flatten();
@@ -309,7 +309,7 @@ partial class GameState {
   public void ListMovesFromRoot(Position position, Boolean bPure, Boolean bAbbreviate = true) {
     ListMovesFromParent(position, RootPosition, bPure, bAbbreviate);
   }
-  #endregion
+  #endregion                            // Task Management
 
   #region Heartbeat Methods
   //
@@ -372,7 +372,7 @@ partial class GameState {
         CancellationToken.ThrowIfCancellationRequested();
       }
     }
-#endif
+#endif                                  // UseTask
   }
 
   private CancellationToken getCancellationToken() {
@@ -384,7 +384,7 @@ partial class GameState {
 #if UseTask
     if (CancellationTokenSource != null)
       CancellationTokenSource.Cancel();
-#endif
+#endif                                  // UseTask
   }
 
   //
@@ -417,5 +417,5 @@ partial class GameState {
       pollSearchTime(position, qTotal);
     }
   }
-  #endregion
+  #endregion                            // Heartbeat Methods
 }

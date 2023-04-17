@@ -19,7 +19,7 @@ using System.Runtime.CompilerServices;
 
 namespace Engine;
 
-using Cache;                          // For ProbeCounter
+using Cache;                            // For ProbeCounter
 
 using Exceptions;
 
@@ -40,7 +40,7 @@ partial class GameState {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int64 AtomicIncrement(ref Int64 location) {
 #if AtomicMethods
-      return Interlocked.Increment(ref location);
+    return Interlocked.Increment(ref location);
 #else
     return ++location;
 #endif
@@ -49,7 +49,7 @@ partial class GameState {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int64 AtomicAdd(ref Int64 location, Int64 value) {
 #if AtomicMethods
-      return Interlocked.Add(ref location, value);
+    return Interlocked.Add(ref location, value);
 #else
     return location += value;
 #endif
@@ -181,7 +181,7 @@ partial class GameState {
     LogInfo(Level.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
     if (MoveTotal != 0) {
-      if (MoveTotalQxnt != 0) {       // Qxnt Moves do not occur in SearchMode.Perft
+      if (MoveTotalQxnt != 0) {         // Qxnt Moves do not occur in SearchMode.Perft
         var dQxntPercent = 100.0 * MoveTotalQxnt / MoveTotal;
         LogInfo(Level.data,
                 $"Qxnt Moves = {MoveTotalQxnt:n0}; Move Total = {MoveTotal:n0}; Qxnt Moves/Move Total = {dQxntPercent:n2}%");
@@ -192,13 +192,13 @@ partial class GameState {
               $"Illegal Moves = {IllegalMoveTotal:n0}; Illegal Moves/Move Total = {dIllegalPercent:n2}%");
     }
 #if CountCapturedPiece
-      if (PseudoMoveTotal == 0)
-        LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieceTotal:n0}");
-      else {
-        var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
-        LogInfo(Level.data,
-                $"getPieceIndex() Calls = {CapturedPieceTotal:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
-      }
+    if (PseudoMoveTotal == 0)
+      LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieceTotal:n0}");
+    else {
+      var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
+      LogInfo(Level.data,
+              $"getPieceIndex() Calls = {CapturedPieceTotal:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
+    }
 #endif
   }
 
@@ -220,7 +220,7 @@ partial class GameState {
 #if GraphPVDouble
       LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
-        LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
+      LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
     }
   }
@@ -245,7 +245,7 @@ partial class GameState {
 #if GraphEarlyMove
       LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
-        LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
+      LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
     }
   }
@@ -316,8 +316,7 @@ partial class GameState {
 
   [Conditional("CountCXP")]
   private void displayCXP() {
-    if (CXPMemo == null)
-      return;
+    if (CXPMemo == null) return;
 
     var counts = CXPMemo.Counts;
     if (counts != default(SimpleCounter)) {
@@ -329,8 +328,7 @@ partial class GameState {
 
   [Conditional("CountPXP")]
   private void displayPXP() {
-    if (PXPMemo == null)
-      return;
+    if (PXPMemo == null) return;
 
     var counts = PXPMemo.Counts;
     if (counts != default(SimpleCounter)) {
@@ -342,8 +340,7 @@ partial class GameState {
 
   [Conditional("CountQXP")]
   private void displayQXP() {
-    if (QXPTank == null)
-      return;                         //[Safe]
+    if (QXPTank == null) return;        //[Safe]
 
     var counts = QXPTank.Counts;
     LogInfo(Level.data);
@@ -355,8 +352,7 @@ partial class GameState {
 
   [Conditional("CountXP")]
   private void displayXP() {
-    if (XPTank == null)
-      return;                         //[Safe]
+    if (XPTank == null) return;         //[Safe]
 
     var counts = XPTank.Counts;
     LogInfo(Level.data);
@@ -376,8 +372,7 @@ partial class GameState {
 
   [Conditional("CountXPM")]
   private void displayXPM() {
-    if (XPMTank == null)
-      return;                         //[Safe]
+    if (XPMTank == null) return;        //[Safe]
 
     var counts = XPMTank.Counts;
     LogInfo(Level.data);
@@ -446,30 +441,30 @@ partial class GameState {
 
   public UInt64 Predict(PlyDepth vPliesStart, PlyDepth vPlies, UInt64 qNodes) {
     const Int32 nModelSize = 3;
-    var qPredicted = 0UL;             // Return Value
+    var qPredicted = 0UL;               // Return Value
 
     //
     // Maintain the total # of moves searched at each ply: starting
     // with vPliesStart and continuing through the current vPlies.
     //
-    NodeDelta[vPlies] = qNodes;       //[Test]
+    NodeDelta[vPlies] = qNodes;         //[Test]
     NodeDeltaLog[vPlies] = Log((Double)qNodes);
 #if DualModel
-      var nPliesPrior = vPlies - 2 * (nModelSize - 1);
+    var nPliesPrior = vPlies - 2 * (nModelSize - 1);
 #else
     var nPliesPrior = vPlies - (nModelSize - 1);
 #endif
     var nPliesModel = nPliesPrior;
     if (nPliesModel < vPliesStart) {
 #if DualModel
-        var nSamples2 = vPlies - vPliesStart & -2;
-        nPliesModel = vPlies - nSamples2;
+      var nSamples2 = vPlies - vPliesStart & -2;
+      nPliesModel = vPlies - nSamples2;
 #else
       nPliesModel = vPliesStart;
 #endif
     }
 #if DualModel
-      var nCount = (vPlies - nPliesModel) / 2 + 1;
+    var nCount = (vPlies - nPliesModel) / 2 + 1;
 #else
     var nCount = vPlies - nPliesModel + 1;
 #endif
@@ -485,14 +480,14 @@ partial class GameState {
       // Avg = Sum / n = (2 * start + delta * (n - 1)) / 2
       //
 #if DualModel
-        var dXMean = (Double)(nPliesModel + nCount1);
+      var dXMean = (Double)(nPliesModel + nCount1);
 #else
       var dXMean = (Double)(2 * nPliesModel + nCount1) / 2;
 #endif
       var dYSum = 0.0;
       for (var n = 0; n < nCount; n++) {
 #if DualModel
-          var nPlies = 2 * n + nPliesModel;
+        var nPlies = 2 * n + nPliesModel;
 #else
         var nPlies = n + nPliesModel;
 #endif
@@ -506,7 +501,7 @@ partial class GameState {
 
       for (var n = 0; n < nCount; n++) {
 #if DualModel
-          var nPlies = 2 * n + nPliesModel;
+        var nPlies = 2 * n + nPliesModel;
 #else
         var nPlies = n + nPliesModel;
 #endif
@@ -531,25 +526,25 @@ partial class GameState {
       var dPredicted = Exp(dPredictedLog);
       qPredicted = (UInt64)(dPredicted + 0.5);
 #if TestRegression
-        for (var n = 0; n < nCount; n++) {
+      for (var n = 0; n < nCount; n++) {
 #if DualModel
-          var nPlies = 2 * n + nPliesModel;
+        var nPlies = 2 * n + nPliesModel;
 #else
-          var nPlies = n + nPliesModel;
+        var nPlies = n + nPliesModel;
 #endif
-          var dModelLog = dSlope * (nPlies - dXMean) + dYMean;
-          var dModel = Exp(dModelLog);
-          var qModel = (UInt64)(dModel + 0.5);
-          var qActual = NodeDelta[nPlies];
-          var dError = dModel / qActual - 1;
+        var dModelLog = dSlope * (nPlies - dXMean) + dYMean;
+        var dModel = Exp(dModelLog);
+        var qModel = (UInt64)(dModel + 0.5);
+        var qActual = NodeDelta[nPlies];
+        var dError = dModel / qActual - 1;
 
-          LogInfo(Level.data,
-                  $"Modelled {qModel:n0} for {qActual:n0} Actual Moves, Relative Error = {100 * dError:n1}%");
-        }
-#endif
+        LogInfo(Level.data,
+                $"Modelled {qModel:n0} for {qActual:n0} Actual Moves, Relative Error = {100 * dError:n1}%");
+      }
+#endif                                  // TestRegression
     }
 
     return qPredicted;
   }
-  #endregion
+  #endregion                            // Methods
 }
