@@ -9,7 +9,7 @@
 
 namespace Engine;
 
-using Command;                        // For Scanner, Token
+using Command;                          // For Scanner, Token
 
 using Exceptions;
 
@@ -21,7 +21,7 @@ partial class Position : Board {
   public Position ParsePACNMakeMoves(Parser parser) {
     if (parser.SpaceToken.Accept() &&
         parser.PACNMoveToken.Accept()) {
-      var child = Push();             // See UCI.unmove()
+      var child = Push();               // See UCI.unmove()
       try {
         var sMove = parser.PACNMoveToken.Value;
         var move = ParsePACNMove(sMove);
@@ -82,5 +82,5 @@ partial class Position : Board {
     if (searchMoves.Count == 0)
       throw new ParseException("No Search Move specified");
   }
-  #endregion
+  #endregion                            // Parse Move Methods
 }

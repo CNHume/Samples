@@ -255,7 +255,7 @@ partial class Position : Board {
 
     for (var n = 0; n <= nEmpty; n++) {
       if ((qp & qpPiece) != 0)
-        nEmpty++;                     // Extend the search
+        nEmpty++;                       // Extend the search
 
       if (bReflect)
         qp >>= 1;
@@ -287,7 +287,7 @@ partial class Position : Board {
 
     for (; n <= nEmpty; n += nBy) {
       if ((qp & qpPiece) != 0)
-        nEmpty += nBy;                // Extend the search
+        nEmpty += nBy;                  // Extend the search
 
       if (bReflect)
         qp >>= nBy;
@@ -308,7 +308,7 @@ partial class Position : Board {
       $"BishopLite: {nBishopLite}, " +
       $"BishopDark: {nBishopDark})");
 #endif
-    TestBinomials();                  //[Conditional]
+    TestBinomials();                    //[Conditional]
 
     // Position.Clear() is performed by Push() in NewGame()
 
@@ -393,7 +393,7 @@ partial class Position : Board {
     //
     var rookFromSquares = new List<Int32>(4);
     setupCastling(nRookFileOOO, nRookFileOO, rookFromSquares);
-    #endregion                        // Grant Castling Rights
+    #endregion                          // Grant Castling Rights
 
     #region Init Root Position
     var sEnPassant = Empty;
@@ -403,7 +403,7 @@ partial class Position : Board {
     Setup(
       bWhiteMovesFirst, rookFromSquares,
       sEnPassant, sHalfMoveCount, sFullMoveNumber);
-    #endregion                        // Init Position
+    #endregion                          // Init Position
   }
 
   private void setupPawns() {
@@ -417,7 +417,7 @@ partial class Position : Board {
   }
 
   private void setupPiece(Byte vPiece, Int32 nFile) {
-    if (nFile < nFiles) {            //[Safe]
+    if (nFile < nFiles) {               //[Safe]
       foreach (var side in Side) {
         var nTo = sqr(nFile, side.Parameter.PieceRank);
         side.PlacePiece(vPiece, nTo);
@@ -467,5 +467,5 @@ partial class Position : Board {
       LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
 #endif
   }
-  #endregion                          // Position Serialization Methods
+  #endregion                            // Position Serialization Methods
 }

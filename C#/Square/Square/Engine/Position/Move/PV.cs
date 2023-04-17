@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Engine;
 
-using Command;                        // For UCI.IsDebug
+using Command;                          // For UCI.IsDebug
 
 using static Logging.Logger;
 
@@ -53,7 +53,7 @@ partial class Position : Board {
   }
 
   private Move abbreviate(Move move) {
-    if (IsNullMove(move) || !IsDefined(move)) //[Safe]
+    if (IsNullMove(move) || !IsDefined(move))   //[Safe]
       return move;
 
     unpack1(move, out Int32 nFrom, out Int32 nTo,
@@ -73,7 +73,7 @@ partial class Position : Board {
     // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
     //
     if (vPiece == vP6 && bCapture)
-      move |= Move.HideRank;          // Pawns capture from neighboring Files along one Rank.
+      move |= Move.HideRank;            // Pawns capture from neighboring Files along one Rank.
     else if (IsOneOrNone(qpAtxTo))
       move |= Move.HideFrom;
     else {
@@ -146,7 +146,7 @@ partial class Position : Board {
 
       lineMoves.Add(move);
 
-      var bPonder = line.Count > 0;   //!bChildFinal
+      var bPonder = line.Count > 0;     //!bChildFinal
       if (bPonder)
         lineMoves.AddRange(line);
 
@@ -162,14 +162,14 @@ partial class Position : Board {
           .FlushLine();
       }
 #if DebugPlace
-        if (UCI.IsDebug) {
-          var sb = new StringBuilder();
-          var sGrow = bGrow ? "Placed" : "Replaced";
-          sb.AppendFormat($"{sGrow} vn[{nPlace}]");
-          LogInfo(Level.note, sb.ToString());
-          sb.Clear();
-          State.MovePosition.writePV(sb, nPlace, bWTM);
-        }
+      if (UCI.IsDebug) {
+        var sb = new StringBuilder();
+        var sGrow = bGrow ? "Placed" : "Replaced";
+        sb.AppendFormat($"{sGrow} vn[{nPlace}]");
+        LogInfo(Level.note, sb.ToString());
+        sb.Clear();
+        State.MovePosition.writePV(sb, nPlace, bWTM);
+      }
 #endif
     }
 
@@ -183,13 +183,13 @@ partial class Position : Board {
     //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
     probeMove(mAlpha, mBeta, out Move moveFound);
     // moveFound not always defined for EvalType.Upper [Fail Low]
-    if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
+    if (IsDefinite(moveFound)) {        //[Safe]Also prevent unexpected EmptyMove
       var moveNoted = moveFound;
-      if (!State.IsPure) {            // Standard Algebraic Notation (AN) supports abbreviation
+      if (!State.IsPure) {              // Standard Algebraic Notation (AN) supports abbreviation
 #if AbbreviateLookup
-          moveNoted = abbreviate(moveNoted);
+        moveNoted = abbreviate(moveNoted);
 #else
-        moveNoted &= ~Move.HideFrom;  // Suppress abbreviation to indicate moves recovered by probeMove()
+        moveNoted &= ~Move.HideFrom;    // Suppress abbreviation to indicate moves recovered by probeMove()
 #endif
       }
 #if DebugMove
@@ -197,11 +197,11 @@ partial class Position : Board {
       //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
-        var bWTM = WTM();
-        var bWhiteMove = moveNoted.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(lookupPV)}]");
-        }
+      var bWTM = WTM();
+      var bWhiteMove = moveNoted.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(lookupPV)}]");
+      }
 #endif
       moves.Add(moveNoted);
 
@@ -212,7 +212,7 @@ partial class Position : Board {
       if (IsTrace())
         DisplayCurrent(nameof(lookupPV));
 #endif
-      SetDraw50();                    // Mark Draw50 after having made the move
+      SetDraw50();                      // Mark Draw50 after having made the move
 
       //[Note]If Draw3 is set, this lookupPV() recursion must terminate!
       if (!IsDraw()) {
@@ -220,13 +220,13 @@ partial class Position : Board {
         // Recursion vs iteration links each Position to its parent;
         // and allows findRepetition() to operate correctly:
         //
-        var child = Push();           // Push Position to make the moves
+        var child = Push();             // Push Position to make the moves
         try {
-          child.resetMove();          // Usually called via [null|try]Move()
+          child.resetMove();            // Usually called via [null|try]Move()
           child.lookupPV((Eval)(-mBeta), (Eval)(-mAlpha), moves);
         }
         finally {
-          Pop(ref child);             // Pop Position
+          Pop(ref child);               // Pop Position
         }
       }
     }
@@ -245,18 +245,18 @@ partial class Position : Board {
         moveNoted = Move.NullMove;
       }
 
-      if (!State.IsPure)              // Standard Algebraic Notation (AN) supports abbreviation
+      if (!State.IsPure)                // Standard Algebraic Notation (AN) supports abbreviation
         moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
       unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
       //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
-        var bWTM = WTM();
-        var bWhiteMove = moveNoted.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(AbbreviateRefresh)}]");
-        }
+      var bWTM = WTM();
+      var bWhiteMove = moveNoted.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(AbbreviateRefresh)}]");
+      }
 #endif
       const EvalType et = EvalType.Exact;
       if (moveNoted.Has(Move.Qxnt) || nDepth < 0)
@@ -271,26 +271,26 @@ partial class Position : Board {
       if (IsTrace())
         DisplayCurrent(nameof(AbbreviateRefresh));
 #endif
-      SetDraw50();                    // Mark Draw50 after having made the move
+      SetDraw50();                      // Mark Draw50 after having made the move
 
       //
       // Recursion vs iteration links each Position to its parent;
       // and allows findRepetition() to operate correctly:
       //
-      var child = Push();             // Push Position to make the moves
+      var child = Push();               // Push Position to make the moves
       try {
-        child.resetMove();            // Usually called via [null|try]Move()
+        child.resetMove();              // Usually called via [null|try]Move()
         child.AbbreviateRefresh(moves, nMove + 1, nDepth - 1, (Eval)(-mValue));
       }
       finally {
-        Pop(ref child);               // Pop Position
+        Pop(ref child);                 // Pop Position
       }
     }
   }
 
   [Conditional("RefreshPV")]
   private void refreshPV(Depth wDepth) {
-    var child = Push();               // Push Position to make the moves
+    var child = Push();                 // Push Position to make the moves
     try {
       var bWTM = WTM();
       for (var nLine = 0; nLine < State.VariationCount; nLine++) {
@@ -298,16 +298,16 @@ partial class Position : Board {
         var vn = State.Variation[nVInverse];
         var mValue = ReflectValue(bWTM, vn.Value);
         if (vn.Moves != null) {
-          child.resetMove();          // Usually called via [null|try]Move()
+          child.resetMove();            // Usually called via [null|try]Move()
           child.AbbreviateRefresh(vn.Moves, 0, wDepth, mValue);
         }
       }
     }
     finally {
-      Pop(ref child);                 // Pop Position
+      Pop(ref child);                   // Pop Position
     }
   }
-  #endregion
+  #endregion                            // MultiPV Support
 
   #region Writer Methods
   private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
@@ -326,8 +326,8 @@ partial class Position : Board {
 
   public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
     var moves = new List<Move>();
-    for (var position = this;         // toPosition
-         position is not null &&      //[Safe]
+    for (var position = this;           // toPosition
+         position is not null &&        //[Safe]
          !ReferenceEquals(position, parent);
          position = position.Parent) {
       var move = position.CurrentMove;
@@ -350,5 +350,5 @@ partial class Position : Board {
     var bAbbreviate = false;
     State.ListMovesFromRoot(this, State.IsPure, bAbbreviate);
   }
-  #endregion
+  #endregion                            // Writer Methods
 }

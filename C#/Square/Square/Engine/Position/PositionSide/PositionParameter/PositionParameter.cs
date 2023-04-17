@@ -30,7 +30,7 @@ partial class Position : Board {
         Help = new Plane[nSquares];
 #endif
       }
-      #endregion                      // Constructors
+      #endregion                        // Constructors
 
       #region Pawn Feature Fields
       public readonly Plane[] KingToMoveLoss;
@@ -41,7 +41,7 @@ partial class Position : Board {
 #if TestInitFree || InitHelp || !InitFree
       public readonly Plane[] Help;
 #endif
-      #endregion                      // Pawn Feature Fields
-    }                                 // PositionParameter
-  }                                   // PositionSide
-}                                     // Position
+      #endregion                        // Pawn Feature Fields
+    }                                   // PositionParameter
+  }                                     // PositionSide
+}                                       // Position

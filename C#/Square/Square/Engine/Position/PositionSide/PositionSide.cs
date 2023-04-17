@@ -22,7 +22,7 @@ partial class Position : Board {
     public PositionSide(Position position, PositionParameter positionParameter) :
       base(position, positionParameter) {
     }
-    #endregion                        // Constructors
+    #endregion                          // Constructors
 
     #region Methods
     #region Pawn Move Generators
@@ -58,9 +58,9 @@ partial class Position : Board {
       var qpAdv1From = ShiftR(qpAdvance1 & qpTo, Parameter.PawnStep);
       var qpAdv2From = ShiftR(qpAdvance2 & qpTo, 2 * Parameter.PawnStep);
 #if TestPawnAdvances
-        LogLine("Pawn Advance:\n");
-        WriteOrth(qpAdvance1 | qpAdvance2);
-        LogLine();
+      LogLine("Pawn Advance:\n");
+      WriteOrth(qpAdvance1 | qpAdvance2);
+      LogLine();
 #endif
       while (qpAdv1From != 0) {
         var nFrom = RemoveLo(ref qpAdv1From);
@@ -89,7 +89,7 @@ partial class Position : Board {
         Position.AddPawnMove(nFrom, nTo, true, true);
       }
     }
-    #endregion                        // Pawn Move Generators
-    #endregion                        // Methods
-  }                                   // PositionSide
-}                                     // Position
+    #endregion                          // Pawn Move Generators
+    #endregion                          // Methods
+  }                                     // PositionSide
+}                                       // Position
