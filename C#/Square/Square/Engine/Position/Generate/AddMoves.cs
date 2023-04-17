@@ -41,7 +41,7 @@ partial class Position : Board {
 
     if (CanOO()) {
 #if DebugMoveColor
-        PseudoCastles.Add(Move.WTM | rule.OO);
+      PseudoCastles.Add(Move.WTM | rule.OO);
 #else
       PseudoCastles.Add(rule.OO);
 #endif
@@ -49,25 +49,25 @@ partial class Position : Board {
 
     if (CanOOO()) {
 #if DebugMoveColor
-        PseudoCastles.Add(Move.WTM | rule.OOO);
+      PseudoCastles.Add(Move.WTM | rule.OOO);
 #else
       PseudoCastles.Add(rule.OOO);
 #endif
     }
   }
-  #endregion                          // Castling Moves
+  #endregion                            // Castling Moves
 
   #region Pawn Moves
   public void AddPawnCapture(
     Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote, Boolean bEnPassant) {
 #if DebugSquares
-      Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
-      Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
+    Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
+    Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var capture = bEnPassant ? Piece.EP : Piece.Capture;
     var move = CaptureMove(capture) | PawnMove | FromToMove(nFrom, nTo);
 #if DebugMoveColor
-      if (WTM()) move |= Move.WTM;
+    if (WTM()) move |= Move.WTM;
 #endif
     if (bPromote)
       foreach (var p in Promotions) {
@@ -77,7 +77,7 @@ partial class Position : Board {
       }
     else if (bEnPassant) {
 #if DebugSquares
-        Debug.Assert(getPieceIndex(nTo) == vPieceNull, "Passed Square not Empty");
+      Debug.Assert(getPieceIndex(nTo) == vPieceNull, "Passed Square not Empty");
 #endif
       PseudoEPCapture.Add(move);
     }
@@ -90,12 +90,12 @@ partial class Position : Board {
   public void AddPawnMove(
     Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote) {
 #if DebugSquares
-      Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
-      Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
+    Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
+    Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var move = PawnMove | FromToMove(nFrom, nTo);
 #if DebugMoveColor
-      if (WTM()) move |= Move.WTM;
+    if (WTM()) move |= Move.WTM;
 #endif
     if (bPromote)
       foreach (var p in Promotions) {
@@ -107,19 +107,19 @@ partial class Position : Board {
       moves.Add(move);
     }
   }
-  #endregion                          // Pawn Moves
+  #endregion                            // Pawn Moves
 
   #region Piece Moves
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void addPieceCaptures(
     List<Move> aboveCaptures, List<Move> belowCaptures, Move moveFrom, Plane qpMoveTo) {
     var parameter = Friend.Parameter;
-    qpMoveTo &= RankPiece;            // Find Captures
+    qpMoveTo &= RankPiece;              // Find Captures
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = PieceCapture | ToMove(nTo) | moveFrom;
 #if DebugMoveColor
-        if (WTM()) move |= Move.WTM;
+      if (WTM()) move |= Move.WTM;
 #endif
       var moves = parameter.IsAbove(nTo) ? aboveCaptures : belowCaptures;
       moves.Add(move);
@@ -130,12 +130,12 @@ partial class Position : Board {
   private void addPieceMoves(
     List<Move> aboveMoves, List<Move> belowMoves, Move moveFrom, Plane qpMoveTo) {
     var parameter = Friend.Parameter;
-    qpMoveTo &= ~RankPiece;           // Find Moves
+    qpMoveTo &= ~RankPiece;             // Find Moves
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = ToMove(nTo) | moveFrom;
 #if DebugMoveColor
-        if (WTM()) move |= Move.WTM;
+      if (WTM()) move |= Move.WTM;
 #endif
       var moves = parameter.IsAbove(nTo) ? aboveMoves : belowMoves;
       moves.Add(move);
@@ -146,7 +146,7 @@ partial class Position : Board {
 #if UnshadowRay2
   private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
-    private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
+  private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
 #endif
     // Each side has one King
     var moveFrom = KingMove | FromMove(vKingPos);
@@ -173,7 +173,7 @@ partial class Position : Board {
 #if UnshadowRay2
   private void addKingCaptures(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
-    private void addKingCaptures(Plane qpTo, Byte vKingPos) {
+  private void addKingCaptures(Plane qpTo, Byte vKingPos) {
 #endif
     // Each side has one King
     var moveFrom = KingMove | FromMove(vKingPos);
@@ -287,11 +287,11 @@ partial class Position : Board {
   //[Time]Called by performTests()
   //~600 KHz, ~900 KHz sans List<Move>.Add()
   private void addPieceCapturesAndMoves2(Plane qpTo) {
-    addKnightCapturesAndMoves(qpTo);  //~1670 KHz
-    addBishopCapturesAndMoves(qpTo);  //~1940 KHz
-    addRookCapturesAndMoves(qpTo);    //~1700 KHz
-    addQueenCapturesAndMoves(qpTo);   //~1050 KHz
-                                      //~400 KHz
+    addKnightCapturesAndMoves(qpTo);    //~1670 KHz
+    addBishopCapturesAndMoves(qpTo);    //~1940 KHz
+    addRookCapturesAndMoves(qpTo);      //~1700 KHz
+    addQueenCapturesAndMoves(qpTo);     //~1050 KHz
+                                        //~400 KHz
   }
 
   // Used by generate()
@@ -309,6 +309,6 @@ partial class Position : Board {
     addRookCaptures(qpTo);
     addQueenCaptures(qpTo);
   }
-  #endregion                          // Piece Moves
-  #endregion                          // Methods
+  #endregion                            // Piece Moves
+  #endregion                            // Methods
 }

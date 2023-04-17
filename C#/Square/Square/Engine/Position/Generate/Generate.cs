@@ -48,7 +48,7 @@ partial class Position : Board {
   //
   //[Warning]Duplicate Moves can result in a number of strange, difficult to debug side-effects.
   //
-  private void clearPseudoMoveLists(List<Move> moves, Boolean bSwap) {    // ~32 MHz
+  private void clearPseudoMoveLists(List<Move> moves, Boolean bSwap) {  // ~32 MHz
     moves.Clear();
     clearPseudoCaptures();
     clearPseudoMoves();
@@ -66,7 +66,7 @@ partial class Position : Board {
       PseudoGoodCaptures.Clear();
     }
 #if !UseMoveSort
-      SiftedMoves.Clear();              // See sortMoves()
+    SiftedMoves.Clear();              // See sortMoves()
 #endif
   }
 
@@ -90,12 +90,12 @@ partial class Position : Board {
 
     PseudoQueenPromotionCapture.Clear();
     PseudoUnderPromotionCapture.Clear();
-    //PseudoEPCapture.Clear();        // Not needed for Swaps
+    //PseudoEPCapture.Clear();            // Not needed for Swaps
 
     PseudoBadCaptures.Clear();
     PseudoGoodCaptures.Clear();
   }
-  #endregion                          // Clear Pseudo Moves
+  #endregion                            // Clear Pseudo Moves
 
   #region Search Move Generators
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -143,19 +143,19 @@ partial class Position : Board {
 
         Friend.AddPawnCaptures(includeEPTarget(qpChx));
         Friend.AddPawnMoves(this, qpRay);
-      }                               // bSingleCheck
+      }                                 // bSingleCheck
     }
-    else {                            //!bInCheck
+    else {                              //!bInCheck
       addPieceCapturesAndMoves(~Friend.Piece);
       Friend.AddPawnCaptures(includeEPTarget(Foe.Piece));
       Friend.AddPawnMoves(this, ~RankPiece);
 
       addCastles();
-    }                                 //!bInCheck
+    }                                   //!bInCheck
 #if UnshadowRay2
     addKingCapturesAndMoves(~Friend.Piece, vKingPos, bRayCheck);
 #else
-      addKingCapturesAndMoves(~Friend.Piece, vKingPos);
+    addKingCapturesAndMoves(~Friend.Piece, vKingPos);
 #endif
     if (bSwap && !bInCheck)
       addPseudoMovesGood(moves);
@@ -198,18 +198,18 @@ partial class Position : Board {
           Friend.AddPawnCaptures(includeEPTarget(qpChx));
           Friend.AddPromotionMoves(qpRay);
         }
-      }                               // bSingleCheck
-    }                                 //!bInCheck
+      }                                 // bSingleCheck
+    }                                   //!bInCheck
     else {
       addPieceCaptures(Foe.Piece);
       Friend.AddPawnCaptures(includeEPTarget(Foe.Piece));
       Friend.AddPromotionMoves(~RankPiece);
-    }                                 //!bInCheck
+    }                                   //!bInCheck
 #if UnshadowRay2
     addKingCaptures(Foe.Piece, vKingPos, bRayCheck);
 #else
-      var bWTM = WTM();
-      addKingCaptures(Foe.Piece, vKingPos, bWTM);
+    var bWTM = WTM();
+    addKingCaptures(Foe.Piece, vKingPos, bWTM);
 #endif
     addPseudoMaterialMoves(moves);
     return State.IncPseudoMoveTotal(moves.Count);
@@ -222,7 +222,7 @@ partial class Position : Board {
     var vKingPos = Friend.GetKingPos();
     var bInCheck = InCheck();
 
-    clearPseudoSwapLists(moves);      // ~32 MHz
+    clearPseudoSwapLists(moves);        // ~32 MHz
 #if UnshadowRay2
     var bRayCheck = false;
 #endif
@@ -240,17 +240,17 @@ partial class Position : Board {
           addPieceCaptures(qpFoe);
           Friend.AddPawnCaptures(qpFoe);
         }
-      }                               // bSingleCheck
-    }                                 //!bInCheck
+      }                                 // bSingleCheck
+    }                                   //!bInCheck
     else {
       var qpFoe = qpTo & ~Friend.Piece;
       addPieceCaptures(qpFoe);
       Friend.AddPawnCaptures(qpFoe);
-    }                                 //!bInCheck
+    }                                   //!bInCheck
 #if UnshadowRay2
     addKingCaptures(qpTo & ~Friend.Piece, vKingPos, bRayCheck);
 #else
-      addKingCaptures(qpTo & ~Friend.Piece, vKingPos);
+    addKingCaptures(qpTo & ~Friend.Piece, vKingPos);
 #endif
     addPseudoSwaps(moves);
     return State.IncPseudoMoveTotal(moves.Count);
@@ -269,7 +269,7 @@ partial class Position : Board {
       case MoveType.PawnAboveCapture:
         moves.AddRange(PseudoQueenPromotionCapture);
         moves.AddRange(PseudoUnderPromotionCapture);
-        moves.AddRange(PseudoEPCapture);              //[Note]Legality is assessed via tryMoves()
+        moves.AddRange(PseudoEPCapture);        //[Note]Legality is assessed via tryMoves()
         moves.AddRange(PseudoPawnAboveCapture);
         break;
       case MoveType.PawnBelowCapture:
@@ -330,14 +330,14 @@ partial class Position : Board {
     //expandMoveTypeOrdering();
     var captures = PseudoCaptures;
 
-    captures.AddRange(PseudoPawnAboveCapture);        // 2a
-    captures.AddRange(PseudoPawnBelowCapture);        // 2b
-    captures.AddRange(PseudoKnightCapture);           // 4
-    captures.AddRange(PseudoDiagAboveCapture);        // 3d
-    captures.AddRange(PseudoDiagBelowCapture);        // 5
-    captures.AddRange(PseudoOrthAboveCapture);        // 3r
-    captures.AddRange(PseudoOrthBelowCapture);        // 6
-    captures.AddRange(PseudoEPCapture);               //[Note]Legality is assessed via tryMoves()
+    captures.AddRange(PseudoPawnAboveCapture);      // 2a
+    captures.AddRange(PseudoPawnBelowCapture);      // 2b
+    captures.AddRange(PseudoKnightCapture);         // 4
+    captures.AddRange(PseudoDiagAboveCapture);      // 3d
+    captures.AddRange(PseudoDiagBelowCapture);      // 5
+    captures.AddRange(PseudoOrthAboveCapture);      // 3r
+    captures.AddRange(PseudoOrthBelowCapture);      // 6
+    captures.AddRange(PseudoEPCapture);             //[Note]Legality is assessed via tryMoves()
 
     sortSwaps(captures);
 
@@ -346,41 +346,43 @@ partial class Position : Board {
     // Piece Moves improved performance by a factor of three
     //
     // Establish Move Priorities:
-    //                                                // Best Cutoff Order
-    moves.AddRange(PseudoQueenPromotionCapture);      // 1A
-    moves.AddRange(PseudoQueenPromotion);             // 1B
-    moves.AddRange(PseudoUnderPromotionCapture);      // 1C
+    //                                              // Best Cutoff Order
+    moves.AddRange(PseudoQueenPromotionCapture);    // 1A
+    moves.AddRange(PseudoQueenPromotion);           // 1B
+    moves.AddRange(PseudoUnderPromotionCapture);    // 1C
 
-    moves.AddRange(PseudoGoodCaptures);               // 2-6 Good
+    moves.AddRange(PseudoGoodCaptures);             // 2-6 Good
 
-    moves.AddRange(PseudoDiagAboveMove);              // 9d
-    moves.AddRange(PseudoDiagBelowMove);              // 11
-    moves.AddRange(PseudoOrthAboveMove);              // 9r
-    moves.AddRange(PseudoOrthBelowMove);              // 12
-    moves.AddRange(PseudoKnightMove);                 // 10
-    moves.AddRange(PseudoKingCapture);                // 7
-    moves.AddRange(PseudoCastles);                    // 13
-    moves.AddRange(PseudoKingMove);                   // 14
-    moves.AddRange(PseudoPawnAboveMove);              // 15a
-    moves.AddRange(PseudoPawnBelowMove);              // 15b
-    moves.AddRange(PseudoUnderPromotion);             // 16
+    moves.AddRange(PseudoDiagAboveMove);            // 9d
+    moves.AddRange(PseudoDiagBelowMove);            // 11
+    moves.AddRange(PseudoOrthAboveMove);            // 9r
+    moves.AddRange(PseudoOrthBelowMove);            // 12
+    moves.AddRange(PseudoKnightMove);               // 10
+    moves.AddRange(PseudoKingCapture);              // 7
+    moves.AddRange(PseudoCastles);                  // 13
+    moves.AddRange(PseudoKingMove);                 // 14
+    moves.AddRange(PseudoPawnAboveMove);            // 15a
+    moves.AddRange(PseudoPawnBelowMove);            // 15b
+    moves.AddRange(PseudoUnderPromotion);           // 16
 
-    moves.AddRange(PseudoBadCaptures);                // 8B
+    moves.AddRange(PseudoBadCaptures);              // 8B
   }
 
   private void addPseudoSwaps(List<Move> moves) {
     //expandMoveTypeOrdering();
-    moves.AddRange(PseudoQueenPromotionCapture);      // 1A
-                                                      //moves.AddRange(PseudoUnderPromotionCapture);    // 1C Not needed for Swaps
-    moves.AddRange(PseudoPawnAboveCapture);           // 2a
-    moves.AddRange(PseudoPawnBelowCapture);           // 2b
-    moves.AddRange(PseudoKingCapture);                // 7
-    moves.AddRange(PseudoKnightCapture);              // 4
-    moves.AddRange(PseudoDiagAboveCapture);           // 5
-    moves.AddRange(PseudoDiagBelowCapture);           // 3d
-    moves.AddRange(PseudoOrthAboveCapture);           // 6
-    moves.AddRange(PseudoOrthBelowCapture);           // 3r
-                                                      //moves.AddRange(PseudoEPCapture);                // Not needed for Swaps
+    moves.AddRange(PseudoQueenPromotionCapture);    // 1A
+                                                    //moves.AddRange(PseudoUnderPromotionCapture);
+                                                    // 1C Not needed for Swaps
+    moves.AddRange(PseudoPawnAboveCapture);         // 2a
+    moves.AddRange(PseudoPawnBelowCapture);         // 2b
+    moves.AddRange(PseudoKingCapture);              // 7
+    moves.AddRange(PseudoKnightCapture);            // 4
+    moves.AddRange(PseudoDiagAboveCapture);         // 5
+    moves.AddRange(PseudoDiagBelowCapture);         // 3d
+    moves.AddRange(PseudoOrthAboveCapture);         // 6
+    moves.AddRange(PseudoOrthBelowCapture);         // 3r
+                                                    //moves.AddRange(PseudoEPCapture);
+                                                    // Not needed for Swaps
   }
 
   private void addPseudoMaterialMoves(List<Move> moves) {

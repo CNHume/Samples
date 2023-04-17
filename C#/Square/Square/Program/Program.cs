@@ -64,7 +64,7 @@ static class Program {
       }
       catch (ApplicationException ex) {
 #if StackTrace
-          LogInfo(Level.error, ex.ToString());
+        LogInfo(Level.error, ex.ToString());
 #else
         LogInfo(Level.error, ex.Message);
 #endif

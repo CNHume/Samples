@@ -111,7 +111,7 @@ static class Logger {
     if (level < LogLevel) return;
 
     if (IsNullOrEmpty(s))
-      LogLine();                      // Omitting level
+      LogLine();                        // Omitting level
     else {
       var sb = new StringBuilder(sInfo);
       sb.Append(cSpace);

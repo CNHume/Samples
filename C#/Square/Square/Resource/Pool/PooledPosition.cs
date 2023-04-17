@@ -35,7 +35,7 @@ class PooledPosition {
 
   private void Allocate(Int32 nAllocations) {
     for (var n = 0; n < nAllocations; n++)
-      Inactive.Push(new Position(State));     // Lazy<T> would defer invocation of initParameters()
+      Inactive.Push(new Position(State));       // Lazy<T> would defer invocation of initParameters()
   }
 
   public Position Push() {
@@ -60,7 +60,7 @@ class PooledPosition {
     if (ActivePeak < ++ActiveCount) {
       ActivePeak = ActiveCount;
 #if DebugPeak
-        DisplayActive();
+      DisplayActive();
 #endif
     }
   }
