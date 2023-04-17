@@ -22,12 +22,13 @@ using Plane = UInt64;
 
 partial class Position : Board {
   #region Constants
-  protected static Plane[] FileMask =
-    { qpFileA, qpFileB, qpFileC, qpFileD, qpFileE, qpFileF, qpFileG, qpFileH };
+  protected static Plane[] FileMask = {
+    qpFileA, qpFileB, qpFileC, qpFileD, qpFileE, qpFileF, qpFileG, qpFileH };
 
-  public enum PawnFeature : byte { Pawns, Passers, Divides, Isolani, Doubled, Awkward };
-  protected static Eval[] PawnFeatureWeight =
-  { mPawnWeight, mQuarterWeight, -mTenthWeight, -mTenthWeight, -mQuarterWeight, -mFifthWeight };
+  public enum PawnFeature : byte {
+    Pawns, Passers, Divides, Isolani, Doubled, Awkward };
+  protected static Eval[] PawnFeatureWeight = {
+    mPawnWeight, mQuarterWeight, -mTenthWeight, -mTenthWeight, -mQuarterWeight, -mFifthWeight };
 
   const Byte vPawns = (Byte)PawnFeature.Pawns;
   const Byte vPassers = (Byte)PawnFeature.Passers;
@@ -114,7 +115,7 @@ partial class Position : Board {
     var qpFriendPawnAtx = friend.PawnA1H8Atx | friend.PawnA8H1Atx;
     var qpFoePawnAtx = foe.PawnA1H8Atx | foe.PawnA8H1Atx;
 #if TestPawnFeatures
-      Display();
+    Display();
 #endif
     //
     // Outputs:
@@ -140,7 +141,7 @@ partial class Position : Board {
       vOccupied |= (Byte)bit(nFile);
       var qpFile = FileMask[nFile];
       var qpFilePawn = qpFile & qpFriendPawn;
-      qpFriendPawn &= ~qpFilePawn;    // Visit each occupied file only once
+      qpFriendPawn &= ~qpFilePawn;      // Visit each occupied file only once
 
       UInt32 uFilePawns = countFile(
         nSide, nFile, qpFile, qpFilePawn, qpFoePawn, qpFoePawnAtx, qpFriendPawnAtx,
@@ -176,25 +177,25 @@ partial class Position : Board {
     uFeatureCounts += uDoubled << vDoubled * nPerNibble;
     uFeatureCounts += uAwkward << vAwkward * nPerNibble;
 #if TestPawnFeatures
-      var nOffset = nSide == White ? 0 : PawnFeatures.Length;
+    var nOffset = nSide == White ? 0 : PawnFeatures.Length;
 
-      FeatureOrth[vPawns + nOffset] = qpPawns;
-      FeatureOrth[vPassers + nOffset] = qpPassers;
-      FeatureOrth[vDivides + nOffset] = vOccupied;
-      FeatureOrth[vIsolani + nOffset] = qpIsolani;
-      FeatureOrth[vDoubled + nOffset] = qpDoubled;
-      FeatureOrth[vAwkward + nOffset] = qpAwkward;
+    FeatureOrth[vPawns + nOffset] = qpPawns;
+    FeatureOrth[vPassers + nOffset] = qpPassers;
+    FeatureOrth[vDivides + nOffset] = vOccupied;
+    FeatureOrth[vIsolani + nOffset] = qpIsolani;
+    FeatureOrth[vDoubled + nOffset] = qpDoubled;
+    FeatureOrth[vAwkward + nOffset] = qpAwkward;
 
-      var uCounter = uFeatureCounts;
-      var sideName = Side[nSide].Parameter.SideName;
-      for (var n = 0; n < PawnFeatures.Length; n++, uCounter >>= nPerNibble) {
-        var uCount = nibble(uCounter);
-        LogLine($"{sideName} {(PawnFeature)n} = {uCount}");
-        LogLine();
-        WriteOrth(FeatureOrth[n + nOffset]);
-        LogLine();
-      }
-#endif
+    var uCounter = uFeatureCounts;
+    var sideName = Side[nSide].Parameter.SideName;
+    for (var n = 0; n < PawnFeatures.Length; n++, uCounter >>= nPerNibble) {
+      var uCount = nibble(uCounter);
+      LogLine($"{sideName} {(PawnFeature)n} = {uCount}");
+      LogLine();
+      WriteOrth(FeatureOrth[n + nOffset]);
+      LogLine();
+    }
+#endif                                  // TestPawnFeatures
     return uFeatureCounts;
   }
   #endregion
@@ -250,5 +251,5 @@ partial class Position : Board {
 
     return ((Eval)nValueDelta, (Eval)nValueTotal);
   }
-  #endregion
+  #endregion                            // Pawn Evaluation
 }

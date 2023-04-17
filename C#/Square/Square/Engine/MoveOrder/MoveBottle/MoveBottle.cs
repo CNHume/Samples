@@ -25,7 +25,7 @@ class MoveBottle {
 #if BottleBothSides
   private static readonly Int32 nBottleSides = nSides;
 #else
-    private static readonly Int32 nBottleSides = 1;
+  private static readonly Int32 nBottleSides = 1;
 #endif
   internal static readonly Int32 nKillers = 1;
   #endregion
@@ -68,7 +68,7 @@ class MoveBottle {
     if (Killers == null) return;
 
     var uIndex = index(uBottleHash);
-    var bReplace = true;              // Assume final write needed
+    var bReplace = true;                // Assume final write needed
     var bFound = false;
     var nKiller = 0;
     for (; nKiller < nKillers; nKiller++) {
@@ -84,12 +84,12 @@ class MoveBottle {
     if (bFound)
       bReplace = false;
     else {
-      if (nKiller < nKillers) {       // Bottle Not Full: Add newest and return
+      if (nKiller < nKillers) {         // Bottle Not Full: Add newest and return
         Killers[nSide][nKiller][uIndex] = store;
         return;
       }
       else
-        nKiller = 0;                  // Bottle Full: Remove Oldest Entry
+        nKiller = 0;                    // Bottle Full: Remove Oldest Entry
     }
 
     for (; nKiller + 1 < nKillers; nKiller++) {

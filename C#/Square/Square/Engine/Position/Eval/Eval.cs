@@ -104,14 +104,14 @@ partial class Position : Board {
   //
   //[Assume]P, N, B, R, Q Piece Order
   //
-  public static readonly Eval[] PieceWeight =
-  { mPawnWeight, mKnightWeight, mBishopWeight, mRookWeight, mQueenWeight };
+  public static readonly Eval[] PieceWeight = {
+    mPawnWeight, mKnightWeight, mBishopWeight, mRookWeight, mQueenWeight };
   #endregion
 
   #region Evaluation Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Boolean isEndgame(Eval mStaticTotal) {
-    return mStaticTotal <= State.EndgameValue;        // 22.25
+    return mStaticTotal <= State.EndgameValue;  // 22.25
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -140,43 +140,43 @@ partial class Position : Board {
   //
   private Eval contempt() {
     GameState.AtomicIncrement(ref State.DrawTotal);
-    var mDrawValue = (Eval)(-State.Contempt); // Strength advantage of White over Black
+    var mDrawValue = (Eval)(-State.Contempt);   // Strength advantage of White over Black
     return mDrawValue;
   }
 #if MaterialBalance
-    private (Eval mDelta, Eval mTotal) getValue() {
-      var (blackSide, whiteSide) = Side.GetBothSides();
+  private (Eval mDelta, Eval mTotal) getValue() {
+    var (blackSide, whiteSide) = Side.GetBothSides();
 
-      //
-      // Piece Counts ignore the number of Pawns
-      //
-      var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
-      var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
+    //
+    // Piece Counts ignore the number of Pawns
+    //
+    var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
+    var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
 #if DebugComposition
-      var sb = new StringBuilder();
-      foreach (var side in Side)
-        sb.AppendPieceCounts(side, side.Counts).AppendLine();
+    var sb = new StringBuilder();
+    foreach (var side in Side)
+      sb.AppendPieceCounts(side, side.Counts).AppendLine();
 
-      sb.AppendPieceHash(blackSide, whiteSide);
-      var sComposition = sb.ToString();
-      LogLine(sComposition);
+    sb.AppendPieceHash(blackSide, whiteSide);
+    var sComposition = sb.ToString();
+    LogLine(sComposition);
 #endif
-      var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
-      var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
+    var compBlack = State.GetCX2(this, blackSide.PieceHash, wBlackCounts, blackSide);
+    var compWhite = State.GetCX2(this, whiteSide.PieceHash, wWhiteCounts, whiteSide);
 
-      setEndGameFlags();                // Composition2 values do not depend on EvalFlags.EndGame
+    setEndGameFlags();                  // Composition2 values do not depend on EvalFlags.EndGame
 
-      var mValueBlack = compBlack.Value;
-      var mValueWhite = compWhite.Value;
+    var mValueBlack = compBlack.Value;
+    var mValueWhite = compWhite.Value;
 
-      var mDelta = (Eval)(mValueWhite - mValueBlack);
-      var mTotal = (Eval)(mValueWhite + mValueBlack);
+    var mDelta = (Eval)(mValueWhite - mValueBlack);
+    var mTotal = (Eval)(mValueWhite + mValueBlack);
 
-      return (mDelta, mTotal);
-    }
+    return (mDelta, mTotal);
+  }
 #else                                   // MaterialBalance
 #if NoPieceHash
-    private static Composition comp = new Composition();
+  private static Composition comp = new Composition();
 #endif
   private (Eval mDelta, Eval mTotal) getValue() {
     var (blackSide, whiteSide) = Side.GetBothSides();
@@ -184,18 +184,18 @@ partial class Position : Board {
     var wBlackCounts = (CompositionCounter)(blackSide.Counts >> nCompositionOffsetBit);
     var wWhiteCounts = (CompositionCounter)(whiteSide.Counts >> nCompositionOffsetBit);
 #if NoPieceHash
-      var fBlackSide = blackSide.FlagsSide;
-      var fWhiteSide = whiteSide.FlagsSide;
+    var fBlackSide = blackSide.FlagsSide;
+    var fWhiteSide = whiteSide.FlagsSide;
 
-      comp.Recycle(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
+    comp.Recycle(wBlackCounts, wWhiteCounts, fBlackSide, fWhiteSide);
 #else
-    var uMemoHash = compositionHash(true);
+  var uMemoHash = compositionHash(true);
 #if DebugComposition
-      var sb = new StringBuilder()
-        .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts).AppendLine()
-        .AppendPieceHash(blackSide, whiteSide);
-      var sComposition = sb.ToString();
-      LogLine(sComposition);
+    var sb = new StringBuilder()
+      .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts).AppendLine()
+      .AppendPieceHash(blackSide, whiteSide);
+    var sComposition = sb.ToString();
+    LogLine(sComposition);
 #endif
     var comp = State.GetCXP(this, uMemoHash, wBlackCounts, wWhiteCounts, blackSide, whiteSide);
 #endif
@@ -216,12 +216,12 @@ partial class Position : Board {
     staticTotal = Position.EvalUndefined;
   }
 
-  private Eval staticEval(out PawnPosition? pp) {     //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
+  private Eval staticEval(out PawnPosition? pp) {       //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
     pp = default;
     if (IsInsufficient())
       return contempt();
 
-    GameState.AtomicIncrement(ref State.TotalEvals);  // vs FullEvaluations
+    GameState.AtomicIncrement(ref State.TotalEvals);    // vs FullEvaluations
 
     setEndGameFlags();
 
@@ -252,30 +252,30 @@ partial class Position : Board {
       }
     } // else PawnHash == default(Hashcode)
 #if TradePieces
-      if (mTotal > 0) {
-        //
-        // The following provides an incentive for the stronger
-        // side to exchange material and for the weaker side to
-        // avoid such exchanges.  The value is Zero in an equal
-        // position, and grows to a maximum of one centipawn if
-        // the weaker side has been stripped of all material.
-        //
-        // Intuitively: Exchanges reduce the Total material but
-        // leave the Delta unaffected; and Delta can range from
-        // Zero to the Total.  Thus, their quotient ranges from
-        // Zero to One.
-        //
-        //[Note]A refinement is needed to prefer trading Pieces
-        // over Pawns in the endgame.
-        //
-        var mIncentive = (Eval)(mPawnWeight * mDelta / mTotal);
-        mDelta += mIncentive;
-      }
-#endif
+    if (mTotal > 0) {
+      //
+      // The following provides an incentive for the stronger
+      // side to exchange material and for the weaker side to
+      // avoid such exchanges.  The value is Zero in an equal
+      // position, and grows to a maximum of one centipawn if
+      // the weaker side has been stripped of all material.
+      //
+      // Intuitively: Exchanges reduce the Total material but
+      // leave the Delta unaffected; and Delta can range from
+      // Zero to the Total.  Thus, their quotient ranges from
+      // Zero to One.
+      //
+      //[Note]A refinement is needed to prefer trading Pieces
+      // over Pawns in the endgame.
+      //
+      var mIncentive = (Eval)(mPawnWeight * mDelta / mTotal);
+      mDelta += mIncentive;
+    }
+#endif                                  // TradePieces
     //
     //[Note]staticEval() prepares staticTotal for any isEndgame() tests
     //
-    staticTotal = mTotal;             // Update for isEndgame()
+    staticTotal = mTotal;               // Update for isEndgame()
     staticDelta = mDelta;
     return mDelta;
   }
@@ -293,7 +293,7 @@ partial class Position : Board {
     // Load PawnFeature Deltas from the PawnPositions hash table,
     // based on HashPawn, the Zobrist Hashcode summed over Pawns.
     //
-    if (Pawn == 0) {                  // PawnHash == default(Hashcode)}
+    if (Pawn == 0) {                    // PawnHash == default(Hashcode)}
 #if EvalKBNvKMateCorner
       if (FlagsEval.Has(EvalFlags.KBNvK)) {
         var mReward = rewardKBNvKMateCorner();
@@ -301,7 +301,7 @@ partial class Position : Board {
       }
 #endif
     }
-    else {                            // Pawn != 0
+    else {                              // Pawn != 0
 #if EvalOutsideSquare
       if (FlagsEval.Has(EvalFlags.OutsideSquare)) {
         var fWhiteSide = Side[White].FlagsSide;
@@ -320,7 +320,7 @@ partial class Position : Board {
 #if EvalRookBehindPasser
       if (Rook != 0) {
 #if PawnPositionByValue
-          var bDefault = !pp.BlackPRP.Has(PRPFlags.IsValid);
+        var bDefault = !pp.BlackPRP.Has(PRPFlags.IsValid);
 #else
         var bDefault = pp == default(PawnPosition);
 #endif
@@ -331,10 +331,10 @@ partial class Position : Board {
           var mRooksBehindBlack = rookBehindPasser(!bWhiteRook, pp.BlackPassers);
           var mRooksBehindWhite = rookBehindPasser(bWhiteRook, pp.WhitePassers);
 #if TestRookBehindPasser
-            if (mRooksBehindBlack != 0 ||
-                mRooksBehindWhite != 0) {
-              DisplayCurrent(nameof(fullEval));
-            }
+          if (mRooksBehindBlack != 0 ||
+              mRooksBehindWhite != 0) {
+            DisplayCurrent(nameof(fullEval));
+          }
 #endif
           mValue += mRooksBehindWhite;
           mValue -= mRooksBehindBlack;
@@ -345,9 +345,9 @@ partial class Position : Board {
 
     var mAbs = Abs(mValue);
     Debug.Assert(mAbs < MateMin, "Mate value returned by staticEval()");
-    if (mAbs <= mDeltaBaseWeight) {   //[ToDo]Define a new threshold
+    if (mAbs <= mDeltaBaseWeight) {     //[ToDo]Define a new threshold
 #if BuildAtxTo
-        BuildAtxTo(RankPiece);
+      BuildAtxTo(RankPiece);
 #endif
 #if Mobility
       mValue += mobility();
@@ -358,7 +358,7 @@ partial class Position : Board {
     // The following helps find Draw3
     //
     if (IsDraw2() && mAbs < MateMin)
-      mValue /= 4;                    //[IBV]Care will be needed to protect the EvalType here
+      mValue /= 4;                      //[IBV]Care will be needed to protect the EvalType here
 
     return mValue;
   }
@@ -399,10 +399,10 @@ partial class Position : Board {
   //
   private static Eval boundValue(Eval mValue, Eval mAlpha, Eval mBeta) {
 #if FailHard
-      if (mBeta < mValue)
-        mValue = mBeta;
-      else if (mValue < mAlpha)
-        mValue = mAlpha;
+    if (mBeta < mValue)
+      mValue = mBeta;
+    else if (mValue < mAlpha)
+      mValue = mAlpha;
 #endif
     return mValue;
   }
@@ -413,11 +413,11 @@ partial class Position : Board {
       // Apply Upper or Lower Bound to mValue
       //
       switch (etFound) {
-      case EvalType.Upper:            // LUB
+      case EvalType.Upper:              // LUB
         if (mValueFound < mValue)
           mValue = mValueFound;
         break;
-      case EvalType.Lower:            // GLB
+      case EvalType.Lower:              // GLB
         if (mValue < mValueFound)
           mValue = mValueFound;
         break;
@@ -460,7 +460,7 @@ partial class Position : Board {
 
     //var mValue = standpatval(mValueFound, etFound);
     var mValue = clonedSearch(wPruneDraft, mAlpha, mBeta);
-    traceVal("pruneval()", mValue, etFound);          //[Conditional]
+    traceVal("pruneval()", mValue, etFound);    //[Conditional]
 
     return boundValue(mValue, mValueFound, etFound);
   }
@@ -470,7 +470,7 @@ partial class Position : Board {
     var nRound = nNumerator < 0 ? -nDenominator : nDenominator;
     return (2 * nNumerator + nRound) / (2 * nDenominator);
   }
-  #endregion                          // Evaluation Methods
+  #endregion                            // Evaluation Methods
 
   #region IBV
   //
@@ -511,20 +511,20 @@ partial class Position : Board {
     return mIBV == EvalUndefined ? EvalUndefined : (Eval)(mIBV >> nPerTwoBits);
   }
 #if UsedIBV
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Bval IBLower(Bval mIBV) {
-      return (Bval)(mIBV == EvalUndefined ? EvalUndefined : IBExact(mIBV) + 1);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Bval IBLower(Bval mIBV) {
+    return (Bval)(mIBV == EvalUndefined ? EvalUndefined : IBExact(mIBV) + 1);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Bval IBExact(Bval mIBV) {
-      return (Bval)(mIBV == EvalUndefined ? EvalUndefined : (mIBV + 1) & ~vTwoBits);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Bval IBExact(Bval mIBV) {
+    return (Bval)(mIBV == EvalUndefined ? EvalUndefined : (mIBV + 1) & ~vTwoBits);
+  }
 
-    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-    public static Bval IBUpper(Bval mIBV) {
-      return (Bval)(mIBV == EvalUndefined ? EvalUndefined : IBExact(mIBV) - 1);
-    }
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Bval IBUpper(Bval mIBV) {
+    return (Bval)(mIBV == EvalUndefined ? EvalUndefined : IBExact(mIBV) - 1);
+  }
 #endif
   //[Note]"Side relative" values reflect to "White relative" values; and vice versa
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -539,7 +539,7 @@ partial class Position : Board {
     //[Safe]EvalUndefined == -EvalUndefined
     return bWTM || mValue == EvalUndefined ? mValue : (Eval)(-mValue);
   }
-  #endregion                          // IBV
+  #endregion                            // IBV
 
   #region Linear Interpolation
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -572,7 +572,7 @@ partial class Position : Board {
   private static Double Lerp(Double s, Double y0, Double y1) {
     return y0 + s * (y1 - y0);
   }
-  #endregion                          // Linear Interpolation
+  #endregion                            // Linear Interpolation
 
   #region Piece Evaluation
   internal static Eval weighPieces(
@@ -595,7 +595,7 @@ partial class Position : Board {
 #endif
     return (Eval)nSum;
   }
-  #endregion                          // Piece Evaluation
+  #endregion                            // Piece Evaluation
 
   #region Search vs Position Relative Mate Evaluation
   //
@@ -626,33 +626,33 @@ partial class Position : Board {
   //
   private static Eval creditMate(Eval mValue, Ply wSearchPlies) {
 #if VerifyIBV
-      var mIBV = IBV(mValue, EvalType.Exact);
-      var mVerify = IBEval(mIBV);
-      if (mVerify != mValue) {
-        Trace.Assert(mVerify == mValue, "mVerify != mValue");
-      }
+    var mIBV = IBV(mValue, EvalType.Exact);
+    var mVerify = IBEval(mIBV);
+    if (mVerify != mValue) {
+      Trace.Assert(mVerify == mValue, "mVerify != mValue");
+    }
 #endif
     var nAdjusted = (Int32)mValue;
-    if (EvalUndefined < mValue) {     //[Safe]
+    if (EvalUndefined < mValue) {       //[Safe]
       if (MinusInfinity < mValue && mValue < PlusInfinity) {
         var wSearchMoves = MoveDelta(wSearchPlies);
         // Credit wSearchMoves when storing a Search-relative Mate Value as a Position-relative Mate Value:
-        if (MateMin <= mValue) {      // Mate [Plus]
+        if (MateMin <= mValue) {        // Mate [Plus]
           Debug.Assert(nAdjusted <= MateMax, "Position-relative MateRange Overflow [Plus]");
           nAdjusted += wSearchMoves;
 
           if (PlusInfinity <= nAdjusted) {
             Debug.Assert(nAdjusted < PlusInfinity, "Position-relative Value too Large");
-            nAdjusted = PlusInfinity; //[Safe]Apply Ceiling
+            nAdjusted = PlusInfinity;   //[Safe]Apply Ceiling
           }
         }
-        else if (mValue <= -MateMin) {// Mate [Minus]
+        else if (mValue <= -MateMin) {  // Mate [Minus]
           Debug.Assert(-MateMax <= nAdjusted, "Position-relative MateRange Overflow [Minus]");
           nAdjusted -= wSearchMoves;
 
           if (nAdjusted <= MinusInfinity) {
             Debug.Assert(MinusInfinity < nAdjusted, "Position-relative Value too Small");
-            nAdjusted = MinusInfinity;//[Safe]Apply Ceiling
+            nAdjusted = MinusInfinity;  //[Safe]Apply Ceiling
           }
         }
       }
@@ -673,22 +673,22 @@ partial class Position : Board {
       if (MinusInfinity < mValue && mValue < PlusInfinity) {
         var wSearchMoves = MoveDelta(wSearchPlies);
         // Debit wSearchMoves when loading a Position-relative Mate Value as a Search-relative Mate Value:
-        if (mValue >= MateMin) {      // Mate [Plus]
+        if (mValue >= MateMin) {        // Mate [Plus]
           Debug.Assert(mValue < PlusInfinity, "Search-relative Value too Large");
           nAdjusted -= wSearchMoves;
 
           if (nAdjusted < MateMin) {
             Debug.Assert(MateMin <= nAdjusted, "Search-relative MateRange Underflow [Plus]");
-            nAdjusted = MateMin;      //[Safe]Floor ensures a Mate value
+            nAdjusted = MateMin;        //[Safe]Floor ensures a Mate value
           }
         }
-        else if (mValue <= -MateMin) {// Mate [Minus]
+        else if (mValue <= -MateMin) {  // Mate [Minus]
           Debug.Assert(MinusInfinity < mValue, "Search-relative Value too Small");
           nAdjusted += wSearchMoves;
 
           if (-MateMin < nAdjusted) {
             Debug.Assert(nAdjusted <= -MateMin, "Search-relative MateRange Underflow [Minus]");
-            nAdjusted = -MateMin;     //[Safe]Floor ensures a Mate value
+            nAdjusted = -MateMin;       //[Safe]Floor ensures a Mate value
           }
         }
       }
@@ -702,5 +702,5 @@ partial class Position : Board {
 
     return (Eval)nAdjusted;
   }
-  #endregion                          // Search vs Position Relative Mate Evaluation
+  #endregion                            // Search vs Position Relative Mate Evaluation
 }

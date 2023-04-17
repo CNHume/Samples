@@ -88,16 +88,16 @@ partial class Position : Board {
       return false;
 
     var qpDefenderPawn = defender.Piece & Pawn;
-    if (qpDefenderPawn == 0)          // Defender must have at least one Pawn
+    if (qpDefenderPawn == 0)            // Defender must have at least one Pawn
       return false;
 
     var qpAttackerQueen = attacker.Piece & Queen;
-    if (qpAttackerQueen == 0)         // Attacker must have at least one Queen
+    if (qpAttackerQueen == 0)           // Attacker must have at least one Queen
       return false;
 
     var bEndGame =
-      IsOneOrNone(qpDefenderPawn) &&  // Defender has at most one Pawn
-      IsOneOrNone(qpAttackerQueen);   // Attacker has at most one Queen
+      IsOneOrNone(qpDefenderPawn) &&    // Defender has at most one Pawn
+      IsOneOrNone(qpAttackerQueen);     // Attacker has at most one Queen
 
     return bEndGame;
   }
@@ -116,10 +116,10 @@ partial class Position : Board {
     //
     //[Assume]At least one King Alone; No Queen, Rooks, nor Bishop Pair
     //
-    if ((Bishop | Knight) == 0)       // At least one Bishop and one Knight
+    if ((Bishop | Knight) == 0)         // At least one Bishop and one Knight
       return false;
 
-    return IsOneOrNone(Knight);       // At most one Knight
+    return IsOneOrNone(Knight);         // At most one Knight
   }
 
   private EvalFlags getEndGameFlags() {
@@ -153,7 +153,7 @@ partial class Position : Board {
     FlagsEval &= ~EvalFlags.EndGame;
     FlagsEval |= getEndGameFlags();
   }
-  #endregion                          // End Game Detection
+  #endregion                            // End Game Detection
 
   #region King Outside Square of the Pawn
   private Boolean isOutsideSquare(Boolean bWhiteDefender) {
@@ -169,16 +169,16 @@ partial class Position : Board {
     var vKingPos = defender.GetKingPos();
     var bOutside = (qpArray[vKingPos] & Pawn) != 0;
 #if TestOutsideSquare
-      if (bOutside) {
-        var sideName = parameter.SideName;
-        var sOutcome = bKingToMoveLoss ?
-          "KingToMoveLoss" :
-          "PawnToMoveWins";
-        var sq = (Sq)vKingPos;
-        testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vKingPos]);
-        testOrth("Pawns", Pawn);
-        DisplayCurrent(nameof(isOutsideSquare));
-      }
+    if (bOutside) {
+      var sideName = parameter.SideName;
+      var sOutcome = bKingToMoveLoss ?
+        "KingToMoveLoss" :
+        "PawnToMoveWins";
+      var sq = (Sq)vKingPos;
+      testOrth($"{sideName}{sOutcome}[{sq}]", qpArray[vKingPos]);
+      testOrth("Pawns", Pawn);
+      DisplayCurrent(nameof(isOutsideSquare));
+    }
 #endif
     return bOutside;
   }
@@ -188,7 +188,7 @@ partial class Position : Board {
          (Eval)(-mOutsideSquareWeight) :
          mOutsideSquareWeight;
   }
-  #endregion                          // King Outside Square of the Pawn
+  #endregion                            // King Outside Square of the Pawn
 
   #region KBN Endgame
   private static Int32 edgeDistance(Int32 n) {
@@ -235,15 +235,15 @@ partial class Position : Board {
     return mKBNvKMateCornerWeight * offence / nFiles;
   }
 #if ShowCornerCP
-    private static Int32 liteCornerCP(Int32 n) {
-      var nReward = liteCornerReward(n);
-      return Round(100 * nReward, mUnitWeight);
-    }
+  private static Int32 liteCornerCP(Int32 n) {
+    var nReward = liteCornerReward(n);
+    return Round(100 * nReward, mUnitWeight);
+  }
 
-    private static Int32 darkCornerCP(Int32 n) {
-      var nReward = darkCornerReward(n);
-      return Round(100 * nReward, mUnitWeight);
-    }
+  private static Int32 darkCornerCP(Int32 n) {
+    var nReward = darkCornerReward(n);
+    return Round(100 * nReward, mUnitWeight);
+  }
 #endif
   private Eval rewardKBNvKMateCorner() {
     var fBlackSide = Side[Black].FlagsSide;
@@ -270,7 +270,7 @@ partial class Position : Board {
     var nReward = mKQvKPProximityWeight * nProximity / nMaxPawnDistance;
     return (Eval)(bWhiteAttacker ? nReward : -nReward);
   }
-  #endregion                          // KBN Endgame
+  #endregion                            // KBN Endgame
 
   #region Wrong Bishop
   //
@@ -286,7 +286,7 @@ partial class Position : Board {
 
     return bWrong;
   }
-  #endregion                          // Wrong Bishop
+  #endregion                            // Wrong Bishop
 
   #region Rook Behind Passer
   //
@@ -322,7 +322,7 @@ partial class Position : Board {
 
     return mBehind;
   }
-  #endregion                          // Rook Behind Passer
+  #endregion                            // Rook Behind Passer
 
   #region Mobility and Square Control
   //
@@ -335,52 +335,52 @@ partial class Position : Board {
     var nControlValue = 0;
     var nMobileValue = 0;
 #if Controlled
-      var nControlTotal = 0;
-      var nControlDelta = 0;
+    var nControlTotal = 0;
+    var nControlDelta = 0;
 
-      // The following bit planes are only used to determine which side controls a given square:
-      AttackedSum =
-        BlackControlled =
-        WhiteControlled = 0UL;
+    // The following bit planes are only used to determine which side controls a given square:
+    AttackedSum =
+      BlackControlled =
+      WhiteControlled = 0UL;
 
-      Array.Clear(ControlTo, 0, ControlTo.Length);
+    Array.Clear(ControlTo, 0, ControlTo.Length);
 #endif
     var nBlackAtx = blackSide.AtxCount();
     var nWhiteAtx = whiteSide.AtxCount();
 #if Controlled
-      var qpAtx = AttackedSum;
-      while (qpAtx != 0) {
-        Plane qpTo;
-        var n = RemoveLo(ref qpAtx, out qpTo);
-        var z = ControlTo[n];
-        if (z > 0) {
-          WhiteControlled |= qpTo;
-          nControlDelta += Importance[n];
-          nControlTotal += Importance[n];
-        }
-        else if (z < 0) {
-          BlackControlled |= qpTo;
-          nControlDelta -= Importance[n];
-          nControlTotal += Importance[n];
-        }
+    var qpAtx = AttackedSum;
+    while (qpAtx != 0) {
+      Plane qpTo;
+      var n = RemoveLo(ref qpAtx, out qpTo);
+      var z = ControlTo[n];
+      if (z > 0) {
+        WhiteControlled |= qpTo;
+        nControlDelta += Importance[n];
+        nControlTotal += Importance[n];
       }
+      else if (z < 0) {
+        BlackControlled |= qpTo;
+        nControlDelta -= Importance[n];
+        nControlTotal += Importance[n];
+      }
+    }
 #if TestControlled
-      DisplayCurrent(nameof(mobility));
+    DisplayCurrent(nameof(mobility));
 
-      LogLine("WhiteControlled\n");
-      WriteOrth(WhiteControlled);
-      LogLine();
+    LogLine("WhiteControlled\n");
+    WriteOrth(WhiteControlled);
+    LogLine();
 
-      LogLine("BlackControlled\n");
-      WriteOrth(BlackControlled);
-      LogLine();
+    LogLine("BlackControlled\n");
+    WriteOrth(BlackControlled);
+    LogLine();
 
-      var qpNeutral = AttackedSum & ~(WhiteControlled | BlackControlled);
-      LogLine("Neutral\n");
-      WriteOrth(qpNeutral);
-      LogLine();
+    var qpNeutral = AttackedSum & ~(WhiteControlled | BlackControlled);
+    LogLine("Neutral\n");
+    WriteOrth(qpNeutral);
+    LogLine();
 #endif
-      nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;
+    nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;
 #endif
     var nMobileTotal = nWhiteAtx + nBlackAtx;
     if (nMobileTotal != 0) {
@@ -390,6 +390,6 @@ partial class Position : Board {
 
     return (Eval)(nControlValue + nMobileValue);
   }
-  #endregion                          // Mobility and Square Control
-  #endregion                          // Methods
+  #endregion                            // Mobility and Square Control
+  #endregion                            // Methods
 }

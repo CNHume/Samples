@@ -50,7 +50,7 @@ struct SortMove : IComparable {
     // Prefer lesser Index
     var sense = better == 0 ? -Index.CompareTo(sm.Index) : better;
 #else
-      var sense = better;
+    var sense = better;
 #endif
     return sense;
   }
