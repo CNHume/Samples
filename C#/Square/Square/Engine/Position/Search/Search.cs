@@ -62,17 +62,18 @@ partial class Position : Board {
   //
   // See https://www.chessprogramming.org/Futility_Pruning
   //
-  internal static Eval[] FutilityMargin = { mBishopWeight, mRookWeight };
-  #endregion
+  internal static Eval[] FutilityMargin = {
+    mBishopWeight, mRookWeight };
+  #endregion                            // Constants
 
   #region Search Methods
   private Eval search(Draft wDraft, Eval mAlpha, Eval mBeta,
                       Move moveExcluded = Move.Undefined) {
     var moves = PseudoMoves;
-    BestMoves.Clear();                //[Required]
+    BestMoves.Clear();                  //[Required]
 
     #region Test for Draw
-    if (IsDraw()) {                   //[Note]SetDraw50() must be called after tryMove(), below.
+    if (IsDraw()) {                     //[Note]SetDraw50() must be called after tryMove(), below.
       State.IncEvalType(EvalType.Exact);
       return eval();
     }
@@ -89,7 +90,7 @@ partial class Position : Board {
     // Depth is tested here, rather than in the PVS recursion case,
     // because search also recurses from the heuristic cases below.
     //
-    var wDepth = depth(wDraft);       // InCheck Adjusted Depth
+    var wDepth = depth(wDraft);         // InCheck Adjusted Depth
     if (wDepth < 1) {
 #if Quiescence
       return quiet(mAlpha, mBeta);
@@ -102,7 +103,7 @@ partial class Position : Board {
     #region Transposition Table Lookup
 #if TraceVal
     var bTrace = IsTrace();
-    if (IsTrace()) {                  //[Note]CurrentMove Undefined
+    if (IsTrace()) {                    //[Note]CurrentMove Undefined
       Display($"Search(Depth = {wDepth})");
     }
 #endif
@@ -114,15 +115,15 @@ partial class Position : Board {
     // Variations updated iff bFoundValue
     if (bFoundValue) {
       // moveFound not always defined for EvalType.Upper [Fail Low]
-      if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
+      if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
         unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
         //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-        if (isMovePosition)           // Pass empty BestMoves, at top level
+        if (isMovePosition)             // Pass empty BestMoves, at top level
           AddPV(mAlpha, mValueFound, moveFound, BestMoves);
 #if AddBestMoves
-        BestMoves.Add(moveFound);     // Safe to update BestMoves now
+        BestMoves.Add(moveFound);       // Safe to update BestMoves now
 #endif
       }
 
@@ -139,7 +140,7 @@ partial class Position : Board {
     var bPruneQuiet = false;
     var bPVS = (FlagsMode & ModeFlags.ZWS) == 0;
     var bMoveExcluded = IsDefined(moveExcluded);
-    var wReducedDraft = reduceShallow(wDraft);// Draft for Heuristic Searches
+    var wReducedDraft = reduceShallow(wDraft);  // Draft for Heuristic Searches
 
     if (!bInCheck) {
       var mStand = standpatval(mValueFound, etFound);
@@ -163,7 +164,7 @@ partial class Position : Board {
           if (nMargin < FutilityMargin.Length)
             bPruneQuiet = mStand + FutilityMargin[nMargin] <= mAlpha;
         }
-      }                               // Futility Pruning
+      }                                 // Futility Pruning
 
 #if SingularExtension
       bTestSingular = wSingularDepthMin <= wDepth &&
@@ -171,9 +172,9 @@ partial class Position : Board {
                       //[Test]More inclusion performs better than less!
                       Abs(mValueFound) < mQueenWeight &&
                       IsDefined(moveFound) && !(bReduced || bMoveExcluded) &&
-                      canExtend(vSingular);   //[Ergo]child.canExtend(vSingular) below
+                      canExtend(vSingular);     //[Ergo]child.canExtend(vSingular) below
 #endif
-    }                                 //!bInCheck
+    }                                   //!bInCheck
     #endregion
 
     #region Generate Moves
@@ -203,20 +204,20 @@ partial class Position : Board {
       var sb = new StringBuilder("PseudoMoves:");
       sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
       sb.FlushLine();
-#endif
+#endif                                  // DebugPseudoMoves
     }
     #endregion
 
     #region Move Loop Initializaton
-    var et = EvalType.Upper;          //[Init]Fail Low is the default assumption
-    var mBest = EvalUndefined;        // Value for the strongest variation
-                                      //[Test]mBest = MinusInfinity;
-    var mBest2 = mBest;               // Value from the least best MultiPV
+    var et = EvalType.Upper;            //[Init]Fail Low is the default assumption
+    var mBest = EvalUndefined;          // Value for the strongest variation
+                                        //[Test]mBest = MinusInfinity;
+    var mBest2 = mBest;                 // Value from the least best MultiPV
     var mValue = EvalUndefined;
     var moveBest = Move.Undefined;
     #endregion
 
-    var child = Push();               // Push Position to make the moves
+    var child = Push();                 // Push Position to make the moves
     try {
       #region Move Sort
       //
@@ -249,16 +250,16 @@ partial class Position : Board {
       sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
 #endif
       sb2.FlushLine();
-#endif
-      #endregion                      // DebugCandidateMoves
+#endif                                  // DebugCandidateMoves
+      #endregion                        // Move Sort
 
       #region Move Loop
 #if DebugMoveColor
-        var bDebugWTM = WTM();
+      var bDebugWTM = WTM();
 #endif
       var nTried = 0;
       var uLegalMoves = 0U;
-      var bTryZWS = false;            //[Note]Full PVS requires Raised Alpha
+      var bTryZWS = false;              //[Note]Full PVS requires Raised Alpha
       var uRaisedAlpha = 0U;
 #if !UseMoveSort
         foreach (var mov in SiftedMoves) {
@@ -270,8 +271,8 @@ partial class Position : Board {
       foreach (var sm in PriorityMove) {
         var move = sm.Move;
 #else
-        for (var nMoveIndex = 0; nMoveIndex < moves.Count; nMoveIndex++) {
-          var move = SortMoves[nMoveIndex].Move;
+      for (var nMoveIndex = 0; nMoveIndex < moves.Count; nMoveIndex++) {
+        var move = SortMoves[nMoveIndex].Move;
 #endif
         #region Make Move
 #if DebugMove
@@ -293,10 +294,10 @@ partial class Position : Board {
         var bEarly = nTried++ < nEarly;
 
         if (EqualMoves(move, moveExcluded) || !child.tryMove(ref move))
-          continue;                   //[Note]Excluding moves may result in a Game Leaf
+          continue;                     //[Note]Excluding moves may result in a Game Leaf
 
         uLegalMoves++;
-        #endregion
+        #endregion                      // Make Move
 
         #region Test for 50-Move Rule
         //
@@ -312,9 +313,9 @@ partial class Position : Board {
             et = EvalType.Exact;
           }
 
-          goto exit;                  // Draw50 Dynamic Game Leaf
+          goto exit;                    // Draw50 Dynamic Game Leaf
         }
-        #endregion
+        #endregion                      // Test for 50-Move Rule
 
         mValue = updateBest(
           child, wDepth, wDraft, ref wDraft1, wReducedDraft,
@@ -324,7 +325,7 @@ partial class Position : Board {
 
         #region Test for Cutoff
         if (mAlpha < mBest2) {
-          traceVal("Raised Alpha", mBest2);   //[Conditional]
+          traceVal("Raised Alpha", mBest2);     //[Conditional]
           uRaisedAlpha++;
           mAlpha = mBest2;
 
@@ -333,7 +334,7 @@ partial class Position : Board {
             if (bTrace)
               LogLine("Trace: Failed High");
 #endif
-            et = EvalType.Lower;      // Cutoff Reached: Ignore further moves and Fail High
+            et = EvalType.Lower;        // Cutoff Reached: Ignore further moves and Fail High
             rewardMove(move, wDepth, mValue, et, moveExcluded);
             goto exit;
           }
@@ -341,21 +342,21 @@ partial class Position : Board {
           et = EvalType.Exact;
 
           if (bPVS && wPVSDepthMin <= wDepth)
-            bTryZWS = true;           // Raised Alpha
+            bTryZWS = true;             // Raised Alpha
         }
         #endregion
-      }                               //[Next]Pseudo Move
+      }                                 //[Next]Pseudo Move
       #endregion
 
-      if (uLegalMoves == 0) {         // No Move Found
-        SetFinal();                   // Mark Game Leaf
+      if (uLegalMoves == 0) {           // No Move Found
+        SetFinal();                     // Mark Game Leaf
         mBest = final();
       }
 
-      traceVal("Failed Low", mBest);  //[Conditional]
+      traceVal("Failed Low", mBest);    //[Conditional]
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this Ply
+      Pop(ref child);                   // Pop Position used for this Ply
     }
 
   exit:
@@ -384,7 +385,7 @@ partial class Position : Board {
     if (EvalUndefined < mBest && bQuietMove) {
       //
       if (bPruneQuiet) {
-        traceVal("Futility Prune", mBest);        //[Conditional]
+        traceVal("Futility Prune", mBest);      //[Conditional]
         AtomicIncrement(ref State.FutilePruneTotal);
         mValue = (Eval)(-child.eval());
         //[Test](Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
@@ -405,7 +406,7 @@ partial class Position : Board {
       }
 #endif
     }
-    #endregion                        // Futility Pruning and LMR
+    #endregion                          // Futility Pruning and LMR
 
     #region Singular Extension
 #if SingularExtension
@@ -428,7 +429,7 @@ partial class Position : Board {
       }
     }
 #endif
-    #endregion                      // Singular Extension
+    #endregion                          // Singular Extension
 
 #if GetSmart
     //var bCastles = IsCastles(move);
@@ -440,9 +441,9 @@ partial class Position : Board {
     //
     var bSmart = bReduce && uRaisedAlpha > 1 && wSmartDepthMin <= wDepth && SearchPly < wSmartPlyMax;
     var wReduced = bSmart ? nextDraft(wDraft1) : wDraft1;
-#else
+#else                                   //!GetSmart
     var wReduced = wDraft1;
-#endif
+#endif                                  // GetSmart
     mValue = child.pvs(wDraft1, wReduced, mBest2, mAlpha, mBeta, bTryZWS);
 
   updateBest:
@@ -476,7 +477,7 @@ partial class Position : Board {
       //
       mBest2 = AddPV(mAlpha, mValue, moveNoted, child.BestMoves);
     }
-    #endregion                        // Update Best Move
+    #endregion                          // Update Best Move
 
     return mValue;
   }
@@ -535,11 +536,11 @@ partial class Position : Board {
     //
     // Primary Search
     //
-    if (bTryZWS) {                    // PVS starts with a ZWS (after Raised Alpha)
-      var moveFlags = FlagsMode;      //[Save]
-      FlagsMode |= ModeFlags.ZWS;     //[Note]This allows prune()
+    if (bTryZWS) {                      // PVS starts with a ZWS (after Raised Alpha)
+      var moveFlags = FlagsMode;        //[Save]
+      FlagsMode |= ModeFlags.ZWS;       //[Note]This allows prune()
       mValue = (Eval)(-search(wReducedDraft, (Eval)(-mAlpha1), (Eval)(-mAlpha)));
-      FlagsMode = moveFlags;          //[Restore]
+      FlagsMode = moveFlags;            //[Restore]
     }
     else
       mValue = (Eval)(-search(wDraft, (Eval)(-mBeta), (Eval)(-mAlpha)));
@@ -572,7 +573,7 @@ partial class Position : Board {
 
     return mValue;
   }
-  #endregion
+  #endregion                            // PVS Method
 
   #region Forward Pruning Heuristics
   private Boolean prune(Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
@@ -601,17 +602,17 @@ partial class Position : Board {
 #else
           var mValue2 = quiet(mAlpha2, mBeta2);
 #endif
-          if (mValue2 < mBeta2) {     // Prune
-            traceVal("Occam Prune", mValue2); //[Conditional]
+          if (mValue2 < mBeta2) {       // Prune
+            traceVal("Occam Prune", mValue2);       //[Conditional]
             AtomicIncrement(ref State.OccamPruneTotal);
             mPrunedValue = mValue2;
-            return true;              // No moves made here - omit storeXP()
-          }                           // Prune
+            return true;                // No moves made here - omit storeXP()
+          }                             // Prune
           else
-            traceVal("Occam Non-Prune", mValue2);     //[Conditional]
-        }                             // Search
-      }                               // Qualify
-    }                                 // IsOccam
+            traceVal("Occam Non-Prune", mValue2);   //[Conditional]
+        }                               // Search
+      }                                 // Qualify
+    }                                   // IsOccam
 
     //
     // Null Moves may "recurse" indefinitely; but not twice in succession:
@@ -651,7 +652,7 @@ partial class Position : Board {
           child2.nullMove();
           var wDeep = reduceDeep(wDraft);
 #if DeepNull
-            var wNullDraft = wDeep;
+          var wNullDraft = wDeep;
 #else
           var wNullDraft = wShallow;
 #endif
@@ -671,41 +672,41 @@ partial class Position : Board {
           var mValue2 = wReducedDraftMin <= wNullDraft ?
             (Eval)(-child2.search(wNullDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2))) :
             (Eval)(-child2.quiet((Eval)(-mBeta2), (Eval)(-mAlpha2)));
-          if (mBeta2 <= mValue2) {    // Null Move did not improve mValue: Prune
-            traceVal("Null Prune", mValue2);  //[Conditional]
+          if (mBeta2 <= mValue2) {      // Null Move did not improve mValue: Prune
+            traceVal("Null Prune", mValue2);    //[Conditional]
             AtomicIncrement(ref State.NullMovePruneTotal);
             if (wDepth < wVerifyDepthMin)
               mPrunedValue = mValue2;
-            else {                    //[ToDo]Improve verification
+            else {                      //[ToDo]Improve verification
               FlagsMode |= ModeFlags.Reduced;
               mPrunedValue = search(wDeep, mAlpha, mBeta);
             }
-            return true;              // No moves made here - omit storeXP()
+            return true;                // No moves made here - omit storeXP()
           }
 
           traceVal("Null Non-Prune", mValue2);//[Conditional]
         }
-        finally {                     // Pop Position prior to return
-          Pop(ref child2);            // Pop Position used for the search
+        finally {                       // Pop Position prior to return
+          Pop(ref child2);              // Pop Position used for the search
         }
       }
     }
 
     return false;
   }
-  #endregion
+  #endregion                            // Forward Pruning Heuristics
 
   #region Extension Heuristics
   [Conditional("MateThreat")]
   private void threat(ref Draft wDraft, ref Draft wShallow, ref Depth wDepth) {
     if (wThreatDepthMin <= wDepth && !isEndgame() && canExtend(vThreat)) {
-      var child2 = Push();            // Push Position for the search
+      var child2 = Push();              // Push Position for the search
       try {
         child2.nullMove();
         //[EvalRange]
         //var mAlpha2 = (Eval)(mAlpha - mThreatWeight); //[Test]
         const Eval mAlpha2 = -MateMin;
-        var mBeta2 = (Eval)(mAlpha2 + 1);     // vs -EvalMax
+        var mBeta2 = (Eval)(mAlpha2 + 1);       // vs -EvalMax
         child2.FlagsMode |= ModeFlags.Reduced;
 #if DeepThreat
         var wThreatDraft = reduceDeep(wDraft);
@@ -715,18 +716,18 @@ partial class Position : Board {
         var mThreat =
           (Eval)(-child2.search(wThreatDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2)));
         if (EvalUndefined < mThreat && mThreat < mBeta2) {
-          traceVal("Mate Threat", mThreat);   //[Conditional]
+          traceVal("Mate Threat", mThreat);     //[Conditional]
 
           incExtension(ref wDraft, vThreat);
-          wDepth = depth(wDraft);     // Threat Adjusted Depth
+          wDepth = depth(wDraft);       // Threat Adjusted Depth
           wShallow = reduceShallow(wDraft);
           AtomicIncrement(ref State.ThreatExtCount);
         }
         else
-          traceVal("Non-Mate Threat", mThreat);//[Conditional]
+          traceVal("Non-Mate Threat", mThreat); //[Conditional]
       }
       finally {
-        Pop(ref child2);              // Pop Position used for the search
+        Pop(ref child2);                // Pop Position used for the search
       }
     }
   }
@@ -738,15 +739,15 @@ partial class Position : Board {
     //
     // Clone the Position to avoid interfering with the current moves enumeration
     //
-    var clone = State.Push(Parent);   //[Note]Parent may be null
+    var clone = State.Push(Parent);     //[Note]Parent may be null
 
     try {
-      clone.Clone(this);              // Prepare for resetMove()
+      clone.Clone(this);                // Prepare for resetMove()
       clone.FlagsMode |= ModeFlags.Reduced;
       mValue = clone.search(wDraft, mAlpha, mBeta, moveExcluded);
     }
     finally {
-      Pop(ref clone);                 // Pop Clone
+      Pop(ref clone);                   // Pop Clone
     }
 
     return mValue;
@@ -759,9 +760,9 @@ partial class Position : Board {
     var mValue = clonedSearch(wSingularDraft, mAlpha, mBeta, moveMasked);
     var bSingular = mValue < mBeta;
     var sTrace = bSingular ? "Singular Extension" : "Singular Non-Extension";
-    traceVal(sTrace, mValue);         //[Conditional]
+    traceVal(sTrace, mValue);           //[Conditional]
     return bSingular;
   }
-  #endregion
-  #endregion
+  #endregion                            // Extension Heuristics
+  #endregion                            // Search Methods
 }

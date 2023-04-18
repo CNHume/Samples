@@ -29,16 +29,18 @@ partial class Position : Board {
   private const Draft wTwoPly = 1 << nDepthScale + 1;
   private const Draft wFullPly = 1 << nDepthScale;
   private const Draft wHalfPly = 1 << nDepthScale - 1;
-  #endregion
+  #endregion                            // Constants
 
   #region Enumerations
-  public enum SearchExtensions : byte { Late, Check, Threat, Singular };
+  public enum SearchExtensions : byte {
+    Late, Check, Threat, Singular
+  };
 
   internal const Byte vLate = (Byte)SearchExtensions.Late;
   internal const Byte vCheck = (Byte)SearchExtensions.Check;
   internal const Byte vThreat = (Byte)SearchExtensions.Threat;
   internal const Byte vSingular = (Byte)SearchExtensions.Singular;
-  #endregion
+  #endregion                            // Enumerations
 
   #region Fractional Depth Extension Methods
   //
@@ -58,7 +60,7 @@ partial class Position : Board {
     //[Warning]Zero depth must be allowed in order for
     // Search recursion to end with a Quiescent Search.
 #if RoundPly
-      return (Depth)(wDraft + wHalfPly >> nDepthScale);
+    return (Depth)(wDraft + wHalfPly >> nDepthScale);
 #else
     return (Depth)(wDraft >> nDepthScale);
 #endif
@@ -78,20 +80,20 @@ partial class Position : Board {
       _ => wFullPly,
     };
 #else
-      return wFullPly;
+    return wFullPly;
 #endif
   }
 
   private void decExtension(ref Draft wDraft, Int32 nExt) {
     // Govern dec as well as inc
     extensionCounts += (ExtensionCounter)uBit(nExt * nPerNibble);
-    wDraft -= extensionDraft(nExt);    // Decrement
+    wDraft -= extensionDraft(nExt);     // Decrement
   }
 
   private void incExtension(ref Draft wDraft, Int32 nExt) {
     // Govern usage
     extensionCounts += (ExtensionCounter)uBit(nExt * nPerNibble);
-    wDraft += extensionDraft(nExt);   // Increment
+    wDraft += extensionDraft(nExt);     // Increment
   }
 
   private Boolean canExtend(Int32 nExt) {
@@ -115,30 +117,30 @@ partial class Position : Board {
   //
   private Draft reduceShallow(Draft wDraft) {
 #if LinearReduction
-    var wDraft1 = (Draft)((wDraft + wFullPly) / 3);         // 1/3 vs 3/8
+    var wDraft1 = (Draft)((wDraft + wFullPly) / 3);     // 1/3 vs 3/8
 #else
-      Draft wDraft1;
-      if (wFourPly <= wDraft)
-        wDraft1 = wThreePly;
-      else if (wThreePly <= wDraft)
-        wDraft1 = wTwoPly;
-      else //if (wTwoPly <= wDraft)
-        wDraft1 = wFullPly;
+    Draft wDraft1;
+    if (wFourPly <= wDraft)
+      wDraft1 = wThreePly;
+    else if (wThreePly <= wDraft)
+      wDraft1 = wTwoPly;
+    else //if (wTwoPly <= wDraft)
+      wDraft1 = wFullPly;
 #endif
     return wDraft1 < wDraft ? wDraft1 : (Draft)0;
   }
 
   private Draft reduceDeep(Draft wDraft) {
 #if LinearReduction
-    var wDraft1 = (Draft)(4 * (wDraft + wFullPly) / 5);     // 4/5 vs 1/2
+    var wDraft1 = (Draft)(4 * (wDraft + wFullPly) / 5); // 4/5 vs 1/2
 #else
-      Draft wDraft1;
-      if (wFourPly <= wDraft)
-        wDraft1 = wThreePly;
-      else if (wThreePly <= wDraft)
-        wDraft1 = wTwoPly;
-      else //if (wTwoPly <= wDraft)
-        wDraft1 = wFullPly;
+    Draft wDraft1;
+    if (wFourPly <= wDraft)
+      wDraft1 = wThreePly;
+    else if (wThreePly <= wDraft)
+      wDraft1 = wTwoPly;
+    else //if (wTwoPly <= wDraft)
+      wDraft1 = wFullPly;
 #endif
     return wDraft1 < wDraft ? wDraft1 : (Draft)0;
   }
@@ -146,15 +148,17 @@ partial class Position : Board {
   private void writeShallow(PlyDepth vPliesLimit) {
     for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
       var wDraft = draft((Depth)vPlies);
-      LogLine($"Shallow({vPlies,2}) = {depth(reduceShallow(wDraft)),2}");
+      var wShallowDepth = depth(reduceShallow(wDraft));
+      LogLine($"Shallow({vPlies,2}) = {wShallowDepth,2}");
     }
   }
 
   private void writeDeep(PlyDepth vPliesLimit) {
     for (PlyDepth vPlies = 0; vPlies < vPliesLimit; vPlies++) {
       var wDraft = draft((Depth)vPlies);
-      LogLine($"Deep({vPlies,2}) = {depth(reduceDeep(wDraft)),2}");
+      var wDeepDepth = depth(reduceDeep(wDraft));
+      LogLine($"Deep({vPlies,2}) = {wDeepDepth,2}");
     }
   }
-  #endregion
+  #endregion                            // Fractional Depth Extension Methods
 }

@@ -50,7 +50,7 @@ partial class Position : Board {
   internal const String sTextStalemate = "stalemate";
   private const String sTextCheckmate = "checkmate";
   private const String sTextInsufficient = "draw by insufficient material";
-  #endregion                          // Constants
+  #endregion                            // Constants
 
   #region Search Methods
   [Conditional("ThrowFinal")]
@@ -84,7 +84,7 @@ partial class Position : Board {
       if (nLo < nLen &&
           EvalUndefined < mAlpha &&
           mValue <= mAlpha)
-        nLo++;                        // Failed Lo
+        nLo++;                          // Failed Lo
 
       if (nLen <= nLo || mValue - AspirationDelta[nLo] <= -MateMin)
         mAlpha = MinusInfinity;
@@ -96,7 +96,7 @@ partial class Position : Board {
       if (nHi < nLen &&
           EvalUndefined < mBeta &&
           mBeta <= mValue)
-        nHi++;                        // Failed Hi
+        nHi++;                          // Failed Hi
 
       if (nLen <= nHi || MateMin <= mValue + AspirationDelta[nHi])
         mBeta = PlusInfinity;
@@ -109,7 +109,7 @@ partial class Position : Board {
         var mEvalAlpha = ReflectValue(bWTM, mAlpha);
         var mEvalBeta = ReflectValue(bWTM, mBeta);
 
-        sb.Append("searchRoot(")      // Display Aspiration Window
+        sb.Append("searchRoot(")        // Display Aspiration Window
           .Append("Alpha =").AppendEvalTerm(mEvalAlpha)
           .Append(", Beta =").AppendEvalTerm(mEvalBeta)
           .Append(") Lo = ").Append(nLo)
@@ -133,8 +133,8 @@ partial class Position : Board {
       throwFinalPosition();
 
       if (mAlpha < mValue && mValue < mBeta)
-        break;                        // Aspiration Window was adequate;
-      else if (UCI.IsDebug) {         // else loop with a larger Window
+        break;                          // Aspiration Window was adequate;
+      else if (UCI.IsDebug) {           // else loop with a larger Window
         var mEval = ReflectValue(bWTM, mValue);
         var sFailed = mValue < mBeta ? "Lo" : "Hi";
         sb.Append("Eval").AppendEvalTerm(mEval)
@@ -152,16 +152,16 @@ partial class Position : Board {
     //
     // Annotate PV abbreviations and refresh XP
     //
-    refreshPV((Depth)vDepth);         //[Conditional]
+    refreshPV((Depth)vDepth);           //[Conditional]
 
     //
     // Display the Principal Variation(s)
     //
-    writeMultiPV();                   //[Conditional]
+    writeMultiPV();                     //[Conditional]
   }
 
   public Eval IteratePlies(SearchBound bound) {
-    var mValue = EvalUndefined;       // Return Value
+    var mValue = EvalUndefined;         // Return Value
     var vDepthLimit = bound.Plies;
     var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
@@ -200,14 +200,14 @@ partial class Position : Board {
 
         GameState.displayRate(dElapsedMS, qNodeDelta);
 #if DisplayPrediction
-          var qPredicted2 =
+        var qPredicted2 =
 #if !TestRegression                     // Elide final prediction
-            vDepth == vDepthLimit ? 0UL :
+          vDepth == vDepthLimit ? 0UL :
 #endif
           State.Predict(vStartDepth, vDepth, qNodeDelta);
 
-          GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
-          qPredicted1 = qPredicted2;
+        GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
+        qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
         qTotal1 = qTotal2;
         sw.Restart();
@@ -216,7 +216,7 @@ partial class Position : Board {
       if (wMovesToMate.HasValue) {
         var mAbs = Abs(mValue);
         if (MateMin <= mAbs && MateMax <= mAbs + wMovesToMate)
-          break;                      // End search early if a MovesToMate bound has been satisfied
+          break;                        // End search early if a MovesToMate bound has been satisfied
       }
     }
 
@@ -233,9 +233,9 @@ partial class Position : Board {
 
     var qTotal1 = State.NodeTotal;
 #if DisplayPrediction
-      var qPredicted1 = 0UL;
-#endif
-#endif
+    var qPredicted1 = 0UL;
+#endif                                  // DisplayPrediction
+#endif                                  // DisplayDepth
     var testCases = getTestCases();
 
     var pc = State.Case;
@@ -246,7 +246,7 @@ partial class Position : Board {
         LogInfo(Level.note);
         LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
       }
-#endif
+#endif                                  // DisplayDepth
       //[Init]Reset PerfCase counts prior to the recursive search for each test case
       pc.Clear();
       perft(vDepth);
@@ -257,9 +257,9 @@ partial class Position : Board {
         var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
         GameState.displayRate(dElapsedMS, qNodeDelta);
 #if DisplayPrediction
-          var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
-          GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
-          qPredicted1 = qPredicted2;
+        var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
+        GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
+        qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
         qTotal1 = State.NodeTotal;
         sw.Restart();
@@ -269,5 +269,5 @@ partial class Position : Board {
         LogInfo(Level.error, $"{Name} failed at Depth = {tc.Plies}");
     }
   }
-  #endregion
+  #endregion                            // Search Methods
 }

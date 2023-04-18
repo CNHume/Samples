@@ -43,13 +43,14 @@ using Ply = UInt16;
 partial class Position : Board {
   #region Helper Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Eval adjustValue(Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound, Ply wSearchPlies) {
+  private static Eval adjustValue(
+    Eval mAlpha, Eval mBeta, Eval mValueFound, EvalType etFound, Ply wSearchPlies) {
     var mValue = EvalUndefined;
 
     if (EvalUndefined < mValueFound) {
       mValueFound = debitMate(mValueFound, wSearchPlies);
 #if FailHard
-        mValue = boundValue(mValue, mAlpha, mBeta);
+      mValue = boundValue(mValue, mAlpha, mBeta);
 #endif
       //
       // Lower Bound reliable when mBeta <= mValue
@@ -79,8 +80,8 @@ partial class Position : Board {
       moveFound = Move.Undefined;
     }
 #if DebugMoveColor
-      if (IsDefined(moveFound) && WTM())
-        moveFound |= Move.WTM;
+    if (IsDefined(moveFound) && WTM())
+      moveFound |= Move.WTM;
 #endif
     return moveFound;
   }
@@ -94,47 +95,47 @@ partial class Position : Board {
     var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
     if (bAllowValue && goodMoves != null && IsDefinite(moveFound)) {
 #if DedupeGoodMoves
-        //
-        // Duplicates should be avoided; but will be filtered from SiftedMoves
-        //
-        if (goodMoves.Exists(gm => EqualMoves(gm.Move, moveFound))) {
+      //
+      // Duplicates should be avoided; but will be filtered from SiftedMoves
+      //
+      if (goodMoves.Exists(gm => EqualMoves(gm.Move, moveFound))) {
 #if DEBUG
-          var sb = new StringBuilder()
-            .AppendFormat("Filtering ")
-            .AppendAN(moveFound, Side, State.IsChess960);
-          LogLine(sb.ToString());
+        var sb = new StringBuilder()
+          .AppendFormat("Filtering ")
+          .AppendAN(moveFound, Side, State.IsChess960);
+        LogLine(sb.ToString());
 #endif
-          return mValue;
-        }
+        return mValue;
+      }
 #endif                                  // DedupeGoodMoves
       // moveFound may be either annotated or abbreviated
       var good = new GoodMove(moveFound, wDepth, mValue, etFound);
 #if LoadMRU
         goodMoves.Insert(0, good);      // MRU order
 #else
-      goodMoves.Add(good);            // LRU works best
+      goodMoves.Add(good);              // LRU works best
 #endif
     }
 
     return mValue;
   }
-  #endregion
+  #endregion                            // Helper Methods
 
   #region XPM Methods
   private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined,
-                        Move moveExcluded = Move.Undefined) {       // 10 MHz
+                        Move moveExcluded = Move.Undefined) { // 10 MHz
     Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
     traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
     State.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
-      var bWTM = WTM();
+    var bWTM = WTM();
 #endif
 #if XPMCompositionHash
-      UInt32 wPly = State.MovePly;
-      var nSide = bWTM ? 0 : 1;
-      var uMemoHash = compositionHash(bWTM);
-      var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
+    UInt32 wPly = State.MovePly;
+    var nSide = bWTM ? 0 : 1;
+    var uMemoHash = compositionHash(bWTM);
+    var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
 #else
     var qDynamic = DynamicHash(moveExcluded);
 #endif
@@ -145,17 +146,17 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
-      if (IsDefinite(moveBest)) {
-        var bWhiteMove = moveBest.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXPM)}]");
-          DisplayCurrent(nameof(storeXPM));
-        }
+    if (IsDefinite(moveBest)) {
+      var bWhiteMove = moveBest.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXPM)}]");
+        DisplayCurrent(nameof(storeXPM));
       }
+    }
 #endif
 #if XPHash128
-      var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
-                                   mAdjusted, et, moveBest);
+    var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
+                                  mAdjusted, et, moveBest);
 #else
     var store = new PositionMove(qDynamic, State.MovePly, wDepth,
                                  mAdjusted, et, moveBest);
@@ -167,16 +168,16 @@ partial class Position : Board {
   private Boolean probeXPM(Depth wDepth, Eval mAlpha, Eval mBeta,
                            Move moveExcluded, List<GoodMove> goodMoves) {
 #if XPMCompositionHash
-      var bWTM = WTM();
-      UInt32 wPly = State.MovePly;
-      var nSide = bWTM ? 0 : 1;
-      var uMemoHash = compositionHash(bWTM);
-      var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
+    var bWTM = WTM();
+    UInt32 wPly = State.MovePly;
+    var nSide = bWTM ? 0 : 1;
+    var uMemoHash = compositionHash(bWTM);
+    var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
 #else
     var qDynamic = DynamicHash(moveExcluded);
 #endif
 #if XPHash128
-      var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
+    var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
 #else
     var match = new PositionMove(qDynamic, State.MovePly, wDepth);
 #endif
@@ -194,7 +195,7 @@ partial class Position : Board {
 
     return bFound;
   }
-  #endregion
+  #endregion                            // XPM Methods
 
   #region XP Methods
   private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
@@ -211,27 +212,27 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
-      if (IsDefinite(moveBest)) {
-        var bWTM = WTM();
-        var bWhiteMove = moveBest.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXP)}]");
-          DisplayCurrent(nameof(storeXP));
-        }
+    if (IsDefinite(moveBest)) {
+      var bWTM = WTM();
+      var bWhiteMove = moveBest.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXP)}]");
+        DisplayCurrent(nameof(storeXP));
       }
+    }
 #endif
 #if XPHash128
 #if XPMoveTypes
-      var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
-                                    mAdjusted, et, moveBest);
+    var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
+                                  mAdjusted, et, moveBest);
 #else
-      var store = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth,
-                                    mAdjusted, et, moveBest);
+    var store = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth,
+                                  mAdjusted, et, moveBest);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-      var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
-                                    mAdjusted, et, moveBest);
+    var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
+                                  mAdjusted, et, moveBest);
 #else
     var store = new Transposition(qDynamic, State.MovePly, wDepth,
                                   mAdjusted, et, moveBest);
@@ -247,13 +248,13 @@ partial class Position : Board {
     var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
 #if XPMoveTypes
-      var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
+    var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
 #else
-      var match = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth);
+    var match = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-      var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
+    var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
 #else
     var match = new Transposition(qDynamic, State.MovePly, wDepth);
 #endif
@@ -262,15 +263,15 @@ partial class Position : Board {
 #if XPMoveTypes
       if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
-    moveFound = adjustEmptyMove(match.BestMove);      //[out]3
-    etFound = match.Type;                             //[out]2
+    moveFound = adjustEmptyMove(match.BestMove);        //[out]3
+    etFound = match.Type;                               //[out]2
     var mValueFound = match.Value;
-    traceVal(nameof(probeXP), mValueFound, etFound);  //[Conditional]
+    traceVal(nameof(probeXP), mValueFound, etFound);    //[Conditional]
     mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
   }
-  #endregion
+  #endregion                            // XPM Methods
 
   #region QXP Methods
   private Eval storeQXP(Eval mValue, EvalType et,
@@ -285,17 +286,17 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
-      if (IsDefinite(moveBest)) {
-        var bWTM = WTM();
-        var bWhiteMove = moveBest.Has(Move.WTM);
-        if (bWTM != bWhiteMove) {
-          Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeQXP)}]");
-          DisplayCurrent(nameof(storeQXP));
-        }
+    if (IsDefinite(moveBest)) {
+      var bWTM = WTM();
+      var bWhiteMove = moveBest.Has(Move.WTM);
+      if (bWTM != bWhiteMove) {
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeQXP)}]");
+        DisplayCurrent(nameof(storeQXP));
       }
+    }
 #endif
 #if QXPHash128
-      var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
+    var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
     var store = new QuietPosition(Hash, State.MovePly, mAdjusted, et, moveBest);
 #endif
@@ -306,22 +307,22 @@ partial class Position : Board {
   private Boolean probeQXP(Eval mAlpha, Eval mBeta,
                            out Move moveFound, out Eval mValue, out EvalType etFound) {
 #if QXPHash128
-      var match = new QuietPosition(Hash, State.MovePly, HashPawn);
+    var match = new QuietPosition(Hash, State.MovePly, HashPawn);
 #else
     var match = new QuietPosition(Hash, State.MovePly);
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
     var moveBest = adjustEmptyMove(match.BestMove);
-    moveFound = IsDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;    //[out]3
-    etFound = match.Type;                             //[out]2
-                                                      //[Note]Mate values are suspect because quiet moves were not considered
+    moveFound = IsDefined(moveBest) ? moveBest | Move.Qxnt : moveBest;      //[out]3
+    etFound = match.Type;                       //[out]2
+                                                //[Note]Mate values are suspect because quiet moves were not considered
     var mValueFound = match.Value;
-    mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly); //[out]1
-    traceVal(nameof(probeQXP), mValue, etFound);      //[Conditional]
+    mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);   //[out]1
+    traceVal(nameof(probeQXP), mValue, etFound);//[Conditional]
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
   }
-  #endregion
+  #endregion                            // QXP Methods
 
   #region Combined XP and QXP Methods
   // For lookupPV()
@@ -351,16 +352,16 @@ partial class Position : Board {
 #if QuiescentTryXP
     const Depth wDepth = 0;
     bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
-    State.IncQxnt(bFoundValue);       //[Conditional]
+    State.IncQxnt(bFoundValue);         //[Conditional]
 #endif
 #if TransposeQuiet
-    if (!bFoundValue)                 //[C#]There is no Logical-OR assignment operator ||=
+    if (!bFoundValue)                   //[C#]There is no Logical-OR assignment operator ||=
       bFoundValue = probeQXP(mAlpha, mBeta, out moveFound, out mValue, out etFound);
 #endif
 #endif                                  // TransposeQuiet || QuiescentTryXP
     return bFoundValue;
   }
-  #endregion
+  #endregion                            // Combined XP and QXP Methods
 
   #region Killer Methods
   //
@@ -369,18 +370,18 @@ partial class Position : Board {
   private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
     var bWTM = WTM();
     Trace.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
-    traceVal(nameof(storeKiller), mValue, et);        //[Conditional]
+    traceVal(nameof(storeKiller), mValue, et);  //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
     var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
     UInt32 wPly = State.MovePly;
 #if BottleGamePly
-      wPly = GamePly;
+    wPly = GamePly;
 #else
-    wPly += wDepth;                   //[Note]wDepth value may not guarantee Ply/Color Parity
+    wPly += wDepth;                     //[Note]wDepth value may not guarantee Ply/Color Parity
 #endif
 #if KillerCompositionHash
-      var uMemoHash = compositionHash(true);
-      wPly *= uMemoHash;
+    var uMemoHash = compositionHash(true);
+    wPly *= uMemoHash;
 #endif
 #if BottleBothSides
     var nSide = bWTM ? 0 : 1;
@@ -395,18 +396,18 @@ partial class Position : Board {
     const Boolean bFilterEvalUndefined = true;
     UInt32 wPly = State.MovePly;
 #if BottleGamePly
-      wPly += SearchPly;
+    wPly += SearchPly;
 #else
     wPly += wDepth;
 #endif
 #if KillerCompositionHash
-      var uMemoHash = compositionHash(true);
-      wPly *= uMemoHash;
+    var uMemoHash = compositionHash(true);
+    wPly *= uMemoHash;
 #endif
 #if BottleBothSides
     var nSide = bWTM ? 0 : 1;
 #else
-      var nSide = 0;
+    var nSide = 0;
 #endif
     var killers = State.Bottle.Load(wPly, nSide);
     var bFound = killers.Count > 0;
@@ -421,7 +422,7 @@ partial class Position : Board {
 
     return bFound;
   }
-  #endregion
+  #endregion                            // Killer Methods
 
   #region Traced Position Diagnostic
   [Conditional("TraceVal")]
@@ -437,11 +438,11 @@ partial class Position : Board {
           sb.AppendFormat($" {et}");
       }
 #if DebugStand
-        if (Enum.TryParse<EvalType>(sLabel, out EvalType etLabel)) {
-        }
+      if (Enum.TryParse<EvalType>(sLabel, out EvalType etLabel)) {
+      }
 #endif
       LogLine(sb.ToString());
     }
   }
-  #endregion
+  #endregion                            // Traced Position Diagnostic
 }

@@ -41,18 +41,18 @@ partial class Position : Board {
   #region Search Methods
   private Eval quiet(Eval mAlpha, Eval mBeta) {
     var moves = PseudoMoves;
-    BestMoves.Clear();                //[Required]
+    BestMoves.Clear();                  //[Required]
 
     #region Test for Draw
-    if (IsDraw()) {                   //[Note]SetDraw50() will not be called below
+    if (IsDraw()) {                     //[Note]SetDraw50() will not be called below
       State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
       return eval();
 #else
-        return boundValue(eval(), mAlpha, mBeta);
+      return boundValue(eval(), mAlpha, mBeta);
 #endif
     }
-    #endregion
+    #endregion                          // Test for Draw
 
     #region Transposition Table Lookup
 #if TraceVal
@@ -77,17 +77,17 @@ partial class Position : Board {
 
       return mValueFound;
     }
-    #endregion
+    #endregion                          // Transposition Table Lookup
 
     #region Move Loop Initializaton
 #if QuietCheck || QuietMate
     var bInCheck = InCheck();
 #endif
-    var et = EvalType.Upper;          //[Init]Fail Low is the default assumption
-                                      // Stand Pat (tests Draw Flags)
+    var et = EvalType.Upper;            //[Init]Fail Low is the default assumption
+                                        // Stand Pat (tests Draw Flags)
     var mStand = standpatval(mValueFound, etFound);
 
-    var moveBest = Move.Undefined;    //[Init]
+    var moveBest = Move.Undefined;      //[Init]
     var mValue = EvalUndefined;
     var mBest = EvalUndefined;
 
@@ -98,7 +98,7 @@ partial class Position : Board {
       if (mAlpha < mBest)
         mAlpha = mBest;
     }
-    #endregion
+    #endregion                          // Move Loop Initializaton
 
     if (mBeta <= mAlpha) {
       //[Test]return boundValue(mBest, mAlpha, mBeta);
@@ -116,25 +116,25 @@ partial class Position : Board {
       }
       else {
 #if SwapOn
-          generate(moves, Swaps);
+        generate(moves, Swaps);
 #elif QuietCheck || QuietMate
         if (bInCheck)
           generate(moves, !Swaps);
         else
           generateMaterialMoves(moves);
 #else
-          generateMaterialMoves(moves);
+        generateMaterialMoves(moves);
 #endif
 #if DebugPseudoMoves
-          DisplayCurrent(nameof(quiet));
-          var sb = new StringBuilder("PseudoMoves:");
-          sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
-          sb.FlushLine();
+        DisplayCurrent(nameof(quiet));
+        var sb = new StringBuilder("PseudoMoves:");
+        sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+        sb.FlushLine();
 #endif
       }
-      #endregion
+      #endregion                        // Generate Moves
 
-      var child = Push();             // Push Position to make the moves
+      var child = Push();               // Push Position to make the moves
       try {
         #region Move Loop
 #if DebugMoveColor
@@ -233,24 +233,24 @@ partial class Position : Board {
         #endregion
 #if QuietMate
         if (uLegalMoves == 0 && isLeaf()) {
-          SetFinal();                 // Mark Game Leaf
+          SetFinal();                   // Mark Game Leaf
           mBest = final();
         }
 #endif
-        traceVal("Quiet Failed Low", mBest);  //[Conditional]
+        traceVal("Quiet Failed Low", mBest);    //[Conditional]
       }
       finally {
-        Pop(ref child);               // Pop Position used for this Ply
+        Pop(ref child);                 // Pop Position used for this Ply
       }
     }
 
   exit:
 #if VerifyUpper
-      var bUpper = et == EvalType.Upper;
-      var bUndefined = moveBest == Move.Undefined;
-      if (bUpper != bUndefined) {
-        Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
-      }
+    var bUpper = et == EvalType.Upper;
+    var bUndefined = moveBest == Move.Undefined;
+    if (bUpper != bUndefined) {
+      Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
+    }
 #endif
     if (mBest == EvalUndefined)
       mBest = mStand;
@@ -258,14 +258,14 @@ partial class Position : Board {
 #if TransposeQuiet
     return storeQXP(mBest, et, moveBest);
 #else
-      return boundValue(mBest, mAlpha, mBeta);
+    return boundValue(mBest, mAlpha, mBeta);
 #endif
   }
 
   protected Boolean isLeaf() {
     var moves = PseudoMoves;
     generate(moves, !Swaps);
-    var child = Push();               // Push Position to find a legal move
+    var child = Push();                 // Push Position to find a legal move
     try {
       foreach (var mov in moves) {
         var move = mov;
@@ -276,7 +276,7 @@ partial class Position : Board {
       return true;
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this test
+      Pop(ref child);                   // Pop Position used for this test
     }
   }
 
@@ -324,6 +324,6 @@ partial class Position : Board {
 
     return bPrune;
   }
-  #endregion
-  #endregion
+  #endregion                            // Delta Pruning Method
+  #endregion                            // Search Methods
 }

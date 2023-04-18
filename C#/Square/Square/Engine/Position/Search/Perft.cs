@@ -13,7 +13,7 @@ namespace Engine;
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;                    // For verifyMaterialMoves()
+using System.Linq;                      // For verifyMaterialMoves()
 using System.Text;
 
 //
@@ -28,14 +28,14 @@ partial class Position : Board {
     var filteredMoves = moves.Where(m => m.Has(Move.Material));
     var filtered = filteredMoves.ToArray();
 #if OrderMoves
-      Array.Sort<Move>(filtered, 0, filtered.Length);
+    Array.Sort<Move>(filtered, 0, filtered.Length);
 #endif
     var materialMoves = new List<Move>();
     generateMaterialMoves(materialMoves);
 
     var material = materialMoves.ToArray();
 #if OrderMoves
-      Array.Sort<Move>(material, 0, material.Length);
+    Array.Sort<Move>(material, 0, material.Length);
 #endif
     if (filtered.Length == material.Length) {
       for (var n = 0; n < filtered.Length; n++)
@@ -67,23 +67,23 @@ partial class Position : Board {
     var pc = State.Case;
 
     generate(moves, !Swaps);
-    verifyMaterialMoves(moves);       //[Conditional]
+    verifyMaterialMoves(moves);         //[Conditional]
 
-    var child = Push();               // Push Position to make the moves
-                                      //[Debug]var sFEN = child.Parent?.ToString(PositionType.FEN);
+    var child = Push();                 // Push Position to make the moves
+                                        //[Debug]var sFEN = child.Parent?.ToString(PositionType.FEN);
     try {
       var uLegalMoves = 0U;
       foreach (var mov in moves) {
         var move = mov;
 #if DebugMove
-          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
         if (!child.tryMove(ref move, NotFindRepetition))
           continue;
 
-        uLegalMoves++;                // Count Legal Moves for Final annotation
-        pc.TotalNodes++;              // TotalNodes is reset for each Test Case
+        uLegalMoves++;                  // Count Legal Moves for Final annotation
+        pc.TotalNodes++;                // TotalNodes is reset for each Test Case
 
         //
         //[Note]Annotation is made from the child position resulting from a move;
@@ -91,21 +91,21 @@ partial class Position : Board {
         //
         //var moveNoted = child.annotate(move);
         //
-        if (vPlies > 0) {             // Non-Leaf Node: Recurse
+        if (vPlies > 0) {               // Non-Leaf Node: Recurse
           child.perft(vPlies1);
 #if AnnotateFinal
-            if (child.IsFinal()) move |= Move.NoteFinal;
+          if (child.IsFinal()) move |= Move.NoteFinal;
 #endif
         }
-        else                          // Leaf Node: Increment appropriate count and return
+        else                            // Leaf Node: Increment appropriate count and return
           child.countLeaf(move);
-      }                               //[Next]Pseudo Move
+      }                                 //[Next]Pseudo Move
 
-      if (uLegalMoves == 0)           // No Move Found
-        SetFinal();                   // Mark Game Leaf for annotation
+      if (uLegalMoves == 0)             // No Move Found
+        SetFinal();                     // Mark Game Leaf for annotation
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this Ply
+      Pop(ref child);                   // Pop Position used for this Ply
     }
   }
 
@@ -132,5 +132,5 @@ partial class Position : Board {
 #endif
     }
   }
-  #endregion
+  #endregion                            // Search Methods
 }
