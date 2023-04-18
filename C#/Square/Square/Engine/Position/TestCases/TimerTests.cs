@@ -47,10 +47,10 @@ partial class Position : Board {
     //
     //[Time]timeRoots();
     //[Time]timeEval();
-    //[Time]timeMove((Move)0x00140759);       //[Perft3]b4f4
-    //[Time]timeMove((Move)0x0001078E);       //[Perft3]g2g4 with tryEP()
-    //[Time]timeMove((Move)0x00010A61);       //[Perft3]b5b6
-    //[Time]timeMove((Move)0x00040699);       //[Perft3]b4c4
+    //[Time]timeMove((Move)0x00140759);         //[Perft3]b4f4
+    //[Time]timeMove((Move)0x0001078E);         //[Perft3]g2g4 with tryEP()
+    //[Time]timeMove((Move)0x00010A61);         //[Perft3]b5b6
+    //[Time]timeMove((Move)0x00040699);         //[Perft3]b4c4
     //timeWeighPieces();
     //[Time]timeGenerate(PseudoMoves, !Swaps);
     //[Time]timeAddPieceCapturesAndMoves();
@@ -95,7 +95,7 @@ partial class Position : Board {
       var root = ISqrt(w);
     }
   }
-  #endregion
+  #endregion                            // Timer Test Selector
 
   #region Timer Tests
   private void timeRoots(UInt64 qTrials = 100000UL) {
@@ -154,7 +154,8 @@ partial class Position : Board {
     timerStop(sw, qTrials);
   }
 
-  private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {  // Using startpos [2023-01-09 15.456 MHz]
+  // Using startpos [2023-01-09 15.456 MHz]
+  private void timeAddPawnCapturesAndMoves(UInt64 qTrials = 10000000UL) {
     var (friend, foe) = GetSides(WTM());
     var sw = timerStart(nameof(PositionSide.AddPawnMoves), qTrials);
 
@@ -248,10 +249,10 @@ partial class Position : Board {
     var sw = timerStart(nameof(rotateRank), qTrials);
     var n = (Int32)Sq.e4;
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-      var vRank = rotateRank(n);                    // 11 sec, 90.65 MHz
-                                                    //var vFileHalf = hashFileHalf(RankPiece, n);    // 29.48 sec, 33.9 MHz
-                                                    //var vA1H8Half = hashA1H8Half(RankPiece, n);    // 30.69 sec, 32.59 MHz
-                                                    //var vA8H1Half = hashA8H1Half(RankPiece, n);    // 30.55 sec, 32.74 MHz
+      var vRank = rotateRank(n);                        // 11 sec, 90.65 MHz
+      //var vFileHalf = hashFileHalf(RankPiece, n);       // 29.48 sec, 33.9 MHz
+      //var vA1H8Half = hashA1H8Half(RankPiece, n);       // 30.69 sec, 32.59 MHz
+      //var vA8H1Half = hashA8H1Half(RankPiece, n);       // 30.55 sec, 32.74 MHz
     }
 
     timerStop(sw, qTrials);
@@ -289,16 +290,16 @@ partial class Position : Board {
   }
 
   private void timeMove(Move move, UInt64 qTrials = 100000000UL) {
-    var child = Push();               // Push Position to make the moves
+    var child = Push();                 // Push Position to make the moves
     try {
       child.timePlayMove(move, qTrials);
     }
     finally {
-      Pop(ref child);                 // Pop Position used for this Timer Test
+      Pop(ref child);                   // Pop Position used for this Timer Test
     }
   }
 
-  private void timeListAdd(UInt64 qTrials = 10000000UL) {      //~35.56 MHz
+  private void timeListAdd(UInt64 qTrials = 10000000UL) {     //~35.56 MHz
     var sw = timerStart(nameof(List<Move>.Add), qTrials);
 
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
@@ -316,8 +317,8 @@ partial class Position : Board {
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
       loadRankOffset();
 #if Magic
-        newMagic();
-        loadMagic();
+      newMagic();
+      loadMagic();
 #else
       loadRotation();
       loadOrthBit();
@@ -329,13 +330,13 @@ partial class Position : Board {
       loadOrthAtx();
       loadDiagAtx();
 #if ByteDeBruijn
-        loadDeBruijn(deBruijnByte, 3, vDeBruijn);
+      loadDeBruijn(deBruijnByte, 3, vDeBruijn);
 #endif
 #if DeBruijn
 #if FullData
-        loadDeBruijn(deBruijnFull, 6, qDeBruijn);
+      loadDeBruijn(deBruijnFull, 6, qDeBruijn);
 #else                                   //!FullData
-        loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
+      loadDeBruijn(deBruijnHalf, 5, uDeBruijn);
 #endif
 #endif                                  // DeBruijn
       loadZobrist();
@@ -357,5 +358,5 @@ partial class Position : Board {
       timerStop(sw, qTrial);
     }
   }
-  #endregion
+  #endregion                            // Timer Tests
 }

@@ -11,7 +11,7 @@
 
 namespace Engine;
 
-using HeapSort;                           // For Heap
+using HeapSort;                         // For Heap
 
 using MoveOrder;
 
@@ -34,31 +34,31 @@ partial class Position : Board {
   private static readonly Draft wReducedDraftMin;
   private static readonly Draft wLateDrafthMin;
   private static readonly Draft wLerpDraftMax;
-  #endregion
+  #endregion                            // Static Fields
 
   #region Pawn Feature Fields
   public static readonly PawnFeature[] PawnFeatures;
   public static readonly Int32 nFeatureBits;
 #if TestInitFree || TestInitHelp
-    private static readonly Sq[] testSquares = {
-      Sq.a1, Sq.a8, Sq.c2, Sq.c5, Sq.d6, Sq.e4, Sq.f1, Sq.g7, Sq.h8 };
+  private static readonly Sq[] testSquares = {
+    Sq.a1, Sq.a8, Sq.c2, Sq.c5, Sq.d6, Sq.e4, Sq.f1, Sq.g7, Sq.h8 };
 #endif
-  #endregion
+  #endregion                            // Pawn Feature Fields
 
   #region Fields
   public Position? Parent;
 
   private Eval staticDelta;
-  private Eval staticTotal;         // For isEndgame()
+  private Eval staticTotal;             // For isEndgame()
   private ExtensionCounter extensionCounts;
 #if TestPawnFeatures
-    public Plane[] FeatureOrth;
+  public Plane[] FeatureOrth;
 #endif
   private Plane[] restricted;
   private Plane pinnedPiece;
 
-  public Move CurrentMove;            // Set by [null|try]Move() prior to calling Board.PlayMove()
-  public List<Move> BestMoves;        // This is a line, not a set of alternative moves
+  public Move CurrentMove;              // Set by [null|try]Move() prior to calling Board.PlayMove()
+  public List<Move> BestMoves;          // This is a line, not a set of alternative moves
 
   //
   // 16 members of the MoveType Enum, in their order of precedence:
@@ -92,7 +92,7 @@ partial class Position : Board {
   public List<Move> PseudoPawnAboveMove;
   public List<Move> PseudoPawnBelowMove;
   public List<Move> PseudoKnightMove;
-  public List<Move> PseudoCastles;    // Castles precede PseudoKingMove
+  public List<Move> PseudoCastles;      // Castles precede PseudoKingMove
   public List<Move> PseudoKingMove;
 
   public List<Move> PseudoDiagAboveMove;
@@ -118,9 +118,9 @@ partial class Position : Board {
   public Heap<SortMove> PriorityMove;
 #endif
 #else
-    public List<Move> SiftedMoves;
+  public List<Move> SiftedMoves;
 #endif
-  #endregion
+  #endregion                            // Fields
 
   #region Properties
   private Boolean isMovePosition {
@@ -131,5 +131,5 @@ partial class Position : Board {
   private String debugString {
     get { return ToString(); }
   }
-  #endregion
+  #endregion                            // Properties
 }

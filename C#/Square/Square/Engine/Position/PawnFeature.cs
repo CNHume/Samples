@@ -83,12 +83,12 @@ partial class Position {
               blackParameter.PawnToMoveWins[nWhite] |= qpBlack;
               whiteParameter.PawnToMoveWins[nBlack] |= qpWhite;
             }
-          }                           // nKingX
-        }                             // nKingY
-      }                               // nPawnX
-    }                                 // nPawnY
+          }                             // nKingX
+        }                               // nKingY
+      }                                 // nPawnX
+    }                                   // nPawnY
   }
-  #endregion
+  #endregion                            // King Outside Square Load Methods
 
   #region Free & Help Load Methods
 #if TestInitHelp || InitFree || !InitHelp
@@ -120,38 +120,38 @@ partial class Position {
   }
 #endif
 #if TestInitFree || InitHelp || !InitFree
-    //
-    // Mark the Pawn Stop square in front of each square;
-    // and all help squares prior to that:
-    //
-    private static void loadHelp() {
-      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
+  //
+  // Mark the Pawn Stop square in front of each square;
+  // and all help squares prior to that:
+  //
+  private static void loadHelp() {
+    var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
-      var n = sqr(0, whiteParameter.PawnRank);
-      var qpWhite = 0UL;
-      var qpBlack = 0UL;
+    var n = sqr(0, whiteParameter.PawnRank);
+    var qpWhite = 0UL;
+    var qpBlack = 0UL;
 
-      for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
-        qpWhite |= bit(n);
-        qpBlack |= bit(InvertSquare(n));
+    for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
+      qpWhite |= bit(n);
+      qpBlack |= bit(InvertSquare(n));
 
-        for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
-          var nBlack = InvertSquare(nWhite);
-          blackParameter.Help[nBlack] = qpBlack;
-          whiteParameter.Help[nWhite] = qpWhite;
-        }
+      for (var x = 0; x < nFiles; x++, nWhite++, qpWhite <<= 1, qpBlack >>= 1) {
+        var nBlack = InvertSquare(nWhite);
+        blackParameter.Help[nBlack] = qpBlack;
+        whiteParameter.Help[nWhite] = qpWhite;
       }
     }
+  }
 #endif
   private static void loadFreeHelp() {
 #if TestInitHelp || InitFree || !InitHelp
     loadFree();
 #endif
 #if TestInitFree || InitHelp || !InitFree
-      loadHelp();
+    loadHelp();
 #endif
 #if TestInitFree || TestInitHelp
-      testFreeHelp(testSquares);
+    testFreeHelp(testSquares);
 #endif
   }
 
@@ -163,30 +163,30 @@ partial class Position {
 #if InitFree
     var qpFree = Parameter[nSide].Free[nPawn];
 #else
-      var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
+    var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
-      Plane qpFree = default;
-      switch (nSide) {
-      case Black:
-        qpFree = whiteParameter.Help[nPawn] >> nFiles * 2;
+    Plane qpFree = default;
+    switch (nSide) {
+    case Black:
+      qpFree = whiteParameter.Help[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        if (y(nPawn) > blackParameter.PawnRank) {
-          var nFree = sqr(x(nPawn), blackParameter.PawnRank);
-          qpFree |= bit(nFree);
-        }
-#endif
-        break;
-
-      case White:
-        qpFree = blackParameter.Help[nPawn] << nFiles * 2;
-#if TestInvalidPawnPositions
-        if (y(nPawn) < whiteParameter.PawnRank) {
-          var nFree = sqr(x(nPawn), whiteParameter.PawnRank);
-          qpFree |= bit(nFree);
-        }
-#endif
-        break;
+      if (y(nPawn) > blackParameter.PawnRank) {
+        var nFree = sqr(x(nPawn), blackParameter.PawnRank);
+        qpFree |= bit(nFree);
       }
+#endif
+      break;
+
+    case White:
+      qpFree = blackParameter.Help[nPawn] << nFiles * 2;
+#if TestInvalidPawnPositions
+      if (y(nPawn) < whiteParameter.PawnRank) {
+        var nFree = sqr(x(nPawn), whiteParameter.PawnRank);
+        qpFree |= bit(nFree);
+      }
+#endif
+      break;
+    }
 #endif
     return qpFree;
   }
@@ -197,7 +197,7 @@ partial class Position {
   //
   private static Plane help(Int32 nSide, Int32 nPawn) {
 #if InitHelp
-      var qpHelp = Parameter[nSide].Help[nPawn];
+    var qpHelp = Parameter[nSide].Help[nPawn];
 #else
     var (blackParameter, whiteParameter) = Parameter.GetBothParameters();
 
@@ -206,16 +206,16 @@ partial class Position {
     case Black:
       qpHelp = whiteParameter.Free[nPawn] >> nFiles * 2;
 #if TestInvalidPawnPositions
-        var nHelpBlack = sqr(x(nPawn), blackParameter.PawnRank);
-        qpHelp |= bit(nHelpBlack);
+      var nHelpBlack = sqr(x(nPawn), blackParameter.PawnRank);
+      qpHelp |= bit(nHelpBlack);
 #endif
       break;
 
     case White:
       qpHelp = blackParameter.Free[nPawn] << nFiles * 2;
 #if TestInvalidPawnPositions
-        var nHelpWhite = sqr(x(nPawn), whiteParameter.PawnRank);
-        qpHelp |= bit(nHelpWhite);
+      var nHelpWhite = sqr(x(nPawn), whiteParameter.PawnRank);
+      qpHelp |= bit(nHelpWhite);
 #endif
       break;
     }
@@ -236,17 +236,17 @@ partial class Position {
         var nSide = (Int32)parameter.SideName;
         var (qpFree, qpHelp) = getFreeHelp(nSide, n);
 #if TestInitFree
-          LogLine($"free({parameter.SideName}, {sq})\n");
-          WriteOrth(qpFree);
-          LogLine();
+        LogLine($"free({parameter.SideName}, {sq})\n");
+        WriteOrth(qpFree);
+        LogLine();
 #endif
 #if TestInitHelp
-          LogLine($"help({parameter.SideName}, {sq})\n");
-          WriteOrth(qpHelp);
-          LogLine();
+        LogLine($"help({parameter.SideName}, {sq})\n");
+        WriteOrth(qpHelp);
+        LogLine();
 #endif
       }
     }
   }
-  #endregion
+  #endregion                            // Free & Help Load Methods
 }

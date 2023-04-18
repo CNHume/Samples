@@ -41,7 +41,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Engine;
 
-using HeapSort;                       // For Heap
+using HeapSort;                         // For Heap
 
 using MoveOrder;
 
@@ -61,18 +61,18 @@ partial class Position : Board {
   protected const PlyDepth vStartDepthDefault = 6;
   protected const Depth wSwapDepthMax = 1;
   // Carlsen v Topalov 2015-06-16 13-ply 1 PVSMin searched 0.25 Gnode in 4:24 vs 2 PVSMin searched 1.56 Gnode in 25:38
-  internal const Depth wNullPlyMin = 1;       // 1 Added for Mavo Nice Mate1 #6, 3 added for Xiong v Nakamura
-  internal const Depth wPVSDepthMin = 1;      // 1
-  internal const Depth wSmartPlyMax = 4;      // 4
-  internal const Depth wSmartDepthMin = 6;    // 6
-  internal const Depth wVerifyDepthMin = 12;  // 12
-  internal const Depth wLerpDepthMax = 14;    // 11
-  internal const Depth wReducedDepthMin = 1;  // 1
-  internal const Depth wOccamDepthMax = 1;    // 2
-  internal const Depth wThreatDepthMin = 3;   // 3
-  internal const Depth wSingularDepthMin = 4; // 6
+  internal const Depth wNullPlyMin = 1;         // 1 Added for Mavo Nice Mate1 #6, 3 added for Xiong v Nakamura
+  internal const Depth wPVSDepthMin = 1;        // 1
+  internal const Depth wSmartPlyMax = 4;        // 4
+  internal const Depth wSmartDepthMin = 6;      // 6
+  internal const Depth wVerifyDepthMin = 12;    // 12
+  internal const Depth wLerpDepthMax = 14;      // 11
+  internal const Depth wReducedDepthMin = 1;    // 1
+  internal const Depth wOccamDepthMax = 1;      // 2
+  internal const Depth wThreatDepthMin = 3;     // 3
+  internal const Depth wSingularDepthMin = 4;   // 6
   internal const Depth wLateDepthMin = 2;
-  protected const Int32 nFirstCapacity = 6;   // Transposition moveFound from prior Depth plus 2 Killers
+  protected const Int32 nFirstCapacity = 6;     // Transposition moveFound from prior Depth plus 2 Killers
 
   private const Boolean bWhiteMovesFirst = true;
 
@@ -105,19 +105,19 @@ partial class Position : Board {
 
     PawnFeatures = (PawnFeature[])Enum.GetValues(typeof(PawnFeature));
     nFeatureBits = PawnFeatures.Length * nPerNibble;
-    #endregion
+    #endregion                          // Read Only Assignments
 
     initParameters();
 #if TestCorner
-      printMapping("edgeDistance()", edgeDistance);
-      printMapping("liteCornerDistance()", liteCornerDistance);
-      printMapping("darkCornerDistance()", darkCornerDistance);
-      printMapping("liteCornerDefence()", liteCornerDefence);
-      printMapping("darkCornerDefence()", darkCornerDefence);
+    printMapping("edgeDistance()", edgeDistance);
+    printMapping("liteCornerDistance()", liteCornerDistance);
+    printMapping("darkCornerDistance()", darkCornerDistance);
+    printMapping("liteCornerDefence()", liteCornerDefence);
+    printMapping("darkCornerDefence()", darkCornerDefence);
 #endif
 #if ShowCornerCP
-      printMapping("liteCornerCP()", liteCornerCP);
-      printMapping("darkCornerCP()", darkCornerCP);
+    printMapping("liteCornerCP()", liteCornerCP);
+    printMapping("darkCornerCP()", darkCornerCP);
 #endif
 
     //
@@ -130,7 +130,7 @@ partial class Position : Board {
   public Position(GameState state) : base(state) {
     ensureSides();
 #if TestPawnFeatures
-      newFeatures();
+    newFeatures();
 #endif
     newBestMoves();
     newRestricted();
@@ -168,7 +168,7 @@ partial class Position : Board {
     CurrentMove = position.CurrentMove;
     Name = position.Name;
   }
-  #endregion
+  #endregion                            // Constructors
 
   #region Static Intialization
   //
@@ -191,7 +191,7 @@ partial class Position : Board {
   }
 
   private static void loadSquareImportance() {
-    var n4 = 0;                       // quartance[] defined over 16 squares of a quarter-board
+    var n4 = 0;                         // quartance[] defined over 16 squares of a quarter-board
     for (var y = 0; y < nRanks / 2; y++) {
       var yInverse = InvertRank(y);
       for (var x = 0; x < nFiles / 2; x++, n4++) {
@@ -204,17 +204,17 @@ partial class Position : Board {
       }
     }
 #if TestImportance
-      printSquares("Importance", Importance);
+    printSquares("Importance", Importance);
 #endif
   }
-  #endregion
+  #endregion                            // Static Initialization
 
   #region Instance Intialization
 #if TestPawnFeatures
-    [MemberNotNull(nameof(FeatureOrth))]
-    private void newFeatures() {
-      FeatureOrth = new Plane[PawnFeatures.Length * 2];
-    }
+  [MemberNotNull(nameof(FeatureOrth))]
+  private void newFeatures() {
+    FeatureOrth = new Plane[PawnFeatures.Length * 2];
+  }
 #endif
   [MemberNotNull(nameof(BestMoves))]
   private void newBestMoves() {
@@ -225,7 +225,7 @@ partial class Position : Board {
   private void newRestricted() {
     restricted = new Plane[nSquares];
   }
-  #endregion
+  #endregion                            // Instance Intialization
 
   #region Move List Initialization
   [MemberNotNull(nameof(moveTypes))]
@@ -267,35 +267,35 @@ partial class Position : Board {
     )]
   private void newPseudoMoves() {
 #if NoCapacity
-      PseudoQueenPromotion = new List<Move>();
-      PseudoUnderPromotion = new List<Move>();
-      PseudoQueenPromotionCapture = new List<Move>();
-      PseudoUnderPromotionCapture = new List<Move>();
-      PseudoEPCapture = new List<Move>();
-      PseudoCastles = new List<Move>();
+    PseudoQueenPromotion = new List<Move>();
+    PseudoUnderPromotion = new List<Move>();
+    PseudoQueenPromotionCapture = new List<Move>();
+    PseudoUnderPromotionCapture = new List<Move>();
+    PseudoEPCapture = new List<Move>();
+    PseudoCastles = new List<Move>();
 
-      PseudoPawnAboveMove = new List<Move>();
-      PseudoPawnBelowMove = new List<Move>();
-      PseudoKingMove = new List<Move>();
-      PseudoKnightMove = new List<Move>();
-      PseudoDiagAboveMove = new List<Move>();
-      PseudoDiagBelowMove = new List<Move>();
-      PseudoOrthAboveMove = new List<Move>();
-      PseudoOrthBelowMove = new List<Move>();
+    PseudoPawnAboveMove = new List<Move>();
+    PseudoPawnBelowMove = new List<Move>();
+    PseudoKingMove = new List<Move>();
+    PseudoKnightMove = new List<Move>();
+    PseudoDiagAboveMove = new List<Move>();
+    PseudoDiagBelowMove = new List<Move>();
+    PseudoOrthAboveMove = new List<Move>();
+    PseudoOrthBelowMove = new List<Move>();
 
-      PseudoPawnAboveCapture = new List<Move>();
-      PseudoPawnBelowCapture = new List<Move>();
-      PseudoKingCapture = new List<Move>();
-      PseudoKnightCapture = new List<Move>();
-      PseudoDiagAboveCapture = new List<Move>();
-      PseudoDiagBelowCapture = new List<Move>();
-      PseudoOrthAboveCapture = new List<Move>();
-      PseudoOrthBelowCapture = new List<Move>();
+    PseudoPawnAboveCapture = new List<Move>();
+    PseudoPawnBelowCapture = new List<Move>();
+    PseudoKingCapture = new List<Move>();
+    PseudoKnightCapture = new List<Move>();
+    PseudoDiagAboveCapture = new List<Move>();
+    PseudoDiagBelowCapture = new List<Move>();
+    PseudoOrthAboveCapture = new List<Move>();
+    PseudoOrthBelowCapture = new List<Move>();
 
-      PseudoGoodCaptures = new List<Move>();
-      PseudoBadCaptures = new List<Move>();
-      PseudoCaptures = new List<Move>();
-      PseudoMoves = new List<Move>();
+    PseudoGoodCaptures = new List<Move>();
+    PseudoBadCaptures = new List<Move>();
+    PseudoCaptures = new List<Move>();
+    PseudoMoves = new List<Move>();
 #else
     PseudoQueenPromotion = new List<Move>(2);
     PseudoUnderPromotion = new List<Move>(2 * 3);
@@ -333,12 +333,12 @@ partial class Position : Board {
     PriorityMove = new Heap<SortMove>(SortMoves, 0);
 #endif
 #else
-      SiftedMoves = new List<Move>(128);
+    SiftedMoves = new List<Move>(128);
 #endif
   }
 
   internal List<Move> newSearchMoves() {
     return SearchMoves = new List<Move>(4);
   }
-  #endregion
+  #endregion                            // Move List Initialization
 }

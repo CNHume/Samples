@@ -7,6 +7,7 @@
 //
 
 namespace Engine;
+
 #region Enumerations
 #region EvalType Enum
 //
@@ -23,7 +24,7 @@ namespace Engine;
 // alternation of Lower and Upper while preserving Exact and Undefined:
 //
 public enum EvalType : byte { Exact, Lower, Undefined, Upper };
-#endregion                            // EvalType Enum
+#endregion                              // EvalType Enum
 
 #region MoveType Enum
 public enum MoveType : byte {
@@ -45,9 +46,10 @@ public enum MoveType : byte {
   PawnAboveMove,
   PawnBelowMove,
 }
-#endregion                            // MoveType Enum
+#endregion                              // MoveType Enum
 
 #region PositionType Enum
-public enum PositionType : byte { Prefix, FEN, EPD }
-#endregion                            // PositionType Enum
-#endregion                            // Enumerations
+public enum PositionType : byte {
+  Prefix, FEN, EPD }
+#endregion                              // PositionType Enum
+#endregion                              // Enumerations

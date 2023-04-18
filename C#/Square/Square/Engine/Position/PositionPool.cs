@@ -21,11 +21,11 @@ partial class Position : Board {
 
     clrEval();
 
-    if (Parent is null) {             // Root Position
-      State.IsChess960 = false;       //[Init]
-      GamePly = 0;                    //[Init]
+    if (Parent is null) {               // Root Position
+      State.IsChess960 = false;         //[Init]
+      GamePly = 0;                      //[Init]
 
-      extensionCounts = 0;            //[Init]
+      extensionCounts = 0;              //[Init]
       moveTypeOrdering = defaultMoveTypeOrdering;
     }
     else {
@@ -37,7 +37,7 @@ partial class Position : Board {
 #if InheritMoveTypes
       moveTypeOrdering = Parent.moveTypeOrdering;
 #else
-        MoveTypeOrdering = defaultMoveTypeOrdering;
+      MoveTypeOrdering = defaultMoveTypeOrdering;
 #endif
     }
   }
@@ -47,7 +47,7 @@ partial class Position : Board {
     base.Clear();
     initNode();
   }
-  #endregion
+  #endregion                            // Workspace Methods
 
   #region Wrapper Methods for State.Push() and State.Pop()
   public Position Push() {
@@ -57,5 +57,5 @@ partial class Position : Board {
   public void Pop(ref Position child) {
     child.State.Pop(ref child);
   }
-  #endregion
+  #endregion                            // Wrapper Methods
 }
