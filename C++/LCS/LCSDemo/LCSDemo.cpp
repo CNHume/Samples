@@ -29,7 +29,7 @@ using namespace std;
 
 class LCS {
 protected:
-  // This linked list class is used to trace the LCS candidates
+  // Instances of the Pair linked list class are used to recover the LCS:
   class Pair {
   public:
     uint32_t index1;
