@@ -4,7 +4,7 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 // 2017-07-05 CNHume  Applied prev() and next() in skip criteria.
-// 2017-07-03 CNHume  Refresh limit iterator after threshold.push_back()
+// 2017-07-03 CNHume  Refresh limit iterator after prefixEnd.push_back()
 // 2017-06-30 CNHume  Reduced Select() length precision
 // 2015-01-25 CNHume  Allowed FindLCS() to return the LCS Length
 // 2015-01-14 CNHume  Created file to demonstrate a fast algorithm by Hunt and
@@ -49,7 +49,6 @@ protected:
   };
 
   typedef deque<shared_ptr<Pair>> PAIRS;
-  typedef deque<uint32_t> THRESHOLD;
   typedef deque<uint32_t> INDEXES;
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
@@ -57,40 +56,40 @@ protected:
   uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
-    THRESHOLD threshold;
+    INDEXES prefixEnd;
 
     //
-    //[Assert]After each index1 iteration threshold[index3] is the least index2
+    //[Assert]After each index1 iteration prefixEnd[index3] is the least index2
     // such that the LCS of s1[0:index1] and s2[0:index2] has length index3 + 1
     //
     uint32_t index1 = 0;
     for (const auto& it1 : indexesOf2MatchedByIndex1) {
       if (!it1->empty()) {
         auto dq2 = *it1;
-        auto limit = threshold.end();
+        auto limit = prefixEnd.end();
         for (auto it2 = dq2.rbegin(); it2 != dq2.rend(); it2++) {
-          // Each of the index1, index2 pairs considered here correspond to a match
+          // Each index1, index2 pair corresponds to a match
           auto index2 = *it2;
 
           //
           // Note: The reverse iterator it2 visits index2 values in descending order,
-          // allowing thresholds to be updated in-place.  std::lower_bound() is used
-          // to perform a binary search.
+          // allowing in-place update of prefixEnd[].  std::lower_bound() is used to
+          // perform a binary search.
           //
-          limit = lower_bound(threshold.begin(), limit, index2);
-          auto index3 = distance(threshold.begin(), limit);
+          limit = lower_bound(prefixEnd.begin(), limit, index2);
+          auto index3 = distance(prefixEnd.begin(), limit);
 
           //
           // Look ahead to the next index2 value to optimize Pairs used by the Hunt
           // and Szymanski algorithm.  If the next index2 is also an improvement on
-          // the value currently held in threshold[index3], a new Pair will only be
+          // the value currently held in prefixEnd[index3], a new Pair will only be
           // superseded on the next index2 iteration.
           //
-          // Verify the next value of index2 will be greater than the final element
-          // of the next shorter LCS at prev(limit):
+          // Verify that a next index2 value exists; and that this value is greater
+          // than the final index2 value of the LCS prefix at prev(limit):
           //
           auto preferNextIndex2 = next(it2) != dq2.rend() &&
-            (limit == threshold.begin() || *prev(limit) < *next(it2));
+            (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
 
           //
           // Depending on match redundancy, this optimization may reduce the number
@@ -98,11 +97,11 @@ protected:
           //
           if (preferNextIndex2) continue;
 
-          if (limit == threshold.end()) {
+          if (limit == prefixEnd.end()) {
             // Insert Case
-            threshold.push_back(index2);
+            prefixEnd.push_back(index2);
             // Refresh limit iterator:
-            limit = prev(threshold.end());
+            limit = prev(prefixEnd.end());
             if (traceLCS) {
               auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
               auto last = make_shared<Pair>(index1, index2, prefix);
@@ -132,7 +131,7 @@ protected:
       *pairs = Pair::Reverse(last);
     }
 
-    auto length = threshold.size();
+    auto length = prefixEnd.size();
     return length;
   }
 

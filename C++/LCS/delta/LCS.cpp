@@ -4,7 +4,7 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 // 2017-07-05 CNHume  Applied prev() and next() in skip criteria.
-// 2017-07-03 CNHume  Refresh limit iterator after threshold.push_back()
+// 2017-07-03 CNHume  Refresh limit iterator after prefixEnd.push_back()
 // 2017-06-29 CNHume  Added Command class
 // 2015-01-19 CNHume  Refactored Show() and Delta::Complement()
 // 2015-01-17 CNHume  Added reclamation via shared_ptr<>
@@ -27,10 +27,10 @@
 uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
-  THRESHOLD threshold;
+  INDEXES prefixEnd;
 
   //
-  //[Assert]After each index1 iteration threshold[index3] is the least index2
+  //[Assert]After each index1 iteration prefixEnd[index3] is the least index2
   // such that the LCS of s1[0:index1] and s2[0:index2] has length index3 + 1
   //
   uint32_t index1 = 0;
@@ -43,33 +43,30 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
 #ifdef SHOW_THRESHOLDS
       auto updated = false;
 #endif
-      auto limit = threshold.end();
+      auto limit = prefixEnd.end();
       for (auto it2 = dq2.rbegin(); it2 != dq2.rend(); it2++) {
-        // Each of the index1, index2 pairs considered here correspond to a match
+        // Each index1, index2 pair corresponds to a match
         auto index2 = *it2;
 
         //
         // Note: The reverse iterator it2 visits index2 values in descending order,
-        // allowing thresholds to be updated in-place.  std::lower_bound() is used
-        // to perform a binary search.
+        // allowing in-place update of prefixEnd[].  std::lower_bound() is used to
+        // perform a binary search.
         //
-        limit = lower_bound(threshold.begin(), limit, index2);
-        auto index3 = distance(threshold.begin(), limit);
-#ifdef SHOW_THRESHOLDS
-        auto len = index3 + 1;
-#endif
+        limit = lower_bound(prefixEnd.begin(), limit, index2);
+        auto index3 = distance(prefixEnd.begin(), limit);
 #ifdef FILTER_PAIRS
         //
         // Look ahead to the next index2 value to optimize Pairs used by the Hunt
         // and Szymanski algorithm.  If the next index2 is also an improvement on
-        // the value currently held in threshold[index3], a new Pair will only be
+        // the value currently held in prefixEnd[index3], a new Pair will only be
         // superseded on the next index2 iteration.
         //
-        // Verify the next value of index2 will be greater than the final element
-        // of the next shorter LCS at prev(limit):
+        // Verify that a next index2 value exists; and that this value is greater
+        // than the final index2 value of the LCS prefix at prev(limit):
         //
         auto preferNextIndex2 = next(it2) != dq2.rend() &&
-          (limit == threshold.begin() || *prev(limit) < *next(it2));
+          (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
 
         //
         // Depending on match redundancy, this optimization may reduce the number
@@ -77,16 +74,19 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
         //
         if (preferNextIndex2) continue;
 #endif
-        if (limit == threshold.end()) {
+#ifdef SHOW_THRESHOLDS
+        auto len = index3 + 1;
+#endif
+        if (limit == prefixEnd.end()) {
           // Insert Case
 #ifdef SHOW_THRESHOLDS
           updated = true;
           cout << "inserting " << index2 << " at " << index1
             << " for length = " << len << endl;
 #endif
-          threshold.push_back(index2);
+          prefixEnd.push_back(index2);
           // Refresh limit iterator:
-          limit = prev(threshold.end());
+          limit = prev(prefixEnd.end());
           if (traceLCS) {
             auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
             auto last = make_shared<Pair>(index1, index2, prefix);
@@ -112,8 +112,8 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
 #ifdef SHOW_THRESHOLDS
       if (updated) {
         uint32_t index = 0;
-        for (const auto& it3 : threshold)
-          cout << "th[" << index++ << "] = " << it3 << endl;
+        for (const auto& it3 : prefixEnd)
+          cout << "end[" << index++ << "] = " << it3 << endl;
       }
 #endif
     }
@@ -131,7 +131,7 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
 #endif
   }
 
-  auto length = threshold.size();
+  auto length = prefixEnd.size();
 #ifdef SHOW_COUNTS
   cout << "# Pairs = " << Pair::Pairs
     << "; LCS length = " << length << endl;
