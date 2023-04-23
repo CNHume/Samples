@@ -24,6 +24,12 @@
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
+shared_ptr<Pair> LCS::pushPair(
+  PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+  auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+  return make_shared<Pair>(index1, index2, prefix);
+}
+
 uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
@@ -54,7 +60,6 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
         // perform a binary search.
         //
         limit = lower_bound(prefixEnd.begin(), limit, index2);
-        auto index3 = distance(prefixEnd.begin(), limit);
 #ifdef FILTER_PAIRS
         //
         // Look ahead to the next index2 value to optimize Pairs used by the Hunt
@@ -88,9 +93,8 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
           // Refresh limit iterator:
           limit = prev(prefixEnd.end());
           if (traceLCS) {
-            auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-            auto last = make_shared<Pair>(index1, index2, prefix);
-            chains.push_back(last);
+            auto index3 = distance(prefixEnd.begin(), limit);
+            chains.push_back(pushPair(chains, index3, index1, index2));
           }
         }
         else if (index2 < *limit) {
@@ -103,9 +107,8 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
           // Update limit value:
           * limit = index2;
           if (traceLCS) {
-            auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-            auto last = make_shared<Pair>(index1, index2, prefix);
-            chains[index3] = last;
+            auto index3 = distance(prefixEnd.begin(), limit);
+            chains[index3] = pushPair(chains, index3, index1, index2);
           }
         }
       }                                 // next index2

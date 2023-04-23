@@ -53,7 +53,13 @@ protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+  static shared_ptr<Pair> pushPair(
+    PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+    return make_shared<Pair>(index1, index2, prefix);
+  }
+
+  static uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
     INDEXES prefixEnd;
@@ -77,7 +83,6 @@ protected:
           // perform a binary search.
           //
           limit = lower_bound(prefixEnd.begin(), limit, index2);
-          auto index3 = distance(prefixEnd.begin(), limit);
 
           //
           // Look ahead to the next index2 value to optimize Pairs used by the Hunt
@@ -103,9 +108,8 @@ protected:
             // Refresh limit iterator:
             limit = prev(prefixEnd.end());
             if (traceLCS) {
-              auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-              auto last = make_shared<Pair>(index1, index2, prefix);
-              chains.push_back(last);
+              auto index3 = distance(prefixEnd.begin(), limit);
+              chains.push_back(pushPair(chains, index3, index1, index2));
             }
           }
           else if (index2 < *limit) {
@@ -113,9 +117,8 @@ protected:
             // Update limit value:
             *limit = index2;
             if (traceLCS) {
-              auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-              auto last = make_shared<Pair>(index1, index2, prefix);
-              chains[index3] = last;
+              auto index3 = distance(prefixEnd.begin(), limit);
+              chains[index3] = pushPair(chains, index3, index1, index2);
             }
           }
         }                                 // next index2
@@ -143,7 +146,8 @@ protected:
   // The symbol space is larger in the case of records; but the lookup
   // time will be O(log(m+n)), at most.
   //
-  void Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+  static void Match(
+    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
     const string& s1, const string& s2) {
     uint32_t index = 0;
     for (const auto& it : s2)
@@ -155,7 +159,7 @@ protected:
     }
   }
 
-  string Select(shared_ptr<Pair> pairs, uint32_t length,
+  static string Select(shared_ptr<Pair> pairs, uint32_t length,
     bool right, const string& s1, const string& s2) {
     string buffer;
     buffer.reserve(length);
@@ -167,7 +171,7 @@ protected:
   }
 
 public:
-  string Correspondence(const string& s1, const string& s2) {
+  static string Correspondence(const string& s1, const string& s2) {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);

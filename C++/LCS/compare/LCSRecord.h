@@ -14,7 +14,8 @@ public:
   typedef vector<string> RECORDS;
 
 protected:
-  uint32_t Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
+  static uint32_t Match(
+    STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 
@@ -27,12 +28,12 @@ protected:
     const RECORDS& r1, const RECORDS& r2);
 
 public:
-  RECORDS Correspondence(const RECORDS& r1, const RECORDS& r2,
+  static RECORDS Correspondence(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
-  RECORDS Difference(const RECORDS& r1, const RECORDS& r2,
+  static RECORDS Difference(const RECORDS& r1, const RECORDS& r2,
     bool isjoin = false, uint32_t join = 0,
     bool ignorecase = false, bool ignorespace = false);
 
-  shared_ptr<Delta> Compare(const RECORDS& r1, const RECORDS& r2,
+  static shared_ptr<Delta> Compare(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 };

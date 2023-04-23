@@ -8,7 +8,8 @@
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
-uint32_t LCSString::Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+uint32_t LCSString::Match(
+  CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
   const string& s1, const string& s2) {
   uint32_t count = 0;
   uint32_t index = 0;

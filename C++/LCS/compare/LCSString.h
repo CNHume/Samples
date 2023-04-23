@@ -15,12 +15,13 @@ class LCSString : protected LCS {
 protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
 
-  uint32_t Match(CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+  static uint32_t Match(
+    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
     const string& s1, const string& s2);
   static string Select(shared_ptr<Delta> deltas, bool side,
     const string& s1, const string& s2);
 
 public:
-  string Correspondence(const string& s1, const string& s2);
-  shared_ptr<Delta> Compare(const string& s1, const string& s2);
+  static string Correspondence(const string& s1, const string& s2);
+  static shared_ptr<Delta> Compare(const string& s1, const string& s2);
 };

@@ -17,7 +17,8 @@
 // The symbol space is larger in the case of records; but the lookup
 // time will be O(log(m+n)), at most.
 //
-uint32_t LCSRecord::Match(STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
+uint32_t LCSRecord::Match(
+  STRING_TO_INDEXES_MAP& indexesOf2MatchedByString, MATCHES& indexesOf2MatchedByIndex1,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
