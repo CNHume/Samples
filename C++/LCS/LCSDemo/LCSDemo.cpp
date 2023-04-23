@@ -53,12 +53,6 @@ protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
-    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-    return make_shared<Pair>(index1, index2, prefix);
-  }
-
   static uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
@@ -102,13 +96,14 @@ protected:
           //
           if (preferNextIndex2) continue;
 
+          auto index3 = distance(prefixEnd.begin(), limit);
+
           if (limit == prefixEnd.end()) {
             // Insert Case
             prefixEnd.push_back(index2);
             // Refresh limit iterator:
             limit = prev(prefixEnd.end());
             if (traceLCS) {
-              auto index3 = distance(prefixEnd.begin(), limit);
               chains.push_back(pushPair(chains, index3, index1, index2));
             }
           }
@@ -117,7 +112,6 @@ protected:
             // Update limit value:
             *limit = index2;
             if (traceLCS) {
-              auto index3 = distance(prefixEnd.begin(), limit);
               chains[index3] = pushPair(chains, index3, index1, index2);
             }
           }
@@ -138,6 +132,14 @@ protected:
     return length;
   }
 
+private:
+  static shared_ptr<Pair> pushPair(
+    PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+    return make_shared<Pair>(index1, index2, prefix);
+  }
+
+protected:
   //
   // Match() avoids m*n comparisons by using CHAR_TO_INDEXES_MAP to
   // achieve O(m+n) performance, where m and n are the input lengths.
@@ -219,8 +221,7 @@ int main(int argc, char* argv[]) {
     string s1, s2;
     parse(argc, argv, s1, s2);
 
-    LCS lcs;
-    auto s = lcs.Correspondence(s1, s2);
+    auto s = LCS::Correspondence(s1, s2);
     cout << s << endl;
 
     errorLevel = EXIT_SUCCESS;

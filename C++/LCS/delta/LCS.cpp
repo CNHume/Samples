@@ -24,12 +24,6 @@
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
-shared_ptr<Pair> LCS::pushPair(
-  PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
-  auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-  return make_shared<Pair>(index1, index2, prefix);
-}
-
 uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
@@ -46,7 +40,7 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
 #ifdef SHOW_MATCHES
       cout << "L1[" << index1 << "] = " << join(dq2, " ") << endl;
 #endif
-#ifdef SHOW_THRESHOLDS
+#ifdef SHOW_PREFIXENDS
       auto updated = false;
 #endif
       auto limit = prefixEnd.end();
@@ -79,12 +73,13 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
         //
         if (preferNextIndex2) continue;
 #endif
-#ifdef SHOW_THRESHOLDS
+        auto index3 = distance(prefixEnd.begin(), limit);
+#ifdef SHOW_PREFIXENDS
         auto len = index3 + 1;
 #endif
         if (limit == prefixEnd.end()) {
           // Insert Case
-#ifdef SHOW_THRESHOLDS
+#ifdef SHOW_PREFIXENDS
           updated = true;
           cout << "inserting " << index2 << " at " << index1
             << " for length = " << len << endl;
@@ -93,13 +88,12 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
           // Refresh limit iterator:
           limit = prev(prefixEnd.end());
           if (traceLCS) {
-            auto index3 = distance(prefixEnd.begin(), limit);
             chains.push_back(pushPair(chains, index3, index1, index2));
           }
         }
         else if (index2 < *limit) {
           // Update Case
-#ifdef SHOW_THRESHOLDS
+#ifdef SHOW_PREFIXENDS
           updated = true;
           cout << "replacing " << *limit << " with " << index2 << " at " << index1
             << " for length = " << len << endl;
@@ -107,12 +101,11 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
           // Update limit value:
           * limit = index2;
           if (traceLCS) {
-            auto index3 = distance(prefixEnd.begin(), limit);
             chains[index3] = pushPair(chains, index3, index1, index2);
           }
         }
       }                                 // next index2
-#ifdef SHOW_THRESHOLDS
+#ifdef SHOW_PREFIXENDS
       if (updated) {
         uint32_t index = 0;
         for (const auto& it3 : prefixEnd)
@@ -140,4 +133,10 @@ uint32_t LCS::FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pair
     << "; LCS length = " << length << endl;
 #endif
   return length;
+}
+
+shared_ptr<Pair> LCS::pushPair(
+  PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+  auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+  return make_shared<Pair>(index1, index2, prefix);
 }

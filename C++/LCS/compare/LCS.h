@@ -15,7 +15,7 @@
 //#define SHOW_COUNTS
 //#define SHOW_DELTAS
 //#define SHOW_MATCHES
-//#define SHOW_THRESHOLDS
+//#define SHOW_PREFIXENDS
 #define FILTER_PAIRS
 
 #include "Delta.h"
@@ -37,7 +37,9 @@ protected:
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
+  static uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
+
+private:
   static shared_ptr<Pair> pushPair(
     PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2);
-  static uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
 };

@@ -21,6 +21,8 @@
 //
 // compare [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2
 //
+//#define TEST_CORRESPONDENCE
+
 #include "LCSFile.h"
 #include <iostream>                     // for cout
 
@@ -38,10 +40,11 @@ int main(int argc, char* argv[]) {
 #endif
     Command command;
     command.Parse(argc, argv);
-
-    LCSFile lcs;
-    //[Test]lcs.Correspondence(command);
-    lcs.Difference(command);
+#ifdef TEST_CORRESPONDENCE
+    LCSFile::Correspondence(command);
+#else
+    LCSFile::Difference(command);
+#endif
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {

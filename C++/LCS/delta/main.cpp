@@ -39,8 +39,7 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
-    LCSFile lcs;
-    lcs.Difference(command);
+    LCSFile::Difference(command);
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
