@@ -122,7 +122,7 @@ protected:
 
     if (traceLCS) {
       // Return the LCS as a linked list of matched index pairs:
-      auto last = chains.size() > 0 ? chains.back() : nullptr;
+      auto last = chains.empty() ? nullptr : chains.back();
       // Reverse longest chain
       *pairs = Pair::Reverse(last);
     }
