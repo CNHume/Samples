@@ -36,10 +36,9 @@ string LCSString::Select(shared_ptr<Delta> deltas, bool right,
     next = dynamic_pointer_cast<Delta>(next->next)) {
     auto begin = right ? next->begin2 : next->begin1;
     auto end = right ? next->end2 : next->end1;
-    for (auto index = begin; index <= end; index++) {
-      auto c = right ? s2[index] : s1[index];
-      buffer.push_back(c);
-    }
+    auto& s = right ? s2 : s1;
+    for (auto index = begin; index <= end; index++)
+      buffer.push_back(s[index]);
   }
   return buffer;
 }

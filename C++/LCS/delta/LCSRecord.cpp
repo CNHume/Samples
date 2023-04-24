@@ -98,10 +98,9 @@ LCSRecord::RECORDS LCSRecord::Select(shared_ptr<Delta> deltas, bool right,
     next = dynamic_pointer_cast<Delta>(next->next)) {
     auto begin = right ? next->begin2 : next->begin1;
     auto end = right ? next->end2 : next->end1;
-    for (auto index = begin; index <= end; index++) {
-      auto record = right ? r2[index] : r1[index];
-      list.push_back(record);
-    }
+    auto& records = right ? r2 : r1;
+    for (auto index = begin; index <= end; index++)
+      list.push_back(records[index]);
   }
   return list;
 }
