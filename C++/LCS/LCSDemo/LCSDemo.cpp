@@ -53,7 +53,8 @@ protected:
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
 
-  static uint32_t FindLCS(MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+  static uint32_t FindLCS(
+    MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
     INDEXES prefixEnd;
@@ -64,59 +65,57 @@ protected:
     //
     uint32_t index1 = 0;
     for (const auto& it1 : indexesOf2MatchedByIndex1) {
-      if (!it1->empty()) {
-        auto dq2 = *it1;
-        auto limit = prefixEnd.end();
-        for (auto it2 = dq2.rbegin(); it2 != dq2.rend(); it2++) {
-          // Each index1, index2 pair corresponds to a match
-          auto index2 = *it2;
+      auto dq2 = *it1;
+      auto limit = prefixEnd.end();
+      for (auto it2 = dq2.rbegin(); it2 != dq2.rend(); it2++) {
+        // Each index1, index2 pair corresponds to a match
+        auto index2 = *it2;
 
-          //
-          // Note: The reverse iterator it2 visits index2 values in descending order,
-          // allowing in-place update of prefixEnd[].  std::lower_bound() is used to
-          // perform a binary search.
-          //
-          limit = lower_bound(prefixEnd.begin(), limit, index2);
+        //
+        // Note: The reverse iterator it2 visits index2 values in descending order,
+        // allowing in-place update of prefixEnd[].  std::lower_bound() is used to
+        // perform a binary search.
+        //
+        limit = lower_bound(prefixEnd.begin(), limit, index2);
 
-          //
-          // Look ahead to the next index2 value to optimize Pairs used by the Hunt
-          // and Szymanski algorithm.  If the next index2 is also an improvement on
-          // the value currently held in prefixEnd[index3], a new Pair will only be
-          // superseded on the next index2 iteration.
-          //
-          // Verify that a next index2 value exists; and that this value is greater
-          // than the final index2 value of the LCS prefix at prev(limit):
-          //
-          auto preferNextIndex2 = next(it2) != dq2.rend() &&
-            (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
+        //
+        // Look ahead to the next index2 value to optimize Pairs used by the Hunt
+        // and Szymanski algorithm.  If the next index2 is also an improvement on
+        // the value currently held in prefixEnd[index3], a new Pair will only be
+        // superseded on the next index2 iteration.
+        //
+        // Verify that a next index2 value exists; and that this value is greater
+        // than the final index2 value of the LCS prefix at prev(limit):
+        //
+        auto preferNextIndex2 = next(it2) != dq2.rend() &&
+          (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
 
-          //
-          // Depending on match redundancy, this optimization may reduce the number
-          // of Pair allocations by factors ranging from 2 up to 10 or more.
-          //
-          if (preferNextIndex2) continue;
+        //
+        // Depending on match redundancy, this optimization may reduce the number
+        // of Pair allocations by factors ranging from 2 up to 10 or more.
+        //
+        if (preferNextIndex2) continue;
 
-          auto index3 = distance(prefixEnd.begin(), limit);
+        auto index3 = distance(prefixEnd.begin(), limit);
 
-          if (limit == prefixEnd.end()) {
-            // Insert Case
-            prefixEnd.push_back(index2);
-            // Refresh limit iterator:
-            limit = prev(prefixEnd.end());
-            if (traceLCS) {
-              chains.push_back(pushPair(chains, index3, index1, index2));
-            }
+        if (limit == prefixEnd.end()) {
+          // Insert Case
+          prefixEnd.push_back(index2);
+          // Refresh limit iterator:
+          limit = prev(prefixEnd.end());
+          if (traceLCS) {
+            chains.push_back(pushPair(chains, index3, index1, index2));
           }
-          else if (index2 < *limit) {
-            // Update Case
-            // Update limit value:
-            *limit = index2;
-            if (traceLCS) {
-              chains[index3] = pushPair(chains, index3, index1, index2);
-            }
+        }
+        else if (index2 < *limit) {
+          // Update Case
+          // Update limit value:
+          *limit = index2;
+          if (traceLCS) {
+            chains[index3] = pushPair(chains, index3, index1, index2);
           }
-        }                                 // next index2
-      }
+        }
+      }                                   // next index2
 
       index1++;
     }                                     // next index1
