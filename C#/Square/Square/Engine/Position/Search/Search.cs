@@ -98,7 +98,7 @@ partial class Position : Board {
       return boundValue(eval(), mAlpha, mBeta);
 #endif
     }
-    #endregion
+    #endregion                          // Test for entry into Quiet Search
 
     #region Transposition Table Lookup
 #if TraceVal
@@ -110,15 +110,19 @@ partial class Position : Board {
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
     var goodMoves = new List<GoodMove>(nFirstCapacity);
-    var bFoundValue = probeXP(wDepth, mAlpha, mBeta, moveExcluded, goodMoves,
-                              out Move moveFound, out Eval mValueFound, out EvalType etFound);
+    var bFoundValue = probeXP(
+      wDepth, mAlpha, mBeta, moveExcluded, goodMoves,
+      out Move moveFound, out Eval mValueFound, out EvalType etFound);
     // Variations updated iff bFoundValue
     if (bFoundValue) {
       // moveFound not always defined for EvalType.Upper [Fail Low]
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
-        unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(
+          moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(
+        //  moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion,
+        //  out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
         if (isMovePosition)             // Pass empty BestMoves, at top level
           AddPV(mAlpha, mValueFound, moveFound, BestMoves);
@@ -129,7 +133,7 @@ partial class Position : Board {
 
       return mValueFound;
     }
-    #endregion
+    #endregion                          // Transposition Table Lookup
 
     #region Heuristic Tests
     var bReduced = FlagsMode.Has(ModeFlags.Reduced);
@@ -138,15 +142,19 @@ partial class Position : Board {
 
     var bTestSingular = false;
     var bPruneQuiet = false;
-    var bPVS = (FlagsMode & ModeFlags.ZWS) == 0;
+    var bZWS = FlagsMode.Has(ModeFlags.ZWS);
     var bMoveExcluded = IsDefined(moveExcluded);
     var wReducedDraft = reduceShallow(wDraft);  // Draft for Heuristic Searches
 
     if (!bInCheck) {
       var mStand = standpatval(mValueFound, etFound);
 
-      if (!bPVS) {
-        if (prune(wDraft, wDepth, mAlpha, mBeta, mValueFound, etFound, bMoveExcluded, out Eval mPrunedValue))
+      if (bZWS) {
+        var bPrune = prune(
+          wDraft, wDepth, mAlpha, mBeta, mValueFound, etFound, bMoveExcluded,
+          out Eval mPrunedValue);
+
+        if (bPrune)
           return mPrunedValue;
       }
 
@@ -175,7 +183,7 @@ partial class Position : Board {
                       canExtend(vSingular);     //[Ergo]child.canExtend(vSingular) below
 #endif
     }                                   //!bInCheck
-    #endregion
+    #endregion                          // Heuristic Tests
 
     #region Generate Moves
     //
@@ -262,9 +270,9 @@ partial class Position : Board {
       var bTryZWS = false;              //[Note]Full PVS requires Raised Alpha
       var uRaisedAlpha = 0U;
 #if !UseMoveSort
-        foreach (var mov in SiftedMoves) {
-          // May be overwritten for Singular Extension below
-          var move = mov;               // Allow tryMove(ref move) below
+      foreach (var mov in SiftedMoves) {
+        // May be overwritten for Singular Extension below
+        var move = mov;                 // Allow tryMove(ref move) below
 #elif LazyMoveSort                      // UseMoveSort
       // The Heap Enumerator uses Remove() to obtain the "minimum" SortMove,
       // i.e., the one with the best Depth then best Score then least Index:
@@ -341,7 +349,7 @@ partial class Position : Board {
 
           et = EvalType.Exact;
 
-          if (bPVS && wPVSDepthMin <= wDepth)
+          if (wPVSDepthMin <= wDepth && !bZWS)
             bTryZWS = true;             // Raised Alpha
         }
         #endregion
@@ -439,7 +447,12 @@ partial class Position : Board {
     // Houdart suggested depth reduction for Smart Fail High.
     // Hyatt objected that this would return prior XP values.
     //
-    var bSmart = bReduce && uRaisedAlpha > 1 && wSmartDepthMin <= wDepth && SearchPly < wSmartPlyMax;
+    var bSmart =
+      bReduce &&
+      uRaisedAlpha > 1 &&
+      wSmartDepthMin <= wDepth &&
+      SearchPly < wSmartPlyMax;
+
     var wReduced = bSmart ? nextDraft(wDraft1) : wDraft1;
 #else                                   //!GetSmart
     var wReduced = wDraft1;
@@ -529,7 +542,8 @@ partial class Position : Board {
   // has been searched.
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private Eval pvs(Draft wDraft, Draft wReducedDraft, Eval mBest2, Eval mAlpha, Eval mBeta, Boolean bTryZWS) {
+  private Eval pvs(
+    Draft wDraft, Draft wReducedDraft, Eval mBest2, Eval mAlpha, Eval mBeta, Boolean bTryZWS) {
     var mValue = EvalUndefined;
     var mAlpha1 = (Eval)(mAlpha + 1);
 
@@ -576,8 +590,9 @@ partial class Position : Board {
   #endregion                            // PVS Method
 
   #region Forward Pruning Heuristics
-  private Boolean prune(Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
-                        Eval mValueFound, EvalType etFound, Boolean bMoveExcluded, out Eval mPrunedValue) {
+  private Boolean prune(
+    Draft wDraft, Depth wDepth, Eval mAlpha, Eval mBeta,
+    Eval mValueFound, EvalType etFound, Boolean bMoveExcluded, out Eval mPrunedValue) {
     mPrunedValue = EvalUndefined;
     var bDepthLimit = State.Bound.Plies <= wDepth;
     var bMateSearch = State.Bound.MovesToMate.HasValue;

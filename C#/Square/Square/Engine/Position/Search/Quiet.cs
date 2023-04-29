@@ -59,16 +59,19 @@ partial class Position : Board {
     var bTrace = IsTrace();
     if (bTrace) {
       const String sLabel = "quiet()";
-      Display(sLabel);                //[Note]Undefined CurrentMove
+      Display(sLabel);                  //[Note]Undefined CurrentMove
     }
 #endif
     // BestMoves updated iff bFoundValue
     if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
       // moveFound not always defined for EvalType.Upper [Fail Low]
-      if (IsDefinite(moveFound)) {    //[Safe]Also prevent unexpected EmptyMove
+      if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
-        unpackMove1(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(
+          moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(
+        //  moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion,
+        //  out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
 #if AddBestMoves
         BestMoves.Add(moveFound);
@@ -318,8 +321,8 @@ partial class Position : Board {
       var mDelta = (Eval)(mDeltaBaseWeight + mMoveDelta);
       var mValue = (Eval)(mStand + mDelta);
       bPrune = mValue <= mAlpha;
-      if (bPrune)
-        traceVal("Quiet Delta Pruned", mValue);       //[Conditional]
+      if (bPrune)                       //[Conditional]
+        traceVal("Quiet Delta Pruned", mValue);
     }
 
     return bPrune;
