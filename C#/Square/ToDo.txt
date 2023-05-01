@@ -2,4 +2,5 @@ Square ToDo
 -----------
 Refactor XPMTank of PositionMove to cache MoveTypeOrdering
 Maximize Mobility and Square Control in quiet positions
+King Safety
 Split Points
