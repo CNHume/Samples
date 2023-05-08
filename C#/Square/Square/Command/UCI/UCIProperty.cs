@@ -57,7 +57,15 @@ partial class UCI {
   // 32. Qxd8 Qe4+ 33. Be2 Qh1+ 34. Bf1 Qe4+@ 35. Re2 Qb1+ 36. Kd2 Qa2+ 37. Kd3 Qb1+ 38. Rc2 Qxf1+ 39. Kd2 Nd6 40. Qf6+ Kh7 41. Qf4 Nxc4+
   // 42. Qxc4 Qxc4 43. d8=Q b5
   //"r1bqk2r/pppp1ppp/2n5/8/2BP4/B1b2N2/P4PPP/R2Q1RK1 b kq - 0 10"; // Giucco Piano: Aitken Variation
-  "3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
+  //"r2qk2r/ppp2ppp/2n1b3/1B1p4/3P4/B4N2/P4PPP/b2QR1K1 w kq - 0 13"; // Giucco Piano: Aitken Variation Lines
+  // 13. Qc2! (13. Qa4 Qd7
+  // (13... Rc8? 14. Bxc6+ bxc6 15. Ne5 Qf6!?
+  // (15... Qd6 16. Bxd6 cxd6 17. Nxc6 Bc3 18. Nxa7+ Kd8 19. Rxe6 fxe6 20. Nxc8 Kxc8 21. Qa8+ Kd7 22. Qxh8 Bxd4 +-)
+  // 16. Qxc6+ Kd8 17. Rxa1 a6 18. Rb1 Qf5 19. Re1 Re8)
+  // 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 Kd8)
+  // 13... Qd7 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 OOO 17. Bd6 c6 18. Bf4
+  "2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
+  //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
   // [11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
   // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Ba5 c6 7. Qh7 Rd6 8. Bc3+
   // [16-ply in 48:03 @1.498 MHz over 4.32 Gnode] eval 5.9 after:
