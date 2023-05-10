@@ -56,7 +56,11 @@ partial class UCI {
   //"3r4/p1QP1pk1/1p2p1p1/2p2nP1/2P4q/P1P5/3R1P2/4KB2 w - - 0 32"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R8 [2023-04-24 20-ply in 3 days 12:45:58 @1305.6 MHz over 398.4 Gnode] eval 2.5 after:
   // 32. Qxd8 Qe4+ 33. Be2 Qh1+ 34. Bf1 Qe4+@ 35. Re2 Qb1+ 36. Kd2 Qa2+ 37. Kd3 Qb1+ 38. Rc2 Qxf1+ 39. Kd2 Nd6 40. Qf6+ Kh7 41. Qf4 Nxc4+
   // 42. Qxc4 Qxc4 43. d8=Q b5
+  //
+  // The Giucco Piano: Aitken Variation presents a complex position after:
+  // 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. cxd4 Bb4+ 7. Nc3 Nxe4 8. OO Nxc3 9. bxc3 Bxc3 10. Ba3
   //"r1bqk2r/pppp1ppp/2n5/8/2BP4/B1b2N2/P4PPP/R2Q1RK1 b kq - 0 10"; // Giucco Piano: Aitken Variation
+  // 10... d5 (10... Bxa1? 11. Re1+ Ne7 12. Rxe7+ Qxe7 13. Bxe7 Kxe7 14. Qxa1 +-) 11. Bb5 Bxa1 12. Re1+ Be6
   //"r2qk2r/ppp2ppp/2n1b3/1B1p4/3P4/B4N2/P4PPP/b2QR1K1 w kq - 0 13"; // Giucco Piano: Aitken Variation Lines
   // 13. Qc2! (13. Qa4 Qd7
   // (13... Rc8? 14. Bxc6+ bxc6 15. Ne5 Qf6!?
@@ -65,6 +69,7 @@ partial class UCI {
   // 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 Kd8)
   // 13... Qd7 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 OOO 17. Bd6 c6 18. Bf4
   "2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
+  //
   //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
   // [11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
   // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Ba5 c6 7. Qh7 Rd6 8. Bc3+
