@@ -36,4 +36,4 @@ The allegro-projects can be run in the Free Express Edition of Allegro Common Li
 
 ### Who do I talk to?
 
-Please send any comments or questions to cnhume-software@yahoo.com
+Please send any comments or suggestions to cnhume-software@yahoo.com
