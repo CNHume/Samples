@@ -145,7 +145,7 @@ partial class Position : Board {
 #endif
         var uLegalMoves = 0U;
         foreach (var mov in moves) {
-          var move = mov;             // Allow tryMove(ref move) below
+          var move = mov;               // Allow tryMove(ref move) below
           #region Delta Prune or Make Move
 #if DebugMove
           unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
@@ -193,7 +193,7 @@ partial class Position : Board {
           // searching only so long as moves which alter the material balance are found.
           //
 #if QuietMate && !QuietCheck
-          if (bNonMaterial) {         // Skip search of any Check Evasion.
+          if (bNonMaterial) {           // Skip search of any Check Evasion.
             State.QuietSkipTotal++;
             continue;
           }
@@ -224,7 +224,7 @@ partial class Position : Board {
                 if (bTrace)
                   LogLine("Trace: Quiet Failed High");
 #endif
-                et = EvalType.Lower;  // Cutoff Reached: Ignore further moves and Fail High
+                et = EvalType.Lower;    // Cutoff Reached: Ignore further moves and Fail High
                 goto exit;
               }
 
@@ -232,7 +232,7 @@ partial class Position : Board {
             }
           }
           #endregion
-        }                             //[Next]Pseudo Move
+        }                               //[Next]Pseudo Move
         #endregion
 #if QuietMate
         if (uLegalMoves == 0 && isLeaf()) {

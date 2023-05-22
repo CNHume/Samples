@@ -88,7 +88,7 @@ partial class Position : Board {
       //
       const Byte vEmptyState = 0;
 #if Magic
-        var qpFileAtx = AtxFile[MagicFile[vEmptyState]];
+      var qpFileAtx = AtxFile[MagicFile[vEmptyState]];
 #else
       var qpFileAtx = AtxFile[vEmptyState];
 #endif

@@ -50,10 +50,10 @@ partial class Board {
 #endif
   private static readonly ValueTuple<Int32, Int32>[] KingDeltas =
     { ( 1, 0), ( 1, 1), ( 0, 1), (-1, 1),
-        (-1, 0), (-1,-1), ( 0,-1), ( 1,-1) };
+      (-1, 0), (-1,-1), ( 0,-1), ( 1,-1) };
   private static readonly ValueTuple<Int32, Int32>[] KnightDeltas =
     { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1),
-        (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
+      (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
 
   //[Dark|Lite]Square is used to determine square color of the Bishops
   internal static void colorSquares() {

@@ -188,7 +188,7 @@ partial class GameState {
 
   [MemberNotNull(nameof(Variation))]
   private void newVariations2(Int32 nVariations) {
-    VariationCount = 0;               //[Init]
+    VariationCount = 0;                 //[Init]
     Variation = new Variation[nVariations];
     for (var nVariation = 0; nVariation < nVariations; nVariation++)
       Variation[nVariation] = new Variation();
