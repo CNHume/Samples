@@ -99,12 +99,12 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Byte BitLo(Byte r) {
+  private static Byte bitLo(Byte r) {
     return (Byte)(r & (~r + 1));        // s = r & -r to isolate lowest/first bit
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static UInt64 BitLo(UInt64 r) {
+  private static UInt64 bitLo(UInt64 r) {
     return r & (~r + 1);                // s = r & -r to isolate lowest/first bit
   }
 #if SquareHi
@@ -128,7 +128,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r, out Byte s) {
-    s = BitLo(r);
+    s = bitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
     r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
@@ -136,7 +136,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
     r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
@@ -145,7 +145,7 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   // Trailing Zero Count (TZC), formerly known as FindLo()
   private static Int32 TZC8(Byte r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     return TZC8Single(s);
   }
 #if ByteDeBruijn                        // ByteDeBruijn
@@ -161,7 +161,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r, out Byte s) {
-    s = BitLo(r);
+    s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
@@ -173,7 +173,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
@@ -198,7 +198,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r, out Byte s) {
-    s = BitLo(r);
+    s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
@@ -213,7 +213,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref Byte r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
@@ -228,7 +228,7 @@ partial class Board {
 #endif                                  //!ByteDeBruijn
 #endif                                  // BitOperations
 #if ImportTwiddle
-  [DllImport("twiddle.dll", EntryPoint = "?BitLo@Twiddle@CSquare@@SA?BH_K@Z",
+  [DllImport("twiddle.dll", EntryPoint = "?bitLo@Twiddle@CSquare@@SA?BH_K@Z",
               CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
   extern public static Int32 TZC64(UInt64 r);
 
@@ -249,7 +249,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = BitLo(r);
+    s = bitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
     r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
@@ -257,7 +257,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
     r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
@@ -266,7 +266,7 @@ partial class Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   // Trailing Zero Count (TZC), formerly known as FindLo()
   public static Int32 TZC64(UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     return TZC64Single(s);
   }
 #if DeBruijn
@@ -283,7 +283,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = BitLo(r);
+    s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
@@ -295,7 +295,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
@@ -323,7 +323,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = BitLo(r);
+    s = bitLo(r);
     var u = (UInt32)s;                  // Half de Bruijn: Avoiding 64-Bit Multiply
     var n = 0;
     if (u == 0) {
@@ -341,7 +341,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     var u = (UInt32)s;                  // Half de Bruijn: Avoiding 64-Bit Multiply
     var n = 0;
     if (u == 0) {
@@ -377,7 +377,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = BitLo(r);
+    s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
@@ -395,7 +395,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     if (s == 0) {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
@@ -433,7 +433,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
-    s = BitLo(r);
+    s = bitLo(r);
     var u = (UInt32)s;                  // Half Data: Avoiding 64-Bit Masks
     var n = 0;
     if (u == 0) {
@@ -455,7 +455,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Int32 RemoveLo(ref UInt64 r) {
-    var s = BitLo(r);
+    var s = bitLo(r);
     var u = (UInt32)s;                  // Half Data: Avoiding 64-Bit Masks
     var n = 0;
     if (u == 0) {
