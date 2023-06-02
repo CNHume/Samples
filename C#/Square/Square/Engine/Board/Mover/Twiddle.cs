@@ -130,7 +130,7 @@ partial class Board {
   public static Int32 RemoveLo(ref Byte r, out Byte s) {
     s = BitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
   }
 
@@ -138,7 +138,7 @@ partial class Board {
   public static Int32 RemoveLo(ref Byte r) {
     var s = BitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
   }
 #else
@@ -166,7 +166,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var p = (Byte)(s * vDeBruijn) >> 8 - 3;
     return deBruijnByte[p];
   }
@@ -178,7 +178,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
     }
-    r ^= (Byte)s;                       // Subtract s from r
+    r ^= (Byte)s;                       // Remove s from r
     var p = (Byte)(s * vDeBruijn) >> 8 - 3;
     return deBruijnByte[p];
   }
@@ -203,7 +203,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var n = 0;
     if ((s & 0xAA) != 0) n |= nBit0;
     if ((s & 0xCC) != 0) n |= nBit1;
@@ -218,7 +218,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var n = 0;
     if ((s & 0xAA) != 0) n |= nBit0;
     if ((s & 0xCC) != 0) n |= nBit1;
@@ -251,7 +251,7 @@ partial class Board {
   public static Int32 RemoveLo(ref UInt64 r, out UInt64 s) {
     s = BitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
   }
 
@@ -259,7 +259,7 @@ partial class Board {
   public static Int32 RemoveLo(ref UInt64 r) {
     var s = BitLo(r);
     Debug.Assert(s != 0, "No Bit Found");
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     return BitOperations.TrailingZeroCount(s);
   }
 #else                                   //!(ImportTwiddle || BitOperations)
@@ -288,7 +288,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var p = s * qDeBruijn >> nBit6 - 6;
     return deBruijnFull[p];
   }
@@ -300,7 +300,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var p = s * qDeBruijn >> nBit6 - 6;
     return deBruijnFull[p];
   }
@@ -334,7 +334,7 @@ partial class Board {
       }
       n = nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var p = u * uDeBruijn >> nBit5 - 5;
     return deBruijnHalf[p] | n;
   }
@@ -352,7 +352,7 @@ partial class Board {
       }
       n = nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var p = u * uDeBruijn >> nBit5 - 5;
     return deBruijnHalf[p] | n;
   }
@@ -382,7 +382,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var n = 0;
     if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
     if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
@@ -400,7 +400,7 @@ partial class Board {
       Debug.Assert(s != 0, "No Bit Found");
       return nBit6;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     var n = 0;
     if ((s & 0xAAAAAAAAAAAAAAAA) != 0) n |= nBit0;
     if ((s & 0xCCCCCCCCCCCCCCCC) != 0) n |= nBit1;
@@ -444,7 +444,7 @@ partial class Board {
       }
       n = nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
     if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
     if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
@@ -466,7 +466,7 @@ partial class Board {
       }
       n = nBit5;
     }
-    r ^= s;                             // Subtract s from r
+    r ^= s;                             // Remove s from r
     if ((u & 0xAAAAAAAA) != 0) n |= nBit0;
     if ((u & 0xCCCCCCCC) != 0) n |= nBit1;
     if ((u & 0xF0F0F0F0) != 0) n |= nBit2;
