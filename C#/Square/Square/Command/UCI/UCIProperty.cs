@@ -64,6 +64,8 @@ partial class UCI {
   // 10. Re6 Bh2 11. Kd1 Bg3 12. Re7 Bf4 13. Ke1 Bd6 14. Rf7+ Kg2 15. Rb7 Bg3+ 16. Kd1 e2+ 17. Kd2 e1=Q+ 18. Kxd3 Bf2 19. Rb5 Qe1f1+
   // [2023-05-30 18-ply in 12:32.2 @1.185 MHz over 891.7 Mnode] eval -9.65 after:
   // 10. Re6 Bg3+ 11. Kd1 Bc7 12. Re8 Bf4 13. Ke1 Bd6 14. Kd1 Bb4 15. Kc1 e2 16. Kb2 d2 17. Re5 d1=Q 18. Rf5+ Kg2 19. Rg5+ Kf1
+  // [2023-06-02 19-ply in 32:59 @1.291 MHz over 2.5556 Gnode] eval -12.5 after:
+  // 10. Re6 Bg3+ 11. Kd1 Bc7 12. Re8 Bf4 13. Ke1 Bd6 14. Kd1 Bb4 15. Kc1 e2 16. Kb2 d2 17. Re6 d1=Q 18. Rxe2 Qxe2+ 19. Kb1 Be1 20.Ka1 Be1d2
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. c4 f5 50. Qxf5
