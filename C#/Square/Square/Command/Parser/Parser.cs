@@ -319,7 +319,7 @@ partial class Parser : IDisposable {
         yield return obj;
       else {
         //[Test]
-        //if (Log) {
+        //if (IsVerbose) {
         //  var message = $@"Rejected: ""{sText}""";
         //  if (bAccepted) LogLine(message);
         //}
@@ -362,8 +362,7 @@ partial class Parser : IDisposable {
         var sToken = optionToken.Value;
         sName = IsNullOrEmpty(sName) ? sToken : $"{sName} {sToken}";
       }
-      else
-        break;
+      else break;
     }
 
     control = Control.FindOption(GameState.Controls, sName);
@@ -586,7 +585,8 @@ partial class Parser : IDisposable {
 
     if (operands.Count == 0)          // The Opcode is assumed to provide a Single Value, i.e., an Operand
       throw new ParseException($"EPD opcode {sOpcode} has no operand");
-    else if (operands.Count > 1) {
+
+    if (operands.Count > 1) {
       var sOperands = Join(sSpace, operands);
       throw new ParseException($"Multiple operands specified with EPD opcode: {sOpcode} {sOperands}");
     }

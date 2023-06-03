@@ -152,7 +152,8 @@ partial class Board {
   private void parseCastlingFlags(String? sCastleFlags, List<Int32> rookFromSquares) {
     if (sCastleFlags == null)
       throw new ParsePositionException($"No Castling Flags Found");
-    else if (sCastleFlags.Length > 4)
+
+    if (sCastleFlags.Length > 4)
       throw new ParsePositionException($"Invalid Castling Flags = {sCastleFlags}");
 
     var bChess960Flags = false;

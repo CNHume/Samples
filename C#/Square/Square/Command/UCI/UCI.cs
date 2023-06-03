@@ -145,15 +145,15 @@ partial class UCI : ICommand {
     case "test":                        //[ToDo]End gracefully when a Search is in progress!
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
-      else
-        newGameFEN(DefaultFEN);
+
+      newGameFEN(DefaultFEN);
       break;
 
     case "testepd":                     //[ToDo]End gracefully when a Search is in progress!
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
-      else
-        newGameEPD(DefaultEPD);
+
+      newGameEPD(DefaultEPD);
       break;
 
     case "reset":                       // Intuitive
@@ -167,27 +167,24 @@ partial class UCI : ICommand {
     case "position":                    //[UCI]
       if (State.IsSearchInProgress)
         throw new ChessException("Search in progress");
-      else {
-        var newPosition = NewGame();
 
-        //
-        //[Note]PositionCommand() will parse and then make any
-        // sequence of moves that follows the initial position.
-        //
-        var parsePosition = Parser.PositionCommand(newPosition);
-        State.MovePosition = parsePosition;
-      }
+      //
+      //[Note]PositionCommand() will parse and then make any
+      // sequence of moves that follows the initial position.
+      //
+      var parsePosition = Parser.PositionCommand(NewGame());
+      State.MovePosition = parsePosition;
       break;
 
     case "board":                       //[Test]In the absence of a GUI
-      if (State.MovePosition is null)   //[Safe]
+      if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
-      else
-        State.MovePosition.Display();
+
+      State.MovePosition.Display();
       break;
 
     case "tabiya":
-      if (State.MovePosition is null)   //[Safe]
+      if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
 
       Parser.TabiyaCommand(State.MovePosition);
@@ -208,7 +205,7 @@ partial class UCI : ICommand {
       break;
 
     case "list":
-      if (State.MovePosition is null)   //[Safe]
+      if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
 
       State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
@@ -240,9 +237,10 @@ partial class UCI : ICommand {
       break;
 
     case "best":                        //[Test]
-      if (State.MovePosition is null)   //[Safe]
+      if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
-      else if (State.BestMoves != null) {
+
+      if (State.BestMoves != null) {
         var sb = new StringBuilder();
         //[Note]refreshPV() may not have been called
         sb.BestMove(State.BestMoves, State.MovePosition.Side, State.IsChess960);
@@ -263,8 +261,7 @@ partial class UCI : ICommand {
     //[Unreachable]break;
 
     case "stop":                        //[UCI]
-      if (State.EngineTask == null ||
-          !State.IsSearchInProgress)
+      if (State.EngineTask == null || !State.IsSearchInProgress)
         throw new ChessException("No search in progress");
 
       State.Stop();

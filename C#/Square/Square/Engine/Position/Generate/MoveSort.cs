@@ -54,8 +54,8 @@ partial class Position : Board {
     var nIndex = Array.IndexOf(moveTypes, type);
     if (nIndex < 0)
       throw new PositionException($"Could not find the {type} MoveType");
-    else
-      moveTypes.Rotate(0, nIndex);
+
+    moveTypes.Rotate(0, nIndex);
 
     //
     // New ordering inherited by subsequent children:

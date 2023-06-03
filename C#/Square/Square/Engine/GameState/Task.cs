@@ -65,27 +65,24 @@ partial class GameState {
   public void OnMoveCommand() {
     if (IsSearchInProgress)
       throw new ChessException("Search in progress");
-    else if (MovePosition is null)
+
+    if (MovePosition is null)
       throw new ChessException("Uninitialized Position");
-    else {
-      MovePosition.Validate();
-      if (!MovePosition.IsLegal())
-        throw new ChessException("Illegal Move");
-    }
+
+    MovePosition.Validate();
+    if (!MovePosition.IsLegal())
+      throw new ChessException("Illegal Move");
   }
 
   private List<Move>? startSearch(Position? position, SearchMode mode) {
     try {
       if (position is null)
         throw new PositionException("Null Position");
-      else if (SearchTimer == null)
-        throw new PositionException("Null SearchTimer Stopwatch");
-      else {
-        SearchTimer.Reset();
-        IntervalNodes =
-          HeartbeatNodes = (UInt64)NodeTotal;
-        LastBeatMS = SearchTimer.ElapsedMilliseconds;
-      }
+
+      SearchTimer.Reset();
+      IntervalNodes =
+        HeartbeatNodes = (UInt64)NodeTotal;
+      LastBeatMS = SearchTimer.ElapsedMilliseconds;
 
       if (position.IsLegal()) {
         StartDepth = 0;               //[Init]

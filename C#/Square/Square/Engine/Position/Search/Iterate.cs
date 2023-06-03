@@ -166,10 +166,7 @@ partial class Position : Board {
     var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
     var sw = State.IterationTimer;
-    if (sw == null)
-      throw new PositionException("Null IterationTimer Stopwatch");
-    else
-      sw.Start();
+    sw.Start();
 
     var qTotal1 = (UInt64)State.NodeTotal;
 #if DisplayPrediction
@@ -226,10 +223,7 @@ partial class Position : Board {
   public void IterateCases() {
 #if DisplayDepth
     var sw = State.IterationTimer;
-    if (sw == null)
-      throw new PositionException("Null IterationTimer Stopwatch");
-    else
-      sw.Start();
+    sw.Start();
 
     var qTotal1 = State.NodeTotal;
 #if DisplayPrediction
