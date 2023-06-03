@@ -121,7 +121,7 @@ partial class Board {
 #if BitOperations
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   // Trailing Zero Count (TZC), formerly known as FindLo()
-  private static Int32 TZC8(Byte r) {
+  public static Int32 TZC8(Byte r) {
     Debug.Assert(r != 0, "No Bit Found");
     return BitOperations.TrailingZeroCount(r);
   }
@@ -144,13 +144,13 @@ partial class Board {
 #else
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   // Trailing Zero Count (TZC), formerly known as FindLo()
-  private static Int32 TZC8(Byte r) {
+  public static Int32 TZC8(Byte r) {
     var s = bitLo(r);
-    return TZC8Single(s);
+    return tzc8Single(s);
   }
 #if ByteDeBruijn                        // ByteDeBruijn
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC8Single(Int32 n) {
+  private static Int32 tzc8Single(Int32 n) {
     if (n == 0) {
       Debug.Assert(n != 0, "No Bit Found");
       return nBit5;
@@ -184,7 +184,7 @@ partial class Board {
   }
 #else                                   //!ByteDeBruijn
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC8Single(UInt32 u) {
+  private static Int32 tzc8Single(UInt32 u) {
     if (u == 0) {
       Debug.Assert(u != 0, "No Bit Found");
       return nBit5;
@@ -267,12 +267,12 @@ partial class Board {
   // Trailing Zero Count (TZC), formerly known as FindLo()
   public static Int32 TZC64(UInt64 r) {
     var s = bitLo(r);
-    return TZC64Single(s);
+    return tzc64Single(s);
   }
 #if DeBruijn
 #if FullData
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC64Single(UInt64 q) {
+  private static Int32 tzc64Single(UInt64 q) {
     if (q == 0) {
       Debug.Assert(q != 0, "No Bit Found");
       return nBit6;
@@ -306,7 +306,7 @@ partial class Board {
   }
 #else                                   //!FullData
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC64Single(UInt64 q) {
+  private static Int32 tzc64Single(UInt64 q) {
     var u = (UInt32)q;                  // Half de Bruijn: Avoiding 64-Bit Multiply
     var n = 0;
     if (u == 0) {
@@ -360,7 +360,7 @@ partial class Board {
 #else                                   //!DeBruijn
 #if FullData
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC64Single(UInt64 q) {
+  private static Int32 tzc64Single(UInt64 q) {
     if (q == 0) {
       Debug.Assert(q != 0, "No Bit Found");
       return nBit6;
@@ -412,7 +412,7 @@ partial class Board {
   }
 #else                                   //!FullData
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 TZC64Single(UInt64 q) {
+  private static Int32 tzc64Single(UInt64 q) {
     var u = (UInt32)q;                  // Half Data: Avoiding 64-Bit Masks
     var n = 0;
     if (u == 0) {
