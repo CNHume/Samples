@@ -113,7 +113,7 @@ partial class Board {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public bool IsPromotion(Int32 nTo) {
+      public Boolean IsPromotion(Int32 nTo) {
         var qp = bit(nTo);
         return (qp & PromotionMask) != 0;
       }

@@ -190,7 +190,7 @@ static class Extension {
   }
 
   public static StringBuilder AppendRuler(
-    this StringBuilder sb, Boolean bRotateBoard = false, bool bFlip = false) {
+    this StringBuilder sb, Boolean bRotateBoard = false, Boolean bFlip = false) {
     var bRightRuler = bFlip;
     if (!bRightRuler)
       sb.Append(cSpace);

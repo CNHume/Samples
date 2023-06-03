@@ -438,7 +438,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected bool IsTrace() {
+  protected Boolean IsTrace() {
     return FlagsMode.Has(ModeFlags.Trace);
   }
   #endregion                            // ModeFlags

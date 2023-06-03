@@ -69,7 +69,7 @@ partial class UCI : ICommand {
     GC.SuppressFinalize(this);
   }
 
-  protected virtual void Dispose(bool disposing) {
+  protected virtual void Dispose(Boolean disposing) {
     if (!disposed) {
       if (disposing) Parser?.Dispose();
       disposed = true;

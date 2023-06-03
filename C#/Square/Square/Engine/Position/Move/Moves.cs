@@ -101,7 +101,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private (bool bPrevented, bool bRestricted) isPinned(Move move) {
+  private (Boolean bPrevented, Boolean bRestricted) isPinned(Move move) {
     var nFrom = From(move);
     var nTo = To(move);
 

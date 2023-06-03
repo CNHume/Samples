@@ -108,7 +108,7 @@ partial class Position : Board {
   //
   public FeatureCounter CountPawnFeatures(Int32 nSide, out Plane qpPassers, out PRPFlags fprp) {
     fprp = default;                   //[Init]
-    bool bWhiteAttacker = nSide == White;
+    var bWhiteAttacker = nSide == White;
     var (friend, foe) = GetSides(bWhiteAttacker);
     var qpFriendPawn = friend.Piece & Pawn;
     var qpFoePawn = foe.Piece & Pawn;

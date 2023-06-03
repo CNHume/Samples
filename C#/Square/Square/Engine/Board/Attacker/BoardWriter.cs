@@ -496,7 +496,7 @@ partial class Board {
   }
 
   private static void testDiag(
-    String sLabel, Plane qp, bool bRotateBoard = false) {
+    String sLabel, Plane qp, Boolean bRotateBoard = false) {
     LogLine(sLabel);
     LogLine();
     writeDiag(qp, bRotateBoard);
