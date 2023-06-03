@@ -13,24 +13,24 @@ using static System.StringComparison;
 namespace SortTest.Extensions {
   public static class Extension {
     #region Constants
-    private const char grave = '`';
-    private const char lab = '<';
-    private const char rab = '>';
+    private const Char grave = '`';
+    private const Char lab = '<';
+    private const Char rab = '>';
 
-    private const string colonSpace = ": ";
+    private const String colonSpace = ": ";
     private const String commaSpace = ", ";
     #endregion
 
     #region Methods
     #region StringBuilder Methods
-    public static StringBuilder AppendDelim(this StringBuilder sb, string next, string delim = commaSpace) {
+    public static StringBuilder AppendDelim(this StringBuilder sb, String next, String delim = commaSpace) {
       if (IsNullOrEmpty(next)) return sb;
       if (sb.Length > 0) sb.Append(delim);
       return sb.Append(next);
     }
 
     public static StringBuilder AppendKeyValuePair(
-      this StringBuilder sb, string key, string value) {
+      this StringBuilder sb, String key, String value) {
       sb.AppendDelim(key)
         .AppendDelim(value, colonSpace);
       return sb;
@@ -87,7 +87,7 @@ namespace SortTest.Extensions {
     //[Note]Certain Enums, e.g., IdentifierType may need to become Codeable Concepts.
     //
     public static TEnum? TryParseEnumFromName<TEnum>(
-      this string name, bool ignoreCase = default)
+      this String name, Boolean ignoreCase = default)
       where TEnum : Enum {
       if (!IsNullOrEmpty(name)) {
         var stringComparison = ignoreCase ? InvariantCultureIgnoreCase : CurrentCulture;
@@ -107,7 +107,7 @@ namespace SortTest.Extensions {
     }
 
     public static TEnum ParseEnumFromName<TEnum>(
-      this string name, bool ignoreCase = default)
+      this String name, Boolean ignoreCase = default)
       where TEnum : Enum {
       var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
       if (result == null) {
@@ -119,12 +119,12 @@ namespace SortTest.Extensions {
 
     // Based on Enum and [Display(Name = "")] by Pawan Pal 2016-02-17
     // See https://forums.asp.net/t/2085611.aspx?Enum+and+Display+Name+
-    public static string GetDisplayName(this Enum enumeration) {
+    public static String GetDisplayName(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
       return attr?.Name != null ? attr.Name : enumeration.ToString();
     }
 
-    public static string GetDescription(this Enum enumeration) {
+    public static String GetDescription(this Enum enumeration) {
       var attr = GetDisplayAttribute(enumeration);
       return attr?.Description != null ? attr.Description : enumeration.ToString();
     }
@@ -146,20 +146,20 @@ namespace SortTest.Extensions {
     #endregion                          // ParseEnumFromName Helper
 
     public static TStruct? TryParseEnum<TStruct>(
-      this string s, bool ignoreCase = default)
+      this String s, Boolean ignoreCase = default)
       where TStruct : struct {
       return Enum.TryParse(s, ignoreCase, out TStruct result) ?
         (TStruct?)result : default;
     }
 
     public static TEnum ParseEnum<TEnum>(
-      this string value, bool ignoreCase = default)
+      this String value, Boolean ignoreCase = default)
       where TEnum : Enum {
       return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
     }
 
     public static TEnum? ValidEnumFromName<TEnum, TLogger>(
-      this string name, TLogger logger, bool ignoreCase = default)
+      this String name, TLogger logger, Boolean ignoreCase = default)
       where TEnum : Enum
       where TLogger : ILogger {
       var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
@@ -171,7 +171,7 @@ namespace SortTest.Extensions {
     }
 
     public static TStruct? ValidEnum<TStruct, TLogger>(
-      this string name, TLogger logger, bool ignoreCase = default)
+      this String name, TLogger logger, Boolean ignoreCase = default)
       where TStruct : struct
       where TLogger : ILogger {
       var result = name.TryParseEnum<TStruct>(ignoreCase);
@@ -199,7 +199,7 @@ namespace SortTest.Extensions {
       return true;
     }
 
-    public static bool IsPredecessor<T>(
+    public static Boolean IsPredecessor<T>(
       this T x, T y, Boolean isAscending = true) where T : IComparable {
       var sense = x.CompareTo(y);
       return sense < 0 && isAscending ||

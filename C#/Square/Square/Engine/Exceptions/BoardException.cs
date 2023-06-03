@@ -9,10 +9,10 @@ class BoardException : ApplicationException, ISerializable {
   #region Constructors
   public BoardException() {
   }
-  public BoardException(string message)
+  public BoardException(String message)
     : base(message) {
   }
-  public BoardException(string message, Exception inner)
+  public BoardException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -29,10 +29,10 @@ class PieceException : BoardException, ISerializable {
   #region Constructors
   public PieceException() {
   }
-  public PieceException(string message)
+  public PieceException(String message)
     : base(message) {
   }
-  public PieceException(string message, Exception inner)
+  public PieceException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -49,10 +49,10 @@ class ColorException : PieceException, ISerializable {
   #region Constructors
   public ColorException() {
   }
-  public ColorException(string message)
+  public ColorException(String message)
     : base(message) {
   }
-  public ColorException(string message, Exception inner)
+  public ColorException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion

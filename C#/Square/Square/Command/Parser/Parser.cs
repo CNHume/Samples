@@ -655,7 +655,7 @@ partial class Parser : IDisposable {
   }
 
   public static String VerbatimLiteralToString(String sValue) {
-    const string paramName = nameof(sValue);
+    const String paramName = nameof(sValue);
 
     if (!IsVerbatimLiteral(sValue))
       throw new ArgumentException("Not a verbatim literal", paramName);

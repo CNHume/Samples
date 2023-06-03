@@ -67,7 +67,7 @@ partial class Position : Board {
     //[Test]timeExecute("test", 100000);
   }
 
-  private static Stopwatch timerStart(string sMethod, UInt64 qTrials) {
+  private static Stopwatch timerStart(String sMethod, UInt64 qTrials) {
     LogLine($"Timing {qTrials:n0} {sMethod} trials at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
     var sw = new Stopwatch();
     sw.Start();

@@ -19,7 +19,7 @@ partial class Position {
   #region Methods
   private static MoveType moveType(
     Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {
-    const string methodName = nameof(moveType);
+    const String methodName = nameof(moveType);
     var vPiece = PieceIndex(uPiece);
     var type = vPiece switch {
       vP6 => bCapture ?

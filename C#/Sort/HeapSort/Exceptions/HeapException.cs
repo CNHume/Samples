@@ -9,10 +9,10 @@ namespace HeapSort.Exceptions {
     #region Constructors
     public HeapException() {
     }
-    public HeapException(string message)
+    public HeapException(String message)
       : base(message) {
     }
-    public HeapException(string message, Exception inner)
+    public HeapException(String message, Exception inner)
       : base(message, inner) {
     }
     #endregion
@@ -29,10 +29,10 @@ namespace HeapSort.Exceptions {
     #region Constructors
     public HeapOverflowException() {
     }
-    public HeapOverflowException(string message)
+    public HeapOverflowException(String message)
       : base(message) {
     }
-    public HeapOverflowException(string message, Exception inner)
+    public HeapOverflowException(String message, Exception inner)
       : base(message, inner) {
     }
     #endregion
@@ -49,10 +49,10 @@ namespace HeapSort.Exceptions {
     #region Constructors
     public HeapUnderflowException() {
     }
-    public HeapUnderflowException(string message)
+    public HeapUnderflowException(String message)
       : base(message) {
     }
-    public HeapUnderflowException(string message, Exception inner)
+    public HeapUnderflowException(String message, Exception inner)
       : base(message, inner) {
     }
     #endregion

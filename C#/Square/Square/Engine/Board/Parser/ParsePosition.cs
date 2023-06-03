@@ -299,8 +299,8 @@ partial class Board {
     Boolean bWTM, List<Int32> rookFromSquares,
     String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
     Dictionary<String, List<String>?>? operations = default) {
-    const string sFMVNName = "Full Move Number";
-    const string sHMVCName = "Half Move Clock";
+    const String sFMVNName = "Full Move Number";
+    const String sHMVCName = "Half Move Clock";
 
     #region EPD Operations
     Operations = operations;

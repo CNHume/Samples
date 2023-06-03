@@ -9,10 +9,10 @@ class PositionException : BoardException, ISerializable {
   #region Constructors
   public PositionException() {
   }
-  public PositionException(string message)
+  public PositionException(String message)
     : base(message) {
   }
-  public PositionException(string message, Exception inner)
+  public PositionException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -29,10 +29,10 @@ class ParsePositionException : PositionException, ISerializable {
   #region Constructors
   public ParsePositionException() {
   }
-  public ParsePositionException(string message)
+  public ParsePositionException(String message)
     : base(message) {
   }
-  public ParsePositionException(string message, Exception inner)
+  public ParsePositionException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -49,10 +49,10 @@ class InvalidPositionException : PositionException, ISerializable {
   #region Constructors
   public InvalidPositionException() {
   }
-  public InvalidPositionException(string message)
+  public InvalidPositionException(String message)
     : base(message) {
   }
-  public InvalidPositionException(string message, Exception inner)
+  public InvalidPositionException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -69,10 +69,10 @@ class PerftException : PositionException, ISerializable {
   #region Constructors
   public PerftException() {
   }
-  public PerftException(string message)
+  public PerftException(String message)
     : base(message) {
   }
-  public PerftException(string message, Exception inner)
+  public PerftException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -89,10 +89,10 @@ class FinalPositionException : PositionException, ISerializable {
   #region Constructors
   public FinalPositionException() {
   }
-  public FinalPositionException(string message)
+  public FinalPositionException(String message)
     : base(message) {
   }
-  public FinalPositionException(string message, Exception inner)
+  public FinalPositionException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion

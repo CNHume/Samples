@@ -9,10 +9,10 @@ namespace SortTest.Exceptions {
     #region Constructors
     public CommandException() {
     }
-    public CommandException(string message)
+    public CommandException(String message)
       : base(message) {
     }
-    public CommandException(string message, Exception inner)
+    public CommandException(String message, Exception inner)
       : base(message, inner) {
     }
     #endregion

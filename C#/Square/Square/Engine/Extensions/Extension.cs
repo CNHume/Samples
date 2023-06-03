@@ -894,14 +894,14 @@ static class Extension {
 
   #region Parse Methods
   public static TStruct? TryParseEnum<TStruct>(
-    this string s, Boolean ignoreCase = default)
+    this String s, Boolean ignoreCase = default)
     where TStruct : struct {
     return Enum.TryParse(s, ignoreCase, out TStruct result) ?
       (TStruct?)result : default;
   }
 
   public static TEnum ParseEnum<TEnum>(
-    this string value, Boolean ignoreCase = default)
+    this String value, Boolean ignoreCase = default)
     where TEnum : Enum {
     return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
   }

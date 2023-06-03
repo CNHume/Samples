@@ -153,7 +153,7 @@ partial class Board {
   #endregion
 
   #region ToString() Methods
-  private static string coloredPiece(Boolean bWhite, Byte vPiece) {
+  private static String coloredPiece(Boolean bWhite, Byte vPiece) {
     var sPiece = IndexPiece(vPiece).ToString();
     return bWhite ? sPiece.ToUpper() : sPiece.ToLower();
   }

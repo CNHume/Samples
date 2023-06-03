@@ -18,7 +18,7 @@ namespace SortTest {
 
   public class SortMeter<T> : IMeter where T : IComparable {
     #region Constants
-    private const char space = ' ';
+    private const Char space = ' ';
     private const String commaSpace = ", ";
     #endregion
 

@@ -14,10 +14,10 @@ class ChessException : ApplicationException, ISerializable {
   #region Constructors
   public ChessException() {
   }
-  public ChessException(string message)
+  public ChessException(String message)
     : base(message) {
   }
-  public ChessException(string message, Exception inner)
+  public ChessException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -34,10 +34,10 @@ class ControlException : ChessException, ISerializable {
   #region Constructors
   public ControlException() {
   }
-  public ControlException(string message)
+  public ControlException(String message)
     : base(message) {
   }
-  public ControlException(string message, Exception inner)
+  public ControlException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -54,10 +54,10 @@ class ParseException : ChessException, ISerializable {
   #region Constructors
   public ParseException() {
   }
-  public ParseException(string message)
+  public ParseException(String message)
     : base(message) {
   }
-  public ParseException(string message, Exception inner)
+  public ParseException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
@@ -74,10 +74,10 @@ class MoveException : ChessException, ISerializable {
   #region Constructors
   public MoveException() {
   }
-  public MoveException(string message)
+  public MoveException(String message)
     : base(message) {
   }
-  public MoveException(string message, Exception inner)
+  public MoveException(String message, Exception inner)
     : base(message, inner) {
   }
   #endregion
