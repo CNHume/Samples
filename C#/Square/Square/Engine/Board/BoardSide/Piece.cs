@@ -553,13 +553,13 @@ partial class Board {
       var fsideCanCastleNew = fsideNew & SideFlags.CanCastle;
 
       if (fsideCanCastleNew != fsideCanCastleOld) {
-        Board.Hash ^= CastlingRightsHash(fsideCanCastleOld) ^
-                      CastlingRightsHash(fsideCanCastleNew);
-
         //
         // A new Repetition Cycle begins whenever the Castling Rights change:
         //
         Board.SetDraw0();
+
+        Board.Hash ^= CastlingRightsHash(fsideCanCastleOld) ^
+                      CastlingRightsHash(fsideCanCastleNew);
       }
     }
     #endregion                          // Hashcode Methods

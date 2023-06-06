@@ -263,15 +263,15 @@ partial class Board {
     hashFlags(WTM(), ref qHash);
 #if HashCastlingRights
     foreach (var side in Side) {
-      var fside = side.FlagsSide;
-      qHash ^= side.CastlingRightsHash(fside & SideFlags.CanCastle);
+      var fsideCanCastle = side.FlagsSide & SideFlags.CanCastle;
+      qHash ^= side.CastlingRightsHash(fsideCanCastle);
     }
 #endif
     return qHash;
   }
 
   protected Boolean TestHash() {
-    Boolean bValid = true;
+    var bValid = true;
     var qHashPawn = hashPawn();
     var qHash = qHashPawn ^ hashPieces();
 #if DisplayHash

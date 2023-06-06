@@ -184,8 +184,9 @@ partial class Board {
 
   public Boolean CanPromote() {
     var qpPawn = Friend.Piece & Pawn;
-    var qpAdvance1 = qpPawn << Friend.Parameter.PawnStep & ~RankPiece & Friend.Parameter.PromotionMask;
-    var qpCapture = Foe.Piece & Friend.Parameter.PromotionMask;
+    var parameter = Friend.Parameter;
+    var qpAdvance1 = qpPawn << parameter.PawnStep & ~RankPiece & parameter.PromotionMask;
+    var qpCapture = Foe.Piece & parameter.PromotionMask;
 
     return qpAdvance1 != 0 ||
            (qpCapture & Friend.PawnA1H8Atx) != 0 ||
