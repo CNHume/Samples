@@ -102,10 +102,8 @@ partial class Position : Board {
 
     #region Transposition Table Lookup
 #if TraceVal
-    var bTrace = IsTrace();
-    if (IsTrace()) {                    //[Note]CurrentMove Undefined
-      Display($"Search(Depth = {wDepth})");
-    }
+    if (IsTrace())                      //[Note]CurrentMove Undefined
+      Display($"{nameof(search)}(Depth = {wDepth})");
 #endif
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
@@ -166,8 +164,7 @@ partial class Position : Board {
       // Determine whether Futility Pruning should be performed at Frontier Nodes:
       if (State.IsFutility && 0 < wDepth) {
         var bNonMateWindow = -MateMin < mAlpha && mBeta < MateMin;
-        var bNonEndGame = (FlagsEval & EvalFlags.EndGame) == 0;
-        if (bNonMateWindow && bNonEndGame) {
+        if (bNonMateWindow && !FlagsEval.Has(EvalFlags.EndGame)) {
           var nMargin = wDepth - 1;
           if (nMargin < FutilityMargin.Length)
             bPruneQuiet = mStand + FutilityMargin[nMargin] <= mAlpha;
@@ -313,7 +310,7 @@ partial class Position : Board {
         //
         SetDraw50();
 
-        if (IsDraw50()) {
+        if (FlagsDraw.Has(DrawFlags.Draw50)) {
           mBest = eval();
 
           if (mAlpha < mBest) {

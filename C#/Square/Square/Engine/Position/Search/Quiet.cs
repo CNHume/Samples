@@ -56,11 +56,8 @@ partial class Position : Board {
 
     #region Transposition Table Lookup
 #if TraceVal
-    var bTrace = IsTrace();
-    if (bTrace) {
-      const String sLabel = "quiet()";
-      Display(sLabel);                  //[Note]Undefined CurrentMove
-    }
+    if (IsTrace())                      //[Note]CurrentMove Undefined
+      Display($"{nameof(quiet)}()");
 #endif
     // BestMoves updated iff bFoundValue
     if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {

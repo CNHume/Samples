@@ -397,11 +397,6 @@ partial class Board {
     else                                // 50 Move Rule
       FlagsDraw |= DrawFlags.Draw50;
   }
-
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public Boolean IsDraw50() {
-    return FlagsDraw.Has(DrawFlags.Draw50);
-  }
   #endregion                            // DrawFlags
 
   #region ModeFlags
