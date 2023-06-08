@@ -57,7 +57,8 @@ partial class Board {
     if ((qpFrom & RankPiece) == 0)
       throw new MoveException(
         Friend.MoveError($"There is no piece to move", sqFrom, sqTo));
-    else if ((qpFrom & Friend.Piece) == 0) {
+
+    if ((qpFrom & Friend.Piece) == 0) {
       var foeSideName = Foe.Parameter.SideName;
       var pieceFrom = IndexPiece(vPieceFrom);
       throw new MoveException(
@@ -106,7 +107,7 @@ partial class Board {
         qpTo, vPieceFrom, vCapture, bCapture);
     else if (promotion != Piece.None)
       throw new MoveException(
-        Friend.MoveError($"Illegal Promotion in King Move", sqFrom, sqTo));
+        Friend.MoveError($"Promotion Illegal in King Move", sqFrom, sqTo));
 
     return nTo;
   }

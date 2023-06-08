@@ -91,10 +91,11 @@ partial class UCI {
   // 13... Qd7 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 OOO 17. Bd6 c6 18. Bf4
   "2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
   //
+  //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";   // Composed by Sergueï Kaminer [2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
   //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
-  // [11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
+  // [2023-04-29 11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
   // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Ba5 c6 7. Qh7 Rd6 8. Bc3+
-  // [16-ply in 48:03 @1.498 MHz over 4.32 Gnode] eval 5.9 after:
+  // [2023-04-30 16-ply in 48:03 @1.498 MHz over 4.32 Gnode] eval 5.9 after:
   // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Bc3+ Ke7 7. Bb4+ Nd6 8. Qc8 Rg6+ 9. Kf1 Kf6 10. Qxc7 Nf7 11. Qxa7 Ng5
   //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
@@ -447,7 +448,7 @@ partial class UCI {
   //"k1n1K3/p7/8/B2pP3/8/8/6B1/8 w - d6 0 1"; // ep Mate [3-ply]
   //"7k/b1n3q1/8/2PpP3/3K4/8/8/8 w - d6 0 1"; // EPIllegal, so Inconsistent FEN for #6 [2023-03-23 10-ply in 6.2 sec @1.352 MHz over 8.387 Mnode]
   // 1. Kc3 Bxc5 2. Kd3 Qg2 3. e6 Nxe6 4. Kc3 Qe2 5. Kb3 Nd4+ 6. Kc3 (6. Ka4 Qa2# (6... Qa6#) (6... Qb5#)) 6... Qc2#
-  //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6
+  //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6 [7-ply] eval 0.0
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
   //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
