@@ -140,7 +140,12 @@ partial class Position : Board {
   //
   private Eval contempt() {
     GameState.AtomicIncrement(ref State.DrawTotal);
-    var mDrawValue = (Eval)(-State.Contempt);   // Strength advantage of White over Black
+    //
+    // A positive ContemptValue indicates that White should have the
+    // advantage in strength over Black.  Thus, Draws are equivalent
+    // to Positions where the Evaluation is reduced by ContemptValue.
+    //
+    var mDrawValue = (Eval)(-State.ContemptValue);
     return mDrawValue;
   }
 #if MaterialBalance

@@ -67,7 +67,7 @@ partial class Position : Board {
   private void setNameIfLegal(String? sId = default) {
     //[Note]Calling IsLegal() affects FlagsTurn and FlagsDraw
     if (!IsLegal())
-      LogInfo(Level.error, "Illegal Setup");
+      LogInfo(LogLevel.error, "Illegal Setup");
     setName(sId);
   }
 
@@ -83,7 +83,7 @@ partial class Position : Board {
       bWTM = ParsePosition(scanner, rookFromSquares, out sEnPassant);
     }
     catch (PositionException ex) {
-      LogInfo(Level.error, ex.Message);
+      LogInfo(LogLevel.error, ex.Message);
     }
     finally {
       Setup(
@@ -108,7 +108,7 @@ partial class Position : Board {
       bWTM = ParsePosition(scanner, rookFromSquares, out sEnPassant);
     }
     catch (PositionException ex) {
-      LogInfo(Level.error, ex.Message);
+      LogInfo(LogLevel.error, ex.Message);
     }
     finally {
       Setup(
@@ -464,7 +464,7 @@ partial class Position : Board {
     }
 #if TestFEN
     if (!VerifyFEN(sFEN))
-      LogInfo(Level.warn, "Input FEN inconsistent with Output FEN");
+      LogInfo(LogLevel.warn, "Input FEN inconsistent with Output FEN");
 #endif
   }
   #endregion                            // Position Serialization Methods

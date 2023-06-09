@@ -18,7 +18,7 @@ public partial class Control {
 
   public struct ControlOption {
     #region Fields
-    public String Name;
+    public ControlOptionName Name;
     public OptionType Type;
     public String? Default;
     public String?[] Items;             // Enumerates possible values for options of type combo
@@ -31,8 +31,7 @@ public partial class Control {
     public override String ToString() {
       var sb = new StringBuilder("option");
 
-      if (!IsNullOrEmpty(Name))
-        sb.Append(" name ").Append(Name);
+      sb.Append(" name ").Append(Name);
 
       if (Type != OptionType.none) {
         sb.Append(" type ").Append(Type);

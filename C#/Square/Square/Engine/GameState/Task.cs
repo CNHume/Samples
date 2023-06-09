@@ -94,7 +94,7 @@ partial class GameState {
           herald(dtStarted, position.Name);
 #endif
 #if NoteStartAndFinish
-          LogInfo(Level.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
+          LogInfo(LogLevel.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
         }
 
@@ -120,26 +120,26 @@ partial class GameState {
       //
     }
     catch (FinalPositionException ex) {
-      LogInfo(Level.note, ex.Message);
+      LogInfo(LogLevel.note, ex.Message);
     }
     catch (ApplicationException ex) {
 #if StackTrace
         LogInfo(Level.error, ex.ToString());
 #else
-      LogInfo(Level.error, ex.Message);
+      LogInfo(LogLevel.error, ex.Message);
 #endif
     }
     catch (Exception ex) {
-      LogInfo(Level.error, ex.ToString());
+      LogInfo(LogLevel.error, ex.ToString());
     }
     finally {
       if (SearchTimer.IsRunning)
         SearchTimer.Stop();
 
       if (UCI.IsDebug) {
-        LogInfo(Level.note);
+        LogInfo(LogLevel.note);
 #if NoteStartAndFinish
-        LogInfo(Level.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+        LogInfo(LogLevel.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
         var dElapsedMS = (Double)SearchTimer.ElapsedMilliseconds;
         displayCounts(mode, dElapsedMS);
@@ -341,7 +341,7 @@ partial class GameState {
     //
     // Test for Heartbeat Due
     //
-    if (lElapsedMS > HeartbeatMS) {
+    if (lElapsedMS > HeartbeatPeriodMS) {
       var qNodeDelta = qTotal - HeartbeatNodes;
       HeartbeatNodes = qTotal;
       LastBeatMS = lSearchMS;

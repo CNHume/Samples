@@ -14,12 +14,16 @@
 #define SaveCapture
 #define TestDraw3
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 using static System.Math;
 using static System.String;
+using static System.StringComparison;
 
 namespace Engine;
 
@@ -893,6 +897,74 @@ static class Extension {
   #endregion
 
   #region Parse Methods
+  #region ParseEnumFromName Helpers
+  //
+  // Based on the answer to the Stackoverflow Question: "Enum value from display name"
+  // See https://stackoverflow.com/questions/33225729/enum-value-from-display-name
+  //
+  //[Note]Certain Enums, e.g., IdentifierType may need to become Codeable Concepts.
+  //
+  public static TEnum? TryParseEnumFromName<TEnum>(
+    this string name, bool ignoreCase = default)
+    where TEnum : Enum {
+    TEnum? value = default;
+    if (!IsNullOrEmpty(name)) {
+      var stringComparison = ignoreCase ? InvariantCultureIgnoreCase : CurrentCulture;
+      var type = typeof(TEnum);
+      foreach (var field in type.GetFields()) {
+        var descriptionAttribute =
+          Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+        var displayAttribute =
+          Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
+
+        var found =
+          name.Equals(field.Name, stringComparison) ||
+          descriptionAttribute != null &&
+          name.Equals(descriptionAttribute.Description, stringComparison) ||
+          displayAttribute != null &&
+          name.Equals(displayAttribute.Name, stringComparison);
+
+        if (found) {
+          value = (TEnum?)field.GetValue(default);
+          return value;
+        }
+      }
+    }
+    return value;
+  }
+
+  public static TEnum ParseEnumFromName<TEnum>(
+    this string name, bool ignoreCase = default)
+    where TEnum : Enum {
+    var result = name.TryParseEnumFromName<TEnum>(ignoreCase);
+    if (result == null) {
+      var type = typeof(TEnum);
+      throw new ArgumentOutOfRangeException($"{type.Name} does not contain {name}");
+    }
+    return result;
+  }
+
+  // Originally based on Enum and [Display(Name = "")] by Pawan Pal 2016-02-17
+  // See https://forums.asp.net/t/2085611.aspx?Enum+and+Display+Name+
+  public static string GetDisplayName(this Enum enumeration) {
+    var attr = enumeration.GetAttribute<DisplayAttribute>();
+    return attr?.Name ?? enumeration.ToString();
+  }
+
+  public static string GetDescription(this Enum enumeration) {
+    var attr = enumeration.GetAttribute<DescriptionAttribute>();
+    return attr?.Description ?? enumeration.ToString();
+  }
+
+  public static T? GetAttribute<T>(this Enum enumeration) where T : Attribute {
+    var type = enumeration.GetType();
+    var name = enumeration.ToString();
+    // Get Enum field:
+    var field = type.GetField(name);
+    return field?.GetCustomAttribute<T>();
+  }
+  #endregion                            // ParseEnumFromName Helpers
+
   public static TStruct? TryParseEnum<TStruct>(
     this String s, Boolean ignoreCase = default)
     where TStruct : struct {

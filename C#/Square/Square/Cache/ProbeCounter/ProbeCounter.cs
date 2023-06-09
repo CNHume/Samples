@@ -55,10 +55,10 @@ class SimpleCounter {
     var dSaturation = 100.0 * Added / uCapacity;
 
     if (Added == 0)
-      LogInfo(Level.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%");
+      LogInfo(LogLevel.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%");
     else {
       var dReplacedPercent = 100.0 * Replaced / Writes;
-      LogInfo(Level.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%; Replaced = {dReplacedPercent:n1}%");
+      LogInfo(LogLevel.data, $"{Name} Added = {Added:n0}; Saturation = {dSaturation:n1}%; Replaced = {dReplacedPercent:n1}%");
     }
   }
   #endregion
@@ -71,7 +71,7 @@ class SimpleCounter {
       sRate = $"; {sName} {sAction} Hits/Read = {dPercent:n1}%";
     }
 
-    LogInfo(Level.data,
+    LogInfo(LogLevel.data,
             $"{sName} {sAction} Hits = {lHits:n0}; {sName} {sAction} Reads = {lReads:n0}{sRate}");
   }
   #endregion

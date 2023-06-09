@@ -70,7 +70,7 @@ class PooledPosition {
   }
 
   public void DisplayActive() {
-    LogInfo(Level.data, $"{Name} Count = {ActiveCount}, Peak = {ActivePeak}");
+    LogInfo(LogLevel.data, $"{Name} Count = {ActiveCount}, Peak = {ActivePeak}");
   }
   #endregion
 

@@ -249,7 +249,7 @@ partial class Board {
     tryEP(vEPTarget);
 #if TestEPLegal
     if (!IsEPLegal())
-      LogInfo(Level.warn, $"Illegal En Passant Square: {sqEP}");
+      LogInfo(LogLevel.warn, $"Illegal En Passant Square: {sqEP}");
 #endif                                  // TestEPLegal
   }
 
@@ -327,7 +327,7 @@ partial class Board {
 
     if (HalfMoveClock > 0 && IsEPLegal()) {
       var sq = (Sq?)EPTarget;
-      LogInfo(Level.warn, $"ep({sq}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
+      LogInfo(LogLevel.warn, $"ep({sq}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
     }
 
     //

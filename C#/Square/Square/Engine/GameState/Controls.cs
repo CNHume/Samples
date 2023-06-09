@@ -6,8 +6,8 @@
 // Conditionals:
 //
 //#define ThreadSafeTank
-//#define TestOptionTypes
 //#define SyzygyControls
+//#define ExampleOptionTypes
 
 using System.Diagnostics.CodeAnalysis;
 
@@ -19,6 +19,7 @@ using Exceptions;
 
 using static Board;
 using static Command.Control;
+using static Command.Control.ControlOptionName;
 using static Logging.Logger;
 using static Position;
 
@@ -40,34 +41,15 @@ partial class GameState {
   // 6) Use the Property, potentially reporting initial state in appendOptions()
   //
   public static readonly Control[] Controls = {
-#if TestOptionTypes
-      new Setting {
-        Option = new ControlOption {
-          Name = "Selectivity",         //[Example]
-          Type = OptionType.spin,
-          Default = "2",
-          Min = 0,
-          Max = 4
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = "Style",               //[Example]
-          Type = OptionType.combo,
-          Items = new String[] { "Solid", "BestMove", "Risky" },
-          Default = "BestMove"
-        }
-      },
-#endif
       new Button {
         Option = new ControlOption {
-          Name = "Clear Hash",          // Example had compound name of "Clear Hash"
+          Name = Clear_Hash,            // Example had compound name of "Clear Hash"
           Type = OptionType.button
         }
       },
       new Setting {                     // Step 1/6: Define Control its Limits and Default Value here
         Option = new ControlOption {
-          Name = "MultiPV",             //[UCI]
+          Name = MultiPV,               //[UCI]
           Type = OptionType.spin,
           Default = "1",
           Min = 1,
@@ -76,7 +58,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "QXPLength",
+          Name = QXPLength,
           Type = OptionType.spin,
           Default = nQXPSelectionDefault.ToString(),
           Min = 1,
@@ -85,7 +67,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "QXPBuckets",
+          Name = QXPBuckets,
           Type = OptionType.spin,
           Default = "4",
           Min = 1,
@@ -94,7 +76,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "XPLength",            //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
+          Name = XPLength,              //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
           Type = OptionType.spin,
           Default = nXPSelectionDefault.ToString(),
           Min = 1,
@@ -103,7 +85,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "XPBuckets",
+          Name = XPBuckets,
           Type = OptionType.spin,
           Default = "2",
           Min = 1,
@@ -112,7 +94,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "XPMLength",
+          Name = XPMLength,
           Type = OptionType.spin,
           Default = nXPMSelectionDefault.ToString(),
           Min = 1,
@@ -121,7 +103,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "XPMBuckets",
+          Name = XPMBuckets,
           Type = OptionType.spin,
           Default = "6",
           Min = 1,
@@ -130,7 +112,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "ExpectedMoves",       // ExpectedMovesToGo for "sudden death" time controls
+          Name = ExpectedMoves,         // ExpectedMovesToGo for "sudden death" time controls
           Type = OptionType.spin,
           Default = "32",
           Min = 1,
@@ -139,7 +121,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Contempt",
+          Name = Contempt,
           Type = OptionType.spin,
           Default = "0",
           Min = -250,
@@ -148,7 +130,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Late",
+          Name = Late,
           Type = OptionType.spin,
           Default = "2",
           Min = 0,
@@ -157,7 +139,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Checks",
+          Name = Checks,
           Type = OptionType.spin,
           Default = "6",                // 8
           Min = 0,
@@ -166,7 +148,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Threat",              // Looks for Mate Threats, currently
+          Name = Threat,                // Looks for Mate Threats, currently
           Type = OptionType.spin,
           Default = "0",
           Min = 0,
@@ -175,7 +157,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Singular",
+          Name = Singular,
           Type = OptionType.spin,
           Default = "2",
           Min = 0,
@@ -184,21 +166,21 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Aspiration",
+          Name = Aspiration,
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Flip",
+          Name = Flip,
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Futility",            // Only an option for testing purposes
+          Name = Futility,              // Only an option for testing purposes
           Type = OptionType.check,
           Default = "true",
           IsHidden = false
@@ -206,7 +188,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "NullMove",
+          Name = NullMove,
           Type = OptionType.check,
           Default = "true",
           IsHidden = false
@@ -214,7 +196,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Occam",               // Forward Pruning is not recommended
+          Name = Occam,                 // Forward Pruning not recommended
           Type = OptionType.check,
           Default = "false"
         }
@@ -222,7 +204,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
-          Name = "Pure",
+          Name = Pure,
           Type = OptionType.check,
           Default = "false",
           IsHidden = true               //[Debug]
@@ -230,7 +212,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Heartbeat",
+          Name = Heartbeat,
           Type = OptionType.check,
           Default = "false",
           IsHidden = true               //[Debug]
@@ -238,7 +220,7 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "HeartbeatMS",         // Heartbeat Period in msec
+          Name = HeartbeatMS,           // Heartbeat Period in msec
           Type = OptionType.spin,
           Default = "7500",
           Min = 250,
@@ -248,78 +230,35 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "Ponder",              //[UCI]In case Time Management may be affected
+          Name = Ponder,                //[UCI]In case Time Management may be affected
           Type = OptionType.check,
           Default = "true"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "UCI_AnalyseMode",     //[UCI]This means the Engine is not playing a game
+          Name = UCI_AnalyseMode,       //[UCI]This means the Engine is not playing a game
           Type = OptionType.check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "UCI_ShowCurrLine",    //[UCI]
+          Name = UCI_ShowCurrLine,      //[UCI]
           Type = OptionType.check,
           Default = "true"
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "UCI_Opponent",        //[UCI]
+          Name = UCI_Opponent,          //[UCI]
           Type = OptionType.@string,
           Default = "Human"
         }
       },
-#if SyzygyControls
       new Setting {
         Option = new ControlOption {
-          Name = "SyzygyPath",          //[UCI]
-          Type = OptionType.@string,
-          Default = @"c:\Syzygy"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = "SyzygyCache",         //[UCI]
-          Type = OptionType.spin,
-          Default = "4",
-          Min = 1,
-          Max = 32
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = "Syzygy50MoveRule",
-          Type = OptionType.check,
-          Default = "true"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = "SyzygyProbeDepth",
-          Type = OptionType.spin,
-          Default = "14",
-          Min = 1,
-          Max = 32
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = "SyzygyProbeLimit",
-          Type = OptionType.spin,
-          Default = "5",
-          Min = 3,
-          Max = 8
-        }
-      },
-#endif
-      new Setting {
-        Option = new ControlOption {
-          Name = "Language",
+          Name = Language,
           Type = OptionType.combo,
           Items = Locales.Select(locale => locale.Language).ToArray(),
           Default = "English",
@@ -328,22 +267,84 @@ partial class GameState {
       },
       new Setting {
         Option = new ControlOption {
-          Name = "LogLevel",            //[Logger]
+          Name = LoggerLevel,              //[Logger]
           Type = OptionType.combo,
-          Items = Enum.GetValues(typeof(Level))
-                    .Cast<Level>()
+          Items = Enum.GetValues(typeof(LogLevel))
+                    .Cast<LogLevel>()
                     .Select(o => o.ToString())
                     .ToArray<String>(),
-          Default = Level.data.ToString()
+          Default = LogLevel.data.ToString()
         }
       },
       new Setting {
         Option = new ControlOption {
-          Name = "LogPath",             //[Logger]
+          Name = LoggerPath,               //[Logger]
           Type = OptionType.@string,
-          Default = LogPathDefault
+          Default = PathDefault
         }
-      }
+      },
+#if SyzygyControls
+      new Setting {
+        Option = new ControlOption {
+          Name = SyzygyPath,            //[UCI]
+          Type = OptionType.@string,
+          Default = @"c:\Syzygy"
+        }
+      },
+      new Setting {
+        Option = new ControlOption {
+          Name = SyzygyCache,           //[UCI]
+          Type = OptionType.spin,
+          Default = "4",
+          Min = 1,
+          Max = 32
+        }
+      },
+      new Setting {
+        Option = new ControlOption {
+          Name = Syzygy50MoveRule,
+          Type = OptionType.check,
+          Default = "true"
+        }
+      },
+      new Setting {
+        Option = new ControlOption {
+          Name = SyzygyProbeDepth,
+          Type = OptionType.spin,
+          Default = "14",
+          Min = 1,
+          Max = 32
+        }
+      },
+      new Setting {
+        Option = new ControlOption {
+          Name = SyzygyProbeLimit,
+          Type = OptionType.spin,
+          Default = "5",
+          Min = 3,
+          Max = 8
+        }
+      },
+#endif
+#if ExampleOptionTypes
+      new Setting {
+        Option = new ControlOption {
+          Name = Selectivity,
+          Type = OptionType.spin,
+          Default = "2",
+          Min = 0,
+          Max = 4
+        }
+      },
+      new Setting {
+        Option = new ControlOption {
+          Name = Style,
+          Type = OptionType.combo,
+          Items = new String[] { "Solid", "BestMove", "Risky" },
+          Default = "BestMove"
+        }
+      },
+#endif
     };
   #endregion                            // Constants
 
@@ -431,7 +432,7 @@ partial class GameState {
   protected void ContemptValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (Setting?)sender;
     if (setting != null && setting.Selection.HasValue)
-      Contempt = (Eval)setting.Selection;
+      ContemptValue = (Eval)setting.Selection;
   }
 
   protected void LateValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
@@ -511,7 +512,7 @@ partial class GameState {
   protected void HeartbeatMSValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (Setting?)sender;
     if (setting != null && setting.Selection.HasValue)
-      HeartbeatMS = (UInt16)setting.Selection.Value;
+      HeartbeatPeriodMS = (UInt16)setting.Selection.Value;
   }
 
   protected void PonderValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
@@ -541,14 +542,14 @@ partial class GameState {
   protected void LogLevelValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (Setting?)sender;
     if (setting?.Text != null) {
-      LogLevel = (Level)Enum.Parse(typeof(Level), setting.Text);
+      Level = (LogLevel)Enum.Parse(typeof(LogLevel), setting.Text);
     }
   }
 
   protected void LogPathValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (Setting?)sender;
     if (setting != null)
-      LogPath = setting.Text;
+      Path = setting.Text;
   }
 
   protected void LanguageValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
@@ -559,12 +560,12 @@ partial class GameState {
   #endregion                            // Event Handlers
 
   #region Event Handler Subscriptions
-  protected static Control? findControl(String sName) {
-    return Control.FindControl(Controls, sName);
+  protected static Control? findControl(ControlOptionName optionName) {
+    return FindControl(Controls, optionName);
   }
 
   private void wireClearHash() {
-    var button = (Button?)findControl("Clear Hash");
+    var button = (Button?)findControl(Clear_Hash);
     if (button != null)
       button.Click += ClearHashButton_Click;
   }
@@ -573,7 +574,7 @@ partial class GameState {
   private void wireMultiPV() {
     newVariations();
 
-    var setting = (Setting?)findControl("MultiPV");
+    var setting = (Setting?)findControl(MultiPV);
     if (setting != null) {
       // Step 6/6: Dynamically subscribe handler to the event
       setting.PropertyChanged += MultiPVValue_PropertyChanged;
@@ -585,7 +586,7 @@ partial class GameState {
   private void wireQXPBuckets() {
     newQXPTank();
 
-    var setting = (Setting?)findControl("QXPBuckets");
+    var setting = (Setting?)findControl(QXPBuckets);
     if (setting != null) {
       setting.PropertyChanged += QXPBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -599,7 +600,7 @@ partial class GameState {
     //
     wireQXPBuckets();
 
-    var setting = (Setting?)findControl("QXPLength");
+    var setting = (Setting?)findControl(QXPLength);
     if (setting != null) {
       setting.PropertyChanged += QXPLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -610,7 +611,7 @@ partial class GameState {
   private void wireXPBuckets() {
     newXPTank();
 
-    var setting = (Setting?)findControl("XPBuckets");
+    var setting = (Setting?)findControl(XPBuckets);
     if (setting != null) {
       setting.PropertyChanged += XPBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -624,7 +625,7 @@ partial class GameState {
     //
     wireXPBuckets();
 
-    var setting = (Setting?)findControl("XPLength");
+    var setting = (Setting?)findControl(XPLength);
     if (setting != null) {
       setting.PropertyChanged += XPLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -635,7 +636,7 @@ partial class GameState {
   private void wireXPMBuckets() {
     newXPMTank();
 
-    var setting = (Setting?)findControl("XPMBuckets");
+    var setting = (Setting?)findControl(XPMBuckets);
     if (setting != null) {
       setting.PropertyChanged += XPMBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -649,7 +650,7 @@ partial class GameState {
     //
     wireXPMBuckets();
 
-    var setting = (Setting?)findControl("XPMLength");
+    var setting = (Setting?)findControl(XPMLength);
     if (setting != null) {
       setting.PropertyChanged += XPMLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -657,7 +658,7 @@ partial class GameState {
   }
 
   private void wireExpectedMovesToGo() {
-    var setting = (Setting?)findControl("ExpectedMoves");
+    var setting = (Setting?)findControl(ExpectedMoves);
     if (setting != null) {
       setting.PropertyChanged += ExpectedMovesToGoValue_PropertyChanged;
       setting.SetDefault();
@@ -665,7 +666,7 @@ partial class GameState {
   }
 
   private void wireContempt() {
-    var setting = (Setting?)findControl("Contempt");
+    var setting = (Setting?)findControl(Contempt);
     if (setting != null) {
       setting.PropertyChanged += ContemptValue_PropertyChanged;
       setting.SetDefault();
@@ -673,7 +674,7 @@ partial class GameState {
   }
 
   private void wireLate() {
-    var setting = (Setting?)findControl("Late");
+    var setting = (Setting?)findControl(Late);
     if (setting != null) {
       setting.PropertyChanged += LateValue_PropertyChanged;
       setting.SetDefault();
@@ -681,7 +682,7 @@ partial class GameState {
   }
 
   private void wireChecks() {
-    var setting = (Setting?)findControl("Checks");
+    var setting = (Setting?)findControl(Checks);
     if (setting != null) {
       setting.PropertyChanged += ChecksValue_PropertyChanged;
       setting.SetDefault();
@@ -689,7 +690,7 @@ partial class GameState {
   }
 
   private void wireThreat() {
-    var setting = (Setting?)findControl("Threat");
+    var setting = (Setting?)findControl(Threat);
     if (setting != null) {
       setting.PropertyChanged += ThreatValue_PropertyChanged;
       setting.SetDefault();
@@ -697,7 +698,7 @@ partial class GameState {
   }
 
   private void wireSingular() {
-    var setting = (Setting?)findControl("Singular");
+    var setting = (Setting?)findControl(Singular);
     if (setting != null) {
       setting.PropertyChanged += SingularValue_PropertyChanged;
       setting.SetDefault();
@@ -705,7 +706,7 @@ partial class GameState {
   }
 
   private void wireAspiration() {
-    var setting = (Setting?)findControl("Aspiration");
+    var setting = (Setting?)findControl(Aspiration);
     if (setting != null) {
       setting.PropertyChanged += AspirationValue_PropertyChanged;
       setting.SetDefault();
@@ -713,7 +714,7 @@ partial class GameState {
   }
 
   private void wireFlip() {
-    var setting = (Setting?)findControl("Flip");
+    var setting = (Setting?)findControl(Flip);
     if (setting != null) {
       setting.PropertyChanged += FlipValue_PropertyChanged;
       setting.SetDefault();
@@ -721,7 +722,7 @@ partial class GameState {
   }
 
   private void wireFutility() {
-    var setting = (Setting?)findControl("Futility");
+    var setting = (Setting?)findControl(Futility);
     if (setting != null) {
       setting.PropertyChanged += FutilityValue_PropertyChanged;
       setting.SetDefault();
@@ -729,7 +730,7 @@ partial class GameState {
   }
 
   private void wireNullPrune() {
-    var setting = (Setting?)findControl("NullMove");
+    var setting = (Setting?)findControl(NullMove);
     if (setting != null) {
       setting.PropertyChanged += NullPruneValue_PropertyChanged;
       setting.SetDefault();
@@ -737,7 +738,7 @@ partial class GameState {
   }
 
   private void wireOccam() {
-    var setting = (Setting?)findControl("Occam");
+    var setting = (Setting?)findControl(Occam);
     if (setting != null) {
       setting.PropertyChanged += OccamValue_PropertyChanged;
       setting.SetDefault();
@@ -745,7 +746,7 @@ partial class GameState {
   }
 
   private void wirePure() {
-    var setting = (Setting?)findControl("Pure");
+    var setting = (Setting?)findControl(Pure);
     if (setting != null) {
       setting.PropertyChanged += PureValue_PropertyChanged;
       setting.SetDefault();
@@ -753,7 +754,7 @@ partial class GameState {
   }
 
   private void wireHeartbeatMS() {
-    var setting = (Setting?)findControl("HeartbeatMS");
+    var setting = (Setting?)findControl(HeartbeatMS);
     if (setting != null) {
       setting.PropertyChanged += HeartbeatMSValue_PropertyChanged;
       setting.SetDefault();
@@ -761,7 +762,7 @@ partial class GameState {
   }
 
   private void wireHeartbeat() {
-    var setting = (Setting?)findControl("Heartbeat");
+    var setting = (Setting?)findControl(Heartbeat);
     if (setting != null) {
       setting.PropertyChanged += HeartbeatValue_PropertyChanged;
       setting.SetDefault();
@@ -769,7 +770,7 @@ partial class GameState {
   }
 
   private void wirePonder() {
-    var setting = (Setting?)findControl("Ponder");
+    var setting = (Setting?)findControl(Ponder);
     if (setting != null) {
       setting.PropertyChanged += PonderValue_PropertyChanged;
       setting.SetDefault();
@@ -777,7 +778,7 @@ partial class GameState {
   }
 
   private void wireAnalyseMode() {
-    var setting = (Setting?)findControl("UCI_AnalyseMode");
+    var setting = (Setting?)findControl(UCI_AnalyseMode);
     if (setting != null) {
       setting.PropertyChanged += AnalyseModeValue_PropertyChanged;
       setting.SetDefault();
@@ -785,7 +786,7 @@ partial class GameState {
   }
 
   private void wireShowingLine() {
-    var setting = (Setting?)findControl("UCI_ShowCurrLine");
+    var setting = (Setting?)findControl(UCI_ShowCurrLine);
     if (setting != null) {
       setting.PropertyChanged += ShowingLineValue_PropertyChanged;
       setting.SetDefault();
@@ -793,15 +794,23 @@ partial class GameState {
   }
 
   private void wireOpponent() {
-    var setting = (Setting?)findControl("UCI_Opponent");
+    var setting = (Setting?)findControl(UCI_Opponent);
     if (setting != null) {
       setting.PropertyChanged += OpponentValue_PropertyChanged;
       setting.SetDefault();
     }
   }
 
+  private void wireLanguage() {
+    var setting = (Setting?)findControl(Language);
+    if (setting != null) {
+      setting.PropertyChanged += LanguageValue_PropertyChanged;
+      setting.SetDefault();
+    }
+  }
+
   private void wireLogLevel() {
-    var setting = (Setting?)findControl("LogLevel");
+    var setting = (Setting?)findControl(LoggerLevel);
     if (setting != null) {
       setting.PropertyChanged += LogLevelValue_PropertyChanged;
       setting.SetDefault();
@@ -809,17 +818,9 @@ partial class GameState {
   }
 
   private void wireLogPath() {
-    var setting = (Setting?)findControl("LogPath");
+    var setting = (Setting?)findControl(LoggerPath);
     if (setting != null) {
       setting.PropertyChanged += LogPathValue_PropertyChanged;
-      setting.SetDefault();
-    }
-  }
-
-  private void wireLanguage() {
-    var setting = (Setting?)findControl("Language");
-    if (setting != null) {
-      setting.PropertyChanged += LanguageValue_PropertyChanged;
       setting.SetDefault();
     }
   }

@@ -109,13 +109,16 @@ partial class Position : Board {
         var mEvalAlpha = ReflectValue(bWTM, mAlpha);
         var mEvalBeta = ReflectValue(bWTM, mBeta);
 
-        sb.Append("searchRoot(")        // Display Aspiration Window
-          .Append("Alpha =").AppendEvalTerm(mEvalAlpha)
+        //
+        // Display Aspiration Window
+        //
+        sb.Append("aspiration ").Append(nameof(search))
+          .Append("(Alpha =").AppendEvalTerm(mEvalAlpha)
           .Append(", Beta =").AppendEvalTerm(mEvalBeta)
           .Append(") Lo = ").Append(nLo)
           .Append(", Hi = ").Append(nHi);
 
-        LogInfo(Level.note, sb.ToString());
+        LogInfo(LogLevel.note, sb.ToString());
         sb.Clear();
       }
 
@@ -140,7 +143,7 @@ partial class Position : Board {
         sb.Append("Eval").AppendEvalTerm(mEval)
           .AppendFormat($" failed {sFailed} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 
-        LogInfo(Level.note, sb.ToString());
+        LogInfo(LogLevel.note, sb.ToString());
         sb.Clear();
       }
     }
@@ -182,8 +185,8 @@ partial class Position : Board {
          vDepth++) {
 #if DisplayDepth
       if (UCI.IsDebug) {
-        LogInfo(Level.note);
-        LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+        LogInfo(LogLevel.note);
+        LogInfo(LogLevel.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
       }
 #endif
       mValue = beginIteration(vDepth, mValue);
@@ -237,8 +240,8 @@ partial class Position : Board {
       var vDepth = tc.Plies;
 #if DisplayDepth
       if (UCI.IsDebug) {
-        LogInfo(Level.note);
-        LogInfo(Level.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+        LogInfo(LogLevel.note);
+        LogInfo(LogLevel.note, $"Depth = {vDepth} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
       }
 #endif                                  // DisplayDepth
       //[Init]Reset PerfCase counts prior to the recursive search for each test case
@@ -260,7 +263,7 @@ partial class Position : Board {
       }
 #endif                                  // DisplayDepth
       if (!tc.Passed(pc))
-        LogInfo(Level.error, $"{Name} failed at Depth = {tc.Plies}");
+        LogInfo(LogLevel.error, $"{Name} failed at Depth = {tc.Plies}");
     }
   }
   #endregion                            // Search Methods

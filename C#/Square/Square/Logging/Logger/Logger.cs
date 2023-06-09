@@ -9,6 +9,7 @@
 
 using System.Text;
 
+using static System.IO.Path;
 using static System.String;
 
 namespace Logging;
@@ -20,50 +21,50 @@ static class Logger {
   private const Char cSpace = ' ';
 
   private const String sInfo = "info";
-  private const String sLogExtensionDefault = "log";
-  private const String sLogRelativePath = @"Square\Logs";
+  private const String sFileTypeDefault = "log";
+  private const String sRelativePath = @"Square\Logs";
   #endregion
 
   #region Enumerations
-  public enum Level : byte { data, note, warn, error, failure, none };
+  public enum LogLevel : byte { data, note, warn, error, failure, none };
   #endregion
 
   #region Fields
-  private static String? sLogPath;
+  private static String? sPath;
   #endregion
 
   #region Properties
-  public static Level LogLevel { get; set; }
-  public static String? LogPathDefault;
-  public static String? LogPath {
-    get => sLogPath;
+  public static LogLevel Level { get; set; }
+  public static String? PathDefault;
+  public static String? Path {
+    get => sPath;
     set {
-      sLogPath = value;
+      sPath = value;
       closeLogStream();
-      LogStream = openLogStream(sLogPath);
+      Stream = openLogStream(sPath);
     }
   }
-  private static FileStream? LogStream { get; set; }
+  private static FileStream? Stream { get; set; }
   #endregion
 
   #region Constructors
   static Logger() {
-    LogLevel = Level.data;
+    Level = LogLevel.data;
     // Using %LOCALAPPDATA% vs %ALLUSERSPROFILE%
-    var sLogRootPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    LogPathDefault = Path.Combine(sLogRootPath, sLogRelativePath);
-    LogPath = LogPathDefault;
+    var sRootPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+    PathDefault = Combine(sRootPath, sRelativePath);
+    Path = PathDefault;
   }
   #endregion
 
   #region Methods
   private static String? combineExtension(String? filename, String? ext) {
-    return IsNullOrEmpty(Path.GetExtension(filename)) ? $"{filename}.{ext}" : filename;
+    return IsNullOrEmpty(GetExtension(filename)) ? $"{filename}.{ext}" : filename;
   }
 
   private static String combineFilename(String path, String? filename, String ext) {
     var sFullFilename = combineExtension(filename, ext);
-    return Path.Combine(path, sFullFilename ?? Empty);
+    return Combine(path, sFullFilename ?? Empty);
   }
 
   private static FileStream? openLogStream(String? path) {
@@ -73,7 +74,7 @@ static class Logger {
 #if EnsureLogPathDirectoryExists
         var di = Directory.CreateDirectory(path);
 #endif
-        var sFullPath = combineFilename(path, Product.ProductName, sLogExtensionDefault);
+        var sFullPath = combineFilename(path, Product.ProductName, sFileTypeDefault);
         logStream = File.Open(sFullPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
         logStream.Seek(0, SeekOrigin.End);
       }
@@ -85,9 +86,9 @@ static class Logger {
   }
 
   private static void closeLogStream() {
-    if (LogStream != null) {
-      LogStream.Dispose();
-      LogStream = default;
+    if (Stream != null) {
+      Stream.Dispose();
+      Stream = default;
     }
   }
 
@@ -95,20 +96,20 @@ static class Logger {
     if (IsNullOrEmpty(s)) return;
     if (bWriteToConsole) Console.Write(s);
 
-    if (LogStream == null) return;
+    if (Stream == null) return;
     var encoding = new UnicodeEncoding();
     var buffer = encoding.GetBytes(s);
-    LogStream.Write(buffer, 0, buffer.Length);
+    Stream.Write(buffer, 0, buffer.Length);
   }
 
   public static void LogLine(String? s = default, Boolean bWriteToConsole = true) {
     Log(s, bWriteToConsole);
     Log("\n", bWriteToConsole);
-    LogStream?.Flush();
+    Stream?.Flush();
   }
 
-  public static void LogInfo(Level level, String? s = default) {
-    if (level < LogLevel) return;
+  public static void LogInfo(LogLevel level, String? s = default) {
+    if (level < Level) return;
 
     if (IsNullOrEmpty(s))
       LogLine();                        // Omitting level

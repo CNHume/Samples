@@ -42,7 +42,7 @@ static class Program {
       try {
         if (UCI.IsDebug) {
 #if NoteLaunchAndExit
-          LogInfo(Level.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+          LogInfo(LogLevel.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
         }
 
@@ -59,18 +59,18 @@ static class Program {
           }
         }
 #if NoteLaunchAndExit
-        LogInfo(Level.note, $"Exited at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+        LogInfo(LogLevel.note, $"Exited at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
       }
       catch (ApplicationException ex) {
 #if StackTrace
         LogInfo(Level.error, ex.ToString());
 #else
-        LogInfo(Level.error, ex.Message);
+        LogInfo(LogLevel.error, ex.Message);
 #endif
       }
       catch (Exception ex) {
-        LogInfo(Level.error, ex.ToString());
+        LogInfo(LogLevel.error, ex.ToString());
       }
     }
 #if DEBUG && PressEnter

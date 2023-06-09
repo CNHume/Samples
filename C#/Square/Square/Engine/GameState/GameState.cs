@@ -258,8 +258,8 @@ partial class GameState : IDisposable {
   }
 
   public static void SetLanguage(String? sLanguage) {
-    Language = sLanguage;
-    SetPieceSymbols(Language);
+    LanguageName = sLanguage;
+    SetPieceSymbols(LanguageName);
   }
   #endregion
 

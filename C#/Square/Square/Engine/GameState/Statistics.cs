@@ -167,28 +167,28 @@ partial class GameState {
     Debug.Assert(NodeTotal == MoveTotal + NullMoveTotal, "Inconsistent Node Total");
 
     if (dElapsedMS == 0)
-      LogInfo(Level.data, $"Searched a total of {NodeTotal:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
+      LogInfo(LogLevel.data, $"Searched a total of {NodeTotal:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
     else {
       var dRate = NodeTotal / dElapsedMS;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Searched a total of {NodeTotal:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
     }
   }
 
   [Conditional("TotalMoves")]
   private void displayPseudoMoveTotals() {
-    LogInfo(Level.data);
-    LogInfo(Level.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
+    LogInfo(LogLevel.data);
+    LogInfo(LogLevel.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
     if (MoveTotal != 0) {
       if (MoveTotalQxnt != 0) {         // Qxnt Moves do not occur in SearchMode.Perft
         var dQxntPercent = 100.0 * MoveTotalQxnt / MoveTotal;
-        LogInfo(Level.data,
+        LogInfo(LogLevel.data,
                 $"Qxnt Moves = {MoveTotalQxnt:n0}; Move Total = {MoveTotal:n0}; Qxnt Moves/Move Total = {dQxntPercent:n2}%");
       }
 
       var dIllegalPercent = 100.0 * IllegalMoveTotal / MoveTotal;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Illegal Moves = {IllegalMoveTotal:n0}; Illegal Moves/Move Total = {dIllegalPercent:n2}%");
     }
 #if CountCapturedPiece
@@ -212,13 +212,13 @@ partial class GameState {
   private void displayPVDoubleHistogram() {
     if (PVDoubleTotal <= 0) return;
 
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     for (var wSearchPlies = PVDoubleMinPly; wSearchPlies <= PVDoubleMaxPly; wSearchPlies++) {
       var wCountPly = modPly(wSearchPlies);
       var qResearches = PVDoubleCount[wCountPly];
       var dPercent = 100.0 * qResearches / PVDoubleTotal;
 #if GraphPVDouble
-      LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
+      LogInfo(LogLevel.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
       LogInfo(Level.data, $"Doubles[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
@@ -227,8 +227,8 @@ partial class GameState {
 
   [Conditional("TotalPVS")]
   private void displayPVSTotals() {
-    LogInfo(Level.data, $"ZW Simple = {ZWSimpleTotal:n0}; PV Simple = {PVSimpleTotal:n0}");
-    LogInfo(Level.data, $"PV Singles = {PVSingleTotal:n0}; PV Doubles = {PVDoubleTotal:n0}");
+    LogInfo(LogLevel.data, $"ZW Simple = {ZWSimpleTotal:n0}; PV Simple = {PVSimpleTotal:n0}");
+    LogInfo(LogLevel.data, $"PV Singles = {PVSingleTotal:n0}; PV Doubles = {PVDoubleTotal:n0}");
 
     displayPVDoubleHistogram();
   }
@@ -237,13 +237,13 @@ partial class GameState {
     var lEarlyMoveTotal = WhiteEarlyMoveTotal + BlackEarlyMoveTotal;
     if (lEarlyMoveTotal <= 0) return;
 
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     for (var wSearchPlies = EarlyMoveMinPly; wSearchPlies <= EarlyMoveMaxPly; wSearchPlies++) {
       var wCountPly = modPly(wSearchPlies);
       var qResearches = EarlyMoveCount[wCountPly];
       var dPercent = 100.0 * qResearches / lEarlyMoveTotal;
 #if GraphEarlyMove
-      LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
+      LogInfo(LogLevel.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% {bar(dPercent)}");
 #else
       LogInfo(Level.data, $"EarlyMoves[{wSearchPlies,2:n0}] ={dPercent,7:n3}% = {qResearches:n0}");
 #endif
@@ -253,18 +253,18 @@ partial class GameState {
   private static void displayEarlyMoveCounts(SideName sideName, Int64 lEarlyMoveTotal, Int64 lSearchedPositionCount) {
     //[Note]Move Ordering is applied in a "Searched Position", not during a quiescence search.
     if (lSearchedPositionCount == 0)
-      LogInfo(Level.data, $"{sideName} Early Moves = {lEarlyMoveTotal:n0}");
+      LogInfo(LogLevel.data, $"{sideName} Early Moves = {lEarlyMoveTotal:n0}");
     else {
       var dEarlyMovesPerPosition = (Double)lEarlyMoveTotal / lSearchedPositionCount;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"{sideName} Early Moves = {lEarlyMoveTotal:n0}; Searched Positions = {lSearchedPositionCount:n0}");
-      LogInfo(Level.data, $"{sideName} Early Moves/Searched Position = {dEarlyMovesPerPosition:n2}");
+      LogInfo(LogLevel.data, $"{sideName} Early Moves/Searched Position = {dEarlyMovesPerPosition:n2}");
     }
   }
 
   [Conditional("TotalEarlyMoves")]
   private void displayEarlyMoveTotals() {
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     displayEarlyMoveCounts(SideName.White, WhiteEarlyMoveTotal, WhiteSearchedPositionCount);
     displayEarlyMoveCounts(SideName.Black, BlackEarlyMoveTotal, BlackSearchedPositionCount);
 
@@ -273,43 +273,43 @@ partial class GameState {
 
   [Conditional("ShowDetails")]
   private void displayDetails() {
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     if (RepetitionSearches > 0) {
       var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
-      LogInfo(Level.data, $"Moves/Repetition = {dMovesPerRepetition:n2}");
+      LogInfo(LogLevel.data, $"Moves/Repetition = {dMovesPerRepetition:n2}");
     }
 
-    LogInfo(Level.data, $"Draws Found = {DrawTotal:n0}; Mates Found = {MateTotal:n0}");
-    LogInfo(Level.data,
+    LogInfo(LogLevel.data, $"Draws Found = {DrawTotal:n0}; Mates Found = {MateTotal:n0}");
+    LogInfo(LogLevel.data,
             $"Extensions: Check = {CheckExtCount:n0}; Threat = {ThreatExtCount:n0}; Singular = {SingularExtCount:n0}");
-    LogInfo(Level.data, $"Reduced = {ReducedTotal:n0}; Quiet Skipped = {QuietSkipTotal:n0}");
-    LogInfo(Level.data,
+    LogInfo(LogLevel.data, $"Reduced = {ReducedTotal:n0}; Quiet Skipped = {QuietSkipTotal:n0}");
+    LogInfo(LogLevel.data,
             $"Pruning: Delta = {DeltaPruneTotal:n0}; Futile = {FutilePruneTotal:n0}; Occam = {OccamPruneTotal:n0}");
 
     if (NullMoveTotal != 0) {
       var dNullMovePrunePercent = 100.0 * NullMovePruneTotal / NullMoveTotal;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Pruned {NullMovePruneTotal:n0} [{dNullMovePrunePercent:n1}%] of {NullMoveTotal:n0} Null Moves");
     }
   }
 
   [Conditional("ShowEvals")]
   private void displayEvals() {
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
 
     if (LegalMoveTotal == 0) {
       var qStaticEvals = TotalEvals - FullEvals;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Full Evals {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Stat Evals = {qStaticEvals:n0}");
     }
     else {
       var dFullPercent = 100.0 * FullEvals / LegalMoveTotal;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Full Evals = {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Full Evals/Legal Moves = {dFullPercent:n1}%");
 
       var qStaticEvals = TotalEvals - FullEvals;
       var dFastPercent = 100.0 * qStaticEvals / LegalMoveTotal;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Stat Evals = {qStaticEvals:n0}; Stat Evals/Legal Moves = {dFastPercent:n1}%");
     }
   }
@@ -320,7 +320,7 @@ partial class GameState {
 
     var counts = CXPMemo.Counts;
     if (counts != default(SimpleCounter)) {
-      LogInfo(Level.data);
+      LogInfo(LogLevel.data);
       var uCapacity = CXPMemo.LookupLength;
       counts.Display(uCapacity);
     }
@@ -332,7 +332,7 @@ partial class GameState {
 
     var counts = PXPMemo.Counts;
     if (counts != default(SimpleCounter)) {
-      LogInfo(Level.data);
+      LogInfo(LogLevel.data);
       var uCapacity = PXPMemo.LookupLength;
       counts.Display(uCapacity);
     }
@@ -343,7 +343,7 @@ partial class GameState {
     if (QXPTank == null) return;        //[Safe]
 
     var counts = QXPTank.Counts;
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     if (counts != default(ProbeCounter)) {
       var uCapacity = QXPTank.LookupLength * QXPTank.LookupBuckets;
       counts.Display(uCapacity);
@@ -355,7 +355,7 @@ partial class GameState {
     if (XPTank == null) return;         //[Safe]
 
     var counts = XPTank.Counts;
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
 #if QuiescentTryXP
     //
     //[Note]Qxnt counts track Quiescent XP Probes made by Quiet().
@@ -375,7 +375,7 @@ partial class GameState {
     if (XPMTank == null) return;        //[Safe]
 
     var counts = XPMTank.Counts;
-    LogInfo(Level.data);
+    LogInfo(LogLevel.data);
     if (counts != default(ProbeCounter)) {
       var uCapacity = XPMTank.LookupLength * XPMTank.LookupBuckets;
       counts.Display(uCapacity);
@@ -385,7 +385,7 @@ partial class GameState {
   [Conditional("CountEvalTypes")]
   private void displayEvalTypeCounts() {
     //[Note]The EvalType Counts should add up to SetReads
-    LogInfo(Level.data,
+    LogInfo(LogLevel.data,
             $"{EvalType.Upper} = {UpperCount:n0}; {EvalType.Exact} = {ExactCount:n0}; {EvalType.Lower} = {LowerCount:n0}");
   }
 
@@ -397,11 +397,11 @@ partial class GameState {
   [Conditional("DisplayRate")]
   public static void displayRate(Double dElapsedMS, UInt64 qNodeDelta) {
     if (dElapsedMS == 0) {
-      LogInfo(Level.data, $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
+      LogInfo(LogLevel.data, $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
     }
     else {
       var dRate = qNodeDelta / dElapsedMS;
-      LogInfo(Level.data,
+      LogInfo(LogLevel.data,
               $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
     }
   }
@@ -415,26 +415,26 @@ partial class GameState {
       // Current Iteration
       if (qPredicted1 > 0) {
         var dError = (Double)qPredicted1 / qNodeDelta - 1;
-        LogInfo(Level.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
+        LogInfo(LogLevel.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
       }
 
       // Next Iteration
       if (qPredicted2 > 0) {
-        LogInfo(Level.data, $"Predicting {qPredicted2:n0} moves");
+        LogInfo(LogLevel.data, $"Predicting {qPredicted2:n0} moves");
       }
     }
     else {
       // Current Iteration
       if (qPredicted1 > 0) {
         var dError = (Double)qPredicted1 / qNodeDelta - 1;
-        LogInfo(Level.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
+        LogInfo(LogLevel.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
       }
 
       // Next Iteration
       var dRate = qNodeDelta / dElapsedMS;
       if (qPredicted2 > 0) {
         var dPredictedSec = qPredicted2 / dRate;
-        LogInfo(Level.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1000:0.0##} sec");
+        LogInfo(LogLevel.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1000:0.0##} sec");
       }
     }
   }

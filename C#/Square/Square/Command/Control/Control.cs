@@ -6,10 +6,12 @@
 
 namespace Command;
 
+using Engine;
+
 using Exceptions;
 
-using static System.String;
 using static Command.Control;
+using static System.String;
 
 //
 // Event Handler Implementation cf. New Control Checklist
@@ -159,17 +161,19 @@ public partial class Control {
   #endregion
 
   #region Methods
-  public static Control? FindControl(IEnumerable<Control> controls, String? sName) {
+  public static Control? FindControl(
+    IEnumerable<Control> controls, ControlOptionName optionName) {
+    return controls.FirstOrDefault(control => control?.Option.Name == optionName);
+  }
+
+  public static Control FindOption(
+    IEnumerable<Control> controls, String? sName, Boolean ignoreCase = true) {
     if (IsNullOrEmpty(sName))
       throw new ControlException("No option name specified");
 
-    return controls.FirstOrDefault<Control>(
-      control => sName.Equals(control?.Option.Name, StringComparison.InvariantCultureIgnoreCase));
-  }
-
-  public static Control? FindOption(IEnumerable<Control> controls, String? sName) {
-    var uciControl = FindControl(controls, sName);
-    if (uciControl == default(Control))
+    var optionName = sName.TryParseEnumFromName<ControlOptionName>(ignoreCase);
+    var uciControl = FindControl(controls, optionName);
+    if (uciControl == default)
       throw new ControlException($"There is no option named {sName}");
 
     return uciControl;

@@ -125,9 +125,9 @@ partial class GameState {
   public Byte VariationCount;
   public Byte MultiPVLength;            //[UCI]Option
   public UInt16 ExpectedMovesToGo;      // Option
-  public Eval Contempt;                 // Option
+  public Eval ContemptValue;            // Option
   public Boolean IsHeartbeat;
-  public UInt16 HeartbeatMS;
+  public UInt16 HeartbeatPeriodMS;
   public UInt16 ExtensionLimit;
   #endregion                            // Lookup Tables
 
@@ -156,7 +156,7 @@ partial class GameState {
   public Boolean IsAnalyseMode;         //[UCI Option]
   public Boolean IsShowingLine;         //[UCI Option]
   public String? Opponent;              //[UCI Option]
-  public static String? Language;
+  public static String? LanguageName;
   public List<Move> BestMoves;
   public Random SeededRandom;
   #endregion                            // Primary Fields
