@@ -46,7 +46,7 @@ partial class UCI {
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
   //"";
-  "8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 57.76 @1.522 MHz over 87.913 Mnode]
+  "8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
   // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
   // 2. Nf3+ Kd1 3. Nxe1 Kxe1 4. Kh2 Nd1 5. Kg1 Nf2 6. Kg2 Nd1 7. Kg1@ Nf6 8. Kh1 Nb2 9. Kg1
   //
