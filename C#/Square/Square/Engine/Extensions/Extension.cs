@@ -341,8 +341,13 @@ static class Extension {
   }
 
   //
-  // UCI Eval
+  // Centi-Pawn Value
   //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 cpValue(Eval mEval) {
+    return Round(100 * mEval, mUnitWeight);
+  }
+
   public static StringBuilder AppendEvalInfo(this StringBuilder sb, Eval mEval) {
     sb.Delimit();
 
@@ -352,11 +357,9 @@ static class Extension {
     }
 
     var mAbs = Abs(mEval);
-    if (mAbs < MateMin) {
-      var nCentiPawn = Round(100 * mEval, mUnitWeight);
+    if (mAbs < MateMin)
       sb.Append(sEvalUCICentiPawns)
-        .Append(nCentiPawn);
-    }
+        .Append(cpValue(mEval));
     else {
       sb.Append(sEvalUCIMovesToMate);
 
@@ -373,7 +376,7 @@ static class Extension {
 
     return sb;
   }
-  #endregion
+  #endregion                            // Eval Methods
 
   #region Enum Methods
   //[Speed]Enum.HasFlag() incurs significant performance overhead, due to reflection.
@@ -433,7 +436,7 @@ static class Extension {
   public static Boolean Has(this ProbeResult enumeration, ProbeResult flags) {
     return (enumeration & flags) != 0;
   }
-  #endregion
+  #endregion                            // Enum Methods
 
   #region Move Builders
   private static StringBuilder annotation(this StringBuilder sb, Move move) {
@@ -551,7 +554,7 @@ static class Extension {
           sb.Append(sNotePromotion).Append(sPromotion);
         }
       }
-      #endregion
+      #endregion                        // Promotion
     }
 
     sb.annotation(move);
@@ -801,7 +804,7 @@ static class Extension {
 
     return sb;
   }
-  #endregion
+  #endregion                            // Move Builders
 
   #region Composition Diagnostics
   public static StringBuilder AppendPieceCounts(
@@ -871,7 +874,7 @@ static class Extension {
 
     return sb;
   }
-  #endregion
+  #endregion                            // Composition Diagnostics
 
   #region Partial Sort Methods
   public static Int32 Insert<T>(this T[] entries, Int32 next) where T : IComparable {
@@ -894,7 +897,7 @@ static class Extension {
       entries[next] = entry;
     }
   }
-  #endregion
+  #endregion                            // Partial Sort Methods
 
   #region Parse Methods
   #region ParseEnumFromName Helpers
@@ -977,7 +980,7 @@ static class Extension {
     where TEnum : Enum {
     return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
   }
-  #endregion
+  #endregion                            // Parse Methods
 
   #region Trailing Zero Count (TZC) Mode
   public static StringBuilder AppendTZCMode(this StringBuilder sb) {
@@ -1022,5 +1025,5 @@ static class Extension {
 #endif                                  // DEBUG
     return sb;
   }
-  #endregion
+  #endregion                            // Trailing Zero Count (TZC) Mode
 }

@@ -17,7 +17,7 @@
 #define EvalRookBehindPasser
 #define EvalInsufficient
 //#define TestRookBehindPasser
-#define Mobility
+//#define Mobility
 //#define MaterialBalance
 //#define TradePieces
 //#define TraceVal
@@ -86,7 +86,7 @@ partial class Position : Board {
   private const Eval mBishopWeight = 3 * mUnitWeight + mQuarterWeight;
   private const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;
 
-  private const Eval mInsufficientWeight = mHalfWeight;
+  private const Eval mInsufficientWeight = 0;   // mHalfWeight;
   private const Eval mThreatWeight = mKnightWeight;
   private const Eval mStandPatWeight = mPawnWeight + mHalfWeight;//[Unused]
   private const Eval mDeltaBaseWeight = 2 * mPawnWeight;
@@ -583,7 +583,9 @@ partial class Position : Board {
   internal static Eval weighPieces(
     CompositionCounter wPieceCounts, SideFlags fside) {
 #if EvalInsufficient
-    if (fside.Has(SideFlags.AloneOrInsufficient))
+    if (fside.Has(SideFlags.Alone))
+      return 0;
+    if (fside.Has(SideFlags.Insufficient))
       return mInsufficientWeight;
 #endif
     // 218.34 MHz with both EvalInsufficient and EvalBishopPair;

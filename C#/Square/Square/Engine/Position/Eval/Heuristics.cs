@@ -9,7 +9,7 @@
 //#define Controlled
 //#define ShowCornerCP
 //#define TestOutsideSquare
-#define Mobility
+//#define Mobility
 
 using static System.Math;
 
