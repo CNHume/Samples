@@ -214,17 +214,19 @@ partial class Board {
 
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private void setInsufficient() {
+      const Boolean bHelpmate = true;
       FlagsSide &= ~SideFlags.AloneOrInsufficient;
 
-      if (IsOneOrNone(Piece))
+      if (IsOneOrLess(Piece))
         FlagsSide |= SideFlags.Alone;
-      else if (Board.IsInsufficient(Piece))
+      else if (Board.IsInsufficient(Piece, bHelpmate))
         FlagsSide |= SideFlags.Insufficient;
     }
 
     [Conditional("TestInsufficient")]
     public void TestInsufficient() {
-      var sideInsufficient = Board.IsInsufficient(Piece);
+      const Boolean bHelpmate = true;
+      var sideInsufficient = Board.IsInsufficient(Piece, bHelpmate);
       var fsideInsufficient = FlagsSide.Has(SideFlags.Insufficient);
       if (fsideInsufficient != sideInsufficient) {
         var sideName = Parameter.SideName.ToString();

@@ -96,8 +96,8 @@ partial class Position : Board {
       return false;
 
     var bEndGame =
-      IsOneOrNone(qpDefenderPawn) &&    // Defender has at most one Pawn
-      IsOneOrNone(qpAttackerQueen);     // Attacker has at most one Queen
+      IsOneOrLess(qpDefenderPawn) &&    // Defender has at most one Pawn
+      IsOneOrLess(qpAttackerQueen);     // Attacker has at most one Queen
 
     return bEndGame;
   }
@@ -119,7 +119,7 @@ partial class Position : Board {
     if ((Bishop | Knight) == 0)         // At least one Bishop and one Knight
       return false;
 
-    return IsOneOrNone(Knight);         // At most one Knight
+    return IsOneOrLess(Knight);         // At most one Knight
   }
 
   private EvalFlags getEndGameFlags() {

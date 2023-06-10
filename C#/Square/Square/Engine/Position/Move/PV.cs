@@ -74,7 +74,7 @@ partial class Position : Board {
     //
     if (vPiece == vP6 && bCapture)
       move |= Move.HideRank;            // Pawns capture from neighboring Files along one Rank.
-    else if (IsOneOrNone(qpAtxTo))
+    else if (IsOneOrLess(qpAtxTo))
       move |= Move.HideFrom;
     else {
       //

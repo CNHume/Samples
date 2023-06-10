@@ -94,8 +94,13 @@ partial class Board {
 
   #region Bit Twiddles
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public static Boolean IsOneOrNone(Plane qp) {
+  public static Boolean IsOneOrLess(Plane qp) {
     return (qp - 1 & qp) == 0;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Boolean IsTwoOrLess(Plane qp) {
+    return IsOneOrLess(qp - 1 & qp);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

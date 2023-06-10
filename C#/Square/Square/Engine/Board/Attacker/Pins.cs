@@ -63,7 +63,7 @@ partial class Board {
   //
   // PinRestrictions include qpCheck of the checking piece.
   //
-  //[Assume]IsOneOrNone(qpCheck)
+  //[Assume]IsOneOrLess(qpCheck)
   //
   protected Plane PinRestrictions(Plane qpCheck, Int32 nKing) {
     var qpRay = 0UL;                    // Return Value

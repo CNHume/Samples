@@ -232,7 +232,7 @@ partial class Position : Board {
 #if UnshadowRay
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
-      var bSingleCheck = IsOneOrNone(qpChx);
+      var bSingleCheck = IsOneOrLess(qpChx);
       if (bSingleCheck) {
         var qpFoe = qpChx & qpTo;
 

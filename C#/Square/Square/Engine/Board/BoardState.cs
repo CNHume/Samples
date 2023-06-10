@@ -334,7 +334,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public Boolean IsInsufficient(Plane qpPiece) {
+  public Boolean IsInsufficient(Plane qpPiece, Boolean bHelpmate = false) {
     var qpPawn = qpPiece & Pawn;
     var qpOrth = qpPiece & OrthPiece;
     var qpDiag = qpPiece & DiagPiece;
@@ -346,8 +346,12 @@ partial class Board {
       // If either a single Knight or multiple Bishops covering squares
       // of only one color remain, then even a helpmate is not possible.
       //
-      if (qpDiag == 0) {                // Test for KK[N]:
-        if (IsOneOrNone(qpKnight))
+      if (qpDiag == 0) {
+        if (bHelpmate) {
+          if (IsTwoOrLess(qpKnight))    // Test for KK[N[N]]:
+            return true;
+        }
+        else if (IsOneOrLess(qpKnight)) // Test for KK[N]:
           return true;
       }
       else if (qpKnight == 0) {         // Test for KB*KB+ of same color:

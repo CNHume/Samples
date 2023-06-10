@@ -58,7 +58,7 @@ partial class Position : Board {
     // imply that the previous move was not only pinned but that it also
     // failed to evade a Check.
     //
-    var bSingleCheck = IsOneOrNone(qpChx);
+    var bSingleCheck = IsOneOrLess(qpChx);
     if (bSingleCheck) {                 //[Safe]
       if (qpChx != 0) {                 // while loop unnecessary
         var qpRay = PinRestrictions(qpChx, vKingPos);

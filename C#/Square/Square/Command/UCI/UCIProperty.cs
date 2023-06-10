@@ -46,6 +46,10 @@ partial class UCI {
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
   //"";
+  "8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 57.76 @1.522 MHz over 87.913 Mnode]
+  // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
+  // 2. Nf3+ Kd1 3. Nxe1 Kxe1 4. Kh2 Nd1 5. Kg1 Nf2 6. Kg2 Nd1 7. Kg1@ Nf6 8. Kh1 Nb2 9. Kg1
+  //
   //"8/8/8/5R2/2k1pb2/3p4/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame
   // moves f4d6 f5f6 d6e5 f6f5 c4d4 f5f8 e4e3 f8d8 d4e4 d8e8
   //"4R3/8/8/4b3/4k3/3pp3/8/3K4 b - - 0 6";   // Carlsen v Duda Endgame Position with History
@@ -89,7 +93,7 @@ partial class UCI {
   // 16. Qxc6+ Kd8 17. Rxa1 a6 18. Rb1 Qf5 19. Re1 Re8)
   // 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 Kd8)
   // 13... Qd7 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 OOO 17. Bd6 c6 18. Bf4
-  "2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
+  //"2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
   //
   //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";   // Composed by Sergueï Kaminer [2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
   //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926

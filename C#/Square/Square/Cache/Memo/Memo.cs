@@ -115,7 +115,7 @@ class Memo2<T> : Memo<T> {
   }
 
   protected override void AllocateNew(UInt32 uLength) {
-    if (!IsOneOrNone(uLength))
+    if (!IsOneOrLess(uLength))
       throw new ApplicationException("Memo2 Length must be a power of two");
 
     base.AllocateNew(uLength);
