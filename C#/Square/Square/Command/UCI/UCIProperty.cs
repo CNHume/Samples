@@ -46,9 +46,9 @@ partial class UCI {
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
   //"";
-  "8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
+  //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
   // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
-  // 2. Nf3+ Kd1 3. Nxe1 Kxe1 4. Kh2 Nd1 5. Kg1 Nf2 6. Kg2 Nd1 7. Kg1@ Nf6 8. Kh1 Nb2 9. Kg1
+  // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
   //
   //"8/8/8/5R2/2k1pb2/3p4/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame
   // moves f4d6 f5f6 d6e5 f6f5 c4d4 f5f8 e4e3 f8d8 d4e4 d8e8
@@ -275,23 +275,21 @@ partial class UCI {
   //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
   //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
   //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
-  //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
-  // [19-ply in 19:45.1 @1.243 MHz over 1.45 Gnode] eval -3.3 after:
-  // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. a4 Kxc3 70. axb5 axb5 71. Bc6 b4 72. Bb5 b3 73. Bd7 b2 74. Bc8
-  // [20-ply in 26:16.5 @1.224 MHz over 1.93 Gnode] eval -3.2 after:
-  // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bc6 Nd1+ 69. Kb1 Ne3 70. Ba4 d4 71. Ka2 Nxc2 72. Bxc2 Kxc2 73. a4 c3 74. Ka3 d3
-  // [21-ply in 1:26:16 @1.262 MHz over 6.533 Gnode] eval -3.25
-  // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bd7 Nxc3 68. Bf5 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Bh7 d3 72. Bxd3 cxd3 73. cxd3 Kxd3 74. Ka1 Nf1 75. Kb1 Kd3c3
-  // [2023-03-13 21-ply in 1:18:24 @1.259 MHz over 5.922 Gnode] eval -4.3 after:
-  // 64... a5 65. Kc1 Ne2+ 66. Kb2 Kd2 67. Bxd5 Nxc3 68. Bc6 Nd1+ 69. Kb1 Nc3+ 70. Kb2@ b4 71. axb4 axb4 72. Ba8 Nd1+
-  // 73. Kb1 Nc3+ 74.Kb2@ Nb5 75. Bd5 c3+ 76. Kb3 Nd4+ 77. Kxb4 Nxc2+ 78. Kb4a4 Nc2a1 79. Bd5e4
-  // Formerly:
-  // [21-ply trace in 1:34:58 @1.212 MHz over 6.9 Gnode] eval -3.6
-  // 64... Kd2 65. Bxa6 Nd3+ 66. Kb1 Ne1 67. Bxb5 Nxc2 68. Ba4 Ne3 69. Kb2 d4? [69... Nd1+ 70. Bxd1 Kxd1] 70. cxd4 c3+ 71. Kb1 c2+ 72. Bxc2 Nxc2 73. d5 Nxa3+
+  "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Line Grenke Chess Classic R6 2018-04-06
+  // [2023-06-10 19-ply in 5:12 @1.166 MHz over 364 Mnode] eval -2.7 after:
+  // 64... a5 65. Bc6 Kd2 66. Bxb5 Nd3+ 67. Kb2b1 Nd3e1 68. Bb5a4 Kd2xc3 69. Kb1c1 d5d4 70. Kc1d1 Ne1xc2 71. Ba4xc2 d4d3
+  // 72. Bc2b1 Kc3b3 73. Kd1d2 Kb3xa3 74. Bb1xd3
+  // [2023-06-10 20-ply in 14:14 @1.0 MHz over 852 Mnode] eval -3.2 after:
+  // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Be8 Nxc3 68. Bf7 Nd1+ 69. Kb1 Ne3 70. Bg6 Kc3 71. Bh5 d4 72. Bf7 Nxc2
+  // 73. a4 d3 74. Bh5 d2
+  // [2023-06-10 21-ply in 43:49 @1.137 MHz over 2.991 Gnode] eval -3.25 after:
+  // 64... a5 65. Kc1 Ne2+ 66. Kb2 Kd2
   // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5 e1c2 b5a4 c2e3 b1b2
-  //"8/8/8/3p4/B1p5/P1P1n3/1K1k4/8 b - - 0 69"; // Critical Position from Caruana v Hou Yifan Line
-  // 69... Ng2 70. Bc2 Ne1 71. Bf5 Nd3+ 72. Kb1 (72. Bxd3 cxd3 73. a4 Ke3 74. a5 d2 75. Kc2 Ke2 76. Kb3 d1=Q+ 77. Kb4 Qa1 78. Kc5 Qxa5+ 79. Kd4 Qd8 80. Kc5 Kd3)
-  // 72... Kxc3 73. Be6 Nf4 74. Bf5 d4 75. Kc1 d3 76. Bg4 Nd5 77. Bd1 d2+ 78. Kb1 Ne3 79. Be2 Kb3 80. Bh5 Kxa3 81. Bd1 c3 82. Bd1c2
+  //"8/8/8/3p4/B1p5/P1P1n3/1K1k4/8 b - - 0 69"; // Caruana v Hou Yifan Continuation
+  // [2023-06-11 21-ply in 1:16:51 @1.157 MHz over 5.335 Gnode] eval -4.9 after:
+  // 69... Ng2 70. Bc2 Ne1 71. Bg6 Nd3+ 72. Kb1 (72. Bxd3 cxd3 73. a4 Ke3 74. a5 d2 75. Kc2 Ke2 76. Kb3 d1=Q+ 77. Kb4 Qa1 78. Kc5 Qxa5+ 79. Kd4 Qd8 80. Kc5 Kd3)
+  // 72... Kxc3 73. a4 Nc5 74. a5 d4 75. Bf7 Kb4 76. Bxc4 Kxc4 77. Kc2 d3+ 78. Kd1 Kc3 79. a6 Nxa6 80. Ke1 d2+ 81. Ke2
+  //
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:
   // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
   // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
