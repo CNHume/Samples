@@ -289,7 +289,12 @@ partial class UCI {
   // [2023-06-11 21-ply in 1:16:51 @1.157 MHz over 5.335 Gnode] eval -4.9 after:
   // 69... Ng2 70. Bc2 Ne1 71. Bg6 Nd3+ 72. Kb1 (72. Bxd3 cxd3 73. a4 Ke3 74. a5 d2 75. Kc2 Ke2 76. Kb3 d1=Q+ 77. Kb4 Qa1 78. Kc5 Qxa5+ 79. Kd4 Qd8 80. Kc5 Kd3)
   // 72... Kxc3 73. a4 Nc5 74. a5 d4 75. Bf7 Kb4 76. Bxc4 Kxc4 77. Kc2 d3+ 78. Kd1 Kc3 79. a6 Nxa6 80. Ke1 d2+ 81. Ke2
-  //
+  // [2023-06-11 23-ply in 5:33:14 @1.131 MHz over 22.621 Gnode] eval -4.8 after:
+  // 64... a5 65. Kc1 Ne2+ 66. Kb2 Kd2 67. Bxd5 Nxc3 68. Bc6 Nd1+ 69. Kb1 b4 70. axb4 axb4 71. Bd7 Nc3+ 72. Kb2 Nd1+
+  // 73. Kb1@ Nc3+@ 74. Kb2@ Ne2 75. Bb5
+  // [2023-06-11 24-ply in ~22:43:33 @1.1 MHz over 90.017 Gnode] eval -4.8 after:
+  // 64... a5 65. Kc1 Ne2+ 66. Kb2 Kd2 67. Bxd5 Nxc3 68. Bf7 Ne2 69. Bg6 b4 70. axb4 axb4 71. Bf5 Nc1 72. Be6 b3
+  // 73. Bf5 bxc2 74. Bxc2 Ne2 75. Bf5 c3+ 76. Ka1 Ng1 77. Be6 c3c2
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:
   // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
   // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
