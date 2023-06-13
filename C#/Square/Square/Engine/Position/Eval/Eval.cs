@@ -92,7 +92,7 @@ partial class Position : Board {
   private const Eval mDeltaBaseWeight = 2 * mPawnWeight;
   private const Eval mOccamBaseWeight = 4 * mPawnWeight;
   private const Eval mSingularWeight = 3 * mQuarterWeight;
-  private const Eval mPassedPawnPushWeight = mFifthWeight / 2;
+  private const Eval mPawnOnLastRankWeight = 3 * mUnitWeight;
   private const Eval mKBNvKMateCornerWeight = 2 * mPawnWeight;// Divisible by nFiles
   private const Eval mKQvKPProximityWeight = mPawnWeight;
   private const Eval mOutsideSquareWeight = mRookWeight;

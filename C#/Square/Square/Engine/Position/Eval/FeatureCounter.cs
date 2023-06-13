@@ -8,6 +8,7 @@
 //#define TestPawnFeatures
 
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Engine;
 
@@ -23,12 +24,16 @@ using Plane = UInt64;
 partial class Position : Board {
   #region Constants
   protected static Plane[] FileMask = {
-    qpFileA, qpFileB, qpFileC, qpFileD, qpFileE, qpFileF, qpFileG, qpFileH };
+    qpFileA, qpFileB, qpFileC, qpFileD, qpFileE, qpFileF, qpFileG, qpFileH
+  };
 
   public enum PawnFeature : byte {
-    Pawns, Passers, Divides, Isolani, Doubled, Awkward };
+    Pawns, Passers, Divides, Isolani, Doubled, Awkward
+  };
+
   protected static Eval[] PawnFeatureWeight = {
-    mPawnWeight, mQuarterWeight, -mTenthWeight, -mTenthWeight, -mQuarterWeight, -mFifthWeight };
+    mPawnWeight, mQuarterWeight, -mTenthWeight, -mTenthWeight, -mQuarterWeight, -mFifthWeight
+  };
 
   const Byte vPawns = (Byte)PawnFeature.Pawns;
   const Byte vPassers = (Byte)PawnFeature.Passers;
@@ -201,26 +206,34 @@ partial class Position : Board {
   #endregion
 
   #region Pawn Evaluation
-  private static Eval weighWhitePassers(Plane qpPassers) {
-    var nValue = 0;
-    while (qpPassers != 0) {
-      var n = RemoveLo(ref qpPassers);
-      // White Pawns advance over 5 ranks, from the 2nd up to the 7th, then promote:
-      nValue += (y(n) - 1) * mPassedPawnPushWeight;
-    }
-
-    return (Eval)nValue;
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Int32 advanceWeight(int nPawnAdvancement) {
+    //[Note]0 <= nPawnAdvancement <= 5 
+    return nPawnAdvancement * mPawnOnLastRankWeight;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private static Eval weighBlackPassers(Plane qpPassers) {
-    var nValue = 0;
+    var nWeight = 0;
     while (qpPassers != 0) {
       var n = RemoveLo(ref qpPassers);
-      // Black Pawns advance over 5 ranks, from the 7th down to the 2nd, then promote:
-      nValue += (InvertRank(y(n)) - 1) * mPassedPawnPushWeight;
+      // Black Pawns advance from the 7th down to the 2nd rank:
+      nWeight += advanceWeight(InvertRank(y(n)) - 1);
     }
 
-    return (Eval)nValue;
+    return (Eval)(nWeight / 5);         // Scale Weight Sum
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Eval weighWhitePassers(Plane qpPassers) {
+    var nWeight = 0;
+    while (qpPassers != 0) {
+      var n = RemoveLo(ref qpPassers);
+      // White Pawns advance from the 2nd up to the 7th rank:
+      nWeight += advanceWeight(y(n) - 1);
+    }
+
+    return (Eval)(nWeight / 5);         // Scale Weight Sum
   }
 
   internal static (Eval delta, Eval total) weighPawnFeatures(
