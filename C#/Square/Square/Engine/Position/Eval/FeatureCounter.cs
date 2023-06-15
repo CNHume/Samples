@@ -207,33 +207,43 @@ partial class Position : Board {
 
   #region Pawn Evaluation
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Int32 advanceWeight(int nPawnAdvancement) {
-    //[Note]0 <= nPawnAdvancement <= 5 
-    return nPawnAdvancement * mPawnOnLastRankWeight;
+  private static Int32 passerWeight(Int32 nAdvancement) {
+    //[Note]0 <= nAdvancement <= 5 
+    return nAdvancement * mPawnOnLastRankWeight;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Eval weighBlackPassers(Plane qpPassers) {
-    var nWeight = 0;
-    while (qpPassers != 0) {
-      var n = RemoveLo(ref qpPassers);
-      // Black Pawns advance from the 7th down to the 2nd rank:
-      nWeight += advanceWeight(InvertRank(y(n)) - 1);
-    }
-
-    return (Eval)(nWeight / 5);         // Scale Weight Sum
+  private static Int32 blackAdvancement(Int32 n) {
+    // Black Pawns advance from the 7th down to the 2nd rank:
+    return InvertRank(y(n)) - 1;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Eval weighWhitePassers(Plane qpPassers) {
-    var nWeight = 0;
+  private static Int32 whiteAdvancement(Int32 n) {
+    // White Pawns advance from the 2nd up to the 7th rank:
+    return y(n) - 1;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Eval rewardBlackPassers(Plane qpPassers) {
+    var nSum = 0;
     while (qpPassers != 0) {
       var n = RemoveLo(ref qpPassers);
-      // White Pawns advance from the 2nd up to the 7th rank:
-      nWeight += advanceWeight(y(n) - 1);
+      nSum += passerWeight(blackAdvancement(n));
     }
 
-    return (Eval)(nWeight / 5);         // Scale Weight Sum
+    return (Eval)(nSum / 5);            // Scale weighted Sum
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Eval rewardWhitePassers(Plane qpPassers) {
+    var nSum = 0;
+    while (qpPassers != 0) {
+      var n = RemoveLo(ref qpPassers);
+      nSum += passerWeight(whiteAdvancement(n));
+    }
+
+    return (Eval)(nSum / 5);            // Scale weighted Sum
   }
 
   internal static (Eval delta, Eval total) weighPawnFeatures(
@@ -258,9 +268,9 @@ partial class Position : Board {
         nValueTotal += nTotal * PawnFeatureWeight[nFeature];
     }
 
-    var mBlackPasserWeight = weighBlackPassers(qpBlackPassers);
-    var mWhitePasserWeight = weighWhitePassers(qpWhitePassers);
-    nValueDelta += mWhitePasserWeight - mBlackPasserWeight;
+    var mBlackPasserReward = rewardBlackPassers(qpBlackPassers);
+    var mWhitePasserReward = rewardWhitePassers(qpWhitePassers);
+    nValueDelta += mWhitePasserReward - mBlackPasserReward;
 
     return ((Eval)nValueDelta, (Eval)nValueTotal);
   }

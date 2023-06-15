@@ -277,7 +277,7 @@ partial class UCI {
   //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
   //
   "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Grenke Chess Classic R6 2018-04-06
-  // [2023-06-13 19-ply in 5:10 @1.235 MHz over 383.3 Mnode] eval -2.35 after:
+  // [2023-06-15 19-ply in 5:02.5 @1.267 MHz over 383.3 Mnode] eval -2.35 after:
   // 64... Kd2 65. Bxa6 Nd3+! 66. Kb1 Ne1 67. Bxb5 Nxc2 (67... Kxc3 68. a4 Nxc2 69. Kc1 Nd4 70. Be8 Nb3+ 71. Kd1 d4 72. Ke2 d3+ 73. Ke1 Kd4)
   // 68. Ba4 Ne3 69. Kb2 Kd3 70. Be8 Nd1+ 71. Kc1 Nxc3 72. Bg6+ Ke3 73. Kc2 d4 74. Bf7 Nb5 75. a4 d3+ 76. Kb1
   // [2023-06-13 21-ply in 58:44 @1.313 MHz over 4.6262 Gnode] eval -3.25 after:
