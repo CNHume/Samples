@@ -280,7 +280,7 @@ partial class UCI {
   // [2023-06-15 19-ply in 5:02.5 @1.267 MHz over 383.3 Mnode] eval -2.35 after:
   // 64... Kd2 65. Bxa6 Nd3+! 66. Kb1 Ne1 67. Bxb5 Nxc2 (67... Kxc3 68. a4 Nxc2 69. Kc1 Nd4 70. Be8 Nb3+ 71. Kd1 d4 72. Ke2 d3+ 73. Ke1 Kd4)
   // 68. Ba4 Ne3 69. Kb2 Kd3 70. Be8 Nd1+ 71. Kc1 Nxc3 72. Bg6+ Ke3 73. Kc2 d4 74. Bf7 Nb5 75. a4 d3+ 76. Kb1
-  // [2023-06-13 21-ply in 58:44 @1.313 MHz over 4.6262 Gnode] eval -3.25 after:
+  // [2023-06-15 21-ply in 57:39 @1.337 MHz over 4.6262 Gnode] eval -3.25 after:
   // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bc6 Nxc3 68. Be8 Nd1+ 69. Kb1 Ne3 70. Bg6 Kc3 71. Bh7 d4 72. Bg6 d3 73. Bxd3 cxd3 74. cxd3 Nf1 75. Ka1 Kxd3
   // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5
   //"8/8/8/1B1p4/2p5/P1P5/2Pk4/1K2n3 b - - 0 67"; // Caruana v Hou Yifan Grenke Chess Classic Line
