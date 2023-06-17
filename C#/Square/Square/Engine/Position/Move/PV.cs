@@ -259,9 +259,9 @@ partial class Position : Board {
       }
 #endif
       const EvalType et = EvalType.Exact;
-      if (moveNoted.Has(Move.Qxnt) || nDepth < 0)
+      if (moveNoted.Has(Move.Qxnt))
         storeQXP(mValue, et, moveNoted);
-      else
+      else if (nDepth >= 0)
         storeXP((Depth)nDepth, mValue, et, moveNoted);
 
       var bLegal = tryOrSkip(ref moveNoted);

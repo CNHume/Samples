@@ -319,7 +319,7 @@ partial class Board {
     NoteDraw = NoteDraw2 << 1,          // Bit 27
     HideFile = 1U << nHideFileBit,      // Bit 28 Hi 4-bits are for abbreviation and debug
     HideRank = HideFile << 1,           // Bit 29
-    Qxnt = HideRank << 1,               // Bit 30 Used by abbreviateRefresh()
+    Qxnt = HideRank << 1,               // Bit 30 Used by AbbreviateRefresh()
 #if DebugMoveColor
     WTM = Qxnt << 1,                    // Bit 31 Used to test WTM
 #endif

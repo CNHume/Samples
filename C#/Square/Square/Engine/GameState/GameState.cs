@@ -46,8 +46,9 @@
 //#define QuietCheck
 #define QuietMate
 //#define TestCornerCP
-//#define ThreadSafeTank
 //#define TestLerp
+//#define ThreadSafeTank
+//#define TracePosition
 //#define MaterialBalance
 //#define XPHash128
 //#define QXPHash128
@@ -353,6 +354,9 @@ partial class GameState : IDisposable {
 #if ShowGCLatency
     var sLatency = GCSettings.LatencyMode;
     sb.AppendFormat($" Latency={sLatency}");
+#endif
+#if TracePosition
+    sb.Append(" Trace");
 #endif
 #if ThreadSafeTank
     sb.Append(" Safe");

@@ -214,6 +214,7 @@ partial class Position : Board {
     #endregion
 
     #region Move Loop Initializaton
+    var bTrace = IsTrace();
     var et = EvalType.Upper;            //[Init]Fail Low is the default assumption
     var mBest = EvalUndefined;          // Value for the strongest variation
                                         //[Test]mBest = MinusInfinity;

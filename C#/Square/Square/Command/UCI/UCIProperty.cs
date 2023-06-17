@@ -103,13 +103,19 @@ partial class UCI {
   // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Bc3+ Ke7 7. Bb4+ Nd6 8. Qc8 Rg6+ 9. Kf1 Kf6 10. Qxc7 Nf7 11. Qxa7 Ng5
   //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
+  //
+  //"8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61"; // Hash = EA58B15C62619E25
+  //"8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61"; // Hash = 7FFFA6F98CBB4D46
+  //"8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61"; // Hash = 5DB8479F08C8DFEF
+  //"8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61"; // Hash = 721CAEAAD8483250
+  //
   // moves f5h3 g2h3 e6f5 g1f2 f5e4
   //"8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50" // Veselin Topalov v Alexey Shirov 1998-03-04 Line [2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
   // 50. Bb4 Kd3 51. Bc5 d4 52. Ke1 f5 53. Kd1 Ke3 54. Kc1 f4 55. Kd1 Kf3? (55... f3) 56. Bxd4 Kg3 57. Be5 Kxh4 58. Bxf4 Kxh3 59. Bc1 Kg2 60. Ke1 Kg1 61. Be3+ Kh1
   //"8/8/5p2/3p4/p3k3/2B5/5K2/8 w - - 0 50"; // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified [2023-03-09 24-ply in 6:21:09 @1.074 MHz over 24.554 Gnode] eval -9.25 after:
   // 50. Bb2 d4 51. Bc1 Kd3 52. Bb2 f5 53. Ke1 Kc4 54. Ba1 f4
-  // [55. Bb2 f3 56. Bc1 Kc3 57. Bd2+ Kc2 58. Bb4 d3 59. Kf2 a3 60. Bxa3 d2 61. Kxf3 d1=Q+ 62. Kf4 Qf1+ 63. Ke4 Qd3+ 64. Kf4 Qd3xa3]
   // moves c3b2 d5d4 b2c1 e4d3 c1b2 f6f5 f2e1 d3c4 b2a1 f5f4
+  // [55. Bb2 f3 56. Bc1 Kc3 57. Bd2+ Kc2 58. Bb4 d3 59. Kf2 a3 60. Bxa3 d2 61. Kxf3 d1=Q+ 62. Kf4 Qf1+ 63. Ke4 Qd3+ 64. Kf4 Qd3xa3]
   //"8/8/3P4/8/1pP5/pP1K4/1k6/8 w - - 0 1"; // 2023 Airthings Masters Puzzle [21-ply in 20:56:31 @1.065 MHz over 80.26 Gnode] eval 4.2 after:
   // 1. d7 a2 2. d8=B Kxb3 3. Bf6 Ka3 4. Ba1 Ka4 5. Kc2 b3+ 6. Kc3 Ka5 7. Kxb3 Ka6 8. Be5 Ka5 9. Bc3+ Ka6 10. Kxa2 Kb6 11. Bd4+ Ka5 12.c5 Ka5b5 13. Ka2b2
   //"3R3r/5pbk/1pB1p1pp/4P3/5n1P/r1p2N2/P4PP1/2K4R w - - 0 1"; // Carlsen Mate #10 [2023-04-04 13-ply in 3.242 sec @1.261 MHz over 4.089 Mnode] after:
@@ -247,7 +253,7 @@ partial class UCI {
   //"2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.  [14-ply to find 1. f5!]
   //"3k4/1P6/2K5/8/4N3/8/7b/8 b - - 0 1"; // Magnus Carlsen v. Ian Nepomniachtchi - MC Invitational (2020)
   // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
-  // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xpos}) 3. Ne6+ 1-0
+  // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xposing}) 3. Ne6+ 1-0
   //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
   //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
   //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [2022-08-25 15-ply to find #-9 in 1:11 @1.497 MHz over 106.12 Mnode]
@@ -261,9 +267,9 @@ partial class UCI {
   // [2022-12-03 20-ply in 2:18:28.6 @1.318 MHz over 10.95 Gnode] eval -11.55 after:
   // 77... Kc4 78. Na1 Kc3 79. Kc1 Bb1 80. h4 Bd3 81. Kd1 Kb2 82. h5 Kxa1 83. Kd2 Bb1 84. Kc3 Bh7 85. Kd4 Kb1 86. Ke5 a1=Q+ 87. Ke6 Bg8+ 88. Kf5 Bb3 89. Kf5g5
   //"8/n7/P7/8/2n5/8/2k5/K7 b - - 0 1"; // 2N v P -#11 [16-ply in 36.83 @1.489 MHz over 54.85 Mnode]
-  // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 transposing to 7... Kc2] Kb4
+  // 1... Kb3 2. Kb1 Nb2 3. Kc1 Kc3 4. Kb1 Nd3 5. Ka2 [5. Ka1 Kc2 xposing to 7... Kc2] Kb4
   // 6. Kb1 [6. Ka1 Kb3 7. Kb1 Nb5 8. Ka1 Na3 9. a7 Ne1 10. a8=Q Nec2#] 6... Kb3 7. Ka1 Kc2 8. Ka2 Nb5
-  // 9. Ka1 [9. a7 Nc1+ [or 9... Nb4+ 10. Ka1 Nd4] 10. Ka1 transposing to 10. a7] 9... Nc1 10. a7 Nc3 11. a8=Q Nb3#
+  // 9. Ka1 [9. a7 Nc1+ [or 9... Nb4+ 10. Ka1 Nd4] 10. Ka1 xposing to 10. a7] 9... Nc1 10. a7 Nc3 11. a8=Q Nb3#
   //"5k2/8/5pK1/5PbP/2Bn4/8/8/8 b - - 0 68"; // Carlsen v Caruana 2018-11-09 WCC R6 London
   // 68... Bh4! 69. Bd5 Ne2 70. Bf3 (70. Kh7 Bg5 71. Bf3 Ng3! 72. Kg6 (72. Bg4 Kf7 73. Kh8 Be3 74. Kh7 Bc5 75. h6 (75. Kh8?! Bf8 76. Kh7??)
   // 75... Bf8 76. Bh3 Ne4 77. Bg2 Ng5+ 78. Kh8 Bxh6 79. Bd5+ Kf8 80. Be4 Bg7#) 72... Kg8-+)
@@ -318,7 +324,7 @@ partial class UCI {
   //"6k1/3b3p/2pP4/p5q1/4QN2/6P1/PP5P/1K1R4 b - - 0 1"; // Puzzle [White to win after: ...Bf5.  Hint: The key move and the "follow up" transpose.]
   //"4k3/8/8/8/8/8/4P3/4K3 b - - 0 1";
   //"8/8/2k5/7p/8/2K5/8/8 w - - 0 1";   // Inside Square
-  //"k7/7p/8/2nKb3/8/8/8/8 w - - 0 1";  // Wrong Bishop
+  //"k7/7p/8/2nKb3/8/8/8/8 w - - 0 1";  // Wrong Colored Bishop [7-ply]
   //"1R3N2/5k2/8/6P1/8/4K3/8/5r2 w - - 0 62"; // Kramnik v Vachier-Lagrave 2013-08-27
   // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
   // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
@@ -348,7 +354,7 @@ partial class UCI {
   // [2022-09-01 15-Ply in 36:28 @1.314 MHz over 2.874 Gnode] eval 4.9, [2022-09-01 16-Ply in 48:24.6 @1.337 MHz over 3.885 Gnode] eval 8.05
   // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 73. Qb6+ Kxc4 74. Qxf2 Bd6 75. g5
   //
-  // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {xpos})
+  // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {xposing})
   // 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+! Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
   // 73. Qb6+ Kxc4 74. Qxf2 Kb5 75. Qa2 Kc5 76. Qa6
   //
@@ -358,7 +364,7 @@ partial class UCI {
   // [14-ply in 5:59.1 @1.3865 MHz over 497.9 Mnode] eval 2.35, [15-ply in 15:59 @1.387 MHz over 1.33 Gnode] eval 2.55
   //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989 [20-ply in 5:05:01 @1.288 MHz over 23.571 Gnode] eval 0.03
   // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed to avoid checks}
-  // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xpos}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
+  // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xposing}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
   // 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
   //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
   //"r1b1r1k1/ppq2p1p/3b2pQ/3pn3/8/2P4P/PPBN1PP1/R1B1R1K1 b - -"; // Hit Rate 1 15.8% hits [plus 1.1% Qxnt] at 12-ply, expecting ~25%

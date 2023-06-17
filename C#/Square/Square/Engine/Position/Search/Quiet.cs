@@ -80,6 +80,7 @@ partial class Position : Board {
     #endregion                          // Transposition Table Lookup
 
     #region Move Loop Initializaton
+    var bTrace = IsTrace();
 #if QuietCheck || QuietMate
     var bInCheck = InCheck();
 #endif

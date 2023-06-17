@@ -302,8 +302,14 @@ partial class Board {
     //setTrace(
     //  0x62FE82784CA9DA62);            // 8/6Q1/8/7p/P3K2k/8/6P1/8 b - - 0 57
 
-    setTrace(                           // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
-      0xF647B837F53828CE);
+    //setTrace(                         // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
+    //  0xF647B837F53828CE);
+
+    setTrace(                           // Veselin Topalov v Alexey Shirov 1998-03-04
+      0xEA58B15C62619E25,               // 8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61
+      0x7FFFA6F98CBB4D46,               // 8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61
+      0x5DB8479F08C8DFEF,               // 8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61
+      0x721CAEAAD8483250);              // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
   }
   #endregion                            // Trace Positions
   #endregion                            // Methods
