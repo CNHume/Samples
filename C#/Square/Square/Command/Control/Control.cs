@@ -11,6 +11,7 @@ using Engine;
 using Exceptions;
 
 using static Command.Control;
+using static Command.Control.OptionType;
 using static System.String;
 
 //
@@ -32,7 +33,7 @@ public class PropertyChangedEventArgs : EventArgs {
   #endregion                            // Constructors
 
   #region Properties
-  private OptionType Type { get; set; }
+  private OptionType Type { get; }
   #endregion                            // Properties
 }
 
@@ -62,14 +63,14 @@ public class Setting : Control {
   public Object? Value {
     get {
       switch (Option.Type) {
-      case OptionType.check:
+      case check:
         return IsChecked;
 
-      case OptionType.spin:
+      case spin:
         return Selection;
 
-      case OptionType.combo:
-      case OptionType.@string:
+      case combo:
+      case @string:
         return Text;
 
       default:
@@ -105,13 +106,13 @@ public class Setting : Control {
     bValueValid = true;
 
     switch (Option.Type) {
-    case OptionType.check:
+    case check:
       if (bTypeParsed = Boolean.TryParse(sValue, out Boolean bChecked)) {
         IsChecked = bChecked;
       }
       break;
 
-    case OptionType.spin:
+    case spin:
       if (bTypeParsed = Int32.TryParse(sValue, out Int32 nSelection)) {
         if (bValueValid = (!Option.Min.HasValue || Option.Min <= nSelection) &&
                           (!Option.Max.HasValue || nSelection <= Option.Max)) {
@@ -120,7 +121,7 @@ public class Setting : Control {
       }
       break;
 
-    case OptionType.combo:
+    case combo:
       bValueValid = false;
       if (Option.Items != null) {
         var selection = Option.Items.FirstOrDefault(
@@ -132,7 +133,7 @@ public class Setting : Control {
       }
       break;
 
-    case OptionType.@string:
+    case @string:
       Text = sValue;
       break;
 
@@ -162,7 +163,7 @@ public partial class Control {
 
   #region Methods
   public static Control? FindControl(
-    IEnumerable<Control> controls, ControlOptionName optionName) {
+    IEnumerable<Control> controls, OptionName optionName) {
     return controls.FirstOrDefault(control => control?.Option.Name == optionName);
   }
 
@@ -171,7 +172,7 @@ public partial class Control {
     if (IsNullOrEmpty(sName))
       throw new ControlException("No option name specified");
 
-    var optionName = sName.TryParseEnumFromName<ControlOptionName>(ignoreCase);
+    var optionName = sName.TryParseEnumFromName<OptionName>(ignoreCase);
     var uciControl = FindControl(controls, optionName);
     if (uciControl == default)
       throw new ControlException($"There is no option named {sName}");
@@ -192,25 +193,25 @@ public partial class Control {
 
   public void SetValue(String? sValue) {
     switch (Option.Type) {
-    case OptionType.button:
-      var button = (Button)this;
+    case button:
+      var buttonControl = (Button)this;
       if (!IsNullOrEmpty(sValue)) {
         throw new ControlException(
           $@"Superfluous value ""{sValue}"" supplied for {Option.Name}");
       }
 
       // Step 4a/6 Fire Button Click Event:
-      button.OnClick(EventArgs.Empty);
+      buttonControl.OnClick(EventArgs.Empty);
       break;
 
     default:
-      var setting = (Setting)this;
-      if (sValue == null || !setting.TryParse(sValue))
+      var settingControl = (Setting)this;
+      if (sValue == null || !settingControl.TryParse(sValue))
         throw new ControlException(
           $"Could not parse {sValue} as a value for {Option.Type}");
 
       // Step 4b/6 Fire Property Changed Event:
-      setting.OnPropertyChanged(new PropertyChangedEventArgs(Option.Type));
+      settingControl.OnPropertyChanged(new PropertyChangedEventArgs(Option.Type));
       break;
     }
   }

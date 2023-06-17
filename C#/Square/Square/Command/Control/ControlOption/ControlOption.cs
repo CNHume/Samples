@@ -9,16 +9,12 @@ using static System.String;
 
 namespace Command;
 
-public partial class Control {
-  //
-  // The (@) At Sign escapes the string keyword,
-  // allowing its use as a "verbatim identifier"
-  //
-  public enum OptionType : byte { none, check, spin, combo, button, @string };
+using static Command.Control.OptionType;
 
+public partial class Control {
   public struct ControlOption {
     #region Fields
-    public ControlOptionName Name;
+    public OptionName Name;
     public OptionType Type;
     public String? Default;
     public String?[] Items;             // Enumerates possible values for options of type combo
@@ -33,20 +29,20 @@ public partial class Control {
 
       sb.Append(" name ").Append(Name);
 
-      if (Type != OptionType.none) {
+      if (Type != none) {
         sb.Append(" type ").Append(Type);
 
-        if (Type != OptionType.button && !IsNullOrEmpty(Default))
+        if (Type != button && !IsNullOrEmpty(Default))
           sb.Append(" default ").Append(Default);
 
-        if (Type == OptionType.spin) {
+        if (Type == spin) {
           if (Min.HasValue)
             sb.Append(" min ").Append(Min);
 
           if (Max.HasValue)
             sb.Append(" max ").Append(Max);
         }
-        else if (Type == OptionType.combo && Items != null) {
+        else if (Type == combo && Items != null) {
           const String sPrefix = " var ";
           sb.Append(sPrefix).Append(Join(sPrefix, Items));
         }

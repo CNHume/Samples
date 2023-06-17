@@ -19,7 +19,8 @@ using Exceptions;
 
 using static Board;
 using static Command.Control;
-using static Command.Control.ControlOptionName;
+using static Command.Control.OptionName;
+using static Command.Control.OptionType;
 using static Logging.Logger;
 using static Position;
 
@@ -33,7 +34,7 @@ partial class GameState {
   //
   // New Control Checklist
   // ---------------------
-  // 1) Define Control its Limits and Default Value here
+  // 1) Define Control Name, Type, Limits, and Default Value here
   // 2) Define Property in GameStateProperty.cs or an appropriate class
   // 3) Define Property Changed Event Handler below
   // 4) Define Wireup Method for the Event Handler and define the default value
@@ -44,13 +45,13 @@ partial class GameState {
       new Button {
         Option = new ControlOption {
           Name = Clear_Hash,            // Example had compound name of "Clear Hash"
-          Type = OptionType.button
+          Type = button
         }
       },
-      new Setting {                     // Step 1/6: Define Control its Limits and Default Value here
+      new Setting {                     // Step 1/6: Define Control
         Option = new ControlOption {
           Name = MultiPV,               //[UCI]
-          Type = OptionType.spin,
+          Type = spin,
           Default = "1",
           Min = 1,
           Max = 12
@@ -59,7 +60,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = QXPLength,
-          Type = OptionType.spin,
+          Type = spin,
           Default = nQXPSelectionDefault.ToString(),
           Min = 1,
           Max = 128
@@ -68,7 +69,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = QXPBuckets,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "4",
           Min = 1,
           Max = 8
@@ -77,7 +78,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = XPLength,              //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
-          Type = OptionType.spin,
+          Type = spin,
           Default = nXPSelectionDefault.ToString(),
           Min = 1,
           Max = 128
@@ -86,7 +87,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = XPBuckets,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "2",
           Min = 1,
           Max = 8
@@ -95,7 +96,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = XPMLength,
-          Type = OptionType.spin,
+          Type = spin,
           Default = nXPMSelectionDefault.ToString(),
           Min = 1,
           Max = 128
@@ -104,7 +105,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = XPMBuckets,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "6",
           Min = 1,
           Max = 8
@@ -113,7 +114,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = ExpectedMoves,         // ExpectedMovesToGo for "sudden death" time controls
-          Type = OptionType.spin,
+          Type = spin,
           Default = "32",
           Min = 1,
           Max = 128
@@ -122,7 +123,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Contempt,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "0",
           Min = -250,
           Max = 250
@@ -131,7 +132,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Late,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "2",
           Min = 0,
           Max = 4
@@ -140,7 +141,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Checks,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "6",                // 8
           Min = 0,
           Max = 15
@@ -149,7 +150,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Threat,                // Looks for Mate Threats, currently
-          Type = OptionType.spin,
+          Type = spin,
           Default = "0",
           Min = 0,
           Max = 3
@@ -158,7 +159,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Singular,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "2",
           Min = 0,
           Max = 15
@@ -167,21 +168,21 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Aspiration,
-          Type = OptionType.check,
+          Type = check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = Flip,
-          Type = OptionType.check,
+          Type = check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = Futility,              // Only an option for testing purposes
-          Type = OptionType.check,
+          Type = check,
           Default = "true",
           IsHidden = false
         }
@@ -189,7 +190,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = NullMove,
-          Type = OptionType.check,
+          Type = check,
           Default = "true",
           IsHidden = false
         }
@@ -197,7 +198,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Occam,                 // Forward Pruning not recommended
-          Type = OptionType.check,
+          Type = check,
           Default = "false"
         }
       },
@@ -205,7 +206,7 @@ partial class GameState {
         Option = new ControlOption {
           // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
           Name = Pure,
-          Type = OptionType.check,
+          Type = check,
           Default = "false",
           IsHidden = true               //[Debug]
         }
@@ -213,7 +214,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Heartbeat,
-          Type = OptionType.check,
+          Type = check,
           Default = "false",
           IsHidden = true               //[Debug]
         }
@@ -221,7 +222,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = HeartbeatMS,           // Heartbeat Period in msec
-          Type = OptionType.spin,
+          Type = spin,
           Default = "7500",
           Min = 250,
           Max = 60000,
@@ -231,35 +232,35 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Ponder,                //[UCI]In case Time Management may be affected
-          Type = OptionType.check,
+          Type = check,
           Default = "true"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = UCI_AnalyseMode,       //[UCI]This means the Engine is not playing a game
-          Type = OptionType.check,
+          Type = check,
           Default = "false"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = UCI_ShowCurrLine,      //[UCI]
-          Type = OptionType.check,
+          Type = check,
           Default = "true"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = UCI_Opponent,          //[UCI]
-          Type = OptionType.@string,
+          Type = @string,
           Default = "Human"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = Language,
-          Type = OptionType.combo,
+          Type = combo,
           Items = Locales.Select(locale => locale.Language).ToArray(),
           Default = "English",
           IsHidden = true
@@ -268,7 +269,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = LoggerLevel,              //[Logger]
-          Type = OptionType.combo,
+          Type = combo,
           Items = Enum.GetValues(typeof(LogLevel))
                     .Cast<LogLevel>()
                     .Select(o => o.ToString())
@@ -279,7 +280,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = LoggerPath,               //[Logger]
-          Type = OptionType.@string,
+          Type = @string,
           Default = PathDefault
         }
       },
@@ -287,14 +288,14 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = SyzygyPath,            //[UCI]
-          Type = OptionType.@string,
+          Type = @string,
           Default = @"c:\Syzygy"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = SyzygyCache,           //[UCI]
-          Type = OptionType.spin,
+          Type = spin,
           Default = "4",
           Min = 1,
           Max = 32
@@ -303,14 +304,14 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Syzygy50MoveRule,
-          Type = OptionType.check,
+          Type = check,
           Default = "true"
         }
       },
       new Setting {
         Option = new ControlOption {
           Name = SyzygyProbeDepth,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "14",
           Min = 1,
           Max = 32
@@ -319,7 +320,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = SyzygyProbeLimit,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "5",
           Min = 3,
           Max = 8
@@ -330,7 +331,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Selectivity,
-          Type = OptionType.spin,
+          Type = spin,
           Default = "2",
           Min = 0,
           Max = 4
@@ -339,7 +340,7 @@ partial class GameState {
       new Setting {
         Option = new ControlOption {
           Name = Style,
-          Type = OptionType.combo,
+          Type = combo,
           Items = new String[] { "Solid", "BestMove", "Risky" },
           Default = "BestMove"
         }
@@ -560,7 +561,7 @@ partial class GameState {
   #endregion                            // Event Handlers
 
   #region Event Handler Subscriptions
-  protected static Control? findControl(ControlOptionName optionName) {
+  protected static Control? findControl(OptionName optionName) {
     return FindControl(Controls, optionName);
   }
 
