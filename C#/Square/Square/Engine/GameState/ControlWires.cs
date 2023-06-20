@@ -14,12 +14,12 @@ using static Control;
 using static Control.ControlName;
 
 partial class GameState {
-
-  #region Event Handler Subscriptions
+  #region Methods
   protected static Control? findControl(ControlName optionName) {
     return FindControl(Controls, optionName);
   }
 
+  #region Event Handler Subscriptions
   private void wireClearHash() {
     var button = (Button?)findControl(Clear_Hash);
     if (button != null)
@@ -281,4 +281,5 @@ partial class GameState {
     }
   }
   #endregion                            // Event Handler Subscriptions
+  #endregion                            // Methods
 }

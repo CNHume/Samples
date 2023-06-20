@@ -25,7 +25,6 @@ using static Position;
 using Eval = Int16;
 
 partial class GameState {
-
   #region Event Handlers
   protected void ClearHashButton_Click(Object? sender, EventArgs e) {
     var button = (Button?)sender;
