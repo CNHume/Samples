@@ -20,13 +20,13 @@ using Exceptions;
 public class Button : Control {
   #region Events
   public event EventHandler? Click;
-  #endregion
 
-  #region Methods
   protected virtual void OnClick(EventArgs e) {
     Click?.Invoke(this, e);
   }
+  #endregion                            // Events
 
+  #region Methods
   public void SetValue(String? sValue) {
     if (!IsNullOrEmpty(sValue))
       throw new ControlException(
@@ -172,47 +172,9 @@ public class StringSetting : Setting {
 }
 
 public abstract class Setting : Control {
-  #region Methods
-  protected abstract Boolean TryParse(String? sValue);
-  public abstract Object? GetValue();
-
-  #region ToString() Override
-  public override String ToString() {
-    var sb = new StringBuilder(base.ToString());
-
-    if (!IsNullOrEmpty(Default))
-      sb.Append(" default ")
-        .Append(Default);
-
-    return sb.ToString();
-  }
-  #endregion                            // ToString() Override
-
-  public void SetValue(String? sValue) {
-    if (sValue == null || !TryParse(sValue))
-      throw new ControlException(
-        $"Could not parse {sValue} as a value for {GetType()}");
-
-    // Step 4b/6 Fire Property Changed Event:
-    OnPropertyChanged(new PropertyChangedEventArgs());
-  }
-
-  public void SetDefault() {
-    if (TryParse(Default))
-      OnPropertyChanged(new PropertyChangedEventArgs());
-    else
-      throw new ControlException(
-        $@"Could not set a default of ""{Default}"" for the {Name} {GetType()} control");
-  }
-  #endregion                            // Methods
-}
-
-public partial class Control {
   #region Fields
-  public ControlName Name;
   public String? Default;
-  public Boolean IsHidden;
-  #endregion                            // Fields
+  #endregion
 
   //
   // Event Handler Implementation [cf. New Control Checklist in GameState Controls]
@@ -220,13 +182,13 @@ public partial class Control {
   // Step 1 Define EventArgs Type
   // Step 2 Declare Event
   // Step 3 Define "On" method to fire event
-  // Step 4 Fire Event
+  // Step 4 Fire Event by calling "On" method
   // Step 5 Define Event Handler to receive input from sender
-  // Step 6 Subscribe Handler to event
+  // Step 6 Subscribe to Event Handler in Wireup method
   //
   #region Events
   // Step 2/6: Declare Event [of the EventHandler Delegate Type]
-  // Step 2a: Provide explicit implementation of the add and remove accessors
+  // Step 2a: Provides explicit implementation of the add and remove accessors
   public event EventHandler<PropertyChangedEventArgs>? PropertyChanged;
 
   //
@@ -239,7 +201,60 @@ public partial class Control {
   #endregion                            // Events
 
   #region Methods
-  #region Control Methods
+  protected abstract Boolean TryParse(String? sValue);
+  public abstract Object? GetValue();
+
+  public void SetValue(String? sValue) {
+    if (sValue == null || !TryParse(sValue))
+      throw new ControlException(
+        $@"Could not set a value of ""{sValue}"" for the {Name} {GetType()} control");
+
+    // Step 4b/6 Fire Property Changed Event:
+    OnPropertyChanged(new PropertyChangedEventArgs());
+  }
+
+  public void SetDefault() {
+    if (!TryParse(Default))
+      throw new ControlException(
+        $@"Could not set a default of ""{Default}"" for the {Name} {GetType()} control");
+
+    // Step 4b/6 Fire Property Changed Event:
+    OnPropertyChanged(new PropertyChangedEventArgs());
+  }
+
+  #region ToString() Override
+  public override String ToString() {
+    var sb = new StringBuilder(base.ToString());
+
+    if (!IsNullOrEmpty(Default))
+      sb.Append(" default ")
+        .Append(Default);
+
+    return sb.ToString();
+  }
+  #endregion                            // ToString() Override
+  #endregion                            // Methods
+}
+
+public partial class Control {
+  #region Fields
+  public ControlName Name;
+  public Boolean IsHidden;
+  #endregion                            // Fields
+
+  #region Methods
+  public Setting AsSetting() {
+    var setting = this as Setting;
+    if (setting == null) {
+      var settingName = typeof(Setting).Name;
+      throw new ControlException(
+        $"{Name} control of type {GetType()} is not a {settingName}");
+    }
+
+    return setting;
+  }
+
+  #region Find Methods
   public static Control? FindControl(
     IEnumerable<Control> controls, ControlName optionName) {
     return controls.FirstOrDefault(control => control?.Name == optionName);
@@ -248,27 +263,16 @@ public partial class Control {
   public static Control FindControl(
     IEnumerable<Control> controls, String? sName, Boolean ignoreCase = true) {
     if (IsNullOrEmpty(sName))
-      throw new ControlException("No option name specified");
+      throw new ControlException("No control name specified");
 
-    var optionName = sName.TryParseEnumFromName<ControlName>(ignoreCase);
-    var uciControl = FindControl(controls, optionName);
+    var controlName = sName.TryParseEnumFromName<ControlName>(ignoreCase);
+    var uciControl = FindControl(controls, controlName);
     if (uciControl == default)
-      throw new ControlException($"There is no option named {sName}");
+      throw new ControlException($"There is no control named {sName}");
 
     return uciControl;
   }
-
-  public Setting AsSetting() {
-    var setting = this as Setting;
-    if (setting == null) {
-      var settingName = typeof(Setting).Name;
-      throw new ControlException(
-        $"{Name} control of OptionType {GetType()} is not a {settingName}");
-    }
-
-    return setting;
-  }
-  #endregion                            // Control Methods
+  #endregion                            // Find Methods
 
   #region ToString() Override
   public override String ToString() {

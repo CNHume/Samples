@@ -32,7 +32,7 @@ partial class GameState {
 
     var setting = (SpinSetting?)findControl(MultiPV);
     if (setting != null) {
-      // Step 6/6: Dynamically subscribe handler to the event
+      // Step 6/6: Subscribe to Event Handler in Wireup method
       setting.PropertyChanged += MultiPVValue_PropertyChanged;
       setting.SetDefault();
     }

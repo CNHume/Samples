@@ -153,7 +153,8 @@ partial class GameState : IDisposable {
     // Wire up the Event Handlers to listen for UCI Option changes:
     //
     wireClearHash();
-    wireMultiPV();                      // Step 6/6: Wireup
+    // Step 6/6: Subscribe to Event Handler in Wireup methods
+    wireMultiPV();
     wireQXP();
     wireXP();
     wireXPM();
