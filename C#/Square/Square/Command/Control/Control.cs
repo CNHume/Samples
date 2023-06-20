@@ -19,11 +19,11 @@ using Exceptions;
 [DisplayName("button")]
 public class Button : Control {
   #region Events
-  internal event EventHandler? Click;
+  public event EventHandler? Click;
   #endregion
 
   #region Methods
-  internal virtual void OnClick(EventArgs e) {
+  protected virtual void OnClick(EventArgs e) {
     Click?.Invoke(this, e);
   }
 
@@ -63,9 +63,12 @@ public class CheckSetting : Setting {
 
 [DisplayName("spin")]
 public class SpinSetting : Setting {
-  #region Properties
+  #region Fields
   public Int32? Min;
   public Int32? Max;
+  #endregion                            // Fields
+
+  #region Properties
   private Int32? Value { get; set; }
   #endregion                            // Properties
 
@@ -106,9 +109,11 @@ public class SpinSetting : Setting {
 
 [DisplayName("combo")]
 public class ComboSetting : Setting {
-  #region Properties
+  #region Fields
   public String[]? Items;               // Enumerates possible values for options of type combo
+  #endregion                            // Fields
 
+  #region Properties
   private String? Value { get; set; }
   #endregion                            // Properties
 
