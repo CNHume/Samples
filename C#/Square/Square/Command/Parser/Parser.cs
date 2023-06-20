@@ -393,9 +393,9 @@ partial class Parser : IDisposable {
     var sKeyword = parseOptionName(out Control? control);
     rejectValue(sKeyword);
     var setting = control?.AsSetting();
-    var s = setting?.Value?.ToString();
-    if (s != null)
-      LogLine(s);
+    var value = setting?.GetValue();
+    if (value != null)
+      LogLine(value.ToString());
   }
 
   public void ResetOptionCommand() {
@@ -407,7 +407,8 @@ partial class Parser : IDisposable {
 
   public void SetOptionCommand() {
     var sValueKeyword = parseOptionName(out Control? control);
-    control?.SetValue(parseOptionValue(sValueKeyword));
+    var setting = control?.AsSetting();
+    setting?.SetValue(parseOptionValue(sValueKeyword));
   }
 
   public Boolean ListCommand() {

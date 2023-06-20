@@ -14,13 +14,7 @@ namespace Command;
 
 partial class Control {
   #region Enumerations
-  //
-  // The (@) At Sign escapes the string keyword,
-  // allowing its use as a "verbatim identifier"
-  //
-  public enum OptionType : byte { none, check, spin, combo, button, @string };
-
-  public enum OptionName : byte {
+  public enum ControlName : byte {
     None = 0,
     [Description("Clear Hash")]
     Clear_Hash,
@@ -64,5 +58,5 @@ partial class Control {
     Style,
 #endif
   }
-  #endregion
+  #endregion                            // Enumerations
 }

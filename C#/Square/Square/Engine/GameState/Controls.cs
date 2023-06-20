@@ -11,16 +11,15 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Engine;
-
 using Command;
+
+namespace Engine;
 
 using Exceptions;
 
 using static Board;
-using static Command.Control;
-using static Command.Control.OptionName;
-using static Command.Control.OptionType;
+using static Control;
+using static Control.ControlName;
 using static Logging.Logger;
 using static Position;
 
@@ -42,311 +41,203 @@ partial class GameState {
   // 6) Use the Property, potentially reporting initial state in appendOptions()
   //
   public static readonly Control[] Controls = {
-      new Button {
-        Option = new ControlOption {
-          Name = Clear_Hash,            // Example had compound name of "Clear Hash"
-          Type = button
-        }
-      },
-      new Setting {                     // Step 1/6: Define Control
-        Option = new ControlOption {
-          Name = MultiPV,               //[UCI]
-          Type = spin,
-          Default = "1",
-          Min = 1,
-          Max = 12
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = QXPLength,
-          Type = spin,
-          Default = nQXPSelectionDefault.ToString(),
-          Min = 1,
-          Max = 128
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = QXPBuckets,
-          Type = spin,
-          Default = "4",
-          Min = 1,
-          Max = 8
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = XPLength,              //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
-          Type = spin,
-          Default = nXPSelectionDefault.ToString(),
-          Min = 1,
-          Max = 128
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = XPBuckets,
-          Type = spin,
-          Default = "2",
-          Min = 1,
-          Max = 8
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = XPMLength,
-          Type = spin,
-          Default = nXPMSelectionDefault.ToString(),
-          Min = 1,
-          Max = 128
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = XPMBuckets,
-          Type = spin,
-          Default = "6",
-          Min = 1,
-          Max = 8
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = ExpectedMoves,         // ExpectedMovesToGo for "sudden death" time controls
-          Type = spin,
-          Default = "32",
-          Min = 1,
-          Max = 128
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Contempt,
-          Type = spin,
-          Default = "0",
-          Min = -250,
-          Max = 250
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Late,
-          Type = spin,
-          Default = "2",
-          Min = 0,
-          Max = 4
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Checks,
-          Type = spin,
-          Default = "6",                // 8
-          Min = 0,
-          Max = 15
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Threat,                // Looks for Mate Threats, currently
-          Type = spin,
-          Default = "0",
-          Min = 0,
-          Max = 3
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Singular,
-          Type = spin,
-          Default = "2",
-          Min = 0,
-          Max = 15
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Aspiration,
-          Type = check,
-          Default = "false"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Flip,
-          Type = check,
-          Default = "false"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Futility,              // Only an option for testing purposes
-          Type = check,
-          Default = "true",
-          IsHidden = false
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = NullMove,
-          Type = check,
-          Default = "true",
-          IsHidden = false
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Occam,                 // Forward Pruning not recommended
-          Type = check,
-          Default = "false"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
-          Name = Pure,
-          Type = check,
-          Default = "false",
-          IsHidden = true               //[Debug]
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Heartbeat,
-          Type = check,
-          Default = "false",
-          IsHidden = true               //[Debug]
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = HeartbeatMS,           // Heartbeat Period in msec
-          Type = spin,
-          Default = "7500",
-          Min = 250,
-          Max = 60000,
-          IsHidden = true               //[Debug]
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Ponder,                //[UCI]In case Time Management may be affected
-          Type = check,
-          Default = "true"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = UCI_AnalyseMode,       //[UCI]This means the Engine is not playing a game
-          Type = check,
-          Default = "false"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = UCI_ShowCurrLine,      //[UCI]
-          Type = check,
-          Default = "true"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = UCI_Opponent,          //[UCI]
-          Type = @string,
-          Default = "Human"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Language,
-          Type = combo,
-          Items = Locales.Select(locale => locale.Language).ToArray(),
-          Default = "English",
-          IsHidden = true
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = LoggerLevel,              //[Logger]
-          Type = combo,
-          Items = Enum.GetValues(typeof(LogLevel))
-                    .Cast<LogLevel>()
-                    .Select(o => o.ToString())
-                    .ToArray<String>(),
-          Default = LogLevel.data.ToString()
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = LoggerPath,               //[Logger]
-          Type = @string,
-          Default = PathDefault
-        }
-      },
+    new Button {
+      Name = Clear_Hash                 // Example had compound name of "Clear Hash"
+    },
+    new SpinSetting {                   // Step 1/6: Define Control
+      Name = MultiPV,                   //[UCI]
+      Default = "1",
+      Min = 1,
+      Max = 12
+    },
+    new SpinSetting {
+      Name = QXPLength,
+      Default = nQXPSelectionDefault.ToString(),
+      Min = 1,
+      Max = 128
+    },
+    new SpinSetting {
+      Name = QXPBuckets,
+      Default = "4",
+      Min = 1,
+      Max = 8
+    },
+    new SpinSetting {
+      Name = XPLength,                  //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
+      Default = nXPSelectionDefault.ToString(),
+      Min = 1,
+      Max = 128
+    },
+    new SpinSetting {
+      Name = XPBuckets,
+      Default = "2",
+      Min = 1,
+      Max = 8
+    },
+    new SpinSetting {
+      Name = XPMLength,
+      Default = nXPMSelectionDefault.ToString(),
+      Min = 1,
+      Max = 128
+    },
+    new SpinSetting {
+      Name = XPMBuckets,
+      Default = "6",
+      Min = 1,
+      Max = 8
+    },
+    new SpinSetting {
+      Name = ExpectedMoves,             // ExpectedMovesToGo for "sudden death" time controls
+      Default = "32",
+      Min = 1,
+      Max = 128
+    },
+    new SpinSetting {
+      Name = Contempt,
+      Default = "0",
+      Min = -250,
+      Max = 250
+    },
+    new SpinSetting {
+      Name = Late,
+      Default = "2",
+      Min = 0,
+      Max = 4
+    },
+    new SpinSetting {
+      Name = Checks,
+      Default = "6",                    // 8
+      Min = 0,
+      Max = 15
+    },
+    new SpinSetting {
+      Name = Threat,                    // Looks for Mate Threats, currently
+      Default = "0",
+      Min = 0,
+      Max = 3
+    },
+    new SpinSetting {
+      Name = Singular,
+      Default = "2",
+      Min = 0,
+      Max = 15
+    },
+    new CheckSetting {
+      Name = Aspiration,
+      Default = "false"
+    },
+    new CheckSetting {
+      Name = Flip,
+      Default = "false"
+    },
+    new CheckSetting {
+      Name = Futility,                  // Only an option for testing purposes
+      Default = "true",
+      IsHidden = false
+    },
+    new CheckSetting {
+      Name = NullMove,
+      Default = "true",
+      IsHidden = false
+    },
+    new CheckSetting {
+      Name = Occam,                     // Forward Pruning not recommended
+      Default = "false"
+    },
+    new CheckSetting {
+      // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
+      Name = Pure,
+      Default = "false",
+      IsHidden = true                   //[Debug]
+    },
+    new CheckSetting {
+      Name = Heartbeat,
+      Default = "false",
+      IsHidden = true                   //[Debug]
+    },
+    new SpinSetting {
+      Name = HeartbeatMS,               // Heartbeat Period in msec
+      Default = "7500",
+      Min = 250,
+      Max = 60000,
+      IsHidden = true                   //[Debug]
+    },
+    new CheckSetting {
+      Name = Ponder,                    //[UCI]In case Time Management may be affected
+      Default = "true"
+    },
+    new CheckSetting {
+      Name = UCI_AnalyseMode,           //[UCI]This means the Engine is not playing a game
+      Default = "false"
+    },
+    new CheckSetting {
+      Name = UCI_ShowCurrLine,          //[UCI]
+      Default = "true"
+    },
+    new StringSetting {
+      Name = UCI_Opponent,              //[UCI]
+      Default = "Human"
+    },
+    new ComboSetting {
+      Name = Language,
+      Items = Locales.Select(locale => locale.Language).ToArray(),
+      Default = "English",
+      IsHidden = true
+    },
+    new ComboSetting {
+      Name = LoggerLevel,              //[Logger]
+      Items = Enum.GetValues(typeof(LogLevel))
+                  .Cast<LogLevel>()
+                  .Select(o => o.ToString())
+                  .ToArray<String>(),
+      Default = LogLevel.data.ToString()
+    },
+    new StringSetting {
+      Name = LoggerPath,               //[Logger]
+      Default = PathDefault
+    },
 #if SyzygyControls
-      new Setting {
-        Option = new ControlOption {
-          Name = SyzygyPath,            //[UCI]
-          Type = @string,
-          Default = @"c:\Syzygy"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = SyzygyCache,           //[UCI]
-          Type = spin,
-          Default = "4",
-          Min = 1,
-          Max = 32
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Syzygy50MoveRule,
-          Type = check,
-          Default = "true"
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = SyzygyProbeDepth,
-          Type = spin,
-          Default = "14",
-          Min = 1,
-          Max = 32
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = SyzygyProbeLimit,
-          Type = spin,
-          Default = "5",
-          Min = 3,
-          Max = 8
-        }
-      },
+  new StringSetting {
+      Name = SyzygyPath,            //[UCI]
+      Default = @"c:\Syzygy"
+    },
+    new SpinSetting {
+      Name = SyzygyCache,           //[UCI]
+      Default = "4",
+      Min = 1,
+      Max = 32
+    },
+    new CheckSetting {
+      Name = Syzygy50MoveRule,
+      Default = "true"
+    },
+    new SpinSetting {
+      Name = SyzygyProbeDepth,
+      Default = "14",
+      Min = 1,
+      Max = 32
+    },
+    new SpinSetting {
+      Name = SyzygyProbeLimit,
+      Default = "5",
+      Min = 3,
+      Max = 8
+    },
 #endif
 #if ExampleOptionTypes
-      new Setting {
-        Option = new ControlOption {
-          Name = Selectivity,
-          Type = spin,
-          Default = "2",
-          Min = 0,
-          Max = 4
-        }
-      },
-      new Setting {
-        Option = new ControlOption {
-          Name = Style,
-          Type = combo,
-          Items = new String[] { "Solid", "BestMove", "Risky" },
-          Default = "BestMove"
-        }
-      },
+    new SpinSetting {
+      Name = Selectivity,
+      Default = "2",
+      Min = 0,
+      Max = 4
+    },
+    new ComboSetting {
+      Name = Style,
+      Items = new String[] { "Solid", "BestMove", "Risky" },
+      Default = "BestMove"
+    },
 #endif
-    };
+  };
   #endregion                            // Constants
 
   #region Event Handlers
@@ -362,206 +253,221 @@ partial class GameState {
 
   // Step 5/6: Define an Event Handler, following the standard naming convention
   protected void MultiPVValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue)
-      newVariations(setting.Selection.Value);
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      newVariations(Convert.ToInt32(value));
   }
 
   protected void QXPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
-    if (setting != null && setting.Selection.HasValue)
-      QXPTank.Init(setting.Selection.Value);
+    var value = setting?.GetValue();
+    if (value != null)
+      QXPTank.Init(Convert.ToInt32(value));
   }
 
   protected void QXPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
     //[Note]BucketsDefault must be updated before Tank.Init() is called
-    if (setting != null && setting.Selection.HasValue)
-      QXPTank.BucketsDefault = (UInt16)setting.Selection;
+    var value = setting?.GetValue();
+    if (value != null)
+      QXPTank.BucketsDefault = Convert.ToUInt16(value);
   }
 
   protected void XPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
-    if (setting != null && setting.Selection.HasValue)
-      XPTank.Init(setting.Selection.Value);
+    var value = setting?.GetValue();
+    if (value != null)
+      XPTank.Init(Convert.ToInt32(value));
   }
 
   protected void XPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
     //[Note]BucketsDefault must be updated before Tank.Init() is called
-    if (setting != null && setting.Selection.HasValue)
-      XPTank.BucketsDefault = (UInt16)setting.Selection;
+    var value = setting?.GetValue();
+    if (value != null)
+      XPTank.BucketsDefault = Convert.ToUInt16(value);
   }
 
   protected void XPMLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
-    if (setting != null && setting.Selection.HasValue)
-      XPMTank.Init(setting.Selection.Value);
+    var value = setting?.GetValue();
+    if (value != null)
+      XPMTank.Init(Convert.ToInt32(value));
   }
 
   protected void XPMBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
+    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
     //[Note]BucketsDefault must be updated before Tank.Init() is called
-    if (setting != null && setting.Selection.HasValue)
-      XPMTank.BucketsDefault = (UInt16)setting.Selection;
+    var value = setting?.GetValue();
+    if (value != null)
+      XPMTank.BucketsDefault = Convert.ToUInt16(value);
   }
 
   protected void ExpectedMovesToGoValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue)
-      ExpectedMovesToGo = (UInt16)setting.Selection;
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      ExpectedMovesToGo = Convert.ToUInt16(value);
   }
 
   protected void ContemptValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue)
-      ContemptValue = (Eval)setting.Selection;
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      ContemptValue = (Eval)Convert.ToInt16(value);
   }
 
   protected void LateValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue) {
-      var uSelection = (UInt32)setting.Selection.Value;
-      SetNibble(ref ExtensionLimit, vLate, uSelection);
-    }
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      SetNibble(ref ExtensionLimit, vLate, Convert.ToUInt16(value));
   }
 
   protected void ChecksValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue) {
-      var uSelection = (UInt32)setting.Selection.Value;
-      SetNibble(ref ExtensionLimit, vCheck, uSelection);
-    }
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      SetNibble(ref ExtensionLimit, vCheck, Convert.ToUInt16(value));
   }
 
   protected void ThreatValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue) {
-      var uSelection = (UInt32)setting.Selection.Value;
-      SetNibble(ref ExtensionLimit, vThreat, uSelection);
-    }
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      SetNibble(ref ExtensionLimit, vThreat, Convert.ToUInt16(value));
   }
 
   protected void SingularValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue) {
-      var uSelection = (UInt32)setting.Selection.Value;
-      SetNibble(ref ExtensionLimit, vSingular, uSelection);
-    }
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      SetNibble(ref ExtensionLimit, vSingular, Convert.ToUInt16(value));
   }
 
   protected void AspirationValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsAspiration = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsAspiration = Convert.ToBoolean(value);
   }
 
   protected void FlipValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsFlip = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsFlip = Convert.ToBoolean(value);
   }
 
   protected void FutilityValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsFutility = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsFutility = Convert.ToBoolean(value);
   }
 
   protected void NullPruneValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsNullPrune = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsNullPrune = Convert.ToBoolean(value);
   }
 
   protected void OccamValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsOccam = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsOccam = Convert.ToBoolean(value);
   }
 
   protected void PureValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsPure = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsPure = Convert.ToBoolean(value);
   }
 
   protected void HeartbeatValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsHeartbeat = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsHeartbeat = Convert.ToBoolean(value);
   }
 
   protected void HeartbeatMSValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.Selection.HasValue)
-      HeartbeatPeriodMS = (UInt16)setting.Selection.Value;
+    var setting = (SpinSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      HeartbeatPeriodMS = Convert.ToUInt16(value);
   }
 
   protected void PonderValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsPonderEnabled = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsPonderEnabled = Convert.ToBoolean(value);
   }
 
   protected void AnalyseModeValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsAnalyseMode = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsAnalyseMode = Convert.ToBoolean(value);
   }
 
   protected void ShowingLineValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null && setting.IsChecked.HasValue)
-      IsShowingLine = setting.IsChecked.Value;
+    var setting = (CheckSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      IsShowingLine = Convert.ToBoolean(value);
   }
 
   protected void OpponentValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null)
-      Opponent = setting.Text;
+    var setting = (StringSetting?)sender;
+    Opponent = setting?.GetValue();
   }
 
   protected void LogLevelValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting?.Text != null) {
-      Level = (LogLevel)Enum.Parse(typeof(LogLevel), setting.Text);
-    }
+    var setting = (ComboSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      Level = (LogLevel)Enum.Parse(typeof(LogLevel), value);
   }
 
   protected void LogPathValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null)
-      Path = setting.Text;
+    var setting = (StringSetting?)sender;
+    Path = setting?.GetValue();
   }
 
   protected void LanguageValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (Setting?)sender;
-    if (setting != null)
-      SetLanguage(setting.Text);
+    var setting = (ComboSetting?)sender;
+    var value = setting?.GetValue();
+    if (value != null)
+      SetLanguage(value);
   }
   #endregion                            // Event Handlers
 
   #region Event Handler Subscriptions
-  protected static Control? findControl(OptionName optionName) {
+  protected static Control? findControl(ControlName optionName) {
     return FindControl(Controls, optionName);
   }
 
@@ -575,7 +481,7 @@ partial class GameState {
   private void wireMultiPV() {
     newVariations();
 
-    var setting = (Setting?)findControl(MultiPV);
+    var setting = (SpinSetting?)findControl(MultiPV);
     if (setting != null) {
       // Step 6/6: Dynamically subscribe handler to the event
       setting.PropertyChanged += MultiPVValue_PropertyChanged;
@@ -587,7 +493,7 @@ partial class GameState {
   private void wireQXPBuckets() {
     newQXPTank();
 
-    var setting = (Setting?)findControl(QXPBuckets);
+    var setting = (SpinSetting?)findControl(QXPBuckets);
     if (setting != null) {
       setting.PropertyChanged += QXPBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -601,7 +507,7 @@ partial class GameState {
     //
     wireQXPBuckets();
 
-    var setting = (Setting?)findControl(QXPLength);
+    var setting = (SpinSetting?)findControl(QXPLength);
     if (setting != null) {
       setting.PropertyChanged += QXPLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -612,7 +518,7 @@ partial class GameState {
   private void wireXPBuckets() {
     newXPTank();
 
-    var setting = (Setting?)findControl(XPBuckets);
+    var setting = (SpinSetting?)findControl(XPBuckets);
     if (setting != null) {
       setting.PropertyChanged += XPBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -626,7 +532,7 @@ partial class GameState {
     //
     wireXPBuckets();
 
-    var setting = (Setting?)findControl(XPLength);
+    var setting = (SpinSetting?)findControl(XPLength);
     if (setting != null) {
       setting.PropertyChanged += XPLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -637,7 +543,7 @@ partial class GameState {
   private void wireXPMBuckets() {
     newXPMTank();
 
-    var setting = (Setting?)findControl(XPMBuckets);
+    var setting = (SpinSetting?)findControl(XPMBuckets);
     if (setting != null) {
       setting.PropertyChanged += XPMBucketsValue_PropertyChanged;
       setting.SetDefault();
@@ -651,7 +557,7 @@ partial class GameState {
     //
     wireXPMBuckets();
 
-    var setting = (Setting?)findControl(XPMLength);
+    var setting = (SpinSetting?)findControl(XPMLength);
     if (setting != null) {
       setting.PropertyChanged += XPMLengthValue_PropertyChanged;
       setting.SetDefault();
@@ -659,7 +565,7 @@ partial class GameState {
   }
 
   private void wireExpectedMovesToGo() {
-    var setting = (Setting?)findControl(ExpectedMoves);
+    var setting = (SpinSetting?)findControl(ExpectedMoves);
     if (setting != null) {
       setting.PropertyChanged += ExpectedMovesToGoValue_PropertyChanged;
       setting.SetDefault();
@@ -667,7 +573,7 @@ partial class GameState {
   }
 
   private void wireContempt() {
-    var setting = (Setting?)findControl(Contempt);
+    var setting = (SpinSetting?)findControl(Contempt);
     if (setting != null) {
       setting.PropertyChanged += ContemptValue_PropertyChanged;
       setting.SetDefault();
@@ -675,7 +581,7 @@ partial class GameState {
   }
 
   private void wireLate() {
-    var setting = (Setting?)findControl(Late);
+    var setting = (SpinSetting?)findControl(Late);
     if (setting != null) {
       setting.PropertyChanged += LateValue_PropertyChanged;
       setting.SetDefault();
@@ -683,7 +589,7 @@ partial class GameState {
   }
 
   private void wireChecks() {
-    var setting = (Setting?)findControl(Checks);
+    var setting = (SpinSetting?)findControl(Checks);
     if (setting != null) {
       setting.PropertyChanged += ChecksValue_PropertyChanged;
       setting.SetDefault();
@@ -691,7 +597,7 @@ partial class GameState {
   }
 
   private void wireThreat() {
-    var setting = (Setting?)findControl(Threat);
+    var setting = (SpinSetting?)findControl(Threat);
     if (setting != null) {
       setting.PropertyChanged += ThreatValue_PropertyChanged;
       setting.SetDefault();
@@ -699,7 +605,7 @@ partial class GameState {
   }
 
   private void wireSingular() {
-    var setting = (Setting?)findControl(Singular);
+    var setting = (SpinSetting?)findControl(Singular);
     if (setting != null) {
       setting.PropertyChanged += SingularValue_PropertyChanged;
       setting.SetDefault();
@@ -707,7 +613,7 @@ partial class GameState {
   }
 
   private void wireAspiration() {
-    var setting = (Setting?)findControl(Aspiration);
+    var setting = (CheckSetting?)findControl(Aspiration);
     if (setting != null) {
       setting.PropertyChanged += AspirationValue_PropertyChanged;
       setting.SetDefault();
@@ -715,7 +621,7 @@ partial class GameState {
   }
 
   private void wireFlip() {
-    var setting = (Setting?)findControl(Flip);
+    var setting = (CheckSetting?)findControl(Flip);
     if (setting != null) {
       setting.PropertyChanged += FlipValue_PropertyChanged;
       setting.SetDefault();
@@ -723,7 +629,7 @@ partial class GameState {
   }
 
   private void wireFutility() {
-    var setting = (Setting?)findControl(Futility);
+    var setting = (CheckSetting?)findControl(Futility);
     if (setting != null) {
       setting.PropertyChanged += FutilityValue_PropertyChanged;
       setting.SetDefault();
@@ -731,7 +637,7 @@ partial class GameState {
   }
 
   private void wireNullPrune() {
-    var setting = (Setting?)findControl(NullMove);
+    var setting = (CheckSetting?)findControl(NullMove);
     if (setting != null) {
       setting.PropertyChanged += NullPruneValue_PropertyChanged;
       setting.SetDefault();
@@ -747,7 +653,7 @@ partial class GameState {
   }
 
   private void wirePure() {
-    var setting = (Setting?)findControl(Pure);
+    var setting = (CheckSetting?)findControl(Pure);
     if (setting != null) {
       setting.PropertyChanged += PureValue_PropertyChanged;
       setting.SetDefault();
@@ -755,7 +661,7 @@ partial class GameState {
   }
 
   private void wireHeartbeatMS() {
-    var setting = (Setting?)findControl(HeartbeatMS);
+    var setting = (SpinSetting?)findControl(HeartbeatMS);
     if (setting != null) {
       setting.PropertyChanged += HeartbeatMSValue_PropertyChanged;
       setting.SetDefault();
@@ -763,7 +669,7 @@ partial class GameState {
   }
 
   private void wireHeartbeat() {
-    var setting = (Setting?)findControl(Heartbeat);
+    var setting = (CheckSetting?)findControl(Heartbeat);
     if (setting != null) {
       setting.PropertyChanged += HeartbeatValue_PropertyChanged;
       setting.SetDefault();
@@ -771,7 +677,7 @@ partial class GameState {
   }
 
   private void wirePonder() {
-    var setting = (Setting?)findControl(Ponder);
+    var setting = (CheckSetting?)findControl(Ponder);
     if (setting != null) {
       setting.PropertyChanged += PonderValue_PropertyChanged;
       setting.SetDefault();
@@ -779,7 +685,7 @@ partial class GameState {
   }
 
   private void wireAnalyseMode() {
-    var setting = (Setting?)findControl(UCI_AnalyseMode);
+    var setting = (CheckSetting?)findControl(UCI_AnalyseMode);
     if (setting != null) {
       setting.PropertyChanged += AnalyseModeValue_PropertyChanged;
       setting.SetDefault();
@@ -787,7 +693,7 @@ partial class GameState {
   }
 
   private void wireShowingLine() {
-    var setting = (Setting?)findControl(UCI_ShowCurrLine);
+    var setting = (CheckSetting?)findControl(UCI_ShowCurrLine);
     if (setting != null) {
       setting.PropertyChanged += ShowingLineValue_PropertyChanged;
       setting.SetDefault();
@@ -795,7 +701,7 @@ partial class GameState {
   }
 
   private void wireOpponent() {
-    var setting = (Setting?)findControl(UCI_Opponent);
+    var setting = (StringSetting?)findControl(UCI_Opponent);
     if (setting != null) {
       setting.PropertyChanged += OpponentValue_PropertyChanged;
       setting.SetDefault();
@@ -803,7 +709,7 @@ partial class GameState {
   }
 
   private void wireLanguage() {
-    var setting = (Setting?)findControl(Language);
+    var setting = (ComboSetting?)findControl(Language);
     if (setting != null) {
       setting.PropertyChanged += LanguageValue_PropertyChanged;
       setting.SetDefault();
@@ -811,7 +717,7 @@ partial class GameState {
   }
 
   private void wireLogLevel() {
-    var setting = (Setting?)findControl(LoggerLevel);
+    var setting = (ComboSetting?)findControl(LoggerLevel);
     if (setting != null) {
       setting.PropertyChanged += LogLevelValue_PropertyChanged;
       setting.SetDefault();
@@ -819,7 +725,7 @@ partial class GameState {
   }
 
   private void wireLogPath() {
-    var setting = (Setting?)findControl(LoggerPath);
+    var setting = (StringSetting?)findControl(LoggerPath);
     if (setting != null) {
       setting.PropertyChanged += LogPathValue_PropertyChanged;
       setting.SetDefault();

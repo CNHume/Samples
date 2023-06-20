@@ -422,8 +422,8 @@ partial class UCI : ICommand {
   private static void showOptions(Boolean bDebug) {
     foreach (var uciControl in GameState.Controls) {
       if (uciControl != null)
-        if (bDebug || !uciControl.Option.IsHidden)
-          LogLine(uciControl.Option.ToString());
+        if (bDebug || !uciControl.IsHidden)
+          LogLine(uciControl.ToString());
     }
   }
 
