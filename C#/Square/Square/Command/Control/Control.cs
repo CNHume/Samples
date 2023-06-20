@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 
 using static System.String;
+using static System.StringComparison;
 
 namespace Command;
 
@@ -26,10 +27,9 @@ public class Button : Control {
   }
 
   public void SetValue(String? sValue) {
-    if (!IsNullOrEmpty(sValue)) {
+    if (!IsNullOrEmpty(sValue))
       throw new ControlException(
         $@"Superfluous value ""{sValue}"" supplied for {Name}");
-    }
 
     // Step 4a/6 Fire Button Click Event:
     OnClick(EventArgs.Empty);
@@ -89,17 +89,13 @@ public class SpinSetting : Setting {
     if (IsNullOrEmpty(sValue))
       throw new ControlException($"No value specified for {GetType()}");
 
-    var bTypeParsed = false;
+    var bTypeParsed = Int32.TryParse(sValue, out Int32 nSelection);
     var bValueValid = false;
 
-    bTypeParsed = true;
-    bValueValid = true;
-
-    if (bTypeParsed = Int32.TryParse(sValue, out Int32 nSelection)) {
+    if (bTypeParsed) {
       if (bValueValid = (!Min.HasValue || Min <= nSelection) &&
-                        (!Max.HasValue || nSelection <= Max)) {
+                        (!Max.HasValue || nSelection <= Max))
         Value = nSelection;
-      }
     }
 
     return bTypeParsed && bValueValid;
@@ -120,31 +116,31 @@ public class ComboSetting : Setting {
 
   #region ToString() Override
   public override String ToString() {
-    const String sPrefix = " var ";
+    const String sComboPrefix = " var ";
     var sb = new StringBuilder(base.ToString());
 
     if (Items != null)
-      sb.Append(sPrefix).Append(Join(sPrefix, Items));
+      sb.Append(sComboPrefix)
+        .Append(Join(sComboPrefix, Items));
 
     return sb.ToString();
   }
-  #endregion                          // ToString() Override
+  #endregion                            // ToString() Override
 
   protected override Boolean TryParse(String? sValue) {
     if (IsNullOrEmpty(sValue))
       throw new ControlException($"No value specified for {GetType()}");
 
     var bValueValid = false;
-
     if (Items != null) {
-      var selection = Items.FirstOrDefault(
-        item => sValue.Equals(item, StringComparison.InvariantCultureIgnoreCase));
+      var selection = Items.FirstOrDefault(item =>
+        sValue.Equals(item, InvariantCultureIgnoreCase));
+
       if (selection != null) {
         Value = selection;
         bValueValid = true;
       }
     }
-
     return bValueValid;
   }
   #endregion                            // Methods
@@ -185,7 +181,7 @@ public abstract class Setting : Control {
 
     return s;
   }
-  #endregion                          // ToString() Override
+  #endregion                            // ToString() Override
 
   public void SetValue(String? sValue) {
     if (sValue == null || !TryParse(sValue))
