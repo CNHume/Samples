@@ -12,6 +12,7 @@ using static System.StringComparison;
 namespace Command;
 
 using Engine;
+using Engine.Event;
 
 using Exceptions;
 
@@ -172,14 +173,13 @@ public abstract class Setting : Control {
 
   #region ToString() Override
   public override String ToString() {
-    var s = base.ToString();
+    var sb = new StringBuilder(base.ToString());
 
-    if (!IsNullOrEmpty(Default)) {
-      var sb = new StringBuilder(" default ").Append(Default);
-      s += sb;
-    }
+    if (!IsNullOrEmpty(Default))
+      sb.Append(" default ")
+        .Append(Default);
 
-    return s;
+    return sb.ToString();
   }
   #endregion                            // ToString() Override
 
@@ -209,7 +209,63 @@ public partial class Control {
   public Boolean IsHidden;
   #endregion                            // Fields
 
+  //
+  // Event Handler Implementation [cf. New Control Checklist in GameState Controls]
+  // ----------------------------
+  // Step 1 Define EventArgs Type
+  // Step 2 Declare Event
+  // Step 3 Define "On" method to fire event
+  // Step 4 Fire Event
+  // Step 5 Define Event Handler to receive input from sender
+  // Step 6 Subscribe Handler to event
+  //
+  #region Events
+  // Step 2/6: Declare Event [of the EventHandler Delegate Type]
+  // Step 2a: Provide explicit implementation of the add and remove accessors
+  public event EventHandler<PropertyChangedEventArgs>? PropertyChanged;
+
+  //
+  // Step 3/6: Define a virtual method to fire the event,
+  // passing this instance as the sender
+  //
+  internal virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+    PropertyChanged?.Invoke(this, e);
+  }
+  #endregion                            // Events
+
   #region Methods
+  #region Control Methods
+  public static Control? FindControl(
+    IEnumerable<Control> controls, ControlName optionName) {
+    return controls.FirstOrDefault(control => control?.Name == optionName);
+  }
+
+  public static Control FindControl(
+    IEnumerable<Control> controls, String? sName, Boolean ignoreCase = true) {
+    if (IsNullOrEmpty(sName))
+      throw new ControlException("No option name specified");
+
+    var optionName = sName.TryParseEnumFromName<ControlName>(ignoreCase);
+    var uciControl = FindControl(controls, optionName);
+    if (uciControl == default)
+      throw new ControlException($"There is no option named {sName}");
+
+    return uciControl;
+  }
+
+  public Setting AsSetting() {
+    var setting = this as Setting;
+    if (setting == null) {
+      var settingName = typeof(Setting).Name;
+      throw new ControlException(
+        $"{Name} control of OptionType {GetType()} is not a {settingName}");
+    }
+
+    return setting;
+  }
+  #endregion                            // Control Methods
+
+  #region ToString() Override
   public override String ToString() {
     var type = GetType();
     var displayName = type
@@ -225,5 +281,6 @@ public partial class Control {
 
     return sb.ToString();
   }
+  #endregion                            // ToString() Override
   #endregion                            // Methods
 }
