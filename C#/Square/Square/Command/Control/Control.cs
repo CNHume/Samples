@@ -3,6 +3,7 @@
 //
 //[2013-09-08 CNHume]Created Class
 //
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 using static System.String;
@@ -10,9 +11,7 @@ using static System.StringComparison;
 
 namespace Command;
 
-using System.ComponentModel.DataAnnotations;
-
-using Engine;
+using static Engine.Extension;
 
 using Event;
 
