@@ -8,12 +8,12 @@
 //#define SyzygyControls
 //#define ExampleOptionTypes
 
-using Command;
-
 namespace Engine;
 
+using Command;
+
 using static Board;
-using static Control.ControlName;
+using static Command.Control.ControlName;
 using static Logging.Logger;
 
 partial class GameState {

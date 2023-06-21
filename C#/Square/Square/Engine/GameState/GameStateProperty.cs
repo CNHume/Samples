@@ -29,6 +29,7 @@ using Test;
 
 using static Board;
 using static Position;
+
 //
 // Type Aliases:
 //

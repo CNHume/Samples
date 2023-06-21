@@ -14,11 +14,12 @@
 
 using System.Text;
 
+using static System.String;
+
 namespace Engine;
 
 using Exceptions;
 
-using static System.String;
 using static Logging.Logger;
 
 //

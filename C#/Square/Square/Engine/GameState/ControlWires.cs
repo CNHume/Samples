@@ -6,12 +6,12 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using Command;
-
 namespace Engine;
 
-using static Control;
-using static Control.ControlName;
+using Command;
+
+using static Command.Control;
+using static Command.Control.ControlName;
 
 partial class GameState {
   #region Methods

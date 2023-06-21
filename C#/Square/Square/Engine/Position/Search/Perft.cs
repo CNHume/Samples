@@ -9,12 +9,10 @@
 //#define DebugMove
 //#define VerifyMaterialMoves
 
-namespace Engine;
-
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;                      // For verifyMaterialMoves()
 using System.Text;
+
+namespace Engine;
 
 //
 // Type Aliases:
