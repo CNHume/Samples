@@ -107,65 +107,71 @@ partial class Parser : IDisposable {
    */
   static Parser() {
     codeTokenRules = new[] {
-          new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
-      };
+      new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
+    };
     opcodeDelimiterTokenRules = new[] {
-          new TokenRule(TokenRuleType.opcodeDelimiter, @"\s*;")
-      };
+      new TokenRule(TokenRuleType.opcodeDelimiter, @"\s*;")
+    };
     eolTokenRules = new[] {
-        new TokenRule(TokenRuleType.eol, @"\s*$")
-      };
+      new TokenRule(TokenRuleType.eol, @"\s*$")
+    };
     lineTokenRules = new[] {
-          new TokenRule(TokenRuleType.line, @".*$")
-      };
+      new TokenRule(TokenRuleType.line, @".*$")
+    };
     spaceTokenRule = new[] {
-          new TokenRule(TokenRuleType.space, @"\s+")
-      };
+      new TokenRule(TokenRuleType.space, @"\s+")
+    };
     verbTokenRules = new[] {
-          new TokenRule(TokenRuleType.verb,
-            @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
-          IgnoreCase)
-      };
+      new TokenRule(
+        TokenRuleType.verb,
+        @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
+        IgnoreCase)
+    };
     enableKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", IgnoreCase)
+    };
     goKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.goKeyword, @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b", IgnoreCase)
-      };
+      new TokenRule(
+        TokenRuleType.goKeyword,
+        @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b",
+        IgnoreCase)
+    };
     registerKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", IgnoreCase)
+    };
     setupTypeTokenRules = new[] {
-          new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", IgnoreCase)
+    };
     setupTokenRules = new[] {
-          new TokenRule(TokenRuleType.setup, @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
-      };
+      new TokenRule(
+        TokenRuleType.setup,
+        @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
+    };
     opcodeTokenRules = new[] {
-          new TokenRule(TokenRuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
-      };
+      new TokenRule(TokenRuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
+    };
     operandTokenRules = new[] {
-          new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
-          new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
-          new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", IgnoreCase),
-          new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
-      };
+      new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
+      new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
+      new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", IgnoreCase),
+      new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
+    };
     optionTokenRules = new[] {
-          new TokenRule(TokenRuleType.option, @"[a-zA-Z]\w*\b"),
-      };
+      new TokenRule(TokenRuleType.option, @"[a-zA-Z]\w*\b"),
+    };
     countTokenRules = new[] {
-          new TokenRule(TokenRuleType.hyphen, @"-"),
-          new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
-      };
+      new TokenRule(TokenRuleType.hyphen, @"-"),
+      new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
+    };
     unsignedTokenRules = new[] {
-          new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
-      };
+      new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
+    };
     movesKeyworTokendRules = new[] {
-          new TokenRule(TokenRuleType.movesKeyword, @"moves\b", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.movesKeyword, @"moves\b", IgnoreCase)
+    };
     nameKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.nameKeyword, @"name\b", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.nameKeyword, @"name\b", IgnoreCase)
+    };
     //
     // UCI moves are expressed in Pure Algebraic Coordinate Notation (PACN):
     // See https://www.chessprogramming.org/Algebraic_Chess_Notation
@@ -175,11 +181,11 @@ partial class Parser : IDisposable {
     // Lowercase is used to render captures "reversible" in SN.  SN uses uppercase for promotions, where PACN uses lowercase.
     //
     pacnMoveTokenRules = new[] {
-          new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", IgnoreCase)
+    };
     valueKeywordTokenRules = new[] {
-          new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", IgnoreCase)
-      };
+      new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", IgnoreCase)
+    };
   }
 
   [MemberNotNull(
@@ -353,12 +359,12 @@ partial class Parser : IDisposable {
     String? sName = default;
     while (true) {
       SpaceToken.Accept();
+      //[UCI]Accummulate space separated, compound names until a "value" keyword is found.
       if (valueKeywordToken.Accept()) {
         sKeyword = valueKeywordToken.Value;
         break;
       }
       else if (optionToken.Accept()) {
-        //[UCI]Accummulate space separated, compound names until a value keyword is found
         var sToken = optionToken.Value;
         sName = IsNullOrEmpty(sName) ? sToken : $"{sName} {sToken}";
       }
@@ -369,7 +375,7 @@ partial class Parser : IDisposable {
 
     //
     // The "value" Keyword is returned only to indicate whether or not it was present.
-    // Its own value was validated by valueKeywordRules.
+    // The Keyword was already validated by valueKeywordTokenRules.
     //
     return sKeyword;
   }
@@ -384,14 +390,15 @@ partial class Parser : IDisposable {
     return sValue;
   }
 
-  private static void rejectValue(String? sKeyword) {
+  private static void rejectOptionValue(String? sKeyword) {
     if (sKeyword != null)
       throw new ParseException($"Superfluous {sKeyword} keyword specified");
   }
 
   public void GetOptionCommand() {
     var sKeyword = parseOptionName(out Control? control);
-    rejectValue(sKeyword);
+    // Option names may be delimited by the "value" keyword.
+    rejectOptionValue(sKeyword);
     var setting = control?.AsSetting();
     var value = setting?.GetValue();
     if (value != null)
@@ -400,15 +407,17 @@ partial class Parser : IDisposable {
 
   public void ResetOptionCommand() {
     var sKeyword = parseOptionName(out Control? control);
-    rejectValue(sKeyword);
+    // Option names may be delimited by the "value" keyword.
+    rejectOptionValue(sKeyword);
     var setting = control?.AsSetting();
     setting?.SetDefault();
   }
 
   public void SetOptionCommand() {
     var sValueKeyword = parseOptionName(out Control? control);
+    var sValue = parseOptionValue(sValueKeyword);
     var setting = control?.AsSetting();
-    setting?.SetValue(parseOptionValue(sValueKeyword));
+    setting?.SetValue(sValue);
   }
 
   public Boolean ListCommand() {
@@ -459,7 +468,7 @@ partial class Parser : IDisposable {
         //
         wChess960 = (UInt16)position.State.SeededRandom.Next(960);
         position.SetFischerRandom(wChess960);
-        //[Note]A list of moves is disallowed, because the choice of position was random
+        //[Note]Subsequent moves cannot be specified from a random position.
       }
       break;
     case SetupType.StartPos:

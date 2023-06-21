@@ -26,11 +26,11 @@ using Eval = Int16;
 partial class GameState {
   #region Event Handlers
   protected void ClearHashButton_Click(Object? sender, EventArgs e) {
-    var button = (Button?)sender;
 #if !ThreadSafeTank
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 #endif
+    var button = (Button?)sender;
     XPTank.Clear(0, XPTank.LookupBuckets);
     QXPTank.Clear(0, QXPTank.LookupBuckets);
   }
@@ -44,20 +44,20 @@ partial class GameState {
   }
 
   protected void QXPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
+    var setting = (SpinSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
       QXPTank.Init(Convert.ToInt32(value));
   }
 
   protected void QXPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
+    var setting = (SpinSetting?)sender;
     //[Note]BucketsDefault must be updated before Tank.Init() is called
     var value = setting?.GetValue();
     if (value != null)
@@ -65,41 +65,41 @@ partial class GameState {
   }
 
   protected void XPLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
+    var setting = (SpinSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
       XPTank.Init(Convert.ToInt32(value));
   }
 
   protected void XPBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
-    //[Note]BucketsDefault must be updated before Tank.Init() is called
+    //[Note]BucketsDefault must be set before Tank.Init() is called
+    var setting = (SpinSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
       XPTank.BucketsDefault = Convert.ToUInt16(value);
   }
 
   protected void XPMLengthValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
+    var setting = (SpinSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
       XPMTank.Init(Convert.ToInt32(value));
   }
 
   protected void XPMBucketsValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
-    var setting = (SpinSetting?)sender;
     if (IsSearchInProgress)
       throw new PositionException("Search in progress");
 
+    var setting = (SpinSetting?)sender;
     //[Note]BucketsDefault must be updated before Tank.Init() is called
     var value = setting?.GetValue();
     if (value != null)

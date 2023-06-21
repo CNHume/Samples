@@ -209,7 +209,7 @@ public abstract class Setting : Control {
     if (sValue == null || !TryParse(sValue)) {
       var typeName = GetType().GetTypeName();
       throw new ControlException(
-        $@"Could not set a value of ""{sValue}"" for the {Name} {typeName} control");
+        $@"Could not set value of ""{sValue}"" for the {Name} {typeName} control");
     }
 
     // Step 4b/6 Fire Property Changed Event:
@@ -220,7 +220,7 @@ public abstract class Setting : Control {
     if (!TryParse(Default)) {
       var typeName = GetType().GetTypeName();
       throw new ControlException(
-        $@"Could not set a default of ""{Default}"" for the {Name} {typeName} control");
+        $@"Could not set default of ""{Default}"" for the {Name} {typeName} control");
     }
 
     // Step 4b/6 Fire Property Changed Event:
