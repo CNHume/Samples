@@ -966,6 +966,13 @@ static class Extension {
     var field = type.GetField(name);
     return field?.GetCustomAttribute<T>();
   }
+
+  public static String GetTypeName(this Type type) {
+    var displayName = type
+      .GetCustomAttributes(typeof(DisplayAttribute), true)
+      .FirstOrDefault() as DisplayAttribute;
+    return displayName?.Name ?? type.Name;
+  }
   #endregion                            // ParseEnumFromName Helpers
 
   public static TStruct? TryParseEnum<TStruct>(

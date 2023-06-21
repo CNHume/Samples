@@ -7,11 +7,10 @@
 //
 //#define ThreadSafeTank
 
-using Command;
-
 namespace Engine;
 
-using Event;
+using Command;
+using Command.Event;
 
 using Exceptions;
 

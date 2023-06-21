@@ -3,7 +3,6 @@
 //
 //[2013-09-08 CNHume]Created Class
 //
-using System.ComponentModel;
 using System.Text;
 
 using static System.String;
@@ -11,12 +10,15 @@ using static System.StringComparison;
 
 namespace Command;
 
+using System.ComponentModel.DataAnnotations;
+
 using Engine;
-using Engine.Event;
+
+using Event;
 
 using Exceptions;
 
-[DisplayName("button")]
+[Display(Name = "button")]
 public class Button : Control {
   #region Events
   public event EventHandler? Click;
@@ -38,7 +40,7 @@ public class Button : Control {
   #endregion                            // Methods
 }
 
-[DisplayName("check")]
+[Display(Name = "check")]
 public class CheckSetting : Setting {
   #region Properties
   public Boolean? Value { get; set; }
@@ -61,7 +63,7 @@ public class CheckSetting : Setting {
   #endregion                            // Methods
 }
 
-[DisplayName("spin")]
+[Display(Name = "spin")]
 public class SpinSetting : Setting {
   #region Fields
   public Int32? Min;
@@ -107,7 +109,7 @@ public class SpinSetting : Setting {
   #endregion                            // Methods
 }
 
-[DisplayName("combo")]
+[Display(Name = "combo")]
 public class ComboSetting : Setting {
   #region Fields
   public String[]? Items;               // Enumerates possible values for options of type combo
@@ -152,7 +154,7 @@ public class ComboSetting : Setting {
   #endregion                            // Methods
 }
 
-[DisplayName("string")]
+[Display(Name = "string")]
 public class StringSetting : Setting {
   #region Properties
   private String? Value { get; set; }
@@ -205,18 +207,22 @@ public abstract class Setting : Control {
   public abstract Object? GetValue();
 
   public void SetValue(String? sValue) {
-    if (sValue == null || !TryParse(sValue))
+    if (sValue == null || !TryParse(sValue)) {
+      var typeName = GetType().GetTypeName();
       throw new ControlException(
-        $@"Could not set a value of ""{sValue}"" for the {Name} {GetType()} control");
+        $@"Could not set a value of ""{sValue}"" for the {Name} {typeName} control");
+    }
 
     // Step 4b/6 Fire Property Changed Event:
     OnPropertyChanged(new PropertyChangedEventArgs());
   }
 
   public void SetDefault() {
-    if (!TryParse(Default))
+    if (!TryParse(Default)) {
+      var typeName = GetType().GetTypeName();
       throw new ControlException(
-        $@"Could not set a default of ""{Default}"" for the {Name} {GetType()} control");
+        $@"Could not set a default of ""{Default}"" for the {Name} {typeName} control");
+    }
 
     // Step 4b/6 Fire Property Changed Event:
     OnPropertyChanged(new PropertyChangedEventArgs());
@@ -276,11 +282,7 @@ public partial class Control {
 
   #region ToString() Override
   public override String ToString() {
-    var type = GetType();
-    var displayName = type
-      .GetCustomAttributes(typeof(DisplayNameAttribute), true)
-      .FirstOrDefault() as DisplayNameAttribute;
-    var typeName = displayName?.DisplayName ?? type.Name;
+    var typeName = GetType().GetTypeName();
 
     var sb = new StringBuilder("option")
       .Append(" name ")
