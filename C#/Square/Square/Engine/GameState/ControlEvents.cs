@@ -10,7 +10,7 @@
 namespace Engine;
 
 using Command;
-using Command.Event;
+using Command.Events;
 
 using Exceptions;
 

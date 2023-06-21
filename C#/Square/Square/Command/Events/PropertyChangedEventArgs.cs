@@ -4,7 +4,7 @@
 //[2023-06-20 CNHume]Created File
 //
 
-namespace Command.Event;
+namespace Command.Events;
 
 // Step 1/6: Define or choose an EventArgs Type derived from the EventArgs base type
 public class PropertyChangedEventArgs : EventArgs {

@@ -13,7 +13,7 @@ namespace Command;
 
 using static Engine.Extension;
 
-using Event;
+using Events;
 
 using Exceptions;
 

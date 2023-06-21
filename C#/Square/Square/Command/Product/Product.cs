@@ -17,9 +17,19 @@ static class Product {
   private const String sDefaultTitle = "square";
   #endregion
 
+  #region Properties
+  public static String? Title { get; }
+  public static String? CompanyName { get; }
+  public static String? Copyright { get; }
+  public static String? Description { get; }
+  public static String? ProductName { get; }
+  public static String? ProductVersion { get; }
+  #endregion                            // Properties
+
   #region Constructors
   static Product() {
-    var assy = Assembly.GetEntryAssembly();     // GetExecutingAssembly() may refer to the local DLL
+    // GetExecutingAssembly() may refer to the local DLL
+    var assy = Assembly.GetEntryAssembly();
     if (assy == null)
       return;
 
@@ -37,7 +47,7 @@ static class Product {
     ProductName = fvi.ProductName;
     ProductVersion = fvi.ProductVersion;
   }
-  #endregion
+  #endregion                            // Constructors
 
   #region Methods
   private static String? getTitle(Assembly assy) {
@@ -50,14 +60,5 @@ static class Product {
     else
       return title;
   }
-  #endregion
-
-  #region Properties
-  public static String? Title { get; private set; }
-  public static String? CompanyName { get; private set; }
-  public static String? Copyright { get; private set; }
-  public static String? Description { get; private set; }
-  public static String? ProductName { get; private set; }
-  public static String? ProductVersion { get; private set; }
-  #endregion
+  #endregion                            // Methods
 }
