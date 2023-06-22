@@ -28,7 +28,7 @@ partial class GameState {
   // 5) Wireup in the GameState() constructor; [ToDo]Automate this via reflection
   // 6) Use the Property, potentially reporting initial state in appendOptions()
   //
-  public static readonly Control[] Controls = {
+  public static readonly Control[] ControlPanel = {
     new Button {
       Name = Clear_Hash                 // Example had compound name of "Clear Hash"
     },

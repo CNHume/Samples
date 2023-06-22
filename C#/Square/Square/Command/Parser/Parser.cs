@@ -371,7 +371,7 @@ partial class Parser : IDisposable {
       else break;
     }
 
-    control = Control.FindControl(GameState.Controls, sName);
+    control = Control.FindControl(GameState.ControlPanel, sName);
 
     //
     // The "value" Keyword is returned only to indicate whether or not it was present.

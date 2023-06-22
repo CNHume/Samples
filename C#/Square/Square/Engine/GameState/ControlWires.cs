@@ -15,8 +15,8 @@ using static Command.Control.ControlName;
 
 partial class GameState {
   #region Methods
-  protected static Control? findControl(ControlName optionName) {
-    return FindControl(Controls, optionName);
+  protected static Control? findControl(ControlName controlName) {
+    return FindControl(ControlPanel, controlName);
   }
 
   #region Event Handler Subscriptions

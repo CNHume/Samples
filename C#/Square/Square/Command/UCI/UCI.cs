@@ -420,7 +420,7 @@ partial class UCI : ICommand {
   }
 
   private static void showOptions(Boolean bDebug) {
-    foreach (var uciControl in GameState.Controls) {
+    foreach (var uciControl in GameState.ControlPanel) {
       if (uciControl != null)
         if (bDebug || !uciControl.IsHidden)
           LogLine(uciControl.ToString());

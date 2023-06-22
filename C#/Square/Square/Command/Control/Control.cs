@@ -261,8 +261,8 @@ public partial class Control {
 
   #region Find Methods
   public static Control? FindControl(
-    IEnumerable<Control> controls, ControlName optionName) {
-    return controls.FirstOrDefault(control => control?.Name == optionName);
+    IEnumerable<Control> controls, ControlName controlName) {
+    return controls.FirstOrDefault(control => control?.Name == controlName);
   }
 
   public static Control FindControl(
