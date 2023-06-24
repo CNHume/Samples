@@ -7,6 +7,7 @@
 #define DebugMove
 //#define DebugMoveColor
 //#define DebugPlace
+//#define FilterIllegal
 //#define Magic
 #define TestDraw3
 //#define TraceVal
@@ -25,6 +26,7 @@ using static Logging.Logger;
 //
 using Depth = UInt16;
 using Eval = Int16;
+using Plane = UInt64;
 
 partial class Position : Board {
   #region Annotation Methods
@@ -61,7 +63,16 @@ partial class Position : Board {
 
     var vPiece = PieceIndex(uPiece);
     var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
-
+#if FilterIllegal
+    var qp = qpAtxTo;
+    while (qp != 0) {
+      var n = RemoveLo(ref qp, out Plane qpMask);
+      //
+      //[ToDo]Generate Pseudo Moves that can be made by vPiece to nTo from each square n;
+      // and remove any Illegal Moves from qpAtxTo here.
+      //
+    }
+#endif
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
       Debug.Assert(
@@ -92,18 +103,24 @@ partial class Position : Board {
 #else
       var qpFileAtx = AtxFile[vEmptyState];
 #endif
-      // Is there another piece of the type being moved, which attacks nTo from the same File?
+      //
+      // Is there another piece of the type being moved
+      // which can attack nTo from the same File?
+      //
       if ((qpAtxTo & qpFileAtx[nFrom]) == 0)
-        // File distinguishes the piece being moved: Rank should be hidden.
+        // File distinguishes the piece being moved: Rank can be hidden.
         move |= Move.HideRank;
       else {
         //[Note]AtxRank does not require Magic support.
         var qpRankAtx = AtxRank[vEmptyState];
-        // Is there another piece of the type being moved, which attacks nTo from the same Rank?
+        //
+        // Is there another piece of the type being moved
+        // which can attack nTo from the same Rank?
+        //
         if ((qpAtxTo & qpRankAtx[nFrom]) == 0)
-          // Rank distinguishes the piece being moved: File should be hidden.
+          // Rank distinguishes the piece being moved: File can be hidden.
           move |= Move.HideFile;
-        //else neither File nor Rank should be hidden.
+        //else neither File nor Rank can be hidden.
       }
     }
 

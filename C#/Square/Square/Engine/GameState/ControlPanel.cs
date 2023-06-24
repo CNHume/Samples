@@ -36,7 +36,7 @@ partial class GameState {
       Name = MultiPV,                   //[UCI]
       Default = "1",
       Min = 1,
-      Max = 12
+      Max = 50                          // High Max for proof of mate solutions
     },
     new SpinSetting {
       Name = QXPLength,
@@ -119,7 +119,7 @@ partial class GameState {
       Default = "false"
     },
     new CheckSetting {
-      Name = Futility,                  // Only an option for testing purposes
+      Name = Futility,
       Default = "true",
       IsHidden = false
     },
@@ -155,7 +155,7 @@ partial class GameState {
       Default = "true"
     },
     new CheckSetting {
-      Name = UCI_AnalyseMode,           //[UCI]This means the Engine is not playing a game
+      Name = UCI_AnalyseMode,           //[UCI]Engine is not playing a game
       Default = "false"
     },
     new CheckSetting {
