@@ -122,27 +122,29 @@ partial class Position : Board {
   [Conditional("FilterCandidates")]
   private void filterCandidates(
     ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture) {
+    Plane qpFilter = default;
     var moveTo = bCapture ?
       (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
       (Move)(uPiece << nPieceBit) | ToMove(nTo);
 
     var child = Push();                 // Push Position to make the moves
     try {
+      //
+      // Try candidates from each qpAtxTo square n,
+      // to filter Illegal Candidates from qpAtxTo:
+      //
       var qp = qpAtxTo;
       while (qp != 0) {
         var n = RemoveLo(ref qp, out Plane qpMask);
-
-        //
-        // Try moves made by vPiece to nTo from each candidate
-        // square n, filtering Illegal Candidates from qpAtxTo:
-        //
         if (!child.tryCandidate(moveTo | FromMove(n)))
-          qpAtxTo &= ~qpMask;
+          qpFilter |= qpMask;
       }
     }
     finally {
       Pop(ref child);                   // Pop Position used for this Ply
     }
+
+    qpAtxTo &= ~qpFilter;
   }
   #endregion
 
