@@ -63,32 +63,8 @@ partial class Position : Board {
 
     var vPiece = PieceIndex(uPiece);
     var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
-#if FilterCandidates
-    var moveTo = bCapture ?
-      (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
-      (Move)(uPiece << nPieceBit) | ToMove(nTo);
+    filterCandidates(ref qpAtxTo, nTo, uPiece, bCapture);       //[Conditional]
 
-    var child = Push();                 // Push Position to make the moves
-    try {
-      var qp = qpAtxTo;
-      while (qp != 0) {
-        //
-        // Try moves made by vPiece to nTo from each candidate square n:
-        //
-        var n = RemoveLo(ref qp, out Plane qpMask);
-        var bLegal = child.tryCandidate(moveTo | FromMove(n));
-
-        //
-        // Remove Illegal Candidates from qpAtxTo:
-        //
-        if (!bLegal)
-          qpAtxTo &= ~qpMask;
-      }
-    }
-    finally {
-      Pop(ref child);                   // Pop Position used for this Ply
-    }
-#endif
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
       Debug.Assert(
@@ -141,6 +117,32 @@ partial class Position : Board {
     }
 
     return move;
+  }
+
+  [Conditional("FilterCandidates")]
+  private void filterCandidates(
+    ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture) {
+    var moveTo = bCapture ?
+      (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
+      (Move)(uPiece << nPieceBit) | ToMove(nTo);
+
+    var child = Push();                 // Push Position to make the moves
+    try {
+      var qp = qpAtxTo;
+      while (qp != 0) {
+        var n = RemoveLo(ref qp, out Plane qpMask);
+
+        //
+        // Try moves made by vPiece to nTo from each candidate square n,
+        // filtering Illegal Candidates from qpAtxTo:
+        //
+        if (!child.tryCandidate(moveTo | FromMove(n)))
+          qpAtxTo &= ~qpMask;
+      }
+    }
+    finally {
+      Pop(ref child);                   // Pop Position used for this Ply
+    }
   }
   #endregion
 
