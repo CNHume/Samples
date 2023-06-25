@@ -39,6 +39,14 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private Boolean tryCandidate(Move move) {
+    resetMove();
+    MovePiece(ref move);
+    ToggleWTM();
+    return IsLegal();
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Boolean tryOrSkip(ref Move move) {
     return IsNullMove(move) ? nullMove() : tryMove(ref move);
   }

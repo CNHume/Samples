@@ -181,7 +181,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void toggleWTM() {
+  protected void ToggleWTM() {
     GamePly++;                          // WTM iff IsEven(GamePly)
     Hash ^= zobristTurn;
     //[Note]Friend and Foe must always correspond to the value of WTM()
@@ -212,7 +212,7 @@ partial class Board {
     updateRepetitionCycle();
 
     //[Note]toggleWTM() inverts the sense of Friend and Foe.
-    toggleWTM();
+    ToggleWTM();
 
     #region Update En Passant
     //
@@ -242,7 +242,7 @@ partial class Board {
     //[Note]Null Moves are neutral wrt the 50 move rule:
     // HalfMoveClock is neither advanced nor reset.
     //
-    toggleWTM();
+    ToggleWTM();
 
     setNullMade();                      // Prevent two consecutive Null Moves
 

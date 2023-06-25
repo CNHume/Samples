@@ -7,7 +7,7 @@
 #define DebugMove
 //#define DebugMoveColor
 //#define DebugPlace
-//#define FilterIllegal
+#define FilterCandidates
 //#define Magic
 #define TestDraw3
 //#define TraceVal
@@ -63,14 +63,30 @@ partial class Position : Board {
 
     var vPiece = PieceIndex(uPiece);
     var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
-#if FilterIllegal
-    var qp = qpAtxTo;
-    while (qp != 0) {
-      var n = RemoveLo(ref qp, out Plane qpMask);
-      //
-      //[ToDo]Generate Pseudo Moves that can be made by vPiece to nTo from each square n;
-      // and remove any Illegal Moves from qpAtxTo here.
-      //
+#if FilterCandidates
+    var moveTo = bCapture ?
+      (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
+      (Move)(uPiece << nPieceBit) | ToMove(nTo);
+
+    var child = Push();                 // Push Position to make the moves
+    try {
+      var qp = qpAtxTo;
+      while (qp != 0) {
+        //
+        // Try moves made by vPiece to nTo from each candidate square n:
+        //
+        var n = RemoveLo(ref qp, out Plane qpMask);
+        var bLegal = child.tryCandidate(moveTo | FromMove(n));
+
+        //
+        // Remove Illegal Candidates from qpAtxTo:
+        //
+        if (!bLegal)
+          qpAtxTo &= ~qpMask;
+      }
+    }
+    finally {
+      Pop(ref child);                   // Pop Position used for this Ply
     }
 #endif
     if (qpAtxTo == 0) {
