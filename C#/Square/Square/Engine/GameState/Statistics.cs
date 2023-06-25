@@ -117,7 +117,7 @@ partial class GameState {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public void IncMove(Boolean bLegal, Boolean bQxnt) {
+  public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
     if (bLegal) {
       if (bQxnt)
         AtomicIncrement(ref LegalMovesQxnt);

@@ -133,8 +133,8 @@ partial class Position : Board {
         var n = RemoveLo(ref qp, out Plane qpMask);
 
         //
-        // Try moves made by vPiece to nTo from each candidate square n,
-        // filtering Illegal Candidates from qpAtxTo:
+        // Try moves made by vPiece to nTo from each candidate
+        // square n, filtering Illegal Candidates from qpAtxTo:
         //
         if (!child.tryCandidate(moveTo | FromMove(n)))
           qpAtxTo &= ~qpMask;

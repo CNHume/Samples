@@ -22,6 +22,7 @@ using Exceptions;
 partial class Position : Board {
   #region Move Processor
   // ~32 MHz on old PC
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void resetMove() {
     if (Parent is null)
       throw new PositionException("resetMove() called at the Root Position");
@@ -43,7 +44,9 @@ partial class Position : Board {
     resetMove();
     MovePiece(ref move);
     ToggleWTM();
-    return IsLegal();
+    var bLegal = IsLegal();
+    State.IncMove(bLegal);              // Account for overhead
+    return bLegal;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -99,13 +102,13 @@ partial class Position : Board {
     if (!TestHash())
       DisplayCurrent(nameof(nullMove));
 #endif
-    var bLegal = !InCheck();
-    if (!bLegal)
+    var bInCheck = InCheck();
+    if (bInCheck)
       throw new BoardException("Illegal Null Move");
 
     GameState.AtomicIncrement(ref State.NullMoveTotal);
     State.MonitorBound(this);
-    return bLegal;
+    return !bInCheck;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

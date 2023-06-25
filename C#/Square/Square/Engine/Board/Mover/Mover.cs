@@ -216,8 +216,8 @@ partial class Board {
 
     #region Update En Passant
     //
-    // tryEP() is assessed after toggleWTM() when the
-    // roles of Friend and Foe have been inverted.
+    //[Note]tryEP() is called after toggleWTM()
+    // has inverted the roles of Friend and Foe.
     //
     if (vEPTarget.HasValue)
       tryEP(vEPTarget.Value);
