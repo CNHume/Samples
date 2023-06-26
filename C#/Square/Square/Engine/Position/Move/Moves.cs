@@ -12,6 +12,7 @@
 //#define TestHash
 //#define TurnTest
 
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -46,6 +47,7 @@ partial class Position : Board {
     ToggleWTM();
     var bLegal = IsLegal();
     State.IncMove(bLegal);              // Account for overhead
+    State.MonitorBound(this);
     return bLegal;
   }
 

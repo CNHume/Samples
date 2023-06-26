@@ -146,7 +146,7 @@ partial class Position : Board {
 
     qpAtxTo &= ~qpPinned;
   }
-  #endregion
+  #endregion                            // Annotation Methods
 
   #region MultiPV Support
   public Eval AddPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {

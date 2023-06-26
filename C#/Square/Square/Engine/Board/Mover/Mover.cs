@@ -121,6 +121,8 @@ partial class Board {
         (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
         (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
 
+      //[ToDo]Account for tryEP() overhead independently of IncMove().
+
       Friend.LowerPiece(vP6, nGuard);
 
       if (bLegal) {
@@ -200,7 +202,7 @@ partial class Board {
   //
   //[Test]Validate any change made here by running Perft Tests!
   //
-  protected void PlayMove(ref Move move) {
+  internal void PlayMove(ref Move move) {
     clrDraw0();
 
     // Avoid Overflow
@@ -217,7 +219,7 @@ partial class Board {
     #region Update En Passant
     //
     //[Note]tryEP() is called after toggleWTM()
-    // has inverted the roles of Friend and Foe.
+    // has inverted the sense of Friend and Foe.
     //
     if (vEPTarget.HasValue)
       tryEP(vEPTarget.Value);
