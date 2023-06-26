@@ -47,7 +47,12 @@ partial class Position : Board {
     ToggleWTM();
     var bLegal = IsLegal();
     State.IncMove(bLegal);              // Account for overhead
-    State.MonitorBound(this);
+
+    //
+    //[Note]Omit position to prevent display of currline,
+    // in case HeartbeatPeriodMS has expired
+    //
+    State.MonitorBound();
     return bLegal;
   }
 

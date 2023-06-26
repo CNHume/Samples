@@ -312,7 +312,7 @@ partial class GameState {
   //
   // Perform Heartbeat Tasks
   //
-  private void heartbeat(Double dElapsedMS, UInt64 qNodeDelta, Position position) {
+  private void heartbeat(Double dElapsedMS, UInt64 qNodeDelta, Position? position) {
     var sb = new StringBuilder("info");
     //[Test]GameState.displayRate(dElapsedMS, qNodeDelta);
     if (dElapsedMS != 0) {
@@ -320,21 +320,23 @@ partial class GameState {
       sb.AppendFormat($" nps {dRate:0}");
     }
 
-    if (IsShowingLine) {
+    if (position is not null && IsShowingLine) {
+      const Boolean bAbbreviate = false;
+
       sb.Append(" currline");
       if (!IsPure)
         sb.Append("-an");
 
       // Show search progress:
-      var bAbbreviate = false;
       var moves = position.MovesFromParent(MovePosition, bAbbreviate);
-      sb.AppendNumberedMoves(moves, MovePly, IsPure, position.Side, IsChess960)
-        .AppendLine()
-        .FlushLine();
+      sb.AppendNumberedMoves(moves, MovePly, IsPure, position.Side, IsChess960);
     }
+
+    sb.AppendLine()
+      .FlushLine();
   }
 
-  private void pollSearchTime(Position position, UInt64 qTotal) {
+  private void pollSearchTime(Position? position, UInt64 qTotal) {
     var lSearchMS = SearchTimer.ElapsedMilliseconds;
     var lElapsedMS = lSearchMS - LastBeatMS;
 
@@ -387,7 +389,7 @@ partial class GameState {
   //
   // Called whenever a move has been made, whether via [null|try]Move():
   //
-  public void MonitorBound(Position position) {
+  public void MonitorBound(Position? position = default) {
     //
     // If nodes are processed at ~1 MHz, a Polling Interval of 100K nodes
     // ensures that the resolution for HearbeatMS is ~100 msec:
