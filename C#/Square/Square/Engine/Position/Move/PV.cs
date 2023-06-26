@@ -122,7 +122,7 @@ partial class Position : Board {
   [Conditional("FilterCandidates")]
   private void filterCandidates(
     ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture) {
-    Plane qpFilter = default;
+    Plane qpPinned = default;
     var moveTo = bCapture ?
       (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
       (Move)(uPiece << nPieceBit) | ToMove(nTo);
@@ -130,21 +130,21 @@ partial class Position : Board {
     var child = Push();                 // Push Position to make the moves
     try {
       //
-      // Try candidates from each qpAtxTo square n,
-      // to filter Illegal Candidates from qpAtxTo:
+      // Try candidate moves from each square n
+      // in qpAtxTo to filter the pinned pieces:
       //
       var qp = qpAtxTo;
       while (qp != 0) {
-        var n = RemoveLo(ref qp, out Plane qpMask);
+        var n = RemoveLo(ref qp, out Plane qpCandidate);
         if (!child.tryCandidate(moveTo | FromMove(n)))
-          qpFilter |= qpMask;
+          qpPinned |= qpCandidate;
       }
     }
     finally {
       Pop(ref child);                   // Pop Position used for this Ply
     }
 
-    qpAtxTo &= ~qpFilter;
+    qpAtxTo &= ~qpPinned;
   }
   #endregion
 
@@ -281,8 +281,7 @@ partial class Position : Board {
         Debug.Assert(IsDefined(moveNoted), $"Undefined Move [{nameof(AbbreviateRefresh)}]");
         moveNoted = Move.NullMove;
       }
-
-      if (!State.IsPure)                // Standard Algebraic Notation (AN) supports abbreviation
+      else if (!State.IsPure)           // Standard Algebraic Notation (AN) supports abbreviation
         moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
       unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
