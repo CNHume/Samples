@@ -12,6 +12,7 @@
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Engine;
@@ -35,17 +36,9 @@ partial class GameState {
     freeCancelTimer();
 #endif
   }
+  #endregion                            // Interface Methods
 
-  private void freeCancelTimer() {
-    if (CancelTimer != null) {
-      CancelTimer.Dispose();
-      CancelTimer = default;
-    }
-
-    // Free CancellationTokenSource referenced by CancelTimer
-    freeCancellationToken();
-  }
-
+  #region Cancellation Token Methods
   private void freeCancellationToken() {
     //
     // The following is an improvement upon "Working with CancellationToken and Dispose",
@@ -58,7 +51,48 @@ partial class GameState {
       CancellationTokenSource = default;
     }
   }
-  #endregion
+
+  private void freeCancelTimer() {
+    if (CancelTimer != null) {
+      CancelTimer.Dispose();
+      CancelTimer = default;
+    }
+
+    // Free CancellationTokenSource referenced by CancelTimer
+    freeCancellationToken();
+  }
+
+  private void throwIfCancelled() {
+#if UseTask
+    if (CancellationTokenSource != null) {
+      //
+      // Test for Cancellation
+      //
+      if (CancellationToken.IsCancellationRequested) {
+#if DEBUG
+        Console.Beep();
+#endif
+        //
+        // Throw OperationCanceledException if cancellation has been requested for this token:
+        //
+        CancellationToken.ThrowIfCancellationRequested();
+      }
+    }
+#endif                                  // UseTask
+  }
+
+  private CancellationToken getCancellationToken() {
+    CancellationTokenSource = new CancellationTokenSource();
+    return CancellationTokenSource.Token;
+  }
+
+  private void cancel() {
+#if UseTask
+    if (CancellationTokenSource != null)
+      CancellationTokenSource.Cancel();
+#endif                                  // UseTask
+  }
+  #endregion                            // Cancellation Token Methods
 
   #region Task Management
   [MemberNotNull(nameof(MovePosition))]
@@ -294,7 +328,9 @@ partial class GameState {
       throw ex;
     }
   }
+  #endregion                            // Task Management
 
+  #region Move List Methods
   public void ListMovesFromParent(Position position, Position? parent, Boolean bPure, Boolean bAbbreviate = true) {
     var moves = position.MovesFromParent(parent, bAbbreviate);
     var sb = new StringBuilder();
@@ -306,21 +342,21 @@ partial class GameState {
   public void ListMovesFromRoot(Position position, Boolean bPure, Boolean bAbbreviate = true) {
     ListMovesFromParent(position, RootPosition, bPure, bAbbreviate);
   }
-  #endregion                            // Task Management
+  #endregion                            // Move List Methods
 
-  #region Heartbeat Methods
+  #region Move Count Methods
   //
   // Perform Heartbeat Tasks
   //
-  private void heartbeat(Double dElapsedMS, UInt64 qNodeDelta, Position? position) {
+  private void heartbeat(UInt64 qNodeDelta, Double dElapsedMS, Position? position) {
     var sb = new StringBuilder("info");
-    //[Test]GameState.displayRate(dElapsedMS, qNodeDelta);
+    //[Test]GameState.DisplayRate(qNodeDelta, dElapsedMS);
     if (dElapsedMS != 0) {
       var dRate = qNodeDelta * 1E3 / dElapsedMS;
       sb.AppendFormat($" nps {dRate:0}");
     }
 
-    if (position is not null && IsShowingLine) {
+    if (IsShowingLine && position is not null) {
       const Boolean bAbbreviate = false;
 
       sb.Append(" currline");
@@ -336,7 +372,7 @@ partial class GameState {
       .FlushLine();
   }
 
-  private void pollSearchTime(Position? position, UInt64 qTotal) {
+  private void pollSearchTimer(Position? position, UInt64 qTotal) {
     var lSearchMS = SearchTimer.ElapsedMilliseconds;
     var lElapsedMS = lSearchMS - LastBeatMS;
 
@@ -350,60 +386,21 @@ partial class GameState {
 
       if (IsHeartbeat) {
         var dElapsedMS = (Double)lElapsedMS;
-        heartbeat(dElapsedMS, qNodeDelta, position);
+        heartbeat(qNodeDelta, dElapsedMS, position);
       }
     }
   }
 
-  private void throwIfCancelled() {
-#if UseTask
-    if (CancellationTokenSource != null) {
-      //
-      // Test for Cancellation
-      //
-      if (CancellationToken.IsCancellationRequested) {
-#if DEBUG
-        Console.Beep();
-#endif
-        //
-        // Throw OperationCanceledException if cancellation has been requested for this token:
-        //
-        CancellationToken.ThrowIfCancellationRequested();
-      }
-    }
-#endif                                  // UseTask
-  }
-
-  private CancellationToken getCancellationToken() {
-    CancellationTokenSource = new CancellationTokenSource();
-    return CancellationTokenSource.Token;
-  }
-
-  private void cancel() {
-#if UseTask
-    if (CancellationTokenSource != null)
-      CancellationTokenSource.Cancel();
-#endif                                  // UseTask
-  }
-
   //
-  // Called whenever a move has been made, whether via [null|try]Move():
+  // Called for each move made by [null|try]Move() during a search.
+  // Position allows heartbeat() to display "currline".
   //
-  public void MonitorBound(Position? position = default) {
+  public void MonitorHeartbeat(Position? position = default) {
     //
-    // If nodes are processed at ~1 MHz, a Polling Interval of 100K nodes
-    // ensures that the resolution for HearbeatMS is ~100 msec:
+    // Assuming nodes are processed at >1 MHz, a Polling Interval
+    // of 100K nodes ensures a HearbeatMS resolution of <0.01 sec:
     //
     const UInt32 uIntervalNodeMax = 100 * 1000;
-
-    //
-    // Perform Bound Tests
-    //
-    AtomicIncrement(ref NodeTotal);
-    if (Bound.Nodes <= (UInt64)NodeTotal)
-      cancel();
-
-    throwIfCancelled();
 
     var qTotal = (UInt64)NodeTotal;
     var qIntervalDelta = qTotal - IntervalNodes;
@@ -413,8 +410,37 @@ partial class GameState {
     //
     if (qIntervalDelta > uIntervalNodeMax) {
       IntervalNodes = qTotal;
-      pollSearchTime(position, qTotal);
+      pollSearchTimer(position, qTotal);
     }
   }
-  #endregion                            // Heartbeat Methods
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
+    AtomicIncrement(ref NodeTotal);
+
+    if (bQxnt) {
+      if (bLegal)
+        AtomicIncrement(ref LegalMovesQxnt);
+      else
+        AtomicIncrement(ref IllegalMovesQxnt);
+    }
+    else if (bLegal)
+      AtomicIncrement(ref LegalMoves);
+    else
+      AtomicIncrement(ref IllegalMoves);
+
+    //
+    // Test Nodes Bound
+    //
+    if (Bound.Nodes <= (UInt64)NodeTotal) {
+      cancel();
+      throwIfCancelled();
+    }
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public void IncNullMove() {
+    AtomicIncrement(ref NullMoveTotal);
+  }
+  #endregion                            // Move Count Methods
 }

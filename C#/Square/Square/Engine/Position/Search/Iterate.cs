@@ -198,7 +198,7 @@ partial class Position : Board {
         var qTotal2 = (UInt64)State.NodeTotal;
         var qNodeDelta = qTotal2 - qTotal1;
 
-        GameState.displayRate(dElapsedMS, qNodeDelta);
+        GameState.DisplayRate(qNodeDelta, dElapsedMS);
 #if DisplayPrediction
         var qPredicted2 =
 #if !TestRegression                     // Elide final prediction
@@ -252,7 +252,7 @@ partial class Position : Board {
         sw.Stop();
         var dElapsedMS = (Double)sw.ElapsedMilliseconds;
         var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
-        GameState.displayRate(dElapsedMS, qNodeDelta);
+        GameState.DisplayRate(qNodeDelta, dElapsedMS);
 #if DisplayPrediction
         var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
         GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);

@@ -116,20 +116,6 @@ partial class GameState {
       PVDoubleMaxPly = wSearchPlies;
   }
 
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
-    if (bLegal) {
-      if (bQxnt)
-        AtomicIncrement(ref LegalMovesQxnt);
-      else
-        AtomicIncrement(ref LegalMoves);
-    }
-    else if (bQxnt)
-      AtomicIncrement(ref IllegalMovesQxnt);
-    else
-      AtomicIncrement(ref IllegalMoves);
-  }
-
   [Conditional("CountEvalTypes")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void IncEvalType(EvalType et) {
@@ -395,7 +381,7 @@ partial class GameState {
   }
 
   [Conditional("DisplayRate")]
-  public static void displayRate(Double dElapsedMS, UInt64 qNodeDelta) {
+  public static void DisplayRate(UInt64 qNodeDelta, Double dElapsedMS) {
     if (dElapsedMS == 0) {
       LogInfo(LogLevel.data, $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
     }

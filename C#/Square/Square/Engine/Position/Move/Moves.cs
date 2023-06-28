@@ -47,12 +47,6 @@ partial class Position : Board {
     ToggleWTM();
     var bLegal = IsLegal();
     State.IncMove(bLegal);              // Account for overhead
-
-    //
-    //[Note]Omit position to prevent display of currline,
-    // in case HeartbeatPeriodMS has expired
-    //
-    State.MonitorBound();
     return bLegal;
   }
 
@@ -95,7 +89,7 @@ partial class Position : Board {
     }
 
     State.IncMove(bLegal, bQxnt);
-    State.MonitorBound(this);           // Pass position so heartbeat() can build getCurrentMoves()
+    State.MonitorHeartbeat(this);
     return bLegal;
   }
 
@@ -113,8 +107,8 @@ partial class Position : Board {
     if (bInCheck)
       throw new BoardException("Illegal Null Move");
 
-    GameState.AtomicIncrement(ref State.NullMoveTotal);
-    State.MonitorBound(this);
+    State.IncNullMove();
+    State.MonitorHeartbeat(this);
     return !bInCheck;
   }
 
