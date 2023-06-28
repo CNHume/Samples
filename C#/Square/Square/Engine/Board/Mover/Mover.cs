@@ -121,7 +121,7 @@ partial class Board {
         (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
         (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
 
-      //[ToDo]Account for tryEP() overhead independently of IncMove().
+      State.IncMove(bLegal);            // Account for overhead
 
       Friend.LowerPiece(vP6, nGuard);
 
