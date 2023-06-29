@@ -286,15 +286,15 @@ partial class UCI {
   //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
   //
   "8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Grenke Chess Classic R6 2018-04-06
-  // [2023-06-15 19-ply in 5:02.5 @1.267 MHz over 383.3 Mnode] eval -2.35 after:
+  // [2023-06-29 19-ply in 6:16.7 @1.203 MHz over 453.1 Mnode] eval -2.35 after:
   // 64... Kd2 65. Bxa6 Nd3+! 66. Kb1 Ne1 67. Bxb5 Nxc2 (67... Kxc3 68. a4 Nxc2 69. Kc1 Nd4 70. Be8 Nb3+ 71. Kd1 d4 72. Ke2 d3+ 73. Ke1 Kd4)
   // 68. Ba4 Ne3 69. Kb2 Kd3 70. Be8 Nd1+ 71. Kc1 Nxc3 72. Bg6+ Ke3 73. Kc2 d4 74. Bf7 Nb5 75. a4 d3+ 76. Kb1
-  // [2023-06-15 21-ply in 57:39 @1.337 MHz over 4.6262 Gnode] eval -3.25 after:
-  // 64... a5 65. Ba6 Ne2 66. Bxb5 Kd2 67. Bc6 Nxc3 68. Be8 Nd1+ 69. Kb1 Ne3 70. Bg6 Kc3 71. Bh7 d4 72. Bg6 d3 73. Bxd3 cxd3 74. cxd3 Nf1 75. Ka1 Kxd3
+  // [2023-06-29 21-ply in 30:19 @1.147 MHz over 2.086 Gnode] eval -3.25 after:
+  // 64... a5 65. Ba6 Kd2 66. Bxb5 Ne2 67. Be8 Nxc3 68. Bf7 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Be4 Kc3 72. Kc1 d3 73. cxd3 cxd3 74. Bxd3 Kxd3 75. a4
   // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5
   //"8/8/8/1B1p4/2p5/P1P5/2Pk4/1K2n3 b - - 0 67"; // Caruana v Hou Yifan Grenke Chess Classic Line
-  //[2023-06-13 20-ply in 18:01 @1.235 MHz over 1.335 Gnode] eval -6.7 after:
-  // 67... Kxc3 68. Bc6 d4 69. Be4 Kd2 70. a4 Nxc2 71. a5 Nb4 72. Kb2 Na6 73. Ka2 c3 74. Ka2b3 d4d3 75. Be4b7
+  //[2023-06-29 20-ply in 17:23 @1.128 MHz over 1.177 Gnode] eval -7.55 after:
+  // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Be8 Nb3+ 71. Kd1 Kb2 72. Ke2 d4 73. Kf2 Nc5 74. Bg6 d3 75. a5 d2 76. Bh5 c3 77. a6 Nxa6 78. Bf3 Na6b4
   //
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:
   // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
