@@ -221,12 +221,12 @@ partial class Position : Board {
     staticTotal = Position.EvalUndefined;
   }
 
-  private Eval staticEval(out PawnPosition? pp) {       //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
+  private Eval staticEval(out PawnPosition? pp) {   //[New]~9.666 MHz vs ~13.333 MHz w/o EvalRookBehindPasser
     pp = default;
     if (IsInsufficient())
       return contempt();
 
-    GameState.AtomicIncrement(ref State.TotalEvals);    // vs FullEvaluations
+    GameState.AtomicIncrement(ref State.Evals);     // vs FullEvals
 
     setEndGameFlags();
 

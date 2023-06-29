@@ -91,14 +91,14 @@ partial class GameState {
 #if CountCapturedPiece
   public Int64 CapturedPieceTotal;      // For Capture or Static Evaluation
 #endif
-  public Int64 NullMovePruneTotal;
-  public Int64 NullMoveTotal;
-  public Int64 NodeTotal;               // IllegalMoves + LegalMoves + NullMoveTotal
+  public Int64 NullMovesPruned;
+  public Int64 NullMoves;
+  public Int64 Nodes;                   // Nodes == MoveTotal + NullMoves
   public Int64 IllegalMoves;
   public Int64 IllegalMovesQxnt;
   public Int64 LegalMoves;
   public Int64 LegalMovesQxnt;
-  public Int64 TotalEvals;
+  public Int64 Evals;
   public Int64 FullEvals;
   public Int64 ExactCount;
   public Int64 UpperCount;

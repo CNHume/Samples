@@ -32,9 +32,9 @@ partial class Position : Board {
     // Reset En Passant state just prior to calling PlayMove()
     ResetEP();
 #if DebugNodeTotal
-    var qNodeTotal = State.MoveTotal + State.NullMoveTotal;
-    if (State.NodeTotal != qNodeTotal) {
-      Debug.Assert(State.NodeTotal == qNodeTotal, "NodeTotal != MoveTotal + NullMoveTotal");
+    var qNodes = State.MoveTotal + State.NullMoves;
+    if (State.Nodes != qNodes) {
+      Debug.Assert(State.Nodes == qNodes, "Nodes != MoveTotal + NullMoves");
       DisplayCurrent(nameof(resetMove));
     }
 #endif

@@ -429,7 +429,7 @@ partial class Position : Board {
   private void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
     if (IsTrace()) {
       var sb = new StringBuilder();
-      sb.AppendFormat($"Trace #{State.NodeTotal}: {sLabel}");
+      sb.AppendFormat($"Trace #{State.Nodes}: {sLabel}");
       if (mValue.HasValue) {
         var mEval = ReflectValue(WTM(), (Eval)mValue);
         sb.Append(" Eval");

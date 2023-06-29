@@ -171,7 +171,7 @@ partial class Position : Board {
     var sw = State.IterationTimer;
     sw.Start();
 
-    var qTotal1 = (UInt64)State.NodeTotal;
+    var qTotal1 = (UInt64)State.Nodes;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
 #endif
@@ -195,7 +195,7 @@ partial class Position : Board {
       if (UCI.IsDebug) {
         sw.Stop();
         var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-        var qTotal2 = (UInt64)State.NodeTotal;
+        var qTotal2 = (UInt64)State.Nodes;
         var qNodeDelta = qTotal2 - qTotal1;
 
         GameState.DisplayRate(qNodeDelta, dElapsedMS);
@@ -228,7 +228,7 @@ partial class Position : Board {
     var sw = State.IterationTimer;
     sw.Start();
 
-    var qTotal1 = State.NodeTotal;
+    var qTotal1 = State.Nodes;
 #if DisplayPrediction
     var qPredicted1 = 0UL;
 #endif                                  // DisplayPrediction
@@ -258,7 +258,7 @@ partial class Position : Board {
         GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
         qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
-        qTotal1 = State.NodeTotal;
+        qTotal1 = State.Nodes;
         sw.Restart();
       }
 #endif                                  // DisplayDepth

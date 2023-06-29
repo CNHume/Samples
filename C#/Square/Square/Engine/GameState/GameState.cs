@@ -204,20 +204,20 @@ partial class GameState : IDisposable {
     PXPMemo.Counts.Clear();
     CXPMemo.Counts.Clear();
 
-    NodeTotal = PseudoMoveTotal =
+    Nodes = PseudoMoveTotal =
       RepetitionPlies = RepetitionSearches =
       PinSkipTotal = QuietSkipTotal =
 #if CountCapturedPiece
         CapturedPieceTotal =
 #endif
-      NullMoveTotal = NullMovePruneTotal =
+      NullMoves = NullMovesPruned =
       DeltaPruneTotal = FutilePruneTotal = OccamPruneTotal =
       CheckExtCount = ThreatExtCount = SingularExtCount =
       DrawTotal = MateTotal =
       WhiteSearchedPositionCount = WhiteEarlyMoveTotal =
       BlackSearchedPositionCount = BlackEarlyMoveTotal =
       PVDoubleTotal = PVSimpleTotal = PVSingleTotal = ZWSimpleTotal =
-      ReducedTotal = TotalEvals = FullEvals =
+      ReducedTotal = Evals = FullEvals =
       LowerCount = UpperCount = ExactCount =
 #if QuiescentTryXP
       XPGetHitsQxnt = XPGetReadsQxnt =

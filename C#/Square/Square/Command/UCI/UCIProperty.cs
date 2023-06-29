@@ -48,6 +48,11 @@ partial class UCI {
   //
   //"";
   //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
+  //"3Q4/8/7p/5p1P/2p2P2/3b4/K1pk4/8 w - - 0 1"; // Anand v Carlsen Stalemate Global Chess League 2023-06-28 [6-ply over 25.448 Knode] eval 0.0 after:
+  // 1. Qb6 c1=Q 2. Qe3+ Kd1 3. Qe2+ Bxe2 stalemate
+  // moves d8d4
+  //"8/8/7p/5p1P/2pQ1P2/3b4/K1pk4/8 b - - 0 1"; // Anand v Carlsen Remarkable Endgame Global Chess League 2023-06-28 [2023-06-28 16-ply in 4:01.28 @1.2525 MHz over 302.21 Mnode] eval -4.5 after:
+  // 1... c1=N+ 2. Ka3 c3 3. Qb4 Ne2 4. Qa5 Be4 5. Ka2 Ke1 6. Ka3 Kf2 7. Qb6+ Ke1 8. Qe3 c3c2
   //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
   // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
   // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1

@@ -115,7 +115,7 @@ partial class GameState {
 
       SearchTimer.Reset();
       IntervalNodes =
-        HeartbeatNodes = (UInt64)NodeTotal;
+        HeartbeatNodes = (UInt64)Nodes;
       LastBeatMS = SearchTimer.ElapsedMilliseconds;
 
       if (position.IsLegal()) {
@@ -402,7 +402,7 @@ partial class GameState {
     //
     const UInt32 uIntervalNodeMax = 100 * 1000;
 
-    var qTotal = (UInt64)NodeTotal;
+    var qTotal = (UInt64)Nodes;
     var qIntervalDelta = qTotal - IntervalNodes;
 
     //
@@ -416,7 +416,7 @@ partial class GameState {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
-    AtomicIncrement(ref NodeTotal);
+    AtomicIncrement(ref Nodes);
 
     if (bQxnt) {
       if (bLegal)
@@ -432,7 +432,7 @@ partial class GameState {
     //
     // Test Nodes Bound
     //
-    if (Bound.Nodes <= (UInt64)NodeTotal) {
+    if (Bound.Nodes <= (UInt64)Nodes) {
       cancel();
       throwIfCancelled();
     }
@@ -440,7 +440,7 @@ partial class GameState {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void IncNullMove() {
-    AtomicIncrement(ref NullMoveTotal);
+    AtomicIncrement(ref NullMoves);
   }
   #endregion                            // Move Count Methods
 }

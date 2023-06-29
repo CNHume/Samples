@@ -687,7 +687,7 @@ partial class Position : Board {
             (Eval)(-child2.quiet((Eval)(-mBeta2), (Eval)(-mAlpha2)));
           if (mBeta2 <= mValue2) {      // Null Move did not improve mValue: Prune
             traceVal("Null Prune", mValue2);    //[Conditional]
-            AtomicIncrement(ref State.NullMovePruneTotal);
+            AtomicIncrement(ref State.NullMovesPruned);
             if (wDepth < wVerifyDepthMin)
               mPrunedValue = mValue2;
             else {                      //[ToDo]Improve verification
