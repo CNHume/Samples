@@ -348,11 +348,11 @@ partial class GameState {
   //
   // Perform Heartbeat Tasks
   //
-  private void heartbeat(UInt64 qNodeDelta, Double dElapsedMS, Position? position) {
+  private void heartbeat(UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
     var sb = new StringBuilder("info");
-    //[Test]GameState.DisplayRate(qNodeDelta, dElapsedMS);
+    //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     if (dElapsedMS != 0) {
-      var dRate = qNodeDelta * 1E3 / dElapsedMS;
+      var dRate = qNodesDelta * 1E3 / dElapsedMS;
       sb.AppendFormat($" nps {dRate:0}");
     }
 
@@ -372,7 +372,7 @@ partial class GameState {
       .FlushLine();
   }
 
-  private void pollSearchTimer(Position? position, UInt64 qTotal) {
+  private void pollSearchTimer(Position? position, UInt64 qNodes) {
     var lSearchMS = SearchTimer.ElapsedMilliseconds;
     var lElapsedMS = lSearchMS - LastBeatMS;
 
@@ -380,13 +380,13 @@ partial class GameState {
     // Test for Heartbeat Due
     //
     if (lElapsedMS > HeartbeatPeriodMS) {
-      var qNodeDelta = qTotal - HeartbeatNodes;
-      HeartbeatNodes = qTotal;
+      var qNodesDelta = qNodes - HeartbeatNodes;
+      HeartbeatNodes = qNodes;
       LastBeatMS = lSearchMS;
 
       if (IsHeartbeat) {
         var dElapsedMS = (Double)lElapsedMS;
-        heartbeat(qNodeDelta, dElapsedMS, position);
+        heartbeat(qNodesDelta, dElapsedMS, position);
       }
     }
   }
@@ -402,15 +402,15 @@ partial class GameState {
     //
     const UInt32 uIntervalNodeMax = 100 * 1000;
 
-    var qTotal = (UInt64)Nodes;
-    var qIntervalDelta = qTotal - IntervalNodes;
+    var qNodes = (UInt64)Nodes;
+    var qIntervalDelta = qNodes - IntervalNodes;
 
     //
     // Test whether the Polling Interval has elapsed:
     //
     if (qIntervalDelta > uIntervalNodeMax) {
-      IntervalNodes = qTotal;
-      pollSearchTimer(position, qTotal);
+      IntervalNodes = qNodes;
+      pollSearchTimer(position, qNodes);
     }
   }
 

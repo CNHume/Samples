@@ -381,26 +381,26 @@ partial class GameState {
   }
 
   [Conditional("DisplayRate")]
-  public static void DisplayRate(UInt64 qNodeDelta, Double dElapsedMS) {
+  public static void DisplayRate(UInt64 qNodesDelta, Double dElapsedMS) {
     if (dElapsedMS == 0) {
-      LogInfo(LogLevel.data, $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
+      LogInfo(LogLevel.data, $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
     }
     else {
-      var dRate = qNodeDelta / dElapsedMS;
+      var dRate = qNodesDelta / dElapsedMS;
       LogInfo(LogLevel.data,
-              $"Searched {qNodeDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
+              $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
     }
   }
 
   [Conditional("DisplayPrediction")]
   public static void DisplayPrediction(Double dElapsedMS,
-                                       UInt64 qNodeDelta,
+                                       UInt64 qNodesDelta,
                                        UInt64 qPredicted1,
                                        UInt64 qPredicted2) {
     if (dElapsedMS == 0) {
       // Current Iteration
       if (qPredicted1 > 0) {
-        var dError = (Double)qPredicted1 / qNodeDelta - 1;
+        var dError = (Double)qPredicted1 / qNodesDelta - 1;
         LogInfo(LogLevel.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
       }
 
@@ -412,12 +412,12 @@ partial class GameState {
     else {
       // Current Iteration
       if (qPredicted1 > 0) {
-        var dError = (Double)qPredicted1 / qNodeDelta - 1;
+        var dError = (Double)qPredicted1 / qNodesDelta - 1;
         LogInfo(LogLevel.data, $"Predicted {qPredicted1:n0} moves, Relative Error = {100 * dError:n1}%");
       }
 
       // Next Iteration
-      var dRate = qNodeDelta / dElapsedMS;
+      var dRate = qNodesDelta / dElapsedMS;
       if (qPredicted2 > 0) {
         var dPredictedSec = qPredicted2 / dRate;
         LogInfo(LogLevel.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1000:0.0##} sec");

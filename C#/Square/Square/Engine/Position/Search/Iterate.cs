@@ -171,7 +171,7 @@ partial class Position : Board {
     var sw = State.IterationTimer;
     sw.Start();
 
-    var qTotal1 = (UInt64)State.Nodes;
+    var qNodes1 = (UInt64)State.Nodes;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
 #endif
@@ -195,21 +195,21 @@ partial class Position : Board {
       if (UCI.IsDebug) {
         sw.Stop();
         var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-        var qTotal2 = (UInt64)State.Nodes;
-        var qNodeDelta = qTotal2 - qTotal1;
+        var qNodes2 = (UInt64)State.Nodes;
+        var qNodesDelta = qNodes2 - qNodes1;
 
-        GameState.DisplayRate(qNodeDelta, dElapsedMS);
+        GameState.DisplayRate(qNodesDelta, dElapsedMS);
 #if DisplayPrediction
         var qPredicted2 =
 #if !TestRegression                     // Elide final prediction
           vDepth == vDepthLimit ? 0UL :
 #endif
-          State.Predict(vStartDepth, vDepth, qNodeDelta);
+          State.Predict(vStartDepth, vDepth, qNodesDelta);
 
-        GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
+        GameState.DisplayPrediction(dElapsedMS, qNodesDelta, qPredicted1, qPredicted2);
         qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
-        qTotal1 = qTotal2;
+        qNodes1 = qNodes2;
         sw.Restart();
       }
 #endif                                  // DisplayDepth
@@ -228,7 +228,7 @@ partial class Position : Board {
     var sw = State.IterationTimer;
     sw.Start();
 
-    var qTotal1 = State.Nodes;
+    var qNodes1 = State.Nodes;
 #if DisplayPrediction
     var qPredicted1 = 0UL;
 #endif                                  // DisplayPrediction
@@ -251,14 +251,14 @@ partial class Position : Board {
       if (UCI.IsDebug) {
         sw.Stop();
         var dElapsedMS = (Double)sw.ElapsedMilliseconds;
-        var qNodeDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
-        GameState.DisplayRate(qNodeDelta, dElapsedMS);
+        var qNodesDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
+        GameState.DisplayRate(qNodesDelta, dElapsedMS);
 #if DisplayPrediction
-        var qPredicted2 = State.Predict(0, vDepth, qNodeDelta);
-        GameState.DisplayPrediction(dElapsedMS, qNodeDelta, qPredicted1, qPredicted2);
+        var qPredicted2 = State.Predict(0, vDepth, qNodesDelta);
+        GameState.DisplayPrediction(dElapsedMS, qNodesDelta, qPredicted1, qPredicted2);
         qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
-        qTotal1 = State.Nodes;
+        qNodes1 = State.Nodes;
         sw.Restart();
       }
 #endif                                  // DisplayDepth
