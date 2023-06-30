@@ -83,21 +83,21 @@ partial class GameState {
   public Int64[] PVDoubleCount;
   public Ply PVDoubleMinPly;
   public Ply PVDoubleMaxPly;
-  public Int64 PseudoMoveTotal;
+  public Int64 PseudoMoves;
   public Int64 PinSkipTotal;
   public Int64 QuietSkipTotal;
   public Int64 RepetitionSearches;
   public Int64 RepetitionPlies;
 #if CountCapturedPiece
-  public Int64 CapturedPieceTotal;      // For Capture or Static Evaluation
+  public Int64 CapturedPieces;          // For Capture or Static Evaluation
 #endif
-  public Int64 NullMovesPruned;
+  public Int64 PrunedNullMoves;
   public Int64 NullMoves;
-  public Int64 Nodes;                   // Nodes == MoveTotal + NullMoves
+  public Int64 Nodes;                   // Nodes == TotalMoves + NullMoves
   public Int64 IllegalMoves;
-  public Int64 IllegalMovesQxnt;
+  public Int64 IllegalQxntMoves;
   public Int64 LegalMoves;
-  public Int64 LegalMovesQxnt;
+  public Int64 LegalQxntMoves;
   public Int64 Evals;
   public Int64 FullEvals;
   public Int64 ExactCount;
@@ -191,20 +191,20 @@ partial class GameState {
     }
   }
 
-  public Int64 LegalMoveTotal {
-    get { return LegalMoves + LegalMovesQxnt; }
+  public Int64 TotalLegalMoves {
+    get { return LegalMoves + LegalQxntMoves; }
   }
 
-  public Int64 IllegalMoveTotal {
-    get { return IllegalMoves + IllegalMovesQxnt; }
+  public Int64 TotalIllegalMoves {
+    get { return IllegalMoves + IllegalQxntMoves; }
   }
 
-  public Int64 MoveTotal {
-    get { return IllegalMoveTotal + LegalMoveTotal; }
+  public Int64 TotalMoves {
+    get { return TotalIllegalMoves + TotalLegalMoves; }
   }
 
-  public Int64 MoveTotalQxnt {
-    get { return IllegalMovesQxnt + LegalMovesQxnt; }
+  public Int64 TotalQxntMoves {
+    get { return IllegalQxntMoves + LegalQxntMoves; }
   }
   #endregion                            // Properties
 }

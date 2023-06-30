@@ -204,13 +204,13 @@ partial class GameState : IDisposable {
     PXPMemo.Counts.Clear();
     CXPMemo.Counts.Clear();
 
-    Nodes = PseudoMoveTotal =
+    Nodes = PseudoMoves =
       RepetitionPlies = RepetitionSearches =
       PinSkipTotal = QuietSkipTotal =
 #if CountCapturedPiece
-        CapturedPieceTotal =
+        CapturedPieces =
 #endif
-      NullMoves = NullMovesPruned =
+      NullMoves = PrunedNullMoves =
       DeltaPruneTotal = FutilePruneTotal = OccamPruneTotal =
       CheckExtCount = ThreatExtCount = SingularExtCount =
       DrawTotal = MateTotal =
@@ -222,7 +222,7 @@ partial class GameState : IDisposable {
 #if QuiescentTryXP
       XPGetHitsQxnt = XPGetReadsQxnt =
 #endif
-      LegalMoves = LegalMovesQxnt = IllegalMoves = IllegalMovesQxnt = 0L;
+      LegalMoves = LegalQxntMoves = IllegalMoves = IllegalQxntMoves = 0L;
 
     clearNodeDelta();                   // See DisplayPrediction
     clearEarlyMoveCounts();             //[Conditional]

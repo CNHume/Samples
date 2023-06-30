@@ -420,9 +420,9 @@ partial class GameState {
 
     if (bQxnt) {
       if (bLegal)
-        AtomicIncrement(ref LegalMovesQxnt);
+        AtomicIncrement(ref LegalQxntMoves);
       else
-        AtomicIncrement(ref IllegalMovesQxnt);
+        AtomicIncrement(ref IllegalQxntMoves);
     }
     else if (bLegal)
       AtomicIncrement(ref LegalMoves);

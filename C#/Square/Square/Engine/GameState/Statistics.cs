@@ -57,7 +57,7 @@ partial class GameState {
 
   // Increment # of Pseudo Moves by # Generated
   public Int32 IncPseudoMoveTotal(Int32 nCount) {
-    AtomicAdd(ref PseudoMoveTotal, nCount);
+    AtomicAdd(ref PseudoMoves, nCount);
     return nCount;
   }
 
@@ -150,7 +150,7 @@ partial class GameState {
 
   [Conditional("CountNodes")]
   private void displayNodeCounts(Double dElapsedMS) {
-    Debug.Assert(Nodes == MoveTotal + NullMoves, "Inconsistent Node Total");
+    Debug.Assert(Nodes == TotalMoves + NullMoves, "Inconsistent Node Total");
 
     if (dElapsedMS == 0)
       LogInfo(LogLevel.data, $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
@@ -164,26 +164,26 @@ partial class GameState {
   [Conditional("TotalMoves")]
   private void displayPseudoMoveTotals() {
     LogInfo(LogLevel.data);
-    LogInfo(LogLevel.data, $"Pseudo Moves = {PseudoMoveTotal:n0}; Pins Skipped = {PinSkipTotal:n0}");
+    LogInfo(LogLevel.data, $"Pseudo Moves = {PseudoMoves:n0}; Pins Skipped = {PinSkipTotal:n0}");
 
-    if (MoveTotal != 0) {
-      if (MoveTotalQxnt != 0) {         // Qxnt Moves do not occur in SearchMode.Perft
-        var dQxntPercent = 100.0 * MoveTotalQxnt / MoveTotal;
+    if (TotalMoves != 0) {
+      if (TotalQxntMoves != 0) {        // Qxnt Moves do not occur in SearchMode.Perft
+        var dQxntPercent = 100.0 * TotalQxntMoves / TotalMoves;
         LogInfo(LogLevel.data,
-                $"Qxnt Moves = {MoveTotalQxnt:n0}; Move Total = {MoveTotal:n0}; Qxnt Moves/Move Total = {dQxntPercent:n2}%");
+                $"Qxnt Moves = {TotalQxntMoves:n0}; Move Total = {TotalMoves:n0}; Qxnt Moves/Move Total = {dQxntPercent:n2}%");
       }
 
-      var dIllegalPercent = 100.0 * IllegalMoveTotal / MoveTotal;
+      var dIllegalPercent = 100.0 * TotalIllegalMoves / TotalMoves;
       LogInfo(LogLevel.data,
-              $"Illegal Moves = {IllegalMoveTotal:n0}; Illegal Moves/Move Total = {dIllegalPercent:n2}%");
+              $"Illegal Moves = {TotalIllegalMoves:n0}; Illegal Moves/Move Total = {dIllegalPercent:n2}%");
     }
 #if CountCapturedPiece
-    if (PseudoMoveTotal == 0)
-      LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieceTotal:n0}");
+    if (PseudoMoves == 0)
+      LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieces:n0}");
     else {
-      var dCapturedPiecePercent = 100.0 * CapturedPieceTotal / PseudoMoveTotal;
+      var dCapturedPiecePercent = 100.0 * CapturedPieces / PseudoMoves;
       LogInfo(Level.data,
-              $"getPieceIndex() Calls = {CapturedPieceTotal:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
+              $"getPieceIndex() Calls = {CapturedPieces:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
     }
 #endif
   }
@@ -273,9 +273,9 @@ partial class GameState {
             $"Pruning: Delta = {DeltaPruneTotal:n0}; Futile = {FutilePruneTotal:n0}; Occam = {OccamPruneTotal:n0}");
 
     if (NullMoves != 0) {
-      var dNullMovePrunePercent = 100.0 * NullMovesPruned / NullMoves;
+      var dNullMovePrunePercent = 100.0 * PrunedNullMoves / NullMoves;
       LogInfo(LogLevel.data,
-              $"Pruned {NullMovesPruned:n0} [{dNullMovePrunePercent:n1}%] of {NullMoves:n0} Null Moves");
+              $"Pruned {PrunedNullMoves:n0} [{dNullMovePrunePercent:n1}%] of {NullMoves:n0} Null Moves");
     }
   }
 
@@ -283,18 +283,18 @@ partial class GameState {
   private void displayEvals() {
     LogInfo(LogLevel.data);
 
-    if (LegalMoveTotal == 0) {
+    if (TotalLegalMoves == 0) {
       var qStaticEvals = Evals - FullEvals;
       LogInfo(LogLevel.data,
-              $"Full Evals {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Stat Evals = {qStaticEvals:n0}");
+              $"Full Evals {FullEvals:n0}; Legal Moves = {TotalLegalMoves:n0}; Stat Evals = {qStaticEvals:n0}");
     }
     else {
-      var dFullPercent = 100.0 * FullEvals / LegalMoveTotal;
+      var dFullPercent = 100.0 * FullEvals / TotalLegalMoves;
       LogInfo(LogLevel.data,
-              $"Full Evals = {FullEvals:n0}; Legal Moves = {LegalMoveTotal:n0}; Full Evals/Legal Moves = {dFullPercent:n1}%");
+              $"Full Evals = {FullEvals:n0}; Legal Moves = {TotalLegalMoves:n0}; Full Evals/Legal Moves = {dFullPercent:n1}%");
 
       var qStaticEvals = Evals - FullEvals;
-      var dFastPercent = 100.0 * qStaticEvals / LegalMoveTotal;
+      var dFastPercent = 100.0 * qStaticEvals / TotalLegalMoves;
       LogInfo(LogLevel.data,
               $"Stat Evals = {qStaticEvals:n0}; Stat Evals/Legal Moves = {dFastPercent:n1}%");
     }

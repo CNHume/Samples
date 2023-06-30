@@ -46,7 +46,7 @@ partial class Board {
 
     if (capture == Piece.Capture) {
 #if CountCapturedPiece
-      GameState.AtomicIncrement(ref State.CapturedPieceTotal);
+      GameState.AtomicIncrement(ref State.CapturedPieces);
 #endif
       //
       // Between 2% and 20% of all Pseudo Moves require a call to GetPieceIndex().
