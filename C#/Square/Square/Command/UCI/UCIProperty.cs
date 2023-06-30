@@ -63,8 +63,8 @@ partial class UCI {
   // [2023-05-29 17-ply in 14:08.4 @1.114 MHz over 945 Mnode] eval -9.25 after:
   // 6... Kf4 7. Rd8 e2+ 8. Kd2 Bc3+ 9. Kxc3 e1=Q+ 10. Kc4 Qe4+ 11. Rd4 Qxd4+ 12. Kxd4 d2 13. Kc5 Ke3 14. Kc6 Ke2 15. Kb5 Ke1 16. Kb4 d1=Q
   //"4R3/8/8/4b3/4k3/3pp3/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame Position sans History
-  // [2023-05-29 17-ply in 15:32.6 @1.198 MHz over 1.117 Gnode] eval -9.25 after:
-  // 1... Kf4 2. Re6 Bc3 3. Re8 Bb4 4. Re6 Kf3 5. Rf6+ Ke4 6. Re6+ Kf4 7. Kc1 Bc3 8. Rd6 e2 9. Rxd3 e1=Q+ 10. Rd1 Qe3+ 11. Kc2 Qe2+ 12. Kxc3 Qxd1
+  // [2023-06-30 17-ply in 13:51 @1.112 MHz over 923.9 Mnode] eval -9.62 after:
+  // 1... Kf4 2. Re6 Bc3 3. Re7 Bb4 4. Re6 Kf3 5. Rf6+ Ke4 6. Re6+ Kf4 7. Kc1 Bc3 8. Re8 e2 9. Kb1 Be5 10. Rd8 e1=Q+
   // moves e4f4
   //"4R3/8/8/4b3/5k2/3pp3/8/3K4 w - - 0 7";   // Carlsen v Duda Endgame Line
   // [2023-06-17 19-ply in 2:03:20 @1.354 MHz over 10.02 Gnode] eval -11.85 after:
@@ -293,7 +293,7 @@ partial class UCI {
   // 64... a5 65. Ba6 Kd2 66. Bxb5 Ne2 67. Be8 Nxc3 68. Bf7 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Be4 Kc3 72. Kc1 d3 73. cxd3 cxd3 74. Bxd3 Kxd3 75. a4
   // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5
   //"8/8/8/1B1p4/2p5/P1P5/2Pk4/1K2n3 b - - 0 67"; // Caruana v Hou Yifan Grenke Chess Classic Line
-  //[2023-06-29 20-ply in 17:23 @1.128 MHz over 1.177 Gnode] eval -7.55 after:
+  //[2023-06-29 20-ply in 17:08 @1.1446 MHz over 1.177 Gnode] eval -7.55 after:
   // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Be8 Nb3+ 71. Kd1 Kb2 72. Ke2 d4 73. Kf2 Nc5 74. Bg6 d3 75. a5 d2 76. Bh5 c3 77. a6 Nxa6 78. Bf3 Na6b4
   //
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:

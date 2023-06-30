@@ -63,7 +63,15 @@ partial class Position : Board {
 
     var vPiece = PieceIndex(uPiece);
     var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
-    filterCandidates(ref qpAtxTo, nTo, uPiece, bCapture);       //[Conditional]
+
+    var bEnPassant = false;
+    if (bCapture) {
+      var uCapture = Captured(move);
+      var vCapture = PieceIndex(uCapture);
+      bEnPassant = vCapture == vEP6;
+    }
+
+    filterCandidates(ref qpAtxTo, nTo, uPiece, bCapture, bEnPassant);   //[Conditional]
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
@@ -121,10 +129,12 @@ partial class Position : Board {
 
   [Conditional("FilterCandidates")]
   private void filterCandidates(
-    ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture) {
+    ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bEnPassant) {
+    var capture = bEnPassant ? Piece.EP : Piece.Capture;
+
     Plane qpPinned = default;
     var moveTo = bCapture ?
-      (Move)(uPiece << nPieceBit) | ToMove(nTo) | PieceCapture :
+      (Move)(uPiece << nPieceBit) | ToMove(nTo) | CaptureMove(capture) :
       (Move)(uPiece << nPieceBit) | ToMove(nTo);
 
     var child = Push();                 // Push Position to make the moves

@@ -55,7 +55,7 @@ partial class Board {
       //
       vCapture = GetPieceIndex(nTo);
 
-      Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
+      Trace.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                    $"There is no piece to capture on {(Sq)nTo}.");
 #if SaveCapture
       var captive = IndexPiece(vCapture);
