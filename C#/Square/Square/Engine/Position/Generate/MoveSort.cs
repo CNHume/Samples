@@ -171,7 +171,7 @@ partial class Position : Board {
 #endif
       }
 #if LazyMoveSort
-      Trace.Assert(!PriorityMove.IsAscending, "Heap Ascending after enumeration");
+      Debug.Assert(!PriorityMove.IsAscending, "Heap Ascending after enumeration");
       if (!PriorityMove.IsAscending)
         PriorityMove.Reverse();
 #endif
@@ -187,7 +187,7 @@ partial class Position : Board {
 #else                                   // UseMoveSort
   private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
     var nStart = SiftedMoves.Count;
-    Trace.Assert(nStart == 0, "nStart != 0");
+    Debug.Assert(nStart == 0, "nStart != 0");
 
     var nEarlyCapacity = goodMoves.Count;
     var earlyMoves = new List<Move>(nEarlyCapacity);

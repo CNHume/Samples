@@ -55,7 +55,11 @@ partial class Board {
       //
       vCapture = GetPieceIndex(nTo);
 
-      Trace.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
+      //
+      //[Speed]Replacing Trace.Assert() with Debug.Assert()
+      // improved performance by 37.36%.
+      //
+      Debug.Assert(vCapture != vPieceNull, "vCapture == vPieceNull",
                    $"There is no piece to capture on {(Sq)nTo}.");
 #if SaveCapture
       var captive = IndexPiece(vCapture);
@@ -146,7 +150,7 @@ partial class Board {
     var bSupplied = uPromotion > 0;
 #if VerifyPromotion                     //[PACN]
     var bRequired = vPiece == vP6 && Friend.Parameter.IsPromotion(nTo);
-    Trace.Assert(bRequired == bSupplied, "Invalid Promotion");
+    Debug.Assert(bRequired == bSupplied, "Invalid Promotion");
 #endif
     if (bSupplied)
       Friend.RemovePiece(vPiece, nFrom);

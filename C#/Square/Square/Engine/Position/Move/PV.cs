@@ -253,7 +253,7 @@ partial class Position : Board {
       moves.Add(moveNoted);
 
       var bLegal = tryOrSkip(ref moveNoted);
-      Trace.Assert(bLegal, $"{nameof(lookupPV)} obtained an Illegal Move");
+      Debug.Assert(bLegal, $"{nameof(lookupPV)} obtained an Illegal Move");
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
@@ -311,7 +311,7 @@ partial class Position : Board {
         storeXP((Depth)nDepth, mValue, et, moveNoted);
 
       var bLegal = tryOrSkip(ref moveNoted);
-      Trace.Assert(bLegal, $"{nameof(AbbreviateRefresh)} obtained an Illegal Move");
+      Debug.Assert(bLegal, $"{nameof(AbbreviateRefresh)} obtained an Illegal Move");
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())

@@ -125,7 +125,7 @@ partial class Position : Board {
   private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined,
                         Move moveExcluded = Move.Undefined) { // 10 MHz
-    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
+    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
     traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
     State.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
@@ -201,7 +201,7 @@ partial class Position : Board {
   private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
                        Move moveBest = Move.Undefined,
                        Move moveExcluded = Move.Undefined) {  // 10 MHz
-    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
+    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
     traceVal(nameof(storeXP), mValue, et);    //[Conditional]
     State.IncEvalType(et);
     var qDynamic = DynamicHash(moveExcluded);
@@ -276,7 +276,7 @@ partial class Position : Board {
   #region QXP Methods
   private Eval storeQXP(Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined) {
-    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
+    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
     traceVal(nameof(storeQXP), mValue, et);   //[Conditional]
     State.IncEvalType(et);
     var mAdjusted = creditMate(mValue, SearchPly);
@@ -369,7 +369,7 @@ partial class Position : Board {
   //
   private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
     var bWTM = WTM();
-    Trace.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
+    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
     traceVal(nameof(storeKiller), mValue, et);  //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
     var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
