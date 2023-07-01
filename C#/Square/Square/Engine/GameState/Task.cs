@@ -62,6 +62,7 @@ partial class GameState {
     freeCancellationToken();
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void throwIfCancelled() {
 #if UseTask
     if (CancellationTokenSource != null) {
@@ -86,6 +87,7 @@ partial class GameState {
     return CancellationTokenSource.Token;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void cancel() {
 #if UseTask
     if (CancellationTokenSource != null)
@@ -424,10 +426,10 @@ partial class GameState {
     //
     // Test Nodes Bound
     //
-    if (Bound.Nodes <= (UInt64)Nodes) {
+    if (Bound.Nodes <= (UInt64)Nodes)
       cancel();
-      throwIfCancelled();
-    }
+
+    throwIfCancelled();
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
