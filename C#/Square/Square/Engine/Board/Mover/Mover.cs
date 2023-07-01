@@ -6,6 +6,7 @@
 // Conditionals:
 //
 //#define CountCapturedPiece
+//#define CountEPNodes
 #define RecursiveNullMade
 #define SaveCapture
 //#define TracePosition
@@ -124,9 +125,9 @@ partial class Board {
       var bLegal =
         (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
         (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
-
+#if CountEPNodes
       State.IncMove(bLegal);            // Account for overhead
-
+#endif
       Friend.LowerPiece(vP6, nGuard);
 
       if (bLegal) {
@@ -254,7 +255,7 @@ partial class Board {
 
     tracePosition();                    //[Conditional]
   }
-  #endregion                            // Piece Mover
+#endregion                            // Piece Mover
 
   #region Trace Positions
   // Called by PlayMove() and SkipTurn()
@@ -318,5 +319,5 @@ partial class Board {
       0x721CAEAAD8483250);              // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
   }
   #endregion                            // Trace Positions
-  #endregion                            // Methods
+#endregion                            // Methods
 }
