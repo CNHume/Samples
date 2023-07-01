@@ -392,15 +392,15 @@ partial class GameState {
   }
 
   //
-  // Called for each move made by [null|try]Move() during a search.
-  // Position allows heartbeat() to display "currline".
+  // Called for each move made by [null|try]Move() during searches.
+  // Passing the Position allows heartbeat() to display "currline".
   //
   public void MonitorHeartbeat(Position? position = default) {
     //
-    // Assuming nodes are processed at >1 MHz, a Polling Interval
-    // of 100K nodes ensures a HearbeatMS resolution of <0.01 sec:
+    // Assuming nodes are processed at a rate >1 MHz, Polling every
+    // 100K nodes ensures a HearbeatMS resolution of <0.1 sec:
     //
-    const UInt32 uIntervalNodeMax = 100 * 1000;
+    const UInt32 uIntervalNodes = 100 * 1000;
 
     var qNodes = (UInt64)Nodes;
     var qIntervalDelta = qNodes - IntervalNodes;
@@ -408,26 +408,18 @@ partial class GameState {
     //
     // Test whether the Polling Interval has elapsed:
     //
-    if (qIntervalDelta > uIntervalNodeMax) {
+    if (qIntervalDelta > uIntervalNodes) {
       IntervalNodes = qNodes;
       pollSearchTimer(position, qNodes);
     }
   }
 
+  //
+  // Called for every Node from Inc[Null]Move():
+  //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
+  private void monitorNodesBound() {
     AtomicIncrement(ref Nodes);
-
-    if (bQxnt) {
-      if (bLegal)
-        AtomicIncrement(ref LegalQxntMoves);
-      else
-        AtomicIncrement(ref IllegalQxntMoves);
-    }
-    else if (bLegal)
-      AtomicIncrement(ref LegalMoves);
-    else
-      AtomicIncrement(ref IllegalMoves);
 
     //
     // Test Nodes Bound
@@ -439,8 +431,26 @@ partial class GameState {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public void IncMove(Boolean bLegal, Boolean bQxnt = false) {
+    if (bQxnt) {
+      if (bLegal)
+        AtomicIncrement(ref LegalQxntMoves);
+      else
+        AtomicIncrement(ref IllegalQxntMoves);
+    }
+    else if (bLegal)
+      AtomicIncrement(ref LegalMoves);
+    else
+      AtomicIncrement(ref IllegalMoves);
+
+    monitorNodesBound();
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void IncNullMove() {
     AtomicIncrement(ref NullMoves);
+
+    monitorNodesBound();
   }
   #endregion                            // Move Count Methods
 }
