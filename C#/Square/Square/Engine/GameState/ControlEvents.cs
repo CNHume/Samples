@@ -220,11 +220,11 @@ partial class GameState {
       IsAnalyseMode = Convert.ToBoolean(value);
   }
 
-  protected void ShowingLineValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+  protected void DisplayCurrentLineValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (CheckSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
-      IsShowingLine = Convert.ToBoolean(value);
+      IsDisplayCurrentLine = Convert.ToBoolean(value);
   }
 
   protected void OpponentValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {

@@ -244,7 +244,7 @@ partial class GameState {
   private void wireShowingLine() {
     var setting = (CheckSetting?)findControl(UCI_ShowCurrLine);
     if (setting != null) {
-      setting.PropertyChanged += ShowingLineValue_PropertyChanged;
+      setting.PropertyChanged += DisplayCurrentLineValue_PropertyChanged;
       setting.SetDefault();
     }
   }

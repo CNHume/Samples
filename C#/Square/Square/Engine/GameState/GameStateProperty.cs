@@ -155,7 +155,7 @@ partial class GameState {
   public Boolean IsPure;                // Write moves in PACN vs AN
   public Boolean IsPonderEnabled;       //[UCI Option]For Time Control
   public Boolean IsAnalyseMode;         //[UCI Option]
-  public Boolean IsShowingLine;         //[UCI Option]
+  public Boolean IsDisplayCurrentLine;  //[UCI Option]
   public String? Opponent;              //[UCI Option]
   public static String? LanguageName;
   public List<Move> BestMoves;

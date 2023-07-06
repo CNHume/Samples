@@ -76,7 +76,7 @@ partial class UCI {
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. c4 f5 50. Qxf5
-  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10 [2023-07-05 19-ply in 38:25 @1.308 MHz over 3.0146 Gnode] after:
+  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10 [2023-07-06 19-ply in 37:24 @1.343 MHz over 3.0146 Gnode] after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
   //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line [2023-04-17 20-ply in 2:00:54 @1.638 MHz over 11.88 Gnode] eval 13.3 after:

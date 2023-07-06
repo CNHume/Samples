@@ -346,26 +346,29 @@ partial class GameState {
   #endregion                            // Move List Methods
 
   #region Move Count Methods
-  //
-  // Perform Heartbeat Tasks
-  //
   private void displayHeartbeat(
     UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
     var sb = new StringBuilder("info");
+
+    //
+    // Display nodes per second (nps)
+    //
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     if (dElapsedMS != 0) {
       var dRate = qNodesDelta * 1E3 / dElapsedMS;
       sb.AppendFormat($" nps {dRate:0}");
     }
 
-    if (IsShowingLine && position is not null) {
+    //
+    // Display MovesFromParent(MovePosition) to Current Position
+    //
+    if (IsDisplayCurrentLine && position is not null) {
       const Boolean bAbbreviate = false;
 
       sb.Append(" currline");
       if (!IsPure)
         sb.Append("-an");
 
-      // Show search progress:
       var moves = position.MovesFromParent(MovePosition, bAbbreviate);
       sb.AppendNumberedMoves(moves, MovePly, IsPure, position.Side, IsChess960);
     }
@@ -382,9 +385,9 @@ partial class GameState {
     // Test for Heartbeat Due
     //
     if (tsElapsedSinceLastHearbeat > HeartbeatPeriod) {
+      SearchElapsedOfLastHeartbeat = tsSearchElapsed;
       var qNodesDelta = qNodes - HeartbeatNodes;
       HeartbeatNodes = qNodes;
-      SearchElapsedOfLastHeartbeat = tsSearchElapsed;
 
       if (IsDisplayHeartbeat)
         displayHeartbeat(
@@ -395,8 +398,7 @@ partial class GameState {
   }
 
   //
-  // Called for each move made by [null|try]Move() during searches.
-  // Passing the Position allows heartbeat() to display "currline".
+  // Called for each move made by [null|try]Move() during searches:
   //
   public void MonitorHeartbeat(Position? position = default) {
     //
