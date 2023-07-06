@@ -375,6 +375,8 @@ partial class GameState {
   }
 
   private void pollSearchTimer(Position? position, UInt64 qNodes) {
+    throwIfCancelled();
+
     var lSearchMS = SearchTimer.ElapsedMilliseconds;
     var lElapsedMS = lSearchMS - LastBeatMS;
 
@@ -420,16 +422,16 @@ partial class GameState {
   // Called for every Node from Inc[Null]Move():
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void monitorNodesBound() {
+  private void incNodesAndTestBound() {
     AtomicIncrement(ref Nodes);
 
     //
     // Test Nodes Bound
     //
-    if (Bound.Nodes <= (UInt64)Nodes)
+    if (Bound.Nodes <= (UInt64)Nodes) {
       cancel();
-
-    throwIfCancelled();
+      throwIfCancelled();
+    }
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -445,14 +447,14 @@ partial class GameState {
     else
       AtomicIncrement(ref IllegalMoves);
 
-    monitorNodesBound();
+    incNodesAndTestBound();
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void IncNullMove() {
     AtomicIncrement(ref NullMoves);
 
-    monitorNodesBound();
+    incNodesAndTestBound();
   }
   #endregion                            // Move Count Methods
 }
