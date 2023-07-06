@@ -118,7 +118,7 @@ partial class GameState {
       SearchTimer.Reset();
       IntervalNodes =
         HeartbeatNodes = (UInt64)Nodes;
-      LastBeatMS = SearchTimer.ElapsedMilliseconds;
+      SearchElapsedOfLastHeartbeat = SearchTimer.Elapsed;
 
       if (position.IsLegal()) {
         StartDepth = 0;               //[Init]
@@ -177,8 +177,7 @@ partial class GameState {
 #if NoteStartAndFinish
         LogInfo(LogLevel.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
-        var dElapsedMS = (Double)SearchTimer.ElapsedMilliseconds;
-        displayCounts(mode, dElapsedMS);
+        displayCounts(mode, SearchTimer.Elapsed.TotalMilliseconds);
       }
     }
 
@@ -350,7 +349,8 @@ partial class GameState {
   //
   // Perform Heartbeat Tasks
   //
-  private void heartbeat(UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
+  private void displayHeartbeat(
+    UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
     var sb = new StringBuilder("info");
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     if (dElapsedMS != 0) {
@@ -375,24 +375,23 @@ partial class GameState {
   }
 
   private void pollSearchTimer(Position? position, UInt64 qNodes) {
-    throwIfCancelled();
-
-    var lSearchMS = SearchTimer.ElapsedMilliseconds;
-    var lElapsedMS = lSearchMS - LastBeatMS;
+    var tsSearchElapsed = SearchTimer.Elapsed;
+    var tsElapsedSinceLastHearbeat = tsSearchElapsed - SearchElapsedOfLastHeartbeat;
 
     //
     // Test for Heartbeat Due
     //
-    if (lElapsedMS > HeartbeatPeriodMS) {
+    if (tsElapsedSinceLastHearbeat > HeartbeatPeriod) {
       var qNodesDelta = qNodes - HeartbeatNodes;
       HeartbeatNodes = qNodes;
-      LastBeatMS = lSearchMS;
+      SearchElapsedOfLastHeartbeat = tsSearchElapsed;
 
-      if (IsHeartbeat) {
-        var dElapsedMS = (Double)lElapsedMS;
-        heartbeat(qNodesDelta, dElapsedMS, position);
-      }
+      if (IsDisplayHeartbeat)
+        displayHeartbeat(
+          qNodesDelta, tsElapsedSinceLastHearbeat.TotalMilliseconds, position);
     }
+
+    throwIfCancelled();
   }
 
   //

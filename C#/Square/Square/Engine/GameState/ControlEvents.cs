@@ -194,14 +194,16 @@ partial class GameState {
     var setting = (CheckSetting?)sender;
     var value = setting?.GetValue();
     if (value != null)
-      IsHeartbeat = Convert.ToBoolean(value);
+      IsDisplayHeartbeat = Convert.ToBoolean(value);
   }
 
   protected void HeartbeatMSValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     var setting = (SpinSetting?)sender;
     var value = setting?.GetValue();
-    if (value != null)
-      HeartbeatPeriodMS = Convert.ToUInt16(value);
+    if (value != null) {
+      var uMilliseconds = Convert.ToUInt16(value);
+      HeartbeatPeriod = TimeSpan.FromMilliseconds(uMilliseconds);
+    }
   }
 
   protected void PonderValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {

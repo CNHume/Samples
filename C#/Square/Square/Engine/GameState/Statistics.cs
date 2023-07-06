@@ -153,11 +153,11 @@ partial class GameState {
     Debug.Assert(Nodes == TotalMoves + NullMoves, "Inconsistent Node Total");
 
     if (dElapsedMS == 0)
-      LogInfo(LogLevel.data, $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
+      LogInfo(LogLevel.data, $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1E3:0.0##} sec");
     else {
       var dRate = Nodes / dElapsedMS;
       LogInfo(LogLevel.data,
-              $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
+              $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1E3:0.0##} sec, {dRate:0.0##} KHz");
     }
   }
 
@@ -383,12 +383,12 @@ partial class GameState {
   [Conditional("DisplayRate")]
   public static void DisplayRate(UInt64 qNodesDelta, Double dElapsedMS) {
     if (dElapsedMS == 0) {
-      LogInfo(LogLevel.data, $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec");
+      LogInfo(LogLevel.data, $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1E3:0.0##} sec");
     }
     else {
       var dRate = qNodesDelta / dElapsedMS;
       LogInfo(LogLevel.data,
-              $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1000:0.0##} sec, {dRate:0.0##} KHz");
+              $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1E3:0.0##} sec, {dRate:0.0##} KHz");
     }
   }
 
@@ -420,7 +420,7 @@ partial class GameState {
       var dRate = qNodesDelta / dElapsedMS;
       if (qPredicted2 > 0) {
         var dPredictedSec = qPredicted2 / dRate;
-        LogInfo(LogLevel.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1000:0.0##} sec");
+        LogInfo(LogLevel.data, $"Predicting {qPredicted2:n0} moves in {dPredictedSec / 1E3:0.0##} sec");
       }
     }
   }

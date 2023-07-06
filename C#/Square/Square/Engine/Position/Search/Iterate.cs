@@ -194,7 +194,7 @@ partial class Position : Board {
 #if DisplayDepth
       if (UCI.IsDebug) {
         sw.Stop();
-        var dElapsedMS = (Double)sw.ElapsedMilliseconds;
+        var dElapsedMS = sw.Elapsed.TotalMilliseconds;
         var qNodes2 = (UInt64)State.Nodes;
         var qNodesDelta = qNodes2 - qNodes1;
 
@@ -250,7 +250,7 @@ partial class Position : Board {
 #if DisplayDepth
       if (UCI.IsDebug) {
         sw.Stop();
-        var dElapsedMS = (Double)sw.ElapsedMilliseconds;
+        var dElapsedMS = sw.Elapsed.TotalMilliseconds;
         var qNodesDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
         GameState.DisplayRate(qNodesDelta, dElapsedMS);
 #if DisplayPrediction

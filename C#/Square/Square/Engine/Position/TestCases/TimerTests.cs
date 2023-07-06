@@ -76,9 +76,9 @@ partial class Position : Board {
 
   private static void timerStop(Stopwatch sw, UInt64 qTrials) {
     sw.Stop();
-    var dElapsedMS = (Double)sw.ElapsedMilliseconds;
+    var dElapsedMS = sw.Elapsed.TotalMilliseconds;
     var dRate = qTrials / dElapsedMS;
-    LogLine($"Completed {qTrials:n0} trials in {dElapsedMS / 1000:0.0##} sec, Rate = {dRate:0.0##} KHz");
+    LogLine($"Completed {qTrials:n0} trials in {dElapsedMS / 1E3:0.0##} sec, Rate = {dRate:0.0##} KHz");
   }
 
   [Conditional("TestOutsideSquare")]

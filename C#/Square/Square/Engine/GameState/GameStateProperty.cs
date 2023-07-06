@@ -51,7 +51,9 @@ partial class GameState {
   public Stopwatch IterationTimer;
   public UInt64 IntervalNodes;
   public UInt64 HeartbeatNodes;
-  public Int64 LastBeatMS;
+  public TimeSpan SearchElapsedOfLastHeartbeat;
+  public TimeSpan HeartbeatPeriod;
+  public Boolean IsDisplayHeartbeat;
   #endregion
 
   #region Count Fields
@@ -127,8 +129,6 @@ partial class GameState {
   public Byte MultiPVLength;            //[UCI]Option
   public UInt16 ExpectedMovesToGo;      // Option
   public Eval ContemptValue;            // Option
-  public Boolean IsHeartbeat;
-  public UInt16 HeartbeatPeriodMS;
   public UInt16 ExtensionLimit;
   #endregion                            // Lookup Tables
 

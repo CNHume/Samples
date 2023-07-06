@@ -319,7 +319,7 @@ partial class GameState : IDisposable {
 #if ShowClockSpeed
     var uSpeedMHz = clockSpeed();
     if (uSpeedMHz != null) {
-      var dSpeedGHz = (Double)uSpeedMHz.Value / 1000;
+      var dSpeedGHz = (Double)uSpeedMHz.Value / 1E3;
       sb.AppendFormat($" {dSpeedGHz:0.0##} GHz");
     }
 #endif                                  // ShowClockSpeed
