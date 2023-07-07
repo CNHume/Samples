@@ -402,10 +402,10 @@ partial class GameState {
   //
   public void MonitorHeartbeat(Position? position = default) {
     //
-    // Assuming nodes are processed at a rate >1 MHz, Polling every
-    // 100K nodes ensures a HearbeatMS resolution of <0.1 sec:
+    // Assuming nodes are processed at a rate >1.2 MHz, Polling every
+    // 120K nodes ensures a HeartbeatPeriod resolution <0.1 sec:
     //
-    const UInt32 uIntervalNodes = 100 * 1000;
+    const UInt32 uIntervalNodes = 120 * 1000;
 
     var qNodes = (UInt64)Nodes;
     var qIntervalDelta = qNodes - IntervalNodes;
