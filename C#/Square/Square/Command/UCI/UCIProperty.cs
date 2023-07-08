@@ -76,12 +76,13 @@ partial class UCI {
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. c4 f5 50. Qxf5
-  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10 [2023-07-06 19-ply in 37:24 @1.343 MHz over 3.0146 Gnode] after:
+  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10 [2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
-  //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line [2023-04-17 20-ply in 2:00:54 @1.638 MHz over 11.88 Gnode] eval 13.3 after:
-  // 43. Nxg8 Qg5 44. Nxf6 Qxf6 45. Qb8+ Kh7 46. Ra8 Qh4+ 47. Kg1 Qxh5 48. Qg8+ Kg6 49. Qe8+ Kg5 50. f4+ Kh4 51. Qe1+ Kg4 52. Qe2+ Kxf4
-  // 53. Qxh5 a1=N 54. Rxa1 [Bh7]
+  //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line [2023-07-08 20-ply in 1:40:50 @1.735 MHz over 10.498 Gnode] eval 14.7 after:
+  // 43. Nxg8 Qg5 44. Nxf6 Qxf6 45. Qb8+ Kh7 46. Ra8 Qh4+ 47. Kg1 Qxh5 48. Qg8+ Kg6 49. Qe8+ Kg5 50. f4+ Kxf4 (50... Kh4 51. Qe1+ Kg4 52. Qe2+ Kxf4 53. Qxh5 a1=N 54. Rxa1 [Bh7])
+  // 51. Qxh5 a1=R 52. Rxa1 Bc2 53. Qf7+ Bf5 54. Qxg7
+  // 
   //"3r4/p1QP1pk1/1p2p1p1/2p2nP1/2P4q/P1P5/3R1P2/4KB2 w - - 0 32"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R8 [2023-04-24 20-ply in 3 days 12:45:58 @1305.6 MHz over 398.4 Gnode] eval 2.5 after:
   // 32. Qxd8 Qe4+ 33. Be2 Qh1+ 34. Bf1 Qe4+@ 35. Re2 Qb1+ 36. Kd2 Qa2+ 37. Kd3 Qb1+ 38. Rc2 Qxf1+ 39. Kd2 Nd6 40. Qf6+ Kh7 41. Qf4 Nxc4+
   // 42. Qxc4 Qxc4 43. d8=Q b5
