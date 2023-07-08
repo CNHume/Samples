@@ -77,6 +77,7 @@ partial class Board {
     AtxKnight = new Plane[nSquares];
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private static Boolean inBounds(Int32 nX, Int32 nY) {
     return nX >= 0 && nX < nFiles &&
            nY >= 0 && nY < nRanks;
@@ -611,16 +612,19 @@ partial class Board {
   }
 #endif
 #else                                   //!Magic
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Byte rotateA1H8(Int32 n) {
     var uA1H8Rotate = (UInt32)(A1H8Piece >> OffsetA1H8[n]);
     return (Byte)(uA1H8Rotate & uStateMask);
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Byte rotateA8H1(Int32 n) {
     var uA8H1Rotate = (UInt32)(A8H1Piece >> OffsetA8H1[n]);
     return (Byte)(uA8H1Rotate & uStateMask);
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Byte rotateFile(Int32 n) {
 #if NoFileOffset
     var nFileOffset = nFiles * InvertFile(x(n)) + 1;
@@ -629,6 +633,7 @@ partial class Board {
     return (Byte)(uFileRotate & uStateMask);
   }
 #endif                                  //!Magic
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   internal Byte rotateRank(Int32 n) {
 #if NoRankOffset
     var nRankOffset = nFiles * y(n) + 1;
