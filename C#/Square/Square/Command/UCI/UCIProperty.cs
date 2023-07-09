@@ -51,8 +51,9 @@ partial class UCI {
   //"3Q4/8/7p/5p1P/2p2P2/3b4/K1pk4/8 w - - 0 1"; // Anand v Carlsen Stalemate Global Chess League 2023-06-28 [6-ply over 25.448 Knode] eval 0.0 after:
   // 1. Qb6 c1=Q 2. Qe3+ Kd1 3. Qe2+ Bxe2 stalemate
   // moves d8d4
-  //"8/8/7p/5p1P/2pQ1P2/3b4/K1pk4/8 b - - 0 1"; // Anand v Carlsen Remarkable Endgame Global Chess League 2023-06-28 [2023-06-28 16-ply in 4:01.28 @1.2525 MHz over 302.21 Mnode] eval -4.5 after:
+  //"8/8/7p/5p1P/2pQ1P2/3b4/K1pk4/8 b - - 0 1"; // Anand v Carlsen Remarkable Endgame Global Chess League 2023-06-28 [2023-06-28 16-ply in 4:01.28 @1.3333 MHz over 312.15 Mnode] eval -4.5 after:
   // 1... c1=N+ 2. Ka3 c3 3. Qb4 Ne2 4. Qa5 Be4 5. Ka2 Ke1 6. Ka3 Kf2 7. Qb6+ Ke1 8. Qe3 c3c2
+  //
   //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
   // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
   // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
@@ -410,7 +411,7 @@ partial class UCI {
   //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24"; // Wood v Sowell 2014-07-16
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
-  //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-05 13-ply in 19.47 sec @1.659 MHz over 32.303 Mnode]
+  //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-08 13-ply in 19.412 sec @1.664 MHz over 32.303 Mnode]
   //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [15-ply in 9:16.3 @1.413 MHz over 786.3 Mnode] eval 2.45 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nc1 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Qb8+ Ke7 38. h4 Na2
   // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7 [34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+]
