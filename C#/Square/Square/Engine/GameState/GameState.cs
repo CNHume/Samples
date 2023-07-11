@@ -34,7 +34,7 @@
 #define CountPVDoubles
 #define DisplayRate                     //[Test]heartbeat()
 //#define Controlled
-//#define Mobility
+#define Mobility
 //#define SwapOn
 #define DisplayOptions
 #define DisplayPosition

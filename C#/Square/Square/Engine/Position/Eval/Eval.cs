@@ -17,7 +17,7 @@
 #define EvalRookBehindPasser
 #define EvalInsufficient
 //#define TestRookBehindPasser
-//#define Mobility
+#define Mobility                        //[Eval]Helps solve Botvinnik v Capablanca 1938 AVRO R11
 //#define MaterialBalance
 //#define TradePieces
 //#define TraceVal
