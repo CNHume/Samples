@@ -9,7 +9,7 @@
 //#define EnsureFromSquares
 #define HashCastlingRights
 //#define Magic
-#define TestEPLegal
+#define ShowEPIllegal
 
 using System.Text;
 
@@ -247,10 +247,10 @@ partial class Board {
       throw new ParsePositionException($"Invalid En Passant Square: {sqEP}");
 
     tryEP(vEPTarget);
-#if TestEPLegal
+#if ShowEPIllegal
     if (!IsEPLegal())
-      LogInfo(LogLevel.warn, $"Illegal En Passant Square: {sqEP}");
-#endif                                  // TestEPLegal
+      LogInfo(LogLevel.note, $"En Passant Illegal: {sqEP}");
+#endif                                  // ShowEPIllegal
   }
 
   //

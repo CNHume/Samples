@@ -464,7 +464,7 @@ partial class Position : Board {
     }
 #if TestFEN
     if (!VerifyFEN(sFEN))
-      LogInfo(LogLevel.warn, "Input FEN inconsistent with Output FEN");
+      LogInfo(LogLevel.warn, "Input FEN Inconsistent with Output FEN");
 #endif
   }
   #endregion                            // Position Serialization Methods

@@ -459,9 +459,12 @@ partial class UCI {
   //"r2q1rk1/pp2ppbp/1np2np1/2Q3B1/3PP1b1/2N2N2/PP3PPP/3RKB1R b K - 0 11"; // Byrne v Fischer 11 >11-ply
   //"8/K1P5/8/3q4/4k3/8/8/8 b - - 0 1";
   //"8/P1K5/8/3q4/4k3/8/8/8 w - - 0 1";
+  //"r1b1kb1r/ppp2ppp/2n5/1B1q4/4p3/2P5/PP1PQPPP/RNB1K2R w KQkq - 0 8"; // Fischer v Shipman 1971-08-08
+  // moves d2d4
+  //"r1b1kb1r/ppp2ppp/2n5/1B1q4/3Pp3/2P5/PP2QPPP/RNB1K2R b KQkq d3 0 8"; // Fischer v Shipman 1971-08-08 EPIllegal
   //"2q2r1k/3brp2/7Q/8/2BPp3/6b1/1B4P1/6K1 b - d3 0 1"; // EPIllegal
   //"k1n1K3/p7/8/B2pP3/8/8/6B1/8 w - d6 0 1"; // ep Mate [3-ply]
-  //"7k/b1n3q1/8/2PpP3/3K4/8/8/8 w - d6 0 1"; // EPIllegal, so Inconsistent FEN for #6 [2023-03-23 10-ply in 6.2 sec @1.352 MHz over 8.387 Mnode]
+  //"7k/b1n3q1/8/2PpP3/3K4/8/8/8 w - d6 0 1"; // EPIllegal, formerly FEN Inconsistent for #6 [2023-07-15 10-ply in 5.99 sec @1.368 MHz over 8.197 Mnode]
   // 1. Kc3 Bxc5 2. Kd3 Qg2 3. e6 Nxe6 4. Kc3 Qe2 5. Kb3 Nd4+ 6. Kc3 (6. Ka4 Qa2# (6... Qa6#) (6... Qb5#)) 6... Qc2#
   //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6 [7-ply] eval 0.0
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
