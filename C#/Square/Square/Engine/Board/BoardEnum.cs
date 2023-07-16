@@ -50,7 +50,7 @@ partial class Board {
     //
     //[C#]Can one distinguish which of two equal Flag values is displayed?
     //[NonSerialized]
-    Copy = EPLegal                      // EPLegal
+    //Copy = EPLegal                    // EPLegal
   }
   #endregion                            // TurnFlags Enum
 
