@@ -343,8 +343,7 @@ partial class Board : IEquatable<Board> {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void CopyFlags(Board board) {
-    //[C#]Avoid ambiguity introduced by TurnFlags.Copy = TurnFlags.EPLegal
-    FlagsTurn = board.FlagsTurn & TurnFlags.EPLegal;
+    FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
     FlagsEval = board.FlagsEval & EvalFlags.Copy;
     FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
     FlagsMode = board.FlagsMode & ModeFlags.Copy;

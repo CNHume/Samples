@@ -48,9 +48,8 @@ partial class Board {
     //[Note]Final, InCheck and Illegal are omitted from Hash to
     // prevent repeating calls to IsLegal() for a Transposition:
     //
-    //[C#]Can one distinguish which of two equal Flag values is displayed?
-    //[NonSerialized]
-    //Copy = EPLegal                    // EPLegal
+    //[C#]Avoid ambiguity introduced by Copy = EPLegal
+    Copy = Final | EPLegal              // EPLegal
   }
   #endregion                            // TurnFlags Enum
 
@@ -60,8 +59,8 @@ partial class Board {
   // --------------
   //  0:1 CanOO
   //  1:1 CanOOO
-  //  2:1 Lite
-  //  3:1 Dark
+  //  2:1 Dark
+  //  3:1 Lite
   //  4:1 Alone
   //  5:1 Insufficient
   //
