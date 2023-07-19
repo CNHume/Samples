@@ -65,14 +65,7 @@ partial class Position : Board {
     var vPiece = PieceIndex(uPiece);
     var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
 
-    var bEnPassant = false;
-    if (bCapture) {
-      var uCapture = Captured(move);
-      var vCapture = PieceIndex(uCapture);
-      bEnPassant = vCapture == vEP6;
-    }
-
-    filterCandidates(ref qpAtxTo, nTo, uPiece, bCapture, bEnPassant);   //[Conditional]
+    filterCandidates(move, ref qpAtxTo);//[Conditional]
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
@@ -128,20 +121,9 @@ partial class Position : Board {
     return move;
   }
 
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Move buildMoveTo(
-    Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bEnPassant) {
-    var capture = bEnPassant ? Piece.EP : Piece.Capture;
-    return bCapture ?
-      (Move)(uPiece << nPieceBit) | ToMove(nTo) | CaptureMove(capture) :
-      (Move)(uPiece << nPieceBit) | ToMove(nTo);
-  }
-
   [Conditional("FilterCandidates")]
-  private void filterCandidates(
-    ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bEnPassant) {
+  private void filterCandidates(Move move, ref Plane qpAtxTo) {
     Plane qpPinned = default;
-    var moveTo = buildMoveTo(nTo, uPiece, bCapture, bEnPassant);
 
     var child = Push();                 // Push Position to make the moves
     try {
@@ -149,6 +131,7 @@ partial class Position : Board {
       // Try candidate moves from each square n
       // in qpAtxTo to filter the pinned pieces:
       //
+      var moveTo = move & ~Move.FromMask;
       var qp = qpAtxTo;
       while (qp != 0) {
         var n = RemoveLo(ref qp, out Plane qpCandidate);

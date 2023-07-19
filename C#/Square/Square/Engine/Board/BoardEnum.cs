@@ -323,7 +323,9 @@ partial class Board {
     WTM = Qxnt << 1,                    // Bit 31 Used to test WTM
 #endif
     HideFrom = HideRank | HideFile,     // Used to abbreviate From square
-    FromToMask = uSquareMask << nToBit | uSquareMask << nFromBit,
+    FromMask = uSquareMask << nFromBit,
+    ToMask = uSquareMask << nToBit,
+    FromToMask = ToMask | FromMask,
     PromoteMask = vPieceMask << nPromoteBit,
     PieceMask = vPieceMask << nPieceBit,
     CaptiveMask = vPieceMask << nCaptiveBit,
