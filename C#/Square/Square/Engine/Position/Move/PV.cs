@@ -13,6 +13,7 @@
 //#define TraceVal
 
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Engine;
@@ -127,15 +128,20 @@ partial class Position : Board {
     return move;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private static Move buildMoveTo(
+    Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bEnPassant) {
+    var capture = bEnPassant ? Piece.EP : Piece.Capture;
+    return bCapture ?
+      (Move)(uPiece << nPieceBit) | ToMove(nTo) | CaptureMove(capture) :
+      (Move)(uPiece << nPieceBit) | ToMove(nTo);
+  }
+
   [Conditional("FilterCandidates")]
   private void filterCandidates(
     ref Plane qpAtxTo, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bEnPassant) {
-    var capture = bEnPassant ? Piece.EP : Piece.Capture;
-
     Plane qpPinned = default;
-    var moveTo = bCapture ?
-      (Move)(uPiece << nPieceBit) | ToMove(nTo) | CaptureMove(capture) :
-      (Move)(uPiece << nPieceBit) | ToMove(nTo);
+    var moveTo = buildMoveTo(nTo, uPiece, bCapture, bEnPassant);
 
     var child = Push();                 // Push Position to make the moves
     try {
