@@ -88,11 +88,11 @@ partial class Board {
   // The following is currently only needed for abbreviate().  It finds all
   // pieces of the specified type (for the side to move) which "attack" nTo.
   //
-  protected Plane PieceAtxTo(Int32 nFrom, Int32 nTo, Byte vPiece, Boolean bCapture) {
+  protected Plane PieceAtxTo(Int32 nFrom, Int32 nTo, Piece piece, Boolean bCapture) {
     const String methodName = nameof(PieceAtxTo);
     // Calculate AtxTo[nTo]
     Plane qpPiece;
-    if (vPiece != vP6 && vPiece != vK6) {
+    if (piece != Piece.P && piece != Piece.K) {
       // King and Pawn are handled below
       qpPiece = Friend.Piece;
 
@@ -100,25 +100,25 @@ partial class Board {
       //[Future]IsLegal() might maintain LegalTo[] to ignore pinned pieces;
       // but abbreviating on this basis in a PGN may confuse some programs.
       //
-      switch (vPiece) {                 // All pieces of the type that moved
-      case vN6:
+      switch (piece) {                 // All pieces of the type that moved
+      case Piece.N:
         qpPiece &= Knight & AtxKnight[nTo];
         break;
-      case vR6:
+      case Piece.R:
         qpPiece &= Rook & RayOrth(nTo);
         break;
-      case vB6:
+      case Piece.B:
         qpPiece &= Bishop & RayDiag(nTo);
         break;
-      case vQ6:
+      case Piece.Q:
         qpPiece &= Queen & Ray(nTo);
         break;
       default:
         qpPiece = 0UL;
-        throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]");
+        throw new PieceException($"Unexpected Piece = {piece} [{methodName}]");
       }
     }
-    else if (vPiece == vP6 && bCapture)
+    else if (piece == Piece.P && bCapture)
       qpPiece = Friend.PawnAtxTo(nTo);
     else
       qpPiece = bit(nFrom);             // King Moves and Pawn Advances are unambiguous

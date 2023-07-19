@@ -63,7 +63,7 @@ partial class Board : IEquatable<Board> {
   internal const Int32 nRanks = nFiles;
   internal const Int32 nSquares = nRanks * nFiles;
 
-  protected const UInt32 uSquareMask = (1 << 6) - 1;
+  private const UInt32 uSquareMask = (1 << 6) - 1;
 
   private const Int32 nA8H1 = 7;
   private const Int32 nA1H8 = 9;

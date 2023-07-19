@@ -62,10 +62,11 @@ partial class Position : Board {
     unpack1(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out Boolean bCapture);
 
-    var vPiece = PieceIndex(uPiece);
-    var qpAtxTo = PieceAtxTo(nFrom, nTo, vPiece, bCapture);
+    var piece = (Piece)uPiece;
+    var qpAtxTo = PieceAtxTo(nFrom, nTo, piece, bCapture);
 
-    filterCandidates(move, ref qpAtxTo);//[Conditional]
+    //[Conditional]
+    filterCandidates(move, ref qpAtxTo);
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
@@ -77,7 +78,7 @@ partial class Position : Board {
     //
     // qpAtxTo holds Pieces of the appropriate type which "attack" nTo.
     //
-    if (vPiece == vP6 && bCapture)
+    if (piece == Piece.P && bCapture)
       move |= Move.HideRank;            // Pawns capture from neighboring Files along one Rank.
     else if (IsOneOrLess(qpAtxTo))
       move |= Move.HideFrom;
