@@ -145,8 +145,8 @@ partial class Board {
           MoveError($"Promotion {sDiagnosis} in {sMove}"));
       }
 
-      var move = PromotionMove(promotion) | pieceMove(piece) | FromToMove(nFrom, nTo);
-      if (bCapture) move |= CaptureMove(IndexPiece(vCapture));
+      var move = PromotionPiece(promotion) | movePiece(piece) | MoveFromTo(nFrom, nTo);
+      if (bCapture) move |= CapturePiece(IndexPiece(vCapture));
       return move;
     }
 

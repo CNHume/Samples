@@ -27,7 +27,7 @@ partial class Board {
   //
   // Move Methods:
   //
-  // MovePiece and its BoardSide methods:
+  // PlayMove and its BoardSide methods:
   // LowerPiece which is called by PlacePiece
   // RaisePiece which is called by RemovePiece
   //
@@ -142,7 +142,7 @@ partial class Board {
   }
 
   //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
-  protected Byte? MovePiece(ref Move move) {
+  protected Byte? PlayMove(ref Move move) {
     Byte? vEPTarget = default;
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,
@@ -207,14 +207,14 @@ partial class Board {
   //
   //[Test]Validate any change made here by running Perft Tests!
   //
-  internal void PlayMove(ref Move move) {
+  internal void ExecuteMove(ref Move move) {
     clrDraw0();
 
     // Avoid Overflow
     if (HalfMoveClock < vHalfMoveClockMax)
       HalfMoveClock++;
 
-    var vEPTarget = MovePiece(ref move);
+    var vEPTarget = PlayMove(ref move);
 
     updateRepetitionCycle();
 
@@ -258,7 +258,7 @@ partial class Board {
 #endregion                            // Piece Mover
 
   #region Trace Positions
-  // Called by PlayMove() and SkipTurn()
+  // Called by ExecuteMove() and SkipTurn()
   [Conditional("TracePosition")]
   private void tracePosition() {
     clrTrace();

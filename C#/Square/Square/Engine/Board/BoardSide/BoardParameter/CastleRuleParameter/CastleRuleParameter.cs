@@ -66,12 +66,12 @@ partial class Board {
           //
           //[Chess960]Castles bit needed to resolve ambiguity between castling and King moves:
           //
-          const Move castles = Move.Castles | KingPiece;
+          const Move castles = Move.Castles | MoveKing;
 
           if (!CastlesFrom.HasValue) return;
 
-          var OOTo = castles | ToMove(KingOOTo);
-          var OOOTo = castles | ToMove(KingOOOTo);
+          var OOTo = castles | MoveTo(KingOOTo);
+          var OOOTo = castles | MoveTo(KingOOOTo);
           var qpKing = bit(CastlesFrom.Value);
 
           if (RookOOFrom.HasValue) {
@@ -80,7 +80,7 @@ partial class Board {
             var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
             var qpMask = bit(RookOOFrom.Value) | qpKing;
             OOPath = (OOSafe | qpPath) & ~qpMask;
-            OO = OOTo | FromMove(CastlesFrom.Value);
+            OO = OOTo | MoveFrom(CastlesFrom.Value);
           }
 
           if (RookOOOFrom.HasValue) {
@@ -89,7 +89,7 @@ partial class Board {
             var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
             var qpMask = bit(RookOOOFrom.Value) | qpKing;
             OOOPath = (OOOSafe | qpPath) & ~qpMask;
-            OOO = OOOTo | FromMove(CastlesFrom.Value);
+            OOO = OOOTo | MoveFrom(CastlesFrom.Value);
           }
         }
 

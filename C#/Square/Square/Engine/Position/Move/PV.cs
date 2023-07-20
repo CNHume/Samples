@@ -135,7 +135,7 @@ partial class Position : Board {
       var qp = qpAtxTo;
       while (qp != 0) {
         var n = RemoveLo(ref qp, out Plane qpCandidate);
-        if (!child.tryCandidate(moveTo | FromMove(n)))
+        if (!child.tryCandidate(moveTo | MoveFrom(n)))
           qpPinned |= qpCandidate;
       }
     }

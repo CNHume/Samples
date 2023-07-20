@@ -65,7 +65,7 @@ partial class Position : Board {
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var capture = bEnPassant ? Piece.EP : Piece.Capture;
-    var move = CaptureMove(capture) | PawnPiece | FromToMove(nFrom, nTo);
+    var move = CapturePiece(capture) | MovePawn | MoveFromTo(nFrom, nTo);
 #if DebugMoveColor
     if (WTM()) move |= Move.WTM;
 #endif
@@ -73,7 +73,7 @@ partial class Position : Board {
       foreach (var p in Promotions) {
         var moves = p == Piece.Q ?
           PseudoQueenPromotionCapture : PseudoUnderPromotionCapture;
-        moves.Add(PromotionMove(p) | move);
+        moves.Add(PromotionPiece(p) | move);
       }
     else if (bEnPassant) {
 #if DebugSquares
@@ -93,14 +93,14 @@ partial class Position : Board {
     Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
-    var move = PawnPiece | FromToMove(nFrom, nTo);
+    var move = MovePawn | MoveFromTo(nFrom, nTo);
 #if DebugMoveColor
     if (WTM()) move |= Move.WTM;
 #endif
     if (bPromote)
       foreach (var p in Promotions) {
         var moves = p == Piece.Q ? PseudoQueenPromotion : PseudoUnderPromotion;
-        moves.Add(PromotionMove(p) | move);
+        moves.Add(PromotionPiece(p) | move);
       }
     else {
       var moves = bAbove ? PseudoPawnAboveMove : PseudoPawnBelowMove;
@@ -117,7 +117,7 @@ partial class Position : Board {
     qpMoveTo &= RankPiece;              // Find Captures
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
-      var move = PieceCapture | ToMove(nTo) | moveFrom;
+      var move = MoveCapture | MoveTo(nTo) | moveFrom;
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
@@ -133,7 +133,7 @@ partial class Position : Board {
     qpMoveTo &= ~RankPiece;             // Find Moves
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
-      var move = ToMove(nTo) | moveFrom;
+      var move = MoveTo(nTo) | moveFrom;
 #if DebugMoveColor
       if (WTM()) move |= Move.WTM;
 #endif
@@ -149,7 +149,7 @@ partial class Position : Board {
   private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
 #endif
     // Each side has one King
-    var moveFrom = KingPiece | FromMove(vKingPos);
+    var moveFrom = MoveKing | MoveFrom(vKingPos);
     var qpMoveTo = AtxKing[vKingPos] & qpTo;
 #if UnshadowRay
     if (bRayCheck) {
@@ -176,7 +176,7 @@ partial class Position : Board {
   private void addKingCaptures(Plane qpTo, Byte vKingPos) {
 #endif
     // Each side has one King
-    var moveFrom = KingPiece | FromMove(vKingPos);
+    var moveFrom = MoveKing | MoveFrom(vKingPos);
     var qpMoveTo = AtxKing[vKingPos] & qpTo;
 #if UnshadowRay
     if (bRayCheck) {
@@ -199,7 +199,7 @@ partial class Position : Board {
     var qpKnight = Friend.Piece & Knight;
     while (qpKnight != 0) {
       var nFrom = RemoveLo(ref qpKnight);
-      var moveFrom = KnightPiece | FromMove(nFrom);
+      var moveFrom = MoveKnight | MoveFrom(nFrom);
       var qpMoveTo = AtxKnight[nFrom] & qpTo;
       addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoKnightMove, PseudoKnightMove, moveFrom, qpMoveTo);
@@ -210,7 +210,7 @@ partial class Position : Board {
     var qpKnight = Friend.Piece & Knight;
     while (qpKnight != 0) {
       var nFrom = RemoveLo(ref qpKnight);
-      var moveFrom = KnightPiece | FromMove(nFrom);
+      var moveFrom = MoveKnight | MoveFrom(nFrom);
       var qpMoveTo = AtxKnight[nFrom] & qpTo;
       addPieceCaptures(PseudoKnightCapture, PseudoKnightCapture, moveFrom, qpMoveTo);
     }
@@ -220,7 +220,7 @@ partial class Position : Board {
     var qpBishop = Friend.Piece & Bishop;
     while (qpBishop != 0) {
       var nFrom = RemoveLo(ref qpBishop);
-      var moveFrom = BishopPiece | FromMove(nFrom);
+      var moveFrom = MoveBishop | MoveFrom(nFrom);
       var qpMoveTo = RayDiag(nFrom) & qpTo;
       addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoDiagAboveMove, PseudoDiagBelowMove, moveFrom, qpMoveTo);
@@ -231,7 +231,7 @@ partial class Position : Board {
     var qpBishop = Friend.Piece & Bishop;
     while (qpBishop != 0) {
       var nFrom = RemoveLo(ref qpBishop);
-      var moveFrom = BishopPiece | FromMove(nFrom);
+      var moveFrom = MoveBishop | MoveFrom(nFrom);
       var qpMoveTo = RayDiag(nFrom) & qpTo;
       addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpMoveTo);
     }
@@ -241,7 +241,7 @@ partial class Position : Board {
     var qpRook = Friend.Piece & Rook;
     while (qpRook != 0) {
       var nFrom = RemoveLo(ref qpRook);
-      var moveFrom = RookPiece | FromMove(nFrom);
+      var moveFrom = MoveRook | MoveFrom(nFrom);
       var qpMoveTo = RayOrth(nFrom) & qpTo;
       addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
       addPieceMoves(PseudoOrthAboveMove, PseudoOrthBelowMove, moveFrom, qpMoveTo);
@@ -252,7 +252,7 @@ partial class Position : Board {
     var qpRook = Friend.Piece & Rook;
     while (qpRook != 0) {
       var nFrom = RemoveLo(ref qpRook);
-      var moveFrom = RookPiece | FromMove(nFrom);
+      var moveFrom = MoveRook | MoveFrom(nFrom);
       var qpMoveTo = RayOrth(nFrom) & qpTo;
       addPieceCaptures(PseudoOrthAboveCapture, PseudoOrthBelowCapture, moveFrom, qpMoveTo);
     }
@@ -262,7 +262,7 @@ partial class Position : Board {
     var qpQueen = Friend.Piece & Queen;
     while (qpQueen != 0) {
       var nFrom = RemoveLo(ref qpQueen);
-      var moveFrom = QueenPiece | FromMove(nFrom);
+      var moveFrom = MoveQueen | MoveFrom(nFrom);
       var qpDiagTo = RayDiag(nFrom) & qpTo;
       var qpOrthTo = RayOrth(nFrom) & qpTo;
       addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);
@@ -276,7 +276,7 @@ partial class Position : Board {
     var qpQueen = Friend.Piece & Queen;
     while (qpQueen != 0) {
       var nFrom = RemoveLo(ref qpQueen);
-      var moveFrom = QueenPiece | FromMove(nFrom);
+      var moveFrom = MoveQueen | MoveFrom(nFrom);
       var qpDiagTo = RayDiag(nFrom) & qpTo;
       var qpOrthTo = RayOrth(nFrom) & qpTo;
       addPieceCaptures(PseudoDiagAboveCapture, PseudoDiagBelowCapture, moveFrom, qpDiagTo);

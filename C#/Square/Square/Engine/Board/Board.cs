@@ -553,32 +553,32 @@ partial class Board : IEquatable<Board> {
 
   #region Move Setter Methods
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Move FromMove(Int32 nFrom) {
+  protected static Move MoveFrom(Int32 nFrom) {
     return (Move)(nFrom << nFromBit);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Move ToMove(Int32 nTo) {
+  protected static Move MoveTo(Int32 nTo) {
     return (Move)(nTo << nToBit);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Move FromToMove(Int32 nFrom, Int32 nTo) {
-    return ToMove(nTo) | FromMove(nFrom);
+  protected static Move MoveFromTo(Int32 nFrom, Int32 nTo) {
+    return MoveTo(nTo) | MoveFrom(nFrom);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static Move pieceMove(Piece piece) {
+  private static Move movePiece(Piece piece) {
     return (Move)((UInt32)piece << nPieceBit);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Move CaptureMove(Piece capture) {
+  protected static Move CapturePiece(Piece capture) {
     return (Move)((UInt32)capture << nCaptiveBit);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Move PromotionMove(Piece p) {
+  protected static Move PromotionPiece(Piece p) {
     return (Move)((UInt32)p << nPromoteBit);
   }
   #endregion

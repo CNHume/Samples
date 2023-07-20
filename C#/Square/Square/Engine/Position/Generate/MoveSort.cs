@@ -40,7 +40,7 @@ partial class Position : Board {
 
     //
     //[Note]Assess IsAbove() from the pespective of the
-    // Foe because toggleWTM() was called by PlayMove().
+    // Foe because toggleWTM() was called by ExecuteMove().
     //
     var parameter = Foe.Parameter;
     var bAbove = parameter.IsAbove(nTo);

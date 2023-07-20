@@ -29,7 +29,7 @@ partial class Position : Board {
       throw new PositionException("resetMove() called at the Root Position");
     Copy(Parent);
 
-    // Reset En Passant state just prior to calling PlayMove()
+    // Reset En Passant state just prior to calling ExecuteMove()
     ResetEP();
 #if DebugNodeTotal
     var qNodes = State.TotalMoves + State.NullMoves;
@@ -43,7 +43,7 @@ partial class Position : Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Boolean tryCandidate(Move move) {
     resetMove();
-    MovePiece(ref move);
+    PlayMove(ref move);
     ToggleWTM();
     var bLegal = IsLegal();
     State.IncMove(bLegal);              // Account for overhead
@@ -68,9 +68,9 @@ partial class Position : Board {
     //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
-    timePlayMove(move);                 //[Conditional]
+    timeExecuteMove(move);              //[Conditional]
     resetMove();
-    PlayMove(ref move);
+    ExecuteMove(ref move);
 
     if (IsDraw0())
       clrEval();                        // Captures and Pawn moves invalidate staticEval()
