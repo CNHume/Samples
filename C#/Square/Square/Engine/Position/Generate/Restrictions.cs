@@ -91,10 +91,10 @@ partial class Position : Board {
         //
         var bPasserPin = false;
 #if ExemptPasserPin
-        var uCapture = captured(move);
+        var uCapture = Captured(move);
         var capture = (Piece)uCapture;
         if (capture == Piece.EP) {
-          var nCaptureFrom = nTo + foe.Parameter.ShiftRank;
+          var nCaptureFrom = nTo + Foe.Parameter.PawnStep;
           var qpPasser = bit(nCaptureFrom);
           bPasserPin = (qpRay & qpPasser) != 0;
         }
