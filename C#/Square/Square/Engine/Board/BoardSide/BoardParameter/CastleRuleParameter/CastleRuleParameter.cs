@@ -66,7 +66,7 @@ partial class Board {
           //
           //[Chess960]Castles bit needed to resolve ambiguity between castling and King moves:
           //
-          const Move castles = Move.Castles | KingMove;
+          const Move castles = Move.Castles | KingPiece;
 
           if (!CastlesFrom.HasValue) return;
 

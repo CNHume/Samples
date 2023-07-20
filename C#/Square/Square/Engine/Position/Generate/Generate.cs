@@ -16,6 +16,8 @@ namespace Engine;
 
 using Exceptions;
 
+using static MoveType;
+
 //
 // Type Aliases:
 //
@@ -266,58 +268,58 @@ partial class Position : Board {
 
     foreach (var moveType in moveTypes) {
       switch (moveType) {
-      case MoveType.PawnAboveCapture:
+      case PawnAboveCapture:
         moves.AddRange(PseudoQueenPromotionCapture);
         moves.AddRange(PseudoUnderPromotionCapture);
         moves.AddRange(PseudoEPCapture);        //[Note]Legality is assessed via tryMoves()
         moves.AddRange(PseudoPawnAboveCapture);
         break;
-      case MoveType.PawnBelowCapture:
+      case PawnBelowCapture:
         moves.AddRange(PseudoPawnBelowCapture);
         break;
-      case MoveType.KnightCapture:
+      case KnightCapture:
         moves.AddRange(PseudoKnightCapture);
         break;
-      case MoveType.KingCapture:
+      case KingCapture:
         moves.AddRange(PseudoKingCapture);
         break;
-      case MoveType.DiagAboveCapture:
+      case DiagAboveCapture:
         moves.AddRange(PseudoDiagAboveCapture);
         break;
-      case MoveType.DiagBelowCapture:
+      case DiagBelowCapture:
         moves.AddRange(PseudoDiagBelowCapture);
         break;
-      case MoveType.OrthAboveCapture:
+      case OrthAboveCapture:
         moves.AddRange(PseudoOrthAboveCapture);
         break;
-      case MoveType.OrthBelowCapture:
+      case OrthBelowCapture:
         moves.AddRange(PseudoOrthBelowCapture);
         break;
-      case MoveType.PawnAboveMove:
+      case PawnAboveMove:
         moves.AddRange(PseudoQueenPromotion);
         moves.AddRange(PseudoUnderPromotion);
         moves.AddRange(PseudoPawnAboveMove);
         break;
-      case MoveType.PawnBelowMove:
+      case PawnBelowMove:
         moves.AddRange(PseudoPawnBelowMove);
         break;
-      case MoveType.KnightMove:
+      case KnightMove:
         moves.AddRange(PseudoKnightMove);
         break;
-      case MoveType.KingMove:
+      case KingMove:
         moves.AddRange(PseudoCastles);
         moves.AddRange(PseudoKingMove);
         break;
-      case MoveType.DiagAboveMove:
+      case DiagAboveMove:
         moves.AddRange(PseudoDiagAboveMove);
         break;
-      case MoveType.DiagBelowMove:
+      case DiagBelowMove:
         moves.AddRange(PseudoDiagBelowMove);
         break;
-      case MoveType.OrthAboveMove:
+      case OrthAboveMove:
         moves.AddRange(PseudoOrthAboveMove);
         break;
-      case MoveType.OrthBelowMove:
+      case OrthBelowMove:
         moves.AddRange(PseudoOrthBelowMove);
         break;
       default:

@@ -10,6 +10,8 @@ namespace Engine;
 
 using Exceptions;
 
+using static MoveType;
+
 //
 // Type Aliases:
 //
@@ -23,23 +25,23 @@ partial class Position : Board {
     var vPiece = PieceIndex(uPiece);
     var type = vPiece switch {
       vP6 => bCapture ?
-        bAbove ? MoveType.PawnAboveCapture : MoveType.PawnBelowCapture :
-        bAbove ? MoveType.PawnAboveMove : MoveType.PawnBelowMove,
+        bAbove ? PawnAboveCapture : PawnBelowCapture :
+        bAbove ? PawnAboveMove : PawnBelowMove,
       vB6 => bCapture ?
-        bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
-        bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove,
+        bAbove ? DiagAboveCapture : DiagBelowCapture :
+        bAbove ? DiagAboveMove : DiagBelowMove,
       vR6 => bCapture ?
-        bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
-        bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove,
+        bAbove ? OrthAboveCapture : OrthBelowCapture :
+        bAbove ? OrthAboveMove : OrthBelowMove,
       vQ6 => IsOrth(nFrom, nTo) ?
         bCapture ?
-          bAbove ? MoveType.OrthAboveCapture : MoveType.OrthBelowCapture :
-          bAbove ? MoveType.OrthAboveMove : MoveType.OrthBelowMove :
+          bAbove ? OrthAboveCapture : OrthBelowCapture :
+          bAbove ? OrthAboveMove : OrthBelowMove :
         bCapture ?
-          bAbove ? MoveType.DiagAboveCapture : MoveType.DiagBelowCapture :
-          bAbove ? MoveType.DiagAboveMove : MoveType.DiagBelowMove,
-      vN6 => bCapture ? MoveType.KnightCapture : MoveType.KnightMove,
-      vK6 => bCapture ? MoveType.KingCapture : MoveType.KingMove,
+          bAbove ? DiagAboveCapture : DiagBelowCapture :
+          bAbove ? DiagAboveMove : DiagBelowMove,
+      vN6 => bCapture ? KnightCapture : KnightMove,
+      vK6 => bCapture ? KingCapture : KingMove,
       _ => throw new PieceException($"Unexpected Piece = {vPiece} [{methodName}]"),
     };
 

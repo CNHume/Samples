@@ -282,12 +282,12 @@ partial class Board {
   internal const Int32 nHideFileBit = 28;
 
   #region Move Masks
-  protected const Move PawnMove = (Move)((Byte)Piece.P << nPieceBit);
-  protected const Move KnightMove = (Move)((Byte)Piece.N << nPieceBit);
-  protected const Move BishopMove = (Move)((Byte)Piece.B << nPieceBit);
-  protected const Move RookMove = (Move)((Byte)Piece.R << nPieceBit);
-  protected const Move QueenMove = (Move)((Byte)Piece.Q << nPieceBit);
-  protected const Move KingMove = (Move)((Byte)Piece.K << nPieceBit);
+  protected const Move PawnPiece = (Move)((Byte)Piece.P << nPieceBit);
+  protected const Move KnightPiece = (Move)((Byte)Piece.N << nPieceBit);
+  protected const Move BishopPiece = (Move)((Byte)Piece.B << nPieceBit);
+  protected const Move RookPiece = (Move)((Byte)Piece.R << nPieceBit);
+  protected const Move QueenPiece = (Move)((Byte)Piece.Q << nPieceBit);
+  protected const Move KingPiece = (Move)((Byte)Piece.K << nPieceBit);
 
   protected const Move PieceCapture = (Move)((UInt32)Piece.Capture << nCaptiveBit);
   #endregion                            // Move Masks
