@@ -61,7 +61,7 @@ partial class Position : Board {
     var bSingleCheck = IsOneOrLess(qpChx);
     if (bSingleCheck) {                 //[Safe]
       if (qpChx != 0) {                 // while loop unnecessary
-        var qpRay = PinRestrictions(qpChx, vKingPos);
+        var qpRay = pinRestrictions(qpChx, vKingPos);
 
         //
         // A guard pawn on the 4th or 5th rank may be prevented from EP Capture of a passer due

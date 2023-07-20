@@ -15,7 +15,7 @@ using Exceptions;
 //
 using MoveTypeOrdering = UInt64;
 
-partial class Position {
+partial class Position : Board {
   #region Methods
   private static MoveType moveType(
     Int32 nFrom, Int32 nTo, UInt32 uPiece, Boolean bCapture, Boolean bAbove) {

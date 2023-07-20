@@ -136,7 +136,7 @@ partial class Position : Board {
         // piece, and interpositions along a ray giving check.
         // Only Moves for these To Squares will be considered:
         //
-        var qpRay = Interpositions(nChx, vKingPos);
+        var qpRay = interpositions(nChx, vKingPos);
         var qpTo = qpChx | qpRay;
         if (qpTo != 0)
           addPieceCapturesAndMoves(qpTo);
@@ -191,7 +191,7 @@ partial class Position : Board {
         // piece, and interpositions along a ray giving check.
         // Only Moves for these To Squares will be considered:
         //
-        var qpRay = Interpositions(nChx, vKingPos);
+        var qpRay = interpositions(nChx, vKingPos);
 
         if (qpChx != 0) {
           addPieceCaptures(qpChx);
