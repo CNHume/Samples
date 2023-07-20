@@ -7,7 +7,6 @@
 //
 //#define DebugMoveColor
 #define RecursiveNullMade
-#define HistoryFromTo
 
 namespace Engine;
 //

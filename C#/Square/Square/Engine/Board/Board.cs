@@ -690,17 +690,6 @@ partial class Board : IEquatable<Board> {
     uPromotion = Promoted(move);
     bCastles = IsCastles(move);
   }
-
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static void unpackHistory(
-    Move move, out Int32 nFrom, out Int32 nTo) {
-#if HistoryFromTo
-    nFrom = from(move);
-#else
-    nFrom = PieceIndex((Byte)moved(move));
-#endif
-    nTo = To(move);
-  }
   #endregion                            // Unpack Methods
   #endregion                            // Move Methods
   #endregion                            // Methods
