@@ -7,7 +7,6 @@
 //
 //#define BuildAtxTo
 //#define Magic
-#define UnshadowRay
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;  // For MethodImplAttribute
@@ -187,13 +186,13 @@ partial class Board {
     A8H1Piece |= BitA8H1[n];
   }
 #endif
-#if UnshadowRay
   //
   // The following are called to remove and replace a King from the
-  // board to unshadow its destination squares from any ray attacks.
+  // board to unshadow its destination squares from ray attacks.
   //
-  //[Note]The Hash is not updated during this interval.
+  //[Note]Hash is not updated between these calls.
   //
+  [Conditional("RemoveKingShadow")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected void ClrRayState(Int32 nFrom) {
     var qp = bit(nFrom);
@@ -203,6 +202,7 @@ partial class Board {
 #endif
   }
 
+  [Conditional("RemoveKingShadow")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected void SetRayState(Int32 nTo) {
     var qp = bit(nTo);
@@ -211,7 +211,6 @@ partial class Board {
     SetRotations(nTo);
 #endif
   }
-#endif                                  // UnshadowRay
   #endregion                            // Rotations
 
   #region Bishop Tests

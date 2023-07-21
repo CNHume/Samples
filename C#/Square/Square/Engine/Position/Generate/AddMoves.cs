@@ -7,8 +7,8 @@
 //
 //#define DebugSquares
 //#define DebugMoveColor
-#define UnshadowRay
-#define UnshadowRay2
+#define RemoveKingShadow
+#define RemoveKingShadow2               // RemoveKingShadow2 <= RemoveKingShadow
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;  // For MethodImplAttribute
@@ -143,7 +143,7 @@ partial class Position : Board {
   }
 
   //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
-#if UnshadowRay2
+#if RemoveKingShadow2
   private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
   private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos) {
@@ -151,11 +151,11 @@ partial class Position : Board {
     // Each side has one King
     var moveFrom = MoveKing | MoveFrom(vKingPos);
     var qpMoveTo = AtxKing[vKingPos] & qpTo;
-#if UnshadowRay
+#if RemoveKingShadow
     if (bRayCheck) {
       //
-      // Briefly remove the King being moved from position to
-      // unshadow its destination squares from ray attacks:
+      // Remove shadow that the current position of the King
+      // casts in the way of attacks upon the To square:
       //
       ClrRayState(vKingPos);
       qpMoveTo &= Foe.Safe(qpMoveTo);
@@ -170,7 +170,7 @@ partial class Position : Board {
   }
 
   //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
-#if UnshadowRay2
+#if RemoveKingShadow2
   private void addKingCaptures(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
   private void addKingCaptures(Plane qpTo, Byte vKingPos) {
@@ -178,11 +178,11 @@ partial class Position : Board {
     // Each side has one King
     var moveFrom = MoveKing | MoveFrom(vKingPos);
     var qpMoveTo = AtxKing[vKingPos] & qpTo;
-#if UnshadowRay
+#if RemoveKingShadow
     if (bRayCheck) {
       //
-      // Briefly remove the King being moved from position To
-      // unshadow its destination squares from ray attacks:
+      // Remove shadow that the current position of the King
+      // casts in the way of attacks upon the To square:
       //
       ClrRayState(vKingPos);
       qpMoveTo &= Foe.Safe(qpMoveTo);

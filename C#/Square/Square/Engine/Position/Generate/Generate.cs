@@ -6,8 +6,8 @@
 // Conditionals:
 //
 #define DebugEPTarget
-#define UnshadowRay
-#define UnshadowRay2
+#define RemoveKingShadow
+#define RemoveKingShadow2               // RemoveKingShadow2 <= RemoveKingShadow
 #define UseMoveSort
 
 using System.Runtime.CompilerServices;
@@ -119,13 +119,13 @@ partial class Position : Board {
     var vKingPos = Friend.GetKingPos();
 
     clearPseudoMoveLists(moves, bSwap);
-#if UnshadowRay2
+#if RemoveKingShadow2
     var bRayCheck = false;
 #endif
     if (bInCheck) {
       var qpKing = Friend.Piece & King;
       var qpChx = Foe.Checkers(vKingPos, qpKing);
-#if UnshadowRay
+#if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
       var qpChx2 = qpChx;
@@ -154,7 +154,7 @@ partial class Position : Board {
 
       addCastles();
     }                                   //!bInCheck
-#if UnshadowRay2
+#if RemoveKingShadow2
     addKingCapturesAndMoves(~Friend.Piece, vKingPos, bRayCheck);
 #else
     addKingCapturesAndMoves(~Friend.Piece, vKingPos);
@@ -174,13 +174,13 @@ partial class Position : Board {
     var vKingPos = Friend.GetKingPos();
 
     clearPseudoMaterialMoveLists(moves);
-#if UnshadowRay2
+#if RemoveKingShadow2
     var bRayCheck = false;
 #endif
     if (bInCheck) {
       var qpKing = Friend.Piece & King;
       var qpChx = Foe.Checkers(vKingPos, qpKing);
-#if UnshadowRay
+#if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
       var qpChx2 = qpChx;
@@ -207,11 +207,10 @@ partial class Position : Board {
       Friend.AddPawnCaptures(includeEPTarget(Foe.Piece));
       Friend.AddPromotionMoves(~RankPiece);
     }                                   //!bInCheck
-#if UnshadowRay2
+#if RemoveKingShadow2
     addKingCaptures(Foe.Piece, vKingPos, bRayCheck);
 #else
-    var bWTM = WTM();
-    addKingCaptures(Foe.Piece, vKingPos, bWTM);
+    addKingCaptures(Foe.Piece, vKingPos);
 #endif
     addPseudoMaterialMoves(moves);
     return State.IncPseudoMoveTotal(moves.Count);
@@ -225,13 +224,13 @@ partial class Position : Board {
     var bInCheck = InCheck();
 
     clearPseudoSwapLists(moves);        // ~32 MHz
-#if UnshadowRay2
+#if RemoveKingShadow2
     var bRayCheck = false;
 #endif
     if (bInCheck) {
       var qpKing = Friend.Piece & King;
       var qpChx = Foe.Checkers(vKingPos, qpKing);
-#if UnshadowRay
+#if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
       var bSingleCheck = IsOneOrLess(qpChx);
@@ -249,7 +248,7 @@ partial class Position : Board {
       addPieceCaptures(qpFoe);
       Friend.AddPawnCaptures(qpFoe);
     }                                   //!bInCheck
-#if UnshadowRay2
+#if RemoveKingShadow2
     addKingCaptures(qpTo & ~Friend.Piece, vKingPos, bRayCheck);
 #else
     addKingCaptures(qpTo & ~Friend.Piece, vKingPos);

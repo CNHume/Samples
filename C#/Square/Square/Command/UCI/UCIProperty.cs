@@ -411,7 +411,7 @@ partial class UCI {
   //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24"; // Wood v Sowell 2014-07-16
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
-  //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-08 13-ply in 19.412 sec @1.664 MHz over 32.303 Mnode]
+  //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
   "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [2023-07-11 15-ply in 8:26 @1.369 MHz over 692.86 Mnode] eval 2.5 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh6 32. Be7 Kg7 33. Qxa7 g5 34. Qc7 Kg6 35. Bxf6 Kxf6 36. Qe5+ Kg6 37. Qxd5 Nd2
   // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7
