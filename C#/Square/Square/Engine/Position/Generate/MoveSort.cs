@@ -58,7 +58,14 @@ partial class Position : Board {
     moveTypes.Rotate(0, nIndex);
 
     //
-    // New ordering inherited by subsequent children:
+    // expandMoveTypes(moveTypeOrdering) is called by addPseudoMoves() to
+    // provide preliminary ordering for PseudoMoves created by generate().
+    //
+    //[ToDo]Add moveTypeOrdering to the XPM payload in storeXPM() and probeXPM()
+    // so that the new ordering will be recalled for subsequent searches at the
+    // current Ply Depth.
+    //
+    // This moveTypeOrdering is currently inherited by children at subsequent Depth.
     //
     moveTypeOrdering = compressMoveTypes(moveTypes);
   }
@@ -125,13 +132,14 @@ partial class Position : Board {
       else {
         var good = goodMoves[nIndex];
         var mGoodValue = good.Value;    // goodMove Eval
-                                        //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
+
+        //mValue = EvalUndefined < mGoodValue ? mGoodValue : (Eval)(mLateStart - nIndex);
         if (EvalUndefined < mGoodValue)
           mValue = mGoodValue;
         else
           mValue = (Eval)(mLateStart - nIndex);
       }
-#else
+#else                                  //!TestGoodValue
       var mValue = nIndex < 0 ? EvalUndefined : (Eval)(Eval.MaxValue - nIndex);
 #endif                                  // TestGoodValue
       //
@@ -143,9 +151,11 @@ partial class Position : Board {
 #if LazyMoveSort
     PriorityMove.Truncate();            // Truncate Heap, preparing to rebuild.
     PriorityMove.IsAscending = true;
-
     //
-    // Convert SortMoves[] into a Heap:
+    //[Note]SortMoves became referenced as the PriorityMove.Entries array when
+    // the PriorityMove = new Heap<SortMove>(SortMoves) constructor was called.
+    //
+    // Perform a Lazy Sort by converting SortMoves[] into a Heap:
     //
     PriorityMove.Build(nGenerated);
 #else
@@ -184,7 +194,7 @@ partial class Position : Board {
     //[Commented]Scale(bWTM, wPly, 0.75f);
     return nEarly;
   }
-#else                                   // UseMoveSort
+#else                                   //!UseMoveSort
   private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
     var nStart = SiftedMoves.Count;
     Debug.Assert(nStart == 0, "nStart != 0");

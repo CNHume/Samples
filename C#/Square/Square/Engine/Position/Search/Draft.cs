@@ -52,6 +52,10 @@ partial class Position : Board {
     return (Draft)(wDepth << nDepthScale);
   }
 
+  //
+  // nextDraft() returns a fractional representation of the
+  // next lower Ply Depth, used to limit search() recursion.
+  //
   private static Draft nextDraft(Draft wDraft) {
     return (Draft)(wDraft > wFullPly ? wDraft - wFullPly : 0);
   }
