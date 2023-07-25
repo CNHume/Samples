@@ -13,12 +13,14 @@
 #define BottleBothSides
 #define UseHistory
 #define UseMoveSort
-#define LazyMoveSort                    // LazyMoveSort ~10% faster than a full Array.Sort()
+#define LazyMoveSort                    // LazyMoveSort significantly faster than Array.Sort()
 #define RewardMoveTypes
+//#define TestGoodCapture
 #define TestGoodValue
 //#define TestRewardMove
 
 using System.Diagnostics;
+using System.Text;
 
 namespace Engine;
 
@@ -245,8 +247,8 @@ partial class Position : Board {
 #if TestGoodCapture
           var good = gm.Move & Move.StoreMask;
           if (good != em) {
-            var goodCaptive = captured(good);
-            var emCaptive = captured(em);
+            var goodCaptive = (Piece)Captured(good);
+            var emCaptive = (Piece)Captured(em);
             if (emCaptive != Piece.Capture) {
               var sb = new StringBuilder();
               sb.AppendAN(good, Side, false);

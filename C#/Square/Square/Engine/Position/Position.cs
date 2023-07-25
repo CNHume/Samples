@@ -236,7 +236,9 @@ partial class Position : Board {
   [MemberNotNull(
 #if UseMoveSort
     nameof(SortMoves),
+#if LazyMoveSort
     nameof(PriorityMove),
+#endif
 #endif
     nameof(PseudoQueenPromotionCapture),
     nameof(PseudoUnderPromotionCapture),
