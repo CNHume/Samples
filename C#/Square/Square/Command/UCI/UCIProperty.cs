@@ -40,24 +40,7 @@ partial class UCI {
   //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
   // moves f2f4 c7c5 g1f2 d8b6 OO OOO
   //
-  // Daniel Naroditsky Endgame Lessons:
-  //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept [2023-03-09 14-ply in 4.14 sec @1.029 MHz over 4.262 Mnode] eval -0.85 after:
-  // 1. Kc8! b5 2. Kd7 Bf5+ 3. Kd6 b4 4. Ke5! Bh3 5. Kd4 Bc8 6. Kc4 Ke2 7. Kxb4 Kd1 8. Ka3
-  //"8/6kp/Q2p4/3P4/8/6qP/3pBrP1/6RK b - - 0 37"; [2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
-  // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
-  //
   //"";
-  //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
-  //"3Q4/8/7p/5p1P/2p2P2/3b4/K1pk4/8 w - - 0 1"; // Anand v Carlsen Stalemate Global Chess League 2023-06-28 [6-ply over 25.448 Knode] eval 0.0 after:
-  // 1. Qb6 c1=Q 2. Qe3+ Kd1 3. Qe2+ Bxe2 stalemate
-  // moves d8d4
-  //"8/8/7p/5p1P/2pQ1P2/3b4/K1pk4/8 b - - 0 1"; // Anand v Carlsen Remarkable Endgame Global Chess League 2023-06-28 [2023-06-28 16-ply in 4:01.28 @1.3333 MHz over 312.15 Mnode] eval -4.5 after:
-  // 1... c1=N+ 2. Ka3 c3 3. Qb4 Ne2 4. Qa5 Be4 5. Ka2 Ke1 6. Ka3 Kf2 7. Qb6+ Ke1 8. Qe3 c3c2
-  //
-  //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
-  // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
-  // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
-  //
   //"8/8/8/5R2/2k1pb2/3p4/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame
   // moves f4d6 f5f6 d6e5 f6f5 c4d4 f5f8 e4e3 f8d8 d4e4 d8e8
   //"4R3/8/8/4b3/4k3/3pp3/8/3K4 b - - 0 6";   // Carlsen v Duda Endgame Position with History
@@ -101,13 +84,6 @@ partial class UCI {
   // 13... Qd7 14. Ne5 Nxe5 15. Bxd7+ Nxd7 16. Rxa1 OOO 17. Bd6 c6 18. Bf4
   //"2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
   //
-  //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";   // Composed by Sergueï Kaminer [2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
-  //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
-  // [2023-04-29 11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
-  // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Ba5 c6 7. Qh7 Rd6 8. Bc3+
-  // [2023-04-30 16-ply in 48:03 @1.498 MHz over 4.32 Gnode] eval 5.9 after:
-  // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Bc3+ Ke7 7. Bb4+ Nd6 8. Qc8 Rg6+ 9. Kf1 Kf6 10. Qxc7 Nf7 11. Qxa7 Ng5
-  //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
   //
   //"8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61"; // Hash = EA58B15C62619E25
@@ -155,7 +131,6 @@ partial class UCI {
   // 8. f3! Nc3 9. Rxc3 Bf5 10. Rc4 Rd1+ 11. Kf2 Rb1 12. Rxa4 Rb2+ 13. Ke3 Rb3+ 14. Kd4 Kf8 15. Ra8+ Ke7 16. b8=Q Rxb8 17. Rxb8 Kd6 18. Rb6 h6 19. Rb8
   // 8. f3! Rf8? 9. g4 a3 10. Ra1 +-
   // 8. f3! Nc3! 9. Rxc3 {forced} Kf8 10. Rxc6 Bf5 11. Ra6 Rd1+ 12. Kf2 Rb1 13. Ra8+ Ke7 14. b8=Q Rxb8 15. Rxb8 Be6 16. Ra8 Bb3 +=
-  //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 #2 [4-ply 25,142 nodes]
   //"1k1r4/1P2q3/1Q6/6p1/6Pp/7P/8/2R3K1 w - - 0 1"; // Promotion Fork [4-ply in 75 ms @121.77 KHz over 9,133 node] eval 3.25
   // 1. Rc8+ Rxc8 2. Qa7+ Kxa7 3. bxc8=N+ Ka6 4. Nxe7
   //"3r3r/pQpk1pp1/5n2/4n1p1/2Pqp1b1/3P2P1/PBP2PBP/1R3RK1 b - - 0 16"; // Richard Rapport v Shakhriyar Mamedyarov 2022-10-15 -#13
@@ -185,7 +160,6 @@ partial class UCI {
   // [2022-09-16 17-ply in 1:20:28 @1.2 MHz over 5.795 Gnode] eval 2.65 after:
   // 33. Ba6 Bf6 34. Bxb7 Rxb7 35. c6 Rxb6 36. Rc1 Rxc6 37. Rxc6 Kg7 38. Rc8 a4 39. d7 f4 40. h3 f3 41. gxf3 exf3 42. d8=Q Bxd8 43. Rxd8
   //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
-  //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
   //
   //"r1bq1rk1/pp2nppp/2n1p3/3pP3/1b1P4/2NB1N2/PP3PPP/R1BQK2R w KQ - 0 9"; // Greek Gift from French Advance [2023-01-08 14-ply in 35:53 @1.479 MHz over 3.185 Gnode] eval 1.63 after:
   // 9. Bxh7+! Kxh7 10. Ng5+ Kg6 11. h4 Qa5 12. h5+ [12. Qd3+! f5 13. h5+ Kh6 14. Nxe6+ f4 15. Nxf8 Bf5 16. Bxf4+ g5 17. hxg6+ {ep} Kg7 18. Bh6+ Kg8 19. Qe3 Nxg6 20. Nxg6 Bxg6 21. Qg3!]
@@ -197,11 +171,6 @@ partial class UCI {
   // 12... Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
   //"r1bq1r2/pp2npp1/2n1p1k1/3pP1N1/1b1P3P/2N5/PP3PP1/R1BQK2R b KQ - 0 11"; // Greek Gift from French Advance Line [2023-01-09 16-ply in 2:40:15 @1.508 MHz over 14.5 Gnode] eval 2.85 after:
   // 11... Qa5 12. Qd3+ Nf5 13. g4 f6 14. h5+ Kh6 15. Nxe6+ Kh7 16. Nxf8+ Bxf8 17. exf6 gxf6 18. gxf5 Ne7 19. h6 Bxf5 20. Qb5 Qxb5 21.Nxb5
-  //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // #3 4-ply
-  // moves h4h5 g6h6 g5e6 g7g5
-  //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
-  // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
-  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
   //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
   // [2022-08-25 18-ply in 4:31.7 @1.407 over 382.3 Mnode] eval 9.85 after:
   // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 h5 53. Qxg6+ Kxg6 54. Qg5+ Kf7
@@ -245,9 +214,6 @@ partial class UCI {
   //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Lasker v Thomas 1912-10-29 #1
   //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
   //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
-  //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
-  //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2 [4-ply]
-  // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
   //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
   //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
   //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1"; // Q v RP draw
@@ -261,7 +227,6 @@ partial class UCI {
   // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
   // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xposing}) 3. Ne6+ 1-0
   //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
-  //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
   //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8 [2022-08-25 15-ply to find #-9 in 1:11 @1.497 MHz over 106.12 Mnode]
   // 55... h5 56. d6 Ra1+ 57. Kg2 Rg1+ 58. Kh2 g3+ 59. Kh3 Rh1+ 60. Kg2 Rh2+ 61. Kf1 g2+ 62. Ke1 Rh1+ 63. Rf1 gxf1=Q#
   //"r1bnknr1/1pp1qp2/p3p1p1/3pP1Np/3P3R/2NB1RQ1/PPP2PP1/2K5 w q - 0 1"; // Stockfish 8 v Alpha Zero (1-0) [Too Deep to find Bc4!]
@@ -335,23 +300,6 @@ partial class UCI {
   // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
   // [66... Kg6?! 67. Ne5+! Kxg5 68. Rf5+ Kh6 [68... Kh4 69. Ng6+] 69. Ng4+ Kg6 70. Rxa5]
   // 67. Kf4 Ra4+ 68. Kf5 Rd4 69. Rd8 Rd5+ 70. Kg4 Kf7 71. Rf8+ Kg7 72. Rg8+ Kf7 73. Nf6
-  //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";  // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
-  //
-  //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike Anderson's Famous [Gijs van Breukelen] Study
-  // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
-  // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
-  // 1. Nf6+ Kg7 2. Nh5+ Kg6 3. Bc2+!! Kxh5 Here Stockfish 12 shows +3.66 4. d8=Q Kg4
-  // [4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5! e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2
-  // [12... Nc2 13. Bxc2 Ne2 14. Bd1 -- 15. Bxe2#] 13. Bd1 Nf3 14. Bxe2 -- 15. Bxf3#]
-  // 5. Bd1+ Kxg3 6. Qe8 c4+ 7. Kc6 Bc5 8. Qe5+ +-
-  //
-  // Position prior to 4... Nf7+? after moves g4f6 h7g7 f6h5 g7g6 d1c2 g6h5 d7d8q:
-  //"3Q4/8/n2K3p/2p3nk/1b6/2p1p1P1/2B5/8 b - - 0 4";
-  // 4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5!
-  // Hint position after moves g5f7 d6e6 f7d8 e6f5:
-  //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [2022-11-17 17-ply in 8:26:53.6 @1.392 MHz over 42.34 Gnode] #9 after:
-  // 6... e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
-  //
   //"r1r3k1/2q1bp1p/4b1pQ/p2pP3/P2B1R2/2PB4/6PP/5R1K w - - 0 25"; // Kamsky v D'Costa 2016-02-13 #14 Capelle La Grande [double rook sacrifice]
   //"r4rk1/p4pb1/bp5p/2pNqPp1/6P1/7Q/PPP3P1/2KR2BR w - - 0 1"; // Ninov v Colovic 2015
   //"4rbk1/1ppr1p2/5R2/pP6/2Q5/P7/1B2q1PP/5R1K w - - 0 30"; // Giri v Sunilduth Lyna, Narayanan 2015-12-20 #6 [9-ply in 7 sec @1.451 MHz over 10.19 Mnode]
@@ -372,7 +320,6 @@ partial class UCI {
   // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed to avoid checks}
   // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xposing}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
   // 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
-  //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
   //"r1b1r1k1/ppq2p1p/3b2pQ/3pn3/8/2P4P/PPBN1PP1/R1B1R1K1 b - -"; // Hit Rate 1 15.8% hits [plus 1.1% Qxnt] at 12-ply, expecting ~25%
   //"6k1/5p1p/P1pb1nq1/6p1/3P4/1BP2PP1/1P1Nb2P/R1B3K1 b - -"; // Hit Rate 2 26.6% at 12-ply [plus 4% Qxnt], exceeding ~30% Hits
   //"8/k7/3p4/p2P1p2/P2P1P2/8/8/K7 w - -"; //[Fine 70]87% Hits at 37-ply, should solve by 26-ply
@@ -432,8 +379,6 @@ partial class UCI {
   // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
   //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14"; // KBN v K Endgame Test Line #12 [19-ply in 53.4 sec @1.598 MHz]
   //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
-  //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
-  //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
   //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61"; // Radjabov v Karjakin 2012
   //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42"; // Nakamura v Adams 2011 Line [2022-08-19 13-ply in 3:55 @1.488 MHz over 349.6 Mnode] eval 3.70 after:
   // 42. Nxf8 b1=Q 43. c8=Q Rd8 44. Qxd8 Qxe1+ 45. Qxe1 Qxd8 46. Nd7 Kg7 47. Re8 Qc7 48. Re7+ Kg8 49. Nxf6+
@@ -475,14 +420,6 @@ partial class UCI {
   //"8/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua Draw3 [2022-09-18 21-ply in 7:30 @1.312 MHz over 590.566 Mnode] eval 0.0
   // moves h6h5 f6f5 h5h4 f5h3 h4g5 h3f5 g5h4 f5h3 h4g5 h3f5 g5h6 f5f6 h6h7 f6f7 h7h8 f7f8 h8h7 f8f7 h7h8 f7f8 h8h7 f8f7, or
   // moves h6h5 f6f7 h5g4 f7f5 g4h4 f5f6 h4h5 f6f5 h5h6 f5f6 h6h7 f6f7 h7h6 f7f6 [once inevitable, postponing a draw is not favored]
-  //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10 [2023-04-04 16-ply in 35:57 @1.547 MHz over 3.336 Gnode] to find #11
-  //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10 [2023-04-04 17-ply in 4:21:30 @1.47 MHz over 23.071 Gnode]
-  // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
-  //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen v Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
-  //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17"; // Jensen v Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz over 1.186 Mnode]
-  //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen v Urkedal 2013 #6 [12-ply not 8-ply? in 1.8 sec @1.287 MHz over 2.315 Mnode]
-  // 17. Qe5+ Kg8 (17... Kh7 18. Qe7+ Kg8 (18... Kh6 19. Qh4+?! (19. Bf4+!) 19... Kg7 20. Be5+ Kf7 21. Qf6+ Ke8 22. Qxh8+)
-  // 19. Be5! Rh7 20. Qe8#) 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+! g5 21. Qxg5+ Kh7 22. Be5 Rg8 23. Qh5#
   //"r4rk1/pp2Bpbp/1qp3p1/8/2BPn1b1/Q1P2N2/P4PPP/3RK2R b K - 0 15";
   //"3r2k1/1p3pp1/p1p5/8/1P2r3/P3PqBp/2Q2P1P/R3RK2 b - - 0 29"; // 1964 Bielicki v Smyslov (0-1) [2022-08-28 14-ply in 6:27 @1.518 MHz over 587.6 Mnode] eval -9.20
   //"3r2k1/1p3pp1/p1p5/8/1Pr5/P3PqBp/1Q3P1P/R3RK2 b - - 0 30"; // 1964 Bielicki v Smyslov (0-1) -#9 [2022-08-28 16-ply in 3:28 @1.528 MHz over 317.7 Mnode]
@@ -493,7 +430,117 @@ partial class UCI {
   //"6k1/1p3pp1/p1p5/4B3/1P6/P3Pq1p/2R2P1P/3rRK2 b - - 0 32"; // Line, after Be5
   //"r3kbnr/pp2pppp/8/1N6/3n4/5P2/PP3P1P/R1B1KB1R b KQkq - 0 10"; // c3 Sicilan w 4... d5
   //"N5nr/pp1kppbp/6p1/1B6/8/4BP2/PP3P1P/n2K3R b - - 0 15";
-  #endregion
+  //
+  //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10 [2023-04-04 16-ply in 35:57 @1.547 MHz over 3.336 Gnode] to find #11
+  //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10 [2023-04-04 17-ply in 4:21:30 @1.47 MHz over 23.071 Gnode]
+  // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
+  //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen v Urkedal 2013 #9 [13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
+  //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17"; // Jensen v Urkedal 2013 #7 [9-ply in 1.3 sec @915 KHz over 1.186 Mnode]
+  //"rnb4r/pppp2k1/3B2p1/4Q3/8/8/PPP3PP/RN5K b - - 0 17"; // Jensen v Urkedal 2013 #6 [12-ply not 8-ply? in 1.8 sec @1.287 MHz over 2.315 Mnode]
+  // 17. Qe5+ Kg8 (17... Kh7 18. Qe7+ Kg8 (18... Kh6 19. Qh4+?! (19. Bf4+!) 19... Kg7 20. Be5+ Kf7 21. Qf6+ Ke8 22. Qxh8+)
+  // 19. Be5! Rh7 20. Qe8#) 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+! g5 21. Qxg5+ Kh7 22. Be5 Rg8 23. Qh5#
+  //
+
+  #region Puzzles
+  //
+  // Daniel Naroditsky Endgame Lessons:
+  //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept [2023-03-09 14-ply in 4.14 sec @1.029 MHz over 4.262 Mnode] eval -0.85 after:
+  // 1. Kc8! b5 2. Kd7 Bf5+ 3. Kd6 b4 4. Ke5! Bh3 5. Kd4 Bc8 6. Kc4 Ke2 7. Kxb4 Kd1 8. Ka3
+  //"8/6kp/Q2p4/3P4/8/6qP/3pBrP1/6RK b - - 0 37"; [2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
+  // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
+  //
+  //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";   // Composed by Sergueï Kaminer [2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
+  //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
+  // [2023-04-29 11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:
+  // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Ba5 c6 7. Qh7 Rd6 8. Bc3+
+  // [2023-04-30 16-ply in 48:03 @1.498 MHz over 4.32 Gnode] eval 5.9 after:
+  // 1. Be1+ Kg5 2. Ne6+ Rxe6 3. Qh4+ Kg6 4. Qxd8 Nf7 5. Qg8+ Kf6 6. Bc3+ Ke7 7. Bb4+ Nd6 8. Qc8 Rg6+ 9. Kf1 Kf6 10. Qxc7 Nf7 11. Qxa7 Ng5
+  //
+  //"8/3P3k/n2K3p/2p3n1/1b4N1/2p1p1P1/8/3B4 w - - 0 1"; // Mike Anderson's Famous [Gijs van Breukelen] Study
+  // See "Solution to a truly remarkable study" by Frederic Friedel, 2018-02-12 https://en.chessbase.com/post/solution-to-a-truly-remarkable-study
+  // This study was composed by Gijs van Breukelen and presented to the players at a Super Tournament in Brussels, 1987.  First solved by Mikhail Tal.
+  // 1. Nf6+ Kg7 2. Nh5+ Kg6 3. Bc2+!! Kxh5 Here Stockfish 12 shows +3.66 4. d8=Q Kg4
+  // [4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5! e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2
+  // [12... Nc2 13. Bxc2 Ne2 14. Bd1 -- 15. Bxe2#] 13. Bd1 Nf3 14. Bxe2 -- 15. Bxf3#]
+  // 5. Bd1+ Kxg3 6. Qe8 c4+ 7. Kc6 Bc5 8. Qe5+ +-
+  //
+  // Position prior to 4... Nf7+? after moves g4f6 h7g7 f6h5 g7g6 d1c2 g6h5 d7d8q:
+  //"3Q4/8/n2K3p/2p3nk/1b6/2p1p1P1/2B5/8 b - - 0 4";
+  // 4... Nf7+? 5. Ke6 Nxd8+ 6. Kf5!
+  // Hint position after moves g5f7 d6e6 f7d8 e6f5:
+  //"3n4/8/n6p/2p2K1k/1b6/2p1p1P1/2B5/8 b - - 0 1"; // [2022-11-17 17-ply in 8:26:53.6 @1.392 MHz over 42.34 Gnode] #9 after:
+  // 6... e2 7. Be4 e1=N 8. Bd5 c2 9. Bc4 c1=N 10. Bb5 Nc6 11. Bxc6 Nc7 12. Ba4 Ne2 13. Bd1 Nf3 14. Bxe2 Nb5 15. Bxf3#
+  //
+  //"3Q4/8/7p/5p1P/2p2P2/3b4/K1pk4/8 w - - 0 1"; // Anand v Carlsen Stalemate Global Chess League 2023-06-28 [6-ply over 25.448 Knode] eval 0.0 after:
+  // 1. Qb6 c1=Q 2. Qe3+ Kd1 3. Qe2+ Bxe2 stalemate
+  // moves d8d4
+  //"8/8/7p/5p1P/2pQ1P2/3b4/K1pk4/8 b - - 0 1"; // Anand v Carlsen Remarkable Endgame Global Chess League 2023-06-28 [2023-06-28 16-ply in 4:01.28 @1.3333 MHz over 312.15 Mnode] eval -4.5 after:
+  // 1... c1=N+ 2. Ka3 c3 3. Qb4 Ne2 4. Qa5 Be4 5. Ka2 Ke1 6. Ka3 Kf2 7. Qb6+ Ke1 8. Qe3 c3c2
+  //
+  //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
+  // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
+  // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
+  //
+  //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";  // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
+  // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
+  //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
+  //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
+  //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
+  //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
+  //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
+  //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
+  //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
+  //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // EP #3 4-ply
+  // moves h4h5 g6h6 g5e6 g7g5
+  //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
+  //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2 [4-ply]
+  // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
+  //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 #2 [4-ply 25,142 nodes]
+  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
+  //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
+  //"K4BB1/1Q6/5p2/8/2R2r1r/N2N2q1/kp1p1p1p/b7 w - - 0 1"; // Bristol Times & Mirror 1927 #2
+  //  1) 1. Qf3 Rxf3 2. Rg4#
+  //  2) 1. Qf3 Rxc4 2. Nb4#
+  //  3) 1. Qf3 Qxf3+ 2. Re4#
+  //  4) 1. Qf3 Qxg8 2. Nb4#
+  //  5) 1. Qf3 Rd4 2. Nb4#
+  //  6) 1. Qf3 Re4 2. Nb4#
+  //  7) 1. Qf3 Rfg4 2. Rxg4#
+  //  8) 1. Qf3 Rh3 2. Nb4#
+  //  9) 1. Qf3 Rhg4 2. Nb4#
+  // 10) 1. Qf3 Qg1 2. Nb4#
+  // 11) 1. Qf3 Qg2 2. Nb4#
+  // 12) 1. Qf3 Qh3 2. Nb4#
+  // 13) 1. Qf3 Qg4 2. Nb4#
+  // 14) 1. Qf3 Rf5 2. Nb4#
+  // 15) 1. Qf3 Rh5 2. Nb4#
+  // 16) 1. Qf3 Rh6 2. Nb4#
+  // 17) 1. Qf3 Rh7 2. Nb4#
+  // 18) 1. Qf3 Rh8 2. Nb4#
+  // 19) 1. Qf3 Qg5 2. Nb4#
+  // 20) 1. Qf3 Qg6 2. Nb4#
+  // 21) 1. Qf3 Qg7 2. Nb4#
+  // 22) 1. Qf3 Kb3 2. Nc1#
+  // 23) 1. Qf3 b1=Q 2. Rc2#
+  // 24) 1. Qf3 d1=Q 2. Nb4#
+  // 25) 1. Qf3 f1=Q 2. Nb4#
+  // 26) 1. Qf3 h1=Q 2. Nb4#
+  // 27) 1. Qf3 b1=N 2. Rc2#
+  // 28) 1. Qf3 b1=B 2. Rc2#
+  // 29) 1. Qf3 b1=R 2. Rc2#
+  // 30) 1. Qf3 d1=N 2. Nb4#
+  // 31) 1. Qf3 d1=B 2. Nb4#
+  // 32) 1. Qf3 d1=R 2. Nb4#
+  // 33) 1. Qf3 f1=N 2. Nb4#
+  // 34) 1. Qf3 f1=B 2. Nb4#
+  // 35) 1. Qf3 f1=R 2. Nb4#
+  // 36) 1. Qf3 h1=N 2. Nb4#
+  // 37) 1. Qf3 h1=B 2. Nb4#
+  // 38) 1. Qf3 h1=R 2. Nb4#
+  // 39) 1. Qf3 f5 2. Nb4#
+  //
+  #endregion                            // Puzzles
+  #endregion                            // FEN Constants
 
   #region EPD Constants
   private const String sDefaultEPD =
@@ -778,7 +825,7 @@ partial class UCI {
   //@"r1b1r1k1/pp3ppp/4p1n1/q1ppP1B1/6QP/P1PB3R/2P1KPP1/R7 w - - bm h5; id ""arasan18.248""; c0 ""Bologan-Vaganian, EU Club Cup 2006"";";
   //@"2nq2rb/3pr2k/1pp1p2p/p3Pp1B/3P1P2/PPN5/5Q1P/R5RK w - - bm Ne4; id ""arasan18.249""; c0 ""Kasparov-Jussupow, URS-ch49 Frunze 1981"";";
   //@"8/k3qrpR/1p1p4/p2QpPp1/P1P1P1K1/1P6/8/8 w - - bm b4; id ""arasan18.250""; c0 ""Keres-Euwe, Netherlands (m/6) 1940"";";
-  #endregion
+  #endregion                            // EPD Constants
 
   #region Fields
   private Boolean disposed = false;
