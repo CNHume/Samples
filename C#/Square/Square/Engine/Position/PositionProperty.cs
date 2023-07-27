@@ -3,7 +3,6 @@
 //
 // Conditionals:
 //
-#define UseMoveSort
 #define LazyMoveSort
 //#define TestPawnFeatures
 //#define TestInitFree
@@ -112,13 +111,9 @@ partial class Position : Board {
   //
   public List<Move> PseudoMoves;
   public List<Move>? SearchMoves;
-#if UseMoveSort
   public SortMove[] SortMoves;
 #if LazyMoveSort
   public Heap<SortMove> PriorityMove;
-#endif
-#else
-  public List<Move> SiftedMoves;
 #endif
   #endregion                            // Fields
 

@@ -12,7 +12,6 @@
 #define UseKillers
 #define BottleBothSides
 #define UseHistory
-#define UseMoveSort
 #define LazyMoveSort                    // LazyMoveSort significantly faster than Array.Sort()
 #define RewardMoveTypes
 //#define TestGoodCapture
@@ -99,7 +98,6 @@ partial class Position : Board {
 #endif                                  // UseKillers
   }
 
-#if UseMoveSort
   private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
     //[Test]goodMoves.Sort();
 
@@ -196,101 +194,5 @@ partial class Position : Board {
     //[Commented]Scale(bWTM, wPly, 0.75f);
     return nEarly;
   }
-#else                                   //!UseMoveSort
-  private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {
-    var nStart = SiftedMoves.Count;
-    Debug.Assert(nStart == 0, "nStart != 0");
-
-    var nEarlyCapacity = goodMoves.Count;
-    var earlyMoves = new List<Move>(nEarlyCapacity);
-
-    //
-    // goodMoves.Count is not subtracted from moves.Count because there
-    // is no guarantee that any of the goodMoves will be found in moves:
-    //
-    var nMoves = moves.Count;
-    var lateMoves = new List<Move>(nMoves);
-
-    //
-    //[Note]The following operations are O(M*N) where N is the number of goodMoves
-    //
-    // Sift up the elements of "moves" found in goodMoves:
-    //
-    foreach (var move in moves) {
-      if (goodMoves.Exists(gm => EqualMoves(gm.Move, move))) {
-        earlyMoves.Add(move);
-        State.IncEarlyMoveCount(SearchPly);     // Update EarlyMove Histogram
-      }
-      else
-        lateMoves.Add(move);
-    }
-
-    var bWTM = WTM();
-    foreach (var gm in goodMoves) {     // Maintain goodMove priority for earlyMoves
-#if DebugMove
-      unpackMove1(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-      //unpackMove2(gm.Move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
-#endif
-#if DebugMoveColor && BottleBothSides
-      var bWhiteMove = gm.Move.Has(Move.WTM);
-      if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(sortMoves)}]");
-        DisplayCurrent(nameof(sortMoves));
-      }
-#endif
-      //SiftedMoves was cleared in generate() via clearPseudoMoveLists()
-      var nIndex = earlyMoves.FindIndex(em => EqualMoves(em, gm.Move));
-      if (nIndex >= 0) {
-        var em = earlyMoves[nIndex];
-        //[Note]goodMoves may contain dupilicates
-        if (!SiftedMoves.Exists(sm => EqualMoves(sm, em))) {
-#if TestGoodCapture
-          var good = gm.Move & Move.StoreMask;
-          if (good != em) {
-            var goodCaptive = (Piece)Captured(good);
-            var emCaptive = (Piece)Captured(em);
-            if (emCaptive != Piece.Capture) {
-              var sb = new StringBuilder();
-              sb.AppendAN(good, Side, false);
-              if (goodCaptive != Piece.None)
-                sb.Append(goodCaptive);
-
-              sb.Append(" != ");
-              sb.AppendAN(em, Side, false);
-              if (emCaptive != Piece.None)
-                sb.Append(emCaptive);
-
-              sb.FlushLine();
-            }
-            else if (goodCaptive != Piece.Capture) {
-              good &= ~Move.CaptiveMask;
-              good |= (Move)((Byte)Piece.Capture << nCaptiveBit);
-            }
-          }
-#endif
-          //
-          //[Warning]It is necessary to Add(em) rather than gm here.
-          //
-          // An em capture will specify either Piece.Capture or Piece.EP; but a Killer gm
-          // can specify a capture from some other position and still match an em capture.
-          //
-          SiftedMoves.Add(em);
-        }
-      }
-    }
-
-    var nEarly = SiftedMoves.Count;
-    State.AddEarlyTotal(bWTM, nEarly);
-
-    SiftedMoves.AddRange(lateMoves);
-    var nGenerated = SiftedMoves.Count;
-
-    if (nGenerated != nMoves) {
-      Debug.Assert(nGenerated == nMoves, "nGenerated != nMoves");
-    }
-
-    return nEarly;
-  }
-#endif                                  // UseMoveSort
   #endregion                            // Move Order Heuristics
 }

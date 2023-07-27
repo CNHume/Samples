@@ -9,7 +9,6 @@
 //#define ByteDeBruijn
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
-#define UseMoveSort
 #define TestOutsideSquare
 #define TimePlayMove
 

@@ -23,7 +23,6 @@
 #define InheritMoveTypes
 //#define LinkedTranspositions
 //#define TimeAtxFromUpdates
-#define UseMoveSort                     // 12.24% Faster without UseMoveSort
 #define LazyMoveSort
 //#define ShowCornerCP
 //#define TestCorner
@@ -234,11 +233,9 @@ partial class Position : Board {
   }
 
   [MemberNotNull(
-#if UseMoveSort
     nameof(SortMoves),
 #if LazyMoveSort
     nameof(PriorityMove),
-#endif
 #endif
     nameof(PseudoQueenPromotionCapture),
     nameof(PseudoUnderPromotionCapture),
@@ -329,13 +326,9 @@ partial class Position : Board {
     PseudoCaptures = new List<Move>(48);
     PseudoMoves = new List<Move>(128);
 #endif
-#if UseMoveSort
     SortMoves = new SortMove[512];
 #if LazyMoveSort
     PriorityMove = new Heap<SortMove>(SortMoves, 0);
-#endif
-#else
-    SiftedMoves = new List<Move>(128);
 #endif
   }
 

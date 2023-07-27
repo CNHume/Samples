@@ -16,7 +16,6 @@
 //#define DebugCandidateMoves
 //#define DebugGoodMoves
 //#define DebugNextMove
-#define UseMoveSort
 #define LazyMoveSort
 //#define LateMoveReduction
 #define MateThreat
@@ -242,13 +241,11 @@ partial class Position : Board {
       //
       // Take care not to perturb the moves enumeration:
       //
-#if !UseMoveSort
-      var pm2 = new List<Move>(SiftedMoves);
-#elif LazyMoveSort
+#if LazyMoveSort
       var pm2 = (Heap<SortMove>)PriorityMove.Clone();
 #else
       var pm2 = new List<Move>(moves);
-#endif                                  // UseMoveSort
+#endif                                  // LazyMoveSort
       var sb2 = new StringBuilder("Candidate Moves:");
 #if LazyMoveSort
       sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
@@ -267,19 +264,15 @@ partial class Position : Board {
       var uLegalMoves = 0U;
       var bTryZWS = false;              //[Note]Full PVS requires Raised Alpha
       var uRaisedAlpha = 0U;
-#if !UseMoveSort
-      foreach (var mov in SiftedMoves) {
-        // May be overwritten for Singular Extension below
-        var move = mov;                 // Allow tryMove(ref move) below
-#elif LazyMoveSort                      // UseMoveSort
+#if LazyMoveSort
       // The Heap Enumerator uses Remove() to obtain the "minimum" SortMove,
       // i.e., the one with the best Depth then best Score then least Index:
       foreach (var sm in PriorityMove) {
         var move = sm.Move;
-#else
+#else                                  //!LazyMoveSort
       for (var nMoveIndex = 0; nMoveIndex < moves.Count; nMoveIndex++) {
         var move = SortMoves[nMoveIndex].Move;
-#endif
+#endif                                  // LazyMoveSort
         #region Make Move
 #if DebugMove
         unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);

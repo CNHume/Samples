@@ -41,7 +41,6 @@
 //#define DisplayPositionPool
 #define GetSmart
 #define UseKillers
-#define UseMoveSort
 #define LazyMoveSort
 //#define QuietCheck
 #define QuietMate
@@ -365,13 +364,9 @@ partial class GameState : IDisposable {
 #if GetSmart
     sb.Append(" Smart");
 #endif
-#if UseMoveSort
 #if LazyMoveSort
     sb.Append(" Lazy");
-#else
-    sb.Append(" Sort");
 #endif
-#endif                                  // UseMoveSort
 #if !AddBestMoves
     sb.Append(" sans BestMoves");
 #endif

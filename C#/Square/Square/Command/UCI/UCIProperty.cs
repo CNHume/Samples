@@ -359,7 +359,7 @@ partial class UCI {
   // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8.Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
   // 11. Kh4 Kf5 12. Kg3 Ng4 13. Kf3 Bc4 14. Kg3 Bd5 15. Kh3 Kf4 16. Kh4 Be6
   // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
-  //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14"; // KBN v K Endgame Test Line #12 [19-ply in 53.4 sec @1.598 MHz]
+  //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14"; // KBN v K Endgame Test Line #12 [2023-07-26 17-ply in 30.56 sec @1.554 MHz over 47.494 Mnode]
   //"6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"; // Reinfeld Combo #357
   //"8/5p2/1P4p1/7p/r2kp2P/2RbN1P1/5P1K/8 w - - 0 61"; // Radjabov v Karjakin 2012
   //"5r1k/2P4p/1q2Np2/3r4/6p1/2Q1Rb2/1p5P/4R1K1 w - - 0 42"; // Nakamura v Adams 2011 Line [2022-08-19 13-ply in 3:55 @1.488 MHz over 349.6 Mnode] eval 3.70 after:

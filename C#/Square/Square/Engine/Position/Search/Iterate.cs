@@ -11,7 +11,6 @@
 #define DisplayRate
 //#define DisplayPrediction
 //#define TestRegression
-#define UseMoveSort
 #define ThrowFinal
 
 using System.Diagnostics;

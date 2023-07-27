@@ -8,7 +8,6 @@
 #define DebugEPTarget
 #define RemoveKingShadow
 #define RemoveKingShadow2               // RemoveKingShadow2 <= RemoveKingShadow
-#define UseMoveSort
 
 using System.Runtime.CompilerServices;
 
@@ -67,9 +66,6 @@ partial class Position : Board {
       PseudoBadCaptures.Clear();
       PseudoGoodCaptures.Clear();
     }
-#if !UseMoveSort
-    SiftedMoves.Clear();              // See sortMoves()
-#endif
   }
 
   private void clearPseudoMaterialMoveLists(List<Move> moves) {
@@ -260,7 +256,7 @@ partial class Position : Board {
 
   #region Pseudo Move Pre-Sort
   //
-  // Arrange moves in a reasonable order, whether or not UseMoveSort is in effect:
+  // Order moves based on moveTypeOrdering:
   //
   private void addPseudoMoves(List<Move> moves) {
     expandMoveTypes(moveTypes, moveTypeOrdering);
