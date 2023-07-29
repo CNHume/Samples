@@ -342,7 +342,7 @@ partial class Board : IEquatable<Board> {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public void CopyFlags(Board board) {
-    FlagsTurn = board.FlagsTurn & TurnFlags.Copy;
+    FlagsTurn = board.FlagsTurn & TurnFlags.EPLegal;
     FlagsEval = board.FlagsEval & EvalFlags.Copy;
     FlagsDraw = board.FlagsDraw & DrawFlags.Copy;
     FlagsMode = board.FlagsMode & ModeFlags.Copy;

@@ -50,9 +50,8 @@ partial class Position : Board {
 
   private static MoveTypeOrdering compressMoveTypes(MoveType[] moveTypes) {
     MoveTypeOrdering ordering = 0;
-    var nFinal = moveTypes.Length - 1;
-    for (var n = 0; nFinal >= 0; n++, nFinal--) {
-      var moveType = (MoveTypeOrdering)Nibble((int)moveTypes[nFinal]);
+    for (var nLimit = moveTypes.Length; nLimit > 0; nLimit--) {
+      var moveType = (MoveTypeOrdering)Nibble((Int32)moveTypes[nLimit - 1]);
       ordering <<= nPerNibble;
       ordering |= moveType;
     }
@@ -61,7 +60,7 @@ partial class Position : Board {
 
   private static void expandMoveTypes(MoveType[] moveTypes, MoveTypeOrdering ordering) {
     for (var n = 0; n < moveTypes.Length; n++, ordering >>= nPerNibble) {
-      var moveType = (MoveType)Nibble((int)ordering);
+      var moveType = (MoveType)Nibble((Int32)ordering);
       moveTypes[n] = moveType;
     }
   }

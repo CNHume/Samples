@@ -111,7 +111,7 @@ partial class Position : Board {
       // moveFound may be either annotated or abbreviated
       var good = new GoodMove(moveFound, wDepth, mValue, etFound);
 #if LoadMRU
-        goodMoves.Insert(0, good);      // MRU order
+      goodMoves.Insert(0, good);        // MRU order
 #else
       goodMoves.Add(good);              // LRU works best
 #endif
@@ -125,8 +125,9 @@ partial class Position : Board {
   private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined,
                         Move moveExcluded = Move.Undefined) { // 10 MHz
-    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeXPM)}({nameof(EvalUndefined)})");
-    traceVal(nameof(storeXPM), mValue, et);   //[Conditional]
+    const String methodName = nameof(storeXPM);
+    Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
+    traceVal(methodName, mValue, et);   //[Conditional]
     State.IncEvalType(et);
 #if XPMCompositionHash || DebugMoveColor
     var bWTM = WTM();
@@ -142,15 +143,15 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      Trace.Assert(!IsDefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
     if (IsDefinite(moveBest)) {
       var bWhiteMove = moveBest.Has(Move.WTM);
       if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXPM)}]");
-        DisplayCurrent(nameof(storeXPM));
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
+        DisplayCurrent(methodName);
       }
     }
 #endif
@@ -167,6 +168,7 @@ partial class Position : Board {
 
   private Boolean probeXPM(Depth wDepth, Eval mAlpha, Eval mBeta,
                            Move moveExcluded, List<GoodMove> goodMoves) {
+    const String methodName = nameof(probeXPM);
 #if XPMCompositionHash
     var bWTM = WTM();
     UInt32 wPly = State.MovePly;
@@ -189,7 +191,7 @@ partial class Position : Board {
       var moveFound = adjustEmptyMove(found.BestMove);
       var etFound = found.Type;
       var mValueFound = found.Value;
-      traceVal(nameof(probeXPM), mValueFound, etFound);     //[Conditional]
+      traceVal(methodName, mValueFound, etFound);   //[Conditional]
       var mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);
     }
 
@@ -201,14 +203,15 @@ partial class Position : Board {
   private Eval storeXP(Depth wDepth, Eval mValue, EvalType et,
                        Move moveBest = Move.Undefined,
                        Move moveExcluded = Move.Undefined) {  // 10 MHz
-    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeXP)}({nameof(EvalUndefined)})");
-    traceVal(nameof(storeXP), mValue, et);    //[Conditional]
+    const String methodName = nameof(storeXP);
+    Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
+    traceVal(methodName, mValue, et);   //[Conditional]
     State.IncEvalType(et);
     var qDynamic = DynamicHash(moveExcluded);
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      Trace.Assert(!IsDefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
@@ -216,8 +219,8 @@ partial class Position : Board {
       var bWTM = WTM();
       var bWhiteMove = moveBest.Has(Move.WTM);
       if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeXP)}]");
-        DisplayCurrent(nameof(storeXP));
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
+        DisplayCurrent(methodName);
       }
     }
 #endif
@@ -245,6 +248,7 @@ partial class Position : Board {
   private Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta,
                           Move moveExcluded, List<GoodMove>? goodMoves,
                           out Move moveFound, out Eval mValue, out EvalType etFound) {
+    const String methodName = nameof(probeXP);
     var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
 #if XPMoveTypes
@@ -266,7 +270,7 @@ partial class Position : Board {
     moveFound = adjustEmptyMove(match.BestMove);        //[out]3
     etFound = match.Type;                               //[out]2
     var mValueFound = match.Value;
-    traceVal(nameof(probeXP), mValueFound, etFound);    //[Conditional]
+    traceVal(methodName, mValueFound, etFound);     //[Conditional]
     mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
@@ -276,13 +280,14 @@ partial class Position : Board {
   #region QXP Methods
   private Eval storeQXP(Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined) {
-    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeQXP)}({nameof(EvalUndefined)})");
-    traceVal(nameof(storeQXP), mValue, et);   //[Conditional]
+    const String methodName = nameof(storeQXP);
+    Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
+    traceVal(methodName, mValue, et);   //[Conditional]
     State.IncEvalType(et);
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(!IsDefined(moveBest), "moveBest defined in a Final position.");
+      Trace.Assert(!IsDefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
@@ -290,8 +295,8 @@ partial class Position : Board {
       var bWTM = WTM();
       var bWhiteMove = moveBest.Has(Move.WTM);
       if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(storeQXP)}]");
-        DisplayCurrent(nameof(storeQXP));
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
+        DisplayCurrent(methodName);
       }
     }
 #endif
@@ -306,6 +311,7 @@ partial class Position : Board {
 
   private Boolean probeQXP(Eval mAlpha, Eval mBeta,
                            out Move moveFound, out Eval mValue, out EvalType etFound) {
+    const String methodName = nameof(probeQXP);
 #if QXPHash128
     var match = new QuietPosition(Hash, State.MovePly, HashPawn);
 #else
@@ -318,7 +324,7 @@ partial class Position : Board {
                                                 //[Note]Mate values are suspect because quiet moves were not considered
     var mValueFound = match.Value;
     mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);   //[out]1
-    traceVal(nameof(probeQXP), mValue, etFound);//[Conditional]
+    traceVal(methodName, mValue, etFound);      //[Conditional]
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
   }
@@ -368,9 +374,9 @@ partial class Position : Board {
   //[ToDo]Killer updates are not thread safe.  See also the references, e.g., in sortMoves().
   //
   private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
-    var bWTM = WTM();
-    Debug.Assert(EvalUndefined < mValue, $"{nameof(storeKiller)}({nameof(EvalUndefined)})");
-    traceVal(nameof(storeKiller), mValue, et);  //[Conditional]
+    const String methodName = nameof(storeKiller);
+    Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
+    traceVal(methodName, mValue, et);   //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
     var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
     UInt32 wPly = State.MovePly;
@@ -384,14 +390,15 @@ partial class Position : Board {
     wPly *= uMemoHash;
 #endif
 #if BottleBothSides
-    var nSide = bWTM ? 0 : 1;
+    var nSide = WTM() ? 0 : 1;
 #else
-      var nSide = 0;
+    var nSide = 0;
 #endif
     State.Bottle.Save(store, uMaskedMove, wPly, nSide);
   }
 
   private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
+    const String methodName = nameof(probeKiller);
     var bWTM = WTM();
     const Boolean bFilterEvalUndefined = true;
     UInt32 wPly = State.MovePly;
@@ -416,7 +423,7 @@ partial class Position : Board {
       var moveFound = killer.Move;
       var mValueFound = killer.Value;
       var etFound = killer.Type;
-      traceVal(nameof(probeKiller), mValueFound, etFound);  //[Conditional]
+      traceVal(methodName, mValueFound, etFound);   //[Conditional]
       addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound, bFilterEvalUndefined);
     }
 

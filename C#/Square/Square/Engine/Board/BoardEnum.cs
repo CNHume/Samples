@@ -47,8 +47,8 @@ partial class Board {
     //[Note]Final, InCheck and Illegal are omitted from Hash to
     // prevent repeating calls to IsLegal() for a Transposition:
     //
-    //[C#]Avoid ambiguity introduced by Copy = EPLegal
-    Copy = Final | EPLegal              // EPLegal
+    //[C#]Copy = EPLegal causes EPLegal to be serialzed as Copy.
+    //Copy = EPLegal                    // EPLegal
   }
   #endregion                            // TurnFlags Enum
 

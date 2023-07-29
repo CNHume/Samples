@@ -111,7 +111,7 @@ public class SpinSetting : Setting {
 [Display(Name = "combo")]
 public class ComboSetting : Setting {
   #region Fields
-  public String[]? Items;               // Enumerates possible values for options of type combo
+  public String?[]? Items;              // Enumerates possible values for options of type combo
   #endregion                            // Fields
 
   #region Properties

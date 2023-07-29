@@ -17,7 +17,11 @@
 #define EvalRookBehindPasser
 #define EvalInsufficient
 //#define TestRookBehindPasser
-#define Mobility                        //[Eval]Helps solve Botvinnik v Capablanca 1938 AVRO R11
+//
+// Mobility helps solution of Botvinnik v Capablanca 1938 AVRO R11
+// Mobility hurts solution of Awonder Liang v Gunay Mammadzada 2021-04-08 #10
+//
+#define Mobility
 //#define MaterialBalance
 //#define TradePieces
 //#define TraceVal

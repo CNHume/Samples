@@ -27,6 +27,8 @@ using Exceptions;
 
 using MoveOrder;
 
+using static Logging.Logger;            // For DebugMoveOrder
+
 //
 // Type Aliases:
 //
