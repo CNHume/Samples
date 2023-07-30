@@ -189,9 +189,10 @@ partial class UCI {
   //[2022-03-13 16-ply in 10:53 @1.328 MHz over 866.64 Mnode] eval 6.15 after:
   // 1. Rh1+ Kxh1 2. Nf3 Qg1 3. Nxg1 Ne3 4. Nh3 Nd1+ 5. Ka1 Nxf2 6. Nxf2+ Kg2 7. e4 Kxf2 8. e5 Kf1 9. e6 Ke2 10. Kb2 Ke1 [11. e7]
   //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang v Gunay Mammadzada 2021-04-08 #10
-  // [2023-01-07 16-ply in 31:16 over 2.807 Gnode @1.496 MHz] eval 13.0
-  // [2023-04-04 17-ply in 36:00 @1.487 MHz over 3.211 Gnode] eval #11
-  // [2023-01-07 18-ply in 50:59 @1.496 MHz over 4.576 Gnode] #10 after:
+  // Mobility Disabled
+  // [2023-07-29 16-ply in 13:42 over 1.28 Gnode @1.558 MHz] eval 13.0
+  // [2023-07-29 17-ply in 23:34 @1.433 MHz over 2.026 Gnode] eval #11
+  // [2023-07-29 18-ply in 49:11 @1.434 MHz over 4.232 Gnode] #10 after:
   // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
   //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
   //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Edward Lasker v George Alan Thomas 1912-10-29 #1
@@ -341,7 +342,9 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
-  "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11 [2023-07-11 15-ply in 8:26 @1.369 MHz over 692.86 Mnode] eval 2.5 after:
+  "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
+  // Mobility Enabled
+  // [2023-07-11 15-ply in 8:26 @1.369 MHz over 692.86 Mnode] eval 2.5 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh6 32. Be7 Kg7 33. Qxa7 g5 34. Qc7 Kg6 35. Bxf6 Kxf6 36. Qe5+ Kg6 37. Qxd5 Nd2
   // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7
   // (34. Qf7+ Kh8 35. g3! Nxd4!? 36. e7 Qc1+ 37. Kg2 Qc2+ 38. Kh3 Qf5+ 39. Qxf5 Nxf5 40. e8=Q+)
