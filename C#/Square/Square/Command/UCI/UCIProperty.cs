@@ -338,7 +338,6 @@ partial class UCI {
   //"8/2Q2pk1/7p/1r2Pp2/8/8/5PPK/8 w - - 0 8"; // Pin and Tempo1
   //"8/5pk1/7p/1PQ1Pp2/8/8/5PPK/r7 b - - 0 6"; // Pin and Tempo2
   //"1Q6/5pk1/8/4Pp1p/8/8/5PPK/8 w - - 0 12"; // Pin and Tempo3, #7 in 11-ply
-  //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24"; // Wood v Sowell 2014-07-16
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
@@ -424,6 +423,16 @@ partial class UCI {
   // 17. Qe5+ Kg8 (17... Kh7 18. Qe7+ Kg8 (18... Kh6 19. Qh4+?! (19. Bf4+!) 19... Kg7 20. Be5+ Kf7 21. Qf6+ Ke8 22. Qxh8+)
   // 19. Be5! Rh7 20. Qe8#) 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+! g5 21. Qxg5+ Kh7 22. Be5 Rg8 23. Qh5#
   //
+  #region Monday Knights Games
+  //
+  //"4n3/6k1/8/4PP1P/5K2/8/8/8 w - - 0 56";   // Hume v Musselman 2009-08-13 Endgame
+  // [2023-08-01 13-ply in 2.469 sec @883.8 KHz over 2.1826 Mnode] eval 9.75 after:
+  // 56. Kg5 Nc7 57. e6 (57. h6+ Kf7 58. e6+ Kf8 59. Kg6 Nd5 60. f6 Nf4+ 61. Kf5 Ng6 62. Kxg6 Ke8
+  // 63. e7 Kd7 64. h7 Kc6 65. h8=Q Kb5 66. Qb8+ Kc5 67. e8=Q Kc4 68. Qe4+ Kc3 69. Qbb4#)
+  // 57... Kg8 58. h6 Kh7 59. e7 Ne8 60. f6 Nxf6 61. Kxf6 Kxh6 62. Ke5 Kg5 63. e8=Q
+  //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24"; // Wood v Sowell 2014-07-16
+  //
+  #endregion
 
   #region Puzzles
   //
