@@ -41,12 +41,12 @@ partial class Board {
           RookOOOFrom = default;
 
           //[Safe]
-          OO = Move.Undefined;
+          OOMove = Move.Undefined;
           OOSafe = default;
           OOPath = default;
 
           //[Safe]
-          OOO = Move.Undefined;
+          OOOMove = Move.Undefined;
           OOOSafe = default;
           OOOPath = default;
         }
@@ -70,8 +70,8 @@ partial class Board {
 
           if (!CastlesFrom.HasValue) return;
 
-          var OOTo = castles | MoveTo(KingOOTo);
-          var OOOTo = castles | MoveTo(KingOOOTo);
+          var OOMoveTo = castles | MoveTo(KingOOTo);
+          var OOOMoveTo = castles | MoveTo(KingOOOTo);
           var qpKing = bit(CastlesFrom.Value);
 
           if (RookOOFrom.HasValue) {
@@ -80,7 +80,7 @@ partial class Board {
             var qpPath = rankPath(RookOOFrom.Value, RookOOTo);
             var qpMask = bit(RookOOFrom.Value) | qpKing;
             OOPath = (OOSafe | qpPath) & ~qpMask;
-            OO = OOTo | MoveFrom(CastlesFrom.Value);
+            OOMove = OOMoveTo | MoveFrom(CastlesFrom.Value);
           }
 
           if (RookOOOFrom.HasValue) {
@@ -89,7 +89,7 @@ partial class Board {
             var qpPath = rankPath(RookOOOFrom.Value, RookOOOTo);
             var qpMask = bit(RookOOOFrom.Value) | qpKing;
             OOOPath = (OOOSafe | qpPath) & ~qpMask;
-            OOO = OOOTo | MoveFrom(CastlesFrom.Value);
+            OOOMove = OOOMoveTo | MoveFrom(CastlesFrom.Value);
           }
         }
 
@@ -114,9 +114,9 @@ partial class Board {
 
         public Move Castles(Int32 nTo) {
           if (nTo == KingOOTo)
-            return OO;
+            return OOMove;
           else if (nTo == KingOOOTo)
-            return OOO;
+            return OOOMove;
           else
             return Move.Undefined;
         }
@@ -152,11 +152,11 @@ partial class Board {
         //
         // The following are set by the Init() method:
         //
-        public Move OO = Move.Undefined;
+        public Move OOMove = Move.Undefined;
         public Plane? OOSafe;
         public Plane? OOPath;
 
-        public Move OOO = Move.Undefined;
+        public Move OOOMove = Move.Undefined;
         public Plane? OOOSafe;
         public Plane? OOOPath;
         #endregion                      // Fields

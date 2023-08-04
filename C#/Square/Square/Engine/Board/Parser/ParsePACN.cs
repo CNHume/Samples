@@ -130,13 +130,13 @@ partial class Board {
         sMove == sPure00) {
       bCastles = true;
       nTo = rule.KingOOTo;
-      move = rule.OO;
+      move = rule.OOMove;
     }
     else if (sMove.Equals(sPureOOO, InvariantCultureIgnoreCase) ||
              sMove == sPure000) {
       bCastles = true;
       nTo = rule.KingOOOTo;
-      move = rule.OOO;
+      move = rule.OOOMove;
     }
     else if (sMove == sNullMove)        //[UCI]
       move = Move.NullMove;

@@ -41,17 +41,17 @@ partial class Position : Board {
 
     if (CanOO()) {
 #if DebugMoveColor
-      PseudoCastles.Add(Move.WTM | rule.OO);
+      PseudoCastles.Add(Move.WTM | rule.OOMove);
 #else
-      PseudoCastles.Add(rule.OO);
+      PseudoCastles.Add(rule.OOMove);
 #endif
     }
 
     if (CanOOO()) {
 #if DebugMoveColor
-      PseudoCastles.Add(Move.WTM | rule.OOO);
+      PseudoCastles.Add(Move.WTM | rule.OOOMove);
 #else
-      PseudoCastles.Add(rule.OOO);
+      PseudoCastles.Add(rule.OOOMove);
 #endif
     }
   }
