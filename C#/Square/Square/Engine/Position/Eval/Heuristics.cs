@@ -379,12 +379,12 @@ partial class Position : Board {
     WriteOrth(qpNeutral);
     LogLine();
 #endif
-    nControlValue = 2 * mPawnWeight * nControlDelta / nControlTotal;
+    nControlValue = mMobilityWeight * nControlDelta / nControlTotal;
 #endif
     var nMobileTotal = nWhiteAtx + nBlackAtx;
     if (nMobileTotal != 0) {
       var nMobileDelta = nWhiteAtx - nBlackAtx;
-      nMobileValue = 2 * mPawnWeight * nMobileDelta / nMobileTotal;
+      nMobileValue = mMobilityWeight * nMobileDelta / nMobileTotal;
     }
 
     return (Eval)(nControlValue + nMobileValue);

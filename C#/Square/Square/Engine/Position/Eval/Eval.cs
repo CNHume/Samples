@@ -93,6 +93,7 @@ partial class Position : Board {
   private const Eval mInsufficientWeight = 0;   // mHalfWeight;
   private const Eval mThreatWeight = mKnightWeight;
   private const Eval mStandPatWeight = mPawnWeight + mHalfWeight;//[Unused]
+  private const Eval mMobilityWeight = 2 * mPawnWeight;
   private const Eval mDeltaBaseWeight = 2 * mPawnWeight;
   private const Eval mOccamBaseWeight = 4 * mPawnWeight;
   private const Eval mSingularWeight = 3 * mQuarterWeight;

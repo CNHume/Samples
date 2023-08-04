@@ -342,7 +342,13 @@ partial class UCI {
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
   "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
-  // Mobility Enabled
+  // Mobility Weight = 50 cp
+  // [2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
+  // 30. Ba3 Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 g5 34. Bd8+ Kg6 35. Qxb6 Nc1 36. Qb1+ Nd3 37. e7 Ng4 38. Nf1
+  // Mobility Weight = 100 cp
+  // [2023-08-03 15-ply in 5:33 @1.415 MHz over 455.625 Mnode] eval 2.45 after:
+  // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nd2 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Bg7+ Ke8 38. h4 Qe6e3+
+  // Mobility Weight = 200 cp
   // [2023-07-11 15-ply in 8:26 @1.369 MHz over 692.86 Mnode] eval 2.5 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh6 32. Be7 Kg7 33. Qxa7 g5 34. Qc7 Kg6 35. Bxf6 Kxf6 36. Qe5+ Kg6 37. Qxd5 Nd2
   // Capablanca played 30... Qxa3? 31. Nh5+ gxh5 32. Qg5+ Kf8 33. Qxf6+ Kg8 34. e7
@@ -497,6 +503,7 @@ partial class UCI {
   // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
+  //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5 [2023-08-03 6-ply in 0.863 sec @648.3 KHz over 559.7 Knode]
   //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
   //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
