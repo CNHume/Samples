@@ -38,6 +38,7 @@ using static Logging.Logger;
 //
 using Depth = UInt16;
 using Eval = Int16;
+using Hashcode = UInt64;
 using Ply = UInt16;
 
 partial class Position : Board {
@@ -133,10 +134,10 @@ partial class Position : Board {
     var bWTM = WTM();
 #endif
 #if XPMCompositionHash
-    UInt32 wPly = State.MovePly;
+    var wPly = State.MovePly;
     var nSide = bWTM ? 0 : 1;
     var uMemoHash = compositionHash(bWTM);
-    var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
+    var qDynamic = (Hashcode)uMemoHash * wPly + (Hashcode)nSide;
 #else
     var qDynamic = DynamicHash(moveExcluded);
 #endif
@@ -171,10 +172,10 @@ partial class Position : Board {
     const String methodName = nameof(probeXPM);
 #if XPMCompositionHash
     var bWTM = WTM();
-    UInt32 wPly = State.MovePly;
+    var wPly = State.MovePly;
     var nSide = bWTM ? 0 : 1;
     var uMemoHash = compositionHash(bWTM);
-    var qDynamic = (Hashcode)(uMemoHash * wPly + nSide);
+    var qDynamic = (Hashcode)uMemoHash * wPly + (Hashcode)nSide;
 #else
     var qDynamic = DynamicHash(moveExcluded);
 #endif
