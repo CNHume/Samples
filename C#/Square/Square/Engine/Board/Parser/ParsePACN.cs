@@ -94,7 +94,7 @@ partial class Board {
       if (bKingJump || bRookSwap) {
         var rule = Friend.Parameter.Rule;
         move = rule.Castles(nTo);
-        if (move == Move.Undefined)
+        if (IsUndefined(move))
           throw new MoveException(
             Friend.MoveError($"Illegal King Move", sqFrom, sqTo));
         bCastles = true;

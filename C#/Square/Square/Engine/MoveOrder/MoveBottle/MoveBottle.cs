@@ -73,7 +73,7 @@ class MoveBottle {
     var nKiller = 0;
     for (; nKiller < nKillers; nKiller++) {
       var gm = Killers[nSide][nKiller][uIndex];
-      if (!IsDefined(gm.Move))
+      if (IsUndefined(gm.Move))
         break;
       else if (EqualMoves(uMaskedMove, gm.Move)) {
         bFound = true;
@@ -94,7 +94,7 @@ class MoveBottle {
 
     for (; nKiller + 1 < nKillers; nKiller++) {
       var gm = Killers[nSide][nKiller + 1][uIndex];
-      if (!IsDefined(gm.Move))
+      if (IsUndefined(gm.Move))
         break;
 
       Killers[nSide][nKiller][uIndex] = gm;

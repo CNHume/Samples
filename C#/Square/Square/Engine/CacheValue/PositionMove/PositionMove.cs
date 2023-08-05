@@ -84,8 +84,7 @@ class PositionMove : ITankable<PositionMove> {
     return Hash == xpm.Hash && HashPawn == xpm.HashPawn && Id == xpm.Id;
 #else
     return Hash == xpm.Hash &&
-           (BestMove == Move.Undefined || xpm.BestMove == Move.Undefined ||
-            EqualMoves(BestMove, xpm.BestMove));
+           (IsUndefined(BestMove) || IsUndefined(xpm.BestMove) || EqualMoves(BestMove, xpm.BestMove));
 #endif
   }
 

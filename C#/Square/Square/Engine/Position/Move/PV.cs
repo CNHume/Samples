@@ -55,7 +55,7 @@ partial class Position : Board {
   }
 
   private Move abbreviate(Move move) {
-    if (IsNullMove(move) || !IsDefined(move))   //[Safe]
+    if (IsNullMove(move) || IsUndefined(move))  //[Safe]
       return move;
 
     unpack1(move, out Int32 nFrom, out Int32 nTo,
@@ -175,7 +175,7 @@ partial class Position : Board {
       else
         lineMoves.Clear();
 
-      if (!IsDefined(move)) {
+      if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), $"Undefined Move [{nameof(AddPV)}]");
         move = Move.NullMove;
       }
@@ -276,7 +276,7 @@ partial class Position : Board {
     }
     else {
       var moveNoted = moves[nMove];
-      if (!IsDefined(moveNoted)) {
+      if (IsUndefined(moveNoted)) {
         Debug.Assert(IsDefined(moveNoted), $"Undefined Move [{nameof(AbbreviateRefresh)}]");
         moveNoted = Move.NullMove;
       }
@@ -366,7 +366,7 @@ partial class Position : Board {
          !ReferenceEquals(position, parent);
          position = position.Parent) {
       var move = position.CurrentMove;
-      if (!IsDefined(move)) {
+      if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), "Undefined CurrentMove");
       }
       var mov = (bAbbreviate && position.Parent is not null) ?

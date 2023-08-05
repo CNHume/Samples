@@ -573,7 +573,7 @@ static class Extension {
     if (IsNullMove(move)) {
       return sb.Append(sNullMove);
     }
-    else if (!IsDefined(move)) {
+    else if (IsUndefined(move)) {
       return sb.Append(move);
     }
 
