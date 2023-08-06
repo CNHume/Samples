@@ -36,9 +36,12 @@ using static Logging.Logger;
 //
 // Type Aliases:
 //
+using BottleHash = UInt32;
 using Depth = UInt16;
 using Eval = Int16;
+#if XPMCompositionHash
 using Hashcode = UInt64;
+#endif
 using Ply = UInt16;
 
 partial class Position : Board {
@@ -380,44 +383,43 @@ partial class Position : Board {
     traceVal(methodName, mValue, et);   //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
     var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
-    UInt32 wPly = State.MovePly;
 #if BottleGamePly
-    wPly = GamePly;
+    var wPly = GamePly;
 #else
-    wPly += wDepth;                     //[Note]wDepth value may not guarantee Ply/Color Parity
+    var wPly = State.MovePly + wDepth;  //[Note]wDepth value may not guarantee Ply/Color Parity
 #endif
 #if KillerCompositionHash
-    var uMemoHash = compositionHash(true);
-    wPly *= uMemoHash;
+    var uBottleHash = (BottleHash)wPly * compositionHash(true);
+#else
+    var uBottleHash = (BottleHash)wPly;
 #endif
 #if BottleBothSides
     var nSide = WTM() ? 0 : 1;
 #else
     var nSide = 0;
 #endif
-    State.Bottle.Save(store, uMaskedMove, wPly, nSide);
+    State.Bottle.Save(store, uMaskedMove, uBottleHash, nSide);
   }
 
   private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(probeKiller);
-    var bWTM = WTM();
     const Boolean bFilterEvalUndefined = true;
-    UInt32 wPly = State.MovePly;
 #if BottleGamePly
-    wPly += SearchPly;
+    var wPly = GamePly;
 #else
-    wPly += wDepth;
+    var wPly = State.MovePly + wDepth;  //[Note]wDepth value may not guarantee Ply/Color Parity
 #endif
 #if KillerCompositionHash
-    var uMemoHash = compositionHash(true);
-    wPly *= uMemoHash;
+    var uBottleHash = (BottleHash)wPly * compositionHash(true);
+#else
+    var uBottleHash = (BottleHash)wPly;
 #endif
 #if BottleBothSides
-    var nSide = bWTM ? 0 : 1;
+    var nSide = WTM() ? 0 : 1;
 #else
     var nSide = 0;
 #endif
-    var killers = State.Bottle.Load(wPly, nSide);
+    var killers = State.Bottle.Load(uBottleHash, nSide);
     var bFound = killers.Count > 0;
 
     foreach (var killer in killers) {

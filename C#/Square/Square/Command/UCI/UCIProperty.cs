@@ -503,7 +503,13 @@ partial class UCI {
   // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
-  //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5 [2023-08-03 6-ply in 0.863 sec @648.3 KHz over 559.7 Knode]
+  //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5
+  // sans Mobility
+  // [2023-08-06 6-ply in 0.56 sec @536.1 KHz over 300 Knode]
+  // Mobility Weight = 100 cp
+  // [2023-08-03 6-ply in 0.863 sec @648.3 KHz over 559.7 Knode]
+  // Mobility Weight = 200 cp
+  // [2023-08-06 6-ply in 1.066 sec @780 KHz over 831.1 Knode]
   //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
   //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]

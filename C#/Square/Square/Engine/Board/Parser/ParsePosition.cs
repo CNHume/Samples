@@ -331,7 +331,7 @@ partial class Board {
     }
 
     //
-    // SetDraw0 can be safely elided here because Parent == null for the Root Position.
+    // SetDraw0 can be safely elided here because Parent is null for the Root Position.
     //
     //updateRepetitionCycle();
 

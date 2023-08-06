@@ -107,7 +107,7 @@ partial class GameState : IDisposable {
     loadEndgameValue();
     loadExtensionLimit();
 #if KillerCompositionHash
-      var uBottleLength = 8191U;
+    var uBottleLength = 8191U;
 #else
     var uBottleLength = wPlyHistory;
 #endif
@@ -120,7 +120,7 @@ partial class GameState : IDisposable {
     newEarlyMoveCounts(wPlyHistory);
     newPVDoubleCounts(wPlyHistory);
 #if MaterialBalance
-      newCXPMemo(uDefaultComposition2);
+    newCXPMemo(uDefaultComposition2);
 #else
     newCXPMemo(uDefaultCompositions);
 #endif
@@ -290,9 +290,9 @@ partial class GameState : IDisposable {
     UInt32? uSpeed = default;
     if (OperatingSystem.IsWindows()) {  // Suppress SupportedOSPlatform warnings
 #if TestSlowManagementObject
-        const String sPath = "Win32_Processor.DeviceID='CPU0'";
-        using var mo = new ManagementObject(sPath);
-        uSpeed = (UInt32)mo["CurrentClockSpeed"];
+      const String sPath = "Win32_Processor.DeviceID='CPU0'";
+      using var mo = new ManagementObject(sPath);
+      uSpeed = (UInt32)mo["CurrentClockSpeed"];
 #else                                   //!TestSlowManagementObject
       //[Note]Specifying the CurrentClockSpeed column improves performance
       const String sQuery = "select CurrentClockSpeed from Win32_Processor";
