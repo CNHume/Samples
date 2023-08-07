@@ -12,22 +12,24 @@ namespace Command;
 using Engine;                           // For GameState
 
 partial class UCI {
-  #region FEN Constants
-  private const String sDefaultFEN =
   //
   // Since 2020-02-20: Timing Results have been obtained using an i7-9700K CPU at 3.60GHz w 8-cores,
   // in a Dell XPS 8930 workstation with 32 GB RAM, running Windows 10 Pro.
   //
-  // Perft FEN
-  // ---------
+  #region FEN Constants
+  private const String sDefaultFEN =
+  #region Perft
+  //
   //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" // [2023-07-10 Perft1 (startpos) in 11.231 sec @11.608 MHz over 130.36 Mnode]
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; // [2023-07-10 Perft2 in 18.001 sec @11.423 MHz over 205.63 Mnode]
   //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; // [2023-07-10 Perft3 in 23.974 sec @9.128 MHz over 218.84 Mnode]
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; // [2023-07-10 Perft4 in 74.567 sec @10.29 MHz over 767.28 Mnode]
   //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; // [2023-07-05 Perft5 in 11.112 sec @7.884 MHz over 87.6 Mnode]
   //
-  // Abbreviation Tests
-  // ------------------
+  #endregion
+
+  #region Abbreviation Tests
+  // 
   //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";    // ShowFrom
   //"4BR2/6nk/8/3N2PN/8/8/7K/8 w - - 0 1";      // ShowFile
   //"4BR2/3N2nk/8/3N2P1/8/8/7K/8 w - - 0 1";    // ShowRank
@@ -36,9 +38,16 @@ partial class UCI {
   //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
   //"4k3/8/8/8/4q3/2b5/3N1N2/4K3 w - - 0 1";    // Pin Test
   //
+  #endregion
+
+  #region Castling Tests
+  //
   //"r3k3/8/8/8/8/8/8/4K2R w Kq - 0 1"; // Castling Test Position
   //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
   // moves f2f4 c7c5 g1f2 d8b6 OO OOO
+  //
+  #endregion
+
   //
   //"";
   //"8/8/8/5R2/2k1pb2/3p4/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame
@@ -195,6 +204,7 @@ partial class UCI {
   // [2023-07-29 18-ply in 49:11 @1.434 MHz over 4.232 Gnode] #10 after:
   // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
   // Mobility Weight = 100 cp
+  // [2023-08-07 17-ply in 47:54 @1.539 MHz over 4.422 Gnode] eval 13.0
   // [2023-08-07 18-ply in 1:10:48 @1.463 MHz over 6.2143 Gnode] #10 after:
   // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
   //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
@@ -209,7 +219,6 @@ partial class UCI {
   //"8/1KQ5/8/8/8/5p2/6k1/8 w - - 0 1"; // Q v BP loss for b
   //"8/6K1/5P2/8/8/8/1kq5/8 b - - 0 1"; // Q v BP loss for w
   //"8/8/8/6Q1/4K3/7k/5p2/8 w - - 0 8"; // Q v BP stalemate
-  //"2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.  [14-ply to find 1. f5!]
   //"3k4/1P6/2K5/8/4N3/8/7b/8 b - - 0 1"; // Magnus Carlsen v. Ian Nepomniachtchi - MC Invitational (2020)
   // 1... Bb8? (1... Bc7! 2. Nc5 Bb8) 2. Nc5 Bh2 (2... Ke8 3. Na6 Ba7 4. Kc7 Ke7 5. Nb4 (5. Nb8?! Bg1 6. Kc8 Kd6 7. Nc6 Kxc6 8. b8=Q)
   // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xposing}) 3. Ne6+ 1-0
@@ -318,7 +327,7 @@ partial class UCI {
   //
   //"3k4/6p1/7p/1Pp1Np2/p3nPP1/3K4/7P/8 b - - 0 56"; // Hao v Carlsen 2012-07-30 [2022-11-19 19-ply in 12:38:22.5 @1.2 MHz over 54.6 Gnode] eval -2.45 after:
   // 56... Nf2+ 57. Kc3 Nxg4 58. Nd3 Nf6 59. Kb2 Ne4 60. Ka3 Kc7 61. Kxa4 Kb6 62. Ne5 Nc3+ 63. Kb3 Nxb5 64. Kc4 Na3+ 65. Kd5 g5
-  // 66. Nd7 + Kc7 67. Nxc5 gxf4
+  // 66. Nd7+ Kc7 67. Nxc5 gxf4
   //
   // 56... fxg4! 57. Kxe4 a3 58. b6 Kc8 59. b7+ Kxb7 60. Nd3 a2 61. Nxc5+ Kc6 62. Nb3 h5-+
   // (56... Nf2+ 57. Kc4 Nxg4 58. b6 Kc8 59. Nc6 a3 60. Kb3 Kb7 61. Nd8+ Kxb6 62. Ne6
@@ -432,8 +441,10 @@ partial class UCI {
   // 17. Qe5+ Kg8 (17... Kh7 18. Qe7+ Kg8 (18... Kh6 19. Qh4+?! (19. Bf4+!) 19... Kg7 20. Be5+ Kf7 21. Qf6+ Ke8 22. Qxh8+)
   // 19. Be5! Rh7 20. Qe8#) 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+! g5 21. Qxg5+ Kh7 22. Be5 Rg8 23. Qh5#
   //
-  #region Monday Knights Games
+
+  #region Berkeley Games
   //
+  //"2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.  [14-ply to find 1. f5!]
   //"4n3/6k1/8/4PP1P/5K2/8/8/8 w - - 0 56";   // Hume v Musselman 2009-08-13 Endgame
   // [2023-08-01 13-ply in 2.469 sec @883.8 KHz over 2.1826 Mnode] eval 9.75 after:
   // 56. Kg5 Nc7 57. e6 (57. h6+ Kf7 58. e6+ Kf8 59. Kg6 Nd5 60. f6 Nf4+ 61. Kf5 Ng6 62. Kxg6 Ke8
