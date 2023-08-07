@@ -194,6 +194,9 @@ partial class UCI {
   // [2023-07-29 17-ply in 23:34 @1.433 MHz over 2.026 Gnode] eval #11
   // [2023-07-29 18-ply in 49:11 @1.434 MHz over 4.232 Gnode] #10 after:
   // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
+  // Mobility Weight = 100 cp
+  // [2023-08-07 18-ply in 1:10:48 @1.463 MHz over 6.2143 Gnode] #10 after:
+  // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
   //"rn3rk1/pbppq1pp/1p2pb2/4N2Q/3PN3/3B4/PPP2PPP/R3K2R w KQ - 0 11"; // Edward Lasker v George Alan Thomas 1912-10-29 #7 [2022-11-20 10-ply 22.233 sec @1.432 MHz over 31.84 Mnode]
   //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Edward Lasker v George Alan Thomas 1912-10-29 #1
   //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
@@ -344,7 +347,7 @@ partial class UCI {
   "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   // [2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
-  // 30. Ba3 Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 g5 34. Bd8+ Kg6 35. Qxb6 Nc1 36. Qb1+ Nd3 37. e7 Ng4 38. Nf1
+  // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 g5 34. Bd8+ Kg6 35. Qxb6 Nc1 36. Qb1+ Nd3 37. e7 Ng4 38. Nf1
   // Mobility Weight = 100 cp
   // [2023-08-03 15-ply in 5:33 @1.415 MHz over 455.625 Mnode] eval 2.45 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nd2 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Bg7+ Ke8 38. h4 Qe6e3+
@@ -504,7 +507,7 @@ partial class UCI {
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
   //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5
-  // sans Mobility
+  // Mobility Disabled
   // [2023-08-06 6-ply in 0.56 sec @536.1 KHz over 300 Knode]
   // Mobility Weight = 100 cp
   // [2023-08-03 6-ply in 0.863 sec @648.3 KHz over 559.7 Knode]
