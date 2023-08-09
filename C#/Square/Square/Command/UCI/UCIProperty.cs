@@ -50,6 +50,9 @@ partial class UCI {
 
   //
   //"";
+  //"r1b1qk2/1p2b1pQ/pn5p/3n4/7B/4R2P/BP3PP1/6K1 w - - 0 1"; // Stockfish 16 v Caissa 1.11 2023-08-04
+  // [2023-08-08 13-ply in 1:31 @1.734 MHz over 157.9 Mnode] eval 2.95 after:
+  // 1. Bf6 Qf7 2. Qh8+ Qg8 3. Bxg7+ Kf7 4. Rxe7+ Kxe7 5. Qxg8 Bf5 6. Qxa8 Nxa8 7. Bxd5 Bc8 8. Bxh6 Nb6 9. Bg8
   //"8/8/8/5R2/2k1pb2/3p4/8/3K4 b - - 0 1";   // Carlsen v Duda Endgame
   // moves f4d6 f5f6 d6e5 f6f5 c4d4 f5f8 e4e3 f8d8 d4e4 d8e8
   //"4R3/8/8/4b3/4k3/3pp3/8/3K4 b - - 0 6";   // Carlsen v Duda Endgame Position with History
