@@ -50,6 +50,12 @@ partial class UCI {
 
   //
   //"";
+  //"8/8/6k1/7p/2K2p1P/1p3P2/8/8 w - - 0 1";  // Magnus Carlsen v Aryan Tari Endgame
+  // moves c4b3 g6f5
+  //"8/8/8/5k1p/5p1P/1K3P2/8/8 w - - 0 2";    // Magnus Carlsen v Aryan Tari Endgame Line
+  // [2023-08-08 24-ply in 5:59 @1.315 MHz over 471.97 Mnode] eval 3.8 after:
+  // 2. Kc4 Ke6 3. Kd4 Kd6 4. Ke4 Ke7 5. Kxf4 Kf6 6. Ke4 Ke6 7. f4 Kf6 8. f5 Kg7 9. Ke3 Kh6 10. Kf4 Kg7 11. Kg5 Kf7 12. f6 Kf7f8
+  // 13. Kg5xh5 Kf8f7 14. Kh5g5 Kf7f8
   //"r1b1qk2/1p2b1pQ/pn5p/3n4/7B/4R2P/BP3PP1/6K1 w - - 0 1"; // Stockfish 16 v Caissa 1.11 2023-08-04
   // [2023-08-08 13-ply in 1:31 @1.734 MHz over 157.9 Mnode] eval 2.95 after:
   // 1. Bf6 Qf7 2. Qh8+ Qg8 3. Bxg7+ Kf7 4. Rxe7+ Kxe7 5. Qxg8 Bf5 6. Qxa8 Nxa8 7. Bxd5 Bc8 8. Bxh6 Nb6 9. Bg8
