@@ -269,9 +269,10 @@ partial class UCI {
   //[2023-06-29 20-ply in 17:08 @1.1446 MHz over 1.177 Gnode] eval -7.55 after:
   // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Be8 Nb3+ 71. Kd1 Kb2 72. Ke2 d4 73. Kf2 Nc5 74. Bg6 d3 75. a5 d2 76. Bh5 c3 77. a6 Nxa6 78. Bf3 Na6b4
   //
-  //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017 [26-ply in 26:38.28 over 2.012 Gnode @1.249 MHz] eval 1.75 after:
-  // 1. Kf2 Kf5 [1... Kf6 2. Ke3 Kf5 3. Kf3] 2. Kf3 Ke6 3. Ke4 Kf6 4. f5 Ke7 5. Ke5 Kf7 6. f6 Ke8 [6... Kg8 7. Kf4 Kf8 8. Ke4! Ke8] 7. Ke4 Kf8 8. Kf4! Ke8
-  // 9. Ke5 Zugzwang Kd7 10. Kf5 Ke8 11. Kg6 Kf8 [12. Kxh6 Kf7 13. Kg5]
+  //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017
+  // [2023-08-16 28-ply in 2:23:59 over 9.5643 Gnode @1.107 MHz] eval 3.5 after:
+  // 1. Kf2 Kf6 2. Ke3 Kf5 3. Kf3 Ke6 4. Ke4 Kf6 5. f5 Kf7 6. Ke5 Ke7 7. f6+ Ke8 8. Ke4 Kf8 9. Kf4 Ke8 10. Ke5 Kf7 11. Kf5 Ke8 12. Kg6 Kf8
+  // 13. Kxh6 Kf7 14. Kg5 Kf8 15. Kxh5
   //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
   //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
   // [2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
