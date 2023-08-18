@@ -73,7 +73,7 @@ partial class UCI {
   // 7. Re6 Bc7 8. Ra6 Kf5 9. Ra2 Bg3 10. Rb2 Ke4 11. Rb4+ Kf3 12. Rb1 Bf4
   // moves e8e6 e5c7 e6a6 f4f5
   //"8/2b5/R7/5k2/8/3pp3/8/3K4 w - - 0 9";    // Carlsen v Duda Endgame Continuation
-  //[2023-06-18 16-ply in 8:23.5 @1.24 MHz over 624.42 Mnode] eval -9.75 after:
+  // [2023-06-18 16-ply in 8:23.5 @1.24 MHz over 624.42 Mnode] eval -9.75 after:
   // 9. Ra2 Bg3 10. Rg2 Kf4 11. Rg1 Bf2 12. Rh1 e2+ 13. Kd2 Ke4 14. Re1 Bxe1+ 15. Kxe1 Kf3 16. Kd2 Kf2 17. Kxd3 e1=Q 18. Kd3c2 Qe1b4
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
@@ -84,7 +84,7 @@ partial class UCI {
   //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line [2023-07-08 20-ply in 1:40:50 @1.735 MHz over 10.498 Gnode] eval 14.7 after:
   // 43. Nxg8 Qg5 44. Nxf6 Qxf6 45. Qb8+ Kh7 46. Ra8 Qh4+ 47. Kg1 Qxh5 48. Qg8+ Kg6 49. Qe8+ Kg5 50. f4+ Kxf4 (50... Kh4 51. Qe1+ Kg4 52. Qe2+ Kxf4 53. Qxh5 a1=N 54. Rxa1 [Bh7])
   // 51. Qxh5 a1=R 52. Rxa1 Bc2 53. Qf7+ Bf5 54. Qxg7
-  // 
+  //
   //"3r4/p1QP1pk1/1p2p1p1/2p2nP1/2P4q/P1P5/3R1P2/4KB2 w - - 0 32"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R8 [2023-04-24 20-ply in 3 days 12:45:58 @1305.6 MHz over 398.4 Gnode] eval 2.5 after:
   // 32. Qxd8 Qe4+ 33. Be2 Qh1+ 34. Bf1 Qe4+@ 35. Re2 Qb1+ 36. Kd2 Qa2+ 37. Kd3 Qb1+ 38. Rc2 Qxf1+ 39. Kd2 Nd6 40. Qf6+ Kh7 41. Qf4 Nxc4+
   // 42. Qxc4 Qxc4 43. d8=Q b5
@@ -202,9 +202,9 @@ partial class UCI {
   // 16... Nde5 17. Bxg4 Bxd4+ 18. Kh1 Nxg4 19. Nxf8 Kxf8 20. Qh7 Nf2+ 21. Kg1 Nd1+ 22. Kh1 Nxc3 23. bxc3 Qd5 24. Qh8+ Ke7 25. Qh4+ Bf6 26. Qf2 Bxc3
   //"5R2/8/8/4k3/4p3/2r3P1/5P2/5K2 b - - 0 1"; // Firouzja v Mamedyarov
   //"8/8/8/6N1/8/7R/1K2PRn1/3q2k1 w - - 0 1"; // Zugzwang Threat [7-ply in 0.67 sec] eval 5.85
-  //[2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
+  // [2022-12-19 16-ply in 15:22.7 @1.39 MHz over 1.2824 Gnode] eval 7.75 after:
   // 1. Rh1+ Kxf2 2. Rxd1 Kxe2 3. Rd5 Ne1 4. Nh3 Nc2 5. Kxc2 Ke3 6. Ng1 Ke4 7. Rg5 Kf4 8. Nh3+ Kf3 9. Ra5 Kg3
-  //[2022-03-13 16-ply in 10:53 @1.328 MHz over 866.64 Mnode] eval 6.15 after:
+  // [2022-03-13 16-ply in 10:53 @1.328 MHz over 866.64 Mnode] eval 6.15 after:
   // 1. Rh1+ Kxh1 2. Nf3 Qg1 3. Nxg1 Ne3 4. Nh3 Nd1+ 5. Ka1 Nxf2 6. Nxf2+ Kg2 7. e4 Kxf2 8. e5 Kf1 9. e6 Ke2 10. Kb2 Ke1 [11. e7]
   //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang v Gunay Mammadzada 2021-04-08 #10
   // Mobility Disabled
@@ -266,12 +266,14 @@ partial class UCI {
   // 64... a5 65. Ba6 Kd2 66. Bxb5 Ne2 67. Be8 Nxc3 68. Bf7 Nd1+ 69. Kb1 Ne3 70. Bg6 d4 71. Be4 Kc3 72. Kc1 d3 73. cxd3 cxd3 74. Bxd3 Kxd3 75. a4
   // moves e3d2 b7a6 f4d3 b2b1 d3e1 a6b5
   //"8/8/8/1B1p4/2p5/P1P5/2Pk4/1K2n3 b - - 0 67"; // Caruana v Hou Yifan Grenke Chess Classic Line
-  //[2023-06-29 20-ply in 17:08 @1.1446 MHz over 1.177 Gnode] eval -7.55 after:
+  // [2023-06-29 20-ply in 17:08 @1.1446 MHz over 1.177 Gnode] eval -7.55 after:
   // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Be8 Nb3+ 71. Kd1 Kb2 72. Ke2 d4 73. Kf2 Nc5 74. Bg6 d3 75. a5 d2 76. Bh5 c3 77. a6 Nxa6 78. Bf3 Na6b4
   //
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017
-  // [2023-08-16 28-ply in 2:23:59 over 9.5643 Gnode @1.107 MHz] eval 3.5 after:
-  // 1. Kf2 Kf6 2. Ke3 Kf5 3. Kf3 Ke6 4. Ke4 Kf6 5. f5 Kf7 6. Ke5 Ke7 7. f6+ Ke8 8. Ke4 Kf8 9. Kf4 Ke8 10. Ke5 Kf7 11. Kf5 Ke8 12. Kg6 Kf8
+  // [2023-08-17 24-ply in 15:16 over 1.122 Gnode @1.225 MHz] eval 1.85 after:
+  // 1. Kf2 Kf6 2. Ke3 Ke6 3. Ke4 Kf6 4. f5 Kg7 5. Ke5 Kf7 6. f6 Ke8 7. Ke4 Kf8 8. Kf4! Ke8 9. Ke5 Kd7 10. Kf5 Kd6 11. g4?! Kd7 12. gxh5 Kd6 13. Kf5g6
+  // [2023-08-17 28-ply in 2:21:46.51 over 9.5643 Gnode @1.124 MHz] eval 3.5 after:
+  // 1. Kf2 Kf6 2. Ke3 Kf5 3. Kf3 Ke6 4. Ke4 Kf6 5. f5 Kf7 6. Ke5 Ke7 7. f6+ Ke8 8. Ke4 Kf8 9. Kf4! Ke8 10. Ke5 Kf7 11. Kf5 Ke8 12. Kg6 Kf8
   // 13. Kxh6 Kf7 14. Kg5 Kf8 15. Kxh5
   //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
   //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
