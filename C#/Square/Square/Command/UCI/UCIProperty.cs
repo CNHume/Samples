@@ -73,8 +73,8 @@ partial class UCI {
   // 7. Re6 Bc7 8. Ra6 Kf5 9. Ra2 Bg3 10. Rb2 Ke4 11. Rb4+ Kf3 12. Rb1 Bf4
   // moves e8e6 e5c7 e6a6 f4f5
   //"8/2b5/R7/5k2/8/3pp3/8/3K4 w - - 0 9";    // Carlsen v Duda Endgame Continuation
-  // [2023-06-18 16-ply in 8:23.5 @1.24 MHz over 624.42 Mnode] eval -9.75 after:
-  // 9. Ra2 Bg3 10. Rg2 Kf4 11. Rg1 Bf2 12. Rh1 e2+ 13. Kd2 Ke4 14. Re1 Bxe1+ 15. Kxe1 Kf3 16. Kd2 Kf2 17. Kxd3 e1=Q 18. Kd3c2 Qe1b4
+  // [2023-08-17 16-ply in 7:25.15 @1.172 MHz over 521.6 Mnode] eval -9.75 after:
+  // 9. Ra2 Bg3 10. Rg2 Kf4 11. Rg1 Bf2 12. Rh1 Ke4 13. Re1 Bxe1 14. Kxe1 e2 15. Kd2 Kf4 16. Kxd3 e1=Q
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 [2023-04-16 16-ply in 4:08.62 @1.591 MHz over 395.6 Mnode] eval 12.65 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. c4 f5 50. Qxf5
