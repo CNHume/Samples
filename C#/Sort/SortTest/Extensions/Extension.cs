@@ -23,16 +23,18 @@ namespace SortTest.Extensions {
 
     #region Methods
     #region StringBuilder Methods
-    public static StringBuilder AppendDelim(this StringBuilder sb, String next, String delim = commaSpace) {
+    public static StringBuilder AppendDelim(this StringBuilder sb, String? next, String delim = commaSpace) {
       if (IsNullOrEmpty(next)) return sb;
       if (sb.Length > 0) sb.Append(delim);
       return sb.Append(next);
     }
 
-    public static StringBuilder AppendKeyValuePair(
-      this StringBuilder sb, String key, String value) {
-      sb.AppendDelim(key)
-        .AppendDelim(value, colonSpace);
+    public static StringBuilder AppendKeyValuePair<TKey, TValue>(
+      this StringBuilder sb, TKey key, TValue value)
+      where TKey : notnull
+      where TValue : notnull {
+      sb.AppendDelim(key.ToString())
+        .AppendDelim(value.ToString(), colonSpace);
       return sb;
     }
 

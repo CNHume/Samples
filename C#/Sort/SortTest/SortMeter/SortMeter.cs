@@ -121,7 +121,7 @@ namespace SortTest {
       var sRate = msec == 0 ?
         String.Empty : $", rate = {dLength / msec:0.0##} KHz";
       Console.WriteLine(
-        $"Sorted a total of {nLength:n0}{sScaled} entries in {msec / 1000:0.0##} sec{sRate}");
+        $"Sorted a total of {nLength:n0}{sScaled} entries in {msec / 1E3:0.0##} sec{sRate}");
     }
     #endregion
   }
