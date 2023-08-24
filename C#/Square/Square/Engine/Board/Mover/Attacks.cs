@@ -147,19 +147,19 @@ partial class Board {
 
   protected Boolean CanOO() {
     var rule = Friend.Parameter.Rule;
-    var bLegal = Friend.FlagsSide.Has(SideFlags.CanOO) &&
-                 (rule.OOPath & RankPiece) == 0 &&
-                 rule.OOSafe.HasValue &&
-                 !Foe.IsAttacked(rule.OOSafe.Value);
+    var bLegal =
+      Friend.FlagsSide.Has(SideFlags.CanOO) &&
+      (rule.OOPath & RankPiece) == 0 &&
+      rule.OOSafe.HasValue && !Foe.IsAttacked(rule.OOSafe.Value);
     return bLegal;
   }
 
   protected Boolean CanOOO() {
     var rule = Friend.Parameter.Rule;
-    var bLegal = Friend.FlagsSide.Has(SideFlags.CanOOO) &&
-                 (rule.OOOPath & RankPiece) == 0 &&
-                 rule.OOOSafe.HasValue &&
-                 !Foe.IsAttacked(rule.OOOSafe.Value);
+    var bLegal =
+      Friend.FlagsSide.Has(SideFlags.CanOOO) &&
+      (rule.OOOPath & RankPiece) == 0 &&
+      rule.OOOSafe.HasValue && !Foe.IsAttacked(rule.OOOSafe.Value);
     return bLegal;
   }
 

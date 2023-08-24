@@ -145,9 +145,9 @@ partial class Board {
         //
         //[Chess960]Castles From squares are set by BoardSide.GrantCastling():
         //
-        public Int32? CastlesFrom;
-        public Int32? RookOOFrom;
-        public Int32? RookOOOFrom;
+        public Byte? CastlesFrom;
+        public Byte? RookOOFrom;
+        public Byte? RookOOOFrom;
 
         //
         // The following are set by the Init() method:

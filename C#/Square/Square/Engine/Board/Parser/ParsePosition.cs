@@ -149,7 +149,7 @@ partial class Board {
   //[Chess960]Castle Rules are inferred from sCastleFlags.  These
   // present the only difference between Orthodox Chess and Chess960.
   //
-  private void parseCastlingFlags(String? sCastleFlags, List<Int32> rookFromSquares) {
+  private void parseCastlingFlags(String? sCastleFlags, List<Byte> rookFromSquares) {
     if (sCastleFlags == null)
       throw new ParsePositionException($"No Castling Flags Found");
 
@@ -190,12 +190,12 @@ partial class Board {
       var bWhiteSide = IsUpper(cFlag);
       var side = GetSide(bWhiteSide);
       var pieceRank = side.Parameter.PieceRank;
-      var nRookFrom = sqr(nRookFile, pieceRank);
+      var vRookFrom = (Byte)sqr(nRookFile, pieceRank);
 #if DebugCastlingRights
-        var sqRookFrom = (Sq)nRookFrom;
+        var sqRookFrom = (Sq)vRookFrom;
         var sideName = side.Parameter.SideName;
 #endif
-      rookFromSquares.Add(nRookFrom);
+      rookFromSquares.Add(vRookFrom);
     }                                   //[Next]cFlag
 
     if (bChess960Flags && bOrthodoxFlags)
@@ -265,7 +265,7 @@ partial class Board {
   // https://www.chessprogramming.org/Extended_Position_Description#Opcode_mnemonics
   //
   protected Boolean ParsePosition(
-    Scanner scanner, List<Int32> rookFromSquares, out String? sPassed) {
+    Scanner scanner, List<Byte> rookFromSquares, out String? sPassed) {
     // Clear() should have been performed by the Push() in NewGame()
     //[Debug]Clear();
 
@@ -297,7 +297,7 @@ partial class Board {
   }
 
   protected void Setup(
-    Boolean bWTM, List<Int32> rookFromSquares,
+    Boolean bWTM, List<Byte> rookFromSquares,
     String? sEnPassant, String? sHMVCValue, String? sFMVNValue,
     Dictionary<String, List<String>?>? operations = default) {
     const String sFMVNName = "Full Move Number";
@@ -403,18 +403,18 @@ partial class Board {
    *
    * side.FlagsSide = default           // Clear Castling Rights from Position.Clear()
    * side.ClearCastleRule()
-   * rookFromSquares.Add(nRookFrom)     // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
-   * side.GrantCastling(nRookFrom)      // Set FromSquares and CastlingRights
+   * rookFromSquares.Add(vRookFrom)     // Add rookFromSquares per parseCastlingFlags(sCastleFlags)
+   * side.GrantCastling(vRookFrom)      // Set FromSquares and CastlingRights
    * side.HashCastlingRights()
    * validateCastlingSymmetry()         // Verify FromSquares
    * isChess960()
    * side.InitCastleRule()              // Set OOO and OO rules
    */
-  private void initCastling(List<Int32> rookFromSquares) {
+  private void initCastling(List<Byte> rookFromSquares) {
     //[Test]rookFromSquares.Sort();
-    foreach (var nRookFrom in rookFromSquares) {
-      var side = findCastleFromSide(nRookFrom);
-      side.GrantCastling(nRookFrom);
+    foreach (var vRookFrom in rookFromSquares) {
+      var side = findCastleFromSide(vRookFrom);
+      side.GrantCastling(vRookFrom);
     }
 
     foreach (var side in Side)

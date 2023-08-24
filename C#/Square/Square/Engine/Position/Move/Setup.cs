@@ -73,7 +73,7 @@ partial class Position : Board {
 
   public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
     using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Int32>(rookFromSquaresCapacity);
+    var rookFromSquares = new List<Byte>(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -100,7 +100,7 @@ partial class Position : Board {
 
   public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
     using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Int32>(rookFromSquaresCapacity);
+    var rookFromSquares = new List<Byte>(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -391,7 +391,7 @@ partial class Position : Board {
     //
     // Castling Rules can be determined now that the Pieces are in place:
     //
-    var rookFromSquares = new List<Int32>(4);
+    var rookFromSquares = new List<Byte>(4);
     setupCastling(nRookFileOOO, nRookFileOO, rookFromSquares);
     #endregion                          // Grant Castling Rights
 
@@ -429,7 +429,7 @@ partial class Position : Board {
   }
 
   private void setupCastling(
-    Int32 nRookFileOOO, Int32 nRookFileOO, List<Int32> rookFromSquares) {
+    Int32 nRookFileOOO, Int32 nRookFileOO, List<Byte> rookFromSquares) {
     ClearCastleRules();
 
     foreach (var side in Side) {
@@ -438,11 +438,11 @@ partial class Position : Board {
       //
       // RookFrom Validation will be performed by validateCastlingSymmetry()
       //
-      var nRookFromOOO = sqr(nRookFileOOO, pieceRank);
-      var nRookFromOO = sqr(nRookFileOO, pieceRank);
+      var vRookFromOOO = (Byte)sqr(nRookFileOOO, pieceRank);
+      var vRookFromOO = (Byte)sqr(nRookFileOO, pieceRank);
 
-      rookFromSquares.Add(nRookFromOOO);
-      rookFromSquares.Add(nRookFromOO);
+      rookFromSquares.Add(vRookFromOOO);
+      rookFromSquares.Add(vRookFromOO);
     }
   }
 

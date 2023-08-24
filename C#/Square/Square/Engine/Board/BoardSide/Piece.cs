@@ -455,7 +455,7 @@ partial class Board {
     #endregion                          // Count Methods
 
     #region Grant Castling
-    private void verifyKingCanCastle() {
+    private Byte validateCastlesFrom() {
       var sideName = Parameter.SideName;
       if (!KingPos.HasValue)
         throw new ParsePositionException($"{sideName} must have a King");
@@ -473,35 +473,34 @@ partial class Board {
         throw new ParsePositionException($"{sideName} King cannot castle from {sq}");
       }
 
-      Parameter.Rule.CastlesFrom = KingPos;
+      return KingPos.Value;
     }
 
-    public void GrantCastling(Int32 nRookFrom) {
-      verifyKingCanCastle();
-
+    public void GrantCastling(Byte vRookFrom) {
       var rule = Parameter.Rule;
-      var sideName = Parameter.SideName;
+      rule.CastlesFrom = validateCastlesFrom();
 
+      var sideName = Parameter.SideName;
       var qpRook = Board.Rook & Piece;
-      if (nRookFrom < KingPos) {
+      if (vRookFrom < KingPos) {
         if (rule.RookOOOFrom.HasValue)
           throw new ParsePositionException($"Multiple {sideName} Rooks for OOO");
 
-        if ((qpRook & bit(nRookFrom)) == 0)
+        if ((qpRook & bit(vRookFrom)) == 0)
           throw new ParsePositionException($"No {sideName} Rook for OOO");
 
-        rule.RookOOOFrom = nRookFrom;
+        rule.RookOOOFrom = vRookFrom;
 
         SetCanOOO();
       }
-      else if (KingPos < nRookFrom) {
+      else if (KingPos < vRookFrom) {
         if (rule.RookOOFrom.HasValue)
           throw new ParsePositionException($"Multiple {sideName} Rooks for OO");
 
-        if ((qpRook & bit(nRookFrom)) == 0)
+        if ((qpRook & bit(vRookFrom)) == 0)
           throw new ParsePositionException($"No {sideName} Rook for OO");
 
-        rule.RookOOFrom = nRookFrom;
+        rule.RookOOFrom = vRookFrom;
 
         SetCanOO();
       }
