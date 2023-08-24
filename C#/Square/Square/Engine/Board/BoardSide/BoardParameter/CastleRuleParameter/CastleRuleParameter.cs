@@ -17,10 +17,10 @@ partial class Board {
         public CastleRuleParameter(Int32 nPieceRank) {
           PieceRank = nPieceRank;
 
-          KingOOTo = sqr(x((Int32)Sq.g1), PieceRank);
-          RookOOTo = sqr(x((Int32)Sq.f1), PieceRank);
-          KingOOOTo = sqr(x((Int32)Sq.c1), PieceRank);
-          RookOOOTo = sqr(x((Int32)Sq.d1), PieceRank);
+          KingOOTo = (Byte)sqr(x((Int32)Sq.g1), PieceRank);
+          RookOOTo = (Byte)sqr(x((Int32)Sq.f1), PieceRank);
+          KingOOOTo = (Byte)sqr(x((Int32)Sq.c1), PieceRank);
+          RookOOOTo = (Byte)sqr(x((Int32)Sq.d1), PieceRank);
 
           Clear();
         }
@@ -137,10 +137,10 @@ partial class Board {
         //
         protected Int32 PieceRank { get; init; }
 
-        public readonly Int32 KingOOTo;
-        public readonly Int32 RookOOTo;
-        public readonly Int32 KingOOOTo;
-        public readonly Int32 RookOOOTo;
+        public readonly Byte KingOOTo;
+        public readonly Byte RookOOTo;
+        public readonly Byte KingOOOTo;
+        public readonly Byte RookOOOTo;
 
         //
         //[Chess960]Castles From squares are set by BoardSide.GrantCastling():
