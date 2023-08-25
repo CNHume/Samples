@@ -82,10 +82,18 @@ partial class Parser : IDisposable {
       if (Accept(bShowMatch)) return;
 
       var scanner = Parser?.Scanner;
-      var type = GetType();
-      var message = IsNullOrEmpty(scanner?.Text) ?
-        $"{TokenType} expected" :
-        $@"The {TokenType} {type.Name} does not accept ""{scanner.Text}""";
+      var text = scanner?.Text;
+
+      string? message;
+      if (!IsNullOrEmpty(text)) {
+        var type = GetType();
+        message = $@"The {TokenType} {type.Name} does not accept ""{text}""";
+      }
+      else if (text == Empty)
+        message = $"End of Line encountered where {TokenType} is expected";
+      else
+        message = $"{TokenType} expected";
+
       throw new ChessException(message);
     }
     #endregion
