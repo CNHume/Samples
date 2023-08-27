@@ -453,6 +453,11 @@ partial class UCI {
   // 17. Qe5+ Kg8 (17... Kh7 18. Qe7+ Kg8 (18... Kh6 19. Qh4+?! (19. Bf4+!) 19... Kg7 20. Be5+ Kf7 21. Qf6+ Ke8 22. Qxh8+)
   // 19. Be5! Rh7 20. Qe8#) 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+! g5 21. Qxg5+ Kh7 22. Be5 Rg8 23. Qh5#
   //
+  //"2rq1rk1/3nR1pp/p7/1ppp2N1/3P4/1P5P/P1Q2PP1/R5K1 b - - 0 24";   // Bobby Fischer v Laszlo Barczay 1967-10-16 Final
+  //"2rq1rk1/4R1pp/p4n2/1ppp2N1/3P4/1P5P/P1Q2PP1/R5K1 w - - 0 25";  // Bobby Fischer v Laszlo Barczay 1967-10-16 Puzzle
+  // [2023-08-27 14-ply in 3:56.4 @1.463 MHz over 345.76 Mnode] eval 4.3 after:
+  // 25. Rxg7+ Kxg7 26. Ne6+ Kf7 27. Nxd8+ Rfxd8 28. dxc5 Rc7 29. Rc1 Rdc8 30. b4 a5 31. a3 axb4 32. axb4 Rd8 33. f4 d4
+  //
 
   #region Berkeley Games
   //
