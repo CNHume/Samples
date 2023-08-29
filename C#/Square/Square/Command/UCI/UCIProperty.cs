@@ -479,6 +479,9 @@ partial class UCI {
   //"8/6kp/Q2p4/3P4/8/6qP/3pBrP1/6RK b - - 0 37"; [2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
+  //"8/8/8/8/6pN/7p/7p/1KR3nk w - - 0 1"; // #6 1927 by Janis Behting % NM Nelson Lopez
+  // [2023-08-29 11-ply in 7.26 sec @1.284 MHz over 9.32 Mnode] #6 after:
+  // 1. Rf1 g3 2. Nf5 Kg2 3. Ne3+ Kh1 4. Rc1 g2 5. Nd1 Ne2 6. Nf2#
   //"8/8/8/7n/8/7N/3kp1K1/5n2 w - - 0 1"; // White to Draw 1937 by Alexander Herbstmann and Leonid Kubbel % NM Nelson Lopez
   // [2023-08-28 14-ply in 18.25 sec @1.555 MHz over 28.38 Mnode] eval -1.0 example:
   // 1. Ng1 Ne3+ 2. Kh3 e1=N 3. Nf3+ Nxf3 stalemate

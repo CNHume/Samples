@@ -325,8 +325,8 @@ partial class Board {
     #region Half Move Clock and Full Move Number
     HalfMoveClock = ParseByte(sHMVCName, sHMVCValue);
 
-    if (HalfMoveClock > 0 && IsEPLegal()) {
-      var sq = (Sq?)EPTarget;
+    if (HalfMoveClock > 0 && EPTarget.HasValue) {
+      var sq = (Sq)EPTarget;
       LogInfo(LogLevel.warn, $"ep({sq}) implies {sHMVCName} = {HalfMoveClock} Must Be Zero");
     }
 
