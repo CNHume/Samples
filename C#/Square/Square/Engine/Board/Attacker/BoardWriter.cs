@@ -111,12 +111,11 @@ partial class Board {
     SideFlags fWhiteSide,
     TurnFlags fturn,
     Boolean bWTM) {
-    if (fmode == 0 &&
-        fdraw == 0 &&
-        feval == 0 &&
-        fBlackSide == 0 &&
-        fWhiteSide == 0 &&
-        fturn == 0)
+    if (fmode == ModeFlags.None &&
+        fdraw == DrawFlags.None &&
+        feval == EvalFlags.None &&
+        (fBlackSide | fWhiteSide) == SideFlags.None &&
+        fturn == TurnFlags.None)
       return "None";
 
     var sBlackSide = formatFlags(fBlackSide);
@@ -125,7 +124,7 @@ partial class Board {
     var sWhiteSideLabelled = IsNullOrEmpty(sWhiteSide) ? Empty : $"White[{sWhiteSide}]";
 
     const Int32 nCapacity = 8;
-    var sFlags = new List<String>(nCapacity)
+    var formattedFlags = new List<String>(nCapacity)
       .AddNotEmpty(formatFlags(fmode))
       .AddNotEmpty(formatFlags(fdraw))
       .AddNotEmpty(formatFlags(feval))
@@ -133,9 +132,9 @@ partial class Board {
       .AddNotEmpty(sWhiteSideLabelled)
       .AddNotEmpty(formatFlags(fturn));
 
-    if (bWTM) sFlags.Add("WTM");
+    if (bWTM) formattedFlags.Add("WTM");
 
-    return Join(sSpace, sFlags);
+    return Join(sSpace, formattedFlags);
   }
   #endregion
 
@@ -204,9 +203,8 @@ partial class Board {
     //
     // If EPTarget.HasValue serialize its corresponding Sq into the FEN or EPD:
     //
-    var sq = (Sq?)EPTarget;
-    if (sq.HasValue)
-      sb.Append(sq.Value);
+    if (EPTarget.HasValue)
+      sb.Append((Sq)EPTarget);
     else
       sb.Append(cMinus);
   }
