@@ -323,10 +323,10 @@ partial class UCI {
   // [13-ply in 3:52.4 @1.323 MHz] eval 0.87
   //"r1qr2k1/1p3pp1/2pbbn2/p3N3/3P3Q/P5PB/1B3P2/R3R1K1 w - - 0 1"; // Taimanov v Kuzminykh 1950 [13-ply in 1:40 @1.472 over 161.9 Mnode] eval 2.35,
   // [14-ply in 5:59.1 @1.3865 MHz over 497.9 Mnode] eval 2.35, [15-ply in 15:59 @1.387 MHz over 1.33 Gnode] eval 2.55
-  //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989 [20-ply in 5:05:01 @1.288 MHz over 23.571 Gnode] eval 0.03
-  // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qf5+ 30. Kg1 Qb1+ 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed to avoid checks}
-  // 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xposing}) 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6
-  // 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
+  //"5rk1/5ppp/p1Q1p3/1r6/q2b4/4B1P1/P2RPP1P/1R4K1 w - - 0 26"; // Kasparov v Ribli 1989 [2023-08-31 20-ply in 1:54:41 @1.366 MHz over 9.401 Gnode] eval 0.0
+  // 26. Rxb5 Bxe3 27. Rd8 Bxf2+ 28. Kxf2 Qxb5 29. Qd6 Qb5f5+ 30. Kg1 Qb1+
+  // 31. Kg2 Qe4+ 32. Kh3 {with 14-ply needed to avoid checks} 32... Qf5+ 33. g4 Qf1+ 34. Kg3 Qe1+ (34... Qg1+ 35. Kf3 Qf1+ {xposing})
+  // 35. Kf3 Qf1+ 36. Ke3 Qh3+ 37. Kd4 Qxg4+ 38. Kc3 Qh3+ 39. Kb2 h6 40. Qxf8+ Kh7 41. Qh8+ Kg6 42. Rg8
   //"r1b1r1k1/ppq2p1p/3b2pQ/3pn3/8/2P4P/PPBN1PP1/R1B1R1K1 b - -"; // Hit Rate 1 15.8% hits [plus 1.1% Qxnt] at 12-ply, expecting ~25%
   //"6k1/5p1p/P1pb1nq1/6p1/3P4/1BP2PP1/1P1Nb2P/R1B3K1 b - -"; // Hit Rate 2 26.6% at 12-ply [plus 4% Qxnt], exceeding ~30% Hits
   //"8/k7/3p4/p2P1p2/P2P1P2/8/8/K7 w - -"; //[Fine 70]87% Hits at 37-ply, should solve by 26-ply

@@ -13,7 +13,6 @@ namespace Command;
 
 using Exceptions;
 
-using static System.String;
 using static Logging.Logger;
 
 partial class Parser : IDisposable {
