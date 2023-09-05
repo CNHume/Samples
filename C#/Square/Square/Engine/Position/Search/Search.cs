@@ -116,13 +116,15 @@ partial class Position : Board {
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
         unpackMove1(
-          moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          moveFound, out Sq sqFrom, out Sq sqTo,
+          out Piece piece, out Piece promotion, out Boolean bCapture);
         //unpackMove2(
-        //  moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion,
-        //  out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        //  moveFound, out Sq sqFrom, out Sq sqTo,
+        //  out Piece piece, out Piece promotion, out Piece capture,
+        //  out Boolean bCastles, out Boolean bCapture);
 #endif
         if (isMovePosition)             // Pass empty BestMoves, at top level
-          AddPV(mAlpha, mValueFound, moveFound, BestMoves);
+          addPV(mAlpha, mValueFound, moveFound, BestMoves);
 #if AddBestMoves
         BestMoves.Add(moveFound);       // Safe to update BestMoves now
 #endif
@@ -479,7 +481,7 @@ partial class Position : Board {
       //
       //[Note]mAlpha may be less than mBest here: to admit weaker MultiPV lines.
       //
-      mBest2 = AddPV(mAlpha, mValue, moveNoted, child.BestMoves);
+      mBest2 = addPV(mAlpha, mValue, moveNoted, child.BestMoves);
     }
     #endregion                          // Update Best Move
 

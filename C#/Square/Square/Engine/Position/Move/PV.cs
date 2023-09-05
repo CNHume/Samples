@@ -71,7 +71,7 @@ partial class Position : Board {
       var sAction = bCapture ? "capture" : "move";
       var message = $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo}";
       Debug.Assert(qpAtxTo != 0, message);
-      Display("qpAtxTo == 0");
+      Display(message);
     }
 
     //
@@ -148,8 +148,7 @@ partial class Position : Board {
   #endregion                            // Annotation Methods
 
   #region MultiPV Support
-  public Eval AddPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {
-    var bWTM = WTM();
+  private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {
     //[Lock]UCI may change this at any time.  See GameState.newVariations()
     var bHasValue = 0 < State.VariationCount;
     var bGrow = State.VariationCount < State.MultiPVLength;
@@ -176,7 +175,7 @@ partial class Position : Board {
         lineMoves.Clear();
 
       if (IsUndefined(move)) {
-        Debug.Assert(IsDefined(move), $"Undefined Move [{nameof(AddPV)}]");
+        Debug.Assert(IsDefined(move), $"Undefined Move [{nameof(addPV)}]");
         move = Move.NullMove;
       }
 
@@ -189,8 +188,8 @@ partial class Position : Board {
       //
       // Insert at correct position:
       //
+      var bWTM = WTM();
       var nPlace = vn.Insert(nFinal);
-
       if (nPlace == 0) {
         var sb = new StringBuilder();
         var mEval = ReflectValue(bWTM, mValue);

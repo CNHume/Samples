@@ -70,7 +70,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private Move adjustEmptyMove(Move moveFound) {
+  private Move adjustFinalMove(Move moveFound) {
     //
     // The Final Move Flag is set when the resulting child position has been
     // determined to be Final, i.e., that there are no Legal Moves available
@@ -147,7 +147,8 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(IsUndefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
+      const string message = $"moveBest defined in a Final position [{methodName}].";
+      Trace.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 #if DebugMoveColor
@@ -161,7 +162,7 @@ partial class Position : Board {
 #endif
 #if XPHash128
     var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
-                                  mAdjusted, et, moveBest);
+                                 mAdjusted, et, moveBest);
 #else
     var store = new PositionMove(qDynamic, State.MovePly, wDepth,
                                  mAdjusted, et, moveBest);
@@ -192,7 +193,7 @@ partial class Position : Board {
     var bFound = matches.Count > 0;
 
     foreach (var found in matches) {
-      var moveFound = adjustEmptyMove(found.BestMove);
+      var moveFound = adjustFinalMove(found.BestMove);
       var etFound = found.Type;
       var mValueFound = found.Value;
       traceVal(methodName, mValueFound, etFound);   //[Conditional]
@@ -271,11 +272,11 @@ partial class Position : Board {
 #if XPMoveTypes
       if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
-    moveFound = adjustEmptyMove(match.BestMove);        //[out]3
-    etFound = match.Type;                               //[out]2
+    moveFound = adjustFinalMove(match.BestMove);        //[out]1
+    etFound = match.Type;                               //[out]3
     var mValueFound = match.Value;
     traceVal(methodName, mValueFound, etFound);     //[Conditional]
-    mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]1
+    mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]2
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
   }
@@ -322,12 +323,12 @@ partial class Position : Board {
     var match = new QuietPosition(Hash, State.MovePly);
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
-    var moveBest = adjustEmptyMove(match.BestMove);
-    moveFound = IsUndefined(moveBest) ? moveBest : moveBest | Move.Qxnt;    //[out]3
-    etFound = match.Type;                       //[out]2
+    var moveBest = adjustFinalMove(match.BestMove);
+    moveFound = IsUndefined(moveBest) ? moveBest : moveBest | Move.Qxnt;    //[out]1
+    etFound = match.Type;                       //[out]3
                                                 //[Note]Mate values are suspect because quiet moves were not considered
     var mValueFound = match.Value;
-    mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);   //[out]1
+    mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);   //[out]2
     traceVal(methodName, mValue, etFound);      //[Conditional]
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
@@ -343,7 +344,9 @@ partial class Position : Board {
     moveFound = Move.Undefined;
 #if QuiescentTryXP
     const Depth wDepth = 0;
-    bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out Eval mValue, out EvalType etFound);
+    bFoundValue = probeXP(wDepth, mAlpha, mBeta,
+                          Move.Undefined, default,
+                          out moveFound, out Eval mValue, out EvalType etFound);
 #endif
 #if TransposeQuiet
     if (IsUndefined(moveFound))
@@ -352,7 +355,8 @@ partial class Position : Board {
 #endif                                  // TransposeQuiet || QuiescentTryXP
   }
 
-  private Boolean probeQxnt(Eval mAlpha, Eval mBeta, out Move moveFound, out Eval mValue, out EvalType etFound) {
+  private Boolean probeQxnt(Eval mAlpha, Eval mBeta,
+                            out Move moveFound, out Eval mValue, out EvalType etFound) {
     var bFoundValue = false;
     etFound = EvalType.Undefined;
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
@@ -361,7 +365,9 @@ partial class Position : Board {
     mValue = EvalUndefined;
 #if QuiescentTryXP
     const Depth wDepth = 0;
-    bFoundValue = probeXP(wDepth, mAlpha, mBeta, Move.Undefined, default, out moveFound, out mValue, out etFound);
+    bFoundValue = probeXP(wDepth, mAlpha, mBeta,
+                          Move.Undefined, default,
+                          out moveFound, out mValue, out etFound);
     State.IncQxnt(bFoundValue);         //[Conditional]
 #endif
 #if TransposeQuiet
@@ -427,7 +433,9 @@ partial class Position : Board {
       var mValueFound = killer.Value;
       var etFound = killer.Type;
       traceVal(methodName, mValueFound, etFound);   //[Conditional]
-      addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound, bFilterEvalUndefined);
+      addMove(moveFound, goodMoves,
+              wDepth, mValueFound, mAlpha, mBeta, etFound,
+              bFilterEvalUndefined);
     }
 
     return bFound;
@@ -448,7 +456,7 @@ partial class Position : Board {
           sb.AppendFormat($" {et}");
       }
 #if DebugStand
-      if (Enum.TryParse<EvalType>(sLabel, out EvalType etLabel)) {
+      if (Enum.TryParse(sLabel, out EvalType etLabel)) {
       }
 #endif
       LogLine(sb.ToString());
