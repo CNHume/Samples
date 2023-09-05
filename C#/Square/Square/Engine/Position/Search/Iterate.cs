@@ -56,14 +56,14 @@ partial class Position : Board {
   private void throwFinalPosition() {
     //[Assume]TurnFlags have been set by search()
     if (IsFinal() || IsInsufficient()) {
-      String sMessage;
+      String message;
       if (IsInsufficient())
-        sMessage = sTextInsufficient;
+        message = sTextInsufficient;
       else if (InCheck())
-        sMessage = sTextCheckmate;
+        message = sTextCheckmate;
       else
-        sMessage = sTextStalemate;
-      throw new FinalPositionException(sMessage);
+        message = sTextStalemate;
+      throw new FinalPositionException(message);
     }
   }
 

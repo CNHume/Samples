@@ -102,8 +102,7 @@ partial class Position : Board {
       if (EPTarget.HasValue)
         return qpFoe | bit(EPTarget.Value);
 #if DebugEPTarget
-      var sMessage = "No En Passant Square";
-      DisplayCurrent(sMessage);
+      DisplayCurrent("No En Passant Square");
 #endif                                  // DebugEPTarget
     }
 

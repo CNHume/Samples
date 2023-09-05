@@ -69,9 +69,9 @@ partial class Position : Board {
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
-      Debug.Assert(
-        qpAtxTo != 0, $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo}");
-      Display();
+      var message = $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo}";
+      Debug.Assert(qpAtxTo != 0, message);
+      Display("qpAtxTo == 0");
     }
 
     //
