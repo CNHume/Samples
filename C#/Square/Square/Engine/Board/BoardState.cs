@@ -173,14 +173,14 @@ partial class Board {
   #region Rotations
 #if !Magic
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  internal void ClrRotations(Int32 n) {
+  private void clrRotations(Int32 n) {
     FilePiece &= ~BitFile[n];
     A1H8Piece &= ~BitA1H8[n];
     A8H1Piece &= ~BitA8H1[n];
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  internal void SetRotations(Int32 n) {
+  private void setRotations(Int32 n) {
     FilePiece |= BitFile[n];
     A1H8Piece |= BitA1H8[n];
     A8H1Piece |= BitA8H1[n];
@@ -198,7 +198,7 @@ partial class Board {
     var qp = bit(nFrom);
     RankPiece &= ~qp;
 #if !Magic
-    ClrRotations(nFrom);
+    clrRotations(nFrom);
 #endif
   }
 
@@ -208,7 +208,7 @@ partial class Board {
     var qp = bit(nTo);
     RankPiece |= qp;
 #if !Magic
-    SetRotations(nTo);
+    setRotations(nTo);
 #endif
   }
   #endregion                            // Rotations

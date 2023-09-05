@@ -81,14 +81,15 @@ partial class UCI {
   // [2023-09-04 16-ply in 6:03 @1.435 MHz over 520.87 Mnode] eval 12.95 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
-  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
   // Mobility Disabled
   // [2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
   // Mobility Weight = 100 cp
-  // [2023-09-03 19-ply in 40:36 @1.27 MHz over 3.0955 Gnode] #10 after:
+  // [2023-09-04 19-ply in 40:21 @1.278 MHz over 3.0955 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
+  //
   //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line
   // [2023-07-08 20-ply in 1:40:50 @1.735 MHz over 10.498 Gnode] eval 14.7 after:
   // 43. Nxg8 Qg5 44. Nxf6 Qxf6 45. Qb8+ Kh7 46. Ra8 Qh4+ 47. Kg1 Qxh5 48. Qg8+ Kg6 49. Qe8+ Kg5 50. f4+ Kxf4 (50... Kh4 51. Qe1+ Kg4 52. Qe2+ Kxf4 53. Qxh5 a1=N 54. Rxa1 [Bh7])
@@ -379,7 +380,7 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8 [2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
-  "8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
+  //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   // [2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 g5 34. Bd8+ Kg6 35. Qxb6 Nc1 36. Qb1+ Nd3 37. e7 Ng4 38. Nf1

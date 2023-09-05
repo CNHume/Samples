@@ -115,7 +115,7 @@ partial class Board {
 #endif
       clrPiece(qp);
 #if !Magic
-      Board.ClrRotations(nFrom);
+      Board.clrRotations(nFrom);
 #endif
       var bLite = false;
       switch (vPiece) {
@@ -204,7 +204,7 @@ partial class Board {
 #endif
       setPiece(qp);
 #if !Magic
-      Board.SetRotations(nTo);
+      Board.setRotations(nTo);
 #endif
       var bLite = false;
       switch (vPiece) {

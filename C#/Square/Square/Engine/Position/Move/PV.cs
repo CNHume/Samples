@@ -229,8 +229,11 @@ partial class Position : Board {
 #endif
       }
 #if DebugMove
-      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo,
+                  out Piece piece, out Piece promotion, out Boolean bCapture);
+      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo,
+      //            out Piece piece, out Piece promotion, out Piece capture,
+      //            out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
       var bWTM = WTM();
@@ -242,7 +245,11 @@ partial class Position : Board {
       moves.Add(moveNoted);
 
       var bLegal = tryOrSkip(ref moveNoted);
-      Debug.Assert(bLegal, $"{nameof(lookupPV)} obtained an Illegal Move");
+      if (!bLegal) {
+        const string message = $"{nameof(lookupPV)} obtained an Illegal Move";
+        Debug.Assert(bLegal, message);
+        Display(message);
+      }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
@@ -268,7 +275,9 @@ partial class Position : Board {
     }
   }
 
-  public void AbbreviateRefresh(List<Move> moves, Int32 nMove, Int32 nDepth, Eval mValue) {
+  private void abbreviateRefresh(
+    List<Move> moves, Int32 nMove, Int32 nDepth, Eval mValue) {
+    resetMove();                        // Usually called via [null|try]Move()
     if (moves.Count <= nMove) {
       //[Safe]lookupPV() should not be called if a draw is detected
       if (!IsDraw())
@@ -277,20 +286,24 @@ partial class Position : Board {
     else {
       var moveNoted = moves[nMove];
       if (IsUndefined(moveNoted)) {
-        Debug.Assert(IsDefined(moveNoted), $"Undefined Move [{nameof(AbbreviateRefresh)}]");
+        const string message = $"Undefined Move [{nameof(abbreviateRefresh)}]";
+        Debug.Assert(IsDefined(moveNoted), message);
         moveNoted = Move.NullMove;
       }
       else if (!State.IsPure)           // Standard Algebraic Notation (AN) supports abbreviation
         moves[nMove] = abbreviate(moveNoted);
 #if DebugMove
-      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo,
+                  out Piece piece, out Piece promotion, out Boolean bCapture);
+      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo,
+      //            out Piece piece, out Piece promotion, out Piece capture,
+      //            out Boolean bCastles, out Boolean bCapture);
 #endif
 #if DebugMoveColor
       var bWTM = WTM();
       var bWhiteMove = moveNoted.Has(Move.WTM);
       if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(AbbreviateRefresh)}]");
+        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(abbreviateRefresh)}]");
       }
 #endif
       const EvalType et = EvalType.Exact;
@@ -300,11 +313,15 @@ partial class Position : Board {
         storeXP((Depth)nDepth, mValue, et, moveNoted);
 
       var bLegal = tryOrSkip(ref moveNoted);
-      Debug.Assert(bLegal, $"{nameof(AbbreviateRefresh)} obtained an Illegal Move");
+      if (!bLegal) {
+        const string message = $"{nameof(abbreviateRefresh)} obtained an Illegal Move";
+        Debug.Assert(bLegal, message);
+        Display(message);
+      }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
-        DisplayCurrent(nameof(AbbreviateRefresh));
+        DisplayCurrent(nameof(abbreviateRefresh));
 #endif
       SetDraw50();                      // Mark Draw50 after having made the move
 
@@ -314,8 +331,7 @@ partial class Position : Board {
       //
       var child = Push();               // Push Position to make the moves
       try {
-        child.resetMove();              // Usually called via [null|try]Move()
-        child.AbbreviateRefresh(moves, nMove + 1, nDepth - 1, (Eval)(-mValue));
+        child.abbreviateRefresh(moves, nMove + 1, nDepth - 1, (Eval)(-mValue));
       }
       finally {
         Pop(ref child);                 // Pop Position
@@ -333,8 +349,7 @@ partial class Position : Board {
         var vn = State.Variation[nVInverse];
         var mValue = ReflectValue(bWTM, vn.Value);
         if (vn.Moves != null) {
-          child.resetMove();            // Usually called via [null|try]Move()
-          child.AbbreviateRefresh(vn.Moves, 0, wDepth, mValue);
+          child.abbreviateRefresh(vn.Moves, 0, wDepth, mValue);
         }
       }
     }
