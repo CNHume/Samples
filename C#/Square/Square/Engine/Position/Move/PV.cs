@@ -11,6 +11,7 @@
 //#define Magic
 #define TestDraw3
 //#define TraceVal
+//#define VerifyMove
 
 using System.Diagnostics;
 using System.Text;
@@ -29,6 +30,25 @@ using Eval = Int16;
 using Plane = UInt64;
 
 partial class Position : Board {
+  #region Test Methods
+  [Conditional("VerifyMove")]
+  private void verifyMove(ref Move move) {
+    var child = Push();                 // Push Position to make the moves
+    try {
+      var bValid = child.tryOrSkip(ref move);
+
+      if (!bValid) {
+        unpackMove1(move, out Sq sqFrom, out Sq sqTo,
+                    out Piece piece, out Piece promotion, out Boolean bCapture);
+        Display($"Illegal Move from {sqFrom} to {sqTo}");
+      }
+    }
+    finally {
+      Pop(ref child);                   // Pop Position used for this Ply
+    }
+  }
+  #endregion                            // Test Methods
+
   #region Annotation Methods
   //
   // InCheck and most Draw Flags are available once IsLegal() has been called;
@@ -63,6 +83,9 @@ partial class Position : Board {
 
     var piece = (Piece)uPiece;
     var qpAtxTo = PieceAtxTo(nFrom, nTo, piece, bCapture);
+
+    //[Conditional]
+    verifyMove(ref move);
 
     //[Conditional]
     filterCandidates(move, ref qpAtxTo);
