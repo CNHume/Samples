@@ -25,8 +25,8 @@ partial class Position : Board {
   //
   #region Pin Restrictions
   //
-  //[Note]ExecuteMove() has called toggleWTM() which inverts the
-  // sense of Friend and Foe to complete the current position.
+  //[Note]ExecuteMove() has called IncrementGamePly()
+  // to invert the sense of Friend and Foe.
   //
   private void restrictPiece(Move move) {
 #if DebugMove

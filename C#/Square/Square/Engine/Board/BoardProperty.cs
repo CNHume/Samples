@@ -144,7 +144,7 @@ partial class Board {
 
   public Ply SearchPly {
     //
-    // toggleWTM() advances GamePly, and therefore also SearchPly
+    // IncrementGamePly() advances GamePly and therefore SearchPly
     //
     get { return (Ply)(GamePly - State.MovePly); }
   }

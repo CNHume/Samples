@@ -133,7 +133,7 @@ partial class Position : Board {
   }
 
   // IsLegal() detects Checks and sets Draw Flags when moves are tried.
-  //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+  //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
   public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
 #if TurnTest
     var bWhiteMoved = !WTM();

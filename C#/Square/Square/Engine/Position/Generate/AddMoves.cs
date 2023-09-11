@@ -142,7 +142,7 @@ partial class Position : Board {
     }
   }
 
-  //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+  //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
 #if RemoveKingShadow2
   private void addKingCapturesAndMoves(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else
@@ -169,7 +169,7 @@ partial class Position : Board {
     addPieceMoves(PseudoKingMove, PseudoKingMove, moveFrom, qpMoveTo);
   }
 
-  //[Note]toggleWTM() inverts the conventional sense of Friend and Foe.
+  //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
 #if RemoveKingShadow2
   private void addKingCaptures(Plane qpTo, Byte vKingPos, Boolean bRayCheck) {
 #else

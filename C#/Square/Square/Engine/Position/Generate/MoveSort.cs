@@ -42,8 +42,8 @@ partial class Position : Board {
             out UInt32 uPiece, out Boolean bCapture);
 
     //
-    //[Note]Assess IsAbove() from the pespective of the
-    // Foe because toggleWTM() was called by ExecuteMove().
+    //[Note]IsAbove() is assessed from the perspective of Foe
+    // because IncrementGamePly() was called by ExecuteMove().
     //
     var parameter = Foe.Parameter;
     var bAbove = parameter.IsAbove(nTo);

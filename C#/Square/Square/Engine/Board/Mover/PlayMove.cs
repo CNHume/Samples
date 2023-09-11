@@ -187,6 +187,9 @@ partial class Board {
     return vEPTarget;
   }
 
+  //
+  //[Note]IncrementGamePly() inverts WTM!
+  //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected void IncrementGamePly() {
     GamePly++;                          // WTM iff IsEven(GamePly)
@@ -218,13 +221,13 @@ partial class Board {
 
     updateRepetitionCycle();
 
-    //[Note]toggleWTM() inverts the sense of Friend and Foe.
+    //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
     IncrementGamePly();
 
     #region Update En Passant
     //
-    //[Note]tryEP() is called after toggleWTM()
-    // has inverted the sense of Friend and Foe.
+    //[Note]tryEP() is called after IncrementGamePly()
+    // inverts the sense of Friend and Foe.
     //
     if (vEPTarget.HasValue)
       tryEP(vEPTarget.Value);
