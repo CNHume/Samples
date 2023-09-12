@@ -213,9 +213,7 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 
-    if (IsDefinite(moveBest)) {
-      verifySideToMove(moveBest, methodName);
-    }
+    verifySideToMove(moveBest, methodName);
 #if XPHash128
 #if XPMoveTypes
     var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
@@ -283,9 +281,7 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 
-    if (IsDefinite(moveBest)) {
-      verifySideToMove(moveBest, methodName);
-    }
+    verifySideToMove(moveBest, methodName);
 #if QXPHash128
     var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else

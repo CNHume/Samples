@@ -453,8 +453,7 @@ partial class Position : Board {
     //
     //[Note]Annotation is made from the child position resulting from each move.
     //
-    var moveNoted =
-      child.CurrentMove = child.annotateFinal(move);
+    var moveNoted = child.annotateFinal(move);
 
     if (mBest < mValue) {
       mBest = mValue;

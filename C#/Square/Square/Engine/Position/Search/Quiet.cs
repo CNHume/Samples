@@ -201,8 +201,7 @@ partial class Position : Board {
               //
               //[Note]Annotation is made from the child position resulting from each move.
               //
-              moveBest =
-                child.CurrentMove = child.annotateFinal(move);
+              moveBest = child.annotateFinal(move);
 #if AddBestMoves
               BestMoves.Clear();
               BestMoves.Add(moveBest);

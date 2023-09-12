@@ -83,7 +83,7 @@ partial class Position : Board {
     var bLegal = IsLegal(bFindRepetition, bRestricted);
     if (IsDefined(move)) {
       if (bLegal)
-        CurrentMove = move = annotateEarly(move);
+        move = annotateEarly(move);
       else
         restrictPiece(move);
     }

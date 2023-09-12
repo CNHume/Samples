@@ -77,7 +77,7 @@ partial class Position : Board {
     if (IsDraw2()) move |= Move.NoteDraw2;
     if (IsDraw()) move |= Move.NoteDraw;
 #endif
-    return move;
+    return CurrentMove = move;
   }
 
   private Move annotateFinal(Move move) {
@@ -85,7 +85,7 @@ partial class Position : Board {
 #if TestDraw3
     if (IsDraw()) move |= Move.NoteDraw;
 #endif
-    return move;
+    return CurrentMove = move;
   }
 
   private Move abbreviate(Move move) {
@@ -217,15 +217,6 @@ partial class Position : Board {
 
       var bPonder = line.Count > 0;     //!bChildFinal
       if (bPonder) {
-        foreach (var mov in line) {
-          if (EqualMoves(mov, (Move)0x00060dff)) {
-#if DebugMove
-            unpackMove1(mov, out Sq sqFrom, out Sq sqTo,
-                        out Piece piece, out Piece promotion, out Boolean bCapture);
-#endif
-          }
-        }
-
         lineMoves.AddRange(line);
       }
 
@@ -285,14 +276,14 @@ partial class Position : Board {
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {
-        const string message = $"{nameof(lookupPV)} obtained an Illegal Move";
+        const string message = $"{methodName} obtained an Illegal Move";
         Debug.Assert(bLegal, message);
         Display(message);
       }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
-        DisplayCurrent(nameof(lookupPV));
+        DisplayCurrent(methodName);
 #endif
       SetDraw50();                      // Mark Draw50 after having made the move
 
@@ -326,7 +317,7 @@ partial class Position : Board {
     else {
       var moveNoted = moves[nMove];
       if (IsUndefined(moveNoted)) {
-        const string message = $"Undefined Move [{nameof(abbreviateRefresh)}]";
+        const string message = $"Undefined Move [{methodName}]";
         Debug.Assert(IsDefined(moveNoted), message);
         moveNoted = Move.NullMove;
       }
@@ -352,7 +343,7 @@ partial class Position : Board {
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {
-        const string message = $"{nameof(abbreviateRefresh)} obtained an Illegal Move";
+        const string message = $"{methodName} obtained an Illegal Move";
         Debug.Assert(bLegal, message);
         Display(message);
       }
