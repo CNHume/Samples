@@ -6,7 +6,7 @@
 // Conditionals:
 //
 //#define DebugSquares
-//#define DebugMoveColor
+//#define DebugSideToMove
 #define RemoveKingShadow
 #define RemoveKingShadow2               // RemoveKingShadow2 <= RemoveKingShadow
 
@@ -36,23 +36,29 @@ partial class Position : Board {
   //
   #region Castling Moves
   protected void addCastles() {
-    Debug.Assert(!InCheck(), "addCastles() called while InCheck");
-    var rule = Friend.Parameter.Rule;
+    const String methodName = nameof(addCastles);
+    if (InCheck()) {
+      Debug.Assert(!InCheck(), $"{methodName}() called while InCheck");
+    }
 
-    if (CanOO()) {
-#if DebugMoveColor
-      PseudoCastles.Add(Move.WTM | rule.OOMove);
-#else
-      PseudoCastles.Add(rule.OOMove);
+    var rule = Friend.Parameter.Rule;
+#if DebugSideToMove
+    var bWTM = WTM();
 #endif
+    if (CanOO()) {
+      var move = rule.OOMove;
+#if DebugSideToMove
+      if (bWTM) move |= Move.WTM;
+#endif
+      PseudoCastles.Add(move);
     }
 
     if (CanOOO()) {
-#if DebugMoveColor
-      PseudoCastles.Add(Move.WTM | rule.OOOMove);
-#else
-      PseudoCastles.Add(rule.OOOMove);
+      var move = rule.OOOMove;
+#if DebugSideToMove
+      if (bWTM) move |= Move.WTM;
 #endif
+      PseudoCastles.Add(move);
     }
   }
   #endregion                            // Castling Moves
@@ -66,7 +72,7 @@ partial class Position : Board {
 #endif
     var capture = bEnPassant ? Piece.EP : Piece.Capture;
     var move = CapturePiece(capture) | MovePawn | MoveFromTo(nFrom, nTo);
-#if DebugMoveColor
+#if DebugSideToMove
     if (WTM()) move |= Move.WTM;
 #endif
     if (bPromote)
@@ -94,7 +100,7 @@ partial class Position : Board {
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var move = MovePawn | MoveFromTo(nFrom, nTo);
-#if DebugMoveColor
+#if DebugSideToMove
     if (WTM()) move |= Move.WTM;
 #endif
     if (bPromote)
@@ -118,7 +124,7 @@ partial class Position : Board {
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = MoveCapture | MoveTo(nTo) | moveFrom;
-#if DebugMoveColor
+#if DebugSideToMove
       if (WTM()) move |= Move.WTM;
 #endif
       var moves = parameter.IsAbove(nTo) ? aboveCaptures : belowCaptures;
@@ -134,7 +140,7 @@ partial class Position : Board {
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = MoveTo(nTo) | moveFrom;
-#if DebugMoveColor
+#if DebugSideToMove
       if (WTM()) move |= Move.WTM;
 #endif
       var moves = parameter.IsAbove(nTo) ? aboveMoves : belowMoves;

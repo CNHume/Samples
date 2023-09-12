@@ -7,7 +7,6 @@
 //
 //#define DebugMoveOrder
 #define DebugMove
-//#define DebugMoveColor
 #define CountEarlyMoves
 #define UseKillers
 #define BottleBothSides

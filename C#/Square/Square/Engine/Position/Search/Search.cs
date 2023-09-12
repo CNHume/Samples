@@ -7,7 +7,7 @@
 //
 #define Quiescence
 #define DebugMove
-//#define DebugMoveColor
+//#define DebugSideToMove
 #define DebugSearchMoves
 #define AddBestMoves
 #define AddRangeBestMoves               //[Debug]
@@ -68,6 +68,7 @@ partial class Position : Board {
   #region Search Methods
   private Eval search(Draft wDraft, Eval mAlpha, Eval mBeta,
                       Move moveExcluded = Move.Undefined) {
+    const String methodName = nameof(quiet);
     var moves = PseudoMoves;
     BestMoves.Clear();                  //[Required]
 
@@ -259,7 +260,7 @@ partial class Position : Board {
       #endregion                        // Move Sort
 
       #region Move Loop
-#if DebugMoveColor
+#if DebugSideToMove
       var bDebugWTM = WTM();
 #endif
       var nTried = 0;
@@ -280,12 +281,7 @@ partial class Position : Board {
         unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
         //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-#if DebugMoveColor
-        var bWhiteMove = move.Has(Move.WTM);
-        if (bDebugWTM != bWhiteMove) {
-          Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
-        }
-#endif
+        verifySideToMove(move, methodName);
 #if DebugNextMove
         var sb = new StringBuilder("Next Move =");
         sb.AppendPACN(move, State.IsChess960);

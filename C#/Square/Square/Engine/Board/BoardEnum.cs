@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-//#define DebugMoveColor
+//#define DebugSideToMove
 #define RecursiveNullMade
 
 namespace Engine;
@@ -318,9 +318,8 @@ partial class Board {
     HideFile = 1U << nHideFileBit,      // Bit 28 Hi 4-bits are for abbreviation and debug
     HideRank = HideFile << 1,           // Bit 29
     Qxnt = HideRank << 1,               // Bit 30 Used by AbbreviateRefresh()
-#if DebugMoveColor
     WTM = Qxnt << 1,                    // Bit 31 Used to test WTM
-#endif
+
     HideFrom = HideRank | HideFile,     // Used to abbreviate From square
     FromMask = uSquareMask << nFromBit,
     ToMask = uSquareMask << nToBit,
@@ -335,12 +334,11 @@ partial class Board {
     //
     // StoreMask keeps CaptiveMask; but omits annotations
     //
-#if DebugMoveColor
+#if DebugSideToMove
     StoreMask = WTM | CaptiveMask | EqualMask,
 #else
     StoreMask = CaptiveMask | EqualMask,
 #endif
-
     //
     // EqualMask distinguishes the three Limit Moves:
     //

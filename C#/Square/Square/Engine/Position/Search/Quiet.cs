@@ -4,7 +4,7 @@
 // Conditionals:
 //
 #define DebugMove
-//#define DebugMoveColor
+//#define DebugSideToMove
 #define DebugSearchMoves
 #define AddBestMoves
 #define AddRangeBestMoves               //[Debug]
@@ -17,6 +17,7 @@
 //#define VerifyUpper
 
 using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 
 namespace Engine;
@@ -40,6 +41,7 @@ partial class Position : Board {
 
   #region Search Methods
   private Eval quiet(Eval mAlpha, Eval mBeta) {
+    const String methodName = nameof(quiet);
     var moves = PseudoMoves;
     BestMoves.Clear();                  //[Required]
 
@@ -138,9 +140,6 @@ partial class Position : Board {
       var child = Push();               // Push Position to make the moves
       try {
         #region Move Loop
-#if DebugMoveColor
-          var bDebugWTM = WTM();
-#endif
         var uLegalMoves = 0U;
         foreach (var mov in moves) {
           var move = mov;               // Allow tryMove(ref move) below
@@ -149,12 +148,8 @@ partial class Position : Board {
           unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
           //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
-#if DebugMoveColor
-            var bWhiteMove = move.Has(Move.WTM);
-            if (bDebugWTM != bWhiteMove) {
-              Debug.Assert(bDebugWTM == bWhiteMove, $"WTM != WhiteMove [{nameof(search)}]");
-            }
-#endif
+          verifySideToMove(moveBest, methodName);
+
           var bNonMaterial = !move.Has(Move.Material);
 #if QuietMate
           if (uLegalMoves > 0) {

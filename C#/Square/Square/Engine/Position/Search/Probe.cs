@@ -9,7 +9,7 @@
 //#define KillerCompositionHash
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 //#define BottleGamePly
-//#define DebugMoveColor
+//#define DebugSideToMove
 #define CountEvalTypes                  // For IncEvalType()
 #define TransposeQuiet
 #define QuiescentTryXP
@@ -83,7 +83,7 @@ partial class Position : Board {
       SetFinal();
       moveFound = Move.Undefined;
     }
-#if DebugMoveColor
+#if DebugSideToMove
     if (IsDefined(moveFound) && WTM())
       moveFound |= Move.WTM;
 #endif
@@ -133,7 +133,7 @@ partial class Position : Board {
     Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
     traceVal(methodName, mValue, et);   //[Conditional]
     State.IncEvalType(et);
-#if XPMCompositionHash || DebugMoveColor
+#if XPMCompositionHash || DebugSideToMove
     var bWTM = WTM();
 #endif
 #if XPMCompositionHash
@@ -151,15 +151,8 @@ partial class Position : Board {
       Trace.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
-#if DebugMoveColor
-    if (IsDefinite(moveBest)) {
-      var bWhiteMove = moveBest.Has(Move.WTM);
-      if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
-        DisplayCurrent(methodName);
-      }
-    }
-#endif
+
+    verifySideToMove(moveBest, methodName);
 #if XPHash128
     var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
                                  mAdjusted, et, moveBest);
@@ -219,16 +212,10 @@ partial class Position : Board {
       Trace.Assert(IsUndefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
       moveBest = Move.EmptyMove;
     }
-#if DebugMoveColor
+
     if (IsDefinite(moveBest)) {
-      var bWTM = WTM();
-      var bWhiteMove = moveBest.Has(Move.WTM);
-      if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
-        DisplayCurrent(methodName);
-      }
+      verifySideToMove(moveBest, methodName);
     }
-#endif
 #if XPHash128
 #if XPMoveTypes
     var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
@@ -295,16 +282,10 @@ partial class Position : Board {
       Trace.Assert(IsUndefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
       moveBest = Move.EmptyMove;
     }
-#if DebugMoveColor
+
     if (IsDefinite(moveBest)) {
-      var bWTM = WTM();
-      var bWhiteMove = moveBest.Has(Move.WTM);
-      if (bWTM != bWhiteMove) {
-        Debug.Assert(bWTM == bWhiteMove, $"WTM != WhiteMove [{methodName}]");
-        DisplayCurrent(methodName);
-      }
+      verifySideToMove(moveBest, methodName);
     }
-#endif
 #if QXPHash128
     var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
