@@ -45,7 +45,7 @@ partial class Position : Board {
   }
 
   [Conditional("DebugMoveIsLegal")]
-  private void verifyMoveIsLegal(Move move) {
+  private void verifyMoveIsLegal(Move move, String? methodName = null) {
     var child = Push();                 // Push Position to make the moves
     try {
       var mov = move;
@@ -54,7 +54,7 @@ partial class Position : Board {
       if (!bValid) {
         unpackMove1(mov, out Sq sqFrom, out Sq sqTo,
                     out Piece piece, out Piece promotion, out Boolean bCapture);
-        DisplayCurrent($"Illegal Move from {sqFrom} to {sqTo}");
+        DisplayCurrent($"Illegal Move from {sqFrom} to {sqTo} [{methodName}]");
       }
     }
     finally {
@@ -89,6 +89,7 @@ partial class Position : Board {
   }
 
   private Move abbreviate(Move move) {
+    const String methodName = nameof(abbreviate);
     if (IsNullMove(move) || IsUndefined(move))  //[Safe]
       return move;
 
@@ -103,7 +104,7 @@ partial class Position : Board {
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";
-      var message = $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo}";
+      var message = $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo} [{methodName}]";
       Debug.Assert(qpAtxTo != 0, message);
       Display(message);
     }
@@ -276,7 +277,7 @@ partial class Position : Board {
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {
-        const string message = $"{methodName} obtained an Illegal Move";
+        const String message = $"Illegal Move [{methodName}]";
         Debug.Assert(bLegal, message);
         Display(message);
       }
@@ -317,13 +318,14 @@ partial class Position : Board {
     else {
       var moveNoted = moves[nMove];
       if (IsUndefined(moveNoted)) {
-        const string message = $"Undefined Move [{methodName}]";
+        const String message = $"Undefined Move [{methodName}]";
         Debug.Assert(IsDefined(moveNoted), message);
         moveNoted = Move.NullMove;
       }
       else if (!State.IsPure) {         // Standard Algebraic Notation (AN) supports abbreviation
+        //[Debug]moveNoted illegal here!
         //[Conditional]
-        verifyMoveIsLegal(moveNoted);          // moveNoted was illegal here!
+        verifyMoveIsLegal(moveNoted, methodName);
         moves[nMove] = abbreviate(moveNoted);
       }
 #if DebugMove
@@ -343,7 +345,7 @@ partial class Position : Board {
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {
-        const string message = $"{methodName} obtained an Illegal Move";
+        const String message = $"Illegal Move [{methodName}]";
         Debug.Assert(bLegal, message);
         Display(message);
       }
@@ -404,6 +406,7 @@ partial class Position : Board {
   }
 
   public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
+    const String methodName = nameof(MovesFromParent);
     var moves = new List<Move>();
     for (var position = this;           // toPosition
          position is not null &&        //[Safe]
@@ -411,7 +414,7 @@ partial class Position : Board {
          position = position.Parent) {
       var move = position.CurrentMove;
       if (IsUndefined(move)) {
-        Debug.Assert(IsDefined(move), "Undefined CurrentMove");
+        Debug.Assert(IsDefined(move), $"CurrentMove Undefined [{methodName}]");
       }
 
       if (bAbbreviate && position.Parent is not null) {
