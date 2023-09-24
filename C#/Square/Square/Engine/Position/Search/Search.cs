@@ -124,7 +124,7 @@ partial class Position : Board {
         //  out Piece piece, out Piece promotion, out Piece capture,
         //  out Boolean bCastles, out Boolean bCapture);
 #endif
-        if (isMovePosition)             // Pass empty BestMoves, at top level
+        if (isMovePosition)             // BestMoves empty at top level
           addPV(mAlpha, mValueFound, moveFound, BestMoves);
 #if AddBestMoves
         BestMoves.Add(moveFound);       // Safe to update BestMoves now
@@ -209,7 +209,7 @@ partial class Position : Board {
 #if DebugPseudoMoves
       DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
       var sb = new StringBuilder("PseudoMoves:");
-      sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+      sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
       sb.FlushLine();
 #endif                                  // DebugPseudoMoves
     }
@@ -236,7 +236,7 @@ partial class Position : Board {
 #if DebugGoodMoves
       if (goodMoves.Count > 0) {
         var sb = new StringBuilder("goodMoves:");
-        sb.mapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
+        sb.MapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
         sb.FlushLine();
       }
 #endif
@@ -251,9 +251,9 @@ partial class Position : Board {
 #endif                                  // LazyMoveSort
       var sb2 = new StringBuilder("Candidate Moves:");
 #if LazyMoveSort
-      sb2.mapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
+      sb2.MapMoves(Extensions.AppendPACN, from sm2 in pm2 select sm2.Move, State.IsChess960);
 #else
-      sb2.mapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
+      sb2.MapMoves(Extensions.AppendPACN, from move2 in pm2 select move2, State.IsChess960);
 #endif
       sb2.FlushLine();
 #endif                                  // DebugCandidateMoves
@@ -347,7 +347,7 @@ partial class Position : Board {
 
       if (uLegalMoves == 0) {           // No Move Found
         SetFinal();                     // Mark Game Leaf
-        mBest = final();
+        mBest = finalValue();
       }
 
       traceVal("Failed Low", mBest);    //[Conditional]

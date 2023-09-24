@@ -14,13 +14,13 @@
 //#define TraceVal
 
 using System.Diagnostics;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Engine;
-
+#if DebugPlace
 using Command;                          // For UCI.IsDebug
-
+#endif
 using static Logging.Logger;
 
 //
@@ -186,12 +186,13 @@ partial class Position : Board {
   #endregion                            // Annotation Methods
 
   #region MultiPV Support
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void addMove(List<Move> moves, Move move, String? methodName = default) {
     verifySideToMove(move, methodName);
     moves.Add(move);
   }
 
-  private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {
+  private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<Move> bestLine) {
     const String methodName = nameof(addPV);
     //[Lock]UCI may change this at any time.  See GameState.newVariations()
     var bHasValue = 0 < State.VariationCount;
@@ -220,15 +221,16 @@ partial class Position : Board {
 
       if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), $"Undefined Move [{methodName}]");
-        move = Move.NullMove;
+        move = Move.NullMove;           //[Safe]
       }
 
       addMove(lineMoves, move, methodName);
 
-      var bPonder = line.Count > 0;     //!bChildFinal
+      var bPonder = bestLine.Count > 0;
       if (bPonder) {
-        //[ToDo]Verify Line
-        lineMoves.AddRange(line);
+        //!child.IsFinal()
+        //[ToDo]Verify bestLine here
+        lineMoves.AddRange(bestLine);
       }
 
       //

@@ -6,7 +6,7 @@
 // Conditionals:
 //
 using System.Diagnostics;               // For FileVersionInfo
-using System.Reflection;                // For Assembly, AssemblyTitleAttribute
+using System.Reflection;                // For Assembly, AssemblyDescriptionAttribute, AssemblyTitleAttribute
 
 using static System.String;
 

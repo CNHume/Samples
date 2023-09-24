@@ -17,7 +17,6 @@
 //#define VerifyUpper
 
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 
 namespace Engine;
@@ -131,7 +130,7 @@ partial class Position : Board {
 #if DebugPseudoMoves
         DisplayCurrent(nameof(quiet));
         var sb = new StringBuilder("PseudoMoves:");
-        sb.mapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+        sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
         sb.FlushLine();
 #endif
       }
@@ -154,10 +153,10 @@ partial class Position : Board {
 #if QuietMate
           if (uLegalMoves > 0) {
 #else
-            if (true) {
+          if (true) {
 #endif
 #if QuietCheck
-              if (bNonMaterial && !bInCheck) {
+            if (bNonMaterial && !bInCheck) {
 #else
             if (bNonMaterial) {
 #endif
@@ -229,7 +228,7 @@ partial class Position : Board {
 #if QuietMate
         if (uLegalMoves == 0 && isLeaf()) {
           SetFinal();                   // Mark Game Leaf
-          mBest = final();
+          mBest = finalValue();
         }
 #endif
         traceVal("Quiet Failed Low", mBest);    //[Conditional]

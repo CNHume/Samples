@@ -383,7 +383,7 @@ partial class Position : Board {
     return ReflectValue(bWTM, mValue);
   }
 
-  private Eval final() {
+  private Eval finalValue() {
     //
     // The game is over if the side to move has no move.
     // If the King is in Check, this is a Checkmate and
