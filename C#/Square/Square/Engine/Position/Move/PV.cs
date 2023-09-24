@@ -54,7 +54,7 @@ partial class Position : Board {
       if (!bValid) {
         unpackMove1(mov, out Sq sqFrom, out Sq sqTo,
                     out Piece piece, out Piece promotion, out Boolean bCapture);
-        DisplayCurrent($"Illegal Move from {sqFrom} to {sqTo} [{methodName}]");
+        child.Display($"Illegal Move from {sqFrom} to {sqTo} [{methodName}]");
       }
     }
     finally {
@@ -97,6 +97,9 @@ partial class Position : Board {
             out UInt32 uPiece, out Boolean bCapture);
 
     var piece = (Piece)uPiece;
+
+    verifySideToMove(move, methodName);
+
     var qpAtxTo = PieceAtxTo(nFrom, nTo, piece, bCapture);
 
     //[Conditional]
@@ -183,7 +186,13 @@ partial class Position : Board {
   #endregion                            // Annotation Methods
 
   #region MultiPV Support
+  private void addMove(List<Move> moves, Move move, String? methodName = default) {
+    verifySideToMove(move, methodName);
+    moves.Add(move);
+  }
+
   private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<Move> line) {
+    const String methodName = nameof(addPV);
     //[Lock]UCI may change this at any time.  See GameState.newVariations()
     var bHasValue = 0 < State.VariationCount;
     var bGrow = State.VariationCount < State.MultiPVLength;
@@ -210,14 +219,15 @@ partial class Position : Board {
         lineMoves.Clear();
 
       if (IsUndefined(move)) {
-        Debug.Assert(IsDefined(move), $"Undefined Move [{nameof(addPV)}]");
+        Debug.Assert(IsDefined(move), $"Undefined Move [{methodName}]");
         move = Move.NullMove;
       }
 
-      lineMoves.Add(move);
+      addMove(lineMoves, move, methodName);
 
       var bPonder = line.Count > 0;     //!bChildFinal
       if (bPonder) {
+        //[ToDo]Verify Line
         lineMoves.AddRange(line);
       }
 
@@ -237,9 +247,9 @@ partial class Position : Board {
         var sb = new StringBuilder();
         var sGrow = bGrow ? "Placed" : "Replaced";
         sb.AppendFormat($"{sGrow} vn[{nPlace}]");
-        LogInfo(Level.note, sb.ToString());
+        LogInfo(LogLevel.note, sb.ToString());
         sb.Clear();
-        State.MovePosition.writePV(sb, nPlace, bWTM);
+        State.MovePosition?.writePV(sb, nPlace, bWTM);
       }
 #endif
     }
@@ -271,9 +281,7 @@ partial class Position : Board {
       //            out Piece piece, out Piece promotion, out Piece capture,
       //            out Boolean bCastles, out Boolean bCapture);
 #endif
-      verifySideToMove(moveNoted, methodName);
-
-      moves.Add(moveNoted);
+      addMove(moves, moveNoted, methodName);
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {

@@ -160,7 +160,7 @@ partial class GameState {
     }
     catch (ApplicationException ex) {
 #if StackTrace
-        LogInfo(Level.error, ex.ToString());
+      LogInfo(LogLevel.error, ex.ToString());
 #else
       LogInfo(LogLevel.error, ex.Message);
 #endif
