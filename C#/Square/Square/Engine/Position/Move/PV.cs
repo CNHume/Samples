@@ -46,6 +46,7 @@ partial class Position : Board {
 
   [Conditional("DebugMoveIsLegal")]
   private void verifyMoveIsLegal(Move move, String? methodName = null) {
+    if (!IsDefinite(move)) return;
     var child = Push();                 // Push Position to make the moves
     try {
       var mov = move;
@@ -187,7 +188,7 @@ partial class Position : Board {
 
   #region MultiPV Support
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void addMove(List<Move> moves, Move move, String? methodName = default) {
+  private void addVariationMove(List<Move> moves, Move move, String? methodName = default) {
     verifySideToMove(move, methodName);
     moves.Add(move);
   }
@@ -210,27 +211,27 @@ partial class Position : Board {
       vn[nFinal].Value = mValue;
       bHasValue = true;
 
-      var lineMoves = vn[nFinal].Moves;
+      var vnMoves = vn[nFinal].Moves;
 
-      if (lineMoves == null) {
-        lineMoves = new List<Move>();
-        vn[nFinal].Moves = lineMoves;
+      if (vnMoves == null) {
+        vnMoves = new List<Move>();
+        vn[nFinal].Moves = vnMoves;
       }
       else
-        lineMoves.Clear();
+        vnMoves.Clear();
 
       if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), $"Undefined Move [{methodName}]");
         move = Move.NullMove;           //[Safe]
       }
 
-      addMove(lineMoves, move, methodName);
+      addVariationMove(vnMoves, move, methodName);
 
       var bPonder = bestLine.Count > 0;
       if (bPonder) {
         //!child.IsFinal()
         //[ToDo]Verify bestLine here
-        lineMoves.AddRange(bestLine);
+        vnMoves.AddRange(bestLine);
       }
 
       //
@@ -241,7 +242,7 @@ partial class Position : Board {
       if (nPlace == 0) {
         var sb = new StringBuilder();
         var mEval = ReflectValue(bWTM, mValue);
-        sb.UpdateBestInfo(State.BestMoves, lineMoves, mEval, bPonder, Side, State.IsChess960)
+        sb.UpdateBestInfo(State.BestMoves, vnMoves, mEval, bPonder, Side, State.IsChess960)
           .FlushLine();
       }
 #if DebugPlace
@@ -262,7 +263,7 @@ partial class Position : Board {
     return bRoomToGrow ? mAlpha : bHasValue ? vn[nFinal].Value : mValue;
   }
 
-  private void lookupPV(Eval mAlpha, Eval mBeta, List<Move> moves) {
+  private void lookupPV(List<Move> vnMoves, Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(lookupPV);
     //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
     probeMove(mAlpha, mBeta, out Move moveFound);
@@ -283,7 +284,7 @@ partial class Position : Board {
       //            out Piece piece, out Piece promotion, out Piece capture,
       //            out Boolean bCastles, out Boolean bCapture);
 #endif
-      addMove(moves, moveNoted, methodName);
+      addVariationMove(vnMoves, moveNoted, methodName);
 
       var bLegal = tryOrSkip(ref moveNoted);
       if (!bLegal) {
@@ -307,7 +308,7 @@ partial class Position : Board {
         var child = Push();             // Push Position to make the moves
         try {
           child.resetMove();            // Usually called via [null|try]Move()
-          child.lookupPV((Eval)(-mBeta), (Eval)(-mAlpha), moves);
+          child.lookupPV(vnMoves, (Eval)(-mBeta), (Eval)(-mAlpha));
         }
         finally {
           Pop(ref child);               // Pop Position
@@ -317,16 +318,16 @@ partial class Position : Board {
   }
 
   private void abbreviateRefresh(
-    List<Move> moves, Int32 nMove, Int32 nDepth, Eval mValue) {
+    List<Move> vnMoves, Int32 nMove, Int32 nDepth, Eval mValue) {
     const String methodName = nameof(abbreviateRefresh);
     resetMove();                        // Usually called via [null|try]Move()
-    if (moves.Count <= nMove) {
+    if (vnMoves.Count <= nMove) {
       //[Safe]lookupPV() should not be called if a draw is detected
       if (!IsDraw())
-        lookupPV(MinusInfinity, PlusInfinity, moves);
+        lookupPV(vnMoves, MinusInfinity, PlusInfinity);
     }
     else {
-      var moveNoted = moves[nMove];
+      var moveNoted = vnMoves[nMove];
       if (IsUndefined(moveNoted)) {
         const String message = $"Undefined Move [{methodName}]";
         Debug.Assert(IsDefined(moveNoted), message);
@@ -336,7 +337,7 @@ partial class Position : Board {
         //[Debug]moveNoted illegal here!
         //[Conditional]
         verifyMoveIsLegal(moveNoted, methodName);
-        moves[nMove] = abbreviate(moveNoted);
+        vnMoves[nMove] = abbreviate(moveNoted);
       }
 #if DebugMove
       unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo,
@@ -372,7 +373,7 @@ partial class Position : Board {
       //
       var child = Push();               // Push Position to make the moves
       try {
-        child.abbreviateRefresh(moves, nMove + 1, nDepth - 1, (Eval)(-mValue));
+        child.abbreviateRefresh(vnMoves, nMove + 1, nDepth - 1, (Eval)(-mValue));
       }
       finally {
         Pop(ref child);                 // Pop Position

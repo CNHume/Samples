@@ -258,7 +258,7 @@ partial class Board {
 
     tracePosition();                    //[Conditional]
   }
-#endregion                            // Piece Mover
+  #endregion                            // Piece Mover
 
   #region Trace Positions
   // Called by ExecuteMove() and SkipTurn()
@@ -315,12 +315,16 @@ partial class Board {
     //setTrace(                         // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
     //  0xF647B837F53828CE);
 
-    setTrace(                           // Veselin Topalov v Alexey Shirov 1998-03-04
-      0xEA58B15C62619E25,               // 8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61
-      0x7FFFA6F98CBB4D46,               // 8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61
-      0x5DB8479F08C8DFEF,               // 8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61
-      0x721CAEAAD8483250);              // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
+    //setTrace(                         // Veselin Topalov v Alexey Shirov 1998-03-04
+    //  0xEA58B15C62619E25,             // 8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61
+    //  0x7FFFA6F98CBB4D46,             // 8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61
+    //  0x5DB8479F08C8DFEF,             // 8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61
+    //  0x721CAEAAD8483250);            // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
+
+    setTrace(
+      0x153DACF276D58E80,               // 5Nrk/5Qp1/3P1p1p/7P/2b5/2P5/5PPK/2R5 b - - 0 50
+      0xB2B43274226C3C54);              // 5Nr1/5Qpk/3P1p1p/7P/2b5/2P5/5PPK/2R5 w - - 1 51
   }
   #endregion                            // Trace Positions
-#endregion                            // Methods
+  #endregion                            // Methods
 }

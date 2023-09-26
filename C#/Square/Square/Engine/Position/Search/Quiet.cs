@@ -66,7 +66,8 @@ partial class Position : Board {
       if (IsDefinite(moveFound)) {      //[Safe]Also prevent unexpected EmptyMove
 #if DebugMove
         unpackMove1(
-          moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
+          moveFound, out Sq sqFrom, out Sq sqTo,
+          out Piece piece, out Piece promotion, out Boolean bCapture);
         //unpackMove2(
         //  moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion,
         //  out Piece capture, out Boolean bCastles, out Boolean bCapture);
@@ -144,8 +145,13 @@ partial class Position : Board {
           var move = mov;               // Allow tryMove(ref move) below
           #region Delta Prune or Make Move
 #if DebugMove
-          unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-          //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(
+            move, out Sq sqFrom, out Sq sqTo,
+            out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(
+          //  move, out Sq sqFrom, out Sq sqTo,
+          //  out Piece piece, out Piece promotion, out Piece capture,
+          //  out Boolean bCastles, out Boolean bCapture);
 #endif
           verifySideToMove(moveBest, methodName);
 

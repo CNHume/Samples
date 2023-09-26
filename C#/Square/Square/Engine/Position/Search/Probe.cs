@@ -91,10 +91,14 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private Eval addMove(Move moveFound, List<GoodMove>? goodMoves,
-                       Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
-                       Boolean bFilterEvalUndefined = false) {
+  private Eval addGoodMove(
+    List<GoodMove>? goodMoves, Move moveFound,
+    Depth wDepth, Eval mValueFound, Eval mAlpha, Eval mBeta, EvalType etFound,
+    Boolean bFilterEvalUndefined = false) {
+    const String methodName = nameof(addGoodMove);
     var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
+    traceVal(methodName, mValue, etFound);  //[Conditional]
+    
     //[Note]Adjusted mValue may be EvalUndefined
     var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
     if (bAllowValue && goodMoves != null && IsDefinite(moveFound)) {
@@ -190,7 +194,9 @@ partial class Position : Board {
       var etFound = found.Type;
       var mValueFound = found.Value;
       traceVal(methodName, mValueFound, etFound);   //[Conditional]
-      var mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);
+      var mValue = addGoodMove(
+        goodMoves, moveFound,
+        wDepth, mValueFound, mAlpha, mBeta, etFound);
     }
 
     return bFound;
@@ -209,7 +215,8 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(IsUndefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
+      const String message = $"moveBest defined in a Final position [{methodName}].";
+      Trace.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -260,8 +267,11 @@ partial class Position : Board {
     moveFound = adjustFinalMove(match.BestMove);        //[out]1
     etFound = match.Type;                               //[out]3
     var mValueFound = match.Value;
-    traceVal(methodName, mValueFound, etFound);     //[Conditional]
-    mValue = addMove(moveFound, goodMoves, wDepth, mValueFound, mAlpha, mBeta, etFound);  //[out]2
+    traceVal(methodName, mValueFound, etFound);         //[Conditional]
+    mValue = addGoodMove(
+      goodMoves, moveFound,
+      wDepth, mValueFound, mAlpha, mBeta, etFound);     //[out]2
+
     var bValueDefined = EvalUndefined < mValue;
     return bValid && bValueDefined;
   }
@@ -277,7 +287,8 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      Trace.Assert(IsUndefined(moveBest), $"moveBest defined in a Final position [{methodName}].");
+      const String message = $"moveBest defined in a Final position [{methodName}].";
+      Trace.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -360,12 +371,12 @@ partial class Position : Board {
   //
   //[ToDo]Killer updates are not thread safe.  See also the references, e.g., in sortMoves().
   //
-  private void storeKiller(Move uMaskedMove, Depth wDepth, Eval mValue, EvalType et) {
+  private void storeKiller(Move move, Depth wDepth, Eval mValue, EvalType et) {
     const String methodName = nameof(storeKiller);
     Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
     traceVal(methodName, mValue, et);   //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
-    var store = new GoodMove(uMaskedMove, wDepth, mAdjusted, et);
+    var store = new GoodMove(move, wDepth, mAdjusted, et);
 #if BottleGamePly
     var wPly = GamePly;
 #else
@@ -381,7 +392,7 @@ partial class Position : Board {
 #else
     var nSide = 0;
 #endif
-    State.Bottle.Save(store, uMaskedMove, uBottleHash, nSide);
+    State.Bottle.Save(store, move, uBottleHash, nSide);
   }
 
   private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
@@ -410,9 +421,10 @@ partial class Position : Board {
       var mValueFound = killer.Value;
       var etFound = killer.Type;
       traceVal(methodName, mValueFound, etFound);   //[Conditional]
-      addMove(moveFound, goodMoves,
-              wDepth, mValueFound, mAlpha, mBeta, etFound,
-              bFilterEvalUndefined);
+      addGoodMove(
+        goodMoves, moveFound,
+        wDepth, mValueFound, mAlpha, mBeta, etFound,
+        bFilterEvalUndefined);
     }
 
     return bFound;
