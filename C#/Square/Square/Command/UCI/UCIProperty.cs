@@ -88,6 +88,7 @@ partial class UCI {
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
   // Mobility Weight = 100 cp
   // [2023-09-04 19-ply in 40:21 @1.278 MHz over 3.0955 Gnode] #10 after:
+  // [2023-09-26 19-ply in 45:01 @1.37 MHz over 3.7 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
   //
   //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line
@@ -571,53 +572,19 @@ partial class UCI {
   //"2R5/kb6/1N2n2p/r4pp1/P7/3P4/1R6/6K1 w - - 0 43"; // Nodirbek Abdusattorov v Vasif Durarbayli 2021-07-24 #3 4-ply
   //"r1bq1r2/pp2n1p1/4p1k1/3pPpN1/1b1n2QP/2N5/PP3PP1/R1B1K2R w KQ f6 0 13"; // EP #3 4-ply
   // moves h4h5 g6h6 g5e6 g7g5
-  //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1"; // Mrs. W.J. Baird (1859-1924) #3
+  //"8/8/8/2k5/2P5/2N5/2N3Q1/3K4 w - - 0 1";    // Mrs. W.J. Baird (1859-1924) #3
   //"4br1b/2PpBkPR/3p3P/3P1N2/8/8/8/6K1 w - - 0 1"; // Wolfgang Pauly, Deutsche Schachzeitung 1901 #2 [4-ply]
   // 1. Ng3 Rg8 (1... Kg6 2. gxf8=N#) (1... Kg8 2. gxh8=R#) 2. gxh8=N#
-  //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 #2 [4-ply 25,142 nodes]
-  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1"; // #2 [4-ply 3,541 node]
+  //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 at the SF Ferry Building #2
+  // [4-ply in 122 msec over 25.1 Knode] #2 after 30 lines:
+  // 1. Qa8 Qd4 (1... otherwise either 2. Nd6#; or 2. Nc5#) 2. Re3#
+  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1";     // #2 [4-ply 3,541 node]
+  //"kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1";        // #2 [4-ply in 31 ms over 677 nodes]
   //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
   //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
   //"K4BB1/1Q6/5p2/8/2R2r1r/N2N2q1/kp1p1p1p/b7 w - - 0 1"; // Bristol Times & Mirror 1927 #2
-  //  1) 1. Qf3 Rxf3 2. Rg4#
-  //  2) 1. Qf3 Rxc4 2. Nb4#
-  //  3) 1. Qf3 Qxf3+ 2. Re4#
-  //  4) 1. Qf3 Qxg8 2. Nb4#
-  //  5) 1. Qf3 Rd4 2. Nb4#
-  //  6) 1. Qf3 Re4 2. Nb4#
-  //  7) 1. Qf3 Rfg4 2. Rxg4#
-  //  8) 1. Qf3 Rh3 2. Nb4#
-  //  9) 1. Qf3 Rhg4 2. Nb4#
-  // 10) 1. Qf3 Qg1 2. Nb4#
-  // 11) 1. Qf3 Qg2 2. Nb4#
-  // 12) 1. Qf3 Qh3 2. Nb4#
-  // 13) 1. Qf3 Qg4 2. Nb4#
-  // 14) 1. Qf3 Rf5 2. Nb4#
-  // 15) 1. Qf3 Rh5 2. Nb4#
-  // 16) 1. Qf3 Rh6 2. Nb4#
-  // 17) 1. Qf3 Rh7 2. Nb4#
-  // 18) 1. Qf3 Rh8 2. Nb4#
-  // 19) 1. Qf3 Qg5 2. Nb4#
-  // 20) 1. Qf3 Qg6 2. Nb4#
-  // 21) 1. Qf3 Qg7 2. Nb4#
-  // 22) 1. Qf3 Kb3 2. Nc1#
-  // 23) 1. Qf3 b1=Q 2. Rc2#
-  // 24) 1. Qf3 d1=Q 2. Nb4#
-  // 25) 1. Qf3 f1=Q 2. Nb4#
-  // 26) 1. Qf3 h1=Q 2. Nb4#
-  // 27) 1. Qf3 b1=N 2. Rc2#
-  // 28) 1. Qf3 b1=B 2. Rc2#
-  // 29) 1. Qf3 b1=R 2. Rc2#
-  // 30) 1. Qf3 d1=N 2. Nb4#
-  // 31) 1. Qf3 d1=B 2. Nb4#
-  // 32) 1. Qf3 d1=R 2. Nb4#
-  // 33) 1. Qf3 f1=N 2. Nb4#
-  // 34) 1. Qf3 f1=B 2. Nb4#
-  // 35) 1. Qf3 f1=R 2. Nb4#
-  // 36) 1. Qf3 h1=N 2. Nb4#
-  // 37) 1. Qf3 h1=B 2. Nb4#
-  // 38) 1. Qf3 h1=R 2. Nb4#
-  // 39) 1. Qf3 f5 2. Nb4#
+  // [4-ply in 170 ms over 37.8 Knode]#2 after 39 lines:
+  // 1. Qf3 Qxf3 (1... Kb3 2. Nc1#; 1... Rxf3 2. Rg4#; 1... Rfg4 2. Rxg4#; 1. b1b8 2. Rc2#; 1... otherwise 2. Nb4#) 2. Re4#
   //
   #endregion                            // Puzzles
   #endregion                            // FEN Constants

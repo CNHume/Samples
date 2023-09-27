@@ -52,6 +52,11 @@ partial class Position : Board {
   #endregion                            // Constants
 
   #region Search Methods
+  private Boolean isMovePosition() {
+    // MovePosition assumed by StartTask() and heartbeat()
+    return ReferenceEquals(this, State.MovePosition);
+  }
+
   [Conditional("ThrowFinal")]
   private void throwFinalPosition() {
     //[Assume]TurnFlags have been set by search()
@@ -139,7 +144,8 @@ partial class Position : Board {
       else if (UCI.IsDebug) {           // else loop with a larger Window
         var mEval = ReflectValue(bWTM, mValue);
         var sFailed = mValue < mBeta ? "Lo" : "Hi";
-        sb.Append("Eval").AppendEvalTerm(mEval)
+        sb.Append("Eval")
+          .AppendEvalTerm(mEval)
           .AppendFormat($" failed {sFailed} at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 
         LogInfo(LogLevel.note, sb.ToString());

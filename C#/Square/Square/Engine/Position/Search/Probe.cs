@@ -262,7 +262,7 @@ partial class Position : Board {
 #endif
     var bValid = State.XPTank.LoadFirst(ref match);
 #if XPMoveTypes
-      if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
+    if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
     moveFound = adjustFinalMove(match.BestMove);        //[out]1
     etFound = match.Type;                               //[out]3

@@ -7,10 +7,10 @@
 //
 #define Quiescence
 #define DebugMove
+#define AddBestMoves
+//#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define DebugSearchMoves
-#define AddBestMoves
-#define AddRangeBestMoves               //[Debug]
 //#define DebugPseudoMoves
 //#define TraceVal
 //#define DebugCandidateMoves
@@ -68,9 +68,9 @@ partial class Position : Board {
   #region Search Methods
   private Eval search(Draft wDraft, Eval mAlpha, Eval mBeta,
                       Move moveExcluded = Move.Undefined) {
-    const String methodName = nameof(quiet);
+    const String methodName = nameof(search);
     var moves = PseudoMoves;
-    BestMoves.Clear();                  //[Required]
+    BestMoves.Clear();                  //[Required]per iteration
 
     #region Test for Draw
     if (IsDraw()) {                     //[Note]SetDraw50() must be called after tryMove(), below.
@@ -103,7 +103,7 @@ partial class Position : Board {
     #region Transposition Table Lookup
 #if TraceVal
     if (IsTrace())                      //[Note]CurrentMove Undefined
-      Display($"{nameof(search)}(Depth = {wDepth})");
+      Display($"{methodName}(Depth = {wDepth})");
 #endif
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
@@ -124,11 +124,18 @@ partial class Position : Board {
         //  out Piece piece, out Piece promotion, out Piece capture,
         //  out Boolean bCastles, out Boolean bCapture);
 #endif
-        if (isMovePosition)             // BestMoves empty at top level
+        if (isMovePosition())           // BestMoves will be empty here
           addPV(mAlpha, mValueFound, moveFound, BestMoves);
+        else {
+          // Safe to update BestMoves now
+          //[Conditional]
+          verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
-        BestMoves.Add(moveFound);       // Safe to update BestMoves now
+          //[Bug]cf. quiet()
+          //[Safe]
+          BestMoves.Add(moveFound);
 #endif
+        }
       }
 
       return mValueFound;
@@ -207,7 +214,7 @@ partial class Position : Board {
 #endif
       //[Timer]timeGenerate(moves, !Swaps);
 #if DebugPseudoMoves
-      DisplayCurrent($"{nameof(search)}(Depth = {wDepth})");
+      DisplayCurrent($"{methodName}(Depth = {wDepth})");
       var sb = new StringBuilder("PseudoMoves:");
       sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
       sb.FlushLine();
@@ -367,6 +374,14 @@ partial class Position : Board {
     return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
   }
 
+  [Conditional("AddBestMoves")]
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void addBest(Move moveBest, Position child) {
+    BestMoves.Clear();
+    BestMoves.Add(moveBest);
+    BestMoves.AddRange(child.BestMoves);
+  }
+
   private Eval updateBest(
     Position child, Depth wDepth, Draft wDraft, ref Draft wDraft1, Draft wReducedDraft,
     UInt32 uRaisedAlpha, Eval mAlpha, Eval mBeta, ref Eval mBest, ref Eval mBest2,
@@ -459,17 +474,11 @@ partial class Position : Board {
       mBest = mValue;
       if (mAlpha < mBest) {
         moveBest = moveNoted;
-#if AddBestMoves
-        BestMoves.Clear();
-        BestMoves.Add(moveBest);
-#if AddRangeBestMoves
-        BestMoves.AddRange(child.BestMoves);
-#endif
-#endif
+        addBest(moveBest, child);
       }
     }
 
-    if (!isMovePosition)
+    if (!isMovePosition())
       mBest2 = mBest;
     else if (mAlpha < mValue) {
       //[<=]See Johannessen v Fischer #8 w Aspiration

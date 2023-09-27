@@ -232,6 +232,11 @@ partial class Position : Board {
         //!child.IsFinal()
         //[ToDo]Verify bestLine here
         vnMoves.AddRange(bestLine);
+        //if (wDepth == 13) {
+        //  DisplayCurrent(methodName);
+        //  var sb = new StringBuilder();
+        //  State.MovePosition?.writePV(sb, nFinal, WTM());
+        //}
       }
 
       //
@@ -260,7 +265,8 @@ partial class Position : Board {
     //
     // Avoid raising Alpha until we have a candidate for the weakest Variation:
     //
-    return bRoomToGrow ? mAlpha : bHasValue ? vn[nFinal].Value : mValue;
+    return bRoomToGrow ?
+      mAlpha : bHasValue ? vn[nFinal].Value : mValue;
   }
 
   private void lookupPV(List<Move> vnMoves, Eval mAlpha, Eval mBeta) {

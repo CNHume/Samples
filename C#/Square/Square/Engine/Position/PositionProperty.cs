@@ -118,11 +118,6 @@ partial class Position : Board {
   #endregion                            // Fields
 
   #region Properties
-  private Boolean isMovePosition {
-    // MovePosition assumed by startTask() and heartbeat()
-    get { return ReferenceEquals(this, State.MovePosition); }
-  }
-
   private String debugString {
     get { return ToString(); }
   }

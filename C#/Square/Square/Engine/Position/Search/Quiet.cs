@@ -4,10 +4,10 @@
 // Conditionals:
 //
 #define DebugMove
+#define AddBestMoves
+//#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define DebugSearchMoves
-#define AddBestMoves
-#define AddRangeBestMoves               //[Debug]
 //#define DebugPseudoMoves
 //#define TraceVal
 #define TransposeQuiet
@@ -42,7 +42,7 @@ partial class Position : Board {
   private Eval quiet(Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(quiet);
     var moves = PseudoMoves;
-    BestMoves.Clear();                  //[Required]
+    BestMoves.Clear();                  //[Required]per iteration
 
     #region Test for Draw
     if (IsDraw()) {                     //[Note]SetDraw50() will not be called below
@@ -58,7 +58,7 @@ partial class Position : Board {
     #region Transposition Table Lookup
 #if TraceVal
     if (IsTrace())                      //[Note]CurrentMove Undefined
-      Display($"{nameof(quiet)}()");
+      Display($"{methodName}()");
 #endif
     // BestMoves updated iff bFoundValue
     if (probeQxnt(mAlpha, mBeta, out Move moveFound, out Eval mValueFound, out EvalType etFound)) {
@@ -72,9 +72,15 @@ partial class Position : Board {
         //  moveFound, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion,
         //  out Piece capture, out Boolean bCastles, out Boolean bCapture);
 #endif
+        if (!isMovePosition()) {
+          //[Conditional]
+          verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
-        BestMoves.Add(moveFound);
+          //[Bug]Potential cf. search()
+          //[Safe]
+          BestMoves.Add(moveFound);
 #endif
+        }
       }
 
       return mValueFound;
@@ -129,7 +135,7 @@ partial class Position : Board {
         generateMaterialMoves(moves);
 #endif
 #if DebugPseudoMoves
-        DisplayCurrent(nameof(quiet));
+        DisplayCurrent(methodName);
         var sb = new StringBuilder("PseudoMoves:");
         sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
         sb.FlushLine();
@@ -207,13 +213,8 @@ partial class Position : Board {
               //[Note]Annotation is made from the child position resulting from each move.
               //
               moveBest = child.annotateFinal(move);
-#if AddBestMoves
-              BestMoves.Clear();
-              BestMoves.Add(moveBest);
-#if AddRangeBestMoves
-              BestMoves.AddRange(child.BestMoves);
-#endif
-#endif
+              addBest(moveBest, child);
+
               traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
               mAlpha = mBest;
               if (mBeta <= mAlpha) {
