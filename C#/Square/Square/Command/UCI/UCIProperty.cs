@@ -220,7 +220,7 @@ partial class UCI {
   //"kr6/ppq3b1/2pNQ1p1/7p/7P/1R4P1/P4PB1/3n2K1 w - - 0 1"; // Awonder Liang v Gunay Mammadzada 2021-04-08 #10
   // Mobility Disabled
   // [2023-07-29 16-ply in 13:42 over 1.28 Gnode @1.558 MHz] eval 13.0
-  // [2023-07-29 17-ply in 23:34 @1.433 MHz over 2.026 Gnode] eval #11
+  // [2023-07-29 17-ply in 23:34 @1.433 MHz over 2.026 Gnode] #11
   // [2023-07-29 18-ply in 49:11 @1.434 MHz over 4.232 Gnode] #10 after:
   // 1. Rxb7 Rxb7 2. Qe8+ Qb8 3. Qxc6 Nc3 4. Nxb7 Ne2+ 5. Kh2 Nd4 6. Qd7 Qxg3+ 7. fxg3 Nf3+ 8. Bxf3 Be5 9. Qc8+ Bb8 10. Na5#
   // Mobility Weight = 100 cp
@@ -583,8 +583,8 @@ partial class UCI {
   //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
   //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
   //"K4BB1/1Q6/5p2/8/2R2r1r/N2N2q1/kp1p1p1p/b7 w - - 0 1"; // Bristol Times & Mirror 1927 #2
-  // [4-ply in 170 ms over 37.8 Knode]#2 after 39 lines:
-  // 1. Qf3 Qxf3 (1... Kb3 2. Nc1#; 1... Rxf3 2. Rg4#; 1... Rfg4 2. Rxg4#; 1. b1b8 2. Rc2#; 1... otherwise 2. Nb4#) 2. Re4#
+  // [4-ply in 170 ms over 37.8 Knode] #2 after 39 lines:
+  // 1. Qf3 Kb3 (1... Qxf3 2. Re4#; 1... Rxf3 2. Rg4#; 1... Rfg4 2. Rxg4#; 1. b1b8 2. Rc2#; 1... otherwise 2. Nb4#) 2. Nc1#
   //
   #endregion                            // Puzzles
   #endregion                            // FEN Constants
