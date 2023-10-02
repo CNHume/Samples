@@ -4,6 +4,7 @@
 // Conditionals:
 //
 #define LazyMoveSort
+//#define TestBest
 //#define TestPawnFeatures
 //#define TestInitFree
 //#define TestInitHelp
@@ -57,8 +58,11 @@ partial class Position : Board {
   private Plane pinnedPiece;
 
   public Move CurrentMove;              // Set by [null|try]Move() prior to calling Board.ExecuteMove()
-  public List<Move> BestMoves;          // This is a line, not a set of alternative moves
-
+#if TestBest
+  public List<BestMove> BestMoves;
+#else
+  public List<Move> BestMoves;          // This is a BestMove line, not a set of alternative moves
+#endif
   //
   // 16 members of the MoveType Enum, in their order of precedence:
   //

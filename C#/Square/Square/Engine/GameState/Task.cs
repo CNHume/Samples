@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+//[Test]#define DisplayRate               // Cf. displayHeartbeat()
 #define UseTask
 #define Herald
 #define NoteStartAndFinish
@@ -184,16 +185,15 @@ partial class GameState {
     //
     //[Optional]Repeat final bestmove report:
     //
-    if (BestMoves != null &&
-        position is not null) {
+    if (position is not null) {
       var sb = new StringBuilder();
       //[Note]refreshPV() has been called
-      sb.BestMove(BestMoves, position.Side, IsChess960);
+      sb.BestInfo(BestLine, position.Side, IsChess960);
       if (sb.Length > 0)
         LogLine(sb.ToString());
     }
 
-    return BestMoves;
+    return BestLine;
   }
 
   public void StartTask(Func<Object?, List<Move>?> fun, Position position) {
@@ -259,7 +259,7 @@ partial class GameState {
 
   public void BestMoveSearch(Parser parser) {
     OnMoveCommand();
-    BestMoves.Clear();
+    BestLine.Clear();
     if (Bound.ParseBounds(parser, MovePosition))
       StartTask((state) => startSearch((Position?)state, SearchMode.BestMove), MovePosition);
   }
@@ -348,12 +348,12 @@ partial class GameState {
   #region Move Count Methods
   private void displayHeartbeat(
     UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
+    //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     var sb = new StringBuilder("info");
 
     //
     // Display nodes per second (nps)
     //
-    //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     if (dElapsedMS != 0) {
       var dRate = qNodesDelta * 1E3 / dElapsedMS;
       sb.AppendFormat($" nps {dRate:0}");

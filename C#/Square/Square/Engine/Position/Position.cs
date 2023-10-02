@@ -29,6 +29,7 @@
 //#define TestCorner
 #define DebugInit
 //#define DebugStand
+//#define TestBest
 //#define TestImportance
 //#define TestPawnFeatures
 #define InitFree                        //[Default]
@@ -132,7 +133,7 @@ partial class Position : Board {
 #if TestPawnFeatures
     newFeatures();
 #endif
-    newBestMoves();
+    newBestMoves(GameState.wDepthMax);
     newRestricted();
     newMoveTypes();
     newPseudoMoves();
@@ -217,8 +218,12 @@ partial class Position : Board {
   }
 #endif
   [MemberNotNull(nameof(BestMoves))]
-  private void newBestMoves() {
-    BestMoves = new List<Move>();
+  private void newBestMoves(Int32 nCapacity) {
+#if TestBest
+    BestMoves = new List<BestMove>(nCapacity);
+#else
+    BestMoves = new List<Move>(nCapacity);
+#endif
   }
 
   [MemberNotNull(nameof(restricted))]

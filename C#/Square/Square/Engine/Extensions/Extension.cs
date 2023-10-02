@@ -737,7 +737,7 @@ static class Extension {
     return sb;
   }
 
-  public static StringBuilder BestMove(
+  public static StringBuilder BestInfo(
     this StringBuilder sb, List<Move> bestMoves, BoardSide[] sides, Boolean bChess960) {
     if (bestMoves.Count > 0) {
       if (sb.Length == 0) sb.Append("info ");
@@ -754,31 +754,31 @@ static class Extension {
     return sb;
   }
 
+  //
+  // Called by addPV() to compare new best variations to the existing BestLine
+  // and report changes in either Best move or Ponder move to the GUI.
+  //
   public static StringBuilder UpdateBestInfo(
     this StringBuilder sb,
-    List<Move> bestMoves,
-    List<Move> lineMoves,
+    List<Move> bestLine,
+    List<Move> vnMoves,
     Eval mEval,
     Boolean bPonder,
     BoardSide[] sides,
     Boolean bChess960) {
-    //
-    //[Note]addPV() calls UpdateBestInfo(), which compares this
-    // variation to the previous BestMoves to inform the GUI of
-    // changes to either of the Best or the Ponder moves.
-    //
-    if (bestMoves == null)
-      throw new BoardException("Null bestMoves Instance");
-
-    if (bestMoves.Count < 1 || !EqualMoves(bestMoves[0], lineMoves[0]) ||
-        bestMoves.Count > 1 && bPonder && !EqualMoves(bestMoves[1], lineMoves[1])) {
+    if (bestLine.Count < 1 || !EqualMoves(vnMoves[0], bestLine[0]) ||
+        bestLine.Count > 1 && bPonder && !EqualMoves(vnMoves[1], bestLine[1])) {
       //[Note]refreshPV() has not been called
-      bestMoves.Clear();
-      bestMoves.AddRange(lineMoves);
-      sb.BestMove(bestMoves, sides, bChess960);
+      bestLine.Clear();
+      bestLine.AddRange(vnMoves);
+      sb.BestInfo(bestLine, sides, bChess960);
       sb.Append(cSpace);
     }
 
+    //
+    // Report score for every new variation, even if
+    // the Best move and Ponder move remain the same.
+    //
     sb.Append(sb.Length > 0 ? "score" : "info score");
     sb.AppendEvalInfo(mEval);
 

@@ -53,7 +53,7 @@ partial class Position : Board {
 
   #region Search Methods
   private Boolean isMovePosition() {
-    // MovePosition assumed by StartTask() and heartbeat()
+    // MovePosition assumed by StartTask() and displayHeartbeat()
     return ReferenceEquals(this, State.MovePosition);
   }
 

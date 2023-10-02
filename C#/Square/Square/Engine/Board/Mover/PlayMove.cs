@@ -322,8 +322,7 @@ partial class Board {
     //  0x721CAEAAD8483250);            // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
 
     setTrace(
-      0x153DACF276D58E80,               // 5Nrk/5Qp1/3P1p1p/7P/2b5/2P5/5PPK/2R5 b - - 0 50
-      0xB2B43274226C3C54);              // 5Nr1/5Qpk/3P1p1p/7P/2b5/2P5/5PPK/2R5 w - - 1 51
+      0x153DACF276D58E80);              // 5Nrk/5Qp1/3P1p1p/7P/2b5/2P5/5PPK/2R5 b - - 0 50
   }
   #endregion                            // Trace Positions
   #endregion                            // Methods

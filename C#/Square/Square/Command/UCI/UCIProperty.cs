@@ -555,6 +555,7 @@ partial class UCI {
   //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker v Averbach [10-ply in 16.8 sec @1.474 MHz over 24.77 Mnode]
   //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";  // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
   // [2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
+  //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
   //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5
@@ -565,7 +566,6 @@ partial class UCI {
   // Mobility Weight = 200 cp
   // [2023-08-06 6-ply in 1.066 sec @780 KHz over 831.1 Knode]
   //"rnb3kr/ppp2ppp/1b6/3q4/3pN3/Q4N2/PPP2KPP/R1B1R3 w - - 0 2"; // Confusion #4 [2023-06-22 5-ply in 0.977 sec @637.14 KHz over 622.49 Knode]
-  //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/8/8/8/4k3/8/8/2BQKB2 w - - 0 1"; // Pal Benko for Bobby Fischer #3 [6-ply in 0.5 sec over 260,802 nodes]
   //"5K1k/5B2/4NN2/8/8/8/5p2/5r2 w - - 0 1"; // A. Grunenwald 1960 #3 [7-ply 0.31 sec]
   //"7k/4K1pp/7N/8/8/8/8/B7 w - - 0 1"; // Puzzle #3 [7-ply in 134 ms @216.4 KHz over 29 Knode]
@@ -578,13 +578,13 @@ partial class UCI {
   //"8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1 w - - 0 1"; // Meltwater Champions Chess Tour Finals 2022 at the SF Ferry Building #2
   // [4-ply in 122 msec over 25.1 Knode] #2 after 30 lines:
   // 1. Qa8 Qd4 (1... otherwise either 2. Nd6#; or 2. Nc5#) 2. Re3#
-  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1";     // #2 [4-ply 3,541 node]
-  //"kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1";        // #2 [4-ply in 31 ms over 677 nodes]
-  //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1
-  //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 178 nodes]
   //"K4BB1/1Q6/5p2/8/2R2r1r/N2N2q1/kp1p1p1p/b7 w - - 0 1"; // Bristol Times & Mirror 1927 #2
   // [4-ply in 170 ms over 37.8 Knode] #2 after 39 lines:
   // 1. Qf3 Kb3 (1... Qxf3 2. Re4#; 1... Rxf3 2. Rg4#; 1... Rfg4 2. Rxg4#; 1. b1b8 2. Rc2#; 1... otherwise 2. Nb4#) 2. Nc1#
+  //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1";     // #2 [4-ply 3,541 node]
+  //"kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1";        // #2 [4-ply in 31 ms over 677 nodes]
+  //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1 [2-ply 979 nodes]
+  //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 179 nodes]
   //
   #endregion                            // Puzzles
   #endregion                            // FEN Constants

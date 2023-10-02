@@ -98,11 +98,12 @@ partial class Position : Board {
   #region Search Move Generators
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Plane includeEPTarget(Plane qpFoe) {
+    const string message = "No En Passant Square";
     if (IsEPLegal()) {
       if (EPTarget.HasValue)
         return qpFoe | bit(EPTarget.Value);
 #if DebugEPTarget
-      DisplayCurrent("No En Passant Square");
+      DisplayCurrent(message);
 #endif                                  // DebugEPTarget
     }
 

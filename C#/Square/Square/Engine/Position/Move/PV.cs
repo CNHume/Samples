@@ -10,6 +10,7 @@
 //#define DebugPlace
 #define FilterCandidates
 //#define Magic
+//#define TestBest
 #define TestDraw3
 //#define TraceVal
 
@@ -17,7 +18,11 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using MoveOrder;
+
 namespace Engine;
+
+using static Engine.Board;
 #if DebugPlace
 using Command;                          // For UCI.IsDebug
 #endif
@@ -193,7 +198,11 @@ partial class Position : Board {
     moves.Add(move);
   }
 
+#if TestBest
+  private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<BestMove> bestLine, Depth wDepth) {
+#else
   private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<Move> bestLine) {
+#endif
     const String methodName = nameof(addPV);
     //[Lock]UCI may change this at any time.  See GameState.newVariations()
     var bHasValue = 0 < State.VariationCount;
@@ -229,14 +238,21 @@ partial class Position : Board {
 
       var bPonder = bestLine.Count > 0;
       if (bPonder) {
+#if TestBest
+        var moves = bestLine.Select(x => x.Move);
+        vnMoves.AddRange(moves);
+#else
+        vnMoves.AddRange(bestLine);
+#endif
         //!child.IsFinal()
         //[ToDo]Verify bestLine here
-        vnMoves.AddRange(bestLine);
-        //if (wDepth == 13) {
-        //  DisplayCurrent(methodName);
-        //  var sb = new StringBuilder();
-        //  State.MovePosition?.writePV(sb, nFinal, WTM());
-        //}
+#if TestBest
+        if (wDepth == 13) {
+          DisplayCurrent(methodName);
+          var sb = new StringBuilder();
+          State.MovePosition?.writePV(sb, nFinal, WTM());
+        }
+#endif
       }
 
       //
@@ -247,7 +263,7 @@ partial class Position : Board {
       if (nPlace == 0) {
         var sb = new StringBuilder();
         var mEval = ReflectValue(bWTM, mValue);
-        sb.UpdateBestInfo(State.BestMoves, vnMoves, mEval, bPonder, Side, State.IsChess960)
+        sb.UpdateBestInfo(State.BestLine, vnMoves, mEval, bPonder, Side, State.IsChess960)
           .FlushLine();
       }
 #if DebugPlace

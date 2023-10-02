@@ -16,6 +16,7 @@
 //#define LateMoveReduction
 //#define KillerCompositionHash
 #define MateThreat
+#define Mobility
 #define SingularExtension
 #define TotalMoves
 #define TotalPVS
@@ -32,10 +33,7 @@
 //#define CountCapturedPiece
 #define CountEarlyMoves
 #define CountPVDoubles
-#define DisplayRate                     //[Test]heartbeat()
 //#define Controlled
-#define Mobility
-//#define SwapOn
 #define DisplayOptions
 #define DisplayPosition
 //#define DisplayPositionPool
@@ -44,6 +42,8 @@
 #define LazyMoveSort
 //#define QuietCheck
 #define QuietMate
+//#define SwapOn
+//#define TestBest
 //#define TestCornerCP
 //#define TestLerp
 //#define ThreadSafeTank
@@ -100,7 +100,7 @@ partial class GameState : IDisposable {
     IsChess960 = false;
     Case = new PerfCase();
 
-    newBestMoves(wDepthMax);
+    newBestLine(wDepthMax);
     newTimers();
     SeededRandom = new Random();        // Variable seed based on Environment.TickCount
 
@@ -180,9 +180,9 @@ partial class GameState : IDisposable {
     wireLanguage();
   }
 
-  [MemberNotNull(nameof(BestMoves))]
-  private void newBestMoves(Int32 nCapacity) {
-    BestMoves = new List<Move>(nCapacity);
+  [MemberNotNull(nameof(BestLine))]
+  private void newBestLine(Int32 nCapacity) {
+    BestLine = new List<Move>(nCapacity);
   }
 
   [MemberNotNull(
@@ -207,7 +207,7 @@ partial class GameState : IDisposable {
       RepetitionPlies = RepetitionSearches =
       PinSkipTotal = QuietSkipTotal =
 #if CountCapturedPiece
-        CapturedPieces =
+      CapturedPieces =
 #endif
       NullMoves = PrunedNullMoves =
       DeltaPruneTotal = FutilePruneTotal = OccamPruneTotal =
@@ -370,7 +370,7 @@ partial class GameState : IDisposable {
 #if !AddBestMoves
     sb.Append(" sans BestMoves");
 #endif
-  sb.AppendTZCMode();
+    sb.AppendTZCMode();
 #if Magic
     sb.Append(" Magic");
 #endif
@@ -378,15 +378,18 @@ partial class GameState : IDisposable {
     sb.Append(" Controlled");
 #endif
 #if Mobility
-  sb.Append(" Mobility");
-#endif
-#if SwapOn
-    sb.Append(" SwapOn");
+    sb.Append(" Mobility");
 #endif
 #if QuietCheck
     sb.Append(" QuietCheck");
 #elif QuietMate
     sb.Append(" QuietMate");
+#endif
+#if SwapOn
+    sb.Append(" SwapOn");
+#endif
+#if TestBest
+    sb.Append(" TestBest");
 #endif
 #if TestCornerCP
     sb.AppendEvalInfo(mKBNvKMateCornerWeight);

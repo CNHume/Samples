@@ -15,11 +15,14 @@
 #define QuietMate                       //[Experimental]
 //#define SwapOn
 //#define VerifyUpper
+//#define TestBest
 
 using System.Diagnostics;
 using System.Text;
 
 namespace Engine;
+
+using MoveOrder;
 
 using static GameState;
 
@@ -77,9 +80,13 @@ partial class Position : Board {
           verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
           //[Bug]Potential cf. search()
-          //[Safe]
+#if TestBest
+          var bestMove = new BestMove(moveFound, ToString(), Hash);
+          BestMoves.Add(bestMove);
+#else
           BestMoves.Add(moveFound);
 #endif
+#endif                                  // AddBestMoves
         }
       }
 

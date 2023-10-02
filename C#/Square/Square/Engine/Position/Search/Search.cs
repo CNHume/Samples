@@ -30,6 +30,7 @@
 //#define TestLerp
 #define GetSmart
 //#define VerifyUpper
+//#define TestBest
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -125,16 +126,24 @@ partial class Position : Board {
         //  out Boolean bCastles, out Boolean bCapture);
 #endif
         if (isMovePosition())           // BestMoves will be empty here
+#if TestBest
+          addPV(mAlpha, mValueFound, moveFound, BestMoves, wDepth);
+#else
           addPV(mAlpha, mValueFound, moveFound, BestMoves);
+#endif
         else {
           // Safe to update BestMoves now
           //[Conditional]
           verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
           //[Bug]cf. quiet()
-          //[Safe]
+#if TestBest
+          var bestMove = new BestMove(moveFound, ToString(), Hash);
+          BestMoves.Add(bestMove);
+#else
           BestMoves.Add(moveFound);
 #endif
+#endif                                  // AddBestMoves
         }
       }
 
@@ -378,7 +387,12 @@ partial class Position : Board {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void addBest(Move moveBest, Position child) {
     BestMoves.Clear();
+#if TestBest
+    var bestMove = new BestMove(moveBest, ToString(), Hash);
+    BestMoves.Add(bestMove);
+#else
     BestMoves.Add(moveBest);
+#endif
     BestMoves.AddRange(child.BestMoves);
   }
 
@@ -485,7 +499,12 @@ partial class Position : Board {
       //
       //[Note]mAlpha may be less than mBest here: to admit weaker MultiPV lines.
       //
+#if TestBest
+      mBest2 = addPV(mAlpha, mValue, moveNoted, child.BestMoves, wDepth);
+#else
       mBest2 = addPV(mAlpha, mValue, moveNoted, child.BestMoves);
+#endif
+
     }
     #endregion                          // Update Best Move
 

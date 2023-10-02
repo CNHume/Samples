@@ -158,7 +158,7 @@ partial class GameState {
   public Boolean IsDisplayCurrentLine;  //[UCI Option]
   public String? Opponent;              //[UCI Option]
   public static String? LanguageName;
-  public List<Move> BestMoves;
+  public List<Move> BestLine;
   public Random SeededRandom;
   #endregion                            // Primary Fields
 
