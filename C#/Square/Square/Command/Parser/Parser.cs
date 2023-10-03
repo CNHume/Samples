@@ -432,10 +432,11 @@ partial class Parser : IDisposable {
 
   public void TabiyaCommand(Position position) {
     var state = position.State;
-    var named = findNamedPosition(position, state?.RootPosition);
-    if (named is not null && !IsNullOrEmpty(named.Name)) {
-      named.Display(named.Name);
-      state?.ListMovesFromParent(position, named, ListCommand());
+    var namedPosition = findNamedPosition(position, state?.RootPosition);
+    if (namedPosition is not null && !IsNullOrEmpty(namedPosition.Name)) {
+      namedPosition.Display(namedPosition.Name);
+      var bChess960 = state?.IsChess960 ?? false;
+      position.ListMovesFromParent(namedPosition, bChess960, ListCommand());
     }
   }
 

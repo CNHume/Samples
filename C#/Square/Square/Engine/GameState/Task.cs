@@ -331,20 +331,6 @@ partial class GameState {
   }
   #endregion                            // Task Management
 
-  #region Move List Methods
-  public void ListMovesFromParent(Position position, Position? parent, Boolean bPure, Boolean bAbbreviate = true) {
-    var moves = position.MovesFromParent(parent, bAbbreviate);
-    var sb = new StringBuilder();
-    var wGamePly = RootPosition?.GamePly ?? 0;
-    sb.WriteMoves(moves, wGamePly, bPure, position.Side, IsChess960)
-      .FlushLine();
-  }
-
-  public void ListMovesFromRoot(Position position, Boolean bPure, Boolean bAbbreviate = true) {
-    ListMovesFromParent(position, RootPosition, bPure, bAbbreviate);
-  }
-  #endregion                            // Move List Methods
-
   #region Move Count Methods
   private void displayHeartbeat(
     UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
@@ -370,7 +356,7 @@ partial class GameState {
         sb.Append("-an");
 
       var moves = position.MovesFromParent(MovePosition, bAbbreviate);
-      sb.AppendNumberedMoves(moves, MovePly, IsPure, position.Side, IsChess960);
+      sb.AppendNumberedMoves(moves, MovePly, position.Side, IsPure, IsChess960);
     }
 
     sb.AppendLine()

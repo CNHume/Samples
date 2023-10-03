@@ -604,7 +604,8 @@ static class Extension {
       #endregion
     }
     else {
-      sb.Append((Sq)nFrom).Append((Sq)nTo);
+      sb.Append((Sq)nFrom)
+        .Append((Sq)nTo);
 
       if (uPromotion > 0) {
         Debug.Assert(piece == Piece.P, "Only Pawns are allowed to promote");
@@ -619,7 +620,7 @@ static class Extension {
 
   public static StringBuilder AppendNumberedMoves(
     this StringBuilder sb, IEnumerable<Move> moves,
-    Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean bChess960) {
+    Ply wGamePly, BoardSide[] sides, Boolean bPure, Boolean bChess960) {
     if (moves == null || !moves.Any())
       return sb;
 
@@ -698,10 +699,10 @@ static class Extension {
   }
 
   public static StringBuilder WriteMoves(
-    this StringBuilder sb, List<Move> moves, Ply wGamePly, Boolean bPure, BoardSide[] sides, Boolean bChess960) {
+    this StringBuilder sb, List<Move> moves, Ply wGamePly, BoardSide[] sides, Boolean bPure, Boolean bChess960) {
     return bPure ?
       sb.MapMoves(AppendPACN, moves, sides, bChess960) :
-      sb.AppendNumberedMoves(moves, wGamePly, bPure, sides, bChess960);
+      sb.AppendNumberedMoves(moves, wGamePly, sides, bPure, bChess960);
   }
 
   public static StringBuilder WriteVariation(
@@ -732,7 +733,7 @@ static class Extension {
 
     //[Note]Variations begin with BestMove from MovePosition
     if (vn.Moves != null)
-      sb.WriteMoves(vn.Moves, wGamePly, bPure, sides, bChess960);
+      sb.WriteMoves(vn.Moves, wGamePly, sides, bPure, bChess960);
 
     return sb;
   }

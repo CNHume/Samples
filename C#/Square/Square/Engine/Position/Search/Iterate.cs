@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define RefreshPV
-#define WritePV
+#define WriteMultiPV
 #define DisplayDepth
 #define DisplayRate
 //#define DisplayPrediction

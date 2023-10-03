@@ -423,14 +423,14 @@ partial class Position : Board {
   }
   #endregion                            // MultiPV Support
 
-  #region Writer Methods
+  #region Move List Methods
   private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
     sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
                       bWTM, GamePly, State.IsPure, Side, State.IsChess960)
       .FlushLine();
   }
 
-  [Conditional("WritePV")]
+  [Conditional("WriteMultiPV")]
   private void writeMultiPV() {
     var bWTM = WTM();
     var sb = new StringBuilder();
@@ -462,6 +462,15 @@ partial class Position : Board {
     return moves;
   }
 
+  public void ListMovesFromParent(
+    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate = true) {
+    var moves = MovesFromParent(parent, bAbbreviate);
+    var sb = new StringBuilder();
+    var wGamePly = parent?.GamePly ?? 0;
+    sb.WriteMoves(moves, wGamePly, Side, bPure, bChess960)
+      .FlushLine();
+  }
+
   //
   // Displays current position and the moves leading up to it
   //
@@ -469,7 +478,7 @@ partial class Position : Board {
     Display(sLabel);
     // The following invokes Position.MovesFromParent()
     var bAbbreviate = false;
-    State.ListMovesFromRoot(this, State.IsPure, bAbbreviate);
+    ListMovesFromParent(State.RootPosition, State.IsPure, State.IsChess960, bAbbreviate);
   }
-  #endregion                            // Writer Methods
+  #endregion                            // Move List Methods
 }

@@ -87,8 +87,7 @@ partial class UCI {
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
   // Mobility Weight = 100 cp
-  // [2023-09-04 19-ply in 40:21 @1.278 MHz over 3.0955 Gnode] #10 after:
-  // [2023-09-26 19-ply in 45:01 @1.37 MHz over 3.7 Gnode] #10 after:
+  // [2023-10-02 19-ply in 39:51 @1.294 MHz over 3.0955 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
   //
   //"6rk/R1Q1N1p1/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 Line

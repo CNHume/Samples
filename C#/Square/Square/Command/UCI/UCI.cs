@@ -208,7 +208,8 @@ partial class UCI : ICommand {
       if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
 
-      State.ListMovesFromRoot(State.MovePosition, Parser.ListCommand());
+      State.MovePosition.ListMovesFromParent(
+        State.RootPosition, State.IsChess960, Parser.ListCommand());
       break;
 
     case "getoption":                   //[Debug]
