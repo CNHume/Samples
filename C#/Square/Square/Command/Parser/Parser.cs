@@ -40,7 +40,7 @@ partial class Parser : IDisposable {
   private static readonly TokenRule[] enableKeywordTokenRules;
   private static readonly TokenRule[] registerKeywordTokenRules;
   private static readonly TokenRule[] goKeywordTokenRules;
-  private static readonly TokenRule[] movesKeyworTokendRules;
+  private static readonly TokenRule[] movesKeywordTokenRules;
   private static readonly TokenRule[] nameKeywordTokenRules;
   private static readonly TokenRule[] opcodeTokenRules;
   private static readonly TokenRule[] operandTokenRules;
@@ -166,7 +166,7 @@ partial class Parser : IDisposable {
     unsignedTokenRules = new[] {
       new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
     };
-    movesKeyworTokendRules = new[] {
+    movesKeywordTokenRules = new[] {
       new TokenRule(TokenRuleType.movesKeyword, @"moves\b", IgnoreCase)
     };
     nameKeywordTokenRules = new[] {
@@ -219,7 +219,7 @@ partial class Parser : IDisposable {
 
     GoKeywordToken = new Token(this, TokenType.goKeyword, goKeywordTokenRules);
     enableKeywordToken = new Token(this, TokenType.enableKeyword, enableKeywordTokenRules);
-    movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeyworTokendRules);
+    movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeywordTokenRules);
     nameKeywordToken = new Token(this, TokenType.nameKeyword, nameKeywordTokenRules);
     opcodeToken = new Token(this, TokenType.opcode, opcodeTokenRules);
     operandToken = new Token(this, TokenType.operand, operandTokenRules);
@@ -420,7 +420,7 @@ partial class Parser : IDisposable {
     setting?.SetValue(sValue);
   }
 
-  public Boolean ListCommand() {
+  public Boolean MovesKeyword() {
     return SpaceToken.Accept() && movesKeywordToken.Accept();
   }
 
@@ -436,7 +436,7 @@ partial class Parser : IDisposable {
     if (namedPosition is not null && !IsNullOrEmpty(namedPosition.Name)) {
       namedPosition.Display(namedPosition.Name);
       var bChess960 = state?.IsChess960 ?? false;
-      position.ListMovesFromParent(namedPosition, bChess960, ListCommand());
+      position.ListMovesFromParent(namedPosition, bChess960, MovesKeyword());
     }
   }
 

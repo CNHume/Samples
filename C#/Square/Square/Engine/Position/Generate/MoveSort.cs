@@ -79,24 +79,20 @@ partial class Position : Board {
     if (bMaterial) return;
 #endif
     var moveMasked = move & Move.StoreMask;
-#if UseKillers
-    storeKiller(moveMasked, wDepth, mValue, et);    //[Conditional]
-#endif                                  // UseKillers
-#if UseHistory
+    //[Conditional]
+    storeKiller(moveMasked, wDepth, mValue, et);
+    //[Conditional]
     storeXPM(wDepth, mValue, et, moveMasked, moveExcluded);
-#endif
 #if RewardMoveTypes
     rewardMoveType(move);
 #endif
   }
 
   private void addMoves(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
-#if UseHistory
-    var bFound = probeXPM(wDepth, mAlpha, mBeta, moveExcluded, goodMoves);
-#endif
-#if UseKillers
-    probeKiller(goodMoves, wDepth, mAlpha, mBeta);    //[Conditional]
-#endif                                  // UseKillers
+    //[Conditional]
+    probeXPM(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);
+    //[Conditional]
+    probeKiller(goodMoves, wDepth, mAlpha, mBeta);
   }
 
   private Int32 sortMoves(List<Move> moves, List<GoodMove> goodMoves, Depth wDepth) {

@@ -98,7 +98,7 @@ partial class Position : Board {
     const String methodName = nameof(addGoodMove);
     var mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);
     traceVal(methodName, mValue, etFound);  //[Conditional]
-    
+
     //[Note]Adjusted mValue may be EvalUndefined
     var bAllowValue = EvalUndefined < mValue || !bFilterEvalUndefined;
     if (bAllowValue && goodMoves != null && IsDefinite(moveFound)) {
@@ -130,7 +130,7 @@ partial class Position : Board {
   #endregion                            // Helper Methods
 
   #region XPM Methods
-  private Eval storeXPM(Depth wDepth, Eval mValue, EvalType et,
+  private void storeXPM(Depth wDepth, Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined,
                         Move moveExcluded = Move.Undefined) { // 10 MHz
     const String methodName = nameof(storeXPM);
@@ -165,11 +165,11 @@ partial class Position : Board {
                                  mAdjusted, et, moveBest);
 #endif
     State.XPMTank.Save(store);
-    return mValue;
   }
 
-  private Boolean probeXPM(Depth wDepth, Eval mAlpha, Eval mBeta,
-                           Move moveExcluded, List<GoodMove> goodMoves) {
+  [Conditional("UseHistory")]
+  private void probeXPM(List<GoodMove> goodMoves, Depth wDepth,
+                        Eval mAlpha, Eval mBeta, Move moveExcluded) {
     const String methodName = nameof(probeXPM);
 #if XPMCompositionHash
     var bWTM = WTM();
@@ -198,8 +198,6 @@ partial class Position : Board {
         goodMoves, moveFound,
         wDepth, mValueFound, mAlpha, mBeta, etFound);
     }
-
-    return bFound;
   }
   #endregion                            // XPM Methods
 
@@ -371,6 +369,7 @@ partial class Position : Board {
   //
   //[ToDo]Killer updates are not thread safe.  See also the references, e.g., in sortMoves().
   //
+  [Conditional("UseKillers")]
   private void storeKiller(Move move, Depth wDepth, Eval mValue, EvalType et) {
     const String methodName = nameof(storeKiller);
     Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
@@ -395,7 +394,8 @@ partial class Position : Board {
     State.Bottle.Save(store, move, uBottleHash, nSide);
   }
 
-  private Boolean probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
+  [Conditional("UseKillers")]
+  private void probeKiller(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(probeKiller);
     const Boolean bFilterEvalUndefined = true;
 #if BottleGamePly
@@ -426,8 +426,6 @@ partial class Position : Board {
         wDepth, mValueFound, mAlpha, mBeta, etFound,
         bFilterEvalUndefined);
     }
-
-    return bFound;
   }
   #endregion                            // Killer Methods
 

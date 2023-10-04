@@ -421,9 +421,7 @@ partial class Position : Board {
       Pop(ref child);                   // Pop Position
     }
   }
-  #endregion                            // MultiPV Support
 
-  #region Move List Methods
   private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
     sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
                       bWTM, GamePly, State.IsPure, Side, State.IsChess960)
@@ -437,7 +435,9 @@ partial class Position : Board {
     for (var nLine = 0; nLine < State.VariationCount; nLine++)
       writePV(sb, nLine, bWTM);
   }
+  #endregion                            // MultiPV Support
 
+  #region Move List Methods
   public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
     const String methodName = nameof(MovesFromParent);
     var moves = new List<Move>();
@@ -463,7 +463,7 @@ partial class Position : Board {
   }
 
   public void ListMovesFromParent(
-    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate = true) {
+    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate = false) {
     var moves = MovesFromParent(parent, bAbbreviate);
     var sb = new StringBuilder();
     var wGamePly = parent?.GamePly ?? 0;
@@ -476,9 +476,8 @@ partial class Position : Board {
   //
   protected void DisplayCurrent(String sLabel) {
     Display(sLabel);
-    // The following invokes Position.MovesFromParent()
-    var bAbbreviate = false;
-    ListMovesFromParent(State.RootPosition, State.IsPure, State.IsChess960, bAbbreviate);
+    // The following invokes MovesFromParent()
+    ListMovesFromParent(State.RootPosition, State.IsPure, State.IsChess960);
   }
   #endregion                            // Move List Methods
 }
