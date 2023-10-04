@@ -130,6 +130,7 @@ partial class Position : Board {
   #endregion                            // Helper Methods
 
   #region XPM Methods
+  [Conditional("UseHistory")]
   private void storeXPM(Depth wDepth, Eval mValue, EvalType et,
                         Move moveBest = Move.Undefined,
                         Move moveExcluded = Move.Undefined) { // 10 MHz
