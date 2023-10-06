@@ -50,6 +50,9 @@ partial class UCI {
 
   //
   //"";
+  //"rn3rk1/1pqbbppp/p2pp3/P7/2BNP1n1/2N1B3/1PP1QPPP/R4RK1 w - - 0 12"; // Magnus Carlsen v Vincent Keymer 2023-10-05 European Chess Club Cup (R5)
+  // [2023-10-06 16-ply in 1:24:48 @1.448 MHz over 7.319 Gnode] eval 0.92 after:
+  // 12. Nf5 Bf6 13. Bb6 Qc6 14. Bd5 exd5 15. exd5 Qxc3 16. bxc3 Bxf5 17. Bd4 Nd7 18. Rab1 Rab8 19. Qf3 g6 20. Bxf6 Ndxf6
   //"8/8/6k1/7p/2K2p1P/1p3P2/8/8 w - - 0 1";  // Magnus Carlsen v Aryan Tari Endgame
   // moves c4b3 g6f5
   //"8/8/8/5k1p/5p1P/1K3P2/8/8 w - - 0 2";    // Magnus Carlsen v Aryan Tari Endgame Line

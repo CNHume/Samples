@@ -106,12 +106,12 @@ partial class GameState : IDisposable {
 
     loadEndgameValue();
     loadExtensionLimit();
+#if UseKillers
 #if KillerCompositionHash
     var uBottleLength = 8191U;
 #else
     var uBottleLength = wPlyHistory;
 #endif
-#if UseKillers
     Bottle = new MoveBottle(uBottleLength);
 #endif                                  // UseKillers
     wireControls();

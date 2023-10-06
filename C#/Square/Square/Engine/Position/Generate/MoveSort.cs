@@ -88,7 +88,8 @@ partial class Position : Board {
 #endif
   }
 
-  private void addMoves(List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
+  private void addMoves(
+    List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
     //[Conditional]
     probeXPM(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);
     //[Conditional]
