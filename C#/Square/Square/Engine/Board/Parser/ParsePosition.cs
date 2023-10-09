@@ -123,7 +123,7 @@ partial class Board {
       var sRank = rank[nRow];
       var nLength = sRank.Length;
       var nPos = 0;
-      var wasDigit = false;             // Disallow double digits 
+      var wasDigit = false;             // Disallow double digits
 
       for (var x = 0; x < nFiles; nPos++) {
         if (nPos < nLength)

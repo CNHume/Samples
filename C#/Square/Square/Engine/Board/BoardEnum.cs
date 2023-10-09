@@ -192,7 +192,7 @@ partial class Board {
   //
   // Piece.None is used to indicate non-captures, non-promotions and empty squares.
   //
-  // Piece.Capture is an alias for Piece.K to indicate that the captive piece has not yet 
+  // Piece.Capture is an alias for Piece.K to indicate that the captive piece has not yet
   // been identified.
   //
   public enum Piece : byte { None, P, N, B, R, Q, K, EP, Capture = K }

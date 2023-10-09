@@ -81,7 +81,7 @@ partial class UCI : ICommand {
   /*
    * Please see https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol/ for details
    * of the UCI Command Interface as documented by Stefan Meyer-Kahlen
-   * 
+   *
    * Commands
    * --------
    * uci => must respond w "id name" and "id author" then w option support below, ending w "uciok"

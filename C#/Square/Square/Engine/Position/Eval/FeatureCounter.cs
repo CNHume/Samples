@@ -208,7 +208,7 @@ partial class Position : Board {
   #region Pawn Evaluation
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private static Int32 passerWeight(Int32 nAdvancement) {
-    //[Note]0 <= nAdvancement <= 5 
+    //[Note]0 <= nAdvancement <= 5
     return nAdvancement * mPawnOnLastRankWeight;
   }
 

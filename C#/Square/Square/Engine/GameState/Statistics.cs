@@ -459,7 +459,7 @@ partial class GameState {
 
       //
       // n = # of terms
-      // start = 1st term 
+      // start = 1st term
       // delta = diff between each term
       //
       // Sum = n * (2 * start + delta * (n - 1)) / 2

@@ -644,12 +644,12 @@ partial class Position : Board {
    * For Website Mate, see http://www.usefulchess.com/problems/chessproblem3_2.html
    *
    * Full Solution:
-   * 
-    1. Rg7 Ke4 
+   *
+    1. Rg7 Ke4
 
-      1. ... f5 2. Rg6 Ke4 3. Nc3 1-0 
-      1. ... Ke4 2. Nc3+ Kf5 3. Bg4 1-0 
-      1. ... Kxc6 2. Bc4 f6 3. Rc7 1-0 
+      1. ... f5 2. Rg6 Ke4 3. Nc3 1-0
+      1. ... Ke4 2. Nc3+ Kf5 3. Bg4 1-0
+      1. ... Kxc6 2. Bc4 f6 3. Rc7 1-0
       1. ... Ke6 2. Bc4+ Kf5 3. Nd6 1-0
 
       2. Nc3+ Kf5 3. Bg4 1-0

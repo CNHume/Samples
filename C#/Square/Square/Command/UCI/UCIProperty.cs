@@ -29,7 +29,7 @@ partial class UCI {
   #endregion
 
   #region Abbreviation Tests
-  // 
+  //
   //"4BR2/3N2nk/8/3N2PN/8/8/7K/8 w - - 0 1";    // ShowFrom
   //"4BR2/6nk/8/3N2PN/8/8/7K/8 w - - 0 1";      // ShowFile
   //"4BR2/3N2nk/8/3N2P1/8/8/7K/8 w - - 0 1";    // ShowRank
