@@ -6,7 +6,7 @@
 // Conditionals:
 //
 #define Quiescence
-#define DebugMove
+//#define DebugMove
 #define AddBestMoves
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
@@ -283,9 +283,6 @@ partial class Position : Board {
       #endregion                        // Move Sort
 
       #region Move Loop
-#if DebugSideToMove
-      var bDebugWTM = WTM();
-#endif
       var nTried = 0;
       var uLegalMoves = 0U;
       var bTryZWS = false;              //[Note]Full PVS requires Raised Alpha
@@ -340,7 +337,7 @@ partial class Position : Board {
         mValue = updateBest(
           child, wDepth, wDraft, ref wDraft1, wReducedDraft,
           uRaisedAlpha, mAlpha, mBeta, ref mBest, ref mBest2,
-          piece, move, moveFound, ref moveBest, mValueFound,
+          move, moveFound, ref moveBest, mValueFound,
           bPruneQuiet, bTestSingular, bEarly, bTryZWS);
 
         #region Test for Cutoff
@@ -412,7 +409,7 @@ partial class Position : Board {
   private Eval updateBest(
     Position child, Depth wDepth, Draft wDraft, ref Draft wDraft1, Draft wReducedDraft,
     UInt32 uRaisedAlpha, Eval mAlpha, Eval mBeta, ref Eval mBest, ref Eval mBest2,
-    Piece piece, Move move, Move moveFound, ref Move moveBest, Eval mValueFound,
+    Move move, Move moveFound, ref Move moveBest, Eval mValueFound,
     Boolean bPruneQuiet, Boolean bTestSingular, Boolean bEarly, Boolean bTryZWS) {
     var mValue = EvalUndefined;
 
@@ -472,7 +469,7 @@ partial class Position : Board {
 
 #if GetSmart
     //var bCastles = IsCastles(move);
-    var bReduce = bQuietMove && !bEarly && piece != Piece.K;
+    var bReduce = bQuietMove && !bEarly && (Piece)Moved(move) != Piece.K;
 
     //
     // Houdart suggested depth reduction for Smart Fail High.

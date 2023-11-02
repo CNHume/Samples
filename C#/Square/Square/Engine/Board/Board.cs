@@ -610,7 +610,7 @@ partial class Board : IEquatable<Board> {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private static UInt32 moved(Move move) {
+  protected static UInt32 Moved(Move move) {
     return (UInt32)move >> nPieceBit & vPieceMask;
   }
 
@@ -634,7 +634,7 @@ partial class Board : IEquatable<Board> {
     nFrom = From(move);
     nTo = To(move);
 
-    uPiece = moved(move);
+    uPiece = Moved(move);
     bCapture = IsCapture(move);
   }
 
@@ -647,7 +647,7 @@ partial class Board : IEquatable<Board> {
     nFrom = From(move);
     nTo = To(move);
 
-    uPiece = moved(move);
+    uPiece = Moved(move);
     uPromotion = Promoted(move);
 
     bCastles = IsCastles(move);
@@ -662,7 +662,7 @@ partial class Board : IEquatable<Board> {
     sqFrom = (Sq)From(move);
     sqTo = (Sq)To(move);
 
-    piece = (Piece)moved(move);
+    piece = (Piece)Moved(move);
     promotion = (Piece)Promoted(move);
 
     bCapture = IsCapture(move);
@@ -677,7 +677,7 @@ partial class Board : IEquatable<Board> {
     sqFrom = (Sq)From(move);
     sqTo = (Sq)To(move);
 
-    piece = (Piece)moved(move);
+    piece = (Piece)Moved(move);
     promotion = (Piece)Promoted(move);
     capture = (Piece)Captured(move);
 

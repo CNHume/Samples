@@ -9,6 +9,7 @@
 //#define KillerCompositionHash
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 //#define BottleGamePly
+//#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define CountEvalTypes                  // For IncEvalType()
 #define TransposeQuiet
@@ -243,7 +244,7 @@ partial class Position : Board {
 
   private Boolean probeXP(Depth wDepth, Eval mAlpha, Eval mBeta,
                           Move moveExcluded, List<GoodMove>? goodMoves,
-                          out Move moveFound, out Eval mValue, out EvalType etFound) {
+                          out Move moveFound, out Eval mValue, out EvalType etFound, Boolean bTest = false) {
     const String methodName = nameof(probeXP);
     var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
@@ -267,6 +268,19 @@ partial class Position : Board {
     etFound = match.Type;                               //[out]3
     var mValueFound = match.Value;
     traceVal(methodName, mValueFound, etFound);         //[Conditional]
+
+    const Move testMove = (Move)0x00060DFF;
+    //const Move testMove = (Move)0x00560FBF;
+    if (bTest && State.Nodes == 15062440 && EqualMoves(testMove, moveFound)) {
+      // #15062440
+      // this == 6rk/5Qp1/5pNp/3P3P/2b5/2P5/5PPK/2R5 b - - 8 50
+      // 0x403E9F3D36FFFE9F
+      // Parent == 5Nrk/5Qp1/5p1p/3P3P/2b5/2P5/5PPK/2R5 w - - 7 50
+      // 0xB0C61808739951E6
+      //moveFound |= Move.WTM;            //[Debug]Problem Present Here
+      verifyMoveIsLegal(moveFound, methodName);
+      DisplayCurrent(methodName);
+    }
 
     mValue = addGoodMove(
       goodMoves, moveFound,

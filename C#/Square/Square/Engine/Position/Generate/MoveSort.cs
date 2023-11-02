@@ -6,7 +6,6 @@
 // Conditionals:
 //
 //#define DebugMoveOrder
-#define DebugMove
 #define CountEarlyMoves
 #define UseKillers
 #define BottleBothSides
