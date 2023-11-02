@@ -334,6 +334,7 @@ partial class Position : Board {
     }
   }
 
+  [Conditional("DebugMoveIsLegal")]
   private void replay(List<Move> moves, Int32 nIndex) {
     const String methodName = nameof(replay);
     if (moves.Count <= nIndex)
