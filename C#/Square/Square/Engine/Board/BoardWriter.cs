@@ -54,6 +54,10 @@ partial class Board {
   private const String sLite = "--";
   private const String sDark = "**";
 
+  private const string sColonSpace = ": ";
+  private const string sCommaSpace = ", ";
+  private const string sSemiSpace = "; ";
+
   internal const String sSpace = " ";
   internal const String sSpace2 = sSpace + sSpace;
   internal const String sSpace3 = sSpace + sSpace2;
@@ -380,7 +384,11 @@ partial class Board {
 
   public StringBuilder Display(String? sLabel) {
     var sb = new StringBuilder();
-    if (!IsNullOrEmpty(sLabel)) sb.AppendLine(sLabel);
+    sb.AppendNodeNumber(State.Nodes);
+    if (!IsNullOrEmpty(sLabel)) {
+      sb.Append(sColonSpace);
+      sb.AppendLine(sLabel);
+    }
     return Display(sb);
   }
   #endregion

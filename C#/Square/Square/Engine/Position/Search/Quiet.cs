@@ -15,6 +15,7 @@
 #define QuietMate                       //[Experimental]
 //#define SwapOn
 //#define VerifyUpper
+//#define DebugBest
 //#define TestBest
 
 using System.Diagnostics;
@@ -25,8 +26,9 @@ namespace Engine;
 using MoveOrder;
 
 using static GameState;
-
 using static Logging.Logger;
+using static MoveOrder.BestMoveEnum;
+
 
 //
 // Type Aliases:
@@ -80,16 +82,15 @@ partial class Position : Board {
           verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
           //[Bug]Potential cf. search()
-#if TestBest
-          var bestMove = new BestMove(moveFound, ToString(), Hash);
-          BestMoves.Add(bestMove);
-#else
-          BestMoves.Add(moveFound);
-#endif
+          addBest(moveFound, QuietProbe);
 #endif                                  // AddBestMoves
         }
       }
-
+#if DebugBest
+      // BestMoves should not be empty here
+      var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 [{methodName}]";
+      Debug.Assert(BestMoves.Count > 0, emptyMessage1);
+#endif
       return mValueFound;
     }
     #endregion                          // Transposition Table Lookup
@@ -220,7 +221,7 @@ partial class Position : Board {
               //[Note]Annotation is made from the child position resulting from each move.
               //
               moveBest = child.annotateFinal(move);
-              addBest(moveBest, child);
+              addBest(moveBest, QuietUpdate, child);
 
               traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
               mAlpha = mBest;
@@ -262,7 +263,11 @@ partial class Position : Board {
 #endif
     if (mBest == EvalUndefined)
       mBest = mStand;
-
+#if DebugBest
+    // BestMoves should not be empty here
+    var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 [{methodName}]";
+    Debug.Assert(BestMoves.Count > 0, emptyMessage2);
+#endif
 #if TransposeQuiet
     return storeQXP(mBest, et, moveBest);
 #else

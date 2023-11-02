@@ -30,6 +30,7 @@
 //#define TestLerp
 #define GetSmart
 //#define VerifyUpper
+//#define DebugBest
 //#define TestBest
 
 using System.Diagnostics;
@@ -44,6 +45,7 @@ using MoveOrder;
 
 using static GameState;
 using static Logging.Logger;
+using static MoveOrder.BestMoveEnum;
 
 //
 // Type Aliases:
@@ -125,28 +127,33 @@ partial class Position : Board {
         //  out Piece piece, out Piece promotion, out Piece capture,
         //  out Boolean bCastles, out Boolean bCapture);
 #endif
-        if (isMovePosition())           // BestMoves will be empty here
+#if DebugBest
+        // BestMoves will be empty here
+        var notEmptyMessage = $"BestMoves.Count = {BestMoves.Count} Not Empty at wDepth = {wDepth} [{methodName}]";
+        Debug.Assert(BestMoves.Count == 0, notEmptyMessage);
+#endif
+        if (isMovePosition()) {
 #if TestBest
           addPV(mAlpha, mValueFound, moveFound, BestMoves, wDepth);
 #else
           addPV(mAlpha, mValueFound, moveFound, BestMoves);
 #endif
+        }
         else {
           // Safe to update BestMoves now
           //[Conditional]
           verifyMoveIsLegal(moveFound, methodName);
 #if AddBestMoves
-          //[Bug]cf. quiet()
-#if TestBest
-          var bestMove = new BestMove(moveFound, ToString(), Hash);
-          BestMoves.Add(bestMove);
-#else
-          BestMoves.Add(moveFound);
-#endif
+          //[Bug]Also cf. quiet()
+          addBest(moveFound, SearchProbe);
 #endif                                  // AddBestMoves
         }
       }
-
+#if DebugBest
+      // BestMoves should not be empty here
+      var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 at wDepth = {wDepth} [{methodName}]";
+      Debug.Assert(BestMoves.Count > 0, emptyMessage1);
+#endif
       return mValueFound;
     }
     #endregion                          // Transposition Table Lookup
@@ -247,7 +254,7 @@ partial class Position : Board {
       //
       // Try to consider the best moves first!
       //
-      addMoves(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);
+      addGoodMoves(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);
       var nEarly = sortMoves(moves, goodMoves, wDepth);
 #if DebugGoodMoves
       if (goodMoves.Count > 0) {
@@ -380,20 +387,26 @@ partial class Position : Board {
       Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
     }
 #endif
+#if DebugBest
+    // BestMoves should not be empty here
+    var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 at wDepth = {wDepth} [{methodName}]";
+    Debug.Assert(BestMoves.Count > 0, emptyMessage2);
+#endif
     return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
   }
 
   [Conditional("AddBestMoves")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void addBest(Move moveBest, Position child) {
+  private void addBest(Move moveBest, BestMoveEnum be = default, Position? child = default) {
     BestMoves.Clear();
 #if TestBest
-    var bestMove = new BestMove(moveBest, ToString(), Hash);
+    var bestMove = new BestMove(moveBest, be, this);
     BestMoves.Add(bestMove);
 #else
     BestMoves.Add(moveBest);
 #endif
-    BestMoves.AddRange(child.BestMoves);
+    if (child is not null)
+      BestMoves.AddRange(child.BestMoves);
   }
 
   private Eval updateBest(
@@ -488,7 +501,7 @@ partial class Position : Board {
       mBest = mValue;
       if (mAlpha < mBest) {
         moveBest = moveNoted;
-        addBest(moveBest, child);
+        addBest(moveBest, SearchUpdate, child);
       }
     }
 

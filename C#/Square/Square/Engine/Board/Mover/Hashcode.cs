@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+//#define DebugMove
 //#define DisplayHash
 #define HashCastlingRights
 //#define RNGStatistics
@@ -190,8 +191,8 @@ partial class Board {
               out UInt32 uPiece, out UInt32 uPromotion,
               out Boolean bCastles, out Boolean bCapture);
       var piece = (Piece)uPiece;
-      var sqFrom = (sq)nFrom;
-      var sqTo = (sq)nTo;
+      var sqFrom = (Sq)nFrom;
+      var sqTo = (Sq)nTo;
 #else
       unpackShort(moveExcluded, out Int32 nFrom, out Int32 nTo,
                   out UInt32 uPromotion, out Boolean bCastles);

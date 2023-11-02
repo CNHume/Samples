@@ -24,7 +24,7 @@ using Plane = UInt64;
 
 partial class Position : Board {
   #region Methods
-  // GetPieceIndex - Returns Piece at any square
+  // setWTM
   //
   // Move Generators:
   //
@@ -34,6 +34,12 @@ partial class Position : Board {
   // addPawnMoves
   // addPawnCaptures
   //
+  [Conditional("DebugSideToMove")]
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void setWTM(ref Move move) {
+    if (WTM()) move |= Move.WTM;
+  }
+
   #region Castling Moves
   protected void addCastles() {
     const String methodName = nameof(addCastles);
@@ -42,22 +48,16 @@ partial class Position : Board {
     }
 
     var rule = Friend.Parameter.Rule;
-#if DebugSideToMove
-    var bWTM = WTM();
-#endif
+
     if (CanOO()) {
       var move = rule.OOMove;
-#if DebugSideToMove
-      if (bWTM) move |= Move.WTM;
-#endif
+      setWTM(ref move);
       PseudoCastles.Add(move);
     }
 
     if (CanOOO()) {
       var move = rule.OOOMove;
-#if DebugSideToMove
-      if (bWTM) move |= Move.WTM;
-#endif
+      setWTM(ref move);
       PseudoCastles.Add(move);
     }
   }
@@ -72,9 +72,8 @@ partial class Position : Board {
 #endif
     var capture = bEnPassant ? Piece.EP : Piece.Capture;
     var move = CapturePiece(capture) | MovePawn | MoveFromTo(nFrom, nTo);
-#if DebugSideToMove
-    if (WTM()) move |= Move.WTM;
-#endif
+    setWTM(ref move);
+
     if (bPromote)
       foreach (var p in Promotions) {
         var moves = p == Piece.Q ?
@@ -100,9 +99,8 @@ partial class Position : Board {
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var move = MovePawn | MoveFromTo(nFrom, nTo);
-#if DebugSideToMove
-    if (WTM()) move |= Move.WTM;
-#endif
+    setWTM(ref move);
+
     if (bPromote)
       foreach (var p in Promotions) {
         var moves = p == Piece.Q ? PseudoQueenPromotion : PseudoUnderPromotion;
@@ -124,9 +122,8 @@ partial class Position : Board {
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = MoveCapture | MoveTo(nTo) | moveFrom;
-#if DebugSideToMove
-      if (WTM()) move |= Move.WTM;
-#endif
+      setWTM(ref move);
+
       var moves = parameter.IsAbove(nTo) ? aboveCaptures : belowCaptures;
       moves.Add(move);
     }
@@ -140,9 +137,8 @@ partial class Position : Board {
     while (qpMoveTo != 0) {
       var nTo = RemoveLo(ref qpMoveTo);
       var move = MoveTo(nTo) | moveFrom;
-#if DebugSideToMove
-      if (WTM()) move |= Move.WTM;
-#endif
+      setWTM(ref move);
+
       var moves = parameter.IsAbove(nTo) ? aboveMoves : belowMoves;
       moves.Add(move);
     }

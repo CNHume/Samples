@@ -32,7 +32,7 @@ partial class Board {
   // GetSides
   // setSides
   //
-  // GetPieceIndex
+  // GetPieceIndex - Returns Piece at any square
   // verifyPieceColors
   //
   // [Clr|Set][RayState|Rotations]

@@ -307,6 +307,11 @@ static class Extension {
       list.Add(s);
     return list;
   }
+
+  public static StringBuilder AppendNodeNumber(
+    this StringBuilder sb, Int64 lNodes) {
+    return sb.AppendFormat($"Node #{lNodes}");
+  }
   #endregion
 
   #region Eval Methods

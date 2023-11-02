@@ -7,21 +7,31 @@ using static Engine.Board;
 //
 // Type Aliases:
 //
-using Eval = Int16;
 using Hashcode = UInt64;
+
+#region Enumerations
+public enum BestMoveEnum : byte {
+  None, SearchProbe, SearchUpdate, QuietProbe, QuietUpdate
+}
+#endregion
 
 internal struct BestMove {
   #region Fields
   public Move Move;
-  public String FEN;
-  public Hashcode Hash;
+  public BestMoveEnum BME;
+  public String? FEN;
+  public Hashcode? Hash;
+  public Boolean WTM;
   #endregion
 
   #region Constructor
-  public BestMove(Move move, String sFEN, Hashcode qHash) {
+  public BestMove(Move move, BestMoveEnum bme, Position position) {
+    BME = bme;
     Move = move;
-    FEN = sFEN;
-    Hash = qHash;
+
+    FEN = position.ToString();
+    Hash = position.Hash;
+    WTM = position.WTM();
   }
   #endregion
 }

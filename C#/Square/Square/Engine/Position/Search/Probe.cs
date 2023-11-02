@@ -267,6 +267,7 @@ partial class Position : Board {
     etFound = match.Type;                               //[out]3
     var mValueFound = match.Value;
     traceVal(methodName, mValueFound, etFound);         //[Conditional]
+
     mValue = addGoodMove(
       goodMoves, moveFound,
       wDepth, mValueFound, mAlpha, mBeta, etFound);     //[out]2
@@ -435,7 +436,7 @@ partial class Position : Board {
   private void traceVal(String sLabel, Eval? mValue, EvalType et = EvalType.Undefined) {
     if (IsTrace()) {
       var sb = new StringBuilder();
-      sb.AppendFormat($"Trace #{State.Nodes}: {sLabel}");
+      sb.AppendNodeNumber(State.Nodes);
       if (mValue.HasValue) {
         var mEval = ReflectValue(WTM(), (Eval)mValue);
         sb.Append(" Eval");

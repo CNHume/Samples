@@ -10,7 +10,7 @@
 #define CountEarlyMoves
 #define UseKillers
 #define BottleBothSides
-#define UseHistory
+#define UseHistory                      //[Debug]Adds Illegal Moves
 #define LazyMoveSort                    // LazyMoveSort significantly faster than Array.Sort()
 #define RewardMoveTypes
 //#define TestGoodCapture
@@ -88,7 +88,7 @@ partial class Position : Board {
 #endif
   }
 
-  private void addMoves(
+  private void addGoodMoves(
     List<GoodMove> goodMoves, Depth wDepth, Eval mAlpha, Eval mBeta, Move moveExcluded) {
     //[Conditional]
     probeXPM(goodMoves, wDepth, mAlpha, mBeta, moveExcluded);

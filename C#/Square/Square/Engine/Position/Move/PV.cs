@@ -4,7 +4,6 @@
 //[2012-03-01 CNHume]Created File
 //
 //#define AbbreviateLookup
-#define DebugMove
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
 //#define DebugPlace
@@ -37,16 +36,13 @@ using Plane = UInt64;
 
 partial class Position : Board {
   #region Test Methods
-  [Conditional("DebugSideToMove")]
-  private void verifySideToMove(Move move, String? methodName = null) {
-    if (!IsDefinite(move)) return;
-    var bWTM = WTM();
-    var bWhiteMove = move.Has(Move.WTM);
-    if (bWTM != bWhiteMove) {
-      var message = $"WTM != WhiteMove [{methodName}]";
-      Debug.Assert(bWTM == bWhiteMove, message);
-      DisplayCurrent(message);
-    }
+  private void illegalMove(Move move, String? methodName) {
+    unpackMove2(move, out Sq sqFrom, out Sq sqTo,
+                out Piece piece, out Piece promotion, out Piece capture,
+                out Boolean bCastles, out Boolean bCapture);
+    var message = $"Illegal Move from {sqFrom} to {sqTo} [{methodName}]";
+    Debug.Assert(false, message);
+    Display(message);
   }
 
   [Conditional("DebugMoveIsLegal")]
@@ -55,16 +51,24 @@ partial class Position : Board {
     var child = Push();                 // Push Position to make the moves
     try {
       var mov = move;
-      var bValid = child.tryOrSkip(ref mov);
-
-      if (!bValid) {
-        unpackMove1(mov, out Sq sqFrom, out Sq sqTo,
-                    out Piece piece, out Piece promotion, out Boolean bCapture);
-        child.Display($"Illegal Move from {sqFrom} to {sqTo} [{methodName}]");
+      if (!child.tryOrSkip(ref mov)) {
+        child.illegalMove(mov, methodName);
       }
     }
     finally {
       Pop(ref child);                   // Pop Position used for this Ply
+    }
+  }
+
+  [Conditional("DebugSideToMove")]
+  private void verifySideToMove(Move move, String? methodName = null) {
+    if (!IsDefinite(move)) return;
+    var bWTM = WTM();
+    var bWhiteMove = move.Has(Move.WTM);
+    if (bWTM != bWhiteMove) {
+      var message = $"WTM != WhiteMove [{methodName}]";
+      Debug.Assert(bWTM == bWhiteMove, message);
+      Display(message);
     }
   }
   #endregion                            // Test Methods
@@ -192,12 +196,6 @@ partial class Position : Board {
   #endregion                            // Annotation Methods
 
   #region MultiPV Support
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void addVariationMove(List<Move> moves, Move move, String? methodName = default) {
-    verifySideToMove(move, methodName);
-    moves.Add(move);
-  }
-
 #if TestBest
   private Eval addPV(Eval mAlpha, Eval mValue, Move move, List<BestMove> bestLine, Depth wDepth) {
 #else
@@ -234,16 +232,20 @@ partial class Position : Board {
         move = Move.NullMove;           //[Safe]
       }
 
-      addVariationMove(vnMoves, move, methodName);
+      verifySideToMove(move, methodName);
+      vnMoves.Add(move);
 
       var bPonder = bestLine.Count > 0;
       if (bPonder) {
 #if TestBest
-        var moves = bestLine.Select(x => x.Move);
-        vnMoves.AddRange(moves);
+        var enBME = bestLine.Select(x => x.BME);
+        var enFEN = bestLine.Select(x => x.FEN);
+        var enMove = bestLine.Select(x => x.Move);
+        vnMoves.AddRange(enMove);
 #else
         vnMoves.AddRange(bestLine);
 #endif
+        replay(vnMoves, 0);
         //!child.IsFinal()
         //[ToDo]Verify bestLine here
 #if TestBest
@@ -299,20 +301,13 @@ partial class Position : Board {
         moveNoted &= ~Move.HideFrom;    // Suppress abbreviation to indicate moves recovered by probeMove()
 #endif
       }
-#if DebugMove
-      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo,
-                  out Piece piece, out Piece promotion, out Boolean bCapture);
-      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo,
-      //            out Piece piece, out Piece promotion, out Piece capture,
-      //            out Boolean bCastles, out Boolean bCapture);
-#endif
-      addVariationMove(vnMoves, moveNoted, methodName);
 
-      var bLegal = tryOrSkip(ref moveNoted);
-      if (!bLegal) {
-        const String message = $"Illegal Move [{methodName}]";
-        Debug.Assert(bLegal, message);
-        Display(message);
+      verifySideToMove(moveNoted, methodName);
+      vnMoves.Add(moveNoted);
+
+      if (!tryOrSkip(ref moveNoted)) {
+        illegalMove(moveNoted, methodName);
+        return;
       }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
@@ -321,7 +316,7 @@ partial class Position : Board {
 #endif
       SetDraw50();                      // Mark Draw50 after having made the move
 
-      //[Note]If Draw3 is set, this lookupPV() recursion must terminate!
+      //[Note]Terminate recursion if Draw3 set.
       if (!IsDraw()) {
         //
         // Recursion vs iteration links each Position to its parent;
@@ -339,17 +334,56 @@ partial class Position : Board {
     }
   }
 
+  private void replay(List<Move> moves, Int32 nIndex) {
+    const String methodName = nameof(replay);
+    if (moves.Count <= nIndex)
+      return;
+
+    var move = moves[nIndex];
+    if (IsDefinite(move)) {             //[Safe]Also prevent unexpected EmptyMove
+      var moveNoted = move;
+      if (!State.IsPure) {              // Standard Algebraic Notation (AN) supports abbreviation
+#if AbbreviateLookup
+        moveNoted = abbreviate(moveNoted);
+#else
+        moveNoted &= ~Move.HideFrom;    // Suppress abbreviation to indicate moves recovered by probeMove()
+#endif
+      }
+
+      //[Note]Terminate recursion if Draw3 set.
+      if (!IsDraw()) {
+        //
+        // Recursion vs iteration links each Position to its parent;
+        // and allows findRepetition() to operate correctly:
+        //
+        var child = Push();             // Push Position to make the moves
+        try {
+          if (!child.tryOrSkip(ref moveNoted)) {
+            child.illegalMove(moveNoted, methodName);
+            return;
+          }
+
+          child.SetDraw50();            // Mark Draw50 after having made the move
+          child.replay(moves, nIndex + 1);
+        }
+        finally {
+          Pop(ref child);               // Pop Position
+        }
+      }
+    }
+  }
+
   private void abbreviateRefresh(
-    List<Move> vnMoves, Int32 nMove, Int32 nDepth, Eval mValue) {
+    List<Move> vnMoves, Int32 nIndex, Int32 nDepth, Eval mValue) {
     const String methodName = nameof(abbreviateRefresh);
     resetMove();                        // Usually called via [null|try]Move()
-    if (vnMoves.Count <= nMove) {
+    if (vnMoves.Count <= nIndex) {
       //[Safe]lookupPV() should not be called if a draw is detected
       if (!IsDraw())
         lookupPV(vnMoves, MinusInfinity, PlusInfinity);
     }
     else {
-      var moveNoted = vnMoves[nMove];
+      var moveNoted = vnMoves[nIndex];
       if (IsUndefined(moveNoted)) {
         const String message = $"Undefined Move [{methodName}]";
         Debug.Assert(IsDefined(moveNoted), message);
@@ -359,15 +393,9 @@ partial class Position : Board {
         //[Debug]moveNoted illegal here!
         //[Conditional]
         verifyMoveIsLegal(moveNoted, methodName);
-        vnMoves[nMove] = abbreviate(moveNoted);
+        vnMoves[nIndex] = abbreviate(moveNoted);
       }
-#if DebugMove
-      unpackMove1(moveNoted, out Sq sqFrom, out Sq sqTo,
-                  out Piece piece, out Piece promotion, out Boolean bCapture);
-      //unpackMove2(moveNoted, out Sq sqFrom, out Sq sqTo,
-      //            out Piece piece, out Piece promotion, out Piece capture,
-      //            out Boolean bCastles, out Boolean bCapture);
-#endif
+
       verifySideToMove(moveNoted, methodName);
 
       const EvalType et = EvalType.Exact;
@@ -376,11 +404,9 @@ partial class Position : Board {
       else if (nDepth >= 0)
         storeXP((Depth)nDepth, mValue, et, moveNoted);
 
-      var bLegal = tryOrSkip(ref moveNoted);
-      if (!bLegal) {
-        const String message = $"Illegal Move [{methodName}]";
-        Debug.Assert(bLegal, message);
-        Display(message);
+      if (!tryOrSkip(ref moveNoted)) {
+        illegalMove(moveNoted, methodName);
+        return;
       }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
@@ -395,7 +421,7 @@ partial class Position : Board {
       //
       var child = Push();               // Push Position to make the moves
       try {
-        child.abbreviateRefresh(vnMoves, nMove + 1, nDepth - 1, (Eval)(-mValue));
+        child.abbreviateRefresh(vnMoves, nIndex + 1, nDepth - 1, (Eval)(-mValue));
       }
       finally {
         Pop(ref child);                 // Pop Position
@@ -405,6 +431,7 @@ partial class Position : Board {
 
   [Conditional("RefreshPV")]
   private void refreshPV(Depth wDepth) {
+    const String methodName = nameof(refreshPV);
     var child = Push();                 // Push Position to make the moves
     try {
       var bWTM = WTM();
@@ -412,9 +439,12 @@ partial class Position : Board {
         var nVInverse = State.VariationCount - (nLine + 1);
         var vn = State.Variation[nVInverse];
         var mValue = ReflectValue(bWTM, vn.Value);
-        if (vn.Moves != null) {
-          child.abbreviateRefresh(vn.Moves, 0, wDepth, mValue);
+        if (vn.Moves == null) {
+          var message = $"Variation[{nVInverse}].Moves Null [{methodName}]";
+          Debug.Assert(vn.Moves != null, message);
         }
+        else
+          child.abbreviateRefresh(vn.Moves, 0, wDepth, mValue);
       }
     }
     finally {
@@ -448,6 +478,7 @@ partial class Position : Board {
       var move = position.CurrentMove;
       if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), $"CurrentMove Undefined [{methodName}]");
+        break;
       }
 
       if (bAbbreviate && position.Parent is not null) {
