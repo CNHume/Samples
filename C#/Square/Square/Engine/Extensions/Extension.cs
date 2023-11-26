@@ -897,7 +897,7 @@ static class Extension {
   // the first element and the remaining entries are shifted upwards.
   //
   public static void Rotate<T>(this T[] entries, Int32 first, Int32 next) {
-    if (first < next) {
+    if (next > first) {
       var entry = entries[next];
       while (next > first) entries[next] = entries[--next];
       entries[next] = entry;

@@ -14,7 +14,6 @@
 //#define TraceVal
 
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 using MoveOrder;
@@ -209,7 +208,6 @@ partial class Position : Board {
     if (bGrow)
       State.VariationCount++;
 
-    var bRoomToGrow = State.VariationCount < State.MultiPVLength;
     var vn = State.Variation;
     var nFinal = State.VariationCount - 1;
     var bPlace = bGrow || bHasValue && mValue > vn[nFinal].Value;
@@ -245,9 +243,8 @@ partial class Position : Board {
 #else
         vnMoves.AddRange(bestLine);
 #endif
-        replay(vnMoves, 0);
-        //!child.IsFinal()
-        //[ToDo]Verify bestLine here
+        // Verify vnMoves
+        replay(vnMoves, 0);             //[Conditional]
 #if TestBest
         if (wDepth == 13) {
           DisplayCurrent(methodName);
@@ -257,14 +254,14 @@ partial class Position : Board {
 #endif
       }
 
+      #region Insert Variation
       //
-      // Insert at correct position:
+      // Insert relies on IComparable which is based on Variation.Value
       //
-      var bWTM = WTM();
       var nPlace = vn.Insert(nFinal);
       if (nPlace == 0) {
         var sb = new StringBuilder();
-        var mEval = ReflectValue(bWTM, mValue);
+        var mEval = ReflectValue(WTM(), mValue);
         sb.UpdateBestInfo(State.BestLine, vnMoves, mEval, bPonder, Side, State.IsChess960)
           .FlushLine();
       }
@@ -275,14 +272,16 @@ partial class Position : Board {
         sb.AppendFormat($"{sGrow} vn[{nPlace}]");
         LogInfo(LogLevel.note, sb.ToString());
         sb.Clear();
-        State.MovePosition?.writePV(sb, nPlace, bWTM);
+        State.MovePosition?.writePV(sb, nPlace, WTM());
       }
 #endif
+      #endregion                        // Insert Variation
     }
 
     //
     // Avoid raising Alpha until we have a candidate for the weakest Variation:
     //
+    var bRoomToGrow = State.VariationCount < State.MultiPVLength;
     return bRoomToGrow ?
       mAlpha : bHasValue ? vn[nFinal].Value : mValue;
   }

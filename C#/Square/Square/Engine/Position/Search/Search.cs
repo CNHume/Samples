@@ -72,8 +72,8 @@ partial class Position : Board {
   private Eval search(Draft wDraft, Eval mAlpha, Eval mBeta,
                       Move moveExcluded = Move.Undefined) {
     const String methodName = nameof(search);
-    var moves = PseudoMoves;
     BestMoves.Clear();                  //[Required]per iteration
+    var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
     if (IsDraw()) {                     //[Note]SetDraw50() must be called after tryMove(), below.
@@ -96,10 +96,16 @@ partial class Position : Board {
     var wDepth = depth(wDraft);         // InCheck Adjusted Depth
     if (wDepth < 1) {
 #if Quiescence
-      return quiet(mAlpha, mBeta);
+      var mQuietValue = quiet(mAlpha, mBeta);
 #else
-      return boundValue(eval(), mAlpha, mBeta);
+      var mQuietValue = boundValue(eval(), mAlpha, mBeta);
 #endif
+#if DebugBest
+      // BestMoves should not be empty here
+      var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 at wDepth = {wDepth} [{methodName}]";
+      Debug.Assert(BestMoves.Count > 0, emptyMessage1);
+#endif
+      return mQuietValue;
     }
     #endregion                          // Test for entry into Quiet Search
 
@@ -151,8 +157,8 @@ partial class Position : Board {
       }
 #if DebugBest
       // BestMoves should not be empty here
-      var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 at wDepth = {wDepth} [{methodName}]";
-      Debug.Assert(BestMoves.Count > 0, emptyMessage1);
+      var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 at wDepth = {wDepth} [{methodName}]";
+      Debug.Assert(BestMoves.Count > 0, emptyMessage2);
 #endif
       return mValueFound;
     }
@@ -195,7 +201,6 @@ partial class Position : Board {
             bPruneQuiet = mStand + FutilityMargin[nMargin] <= mAlpha;
         }
       }                                 // Futility Pruning
-
 #if SingularExtension
       bTestSingular = wSingularDepthMin <= wDepth &&
                       EvalUndefined < mValueFound &&
@@ -208,6 +213,7 @@ partial class Position : Board {
     #endregion                          // Heuristic Tests
 
     #region Generate Moves
+    var moves = PseudoMoves;
     //
     // The "go searchmoves" UCI command sets SearchMoves
     // to restrict the set of candidate moves at the Root:
@@ -245,11 +251,11 @@ partial class Position : Board {
                                         //[Test]mBest = MinusInfinity;
     var mBest2 = mBest;                 // Value from the least best MultiPV
     var mValue = EvalUndefined;
-    var moveBest = Move.Undefined;
     #endregion
 
     var child = Push();                 // Push Position to make the moves
     try {
+      var bestLine = child.BestMoves;
       #region Move Sort
       //
       // Try to consider the best moves first!
@@ -298,8 +304,13 @@ partial class Position : Board {
 #endif                                  // LazyMoveSort
         #region Make Move
 #if DebugMove
-        unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(move, out Sq sqFrom, out Sq sqTo, out Piece piece, out Piece promotion, out Piece capture, out Boolean bCastles, out Boolean bCapture);
+        unpackMove1(
+          move, out Sq sqFrom, out Sq sqTo,
+          out Piece piece, out Piece promotion, out Boolean bCapture);
+        //unpackMove2(
+        //  move, out Sq sqFrom, out Sq sqTo,
+        //  out Piece piece, out Piece promotion, out Piece capture,
+        //  out Boolean bCastles, out Boolean bCapture);
 #endif
         verifySideToMove(move, methodName);
 #if DebugNextMove
@@ -330,6 +341,7 @@ partial class Position : Board {
             et = EvalType.Exact;
           }
 
+          addBest(move, SearchDraw, bestLine);
           goto exit;                    // Draw50 Dynamic Game Leaf
         }
         #endregion                      // Test for 50-Move Rule
@@ -337,8 +349,38 @@ partial class Position : Board {
         mValue = updateBest(
           child, wDepth, wDraft, ref wDraft1, wReducedDraft,
           uRaisedAlpha, mAlpha, mBeta, ref mBest, ref mBest2,
-          move, moveFound, ref moveBest, mValueFound,
+          move, moveFound, mValueFound,
           bPruneQuiet, bTestSingular, bEarly, bTryZWS);
+
+        #region Update Best Move
+        //
+        //[Note]Annotation is made from the child position resulting from each move.
+        //
+        var moveNoted = child.annotateFinal(move);
+
+        if (mBest < mValue) {
+          mBest = mValue;
+          if (mAlpha < mBest) {
+            moveBest = moveNoted;
+            //[Old]
+            addBest(moveBest, SearchUpdate, bestLine);
+          }
+        }
+        #endregion                      // Update Best Move
+
+        if (!isMovePosition())
+          mBest2 = mBest;
+        else if (mAlpha < mValue) {
+          //[<=]See Johannessen v Fischer #8 w Aspiration
+          //
+          //[Note]mAlpha may be less than mBest here: to admit weaker MultiPV lines.
+          //
+#if TestBest
+          mBest2 = addPV(mAlpha, mValue, moveNoted, bestLine, wDepth);
+#else
+          mBest2 = addPV(mAlpha, mValue, moveNoted, bestLine);
+#endif
+        }
 
         #region Test for Cutoff
         if (mAlpha < mBest2) {
@@ -386,15 +428,19 @@ partial class Position : Board {
 #endif
 #if DebugBest
     // BestMoves should not be empty here
-    var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 at wDepth = {wDepth} [{methodName}]";
-    Debug.Assert(BestMoves.Count > 0, emptyMessage2);
+    var emptyMessage3 = $"BestMoves.Count = {BestMoves.Count} Empty3 at wDepth = {wDepth} [{methodName}]";
+    Debug.Assert(BestMoves.Count > 0, emptyMessage3);
 #endif
     return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
   }
 
   [Conditional("AddBestMoves")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void addBest(Move moveBest, BestMoveEnum be = default, Position? child = default) {
+#if TestBest
+  private void addBest(Move moveBest, BestMoveEnum be = default, List<BestMove>? bestLine = default) {
+#else
+  private void addBest(Move moveBest, BestMoveEnum be = default, List<Move>? bestLine = default) {
+#endif
     BestMoves.Clear();
 #if TestBest
     var bestMove = new BestMove(moveBest, be, this);
@@ -402,14 +448,14 @@ partial class Position : Board {
 #else
     BestMoves.Add(moveBest);
 #endif
-    if (child is not null)
-      BestMoves.AddRange(child.BestMoves);
+    if (bestLine is not null)
+      BestMoves.AddRange(bestLine);
   }
 
   private Eval updateBest(
     Position child, Depth wDepth, Draft wDraft, ref Draft wDraft1, Draft wReducedDraft,
     UInt32 uRaisedAlpha, Eval mAlpha, Eval mBeta, ref Eval mBest, ref Eval mBest2,
-    Move move, Move moveFound, ref Move moveBest, Eval mValueFound,
+    Move move, Move moveFound, Eval mValueFound,
     Boolean bPruneQuiet, Boolean bTestSingular, Boolean bEarly, Boolean bTryZWS) {
     var mValue = EvalUndefined;
 
@@ -488,36 +534,6 @@ partial class Position : Board {
     mValue = child.pvs(wDraft1, wReduced, mBest2, mAlpha, mBeta, bTryZWS);
 
   updateBest:
-    #region Update Best Move
-    //
-    //[Note]Annotation is made from the child position resulting from each move.
-    //
-    var moveNoted = child.annotateFinal(move);
-
-    if (mBest < mValue) {
-      mBest = mValue;
-      if (mAlpha < mBest) {
-        moveBest = moveNoted;
-        addBest(moveBest, SearchUpdate, child);
-      }
-    }
-
-    if (!isMovePosition())
-      mBest2 = mBest;
-    else if (mAlpha < mValue) {
-      //[<=]See Johannessen v Fischer #8 w Aspiration
-      //
-      //[Note]mAlpha may be less than mBest here: to admit weaker MultiPV lines.
-      //
-#if TestBest
-      mBest2 = addPV(mAlpha, mValue, moveNoted, child.BestMoves, wDepth);
-#else
-      mBest2 = addPV(mAlpha, mValue, moveNoted, child.BestMoves);
-#endif
-
-    }
-    #endregion                          // Update Best Move
-
     return mValue;
   }
 

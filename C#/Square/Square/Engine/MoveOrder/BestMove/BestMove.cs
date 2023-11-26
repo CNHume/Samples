@@ -11,7 +11,9 @@ using Hashcode = UInt64;
 
 #region Enumerations
 public enum BestMoveEnum : byte {
-  None, SearchProbe, SearchUpdate, QuietProbe, QuietUpdate
+  None,
+  SearchDraw, SearchFinal, SearchProbe, SearchUpdate,
+  QuietDraw, QuietFinal, QuietProbe, QuietUpdate
 }
 #endregion
 

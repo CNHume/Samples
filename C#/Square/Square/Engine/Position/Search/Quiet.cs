@@ -46,8 +46,8 @@ partial class Position : Board {
   #region Search Methods
   private Eval quiet(Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(quiet);
-    var moves = PseudoMoves;
     BestMoves.Clear();                  //[Required]per iteration
+    var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
     if (IsDraw()) {                     //[Note]SetDraw50() will not be called below
@@ -104,11 +104,10 @@ partial class Position : Board {
                                         // Stand Pat (tests Draw Flags)
     var mStand = standpatval(mValueFound, etFound);
 
-    var moveBest = Move.Undefined;      //[Init]
     var mValue = EvalUndefined;
     var mBest = EvalUndefined;
 
-    var bStandPat = mAlpha/*+ mStandPatWeight*/ < mStand;
+    var bStandPat = mAlpha/* + mStandPatWeight*/ < mStand;
     if (bStandPat) {
       mBest = mStand;
 
@@ -122,6 +121,7 @@ partial class Position : Board {
     }
     else {
       #region Generate Moves
+      var moves = PseudoMoves;
       if (SearchMoves != null && SearchMoves.Count > 0) {
         moves.Clear();
         moves.AddRange(SearchMoves);
@@ -153,6 +153,7 @@ partial class Position : Board {
 
       var child = Push();               // Push Position to make the moves
       try {
+        var bestLine = child.BestMoves;
         #region Move Loop
         var uLegalMoves = 0U;
         foreach (var mov in moves) {
@@ -221,7 +222,8 @@ partial class Position : Board {
               //[Note]Annotation is made from the child position resulting from each move.
               //
               moveBest = child.annotateFinal(move);
-              addBest(moveBest, QuietUpdate, child);
+              //[Old]
+              addBest(moveBest, QuietUpdate, bestLine);
 
               traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
               mAlpha = mBest;
@@ -237,15 +239,17 @@ partial class Position : Board {
               et = EvalType.Exact;
             }
           }
-          #endregion
+          #endregion                    // Update Best Move
         }                               //[Next]Pseudo Move
         #endregion
+        if (uLegalMoves == 0) {
 #if QuietMate
-        if (uLegalMoves == 0 && isLeaf()) {
-          SetFinal();                   // Mark Game Leaf
-          mBest = finalValue();
-        }
+          if (isLeaf()) {
+            SetFinal();                 // Mark Game Leaf
+            mBest = finalValue();
+          }
 #endif
+        }
         traceVal("Quiet Failed Low", mBest);    //[Conditional]
       }
       finally {
