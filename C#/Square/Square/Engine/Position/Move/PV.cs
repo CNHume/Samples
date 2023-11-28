@@ -244,7 +244,7 @@ partial class Position : Board {
         vnMoves.AddRange(bestLine);
 #endif
         // Verify vnMoves
-        replay(vnMoves, 0);             //[Conditional]
+        replay(vnMoves);                //[Conditional]
 #if TestBest
         if (wDepth == 13) {
           DisplayCurrent(methodName);
@@ -288,53 +288,61 @@ partial class Position : Board {
 
   private void lookupPV(List<Move> vnMoves, Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(lookupPV);
+
     //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
     probeMove(mAlpha, mBeta, out Move moveFound);
+
+    // Avoid infinite recursion due to two Null Moves in a row
+    if (Parent is not null && Parent.IsNullMade() && IsNullMove(moveFound))
+      return;
+
     // moveFound not always defined for EvalType.Upper [Fail Low]
-    if (IsDefinite(moveFound)) {        //[Safe]Also prevent unexpected EmptyMove
-      var moveNoted = moveFound;
-      if (!State.IsPure) {              // Standard Algebraic Notation (AN) supports abbreviation
+    //[Safe]Also prevent unexpected EmptyMove
+    if (!IsDefinite(moveFound))
+      return;
+
+    var moveNoted = moveFound;
+    if (!State.IsPure) {                // Standard Algebraic Notation (AN) supports abbreviation
 #if AbbreviateLookup
-        moveNoted = abbreviate(moveNoted);
+      moveNoted = abbreviate(moveNoted);
 #else
-        moveNoted &= ~Move.HideFrom;    // Suppress abbreviation to indicate moves recovered by probeMove()
+      moveNoted &= ~Move.HideFrom;      // Suppress abbreviation to indicate moves recovered by probeMove()
 #endif
-      }
+    }
 
-      verifySideToMove(moveNoted, methodName);
-      vnMoves.Add(moveNoted);
+    verifySideToMove(moveNoted, methodName);
+    vnMoves.Add(moveNoted);
 
-      if (!tryOrSkip(ref moveNoted)) {
-        illegalMove(moveNoted, methodName);
-        return;
-      }
+    if (!tryOrSkip(ref moveNoted)) {
+      illegalMove(moveNoted, methodName);
+      return;
+    }
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
         DisplayCurrent(methodName);
 #endif
-      SetDraw50();                      // Mark Draw50 after having made the move
+    SetDraw50();                        // Mark Draw50 after having made the move
 
-      //[Note]Terminate recursion if Draw3 set.
-      if (!IsDraw()) {
-        //
-        // Recursion vs iteration links each Position to its parent;
-        // and allows findRepetition() to operate correctly:
-        //
-        var child = Push();             // Push Position to make the moves
-        try {
-          child.resetMove();            // Usually called via [null|try]Move()
-          child.lookupPV(vnMoves, (Eval)(-mBeta), (Eval)(-mAlpha));
-        }
-        finally {
-          Pop(ref child);               // Pop Position
-        }
+    //[Note]Terminate recursion if Draw3 set.
+    if (!IsDraw()) {
+      //
+      // Recursion vs iteration links each Position to its parent;
+      // and allows findRepetition() to operate correctly:
+      //
+      var child = Push();               // Push Position to make the moves
+      try {
+        child.resetMove();              // Usually called via [null|try]Move()
+        child.lookupPV(vnMoves, (Eval)(-mBeta), (Eval)(-mAlpha));
+      }
+      finally {
+        Pop(ref child);                 // Pop Position
       }
     }
   }
 
   [Conditional("DebugMoveIsLegal")]
-  private void replay(List<Move> moves, Int32 nIndex) {
+  private void replay(List<Move> moves, Int32 nIndex = 0) {
     const String methodName = nameof(replay);
     if (moves.Count <= nIndex)
       return;
@@ -374,7 +382,7 @@ partial class Position : Board {
   }
 
   private void abbreviateRefresh(
-    List<Move> vnMoves, Int32 nIndex, Int32 nDepth, Eval mValue) {
+    List<Move> vnMoves, Int32 nDepth, Eval mValue, Int32 nIndex = 0) {
     const String methodName = nameof(abbreviateRefresh);
     resetMove();                        // Usually called via [null|try]Move()
     if (vnMoves.Count <= nIndex) {
@@ -421,7 +429,7 @@ partial class Position : Board {
       //
       var child = Push();               // Push Position to make the moves
       try {
-        child.abbreviateRefresh(vnMoves, nIndex + 1, nDepth - 1, (Eval)(-mValue));
+        child.abbreviateRefresh(vnMoves, nDepth - 1, (Eval)(-mValue), nIndex + 1);
       }
       finally {
         Pop(ref child);                 // Pop Position
@@ -444,7 +452,7 @@ partial class Position : Board {
           Debug.Assert(vn.Moves != null, message);
         }
         else
-          child.abbreviateRefresh(vn.Moves, 0, wDepth, mValue);
+          child.abbreviateRefresh(vn.Moves, wDepth, mValue);
       }
     }
     finally {
