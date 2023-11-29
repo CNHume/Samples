@@ -240,7 +240,7 @@ partial class Board {
     // are disallowed until the NullMade flag is cleared here: when this method makes
     // an actual move.
     //
-    clrNullMade();
+    ClrNullMade();
 #endif
     tracePosition();                    //[Conditional]
   }
@@ -254,7 +254,7 @@ partial class Board {
     //
     IncrementGamePly();
 
-    setNullMade();                      // Prevent two consecutive Null Moves
+    SetNullMade();                      // Prevent two consecutive Null Moves
 
     tracePosition();                    //[Conditional]
   }

@@ -404,12 +404,12 @@ partial class Board {
 
   #region ModeFlags
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void clrNullMade() {
+  protected void ClrNullMade() {
     FlagsMode &= ~ModeFlags.NullMade;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void setNullMade() {
+  protected void SetNullMade() {
     FlagsMode |= ModeFlags.NullMade;
   }
 

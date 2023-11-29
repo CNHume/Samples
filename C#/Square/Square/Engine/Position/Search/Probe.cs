@@ -71,7 +71,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private Move adjustFinalMove(Move moveFound) {
+  private Move adjustMoveFound(Move move) {
     //
     // The Final Move Flag is set when the resulting child position has been
     // determined to be Final, i.e., that there are no Legal Moves available
@@ -80,15 +80,18 @@ partial class Position : Board {
     // Restore TurnFlags.Final to annotate the parent's move; and to prevent
     // a redundant search.
     //
-    if (IsEmptyMove(moveFound)) {
+    if (IsEmptyMove(move)) {
       SetFinal();
-      moveFound = Move.Undefined;
+      move = Move.Undefined;
     }
+
+    if (IsNullMove(move))
+      SetNullMade();
 #if DebugSideToMove
-    if (IsDefined(moveFound) && WTM())
-      moveFound |= Move.WTM;
+    if (IsDefined(move) && WTM())
+      move |= Move.WTM;
 #endif
-    return moveFound;
+    return move;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -192,7 +195,7 @@ partial class Position : Board {
     var bFound = matches.Count > 0;
 
     foreach (var found in matches) {
-      var moveFound = adjustFinalMove(found.BestMove);
+      var moveFound = adjustMoveFound(found.BestMove);
       var etFound = found.Type;
       var mValueFound = found.Value;
       traceVal(methodName, mValueFound, etFound);   //[Conditional]
@@ -264,7 +267,7 @@ partial class Position : Board {
 #if XPMoveTypes
     if (bValid) MoveTypeOrdering = match.MoveTypeOrdering;
 #endif
-    moveFound = adjustFinalMove(match.BestMove);        //[out]1
+    moveFound = adjustMoveFound(match.BestMove);        //[out]1
     etFound = match.Type;                               //[out]3
     var mValueFound = match.Value;
     traceVal(methodName, mValueFound, etFound);         //[Conditional]
@@ -325,7 +328,7 @@ partial class Position : Board {
     var match = new QuietPosition(Hash, State.MovePly);
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
-    var moveBest = adjustFinalMove(match.BestMove);
+    var moveBest = adjustMoveFound(match.BestMove);
     moveFound = IsUndefined(moveBest) ? moveBest : moveBest | Move.Qxnt;    //[out]1
     etFound = match.Type;                       //[out]3
                                                 //[Note]Mate values are suspect because quiet moves were not considered

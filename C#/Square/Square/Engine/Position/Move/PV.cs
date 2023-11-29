@@ -293,8 +293,8 @@ partial class Position : Board {
     //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
     probeMove(mAlpha, mBeta, out Move moveFound);
 
-    // Avoid infinite recursion due to two Null Moves in a row
-    if (Parent is not null && Parent.IsNullMade() && IsNullMove(moveFound))
+    // Avoid infinite recursion due to a sequence of two Null Moves in a row:
+    if (IsNullMade() && Parent is not null && Parent.IsNullMade())
       return;
 
     // moveFound not always defined for EvalType.Upper [Fail Low]
