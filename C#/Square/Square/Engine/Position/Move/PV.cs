@@ -7,8 +7,9 @@
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
 //#define DebugPlace
-#define FilterCandidates
 //#define Magic
+#define FilterCandidates
+#define PreventLookupCycle
 //#define TestBest
 #define TestDraw3
 //#define TraceVal
@@ -317,6 +318,12 @@ partial class Position : Board {
       illegalMove(moveNoted, methodName);
       return;
     }
+#if PreventLookupCycle
+    const Boolean bLookupCycle = true;
+    var position = findRepetition(bLookupCycle);
+    if (position is not null)
+      return;
+#endif
 #if TraceVal
       // CurrentMove set in [null|try]Move()
       if (IsTrace())
@@ -327,8 +334,8 @@ partial class Position : Board {
     //[Note]Terminate recursion if Draw3 set.
     if (!IsDraw()) {
       //
-      // Recursion vs iteration links each Position to its parent;
-      // and allows findRepetition() to operate correctly:
+      // Recursion vs iteration links each Position to its parent,
+      // allowing findRepetition() and findCycle() to operate correctly:
       //
       var child = Push();               // Push Position to make the moves
       try {
@@ -361,8 +368,8 @@ partial class Position : Board {
       //[Note]Terminate recursion if Draw3 set.
       if (!IsDraw()) {
         //
-        // Recursion vs iteration links each Position to its parent;
-        // and allows findRepetition() to operate correctly:
+        // Recursion vs iteration links each Position to its parent,
+        // allowing findRepetition() and findCycle() to operate correctly:
         //
         var child = Push();             // Push Position to make the moves
         try {
@@ -424,8 +431,8 @@ partial class Position : Board {
       SetDraw50();                      // Mark Draw50 after having made the move
 
       //
-      // Recursion vs iteration links each Position to its parent;
-      // and allows findRepetition() to operate correctly:
+      // Recursion vs iteration links each Position to its parent,
+      // allowing findRepetition() and findCycle() to operate correctly:
       //
       var child = Push();               // Push Position to make the moves
       try {

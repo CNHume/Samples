@@ -205,6 +205,7 @@ partial class GameState : IDisposable {
 
     Nodes = PseudoMoves =
       RepetitionPlies = RepetitionSearches =
+      LookupCyclePlies = LookupCycleSearches =
       PinSkipTotal = QuietSkipTotal =
 #if CountCapturedPiece
       CapturedPieces =

@@ -260,11 +260,6 @@ partial class GameState {
   [Conditional("ShowDetails")]
   private void displayDetails() {
     LogInfo(LogLevel.data);
-    if (RepetitionSearches > 0) {
-      var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
-      LogInfo(LogLevel.data, $"Moves/Repetition = {dMovesPerRepetition:n2}");
-    }
-
     LogInfo(LogLevel.data, $"Draws Found = {DrawTotal:n0}; Mates Found = {MateTotal:n0}");
     LogInfo(LogLevel.data,
             $"Extensions: Check = {CheckExtCount:n0}; Threat = {ThreatExtCount:n0}; Singular = {SingularExtCount:n0}");
@@ -276,6 +271,16 @@ partial class GameState {
       var dNullMovePrunePercent = 100.0 * PrunedNullMoves / NullMoves;
       LogInfo(LogLevel.data,
               $"Pruned {PrunedNullMoves:n0} [{dNullMovePrunePercent:n1}%] of {NullMoves:n0} Null Moves");
+    }
+
+    if (RepetitionSearches != 0) {
+      var dMovesPerRepetition = (Double)RepetitionPlies / 2 / RepetitionSearches;
+      LogInfo(LogLevel.data, $"Moves/Repetition Search = {dMovesPerRepetition:n2}");
+    }
+
+    if (LookupCycleSearches != 0) {
+      var dMovesPerLookupCycle = (Double)LookupCyclePlies / 2 / LookupCycleSearches;
+      LogInfo(LogLevel.data, $"Moves/Lookup Cycle = {dMovesPerLookupCycle:n2}");
     }
   }
 

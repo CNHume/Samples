@@ -90,6 +90,8 @@ partial class GameState {
   public Int64 QuietSkipTotal;
   public Int64 RepetitionSearches;
   public Int64 RepetitionPlies;
+  public Int64 LookupCycleSearches;
+  public Int64 LookupCyclePlies;
 #if CountCapturedPiece
   public Int64 CapturedPieces;          // For Capture or Static Evaluation
 #endif

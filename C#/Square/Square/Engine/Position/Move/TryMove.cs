@@ -154,8 +154,22 @@ partial class Position : Board {
       SetDrawIM();
 
       ClrRepetition();
-      if (bFindRepetition)
-        findRepetition();
+      if (bFindRepetition) {
+        var position = findRepetition();
+        if (position is not null) {
+          if (IsNullMade())
+            //
+            // Null Moves do not count as repetition of the position; but the
+            // Draw3 and Draw2 flags are copied to expedite subsequent search:
+            //
+            FlagsDraw |= position.fdraw();
+          else
+            SetRepetition(position.fdraw() != 0);
+#if DebugDraw2
+          validateDraw2();
+#endif
+        }
+      }
     }
 #if DisplayPosition
     var sb = new StringBuilder();
@@ -163,42 +177,37 @@ partial class Position : Board {
 #endif
     return bLegal;
   }
-  #endregion
+  #endregion                            // Move Processor
 
   #region Draw By Repetition
-  private void findRepetition() {
-    GameState.AtomicIncrement(ref State.RepetitionSearches);
-    if (IsDraw0()) return;
-    var bNullMade = IsNullMade();
+  private Position? findRepetition(Boolean bLookupCycle = false) {
+    if (bLookupCycle)
+      GameState.AtomicIncrement(ref State.LookupCycleSearches);
+    else
+      GameState.AtomicIncrement(ref State.RepetitionSearches);
+
+    if (IsDraw0()) return default;
 
     //
-    //[Note]This search for 3-fold repetition extends to the initial position;
+    //[Note]Searches to find any repetition of the current position extend to the initial position;
     // not just to State.MovePosition where the current search began.
     //
     for (var position = Parent; position is not null; position = position.Parent) {
-      GameState.AtomicIncrement(ref State.RepetitionPlies);
+      if (bLookupCycle)
+        GameState.AtomicIncrement(ref State.LookupCyclePlies);
+      else
+        GameState.AtomicIncrement(ref State.RepetitionPlies);
 
       //
       // Include Positions for both sides, stopping when the Repetition Cycle ends.
       //
-      if (Equals(position)) {
-        if (bNullMade)
-          //
-          // Null Moves do not count as repetition of the position; but the
-          // Draw3 and Draw2 flags are copied to expedite subsequent search:
-          //
-          FlagsDraw |= position.fdraw();
-        else
-          SetRepetition(position.fdraw() != 0);
-
-        break;
-      }
+      if (Equals(position))
+        return position;
       else if (position.IsDraw0())
         break;                          // End of Repetition Cycle
     }
-#if DebugDraw2
-    validateDraw2();
-#endif
+
+    return default;
   }
 #if DebugDraw2
   private Boolean validateDraw2() {
@@ -207,7 +216,7 @@ partial class Position : Board {
     if (bDraw2) {
       var nCount = 1;
 
-      for (var position = Parent; position != null; position = position.Parent) {
+      for (var position = Parent; position is not null; position = position.Parent) {
         if (Equals(position)) nCount++;
       }
 
