@@ -181,12 +181,12 @@ partial class Position : Board {
 
   #region Draw By Repetition
   private Position? findRepetition(Boolean bLookupCycle = false) {
+    if (IsDraw0()) return default;
+
     if (bLookupCycle)
       GameState.AtomicIncrement(ref State.LookupCycleSearches);
     else
       GameState.AtomicIncrement(ref State.RepetitionSearches);
-
-    if (IsDraw0()) return default;
 
     //
     //[Note]Searches to find any repetition of the current position extend to the initial position;
@@ -211,8 +211,7 @@ partial class Position : Board {
   }
 #if DebugDraw2
   private Boolean validateDraw2() {
-    var bDraw2 = fdraw() != 0;
-
+    var bDraw2 = FlagsDraw.Has(DrawFlags.Draw3 | DrawFlags.Draw2);
     if (bDraw2) {
       var nCount = 1;
 
@@ -221,7 +220,6 @@ partial class Position : Board {
       }
 
       var bValid = nCount > 1 ? bDraw2 : !bDraw2;
-
       if (!bValid)
         DisplayCurrent(nameof(validateDraw2));
 

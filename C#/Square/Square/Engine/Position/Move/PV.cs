@@ -314,6 +314,7 @@ partial class Position : Board {
     verifySideToMove(moveNoted, methodName);
     vnMoves.Add(moveNoted);
 
+    // CurrentMove set in [null|try]Move()
     if (!tryOrSkip(ref moveNoted)) {
       illegalMove(moveNoted, methodName);
       return;
@@ -321,13 +322,14 @@ partial class Position : Board {
 #if PreventLookupCycle
     const Boolean bLookupCycle = true;
     var position = findRepetition(bLookupCycle);
-    if (position is not null)
+    if (position is not null) {
+      DisplayCurrent($"Found Lookup Cycle [{methodName}]");
       return;
+    }
 #endif
 #if TraceVal
-      // CurrentMove set in [null|try]Move()
-      if (IsTrace())
-        DisplayCurrent(methodName);
+    if (IsTrace())
+      DisplayCurrent(methodName);
 #endif
     SetDraw50();                        // Mark Draw50 after having made the move
 
