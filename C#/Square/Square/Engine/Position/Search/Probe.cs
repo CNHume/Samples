@@ -84,9 +84,6 @@ partial class Position : Board {
       SetFinal();
       move = Move.Undefined;
     }
-
-    if (IsNullMove(move))
-      SetNullMade();
 #if DebugSideToMove
     if (IsDefined(move) && WTM())
       move |= Move.WTM;

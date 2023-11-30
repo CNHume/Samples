@@ -294,7 +294,7 @@ partial class Position : Board {
     probeMove(mAlpha, mBeta, out Move moveFound);
 
     // Avoid infinite recursion due to a sequence of two Null Moves in a row:
-    if (IsNullMade() && Parent is not null && Parent.IsNullMade())
+    if (IsNullMove(moveFound) && Parent is not null && Parent.IsNullMade())
       return;
 
     // moveFound not always defined for EvalType.Upper [Fail Low]

@@ -24,7 +24,7 @@ partial class Position : Board {
   #region Constants
   private const Boolean FindRepetition = true;
   private const Boolean NotFindRepetition = !FindRepetition;
-  #endregion
+  #endregion                            // Constants
 
   #region Move Processor
   // ~32 MHz on old PC
@@ -191,6 +191,7 @@ partial class Position : Board {
       return true;
   }
 #endif                                  // DebugDraw2
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Position? findRepetition1(Boolean bLookupCycle = false) {
     if (IsDraw0()) return default;
 
@@ -224,6 +225,7 @@ partial class Position : Board {
   //
   // Identify Draw by 3-Fold Repetition
   //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void findRepetition() {
     var position = findRepetition1();
     if (position is not null) {
