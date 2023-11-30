@@ -321,7 +321,7 @@ partial class Position : Board {
     }
 #if PreventLookupCycle
     const Boolean bLookupCycle = true;
-    var position = findRepetition(bLookupCycle);
+    var position = findRepetition1(bLookupCycle);
     if (position is not null) {
       DisplayCurrent($"Found Lookup Cycle [{methodName}]");
       return;

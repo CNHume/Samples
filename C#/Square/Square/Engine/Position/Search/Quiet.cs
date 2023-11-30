@@ -39,8 +39,6 @@ partial class Position : Board {
   #region Constants
   private const Boolean Qxnt = true;
   //private const Boolean NotQxnt = !Qxnt;
-  private const Boolean FindRepetition = true;
-  private const Boolean NotFindRepetition = !FindRepetition;
   #endregion
 
   #region Search Methods
