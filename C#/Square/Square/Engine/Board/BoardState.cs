@@ -302,6 +302,7 @@ partial class Board {
     return FlagsTurn.Has(TurnFlags.Final);
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public Boolean IsStalemate() {
     return IsFinal() && !InCheck();
   }

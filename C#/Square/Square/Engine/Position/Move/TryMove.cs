@@ -211,7 +211,7 @@ partial class Position : Board {
         GameState.AtomicIncrement(ref State.RepetitionPlies);
 
       //
-      // Currently, positions for either side to move are considered.
+      //[Note]IsDraw0() must be checked for both sides.
       //
       if (Equals(position))
         return position;

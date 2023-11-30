@@ -672,7 +672,7 @@ partial class Position : Board {
     }                                   // IsOccam
 
     //
-    // Null Moves may "recurse" indefinitely; but not twice in succession:
+    // Prevent Null Moves from being made twice in succession!
     //
     // isEndgame() is called to protect against ignoring Zugzwang.
     // [Null Moves might be used to help detect Zugzwang.]
@@ -756,36 +756,40 @@ partial class Position : Board {
   #region Extension Heuristics
   [Conditional("MateThreat")]
   private void threat(ref Draft wDraft, ref Draft wShallow, ref Depth wDepth) {
-    if (wThreatDepthMin <= wDepth && !isEndgame() && canExtend(vThreat)) {
-      var child2 = Push();              // Push Position for the search
-      try {
-        child2.nullMove();
-        //[EvalRange]
-        //var mAlpha2 = (Eval)(mAlpha - mThreatWeight); //[Test]
-        const Eval mAlpha2 = -MateMin;
-        var mBeta2 = (Eval)(mAlpha2 + 1);       // vs -EvalMax
-        child2.FlagsMode |= ModeFlags.Reduced;
-#if DeepThreat
-        var wThreatDraft = reduceDeep(wDraft);
-#else
-        var wThreatDraft = wShallow;
-#endif
-        var mThreat =
-          (Eval)(-child2.search(wThreatDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2)));
-        if (EvalUndefined < mThreat && mThreat < mBeta2) {
-          traceVal("Mate Threat", mThreat);     //[Conditional]
+    //
+    // Prevent Null Moves from being made twice in succession!
+    //
+    if (IsNullMade() || wThreatDepthMin > wDepth || isEndgame() || !canExtend(vThreat))
+      return;
 
-          incExtension(ref wDraft, vThreat);
-          wDepth = depth(wDraft);       // Threat Adjusted Depth
-          wShallow = reduceShallow(wDraft);
-          AtomicIncrement(ref State.ThreatExtCount);
-        }
-        else
-          traceVal("Non-Mate Threat", mThreat); //[Conditional]
+    var child2 = Push();                // Push Position for the search
+    try {
+      child2.nullMove();
+      //[EvalRange]
+      //var mAlpha2 = (Eval)(mAlpha - mThreatWeight); //[Test]
+      const Eval mAlpha2 = -MateMin;
+      var mBeta2 = (Eval)(mAlpha2 + 1); // vs -EvalMax
+      child2.FlagsMode |= ModeFlags.Reduced;
+#if DeepThreat
+      var wThreatDraft = reduceDeep(wDraft);
+#else
+      var wThreatDraft = wShallow;
+#endif
+      var mThreat =
+        (Eval)(-child2.search(wThreatDraft, (Eval)(-mBeta2), (Eval)(-mAlpha2)));
+      if (EvalUndefined < mThreat && mThreat < mBeta2) {
+        traceVal("Mate Threat", mThreat);       //[Conditional]
+
+        incExtension(ref wDraft, vThreat);
+        wDepth = depth(wDraft);                 // Threat Adjusted Depth
+        wShallow = reduceShallow(wDraft);
+        AtomicIncrement(ref State.ThreatExtCount);
       }
-      finally {
-        Pop(ref child2);                // Pop Position used for the search
-      }
+      else
+        traceVal("Non-Mate Threat", mThreat);   //[Conditional]
+    }
+    finally {
+      Pop(ref child2);                  // Pop Position used for the search
     }
   }
 

@@ -480,10 +480,8 @@ static class Extension {
 #else
       true;
 #endif
-    if (IsNullMove(move) || IsIndefinite(move)) {
-      sb.Append(move);
-      return sb;
-    }
+    if (IsNullMove(move) || IsIndefinite(move))
+      return sb.Append(move);
 
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,

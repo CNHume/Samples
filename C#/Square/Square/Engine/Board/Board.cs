@@ -438,7 +438,9 @@ partial class Board : IEquatable<Board> {
     if (Hash != board.Hash)             //[Shortcut]
       return false;
 
-    var bEqual = equalSides(board) &&
+    var bEqualWTM = IsEven((Ply)(GamePly ^ board.GamePly));
+    var bEqual = bEqualWTM &&
+      equalSides(board) &&
       Pawn == board.Pawn &&
       King == board.King &&
       Knight == board.Knight &&

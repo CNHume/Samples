@@ -25,36 +25,9 @@ partial class Board {
   public enum SideName : byte { Black, White }
   #endregion                            // SideName Enum
 
-  #region TurnFlags Enum
-  //
-  // TurnFlags  0:4
-  // --------------
-  //  0:1 EPLegal
-  //  1:1 Illegal
-  //  2:1 InCheck
-  //  3:1 Final
-  //
-
-  [Flags]
-  public enum TurnFlags : byte {
-    None = 0,
-    EPLegal = 1,                        // Bit 0
-    Illegal = EPLegal << 1,             // Bit 1 Check Flags
-    InCheck = Illegal << 1,             // Bit 2
-    Final = InCheck << 1,               // Bit 3
-
-    //
-    //[Note]Final, InCheck and Illegal are omitted from Hash to
-    // prevent repeating calls to IsLegal() for a Transposition:
-    //
-    //[C#]Copy = EPLegal causes EPLegal to be serialzed as Copy.
-    //Copy = EPLegal                    // EPLegal
-  }
-  #endregion                            // TurnFlags Enum
-
   #region SideFlags Enum
   //
-  // SideFlags  0:4
+  // SideFlags  0:6
   // --------------
   //  0:1 CanOO
   //  1:1 CanOOO
@@ -87,25 +60,32 @@ partial class Board {
   }
   #endregion                            // SideFlags Enum
 
-  #region EvalFlags Enum
+  #region TurnFlags Enum
   //
-  // EvalFlags  0:5
+  // TurnFlags  0:4
   // --------------
-  //  0:1 OutsideSquare
-  //  1:1 KBNvK
-  //  2:1 KQvKP
+  //  0:1 EPLegal
+  //  1:1 Illegal
+  //  2:1 InCheck
+  //  3:1 Final
   //
-  [Flags]
-  public enum EvalFlags : byte {
-    None = 0,
-    OutsideSquare = 1,                  // Bit 0 Eval Flags
-    KBNvK = OutsideSquare << 1,         // Bit 1
-    KQvKP = KBNvK << 1,                 // Bit 2
-    EndGame = KQvKP | KBNvK | OutsideSquare,
 
-    Copy = EndGame
+  [Flags]
+  public enum TurnFlags : byte {
+    None = 0,
+    EPLegal = 1,                        // Bit 0
+    Illegal = EPLegal << 1,             // Bit 1 Check Flags
+    InCheck = Illegal << 1,             // Bit 2
+    Final = InCheck << 1,               // Bit 3
+
+    //
+    //[Note]Final, InCheck and Illegal are omitted from Hash to
+    // prevent repeating calls to IsLegal() for a Transposition:
+    //
+    //[C#]Copy = EPLegal causes EPLegal to be serialzed as Copy.
+    //Copy = EPLegal                    // EPLegal
   }
-  #endregion                            // EvalFlags Enum
+  #endregion                            // TurnFlags Enum
 
   #region DrawFlags Enum
   //
@@ -158,6 +138,26 @@ partial class Board {
     // zero values, followed by a comma, would be included in the enumeration of Flags.
   }
   #endregion                            // DrawFlags Enum
+
+  #region EvalFlags Enum
+  //
+  // EvalFlags  0:3
+  // --------------
+  //  0:1 OutsideSquare
+  //  1:1 KBNvK
+  //  2:1 KQvKP
+  //
+  [Flags]
+  public enum EvalFlags : byte {
+    None = 0,
+    OutsideSquare = 1,                  // Bit 0 Eval Flags
+    KBNvK = OutsideSquare << 1,         // Bit 1
+    KQvKP = KBNvK << 1,                 // Bit 2
+    EndGame = KQvKP | KBNvK | OutsideSquare,
+
+    Copy = EndGame
+  }
+  #endregion                            // EvalFlags Enum
 
   #region ModeFlags Enum
   //
@@ -342,7 +342,7 @@ partial class Board {
     //
     // EqualMask distinguishes the three Limit Moves:
     //
-    NullMove = Piece.P << nPromoteBit,
+    NullMove = Piece.P << nPromoteBit,  // Null Move Heuristic
     Undefined = Piece.K << nPromoteBit,
     EmptyMove = Castles | Undefined     // Denotes Final Position in Transposition
   }
