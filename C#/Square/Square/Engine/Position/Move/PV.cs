@@ -47,7 +47,7 @@ partial class Position : Board {
 
   [Conditional("DebugMoveIsLegal")]
   private void verifyMoveIsLegal(Move move, String? methodName = null) {
-    if (!IsDefinite(move)) return;
+    if (IsIndefinite(move)) return;
     var child = Push();                 // Push Position to make the moves
     try {
       var mov = move;
@@ -62,7 +62,7 @@ partial class Position : Board {
 
   [Conditional("DebugSideToMove")]
   private void verifySideToMove(Move move, String? methodName = null) {
-    if (!IsDefinite(move)) return;
+    if (IsIndefinite(move)) return;
     var bWTM = WTM();
     var bWhiteMove = move.Has(Move.WTM);
     if (bWTM != bWhiteMove) {
@@ -100,7 +100,7 @@ partial class Position : Board {
 
   private Move abbreviate(Move move) {
     const String methodName = nameof(abbreviate);
-    if (IsNullMove(move) || IsUndefined(move))  //[Safe]
+    if (IsNullMove(move) || IsIndefinite(move)) //[Safe]
       return move;
 
     unpack1(move, out Int32 nFrom, out Int32 nTo,
@@ -299,8 +299,7 @@ partial class Position : Board {
 
     // moveFound not always defined for EvalType.Upper [Fail Low]
     //[Safe]Also prevent unexpected EmptyMove
-    if (!IsDefinite(moveFound))
-      return;
+    if (IsIndefinite(moveFound)) return;
 
     var moveNoted = moveFound;
     if (!State.IsPure) {                // Standard Algebraic Notation (AN) supports abbreviation

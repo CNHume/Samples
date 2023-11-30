@@ -514,7 +514,14 @@ partial class Board : IEquatable<Board> {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public static Boolean IsDefinite(Move move) {
-    return IsDefined(move) && !IsEmptyMove(move);
+    return (move & Move.EqualMask) != Move.Undefined &&
+           (move & Move.EqualMask) != Move.EmptyMove;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  public static Boolean IsIndefinite(Move move) {
+    return (move & Move.EqualMask) == Move.Undefined ||
+           (move & Move.EqualMask) == Move.EmptyMove;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

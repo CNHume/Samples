@@ -480,7 +480,7 @@ static class Extension {
 #else
       true;
 #endif
-    if (IsNullMove(move) || !IsDefinite(move)) {
+    if (IsNullMove(move) || IsIndefinite(move)) {
       sb.Append(move);
       return sb;
     }
@@ -575,12 +575,10 @@ static class Extension {
   //
   public static StringBuilder AppendPACN(
     this StringBuilder sb, Move move, BoardSide[] sides, Boolean bChess960) {
-    if (IsNullMove(move)) {
+    if (IsNullMove(move))
       return sb.Append(sNullMove);
-    }
-    else if (IsUndefined(move)) {
+    else if (IsIndefinite(move))
       return sb.Append(move);
-    }
 
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,
