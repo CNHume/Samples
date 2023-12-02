@@ -381,7 +381,7 @@ partial class UCI {
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
   //[2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
-  //[2023-11-28 13-ply in 21.907 sec @1.4745 MHz over 32.303 Mnode]
+  //[2023-11-30 13-ply in 21.699 sec @1.489 MHz over 32.304 Mnode]
   //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   // [2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
