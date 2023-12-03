@@ -41,7 +41,7 @@
 #define UseKillers
 #define LazyMoveSort
 //#define QuietCheck
-#define QuietMate
+//#define QuietMate
 //#define SwapOn
 //#define TestBest
 //#define TestCornerCP

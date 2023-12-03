@@ -12,7 +12,7 @@
 //#define TraceVal
 #define TransposeQuiet
 //#define QuietCheck
-#define QuietMate                       //[Experimental]
+//#define QuietMate                       //[Experimental]
 //#define SwapOn
 //#define VerifyUpper
 //#define DebugBest
@@ -258,9 +258,9 @@ partial class Position : Board {
   exit:
 #if VerifyUpper
     var bUpper = et == EvalType.Upper;
-    var bUndefined = moveBest == Move.Undefined;
-    if (bUpper != bUndefined) {
-      Trace.Assert(bUpper == bUndefined, "bUpper != bUndefined");
+    var bIndefinite = IsIndefinite(moveBest);
+    if (bUpper != bIndefinite) {
+      Trace.Assert(bUpper == bIndefinite, "bUpper != bIndefinite");
     }
 #endif
     if (mBest == EvalUndefined)
