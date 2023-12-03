@@ -5,7 +5,6 @@
 //
 //#define UseRecursiveSearch
 
-using System;
 using Search;
 
 class Program {
