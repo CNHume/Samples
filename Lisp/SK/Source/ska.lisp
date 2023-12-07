@@ -8,7 +8,7 @@
 ;;; Chris Hume   2.15    4-Jul-21       Added DEFD.
 ;;; Chris Hume   2.14   23-Jun-21       Added BUILD-ABSTRACTION.
 ;;; Chris Hume   2.13    8-Jan-21       Added *DEFAULT-PRINT-LENGTH* parameter.
-;;; Chris Hume   2.12   14-Sep-20       Removed [-Reader template reduction.
+;;; Chris Hume   2.12   14-Sep-20       Removed [-Reader structure reduction.
 ;;; Chris Hume   2.11    2-Aug-20       Allowed empty list in [-READER.
 ;;; Chris Hume   2.10    9-Jan-94       Added KETA (:EXPERIMENAL optimization).
 ;;; Chris Hume   2.9    25-Nov-93       Added ?-READER.
@@ -68,7 +68,7 @@
 ;;;
 ;;;     defc                    c def
 ;;;
-;;; Templates:
+;;; Structures:
 ;;;
 ;;;     [t1, t2...]expr        = ?(t1, t2...) expr
 ;;;
@@ -130,11 +130,11 @@
   (export '(*combinators* *interfaces* *parameters*)))
 
 ;;;
-;;; NOTE: To support Abstraction of Variables that happen to name
-;;;       Primitive Combinators the symbols associated with these
-;;;       primitives should not be EXPORTed!  Seperate definition
-;;;       of Primitive Combinators, in a User Specifiable Package,
-;;;       should be obtained via: (DEFINE-PRIMITIVES).  See below.
+;;;[Note]To support Abstraction of Variables that happen to name
+;;;      Primitive Combinators the symbols associated with these
+;;;      primitives should not be EXPORTed!  Seperate definition
+;;;      of Primitive Combinators, in a User Specifiable Package,
+;;;      should be obtained via: (DEFINE-PRIMITIVES).  See below.
 ;;;
 (export *interfaces*)
 (export *parameters*)
@@ -410,6 +410,8 @@
 ;;; Templates are processed according to "a suitably generalized Law
 ;;; of Abstraction." Cf. the "uncurry" U-combinator of [Turner 1979].
 ;;;
+;;;[Note]The SASL concept "Template" is renamed to "Structure" in SK.
+;;;
 ;;; Test cases:
 ;;;
 ;;; (beta ([] (foo x y z) nil))
@@ -421,9 +423,9 @@
 ;;; (beta (?(love light) (om love light) (pair namah (pair shivaya nil))))
 ;;; (beta ([love light] (light love om) (pair namah (pair shivaya nil))))
 ;;;
-;;; Read "template expr" as "(lambda* template expr)".
+;;; Read "structure expr" as "(lambda* structure expr)".
 ;;;
-;;; Templates have the form "[t1, t2...]" where each t1, t2...
+;;; Structures have the form "[t1, t2...]" where each t1, t2...
 ;;; is a term which may either be a symbol or a list of terms.
 ;;;
 ;;; ToDo: Allow dotted lists between square brackets.
