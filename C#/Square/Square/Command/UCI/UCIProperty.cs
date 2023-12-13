@@ -583,7 +583,7 @@ partial class UCI {
   // [4-ply in 170 ms over 37.8 Knode] #2 after 39 lines:
   // 1. Qf3 Kb3 (1... Qxf3 2. Re4#; 1... Rxf3 2. Rg4#; 1... Rfg4 2. Rxg4#; 1. b1b8 2. Rc2#; 1... otherwise 2. Nb4#) 2. Nc1#
   //"k1b5/pppN4/1R6/8/Q6K/8/8/8 w - - 0 1";     // #2 [4-ply 3,541 node]
-  //"kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1";        // #2 [4-ply in 31 ms over 677 nodes]
+  //"kbK5/pp6/1P6/8/8/8/8/R7 w - - 0 1";        // Paul Morphy, age 10 #2 [4-ply in 31 ms over 677 nodes]
   //"1Bb3BN/R2Pk2r/1Q5B/4q2R/2bN4/4Q1BK/1p6/1bq1R1rb w - - 0 1"; // #1 [2-ply 979 nodes]
   //"3rkb1r/ppp2ppp/8/5q2/2b1N3/8/PPP2PPP/R1B1R1K1 w k - 0 13"; // Scotch Gambit #1 [2-ply 179 nodes]
   //

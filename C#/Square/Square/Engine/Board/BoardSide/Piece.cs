@@ -511,14 +511,14 @@ partial class Board {
     [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     private Hashcode pieceHash(Byte vPiece, Int32 n) {
       if (nPieces <= vPiece) {
-        Debug.Assert(vPiece < nPieces, "pieceHash(nPieces <= vPiece)");
+        Trace.Assert(vPiece < nPieces, "pieceHash(nPieces <= vPiece)");
       }
 
       if (n < 0) {
-        Debug.Assert(n >= 0, "pieceHash(n < 0)");
+        Trace.Assert(n >= 0, "pieceHash(n < 0)");
       }
       else if (nSquares <= n) {
-        Debug.Assert(n < nSquares, "pieceHash(nSquares <= n)");
+        Trace.Assert(n < nSquares, "pieceHash(nSquares <= n)");
       }
 
       var zobrist = Parameter.Zobrist;

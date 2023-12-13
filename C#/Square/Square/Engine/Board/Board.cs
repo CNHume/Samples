@@ -655,7 +655,7 @@ partial class Board : IEquatable<Board> {
     Move move, out Int32 nFrom, out Int32 nTo,
     out UInt32 uPiece, out UInt32 uPromotion,
     out Boolean bCastles, out Boolean bCapture) {
-    Debug.Assert(IsDefinite(move), "Indefinite Move");
+    Trace.Assert(IsDefinite(move), "Indefinite Move");
     nFrom = From(move);
     nTo = To(move);
 

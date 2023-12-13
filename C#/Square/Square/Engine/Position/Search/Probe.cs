@@ -215,8 +215,8 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      const String message = $"moveBest defined in a Final position [{methodName}].";
-      Trace.Assert(IsUndefined(moveBest), message);
+      const String message = $"moveBest NotEmpty in a Final position [{methodName}].";
+      Trace.Assert(IsEmptyMove(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 

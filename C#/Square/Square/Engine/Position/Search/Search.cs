@@ -437,16 +437,16 @@ partial class Position : Board {
   [Conditional("AddBestMoves")]
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
 #if TestBest
-  private void addBest(Move moveBest, BestMoveEnum be = default, List<BestMove>? bestLine = default) {
+  private void addBest(Move move, BestMoveEnum be = default, List<BestMove>? bestLine = default) {
 #else
-  private void addBest(Move moveBest, BestMoveEnum be = default, List<Move>? bestLine = default) {
+  private void addBest(Move move, BestMoveEnum be = default, List<Move>? bestLine = default) {
 #endif
     BestMoves.Clear();
 #if TestBest
-    var bestMove = new BestMove(moveBest, be, this);
+    var bestMove = new BestMove(move, be, this);
     BestMoves.Add(bestMove);
 #else
-    BestMoves.Add(moveBest);
+    BestMoves.Add(move);
 #endif
     if (bestLine is not null)
       BestMoves.AddRange(bestLine);
