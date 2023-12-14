@@ -154,7 +154,7 @@ partial class Position : Board {
 
     if (IsFinal()) {
       const String message = $"moveBest defined in a Final position [{methodName}].";
-      Trace.Assert(IsUndefined(moveBest), message);
+      Debug.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -215,8 +215,8 @@ partial class Position : Board {
     var mAdjusted = creditMate(mValue, SearchPly);
 
     if (IsFinal()) {
-      const String message = $"moveBest NotEmpty in a Final position [{methodName}].";
-      Trace.Assert(IsEmptyMove(moveBest), message);
+      const String message = $"moveBest defined in a Final position [{methodName}].";
+      Debug.Assert(IsUndefined(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -302,7 +302,7 @@ partial class Position : Board {
 
     if (IsFinal()) {
       const String message = $"moveBest defined in a Final position [{methodName}].";
-      Trace.Assert(IsUndefined(moveBest), message);
+      Debug.Assert(IsIndefinite(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 

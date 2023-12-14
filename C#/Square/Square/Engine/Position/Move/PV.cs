@@ -183,7 +183,8 @@ partial class Position : Board {
       var qp = qpAtxTo;
       while (qp != 0) {
         var n = RemoveLo(ref qp, out Plane qpCandidate);
-        if (!child.tryCandidate(moveTo | MoveFrom(n)))
+        var moveFrom = moveTo | MoveFrom(n);
+        if (!child.tryCandidate(moveFrom))
           qpPinned |= qpCandidate;
       }
     }
@@ -403,7 +404,7 @@ partial class Position : Board {
       if (IsUndefined(moveNoted)) {
         const String message = $"Undefined Move [{methodName}]";
         Debug.Assert(IsDefined(moveNoted), message);
-        moveNoted = Move.NullMove;
+        return;
       }
       else if (!State.IsPure) {         // Standard Algebraic Notation (AN) supports abbreviation
         //[Debug]moveNoted illegal here!
