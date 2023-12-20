@@ -131,10 +131,11 @@ partial class UCI {
   // 3. Rxh6+ Kg7 4. Rdxh8 Nd3+ 5. Kb1 c2+ 6. Kxc2 Rxa2+ 7. Kxd3 Ra3+ 8. Kd4 Rd3+ 9. Kxd3 b5 10. R6h7#
   // moves f3g5 h6g5 h4g5 f4h5 h1h5 g6h5
   //"3R3r/5pbk/1pB1p3/4P1Pp/8/r1p5/P4PP1/2K5 w - - 0 4"; // Carlsen ep Mate #2 [2-ply]
-  //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 @1.141 MHz over 381.8 Mnode] eval 1.48 after:
-  // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} (5... Nf8! {only move}) 6. Kf6
-  // "8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:
+  //"8/8/5K2/4n3/4k1B1/7P/8/8 w - - 0 2" // Fischer v Taimanov Losing [2023-01-02 17-ply in 3:42 @1.228 MHz over 272.8 Mnode] eval 6.15 after:
   // 2. Bc8 Kf4 3. h4 Kg3 4. h5 Kh4 5. h6 Kh5 6. Kg7 Ng6 7. Bg4+ Kg5 8. h7 Nh8 9. Bf5 Kxf5 10. Kxh8 Kf6 11. Kh8g8 Kf6e5
+  //"8/8/5K2/3kn3/6B1/7P/8/8 b - - 0 1"; // Fischer v Taimanov Draw [2023-01-01 17-ply in 5:34.6 @1.141 MHz over 381.8 Mnode] eval 1.48 after:
+  // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} (5... Nf8! {only move}) 6. Kf6
+  //"8/4k3/5nKP/8/8/1B6/8/8 w - - 0 1"; // Fischer v Taimanov Draw Test Position
   //"6k1/1p3ppp/3B2b1/1P6/p1PNr3/7P/1n3PP1/2R3K1 w - - 0 1"; // Arjun Erigaisi v Nihal Sarin Line
   // 1. c5  Nd3 ({game continuation} 1... Rxd4 2. c6 bxc6 3. Rxc6 Rc4 4.Bc5 h6 5. b6 Rc1+ 6. Kh2 +-)
   // 2. Rc4 Nb2 3. Rc3 Nd1 4. Rc1 Rxd4 5. c6 bxc6 6. b6 Rxd6 7. b7 Rd8
@@ -496,6 +497,9 @@ partial class UCI {
   //"8/6kp/Q2p4/3P4/8/6qP/3pBrP1/6RK b - - 0 37"; [2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
+  //"8/p7/P7/8/8/4k3/4P3/4K3 w - - 0 1"; // White to Play and Win % NM Nelson Lopez
+  // [2023-12-19 25-ply in 50:10.243 @1.154 MHz over 3.4743 Gnode] eval 6.95 after:
+  // 1. Kf1 Kd4 2. Kf2 Ke4 3. e3 Kf5 4. Kf3 Ke5 5. e4 Kd6 6. Kf4 Ke6 7. e5 Kd7 8. Kf5 Ke7 9. e6 Ke8 10. Ke4 Ke7 11. Ke5 Ke8 12. Ke5d6
   //"8/8/8/8/6pN/7p/7p/1KR3nk w - - 0 1"; // #6 1927 by Janis Behting % NM Nelson Lopez
   // [2023-08-29 11-ply in 7.26 sec @1.284 MHz over 9.32 Mnode] #6 after:
   // 1. Rf1 g3 2. Nf5 Kg2 3. Ne3+ Kh1 4. Rc1 g2 5. Nd1 Ne2 6. Nf2#
