@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
 //[2014-02-20 CNHume]Added Composition2 Class
 //[2012-11-23 CNHume]Created Composition Class

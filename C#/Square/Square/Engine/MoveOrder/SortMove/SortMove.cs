@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
 //[2017-03-24 CNHume]Renamed Class to SortMove
 //[2012-03-28 CNHume]Created Class as GoodMove
