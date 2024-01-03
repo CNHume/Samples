@@ -1,8 +1,8 @@
 ﻿//
-// Copyright (C) 2010-2023, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
+using System.Reflection;                // For FieldInfo
 using System.Text;
 
 using Microsoft.Extensions.Logging;
