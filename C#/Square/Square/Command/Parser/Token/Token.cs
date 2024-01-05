@@ -67,7 +67,7 @@ partial class Parser : IDisposable {
             break;
 #endif
           default:
-            LogLine($@"Matched {TokenRuleType} ""{Value}""");
+            LogLine(@$"Matched {TokenRuleType} ""{Value}""");
             break;
           }
         }
@@ -86,7 +86,7 @@ partial class Parser : IDisposable {
 
       var message = scanner.EndOfLine ?
         $"End Of Line encountered where {TokenType} was expected" :
-        $@"The {TokenType} token does not accept ""{scanner.Text}""";
+        @$"The {TokenType} token does not accept ""{scanner.Text}""";
 
       throw new ChessException(message);
     }

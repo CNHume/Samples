@@ -147,7 +147,7 @@ public class Scanner : IDisposable {
   }
 
   public String AppendDetails(String message) {
-    return $@"Row {Row}, Column {Column}, {message}: ""{Text}""";
+    return @$"Row {Row}, Column {Column}, {message}: ""{Text}""";
   }
 
   #region TextSpan Methods

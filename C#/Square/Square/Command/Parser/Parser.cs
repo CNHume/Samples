@@ -326,7 +326,7 @@ partial class Parser : IDisposable {
       else {
         //[Test]
         //if (IsVerbose) {
-        //  var message = $@"Rejected: ""{sText}""";
+        //  var message = @$"Rejected: ""{sText}""";
         //  if (bAccepted) LogLine(message);
         //}
 
@@ -684,7 +684,7 @@ partial class Parser : IDisposable {
   }
 
   public static String StringToVerbatimLiteral(String sInput) {
-    return $@"""{sInput.Replace(sDoubleQuote, sEscapedDoubleQuote)}""";
+    return @$"""{sInput.Replace(sDoubleQuote, sEscapedDoubleQuote)}""";
   }
   #endregion                            // Verbatim Literal Methods
   #endregion                            // Methods
