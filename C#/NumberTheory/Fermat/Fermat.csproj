@@ -6,10 +6,10 @@
     <Version>1.0</Version>
     <Authors>Christopher N. Hume</Authors>
     <Company>CNHume</Company>
-    <Copyright>Copyright (C) 2010-2021, Christopher N. Hume.  All rights reserved.</Copyright>
+    <Copyright>Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.</Copyright>
     <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See COPYING.txt and COPYING_LESSER.txt for details.</Description>
     <LangVersion>preview</LangVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
     <OutputType>Exe</OutputType>
 
@@ -24,9 +24,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
