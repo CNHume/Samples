@@ -548,7 +548,11 @@ partial class UCI {
   //[2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
-  //"8/p7/P7/8/8/4k3/4P3/4K3 w - - 0 1"; // White to Play and Win % NM Nelson Lopez
+  //"8/8/8/2P4B/8/5K2/3k4/5b2 w - - 0 1";       // KBP v KB % NM Nelson Lopez
+  //"2b5/2P5/2K5/7B/1k6/8/8/8 w - - 0 7"        // KBP v KB Line % NM Nelson Lopez
+  //[2024-01-07 18-ply in 1:27 @1.434 MHz over 124.8 Mnode] eval 9.75 after:
+  // 7. Kb6 Bh3 8. Bf3 Bf5 9. Bb7 Bh3 10. Ka7 Kc5 11. Kb8 Bf5 12. Ba6 Bh3 13. Bc8 Bf1 14. Bf5 Ba6 15. Bd3 Bxd3 16. c8=Q+
+  //"8/p7/P7/8/8/4k3/4P3/4K3 w - - 0 1";        // White to Play and Win % NM Nelson Lopez
   //[2023-12-19 25-ply in 50:10.243 @1.154 MHz over 3.4743 Gnode] eval 6.95 after:
   // 1. Kf1 Kd4 2. Kf2 Ke4 3. e3 Kf5 4. Kf3 Ke5 5. e4 Kd6 6. Kf4 Ke6 7. e5 Kd7 8. Kf5 Ke7 9. e6 Ke8 10. Ke4 Ke7 11. Ke5 Ke8 12. Ke5d6
   //[2023-12-20 26-ply in 3:03:29.622 @1.1785 MHz over 12.975 Gnode] eval 9.0 after:
