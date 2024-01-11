@@ -5,86 +5,60 @@
 //
 // Conditionals:
 //
-
-using System.Runtime.Serialization;
-
-namespace Exceptions;
-[Serializable]
-class ChessException : ApplicationException, ISerializable {
+namespace Exceptions;
+class ChessException : ApplicationException {
   #region Constructors
   public ChessException() {
   }
+
   public ChessException(String message)
     : base(message) {
   }
+
   public ChessException(String message, Exception inner)
     : base(message, inner) {
   }
-  #endregion
-
-  #region ISerializable Interface
-  protected ChessException(SerializationInfo info, StreamingContext context)
-    : base(info, context) {
-  }
-  #endregion
-}
-
-[Serializable]
-class ControlException : ChessException, ISerializable {
+  #endregion                            // Constructors
+}
+class ControlException : ChessException {
   #region Constructors
   public ControlException() {
   }
+
   public ControlException(String message)
     : base(message) {
   }
+
   public ControlException(String message, Exception inner)
     : base(message, inner) {
   }
-  #endregion
-
-  #region ISerializable Interface
-  protected ControlException(SerializationInfo info, StreamingContext context)
-    : base(info, context) {
-  }
-  #endregion
-}
-
-[Serializable]
-class ParseException : ChessException, ISerializable {
+  #endregion                            // Constructors
+}
+class ParseException : ChessException {
   #region Constructors
   public ParseException() {
   }
+
   public ParseException(String message)
     : base(message) {
   }
+
   public ParseException(String message, Exception inner)
     : base(message, inner) {
   }
-  #endregion
-
-  #region ISerializable Interface
-  protected ParseException(SerializationInfo info, StreamingContext context)
-    : base(info, context) {
-  }
-  #endregion
-}
-
-[Serializable]
-class MoveException : ChessException, ISerializable {
+  #endregion                            // Constructors
+}
+class MoveException : ChessException {
   #region Constructors
   public MoveException() {
   }
+
   public MoveException(String message)
     : base(message) {
   }
+
   public MoveException(String message, Exception inner)
     : base(message, inner) {
   }
-  #endregion
-
-  #region ISerializable Interface
-  protected MoveException(SerializationInfo info, StreamingContext context)
-    : base(info, context) {
-  }
-  #endregion
+  #endregion                            // Constructors
 }

@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-
     <Title>heaptests</Title>
     <Product>HeapTests</Product>
     <Version>1.0</Version>

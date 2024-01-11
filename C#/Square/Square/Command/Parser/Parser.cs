@@ -326,8 +326,7 @@ partial class Parser : IDisposable {
       else {
         //[Test]
         //if (IsVerbose) {
-        //  var message = @$"Rejected: ""{sText}""";
-        //  if (bAccepted) LogLine(message);
+        //  LogLine(@$"Rejected: ""{sText}""");
         //}
 
         // Skip past any Row that cannot be parsed.
