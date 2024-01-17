@@ -119,8 +119,7 @@ partial class Position : Board {
     var bRayCheck = false;
 #endif
     if (bInCheck) {
-      var qpKing = Friend.Piece & King;
-      var qpChx = Foe.Checkers(vKingPos, qpKing);
+      var qpChx = Foe.Checkers(vKingPos, Friend.Piece & King);
 #if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
@@ -174,8 +173,7 @@ partial class Position : Board {
     var bRayCheck = false;
 #endif
     if (bInCheck) {
-      var qpKing = Friend.Piece & King;
-      var qpChx = Foe.Checkers(vKingPos, qpKing);
+      var qpChx = Foe.Checkers(vKingPos, Friend.Piece & King);
 #if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif
@@ -224,8 +222,7 @@ partial class Position : Board {
     var bRayCheck = false;
 #endif
     if (bInCheck) {
-      var qpKing = Friend.Piece & King;
-      var qpChx = Foe.Checkers(vKingPos, qpKing);
+      var qpChx = Foe.Checkers(vKingPos, Friend.Piece & King);
 #if RemoveKingShadow
       bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
 #endif

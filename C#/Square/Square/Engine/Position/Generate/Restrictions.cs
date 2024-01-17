@@ -24,10 +24,6 @@ partial class Position : Board {
   // restrictPiece - Called once a pin is detected
   //
   #region Pin Restrictions
-  //
-  //[Note]ExecuteMove() has called IncrementGamePly()
-  // to invert the sense of Friend and Foe.
-  //
   private void restrictPiece(Move move) {
 #if DebugMove
     unpackMove1(move, out Sq sqFrom, out Sq sqTo, out Piece piece1,
@@ -48,9 +44,11 @@ partial class Position : Board {
     // tryMove() skips pinnedPiece moves not marked as allowed
     // in restricted[].
     //
+    //[Note]ExecuteMove() has called IncrementGamePly()
+    // to invert the sense of Friend and Foe.
+    //
     byte vKingPos = Foe.GetKingPos();
-    var qpKing = Foe.Piece & King;
-    var qpChx = Friend.Checkers(vKingPos, qpKing);
+    var qpChx = Friend.Checkers(vKingPos, Foe.Piece & King);
 
     //
     // Pieces in Chess move such that a given piece can be pinned to its

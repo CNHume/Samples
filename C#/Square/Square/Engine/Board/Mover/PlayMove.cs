@@ -97,7 +97,7 @@ partial class Board {
     EPTarget = vEPTarget;
 
     var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
-    var vKing = Friend.GetKingPos();
+    var vKingPos = Friend.GetKingPos();
 
     //
     // Test whether pins prevent any En Passant capture at the EPTarget square:
@@ -123,8 +123,8 @@ partial class Board {
 
       //[Note]buildPawnAtx() is not needed to find Ray Checks
       var bLegal =
-        (Foe.Piece & DiagPiece & RayDiag(vKing)) == 0 &&
-        (Foe.Piece & OrthPiece & RayOrth(vKing)) == 0;
+        (Foe.Piece & DiagPiece & RayDiag(vKingPos)) == 0 &&
+        (Foe.Piece & OrthPiece & RayOrth(vKingPos)) == 0;
 #if CountEPNodes
       State.IncMove(bLegal);            // Account for overhead
 #endif

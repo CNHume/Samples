@@ -44,7 +44,9 @@ partial class Position : Board {
     //for (Sq Sq = Sq.a1; Sq <= Sq.h8; Sq++)
     //  testAtxMasks(Sq);
     //
-    //[Time]timeRoots();
+    //[Time]timeISqrt();
+    //[Time]
+    timeUSqrt();
     //[Time]timeEval();
     //[Time]timeMove((Move)0x00140759);         //[Perft3]b4f4
     //[Time]timeMove((Move)0x0001078E);         //[Perft3]g2g4 with tryEP()
@@ -61,8 +63,7 @@ partial class Position : Board {
     //[Time]
     //timeRemoveLo();
     //[Time]timeStaticLoads();
-    //[Time]
-    timeCapturedPiece();
+    //[Time]timeCapturedPiece();
     //[Test]timeExecute("test", 100000);
   }
 
@@ -97,12 +98,21 @@ partial class Position : Board {
   #endregion                            // Timer Test Selector
 
   #region Timer Tests
-  private void timeRoots(UInt64 qTrials = 100000UL) {
-    //verifyISqrt();
+  private void timeISqrt(UInt64 qTrials = 100000UL) {
     var sw = timerStart(nameof(everyRoot), qTrials);
 
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
       everyRoot();
+
+    timerStop(sw, qTrials);
+  }
+
+  private void timeUSqrt(UInt64 qTrials = UInt64.MaxValue) {
+    var sw = timerStart(nameof(USqrt), qTrials);
+
+    for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
+      var u = USqrt(qTrial);
+    }
 
     timerStop(sw, qTrials);
   }

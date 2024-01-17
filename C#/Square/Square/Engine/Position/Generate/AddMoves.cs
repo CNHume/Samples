@@ -67,7 +67,7 @@ partial class Position : Board {
   public void AddPawnCapture(
     Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote, Boolean bEnPassant) {
 #if DebugSquares
-    Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
+    Debug.Assert(GetPieceIndex(nFrom) == vP6, "Piece not a Pawn");
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var capture = bEnPassant ? Piece.EP : Piece.Capture;
@@ -82,7 +82,7 @@ partial class Position : Board {
       }
     else if (bEnPassant) {
 #if DebugSquares
-      Debug.Assert(getPieceIndex(nTo) == vPieceNull, "Passed Square not Empty");
+      Debug.Assert(GetPieceIndex(nTo) == vPieceNull, "Passed Square not Empty");
 #endif
       PseudoEPCapture.Add(move);
     }
@@ -95,7 +95,7 @@ partial class Position : Board {
   public void AddPawnMove(
     Int32 nFrom, Int32 nTo, Boolean bAbove, Boolean bPromote) {
 #if DebugSquares
-    Debug.Assert(getPieceIndex(nFrom) == vP6, "Piece not a Pawn");
+    Debug.Assert(GetPieceIndex(nFrom) == vP6, "Piece not a Pawn");
     Debug.Assert((nTo & uSquareMask) == nTo, "To Overflow");
 #endif
     var move = MovePawn | MoveFromTo(nFrom, nTo);

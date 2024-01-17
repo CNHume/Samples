@@ -179,11 +179,11 @@ partial class GameState {
     }
 #if CountCapturedPiece
     if (PseudoMoves == 0)
-      LogInfo(Level.data, $"getPieceIndex() Calls = {CapturedPieces:n0}");
+      LogInfo(Level.data, $"GetPieceIndex() Calls = {CapturedPieces:n0}");
     else {
       var dCapturedPiecePercent = 100.0 * CapturedPieces / PseudoMoves;
       LogInfo(Level.data,
-              $"getPieceIndex() Calls = {CapturedPieces:n0}; getPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
+              $"GetPieceIndex() Calls = {CapturedPieces:n0}; GetPieceIndex() Calls/Pseudo Moves = {dCapturedPiecePercent:n2}%");
     }
 #endif
   }

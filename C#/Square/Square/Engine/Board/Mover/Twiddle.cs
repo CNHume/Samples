@@ -524,8 +524,8 @@ partial class Board {
     return (UInt16)Sqrt((Double)w);
   }
 
-  public UInt64 USqrt(UInt16 w) {
-    if (w == 0)
+  public UInt64 USqrt(UInt64 q) {
+    if (q == 0)
       return 0;
 
     //
@@ -533,26 +533,30 @@ partial class Board {
     // but rounding must be corrected in a few cases.  We seek the greatest
     // integer whose square is no greater than N.
     //
-    var init = (UInt16)Sqrt((Double)w);
-    var root = (UInt64)init;
-    var mean = (root + (w / root)) / 2;
+    var d = Sqrt((Double)q);
+    var init = (UInt64)d;
+    var root = init;
+    var mean = (root + (q / root)) / 2;
 
     var count = 0;
     while (root > mean) {
       root--;
-      mean = (root + (w / root)) / 2;
+      mean = (root + (q / root)) / 2;
       count++;
     }
 #if DEBUG
     //
-    // Once root reaches 4294967293, root == mean in all but three cases:
+    // UInt64.MaxValue = 18,446,744,073,709,551,615
+    // UInt32.MaxValue = 4,294,967,295
     //
-    // usqrt: n = 18446744073709551615, root = 4294967295, count = 1
-    // usqrt: n = 18446744065119617024, root = 4294967294, count = 1
-    // usqrt: n = 18446744056529682435, root = 4294967293, count = 1
+    // Once root reaches 4,294,967,293, root == mean in all but three cases:
     //
-    if (root < 4294967293 && count > 0)
-      LogLine($"usqrt: n = {w}, root = {root}, count = {count}");
+    // usqrt: q = 18446744073709551615, root = 4294967295, count = 1
+    // usqrt: q = 18446744065119617024, root = 4294967294, count = 1
+    // usqrt: q = 18446744056529682435, root = 4294967293, count = 1
+    //
+    if (count > 0 && root < 4294967293)
+      LogLine($"usqrt: q = {q}, root = {root}, count = {count}");
 #endif
     return root;
   }
