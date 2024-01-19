@@ -319,6 +319,11 @@ partial class Board {
     return FlagsDraw.Has(DrawFlags.Draw2);
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected Boolean IsDraw50() {
+    return FlagsDraw.Has(DrawFlags.Draw50);
+  }
+
   //
   // Recognize Draw by Insufficient Material:
   //
@@ -395,7 +400,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected void SetDraw50() {
+  protected void Test50MoveRule() {
     if (HalfMoveClock < vHalfMoveClockMax)
       FlagsDraw &= ~DrawFlags.Draw50;
     else                                // 50 Move Rule

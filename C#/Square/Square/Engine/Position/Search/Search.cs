@@ -329,11 +329,11 @@ partial class Position : Board {
 
         #region Test for 50-Move Rule
         //
-        // The move is legal; so a 50th [or greater] move cannot have delivered Mate:
+        // The move is legal; so a 50th (or greater) move cannot have delivered Mate:
         //
-        SetDraw50();
+        Test50MoveRule();
 
-        if (FlagsDraw.Has(DrawFlags.Draw50)) {
+        if (IsDraw50()) {
           mBest = eval();
 
           if (mAlpha < mBest) {

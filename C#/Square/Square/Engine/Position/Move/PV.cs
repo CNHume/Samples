@@ -331,7 +331,7 @@ partial class Position : Board {
     if (IsTrace())
       DisplayCurrent(methodName);
 #endif
-    SetDraw50();                        // Mark Draw50 after having made the move
+    Test50MoveRule();                   // Set Draw50 after making the move
 
     //[Note]Terminate recursion if Draw3 set.
     if (!IsDraw()) {
@@ -380,7 +380,7 @@ partial class Position : Board {
             return;
           }
 
-          child.SetDraw50();            // Mark Draw50 after having made the move
+          child.Test50MoveRule();       // Set Draw50 after making the move
           child.replay(moves, nIndex + 1);
         }
         finally {
@@ -430,7 +430,7 @@ partial class Position : Board {
       if (IsTrace())
         DisplayCurrent(nameof(abbreviateRefresh));
 #endif
-      SetDraw50();                      // Mark Draw50 after having made the move
+      Test50MoveRule();                 // Set Draw50 after making the move
 
       //
       // Recursion vs iteration links each Position to its parent,
