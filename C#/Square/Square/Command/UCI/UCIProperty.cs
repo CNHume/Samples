@@ -82,8 +82,11 @@ partial class UCI {
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
   "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  // Mobility Enabled, sans BestMoves
+  //[2023-02-22 18-ply in 6:47.3 @1.641 MHz over 668.3 Mnode] #10 after:
+  // 43. Ng6 Rg8
   // Mobility Disabled
-  //[2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] after:
+  //[2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#
   // Mobility Weight = 100 cp
@@ -564,7 +567,12 @@ partial class UCI {
   //[2023-08-28 14-ply in 18.25 sec @1.555 MHz over 28.38 Mnode] eval -1.0 example:
   // 1. Ng1 Ne3+ 2. Kh3 e1=N 3. Nf3+ Nxf3 stalemate
   //
-  //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";   // Composed by Sergueï Kaminer
+  //"n1QBq1k1/5p1p/5KP1/p7/8/8/8/8 w - - 0 1";  // Justice Delayed #12 [2024-02-18 21-ply in 14:39:23.7 @1.68655 MHz over 88.9887 Gnode]
+  // 1. Bc7 Qxc8 2. gxf7+ Kh8 3. Be5 Qc5 4. Bb2 Nc7 5. Ba1 a4 6. Bb2 a3 7. Ba1 a2 8. Bb2 a1=Q 9. Bxa1 Nb5 10. Ke6+ Nc3 11. Bxc3+ Qxc3 12. f8=Q#
+  //"n1QBq1k1/5p1p/5KP1/8/8/8/8/8 w - - 0 1";   // Swift Justice #8 [2024-02-17 14-ply in 32.921 sec @1.467 MHz over 48.3 Mnode]
+  // 1. Bc7 Qxc8 2. gxf7+ Kh8 3. Be5 Qc5 4. Ba1 Nc7 5. Bb2 Nb5 6. Ke6+ Nc3 7. Bxc3+ Qxc3 8. f8=Q#
+  //
+  //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";     // Composed by Sergueï Kaminer
   //[2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
   //"3q4/p1p5/3r4/2N1np1p/QB5k/3P4/5PKP/8 w - - 0 1"; // Study by Sergueï Kaminer 1926
   //[2023-04-29 11-ply in 36.816 sec @1.543 MHz over 56.813 Mnode] eval 3.7 after:

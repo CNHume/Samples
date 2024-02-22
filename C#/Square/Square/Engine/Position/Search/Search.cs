@@ -7,7 +7,7 @@
 //
 #define Quiescence
 //#define DebugMove
-#define AddBestMoves
+//#define AddBestMoves
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define DebugSearchMoves
@@ -76,7 +76,7 @@ partial class Position : Board {
     var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
-    if (IsDraw()) {                     //[Note]SetDraw50() must be called after tryMove(), below.
+    if (IsDraw()) {                     //[Note]Test50MoveRule() must be called after tryMove(), below.
       State.IncEvalType(EvalType.Exact);
       return eval();
     }

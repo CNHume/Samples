@@ -115,7 +115,8 @@ partial class Board {
         break;
       default:
         qpPiece = 0UL;
-        throw new PieceException($"Unexpected Piece = {piece} [{methodName}]");
+        var message = $"Unexpected Piece = {piece} [{methodName}]";
+        throw new PieceException(message);
       }
     }
     else if (piece == Piece.P && bCapture)

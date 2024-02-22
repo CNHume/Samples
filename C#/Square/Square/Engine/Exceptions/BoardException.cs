@@ -1,7 +1,8 @@
 ﻿//
 // Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
-namespace Exceptions;
+namespace Exceptions;
+
 class BoardException : ApplicationException {
   #region Constructors
   public BoardException() {
@@ -17,6 +18,7 @@ class BoardException : ApplicationException {
   #endregion                            // Constructors
 
 }
+
 class PieceException : BoardException {
   #region Constructors
   public PieceException() {
@@ -30,7 +32,8 @@ class PieceException : BoardException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class ColorException : PieceException {
   #region Constructors
   public ColorException() {

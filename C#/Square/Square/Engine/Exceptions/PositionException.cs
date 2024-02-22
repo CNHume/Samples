@@ -1,7 +1,8 @@
 ﻿//
 // Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
-namespace Exceptions;
+namespace Exceptions;
+
 class PositionException : BoardException {
   #region Constructors
   public PositionException() {
@@ -30,7 +31,8 @@ class ParsePositionException : PositionException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class InvalidPositionException : PositionException {
   #region Constructors
   public InvalidPositionException() {
@@ -44,7 +46,8 @@ class InvalidPositionException : PositionException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class PerftException : PositionException {
   #region Constructors
   public PerftException() {
@@ -58,7 +61,8 @@ class PerftException : PositionException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class FinalPositionException : PositionException {
   #region Constructors
   public FinalPositionException() {

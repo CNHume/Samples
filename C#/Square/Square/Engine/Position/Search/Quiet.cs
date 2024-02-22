@@ -4,7 +4,7 @@
 // Conditionals:
 //
 //#define DebugMove
-#define AddBestMoves
+//#define AddBestMoves
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define DebugSearchMoves
@@ -48,7 +48,7 @@ partial class Position : Board {
     var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
-    if (IsDraw()) {                     //[Note]SetDraw50() will not be called below
+    if (IsDraw()) {                     //[Note]Test50MoveRule() will not be called below
       State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
       return eval();
@@ -113,6 +113,9 @@ partial class Position : Board {
         mAlpha = mBest;
     }
     #endregion                          // Move Loop Initializaton
+
+    //if (IsFinal()) {
+    //}
 
     if (mBeta <= mAlpha) {
       //[Test]return boundValue(mBest, mAlpha, mBeta);
@@ -200,7 +203,7 @@ partial class Position : Board {
           #endregion
 
           //
-          //[Note]SetDraw50() is not called because the point of quiet() is to continue
+          //[Note]Test50MoveRule() isn't called because the point of quiet() is to keep
           // searching only so long as moves which alter the material balance are found.
           //
 #if QuietMate && !QuietCheck

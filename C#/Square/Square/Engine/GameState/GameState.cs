@@ -11,7 +11,7 @@
 //#define ShowGCLatency
 //#define ShowSIMD
 #define QuiescentTryXP
-#define AddBestMoves
+//#define AddBestMoves
 //#define Magic
 //#define LateMoveReduction
 //#define KillerCompositionHash

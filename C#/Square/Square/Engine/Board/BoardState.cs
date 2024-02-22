@@ -65,7 +65,7 @@ partial class Board {
   // [clr|set]Draw0
   // IsDraw0
   //
-  // SetDraw50
+  // Test50MoveRule
   // IsDraw50
   //
   // [clr|set]NullMade
