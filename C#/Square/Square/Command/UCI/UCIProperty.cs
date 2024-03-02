@@ -47,6 +47,8 @@ partial class UCI {
 
   //
   //"";
+  //"8/8/3K1k2/5p2/5P2/4R3/5n2/8 w - - 0 1"; // Alice Lee + Wesley So v Cristian Chirila + Fabiano Caruana 2024-03-01 Endgame
+  // 1. Ra3 Ng4 2. Ra8 Kf7 3. Rd8 Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rf7 Nc2 7. Rf6+ Kg7 8. Kxf5 Nd4+ 9. Ke5 Nf3+ 10. Ke6 Nd4+ 11. Ke7
   //"rn3rk1/1pqbbppp/p2pp3/P7/2BNP1n1/2N1B3/1PP1QPPP/R4RK1 w - - 0 12"; // Magnus Carlsen v Vincent Keymer 2023-10-05 European Chess Club Cup (R5)
   //[2023-10-06 16-ply in 1:24:48 @1.448 MHz over 7.319 Gnode] eval 0.92 after:
   // 12. Nf5 Bf6 13. Bb6 Qc6 14. Bd5 exd5 15. exd5 Qxc3 16. bxc3 Bxf5 17. Bd4 Nd7 18. Rab1 Rab8 19. Qf3 g6 20. Bxf6 Ndxf6

@@ -4,7 +4,7 @@
 // Conditionals:
 //
 //#define DebugMove
-//#define AddBestMoves
+#define AddBestMoves
 //#define DebugMoveIsLegal
 //#define DebugSideToMove
 #define DebugSearchMoves
