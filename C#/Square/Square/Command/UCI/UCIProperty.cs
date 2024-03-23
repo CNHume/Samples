@@ -88,8 +88,10 @@ partial class UCI {
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
   "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  //[2024-03-08 19-ply in 1:11:29 @1.544 MHz over 6.622 Gnode] #11 after:
+  // 43. Ng6 Qf4+ 44. Qxf4 Rg8 45. Ne7 Rd8 46. Qc7 Re8 47. Ng6 Rg8 48. Qf7 a1=Q 49. Rxa1 Rb8 50. Ra7 Rg8 51. Qxg8+ Kxg8 52. Ra8+ Kf7 53. Rf8#
   // Mobility Enabled, sans BestMoves
-  //[2023-02-22 18-ply in 6:47.3 @1.641 MHz over 668.3 Mnode] #10 after:
+  //[2024-02-22 18-ply in 6:47.3 @1.641 MHz over 668.3 Mnode] #10 after:
   // 43. Ng6 Rg8
   // Mobility Disabled
   //[2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] #10 after:
@@ -251,9 +253,6 @@ partial class UCI {
   //"rn3r2/pbppq1p1/1p2pN2/8/3P2NP/6P1/PPP1BP1R/R3K1k1 w Q - 5 18"; // Edward Lasker v George Alan Thomas 1912-10-29 #1
   //"1BK1NNBk/4Q1pp/2Q4Q/Q4Q2/3Q4/1Q4Q1/4Q3/R6R w - - 0 1"; // 218 Move Position
   //"R6R/4Q3/1Q4Q1/3Q4/Q4Q2/2Q4Q/4Q1pp/1BK1NNBk w - - 0 1"; // 218 Move Position Reflected
-  //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw" [10-ply]
-  //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
-  //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1"; // Q v RP draw
   //"8/8/8/3K4/4Q3/5p2/5k2/8 b - - 0 4"; // Q v BP #8
   //"8/8/8/8/5K2/8/4Qp2/6k1 w - - 0 8"; // Q v BP #4
   //"8/1KQ5/8/8/8/5p2/6k1/8 w - - 0 1"; // Q v BP loss for b
@@ -416,6 +415,7 @@ partial class UCI {
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
   //[2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
   //[2023-11-30 13-ply in 21.699 sec @1.489 MHz over 32.304 Mnode]
+  //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
   //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   //[2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
@@ -548,6 +548,11 @@ partial class UCI {
   #endregion
 
   #region Puzzles
+  //
+  //"7K/7p/k1P5/8/8/8/8/8 b - - 0 1"; // Réti Draw Prelude [11-ply]
+  //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw Endgame [10-ply]
+  //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
+  //"8/8/8/4QK2/8/8/p7/2k5 b - - 0 1"; // Q v RP draw
   //
   // Daniel Naroditsky Endgame Lessons:
   //"8/1pPK3b/8/8/8/5k2/8/8 w - - 0 1"; // White to Draw, using Réti Concept

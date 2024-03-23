@@ -23,7 +23,7 @@ The Square .NET solution consists of the following projects:
 
 ### Target Framework
 
-All projects in the solution currently target the [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0).
+All projects in the solution currently target the [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
 
 ## Principal Components of the Square Engine
 

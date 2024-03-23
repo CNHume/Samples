@@ -85,10 +85,10 @@ partial class Position : Board {
   private const Eval mTenthWeight = mFifthWeight / 2;
 
   private const Eval mPawnWeight = mUnitWeight;
-  private const Eval mRookWeight = 5 * mUnitWeight; // + mQuarterWeight
+  private const Eval mRookWeight = 5 * mUnitWeight; // + mHalfWeight;
   private const Eval mKnightWeight = 3 * mUnitWeight + mQuarterWeight;
   private const Eval mBishopWeight = 3 * mUnitWeight + mQuarterWeight;
-  private const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;
+  private const Eval mQueenWeight = 2 * mBishopWeight + mKnightWeight;  // Three for the Queen
 
   private const Eval mInsufficientWeight = 0;   // mHalfWeight;
   private const Eval mThreatWeight = mKnightWeight;

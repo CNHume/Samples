@@ -105,6 +105,12 @@ partial class UCI : ICommand {
    *       currmove | currmovenumber | hashfull | nps | tbhits |
    *       cpuload | string | refutation | currline]
    *
+   * depth is the Nominal Search Depth
+   * Selective Search Depth (selDepth) reports greatest depth searched
+   * See https://www.chessprogramming.org/Depth#Selective_Search_Depth
+   * 
+   * Note: Engines interpret depth in different ways.
+   *
    * Option
    * ------
    * option name [Hash | SyzygyPath | SyzygyCache | Nullmove | OwnBook | Ponder | MultiPV |
