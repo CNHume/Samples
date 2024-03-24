@@ -401,9 +401,9 @@ partial class Position : Board {
     }
     else {
       var moveNoted = vnMoves[nIndex];
-      if (IsUndefined(moveNoted)) {
-        const String message = $"Undefined Move [{methodName}]";
-        Debug.Assert(IsDefined(moveNoted), message);
+      if (IsIndefinite(moveNoted)) {
+        var message = $"Indefinite Move, vnMoves.Count = {vnMoves.Count} [{methodName}]";
+        Debug.Assert(IsDefinite(moveNoted), message);
         return;
       }
       else if (!State.IsPure) {         // Standard Algebraic Notation (AN) supports abbreviation

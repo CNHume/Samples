@@ -441,15 +441,22 @@ partial class Position : Board {
 #else
   private void addBest(Move move, BestMoveEnum be = default, List<Move>? bestLine = default) {
 #endif
+    const String methodName = nameof(addBest);
     BestMoves.Clear();
+    if (IsIndefinite(move)) {
+      var message = $"Indefinite {move} move [{methodName}]";
+      Debug.Assert(IsDefinite(move), message);
+    }
+    else {
 #if TestBest
-    var bestMove = new BestMove(move, be, this);
-    BestMoves.Add(bestMove);
+      var bestMove = new BestMove(move, be, this);
+      BestMoves.Add(bestMove);
 #else
-    BestMoves.Add(move);
+      BestMoves.Add(move);
 #endif
-    if (bestLine is not null)
-      BestMoves.AddRange(bestLine);
+      if (bestLine is not null)
+        BestMoves.AddRange(bestLine);
+    }
   }
 
   private Eval updateBest(

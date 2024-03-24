@@ -84,11 +84,17 @@ partial class Position : Board {
       SetFinal();
       move = Move.Undefined;
     }
-#if DebugSideToMove
+    else
+      adjustWTM(ref move);              //[Conditional]
+
+    return move;
+  }
+
+  [Conditional("DebugSideToMove")]
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void adjustWTM(ref Move move) {
     if (IsDefined(move) && WTM())
       move |= Move.WTM;
-#endif
-    return move;
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -154,7 +160,7 @@ partial class Position : Board {
 
     if (IsFinal()) {
       const String message = $"moveBest defined in a Final position [{methodName}].";
-      Debug.Assert(IsUndefined(moveBest), message);
+      Debug.Assert(IsIndefinite(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -216,7 +222,7 @@ partial class Position : Board {
 
     if (IsFinal()) {
       const String message = $"moveBest defined in a Final position [{methodName}].";
-      Debug.Assert(IsUndefined(moveBest), message);
+      Debug.Assert(IsIndefinite(moveBest), message);
       moveBest = Move.EmptyMove;
     }
 
@@ -287,7 +293,12 @@ partial class Position : Board {
       wDepth, mValueFound, mAlpha, mBeta, etFound);     //[out]2
 
     var bValueDefined = EvalUndefined < mValue;
-    return bValid && bValueDefined;
+    var bFound = bValid && bValueDefined;
+    if (bFound) {
+      var message = $"Found {moveFound} move [{methodName}]";
+      //Debug.Assert(IsDefined(moveFound), message);
+    }
+    return bFound;
   }
   #endregion                            // XPM Methods
 
@@ -303,7 +314,8 @@ partial class Position : Board {
     if (IsFinal()) {
       const String message = $"moveBest defined in a Final position [{methodName}].";
       Debug.Assert(IsIndefinite(moveBest), message);
-      moveBest = Move.EmptyMove;
+      //[Note]Move.Empty should never be saved to QXPTank.
+      moveBest = Move.Undefined;
     }
 
     verifySideToMove(moveBest, methodName);
@@ -325,7 +337,8 @@ partial class Position : Board {
     var match = new QuietPosition(Hash, State.MovePly);
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
-    var moveBest = adjustMoveFound(match.BestMove);
+    var moveBest = match.BestMove;
+    adjustWTM(ref moveBest);
     moveFound = IsUndefined(moveBest) ? moveBest : moveBest | Move.Qxnt;    //[out]1
     etFound = match.Type;                       //[out]3
                                                 //[Note]Mate values are suspect because quiet moves were not considered
@@ -333,7 +346,12 @@ partial class Position : Board {
     mValue = adjustValue(mAlpha, mBeta, mValueFound, etFound, SearchPly);   //[out]2
     traceVal(methodName, mValue, etFound);      //[Conditional]
     var bValueDefined = EvalUndefined < mValue;
-    return bValid && bValueDefined;
+    var bFound = bValid && bValueDefined;
+    if (bFound) {
+      var message = $"Found {moveFound} move [{methodName}]";
+      //Debug.Assert(IsDefined(moveFound), message);
+    }
+    return bFound;
   }
   #endregion                            // QXP Methods
 
