@@ -47,6 +47,8 @@ partial class UCI {
 
   //
   //"";
+  //"r4r1k/p5p1/1p1R3p/q1nQ4/8/7B/P4PPP/5RK1 w - - 0 26"  // Rameshbabu Praggnanandha v Ian Nepomniachtchi 2024 FIDE Candidates R5 2024-04-09
+  //[]
   //"8/8/3K1k2/5p2/5P2/4R3/5n2/8 w - - 0 1"; // Alice Lee + Wesley So v Cristian Chirila + Fabiano Caruana 2024-03-01 Endgame
   // 1. Ra3 Ng4 2. Ra8 Kf7 3. Rd8 Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rf7 Nc2 7. Rf6+ Kg7 8. Kxf5 Nd4+ 9. Ke5 Nf3+ 10. Ke6 Nd4+ 11. Ke7
   // moves e3a3 f2g4 a3a8 f6f7 a8d8
@@ -88,12 +90,15 @@ partial class UCI {
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
   "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  // Mobility Enabled
   //[2024-03-08 19-ply in 1:11:29 @1.544 MHz over 6.622 Gnode] #11 after:
   // 43. Ng6 Qf4+ 44. Qxf4 Rg8 45. Ne7 Rd8 46. Qc7 Re8 47. Ng6 Rg8 48. Qf7 a1=Q 49. Rxa1 Rb8 50. Ra7 Rg8 51. Qxg8+ Kxg8 52. Ra8+ Kf7 53. Rf8#
   // Mobility Enabled, sans BestMoves
   //[2024-02-22 18-ply in 6:47.3 @1.641 MHz over 668.3 Mnode] #10 after:
   // 43. Ng6 Rg8
   // Mobility Disabled
+  //[2024-03-24 19-ply in 15:52 @2.063 MHz over 1.9641 Gnode] eval 22.7 after:
+  // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 Be4 46. Rxa2 Bxg2 47. Nxg2 Rb8 48. d6 Rc8 49. d7 Rb8 50. Qg6+ Kg8 51. Re2 Rf8 52. Re8 Kh8 53. d8=Q
   //[2023-07-08 19-ply in 37:19 @1.346 MHz over 3.0146 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 a1=Q (44... Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 f5 51. Qc8 f4 52. Qh8#)
   // 45. Rxa1 Qf4+ 46. Nxf4 Bf5 47. Ng6 Rb8 48. Nf8+ Rxf8 49. Qxf8 Bh3 50. gxh3 f5 51. Ra7 f4 52. Qxg7#

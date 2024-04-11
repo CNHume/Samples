@@ -23,7 +23,7 @@ static class Product {
   public static String? Copyright { get; }
   public static String? Description { get; }
   public static String? ProductName { get; }
-  public static String? ProductVersion { get; }
+  public static Version? ProductVersion { get; }
   #endregion                            // Properties
 
   #region Constructors
@@ -33,19 +33,21 @@ static class Product {
     if (assy == null)
       return;
 
+    var name = assy.GetName();
+    ProductVersion = name.Version;
+    Title = getTitle(assy);             // Name for display purposes
+
     //
     // GetCustomAttribute() is now the best answer to "Simplified way to get assembly description in C#?"
     // See https://stackoverflow.com/questions/10203575/simplified-way-to-get-assembly-description-in-c
     //
     var descriptionAttribute = assy.GetCustomAttribute<AssemblyDescriptionAttribute>();
-    var fvi = FileVersionInfo.GetVersionInfo(assy.Location);
+    Description = descriptionAttribute?.Description;
 
-    Title = getTitle(assy);             // Name for display purposes
+    var fvi = FileVersionInfo.GetVersionInfo(assy.Location);
     CompanyName = fvi.CompanyName;
     Copyright = fvi.LegalCopyright;
-    Description = descriptionAttribute?.Description;
     ProductName = fvi.ProductName;
-    ProductVersion = fvi.ProductVersion;
   }
   #endregion                            // Constructors
 

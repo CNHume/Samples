@@ -227,8 +227,8 @@ partial class Position : Board {
       else
         vnMoves.Clear();
 
-      if (IsUndefined(move)) {
-        Debug.Assert(IsDefined(move), $"Undefined Move [{methodName}]");
+      if (IsIndefinite(move)) {
+        Debug.Assert(IsDefinite(move), $"Indefinite Move [{methodName}]");
         move = Move.NullMove;           //[Safe]
       }
 
