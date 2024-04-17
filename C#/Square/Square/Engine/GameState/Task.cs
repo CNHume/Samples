@@ -186,9 +186,9 @@ partial class GameState {
     //[Optional]Repeat final bestmove report:
     //
     if (position is not null) {
-      var sb = new StringBuilder();
       //[Note]refreshPV() has been called
-      sb.BestInfo(BestLine, position.Side, IsChess960);
+      var sb = new StringBuilder()
+        .BestInfo(BestLine, position.Side, IsChess960);
       if (sb.Length > 0)
         LogLine(sb.ToString());
     }

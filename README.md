@@ -1,8 +1,8 @@
 # README
 
-Code Samples written by Christopher N. Hume
+Code Samples written by Christopher N. Hume, updated 2024-04-16
 
-### What is this repository for?
+## What is this repository for?
 
 These samples are intended to be illustrative of my coding style. In addition to games, the other folders include implementations of Sorting and Searching and examples of more interesting algorithms as well.
 
@@ -24,16 +24,19 @@ The Sort sub-folder contains implementations of the standard Sorting Algorithms.
 
 There is also a Java folder which contains a Bit-Board based Othello player.
 
-### How do I get set up?
+## How do I get set up?
 
 Most of the Python samples assume a Python 2.7 environment.
 
-Some of the C# projects are may require C# 11 features provided by Visual Studio 2022, and the NET7.0 Framework.  See the following Microsoft Download link to obtain the [Free Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/).  The installation includes the current release of the ASP.NET SDK.
+Some of the C# projects may require C# 12 features provided by Visual Studio 2022, and the .NET
+8.0 Framework.
+
+See the following Microsoft Download link to obtain the [Free Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/), currently at version 17.10 Preview 3.  Installation includes a [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
 
 The Othello player was written in Java 1.8 using a NetBeans 8.0 IDE.
 
 The allegro-projects can be run in the Free Express Edition of Allegro Common Lisp 10, available at https://franz.com/downloads.
 
-### Who do I talk to?
+## Who do I talk to?
 
 Please send any comments or suggestions to cnhume-software@yahoo.com
