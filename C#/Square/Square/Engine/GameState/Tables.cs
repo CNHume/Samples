@@ -32,9 +32,9 @@ partial class GameState {
   #region Constants
   private const Int32 nVariationsDefault = 12;  // Initial Allocation
 
-  private const Int32 nQXPSelectionDefault = 16;
-  private const Int32 nXPSelectionDefault = 48;
-  private const Int32 nXPMSelectionDefault = 8;
+  private const Int32 nQXPSelectionDefault = 32;
+  private const Int32 nXPSelectionDefault = 96;
+  private const Int32 nXPMSelectionDefault = 16;
   #endregion                            // Constants
 
   #region Memo Table Dimensions

@@ -36,43 +36,43 @@ partial class GameState {
       Name = MultiPV,                   //[UCI]
       Default = "1",
       Min = 1,
-      Max = 50                          // High Max for proof of mate solutions
+      Max = 64                          // High Max for proof of mate solutions
     },
     new SpinSetting {
       Name = QXPLength,
       Default = nQXPSelectionDefault.ToString(),
       Min = 1,
-      Max = 128
+      Max = 256
     },
     new SpinSetting {
       Name = QXPBuckets,
       Default = "4",
       Min = 1,
-      Max = 8
+      Max = 16
     },
     new SpinSetting {
       Name = XPLength,                  //[UCI]Hash = XPLength * XPBuckets / sizeof Transposition
       Default = nXPSelectionDefault.ToString(),
       Min = 1,
-      Max = 128
+      Max = 256
     },
     new SpinSetting {
       Name = XPBuckets,
       Default = "2",
       Min = 1,
-      Max = 8
+      Max = 16
     },
     new SpinSetting {
       Name = XPMLength,
       Default = nXPMSelectionDefault.ToString(),
       Min = 1,
-      Max = 128
+      Max = 256
     },
     new SpinSetting {
       Name = XPMBuckets,
       Default = "6",
       Min = 1,
-      Max = 8
+      Max = 16
     },
     new SpinSetting {
       Name = ExpectedMoves,             // ExpectedMovesToGo for "sudden death" time controls

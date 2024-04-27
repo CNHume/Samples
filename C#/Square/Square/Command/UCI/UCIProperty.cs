@@ -47,8 +47,11 @@ partial class UCI {
 
   //
   //"";
-  //"r4r1k/p5p1/1p1R3p/q1nQ4/8/7B/P4PPP/5RK1 w - - 0 26"  // Rameshbabu Praggnanandha v Ian Nepomniachtchi 2024 FIDE Candidates R5 2024-04-09
-  //[]
+  //"r4r1k/p5p1/1p1R3p/q1nQ4/8/7B/P4PPP/5RK1 w - - 0 26";   // Rameshbabu Praggnanandha v Ian Nepomniachtchi 2024 FIDE Candidates R5 2024-04-09
+  // 26. Qe5 Qxa2 27. Bf5 Kg8 (27... Rxf5 28. Qxf5) 28. Bb1 Qf7 29. Qb2 Qf4 30. Qa2+ Rf7 31. Rfd1 Rf8 32. f3 Qa4 33. Qxa4 Nxa4 34. Ba2 Nc5
+  // moves d5e5 a5a2 h3f5 h8g8 f5b1 a2f7 e5b2 f7f4 b2a2 f8f7 f1d1 a8f8 f2f3 f4a4 a2a4 c5a4 b1a2 a4c5
+  //"5rk1/p4rp1/1p1R3p/2n5/8/5P2/B5PP/3R2K1 w - - 0 35";    // Rameshbabu Praggnanandha v Ian Nepomniachtchi 2024 Line
+  //
   //"8/8/3K1k2/5p2/5P2/4R3/5n2/8 w - - 0 1"; // Alice Lee + Wesley So v Cristian Chirila + Fabiano Caruana 2024-03-01 Endgame
   // 1. Ra3 Ng4 2. Ra8 Kf7 3. Rd8 Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rf7 Nc2 7. Rf6+ Kg7 8. Kxf5 Nd4+ 9. Ke5 Nf3+ 10. Ke6 Nd4+ 11. Ke7
   // moves e3a3 f2g4 a3a8 f6f7 a8d8
@@ -406,6 +409,9 @@ partial class UCI {
   //"2nq1nk1/5p1p/4p1pQ/pb1pP1NP/1p1P2P1/1P4N1/P4PB1/6K1 w - - 0 28"; // Fischer v Panno 1970
   //[2022-11-15 17-ply in 15:29.2 @1.5294 MHz over 1.421 Gnode] eval 2.45 after:
   // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+ Kd7 38. Qxf7+ Qe7
+  //[2024-04-25 20-ply in 3:39:39.58 @1.523 MHz over 20.068 Gnode] eval 3.00 after:
+  // 28. Be4! Nd6 29. hxg6 hxg6 30. exd6 dxe4 31. Qh8+ Kxh8 32. Nxf7+ Kg7 33. Nxd8 Bd3 34. Nc6 Bb1 35. Nxa5 Bxa2 36. Nxe4 Bb1 37. Nc5 Bc2 38. g5
+  //
   //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
   //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
   //"r1bqr1k1/pp3ppp/2nB4/1N6/2Bn4/8/PP4PP/2RQR1K1 w - - 0 24"; // Kramnik v Meier 2012-07-22
@@ -567,6 +573,8 @@ partial class UCI {
   //[2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
+  //"k7/pN6/8/3B1r2/5B1K/8/8/8 w - - 0 1";      // Forked Bishops [2024-04-24 9-ply in 1.079 sec @610 KHz over 658.144 Knode] eval 4.75 after:
+  // 1. Bg2 Rxf4+ 2. Kg3 Rf8 3. Nc5+ Kb8 4. Nd7+ Kc7 5. Nxf8 a5 6. Ng6 a4 7. Nf4
   //"8/8/8/2P4B/8/5K2/3k4/5b2 w - - 0 1";       // KBP v KB % NM Nelson Lopez
   //"2b5/2P5/2K5/7B/1k6/8/8/8 w - - 0 7"        // KBP v KB Line % NM Nelson Lopez
   //[2024-01-07 18-ply in 1:27 @1.434 MHz over 124.8 Mnode] eval 9.75 after:
