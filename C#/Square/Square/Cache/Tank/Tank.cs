@@ -12,7 +12,7 @@
 #define TankInit
 #define RenewLXPMInOrder
 //#define HalfHash                        // Avoiding 64-Bit Division of no benefit on a 3 GHz Pentium 4
-//#define HashPowerOfTwo
+//#define HashPowerOfTwo                  // Avoiding use of Division
 //#define PreAllocated
 //#define TankRecycle
 //#define TestHashMath

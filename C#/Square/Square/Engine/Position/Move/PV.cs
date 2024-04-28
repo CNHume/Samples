@@ -204,14 +204,14 @@ partial class Position : Board {
 #endif
     const String methodName = nameof(addPV);
     //[Lock]UCI may change this at any time.  See GameState.newVariations()
-    var bHasValue = 0 < State.VariationCount;
-    var bGrow = State.VariationCount < State.MultiPVLength;
+    var bHasValue = 0 < State.MultiPVCount;
+    var bGrow = State.MultiPVCount < State.MultiPVLength;
 
     if (bGrow)
-      State.VariationCount++;
+      State.MultiPVCount++;
 
     var vn = State.Variation;
-    var nFinal = State.VariationCount - 1;
+    var nFinal = State.MultiPVCount - 1;
     var bPlace = bGrow || bHasValue && mValue > vn[nFinal].Value;
 
     if (bPlace) {
@@ -283,7 +283,7 @@ partial class Position : Board {
     //
     // Avoid raising Alpha until we have a candidate for the weakest Variation:
     //
-    var bRoomToGrow = State.VariationCount < State.MultiPVLength;
+    var bRoomToGrow = State.MultiPVCount < State.MultiPVLength;
     return bRoomToGrow ?
       mAlpha : bHasValue ? vn[nFinal].Value : mValue;
   }
@@ -452,8 +452,8 @@ partial class Position : Board {
     var child = Push();                 // Push Position to make the moves
     try {
       var bWTM = WTM();
-      for (var nLine = 0; nLine < State.VariationCount; nLine++) {
-        var nVInverse = State.VariationCount - (nLine + 1);
+      for (var nLine = 0; nLine < State.MultiPVCount; nLine++) {
+        var nVInverse = State.MultiPVCount - (nLine + 1);
         var vn = State.Variation[nVInverse];
         var mValue = ReflectValue(bWTM, vn.Value);
         if (vn.Moves == null) {
@@ -479,7 +479,7 @@ partial class Position : Board {
   private void writeMultiPV() {
     var bWTM = WTM();
     var sb = new StringBuilder();
-    for (var nLine = 0; nLine < State.VariationCount; nLine++)
+    for (var nLine = 0; nLine < State.MultiPVCount; nLine++)
       writePV(sb, nLine, bWTM);
   }
   #endregion                            // MultiPV Support

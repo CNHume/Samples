@@ -30,7 +30,7 @@ using Ply = UInt16;
 
 partial class GameState {
   #region Constants
-  private const Int32 nVariationsDefault = 12;  // Initial Allocation
+  private const Int32 nMultiPVSelectionDefault = 12;    // MultiPVLength
 
   private const Int32 nQXPSelectionDefault = 32;
   private const Int32 nXPSelectionDefault = 96;
@@ -171,24 +171,25 @@ partial class GameState {
   }
 
   [MemberNotNull(nameof(Variation))]
-  private void newVariations(Int32 nSelection = nVariationsDefault) {
+  private void newVariations(Int32 nSelection = nMultiPVSelectionDefault) {
     if (Variation == null || Variation.Length < nSelection) {
       //
-      // Currently, nVariationsDefault pre-allocates MultiPV Max value.
-      // Otherwise, a Search in progress might need its entries copied.
+      // Pre-allocate nMultiPVSelectionDefault Variation elements.
+      // Increasing MultiPVLength invalidates the elements when a
+      // search is in progress.
       //
-      var nVariations = nSelection < nVariationsDefault ?
-        nVariationsDefault : nSelection;
+      var nVariations = nSelection < nMultiPVSelectionDefault ?
+        nMultiPVSelectionDefault : nSelection;
       newVariations2(nVariations);
     }
 
-    // MultiPVLength === nVariations in use
+    // Update # of variations sought
     MultiPVLength = (Byte)nSelection;
   }
 
   [MemberNotNull(nameof(Variation))]
   private void newVariations2(Int32 nVariations) {
-    VariationCount = 0;                 //[Init]
+    MultiPVCount = 0;                   //[Init]
     Variation = new Variation[nVariations];
     for (var nVariation = 0; nVariation < nVariations; nVariation++)
       Variation[nVariation] = new Variation();

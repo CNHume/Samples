@@ -127,8 +127,8 @@ partial class GameState {
   public Memo2<PawnPosition> PXPMemo;
   public PlyDepth StartDepth;
   public Variation[] Variation;
-  public Byte VariationCount;
-  public Byte MultiPVLength;            //[UCI]Option
+  public Byte MultiPVLength;            // # of variations sought [UCI] Option
+  public Byte MultiPVCount;             // # of variations found
   public UInt16 ExpectedMovesToGo;      // Option
   public Eval ContemptValue;            // Option
   public UInt16 ExtensionLimit;

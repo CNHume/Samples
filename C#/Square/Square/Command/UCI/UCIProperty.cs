@@ -58,6 +58,11 @@ partial class UCI {
   //"3R4/5k2/3K4/5p2/5Pn1/8/8/8 b - - 0 3"; // Alice Lee + Wesley So v Cristian Chirila + Fabiano Caruana 2024-03-01 Endgame Line
   //[2024-03-02 22-ply in 6:04:40.8 @1.661 MHz over 36.3345 Gnode] eval 9.75 after:
   // 3... Ne3 4. Ke5 Kg6 5. Rd6+ Kg7 6. Rd3 Nc2 7. Kxf5 Nb4 8. Rd7+ Kh6 9. Rd6+ Kh5 10. Ke5 Nc2 11. f5 Ne1 12. Rd1
+  //[2024-04-28 18-ply in 18:18 @1.281 MHz over 1.407 Gnode] eval 6.8 after:
+  // 3... Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rh8 Ng4 7. Rg8+ Kh5 8. Rg5+ Kh4 9. Kxf5 Nf2 10. Rg2 Nd3 11. Rc2 Ne1 12. Rc3 Ng2 13. Rf3 Ne1 14.Rf3c3
+  //[2024-04-28 22-ply in 2:06:27.87 @1.24 MHz over 9.4088 Gnode] eval 7.0 after:
+  // 3... Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rh8 Kg7 7. Rh5 Kg8 8. Rh3 Nd1 9. Kxf5 Kf7 10. Rh7+ Ke8 11. Rh3 Nf2 12. Rf3 Nh3 13. Ke5?! [13. Rxh3]
+  // 13... Kd7 14. f5 Ng1 15. Rf1
   //"rn3rk1/1pqbbppp/p2pp3/P7/2BNP1n1/2N1B3/1PP1QPPP/R4RK1 w - - 0 12"; // Magnus Carlsen v Vincent Keymer 2023-10-05 European Chess Club Cup (R5)
   //[2023-10-06 16-ply in 1:24:48 @1.448 MHz over 7.319 Gnode] eval 0.92 after:
   // 12. Nf5 Bf6 13. Bb6 Qc6 14. Bd5 exd5 15. exd5 Qxc3 16. bxc3 Bxf5 17. Bd4 Nd7 18. Rab1 Rab8 19. Qf3 g6 20. Bxf6 Ndxf6
@@ -427,6 +432,7 @@ partial class UCI {
   //[2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
   //[2023-11-30 13-ply in 21.699 sec @1.489 MHz over 32.304 Mnode]
   //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
+  //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 32.312 Mnode]
   //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   //[2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
@@ -434,6 +440,8 @@ partial class UCI {
   // Mobility Weight = 100 cp
   //[2023-08-03 15-ply in 5:33 @1.415 MHz over 455.625 Mnode] eval 2.45 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh8 32. Be7 Kg7 33. Qxa7 Nd2 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 h5 37. Bg7+ Ke8 38. h4 Qe6e3+
+  //[2024-04-28 16-ply in 7:09 @1.357 MHz over 582.445 Mnode] eval 3.25 after:
+  // 30. Ba3!! Qe8 31. Qc7+ Kg8 32. Be7 Kg7 33. Qxa7 Na5 34. Bd8+ Kf8 35. Bxf6 Qxe6 36. Be5 Qf7 37. Qa7xb6 Na5b7 38. Ng3f1 Qf7d7
   // Mobility Weight = 200 cp
   //[2023-07-11 15-ply in 8:26 @1.369 MHz over 692.86 Mnode] eval 2.5 after:
   // 30. Ba3!! Qe8 31. Qc7+ Kh6 32. Be7 Kg7 33. Qxa7 g5 34. Qc7 Kg6 35. Bxf6 Kxf6 36. Qe5+ Kg6 37. Qxd5 Nd2

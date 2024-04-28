@@ -33,7 +33,7 @@ partial class GameState {
       Name = Clear_Hash                 // Example had compound name of "Clear Hash"
     },
     new SpinSetting {                   // Step 1/6: Define Control
-      Name = MultiPV,                   //[UCI]
+      Name = MultiPV,                   //[UCI]# of variations sought
       Default = "1",
       Min = 1,
       Max = 64                          // High Max for proof of mate solutions

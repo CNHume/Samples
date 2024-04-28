@@ -127,10 +127,10 @@ partial class Position : Board {
       }
 
       //
+      // Reset # of PV found in the current iteration.
       // Any Variation[] previously reported will now be overwritten.
-      // Reset # of PV found in the current iteration:
       //
-      State.VariationCount = 0;
+      State.MultiPVCount = 0;
 
       //
       // Enter recursive search:
