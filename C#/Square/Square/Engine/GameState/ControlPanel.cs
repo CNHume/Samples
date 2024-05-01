@@ -94,7 +94,11 @@ partial class GameState {
     },
     new SpinSetting {
       Name = Checks,
-      Default = "6",                    // 8
+      // 4 sufficient for Caruana v Gustafsson Mate [in 12-ply] w zMateDepthMin = 4
+      // 6 sufficient to solve Johannessen v Fischer #8 [in 11-ply]
+      // 6 solves Perpetual [in 13-ply]
+      // 8 solves Perpetual faster and finds Kramnik v Meier 2012-07-22 [in 12-ply]
+      Default = "6",
       Min = 0,
       Max = 15
     },
