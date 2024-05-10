@@ -3,9 +3,6 @@
 //
 //[2014-09-06 CNHume]Created File
 //
-// Conditionals:
-//
-//#define DebugParse
 
 namespace Engine;
 

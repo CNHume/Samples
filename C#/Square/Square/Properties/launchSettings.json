@@ -1,8 +1,12 @@
 {
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "Square": {
+    "Square Development": {
       "commandName": "Project",
-      "commandLineArgs": "test"
+      "commandLineArgs": "test",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }

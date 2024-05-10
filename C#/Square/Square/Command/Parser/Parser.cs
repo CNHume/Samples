@@ -89,16 +89,16 @@ partial class Parser : IDisposable {
   #endregion                            // Properties
 
   #region Constructors
-  public Parser(Boolean isVerbose = false) {
-    IsVerbose = isVerbose;
+  public Parser(Boolean bVerbose = false) {
+    IsVerbose = bVerbose;
     init();
   }
 
-  public Parser(Scanner scanner, Boolean isVerbose = false) : this(isVerbose) {
+  public Parser(Scanner scanner, Boolean bVerbose = false) : this(bVerbose) {
     Scanner = scanner;
   }
 
-  public Parser(String text, Boolean isVerbose = false) : this(new Scanner(text), isVerbose) {
+  public Parser(String text, Boolean bVerbose = false) : this(new Scanner(text), bVerbose) {
   }
 
   /*

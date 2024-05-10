@@ -29,7 +29,7 @@ partial class Parser : IDisposable {
     private TokenType TokenType { get; }
     private TokenRuleType TokenRuleType { get; set; }
     public String? Value { get; private set; }
-    public Boolean IsVerbose => Parser?.IsVerbose == true;
+    public Boolean IsVerbose => Parser.IsVerbose;
     #endregion
 
     #region Constructors
