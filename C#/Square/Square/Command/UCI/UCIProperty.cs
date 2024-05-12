@@ -17,11 +17,11 @@ partial class UCI {
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2024-04-13 Perft1 (startpos) in 10.182 sec @12.804 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-04-13 Perft2 in 17.091 sec @12.031 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-04-13 Perft3 in 21.946 sec @9.972 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-04-13 Perft4 in 69.835 sec @10.987 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-04-13 Perft5 in 10.65 sec @8.226 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2024-05-12 Perft1 (startpos) in 10.162 sec @12.828 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-05-12 Perft2 in 16.546 sec @12.428 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-05-12 Perft3 in 21.479 sec @10.188 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-05-12 Perft5 in 10.5 sec @8.343 MHz over 87.606 Mnode]
   //
   #endregion
 
@@ -98,7 +98,10 @@ partial class UCI {
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
   "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
-  // Mobility Enabled
+  // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
+  //[2024-05-12 19-ply in 14:36 @1.529 MHz over 1.339 Gnode] #10 after:
+  // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
+  // Mobility Enabled w 8Mx6 XPM w 48Mx2 XP w 16Mx4 QXP
   //[2024-03-08 19-ply in 1:11:29 @1.544 MHz over 6.622 Gnode] #11 after:
   // 43. Ng6 Qf4+ 44. Qxf4 Rg8 45. Ne7 Rd8 46. Qc7 Re8 47. Ng6 Rg8 48. Qf7 a1=Q 49. Rxa1 Rb8 50. Ra7 Rg8 51. Qxg8+ Kxg8 52. Ra8+ Kf7 53. Rf8#
   // Mobility Enabled, sans BestMoves
