@@ -21,7 +21,7 @@ partial class UCI {
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-05-12 Perft2 in 16.546 sec @12.428 MHz over 205.629 Mnode]
   //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-05-12 Perft3 in 21.479 sec @10.188 MHz over 218.84 Mnode]
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-05-12 Perft5 in 10.5 sec @8.343 MHz over 87.606 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-05-12 Perft5 in 10.444 sec @8.388 MHz over 87.606 Mnode]
   //
   #endregion
 
@@ -316,6 +316,9 @@ partial class UCI {
   //"8/8/8/1B1p4/2p5/P1P5/2Pk4/1K2n3 b - - 0 67"; // Caruana v Hou Yifan Grenke Chess Classic Line
   //[2023-06-29 20-ply in 17:08 @1.1446 MHz over 1.177 Gnode] eval -7.55 after:
   // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Be8 Nb3+ 71. Kd1 Kb2 72. Ke2 d4 73. Kf2 Nc5 74. Bg6 d3 75. a5 d2 76. Bh5 c3 77. a6 Nxa6 78. Bf3 Na6b4
+  // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
+  //[2024-05-13 20-ply in 12:11 @1.2545 MHz over 916.81 Mnode] eval -7.15 after:
+  // 67... Kxc3 68. Kc1 Nxc2 69. a4 Nd4 70. Kd1 Kb3 71. Be8 c3 72. Bg6 Kxa4 73. Bf7 Nf5 74. Kc2 d4 75. Kd3 Nh4 76. Be8+ Kb4 77. Bb5?! Nf3 78. Ba6 Nf3e5+
   //
   //"8/8/4k2p/7p/5P2/6P1/6K1/8 w - - 0 1";  // Distant Opposition from Doluhanova v Roumegous 2017
   //[2023-08-17 24-ply in 15:16 over 1.122 Gnode @1.225 MHz] eval 1.85 after:
@@ -432,10 +435,11 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
-  //[2023-07-21 13-ply in 19.972 sec @1.617 MHz over 32.293 Mnode]
-  //[2023-11-30 13-ply in 21.699 sec @1.489 MHz over 32.304 Mnode]
   //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
   //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 32.312 Mnode]
+  // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
+  //[2024-05-12 13-ply in 17.088 sec @1.774 MHz over 32.312 Mnode] #8 after:
+  // 39. Nf5 gxf5 40. Kh2 Re8 41. Bb3 Ra7 42. Rg1+ Kf8 43. Qg7+ Ke7 44. Rd1 Rd7 45. Qxf7+ Kd8 46. Qxd7#
   //"8/p3q1kp/1p2Pnp1/3pQ3/2pP4/1nP3N1/1B4PP/6K1 w - - 5 30"; // Botvinnik v Capablanca 1938 AVRO R11
   // Mobility Weight = 50 cp
   //[2023-08-03 15-ply in 3:43 @1.426 MHz over 318.1 Mnode] eval 2.25 after:
@@ -494,7 +498,12 @@ partial class UCI {
   //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31"; // Johannessen v Fischer Line
   //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37"; // Johannessen v Fischer #8
   //[2023-01-07 13-ply in 37.268 sec @1.582 MHz over 58.97 Mnode]
+  // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
+  //[2024-05-12 13-ply in 54.956 sec @1.719 MHz over 94.446 Mnode] #8 after:
+  // 37. g4 Bc3 38. Bf6+ Bxf6 39. Qxf6+ Kg8 40. Qf3 Rc3+ 41. Kd2 Rxf3 42. h4 Rf2+ 43. Kd3 Rfe2 44. Kc3 R8e3#
   //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35"; // Byrne v Fischer 35 -#9
+  //[2024-05-12 13-ply in 2:20.7 @1.683 MHz over 236.751 Mnode]
+  // 35... Bc5+ 36. Kh2 Nd2 37. Kh1 Ra1+ 38. Kh2 Nf1+ 39. Kh1 Ng3+ 40. Kh2 Bf2 41. Qf8+ Kxf8 42. Nd7+ Ke7 43. Nc5 Rh1#
   //[2022-11-03 14-ply in 3:00.5 over 275.52 Mnode @1.526 MHz]
   // 35... Bc5+ 36. Kh2 Nd2 37. Kh1 Ra1+ 38. Kh2 Nf1+ 39. Kh1 Ng3+ 40. Kh2 Bf2 41. Qf8+ Kxf8 42. Nxg6+ fxg6 43. Kh3 Rh1#
   //"r3r1k1/pp3pbp/1qp3p1/2B5/2BP2b1/Q1n2N2/P4PPP/3R1K1R b - - 0 17"; // Byrne v Fischer 17

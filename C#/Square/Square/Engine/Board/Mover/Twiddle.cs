@@ -637,7 +637,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected static Plane ShiftR(Plane qp, Int32 n) {
-    return ShiftL(qp, -n);
+    return n < 0 ? qp << -n : qp >> n;
   }
   #endregion                            // Shift Methods
 }
