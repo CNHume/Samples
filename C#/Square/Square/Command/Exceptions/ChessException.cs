@@ -5,7 +5,8 @@
 //
 // Conditionals:
 //
-namespace Exceptions;
+namespace Exceptions;
+
 class ChessException : ApplicationException {
   #region Constructors
   public ChessException() {
@@ -19,7 +20,8 @@ class ChessException : ApplicationException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class ControlException : ChessException {
   #region Constructors
   public ControlException() {
@@ -33,7 +35,8 @@ class ControlException : ChessException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class ParseException : ChessException {
   #region Constructors
   public ParseException() {
@@ -47,7 +50,8 @@ class ParseException : ChessException {
     : base(message, inner) {
   }
   #endregion                            // Constructors
-}
+}
+
 class MoveException : ChessException {
   #region Constructors
   public MoveException() {
