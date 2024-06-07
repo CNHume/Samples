@@ -59,7 +59,7 @@ partial class UCI {
   //[2024-03-02 22-ply in 6:04:40.8 @1.661 MHz over 36.3345 Gnode] eval 9.75 after:
   // 3... Ne3 4. Ke5 Kg6 5. Rd6+ Kg7 6. Rd3 Nc2 7. Kxf5 Nb4 8. Rd7+ Kh6 9. Rd6+ Kh5 10. Ke5 Nc2 11. f5 Ne1 12. Rd1
   //[2024-04-28 18-ply in 18:18 @1.281 MHz over 1.407 Gnode] eval 6.8 after:
-  // 3... Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rh8 Ng4 7. Rg8+ Kh5 8. Rg5+ Kh4 9. Kxf5 Nf2 10. Rg2 Nd3 11. Rc2 Ne1 12. Rc3 Ng2 13. Rf3 Ne1 14.Rf3c3
+  // 3... Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rh8 Ng4 7. Rg8+ Kh5 8. Rg5+ Kh4 9. Kxf5 Nf2 10. Rg2 Nd3 11. Rc2 Ne1 12. Rc3 Ng2 13. Rf3 Ne1 14. Rf3c3
   //[2024-04-28 22-ply in 2:06:27.87 @1.24 MHz over 9.4088 Gnode] eval 7.0 after:
   // 3... Kf6 4. Rf8+ Kg6 5. Ke6 Ne3 6. Rh8 Kg7 7. Rh5 Kg8 8. Rh3 Nd1 9. Kxf5 Kf7 10. Rh7+ Ke8 11. Rh3 Nf2 12. Rf3 Nh3 13. Ke5?! [13. Rxh3]
   // 13... Kd7 14. f5 Ng1 15. Rf1
@@ -170,7 +170,7 @@ partial class UCI {
   // 1... Nd3 2. h4 Nf4 3. Kf5 Ne6 4. Be2 Kd6 5. Bc4 Nd4+? {losing} (5... Nf8! {only move}) 6. Kf6
   //"8/4k3/5nKP/8/8/1B6/8/8 w - - 0 1"; // Fischer v Taimanov Draw Test Position
   //"6k1/1p3ppp/3B2b1/1P6/p1PNr3/7P/1n3PP1/2R3K1 w - - 0 1"; // Arjun Erigaisi v Nihal Sarin Line
-  // 1. c5  Nd3 ({game continuation} 1... Rxd4 2. c6 bxc6 3. Rxc6 Rc4 4.Bc5 h6 5. b6 Rc1+ 6. Kh2 +-)
+  // 1. c5  Nd3 ({game continuation} 1... Rxd4 2. c6 bxc6 3. Rxc6 Rc4 4. Bc5 h6 5. b6 Rc1+ 6. Kh2 +-)
   // 2. Rc4 Nb2 3. Rc3 Nd1 4. Rc1 Rxd4 5. c6 bxc6 6. b6 Rxd6 7. b7 Rd8
   //"3r2k1/1P3ppp/2p3b1/8/p7/7P/5PP1/2Rn2K1 w - - 0 8"; // Arjun Erigaisi v Nihal Sarin Prep
   //[20-ply in 444,971.9 sec = 5d 3:36:12 @1.3157 MHz over 585 Gnode] eval 0.83 after:
@@ -188,7 +188,7 @@ partial class UCI {
   //"3r4/pQ3pp1/2p1kn2/4n1p1/2Pqp1b1/3P2P1/PBP2PBr/1R1R2K1 b - - 0 19"; // Richard Rapport v Shakhriyar Mamedyarov 2022-10-15 Line #-10
   //[18-ply in 16:53:25 @563.3 KHz over 34.25 Gnode] -#10
   // 19... Rdh8 (19... Rxh2+ 20. Kxg2 Bh3+ 21. Kg1 Nf3+ 22. Kh1 Qxf2
-  // (22... Bf1! 23. Qxc6+ Kf5 24. Qb5+ Kg6 25. Qxg5+ Kxg5 26. Bc1+ Kg4 27. Rb5 Rh8+ 28.Bh6 Rxh6+ 29. Rh5 Rxh5#)
+  // (22... Bf1! 23. Qxc6+ Kf5 24. Qb5+ Kg6 25. Qxg5+ Kxg5 26. Bc1+ Kg4 27. Rb5 Rh8+ 28. Bh6 Rxh6+ 29. Rh5 Rxh5#)
   // 23. Qxc6+ Kf5 24. Qc5+ Qxc5 25. Bd4 Bf1! 26. dxe4+ Kg4 27. Rb8 Rxb8 28. Rxf1 Rh8+ 29. Kg2 Rh2#)
   // 20. Qc8+ Rxc8 21. Bxd4 Rch8 22. f4 Bf3 23. Bxf3 exf3 24. Kf1
   // (24. f5+ Kxf5 25. g4+ Nfxg4 26. Kf1 Rg2 27. a3 Rh1 (27... Nh2+ 28. Ke1 Re2#) 28. Bg1 Rhxg1#)
@@ -218,7 +218,7 @@ partial class UCI {
   // 9. Bxh7+ Kxh7 10. Ng5+ Kg6 11. h4 Qb6? 12. a3?! [12. Qg4 Bxc3+ 13. bxc3 Nf5 14. h5+ Kh6 15. Nxf7+ Kh7 16. Qg6+ Kg8 17. Ng5 Rd8 18. Qf7+ Kh8 19. h6 Nxh6 20. Rxh6+ gxh6 21. Qh7#]
   // 12... Bxc3+ 13. bxc3 Re8 14. h5+ Kh6 15. Qd3 Nf5
   //"r1bq1r2/pp2npp1/2n1p1k1/3pP1N1/1b1P3P/2N5/PP3PP1/R1BQK2R b KQ - 0 11"; // Greek Gift from French Advance Line [2023-01-09 16-ply in 2:40:15 @1.508 MHz over 14.5 Gnode] eval 2.85 after:
-  // 11... Qa5 12. Qd3+ Nf5 13. g4 f6 14. h5+ Kh6 15. Nxe6+ Kh7 16. Nxf8+ Bxf8 17. exf6 gxf6 18. gxf5 Ne7 19. h6 Bxf5 20. Qb5 Qxb5 21.Nxb5
+  // 11... Qa5 12. Qd3+ Nf5 13. g4 f6 14. h5+ Kh6 15. Nxe6+ Kh7 16. Nxf8+ Bxf8 17. exf6 gxf6 18. gxf5 Ne7 19. h6 Bxf5 20. Qb5 Qxb5 21. Nxb5
   //"7k/6p1/3P3p/p7/P3Q1P1/8/6PK/3q4 w - - 0 46"; // Jordan Van Foreest v Mamedyarov #16 Line 2022 Oslo Esports Cup 2022-04-27
   //[2022-08-25 18-ply in 4:31.7 @1.407 over 382.3 Mnode] eval 9.85 after:
   // 46. Qe7 Qxg4 47. d7 Qh5+ 48. Kg3 Qg6+ 49. Kf4 Qxg2 50. d8=Q+ Kh7 51. Qd3+ Qg6 52. Qf5 h5 53. Qxg6+ Kxg6 54. Qg5+ Kf7
@@ -468,7 +468,7 @@ partial class UCI {
   //"8/8/8/8/8/5k2/3n3b/4K3 b - - 0 79"; // Paehtz v Hou Yifan KBN -#12
   //[18-ply in 33.4 sec @1.6 MHz over 53.4 Mnode]
   //"8/8/7K/4k2P/6b1/6n1/8/8 w - - 0 1"; // KBN v K Endgame Test #26
-  // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8.Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
+  // 1. Kg6 Nxh5 2. Kh7 Nf4 3. Kg7 Be6 4. Kh7 Kf5 5. Kh6 Bg8 6. Kg7 Bc4 7. Kh6 Ng6 8. Kh5 Bg8 9. Kh6 Kf6 10. Kh5 Ne5
   // 11. Kh4 Kf5 12. Kg3 Ng4 13. Kf3 Bc4 14. Kg3 Bd5 15. Kh3 Kf4 16. Kh4 Be6
   // 17. Kh5 Bf7+ 18. Kh4 Ne3 19. Kh3 Be6+ 20. Kh4 Nf5+ 21. Kh3 Kf3 22. Kh2 Ne3 23. Kg1 Kg3 24. Kh1 Kf2 25. Kh2 Nf1+ 26. Kh1 Bd5#
   //"8/8/8/4nk1b/8/6K1/8/8 w - - 0 14"; // KBN v K Endgame Test Line #12
@@ -593,6 +593,20 @@ partial class UCI {
   //[2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
+  //"8/8/3p4/4p2B/4P3/8/4K1kp/8 w - - 0 1";     // Can White win?
+  // 1. Bf3+ Kg1 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1
+  // [7... Kg2 8. d8=Q h1=Q 9. Qg5+] 8. d8=Q h1=Q 9. Qd4+ Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2
+  // moves h5f3 g2g1
+  //"8/8/3p4/4p3/4P3/5B2/4K2p/6k1 w - - 0 2"    // Can White win? Bishop Sacrifice Line
+  //[2024-06-06 17-ply in 1.97 sec @851.135 KHz over 1.6766 Mnode] eval 9.75 after:
+  // 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1 8. d8=Q h1=Q 9. Qd4+ Kg2
+  // [9... Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2] 10. Qg4+ Kh2 11. Kf2 Qf3+ 12. Kxf3 Kh1
+  // moves h5f3 g2g3
+  //"8/8/3p4/4p3/4P3/6k1/4K2p/7B b - - 0 2"     // Can White win? King Opposition Line
+  //[2024-06-06 26-ply in 17:41.54 @1.089 MHz over 1.558 Gnode] eval 3.25 after:
+  // 2. Ke3 Kh3 3. Kf2 Kh4 4. Kg2 Kg5 5. Kxh2 Kf4 6. Kg2 Kg5 7. Kf1 Kf4 8. Ke2 Kg3 9. Bh5 Kg2 10. Kd3 Kg3 11. Bg6 Kh4 12. Bf5 Kg5
+  // 13. Kc4 Kf4 14. Kd5 Ke3 [15. Kxd6]
+  //
   //"k7/pN6/8/3B1r2/5B1K/8/8/8 w - - 0 1";      // Forked Bishops [2024-04-24 9-ply in 1.079 sec @610 KHz over 658.144 Knode] eval 4.75 after:
   // 1. Bg2 Rxf4+ 2. Kg3 Rf8 3. Nc5+ Kb8 4. Nd7+ Kc7 5. Nxf8 a5 6. Ng6 a4 7. Nf4
   //"8/8/8/2P4B/8/5K2/3k4/5b2 w - - 0 1";       // KBP v KB % NM Nelson Lopez
@@ -667,7 +681,7 @@ partial class UCI {
   //
   //"8/8/3P4/8/1pP5/pP1K4/1k6/8 w - - 0 1"; // 2023 Airthings Masters Puzzle
   //[21-ply in 20:56:31 @1.065 MHz over 80.26 Gnode] eval 4.2 after:
-  // 1. d7 a2 2. d8=B Kxb3 3. Bf6 Ka3 4. Ba1 Ka4 5. Kc2 b3+ 6. Kc3 Ka5 7. Kxb3 Ka6 8. Be5 Ka5 9. Bc3+ Ka6 10. Kxa2 Kb6 11. Bd4+ Ka5 12.c5 Ka5b5 13. Ka2b2
+  // 1. d7 a2 2. d8=B Kxb3 3. Bf6 Ka3 4. Ba1 Ka4 5. Kc2 b3+ 6. Kc3 Ka5 7. Kxb3 Ka6 8. Be5 Ka5 9. Bc3+ Ka6 10. Kxa2 Kb6 11. Bd4+ Ka5 12. c5 Ka5b5 13. Ka2b2
   //"8/8/8/7n/8/4n3/3kp1K1/6N1 w - - 0 1";      // 3 Knights Stalemate [2023-06-10 17-ply in 50.33 @1.6146 MHz over 81.265 Mnode]
   // 1. Kh3 e1=Q (1... Nf4+ 2. Kh2 Ng4+ 3. Kh1 Nf2+ 4. Kh2 e1=N 5. Nf3+ Nxf3+ 6. Kg3 Ke3 stalemate)
   // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
