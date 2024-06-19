@@ -1,6 +1,6 @@
 # README
 
-Code Samples written by Christopher N. Hume, updated 2024-04-16
+Code Samples written by Christopher N. Hume, updated 2024-06-12
 
 ## What is this repository for?
 
@@ -32,6 +32,20 @@ Some of the C# projects may require C# 12 features provided by Visual Studio 202
 8.0 Framework.
 
 See the following Microsoft Download link to obtain the [Free Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/), currently at version 17.10 Preview 3.  Installation includes a [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
+
+
+To **Open the PMC** via *Tools > NuGet Package Manager > Package Manager Console*.
+
+Here are some useful PMC commands:
+
+```
+dotnet tool list -g
+dotnet tool update dotnet-ef -g
+
+dotnet --list-runtimes
+dotnet --list-sdks
+dotnet --info [To list both sdks and runtimes]
+```
 
 The Othello player was written in Java 1.8 using a NetBeans 8.0 IDE.
 

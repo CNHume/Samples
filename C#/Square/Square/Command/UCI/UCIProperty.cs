@@ -618,6 +618,9 @@ partial class UCI {
   // 1. Kf1 Kd4 2. Kf2 Ke4 3. e3 Kf5 4. Kf3 Ke5 5. e4 Kd6 6. Kf4 Ke6 7. e5 Kd7 8. Kf5 Ke7 9. e6 Ke8 10. Ke4 Ke7 11. Ke5 Ke8 12. Ke5d6
   //[2023-12-20 26-ply in 3:03:29.622 @1.1785 MHz over 12.975 Gnode] eval 9.0 after:
   // 1. Kf1 Kd4 2. Kf2 Ke4 3. e3 Kf5 4. Kf3 Ke5 5. e4 Kf6 6. Kf4 Ke6 7. e5 Ke7 8. Kf5 Kd7 9. e6+ Ke7 10. Ke5 Ke8 11. Kd6 Kd8 12. Kd6c6 Kd8e7 13. Kc6b7
+  //"8/8/8/8/8/4K2p/4N2k/8 w - - 0 1";    // KN v KP #7
+  //[2024-06-18 13-ply in 1.335 sec @655.18 KHz over 874.9 Knode] #7 after:
+  // 1. Kf3 Kh1 2. Kf2 Kh2 3. Nc3 Kh1 4. Ne4 Kh2 5. Nd2 Kh1 6. Nf1 h2 7. Ng3#
   //"8/8/8/8/6pN/7p/7p/1KR3nk w - - 0 1"; // #6 1927 by Janis Behting % NM Nelson Lopez
   //[2023-08-29 11-ply in 7.26 sec @1.284 MHz over 9.32 Mnode] #6 after:
   // 1. Rf1 g3 2. Nf5 Kg2 3. Ne3+ Kh1 4. Rc1 g2 5. Nd1 Ne2 6. Nf2#
