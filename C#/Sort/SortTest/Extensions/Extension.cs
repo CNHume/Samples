@@ -1,7 +1,9 @@
 ﻿//
 // Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
 //
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Reflection;                // For FieldInfo
 using System.Text;
 
@@ -62,22 +64,33 @@ namespace SortTest.Extensions {
     #region Parser Methods
     public static DateTime? TryParseDateTime(this String s) {
       return DateTime.TryParse(s, out DateTime result) ?
-        (DateTime?)result : default;
+        (DateTime?)result : null;
+    }
+
+    public static DateTime? TryParseDateTimeExact(this String s, String format) {
+      return DateTime.TryParseExact(
+        s, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result) ?
+        result : null;
     }
 
     public static Decimal? TryParseDecimal(this String s) {
       return Decimal.TryParse(s, out Decimal result) ?
-        (Decimal?)result : default;
+        (Decimal?)result : null;
     }
 
     public static Int32? TryParseInt32(this String s) {
       return Int32.TryParse(s, out Int32 result) ?
-        (Int32?)result : default;
+        (Int32?)result : null;
     }
 
     public static UInt32? TryParseUInt32(this String s) {
       return UInt32.TryParse(s, out UInt32 result) ?
-        (UInt32?)result : default;
+        (UInt32?)result : null;
+    }
+
+    public static Boolean? TryParseBoolean(this String s) {
+      return Boolean.TryParse(s, out Boolean result) ?
+        (Boolean?)result : null;
     }
 
     #region Enum Methods
@@ -91,21 +104,30 @@ namespace SortTest.Extensions {
     public static TEnum? TryParseEnumFromName<TEnum>(
       this String name, Boolean ignoreCase = default)
       where TEnum : Enum {
+      TEnum? value = default;
       if (!IsNullOrEmpty(name)) {
         var stringComparison = ignoreCase ? InvariantCultureIgnoreCase : CurrentCulture;
         var type = typeof(TEnum);
         foreach (var field in type.GetFields()) {
-          var attribute =
+          var descriptionAttribute =
+            Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
+          var displayAttribute =
             Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
+
           var found =
             name.Equals(field.Name, stringComparison) ||
-            attribute != null && name.Equals(attribute.Name, stringComparison);
+            descriptionAttribute != null &&
+            name.Equals(descriptionAttribute.Description, stringComparison) ||
+            displayAttribute != null &&
+            name.Equals(displayAttribute.Name, stringComparison);
 
-          if (found)
-            return (TEnum?)field.GetValue(null);
+          if (found) {
+            value = (TEnum?)field.GetValue(default);
+            return value;
+          }
         }
       }
-      return default;
+      return value;
     }
 
     public static TEnum ParseEnumFromName<TEnum>(
