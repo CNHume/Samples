@@ -4,7 +4,7 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-using Fermat.Math;
+using Fermat.Maths;
 using Fermat.Parsers;
 using Fermat.Settings;
 

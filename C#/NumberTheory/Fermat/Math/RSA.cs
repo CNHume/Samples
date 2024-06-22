@@ -16,9 +16,9 @@
 //
 using System.Diagnostics;
 
-using static Fermat.Math.Modular;
+using static Fermat.Maths.Modular;
 
-namespace Fermat.Math {
+namespace Fermat.Maths {
   public class RSA {
     #region Properties
     public decimal EncodePower { get; set; }

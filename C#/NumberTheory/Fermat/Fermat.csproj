@@ -9,13 +9,13 @@
     <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See COPYING.txt and COPYING_LESSER.txt for details.</Description>
     <LangVersion>preview</LangVersion>
     <TargetFramework>net8.0</TargetFramework>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <OutputType>Exe</OutputType>
 
     <RootNamespace>Fermat</RootNamespace>
     <AssemblyName>Fermat</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/NumberTheory</RepositoryUrl>

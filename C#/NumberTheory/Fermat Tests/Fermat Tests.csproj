@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Title>Fermat</Title>
     <Product>NumberTheory</Product>
     <Version>1.0</Version>
+    <Title>Fermat Tests</Title>
     <Authors>Christopher N. Hume</Authors>
     <Company>CNHume</Company>
     <Copyright>Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.</Copyright>
     <LangVersion>preview</LangVersion>
     <TargetFramework>net8.0</TargetFramework>
+    <Platforms>AnyCPU</Platforms>
     <IsPackable>false</IsPackable>
-    <Platforms>AnyCPU;x64</Platforms>
-
     <RootNamespace>FermatTests</RootNamespace>
     <AssemblyName>FermatTests</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsTestProject>true</IsTestProject>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/NumberTheory</RepositoryUrl>

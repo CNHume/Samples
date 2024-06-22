@@ -8,7 +8,7 @@ using Fermat.Exceptions;
 
 using System.Diagnostics;
 
-namespace Fermat.Math {
+namespace Fermat.Maths {
   public static class Modular {
     #region Methods
     // The following is based on Fermat's Little Theorem
