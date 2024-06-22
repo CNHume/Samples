@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Title>sortest</Title>
-    <Product>SortTest</Product>
+    <Title>Sort Test</Title>
+    <Product>Sort</Product>
     <Version>1.0</Version>
     <Authors>Christopher N. Hume</Authors>
     <Company>CNHume</Company>
@@ -14,7 +14,7 @@
     <RootNamespace>SortTest</RootNamespace>
     <AssemblyName>SortTest</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>

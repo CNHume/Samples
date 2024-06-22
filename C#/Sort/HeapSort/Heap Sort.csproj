@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Title>heapsort</Title>
+    <Title>Heap Sort</Title>
     <Product>Sort</Product>
     <Version>1.0</Version>
     <Authors>Christopher N. Hume</Authors>
@@ -15,7 +15,7 @@
     <RootNamespace>HeapSort</RootNamespace>
     <AssemblyName>HeapSort</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>

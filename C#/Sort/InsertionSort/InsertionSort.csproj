@@ -16,7 +16,7 @@
     <RootNamespace>InsertionSort</RootNamespace>
     <AssemblyName>InsertionSort</AssemblyName>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
