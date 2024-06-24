@@ -279,8 +279,6 @@ partial class UCI {
   // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xposing}) 3. Ne6+ 1-0
   //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
   //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8
-  //[2024-06-24 12-ply in 8.846 sec @1.421 KHz over 12.573 Mnode] -#8 after:
-  // 55... Nd4 56. d6 Nf3 57. Nc7d5+ Ke3f2 58. Rf6xf3+ Kf2xf3 59. Nd5e3 Ra2a1+ 60. Ne3f1 Ra1xf1+ 61. Kh1h2 g4g3+ 62. Kh2h3 Rf1h1#
   //[2022-08-25 15-ply to find #-9 in 1:11 @1.497 MHz over 106.12 Mnode]
   // 55... h5 56. d6 Ra1+ 57. Kg2 Rg1+ 58. Kh2 g3+ 59. Kh3 Rh1+ 60. Kg2 Rh2+ 61. Kf1 g2+ 62. Ke1 Rh1+ 63. Rf1 gxf1=Q#
   //"r1bnknr1/1pp1qp2/p3p1p1/3pP1Np/3P3R/2NB1RQ1/PPP2PP1/2K5 w q - 0 1"; // Stockfish 8 v Alpha Zero (1-0) [Too Deep to find Bc4!]
@@ -437,7 +435,6 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
-  //[2024-06-24 13-ply in 19.911 sec @1.621 MHz over 32.273 Mnode] bestLine
   //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
   //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 32.312 Mnode]
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP

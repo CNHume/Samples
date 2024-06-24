@@ -45,12 +45,13 @@ partial class Position : Board {
   private Eval quiet(Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(quiet);
     BestMoves.Clear();                  //[Required]per iteration
+    var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
     if (IsDraw()) {                     //[Note]Test50MoveRule() will not be called below
       State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
-      return eval();                    //[Return]1/3 Draw
+      return eval();
 #else
       return boundValue(eval(), mAlpha, mBeta);
 #endif
@@ -88,7 +89,7 @@ partial class Position : Board {
       var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 [{methodName}]";
       Debug.Assert(BestMoves.Count > 0, emptyMessage1);
 #endif
-      return mValueFound;               //[Return]2/3 Found
+      return mValueFound;
     }
     #endregion                          // Transposition Table Lookup
 
@@ -119,19 +120,19 @@ partial class Position : Board {
     if (mBeta <= mAlpha) {
       //[Test]return boundValue(mBest, mAlpha, mBeta);
     }
-
-    #region Generate Moves
-    var moves = PseudoMoves;
-    if (SearchMoves != null && SearchMoves.Count > 0) {
-      moves.Clear();
-      moves.AddRange(SearchMoves);
-#if DebugSearchMoves
-      var sb = new StringBuilder("SearchMoves:");
-      sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
-      sb.FlushLine();
-#endif
-    }
     else {
+      #region Generate Moves
+      var moves = PseudoMoves;
+      if (SearchMoves != null && SearchMoves.Count > 0) {
+        moves.Clear();
+        moves.AddRange(SearchMoves);
+#if DebugSearchMoves
+        var sb = new StringBuilder("SearchMoves:");
+        sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
+        sb.FlushLine();
+#endif
+      }
+      else {
 #if SwapOn
         generate(moves, Swaps);
 #elif QuietCheck || QuietMate
@@ -140,7 +141,7 @@ partial class Position : Board {
         else
           generateMaterialMoves(moves);
 #else
-      generateMaterialMoves(moves);
+        generateMaterialMoves(moves);
 #endif
 #if DebugPseudoMoves
         DisplayCurrent(methodName);
@@ -148,123 +149,113 @@ partial class Position : Board {
         sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
         sb.FlushLine();
 #endif
-    }
-    #endregion                          // Generate Moves
+      }
+      #endregion                        // Generate Moves
 
-    #region Move Loop Initializaton
-    var moveBest = Move.Undefined;      //[Init]
-    var be = None;
-    List<Move>? bestLine = default;
-    #endregion                          // Move Loop Initializaton
-
-    var child = Push();                 // Push Position to make the moves
-    try {
-      bestLine = child.BestMoves;
-      #region Move Loop
-      var uLegalMoves = 0U;
-      foreach (var mov in moves) {
-        var move = mov;                 // Allow tryMove(ref move) below
-        #region Delta Prune or Make Move
+      var child = Push();               // Push Position to make the moves
+      try {
+        var bestLine = child.BestMoves;
+        #region Move Loop
+        var uLegalMoves = 0U;
+        foreach (var mov in moves) {
+          var move = mov;               // Allow tryMove(ref move) below
+          #region Delta Prune or Make Move
 #if DebugMove
-        unpackMove1(
-          move, out Sq sqFrom, out Sq sqTo,
-          out Piece piece, out Piece promotion, out Boolean bCapture);
-        //unpackMove2(
-        //  move, out Sq sqFrom, out Sq sqTo,
-        //  out Piece piece, out Piece promotion, out Piece capture,
-        //  out Boolean bCastles, out Boolean bCapture);
+          unpackMove1(
+            move, out Sq sqFrom, out Sq sqTo,
+            out Piece piece, out Piece promotion, out Boolean bCapture);
+          //unpackMove2(
+          //  move, out Sq sqFrom, out Sq sqTo,
+          //  out Piece piece, out Piece promotion, out Piece capture,
+          //  out Boolean bCastles, out Boolean bCapture);
 #endif
-        verifySideToMove(moveBest, methodName);
+          verifySideToMove(moveBest, methodName);
 
-        var bNonMaterial = !move.Has(Move.Material);
+          var bNonMaterial = !move.Has(Move.Material);
 #if QuietMate
           if (uLegalMoves > 0) {
 #else
-        if (true) {
+          if (true) {
 #endif
 #if QuietCheck
             if (bNonMaterial && !bInCheck) {
 #else
-          if (bNonMaterial) {
+            if (bNonMaterial) {
 #endif
-            AtomicIncrement(ref State.QuietSkipTotal);
-            continue;
-          }
-
-          if (isDeltaPruned(ref move, mAlpha, mStand)) {
-            AtomicIncrement(ref State.DeltaPruneTotal);
-            continue;
-          }
-        }
-
-        //
-        //[Note]DrawFlags.Draw3 would only be set on entry, because the point of quiet() is to
-        // continue searching only so long as moves which alter the material balance are found.
-        //
-        if (!child.tryMove(ref move, NotFindRepetition, Qxnt))
-          continue;
-
-        uLegalMoves++;
-        #endregion                      // Delta Prune or Make Move
-
-        //
-        //[Note]Test50MoveRule() isn't called because the point of quiet() is to keep
-        // searching only so long as moves which alter the material balance are found.
-        //
-#if QuietMate && !QuietCheck
-        if (bNonMaterial) {           // Skip search of any Check Evasion.
-          State.QuietSkipTotal++;
-          continue;
-        }
-#endif
-        mValue = (Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
-
-        #region Update Best Move
-        if (mBest < mValue) {
-          mBest = mValue;
-
-          if (mAlpha < mBest) {
-            //
-            //[Note]Annotation is made from the child position resulting from each move.
-            //
-            moveBest = child.annotateFinal(move);
-            be = QuietUpdate;
-
-            traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
-            mAlpha = mBest;
-            if (mBeta <= mAlpha) {
-#if TraceVal
-              if (bTrace)
-                LogLine("Trace: Quiet Failed High");
-#endif
-              et = EvalType.Lower;      // Cutoff Reached: Ignore further moves and Fail High
-              goto exit;
+              AtomicIncrement(ref State.QuietSkipTotal);
+              continue;
             }
 
-            et = EvalType.Exact;
+            if (isDeltaPruned(ref move, mAlpha, mStand)) {
+              AtomicIncrement(ref State.DeltaPruneTotal);
+              continue;
+            }
           }
-        }
-        #endregion                      // Update Best Move
-      }                                 //[Next]Pseudo Move
-      #endregion                        // Move Loop
 
-      if (uLegalMoves == 0) {
-        moveBest = Move.EmptyMove;      // QuietMate
-        be = QuietFinal;
-#if QuietMate
-        if (isLeaf()) {
-          SetFinal();                   // Mark Game Leaf
-          mBest = finalValue();
-          traceVal("Quiet Failed Low", mBest);//[Conditional]
-          goto exit;
-        }
+          //
+          //[Note]DrawFlags.Draw3 would only be set on entry, because the point of quiet() is to
+          // continue searching only so long as moves which alter the material balance are found.
+          //
+          if (!child.tryMove(ref move, NotFindRepetition, Qxnt))
+            continue;
+
+          uLegalMoves++;
+          #endregion
+
+          //
+          //[Note]Test50MoveRule() isn't called because the point of quiet() is to keep
+          // searching only so long as moves which alter the material balance are found.
+          //
+#if QuietMate && !QuietCheck
+          if (bNonMaterial) {           // Skip search of any Check Evasion.
+            State.QuietSkipTotal++;
+            continue;
+          }
 #endif
-      }
+          mValue = (Eval)(-child.quiet((Eval)(-mBeta), (Eval)(-mAlpha)));
 
-      traceVal("Quiet Failed Low", mBest);      //[Conditional]
-    }
-    finally {
-      Pop(ref child);                   // Pop Position used for this Ply
+          #region Update Best Move
+          if (mBest < mValue) {
+            mBest = mValue;
+
+            if (mAlpha < mBest) {
+              //
+              //[Note]Annotation is made from the child position resulting from each move.
+              //
+              moveBest = child.annotateFinal(move);
+              //[Old]
+              addBest(moveBest, QuietUpdate, bestLine);
+
+              traceVal("Quiet Raised Alpha", mBest);  //[Conditional]
+              mAlpha = mBest;
+              if (mBeta <= mAlpha) {
+#if TraceVal
+                if (bTrace)
+                  LogLine("Trace: Quiet Failed High");
+#endif
+                et = EvalType.Lower;    // Cutoff Reached: Ignore further moves and Fail High
+                goto exit;
+              }
+
+              et = EvalType.Exact;
+            }
+          }
+          #endregion                    // Update Best Move
+        }                               //[Next]Pseudo Move
+        #endregion
+        if (uLegalMoves == 0) {
+#if QuietMate
+          if (isLeaf()) {
+            SetFinal();                 // Mark Game Leaf
+            mBest = finalValue();
+          }
+#endif
+        }
+        traceVal("Quiet Failed Low", mBest);    //[Conditional]
+      }
+      finally {
+        Pop(ref child);                 // Pop Position used for this Ply
+      }
     }
 
   exit:
@@ -277,22 +268,16 @@ partial class Position : Board {
 #endif
     if (mBest == EvalUndefined)
       mBest = mStand;
-
-    addBest(moveBest, be, bestLine);
 #if DebugBest
     // BestMoves should not be empty here
     var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 [{methodName}]";
     Debug.Assert(BestMoves.Count > 0, emptyMessage2);
 #endif
-    if (IsUndefined(moveBest))
-      return mBest;                     //[Return]3/3 Best
-    else {
 #if TransposeQuiet
-      return storeQXP(mBest, et, moveBest);
+    return storeQXP(mBest, et, moveBest);
 #else
-      return boundValue(mBest, mAlpha, mBeta);
+    return boundValue(mBest, mAlpha, mBeta);
 #endif
-    }
   }
 
   protected Boolean isLeaf() {

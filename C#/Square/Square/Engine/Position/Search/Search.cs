@@ -73,10 +73,12 @@ partial class Position : Board {
                       Move moveExcluded = Move.Undefined) {
     const String methodName = nameof(search);
     BestMoves.Clear();                  //[Required]per iteration
+    var moveBest = Move.Undefined;      //[Init]
+
     #region Test for Draw
     if (IsDraw()) {                     //[Note]Test50MoveRule() must be called after tryMove(), below.
       State.IncEvalType(EvalType.Exact);
-      return eval();                    //[Return]1/5 Draw
+      return eval();
     }
     #endregion
 
@@ -103,7 +105,7 @@ partial class Position : Board {
       var emptyMessage1 = $"BestMoves.Count = {BestMoves.Count} Empty1 at wDepth = {wDepth} [{methodName}]";
       Debug.Assert(BestMoves.Count > 0, emptyMessage1);
 #endif
-      return mQuietValue;               //[Return]2/5 Quiet
+      return mQuietValue;
     }
     #endregion                          // Test for entry into Quiet Search
 
@@ -158,7 +160,7 @@ partial class Position : Board {
       var emptyMessage2 = $"BestMoves.Count = {BestMoves.Count} Empty2 at wDepth = {wDepth} [{methodName}]";
       Debug.Assert(BestMoves.Count > 0, emptyMessage2);
 #endif
-      return mValueFound;               //[Return]3/5 Found
+      return mValueFound;
     }
     #endregion                          // Transposition Table Lookup
 
@@ -182,7 +184,7 @@ partial class Position : Board {
           out Eval mPrunedValue);
 
         if (bPrune)
-          return mPrunedValue;          //[Return]4/5 Pruned
+          return mPrunedValue;
       }
 
       if (!bReduced) {
@@ -240,7 +242,7 @@ partial class Position : Board {
       sb.FlushLine();
 #endif                                  // DebugPseudoMoves
     }
-    #endregion                          // Generate Moves
+    #endregion
 
     #region Move Loop Initializaton
     var bTrace = IsTrace();
@@ -249,18 +251,11 @@ partial class Position : Board {
                                         //[Test]mBest = MinusInfinity;
     var mBest2 = mBest;                 // Value from the least best MultiPV
     var mValue = EvalUndefined;
-#if TestBest
-    List<BestMove> bestLine;
-#else
-    List<Move> bestLine;
-#endif
-    var moveBest = Move.Undefined;      //[Init]
-    var be = None;
-    #endregion                          // Move Loop Initializaton
+    #endregion
 
     var child = Push();                 // Push Position to make the moves
     try {
-      bestLine = child.BestMoves;
+      var bestLine = child.BestMoves;
       #region Move Sort
       //
       // Try to consider the best moves first!
@@ -346,8 +341,7 @@ partial class Position : Board {
             et = EvalType.Exact;
           }
 
-          moveBest = move;
-          be = SearchDraw;
+          addBest(move, SearchDraw, bestLine);
           goto exit;                    // Draw50 Dynamic Game Leaf
         }
         #endregion                      // Test for 50-Move Rule
@@ -368,7 +362,8 @@ partial class Position : Board {
           mBest = mValue;
           if (mAlpha < mBest) {
             moveBest = moveNoted;
-            be = SearchUpdate;
+            //[Old]
+            addBest(moveBest, SearchUpdate, bestLine);
           }
         }
         #endregion                      // Update Best Move
@@ -400,8 +395,6 @@ partial class Position : Board {
 #endif
             et = EvalType.Lower;        // Cutoff Reached: Ignore further moves and Fail High
             rewardMove(move, wDepth, mValue, et, moveExcluded);
-            moveBest = moveNoted;
-            be = SearchUpdate;
             goto exit;
           }
 
@@ -416,11 +409,7 @@ partial class Position : Board {
 
       if (uLegalMoves == 0) {           // No Move Found
         SetFinal();                     // Mark Game Leaf
-        moveBest = Move.EmptyMove;
-        be = SearchFinal;
         mBest = finalValue();
-        traceVal("Failed Low", mBest);  //[Conditional]
-        goto exit;
       }
 
       traceVal("Failed Low", mBest);    //[Conditional]
@@ -437,16 +426,12 @@ partial class Position : Board {
       Trace.Assert(bUpper == bIndefinite, "bUpper != bIndefinite");
     }
 #endif
-    addBest(moveBest, be, bestLine);
 #if DebugBest
     // BestMoves should not be empty here
     var emptyMessage3 = $"BestMoves.Count = {BestMoves.Count} Empty3 at wDepth = {wDepth} [{methodName}]";
     Debug.Assert(BestMoves.Count > 0, emptyMessage3);
 #endif
-    if (IsUndefined(moveBest))          //[Return]5/5 Best
-      return mBest;
-    else
-      return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
+    return storeXP(wDepth, mBest, et, moveBest, moveExcluded);
   }
 
   [Conditional("AddBestMoves")]
