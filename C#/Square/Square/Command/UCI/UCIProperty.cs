@@ -279,6 +279,8 @@ partial class UCI {
   // 5... Ke6 6. Nc6 Bc5 7. Kc8 Bd6 8. Nd4+ Kd5 9. Nb5 Bg3 10. Nc7+ Kc6 11. b8=Q) (2... Ba7 3. Na6 Ke8 4. Kc7 {xposing}) 3. Ne6+ 1-0
   //"1b1k4/1P6/2K5/8/4N3/8/8/8 w - - 0 2"; // After 1... Bb8?
   //"8/2N5/5R1p/2pP4/1pP3pP/1P2k3/r3n3/7K b - - 0 55"; // Xiong v Nakamura (0-1) 2019-03-31 US Championship R11 -#8
+  //[2024-06-24 12-ply in 8.846 sec @1.421 KHz over 12.573 Mnode] -#8 after:
+  // 55... Nd4 56. d6 Nf3 57. Nc7d5+ Ke3f2 58. Rf6xf3+ Kf2xf3 59. Nd5e3 Ra2a1+ 60. Ne3f1 Ra1xf1+ 61. Kh1h2 g4g3+ 62. Kh2h3 Rf1h1#
   //[2022-08-25 15-ply to find #-9 in 1:11 @1.497 MHz over 106.12 Mnode]
   // 55... h5 56. d6 Ra1+ 57. Kg2 Rg1+ 58. Kh2 g3+ 59. Kh3 Rh1+ 60. Kg2 Rh2+ 61. Kf1 g2+ 62. Ke1 Rh1+ 63. Rf1 gxf1=Q#
   //"r1bnknr1/1pp1qp2/p3p1p1/3pP1Np/3P3R/2NB1RQ1/PPP2PP1/2K5 w q - 0 1"; // Stockfish 8 v Alpha Zero (1-0) [Too Deep to find Bc4!]
@@ -303,8 +305,6 @@ partial class UCI {
   //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
   //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Solve #4 [go mate 4 over 613,162 nodes]
   //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
-  //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
-  //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
   //
   //"8/1B6/p7/1p1p4/2p2n2/P1P1k3/1KP5/8 b - - 0 64"; // Caruana v Hou Yifan Grenke Chess Classic R6 2018-04-06
   //[2023-07-05 19-ply in 5:54.67 @1.2775 MHz over 453.1 Mnode] eval -2.35 after:
@@ -326,28 +326,12 @@ partial class UCI {
   //[2023-08-17 28-ply in 2:21:46.51 over 9.5643 Gnode @1.124 MHz] eval 3.5 after:
   // 1. Kf2 Kf6 2. Ke3 Kf5 3. Kf3 Ke6 4. Ke4 Kf6 5. f5 Kf7 6. Ke5 Ke7 7. f6+ Ke8 8. Ke4 Kf8 9. Kf4! Ke8 10. Ke5 Kf7 11. Kf5 Ke8 12. Kg6 Kf8
   // 13. Kxh6 Kf7 14. Kg5 Kf8 15. Kxh5
-  //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Forced Draw 6-ply
-  //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v B Philidor from Rc3 #16
-  //[2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
-  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kb7 9. Kc5 Kc7 10. Ra1 Kb7 11. Rg1 Kc7
-  //[2022-09-17 19-ply in 24:42 @1.341 MHz over 1.9876 Gnode] to find #18
-  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
-  // 12. Rg7 Ke8 13. Rg7g5
-  //[2022-11-12 20-Ply in 41:00 @1.303 MHz over 3.2 Gnode] finds #19 currently.  Due to Futility Pruning in updateBest()?
-  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4! Rxd5+ 8. Kxd5 Kc7 9. Kc5 Kb7 10. Re4 Kc7 11. Re7+ Kc8
-  // 12. Kd5 Kd8 [13. Rg7 Kd8e8] 14. Rg7h7
-  //[2022-11-12 21-Ply in 1:43:45.5 sec @1.2407 MHz over 7.724 Gnode] finds #19 currently.  Due to Futility Pruning in updateBest()?
-  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kd8 11. Ra7 Kc8
-  // 12. Rf7 Kd8 13. Rg7[Ke8] 14. Kd5e6
-  //[20-ply trace in 5:40:45 @1.119 MHz over 22.882 Gnode] found #16 previously
-  // 1. Be6! Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 (3... Kd8? 4. Rg7 Rf3 5. Bxf3) 4. Rf7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3
-  // (6... Kd8?? 7. Bc4! Kc8 8. Be6+ Kd8 9. Rb8+ Rc8 10. Rxc8#)
-  // 7. Ra4! Rxd5+ 8. Kxd5 Kb7 (8... Kc7 9. Rb4) 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd6 Ke8 12. Rb7 Kf8 13. Kd6e6
-  // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
+  //"1k6/R7/K7/8/8/8/2p5/8 w - - 0 1"; // Miracle Draw 6-ply
+  //
   //"4Qb1k/6pp/8/5r2/pn1B4/5N2/1Pq3PP/5RK1 w - - 0 37"; // Hou Yifan v Kacper Piorun 2017-09-04
   //[2022-11-20 13-ply in 1:43.4 @1.572 MHz over 162.6 Mnode] eval 4.5 after:
   // 37. g4! Qc6 38. Qxc6 Nxc6 39. gxf5 Nxd4 40. Nxd4+-
-  //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // RE Byrne v Fischer 1963-12-18
+  //"r2qr1k1/pb3pbp/1p4p1/8/3N4/BPN3P1/P2Q3P/R2R1K2 b - - 0 21"; // Robert Byrne v Fischer 1963-12-18
   //"8/2k5/K7/1p6/3B4/8/P7/8 w - - 0 62"; // 2017-02-24 Nakamura v Grischuk Wrong Bishop Line
   //[17-ply in 12.23 sec @1.288 MHz over 15.76 Mnode] to find 62. Be5+
   //"Nn6/8/1pPk4/1K1bpB2/1p6/8/8/8 w - - 0 1"; // Fischer Endgame
@@ -435,6 +419,7 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
+  //[2024-06-24 13-ply in 19.911 sec @1.621 MHz over 32.273 Mnode] bestLine
   //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
   //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 32.312 Mnode]
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
@@ -496,10 +481,10 @@ partial class UCI {
   //[17-ply in 2:45.54 @1.141 MHz over 94.77 Mnode] eval 3.63
   //"8/1R3pk1/6p1/P1p4p/8/3pp1P1/7P/5K2 b - - 0 46"; // Aronian v Caruana Rook Behind
   //"r6k/p3p2p/2b3p1/2p3B1/3b3Q/6PP/Pr6/R4K2 w - - 0 31"; // Johannessen v Fischer Line
-  //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37"; // Johannessen v Fischer #8
+  //"4r2k/p3B2p/6p1/2p5/P6Q/1b4PP/2r5/b2K4 w - - 0 37"; // Johannessen v Fischer -#8
   //[2023-01-07 13-ply in 37.268 sec @1.582 MHz over 58.97 Mnode]
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
-  //[2024-05-12 13-ply in 54.956 sec @1.719 MHz over 94.446 Mnode] #8 after:
+  //[2024-05-12 13-ply in 54.956 sec @1.719 MHz over 94.446 Mnode] -#8 after:
   // 37. g4 Bc3 38. Bf6+ Bxf6 39. Qxf6+ Kg8 40. Qf3 Rc3+ 41. Kd2 Rxf3 42. h4 Rf2+ 43. Kd3 Rfe2 44. Kc3 R8e3#
   //"1Q3b2/5pk1/2p3p1/1p1bN2p/4n2P/8/r5P1/6K1 b - - 0 35"; // Byrne v Fischer 35 -#9
   //[2024-05-12 13-ply in 2:20.7 @1.683 MHz over 236.751 Mnode]
@@ -578,6 +563,27 @@ partial class UCI {
   //
   #endregion
 
+  #region Philidor Studies
+  //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
+  //"4Q3/6rk/5K2/8/8/8/8/8 b - - 0 1"; // Q v R Philidor #7 [10-ply 1.59 sec @994 KHz over 1.58 Mnode]
+  //
+  //"3k4/4r3/3K4/3B4/8/8/8/5R2 w - - 0 1";// R v RB Philidor
+  // 1. Rf8+ Re8 2. Rf7 Re2 3. Rh7 Re1 4. Rb7 Rc1 5. Bb3 Rc3 6. Be6 Rd3+ 7. Bd5 Rc3 8. Rd7+ Kc8 (8... Ke8? 9. Rg7)
+  // 9. Rh7 Kb8 10. Rb7+ Kc8 11. Rb4! Kd8 (11... Rd3 12. Ra4) 12. Bc4 Kc8 13. Be6+ Kd8 14. Rb8+ Rc8 15. Rxc8#
+  //
+  //"3k4/1R6/3K4/8/8/1Br5/8/8 w - - 0 1"; // R v RB Philidor Line from 5... Rc3 #16
+  //[2024-07-04 18-ply in 34:25.67 @1.384 MHz over 2.859 Gnode] #16 after:
+  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rg7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ (7... Rb3? 8. Bxb3) 8. Kxd5 Kb7
+  // 9. Kc5 Kc7 10. Ra7+ Kd8 11. Kd5 Kc8 12. Kd5d6 Kc8b8 13. Ra7c7 Kb8a8 14. Kd6c5
+  // moves b3e6 c3d3 e6d5 d3c3 b7d7 d8c8 d7f7 c8b8 f7b7 b8c8 b7b4 c3d3 b4a4 d3d5 d6d5
+  //
+  //[2022-08-25 16-ply in 12:19 @1.354 MHz over 1 Gnode] to find #19
+  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kb7 9. Kc5 Kc7 10. Ra1 Kb7 11. Rg1 Kc7
+  //[2022-09-17 19-ply in 24:42 @1.341 MHz over 1.9876 Gnode] to find #18
+  // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
+  // 12. Rg7 Ke8 13. Rg7g5
+  #endregion                            // Philidor Studies
+
   #region Puzzles
   //
   //"7K/7p/k1P5/8/8/8/8/8 b - - 0 1"; // Réti Draw Prelude [11-ply]
@@ -630,8 +636,10 @@ partial class UCI {
   //
   //"n1QBq1k1/5p1p/5KP1/p7/8/8/8/8 w - - 0 1";  // Justice Delayed #12 [2024-02-18 21-ply in 14:39:23.7 @1.68655 MHz over 88.9887 Gnode]
   // 1. Bc7 Qxc8 2. gxf7+ Kh8 3. Be5 Qc5 4. Bb2 Nc7 5. Ba1 a4 6. Bb2 a3 7. Ba1 a2 8. Bb2 a1=Q 9. Bxa1 Nb5 10. Ke6+ Nc3 11. Bxc3+ Qxc3 12. f8=Q#
-  //"n1QBq1k1/5p1p/5KP1/8/8/8/8/8 w - - 0 1";   // Swift Justice #8 [2024-02-17 14-ply in 32.921 sec @1.467 MHz over 48.3 Mnode]
+  //"n1QBq1k1/5p1p/5KP1/8/8/8/8/8 w - - 0 1";   // Swift Justice #8
+  //[2024-06-28 14-ply in 31.895 sec @1.47 MHz over 42.512 Mnode] #8 after:
   // 1. Bc7 Qxc8 2. gxf7+ Kh8 3. Be5 Qc5 4. Ba1 Nc7 5. Bb2 Nb5 6. Ke6+ Nc3 7. Bxc3+ Qxc3 8. f8=Q#
+  //[2024-02-17 14-ply in 32.921 sec @1.467 MHz over 48.3 Mnode] #8
   //
   //"5r2/1P5p/2N4K/8/8/5kP1/8/8 w - - 0 1";     // Composed by Sergueï Kaminer
   //[2023-06-06 14-ply in 1:25 @1.151 MHz over 97.9 Mnode]
