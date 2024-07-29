@@ -599,6 +599,7 @@ partial class UCI {
   //[2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
+  //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1" // White to Draw
   //"8/8/3p4/4p2B/4P3/8/4K1kp/8 w - - 0 1";     // Can White win?
   // 1. Bf3+ Kg1 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1
   // [7... Kg2 8. d8=Q h1=Q 9. Qg5+] 8. d8=Q h1=Q 9. Qd4+ Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2
@@ -608,7 +609,7 @@ partial class UCI {
   // 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1 8. d8=Q h1=Q 9. Qd4+ Kg2
   // [9... Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2] 10. Qg4+ Kh2 11. Kf2 Qf3+ 12. Kxf3 Kh1
   // moves h5f3 g2g3
-  //"8/8/3p4/4p3/4P3/6k1/4K2p/7B b - - 0 2"     // Can White win? King Opposition Line
+  //"8/8/3p4/4p3/4P3/5Bk1/4K2p/8 w - - 0 2"     // Can White win? King Opposition Line
   //[2024-06-06 26-ply in 17:41.54 @1.089 MHz over 1.558 Gnode] eval 3.25 after:
   // 2. Ke3 Kh3 3. Kf2 Kh4 4. Kg2 Kg5 5. Kxh2 Kf4 6. Kg2 Kg5 7. Kf1 Kf4 8. Ke2 Kg3 9. Bh5 Kg2 10. Kd3 Kg3 11. Bg6 Kh4 12. Bf5 Kg5
   // 13. Kc4 Kf4 14. Kd5 Ke3 [15. Kxd6]
@@ -700,6 +701,7 @@ partial class UCI {
   //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker v Averbach [10-ply in 16.8 sec @1.474 MHz over 24.77 Mnode]
   //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";  // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
   //[2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
+  // 1. Bd7 Kf3 2. h4 Ke4 3. h5 Ke5 4. h6 Kf6 5. Be8 Ke7 6. h7 Kxe8 7. h8=Q+
   //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
