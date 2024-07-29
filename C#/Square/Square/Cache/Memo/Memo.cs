@@ -22,18 +22,12 @@ class Memo<T> {
   #region Indexers
   public T this[MemoHashcode uHash] {
     get {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       return Entries[Index(uHash)];
     }
 
     set {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       Entries[Index(uHash)] = value;
     }
   }
@@ -75,36 +69,24 @@ class Memo2<T> : Memo<T> {
   #region Indexers
   public T this[PieceHashcode wHash] {// For GetCX2()
     get {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       return Entries[index(wHash)];
     }
 
     set {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       Entries[index(wHash)] = value;
     }
   }
 
   public T this[Hashcode qHash] {
     get {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       return Entries[index(qHash)];
     }
 
     set {
-      if (Entries == null)
-        throw new ArgumentNullException(
-          nameof(Entries), "No entries allocated.");
-
+      ArgumentNullException.ThrowIfNull(Entries);
       Entries[index(qHash)] = value;
     }
   }

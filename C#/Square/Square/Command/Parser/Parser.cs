@@ -283,8 +283,7 @@ partial class Parser : IDisposable {
   }
 
   public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
-    if (Scanner == null)
-      throw new ArgumentNullException(nameof(Scanner));
+    ArgumentNullException.ThrowIfNull(Scanner);
 
     var bAccepted = Scanner.EndOfLine || eolToken.Accept();
     if (bAccepted)
@@ -301,18 +300,15 @@ partial class Parser : IDisposable {
 
   private String eolMessage(String? sMethodName = default) {
     const String sContext = "Could not parse text at End of Line";
+    ArgumentNullException.ThrowIfNull(Scanner);
+
     var message = IsNullOrEmpty(sMethodName) ? sContext : $"{sMethodName} {sContext}";
-
-    if (Scanner == null)
-      throw new ArgumentNullException(nameof(Scanner));
-
     return Scanner.AppendDetails(message);
   }
 
   //[ToDo]Refactor top-level Command Loop
   public IEnumerable<object?> Parse() {
-    if (Scanner == null)
-      throw new ArgumentNullException(nameof(Scanner));
+    ArgumentNullException.ThrowIfNull(Scanner);
 
     while (!Scanner.EndOfStream) {
       // Preserve value of Text prior to the Scanner side-effects of the Accept Method

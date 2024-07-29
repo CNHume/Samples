@@ -167,14 +167,12 @@ partial class GameState {
   #region Properties
   public Ply MovePly {
     get {
-      if (MovePosition is null)
-        throw new ArgumentNullException(nameof(MovePosition));
+      ArgumentNullException.ThrowIfNull(MovePosition);
       return MovePosition.GamePly;
     }
 
     set {
-      if (MovePosition is null)
-        throw new ArgumentNullException(nameof(MovePosition));
+      ArgumentNullException.ThrowIfNull(MovePosition);
       MovePosition.GamePly = value;
     }
   }
