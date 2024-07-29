@@ -610,7 +610,7 @@ partial class UCI {
   // [9... Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2] 10. Qg4+ Kh2 11. Kf2 Qf3+ 12. Kxf3 Kh1
   // moves h5f3 g2g3
   //"8/8/3p4/4p3/4P3/5Bk1/4K2p/8 w - - 0 2"     // Can White win? King Opposition Line
-  //[2024-07-29 26-ply in 25:17.1 @1.0272 MHz over 1.558 Gnode] eval 3.25 after:
+  //[2024-07-29 26-ply in 24:18.7 @1.0683 MHz over 1.558 Gnode] eval 3.25 after:
   // 2. Ke3 Kh3 3. Kf2 Kh4 4. Kg2 Kg5 5. Kxh2 Kf4 6. Kg2 Kg5 7. Kf1 Kf4 8. Ke2 Kg3 9. Bh5 Kg2 10. Kd3 Kg3 11. Bg6 Kh4 12. Bf5 Kg5
   // 13. Kc4 Kf4 14. Kd5 Ke3 [15. Kxd6]
   //
