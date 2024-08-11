@@ -137,11 +137,11 @@ public class Scanner : IDisposable {
 
   public void Skip(Int32 nLength) {
     Column += nLength;
-    Text = Text?.Substring(nLength);
+    Text = Text?[nLength..];
   }
 
   public String? Scan(Int32 nLength) {
-    var sValue = Text?.Substring(0, nLength);
+    var sValue = Text?[..nLength];
     Skip(nLength);
     return sValue;
   }

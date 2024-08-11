@@ -230,22 +230,21 @@ partial class GameState {
       // whether it fired or not.  FinishTask returns the EngineTask Result as
       // its own.
       //
-      Func<Task<List<Move>?>, List<Move>?> fun2 =
-        antecedent => {
-          try {
-            CancelTimer.Dispose();
-            var result = antecedent.Result;
-            return result;
-          }
-          catch (AggregateException aex) {
-            throw aex.Flatten();
-          }
-          finally {
-            CancelTimer = default;
-          }
-        };
+      List<Move>? fun2(Task<List<Move>?> antecedent) {
+        try {
+          CancelTimer.Dispose();
+          var result = antecedent.Result;
+          return result;
+        }
+        catch (AggregateException aex) {
+          throw aex.Flatten();
+        }
+        finally {
+          CancelTimer = default;
+        }
+      }
 
-      FinishTask = EngineTask.ContinueWith<List<Move>?>(fun2);
+      FinishTask = EngineTask.ContinueWith(fun2);
     }
 #else
     FinishTask = EngineTask = default;

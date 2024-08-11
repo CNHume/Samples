@@ -419,9 +419,10 @@ partial class UCI {
   //"q1r3k1/5p1p/6pB/1p6/2bN4/2P1Q2P/5P2/r2BR1K1 w - - 0 35"; // Caruana v Gustafsson 2012-07-17
   //"q1r3k1/4Qp1p/6pB/1p6/3N4/2P4P/5P2/r2B1RK1 b - - 0 36"; // Caruana v Gustafsson 2012-07-17 Line
   //"5rk1/5p1p/5Qp1/1p6/3N4/2P4P/5P2/r2B1RK1 w - - 0 39"; // Caruana v Gustafsson 2012-07-17 #8
+  //[2024-08-05 13-ply in 17.282 sec @1.754 MHz over 30.312 Mnode]
   //[2024-06-24 13-ply in 19.911 sec @1.621 MHz over 32.273 Mnode] bestLine
   //[2024-03-08 13-ply in 15.236 sec @2.115 MHz over 32.225 Mnode] bestLine
-  //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 32.312 Mnode]
+  //[2024-04-27 13-ply in 18.881 sec @1.605 MHz over 30.312 Mnode]
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
   //[2024-05-12 13-ply in 17.088 sec @1.774 MHz over 32.312 Mnode] #8 after:
   // 39. Nf5 gxf5 40. Kh2 Re8 41. Bb3 Ra7 42. Rg1+ Kf8 43. Qg7+ Ke7 44. Rd1 Rd7 45. Qxf7+ Kd8 46. Qxd7#
@@ -608,6 +609,9 @@ partial class UCI {
   //[2024-06-06 17-ply in 1.97 sec @851.135 KHz over 1.6766 Mnode] eval 9.75 after:
   // 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1 8. d8=Q h1=Q 9. Qd4+ Kg2
   // [9... Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2] 10. Qg4+ Kh2 11. Kf2 Qf3+ 12. Kxf3 Kh1
+  //[2024-07-29 26-ply in 21:10 @1.42748 MHz over 1.81266 Gnode] #16 after:
+  // 2. Bh1 Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg2 8. d8=Q Kh3 9. Qg5 h1=Q 10. Qh5+ Kg3 11. Qxh1 Kf4 12. Qd5 Kg4
+  // 13. Qe5 Kh3 14. Qf4 Kg2 15. Qh4 Kg1 16. Ke2f3
   // moves h5f3 g2g3
   //"8/8/3p4/4p3/4P3/5Bk1/4K2p/8 w - - 0 2"     // Can White win? King Opposition Line
   //[2024-07-29 26-ply in 24:18.7 @1.0683 MHz over 1.558 Gnode] eval 3.25 after:

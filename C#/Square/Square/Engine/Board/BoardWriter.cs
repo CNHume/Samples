@@ -242,7 +242,7 @@ partial class Board {
     var sFEN2 = ToString(PositionType.FEN);
     // Input FEN abbreviations should match Output FEN Prefix:
     var sFEN2Prefix = nFENLength < sFEN2.Length ?
-      sFEN2.Substring(0, nFENLength) : sFEN2;
+      sFEN2[..nFENLength] : sFEN2;
 
     return sFEN == sFEN2Prefix;
   }

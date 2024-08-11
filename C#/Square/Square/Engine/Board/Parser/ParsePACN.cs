@@ -11,9 +11,10 @@ partial class Board {
   private Sq parseSquare(String sMove, ref Int32 nPos, Int32 nLen) {
     const Boolean ignoreCase = true;
     Sq? result = default;
-    if (nPos + 2 <= nLen) {
-      result = sMove.Substring(nPos, 2).TryParseEnum<Sq>(ignoreCase);
-      nPos += 2;
+    var nPos2 = nPos + 2;
+    if (nPos2 <= nLen) {
+      result = sMove[nPos..nPos2].TryParseEnum<Sq>(ignoreCase);
+      nPos = nPos2;
     }
 
     if (result.HasValue)

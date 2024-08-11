@@ -669,8 +669,7 @@ partial class Parser : IDisposable {
     if (sValue.Length < 2 || sValue[sValue.Length - 1] != cDoubleQuote)
       throw new ArgumentException("Improperly delimited verbatim literal", paramName);
 
-    var sBody = sValue.Substring(1, sValue.Length - 2);
-    var split = Regex.Split(sBody, sEscapedDoubleQuote);
+    var split = Regex.Split(sValue[1..^1], sEscapedDoubleQuote);
 
     if (split.Any(s => s.Contains(cDoubleQuote)))
       throw new ArgumentException("Contains an improperly escaped double quote", paramName);

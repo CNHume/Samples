@@ -79,8 +79,8 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private static Boolean inBounds(Int32 nX, Int32 nY) {
-    return nX >= 0 && nX < nFiles &&
-           nY >= 0 && nY < nRanks;
+    return 0 <= nX && nX < nFiles &&
+           0 <= nY && nY < nRanks;
   }
 
   private static void loadPieceAtx(
