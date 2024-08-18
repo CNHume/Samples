@@ -47,14 +47,14 @@ namespace Sort {
 
           case 's':                     // the sort-case switch
             if (len > 2)                // whitespace optional
-              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>(true);
+              SortCase = token[2..len].ParseEnumFromName<SortCase>(true);
             else if (n < count)         // whitespace allowed
               SortCase = args[++n].ParseEnumFromName<SortCase>(true);
             break;
 
           case 't':                     // the trials switch
             if (len > 2)                // whitespace optional
-              Trials = token.Substring(2, len - 2).TryParseUInt32();
+              Trials = token[2..len].TryParseUInt32();
             else if (n < count)         // whitespace allowed
               Trials = args[++n].TryParseUInt32();
 

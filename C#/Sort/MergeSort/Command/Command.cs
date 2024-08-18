@@ -44,7 +44,7 @@ namespace Sort {
           switch (token[1]) {
           case 'i':                     // the insertion-limit switch
             if (len > 2)                // whitespace optional
-              InsertionLimit = token.Substring(2, len - 2).TryParseUInt32();
+              InsertionLimit = token[2..len].TryParseUInt32();
             else if (n < count)         // whitespace allowed
               InsertionLimit = args[++n].TryParseUInt32();
 
@@ -53,7 +53,7 @@ namespace Sort {
 
           case 'm':                     // the merges switch
             if (len > 2)                // whitespace optional
-              Merges = token.Substring(2, len - 2).TryParseInt32();
+              Merges = token[2..len].TryParseInt32();
             else if (n < count)         // whitespace allowed
               Merges = args[++n].TryParseInt32();
 
@@ -69,14 +69,14 @@ namespace Sort {
 
           case 's':                     // the sort-case switch
             if (len > 2)                // whitespace optional
-              SortCase = token.Substring(2, len - 2).ParseEnumFromName<SortCase>(true);
+              SortCase = token[2..len].ParseEnumFromName<SortCase>(true);
             else if (n < count)         // whitespace allowed
               SortCase = args[++n].ParseEnumFromName<SortCase>(true);
             break;
 
           case 't':                     // the trials switch
             if (len > 2)                // whitespace optional
-              Trials = token.Substring(2, len - 2).TryParseUInt32();
+              Trials = token[2..len].TryParseUInt32();
             else if (n < count)         // whitespace allowed
               Trials = args[++n].TryParseUInt32();
 
