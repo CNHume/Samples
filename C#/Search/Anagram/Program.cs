@@ -18,6 +18,8 @@ using System.Text;
 
 //namespace Anagram;
 
+using static System.String;
+
 try {
   var cmd = new Command();
   cmd.Parse(args);
@@ -51,21 +53,10 @@ Console.ReadLine();
 /// <returns>The list of anagrams</returns>
 static List<string> Anagram(string letters, bool subset = false) {
   List<string> words = [];
-  var length = letters.Length;
-  if (length == 0)
-    return words;
-
-  if (subset)
-    words.Add(string.Empty);
-
-  if (length == 1) {
-    words.Add(letters);
-    return words;
-  }
-
+  if (subset) words.Add(Empty);
   HashSet<char> chosen = [];
   StringBuilder sb = new();
-  for (var n = 0; n < length; n++) {
+  for (var n = 0; n < letters.Length; n++) {
     var letter = letters[n];
     if (chosen.Contains(letter)) continue;
     chosen.Add(letter);
@@ -75,10 +66,12 @@ static List<string> Anagram(string letters, bool subset = false) {
       .Append(letters.AsSpan(n + 1))
       .ToString();
     var suffixes = Anagram(remaining, subset);
-    foreach (var suffix in suffixes)
-      words.Add(letter + suffix);
+    if (suffixes.Count == 0)
+      words.Add(letter + Empty);
+    else
+      foreach (var suffix in suffixes)
+        words.Add(letter + suffix);
   }
-
   return words;
 }
 #endregion                              // Methods
