@@ -50,28 +50,35 @@ Console.ReadLine();
 /// <param name="subset">A flag indicating whether anagrams may be formed from subsets of the letters</param>
 /// <returns>The list of anagrams</returns>
 static List<string> Anagram(string letters, bool subset = false) {
-  List<string> words = new();
-  if (subset) words.Add(string.Empty);
+  List<string> words = [];
   var length = letters.Length;
-  if (length > 0) {
-    if (length > 1) {
-      HashSet<char> chosen = new();
-      StringBuilder sb = new();
-      for (var n = 0; n < length; n++) {
-        var letter = letters[n];
-        if (chosen.Contains(letter)) continue;
-        chosen.Add(letter);
-        sb.Clear()
-          .Append(letters.AsSpan(0, n))
-          .Append(letters.AsSpan(n + 1));
-        var suffixes = Anagram(sb.ToString(), subset);
-        foreach (var suffix in suffixes)
-          words.Add(letter + suffix);
-      }
-    }
-    else
-      words.Add(letters);
+  if (length == 0)
+    return words;
+
+  if (subset)
+    words.Add(string.Empty);
+
+  if (length == 1) {
+    words.Add(letters);
+    return words;
   }
+
+  HashSet<char> chosen = [];
+  StringBuilder sb = new();
+  for (var n = 0; n < length; n++) {
+    var letter = letters[n];
+    if (chosen.Contains(letter)) continue;
+    chosen.Add(letter);
+    var remaining = sb
+      .Clear()
+      .Append(letters.AsSpan(0, n))
+      .Append(letters.AsSpan(n + 1))
+      .ToString();
+    var suffixes = Anagram(remaining, subset);
+    foreach (var suffix in suffixes)
+      words.Add(letter + suffix);
+  }
+
   return words;
 }
 #endregion                              // Methods
