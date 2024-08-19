@@ -5,7 +5,7 @@
 //
 //#define UseRecursiveSearch
 
-using Searchers;
+using Searches;
 
 int[][] tests =
   [

@@ -7,7 +7,7 @@
 // 2018-12-23 CNHume  Added Command class
 //
 
-namespace Commands;
+namespace Parsers;
 
 public class Command {
   #region Properties

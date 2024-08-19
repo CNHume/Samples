@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Title>BinarySearch</Title>
@@ -13,7 +13,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Exe</OutputType>
 
-    <RootNamespace>BinarySearch</RootNamespace>
+    <RootNamespace>Searches</RootNamespace>
     <AssemblyName>BinarySearch</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

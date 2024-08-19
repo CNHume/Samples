@@ -1,9 +1,9 @@
 ﻿//
 // (C) Copyright 2018, Christopher N. Hume.  All rights reserved.
 //
-// 2018-03-15 CNHume  Implemented Recursive Binary Search
+// 2018-03-14 CNHume  Implemented Binary Search
 //
-namespace Searchers;
+namespace Searches;
 
 public static partial class Extensions {
   /// <summary>Use Binary Search to find index of GLB for value</summary>
@@ -12,9 +12,9 @@ public static partial class Extensions {
   /// <param name="value">search value</param>
   /// <remarks>entries must be in ascending order</remarks>
   /// <returns>index into entries of GLB for value</returns>
-  public static int RecursiveBinarySearchForGLB<T>(this T[] entries, T value)
+  public static int BinarySearchForGLB<T>(this T[] entries, T value)
     where T : IComparable {
-    return entries.RecursiveBinarySearchForGLB(value, 0, entries.Length - 1);
+    return entries.BinarySearchForGLB(value, 0, entries.Length - 1);
   }
 
   /// <summary>Use Binary Search to find index of GLB for value</summary>
@@ -25,13 +25,14 @@ public static partial class Extensions {
   /// <param name="right">rightmost index to search</param>
   /// <remarks>entries must be in ascending order</remarks>
   /// <returns>index into entries of GLB for value</returns>
-  public static int RecursiveBinarySearchForGLB<T>(this T[] entries, T value, int left, int right)
+  public static int BinarySearchForGLB<T>(this T[] entries, T value, int left, int right)
     where T : IComparable {
-    if (left <= right) {
+    while (left <= right) {
       var middle = left + (right - left) / 2;
-      return entries[middle].CompareTo(value) < 0 ?
-        entries.RecursiveBinarySearchForGLB(value, middle + 1, right) :
-        entries.RecursiveBinarySearchForGLB(value, left, middle - 1);
+      if (entries[middle].CompareTo(value) < 0)
+        left = middle + 1;
+      else
+        right = middle - 1;
     }
 
     //[Assert]left == right + 1
@@ -45,9 +46,9 @@ public static partial class Extensions {
   /// <param name="value">search value</param>
   /// <remarks>entries must be in ascending order</remarks>
   /// <returns>index into entries of LUB for value</returns>
-  public static int RecursiveBinarySearchForLUB<T>(this T[] entries, T value)
+  public static int BinarySearchForLUB<T>(this T[] entries, T value)
     where T : IComparable {
-    return entries.RecursiveBinarySearchForLUB(value, 0, entries.Length - 1);
+    return entries.BinarySearchForLUB(value, 0, entries.Length - 1);
   }
 
   /// <summary>Use Binary Search to find index of LUB for value</summary>
@@ -58,13 +59,14 @@ public static partial class Extensions {
   /// <param name="right">rightmost index to search</param>
   /// <remarks>entries must be in ascending order</remarks>
   /// <returns>index into entries of LUB for value</returns>
-  public static int RecursiveBinarySearchForLUB<T>(this T[] entries, T value, int left, int right)
+  public static int BinarySearchForLUB<T>(this T[] entries, T value, int left, int right)
     where T : IComparable {
-    if (left <= right) {
+    while (left <= right) {
       var middle = left + (right - left) / 2;
-      return entries[middle].CompareTo(value) <= 0 ?
-        entries.RecursiveBinarySearchForLUB(value, middle + 1, right) :
-        entries.RecursiveBinarySearchForLUB(value, left, middle - 1);
+      if (entries[middle].CompareTo(value) <= 0)
+        left = middle + 1;
+      else
+        right = middle - 1;
     }
 
     //[Assert]left == right + 1

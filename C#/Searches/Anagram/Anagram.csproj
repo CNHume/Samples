@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Title>Anagram</Title>
@@ -13,7 +13,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Exe</OutputType>
 
-    <RootNamespace>Anagram</RootNamespace>
+    <RootNamespace>Searches</RootNamespace>
     <AssemblyName>Anagram</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

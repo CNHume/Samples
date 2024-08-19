@@ -15,17 +15,17 @@
 // Usage: Anagram [-s] letters
 //
 
-using Commands;
+using Parsers;
 
-using Searchers;
+using Searches;
 
 try {
-  var cmd = new Command();
-  cmd.Parse(args);
+  var command = new Command();
+  command.Parse(args);
 
-  if (cmd.Letters != null) {
-    Console.WriteLine($"Letters: {cmd.Letters}");
-    var words = Anagram.Anagrams(cmd.Letters, cmd.Subset);
+  if (command.Letters != null) {
+    Console.WriteLine($"Letters: {command.Letters}");
+    var words = Anagram.Anagrams(command.Letters, command.Subset);
 
     Console.WriteLine($"{words.Count()} anagrams found:");
     foreach (var word in words)

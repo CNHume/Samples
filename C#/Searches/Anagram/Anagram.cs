@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Searchers;
+namespace Searches;
 
 using static System.String;
 
