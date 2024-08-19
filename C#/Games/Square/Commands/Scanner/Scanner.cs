@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 using static System.String;
 
-namespace Command;
+namespace Commands;
 
 public class Scanner : IDisposable {
   #region Constants

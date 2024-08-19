@@ -1,4 +1,4 @@
-﻿namespace Command;
+﻿namespace Commands;
 
 partial class Parser : IDisposable {
   #region Enumerations

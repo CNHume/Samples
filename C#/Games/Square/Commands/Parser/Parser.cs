@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using static System.String;
 using static System.Text.RegularExpressions.RegexOptions;
 
-namespace Command;
+namespace Commands;
 
 using Engine;
 
@@ -103,7 +103,7 @@ partial class Parser : IDisposable {
 
   /*
    * Please see https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol
-   * for details of the UCI Command Interface as documented by Stefan Meyer-Kahlen
+   * for details of the UCI Commands Interface as documented by Stefan Meyer-Kahlen
    */
   static Parser() {
     codeTokenRules = new[] {
@@ -306,7 +306,7 @@ partial class Parser : IDisposable {
     return Scanner.AppendDetails(message);
   }
 
-  //[ToDo]Refactor top-level Command Loop
+  //[ToDo]Refactor top-level Commands Loop
   public IEnumerable<object?> Parse() {
     ArgumentNullException.ThrowIfNull(Scanner);
 

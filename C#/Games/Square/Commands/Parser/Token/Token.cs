@@ -9,7 +9,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Command;
+namespace Commands;
 
 using Exceptions;
 

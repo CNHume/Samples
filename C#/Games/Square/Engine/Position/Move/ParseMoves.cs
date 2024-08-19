@@ -6,7 +6,7 @@
 
 namespace Engine;
 
-using Command;                          // For Scanner, Token
+using Commands;                          // For Scanner, Token
 
 using Exceptions;
 

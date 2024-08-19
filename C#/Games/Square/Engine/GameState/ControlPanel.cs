@@ -10,10 +10,10 @@
 
 namespace Engine;
 
-using Command;
+using Commands;
 
 using static Board;
-using static Command.Control.ControlName;
+using static Commands.Control.ControlName;
 using static Logging.Logger;
 
 partial class GameState {

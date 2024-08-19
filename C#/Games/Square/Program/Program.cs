@@ -22,12 +22,11 @@
 #define PressEnter
 //#define StackTrace
 
-using static System.String;
-
 namespace Games;
 
-using Command;
+using Commands;
 
+using static System.String;
 using static Logging.Logger;
 
 static class Program {

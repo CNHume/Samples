@@ -9,8 +9,8 @@
 
 namespace Engine;
 
-using Command;
-using Command.Events;
+using Commands;
+using Commands.Events;
 
 using Exceptions;
 

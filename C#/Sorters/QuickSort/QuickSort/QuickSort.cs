@@ -196,7 +196,7 @@ public class QuickSort<T> where T : IComparable {
     for (; first <= last; first++)
       Debug.Assert(median.CompareTo(entries[first]) <= 0, "right entry < median");
   }
-  #endregion
+  #endregion                            // Sort Methods
 
   #region Swap Methods
   [Conditional("Tripartite")]
@@ -225,5 +225,5 @@ public class QuickSort<T> where T : IComparable {
   public static void Swap(ref T e1, ref T e2) {
     (e1, e2) = (e2, e1);
   }
-  #endregion
+  #endregion                            // Swap Methods
 }

@@ -3,7 +3,7 @@
 //
 //[2014-10-03 CNHume]Created File
 //
-namespace Command;
+namespace Commands;
 
 #region Interfaces
 public interface ICommand : IDisposable {

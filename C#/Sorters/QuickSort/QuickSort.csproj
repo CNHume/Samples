@@ -12,7 +12,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Exe</OutputType>
 
-    <RootNamespace>QuickSort</RootNamespace>
+    <RootNamespace>Sorters</RootNamespace>
     <AssemblyName>quicksort</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

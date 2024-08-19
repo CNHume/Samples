@@ -298,7 +298,7 @@ static class Extension {
         .Append(sSuffix);
   }
 
-  public static StringBuilder Append(this StringBuilder sb, Command.SearchBound bound) {
+  public static StringBuilder Append(this StringBuilder sb, Commands.SearchBound bound) {
     return bound.AppendBounds(sb);
   }
 

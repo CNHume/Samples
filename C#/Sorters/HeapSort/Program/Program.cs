@@ -9,35 +9,31 @@
 // 2012-04-04 CNHume  Created HeapSort
 //
 
-namespace Sorters;
-
 using Parsers;
+
+using Sorters;
 
 using SortTests;
 
-class Program {
-  static void Main(String[] args) {
-    try {
-      var cmd = new Command();
-      cmd.Parse(args);
+try {
+  var command = new Command();
+  command.Parse(args);
 
-      var source = new SortData(cmd.SortCase);
+  var source = new SortData(command.SortCase);
 
-      if (cmd.Length.HasValue) {
-        var entries = source.BuildEntries(cmd.Length.Value);
-        var timer = new SortTimer<Int32>();
-        timer.Sort(entries, cmd.Print, cmd.Trials);
-      }
-    }
-    catch (ApplicationException ex) {
-      Console.WriteLine(ex.Message);
-    }
-    catch (Exception ex) {
-      Console.WriteLine(ex);
-    }
-#if DEBUG
-    Console.Write("Press Enter");
-    Console.ReadLine();
-#endif
+  if (command.Length.HasValue) {
+    var entries = source.BuildEntries(command.Length.Value);
+    var timer = new SortTimer<Int32>();
+    timer.Sort(entries, command.Print, command.Trials);
   }
 }
+catch (ApplicationException ex) {
+  Console.WriteLine(ex.Message);
+}
+catch (Exception ex) {
+  Console.WriteLine(ex);
+}
+#if DEBUG
+Console.Write("Press Enter");
+Console.ReadLine();
+#endif

@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
 
-    <RootNamespace>MergeSort</RootNamespace>
+    <RootNamespace>Sorters</RootNamespace>
     <AssemblyName>MergeSort</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>true</ImplicitUsings>

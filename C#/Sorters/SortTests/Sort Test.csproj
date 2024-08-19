@@ -11,7 +11,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
 
-    <RootNamespace>SortTest</RootNamespace>
+    <RootNamespace>SortTests</RootNamespace>
     <AssemblyName>SortTest</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

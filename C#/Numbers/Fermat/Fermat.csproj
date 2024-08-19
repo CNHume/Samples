@@ -12,7 +12,7 @@
     <Platforms>AnyCPU</Platforms>
     <OutputType>Exe</OutputType>
 
-    <RootNamespace>Fermat</RootNamespace>
+    <RootNamespace>Numbers</RootNamespace>
     <AssemblyName>Fermat</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

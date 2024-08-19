@@ -14,14 +14,14 @@ using System.Diagnostics;
 
 namespace Engine;
 
-using Command;
+using Commands;
 
 using Exceptions;
 
 using Test;
 
 using static System.String;
-using static Command.Parser;
+using static Commands.Parser;
 using static Logging.Logger;
 
 //

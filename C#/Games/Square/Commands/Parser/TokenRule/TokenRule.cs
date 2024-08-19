@@ -7,7 +7,7 @@
 //
 using System.Text.RegularExpressions;
 
-namespace Command;
+namespace Commands;
 
 partial class Parser : IDisposable {
   internal class TokenRule {

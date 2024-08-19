@@ -16,14 +16,13 @@
 using System.Diagnostics;
 using System.Text;
 
-using static System.Math;
-
 namespace Engine;
 
-using Command;
+using Commands;
 
 using Exceptions;
 
+using static System.Math;
 using static Logging.Logger;
 
 //

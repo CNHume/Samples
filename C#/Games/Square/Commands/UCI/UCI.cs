@@ -37,7 +37,7 @@ using System.Text;
 
 using static System.String;
 
-namespace Command;
+namespace Commands;
 
 using Engine;
 
@@ -80,7 +80,7 @@ partial class UCI : ICommand {
   #region Command Processor
   /*
    * Please see https://ucichessengine.wordpress.com/2011/03/16/description-of-uci-protocol/ for details
-   * of the UCI Command Interface as documented by Stefan Meyer-Kahlen
+   * of the UCI Commands Interface as documented by Stefan Meyer-Kahlen
    *
    * Parsers
    * --------
@@ -127,7 +127,7 @@ partial class UCI : ICommand {
 
     var bContinue = true;
     switch (sVerb.ToLower()) {
-    case "":                            // Empty Command String
+    case "":                            // Empty Commands String
       break;
 
     case "uci":                         //[UCI]

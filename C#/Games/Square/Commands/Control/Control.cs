@@ -9,7 +9,7 @@ using System.Text;
 using static System.String;
 using static System.StringComparison;
 
-namespace Command;
+namespace Commands;
 
 using static Engine.Extension;
 

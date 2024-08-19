@@ -19,7 +19,7 @@ using Cache;
 
 using CacheValue;
 
-using Command;                          // For SearchBound
+using Commands;                          // For SearchBound
 
 using MoveOrder;                        // For Variation
 

@@ -25,7 +25,7 @@ using static System.StringComparison;
 
 namespace Engine;
 
-using static Command.Parser;
+using static Commands.Parser;
 using static Logging.Logger;
 using static Position;
 using static Position.PositionSide;

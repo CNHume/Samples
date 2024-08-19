@@ -6,11 +6,13 @@
 //
 // 2017-10-30 CNHume  Added Command class
 //
-namespace Commands;
+namespace Parsers;
 
 using SortTests;
 using SortTests.Exceptions;
 using SortTests.Extensions;
+
+using static SortTests.SortData;
 
 class Command {
   #region Properties
@@ -18,13 +20,13 @@ class Command {
   public Boolean Print { get; set; }
   public SortCase SortCase { get; set; }
   public UInt32? Trials { get; set; }
-  #endregion
+  #endregion                            // Properties
 
   #region Methods
   public void Parse(String[] args) {
     Length = default;
     Print = false;
-    SortCase = SortData.SORTCASE_DEFAULT;
+    SortCase = SORTCASE_DEFAULT;
     Trials = default;
 
     var usage = false;
@@ -77,10 +79,11 @@ class Command {
     usage |= n < count;               // superfluous argument specified
 
     if (usage || !Length.HasValue)    // throw usage line if parse failed
-      throw new CommandException("Usage: InsertionSort [-p] [-s (ascending | descending | random)] [-t trials] length");
+      throw new CommandException(
+        "Usage: InsertionSort [-p] [-s (ascending | descending | random)] [-t trials] length");
 
-    if (Length.Value >= SortData.LENGTH_MAX)
-      throw new CommandException($"LENGTH_MAX = {SortData.LENGTH_MAX} <= length = {Length}");
+    if (Length.Value >= LENGTH_MAX)
+      throw new CommandException($"LENGTH_MAX = {LENGTH_MAX} <= length = {Length}");
   }
-  #endregion
+  #endregion                            // Methods
 }

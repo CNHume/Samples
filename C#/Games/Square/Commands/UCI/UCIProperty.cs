@@ -4,7 +4,7 @@
 //[2014-09-07 CNHume]Created File
 //
 
-namespace Command;
+namespace Commands;
 
 using Engine;                           // For GameState
 

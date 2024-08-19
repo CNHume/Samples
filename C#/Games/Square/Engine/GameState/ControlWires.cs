@@ -8,10 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Engine;
 
-using Command;
+using Commands;
 
-using static Command.Control;
-using static Command.Control.ControlName;
+using static Commands.Control;
+using static Commands.Control.ControlName;
 
 partial class GameState {
   #region Methods

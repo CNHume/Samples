@@ -18,11 +18,11 @@ using static System.String;
 
 namespace Engine;
 
-using Command;                          // For Scanner
+using Commands;                          // For Scanner
 
 using Exceptions;
 
-using static Command.Parser;
+using static Commands.Parser;
 using static Logging.Logger;
 
 //

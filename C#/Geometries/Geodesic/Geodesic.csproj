@@ -12,7 +12,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
 
-    <RootNamespace>Geodesic</RootNamespace>
+    <RootNamespace>Geometries</RootNamespace>
     <AssemblyName>Geodesic</AssemblyName>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>

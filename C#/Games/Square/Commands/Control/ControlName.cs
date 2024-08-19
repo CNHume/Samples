@@ -10,7 +10,7 @@
 
 using System.ComponentModel;
 
-namespace Command;
+namespace Commands;
 
 partial class Control {
   #region Enumerations

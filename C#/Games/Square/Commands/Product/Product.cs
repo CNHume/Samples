@@ -10,7 +10,7 @@ using System.Reflection;                // For Assembly, AssemblyDescriptionAttr
 
 using static System.String;
 
-namespace Command;
+namespace Commands;
 
 static class Product {
   #region Constants

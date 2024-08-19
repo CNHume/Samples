@@ -5,7 +5,7 @@
 //
 using System.Text;
 
-namespace Command;
+namespace Commands;
 
 using Engine;
 

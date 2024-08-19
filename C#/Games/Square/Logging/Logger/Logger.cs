@@ -14,7 +14,7 @@ using static System.String;
 
 namespace Logging;
 
-using Command;
+using Commands;
 
 static class Logger {
   #region Constants
