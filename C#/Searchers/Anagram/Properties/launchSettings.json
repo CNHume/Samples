@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Anagram": {
+      "commandName": "Project",
+      "commandLineArgs": "-s ABC"
+    }
+  }
+}

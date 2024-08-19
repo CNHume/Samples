@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Title>mergesort</Title>
+    <Product>Sort</Product>
+    <Version>1.0</Version>
+    <Authors>Christopher N. Hume</Authors>
+    <Company>CNHume</Company>
+    <Copyright>Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.</Copyright>
+    <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See COPYING.txt and COPYING_LESSER.txt for details.</Description>
+    <LangVersion>preview</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Exe</OutputType>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+
+    <RootNamespace>MergeSort</RootNamespace>
+    <AssemblyName>MergeSort</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/C%23/Sort</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="MergeList\MergeListRange.cs" />
+    <Compile Remove="MergeList\MergeListReplaced.cs" />
+    <Compile Remove="MergeSort\MergeSortRosettaCode.cs" />
+  </ItemGroup>
+
+  <!--
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>MergeSort.xml</DocumentationFile>
+  </PropertyGroup>
+  -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\InsertionSort\InsertionSort.csproj" />
+    <ProjectReference Include="..\SortTests\Sort Test.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    
+    <None Update="MergeSort.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    
+  </ItemGroup>
+</Project>

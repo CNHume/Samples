@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Title>Anagram</Title>
+    <Product>Search</Product>
+    <Version>1.0</Version>
+    <Authors>Christopher N. Hume</Authors>
+    <Company>CNHume</Company>
+    <Copyright>Copyright (C) 2018-2024, Christopher N. Hume.  All rights reserved.</Copyright>
+    <Description>This program comes with ABSOLUTELY NO WARRANTY.  This is free software, and you are welcome to redistribute it under certain conditions.  See COPYING.txt and COPYING_LESSER.txt for details.</Description>
+    <LangVersion>preview</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Exe</OutputType>
+
+    <RootNamespace>Anagram</RootNamespace>
+    <AssemblyName>Anagram</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/CNHume/Samples/tree/master/CSharp/Search</RepositoryUrl>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>
