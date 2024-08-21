@@ -247,9 +247,9 @@ partial class UCI : ICommand {
       if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
 
-      var sb = new StringBuilder();
       //[Note]refreshPV() may not have been called
-      sb.BestInfo(State.BestLine, State.MovePosition.Side, State.IsChess960);
+      var sb = new StringBuilder()
+        .BestInfo(State.BestLine, State.MovePosition.Side, State.IsChess960);
       if (sb.Length > 0)
         throw new ChessException(sb.ToString());
       break;

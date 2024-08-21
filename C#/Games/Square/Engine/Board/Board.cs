@@ -196,10 +196,13 @@ partial class Board : IEquatable<Board> {
   #region Ensure EPD Operations
   private void addOperation(
     Dictionary<String, List<String>?> operations, String sKey, params String[] sValues) {
-    if (operations != null) {
-      var values = new List<String>(sValues);
-      operations.Add(sKey, values);
-    }
+    if (operations == null) return;
+    //
+    // sValues.ToList() vs. [.. sValues]
+    //
+    //List<string> values = new(sValues);
+    List<string> values = [.. sValues];
+    operations.Add(sKey, values);
   }
 
   //

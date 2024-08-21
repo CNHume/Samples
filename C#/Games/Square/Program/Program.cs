@@ -22,60 +22,49 @@
 #define PressEnter
 //#define StackTrace
 
-namespace Games;
-
 using Commands;
 
 using static System.String;
 using static Logging.Logger;
 
-static class Program {
-  #region Constants
-  private const String sSpace = " ";
-  private const String sPrompt = "uci>";
-  #endregion
+#region Constants
+const String sSpace = " ";
+const String sPrompt = "uci>";
+#endregion
 
-  #region Methods
-  private static void Main(String[] args) {
-    using (var command = new UCI()) {
-      try {
-        if (UCI.IsDebug) {
+using UCI command = new();
+try {
 #if NoteLaunchAndExit
-          LogInfo(LogLevel.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+  LogInfo(LogLevel.note, $"Launched at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
-        }
 
-        var sCommand = Join(sSpace, args).Trim();
-        var bContinue = IsNullOrEmpty(sCommand) || command.Execute(sCommand);
-        while (bContinue) {
-          Log(sPrompt);
-          var sLine = Console.ReadLine();
-          if (sLine == null)
-            bContinue = false;
-          else {
-            LogLine(sLine, false);
-            bContinue = command.Execute(sLine.Trim());
-          }
-        }
-#if NoteLaunchAndExit
-        LogInfo(LogLevel.note, $"Exited at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
-#endif
-      }
-      catch (ApplicationException ex) {
-#if StackTrace
-        LogInfo(Level.error, ex.ToString());
-#else
-        LogInfo(LogLevel.error, ex.Message);
-#endif
-      }
-      catch (Exception ex) {
-        LogInfo(LogLevel.error, ex.ToString());
-      }
+  var sCommand = Join(sSpace, args).Trim();
+  var bContinue = IsNullOrEmpty(sCommand) || command.Execute(sCommand);
+  while (bContinue) {
+    Log(sPrompt);
+    var sLine = Console.ReadLine();
+    if (sLine == null)
+      bContinue = false;
+    else {
+      LogLine(sLine, false);
+      bContinue = command.Execute(sLine.Trim());
     }
-#if DEBUG && PressEnter
-    Console.Write("Press Enter");
-    Console.ReadLine();
-#endif
   }
-  #endregion
+#if NoteLaunchAndExit
+  LogInfo(LogLevel.note, $"Exited at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
+#endif
 }
+catch (ApplicationException ex) {
+#if StackTrace
+  LogInfo(LogLevel.error, ex.ToString());
+#else
+  LogInfo(LogLevel.error, ex.Message);
+#endif
+}
+catch (Exception ex) {
+  LogInfo(LogLevel.error, ex.ToString());
+}
+#if DEBUG && PressEnter
+Console.Write("Press Enter");
+Console.ReadLine();
+#endif

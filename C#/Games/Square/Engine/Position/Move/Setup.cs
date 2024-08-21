@@ -72,8 +72,8 @@ partial class Position : Board {
   }
 
   public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
-    using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Byte>(rookFromSquaresCapacity);
+    using Scanner scanner = new(sPrefix);
+    List<Byte> rookFromSquares = new(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -99,8 +99,8 @@ partial class Position : Board {
   }
 
   public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
-    using var scanner = new Scanner(sPrefix);
-    var rookFromSquares = new List<Byte>(rookFromSquaresCapacity);
+    using Scanner scanner = new(sPrefix);
+    List<Byte> rookFromSquares = new(rookFromSquaresCapacity);
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -121,13 +121,10 @@ partial class Position : Board {
 
   public void SetEPD(String? sEPD = null) {
     if (IsNullOrEmpty(sEPD)) sEPD = sOrthodoxStartEPD;
-
-    using (var parser = new Parser(sEPD)) {
-      parser.SetupToken.Expect();
-      var operations = parser.ParseOperations();
-      ParseEPD(parser.SetupToken.Value, operations);
-    }
-
+    using Parser parser = new(sEPD);
+    parser.SetupToken.Expect();
+    var operations = parser.ParseOperations();
+    ParseEPD(parser.SetupToken.Value, operations);
     //verifyEPD(sEPD);
   }
 
@@ -391,7 +388,7 @@ partial class Position : Board {
     //
     // Castling Rules can be determined now that the Pieces are in place:
     //
-    var rookFromSquares = new List<Byte>(4);
+    List<Byte> rookFromSquares = new(4);
     setupCastling(nRookFileOOO, nRookFileOO, rookFromSquares);
     #endregion                          // Grant Castling Rights
 
@@ -455,13 +452,11 @@ partial class Position : Board {
 
   public void SetFEN(String? sFEN = null) {
     if (IsNullOrEmpty(sFEN)) sFEN = sOrthodoxStartFEN;
-
-    using (var parser = new Parser(sFEN)) {
-      parser.SetupToken.Expect();
-      var sHalfMoveClock = parser.ParseCount("0");
-      var sFullMoveNumber = parser.ParseCount("1");
-      ParseFEN(parser.SetupToken.Value, sHalfMoveClock, sFullMoveNumber);
-    }
+    using Parser parser = new(sFEN);
+    parser.SetupToken.Expect();
+    var sHalfMoveClock = parser.ParseCount("0");
+    var sFullMoveNumber = parser.ParseCount("1");
+    ParseFEN(parser.SetupToken.Value, sHalfMoveClock, sFullMoveNumber);
 #if TestFEN
     if (!VerifyFEN(sFEN))
       LogInfo(LogLevel.warn, "Input FEN Inconsistent with Output FEN");

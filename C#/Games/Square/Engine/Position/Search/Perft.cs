@@ -28,7 +28,7 @@ partial class Position : Board {
 #if OrderMoves
     Array.Sort<Move>(filtered, 0, filtered.Length);
 #endif
-    var materialMoves = new List<Move>();
+    List<Move> materialMoves = [];
     generateMaterialMoves(materialMoves);
 
     var material = materialMoves.ToArray();
@@ -42,17 +42,16 @@ partial class Position : Board {
         }
     }
     else {
-      var sb = new StringBuilder();
       Trace.Assert(filtered.Length == material.Length, "filtered.Length != material.Length");
       DisplayCurrent("Filtered vs Material Moves:");
+      var sb = new StringBuilder()
+        .MapMoves(Extension.AppendAN, filteredMoves, Side, State.IsChess960)
+        .AppendLine()
+        .FlushLine()
 
-      sb.MapMoves(Extension.AppendAN, filteredMoves, Side, State.IsChess960);
-      sb.AppendLine();
-      sb.FlushLine();
-
-      sb.MapMoves(Extension.AppendAN, materialMoves, Side, State.IsChess960);
-      sb.AppendLine();
-      sb.FlushLine();
+        .MapMoves(Extension.AppendAN, materialMoves, Side, State.IsChess960)
+        .AppendLine()
+        .FlushLine();
     }
   }
 

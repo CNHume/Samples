@@ -47,7 +47,7 @@ partial class Position : Board {
   //
   public void ParsePACNSearchMoves(Parser parser, List<Move> searchMoves) {
     searchMoves.Clear();
-    var parseMoves = new List<Move>();
+    List<Move> parseMoves = [];
 
     if (parser.SpaceToken.Accept()) {
       var child = Push();

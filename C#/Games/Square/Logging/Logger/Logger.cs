@@ -97,7 +97,7 @@ static class Logger {
     if (bWriteToConsole) Console.Write(s);
 
     if (Stream == null) return;
-    var encoding = new UnicodeEncoding();
+    UnicodeEncoding encoding = new();
     var buffer = encoding.GetBytes(s);
     Stream.Write(buffer, 0, buffer.Length);
   }
@@ -114,11 +114,11 @@ static class Logger {
     if (IsNullOrEmpty(s))
       LogLine();                        // Omitting level
     else {
-      var sb = new StringBuilder(sInfo);
-      sb.Append(cSpace);
-      sb.Append(level);
-      sb.Append(cSpace);
-      sb.Append(s);
+      var sb = new StringBuilder(sInfo)
+        .Append(cSpace)
+        .Append(level)
+        .Append(cSpace)
+        .Append(s);
       LogLine(sb.ToString());
     }
   }

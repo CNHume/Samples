@@ -292,12 +292,12 @@ partial class GameState : IDisposable {
     if (OperatingSystem.IsWindows()) {  // Suppress SupportedOSPlatform warnings
 #if TestSlowManagementObject
       const String sPath = "Win32_Processor.DeviceID='CPU0'";
-      using var mo = new ManagementObject(sPath);
+      using ManagementObject mo = new(sPath);
       uSpeed = (UInt32)mo["CurrentClockSpeed"];
 #else                                   //!TestSlowManagementObject
       //[Note]Specifying the CurrentClockSpeed column improves performance
       const String sQuery = "select CurrentClockSpeed from Win32_Processor";
-      using var mos = new ManagementObjectSearcher(sQuery);
+      using ManagementObjectSearcher mos = new(sQuery);
       foreach (var mbo in mos.Get()) {
         var properties = mbo.Properties.Cast<PropertyData>();
         var pd = properties.FirstOrDefault(pd =>
@@ -337,9 +337,9 @@ partial class GameState : IDisposable {
 #else
     var sQXP = "QXP";
 #endif
-    sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}");
-    sb.AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}");
-    sb.AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
+    sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}")
+      .AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}")
+      .AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
 #if QuiescentTryXP
     sb.Append(" TryXP");
 #endif
@@ -393,8 +393,8 @@ partial class GameState : IDisposable {
     sb.Append(" TestBest");
 #endif
 #if TestCornerCP
-    sb.AppendEvalInfo(mKBNvKMateCornerWeight);
-    sb.Append(" CornerWeight");
+    sb.AppendEvalInfo(mKBNvKMateCornerWeight)
+      .Append(" CornerWeight");
 #endif
     if (IsOccam)
       sb.Append(" Occam");
@@ -455,13 +455,13 @@ partial class GameState : IDisposable {
   }
 
   private void herald(DateTime dtStarted, String? sName) {
-    var sb = new StringBuilder();
-    sb.AppendLine();                    // Following UCI prompt
-    sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
+    var sb = new StringBuilder()
+      .AppendLine()                     // Following UCI prompt
+      .AppendFormat($"{dtStarted:yyyy-MM-dd}");
 
     if (!IsNullOrEmpty(sName)) {
-      sb.Append(cSpace);
-      sb.Append(sName);
+      sb.Append(cSpace)
+        .Append(sName);
     }
 
     Bound.AppendBounds(sb);

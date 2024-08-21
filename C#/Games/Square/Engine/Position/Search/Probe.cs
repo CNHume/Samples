@@ -124,7 +124,7 @@ partial class Position : Board {
       }
 #endif                                  // DedupeGoodMoves
       // moveFound may be either annotated or abbreviated
-      var good = new GoodMove(moveFound, wDepth, mValue, etFound);
+      GoodMove good = new(moveFound, wDepth, mValue, etFound);
 #if LoadMRU
       goodMoves.Insert(0, good);        // MRU order
 #else
@@ -166,11 +166,11 @@ partial class Position : Board {
 
     verifySideToMove(moveBest, methodName);
 #if XPHash128
-    var store = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth,
-                                 mAdjusted, et, moveBest);
+    PositionMove store = new(qDynamic, HashPawn, State.MovePly, wDepth,
+                             mAdjusted, et, moveBest);
 #else
-    var store = new PositionMove(qDynamic, State.MovePly, wDepth,
-                                 mAdjusted, et, moveBest);
+    PositionMove store = new(qDynamic, State.MovePly, wDepth,
+                             mAdjusted, et, moveBest);
 #endif
     State.XPMTank.Save(store);
   }
@@ -189,11 +189,11 @@ partial class Position : Board {
     var qDynamic = DynamicHash(moveExcluded);
 #endif
 #if XPHash128
-    var match = new PositionMove(qDynamic, HashPawn, State.MovePly, wDepth);
+    PositionMove match = new(qDynamic, HashPawn, State.MovePly, wDepth);
 #else
-    var match = new PositionMove(qDynamic, State.MovePly, wDepth);
+    PositionMove match = new(qDynamic, State.MovePly, wDepth);
 #endif
-    var matches = new List<PositionMove>();
+    List<PositionMove> matches = [];
     State.XPMTank.Load(match, matches);
     var bFound = matches.Count > 0;
 
@@ -229,19 +229,19 @@ partial class Position : Board {
     verifySideToMove(moveBest, methodName);
 #if XPHash128
 #if XPMoveTypes
-    var store = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
-                                  mAdjusted, et, moveBest);
+    Transposition store = new(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
+                              mAdjusted, et, moveBest);
 #else
-    var store = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth,
-                                  mAdjusted, et, moveBest);
+    Transposition store = new(qDynamic, HashPawn, State.MovePly, wDepth,
+                              mAdjusted, et, moveBest);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-    var store = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
-                                  mAdjusted, et, moveBest);
+    Transposition store = new(qDynamic, MoveTypeOrdering, State.MovePly, wDepth,
+                              mAdjusted, et, moveBest);
 #else
-    var store = new Transposition(qDynamic, State.MovePly, wDepth,
-                                  mAdjusted, et, moveBest);
+    Transposition store = new(qDynamic, State.MovePly, wDepth,
+                              mAdjusted, et, moveBest);
 #endif
 #endif
     State.XPTank.Save(store);
@@ -255,15 +255,15 @@ partial class Position : Board {
     var qDynamic = DynamicHash(moveExcluded);
 #if XPHash128
 #if XPMoveTypes
-    var match = new Transposition(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
+    Transposition match = new(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth);
 #else
-    var match = new Transposition(qDynamic, HashPawn, State.MovePly, wDepth);
+    Transposition match = new(qDynamic, HashPawn, State.MovePly, wDepth);
 #endif
 #else                                   // XPHash128
 #if XPMoveTypes
-    var match = new Transposition(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
+    Transposition match = new(qDynamic, MoveTypeOrdering, State.MovePly, wDepth);
 #else
-    var match = new Transposition(qDynamic, State.MovePly, wDepth);
+    Transposition match = new(qDynamic, State.MovePly, wDepth);
 #endif
 #endif
     var bValid = State.XPTank.LoadFirst(ref match);
@@ -320,9 +320,9 @@ partial class Position : Board {
 
     verifySideToMove(moveBest, methodName);
 #if QXPHash128
-    var store = new QuietPosition(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
+    QuietPosition store = new(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
-    var store = new QuietPosition(Hash, State.MovePly, mAdjusted, et, moveBest);
+    QuietPosition store = new(Hash, State.MovePly, mAdjusted, et, moveBest);
 #endif
     State.QXPTank.Save(store);
     return mValue;
@@ -332,9 +332,9 @@ partial class Position : Board {
                            out Move moveFound, out Eval mValue, out EvalType etFound) {
     const String methodName = nameof(probeQXP);
 #if QXPHash128
-    var match = new QuietPosition(Hash, State.MovePly, HashPawn);
+    QuietPosition match = new(Hash, State.MovePly, HashPawn);
 #else
-    var match = new QuietPosition(Hash, State.MovePly);
+    QuietPosition match = new(Hash, State.MovePly);
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
     var moveBest = match.BestMove;
@@ -409,7 +409,7 @@ partial class Position : Board {
     Debug.Assert(EvalUndefined < mValue, $"{methodName}({nameof(EvalUndefined)})");
     traceVal(methodName, mValue, et);   //[Conditional]
     var mAdjusted = creditMate(mValue, SearchPly);
-    var store = new GoodMove(move, wDepth, mAdjusted, et);
+    GoodMove store = new(move, wDepth, mAdjusted, et);
 #if BottleGamePly
     var wPly = GamePly;
 #else
@@ -471,8 +471,8 @@ partial class Position : Board {
       sb.AppendNodeNumber(State.Nodes);
       if (mValue.HasValue) {
         var mEval = ReflectValue(WTM(), (Eval)mValue);
-        sb.Append(" Eval");
-        sb.AppendEvalTerm((Eval)mEval);
+        sb.Append(" Eval")
+          .AppendEvalTerm((Eval)mEval);
         if (mValue != EvalUndefined)
           sb.AppendFormat($" {et}");
       }

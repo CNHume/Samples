@@ -633,7 +633,7 @@ static class Extension {
             .appendMoveNumber(wGamePly, sElipsis);
 
     const Int32 nNestedBracketsCapacity = 2;
-    var brackets = new Stack<String>(nNestedBracketsCapacity);
+    Stack<String> brackets = new(nNestedBracketsCapacity);
 
     var bWasQxnt = false;
     foreach (var move in moves) {

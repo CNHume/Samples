@@ -116,7 +116,7 @@ partial class Position : Board {
 #endif
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
-    var goodMoves = new List<GoodMove>(nFirstCapacity);
+    List<GoodMove> goodMoves = new(nFirstCapacity);
     var bFoundValue = probeXP(
       wDepth, mAlpha, mBeta, moveExcluded, goodMoves,
       out Move moveFound, out Eval mValueFound, out EvalType etFound);
@@ -222,8 +222,8 @@ partial class Position : Board {
       moves.Clear();
       moves.AddRange(SearchMoves);
 #if DebugSearchMoves
-      var sb = new StringBuilder("SearchMoves:");
-      sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
+      var sb = new StringBuilder("SearchMoves:")
+        .MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
       LogLine(sb.ToString());
 #endif
     }
@@ -237,9 +237,9 @@ partial class Position : Board {
       //[Timer]timeGenerate(moves, !Swaps);
 #if DebugPseudoMoves
       DisplayCurrent($"{methodName}(Depth = {wDepth})");
-      var sb = new StringBuilder("PseudoMoves:");
-      sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
-      sb.FlushLine();
+      var sb = new StringBuilder("PseudoMoves:")
+        .MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
+        .FlushLine();
 #endif                                  // DebugPseudoMoves
     }
     #endregion
@@ -264,9 +264,9 @@ partial class Position : Board {
       var nEarly = sortMoves(moves, goodMoves, wDepth);
 #if DebugGoodMoves
       if (goodMoves.Count > 0) {
-        var sb = new StringBuilder("goodMoves:");
-        sb.MapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
-        sb.FlushLine();
+        var sb = new StringBuilder("goodMoves:")
+          .MapMoves(Extensions.AppendPACN, goodMoves, State.IsChess960);
+          .FlushLine();
       }
 #endif
 #if DebugCandidateMoves
@@ -276,7 +276,7 @@ partial class Position : Board {
 #if LazyMoveSort
       var pm2 = (Heap<SortMove>)PriorityMove.Clone();
 #else
-      var pm2 = new List<Move>(moves);
+      List<Move> pm2 = new(moves);
 #endif                                  // LazyMoveSort
       var sb2 = new StringBuilder("Candidate Moves:");
 #if LazyMoveSort
@@ -314,8 +314,8 @@ partial class Position : Board {
 #endif
         verifySideToMove(move, methodName);
 #if DebugNextMove
-        var sb = new StringBuilder("Next Move =");
-        sb.AppendPACN(move, State.IsChess960);
+        var sb = new StringBuilder("Next Move =")
+          .AppendPACN(move, State.IsChess960);
         LogLine(sb.ToString());
 #endif
         var wDraft1 = nextDraft(wDraft);
@@ -449,7 +449,7 @@ partial class Position : Board {
     }
     else {
 #if TestBest
-      var bestMove = new BestMove(move, be, this);
+      BestMove bestMove = new(move, be, this);
       BestMoves.Add(bestMove);
 #else
       BestMoves.Add(move);

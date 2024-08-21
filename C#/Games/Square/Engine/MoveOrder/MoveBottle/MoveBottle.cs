@@ -107,7 +107,7 @@ class MoveBottle {
 
   public List<GoodMove> Load(BottleHash uBottleHash, Int32 nSide) {
     var uIndex = index(uBottleHash);
-    var killers = new List<GoodMove>();
+    List<GoodMove> killers = [];
 
     if (Killers != null) {
       for (var nKiller = 0; nKiller < nKillers; nKiller++) {

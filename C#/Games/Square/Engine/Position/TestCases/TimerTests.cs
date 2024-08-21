@@ -69,7 +69,7 @@ partial class Position : Board {
 
   private static Stopwatch timerStart(String sMethod, UInt64 qTrials) {
     LogLine($"Timing {qTrials:n0} {sMethod} trials at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
-    var sw = new Stopwatch();
+    Stopwatch sw = new();
     sw.Start();
     return sw;
   }
@@ -349,7 +349,7 @@ partial class Position : Board {
 #endif
 #endif                                  // DeBruijn
       loadZobrist();
-      //var state = new GameState(null);
+      //GameState state = new(null);
       //state.loadEndgameValue();
     }
 
@@ -357,7 +357,7 @@ partial class Position : Board {
   }
 
   private void timeExecute(String sInput, UInt64 qTrials) {
-    using (var command = new UCI()) {
+    using (UCI command = new()) {
       var sw = timerStart(nameof(command.Execute), qTrials);
       var qTrial = 0UL;
       for (var bContinue = true; bContinue && qTrial < qTrials; qTrial++) {

@@ -195,8 +195,8 @@ partial class Board {
 #if VerifySquarePiece
       foreach (var testSide in Board.Side) {
         if ((qp & testSide.Piece) != 0) {
-          var sb = new StringBuilder();
-          sb.Append($"{testSide.Parameter.SideName} Piece prevents placement of {Parameter.SideName} Piece at")
+          var sb = new StringBuilder()
+            .Append($"{testSide.Parameter.SideName} Piece prevents placement of {Parameter.SideName} Piece at")
             .AppendSquares(qp);
           throw new MoveException(sb.ToString());
         }

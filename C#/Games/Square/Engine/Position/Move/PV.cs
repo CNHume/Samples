@@ -262,16 +262,16 @@ partial class Position : Board {
       //
       var nPlace = vn.Insert(nFinal);
       if (nPlace == 0) {
-        var sb = new StringBuilder();
         var mEval = ReflectValue(WTM(), mValue);
-        sb.UpdateBestInfo(State.BestLine, vnMoves, mEval, bPonder, Side, State.IsChess960)
+        new StringBuilder()
+          .UpdateBestInfo(State.BestLine, vnMoves, mEval, bPonder, Side, State.IsChess960)
           .FlushLine();
       }
 #if DebugPlace
       if (UCI.IsDebug) {
-        var sb = new StringBuilder();
         var sGrow = bGrow ? "Placed" : "Replaced";
-        sb.AppendFormat($"{sGrow} vn[{nPlace}]");
+        var sb = new StringBuilder()
+          .AppendFormat($"{sGrow} vn[{nPlace}]");
         LogInfo(LogLevel.note, sb.ToString());
         sb.Clear();
         State.MovePosition?.writePV(sb, nPlace, WTM());
@@ -487,7 +487,7 @@ partial class Position : Board {
   #region Move List Methods
   public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
     const String methodName = nameof(MovesFromParent);
-    var moves = new List<Move>();
+    List<Move> moves = [];
     for (var position = this;           // toPosition
          position is not null &&        //[Safe]
          !ReferenceEquals(position, parent);
@@ -513,9 +513,9 @@ partial class Position : Board {
   public void ListMovesFromParent(
     Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate = false) {
     var moves = MovesFromParent(parent, bAbbreviate);
-    var sb = new StringBuilder();
     var wGamePly = parent?.GamePly ?? 0;
-    sb.WriteMoves(moves, wGamePly, Side, bPure, bChess960)
+    new StringBuilder()
+      .WriteMoves(moves, wGamePly, Side, bPure, bChess960)
       .FlushLine();
   }
 

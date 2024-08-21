@@ -383,8 +383,8 @@ partial class Board {
   }
 
   public StringBuilder Display(String? sLabel) {
-    var sb = new StringBuilder();
-    sb.AppendNodeNumber(State.Nodes);
+    var sb = new StringBuilder()
+      .AppendNodeNumber(State.Nodes);
     if (!IsNullOrEmpty(sLabel)) {
       sb.Append(sColonSpace);
       sb.AppendLine(sLabel);
@@ -395,8 +395,8 @@ partial class Board {
 
   #region Board Diagnostics
   private static void printMapping(String sLabel, Func<Int32, Int32> mapper) {
-    var sb = new StringBuilder();
-    sb.Append(sLabel)
+    var sb = new StringBuilder()
+      .Append(sLabel)
       .Append(cNewline)
       .Append(cNewline);
 
@@ -480,8 +480,8 @@ partial class Board {
   }
 #if TestRotation && !Magic
   public static void writeDiag(Plane qp, Boolean bRotateBoard = false) {
-    var sb = new StringBuilder();
-    sb.AppendIndent(8)
+    var sb = new StringBuilder()
+      .AppendIndent(8)
       .Append(ruler(-1, bRotateBoard))
       .Append(cNewline);
 
@@ -510,8 +510,8 @@ partial class Board {
   }
 
   private static void writeOrthRotations(String sLabel, Plane[] qpOrth) {
-    var sb = new StringBuilder();
-    sb.Append(sLabel)
+    var sb = new StringBuilder()
+      .Append(sLabel)
       .Append(cNewline)
       .Append(cNewline);
 
@@ -525,8 +525,8 @@ partial class Board {
   }
 
   private static void writeDiagRotations(String sLabel, Plane[] qpDiag) {
-    var sb = new StringBuilder();
-    sb.Append(sLabel)
+    var sb = new StringBuilder()
+      .Append(sLabel)
       .Append(cNewline)
       .Append(cNewline);
 

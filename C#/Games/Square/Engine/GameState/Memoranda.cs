@@ -78,18 +78,18 @@ partial class GameState {
     }
 #if DebugHashPieces
     else {
-      var sb = new StringBuilder();
       //DisplayCurrent(nameof(GetCX2));
-      sb.AppendLine();
-      sb.Append("Old ");
-      sb.AppendPieceCounts(White, wPieceCounts);
-      sb.AppendLine();
-      sb.Append("New ");
-      sb.AppendPieceCounts(White, found.PieceCounts);
-      sb.AppendLine();
-      sb.AppendFormat($"Index = {CXPMemo.index(wMemoHash)}");
-      sb.AppendLine();
-      sb.FlushLine();
+      var sb = new StringBuilder()
+        .AppendLine()
+        .Append("Old ")
+        .AppendPieceCounts(White, wPieceCounts)
+        .AppendLine()
+        .Append("New ")
+        .AppendPieceCounts(White, found.PieceCounts)
+        .AppendLine()
+        .AppendFormat($"Index = {CXPMemo.index(wMemoHash)}")
+        .AppendLine()
+        .FlushLine();
     }
 #endif
     found = new Composition2(wPieceCounts, fsideWeight);
@@ -147,18 +147,18 @@ partial class GameState {
     }
 #if DebugHashPieces
     else {
-      var sb = new StringBuilder();
       //DisplayCurrent(nameof(GetCXP));
-      sb.AppendLine();
-      sb.Append("Old ");
-      sb.AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts);
-      sb.AppendLine();
-      sb.Append("New ");
-      sb.AppendPieceCounts(blackSide, whiteSide, found.BlackCounts, found.WhiteCounts);
-      sb.AppendLine();
-      sb.AppendFormat($"Index = {uMemoHash}");
-      sb.AppendLine();
-      sb.FlushLine();
+      var sb = new StringBuilder();
+        .AppendLine()
+        .Append("Old ")
+        .AppendPieceCounts(blackSide, whiteSide, blackSide.Counts, whiteSide.Counts)
+        .AppendLine()
+        .Append("New ")
+        .AppendPieceCounts(blackSide, whiteSide, found.BlackCounts, found.WhiteCounts)
+        .AppendLine()
+        .AppendFormat($"Index = {uMemoHash}")
+        .AppendLine()
+        .FlushLine();
     }
 #endif
     found = new Composition(

@@ -127,9 +127,9 @@ partial class Position : Board {
         moves.Clear();
         moves.AddRange(SearchMoves);
 #if DebugSearchMoves
-        var sb = new StringBuilder("SearchMoves:");
-        sb.MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960);
-        sb.FlushLine();
+        var sb = new StringBuilder("SearchMoves:")
+          .MapMoves(Extension.AppendPACN, moves, Side, State.IsChess960)
+          .FlushLine();
 #endif
       }
       else {
@@ -145,9 +145,9 @@ partial class Position : Board {
 #endif
 #if DebugPseudoMoves
         DisplayCurrent(methodName);
-        var sb = new StringBuilder("PseudoMoves:");
-        sb.MapMoves(Extensions.AppendPACN, moves, State.IsChess960);
-        sb.FlushLine();
+        var sb = new StringBuilder("PseudoMoves:")
+          .MapMoves(Extensions.AppendPACN, moves, State.IsChess960)
+          .FlushLine();
 #endif
       }
       #endregion                        // Generate Moves
