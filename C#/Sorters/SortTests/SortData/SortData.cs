@@ -62,7 +62,7 @@ public class SortData {
 #else
     var range = length * scale;
 #endif
-    var r = new Random(seed);
+    Random r = new(seed);
 
     var entries = new Int32[length];
     for (var index = 0; index < length; index++)

@@ -69,7 +69,7 @@ namespace MergeSort {
 #if TestRanges
       Console.WriteLine("Entries: " + String.Join(" ", entries));
 #endif
-      var ranges = new List<List<T>>(Merges);
+      List<List<T>> ranges = new(Merges);
       var remaining = length;
       var mergeSize = length / Merges;
       for (var left = first; left <= last; left += mergeSize, remaining -= mergeSize) {
@@ -88,7 +88,7 @@ namespace MergeSort {
     }
 
     public List<T> Merge(List<List<T>> ranges) {
-      var merge = new List<T>();
+      List<T> merge = [];
 
       while (true) {
         List<T>? found = default;

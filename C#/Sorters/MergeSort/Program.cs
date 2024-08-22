@@ -17,15 +17,15 @@ using Sorters;
 using SortTests;
 
 try {
-  var cmd = new Command();
-  cmd.Parse(args);
+  Command command = new();
+  command.Parse(args);
 
-  if (cmd.Length.HasValue) {
-    var source = new SortData(cmd.SortCase);
-    var entries = source.BuildEntries(cmd.Length.Value);
+  if (command.Length.HasValue) {
+    SortData source = new(command.SortCase);
+    var entries = source.BuildEntries(command.Length.Value);
 
-    var timer = new SortTimer<Int32>();
-    timer.Sort(entries, cmd.Print, cmd.Trials, cmd.InsertionLimit, cmd.Merges);
+    SortTimer<Int32> timer = new();
+    timer.Sort(entries, command.Print, command.Trials, command.InsertionLimit, command.Merges);
   }
 }
 catch (ApplicationException ex) {

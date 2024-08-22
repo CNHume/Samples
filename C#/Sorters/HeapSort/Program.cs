@@ -5,7 +5,8 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 // 2017-10-30 CNHume  Added Command class
-// 2014-12-13 CNHume  Added Parse() method
+// 2014-12-14 CNHume  Added Parse() method
+// 2012-04-04 CNHume  Created HeapSort
 //
 
 using Parsers;
@@ -15,15 +16,15 @@ using Sorters;
 using SortTests;
 
 try {
-  var cmd = new Command();
-  cmd.Parse(args);
+  Command command = new();
+  command.Parse(args);
 
-  if (cmd.Length.HasValue) {
-    var source = new SortData(cmd.SortCase);
-    var entries = source.BuildEntries(cmd.Length.Value);
+  SortData source = new(command.SortCase);
 
-    var timer = new SortTimer<Int32>();
-    timer.Sort(entries, cmd.Print, cmd.Trials);
+  if (command.Length.HasValue) {
+    var entries = source.BuildEntries(command.Length.Value);
+    SortTimer<Int32> timer = new();
+    timer.Sort(entries, command.Print, command.Trials);
   }
 }
 catch (ApplicationException ex) {

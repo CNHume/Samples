@@ -29,7 +29,7 @@ public class HeapTest {
 #if DEBUG
     OutputHelper.WriteLine("TestEnumerator");
 #endif
-    var heap = new Heap<Int32>(entries);
+    Heap<Int32> heap = new(entries);
     //heap.Sort();
 #if DEBUG
     OutputHelper.WriteLine(Join(" ", heap));
@@ -43,7 +43,7 @@ public class HeapTest {
 #if DEBUG
     OutputHelper.WriteLine("CloneTest");
 #endif
-    var heap = new Heap<Int32>(entries);
+    Heap<Int32> heap = new(entries);
     var heap2 = (Heap<Int32>)heap.Clone();
     //heap.Sort();
 #if DEBUG

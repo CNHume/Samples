@@ -24,7 +24,7 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
   public SortTimer() {
     var sb = new StringBuilder("Starting");
 #if TestRuntimeSort
-      sb.AppendDelim("RuntimeSort", space);
+    sb.AppendDelim("RuntimeSort", space);
 #endif
     this.Mode = sb.ToString();
   }
@@ -34,8 +34,8 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
   public void Sort(T[] entries, Boolean print, UInt32? trials) {
     if (!trials.HasValue) trials = 1;
 #if TestList
-      var input = entries.ToList();
-      Header(input, typeof(InsertionList<T>), print);
+    var input = entries.ToList();
+    Header(input, typeof(InsertionList<T>), print);
 #else
     Header(entries, typeof(InsertionSort<T>), print);
 #endif
@@ -43,9 +43,9 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
     var meter = (IMeter)this;
 #if !TestRuntimeSort
 #if TestList
-      var sorter = new InsertionList<T>(meter);
+    InsertionList<T> sorter = new(meter);
 #else
-    var sorter = new InsertionSort<T>(meter);
+    InsertionSort<T> sorter = new(meter);
 #endif
 #endif
     for (var trial = 0; trial < trials; trial++) {
@@ -55,14 +55,14 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
       }
 #if TestRuntimeSort
 #if TestList
-        input.Sort();
-        var output = input;
+      input.Sort();
+      var output = input;
 #else
-        Array.Sort(entries);
+      Array.Sort(entries);
 #endif
 #else
 #if TestList
-        var output = sorter.Sort(input);
+      var output = sorter.Sort(input);
 #else
       sorter.Sort(entries);
 #endif
@@ -70,7 +70,7 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
       Stop();
       Display();
 #if TestList
-        Footer(output, print);
+      Footer(output, print);
 #else
       Footer(entries, print);
 #endif

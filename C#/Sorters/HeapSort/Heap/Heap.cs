@@ -31,13 +31,13 @@
 // Sample Usage:
 //
 //  var items = new[] { 101, 3, 44, 55, 8, 17, 6 };
-//  var sorter = new Heap<Int32>(items);
+//  Heap<Int32> sorter = new(items);
 //  sorter.Sort();
 //
 // Left to Right Unit Test:
 //
 //  var items = new[] { 101, 3, 44, 55, 8, 17, 6 };
-//  var sorter = new Heap<Int32>(items, 0);
+//  Heap<Int32> sorter = new(items, 0);
 //  sorter.Invert();
 //
 //  for (var final = 0; final < items.Length; final++)

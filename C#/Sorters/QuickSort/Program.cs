@@ -18,19 +18,19 @@ using Sorters;
 using SortTests;
 
 try {
-  var cmd = new Command();
-  cmd.Parse(args);
+  Command command = new();
+  command.Parse(args);
 
-  if (cmd.Length.HasValue) {
+  if (command.Length.HasValue) {
     //
     //[Note]SortCase.Random ran about 4X faster over
     // 108M entries under the Tripartite conditional
     //
-    var source = new SortData(cmd.SortCase);
-    var entries = source.BuildEntries(cmd.Length.Value);
+    SortData source = new(command.SortCase);
+    var entries = source.BuildEntries(command.Length.Value);
 
-    var timer = new SortTimer<Int32>();
-    timer.Sort(entries, cmd.Print, cmd.Trials, cmd.InsertionLimit);
+    SortTimer<Int32> timer = new();
+    timer.Sort(entries, command.Print, command.Trials, command.InsertionLimit);
   }
 }
 catch (ApplicationException ex) {

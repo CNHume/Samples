@@ -39,7 +39,7 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
     //       It does not make a private copy!
     //
     var meter = (IMeter)this;
-    var sorter = new Heap<T>(entries, meter);
+    Heap<T> sorter = new(entries, meter);
 
     for (var trial = 0; trial < trials; trial++) {
       if (trial > 0) {
