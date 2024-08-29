@@ -48,7 +48,7 @@ partial class Position : Board {
     var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
-    if (IsDraw()) {                     //[Note]Test50MoveRule() will not be called below
+    if (IsDraw() || IsDraw50()) {       //[Note]UpdateDraw50() is not called below
       State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
       return eval();
@@ -203,8 +203,8 @@ partial class Position : Board {
           #endregion
 
           //
-          //[Note]Test50MoveRule() isn't called because the point of quiet() is to keep
-          // searching only so long as moves which alter the material balance are found.
+          //[Note]IsDraw50() isn't called because quiet() searches
+          // for moves which alter the material balance.
           //
 #if QuietMate && !QuietCheck
           if (bNonMaterial) {           // Skip search of any Check Evasion.

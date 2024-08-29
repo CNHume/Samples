@@ -124,8 +124,9 @@ partial class Board {
     //[Note]Omitting Draw0, Draw2, Draw3, Draw50 and DrawIM from
     // the Hash prevents a call to IsLegal() for a Transposition
     //
-    DrawMask = DrawIM | Draw50 | Draw3,
-    Copy = DrawMask | Draw2 | Draw0     // Avoid indefinite recursion in lookupPV()
+    DrawMask = DrawIM | Draw3,
+    // Avoid indefinite recursion in lookupPV()
+    Copy = DrawMask | Draw50 | Draw2 | Draw0
 
     //
     // From the article CA1008: Enums should have zero value

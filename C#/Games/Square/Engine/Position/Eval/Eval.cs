@@ -379,7 +379,8 @@ partial class Position : Board {
   //
   private Eval eval() {
     var bWTM = WTM();
-    var mValue = IsDraw() || IsStalemate() ? contempt() : fullEval();
+    var mValue = IsDraw() || IsDraw50() || IsStalemate() ?
+      contempt() : fullEval();
     return ReflectValue(bWTM, mValue);
   }
 

@@ -176,10 +176,10 @@ partial class Board {
       Friend.LowerPiece(vPiece, nTo);
 
     if (vPiece == vP6) {
-      if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
-        vEPTarget = (Byte)(nTo - Friend.Parameter.PawnStep);
-
       HalfMoveClock = 0;                // HalfMoveClock Reset due to Pawn Move
+      if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
+        vEPTarget = (Byte)(nFrom + Friend.Parameter.PawnStep);
+
       Friend.ResetPawnAtx();
     }
 
@@ -219,6 +219,7 @@ partial class Board {
 
     var vEPTarget = PlayMove(ref move);
 
+    UpdateDraw50();
     updateRepetitionCycle();
 
     //[Note]IncrementGamePly() inverts the sense of Friend and Foe.

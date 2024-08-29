@@ -76,7 +76,7 @@ partial class Position : Board {
     var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
-    if (IsDraw()) {                     //[Note]Test50MoveRule() must be called after tryMove(), below.
+    if (IsDraw()) {                     //[Note]IsDraw50() must be called after tryMove() below.
       State.IncEvalType(EvalType.Exact);
       return eval();
     }
@@ -329,12 +329,11 @@ partial class Position : Board {
 
         #region Test for 50-Move Rule
         //
-        // The move is legal; so a 50th (or greater) move cannot have delivered Mate:
+        // This move is legal; so a 50th (or greater) move did not deliver Mate:
         //
-        Test50MoveRule();
-
-        if (IsDraw50()) {
-          mBest = eval();
+        if (Parent is not null &&
+            Parent.IsDraw50()) {
+          mBest = Parent.contempt();
 
           if (mAlpha < mBest) {
             mAlpha = mBest;

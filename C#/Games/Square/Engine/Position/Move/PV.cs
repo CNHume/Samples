@@ -85,7 +85,8 @@ partial class Position : Board {
     if (InCheck()) move |= Move.NoteCheck;
 #if TestDraw3
     if (IsDraw2()) move |= Move.NoteDraw2;
-    if (IsDraw()) move |= Move.NoteDraw;
+    if (IsDraw() ||
+        IsDraw50()) move |= Move.NoteDraw;
 #endif
     return CurrentMove = move;
   }
@@ -331,8 +332,6 @@ partial class Position : Board {
     if (IsTrace())
       DisplayCurrent(methodName);
 #endif
-    Test50MoveRule();                   // Set Draw50 after making the move
-
     //[Note]Terminate recursion if Draw3 set.
     if (!IsDraw()) {
       //
@@ -380,7 +379,6 @@ partial class Position : Board {
             return;
           }
 
-          child.Test50MoveRule();       // Set Draw50 after making the move
           child.replay(moves, nIndex + 1);
         }
         finally {
@@ -430,8 +428,6 @@ partial class Position : Board {
       if (IsTrace())
         DisplayCurrent(nameof(abbreviateRefresh));
 #endif
-      Test50MoveRule();                 // Set Draw50 after making the move
-
       //
       // Recursion vs iteration links each Position to its parent,
       // allowing findRepetition() and findCycle() to operate correctly:

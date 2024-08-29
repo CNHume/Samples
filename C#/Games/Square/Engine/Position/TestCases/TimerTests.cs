@@ -357,15 +357,14 @@ partial class Position : Board {
   }
 
   private void timeExecute(String sInput, UInt64 qTrials) {
-    using (UCI command = new()) {
-      var sw = timerStart(nameof(command.Execute), qTrials);
-      var qTrial = 0UL;
-      for (var bContinue = true; bContinue && qTrial < qTrials; qTrial++) {
-        bContinue = command.Execute(sInput);
-      }
-
-      timerStop(sw, qTrial);
+    using UCI command = new();
+    var sw = timerStart(nameof(command.Execute), qTrials);
+    var qTrial = 0UL;
+    for (var bContinue = true; bContinue && qTrial < qTrials; qTrial++) {
+      bContinue = command.Execute(sInput);
     }
+
+    timerStop(sw, qTrial);
   }
   #endregion                            // Timer Tests
 }

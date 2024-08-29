@@ -224,7 +224,7 @@ partial class Board {
       }
     }
 
-    if (IsDraw())
+    if (IsDraw() || IsDraw50())
       qDynamic ^= zobristDraw[0];
     else if (IsDraw2())
       qDynamic ^= zobristDraw[1];
