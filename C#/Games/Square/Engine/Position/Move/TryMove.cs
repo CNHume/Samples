@@ -177,7 +177,9 @@ partial class Position : Board {
     if (bDraw2) {
       var nCount = 1;
 
-      for (var position = Parent; position is not null; position = position.Parent) {
+      for (var position = Parent;
+           position is not null;
+           position = position.Parent) {
         if (Equals(position)) nCount++;
       }
 
@@ -204,7 +206,9 @@ partial class Position : Board {
     // Each Parent position is examined back to the initial position,
     // not just to State.MovePosition where the current search began.
     //
-    for (var position = Parent; position is not null; position = position.Parent) {
+    for (var position = Parent;
+         position is not null;
+         position = position.Parent) {
       if (bLookupCycle)
         GameState.AtomicIncrement(ref State.LookupCyclePlies);
       else

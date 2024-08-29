@@ -420,7 +420,9 @@ partial class Parser : IDisposable {
   }
 
   private static Position? findNamedPosition(Position? position, Position? parent) {
-    while (position is not null && !ReferenceEquals(position, parent) && IsNullOrEmpty(position.Name))
+    while (position is not null &&
+           !ReferenceEquals(position, parent) &&
+           IsNullOrEmpty(position.Name))
       position = position.Parent;
     return position;
   }

@@ -112,10 +112,9 @@ partial class GameState {
   }
 
   private List<Move>? startSearch(Position? position, SearchMode mode) {
-    try {
-      if (position is null)
-        throw new PositionException("Null Position");
+    ArgumentNullException.ThrowIfNull(position);
 
+    try {
       SearchTimer.Reset();
       IntervalNodes =
         HeartbeatNodes = (UInt64)Nodes;
@@ -347,7 +346,8 @@ partial class GameState {
     //
     // Display MovesFromParent(MovePosition) to Current Position
     //
-    if (IsDisplayCurrentLine && position is not null) {
+    if (IsDisplayCurrentLine &&
+        position is not null) {
       const Boolean bAbbreviate = false;
 
       sb.Append(" currline");
