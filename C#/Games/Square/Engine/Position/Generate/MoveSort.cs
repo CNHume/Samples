@@ -143,7 +143,7 @@ partial class Position : Board {
       // nGenerated index is included in SortMove so a Stable
       // Sort can be implemented on its IComparable interface
       //
-      SortMoves[nGenerated++] = new SortMove(move, nGenerated, mValue, wDepth);
+      SortMoves[nGenerated++] = new(move, nGenerated, mValue, wDepth);
     }
 #if LazyMoveSort
     PriorityMove.Truncate();            // Truncate Heap, preparing to rebuild.

@@ -20,7 +20,7 @@ partial class Parser : IDisposable {
     public TokenRule(TokenRuleType tokenRuleType, String regex, RegexOptions options = RegexOptions.None) {
       TokenRuleType = tokenRuleType;
       var anchor = $"^({regex})";
-      Regex = new Regex(anchor, options);
+      Regex = new(anchor, options);
     }
     #endregion
 

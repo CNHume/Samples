@@ -113,7 +113,7 @@ partial class Board : IEquatable<Board> {
     foreach (var sideName in sideNames) {
       var nSide = (Int32)sideName;
       if (Parameter[nSide] == null) {
-        Parameter[nSide] = new PositionParameter(sideName);
+        Parameter[nSide] = new(sideName);
       }
     }
   }
@@ -211,7 +211,7 @@ partial class Board : IEquatable<Board> {
   private void ensureOperations() {
     if (Operations != null) return;
 
-    Operations = new Dictionary<String, List<String>?>(OperationsCapacity);
+    Operations = new(OperationsCapacity);
     var wMove = MoveNumber(GamePly);
     addOperation(Operations, "fmvn", wMove.ToString());
     addOperation(Operations, "hmvc", HalfMoveClock.ToString());

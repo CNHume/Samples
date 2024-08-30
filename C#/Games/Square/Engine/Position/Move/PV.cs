@@ -222,7 +222,7 @@ partial class Position : Board {
       var vnMoves = vn[nFinal].Moves;
 
       if (vnMoves == null) {
-        vnMoves = new List<Move>();
+        vnMoves = [];
         vn[nFinal].Moves = vnMoves;
       }
       else

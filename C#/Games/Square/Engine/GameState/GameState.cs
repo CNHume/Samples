@@ -94,15 +94,15 @@ partial class GameState : IDisposable {
     //
     //[ToDo]Allocate a separate Pool of positions for each thread:
     //
-    PositionPool = new PooledPosition(this);
+    PositionPool = new(this);
 
-    Bound = new SearchBound();
+    Bound = new();
     IsChess960 = false;
-    Case = new PerfCase();
+    Case = new();
 
     newBestLine(wDepthMax);
     newTimers();
-    SeededRandom = new Random();        // Variable seed based on Environment.TickCount
+    SeededRandom = new();               // Variable seed based on Environment.TickCount
 
     loadEndgameValue();
     loadExtensionLimit();
@@ -112,7 +112,7 @@ partial class GameState : IDisposable {
 #else
     var uBottleLength = wPlyHistory;
 #endif
-    Bottle = new MoveBottle(uBottleLength);
+    Bottle = new(uBottleLength);
 #endif                                  // UseKillers
     wireControls();
 
@@ -182,7 +182,7 @@ partial class GameState : IDisposable {
 
   [MemberNotNull(nameof(BestLine))]
   private void newBestLine(Int32 nCapacity) {
-    BestLine = new List<Move>(nCapacity);
+    BestLine = new(nCapacity);
   }
 
   [MemberNotNull(
@@ -190,8 +190,8 @@ partial class GameState : IDisposable {
     nameof(SearchTimer)
     )]
   private void newTimers() {
-    IterationTimer = new Stopwatch();
-    SearchTimer = new Stopwatch();
+    IterationTimer = new();
+    SearchTimer = new();
   }
 
   private void clearSearchCounts() {

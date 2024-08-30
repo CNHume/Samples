@@ -55,7 +55,7 @@ partial class Board {
     )]
   private static void newZobrist() {
 #if TestZobrist
-    zobrists = new List<Hashcode>();
+    List<Hashcode> zobrists = [];
 #endif
     zobristWhite = new Hashcode[nPieces][];
     zobristBlack = new Hashcode[nPieces][];
@@ -82,7 +82,7 @@ partial class Board {
       throw new BoardException("No Underpromotions Defined");
 
     zobristBuffer = new Byte[8];
-    zobristRandom = new Random(0);      // Fixed, repeatable seed
+    zobristRandom = new(0);             // Fixed, repeatable seed
   }
 
   [MemberNotNull(

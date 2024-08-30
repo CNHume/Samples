@@ -49,7 +49,7 @@ partial class UCI : ICommand {
   #region Constructors
   public UCI(Boolean bVerbose = false) {
     IsVerbose = bVerbose;
-    State = new GameState();
+    State = new();
   }
 
   static UCI() {
@@ -314,7 +314,7 @@ partial class UCI : ICommand {
   [MemberNotNull(nameof(Parser))]
   protected void EnsureParser(String sCommand) {
     if (Parser == null)
-      Parser = new Parser(Parser.NewScanner(sCommand), IsVerbose);
+      Parser = new(Parser.NewScanner(sCommand), IsVerbose);
     else
       Parser.EnsureScanner(sCommand);
   }

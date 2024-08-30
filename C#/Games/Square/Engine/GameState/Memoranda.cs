@@ -92,13 +92,13 @@ partial class GameState {
         .FlushLine();
     }
 #endif
-    found = new Composition2(wPieceCounts, fsideWeight);
+    found = new(wPieceCounts, fsideWeight);
     CXPMemo[wMemoHash] = found;
     return found;
 #else                                   // CompositionByValue
     if (bDefault) {
       CXPMemo.Counts.Added++;           // Non-Match Case: Add new Composition
-      found = new Composition2(wPieceCounts, fsideWeight);
+      found = new(wPieceCounts, fsideWeight);
       CXPMemo[wMemoHash] = found;
       return found;
     }
@@ -212,9 +212,9 @@ partial class GameState {
     if (bDefault)
       PXPMemo.Counts.Added++;           // Non-Match Case: Add new PawnPosition
 
-    found = new PawnPosition(qHashPawn, fBlackPRP, fWhitePRP,
-                             uBlackCount, uWhiteCount,
-                             qpBlackPassers, qpWhitePassers);
+    found = new(qHashPawn, fBlackPRP, fWhitePRP,
+                uBlackCount, uWhiteCount,
+                qpBlackPassers, qpWhitePassers);
     PXPMemo[qHashPawn] = found;
     return found;
 #else                                   // PawnPositionByValue

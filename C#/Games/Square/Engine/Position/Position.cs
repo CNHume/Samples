@@ -143,7 +143,7 @@ partial class Position : Board {
     foreach (var parameter in Parameter) {
       var nSide = (Int32)parameter.SideName;
       if (Side[nSide] == null)
-        Side[nSide] = new PositionSide(this, parameter);
+        Side[nSide] = new(this, parameter);
     }
   }
 
@@ -276,78 +276,78 @@ partial class Position : Board {
     )]
   private void newPseudoMoves() {
 #if NoCapacity
-    PseudoQueenPromotion = new List<Move>();
-    PseudoUnderPromotion = new List<Move>();
-    PseudoQueenPromotionCapture = new List<Move>();
-    PseudoUnderPromotionCapture = new List<Move>();
-    PseudoEPCapture = new List<Move>();
-    PseudoCastles = new List<Move>();
+    PseudoQueenPromotion = [];
+    PseudoUnderPromotion = [];
+    PseudoQueenPromotionCapture = [];
+    PseudoUnderPromotionCapture = [];
+    PseudoEPCapture = [];
+    PseudoCastles = [];
 
-    PseudoPawnAboveMove = new List<Move>();
-    PseudoPawnBelowMove = new List<Move>();
-    PseudoKingMove = new List<Move>();
-    PseudoKnightMove = new List<Move>();
-    PseudoDiagAboveMove = new List<Move>();
-    PseudoDiagBelowMove = new List<Move>();
-    PseudoOrthAboveMove = new List<Move>();
-    PseudoOrthBelowMove = new List<Move>();
+    PseudoPawnAboveMove = [];
+    PseudoPawnBelowMove = [];
+    PseudoKingMove = [];
+    PseudoKnightMove = [];
+    PseudoDiagAboveMove = [];
+    PseudoDiagBelowMove = [];
+    PseudoOrthAboveMove = [];
+    PseudoOrthBelowMove = [];
 
-    PseudoPawnAboveCapture = new List<Move>();
-    PseudoPawnBelowCapture = new List<Move>();
-    PseudoKingCapture = new List<Move>();
-    PseudoKnightCapture = new List<Move>();
-    PseudoDiagAboveCapture = new List<Move>();
-    PseudoDiagBelowCapture = new List<Move>();
-    PseudoOrthAboveCapture = new List<Move>();
-    PseudoOrthBelowCapture = new List<Move>();
+    PseudoPawnAboveCapture = [];
+    PseudoPawnBelowCapture = [];
+    PseudoKingCapture = [];
+    PseudoKnightCapture = [];
+    PseudoDiagAboveCapture = [];
+    PseudoDiagBelowCapture = [];
+    PseudoOrthAboveCapture = [];
+    PseudoOrthBelowCapture = [];
 
-    PseudoGoodCaptures = new List<Move>();
-    PseudoBadCaptures = new List<Move>();
-    PseudoCaptures = new List<Move>();
-    PseudoMoves = new List<Move>();
+    PseudoGoodCaptures = [];
+    PseudoBadCaptures = [];
+    PseudoCaptures = [];
+    PseudoMoves = [];
 #else
-    PseudoQueenPromotion = new List<Move>(2);
-    PseudoUnderPromotion = new List<Move>(2 * 3);
-    PseudoQueenPromotionCapture = new List<Move>(2);
-    PseudoUnderPromotionCapture = new List<Move>(2 * 3);
-    PseudoEPCapture = new List<Move>(2);
-    PseudoCastles = new List<Move>(2);
+    PseudoQueenPromotion = new(2);
+    PseudoUnderPromotion = new(2 * 3);
+    PseudoQueenPromotionCapture = new(2);
+    PseudoUnderPromotionCapture = new(2 * 3);
+    PseudoEPCapture = new(2);
+    PseudoCastles = new(2);
 
-    PseudoPawnAboveMove = new List<Move>(8 * 3);
-    PseudoPawnBelowMove = new List<Move>(8 * 3);
-    PseudoKingMove = new List<Move>(8);
-    PseudoKnightMove = new List<Move>(2 * 8);
-    PseudoDiagAboveMove = new List<Move>(2 * 13);
-    PseudoDiagBelowMove = new List<Move>(2 * 13);
-    PseudoOrthAboveMove = new List<Move>(2 * 14);
-    PseudoOrthBelowMove = new List<Move>(2 * 14);
+    PseudoPawnAboveMove = new(8 * 3);
+    PseudoPawnBelowMove = new(8 * 3);
+    PseudoKingMove = new(8);
+    PseudoKnightMove = new(2 * 8);
+    PseudoDiagAboveMove = new(2 * 13);
+    PseudoDiagBelowMove = new(2 * 13);
+    PseudoOrthAboveMove = new(2 * 14);
+    PseudoOrthBelowMove = new(2 * 14);
 
-    PseudoPawnAboveCapture = new List<Move>(8 * 2);
-    PseudoPawnBelowCapture = new List<Move>(8 * 2);
-    PseudoKingCapture = new List<Move>(6);
-    PseudoKnightCapture = new List<Move>(2 * 6);
-    PseudoDiagAboveCapture = new List<Move>(2 * 4);
-    PseudoDiagBelowCapture = new List<Move>(2 * 4);
-    PseudoOrthAboveCapture = new List<Move>(2 * 4);
-    PseudoOrthBelowCapture = new List<Move>(2 * 4);
+    PseudoPawnAboveCapture = new(8 * 2);
+    PseudoPawnBelowCapture = new(8 * 2);
+    PseudoKingCapture = new(6);
+    PseudoKnightCapture = new(2 * 6);
+    PseudoDiagAboveCapture = new(2 * 4);
+    PseudoDiagBelowCapture = new(2 * 4);
+    PseudoOrthAboveCapture = new(2 * 4);
+    PseudoOrthBelowCapture = new(2 * 4);
 
-    PseudoGoodCaptures = new List<Move>(32);
-    PseudoBadCaptures = new List<Move>(32);
-    PseudoCaptures = new List<Move>(48);
-    PseudoMoves = new List<Move>(128);
+    PseudoGoodCaptures = new(32);
+    PseudoBadCaptures = new(32);
+    PseudoCaptures = new(48);
+    PseudoMoves = new(128);
 #endif
 #if UseMoveSort
     SortMoves = new SortMove[512];
 #if LazyMoveSort
-    PriorityMove = new Heap<SortMove>(SortMoves, 0);
+    PriorityMove = new(SortMoves, 0);
 #endif
 #else
-    SiftedMoves = new List<Move>(128);
+    SiftedMoves = new(128);
 #endif
   }
 
   internal List<Move> newSearchMoves() {
-    return SearchMoves = new List<Move>(4);
+    return SearchMoves = new(4);
   }
   #endregion                            // Move List Initialization
 }

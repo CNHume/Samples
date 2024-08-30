@@ -63,7 +63,7 @@ partial class Board {
           throw new ArgumentException(nameof(sideName));
         }
 
-        Rule = new CastleRuleParameter(PieceRank);
+        Rule = new(PieceRank);
       }
       #endregion                        // Constructors
 

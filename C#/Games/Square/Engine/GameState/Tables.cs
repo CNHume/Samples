@@ -126,34 +126,34 @@ partial class GameState {
   private void newCXPMemo(UInt32 uLength) {
     if (CXPMemo == null)
 #if MaterialBalance
-      CXPMemo = new Memo2<Composition2>("CX2", uLength);
+      CXPMemo = new("CX2", uLength);
 #else
-      CXPMemo = new Memo<Composition>("CXP", uLength);
+      CXPMemo = new("CXP", uLength);
 #endif
   }
 
   [MemberNotNull(nameof(PXPMemo))]
   private void newPXPMemo(UInt32 uLength) {
     if (PXPMemo == null)
-      PXPMemo = new Memo2<PawnPosition>("PXP", uLength);
+      PXPMemo = new("PXP", uLength);
   }
 
   [MemberNotNull(nameof(QXPTank))]
   private void newQXPTank(Int32 nSelection = nQXPSelectionDefault) {
     if (QXPTank == null)
-      QXPTank = new Tank<QuietPosition>("QXP", nSelection);
+      QXPTank = new("QXP", nSelection);
   }
 
   [MemberNotNull(nameof(XPTank))]
   private void newXPTank(Int32 nSelection = nXPSelectionDefault) {
     if (XPTank == null)
-      XPTank = new Tank<Transposition>("XP", nSelection);
+      XPTank = new("XP", nSelection);
   }
 
   [MemberNotNull(nameof(XPMTank))]
   private void newXPMTank(Int32 nSelection = nXPMSelectionDefault) {
     if (XPMTank == null)
-      XPMTank = new Tank<PositionMove>("XPM", nSelection);
+      XPMTank = new("XPM", nSelection);
   }
 
   [MemberNotNull(nameof(Variation))]
@@ -179,7 +179,7 @@ partial class GameState {
     MultiPVCount = 0;                   //[Init]
     Variation = new Variation[nVariations];
     for (var nVariation = 0; nVariation < nVariations; nVariation++)
-      Variation[nVariation] = new Variation();
+      Variation[nVariation] = new();
   }
   #endregion                            // Table Initializers
 }

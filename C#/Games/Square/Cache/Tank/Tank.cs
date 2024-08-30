@@ -34,8 +34,8 @@ using Hashcode = UInt64;
 
 partial class Tank<T> where T : ITankable<T>, new() {
   #region Properties
-#if ThreadSafeTank                        // One lock for each instance of Tank
-  private readonly Object bucketLock = new object();
+#if ThreadSafeTank                      // One lock for each instance of Tank
+  private readonly Object bucketLock = new();
 #endif
   public ProbeCounter Counts { get; set; }
   public UInt16 BucketsDefault { get; set; }

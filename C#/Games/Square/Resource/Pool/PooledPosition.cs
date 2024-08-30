@@ -21,9 +21,9 @@ class PooledPosition {
   #region Constructors
   public PooledPosition(GameState state, String? name = default) {
     State = state;
-    DefaultElement = new Position(State);
+    DefaultElement = new(State);
     Name = name ?? typeof(Position).Name;
-    Inactive = new Stack<Position>();
+    Inactive = new();
     Clear();
   }
   #endregion

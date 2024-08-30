@@ -186,7 +186,7 @@ partial class Position : Board {
   }
 #else                                   // MaterialBalance
 #if NoPieceHash
-  private static Composition comp = new Composition();
+  private static Composition comp = new();
 #endif
   private (Eval mDelta, Eval mTotal) getValue() {
     var (blackSide, whiteSide) = Side.GetBothSides();

@@ -72,7 +72,7 @@ public class Scanner : IDisposable {
   #region Constructors
   public Scanner() {
     NextRow = 0;
-    Rows = new List<String?>(nRowsCapacity);
+    Rows = new(nRowsCapacity);
   }
 
   public Scanner(TextReader reader) : this() {

@@ -60,7 +60,7 @@ class MoveBottle {
     for (var nSide = 0; nSide < nBottleSides; nSide++)
       for (var nKiller = 0; nKiller < nKillers; nKiller++) {
         for (var uIndex = 0U; uIndex < BottleLength; uIndex++)
-          Killers[nSide][nKiller][uIndex] = new GoodMove();
+          Killers[nSide][nKiller][uIndex] = new();
       }
   }
 
