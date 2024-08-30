@@ -220,8 +220,8 @@ partial class GameState {
       // cancel EngineTask when it expires.
       //
       const Int32 period = Timeout.Infinite;
-      CancelTimer = new Timer(state => ((CancellationTokenSource?)state)?.Cancel(),
-                              CancellationTokenSource, nTimeoutMS, period);
+      CancelTimer = new(state => ((CancellationTokenSource?)state)?.Cancel(),
+                        CancellationTokenSource, nTimeoutMS, period);
 
       //
       // The FinishTask will clean up when its antecedent EngineTask completes:
@@ -259,14 +259,14 @@ partial class GameState {
     OnMoveCommand();
     BestLine.Clear();
     if (Bound.ParseBounds(parser, MovePosition))
-      StartTask((state) => startSearch((Position?)state, SearchMode.BestMove), MovePosition);
+      StartTask(state => startSearch((Position?)state, SearchMode.BestMove), MovePosition);
   }
 
   public void PerftSearch() {
     OnMoveCommand();
     var bWTM = MovePosition.WTM();
     Bound.Clear(bWTM);
-    StartTask((state) => startSearch((Position?)state, SearchMode.Perft), MovePosition);
+    StartTask(state => startSearch((Position?)state, SearchMode.Perft), MovePosition);
   }
 
   public void Ponderhit() {

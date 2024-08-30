@@ -224,7 +224,7 @@ public abstract class Setting : Control {
     }
 
     // Step 4b/6 Fire Property Changed Event:
-    OnPropertyChanged(new PropertyChangedEventArgs());
+    OnPropertyChanged(new());
   }
 
   #region ToString() Override

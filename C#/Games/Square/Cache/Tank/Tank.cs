@@ -68,7 +68,7 @@ partial class Tank<T> where T : ITankable<T>, new() {
 
   #region Constructor
   public Tank(String Name, Int32 nSelection) {
-    Counts = new ProbeCounter(Name);
+    Counts = new(Name);
     Init(nSelection);
   }
   #endregion

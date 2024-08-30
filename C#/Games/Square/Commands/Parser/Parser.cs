@@ -17,6 +17,7 @@ using Engine;
 using Exceptions;
 
 using static Logging.Logger;
+using static Parser.TokenRuleType;
 
 partial class Parser : IDisposable {
   #region Constants
@@ -106,72 +107,72 @@ partial class Parser : IDisposable {
    * for details of the UCI Commands Interface as documented by Stefan Meyer-Kahlen
    */
   static Parser() {
-    codeTokenRules = new[] {
-      new TokenRule(TokenRuleType.code, @"[-\w]+\b"),
-    };
-    opcodeDelimiterTokenRules = new[] {
-      new TokenRule(TokenRuleType.opcodeDelimiter, @"\s*;")
-    };
-    eolTokenRules = new[] {
-      new TokenRule(TokenRuleType.eol, @"\s*$")
-    };
-    lineTokenRules = new[] {
-      new TokenRule(TokenRuleType.line, @".*$")
-    };
-    spaceTokenRule = new[] {
-      new TokenRule(TokenRuleType.space, @"\s+")
-    };
-    verbTokenRules = new[] {
-      new TokenRule(
-        TokenRuleType.verb,
+    codeTokenRules = [
+      new(code, @"[-\w]+\b"),
+    ];
+    opcodeDelimiterTokenRules = [
+      new(opcodeDelimiter, @"\s*;")
+    ];
+    eolTokenRules = [
+      new(eol, @"\s*$")
+    ];
+    lineTokenRules = [
+      new(line, @".*$")
+    ];
+    spaceTokenRule = [
+      new(space, @"\s+")
+    ];
+    verbTokenRules = [
+      new(
+        verb,
         @"(best|board|debug|exit|getoption|go|isready|list|moves|perft|ponderhit|position|quit|register|reset|resetoption|setoption|status|stop|tabiya|test|testepd|timertest|uci|ucinewgame|unmove)\b",
         IgnoreCase)
-    };
-    enableKeywordTokenRules = new[] {
-      new TokenRule(TokenRuleType.enableKeyword, @"(on|off)\b", IgnoreCase)
-    };
-    goKeywordTokenRules = new[] {
-      new TokenRule(
-        TokenRuleType.goKeyword,
+    ];
+    enableKeywordTokenRules = [
+      new(enableKeyword, @"(on|off)\b", IgnoreCase)
+    ];
+    goKeywordTokenRules = [
+      new(
+        goKeyword,
         @"(searchmoves|ponder|wtime|btime|winc|binc|movestogo|depth|nodes|mate|movetime|infinite)\b",
         IgnoreCase)
-    };
-    registerKeywordTokenRules = new[] {
-      new TokenRule(TokenRuleType.registerKeyword, @"(later|code|name)\b", IgnoreCase)
-    };
-    setupTypeTokenRules = new[] {
-      new TokenRule(TokenRuleType.setupType, @"(fen|epd|startpos|random)\b", IgnoreCase)
-    };
-    setupTokenRules = new[] {
-      new TokenRule(
-        TokenRuleType.setup,
+    ];
+    registerKeywordTokenRules = [
+      new(registerKeyword, @"(later|code|name)\b", IgnoreCase)
+    ];
+    setupTypeTokenRules = [
+      new(setupType, @"(fen|epd|startpos|random)\b", IgnoreCase)
+    ];
+    setupTokenRules = [
+      new(
+        setup,
         @"[pnbrqkPNBRQK1-8]{0,8}(/[pnbrqkPNBRQK1-8]{0,8}){7}(\s+[wb](\s+(-|[KQkq|A-H|a-h]{1,4})(\s+(-|[a-h][36]\b))?)?)?")
-    };
-    opcodeTokenRules = new[] {
-      new TokenRule(TokenRuleType.opcode, @"[a-zA-Z]\w{0,14}\b"),
-    };
-    operandTokenRules = new[] {
-      new TokenRule(TokenRuleType.@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
-      new TokenRule(TokenRuleType.unsigned, @"0|[1-9]\d*"),
-      new TokenRule(TokenRuleType.sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", IgnoreCase),
-      new TokenRule(TokenRuleType.@string, @"""([^""]|"""")*""")
-    };
-    optionTokenRules = new[] {
-      new TokenRule(TokenRuleType.option, @"[a-zA-Z]\w*\b"),
-    };
-    countTokenRules = new[] {
-      new TokenRule(TokenRuleType.hyphen, @"-"),
-      new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
-    };
-    unsignedTokenRules = new[] {
-      new TokenRule(TokenRuleType.unsigned, @"(0|[1-9]\d*)")
-    };
-    movesKeywordTokenRules = new[] {
-      new TokenRule(TokenRuleType.movesKeyword, @"moves\b", IgnoreCase)
-    };
-    nameKeywordTokenRules = new[] {
-      new TokenRule(TokenRuleType.nameKeyword, @"name\b", IgnoreCase)
-    };
+    ];
+    opcodeTokenRules = [
+      new(opcode, @"[a-zA-Z]\w{0,14}\b"),
+    ];
+    operandTokenRules = [
+      new(@float, @"[+-](0|[1-9]\d*)(\.\d+)?"),
+      new(unsigned, @"0|[1-9]\d*"),
+      new(sanMove, @"([NBRQK]?[a-h]?[1-8]?[x-]?[a-h][1-8](=[NBRQ])?|O-O|O-O-O)\b[+#]?", IgnoreCase),
+      new(@string, @"""([^""]|"""")*""")
+    ];
+    optionTokenRules = [
+      new(option, @"[a-zA-Z]\w*\b"),
+    ];
+    countTokenRules = [
+      new(hyphen, @"-"),
+      new(unsigned, @"(0|[1-9]\d*)")
+    ];
+    unsignedTokenRules = [
+      new(unsigned, @"(0|[1-9]\d*)")
+    ];
+    movesKeywordTokenRules = [
+      new(movesKeyword, @"moves\b", IgnoreCase)
+    ];
+    nameKeywordTokenRules = [
+      new(nameKeyword, @"name\b", IgnoreCase)
+    ];
     //
     // UCI moves are expressed in Pure Algebraic Coordinate Notation (PACN):
     // See https://www.chessprogramming.org/Algebraic_Chess_Notation
@@ -180,12 +181,12 @@ partial class Parser : IDisposable {
     // Regex for Smith Notation (SN): ([a-h][1-8]){2}[pnbrqkEcC]?[NBRQ]?
     // Lowercase is used to render captures "reversible" in SN.  SN uses uppercase for promotions, where PACN uses lowercase.
     //
-    pacnMoveTokenRules = new[] {
-      new TokenRule(TokenRuleType.pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", IgnoreCase)
-    };
-    valueKeywordTokenRules = new[] {
-      new TokenRule(TokenRuleType.valueKeyword, @"(=|value\b)", IgnoreCase)
-    };
+    pacnMoveTokenRules = [
+      new(pacnMove, @"([a-h][1-8]){2}[nbrq]?|0000|000?|OOO?|O-O(-O)?", IgnoreCase)
+    ];
+    valueKeywordTokenRules = [
+      new(valueKeyword, @"(=|value\b)", IgnoreCase)
+    ];
   }
 
   [MemberNotNull(
@@ -211,27 +212,27 @@ partial class Parser : IDisposable {
     nameof(verbToken)
     )]
   private void init() {
-    codeToken = new Token(this, TokenType.code, codeTokenRules);
-    eolToken = new Token(this, TokenType.eol, eolTokenRules);
-    opcodeDelimiterToken = new Token(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
-    lineToken = new Token(this, TokenType.line, lineTokenRules);
-    SpaceToken = new Token(this, TokenType.space, spaceTokenRule);
+    codeToken = new(this, TokenType.code, codeTokenRules);
+    eolToken = new(this, TokenType.eol, eolTokenRules);
+    opcodeDelimiterToken = new(this, TokenType.opcodeDelimiter, opcodeDelimiterTokenRules);
+    lineToken = new(this, TokenType.line, lineTokenRules);
+    SpaceToken = new(this, TokenType.space, spaceTokenRule);
 
-    GoKeywordToken = new Token(this, TokenType.goKeyword, goKeywordTokenRules);
-    enableKeywordToken = new Token(this, TokenType.enableKeyword, enableKeywordTokenRules);
-    movesKeywordToken = new Token(this, TokenType.movesKeyword, movesKeywordTokenRules);
-    nameKeywordToken = new Token(this, TokenType.nameKeyword, nameKeywordTokenRules);
-    opcodeToken = new Token(this, TokenType.opcode, opcodeTokenRules);
-    operandToken = new Token(this, TokenType.operand, operandTokenRules);
-    optionToken = new Token(this, TokenType.option, optionTokenRules);
-    PACNMoveToken = new Token(this, TokenType.pacnMove, pacnMoveTokenRules);
-    RegisterKeywordToken = new Token(this, TokenType.registerKeyword, registerKeywordTokenRules);
-    SetupToken = new Token(this, TokenType.setup, setupTokenRules);
-    setupTypeToken = new Token(this, TokenType.setupType, setupTypeTokenRules);
-    CountToken = new Token(this, TokenType.counter, countTokenRules);
-    UnsignedToken = new Token(this, TokenType.unsigned, unsignedTokenRules);
-    valueKeywordToken = new Token(this, TokenType.valueKeyword, valueKeywordTokenRules);
-    verbToken = new Token(this, TokenType.verb, verbTokenRules);
+    GoKeywordToken = new(this, TokenType.goKeyword, goKeywordTokenRules);
+    enableKeywordToken = new(this, TokenType.enableKeyword, enableKeywordTokenRules);
+    movesKeywordToken = new(this, TokenType.movesKeyword, movesKeywordTokenRules);
+    nameKeywordToken = new(this, TokenType.nameKeyword, nameKeywordTokenRules);
+    opcodeToken = new(this, TokenType.opcode, opcodeTokenRules);
+    operandToken = new(this, TokenType.operand, operandTokenRules);
+    optionToken = new(this, TokenType.option, optionTokenRules);
+    PACNMoveToken = new(this, TokenType.pacnMove, pacnMoveTokenRules);
+    RegisterKeywordToken = new(this, TokenType.registerKeyword, registerKeywordTokenRules);
+    SetupToken = new(this, TokenType.setup, setupTokenRules);
+    setupTypeToken = new(this, TokenType.setupType, setupTypeTokenRules);
+    CountToken = new(this, TokenType.counter, countTokenRules);
+    UnsignedToken = new(this, TokenType.unsigned, unsignedTokenRules);
+    valueKeywordToken = new(this, TokenType.valueKeyword, valueKeywordTokenRules);
+    verbToken = new(this, TokenType.verb, verbTokenRules);
   }
 
   [MemberNotNull(nameof(Scanner))]

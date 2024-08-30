@@ -35,7 +35,7 @@ class Memo<T> {
 
   #region Constructors
   public Memo(String Name, UInt32 uLength) {
-    Counts = new SimpleCounter(Name);
+    Counts = new(Name);
     Allocate(uLength);
   }
   #endregion                            // Constructors

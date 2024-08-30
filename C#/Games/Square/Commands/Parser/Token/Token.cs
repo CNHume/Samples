@@ -14,6 +14,7 @@ namespace Commands;
 using Exceptions;
 
 using static Logging.Logger;
+using static Parser.TokenRuleType;
 
 partial class Parser : IDisposable {
   //
@@ -61,9 +62,9 @@ partial class Parser : IDisposable {
         if (bShowMatch && IsVerbose) {
           switch (tokenRule.TokenRuleType) {
 #if IgnoreSpace
-          case TokenRuleType.opcodeDelimiter:
-          case TokenRuleType.eol:
-          case TokenRuleType.space:
+          case opcodeDelimiter:
+          case eol:
+          case space:
             break;
 #endif
           default:
