@@ -331,9 +331,8 @@ partial class Board {
     }
 
     //
-    // SetDraw0 can be safely elided here because Parent is null for the Root Position.
+    // SetDraw0 unnecessary here because Parent is null for the Root Position.
     //
-    //updateRepetitionCycle();
 
     // SearchPly is defined wrt MovePly
     var wMoveNumber = ParseUInt16(sFMVNName, sFMVNValue);

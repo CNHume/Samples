@@ -159,7 +159,8 @@ partial class Board {
       Friend.RaisePiece(vPiece, nFrom);
 
     if (bCapture) {
-      HalfMoveClock = 0;                // HalfMoveClock Reset due to Capture
+      resetHalfMoveClock();             // Reset due to Capture
+
       var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
       var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnStep : nTo;
       Foe.RemovePiece(vCapture, nCaptureFrom);
@@ -176,7 +177,8 @@ partial class Board {
       Friend.LowerPiece(vPiece, nTo);
 
     if (vPiece == vP6) {
-      HalfMoveClock = 0;                // HalfMoveClock Reset due to Pawn Move
+      resetHalfMoveClock();             // Reset due to Pawn Move
+
       if (nTo - nFrom == 2 * Friend.Parameter.PawnStep)
         vEPTarget = (Byte)(nFrom + Friend.Parameter.PawnStep);
 
@@ -199,12 +201,13 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void updateRepetitionCycle() {
+  private void resetHalfMoveClock() {
+    HalfMoveClock = 0;
+
     //
-    // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset:
+    // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset
     //
-    if (HalfMoveClock == 0)
-      SetDraw0();
+    SetDraw0();
   }
 
   //
@@ -213,14 +216,14 @@ partial class Board {
   internal void ExecuteMove(ref Move move) {
     clrDraw0();
 
+    var vEPTarget = PlayMove(ref move);
+
+    #region Increment Half Move Clock
     // Avoid Overflow
     if (HalfMoveClock < vHalfMoveClockMax)
       HalfMoveClock++;
-
-    var vEPTarget = PlayMove(ref move);
-
     UpdateDraw50();
-    updateRepetitionCycle();
+    #endregion
 
     //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
     IncrementGamePly();

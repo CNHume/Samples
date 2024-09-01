@@ -48,7 +48,7 @@ partial class Position : Board {
     var moveBest = Move.Undefined;      //[Init]
 
     #region Test for Draw
-    if (IsDraw() || IsDraw50()) {       //[Note]UpdateDraw50() is not called below
+    if (IsDraw() || IsDraw50()) {
       State.IncEvalType(EvalType.Exact);
 #if TransposeQuiet
       return eval();
