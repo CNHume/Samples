@@ -330,11 +330,8 @@ partial class Position : Board {
         #endregion                      // Make Move
 
         #region Test for 50-Move Rule
-        //
-        // This move is legal; so a 50th (or greater) move did not deliver Checkmate:
-        //
-        if (IsDraw50()) {
-          mBest = eval();
+        if (child.IsDraw50()) {
+          mBest = contempt();           //[ToDo]Referencing child.IsDraw50()
 
           if (mAlpha < mBest) {
             mAlpha = mBest;

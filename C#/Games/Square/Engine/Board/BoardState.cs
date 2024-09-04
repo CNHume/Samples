@@ -65,7 +65,7 @@ partial class Board {
   // [clr|set]Draw0
   // IsDraw0
   //
-  // UpdateDraw50
+  // updateDraw50
   // IsDraw50
   //
   // [clr|set]NullMade
@@ -400,7 +400,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected void UpdateDraw50() {
+  private void updateDraw50() {
     if (HalfMoveClock < vHalfMoveClockMax)
       FlagsDraw &= ~DrawFlags.Draw50;
     else                                // 50 Move Rule

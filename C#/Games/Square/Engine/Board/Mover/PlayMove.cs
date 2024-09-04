@@ -25,12 +25,22 @@ partial class Board {
 
   #region Methods
   //
-  // Move Methods:
+  // CaptureIndex()
+  // tryEP()
   //
-  // PlayMove and its BoardSide methods:
-  // LowerPiece which is called by PlacePiece
-  // RaisePiece which is called by RemovePiece
+  // resetHalfMoveClock()
+  // incrementHalfMoveClock()
+  // IncrementGamePly()
   //
+  // PlayMove() calls BoardSide methods:
+  // LowerPiece() is called via PlacePiece()
+  // RaisePiece() is called via RemovePiece()
+  //
+  // ExecuteMove()
+  // SkipTurn()
+  // tracePosition()
+  //
+
   #region Piece Mover
   //
   // Lazy Capture avoids calling GetPieceIndex() until it becomes necessary.
@@ -185,8 +195,29 @@ partial class Board {
       Friend.ResetPawnAtx();
     }
 
+    incrementHalfMoveClock();
+
     verifyPieceColors();                //[Conditional]
     return vEPTarget;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void resetHalfMoveClock() {
+    HalfMoveClock = 0;
+
+    //
+    // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset
+    //
+    SetDraw0();
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void incrementHalfMoveClock() {
+    // Avoid Overflow
+    if (HalfMoveClock < vHalfMoveClockMax)
+      HalfMoveClock++;
+
+    updateDraw50();
   }
 
   //
@@ -200,16 +231,6 @@ partial class Board {
     (Friend, Foe) = GetSides(WTM());
   }
 
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void resetHalfMoveClock() {
-    HalfMoveClock = 0;
-
-    //
-    // A new Repetition Cycle begins whenever the 100-Ply Rule Clock is reset
-    //
-    SetDraw0();
-  }
-
   //
   //[Test]Validate any change made here by running Perft Tests!
   //
@@ -217,13 +238,6 @@ partial class Board {
     clrDraw0();
 
     var vEPTarget = PlayMove(ref move);
-
-    #region Increment Half Move Clock
-    // Avoid Overflow
-    if (HalfMoveClock < vHalfMoveClockMax)
-      HalfMoveClock++;
-    UpdateDraw50();
-    #endregion
 
     //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
     IncrementGamePly();
