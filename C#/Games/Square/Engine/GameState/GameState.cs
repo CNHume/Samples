@@ -38,6 +38,7 @@
 #define DisplayPosition
 //#define DisplayPositionPool
 #define GetSmart
+#define UseHistory
 #define UseKillers
 #define LazyMoveSort
 //#define QuietCheck
@@ -325,11 +326,17 @@ partial class GameState : IDisposable {
 #endif                                  // ShowClockSpeed
     // x64 from 10% to 20% faster than x86 on a Dell i7-4702HQ at 2.2 GHz
     sb.Append(Environment.Is64BitProcess ? " x64" : " x86");
+#if UseHistory
 #if XPHash128
     var sXPM = "XPM128";
-    var sXP = "XP128";
 #else
     var sXPM = "XPM";
+#endif
+    sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}");
+#endif
+#if XPHash128
+    var sXP = "XP128";
+#else
     var sXP = "XP";
 #endif
 #if QXPHash128
@@ -337,8 +344,7 @@ partial class GameState : IDisposable {
 #else
     var sQXP = "QXP";
 #endif
-    sb.AppendFormat($" w {XPMTank.LookupLength >> 20}Mx{XPMTank.LookupBuckets} {sXPM}")
-      .AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}")
+    sb.AppendFormat($" w {XPTank.LookupLength >> 20}Mx{XPTank.LookupBuckets} {sXP}")
       .AppendFormat($" w {QXPTank.LookupLength >> 20}Mx{QXPTank.LookupBuckets} {sQXP}");
 #if QuiescentTryXP
     sb.Append(" TryXP");

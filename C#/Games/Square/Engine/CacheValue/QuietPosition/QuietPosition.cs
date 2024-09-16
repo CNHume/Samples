@@ -60,7 +60,7 @@ class QuietPosition : ITankable<QuietPosition> {
 #endif
     MovePly = wMovePly;
     ibv = IBV(mValue, et);
-    BestMove = moveBest & Move.CheckMask;
+    BestMove = moveBest & (Move.WTM | Move.CheckMask);
   }
   #endregion                            // Constructors
 
@@ -183,7 +183,7 @@ class QuietPosition : ITankable<QuietPosition> {
 
     set {
       ibv = (Bval)(value/* & wIBVMask*/);
-      BestMove = (Move)(value >> nMoveLoBit) & Move.CheckMask;
+      BestMove = (Move)(value >> nMoveLoBit) & (Move.WTM | Move.CheckMask);
       MovePly = (Ply)((UInt16)(value >> nMovePlyBit)/* & wPlyMask*/);
     }
   }

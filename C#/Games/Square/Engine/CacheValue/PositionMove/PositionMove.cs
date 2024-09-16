@@ -62,7 +62,7 @@ class PositionMove : ITankable<PositionMove> {
     MovePly = wMovePly;
     Depth = wDepth;
     ibv = IBV(mValue, et);
-    BestMove = moveBest & Move.CheckMask;
+    BestMove = moveBest & (Move.WTM | Move.CheckMask);
   }
   #endregion                            // Constructors
 
@@ -221,7 +221,7 @@ class PositionMove : ITankable<PositionMove> {
 
     set {
       ibv = (Bval)(value/* & wIBVMask*/);
-      BestMove = (Move)(value >> nMoveLoBit) & Move.CheckMask;
+      BestMove = (Move)(value >> nMoveLoBit) & (Move.WTM | Move.CheckMask);
       MovePly = (Ply)((UInt16)(value >> nMovePlyBit) & wPlyMask);
       Depth = (Depth)((UInt16)(value >> nDepthBit)/* & wDepthMask*/);
     }

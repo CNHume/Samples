@@ -329,17 +329,21 @@ partial class Board {
     PieceMask = vPieceMask << nPieceBit,
     CaptiveMask = vPieceMask << nCaptiveBit,
     ShortMask = Castles | PromoteMask | FromToMask,
-    EqualMask = PieceMask | ShortMask,      // Include moving piece; but omit captures
     Material = CaptiveMask | PromoteMask,   // To distinguish quiet maneuvers
 
     //
-    // StoreMask keeps CaptiveMask; but omits annotations
+    // EqualMask includes moving piece; but omit captures
     //
 #if DebugSideToMove
-    StoreMask = WTM | CaptiveMask | EqualMask,
+    EqualMask = WTM | PieceMask | ShortMask,
 #else
-    StoreMask = CaptiveMask | EqualMask,
+    EqualMask = PieceMask | ShortMask,
 #endif
+    //
+    // StoreMask includes CaptiveMask; but omits annotations
+    //
+    StoreMask = CaptiveMask | EqualMask,
+
     //
     // EqualMask distinguishes the three Limit Moves:
     //

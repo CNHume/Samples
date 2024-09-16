@@ -66,6 +66,10 @@ partial class Position : Board {
     var bWTM = WTM();
     var bWhiteMove = move.Has(Move.WTM);
     if (bWTM != bWhiteMove) {
+      unpackMove2(
+        move, out Sq sqFrom, out Sq sqTo,
+        out Piece piece, out Piece promotion, out Piece capture,
+        out Boolean bCastles, out Boolean bCapture);
       var message = $"WTM != WhiteMove [{methodName}]";
       Debug.Assert(bWTM == bWhiteMove, message);
       Display(message);
