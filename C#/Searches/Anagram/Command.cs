@@ -12,13 +12,14 @@ namespace Parsers;
 public class Command {
   #region Properties
   public string? Letters { get; set; }
-  public bool Subset { get; set; }
+  public bool Prefix { get; set; }
+  public bool Sort { get; set; }
   #endregion
 
   #region Methods
   public void Parse(string[] args) {
     Letters = default;
-    Subset = false;
+    Prefix = false;
 
     var usage = false;
     var count = args.Length;
@@ -32,11 +33,18 @@ public class Command {
         usage = true;
       else {                            // parse single character switch
         switch (token[1]) {
-        case 's':                       // the subset switch
+        case 'p':                       // the prefix switch
           if (len > 2)                  // superfluous value specified
             usage = true;
           else
-            Subset = true;
+            Prefix = true;
+          break;
+
+        case 's':                       // the sort switch
+          if (len > 2)                  // superfluous value specified
+            usage = true;
+          else
+            Sort = true;
           break;
 
         default:                        // switch unknown
@@ -55,7 +63,7 @@ public class Command {
     usage |= n < count;                 // superfluous argument specified
 
     if (usage)                        // throw usage line if parse failed
-      throw new ApplicationException("Usage: Anagram [-s] letters");
+      throw new ApplicationException("Usage: Anagram [-p] [-s] letters");
   }
   #endregion
 }

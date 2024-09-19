@@ -4,15 +4,12 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-//[2018-12-22 CNHume]Created Anagram (.Net Core) Console Application
+//[2018-12-22 CNHume]Created Anagram .NET Console Application
 //
 // To publish:
 // dotnet publish Anagram -c Release -r win10-x64
 //
-// To run:
-// Anagram\bin\Release\netcoreapp2.1\win10-x64\publish\Anagram abc...
-//
-// Usage: Anagram [-s] letters
+// Usage: Anagram [-p] [-s] letters
 //
 
 using Parsers;
@@ -25,11 +22,14 @@ try {
 
   if (command.Letters != null) {
     Console.WriteLine($"Letters: {command.Letters}");
-    var words = Anagram.Anagrams(command.Letters, command.Subset);
+    var anagrams = Anagram.Anagrams(command.Letters, command.Prefix)
+      .ToList();
 
-    Console.WriteLine($"{words.Count()} anagrams found:");
-    foreach (var word in words)
-      Console.WriteLine(word);
+    if (command.Sort) anagrams.Sort();
+
+    Console.WriteLine($"{anagrams.Count()} anagrams found:");
+    foreach (var anagram in anagrams)
+      Console.WriteLine(anagram);
   }
 }
 catch (ApplicationException ex) {

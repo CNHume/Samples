@@ -2,7 +2,7 @@
   "profiles": {
     "Anagram": {
       "commandName": "Project",
-      "commandLineArgs": "-s ABB"
+      "commandLineArgs": "-p -s CBA"
     }
   }
 }
