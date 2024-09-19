@@ -5,7 +5,7 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 
-namespace InsertionSort;
+namespace Sorters;
 
 using SortTests;
 

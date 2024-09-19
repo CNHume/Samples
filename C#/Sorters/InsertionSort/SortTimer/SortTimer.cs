@@ -11,8 +11,6 @@ using System.Text;
 
 namespace Sorters;
 
-using InsertionSort;
-
 using SortTests;
 
 class SortTimer<T> : SortMeter<T> where T : IComparable {
