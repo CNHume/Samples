@@ -46,7 +46,8 @@ public class MergeSort<T> where T : IComparable {
   #endregion
 
   #region Constructors
-  public MergeSort(UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT, IMeter? meter = default) {
+  public MergeSort(
+    UInt32 insertionLimit = INSERTION_LIMIT_DEFAULT, Int32 merges = MERGES_DEFAULT, IMeter? meter = default) {
     Meter = meter;
     InsertionLimit = insertionLimit;
     Merges = merges;
@@ -88,6 +89,8 @@ public class MergeSort<T> where T : IComparable {
 
   #region Merge Methods
   public void Merge(T[] entries1, T?[] entries2, Int32 first, Int32 last) {
+    ArgumentNullException.ThrowIfNull(Positions);
+
     Array.Clear(Positions, 0, Merges);
     // This implementation has a quadratic time dependency on the number of merges
     for (var index = first; index <= last; index++)
@@ -95,7 +98,9 @@ public class MergeSort<T> where T : IComparable {
   }
 
   private T? remove(T[] entries, Int32 first, Int32 last) {
-    T? entry = default;
+    ArgumentNullException.ThrowIfNull(Positions);
+
+    T? minimum = default;
     Int32? found = default;
     var length = last + 1 - first;
 
@@ -106,23 +111,23 @@ public class MergeSort<T> where T : IComparable {
       var position = Positions[index];
       if (position < Math.Min(remaining, size)) {
         var next = entries[left + position];
-        var isLess = !found.HasValue;
-        if (found.HasValue) {
-          Meter?.IncCompare();
-          isLess = next.CompareTo(entry) <= 0;
-        }
 
-        if (isLess) {
+        if (found.HasValue) Meter?.IncCompare();
+        var updateMinimum = !found.HasValue || next.CompareTo(minimum) <= 0;
+        if (updateMinimum) {
           found = index;
-          entry = next;
+          minimum = next;
         }
       }
     }
 
-    Meter?.IncMove(2);
-    // Remove entry
-    Positions[found.Value]++;
-    return entry;
+    if (found.HasValue) {
+      Meter?.IncMove(2);
+      // Remove minimum
+      Positions[found.Value]++;
+    }
+
+    return minimum;
   }
   #endregion
 
