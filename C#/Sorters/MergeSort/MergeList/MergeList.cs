@@ -61,7 +61,7 @@ namespace MergeSort {
       return Sort(entries, 0, entries.Count - 1);
     }
 
-    // top-down K-way Merge Sort
+    // Top-Down K-way Merge Sort
     public List<T> Sort(List<T> entries, Int32 first, Int32 last) {
       var length = last + 1 - first;
       if (length < 2) return entries;
@@ -94,29 +94,28 @@ namespace MergeSort {
 
       while (true) {
         List<T>? found = default;
-        T? node = default;
+        T? minimum = default;
         foreach (var range in ranges)
           if (range.Count > 0) {
             var next = range[0];
-            var isLess = found == null;
-            if (found != null) {
-              Meter?.IncCompare();
-              isLess = next.CompareTo(node) <= 0;
-            }
 
-            if (isLess) {
+            if (found != null) Meter?.IncCompare();
+            var updateMinimum = found == null || next.CompareTo(minimum) <= 0;
+            if (updateMinimum) {
               found = range;
-              node = next;
+              minimum = next;
             }
           }
 
         if (found == null)
           break;
 
-        Meter?.IncMove(2);
-        // Remove entry
-        found.RemoveAt(0);
-        merge.Add(node);
+        if (minimum != null) {
+          Meter?.IncMove(2);
+          // Remove minimum from its range
+          found.RemoveAt(0);
+          merge.Add(minimum);
+        }
       }
 
       return merge;
