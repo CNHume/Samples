@@ -32,8 +32,10 @@ public class MergeSort<T> where T : IComparable {
       // A minimum of 2 merges are required
       if (value > 1)
         merges = value;
-      else
-        throw new ArgumentOutOfRangeException($"value = {value} must be greater than one", nameof(Merges));
+      else {
+        var message = $"value = {value} must be greater than one";
+        throw new ArgumentOutOfRangeException(nameof(Merges), message);
+      }
 
       if (Positions == null || Positions.Length != merges)
         Positions = new UInt32[merges];

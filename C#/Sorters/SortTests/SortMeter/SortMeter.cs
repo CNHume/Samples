@@ -33,7 +33,7 @@ public class SortMeter<T> : IMeter where T : IComparable {
 
   #region Constructors
   public SortMeter() {
-    this.Timer = new Stopwatch();
+    this.Timer = new();
   }
   #endregion
 

@@ -26,8 +26,10 @@ public class SortData {
 
   #region Methods
   public Int32[] BuildEntries(Int32 length) {
-    if (length >= LENGTH_MAX)
-      throw new ArgumentOutOfRangeException(nameof(length), $"LENGTH_MAX = {LENGTH_MAX} <= {length}");
+    if (length >= LENGTH_MAX) {
+      var message = $"LENGTH_MAX = {LENGTH_MAX} <= {length}";
+      throw new ArgumentOutOfRangeException(nameof(length), message);
+    }
 
     var dtNow = DateTime.Now;
     Console.WriteLine($"{dtNow:HH:mm:ss.fff} Building {length:n0} {SortCase.GetDisplayName()} Entries");
