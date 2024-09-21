@@ -93,27 +93,27 @@ public class MergeList<T> where T : IComparable {
     List<T> merge = [];
 
     while (true) {
-      List<T>? found = default;
       T? minimum = default;
+      List<T>? rangeFound = null;
       foreach (var range in ranges) {
         if (range.Count <= 0) continue;
         var next = range[0];
 
-        if (found != null) Meter?.IncCompare();
-        var updateMinimum = found == null || next.CompareTo(minimum) <= 0;
+        if (rangeFound != null) Meter?.IncCompare();
+        var updateMinimum = rangeFound == null || next.CompareTo(minimum) <= 0;
         if (updateMinimum) {
-          found = range;
           minimum = next;
+          rangeFound = range;
         }
       }
 
-      if (found == null)
+      if (rangeFound == null)
         break;
 
       if (minimum != null) {
         Meter?.IncMove(2);
-        // Remove minimum from its range
-        found.RemoveAt(0);
+        // Pop minimum from its range
+        rangeFound.RemoveAt(0);
         merge.Add(minimum);
       }
     }

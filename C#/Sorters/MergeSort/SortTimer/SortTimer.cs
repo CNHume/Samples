@@ -24,7 +24,7 @@ class SortTimer<T> : SortMeter<T> where T : IComparable {
 #if TestRuntimeSort
     sb.AppendDelim("RuntimeSort", space);
 #endif
-    this.Mode = sb.ToString();
+    Mode = sb.ToString();
   }
   #endregion
 

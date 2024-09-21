@@ -5,7 +5,7 @@
 // If not, see https://opensource.org/licenses/MIT.
 //
 // 2014-12-27 CNHume  Converted to an instantiable class
-// 2014-12-22 CNHume  Clarified size calculation
+// 2014-12-22 CNHume  Clarified mergeSize calculation
 // 2014-12-13 CNHume  Converted from List Ranges to Array Slices
 // 2014-12-09 CNHume  Created File
 //
@@ -75,10 +75,12 @@ public class MergeSort<T> where T : IComparable {
     }
 
     var left = first;
-    var size = ceiling(length, Merges);
-    for (var remaining = length; remaining > 0; remaining -= size, left += size) {
-      var right = left + Math.Min(remaining, size) - 1;
+    var mergeSize = ceiling(length, Merges);
+    for (var remaining = length; remaining > 0; remaining -= mergeSize) {
+      var rangeSize = Math.Min(mergeSize, remaining);
+      var right = left + rangeSize - 1;
       Sort(entries1, entries2, left, right);
+      left = right + 1;
     }
 
     Merge(entries1, entries2, first, last);
@@ -94,37 +96,37 @@ public class MergeSort<T> where T : IComparable {
     Array.Clear(Positions, 0, Merges);
     // This implementation has a quadratic time dependency on the number of merges
     for (var index = first; index <= last; index++)
-      entries2[index] = remove(entries1, first, last);
+      entries2[index] = popMinimum(entries1, first, last);
   }
 
-  private T? remove(T[] entries, Int32 first, Int32 last) {
+  private T? popMinimum(T[] entries, Int32 first, Int32 last) {
     ArgumentNullException.ThrowIfNull(Positions);
 
     T? minimum = default;
-    Int32? found = default;
+    Int32? indexFound = null;
     var length = last + 1 - first;
 
     var index = 0;
     var left = first;
-    var size = ceiling(length, Merges);
-    for (var remaining = length; remaining > 0; remaining -= size, left += size, index++) {
+    var mergeSize = ceiling(length, Merges);
+    for (var remaining = length; remaining > 0; remaining -= mergeSize, left += mergeSize, index++) {
+      var rangeSize = Math.Min(mergeSize, remaining);
       var position = Positions[index];
-      if (position < Math.Min(remaining, size)) {
-        var next = entries[left + position];
+      if (position >= rangeSize) continue;
+      var next = entries[left + position];
 
-        if (found.HasValue) Meter?.IncCompare();
-        var updateMinimum = !found.HasValue || next.CompareTo(minimum) <= 0;
-        if (updateMinimum) {
-          found = index;
-          minimum = next;
-        }
+      if (indexFound.HasValue) Meter?.IncCompare();
+      var updateMinimum = !indexFound.HasValue || next.CompareTo(minimum) <= 0;
+      if (updateMinimum) {
+        minimum = next;
+        indexFound = index;
       }
     }
 
-    if (found.HasValue) {
+    if (indexFound.HasValue) {
       Meter?.IncMove(2);
       // Remove minimum
-      Positions[found.Value]++;
+      Positions[indexFound.Value]++;
     }
 
     return minimum;
