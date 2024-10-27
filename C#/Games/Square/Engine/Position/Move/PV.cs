@@ -5,7 +5,7 @@
 //
 //#define AbbreviateLookup
 //#define DebugMoveIsLegal
-//#define DebugSideToMove
+#define DebugSideToMove
 //#define DebugPlace
 //#define Magic
 #define FilterCandidates
@@ -113,7 +113,7 @@ partial class Position : Board {
 
     var piece = (Piece)uPiece;
 
-    verifySideToMove(move, methodName);
+    verifySideToMove(move, methodName);   //[Conditional]
 
     var qpAtxTo = PieceAtxTo(nFrom, nTo, piece, bCapture);
 
@@ -124,7 +124,7 @@ partial class Position : Board {
       var sAction = bCapture ? "capture" : "move";
       var message = $"There is no piece that can {sAction} from {(Sq)nFrom} to {(Sq)nTo} [{methodName}]";
       Debug.Assert(qpAtxTo != 0, message);
-      Display(message);
+      DisplayCurrent(message);
     }
 
     //
@@ -237,6 +237,7 @@ partial class Position : Board {
         move = Move.NullMove;           //[Safe]
       }
 
+      //[Conditional]
       verifySideToMove(move, methodName);
       vnMoves.Add(move);
 
@@ -316,7 +317,7 @@ partial class Position : Board {
 #endif
     }
 
-    verifySideToMove(moveNoted, methodName);
+    verifySideToMove(moveNoted, methodName);    //[Conditional]
     vnMoves.Add(moveNoted);
 
     // CurrentMove set in [null|try]Move()
@@ -400,49 +401,52 @@ partial class Position : Board {
       //[Safe]lookupPV() should not be called if a draw is detected
       if (!IsDraw())
         lookupPV(vnMoves, MinusInfinity, PlusInfinity);
+      return;
     }
-    else {
-      var moveNoted = vnMoves[nIndex];
-      if (IsIndefinite(moveNoted)) {
-        var message = $"Indefinite Move, vnMoves.Count = {vnMoves.Count} [{methodName}]";
-        Debug.Assert(IsDefinite(moveNoted), message);
-        return;
-      }
-      else if (!State.IsPure) {         // Standard Algebraic Notation (AN) supports abbreviation
-        //[Debug]moveNoted illegal here!
-        //[Conditional]
-        verifyMoveIsLegal(moveNoted, methodName);
-        vnMoves[nIndex] = abbreviate(moveNoted);
-      }
 
-      verifySideToMove(moveNoted, methodName);
+    var moveNoted = vnMoves[nIndex];
+    if (IsIndefinite(moveNoted)) {
+      var message = $"Indefinite Move, vnMoves.Count = {vnMoves.Count} [{methodName}]";
+      Debug.Assert(IsDefinite(moveNoted), message);
+      return;
+    }
 
-      const EvalType et = EvalType.Exact;
-      if (moveNoted.Has(Move.Qxnt))
-        storeQXP(mValue, et, moveNoted);
-      else if (nDepth >= 0)
-        storeXP((Depth)nDepth, mValue, et, moveNoted);
+    if (!State.IsPure) {
+      // Standard Algebraic Notation (AN) supports abbreviation
+      //[Debug]moveNoted illegal here!
+      //[Conditional]
+      verifyMoveIsLegal(moveNoted, methodName);
+      //[Debug]
+      vnMoves[nIndex] = abbreviate(moveNoted);
+    }
 
-      if (!tryOrSkip(ref moveNoted)) {
-        illegalMove(moveNoted, methodName);
-        return;
-      }
+    verifySideToMove(moveNoted, methodName);  //[Conditional]
+
+    const EvalType et = EvalType.Exact;
+    if (moveNoted.Has(Move.Qxnt))
+      storeQXP(mValue, et, moveNoted);
+    else if (nDepth >= 0)
+      storeXP((Depth)nDepth, mValue, et, moveNoted);
+
+    if (!tryOrSkip(ref moveNoted)) {
+      illegalMove(moveNoted, methodName);
+      return;
+    }
 #if TraceVal
-      // CurrentMove set in [null|try]Move()
-      if (IsTrace())
-        DisplayCurrent(nameof(abbreviateRefresh));
+    // CurrentMove set in [null|try]Move()
+    if (IsTrace())
+      DisplayCurrent(nameof(abbreviateRefresh));
 #endif
-      //
-      // Recursion vs iteration links each Position to its parent,
-      // allowing findRepetition() and findCycle() to operate correctly:
-      //
-      var child = Push();               // Push Position to make the moves
-      try {
-        child.abbreviateRefresh(vnMoves, nDepth - 1, (Eval)(-mValue), nIndex + 1);
-      }
-      finally {
-        Pop(ref child);                 // Pop Position
-      }
+    //
+    // Recursion vs iteration links each Position to its parent,
+    // allowing findRepetition() and findCycle() to operate correctly:
+    //
+    var child = Push();                 // Push Position to make the moves
+    try {
+      child.abbreviateRefresh(vnMoves, nDepth - 1, (Eval)(-mValue), nIndex + 1);
+    }
+    finally {
+      Pop(ref child);                   // Pop Position
     }
   }
 
@@ -462,8 +466,8 @@ partial class Position : Board {
         }
         else
           child.abbreviateRefresh(vn.Moves, wDepth, mValue);
+        }
       }
-    }
     finally {
       Pop(ref child);                   // Pop Position
     }

@@ -437,7 +437,7 @@ partial class GameState : IDisposable {
         sb.AppendFormat($" {vLimit} {extension}");
 
         if (vLimit != 1)                // Plural
-          sb.Append("s");
+          sb.Append('s');
       }
     }
 

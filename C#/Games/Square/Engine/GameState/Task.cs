@@ -91,8 +91,7 @@ partial class GameState {
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void cancel() {
 #if UseTask
-    if (CancellationTokenSource != null)
-      CancellationTokenSource.Cancel();
+    CancellationTokenSource?.Cancel();
 #endif                                  // UseTask
   }
   #endregion                            // Cancellation Token Methods
@@ -310,8 +309,7 @@ partial class GameState {
       // statistics to be written before this request completes.
       //
       const Int32 stopTimeoutMS = 5000;
-      if (CancelTimer != null)
-        CancelTimer.Change(stopTimeoutMS, Timeout.Infinite);
+      CancelTimer?.Change(stopTimeoutMS, Timeout.Infinite);
 
       FinishTask?.Wait();
 

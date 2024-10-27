@@ -87,8 +87,7 @@ struct SearchBound {
     // Clear any previous SearchMoves prior to a new go command:
     //
     var searchMoves = position.SearchMoves;
-    if (searchMoves != null)
-      searchMoves.Clear();
+    searchMoves?.Clear();
 
     IsDepth = false;
     IsInfinite = false;

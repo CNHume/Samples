@@ -10,7 +10,7 @@
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 //#define BottleGamePly
 //#define DebugMoveIsLegal
-//#define DebugSideToMove
+#define DebugSideToMove
 #define CountEvalTypes                  // For IncEvalType()
 #define TransposeQuiet
 #define QuiescentTryXP
@@ -85,7 +85,7 @@ partial class Position : Board {
       move = Move.Undefined;
     }
     else
-      verifySideToMove(move, callerName);
+      verifySideToMove(move, callerName);       //[Conditional]
 
     return move;
   }
@@ -157,7 +157,7 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 
-    verifySideToMove(moveBest, methodName);
+    verifySideToMove(moveBest, methodName);     //[Conditional]
 #if XPHash128
     PositionMove store = new(qDynamic, HashPawn, State.MovePly, wDepth,
                              mAdjusted, et, moveBest);
@@ -219,7 +219,7 @@ partial class Position : Board {
       moveBest = Move.EmptyMove;
     }
 
-    verifySideToMove(moveBest, methodName);
+    verifySideToMove(moveBest, methodName);     //[Conditional]
 #if XPHash128
 #if XPMoveTypes
     Transposition store = new(qDynamic, HashPawn, MoveTypeOrdering, State.MovePly, wDepth,
@@ -266,7 +266,7 @@ partial class Position : Board {
     moveFound = adjustMoveFound(match.BestMove, methodName);  //[out]1
     etFound = match.Type;                                     //[out]3
     var mValueFound = match.Value;
-    traceVal(methodName, mValueFound, etFound);         //[Conditional]
+    traceVal(methodName, mValueFound, etFound); //[Conditional]
 
     const Move testMove = (Move)0x00060DFF;
     //const Move testMove = (Move)0x00560FBF;
@@ -277,6 +277,7 @@ partial class Position : Board {
       // Parent == 5Nrk/5Qp1/5p1p/3P3P/2b5/2P5/5PPK/2R5 w - - 7 50
       // 0xB0C61808739951E6
       //moveFound |= Move.WTM;            //[Debug]Problem Present Here
+      //[Conditional]
       verifyMoveIsLegal(moveFound, methodName);
       DisplayCurrent(methodName);
     }
@@ -311,7 +312,7 @@ partial class Position : Board {
       moveBest = Move.Undefined;
     }
 
-    verifySideToMove(moveBest, methodName);
+    verifySideToMove(moveBest, methodName);     //[Conditional]
 #if QXPHash128
     QuietPosition store = new(Hash, State.MovePly, HashPawn, mAdjusted, et, moveBest);
 #else
@@ -331,7 +332,7 @@ partial class Position : Board {
 #endif
     var bValid = State.QXPTank.LoadFirst(ref match);
     var moveBest = match.BestMove;
-    verifySideToMove(moveBest, methodName);
+    verifySideToMove(moveBest, methodName);     //[Conditional]
 
     moveFound = IsUndefined(moveBest) ? moveBest : moveBest | Move.Qxnt;    //[out]1
     etFound = match.Type;                       //[out]3

@@ -21,7 +21,7 @@ partial class UCI {
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-05-12 Perft2 in 16.546 sec @12.428 MHz over 205.629 Mnode]
   //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-05-12 Perft3 in 21.479 sec @10.188 MHz over 218.84 Mnode]
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-05-12 Perft5 in 10.444 sec @8.388 MHz over 87.606 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-10-26 Perft5 in 10.01 sec @8.732 MHz over 87.752 Mnode]
   //
   #endregion
 

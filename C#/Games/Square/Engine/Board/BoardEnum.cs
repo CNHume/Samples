@@ -5,7 +5,7 @@
 //
 // Conditionals:
 //
-//#define DebugSideToMove
+#define DebugSideToMove
 #define RecursiveNullMade
 
 namespace Engine;

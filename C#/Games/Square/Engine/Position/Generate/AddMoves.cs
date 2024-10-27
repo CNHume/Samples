@@ -6,7 +6,7 @@
 // Conditionals:
 //
 //#define DebugSquares
-//#define DebugSideToMove
+#define DebugSideToMove
 #define RemoveKingShadow
 #define RemoveKingShadow2               // RemoveKingShadow2 <= RemoveKingShadow
 

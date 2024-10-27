@@ -49,6 +49,7 @@ partial class Board {
   //
   // SaveCapture is required to show captures in AppendAN() if bExpandFrom.
   //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Byte CaptureIndex(Int32 nTo, ref Move move, out Boolean bEnPassant) {
     bEnPassant = false;
     var vCapture = vPieceNull;

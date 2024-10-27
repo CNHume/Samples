@@ -6,7 +6,7 @@
 //#define DebugMove
 #define AddBestMoves
 //#define DebugMoveIsLegal
-//#define DebugSideToMove
+#define DebugSideToMove
 #define DebugSearchMoves
 //#define DebugPseudoMoves
 //#define TraceVal
@@ -169,7 +169,7 @@ partial class Position : Board {
           //  out Piece piece, out Piece promotion, out Piece capture,
           //  out Boolean bCastles, out Boolean bCapture);
 #endif
-          verifySideToMove(moveBest, methodName);
+          verifySideToMove(moveBest, methodName);     //[Conditional]
 
           var bNonMaterial = !move.Has(Move.Material);
 #if QuietMate

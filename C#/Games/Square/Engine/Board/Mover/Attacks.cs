@@ -12,6 +12,8 @@
 //#define DisplayRayImage
 //#define LoadUpdateTo
 
+using System.Runtime.CompilerServices;
+
 namespace Engine;
 
 using Exceptions;
@@ -86,7 +88,7 @@ partial class Board {
 #endif
   //
   // The following is currently only needed for abbreviate().  It finds all
-  // pieces of the specified type (for the side to move) which "attack" nTo.
+  // pieces of the specified type, for the side to move, which "attack" nTo.
   //
   protected Plane PieceAtxTo(Int32 nFrom, Int32 nTo, Piece piece, Boolean bCapture) {
     const String methodName = nameof(PieceAtxTo);
@@ -131,6 +133,7 @@ partial class Board {
   // The PieceAtx() and CanCastle() methods are used by parsePACNMove() to
   // validate moves entered in Pure Algebraic Coordinate Notation (PACN):
   //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public Plane? PieceAtx(Byte vPiece, Int32 nFrom, Boolean bCapture) {
     // Obtain possible Moves [and Captures]
     var qpAtxTo = vPiece switch {
@@ -146,6 +149,7 @@ partial class Board {
     return qpAtxTo;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Boolean CanOO() {
     var rule = Friend.Parameter.Rule;
     var bLegal =
@@ -155,6 +159,7 @@ partial class Board {
     return bLegal;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Boolean CanOOO() {
     var rule = Friend.Parameter.Rule;
     var bLegal =
@@ -165,6 +170,7 @@ partial class Board {
   }
 
   // Used by parsePACNMove()
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Boolean CanCastle(Int32 nKingTo) {
     var bLegal = false;
 
@@ -183,6 +189,7 @@ partial class Board {
     return bLegal;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   public Boolean CanPromote() {
     var qpPawn = Friend.Piece & Pawn;
     var parameter = Friend.Parameter;
@@ -196,6 +203,7 @@ partial class Board {
   #endregion                            // Attack Methods
 
   #region Count Methods
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Int32 incTo(Plane qpAtxTo) {
     var nAtx = 0;
 #if Controlled
@@ -212,6 +220,7 @@ partial class Board {
     return nAtx;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private Int32 decTo(Plane qpAtxTo) {
     var nAtx = 0;
 #if Controlled

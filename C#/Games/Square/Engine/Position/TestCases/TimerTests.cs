@@ -248,7 +248,7 @@ partial class Position : Board {
 
     var sb =
       new StringBuilder($"Counted {qBits:n0} bits using")
-      .AppendTZCMode();
+        .AppendTZCMode();
     LogLine(sb.ToString());
 
     timerStop(sw, qTrials);

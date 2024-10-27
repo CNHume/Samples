@@ -103,6 +103,7 @@ partial class Board {
   #endregion                            // Side Methods
 
   #region Square Pieces
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected Byte GetPieceIndex(Int32 n) {
     var vPiece = vPieceNull;            // Return Value
     var qp = bit(n);

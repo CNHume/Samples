@@ -90,6 +90,7 @@ partial class Board {
       PawnA8H1Atx = ShiftL(qpPawn & ~Parameter.FileLeft, Parameter.PawnA8H1);
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean RaisePiece(Byte vPiece, Int32 nFrom) {
       var qHash = pieceHash(vPiece, nFrom);
       Board.Hash ^= qHash;
@@ -151,6 +152,7 @@ partial class Board {
       return bLite;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public void RemovePiece(Byte vPiece, Int32 nFrom) {
       var bLite = RaisePiece(vPiece, nFrom);
       decSideCount(vPiece);
@@ -181,6 +183,7 @@ partial class Board {
       setInsufficient();
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean LowerPiece(Byte vPiece, Int32 nTo) {
       var qHash = pieceHash(vPiece, nTo);
       Board.Hash ^= qHash;
@@ -236,6 +239,7 @@ partial class Board {
       return bLite;
     }
 
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public void PlacePiece(Byte vPiece, Int32 nTo) {
       var bLite = LowerPiece(vPiece, nTo);
       incSideCount(vPiece);
@@ -267,6 +271,7 @@ partial class Board {
     // either can be lowered into their new position.  While Orthodox Castling does
     // not require this, one or both of the To squares may be occupied in Chess 960.
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public void RookCastles(Int32 nTo) {
       var rule = Parameter.Rule;
 
@@ -308,6 +313,7 @@ partial class Board {
     // at the To square.  An interesection can than be made with actual
     // pieces and the attacks generated for their type.
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Plane Checkers(Byte vKingPos, Plane qpTo) {
       var qpFrom = 0UL;
       qpFrom |= Piece & Board.King & AtxKing[vKingPos];
@@ -326,6 +332,7 @@ partial class Board {
     // Allowing the moves, then handling them like Illegal
     // Moves may be just as fast.
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Plane Safe(Plane qpFriend) {
       var qpAttacked = 0UL;
 
@@ -348,6 +355,7 @@ partial class Board {
     // IsAttacked() is used by the Legal Move and Check tests
     // and to disallow castling through check:
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Boolean IsAttacked(Plane qpFriend) {
       if ((qpFriend & PawnA1H8Atx) != 0 ||
           (qpFriend & PawnA8H1Atx) != 0)
@@ -368,6 +376,7 @@ partial class Board {
     //
     // The following is used by abbreviate() to avoid the overhead of BuildAtxTo():
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Plane PawnAtxTo(Int32 nTo) {
       var qpFrom = 0UL;
       var qpTo = bit(nTo);
@@ -382,6 +391,7 @@ partial class Board {
     // The PawnTo() method is used by parsePACNMove() to validate
     // moves entered in Pure Algebraic Coordinate Notation (PACN):
     //
+    [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
     public Plane PawnTo(Int32 nFrom, Boolean bCapture) {
       Plane qpPawnTo;
       var qpFrom = bit(nFrom);

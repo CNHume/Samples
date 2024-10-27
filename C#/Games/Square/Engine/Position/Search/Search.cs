@@ -9,7 +9,7 @@
 //#define DebugMove
 #define AddBestMoves
 //#define DebugMoveIsLegal
-//#define DebugSideToMove
+#define DebugSideToMove
 #define DebugSearchMoves
 //#define DebugPseudoMoves
 //#define TraceVal
@@ -314,7 +314,7 @@ partial class Position : Board {
         //  out Piece piece, out Piece promotion, out Piece capture,
         //  out Boolean bCastles, out Boolean bCapture);
 #endif
-        verifySideToMove(move, methodName);
+        verifySideToMove(move, methodName);     //[Conditional]
 #if DebugNextMove
         var sb = new StringBuilder("Next Move =")
           .AppendPACN(move, State.IsChess960);

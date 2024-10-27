@@ -914,7 +914,7 @@ static class Extension {
     where TEnum : Enum {
     TEnum? value = default;
     if (!IsNullOrEmpty(name)) {
-      var stringComparison = ignoreCase ? InvariantCultureIgnoreCase : CurrentCulture;
+      var comparisonType = ignoreCase ? CurrentCultureIgnoreCase : CurrentCulture;
       var type = typeof(TEnum);
       foreach (var field in type.GetFields()) {
         var descriptionAttribute =
@@ -923,11 +923,11 @@ static class Extension {
           Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
 
         var found =
-          name.Equals(field.Name, stringComparison) ||
+          name.Equals(field.Name, comparisonType) ||
           descriptionAttribute != null &&
-          name.Equals(descriptionAttribute.Description, stringComparison) ||
+          name.Equals(descriptionAttribute.Description, comparisonType) ||
           displayAttribute != null &&
-          name.Equals(displayAttribute.Name, stringComparison);
+          name.Equals(displayAttribute.Name, comparisonType);
 
         if (found) {
           value = (TEnum?)field.GetValue(default);
