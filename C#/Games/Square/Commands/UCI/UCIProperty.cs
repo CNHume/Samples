@@ -97,7 +97,7 @@ partial class UCI {
   //[2023-09-04 16-ply in 6:03 @1.435 MHz over 520.87 Mnode] eval 12.95 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
-  "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
   //[2024-05-12 19-ply in 14:36 @1.529 MHz over 1.339 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
@@ -303,6 +303,7 @@ partial class UCI {
   //[1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
   // moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
   //"8/8/8/8/8/7n/7p/5K1k b - - 0 9" // Blindfold Study Solution: 50-Move Rule Draw
+  "8/8/8/8/8/7n/7p/5K1k b - - 0 1"; // Blindfold Study Test Position: 50-Move Rule Draw
   //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
   //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Solve #4 [go mate 4 over 613,162 nodes]
   //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
@@ -621,6 +622,9 @@ partial class UCI {
   //
   //"k7/pN6/8/3B1r2/5B1K/8/8/8 w - - 0 1";      // Forked Bishops [2024-04-24 9-ply in 1.079 sec @610 KHz over 658.144 Knode] eval 4.75 after:
   // 1. Bg2 Rxf4+ 2. Kg3 Rf8 3. Nc5+ Kb8 4. Nd7+ Kc7 5. Nxf8 a5 6. Ng6 a4 7. Nf4
+  //"5q1k/1RR5/8/8/8/8/4K3/8 w - - 0 1";        // KRR v KQ by Henri Rinck 1916
+  // 1. Rh7+! Kg8 2. Rhe7 Kh8 3. Rbc7! Qg8 4. Kf1! Qf8+ 5. Rf7 Qg8 6. Kf2 Qb8 7. Rh7+ Kg8 8. Rcg7+ Kf8 9. Rh8+ Kxg7 10. Rxb8+-
+  // moves c7h7 h8g8 h7e7 g8h8 [b7c7 f8g8]
   //"8/8/8/2P4B/8/5K2/3k4/5b2 w - - 0 1";       // KBP v KB % NM Nelson Lopez
   //"2b5/2P5/2K5/7B/1k6/8/8/8 w - - 0 7"        // KBP v KB Line % NM Nelson Lopez
   //[2024-01-07 18-ply in 1:27 @1.434 MHz over 124.8 Mnode] eval 9.75 after:
@@ -704,7 +708,8 @@ partial class UCI {
   // 2. Nf3+ Kc1 3. Nxe1 Nd1 4. Nc2 Nb2 5. Na1 Ng3 6. Nc2 Nd1 7. Kg2 Nb2 8. Kxg3 Nd3 9. Na1
   //
   //"5rk1/1rP3pp/p4n2/3Pp3/1P2Pq2/2Q4P/P5P1/R3R1K1 b - - 0 1"; // Unzicker v Averbach [10-ply in 16.8 sec @1.474 MHz over 24.77 Mnode]
-  //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";  // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
+  //"7k/R7/P7/5r1P/2K5/8/8/8 b - - 1 50";   // Vancura Position from Caruana v Carlsen Freestyle R1 2022-11-22
+  //"8/8/8/8/8/2K4B/5k1P/8 w - - 0 1";      // J. Vancura 1922, Ceske Slovo (care of Frederic Friedel) [11-ply in 0.867 sec to find 1. Bd7!]
   //[2022-08-20 5-ply in 332 ms @486 KHz over 162,881 nodes] eval -4.0
   // 1. Bd7 Kf3 2. h4 Ke4 3. h5 Ke5 4. h6 Kf6 5. Be8 Ke7 6. h7 Kxe8 7. h8=Q+
   //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
