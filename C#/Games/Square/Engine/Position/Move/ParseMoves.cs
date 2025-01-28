@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
 //
 //[2014-09-06 CNHume]Created File
 //
@@ -16,30 +16,28 @@ partial class Position : Board {
   // Parse and make each PACN Move recursively, returning the final position:
   //
   public Position ParsePACNMakeMoves(Parser parser) {
-    if (parser.SpaceToken.Accept() &&
-        parser.PACNMoveToken.Accept()) {
-      var child = Push();               // See UCI.unmove()
-      try {
-        var sMove = parser.PACNMoveToken.Value;
-        var move = ParsePACNMove(sMove);
+    if (!(parser.SpaceToken.Accept() && parser.PACNMoveToken.Accept()))
+      return this;
 
-        if (!child.tryOrSkip(ref move))
-          throw new MoveException(
-            Friend.MoveError($"Illegal Move in {sMove}"));
+    var child = Push();                 // See UCI.unmove()
+    try {
+      var sMove = parser.PACNMoveToken.Value;
+      var move = ParsePACNMove(sMove);
 
-        child.setName();
+      if (!child.tryOrSkip(ref move))
+        throw new MoveException(
+          Friend.MoveError($"Illegal Move in {sMove}"));
 
-        // Tail Recursion
-        return child.ParsePACNMakeMoves(parser);
-      }
-      catch {
-        // Reclaim child if ParsePACNMove() should throw an Exception.
-        Pop(ref child);
-        throw;
-      }
+      child.setName();
+
+      // Tail Recursion
+      return child.ParsePACNMakeMoves(parser);
     }
-
-    return this;
+    catch {
+      // Reclaim child if ParsePACNMove() should throw an Exception.
+      Pop(ref child);
+      throw;
+    }
   }
 
   //

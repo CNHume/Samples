@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
 //
 //[2012-09-15 CNHume]Split Diagnostics into their own file
 //
@@ -317,7 +317,7 @@ partial class Board {
     }
   }
 
-  private void appendBoard(StringBuilder sb, Boolean bFlip = false) {
+  protected void AppendBoard(StringBuilder sb, Boolean bFlip = false) {
     var bTopRuler = bFlip;
     var bRightRuler = bFlip;
     if (bTopRuler)                      // File Ruler at Top
@@ -341,7 +341,7 @@ partial class Board {
         .Append(cNewline);
   }
 
-  private void appendProperties(StringBuilder sb) {
+  protected void AppendBoardProperties(StringBuilder sb) {
     var (blackSide, whiteSide) = Side.GetBothSides();
 
     sb.Append("Hashcode = ").Append(formatHash(Hash))
@@ -372,13 +372,14 @@ partial class Board {
       .AppendLine()
       .AppendPieceHash(blackSide, whiteSide)
 #endif
-      .AppendLine();
+      ;
   }
 
   public StringBuilder Display(StringBuilder? sb = default) {
-    if (sb == null) sb = new StringBuilder();
-    appendProperties(sb);
-    appendBoard(sb, State.IsFlip);
+    if (sb == null) sb = new();
+    AppendBoardProperties(sb);
+    sb.AppendLine();
+    AppendBoard(sb, State.IsFlip);
     return sb.FlushLine();
   }
 

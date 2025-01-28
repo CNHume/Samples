@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
 //
 //[2011-02-21 CNHume]Split Hashcode processing into its own file
 //

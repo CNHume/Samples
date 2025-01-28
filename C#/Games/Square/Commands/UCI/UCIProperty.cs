@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2024, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
 //
 //[2014-09-07 CNHume]Created File
 //
@@ -23,7 +23,7 @@ partial class UCI {
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
   //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-10-26 Perft5 in 10.01 sec @8.732 MHz over 87.752 Mnode]
   //
-  #endregion
+  #endregion                            // Perft
 
   #region Abbreviation Tests
   //
@@ -35,7 +35,7 @@ partial class UCI {
   //"8/6Q1/1Q6/5b2/B7/6r1/7Q/K1k5 w - - 0 1";
   //"4k3/8/8/8/4q3/2b5/3N1N2/4K3 w - - 0 1";    // Pin Test
   //
-  #endregion
+  #endregion                            // Abbreviation Tests
 
   #region Castling Tests
   //
@@ -43,7 +43,7 @@ partial class UCI {
   //"bnrbkrqn/pppppppp/8/8/8/8/PPPPPPPP/BNRBKRQN w FCfc - 0 1"; //[Chess960]
   // moves f2f4 c7c5 g1f2 d8b6 OO OOO
   //
-  #endregion
+  #endregion                            // Castling Tests
 
   //
   //"";
@@ -303,7 +303,11 @@ partial class UCI {
   //[1. Be4 fxe4 2. Re5+ Kg4 3. Rxe4+ Kg3 4. Re1 Nd3 5. Rf1 Kg2 6. Ke2 Nf4+ 7. Ke1 Nh3 8. Rh1 Kxh1 9. Kf1=]
   // moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
   //"8/8/8/8/8/7n/7p/5K1k b - - 0 9" // Blindfold Study Solution: 50-Move Rule Draw
-  "8/8/8/8/8/7n/7p/5K1k b - - 0 1"; // Blindfold Study Test Position: 50-Move Rule Draw
+  //"8/8/8/8/8/7n/7p/5K1k b - - 0 1"; // Blindfold Study Test Position: 50-Move Rule Draw
+  "8/3k4/1Kn2p2/2P1p1p1/4P1Pp/2B2P1P/8/8 b - - 0 50";   // Maxime Vachier-Lagrave v Magnus Carlsen 2024-12-18 Champions Chess Tour Finals (R4)
+  // Magnus Carlsen claimed 3-fold repetition after:
+  // moves c6d8 b6b5 d8c6 b5a6 d7c7 a6b5 c7d7 b5b6 c6d8 c3e1 d8c6 e1c3
+  // The claim was denied, presumably under rapid rules.
   //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
   //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Solve #4 [go mate 4 over 613,162 nodes]
   //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
@@ -564,7 +568,7 @@ partial class UCI {
   // 57... Kg8 58. h6 Kh7 59. e7 Ne8 60. f6 Nxf6 61. Kxf6 Kxh6 62. Ke5 Kg5 63. e8=Q
   //"r2r2k1/p4ppp/2q2n2/8/N2n4/P4PP1/QN2P1KP/R3R3 b - - 0 24"; // Wood v Sowell 2014-07-16
   //
-  #endregion
+  #endregion                            // Berkeley Games
 
   #region Philidor Studies
   //"4Q3/6rk/5K2/8/8/8/8/8 w - - 0 1"; // Q v R Philidor #10 [15-ply 65.55 sec @1.34 MHz over 87.9 Mnode]
@@ -619,7 +623,9 @@ partial class UCI {
   //[2024-07-29 26-ply in 24:18.7 @1.0683 MHz over 1.558 Gnode] eval 3.25 after:
   // 2. Ke3 Kh3 3. Kf2 Kh4 4. Kg2 Kg5 5. Kxh2 Kf4 6. Kg2 Kg5 7. Kf1 Kf4 8. Ke2 Kg3 9. Bh5 Kg2 10. Kd3 Kg3 11. Bg6 Kh4 12. Bf5 Kg5
   // 13. Kc4 Kf4 14. Kd5 Ke3 [15. Kxd6]
-  //
+  //"4B2k/6q1/5N2/8/3B4/8/8/1K6 w - - 0 1";     // KBBN v KQ [2025-01-27 7-ply in 0.711 sec @297 KHz over 211,067 nodes] eval 6.75 after:
+  // 1. Bc6 Qg6+ 2. Be4 Qg7 3. Ka1 Qh6 4. Ng4+ Qg7 5. Bxg7+ Kh8xg7
+  //"2r5/6P1/8/3B2k1/8/6P1/8/K7 w - - 0 1";
   //"k7/pN6/8/3B1r2/5B1K/8/8/8 w - - 0 1";      // Forked Bishops [2024-04-24 9-ply in 1.079 sec @610 KHz over 658.144 Knode] eval 4.75 after:
   // 1. Bg2 Rxf4+ 2. Kg3 Rf8 3. Nc5+ Kb8 4. Nd7+ Kc7 5. Nxf8 a5 6. Ng6 a4 7. Nf4
   //"5q1k/1RR5/8/8/8/8/4K3/8 w - - 0 1";        // KRR v KQ by Henri Rinck 1916
