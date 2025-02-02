@@ -623,6 +623,11 @@ partial class UCI {
   //[2024-07-29 26-ply in 24:18.7 @1.0683 MHz over 1.558 Gnode] eval 3.25 after:
   // 2. Ke3 Kh3 3. Kf2 Kh4 4. Kg2 Kg5 5. Kxh2 Kf4 6. Kg2 Kg5 7. Kf1 Kf4 8. Ke2 Kg3 9. Bh5 Kg2 10. Kd3 Kg3 11. Bg6 Kh4 12. Bf5 Kg5
   // 13. Kc4 Kf4 14. Kd5 Ke3 [15. Kxd6]
+  //"3k3r/6R1/7p/5B2/8/8/8/3K4 w - - 0 1";      // KRB v KRP [2025-02-01 17-ply in 4:28:29.5 @1.0373 MHz over 16.71 Gnode] eval 5.0 after:
+  // 1. Rd7+ Ke8 2. Ra7 Rf8 3. Bg6+ Kd8 4. Bf7 Rxf7 5. Rxf7 Kc8 6. Rh7 Kb8 7. Rxh6 Ka7 8. Rh5 Ka6 9. Rd5 Kb6 10. Rf5 Kb6a6
+  // moves g7d7 d8e8 d7a7 h8f8 f5g6 e8d8 g6f7
+  //"3k1r2/R4B2/7p/8/8/8/8/3K4 b - - 0 4";      // KRB v KRP Line [2025-02-01 12-ply in 25.965 sec @1.272 MHz over 33.034 Mnode] eval 5.0 after:
+  // 4... h5 5. Ke1 h4 6. Kf1 h3 7. Kg1 h2+ 8. Kh1 Rxf7 9. Rxf7 Ke8 10. Rf5 Kd7 11. Kxh2
   //"4B2k/6q1/5N2/8/3B4/8/8/1K6 w - - 0 1";     // KBBN v KQ [2025-01-27 7-ply in 0.711 sec @297 KHz over 211,067 nodes] eval 6.75 after:
   // 1. Bc6 Qg6+ 2. Be4 Qg7 3. Ka1 Qh6 4. Ng4+ Qg7 5. Bxg7+ Kh8xg7
   //"2r5/6P1/8/3B2k1/8/6P1/8/K7 w - - 0 1";
