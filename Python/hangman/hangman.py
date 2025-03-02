@@ -48,7 +48,7 @@ def main():
 
         player = Player(word, figures)
         result = player.play(command.trials)
-        message = 'You win!' if result else u"Yo're hung."
+        message = 'You win!' if result else u"You're hung."
         print(message)
       else:
         print('There are no words.')

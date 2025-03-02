@@ -71,7 +71,7 @@ class Player(object):
     loop = True
     while loop:
       turn_player = self.turn % self.players
-      player_turn = self.turn / self.players
+      player_turn = self.turn // self.players
       self.showRack(turn_player)
       prompt = 'Player {}, Turn {}: '.format(turn_player + 1, player_turn + 1)
       command = Player.prompt(prompt)

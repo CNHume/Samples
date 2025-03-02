@@ -5,7 +5,7 @@
 # If not, see https://opensource.org/licenses/MIT.
 #
 # 2017-07-27  CNHume  Converted to Python from Lisp version of 1988-06-14
-"""Continued Fraction Class"""
+'''Continued Fraction Class'''
 
 import functools
 from fractions import Fraction
@@ -37,17 +37,17 @@ class ContinuedFraction:
   def __str__(self):
     terms = self.continued()
     strIT = map(str, terms)
-    return " ".join(strIT)
+    return ' '.join(strIT)
 
   def dump(self):
-    print("fraction: {}\nterms: {}".format(self.fraction, self))
+    print('fraction: {}\nterms: {}'.format(self.fraction, self))
 
   def coerce_ratio(self):
-    """Represent any real valued input as a ratio"""
+    '''Represent any real valued input as a ratio'''
     return ContinuedFraction.discontinued(self.continued())
 
   def continued(self):
-    """Convert rational number to a continued fraction"""
+    '''Convert rational number to a continued fraction'''
     terms = []
     threshhold = abs(self.fraction * self.tolerance / 100)
     numerator = self.fraction.numerator
@@ -67,7 +67,7 @@ class ContinuedFraction:
 
   @staticmethod
   def discontinued(terms):
-    """Convert continued fraction to a rational number"""
+    '''Convert continued fraction to a rational number'''
     return functools.reduce(ContinuedFraction.reducer, reversed(terms), Fraction(0))
 
   @staticmethod

@@ -30,8 +30,8 @@ class Board(object):
   def __init__(self, size_x, size_y, bonusRecords, tiles):
     self.size_x = size_x
     self.size_y = size_y
-    self.center_x = (self.size_x + 1) / 2 - 1
-    self.center_y = (self.size_y + 1) / 2 - 1
+    self.center_x = (self.size_x + 1) // 2 - 1
+    self.center_y = (self.size_y + 1) // 2 - 1
     self.center = (self.center_x, self.center_y)
     self.blanks = Board.BLANK * self.size_x
     self.rows = self.blankRows()
@@ -360,7 +360,7 @@ class Board(object):
     if not Board.linear(placements, horizontal):
       return empty
 
-    sortedPlacements = sorted(placements, key=lambda tuple, letter: (tuple[1], tuple[0]))
+    sortedPlacements = sorted(placements, key=lambda placement: (placement[0][1], placement[0][0]))
     if Board.duplicate(sortedPlacements):
       return empty
 
