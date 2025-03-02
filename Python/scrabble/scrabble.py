@@ -24,11 +24,11 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  SETUP_PATH = u''
-  BONUS_FILE = u'bonus'
-  TILES_FILE = u'tiles'
-  WORDS_FILE = u'scrabbleWords'
-  FILE_EXT = u'txt'                     # Default File Extension
+  SETUP_PATH = ''
+  BONUS_FILE = 'bonus'
+  TILES_FILE = 'tiles'
+  WORDS_FILE = 'scrabbleWords'
+  FILE_EXT = 'txt'                     # Default File Extension
   PLAYERS = 2
   BOARD_SIZE = 15
 
@@ -38,7 +38,7 @@ def main():
       verbose = command.verbose
 
       if command.players <= 0:
-        print(u'The # of players must be greater than 0')
+        print('The # of players must be greater than 0')
         return
 
       tileManager = FileManager(SETUP_PATH, command.file_ext, verbose)
@@ -61,12 +61,12 @@ def main():
       player = Player(command.players, wordManager.records, board, command.reverse, command.debug)
       #player.Test()
 
-      testCommands = [u'play g8=c,h8=a,i8=t',
-        u'play k8=t,l8=o,m8=n,n8=i,o8=c',
-        u'play k9=u,k10=f,k11=f',
-        u'play i9=o,j9=v,l9=m',
-        u'play j8=a,j10=o,j11=i,j12=d',
-        u'board']
+      testCommands = ['play g8=c,h8=a,i8=t',
+        'play k8=t,l8=o,m8=n,n8=i,o8=c',
+        'play k9=u,k10=f,k11=f',
+        'play i9=o,j9=v,l9=m',
+        'play j8=a,j10=o,j11=i,j12=d',
+        'board']
       #player.perform(testCommands)
 
       turn_player = player.start()
@@ -77,7 +77,7 @@ def main():
     print(trace)
 
   #[Debug]
-  raw_input(u'Press Enter')
+  input('Press Enter')
 
 if __name__ == '__main__':
   main()

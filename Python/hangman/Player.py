@@ -11,8 +11,8 @@ import string
 
 class Player(object):
   """Hangman Player"""
-  SPACE = u' '
-  BLANK = u'_'
+  SPACE = ' '
+  BLANK = '_'
 
   def __init__(self, word, figures):
     self.word = word.upper()
@@ -26,15 +26,15 @@ class Player(object):
     # Mutable status:
     status = list(template)
 
-    print(u'You have {} guesses'.format(trials))
+    print('You have {} guesses'.format(trials))
     trial = 0
     while trial < trials:
       if show:
         Player.show(self.figures[trial])
       Player.display(status)
-      guess = Player.prompt(u'Player Guess: ')
+      guess = Player.prompt('Player Guess: ')
       if guess in guesses:
-          print(u'You have already tried {}'.format(guess))
+          print('You have already tried {}'.format(guess))
           continue
 
       guesses.add(guess)
@@ -45,14 +45,14 @@ class Player(object):
            status[index] = guess
 
       if found:
-        print(u'Correct!')
+        print('Correct!')
         if Player.BLANK not in status:
           # Player Won
           Player.display(status)
           return True
       else:
         trial += 1
-        print(u'{}/{} incorrect guesses'.format(trial, trials))
+        print('{}/{} incorrect guesses'.format(trial, trials))
 
     # Player Lost
     if show:
@@ -69,7 +69,7 @@ class Player(object):
 
   @staticmethod
   def display(letters):
-    print(u'Word: {}'.format(Player.spaced(letters)))
+    print('Word: {}'.format(Player.spaced(letters)))
 
   @staticmethod
   def spaced(letters):
@@ -78,9 +78,9 @@ class Player(object):
   @staticmethod
   def prompt(prompt):
     while True:
-      raw = raw_input(prompt)
+      raw = input(prompt)
       line = raw.splitlines()[0]
-      if len(line) == 1 and line in string.letters:
+      if len(line) == 1 and line in string.ascii_letters:
          return line.upper()
       else:
-        print(u'Please enter a single letter')
+        print('Please enter a single letter')

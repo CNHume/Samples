@@ -10,7 +10,7 @@ def main():
   if len(sys.argv) < 2: return
 
   value = int(sys.argv[1])
-  print "value = {0}".format(value)
+  print('value = {0}'.format(value))
 
   tests = [
     [ ],
@@ -26,11 +26,11 @@ def main():
     [ 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 4, 4 ],
   ]
 
-  delimiter = ", "
+  delimiter = ', '
   index = 0
   for test in tests:
     join = delimiter.join(str(n) for n in test)
-    print u"test[{0}]: {1}".format(index, join)
+    print('test[{0}]: {1}'.format(index, join))
 
     #glb = RecursiveBinarySearch.glb(test, value)
     #lub = RecursiveBinarySearch.lub(test, value)
@@ -38,8 +38,8 @@ def main():
     glb = BinarySearch.glb(test, value)
     lub = BinarySearch.lub(test, value)
 
-    print "glb = {0}".format(glb)
-    print "lub = {0}".format(lub)
+    print('glb = {0}'.format(glb))
+    print('lub = {0}'.format(lub))
     index += 1
 
 if __name__ == '__main__':

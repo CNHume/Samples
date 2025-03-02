@@ -3,7 +3,7 @@
 # 2018-03-21  CNHume  Created File
 
 class RecursiveBinarySearch:
-  """Recursive Binary Search Class"""
+  '''Recursive Binary Search Class'''
   @staticmethod
   def glb(entries, value):
     return RecursiveBinarySearch.glbSlice(entries, value, 0, len(entries) - 1)
@@ -11,7 +11,7 @@ class RecursiveBinarySearch:
   @staticmethod
   def glbSlice(entries, value, left, right):
     if (left <= right):
-      middle = (left + right) / 2
+      middle = (left + right) // 2
       if (entries[middle] < value):
         return RecursiveBinarySearch.glbSlice(entries, value, middle + 1, right)
       else:
@@ -28,7 +28,7 @@ class RecursiveBinarySearch:
   @staticmethod
   def lubSlice(entries, value, left, right):
     if (left <= right):
-      middle = (left + right) / 2
+      middle = (left + right) // 2
       if (entries[middle] <= value):
         return RecursiveBinarySearch.lubSlice(entries, value, middle + 1, right)
       else:

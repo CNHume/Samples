@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Continued Fraction Tests"""
+'''Continued Fraction Tests'''
 
 import sys
 import math
@@ -18,11 +18,11 @@ def main():
     #cf = ContinuedFraction.from_float(phi)
 
     #fraction = Fraction.from_float(3.14159)
-    #fraction = Fraction("3.14159")
+    #fraction = Fraction('3.14159')
     #cf = ContinuedFraction(fraction)
 
     if len(inputs) > 0:
-      #pi = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
+      #pi = '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679'
       input = inputs[0]
 
       cf = ContinuedFraction.from_string(input)
@@ -30,7 +30,7 @@ def main():
       cf.dump()
     
       ratio = cf.coerce_ratio()
-      print("ratio: {}".format(ratio))
+      print('ratio: {}'.format(ratio))
 
 if __name__ == '__main__':
   main()

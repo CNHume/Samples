@@ -11,21 +11,21 @@ import random
 
 class Tile(object):
   """Scrabble Tiles"""
-  ALPHA = ord(u'A')
-  ASTERISK = u'*'
-  COMMA = u','
-  DELIM = u', '
-  EMPTY = u''
-  EQUAL = u'='
-  KVP = u'{}: {}'
-  QUESTION = u'?'
+  ALPHA = ord('A')
+  ASTERISK = '*'
+  COMMA = ','
+  DELIM = ', '
+  EMPTY = ''
+  EQUAL = '='
+  KVP = '{}: {}'
+  QUESTION = '?'
   RACKSIZE = 7
-  SPACE = u' '
+  SPACE = ' '
 
   def __init__(self, tileRecords):
     self.tiles = Tile.parseTiles(tileRecords)
     if not self.tiles:
-      print(u'There are no tile records.')
+      print('There are no tile records.')
     self.bag = Tile.letterBag(self.tiles)
 
   @staticmethod
@@ -49,7 +49,7 @@ class Tile(object):
         if tile:
           letter, values = tile
           if letter in tiles:
-            print(u'Duplicate tile values specified for {}'.format(letter))
+            print('Duplicate tile values specified for {}'.format(letter))
             return empty
           else:
             tiles[letter] = values
@@ -63,7 +63,7 @@ class Tile(object):
         letter = chr(Tile.ALPHA + index) if index < 26 else Tile.QUESTION
         if letter not in tiles:
           missing.append(letter)
-      print(u'No tile values specified for the letters: {}'.format(Tile.DELIM.join(missing)))
+      print('No tile values specified for the letters: {}'.format(Tile.DELIM.join(missing)))
       return empty
 
     return tiles
@@ -75,17 +75,17 @@ class Tile(object):
 
     terms = clause.split(Tile.EQUAL)
     if len(terms) != 2:
-      print(u'{} is not a valid tile'.format(clause))
+      print('{} is not a valid tile'.format(clause))
       return empty
 
     letter = terms[0].strip()
     if len(letter) != 1 or letter != Tile.QUESTION and not letter.isalpha():
-      print(u'{} is not a valid letter'.format(letter))
+      print('{} is not a valid letter'.format(letter))
       return empty
 
     values = terms[1].split(Tile.ASTERISK)
     if len(values) != 2:
-      print(u'{} are not valid terms'.format(terms))
+      print('{} are not valid terms'.format(terms))
       return empty
 
     value = Tile.parseInt(values[0].strip())
@@ -140,8 +140,8 @@ class Tile(object):
         missing.append(symbol)
 
     if missing:
-      copula = u'is' if len(missing) < 2 else u'are'
-      print(u'{} {} not among the remaining letters {}'.format(Tile.spaced(missing), copula, Tile.spaced(rack)))
+      copula = 'is' if len(missing) < 2 else 'are'
+      print('{} {} not among the remaining letters {}'.format(Tile.spaced(missing), copula, Tile.spaced(rack)))
   
   def exchange(self, rack, letters):
     self.remove(rack, letters)
@@ -159,7 +159,7 @@ class Tile(object):
   @staticmethod
   def hasLetters(rack, letters):
     letterSet = Tile.counterSet(letters)
-    #rack = list(u'TAU?FOM')
+    #rack = list('TAU?FOM')
     rackSet = Tile.counterSet(rack)
 
     for letter, letter_count in letterSet.items():

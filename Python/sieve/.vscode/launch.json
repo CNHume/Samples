@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Python: sumPrimes",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/sumPrimes.py",
       "console": "integratedTerminal",

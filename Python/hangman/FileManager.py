@@ -16,8 +16,8 @@ from Command import Command
 
 class FileManager(object):
   """FileManager Class"""
-  DOT = u'.'
-  NEWLINE = u'\n'
+  DOT = '.'
+  NEWLINE = '\n'
 
   def __init__(self, file_path, file_ext, verbose=False):
     self.file_path = file_path
@@ -39,8 +39,8 @@ class FileManager(object):
     # Mark load start time
     load_dt0 = datetime.now()
     if self.verbose:
-      print(u'{0} starting load'.format(str(load_dt0)[:-3]))
-      print(u'{0}: {1}'.format(u'filename', filename))
+      print('{0} starting load'.format(str(load_dt0)[:-3]))
+      print('{0}: {1}'.format('filename', filename))
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
@@ -49,7 +49,7 @@ class FileManager(object):
       with open(filename, 'r') as input_file:
         # Deserialize records from the file, removing newlines
         newlines = input_file.readlines()
-        self.records = map(lambda line: line.splitlines()[0], newlines)
+        self.records = [line.splitlines()[0] for line in newlines]
 
     self.length = len(self.records)
 
@@ -59,14 +59,14 @@ class FileManager(object):
 
     if self.verbose:
       # Report counts and times
-      print(u'{0} finished load'.format(str(load_dt1)[:-3]))
-      print(u'{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      print('{0} finished load'.format(str(load_dt1)[:-3]))
+      print('{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print(u'Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
+        print('Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
-        print(u'Loaded {0} records'.format(self.length))
+        print('Loaded {0} records'.format(self.length))
         
   def save(self, file_name, records):
     """Save records into the file indicated by file_path and file_ext"""
@@ -78,8 +78,8 @@ class FileManager(object):
     save_dt0 = datetime.now()
 
     if self.verbose:
-      print(u'{0} starting save'.format(str(save_dt0)[:-3]))
-      print(u'{0}: {1}'.format(u'filename', filename))
+      print('{0} starting save'.format(str(save_dt0)[:-3]))
+      print('{0}: {1}'.format('filename', filename))
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
@@ -99,14 +99,14 @@ class FileManager(object):
 
     if self.verbose:
       # Report counts and times
-      print(u'{0} finished save'.format(str(save_dt1)[:-3]))
-      print(u'{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      print('{0} finished save'.format(str(save_dt1)[:-3]))
+      print('{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print(u'Saved {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
+        print('Saved {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
-        print(u'Saved {0} records'.format(self.length))
+        print('Saved {0} records'.format(self.length))
 
   def paragraphs(self):
     return FileManager.splitter(self.records)

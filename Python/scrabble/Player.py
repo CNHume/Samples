@@ -15,13 +15,13 @@ from Tile import Tile
 
 class Player(object):
   """Scrabble Player"""
-  COMMA = u','
-  EMPTY = u''
-  EQUAL = u'='
+  COMMA = ','
+  EMPTY = ''
+  EQUAL = '='
   BINGO_VALUE = 50
   PERMUTE_LEN_MAX = 8
   SCORELESS_TURN_MAX = 6
-  WHITESPACE = re.compile("\s*")
+  WHITESPACE = re.compile(r"\s+")
 
   def __init__(self, players, wordList, board, reverse, testing):
     self.reverse = reverse
@@ -34,7 +34,7 @@ class Player(object):
 
     self.dictionary = set(wordList)
     if not wordList:
-      print(u'There are no words.')
+      print('There are no words.')
 
     self.turn = 0
     self.last_score_turn = self.turn
@@ -54,8 +54,8 @@ class Player(object):
     #  9: 986410
     # 10: 9864101
 
-    #cases = [u'a', u'ab', u'abc', u'abcd', u'abcde', u'abcdef', u'abcdefg', u'abcdefgh', u'abcdefghi']
-    cases = [u'', u'aa', u'aab', u'aabc', u'aabcd']
+    #cases = ['a', 'ab', 'abc', 'abcd', 'abcde', 'abcdef', 'abcdefg', 'abcdefgh', 'abcdefghi']
+    cases = ['', 'aa', 'aab', 'aabc', 'aabcd']
     for case in cases:
       words = Player.anagram(case, True)
       print(Board.KVP.format(len(case), len(words)))
@@ -73,7 +73,7 @@ class Player(object):
       turn_player = self.turn % self.players
       player_turn = self.turn / self.players
       self.showRack(turn_player)
-      prompt = u'Player {}, Turn {}: '.format(turn_player + 1, player_turn + 1)
+      prompt = 'Player {}, Turn {}: '.format(turn_player + 1, player_turn + 1)
       command = Player.prompt(prompt)
       loop = self.dispatch(command)
 
@@ -83,14 +83,14 @@ class Player(object):
     Player.showScores(self.scores)
 
   def help(self):
-    print(u'board')
-    print(u'exchange letters')
-    print(u'exit')
-    print(u'help')
-    print(u'list letters')
-    print(u'pass')
-    print(u'play square=letter, ...')
-    print(u'score')
+    print('board')
+    print('exchange letters')
+    print('exit')
+    print('help')
+    print('list letters')
+    print('pass')
+    print('play square=letter, ...')
+    print('score')
 
   def dispatch(self, command):
     tokens = re.split(Player.WHITESPACE, command.strip())
@@ -104,10 +104,10 @@ class Player(object):
     verb = token.lower()
     if verb == Player.EMPTY:
       return True
-    elif verb == u'board':
+    elif verb == 'board':
       self.board.display()
       return True
-    elif verb == u'exchange':
+    elif verb == 'exchange':
       letters = rest.upper() if rest else rack
       self.board.tiles.exchange(rack, letters)
       self.showRack(turn_player)
@@ -115,18 +115,18 @@ class Player(object):
       self.turn += 1
       # Test for Scoreless Turn below
       pass
-    elif verb == u'exit':
+    elif verb == 'exit':
       return False
-    elif verb == u'help':
+    elif verb == 'help':
       self.help()
       return True
-    elif verb == u'list':
+    elif verb == 'list':
       letters = letters = rest.upper() if rest else rack
       self.list(letters)
       return True
-    elif verb == u'pass':
+    elif verb == 'pass':
       if self.first_pass_turn_player == turn_player:
-        print(u'All Players passed; and Player {} has passed twice.'
+        print('All Players passed; and Player {} has passed twice.'
               .format(turn_player + 1))
         return False
       
@@ -136,7 +136,7 @@ class Player(object):
       self.turn += 1
       # Test for Scoreless Turn below
       pass
-    elif verb == u'play':
+    elif verb == 'play':
       placements = self.parsePlacements(rest)
       # Allow turn_player to try again after Illegal Tile Placement
       if not placements:
@@ -151,22 +151,22 @@ class Player(object):
         self.last_score_turn = self.turn
 
         if len(rack) == 0:
-          print(u'Player {}, Rack Empty and Bag Empty.'
+          print('Player {}, Rack Empty and Bag Empty.'
                 .format(turn_player + 1))
           return False
 
         self.turn += 1
         # Test for Scoreless Turn below
       pass
-    elif verb == u'score':
+    elif verb == 'score':
       Player.showScores(self.scores)
       return True
     else:
-      print(u'{} is not a valid command.'.format(token))
+      print('{} is not a valid command.'.format(token))
       return True
 
     if self.last_score_turn + Player.SCORELESS_TURN_MAX <= self.turn:
-      print(u'The limit of {} Scoreless Turns has been reached.'
+      print('The limit of {} Scoreless Turns has been reached.'
             .format(Player.SCORELESS_TURN_MAX))
       return False
 
@@ -178,7 +178,7 @@ class Player(object):
     turn_player = self.turn % self.players
     rack = self.racks[turn_player]
     if not Tile.hasLetters(rack, letters):
-      print(u'Player {}, Rack: {} missing some of the letters: {}'
+      print('Player {}, Rack: {} missing some of the letters: {}'
             .format(turn_player + 1, Tile.spaced(rack), Tile.spaced(letters)))
       if not self.testing:
         return False
@@ -194,12 +194,12 @@ class Player(object):
 
       # Award 50-point bonus if a full rack was used
       if len(letters) == Tile.RACKSIZE:
-        print(u'Bingo!')
+        print('Bingo!')
         total += Player.BINGO_VALUE
 
     # Increase player score
     self.scores[turn_player] += total
-    print(u'Player {} gained {} points'.format(turn_player + 1, total))
+    print('Player {} gained {} points'.format(turn_player + 1, total))
     return True
 
   def firstPlay(self):
@@ -215,12 +215,12 @@ class Player(object):
     empty = Player.EMPTY
     if self.firstPlay():
       if not self.firstValid(placements):
-        print(u'First word must cover the center square')
+        print('First word must cover the center square')
         if not self.testing:
           return empty
     elif not self.board.contact(placements):
       letters = [letter for square, letter in placements]
-      print(u'The letters: {} are not in contact with an existing word'
+      print('The letters: {} are not in contact with an existing word'
             .format(Tile.spaced(letters)))
       if not self.testing:
         return empty
@@ -230,7 +230,7 @@ class Player(object):
     word = self.board.tiled(placements, horizontal)
     if not word:
       squareNames = [Board.squareName(square) for square, letter in placements]
-      print(u'Illegal Tile Placement: {}'
+      print('Illegal Tile Placement: {}'
             .format(Tile.spaced(squareNames)))
 
     return word
@@ -254,24 +254,24 @@ class Player(object):
     empty = ()
     terms = clause.split(Player.EQUAL)
     if len(terms) != 2:
-      print(u'{} is not a valid placement'.format(clause))
+      print('{} is not a valid placement'.format(clause))
       return empty
 
     squareName = terms[0].strip()
     text = terms[1].strip()
 
     if len(text) == 0:
-      print(u'no letter supplied')
+      print('no letter supplied')
       return empty
 
     blank = len(text) == 2 and text[1] == Tile.QUESTION
     if len(text) > 1 and not blank:
-      print(u'{} is not a valid tile'.format(text))
+      print('{} is not a valid tile'.format(text))
       return empty
 
     letter = text[0]
     if not letter.isalpha():
-      print(u'{} is not a valid letter'.format(letter))
+      print('{} is not a valid letter'.format(letter))
       return empty
 
     square = self.board.parseSquare(squareName)
@@ -289,7 +289,7 @@ class Player(object):
       if rword.lower() in self.dictionary:
         return rword
 
-    print(u'{} not found'.format(word))
+    print('{} not found'.format(word))
     #[ToDo]Prompt for dictionary override [Y/N] here
     return Player.EMPTY
 
@@ -297,7 +297,7 @@ class Player(object):
     alphas = [letter for letter in letters if letter.isalpha()]
     length = len(alphas)
     if length > Player.PERMUTE_LEN_MAX:
-      print(u'Length of {} exceeds Maximum of {}'
+      print('Length of {} exceeds Maximum of {}'
             .format(length, Player.PERMUTE_LEN_MAX))
       if not self.testing:
         return
@@ -330,22 +330,22 @@ class Player(object):
 
   def showRack(self, turn_player):
     rack = self.racks[turn_player]
-    print(u'Player {}, Rack: {}'.format(turn_player + 1, Tile.spaced(rack)))
+    print('Player {}, Rack: {}'.format(turn_player + 1, Tile.spaced(rack)))
 
   def debitRackValue(self, player):
       rack = self.racks[player]
       debit = self.board.tiles.rackValue(rack)
-      print(u'Player {}, Debit: {}'.format(player + 1, debit))
+      print('Player {}, Debit: {}'.format(player + 1, debit))
       self.scores[player] -= debit
 
   @staticmethod
   def showScores(scores):
     for player, score in sorted(enumerate(scores), key=itemgetter(1, 0), reverse=True):
-      print(u'Player {}, Score: {}'.format(player + 1, score))
+      print('Player {}, Score: {}'.format(player + 1, score))
 
   @staticmethod
   def prompt(prompt):
-    return raw_input(prompt)
+    return input(prompt)
 
   @staticmethod
   def anagram(letters, subset=False):
@@ -376,7 +376,7 @@ class Player(object):
       found = (index for index, element in enumerate(lines) if predicate(element))
       found_index = next(found)
     except StopIteration:
-      print(u'Only blank lines found in {0}'.format(filename))
+      print('Only blank lines found in {0}'.format(filename))
       found_index = None
 
     return found_index

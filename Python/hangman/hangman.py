@@ -25,10 +25,10 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  SETUP_PATH = u''
-  ART_FILE = u'art'                     # Hangman ASCII Art
-  WORD_FILE = u'hangmanWords'           # Word File (Hangman Dictionary)
-  FILE_EXT = u'txt'                     # Word File Extension
+  SETUP_PATH = ''
+  ART_FILE = 'art'                     # Hangman ASCII Art
+  WORD_FILE = 'hangmanWords'           # Word File (Hangman Dictionary)
+  FILE_EXT = 'txt'                     # Word File Extension
   TRIALS = 6                            # Head, Body, 2 Arms, 2 Legs
 
   try:
@@ -48,10 +48,10 @@ def main():
 
         player = Player(word, figures)
         result = player.play(command.trials)
-        message = u'You win!' if result else u"You're hung."
+        message = 'You win!' if result else u"Yo're hung."
         print(message)
       else:
-        print(u'There are no words.')
+        print('There are no words.')
 
   except Exception as ex:
     #type_name = type(ex).__name__
@@ -59,7 +59,7 @@ def main():
     print(trace)
 
   #[Debug]
-  raw_input(u'Press Enter')
+  input('Press Enter')
 
 if __name__ == '__main__':
   main()

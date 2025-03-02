@@ -13,18 +13,18 @@ from Tile import Tile
 
 class Board(object):
   """Scrabble Board"""
-  BONUS_L2 = u'L2'
-  BONUS_L3 = u'L3'
-  BONUS_W2 = u'W2'
-  BONUS_W3 = u'W3'
+  BONUS_L2 = 'L2'
+  BONUS_L3 = 'L3'
+  BONUS_W2 = 'W2'
+  BONUS_W3 = 'W3'
 
-  BLANK = u'_'
-  COLON = u':'
-  COMMA = u','
-  DELIM = u', '
-  EMPTY = u''
-  FILEA = ord(u'a')
-  KVP = u'{}: {}'
+  BLANK = '_'
+  COLON = ':'
+  COMMA = ','
+  DELIM = ', '
+  EMPTY = ''
+  FILEA = ord('a')
+  KVP = '{}: {}'
   RANK1 = 1
 
   def __init__(self, size_x, size_y, bonusRecords, tiles):
@@ -65,7 +65,7 @@ class Board(object):
 
     missing = [bonusName for bonusName, bonusSquares in self.bonusMap.items() if not bonusSquares]
     if missing:
-      print(u'There are no bonus squares for {}.'.format(Board.DELIM.join(missing)))
+      print('There are no bonus squares for {}.'.format(Board.DELIM.join(missing)))
 
   def parseBonuses(self, bonusRecords):
     #
@@ -83,7 +83,7 @@ class Board(object):
     for record in bonusRecords:
       terms = record.split(Board.COLON)
       if len(terms) != 2:
-        print(u'{} is not a valid bonus record'.format(record))
+        print('{} is not a valid bonus record'.format(record))
         return
 
       bonusName = terms[0].strip().upper()
@@ -98,12 +98,12 @@ class Board(object):
           if square:
             bonusSquares.add(square)
       else:
-        print(u'{} is not a valid bonus name'.format(bonusName))
+        print('{} is not a valid bonus name'.format(bonusName))
 
   def parseSquare(self, squareName):
     square = self.parseSquare1(squareName)
     if not square:
-      print(u'{} is not a valid square name'.format(squareName))
+      print('{} is not a valid square name'.format(squareName))
     return square
   
   def parseSquare1(self, squareName):
@@ -138,15 +138,15 @@ class Board(object):
   def display(self):
     files = Tile.spaced([Board.file(x) for x in range(self.size_x)])
     print
-    print(u'    {}').format(files)
+    print('    {}'.format(files))
     print
     for y in range(self.size_y):
       rank = self.rank(y).rjust(2)
       #row = [str(self.normal((x, y))) for x in range(self.size_x)]
-      #print(u'{}  {}  {}').format(rank, Tile.spaced(row), rank)
-      print(u'{}  {}  {}').format(rank, Tile.spaced(self.rows[y]), rank)
+      #print('{}  {}  {}'.format(rank, Tile.spaced(row), rank))
+      print('{}  {}  {}'.format(rank, Tile.spaced(self.rows[y]), rank))
     print
-    print(u'    {}').format(files)
+    print('    {}'.format(files))
     print
 
   #@staticmethod
@@ -270,14 +270,14 @@ class Board(object):
     return score * wordBonus
 
   def Test(self):
-    self.set2(2, 2, u'A')
-    self.set2(3, 2, u'B')
-    self.set2(4, 2, u'C')
-    self.set2(5, 2, u'A')
-    self.set2(6, 2, u'T')
-    self.set2(1, 3, u'D')
-    self.set2(2, 3, u'E')
-    self.set2(3, 3, u'F')
+    self.set2(2, 2, 'A')
+    self.set2(3, 2, 'B')
+    self.set2(4, 2, 'C')
+    self.set2(5, 2, 'A')
+    self.set2(6, 2, 'T')
+    self.set2(1, 3, 'D')
+    self.set2(2, 3, 'E')
+    self.set2(3, 3, 'F')
 
     self.display()
     left = self.left2(4, 3)
@@ -360,7 +360,7 @@ class Board(object):
     if not Board.linear(placements, horizontal):
       return empty
 
-    sortedPlacements = sorted(placements, key=lambda ((x, y), letter): (y, x))
+    sortedPlacements = sorted(placements, key=lambda tuple, letter: (tuple[1], tuple[0]))
     if Board.duplicate(sortedPlacements):
       return empty
 

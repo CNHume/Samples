@@ -27,7 +27,7 @@ class Numeric:
     '''Square root, using Newton's method'''
     if n < 0:
       raise ValueError('n must not be negative')
-    elif n < 1:
+    elif 0 < n and n < 1:
       return 1 / Numeric.sqrt1(1 / n)
     else:
       return Numeric.sqrt1(n)
@@ -35,7 +35,7 @@ class Numeric:
   @staticmethod
   def sqrt1(n):
     x = n
-    y = (x + 1) / 2
+    y = x / 2
     while y < x:
       x = y
       y = (x + n / x) / 2

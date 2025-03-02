@@ -10,7 +10,7 @@ import sys
 
 class Command(object):
   """Command Class"""
-  UTF8 = u'utf-8'
+  UTF8 = 'utf-8'
   VERSION = 1.0
 
   def __init__(self, bonus_file, tiles_file, words_file, file_ext, players, size):
@@ -116,19 +116,19 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print(u'Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'\
+      print('Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'\
         .format(script_name))
 
     return not usage
 
   def Log(self):
-    print(u'{0}: {1}'.format(u'debug', self.debug))
-    print(u'{0}: {1}'.format(u'verbose', self.verbose))
-    print(u'{0}: {1}'.format(u'reverse', self.reverse))
-    print(u'{0}: {1}'.format(u'bonus_file', self.bonus_file))
-    print(u'{0}: {1}'.format(u'tiles_file', self.tiles_file))
-    print(u'{0}: {1}'.format(u'words_file', self.words_file))
-    print(u'{0}: {1}'.format(u'file_ext', self.file_ext))
-    print(u'{0}: {1}'.format(u'players', self.players))
-    print(u'{0}: {1}'.format(u'size_x', self.size_x))
-    print(u'{0}: {1}'.format(u'size_y', self.size_y))
+    print('{0}: {1}'.format('debug', self.debug))
+    print('{0}: {1}'.format('verbose', self.verbose))
+    print('{0}: {1}'.format('reverse', self.reverse))
+    print('{0}: {1}'.format('bonus_file', self.bonus_file))
+    print('{0}: {1}'.format('tiles_file', self.tiles_file))
+    print('{0}: {1}'.format('words_file', self.words_file))
+    print('{0}: {1}'.format('file_ext', self.file_ext))
+    print('{0}: {1}'.format('players', self.players))
+    print('{0}: {1}'.format('size_x', self.size_x))
+    print('{0}: {1}'.format('size_y', self.size_y))

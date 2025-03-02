@@ -3,7 +3,7 @@
 # 2018-03-22  CNHume  Created File
 
 class BinarySearch:
-  """Iterative Binary Search Class"""
+  '''Iterative Binary Search Class'''
   @staticmethod
   def glb(entries, value):
     return BinarySearch.glbSlice(entries, value, 0, len(entries) - 1)
@@ -11,7 +11,7 @@ class BinarySearch:
   @staticmethod
   def glbSlice(entries, value, left, right):
     while (left <= right):
-      middle = (left + right) / 2
+      middle = (left + right) // 2
       if (entries[middle] < value):
         left = middle + 1
       else:
@@ -28,7 +28,7 @@ class BinarySearch:
   @staticmethod
   def lubSlice(entries, value, left, right):
     while (left <= right):
-      middle = (left + right) / 2
+      middle = (left + right) // 2
       if (entries[middle] <= value):
         left = middle + 1
       else:

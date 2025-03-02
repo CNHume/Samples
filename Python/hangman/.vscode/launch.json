@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Python: hangman",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/hangman.py",
       "console": "integratedTerminal"

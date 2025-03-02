@@ -10,7 +10,7 @@ import sys
 
 class Command(object):
   """Command Class"""
-  UTF8 = u'utf-8'
+  UTF8 = 'utf-8'
   VERSION = 1.0
 
   def __init__(self, word_file, art_file, file_ext, trials):
@@ -21,10 +21,10 @@ class Command(object):
     self.file_ext = file_ext
 
   @staticmethod
-  def arg_msg(s, name=u'argument'):
-    msg = u'Invalid '
+  def arg_msg(s, name='argument'):
+    msg = 'Invalid '
     msg += name
-    msg += u': '
+    msg += ': '
     msg += s
     return msg
 
@@ -82,13 +82,13 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print(u'Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'\
+      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'\
         .format(script_name))
 
     return not usage
 
   def Log(self):
-    print(u'{0}: {1}'.format(u'word_file', self.word_file))
-    print(u'{0}: {1}'.format(u'art_file', self.art_file))
-    print(u'{0}: {1}'.format(u'file_ext', self.file_ext))
-    print(u'{0}: {1}'.format(u'verbose', self.verbose))
+    print('{0}: {1}'.format('word_file', self.word_file))
+    print('{0}: {1}'.format('art_file', self.art_file))
+    print('{0}: {1}'.format('file_ext', self.file_ext))
+    print('{0}: {1}'.format('verbose', self.verbose))

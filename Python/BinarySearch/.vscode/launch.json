@@ -2,10 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: scrabble",
+      "name": "Python: BinarySearchTest",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/scrabble.py",
+      "program": "${workspaceFolder}/BinarySearchTest.py",
+      "args": ["2"],
       "console": "integratedTerminal"
     }
   ]

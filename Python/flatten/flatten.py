@@ -2,16 +2,16 @@
 # 2018-10-24 CNHume Created File
 
 def main():
-  print flatten([])
-  print flatten([[0, 1, [4, 5]], [2, 3]])
-  print flatten([0])
-  print flatten([0, 1])
-  print flatten([[0, 1]])
-  print flatten([0, [0, 1]])
-  print flatten([[0, 1], [], 2])
-  print flatten([[0, 1], [2, 3]])
-  print flatten([[0, 1, [4, 5], 6], [2, 3]])
-  print flatten([[0, 1, [4, 5], 6], [[0, 1], 2, 3]])
+  print(flatten([]))
+  print(flatten([[0, 1, [4, 5]], [2, 3]]))
+  print(flatten([0]))
+  print(flatten([0, 1]))
+  print(flatten([[0, 1]]))
+  print(flatten([0, [0, 1]]))
+  print(flatten([[0, 1], [], 2]))
+  print(flatten([[0, 1], [2, 3]]))
+  print(flatten([[0, 1, [4, 5], 6], [2, 3]]))
+  print(flatten([[0, 1, [4, 5], 6], [[0, 1], 2, 3]]))
   pass
 
 def flatten(elements):
