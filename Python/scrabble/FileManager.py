@@ -50,7 +50,6 @@ class FileManager(object):
         # Deserialize records from the file, removing newlines
         newlines = input_file.readlines()
         self.records = [line.splitlines()[0] for line in newlines]
-        pass
 
     self.length = len(self.records)
 
