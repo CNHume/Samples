@@ -26,10 +26,10 @@ class Command(object):
     self.file_ext = file_ext
 
   @staticmethod
-  def arg_msg(s, name="argument"):
-    msg = "Invalid "
+  def arg_msg(s, name='argument'):
+    msg = 'Invalid '
     msg += name
-    msg += ": "
+    msg += ': '
     msg += s
     return msg
 
