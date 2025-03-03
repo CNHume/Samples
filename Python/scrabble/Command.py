@@ -9,7 +9,7 @@
 import sys
 
 class Command(object):
-  """Command Class"""
+  '''Command Class'''
   UTF8 = 'utf-8'
   VERSION = 1.0
 
@@ -34,7 +34,7 @@ class Command(object):
     return msg
 
   def Parse(self, argv):
-    """Command Line Parser"""
+    '''Command Line Parser'''
     argc = len(argv)
     usage = False
     n = 0

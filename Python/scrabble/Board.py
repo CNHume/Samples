@@ -12,7 +12,7 @@ import string
 from Tile import Tile
 
 class Board(object):
-  """Scrabble Board"""
+  '''Scrabble Board'''
   BONUS_L2 = 'L2'
   BONUS_L3 = 'L3'
   BONUS_W2 = 'W2'

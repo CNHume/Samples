@@ -10,7 +10,7 @@ import string
 import random
 
 class Tile(object):
-  """Scrabble Tiles"""
+  '''Scrabble Tiles'''
   ALPHA = ord('A')
   ASTERISK = '*'
   COMMA = ','

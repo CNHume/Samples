@@ -14,7 +14,7 @@ from Board import Board
 from Tile import Tile
 
 class Player(object):
-  """Scrabble Player"""
+  '''Scrabble Player'''
   COMMA = ','
   EMPTY = ''
   EQUAL = '='
@@ -349,7 +349,7 @@ class Player(object):
 
   @staticmethod
   def anagram(letters, subset=False):
-    """Return every permutation of letters"""
+    '''Return every permutation of letters'''
     words = [Player.EMPTY] if subset else []
     length = len(letters)
     if length < 1:
@@ -370,7 +370,7 @@ class Player(object):
   
   @staticmethod
   def findFirst(predicate, lines, filename=None):
-    """Find first line satisfying predicate"""
+    '''Find first line satisfying predicate'''
     try:
       # Python generator
       found = (index for index, element in enumerate(lines) if predicate(element))

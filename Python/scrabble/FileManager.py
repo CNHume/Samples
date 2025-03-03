@@ -15,7 +15,7 @@ import string
 from Command import Command
 
 class FileManager(object):
-  """FileManager Class"""
+  '''FileManager Class'''
   DOT = '.'
   NEWLINE = '\n'
 
@@ -34,7 +34,7 @@ class FileManager(object):
     return filename
 
   def load(self, file_name):
-    """Load records from the file indicated by file_path and file_ext"""
+    '''Load records from the file indicated by file_path and file_ext'''
     filename = self.expand_filename(file_name)
     # Mark load start time
     load_dt0 = datetime.now()
@@ -70,7 +70,7 @@ class FileManager(object):
         print('Loaded {0} records'.format(self.length))
         
   def save(self, file_name, records):
-    """Save records into the file indicated by file_path and file_ext"""
+    '''Save records into the file indicated by file_path and file_ext'''
     self.records = records
     self.length = len(self.records)
 
