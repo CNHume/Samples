@@ -48,7 +48,7 @@ class FileManager(object):
         newlines = input_file.readlines()
         self.records = [line.splitlines()[0] for line in newlines]
 
-    self.length = len(self.records)
+    self.length = len(self.records) if self.records else 0
 
     elapsed_t1 = time.time()
     elapsed_time = elapsed_t1 - elapsed_t0
@@ -68,7 +68,7 @@ class FileManager(object):
   def save(self, file_name, records):
     '''Save records into the file indicated by file_path and file_ext'''
     self.records = records
-    self.length = len(self.records)
+    self.length = len(self.records) if self.records else 0
 
     filename = self.expand_filename(file_name)
     # Mark save start time
