@@ -10,9 +10,6 @@ import os
 import errno
 from datetime import datetime
 import time
-import string
-
-from Command import Command
 
 class FileManager(object):
   '''FileManager Class'''
