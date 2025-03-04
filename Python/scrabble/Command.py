@@ -10,7 +10,6 @@ import sys
 
 class Command(object):
   '''Command Class'''
-  UTF8 = 'utf-8'
   VERSION = 1.0
 
   def __init__(self, bonus_file, tiles_file, words_file, file_ext, players, size):
@@ -65,10 +64,10 @@ class Command(object):
             self.verbose = True
         elif token[1] == 'b':           # the bonus_file switch
           if token_len > 2:             # whitespace optional
-            self.bonus_file = token[2:].decode(Command.UTF8)
+            self.bonus_file = token[2:]
           elif n < argc:                # whitespace allowed
             n += 1
-            self.bonus_file = argv[n].decode(Command.UTF8)
+            self.bonus_file = argv[n]
         elif token[1] == 'p':           # the players switch
           if token_len > 2:             # whitespace optional
             players = token[2:]
@@ -87,16 +86,16 @@ class Command(object):
             self.size_y = self.size_x
         elif token[1] == 't':           # the tiles_file switch
           if token_len > 2:             # whitespace optional
-            self.tiles_file = token[2:].decode(Command.UTF8)
+            self.tiles_file = token[2:]
           elif n < argc:                # whitespace allowed
             n += 1
-            self.tiles_file = argv[n].decode(Command.UTF8)
+            self.tiles_file = argv[n]
         elif token[1] == 'w':           # the words_file switch
           if token_len > 2:             # whitespace optional
-            self.words_file = token[2:].decode(Command.UTF8)
+            self.words_file = token[2:]
           elif n < argc:                # whitespace allowed
             n += 1
-            self.words_file = argv[n].decode(Command.UTF8)
+            self.words_file = argv[n]
         elif token[1] == 'x':           # the file_ext switch
           if token_len > 2:             # whitespace optional
             self.file_ext = token[2:]
@@ -116,7 +115,7 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print('Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'\
+      print('Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'
         .format(script_name))
 
     return not usage

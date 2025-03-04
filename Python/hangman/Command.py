@@ -10,7 +10,6 @@ import sys
 
 class Command(object):
   '''Command Class'''
-  UTF8 = 'utf-8'
   VERSION = 1.0
 
   def __init__(self, word_file, art_file, file_ext, trials):
@@ -68,11 +67,11 @@ class Command(object):
       n += 1
 
     if n < argc:                        # parse word_file to be searched
-      self.word_file = argv[n].decode(Command.UTF8)
+      self.word_file = argv[n]
       n += 1
 
     if n < argc:                        # parse art_path
-      self.art_file = argv[n].decode(Command.UTF8)
+      self.art_file = argv[n]
       n += 1                            # art_path is optional
 
     if n < argc:                        # superfluous argument specified
@@ -82,7 +81,7 @@ class Command(object):
       self.Log()
 
     if usage:                           # throw usage line if parse failed
-      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'\
+      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'
         .format(script_name))
 
     return not usage
