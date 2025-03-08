@@ -8,16 +8,18 @@
 #
 import sys
 
+
 class Command(object):
   '''Command Class'''
   VERSION = 1.0
 
-  def __init__(self, word_file, art_file, file_ext, trials):
+  def __init__(self, word_file, art_file, file_ext, trials, verbose=False):
     self.trials = trials
-    self.verbose = False                # -v emit debugging information
     self.art_file = art_file
     self.word_file = word_file
     self.file_ext = file_ext
+    # verbose emits debugging output
+    self.verbose = verbose
 
   @staticmethod
   def arg_msg(s, name='argument'):
@@ -34,55 +36,72 @@ class Command(object):
     n = 0
     script_name = argv[n]
     n += 1
-    while n < argc and not usage:       # parse any switches
+    # parse any switches
+    while n < argc and not usage:
       token = argv[n]
       token_len = len(token)
       if token_len < 1 or token[0] != '-':
-        break                           # end of switches
+        # end of switches
+        break
       elif token_len < 2:
+        # switch character missing
         usage = True
-      else:                             # parse single character switch
-        if token[1] == 't':             # the trials switch
-          if token_len > 2:             # whitespace optional
+      else:
+        # parse single character switch
+        if token[1] == 't':
+          # the trials switch
+          if token_len > 2:
+            # whitespace optional
             trials = token[2:]
-          elif n < argc:                # whitespace allowed
+          elif n < argc:
+            # whitespace allowed
             n += 1
             trials = argv[n]
           self.trials = int(trials)
-        elif token[1] == 'v':           # the verbose switch
-          if token_len > 2:             # superfluous value specified
+        elif token[1] == 'v':
+          # the verbose switch
+          if token_len > 2:
+            # superfluous value specified
             usage = True
           else:
             self.verbose = True
-        elif token[1] == 'x':           # the file_ext switch
-          if token_len > 2:             # whitespace optional
+        elif token[1] == 'x':
+          # the file_ext switch
+          if token_len > 2:
+            # whitespace optional
             self.file_ext = token[2:]
-          elif n < argc:                # whitespace allowed
+          elif n < argc:
+            # whitespace allowed
             n += 1
             self.file_ext = argv[n]
-        elif token[1] == '?':           # the help switch
+        elif token[1] == '?':
+          # the help switch
           usage = True
-        else:                           # switch unknown
+        else:
+          # unknown switch
           usage = True
       n += 1
 
-    if n < argc:                        # parse word_file to be searched
+    if n < argc:
+      # parse word_file
       self.word_file = argv[n]
+      # word_file is optional
       n += 1
 
-    if n < argc:                        # parse art_path
+    if n < argc:
+      # parse art_path
       self.art_file = argv[n]
-      n += 1                            # art_path is optional
-
-    if n < argc:                        # superfluous argument specified
+      # art_path is optional
+      n += 1
+    if n < argc:
+      # superfluous argument specified
       usage = True
 
     if self.verbose:
       self.Log()
 
-    if usage:                           # throw usage line if parse failed
-      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'
-        .format(script_name))
+    if usage:
+      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'.format(script_name))
 
     return not usage
 

@@ -11,6 +11,7 @@ import errno
 from datetime import datetime
 import time
 
+
 class FileManager(object):
   '''FileManager Class'''
   DOT = '.'
@@ -64,7 +65,7 @@ class FileManager(object):
         print('Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
       else:
         print('Loaded {0} records'.format(self.length))
-        
+
   def save(self, file_name, records):
     '''Save records into the file indicated by file_path and file_ext'''
     self.records = records
@@ -115,13 +116,14 @@ class FileManager(object):
     for record in records:
       if record:
         sublist.append(record)
-      elif sublist:                     # Paragraphs must have one non-blank line
+      elif sublist:
+        # Paragraphs must have one non-blank line
         result.append(sublist)
         sublist = []
     if sublist:
       result.append(sublist)
     return result
-  
+
   @staticmethod
   def isfile(filename):
     return os.path.isfile(filename)
@@ -138,6 +140,6 @@ class FileManager(object):
 
   @staticmethod
   def filestem(filename):
-    basename = os.path.basename(filename) 
+    basename = os.path.basename(filename)
     root, ext = os.path.splitext(basename)
     return root

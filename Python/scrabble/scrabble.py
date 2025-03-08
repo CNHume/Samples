@@ -24,7 +24,7 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  SETUP_PATH = ''
+  SETUP_PATH = 'Game Files'
   BONUS_FILE = 'bonus'
   TILES_FILE = 'tiles'
   WORDS_FILE = 'scrabbleWords'
@@ -77,7 +77,7 @@ def main():
     print(trace)
 
   #[Debug]
-  input('Press Enter')
+  # input('Press Enter')
 
 if __name__ == '__main__':
   main()

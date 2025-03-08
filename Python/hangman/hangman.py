@@ -59,7 +59,7 @@ def main():
     print(trace)
 
   #[Debug]
-  input('Press Enter')
+  # input('Press Enter')
 
 if __name__ == '__main__':
   main()
