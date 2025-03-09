@@ -25,7 +25,7 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  SETUP_PATH = ''
+  SETUP_PATH = 'Game Data'
   ART_FILE = 'art'                     # Hangman ASCII Art
   WORD_FILE = 'hangmanWords'           # Word File (Hangman Dictionary)
   FILE_EXT = 'txt'                     # Word File Extension

@@ -24,7 +24,7 @@ from FileManager import FileManager
 
 def main():
   # Command Line Defaults:
-  SETUP_PATH = 'Game Files'
+  SETUP_PATH = 'Game Data'
   BONUS_FILE = 'bonus'
   TILES_FILE = 'tiles'
   WORDS_FILE = 'scrabbleWords'
