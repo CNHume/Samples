@@ -2,8 +2,8 @@
 # 2018-03-21  CNHume  Created File
 
 import sys
-import IterativeSearch
-import RecursiveSearch
+import iterative_search
+import recursive_search
 
 
 def main():
@@ -33,11 +33,11 @@ def main():
     join = delimiter.join(str(n) for n in test)
     print('test[{0}]: {1}'.format(index, join))
 
-    # glb = RecursiveSearch.glb(test, value)
-    # lub = RecursiveSearch.lub(test, value)
+    # glb = recursive_search.glb(test, value)
+    # lub = recursive_search.lub(test, value)
 
-    glb = IterativeSearch.glb(test, value)
-    lub = IterativeSearch.lub(test, value)
+    glb = iterative_search.glb(test, value)
+    lub = iterative_search.lub(test, value)
 
     print('glb = {0}'.format(glb))
     print('lub = {0}'.format(lub))

@@ -8,7 +8,7 @@ import math
 from fractions import Fraction
 from decimal import *
 
-from ContinuedFraction import ContinuedFraction
+from continued_fraction import *
 
 
 def main():
@@ -21,8 +21,10 @@ def main():
     #cf = ContinuedFraction.from_float(phi)
 
     #fraction = Fraction.from_float(3.14159)
-    #fraction = Fraction('3.14159')
-    #cf = ContinuedFraction(fraction)
+    # fraction = Fraction('3.14159')
+    # cf = ContinuedFraction(fraction)
+    # terms = cf.continued()
+    # fraction = discontinued(terms)
 
     if len(inputs) > 0:
       #pi = '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679'

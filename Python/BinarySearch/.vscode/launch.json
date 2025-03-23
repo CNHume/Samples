@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: BinarySearchTest",
+      "name": "Python: binary_search_test",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/BinarySearchTest.py",
+      "program": "${workspaceFolder}/binary_search_test.py",
       "args": ["2"],
       "console": "integratedTerminal"
     }
