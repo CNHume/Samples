@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-"""Continued Fraction Tests"""
-
+# (C) Copyright 2018, Christopher N. Hume.  All rights reserved.
+#
+# You should have received a copy of the MIT License along with this program.
+# If not, see https://opensource.org/licenses/MIT.
 import sys
 import math
 from fractions import Fraction
@@ -8,7 +10,9 @@ from decimal import *
 
 from ContinuedFraction import ContinuedFraction
 
+
 def main():
+  """Continued Fraction Tests"""
   if len(sys.argv) > 0:
     inputs = sys.argv
     verb = inputs.pop(0)
@@ -27,9 +31,10 @@ def main():
       cf = ContinuedFraction.from_string(input)
       cf.tolerance = 1e-14
       cf.dump()
-    
+
       ratio = cf.coerce_ratio()
       print('ratio: {}'.format(ratio))
+
 
 if __name__ == '__main__':
   main()
