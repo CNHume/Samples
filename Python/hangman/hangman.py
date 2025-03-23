@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -23,13 +22,14 @@ from Command import Command
 from Player import Player
 from FileManager import FileManager
 
+
 def main():
   # Command Line Defaults:
   SETUP_PATH = 'Game Data'
-  ART_FILE = 'art'                     # Hangman ASCII Art
-  WORD_FILE = 'hangmanWords'           # Word File (Hangman Dictionary)
-  FILE_EXT = 'txt'                     # Word File Extension
-  TRIALS = 6                            # Head, Body, 2 Arms, 2 Legs
+  ART_FILE = 'art'    # Hangman ASCII Art
+  WORD_FILE = 'hangmanWords'    # Word File (Hangman Dictionary)
+  FILE_EXT = 'txt'    # Word File Extension
+  TRIALS = 6    # Head, Body, 2 Arms, 2 Legs
 
   try:
     command = Command(WORD_FILE, ART_FILE, FILE_EXT, TRIALS)
@@ -41,7 +41,7 @@ def main():
 
       wordManager = FileManager(SETUP_PATH, command.file_ext, verbose)
       wordManager.load(command.word_file)
-  
+
       if wordManager.length > 0:
         choice = random.randrange(0, wordManager.length)
         word = wordManager.records[choice]
@@ -60,6 +60,7 @@ def main():
 
   #[Debug]
   # input('Press Enter')
+
 
 if __name__ == '__main__':
   main()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -13,8 +12,9 @@ import re
 from Board import Board
 from Tile import Tile
 
+
 class Player(object):
-  '''Scrabble Player'''
+  """Scrabble Player"""
   COMMA = ','
   EMPTY = ''
   EQUAL = '='
@@ -57,7 +57,7 @@ class Player(object):
     #cases = ['a', 'ab', 'abc', 'abcd', 'abcde', 'abcdef', 'abcdefg', 'abcdefgh', 'abcdefghi']
     cases = ['', 'aa', 'aab', 'aabc', 'aabcd']
     for case in cases:
-      words = Player.anagram(case, True)
+      words = anagram(case, True)
       print(Board.KVP.format(len(case), len(words)))
       print(Player.COMMA.join(words))
       pass
@@ -74,13 +74,13 @@ class Player(object):
       player_turn = self.turn // self.players
       self.showRack(turn_player)
       prompt = 'Player {}, Turn {}: '.format(turn_player + 1, player_turn + 1)
-      command = Player.prompt(prompt)
+      command = input(prompt)
       loop = self.dispatch(command)
 
     for player in range(self.players):
       self.debitRackValue(player)
 
-    Player.showScores(self.scores)
+    showScores(self.scores)
 
   def help(self):
     print('board')
@@ -126,10 +126,9 @@ class Player(object):
       return True
     elif verb == 'pass':
       if self.first_pass_turn_player == turn_player:
-        print('All Players passed; and Player {} has passed twice.'
-              .format(turn_player + 1))
+        print('All Players passed; and Player {} has passed twice.'.format(turn_player + 1))
         return False
-      
+
       if self.first_pass_turn_player is None:
         self.first_pass_turn_player = turn_player
 
@@ -151,35 +150,32 @@ class Player(object):
         self.last_score_turn = self.turn
 
         if len(rack) == 0:
-          print('Player {}, Rack Empty and Bag Empty.'
-                .format(turn_player + 1))
+          print('Player {}, Rack Empty and Bag Empty.'.format(turn_player + 1))
           return False
 
         self.turn += 1
         # Test for Scoreless Turn below
       pass
     elif verb == 'score':
-      Player.showScores(self.scores)
+      showScores(self.scores)
       return True
     else:
       print('{} is not a valid command.'.format(token))
       return True
 
     if self.last_score_turn + Player.SCORELESS_TURN_MAX <= self.turn:
-      print('The limit of {} Scoreless Turns has been reached.'
-            .format(Player.SCORELESS_TURN_MAX))
+      print('The limit of {} Scoreless Turns has been reached.'.format(Player.SCORELESS_TURN_MAX))
       return False
 
     return True
-  
+
   def placeTiles(self, placements, word):
     letters = [letter for square, letter in placements]
- 
+
     turn_player = self.turn % self.players
     rack = self.racks[turn_player]
     if not Tile.hasLetters(rack, letters):
-      print('Player {}, Rack: {} missing some of the letters: {}'
-            .format(turn_player + 1, Tile.spaced(rack), Tile.spaced(letters)))
+      print('Player {}, Rack: {} missing some of the letters: {}'.format(turn_player + 1, Tile.spaced(rack), Tile.spaced(letters)))
       if not self.testing:
         return False
 
@@ -220,8 +216,7 @@ class Player(object):
           return empty
     elif not self.board.contact(placements):
       letters = [letter for square, letter in placements]
-      print('The letters: {} are not in contact with an existing word'
-            .format(Tile.spaced(letters)))
+      print('The letters: {} are not in contact with an existing word'.format(Tile.spaced(letters)))
       if not self.testing:
         return empty
 
@@ -230,8 +225,7 @@ class Player(object):
     word = self.board.tiled(placements, horizontal)
     if not word:
       squareNames = [Board.squareName(square) for square, letter in placements]
-      print('Illegal Tile Placement: {}'
-            .format(Tile.spaced(squareNames)))
+      print('Illegal Tile Placement: {}'.format(Tile.spaced(squareNames)))
 
     return word
 
@@ -283,7 +277,7 @@ class Player(object):
   def validWord(self, word, reverse):
     if not self.dictionary or word.lower() in self.dictionary:
       return word
- 
+
     if reverse:
       rword = word[::-1]
       if rword.lower() in self.dictionary:
@@ -297,12 +291,11 @@ class Player(object):
     alphas = [letter for letter in letters if letter.isalpha()]
     length = len(alphas)
     if length > Player.PERMUTE_LEN_MAX:
-      print('Length of {} exceeds Maximum of {}'
-            .format(length, Player.PERMUTE_LEN_MAX))
+      print('Length of {} exceeds Maximum of {}'.format(length, Player.PERMUTE_LEN_MAX))
       if not self.testing:
         return
 
-    permutations = Player.anagram(Player.EMPTY.join(alphas), True)
+    permutations = anagram(Player.EMPTY.join(alphas), True)
     words = [word for word in permutations if word.lower() in self.dictionary] if self.dictionary else permutations
 
     for index, word in enumerate(sorted(words)):
@@ -333,50 +326,42 @@ class Player(object):
     print('Player {}, Rack: {}'.format(turn_player + 1, Tile.spaced(rack)))
 
   def debitRackValue(self, player):
-      rack = self.racks[player]
-      debit = self.board.tiles.rackValue(rack)
-      print('Player {}, Debit: {}'.format(player + 1, debit))
-      self.scores[player] -= debit
+    rack = self.racks[player]
+    debit = self.board.tiles.rackValue(rack)
+    print('Player {}, Debit: {}'.format(player + 1, debit))
+    self.scores[player] -= debit
 
-  @staticmethod
-  def showScores(scores):
-    for player, score in sorted(enumerate(scores), key=itemgetter(1, 0), reverse=True):
-      print('Player {}, Score: {}'.format(player + 1, score))
+def showScores(scores):
+  for player, score in sorted(enumerate(scores), key=itemgetter(1, 0), reverse=True):
+    print('Player {}, Score: {}'.format(player + 1, score))
 
-  @staticmethod
-  def prompt(prompt):
-    return input(prompt)
+def anagram(letters, subset=False):
+  """Return every permutation of letters"""
+  words = [Player.EMPTY] if subset else []
+  length = len(letters)
+  if length < 1:
+    pass
+  elif length < 2:
+    words.append(letters[0])
+  else:
+    chosen = set()
+    for choice in range(length):
+      letter = letters[choice]
+      if letter not in chosen:
+        chosen.add(letter)
+        unused = letters[:choice] + letters[choice + 1:]
+        suffixes = anagram(unused, subset)
+        for suffix in suffixes:
+          words.append(letter + suffix)
+  return words
 
-  @staticmethod
-  def anagram(letters, subset=False):
-    '''Return every permutation of letters'''
-    words = [Player.EMPTY] if subset else []
-    length = len(letters)
-    if length < 1:
-      pass
-    elif length < 2:
-      words.append(letters[0])
-    else:
-      chosen = set()
-      for choice in range(length):
-        letter = letters[choice]
-        if letter not in chosen:
-          chosen.add(letter)
-          unused = letters[:choice] + letters[choice + 1:]
-          suffixes = Player.anagram(unused, subset)
-          for suffix in suffixes:
-            words.append(letter + suffix)
-    return words
-  
-  @staticmethod
-  def findFirst(predicate, lines, filename=None):
-    '''Find first line satisfying predicate'''
-    try:
-      # Python generator
-      found = (index for index, element in enumerate(lines) if predicate(element))
-      found_index = next(found)
-    except StopIteration:
-      print('Only blank lines found in {0}'.format(filename))
-      found_index = None
-
-    return found_index
+def findFirst(predicate, lines, filename=None):
+  """Find first line satisfying predicate"""
+  try:
+    # Python generator
+    found = (index for index, element in enumerate(lines) if predicate(element))
+    found_index = next(found)
+  except StopIteration:
+    print('Only blank lines found in {0}'.format(filename))
+    found_index = None
+  return found_index

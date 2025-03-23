@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -11,8 +10,9 @@ import string
 
 from Tile import Tile
 
+
 class Board(object):
-  '''Scrabble Board'''
+  """Scrabble Board"""
   BONUS_L2 = 'L2'
   BONUS_L3 = 'L3'
   BONUS_W2 = 'W2'
@@ -105,7 +105,7 @@ class Board(object):
     if not square:
       print('{} is not a valid square name'.format(squareName))
     return square
-  
+
   def parseSquare1(self, squareName):
     sq = squareName.lower()
 
@@ -315,7 +315,7 @@ class Board(object):
       if self.above2(x, y) or self.below2(x, y) or self.left2(x, y) or self.right2(x, y):
         return True
     return False
-  
+
   def horizontal(self, placements):
     if not placements:
       return False
@@ -326,34 +326,6 @@ class Board(object):
       return y0 == y1
 
     return self.contact_left2(x0, y0) or self.contact_right2(x0, y0)
-    
-  @staticmethod
-  def linear(placements, horizontal):
-    if len(placements) > 1:
-      (x, y), letter = placements[0]
-      if horizontal:
-        for placement in placements[1:]:
-          (next_x, next_y), next_letter = placement
-          if next_y != y:
-            return False
-      else:
-        for placement in placements[1:]:
-          (next_x, next_y), next_letter = placement
-          if next_x != x:
-            return False
-    return True
-    
-  @staticmethod
-  def duplicate(sortedPlacements):
-    if len(sortedPlacements) > 1:
-      prev, prev_letter = sortedPlacements[0]
-      for placement in sortedPlacements[1:]:
-        (next, next_letter) = placement
-        #[Assume]Placements are sorted to detect duplicates:
-        if next == prev:
-          return True
-        prev = next
-    return False
 
   def tiled(self, placements, horizontal):
     empty = Board.EMPTY
@@ -377,7 +349,7 @@ class Board(object):
     prev_x, prev_y = first
     if horizontal:
       for (next_x, next_y), next_letter in sortedPlacements:
-        while(prev_x < next_x):
+        while (prev_x < next_x):
           found = self.get2(prev_x, prev_y)
           if found == Board.BLANK:
             return empty
@@ -391,7 +363,7 @@ class Board(object):
         prev_x += 1
     else:
       for (next_x, next_y), next_letter in sortedPlacements:
-        while(prev_y < next_y):
+        while (prev_y < next_y):
           found = self.get2(prev_x, prev_y)
           if found == Board.BLANK:
             return empty
@@ -436,3 +408,31 @@ class Board(object):
   def fillRacks(self, racks):
     for rack in racks:
       self.tiles.fill(rack)
+
+
+def linear(placements, horizontal):
+  if len(placements) > 1:
+    (x, y), letter = placements[0]
+    if horizontal:
+      for placement in placements[1:]:
+        (next_x, next_y), next_letter = placement
+        if next_y != y:
+          return False
+    else:
+      for placement in placements[1:]:
+        (next_x, next_y), next_letter = placement
+        if next_x != x:
+          return False
+  return True
+
+
+def duplicate(sortedPlacements):
+  if len(sortedPlacements) > 1:
+    prev, prev_letter = sortedPlacements[0]
+    for placement in sortedPlacements[1:]:
+      (next, next_letter) = placement
+      #[Assume]Placements are sorted to detect duplicates:
+      if next == prev:
+        return True
+      prev = next
+  return False

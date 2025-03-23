@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # (C) Copyright 2019, Christopher N. Hume.  All rights reserved.
 # 2019-01-21  CNHume  Created TableSizeCounter module
 
 class TableSizeCounter:
-    '''
+    """
     Maintain a dictionary of counts for tables of a given size.
-    '''
+    """
     # size_count_pairs is a list of tuples which consist of a size (or seat count) and a count of tables of that size.
     def __init__(self, size_count_pairs):
         # Python allows dict(size_count_pairs) here; but we want to add, rather than replace, tables of the same size:

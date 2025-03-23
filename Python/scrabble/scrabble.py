@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -22,13 +21,15 @@ from Player import Player
 from Tile import Tile
 from FileManager import FileManager
 
+
 def main():
   # Command Line Defaults:
   SETUP_PATH = 'Game Data'
   BONUS_FILE = 'bonus'
   TILES_FILE = 'tiles'
   WORDS_FILE = 'scrabbleWords'
-  FILE_EXT = 'txt'                     # Default File Extension
+  # Default File Extension
+  FILE_EXT = 'txt'
   PLAYERS = 2
   BOARD_SIZE = 15
 
@@ -61,12 +62,10 @@ def main():
       player = Player(command.players, wordManager.records, board, command.reverse, command.debug)
       #player.Test()
 
-      testCommands = ['play g8=c,h8=a,i8=t',
-        'play k8=t,l8=o,m8=n,n8=i,o8=c',
-        'play k9=u,k10=f,k11=f',
-        'play i9=o,j9=v,l9=m',
-        'play j8=a,j10=o,j11=i,j12=d',
-        'board']
+      testCommands = [
+          'play g8=c,h8=a,i8=t', 'play k8=t,l8=o,m8=n,n8=i,o8=c', 'play k9=u,k10=f,k11=f', 'play i9=o,j9=v,l9=m',
+          'play j8=a,j10=o,j11=i,j12=d', 'board'
+      ]
       #player.perform(testCommands)
 
       turn_player = player.start()
@@ -78,6 +77,7 @@ def main():
 
   #[Debug]
   # input('Press Enter')
+
 
 if __name__ == '__main__':
   main()

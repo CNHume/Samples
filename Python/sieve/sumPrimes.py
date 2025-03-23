@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2015-05-04  CNHume  Created File
 import sys
 from Sieve import Sieve
-from Polynomial import Poly
-from Perform import Perform
-# from Numeric import Numeric
-# from decimal import *
+import Polynomial
+import Numeric
+from decimal import Decimal
 
 def main():
   # q = Decimal(0.065536)
@@ -20,11 +18,11 @@ def main():
   n = 999983
   n = 113
 
-  # results = Poly.pascalTest(n)
+  # results = Polynomial.pascalTest(n)
   # print(results)
   # return
 
-  # isPrime = Poly.isPrimeTest(n)
+  # isPrime = Polynomial.isPrimeTest(n)
   # print('isPrime({}) = {}'.format(n, isPrime))
   # return
 
@@ -33,13 +31,12 @@ def main():
     if limit <= 0:
       raise ValueError('limit must be positive')
 
-    # sieve = Sieve()
+    sieve = Sieve()
 
     if len(sys.argv) > 2:
       last = int(sys.argv[2])
       if last < 0:
         raise ValueError('limit must not be negative')
-      sieve = Sieve()
       primes10 = sieve.testLast(limit, last)
     return
 

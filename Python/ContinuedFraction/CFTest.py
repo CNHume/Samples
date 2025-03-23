@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-'''Continued Fraction Tests'''
+"""Continued Fraction Tests"""
 
 import sys
 import math

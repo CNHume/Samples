@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-10  CNHume  Completed test() method
 # 2015-05-04  CNHume  Created Prime Number Generator
-from Perform import Perform
+import Perform
 
 class Sieve:
-  '''Sieve of Eratosthenes'''
+  """Sieve of Eratosthenes"""
   # Three versions of the Sieve of Eratosthenes (SoE) are implemented:
   # primesEvery() - generates every Prime in succession
   # primesFirst(n) - returns the first n Primes
@@ -23,7 +22,7 @@ class Sieve:
     self.lastLimit = 1
 
   def nextSquare(self):
-    '''Advance to next square'''
+    """Advance to next square"""
     self.oddIndex += 1
     self.odd += 2
     self.delta += 4
@@ -35,12 +34,12 @@ class Sieve:
       print('square = {}'.format(self.square))
 
   def sift(self, lastLimit, nextLimit, p):
-    '''Sift multiples of p'''
+    """Sift multiples of p"""
     for index in range(lastLimit // 2, nextLimit // 2, p):
       self.sieveIndexes.add(index)
   
   def leastOddMuliple(self, limit, p):
-    '''Least odd multiple of p greater than or equal to limit'''
+    """Least odd multiple of p greater than or equal to limit"""
     # Skip even multiples of p
     m, square = p + p, p * p
     # The next multiple is congruent delta mod m
@@ -50,7 +49,7 @@ class Sieve:
 
   # Incremental variation on extend() used by primesEvery()
   def extendNext(self, limit):
-    '''Extend Sieve of Composites using sievePrimes'''
+    """Extend Sieve of Composites using sievePrimes"""
     if self.lastLimit < limit:
       for p in self.sievePrimes:
         lub = self.leastOddMuliple(self.lastLimit, p)
@@ -58,7 +57,7 @@ class Sieve:
       self.lastLimit = limit
 
   def extend(self, limit):
-    '''Extend Sieve of Composites using siftedPrimes, while p < odd'''
+    """Extend Sieve of Composites using siftedPrimes, while p < odd"""
     if self.lastLimit < limit:
       for p in self.siftedPrimes:
         if p > 2:
@@ -70,20 +69,20 @@ class Sieve:
 
   # Incremental variation on expand() used by primesEvery()
   def expandNext(self, limit):
-    '''Test whether odd is prime and sift, appending sievePrimes'''
+    """Test whether odd is prime and sift, appending sievePrimes"""
     if self.oddIndex not in self.sieveIndexes:
       self.sift(self.square, limit, self.odd)
       self.sievePrimes.append(self.odd)
 
   def expand(self, limit):
-    '''Test whether odd is prime and sift, while square < limit'''
+    """Test whether odd is prime and sift, while square < limit"""
     while self.square < limit:
       if self.oddIndex not in self.sieveIndexes and self.odd > 1:
         self.sift(self.square, limit, self.odd)
       self.nextSquare()
 
   def sifted(self, lastLimit, nextLimit):
-    '''Generate sifted Primes'''
+    """Generate sifted Primes"""
     for oddIndex in range(lastLimit // 2, nextLimit // 2):
       if oddIndex not in self.sieveIndexes:
         self.count += 1
@@ -94,7 +93,7 @@ class Sieve:
 
   # Rate can be 2.9 MHz
   def primesLimit(self, limit):
-    '''Return Primes less than limit'''
+    """Return Primes less than limit"""
     # Though the first odd number 1, is not a Prime,
     # it is used to represent the sole even prime 2.
     if limit == 2:
@@ -108,7 +107,7 @@ class Sieve:
 
   # rate can be 280 KHz
   def primesFirst(self, n):
-    '''Return the first n Primes'''
+    """Return the first n Primes"""
     if not self.count < n:
       return self.siftedPrimes[:n]
 
@@ -124,7 +123,7 @@ class Sieve:
 
   # rate can be 252 KHz
   def primesEvery(self, clear=False):
-    '''Generate next Prime'''
+    """Generate next Prime"""
     while True:
       self.nextSquare()
       lastLimit, limit = self.lastLimit, self.square
@@ -136,7 +135,7 @@ class Sieve:
         self.sieveIndexes.clear()
 
   def genPrimes(self, n, clear=False):
-    '''Generate the first n Primes'''
+    """Generate the first n Primes"""
     pg = self.primesEvery(clear)
     while self.count < n:
       yield pg.next()

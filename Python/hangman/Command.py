@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -6,12 +5,19 @@
 #
 # 2018-07-11 CNHume Created Command class
 #
-import sys
+VERSION = 1.0
+
+
+def arg_msg(s, name='argument'):
+  msg = 'Invalid '
+  msg += name
+  msg += ': '
+  msg += s
+  return msg
 
 
 class Command(object):
-  '''Command Class'''
-  VERSION = 1.0
+  """Command Class"""
 
   def __init__(self, word_file, art_file, file_ext, trials, verbose=False):
     self.trials = trials
@@ -21,16 +27,8 @@ class Command(object):
     # verbose emits debugging output
     self.verbose = verbose
 
-  @staticmethod
-  def arg_msg(s, name='argument'):
-    msg = 'Invalid '
-    msg += name
-    msg += ': '
-    msg += s
-    return msg
-
   def Parse(self, argv):
-    '''Command Line Parser'''
+    """Command Line Parser"""
     argc = len(argv)
     usage = False
     n = 0
@@ -98,14 +96,14 @@ class Command(object):
       usage = True
 
     if self.verbose:
-      self.Log()
+      self.show()
 
     if usage:
       print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'.format(script_name))
 
     return not usage
 
-  def Log(self):
+  def show(self):
     print('{0}: {1}'.format('word_file', self.word_file))
     print('{0}: {1}'.format('art_file', self.art_file))
     print('{0}: {1}'.format('file_ext', self.file_ext))

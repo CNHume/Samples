@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-'''Meta Data for the Continued Fraction Class'''
+"""Meta Data for the Continued Fraction Class"""
 
 __version__ = '1.0'
 

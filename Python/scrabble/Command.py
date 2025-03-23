@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -6,12 +5,17 @@
 #
 # 2018-09-09 CNHume Created Command class
 #
-import sys
+VERSION = 1.0
 
+def arg_msg(s, name='argument'):
+  msg = 'Invalid '
+  msg += name
+  msg += ': '
+  msg += s
+  return msg
 
 class Command(object):
-  '''Command Class'''
-  VERSION = 1.0
+  """Command Class"""
 
   def __init__(self, bonus_file, tiles_file, words_file, file_ext, players, size, verbose=False):
     # run in debug mode
@@ -28,16 +32,8 @@ class Command(object):
     self.words_file = words_file
     self.file_ext = file_ext
 
-  @staticmethod
-  def arg_msg(s, name='argument'):
-    msg = 'Invalid '
-    msg += name
-    msg += ': '
-    msg += s
-    return msg
-
   def Parse(self, argv):
-    '''Command Line Parser'''
+    """Command Line Parser"""
     argc = len(argv)
     usage = False
     n = 0
@@ -147,7 +143,7 @@ class Command(object):
       usage = True
 
     if self.verbose:
-      self.Log()
+      self.show()
 
     if usage:
       print('Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'.format(
@@ -155,7 +151,7 @@ class Command(object):
 
     return not usage
 
-  def Log(self):
+  def show(self):
     print('{0}: {1}'.format('debug', self.debug))
     print('{0}: {1}'.format('verbose', self.verbose))
     print('{0}: {1}'.format('reverse', self.reverse))

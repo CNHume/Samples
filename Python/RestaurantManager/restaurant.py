@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # (C) Copyright 2019, Christopher N. Hume.  All rights reserved.
 # 2019-01-21  CNHume  Renamed program to restaurant.  Moved classes into separate modules.
 # 2019-01-07  CNHume  Allocate tables to seat groups of varying size

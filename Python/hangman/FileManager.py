@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -11,11 +10,12 @@ import errno
 from datetime import datetime
 import time
 
+DOT = '.'
+NEWLINE = '\n'
+
 
 class FileManager(object):
-  '''FileManager Class'''
-  DOT = '.'
-  NEWLINE = '\n'
+  """FileManager Class"""
 
   def __init__(self, file_path, file_ext, verbose=False):
     self.file_path = file_path
@@ -28,11 +28,11 @@ class FileManager(object):
     expanded_path = os.path.expanduser(self.file_path)
     full_path = os.path.join(expanded_path, filename)
     root, ext = os.path.splitext(full_path)
-    filename = full_path if ext else FileManager.DOT.join([full_path, self.file_ext])
+    filename = full_path if ext else DOT.join([full_path, self.file_ext])
     return filename
 
   def load(self, file_name):
-    '''Load records from the file indicated by file_path and file_ext'''
+    """Load records from the file indicated by file_path and file_ext"""
     filename = self.expand_filename(file_name)
     # Mark load start time
     load_dt0 = datetime.now()
@@ -43,7 +43,7 @@ class FileManager(object):
     # Mark elapsed start time
     elapsed_t0 = time.time()
 
-    if FileManager.isfile(filename):
+    if isfile(filename):
       with open(filename, 'r') as input_file:
         # Deserialize records from the file, removing newlines
         newlines = input_file.readlines()
@@ -67,7 +67,7 @@ class FileManager(object):
         print('Loaded {0} records'.format(self.length))
 
   def save(self, file_name, records):
-    '''Save records into the file indicated by file_path and file_ext'''
+    """Save records into the file indicated by file_path and file_ext"""
     self.records = records
     self.length = len(self.records) if self.records else 0
 
@@ -83,13 +83,13 @@ class FileManager(object):
     elapsed_t0 = time.time()
 
     if records:
-      FileManager.ensureDirectory(filename)
+      ensureDirectory(filename)
 
       with open(filename, 'w') as output_file:
         # Serialize records to the file
-        line = FileManager.NEWLINE.join(records)
+        line = NEWLINE.join(records)
         output_file.write(line)
-        output_file.write(FileManager.NEWLINE)
+        output_file.write(NEWLINE)
 
     elapsed_t1 = time.time()
     elapsed_time = elapsed_t1 - elapsed_t0
@@ -107,39 +107,39 @@ class FileManager(object):
         print('Saved {0} records'.format(self.length))
 
   def paragraphs(self):
-    return FileManager.splitter(self.records)
+    return splitter(self.records)
 
-  @staticmethod
-  def splitter(records):
-    result = []
-    sublist = []
-    for record in records:
-      if record:
-        sublist.append(record)
-      elif sublist:
-        # Paragraphs must have one non-blank line
-        result.append(sublist)
-        sublist = []
-    if sublist:
+
+def splitter(records):
+  result = []
+  sublist = []
+  for record in records:
+    if record:
+      sublist.append(record)
+    elif sublist:
+      # Paragraphs must have one non-blank line
       result.append(sublist)
-    return result
+      sublist = []
+  if sublist:
+    result.append(sublist)
+  return result
 
-  @staticmethod
-  def isfile(filename):
-    return os.path.isfile(filename)
 
-  @staticmethod
-  def ensureDirectory(filename):
-    if not os.path.exists(os.path.dirname(filename)):
-      try:
-        os.makedirs(os.path.dirname(filename))
-      except OSError as ex:
-        # Guard against race condition
-        if ex.errno != errno.EEXIST:
-          raise
+def isfile(filename):
+  return os.path.isfile(filename)
 
-  @staticmethod
-  def filestem(filename):
-    basename = os.path.basename(filename)
-    root, ext = os.path.splitext(basename)
-    return root
+
+def ensureDirectory(filename):
+  if not os.path.exists(os.path.dirname(filename)):
+    try:
+      os.makedirs(os.path.dirname(filename))
+    except OSError as ex:
+      # Guard against race condition
+      if ex.errno != errno.EEXIST:
+        raise
+
+
+def filestem(filename):
+  basename = os.path.basename(filename)
+  root, ext = os.path.splitext(basename)
+  return root

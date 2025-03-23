@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2018, Christopher Hume.  All rights reserved.
 #
 # You should have received a copy of the MIT License along with this program.
@@ -10,7 +9,7 @@ import string
 import random
 
 class Tile(object):
-  '''Scrabble Tiles'''
+  """Scrabble Tiles"""
   ALPHA = ord('A')
   ASTERISK = '*'
   COMMA = ','
