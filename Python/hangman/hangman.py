@@ -18,9 +18,9 @@ import random
 import sys
 import traceback
 
-from Command import Command
-from Player import Player
-from FileManager import FileManager
+from command import Command
+from player import Player
+from file_manager import FileManager
 
 
 def main():

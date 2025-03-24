@@ -9,8 +9,8 @@ from operator import itemgetter
 import string
 import re
 
-from Board import Board
-from Tile import Tile
+from board import Board
+from tile import Tile
 
 
 class Player(object):

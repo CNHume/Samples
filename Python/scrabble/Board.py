@@ -8,7 +8,7 @@
 from operator import itemgetter
 import string
 
-from Tile import Tile
+from tile import Tile
 
 
 class Board(object):
@@ -329,11 +329,11 @@ class Board(object):
 
   def tiled(self, placements, horizontal):
     empty = Board.EMPTY
-    if not Board.linear(placements, horizontal):
+    if not linear(placements, horizontal):
       return empty
 
     sortedPlacements = sorted(placements, key=lambda placement: (placement[0][1], placement[0][0]))
-    if Board.duplicate(sortedPlacements):
+    if duplicate(sortedPlacements):
       return empty
 
     count = len(sortedPlacements)

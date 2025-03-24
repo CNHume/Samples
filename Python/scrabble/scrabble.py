@@ -15,11 +15,11 @@
 import sys
 import traceback
 
-from Command import Command
-from Board import Board
-from Player import Player
-from Tile import Tile
-from FileManager import FileManager
+from command import Command
+from file_manager import FileManager
+from board import Board
+from player import Player
+from tile import Tile
 
 
 def main():
