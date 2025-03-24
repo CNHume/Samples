@@ -21,7 +21,7 @@ partial class UCI {
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-05-12 Perft2 in 16.546 sec @12.428 MHz over 205.629 Mnode]
   //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-05-12 Perft3 in 21.479 sec @10.188 MHz over 218.84 Mnode]
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-10-26 Perft5 in 10.01 sec @8.732 MHz over 87.752 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-10-26 Perft5 in 10.01 sec @8.732 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -307,7 +307,7 @@ partial class UCI {
   "8/3k4/1Kn2p2/2P1p1p1/4P1Pp/2B2P1P/8/8 b - - 0 50";   // Maxime Vachier-Lagrave v Magnus Carlsen 2024-12-18 Champions Chess Tour Finals (R4)
   // Magnus Carlsen claimed 3-fold repetition after:
   // moves c6d8 b6b5 d8c6 b5a6 d7c7 a6b5 c7d7 b5b6 c6d8 c3e1 d8c6 e1c3
-  // The claim was denied, presumably under rapid rules.
+  // The arbiters incorrectly denied the claim.
   //"k1K5/7p/PB4pP/1P3pP1/5P2/3pP3/p1p5/rbQ5 w - - 0 2"; // Quiescent Mate Test
   //"k1K5/7p/PBN3pP/1P3pP1/4pP2/2p1P3/pp6/r5Q1 w - - 0 1"; // Solve #4 [go mate 4 over 613,162 nodes]
   //"7k/8/5N1P/8/2p5/2N5/8/3K3R w - - 0 1"; // Solve #4 [go mate 4 over 451,773 nodes]
@@ -539,7 +539,6 @@ partial class UCI {
   //
   //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10
   //[2023-04-04 16-ply in 35:57 @1.547 MHz over 3.336 Gnode] to find #11
-  //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10
   //[2023-04-04 17-ply in 4:21:30 @1.47 MHz over 23.071 Gnode]
   // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
   //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen v Urkedal 2013 #9
@@ -562,7 +561,7 @@ partial class UCI {
   //"2r1rnk1/1p4bp/p2pp1p1/q5P1/2PN1P1Q/1P1nB2R/P5BP/5RK1 w - - 0 1"; // Chesney (2435) v Craig Mar (2516), Lera 1989.
   //[14-ply to find 1. f5!]
   //"4n3/6k1/8/4PP1P/5K2/8/8/8 w - - 0 56";   // Hume v Musselman 2009-08-13 Endgame
-  //[2023-08-01 13-ply in 2.469 sec @883.8 KHz over 2.1826 Mnode] eval 9.75 after:
+  //[2025-02-02 13-ply in 2.373 sec @693.26 KHz over 1.6452 Mnode] eval 9.75 after:
   // 56. Kg5 Nc7 57. e6 (57. h6+ Kf7 58. e6+ Kf8 59. Kg6 Nd5 60. f6 Nf4+ 61. Kf5 Ng6 62. Kxg6 Ke8
   // 63. e7 Kd7 64. h7 Kc6 65. h8=Q Kb5 66. Qb8+ Kc5 67. e8=Q Kc4 68. Qe4+ Kc3 69. Qbb4#)
   // 57... Kg8 58. h6 Kh7 59. e7 Ne8 60. f6 Nxf6 61. Kxf6 Kxh6 62. Ke5 Kg5 63. e8=Q

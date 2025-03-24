@@ -33,7 +33,8 @@ public class Parser {
 
   #region Methods
   public static string FormatNavigatorId(decimal id) {
-    var sb = new StringBuilder().AppendId(id);
+    var sb = new StringBuilder()
+      .AppendId(id);
     return sb.ToString();
   }
 
