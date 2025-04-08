@@ -6,7 +6,6 @@
 # 2018-09-09 CNHume Created File
 #
 from operator import itemgetter
-import string
 import re
 
 from board import Board

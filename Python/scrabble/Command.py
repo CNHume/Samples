@@ -7,12 +7,6 @@
 #
 VERSION = 1.0
 
-def arg_msg(s, name='argument'):
-  msg = 'Invalid '
-  msg += name
-  msg += ': '
-  msg += s
-  return msg
 
 class Command(object):
   """Command Class"""
@@ -146,19 +140,26 @@ class Command(object):
       self.show()
 
     if usage:
-      print('Usage: python {0} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]'.format(
-          script_name))
+      print(f'Usage: python {script_name} [-d] [-v] [-r] [-b bonus_file] [-s size] [-t tiles_file] [-w words_file] [-x file_ext]')
 
     return not usage
 
   def show(self):
-    print('{0}: {1}'.format('debug', self.debug))
-    print('{0}: {1}'.format('verbose', self.verbose))
-    print('{0}: {1}'.format('reverse', self.reverse))
-    print('{0}: {1}'.format('bonus_file', self.bonus_file))
-    print('{0}: {1}'.format('tiles_file', self.tiles_file))
-    print('{0}: {1}'.format('words_file', self.words_file))
-    print('{0}: {1}'.format('file_ext', self.file_ext))
-    print('{0}: {1}'.format('players', self.players))
-    print('{0}: {1}'.format('size_x', self.size_x))
-    print('{0}: {1}'.format('size_y', self.size_y))
+    print(f'debug: {self.debug}')
+    print(f'verbose: {self.verbose}')
+    print(f'reverse: {self.reverse}')
+    print(f'bonus_file: {self.bonus_file}')
+    print(f'tiles_file: {self.tiles_file}')
+    print(f'words_file: {self.words_file}')
+    print(f'file_ext: {self.file_ext}')
+    print(f'players: {self.players}')
+    print(f'size_x: {self.size_x}')
+    print(f'size_y: {self.size_y}')
+
+
+def arg_msg(s, name='argument'):
+  msg = 'Invalid '
+  msg += name
+  msg += ': '
+  msg += s
+  return msg

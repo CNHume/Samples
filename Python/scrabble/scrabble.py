@@ -42,11 +42,11 @@ def main():
         print('The # of players must be greater than 0')
         return
 
-      tileManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      tileManager = FileManager(SETUP_PATH, command.file_ext, False, verbose)
       tileManager.load(command.tiles_file)
       tiles = Tile(tileManager.records)
 
-      bonusManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      bonusManager = FileManager(SETUP_PATH, command.file_ext, False, verbose)
       bonusManager.load(command.bonus_file)
 
       #
@@ -57,7 +57,7 @@ def main():
 
       board = Board(command.size_x, command.size_y, bonusManager.records, tiles)
 
-      wordManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      wordManager = FileManager(SETUP_PATH, command.file_ext, False, verbose)
       wordManager.load(command.words_file)
       player = Player(command.players, wordManager.records, board, command.reverse, command.debug)
       #player.Test()

@@ -17,10 +17,12 @@ NEWLINE = '\n'
 class FileManager(object):
   """FileManager Class"""
 
-  def __init__(self, file_path, file_ext, verbose=False):
+  def __init__(self, file_path, file_ext, hasHeader=False, verbose=False):
     self.file_path = file_path
     self.file_ext = file_ext
+    self.hasHeader = hasHeader
     self.verbose = verbose
+    self.header = None
     self.records = None
     self.length = None
 
@@ -37,17 +39,23 @@ class FileManager(object):
     # Mark load start time
     load_dt0 = datetime.now()
     if self.verbose:
-      print('{0} starting load'.format(str(load_dt0)[:-3]))
-      print('{0}: {1}'.format('filename', filename))
+      print(f'{str(load_dt0)[:-3]} starting load')
+      print(f'filename: {filename}')
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
 
     if isfile(filename):
-      with open(filename, 'r') as input_file:
+      with open(filename, 'r', encoding='utf-8') as input_file:
         # Deserialize records from the file, removing newlines
         newlines = input_file.readlines()
-        self.records = [line.splitlines()[0] for line in newlines]
+        records = [line.splitlines()[0] for line in newlines]
+        if self.hasHeader:
+          self.header = records[0]
+          self.records = records[1:]
+        else:
+          self.header = None
+          self.records = records
 
     self.length = len(self.records) if self.records else 0
 
@@ -57,14 +65,14 @@ class FileManager(object):
 
     if self.verbose:
       # Report counts and times
-      print('{0} finished load'.format(str(load_dt1)[:-3]))
-      print('{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      print(f'{str(load_dt1)[:-3]} finished load')
+      print(f'{round(elapsed_time, 3):.3f} sec elapsed')
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print('Loaded {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
+        print(f'Loaded {self.length} records at {round(rate / scale, 3):.3f} KHz')
       else:
-        print('Loaded {0} records'.format(self.length))
+        print(f'Loaded {self.length} records')
 
   def save(self, file_name, records):
     """Save records into the file indicated by file_path and file_ext"""
@@ -76,8 +84,8 @@ class FileManager(object):
     save_dt0 = datetime.now()
 
     if self.verbose:
-      print('{0} starting save'.format(str(save_dt0)[:-3]))
-      print('{0}: {1}'.format('filename', filename))
+      print(f'{str(save_dt0)[:-3]} starting save')
+      print(f'filename: {filename}')
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
@@ -85,7 +93,7 @@ class FileManager(object):
     if records:
       ensureDirectory(filename)
 
-      with open(filename, 'w') as output_file:
+      with open(filename, 'w', encoding='utf-8') as output_file:
         # Serialize records to the file
         line = NEWLINE.join(records)
         output_file.write(line)
@@ -97,14 +105,14 @@ class FileManager(object):
 
     if self.verbose:
       # Report counts and times
-      print('{0} finished save'.format(str(save_dt1)[:-3]))
-      print('{0:.3f} sec elapsed'.format(round(elapsed_time, 3)))
+      print(f'{str(save_dt1)[:-3]} finished save')
+      print(f'{round(elapsed_time, 3):.3f} sec elapsed')
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print('Saved {0} records at {1:.3f} KHz'.format(self.length, round(rate / scale, 3)))
+        print(f'Saved {self.length} records at {round(rate / scale, 3):.3f} KHz')
       else:
-        print('Saved {0} records'.format(self.length))
+        print(f'Saved {self.length} records')
 
   def paragraphs(self):
     return splitter(self.records)

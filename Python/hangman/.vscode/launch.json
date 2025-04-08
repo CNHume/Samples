@@ -6,6 +6,7 @@
       "type": "debugpy",
       "request": "launch",
       "program": "${workspaceFolder}/hangman.py",
+      "args": ["-v"],
       "console": "integratedTerminal"
     }
   ]

@@ -8,14 +8,6 @@
 VERSION = 1.0
 
 
-def arg_msg(s, name='argument'):
-  msg = 'Invalid '
-  msg += name
-  msg += ': '
-  msg += s
-  return msg
-
-
 class Command(object):
   """Command Class"""
 
@@ -99,12 +91,20 @@ class Command(object):
       self.show()
 
     if usage:
-      print('Usage: python {0} [-t trials] [-v] [-x file_ext] [word_file [art_file]]'.format(script_name))
+      print(f'Usage: python {script_name} [-t trials] [-v] [-x file_ext] [word_file [art_file]]')
 
     return not usage
 
   def show(self):
-    print('{0}: {1}'.format('word_file', self.word_file))
-    print('{0}: {1}'.format('art_file', self.art_file))
-    print('{0}: {1}'.format('file_ext', self.file_ext))
-    print('{0}: {1}'.format('verbose', self.verbose))
+    print(f'word_file: {self.word_file}')
+    print(f'art_file: {self.art_file}')
+    print(f'file_ext: {self.file_ext}')
+    print(f'verbose: {self.verbose}')
+
+
+def arg_msg(s, name='argument'):
+  msg = 'Invalid '
+  msg += name
+  msg += ': '
+  msg += s
+  return msg

@@ -35,11 +35,11 @@ def main():
     command = Command(WORD_FILE, ART_FILE, FILE_EXT, TRIALS)
     if command.Parse(sys.argv):
       verbose = command.verbose
-      artManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      artManager = FileManager(SETUP_PATH, command.file_ext, False, verbose)
       artManager.load(command.art_file)
       figures = artManager.paragraphs()
 
-      wordManager = FileManager(SETUP_PATH, command.file_ext, verbose)
+      wordManager = FileManager(SETUP_PATH, command.file_ext, False, verbose)
       wordManager.load(command.word_file)
 
       if wordManager.length > 0:
