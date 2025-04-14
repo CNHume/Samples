@@ -605,7 +605,16 @@ partial class UCI {
   //[2023-03-23 7-ply in 0.831 sec @564 KHz over 468.7 Knode] eval 0.0 after:
   // 37... Kh6 38. Qb5 d1=Q 39. Bxd1 Qxh3+ 40. gxh3 Rh2+ 41. Kxh2 stalemate
   //
-  //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1" // White to Draw
+  //"2B5/8/8/4N2P/8/6K1/p7/5k2 w - - 0 1"; // Race to the Bottom
+  //[2025-04-13 8-ply in 1.421 sec @380.866 KHz over 541.215 Knode] eval: 6.75 after:
+  // 1. Ba6+ Ke1 2. Nf3+ Kd1 3. Nd4 Kc1 4. Bc4 a1=Q 5. Nb3+ Kb1 6. Nxa1 Kxa1
+  //"8/8/4p3/B2p4/3P4/8/pk1K4/8 w - - 0 1"; // Process of Elimination
+  //[2025-04-11 24-ply] eval 3.25 after:
+  // 1. Bc3+ Ka3 2. Kc2 Ka4 3. Kb2 Kb5 4. Kxa2 Ka6 5. Be1 Kb5 6. Kb3 Ka6 7. Kc2 Kb5 8. Kd2 Ka4 9. Ke3 Ka3
+  // 10. Bf2 Ka2 11. Kf4 Ka1 12. Ke5 Kb1 13. Kxe6
+  // moves a5c3 b2b1 c3a1 b1a1 d2c1
+  //
+  //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1"; // White to Draw
   //"8/8/3p4/4p2B/4P3/8/4K1kp/8 w - - 0 1";     // Can White win?
   // 1. Bf3+ Kg1 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1
   // [7... Kg2 8. d8=Q h1=Q 9. Qg5+] 8. d8=Q h1=Q 9. Qd4+ Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2
