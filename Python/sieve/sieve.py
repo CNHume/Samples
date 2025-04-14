@@ -1,7 +1,7 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-08-10  CNHume  Completed test() method
 # 2015-05-04  CNHume  Created Prime Number Generator
-import Perform
+from perform import *
 
 class Sieve:
   """Sieve of Eratosthenes"""
@@ -141,10 +141,10 @@ class Sieve:
       yield pg.next()
   
   def ntest(self, n):
-    return Perform.testList(lambda m: list(self.primesFirst(m)), n)
+    return testList(lambda m: list(self.primesFirst(m)), n)
 
   def test(self, n):
-    return Perform.testList(self.primesLimit, n)
+    return testList(self.primesLimit, n)
 
   def testLast(self, n, m):
-    return Perform.testLast(self.primesLimit, n, m)
+    return testLast(self.primesLimit, n, m)

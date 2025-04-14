@@ -5,7 +5,7 @@
       "name": "Python: sumPrimes",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder}/sumPrimes.py",
+      "program": "${workspaceFolder}/sum_primes.py",
       "console": "integratedTerminal",
       "args": ["1000000", "24"]
     }

@@ -1,7 +1,7 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2019-10-19  CNHume  Created File
 # from fractions import Fraction
-import Perform
+from perform import *
 
 # The following method is based on Omri Barel's answer to "How to efficiently calculate a row in pascal's triangle?"
 # See https://stackoverflow.com/questions/15580291/how-to-efficiently-calculate-a-row-in-pascals-triangle
@@ -30,7 +30,7 @@ def isPrime(n):
   return True
 
 def pascalTest(n):
-  return Perform.testList(lambda m: list(pascal(m)), n)
+  return testList(lambda m: list(pascal(m)), n)
 
 def isPrimeTest(n):
-  return Perform.testFun(isPrime, n)
+  return testFun(isPrime, n)

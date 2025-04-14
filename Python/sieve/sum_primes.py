@@ -1,10 +1,8 @@
 # Copyright (C) 2019, Christopher Hume.  All rights reserved.
 # 2015-05-04  CNHume  Created File
 import sys
-from Sieve import Sieve
-import Polynomial
-import Numeric
-from decimal import Decimal
+import polynomial
+from sieve import Sieve
 
 def main():
   # q = Decimal(0.065536)

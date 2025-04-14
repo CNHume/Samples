@@ -1,6 +1,6 @@
 # README
-
-Code Samples written by Christopher N. Hume, updated 2024-06-12
+### Code Samples by Christopher N. Hume
+### updated 2025-04-13
 
 ## What is this repository for?
 
@@ -26,7 +26,7 @@ There is also a Java folder which contains a Bit-Board based Othello player.
 
 ## How do I get set up?
 
-Most of the Python samples assume a Python 2.7 environment.
+The Python samples assume a Python 3.13 environment.
 
 Some of the C# projects may require C# 12 features provided by Visual Studio 2022, and the .NET
 8.0 Framework.
