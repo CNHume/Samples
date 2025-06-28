@@ -40,22 +40,24 @@ class FileManager(object):
     load_dt0 = datetime.now()
     if self.verbose:
       print(f'{str(load_dt0)[:-3]} starting load')
-      print(f'filename: {filename}')
+      print(f'{filename=}')
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
 
-    if isfile(filename):
-      with open(filename, 'r', encoding='utf-8') as input_file:
-        # Deserialize records from the file, removing newlines
-        newlines = input_file.readlines()
-        records = [line.splitlines()[0] for line in newlines]
-        if self.hasHeader:
-          self.header = records[0]
-          self.records = records[1:]
-        else:
-          self.header = None
-          self.records = records
+    #
+    # Allow FileNotFoundError to be raised
+    #
+    with open(filename, 'r', encoding='utf-8') as input_file:
+      # Deserialize records from the file, removing newlines
+      newlines = input_file.readlines()
+      records = [line.splitlines()[0] for line in newlines]
+      if self.hasHeader:
+        self.header = records[0]
+        self.records = records[1:]
+      else:
+        self.header = None
+        self.records = records
 
     self.length = len(self.records) if self.records else 0
 
@@ -66,11 +68,11 @@ class FileManager(object):
     if self.verbose:
       # Report counts and times
       print(f'{str(load_dt1)[:-3]} finished load')
-      print(f'{round(elapsed_time, 3):.3f} sec elapsed')
+      print(f'{elapsed_time=:.3f} sec')
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print(f'Loaded {self.length} records at {round(rate / scale, 3):.3f} KHz')
+        print(f'Loaded {self.length} records at {rate / scale:.3f} KHz')
       else:
         print(f'Loaded {self.length} records')
 
@@ -85,7 +87,7 @@ class FileManager(object):
 
     if self.verbose:
       print(f'{str(save_dt0)[:-3]} starting save')
-      print(f'filename: {filename}')
+      print(f'{filename=}')
 
     # Mark elapsed start time
     elapsed_t0 = time.time()
@@ -106,11 +108,11 @@ class FileManager(object):
     if self.verbose:
       # Report counts and times
       print(f'{str(save_dt1)[:-3]} finished save')
-      print(f'{round(elapsed_time, 3):.3f} sec elapsed')
+      print(f'{elapsed_time=:.3f} sec')
       if elapsed_time > 0:
         rate = self.length / elapsed_time
         scale = 1e3
-        print(f'Saved {self.length} records at {round(rate / scale, 3):.3f} KHz')
+        print(f'Saved {self.length} records at {rate / scale:.3f} KHz')
       else:
         print(f'Saved {self.length} records')
 
