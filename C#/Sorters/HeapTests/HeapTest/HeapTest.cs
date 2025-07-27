@@ -1,7 +1,6 @@
 ﻿//
 // (C) Copyright 2010-2021, Christopher N. Hume.  All rights reserved.
 //
-
 using Xunit;
 using Xunit.Abstractions;
 
