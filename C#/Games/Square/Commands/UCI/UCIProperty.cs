@@ -304,7 +304,7 @@ partial class UCI {
   // moves d3e4 f5e4 e6e5 g5g4 e5e4 g4g3 e4e1 c1d3 e1f1 g3g2 d1e2 d3f4 e2e1 f4h3 f1h1 g2h1 e1f1
   //"8/8/8/8/8/7n/7p/5K1k b - - 0 9" // Blindfold Study Solution: 50-Move Rule Draw
   //"8/8/8/8/8/7n/7p/5K1k b - - 0 1"; // Blindfold Study Test Position: 50-Move Rule Draw
-  "8/3k4/1Kn2p2/2P1p1p1/4P1Pp/2B2P1P/8/8 b - - 0 50";   // Maxime Vachier-Lagrave v Magnus Carlsen 2024-12-18 Champions Chess Tour Finals (R4)
+  //"8/3k4/1Kn2p2/2P1p1p1/4P1Pp/2B2P1P/8/8 b - - 0 50";   // Maxime Vachier-Lagrave v Magnus Carlsen 2024-12-18 Champions Chess Tour Finals (R4)
   // Magnus Carlsen claimed 3-fold repetition after:
   // moves c6d8 b6b5 d8c6 b5a6 d7c7 a6b5 c7d7 b5b6 c6d8 c3e1 d8c6 e1c3
   // The arbiters incorrectly denied the claim.
@@ -614,7 +614,14 @@ partial class UCI {
   // 10. Bf2 Ka2 11. Kf4 Ka1 12. Ke5 Kb1 13. Kxe6
   // moves a5c3 b2b1 c3a1 b1a1 d2c1
   //
-  //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1"; // White to Draw
+  //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1";  // White to Draw
+  "3k1b2/7K/4PP2/8/8/8/8/8 w - - 0 1";  // White to Zugzwang
+  // 1. Kh8 Ke8 2. Kg8 Bh6 3. e7 Bg5
+  // moves h7h8 d8e8 h8g8 f8h6 e6e7 h6g5
+  //[2025-07-03 19-ply in 11:00.4 @1.236 MHz over 816.036 Mnode] #16 after:
+  // 4. Kg7 Bh4 5. f7+ Kxe7 6. f8=Q+ Ke6 7. Qf7+ Ke5 8. Qh5+ Kd4 9. Qxh4+ Kc3 10. Kf6 Kb2 11. Qf2+ Kb3 12. Ke5 Kc3 13. Kd5 Kd3
+  // 14. Qe1 Kc2 15. Kd4 Kb2 16. Qd1
+  //"4k1K1/4P3/5P2/6b1/8/8/8/8 w - - 0 4";
   //"8/8/3p4/4p2B/4P3/8/4K1kp/8 w - - 0 1";     // Can White win?
   // 1. Bf3+ Kg1 2. Bh1! Kxh1 3. Kf1 d5 4. exd5 e4 5. d6 e3 6. d7 e2+ 7. Kxe2 Kg1
   // [7... Kg2 8. d8=Q h1=Q 9. Qg5+] 8. d8=Q h1=Q 9. Qd4+ Kh2 10. Qh4+ Kg2 11. Qg4+ Kh2 12. Kf2
