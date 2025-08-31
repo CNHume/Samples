@@ -90,6 +90,7 @@ static class Extension {
   #endregion                            // Constants
 
   #region Delegates
+  // Func<StringBuilder, Move, BoardSide[], Boolean, StringBuilder>
   public delegate StringBuilder MoveWriter(
     StringBuilder sb, Move move, BoardSide[] sides, Boolean bChess960);
   #endregion
