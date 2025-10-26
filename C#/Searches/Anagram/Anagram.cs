@@ -31,7 +31,7 @@ public class Anagram {
         foreach (var suffix in suffixes)
           anagrams.Add(letter + suffix);
       else
-        anagrams.Add(letter + Empty);
+        anagrams.Add(letter.ToString());
     }
     return anagrams;
   }
