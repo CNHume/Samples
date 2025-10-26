@@ -592,6 +592,8 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"1k1K4/rr6/8/8/8/8/RR6/1Q6 w - - 0 1";      // #2 [4-ply in 0.044 sec @97.286 KHz over 4,295 nodes]
+  //
   //"7K/7p/k1P5/8/8/8/8/8 b - - 0 1"; // Réti Draw Prelude [11-ply]
   //"7K/8/k1P5/7p/8/8/8/8 w - - 0 1"; // Réti Draw Endgame [10-ply]
   //"8/8/4Q3/5K2/8/8/2p5/k7 w - - 0 1"; // Q v BP draw
@@ -613,6 +615,10 @@ partial class UCI {
   // 1. Bc3+ Ka3 2. Kc2 Ka4 3. Kb2 Kb5 4. Kxa2 Ka6 5. Be1 Kb5 6. Kb3 Ka6 7. Kc2 Kb5 8. Kd2 Ka4 9. Ke3 Ka3
   // 10. Bf2 Ka2 11. Kf4 Ka1 12. Ke5 Kb1 13. Kxe6
   // moves a5c3 b2b1 c3a1 b1a1 d2c1
+  //
+  //"2k5/8/8/7p/8/8/6P1/5K2 w - - 0 1"  // White to Win Endgame
+  //[2025-09-30 26-ply in 40:29:39.205 @1.393 MHz over 203.066 Gnode] eval 7.15 after:
+  // 1. Kf2 h4 2. Kg1 Kc7 3. Kh2 Kd6 4. Kh3 Ke5 5. Kxh4 Kf5 6. Kh5 Kf6 7. Kg4 Kg6 8. Kg4h4
   //
   //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1";  // White to Draw
   "3k1b2/7K/4PP2/8/8/8/8/8 w - - 0 1";  // White to Zugzwang

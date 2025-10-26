@@ -84,6 +84,8 @@ partial class GameState : IDisposable {
   #region Constants
   internal const Depth wDepthMax = 48;  // Used by Predict()
   internal const Ply wPlyHistory = 64;
+
+  private const string sScope = @"root\cimv2";
   #endregion
 
   #region Enumerations
@@ -298,10 +300,11 @@ partial class GameState : IDisposable {
 #else                                   //!TestSlowManagementObject
       //[Note]Specifying the CurrentClockSpeed column improves performance
       const String sQuery = "select CurrentClockSpeed from Win32_Processor";
-      using ManagementObjectSearcher mos = new(sQuery);
+      using ManagementObjectSearcher mos = new(sScope, sQuery);
       foreach (var mbo in mos.Get()) {
         var properties = mbo.Properties.Cast<PropertyData>();
         var pd = properties.FirstOrDefault(pd =>
+          // PropertyData.Name only supported on Windows
           OperatingSystem.IsWindows() &&
           pd.Name == "CurrentClockSpeed");
 
