@@ -17,7 +17,7 @@ public class Anagram {
   /// <param name="prefix">A flag requesting that anagram prefixes be included</param>
   /// <returns>The list of anagrams</returns>
   public static IEnumerable<string> Anagrams(string letters, bool prefix = false) {
-    List<string> anagrams = [];
+    HashSet<string> anagrams = [];
     if (prefix) anagrams.Add(Empty);
     StringBuilder sb = new();
     for (var n = 0; n < letters.Length; n++) {
@@ -37,7 +37,7 @@ public class Anagram {
       }
       else
         anagrams.Add(letter.ToString());
-#if TIDY_CHOSEN
+#if TidyChosen
       if (newCount <= 1)
         Chosen.Remove(letter);
       else
