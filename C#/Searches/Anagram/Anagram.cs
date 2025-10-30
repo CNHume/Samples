@@ -29,11 +29,12 @@ public class Anagram {
       var remaining = Concat(
         letters.AsSpan(0, n),
         letters.AsSpan(n + 1));
-      var suffixes = Anagrams(remaining, prefix);
 
-      if (suffixes.Any())
+      var suffixes = Anagrams(remaining, prefix);
+      if (suffixes.Any()) {
         foreach (var suffix in suffixes)
           anagrams.Add(letter + suffix);
+      }
       else
         anagrams.Add(letter.ToString());
 #if TIDY_CHOSEN
@@ -41,9 +42,9 @@ public class Anagram {
         Chosen.Remove(letter);
       else
 #endif
-        Chosen[letter] = newCount - 1;
+      Chosen[letter] = newCount - 1;
     }
     return anagrams;
   }
-#endregion                            // Methods
+  #endregion                            // Methods
 }
