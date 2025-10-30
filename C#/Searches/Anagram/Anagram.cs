@@ -5,6 +5,10 @@ namespace Searches;
 using static System.String;
 
 public class Anagram {
+  #region Properties
+  public static Dictionary<char, int> Chosen { get; } = [];
+  #endregion                            // Properties
+
   #region Methods
   /// <summary>
   /// Returns the list of anagrams corresponding to every permutation of a string of letters
@@ -15,25 +19,31 @@ public class Anagram {
   public static IEnumerable<string> Anagrams(string letters, bool prefix = false) {
     List<string> anagrams = [];
     if (prefix) anagrams.Add(Empty);
-    HashSet<char> chosen = [];
     StringBuilder sb = new();
     for (var n = 0; n < letters.Length; n++) {
       var letter = letters[n];
-      if (chosen.Contains(letter)) continue;
-      chosen.Add(letter);
-      var remaining = sb
-        .Clear()
-        .Append(letters.AsSpan(0, n))
-        .Append(letters.AsSpan(n + 1))
-        .ToString();
+      var newCount = Chosen.TryGetValue(letter, out int oldCount) ?
+        oldCount + 1 : 1;
+      Chosen[letter] = newCount;
+
+      var remaining = Concat(
+        letters.AsSpan(0, n),
+        letters.AsSpan(n + 1));
       var suffixes = Anagrams(remaining, prefix);
+
       if (suffixes.Any())
         foreach (var suffix in suffixes)
           anagrams.Add(letter + suffix);
       else
         anagrams.Add(letter.ToString());
+#if TIDY_CHOSEN
+      if (newCount <= 1)
+        Chosen.Remove(letter);
+      else
+#endif
+        Chosen[letter] = newCount - 1;
     }
     return anagrams;
   }
-  #endregion                            // Methods
+#endregion                            // Methods
 }
