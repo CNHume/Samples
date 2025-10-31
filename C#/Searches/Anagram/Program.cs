@@ -28,8 +28,10 @@ try {
     if (command.Sort) anagrams.Sort();
 
     Console.WriteLine($"{anagrams.Count()} anagrams found:");
+#if DEBUG
     foreach (var anagram in anagrams)
       Console.WriteLine(anagram);
+#endif
   }
 }
 catch (ApplicationException ex) {
