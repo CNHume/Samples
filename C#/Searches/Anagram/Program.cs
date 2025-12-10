@@ -12,17 +12,18 @@
 // Usage: Anagram [-p] [-s] letters
 //
 
-using Parsers;
+using Anagrams;
 
-using Searches;
+using Parsers;
 
 try {
   var command = new Command();
   command.Parse(args);
-
-  if (command.Letters != null) {
-    Console.WriteLine($"Letters: {command.Letters}");
-    var anagrams = Anagram.Anagrams(command.Letters, command.Prefix)
+  var letters = command.Letters;
+  if (letters?.Length > 0) {
+    Console.WriteLine($"Letters: {letters}");
+    var agram = new Anagram(letters.Length);
+    var anagrams = agram.Anagrams(letters, command.Prefix)
       .ToList();
 
     if (command.Sort) anagrams.Sort();
