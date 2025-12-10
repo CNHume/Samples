@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Searches;
+﻿namespace Searches;
 
 using static System.String;
 

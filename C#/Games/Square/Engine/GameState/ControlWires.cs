@@ -22,8 +22,7 @@ partial class GameState {
   #region Event Handler Subscriptions
   private void wireClearHash() {
     var button = (Button?)findControl(Clear_Hash);
-    if (button != null)
-      button.Click += ClearHashButton_Click;
+    button?.Click += ClearHashButton_Click;
   }
 
   [MemberNotNull(nameof(Variation))]

@@ -17,11 +17,11 @@ partial class UCI {
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2024-05-12 Perft1 (startpos) in 10.162 sec @12.828 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2024-05-12 Perft2 in 16.546 sec @12.428 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2024-05-12 Perft3 in 21.479 sec @10.188 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2024-05-12 Perft4 in 67.005 sec @11.451 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2024-10-26 Perft5 in 10.01 sec @8.732 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2025-12-09 Perft1 (startpos) in 10.004 sec @13.032 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2025-12-09 Perft2 in 16.398 sec @12.54 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2025-12-09 Perft3 in 20.446 sec @10.703 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2025-12-09 Perft4 in 66.368 sec @11.561 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2025-12-09 Perft5 in 9.252 sec @9.469 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -592,6 +592,7 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"8/8/1KP5/3r4/8/8/8/k7 w - - 0 1";  // White to Win
   //"1k1K4/rr6/8/8/8/8/RR6/1Q6 w - - 0 1";      // #2 [4-ply in 0.044 sec @97.286 KHz over 4,295 nodes]
   //
   //"7K/7p/k1P5/8/8/8/8/8 b - - 0 1"; // Réti Draw Prelude [11-ply]
