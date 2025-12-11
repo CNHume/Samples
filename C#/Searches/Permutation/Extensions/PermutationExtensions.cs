@@ -4,8 +4,7 @@ public static class PermutationExtensions {
   #region Methods
   extension(HashSet<string> permutations) {
     public void AddPermutation(string permutation) {
-      var isUnique = permutations.Add(permutation);
-      if (!isUnique)
+      if (!permutations.Add(permutation))
         throw new ApplicationException($"Duplicate {permutation} found");
     }
   }

@@ -44,7 +44,7 @@ public class Permuter {
     if (isOptional) permutations.Add(Empty);
 
     if (length > LengthMin) {
-      var index = length - 1 - LengthMin;
+      var index = length - LengthMin - 1;
       if (Chosen[index] == null)
         Chosen[index] = new(length);
       else
