@@ -17,30 +17,31 @@ public class Permuter {
 
   #region Methods
   /// <summary>
-  /// Returns the list of permutations corresponding to every permutation of a string of letters
+  /// An enumerator over the permutations of a string of letters
   /// </summary>
   /// <param name="letters">A string containing the letters to be permuted</param>
   /// <param name="isOptional">A bool indicating that subpermutations are optional</param>
-  /// <returns>The list of permutations</returns>
+  /// <returns>An enumerator over the permutations</returns>
   public IEnumerable<string> Permute(
     string letters, bool isOptional = false) {
     HashSet<string> permutations = [];
     if (isOptional) permutations.Add(Empty);
+
     var length = letters.Length;
-    int index = length - 1;
-    if (Chosen[index] == null)
-      Chosen[index] = [];
-    else
-      Chosen[index].Clear();
-
-    for (var n = 0; n < length; n++) {
-      var letter = letters[n];
-      if (Chosen[index].Contains(letter))
-        continue;
+    if (length > 1) {
+      int index = length - 1;
+      if (Chosen[index] == null)
+        Chosen[index] = new(length);
       else
-        Chosen[index].Add(letter);
+        Chosen[index].Clear();
 
-      if (length > 1) {
+      for (var n = 0; n < length; n++) {
+        var letter = letters[n];
+        if (Chosen[index].Contains(letter))
+          continue;
+        else
+          Chosen[index].Add(letter);
+
         var prefix = letters.AsSpan(0, n);
         var suffix = letters.AsSpan(n + 1);
         var subString = Concat(prefix, suffix);
@@ -48,9 +49,9 @@ public class Permuter {
         foreach (var subPermutation in subPermutations)
           permutations.AddPermutation(letter + subPermutation);
       }
-      else
-        permutations.AddPermutation(letter.ToString());
     }
+    else
+      permutations.AddPermutation(letters);
 
     return permutations;
   }
