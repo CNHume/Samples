@@ -1,4 +1,9 @@
-﻿namespace Permuters;
+﻿//
+// Conditionals
+//
+//#define CheckForDuplicates
+
+namespace Permuters;
 
 using Extensions;
 
@@ -24,7 +29,11 @@ public class Permuter {
   /// <returns>An enumerator over the permutations</returns>
   public IEnumerable<string> Permute(
     string letters, bool isOptional = false) {
+#if CheckForDuplicates
     HashSet<string> permutations = [];
+#else
+    List<string> permutations = [];
+#endif
     if (isOptional) permutations.Add(Empty);
 
     var length = letters.Length;
@@ -55,5 +64,5 @@ public class Permuter {
 
     return permutations;
   }
-  #endregion                            // Methods
+#endregion                            // Methods
 }
