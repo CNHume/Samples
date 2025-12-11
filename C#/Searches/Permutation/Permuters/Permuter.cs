@@ -1,7 +1,7 @@
 ﻿//
 // Conditionals
 //
-#define CheckForDuplicates
+//#define CheckForDuplicates
 
 namespace Permuters;
 
@@ -10,13 +10,17 @@ using Extensions;
 using static System.String;
 
 public class Permuter {
+  #region Constants
+  protected int LengthMin = 1;
+  #endregion                            // Constants
+
   #region Properties
-  public HashSet<char>[] Chosen { get; }
+  protected HashSet<char>[] Chosen { get; }
   #endregion                            // Properties
 
   #region Constructors
-  public Permuter(int length) {
-    Chosen = new HashSet<char>[length];
+  public Permuter(int lengthMax) {
+    Chosen = new HashSet<char>[lengthMax - LengthMin];
   }
   #endregion                            // Constructors
 
@@ -29,6 +33,9 @@ public class Permuter {
   /// <returns>An enumerator over the permutations</returns>
   public IEnumerable<string> Permute(
     string letters, bool isOptional = false) {
+    var length = letters.Length;
+    if (length == 0)
+      throw new ArgumentOutOfRangeException(nameof(letters));
 #if CheckForDuplicates
     HashSet<string> permutations = [];
 #else
@@ -36,9 +43,8 @@ public class Permuter {
 #endif
     if (isOptional) permutations.Add(Empty);
 
-    var length = letters.Length;
-    if (length > 1) {
-      int index = length - 1;
+    if (length > LengthMin) {
+      var index = length - 1 - LengthMin;
       if (Chosen[index] == null)
         Chosen[index] = new(length);
       else
