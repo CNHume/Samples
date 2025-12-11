@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.31903.286
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11304.161 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anagram", "Anagram\Anagram.csproj", "{0FE90853-AFAF-48A5-B2BA-F1C8836D6135}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Permuter", "Permutation\Permuter.csproj", "{0FE90853-AFAF-48A5-B2BA-F1C8836D6135}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

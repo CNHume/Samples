@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "Anagram": {
+    "Permute": {
       "commandName": "Project",
-      "commandLineArgs": "-p -s CBA"
+      "commandLineArgs": "-o -s CBA"
     }
   }
 }

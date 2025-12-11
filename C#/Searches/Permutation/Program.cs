@@ -4,15 +4,15 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-//[2018-12-22 CNHume]Created Anagram .NET Console Application
+//[2018-12-22 CNHume]Created Permuter .NET Console Application
 //
 // To publish:
-// dotnet publish Anagram -c Release -r win10-x64
+// dotnet publish Permuter -c Release -r win10-x64
 //
-// Usage: Anagram [-p] [-s] letters
+// Usage: Permute [-p] [-s] letters
 //
 
-using Anagrams;
+using Permuters;
 
 using Parsers;
 
@@ -22,16 +22,16 @@ try {
   var letters = command.Letters;
   if (letters?.Length > 0) {
     Console.WriteLine($"Letters: {letters}");
-    var agram = new Anagram(letters.Length);
-    var anagrams = agram.Anagrams(letters, command.Prefix)
+    var permuter = new Permuter(letters.Length);
+    var permutations = permuter.Permute(letters, command.Optional)
       .ToList();
 
-    if (command.Sort) anagrams.Sort();
+    if (command.Sort) permutations.Sort();
 
-    Console.WriteLine($"{anagrams.Count()} anagrams found:");
+    Console.WriteLine($"{permutations.Count()} permutations found:");
 #if DEBUG
-    foreach (var anagram in anagrams)
-      Console.WriteLine(anagram);
+    foreach (var permutation in permutations)
+      Console.WriteLine(permutation);
 #endif
   }
 }
