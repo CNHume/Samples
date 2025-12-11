@@ -1,7 +1,7 @@
 ﻿//
 // Conditionals
 //
-//#define CheckForDuplicates
+#define CheckForDuplicates
 
 namespace Permuters;
 
@@ -46,17 +46,14 @@ public class Permuter {
 
       for (var n = 0; n < length; n++) {
         var letter = letters[n];
-        if (Chosen[index].Contains(letter))
-          continue;
-        else
-          Chosen[index].Add(letter);
-
-        var prefix = letters.AsSpan(0, n);
-        var suffix = letters.AsSpan(n + 1);
-        var subString = Concat(prefix, suffix);
-        var subPermutations = Permute(subString, isOptional);
-        foreach (var subPermutation in subPermutations)
-          permutations.AddPermutation(letter + subPermutation);
+        if (Chosen[index].Add(letter)) {
+          var prefix = letters.AsSpan(0, n);
+          var suffix = letters.AsSpan(n + 1);
+          var subString = Concat(prefix, suffix);
+          var subPermutations = Permute(subString, isOptional);
+          foreach (var subPermutation in subPermutations)
+            permutations.AddPermutation(letter + subPermutation);
+        }
       }
     }
     else
@@ -64,5 +61,5 @@ public class Permuter {
 
     return permutations;
   }
-#endregion                            // Methods
+  #endregion                            // Methods
 }
