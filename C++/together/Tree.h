@@ -1,5 +1,6 @@
 // (C) Copyright 2018, Christopher N. Hume.  All rights reserved.
 //
+// 2025-12-12 CNHume  Removed use of std::binary_function, deprecated since C++11.
 // 2017-05-14 CNHume  Added static root
 // 2017-05-13 CNHume  Added branch() and ensure()
 // 2015-01-04 CNHume  Qualified const methods
