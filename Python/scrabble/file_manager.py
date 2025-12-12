@@ -24,7 +24,7 @@ class FileManager(object):
     self.verbose = verbose
     self.header = None
     self.records = None
-    self.length = None
+    self.length = 0
 
   def expand_filename(self, filename):
     expanded_path = os.path.expanduser(self.file_path)
