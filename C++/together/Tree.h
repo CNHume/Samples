@@ -42,7 +42,7 @@ protected:
   inline static void digits(uint32_t u, uint8_t& m0, uint8_t& m1, uint8_t& m2);
 
 public:
-  struct foLess : binary_function < string, string, bool > {
+  struct foLess {
     bool operator()(const string &s1, const string &s2) const;
   };
 
