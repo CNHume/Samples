@@ -84,13 +84,13 @@ void Tree::copyBranches(const Tree& other) {
     }
 }
 
-Tree::Tree(const Tree& other) {
+Tree::Tree(const Tree& other) noexcept {
   _word = other._word;
   copyBranches(other);
   Nodes++;
 }
 
-Tree& Tree::operator=(const Tree& other) {
+Tree& Tree::operator=(const Tree& other) noexcept {
   if (this != &other) {
     _word = other._word;
     deleteBranches();
@@ -108,13 +108,13 @@ void Tree::moveBranches(Tree& other) {
   }
 }
 
-Tree::Tree(Tree&& other) {
+Tree::Tree(Tree&& other) noexcept {
   initBranches();
   *this = std::move(other);             // move ctor invokes move assignment
   Nodes++;
 }
 
-Tree& Tree::operator=(Tree&& other) {
+Tree& Tree::operator=(Tree&& other) noexcept {
   if (this != &other) {
     _word = other._word;
     deleteBranches();

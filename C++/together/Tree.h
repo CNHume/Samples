@@ -61,12 +61,12 @@ public:
   virtual ~Tree();
   Tree();
 #ifdef COPY_SEMANTICS
-  Tree(const Tree& other);
-  Tree& operator=(const Tree& other);
+  Tree(const Tree& other) noexcept;
+  Tree& operator=(const Tree& other) noexcept;
 #endif
 #ifdef MOVE_SEMANTICS
-  Tree(Tree&& other);
-  Tree& operator=(Tree&& other);
+  Tree(Tree&& other) noexcept;
+  Tree& operator=(Tree&& other) noexcept;
 #endif
   void Add(const char* pSuffix, const string& word);
   Tree& ensure(uint32_t u);
