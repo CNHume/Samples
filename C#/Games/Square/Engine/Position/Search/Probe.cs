@@ -10,7 +10,7 @@
 #define BottleBothSides                 // Prevents odd extension from referencing opponent's Killer
 //#define BottleGamePly
 //#define DebugMoveIsLegal
-#define DebugSideToMove
+//#define DebugSideToMove
 #define CountEvalTypes                  // For IncEvalType()
 #define TransposeQuiet
 #define QuiescentTryXP

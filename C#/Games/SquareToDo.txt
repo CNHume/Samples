@@ -1,6 +1,15 @@
+Updated 2023-07-11
+
 Square ToDo
 -----------
 Refactor XPMTank of PositionMove to cache MoveTypeOrdering
 Maximize Mobility and Square Control in quiet positions
 King Safety
 Split Points
+
+
+Bugs
+----
+moves Perser Draw3 Bug for Draw3EPLegal
+
+Consolidate search() and quiet() exit paths to better diagnose abbreviateRefresh()

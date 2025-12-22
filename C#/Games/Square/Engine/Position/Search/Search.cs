@@ -9,7 +9,7 @@
 //#define DebugMove
 #define AddBestMoves
 //#define DebugMoveIsLegal
-#define DebugSideToMove
+//#define DebugSideToMove
 #define DebugSearchMoves
 //#define DebugPseudoMoves
 //#define TraceVal

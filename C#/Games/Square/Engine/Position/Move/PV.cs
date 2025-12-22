@@ -5,7 +5,7 @@
 //
 //#define AbbreviateLookup
 //#define DebugMoveIsLegal
-#define DebugSideToMove
+//#define DebugSideToMove
 //#define DebugPlace
 //#define Magic
 #define FilterCandidates

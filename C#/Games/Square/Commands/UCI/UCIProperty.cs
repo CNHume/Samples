@@ -516,7 +516,16 @@ partial class UCI {
   // 1. Kc3 Bxc5 2. Kd3 Qg2 3. e6 Nxe6 4. Kc3 Qe2 5. Kb3 Nd4+ 6. Kc3 (6. Ka4 Qa2# (6... Qa6#) (6... Qb5#)) 6... Qc2#
   //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6 [7-ply] eval 0.0
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
+  // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 // Annotates Draw upon 4... Kh8g8=
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
+  // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6 // Annotates Draw upon 5. Qh6g6+=
+  // However, the following test case requires one more move to do so:
+  // moves h6g6
+  // moves g8h8 g6h6 h8g8 h6g6
+  // moves g8h8 g6h6 h8g8 h6g6
+  // moves g8h8                         // Finally annotates Draw upon 5... Kh8g8=
+  // moves h6g6
+  // moves g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6 // Annotates Draw upon 5. Qh6g6+=
   //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
   //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - - 0 1"; // Draw3N0
   //"7r/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua0
