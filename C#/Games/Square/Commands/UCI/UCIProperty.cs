@@ -592,6 +592,7 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"5k2/5p2/4P3/4P3/5K2/8/8/8 w - - 0 1" // White to Play Pawn Endgame [23-ply in 36.082 sec @1.461 MHz over 52.734 Mnode] eval 7.15
   //"8/8/1KP5/3r4/8/8/8/k7 w - - 0 1";  // White to Win
   //"1k1K4/rr6/8/8/8/8/RR6/1Q6 w - - 0 1";      // #2 [4-ply in 0.044 sec @97.286 KHz over 4,295 nodes]
   //
