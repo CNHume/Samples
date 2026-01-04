@@ -466,8 +466,8 @@ partial class Position : Board {
         }
         else
           child.abbreviateRefresh(vn.Moves, wDepth, mValue);
-        }
       }
+    }
     finally {
       Pop(ref child);                   // Pop Position
     }
@@ -530,6 +530,17 @@ partial class Position : Board {
     Display(sLabel);
     // The following invokes MovesFromParent()
     ListMovesFromParent(State.RootPosition, State.IsPure, State.IsChess960);
+  }
+
+  [Conditional("DisplayPositions")]
+  public void DisplayPositions(Position? parent) {
+    StringBuilder sb = new();
+    var position = this;
+    while (position is not null) {
+      position.Display(sb);
+      if (ReferenceEquals(position, parent)) break;
+      position = position.Parent;
+    }
   }
   #endregion                            // Move List Methods
 }

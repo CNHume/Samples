@@ -11,17 +11,20 @@ using Engine;                           // For GameState
 partial class UCI {
   //
   // Since 2020-02-20: Timing Results have been obtained using an i7-9700K CPU at 3.60GHz w 8-cores,
-  // in a Dell XPS 8930 workstation with 32 GB RAM, running Windows 10 Pro.
+  // in a Dell XPS 8930 workstation with 32 GB RAM
+  // Windows 10 Pro was installed originally.
+  // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
+  // Advanced to .NET 10 on 2025-12-09
   //
   #region FEN Constants
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2025-12-09 Perft1 (startpos) in 10.004 sec @13.032 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2025-12-09 Perft2 in 16.398 sec @12.54 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2025-12-09 Perft3 in 20.446 sec @10.703 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2025-12-09 Perft4 in 66.368 sec @11.561 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2025-12-09 Perft5 in 9.252 sec @9.469 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2025-12-27 Perft1 (startpos) in 9.909 sec @13.156 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2025-12-27 Perft2 in 16.306 sec @12.61 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2025-12-27 Perft3 in 20.442 sec @10.705 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2025-12-27 Perft4 in 65.514 sec @11.712 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2025-12-27 Perft5 in 9.063 sec @9.667 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -47,6 +50,12 @@ partial class UCI {
 
   //
   //"";
+  //"8/1p4p1/pP2pp2/2B5/P3k3/4P1K1/8/8 b - - 0 39"; Boris Spassky v Bobby Fischer 1972 WCC R1 1972-07-11 Nimzo-Indian Defense (E56) Gligoric System
+  // Fischer had a drawing move; but lost after playing 39... f5?
+  // 39... e5! 40. Kg4 g6 [39... g6 40. Kg4 e5  {xposing}] 41. a5 Kd5 42. Be7 f5+ 43. Kg5 f4 44. exf4 exf4 45. Kxf4=
+  //"5k2/3R4/8/5Kp1/6N1/r6p/8/8 w - - 0 69"; // Hans Niemann v Shakhriyar Mamedyarov 2025 World Rapid 2025-12-29
+  // [12-ply in 20.224 sec @1.51 MHz over 30.529 Mnode] eval 5.0 after:
+  // 69. Kg6 Rf3 70. Nf6 Rxf6+ 71. Kxf6 Ke8 72. Rg7 Kd8 73. Rxg5 Kc7 74. Rc5+ Kb6 75. Rh5 Ka6 76. Rxh3 Ka6a5
   //"r4r1k/p5p1/1p1R3p/q1nQ4/8/7B/P4PPP/5RK1 w - - 0 26";   // Rameshbabu Praggnanandha v Ian Nepomniachtchi 2024 FIDE Candidates R5 2024-04-09
   // 26. Qe5 Qxa2 27. Bf5 Kg8 (27... Rxf5 28. Qxf5) 28. Bb1 Qf7 29. Qb2 Qf4 30. Qa2+ Rf7 31. Rfd1 Rf8 32. f3 Qa4 33. Qxa4 Nxa4 34. Ba2 Nc5
   // moves d5e5 a5a2 h3f5 h8g8 f5b1 a2f7 e5b2 f7f4 b2a2 f8f7 f1d1 a8f8 f2f3 f4a4 a2a4 c5a4 b1a2 a4c5
@@ -517,7 +526,7 @@ partial class UCI {
   //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6 [7-ply] eval 0.0
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
   // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 // Annotates Draw upon 4... Kh8g8=
-  //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
+  "2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
   // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6 // Annotates Draw upon 5. Qh6g6+=
   // However, the following test case requires one more move to do so:
   // moves h6g6
@@ -632,7 +641,7 @@ partial class UCI {
   // 1. Kf2 h4 2. Kg1 Kc7 3. Kh2 Kd6 4. Kh3 Ke5 5. Kxh4 Kf5 6. Kh5 Kf6 7. Kg4 Kg6 8. Kg4h4
   //
   //"7K/8/8/8/8/2p4N/8/2k5 w - - 0 1";  // White to Draw
-  "3k1b2/7K/4PP2/8/8/8/8/8 w - - 0 1";  // White to Zugzwang
+  //"3k1b2/7K/4PP2/8/8/8/8/8 w - - 0 1";  // White to Zugzwang
   // 1. Kh8 Ke8 2. Kg8 Bh6 3. e7 Bg5
   // moves h7h8 d8e8 h8g8 f8h6 e6e7 h6g5
   //[2025-07-03 19-ply in 11:00.4 @1.236 MHz over 816.036 Mnode] #16 after:
