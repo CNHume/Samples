@@ -241,7 +241,7 @@ static class Extension {
     for (var n = 0; n < nSquares; n++)
       if (qpMask[n] == qp) return (Sq)n;
 
-    throw new BoardException("Games Not Found");
+    throw new BoardException("Square Not Found");
   }
 
   public static StringBuilder AppendOrthRotations(
@@ -519,7 +519,7 @@ static class Extension {
 
       #region Abbreviate From Square
       //
-      // The From Games may be shown in its entirety,
+      // The From Square may be shown in its entirety,
       // or abbreviated to show only its File or Rank:
       //
       if (IsShowFrom(move) || bExpandFrom)

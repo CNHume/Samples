@@ -75,7 +75,7 @@ partial class Position : Board {
         //
         // The PasserPin exemption was introduced to prevent a mistaken Pin Restriction along
         // the 4th or 5th rank from being applied in cases where a guard pawn vacates its own
-        // From Games as well as removing the passer.  Though the pin may render EP Captures
+        // From Square as well as removing the passer.  Though the pin may render EP Captures
         // illegal, the regular pawn advance would not be pinned owing to the presence of the
         // adjacent passer.
         //

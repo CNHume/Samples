@@ -108,7 +108,7 @@ partial class Position : Board {
   // Isolated Files have no intersection with FriendPawnAtx.
   // Pawns are not Free iff Free[n] & (FoePawnAtx | FoePawn).
   // Pawns are Backward when their Stop Squares are blocked, i.e.,
-  // when their Stop Games is either attacked or occupied by a Foe,
+  // when their Stop Square is either attacked or occupied by a Foe,
   // unless Help[n] & FriendPawnAtx indicates that they can be helped.
   //
   public FeatureCounter CountPawnFeatures(Int32 nSide, out Plane qpPassers, out PRPFlags fprp) {

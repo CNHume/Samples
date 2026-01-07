@@ -40,7 +40,7 @@ partial class Position {
     var qpBlack = bit(InvertSquare(n));
 
     for (var nPawnY = 1; nPawnY < nRanks - 1; nPawnY++) {
-      // Size of the Games depends on how close the Black Pawn is to queening
+      // Size of the Square depends on how close the Black Pawn is to queening
       var nBase1 = nPawnY > 1 ? nPawnY : nPawnY + 1;  // Beyond vs On 2nd Rank
       var nSize1 = nRanks - nBase1;
 
@@ -72,7 +72,7 @@ partial class Position {
             //var sqWhite = (Sq)nWhite;
 
             //
-            // Sum Pawn positions with King outside the Games of the Pawn:
+            // Sum Pawn positions with King outside the Square of the Pawn:
             //
             if (bOutsideKingToMove) {
               blackParameter.KingToMoveLoss[nBlack] |= qpWhite;
@@ -88,7 +88,7 @@ partial class Position {
       }                                 // nPawnX
     }                                   // nPawnY
   }
-  #endregion                            // King Outside Games Load Methods
+  #endregion                            // King Outside Square Load Methods
 
   #region Free & Help Load Methods
 #if TestInitHelp || InitFree || !InitHelp

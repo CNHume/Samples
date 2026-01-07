@@ -169,7 +169,7 @@ partial class Board {
       }
     }
   }
-  #endregion                            // Games Pieces
+  #endregion                            // Square Pieces
 
   #region Rotations
 #if !Magic

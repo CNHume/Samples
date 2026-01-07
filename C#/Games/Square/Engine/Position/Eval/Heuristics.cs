@@ -53,7 +53,7 @@ partial class Position : Board {
   // Knight Scope and Outpost [free of Pawn harrassment]
   // Bishop Scope [and Bad Bishop Detection]
   //
-  // Bonus for Bishop with color of Promotion Games for any Passed Pawns, especially
+  // Bonus for Bishop with color of Promotion Square for any Passed Pawns, especially
   // Rook Pawns.  Applies to defense and Passed Opposing Pawns, as well as to offense.
   //
   // Attack Pawn Chains at the base
@@ -187,7 +187,7 @@ partial class Position : Board {
          (Eval)(-mOutsideSquareWeight) :
          mOutsideSquareWeight;
   }
-  #endregion                            // King Outside Games of the Pawn
+  #endregion                            // King Outside Square of the Pawn
 
   #region KBN Endgame
   private static Int32 edgeDistance(Int32 n) {
@@ -389,6 +389,6 @@ partial class Position : Board {
 
     return (Eval)(nControlValue + nMobileValue);
   }
-  #endregion                            // Mobility and Games Control
+  #endregion                            // Mobility and Square Control
   #endregion                            // Methods
 }

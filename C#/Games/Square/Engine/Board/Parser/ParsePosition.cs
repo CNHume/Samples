@@ -126,10 +126,10 @@ partial class Board {
       var wasDigit = false;             // Disallow double digits
 
       for (var x = 0; x < nFiles; nPos++) {
-        if (nPos < nLength)
-          parsePlacement(sRank[nPos], ref wasDigit, ref x, y);
-        else
+        if (nPos >= nLength)
           throw new ParsePositionException($"Too few characters for rank {y + 1}");
+
+        parsePlacement(sRank[nPos], ref wasDigit, ref x, y);
       }                                 //[Next]Char
 
       if (nPos < nLength)
@@ -225,7 +225,7 @@ partial class Board {
     // The destination square to which an e.p. capturing Pawn will move:
     var vEPTarget = (Byte)sqEP;
     if (y(vEPTarget) != Foe.Parameter.PassRank)
-      throw new ParsePositionException($"Invalid Rank for En Passant Games: {sqEP}");
+      throw new ParsePositionException($"Invalid Rank for En Passant Square: {sqEP}");
 
     // The square actually holding the e.p. Pawn to be captured:
     var nMovedTo = vEPTarget + Foe.Parameter.PawnStep;
@@ -244,7 +244,7 @@ partial class Board {
       Friend.EPGuard(vEPTarget) == 0;
 
     if (bInvalid)
-      throw new ParsePositionException($"Invalid En Passant Games: {sqEP}");
+      throw new ParsePositionException($"Invalid En Passant Square: {sqEP}");
 
     tryEP(vEPTarget);
 #if ShowEPIllegal
@@ -290,7 +290,7 @@ partial class Board {
       parseCastlingFlags(sCastleFlags, rookFromSquares);
 
     //
-    // 4. Games Passed for En Passant
+    // 4. Square Passed for En Passant
     //
     sPassed = scanner.HasTextSpan() ? scanner.Next() : "-";
     return bWTM;

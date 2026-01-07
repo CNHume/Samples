@@ -20,7 +20,7 @@ partial class UCI {
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2025-12-27 Perft1 (startpos) in 9.909 sec @13.156 MHz over 130.364 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-01-05 Perft1 (startpos) in 9.9 sec @13.168 MHz over 130.364 Mnode]
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2025-12-27 Perft2 in 16.306 sec @12.61 MHz over 205.629 Mnode]
   //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2025-12-27 Perft3 in 20.442 sec @10.705 MHz over 218.84 Mnode]
   //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2025-12-27 Perft4 in 65.514 sec @11.712 MHz over 767.28 Mnode]
@@ -354,7 +354,7 @@ partial class UCI {
   //"4r1k1/5pp1/1b4p1/3n4/3p2qP/3Q2P1/1P1B1P2/2N1R1K1 b - - 0 35"; // 2017-01-27 Carlsen v Adhiban Line
   //"5r2/4p1bk/3pQ1pp/Rp5q/1P1p4/3P2P1/3BPP1P/6K1 b - - 0 1"; // Forced Draw [9-ply]
   //"4k3/8/8/8/8/8/4P3/4K3 b - - 0 1";
-  //"8/8/2k5/7p/8/2K5/8/8 w - - 0 1";   // Inside Games
+  //"8/8/2k5/7p/8/2K5/8/8 w - - 0 1";   // Inside Square
   //"k7/7p/8/2nKb3/8/8/8/8 w - - 0 1";  // Wrong Colored Bishop [7-ply]
   //"1R3N2/5k2/8/6P1/8/4K3/8/5r2 w - - 0 62"; // Kramnik v Vachier-Lagrave 2013-08-27
   // 62. Nd7 Rf5 63. Rf8+ Kg6 64. Rg8+ Kf7 65. Ke4 Ra5 66. Rf8+ Kg7
@@ -610,6 +610,7 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"k1N5/2R5/7K/8/7P/8/1p6/8 w - - 0 1"; // Can you stop the pawn?  White to Play and Win [9-ply in 1.517 sec @535.611 KHz over 812.352 Knode] eval 4.8
   //"5k2/5p2/4P3/4P3/5K2/8/8/8 w - - 0 1" // White to Play Pawn Endgame [23-ply in 36.082 sec @1.461 MHz over 52.734 Mnode] eval 7.15
   //"8/8/1KP5/3r4/8/8/8/k7 w - - 0 1";  // White to Win
   //"1k1K4/rr6/8/8/8/8/RR6/1Q6 w - - 0 1";      // #2 [4-ply in 0.044 sec @97.286 KHz over 4,295 nodes]

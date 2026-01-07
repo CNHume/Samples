@@ -55,7 +55,7 @@ partial class Board {
     { ( 2, 1), ( 1, 2), (-1, 2), (-2, 1),
       (-2,-1), (-1,-2), ( 1,-2), ( 2,-1) };
 
-  //[Dark|Lite]Games is used to determine square color of the Bishops
+  //[Dark|Lite]Square is used to determine square color of the Bishops
   internal static void colorSquares() {
     var qp = BIT0;
     for (var y = 0U; y < nRanks; y++)

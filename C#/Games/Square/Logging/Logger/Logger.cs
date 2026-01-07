@@ -22,7 +22,7 @@ static class Logger {
 
   private const String sInfo = "info";
   private const String sFileTypeDefault = "log";
-  private const String sRelativePath = @"Games\Logs";
+  private const String sRelativePath = @"Square\Logs";
   #endregion
 
   #region Enumerations

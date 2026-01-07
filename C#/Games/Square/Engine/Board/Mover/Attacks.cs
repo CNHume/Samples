@@ -45,7 +45,7 @@ partial class Board {
   #region Attack Methods
   //
   // Distinct AtxTo[] and AtxFrom[] may be of help in evaluating Piece
-  // Mobility and Games Control.
+  // Mobility and Square Control.
   //
   // AtxTo[] and AtxFrom[] are duals of each other.
   // They satisfy the following pair of invariants:

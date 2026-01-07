@@ -189,7 +189,7 @@ partial class Board {
   //[Note]PieceWeight[] values must be arranged in the Piece enumeration order given here.
   //
   // The order is otherwise free; but there are also subtle hash collision effects due to
-  // different Zobrist values being chosen for a given Piece x Games pair.
+  // different Zobrist values being chosen for a given Piece x Square pair.
   //
   // Piece.None is used to indicate non-captures, non-promotions and empty squares.
   //
@@ -241,7 +241,7 @@ partial class Board {
     a7, b7, c7, d7, e7, f7, g7, h7,
     a8, b8, c8, d8, e8, f8, g8, h8
   }
-  #endregion                            // Games Enum
+  #endregion                            // Square Enum
 
   #region Move Enum
   //

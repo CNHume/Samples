@@ -119,33 +119,32 @@ partial class GameState {
         HeartbeatNodes = (UInt64)Nodes;
       SearchElapsedOfLastHeartbeat = SearchTimer.Elapsed;
 
-      if (position.IsLegal()) {
-        StartDepth = 0;               //[Init]
-        clearSearchCounts();
+      if (!position.IsLegal())
+        throw new PositionException("Illegal Setup");
 
-        if (UCI.IsDebug) {
-          var dtStarted = DateTime.Now;
+      StartDepth = 0;               //[Init]
+      clearSearchCounts();
+
+      if (UCI.IsDebug) {
+        var dtStarted = DateTime.Now;
 #if Herald
-          herald(dtStarted, position.Name);
+        herald(dtStarted, position.Name);
 #endif
 #if NoteStartAndFinish
-          LogInfo(LogLevel.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
+        LogInfo(LogLevel.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
-        }
-
-        SearchTimer.Start();
-
-        switch (mode) {
-        case SearchMode.BestMove:
-          var mValue = position.IteratePlies(Bound);
-          break;
-        case SearchMode.Perft:
-          position.IterateCases();
-          break;
-        }
       }
-      else
-        throw new PositionException("Illegal Setup");
+
+      SearchTimer.Start();
+
+      switch (mode) {
+      case SearchMode.BestMove:
+        var mValue = position.IteratePlies(Bound);
+        break;
+      case SearchMode.Perft:
+        position.IterateCases();
+        break;
+      }
     }
     catch (OperationCanceledException) {
       //

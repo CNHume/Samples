@@ -20,9 +20,9 @@ partial class Board {
     if (result.HasValue)
       return result.Value;
 
-    //[Safe]pacnMoveTokenRules should have prevented any Invalid Games
+    //[Safe]pacnMoveTokenRules should have prevented any Invalid Square
     throw new MoveException(
-      Friend.MoveError($"Invalid Games in {sMove}"));
+      Friend.MoveError($"Invalid Square in {sMove}"));
   }
 
   private static Piece? parsePiece(String sMove, ref Int32 nPos, Int32 nLen) {

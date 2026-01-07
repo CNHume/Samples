@@ -74,12 +74,11 @@ partial class Board {
     zobristExcludedTo = new Hashcode[nSquares];
 
     var nUnderPromotions = Promotions.Length - 1;
-    if (nUnderPromotions > 0) {
-      Debug.Assert(Promotions[0] == Piece.Q, $"Promotion[0] should be {Piece.Q}");
-      zobristExcludedPromotion = new Hashcode[nUnderPromotions];
-    }
-    else
+    if (nUnderPromotions <= 0)
       throw new BoardException("No Underpromotions Defined");
+    
+    Debug.Assert(Promotions[0] == Piece.Q, $"Promotion[0] should be {Piece.Q}");
+    zobristExcludedPromotion = new Hashcode[nUnderPromotions];
 
     zobristBuffer = new Byte[8];
     zobristRandom = new(0);             // Fixed, repeatable seed
@@ -92,7 +91,7 @@ partial class Board {
   internal static void loadZobrist() {
     zobristTurn = nextZobrist();
 
-    // For Pieces that can be held by each Games:
+    // For Pieces that can be held by each Square:
     for (var nPiece = 0; nPiece < nPieces; nPiece++) {
       var bPawn = nPiece == vP6;        //[Speed]Pawns cannot appear on their First or Last Rank:
       var nMin = (Int32)(bPawn ? Sq.a2 : Sq.a1);
