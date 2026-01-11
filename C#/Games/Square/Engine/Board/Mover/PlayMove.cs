@@ -199,6 +199,9 @@ partial class Board {
     incrementHalfMoveClock();
 
     verifyPieceColors();                //[Conditional]
+
+    //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
+    IncrementGamePly();
     return vEPTarget;
   }
 
@@ -240,13 +243,10 @@ partial class Board {
 
     var vEPTarget = PlayMove(ref move);
 
-    //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
-    IncrementGamePly();
-
     #region Update En Passant
     //
-    //[Note]tryEP() is called after IncrementGamePly()
-    // inverts the sense of Friend and Foe.
+    //[Note]tryEP() is being called after IncrementGamePly()
+    // inverted the sense of Friend and Foe.
     //
     if (vEPTarget.HasValue)
       tryEP(vEPTarget.Value);
@@ -268,7 +268,7 @@ partial class Board {
     clrDraw0();
 
     //
-    //[Note]Null Moves are neutral wrt the 50 move rule:
+    // Null Moves are neutral wrt the 50 move rule:
     // HalfMoveClock is neither advanced nor reset.
     //
     IncrementGamePly();

@@ -65,8 +65,8 @@ partial class Board : IEquatable<Board> {
 
   private const UInt32 uSquareMask = (1 << 6) - 1;
 
-  private const Int32 nA8H1 = 7;
-  private const Int32 nA1H8 = 9;
+  private const Int32 nA8H1 = 8 - 1;
+  private const Int32 nA1H8 = 8 + 1;
 
   protected const String sOrthodoxStartEPD = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - hmvc 0; fmvn 1;";
   protected const String sOrthodoxStartFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";

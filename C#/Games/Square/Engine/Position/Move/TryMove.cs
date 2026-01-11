@@ -49,7 +49,6 @@ partial class Position : Board {
   private Boolean tryCandidate(Move move) {
     resetMove();
     PlayMove(ref move);
-    IncrementGamePly();
     var bLegal = IsLegal();
     State.IncMove(bLegal);              // Account for overhead
     return bLegal;
