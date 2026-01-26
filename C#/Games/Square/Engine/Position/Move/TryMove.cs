@@ -84,10 +84,13 @@ partial class Position : Board {
     if (!TestHash())
       DisplayCurrent(nameof(tryMove));
 #endif
-    var bLegal = IsLegal(bFindRepetition, bRestricted);
+    var bLegal = IsLegal(bRestricted);
     if (IsDefined(move)) {
-      if (bLegal)
+      if (bLegal) {
+        if (bFindRepetition)
+          findRepetition();
         move = annotateEarly(move);
+      }
       else
         restrictPiece(move);
     }
@@ -138,7 +141,7 @@ partial class Position : Board {
 
   // IsLegal() detects Checks and sets Draw Flags when moves are tried.
   //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
-  public Boolean IsLegal(Boolean bFindRepetition = false, Boolean bRestricted = false) {
+  public Boolean IsLegal(Boolean bRestricted = false) {
 #if TurnTest
     var bWhiteMoved = !WTM();
     var bBlackTurn = IsOdd(GamePly);
@@ -156,9 +159,6 @@ partial class Position : Board {
       // because they influence eval().  They are also needed by probeXP().
       //
       SetDrawIM();
-
-      if (bFindRepetition)
-        findRepetition();
     }
 #if DisplayPosition
     var sb = new StringBuilder();
