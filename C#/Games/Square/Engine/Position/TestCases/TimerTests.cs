@@ -291,7 +291,6 @@ partial class Position : Board {
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
       resetMove();
       var move = mov;
-      //var nEP = PlayMove(ref move);
       ExecuteMove(ref move);
     }
 

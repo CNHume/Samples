@@ -44,7 +44,7 @@ partial class Board {
   // clrEPLegal
   // setEPLegal
   // IsEPLegal
-  // toggleEPHash
+  // applyEPHash
   // ResetEP
   //
   // InCheck
@@ -259,7 +259,7 @@ partial class Board {
   // and when TurnFlags.EPLegal is set by tryEP().
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void toggleEPHash(ref Hashcode qHash) {
+  private void applyEPHash(ref Hashcode qHash) {
     if (IsEPLegal()) qHash ^= epHash();
   }
 
@@ -268,8 +268,10 @@ partial class Board {
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected void ResetEP() {
-    toggleEPHash(ref Hash);
-    clrEPLegal();                       //[Note]toggleEPHash() calls epHash() which requires EPTarget.
+    // applyEPHash() calls epHash() which requires EPTarget.
+    applyEPHash(ref Hash);
+    // clrEPLegal() clears EPTarget.
+    clrEPLegal();
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

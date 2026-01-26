@@ -19,6 +19,7 @@
 // Conditionals:
 //
 //#define DisplayPositionPool
+//#define DisplayPositions
 #define UseTask
 
 /*
@@ -213,6 +214,8 @@ partial class UCI : ICommand {
     case "list":
       if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
+      //[Conditional]
+      State.MovePosition.DisplayPositions(State.RootPosition);
 
       State.MovePosition.ListMovesFromParent(
         State.RootPosition, State.IsChess960, Parser.MovesKeyword());

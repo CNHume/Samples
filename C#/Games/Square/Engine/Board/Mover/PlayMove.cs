@@ -196,10 +196,9 @@ partial class Board {
       Friend.ResetPawnAtx();
     }
 
-    incrementHalfMoveClock();
-
     verifyPieceColors();                //[Conditional]
 
+    incrementHalfMoveClock();
     //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
     IncrementGamePly();
     return vEPTarget;
@@ -248,10 +247,10 @@ partial class Board {
     //[Note]tryEP() is being called after IncrementGamePly()
     // inverted the sense of Friend and Foe.
     //
-    if (vEPTarget.HasValue)
+    if (vEPTarget.HasValue) {
       tryEP(vEPTarget.Value);
-
-    toggleEPHash(ref Hash);
+      applyEPHash(ref Hash);
+    }
     #endregion                          // Update En Passant
 #if RecursiveNullMade
     //
@@ -334,17 +333,17 @@ partial class Board {
     //setTrace(                         // 8/8/8/8/6b1/6k1/3b4/5K2 w - - 0 9
     //  0xF647B837F53828CE);
 
-    //setTrace(                         // Veselin Topalov v Alexey Shirov 1998-03-04
-    //  0xEA58B15C62619E25,             // 8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61
-    //  0x7FFFA6F98CBB4D46,             // 8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61
-    //  0x5DB8479F08C8DFEF,             // 8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61
-    //  0x721CAEAAD8483250);            // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
+    setTrace(                         // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified
+      0xEA58B15C62619E25,             // 8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61
+      0x7FFFA6F98CBB4D46,             // 8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61
+      0x5DB8479F08C8DFEF,             // 8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61
+      0x721CAEAAD8483250);            // 8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61
 
     //setTrace(
     //  0x403E9F3D36FFFE9F,             // 6rk/5Qp1/5pNp/3P3P/2b5/2P5/5PPK/2R5 b - - 8 50
     //  0x153DACF276D58E80);            // 5Nrk/5Qp1/3P1p1p/7P/2b5/2P5/5PPK/2R5 b - - 0 50
 
-    setTrace(0x174F868E2720E332);       // 5Nr1/5Qpk/5p1p/3P3P/2b5/2P5/5PPK/2R5 b - - 6 49
+    //setTrace(0x174F868E2720E332);       // 5Nr1/5Qpk/5p1p/3P3P/2b5/2P5/5PPK/2R5 b - - 6 49
   }
   #endregion                            // Trace Positions
   #endregion                            // Methods

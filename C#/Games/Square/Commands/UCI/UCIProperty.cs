@@ -20,11 +20,11 @@ partial class UCI {
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-01-05 Perft1 (startpos) in 9.9 sec @13.168 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2025-12-27 Perft2 in 16.306 sec @12.61 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2025-12-27 Perft3 in 20.442 sec @10.705 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2025-12-27 Perft4 in 65.514 sec @11.712 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2025-12-27 Perft5 in 9.063 sec @9.667 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-01-24 Perft1 (startpos) in 9.893 sec @13.178 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-01-24 Perft2 in 15.924 sec @12.913 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-01-24 Perft3 in 20.19 sec @10.839 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-01-24 Perft4 in 64.691 sec @11.861 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-01-24 Perft5 in 9.01 sec @9.723 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -150,16 +150,15 @@ partial class UCI {
   //"2rqk2r/p1p2ppp/2p1b3/3p4/Q2P4/B4N2/P4PPP/b3R1K1 w k - 0 15"; // Giucco Piano: Aitken Variation Attack prior to 15... Qf6!?
   //
   //"8/8/4kpp1/3p1b2/p6P/2B5/6P1/6K1 b - - 0 47" // Veselin Topalov v Alexey Shirov 1998-03-04 [Too Deep to find Bh3!!]
-  //
-  //"8/2B5/8/8/2k5/3p4/5K2/q7 w - - 0 61"; // Hash = EA58B15C62619E25
-  //"8/2B5/8/8/2k5/3p4/5K2/r7 w - - 0 61"; // Hash = 7FFFA6F98CBB4D46
-  //"8/2B5/8/8/2k5/3p4/5K2/b7 w - - 0 61"; // Hash = 5DB8479F08C8DFEF
-  //"8/2B5/8/8/2k5/3p4/5K2/n7 w - - 0 61"; // Hash = 721CAEAAD8483250
-  //
+  // moves f5h3 g2h3
+  //"8/8/4kpp1/3p4/p6P/2B4P/8/6K1 b - - 1 48" // Veselin Topalov v Alexey Shirov 1998-03-04 Line1
+  //[2026-01-23 24-ply in 5:44:06.1 @1.242 MHz over 25.651 Gnode] eval -1.92 after:
+  // 48... Kf5 49. Kf2 Ke4 50. Bxf6 d4 51. Be7 Kd3 52. Bc5 Kc4 53. Bf8 Kb3 54. h5 gxh5 55. Ke1 Kc2 56. Bb4 d3 57. Kf2 a3 58. Bxa3
   // moves f5h3 g2h3 e6f5 g1f2 f5e4
-  //"8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 3 50" // Veselin Topalov v Alexey Shirov 1998-03-04 Line
-  //[2023-03-07 24-ply in 39:02:58 @1.088 MHz over 152.893 Gnode] eval -2.1 after:
-  // 50. Bb4 Kd3 51. Bc5 d4 52. Ke1 f5 53. Kd1 Ke3 54. Kc1 f4 55. Kd1 Kf3? (55... f3) 56. Bxd4 Kg3 57. Be5 Kxh4 58. Bxf4 Kxh3 59. Bc1 Kg2 60. Ke1 Kg1 61. Be3+ Kh1
+  //"8/8/5pp1/3p4/p3k2P/2B4P/5K2/8 w - - 4 50" // Veselin Topalov v Alexey Shirov 1998-03-04 Line2
+  //[2026-01-24 24-ply in 30:20:36 @1.176 MHz over 128.462 Gnode] eval -3.5 after:
+  // 50. Bb2 d4 51. Bc1 Kd3 52. Bb2 Kc4 53. Ba1 f5 54. Ke1 f4 55. Bb2 f3 56. Bc1 Kb3 57. Kf2 d3 58. h5 gxh5 59. Bg5 Kc2 60. Bh6 d2 61.Bxd2 Kxd2
+  //
   //"8/8/5p2/3p4/p3k3/2B5/5K2/8 w - - 0 50"; // Veselin Topalov v Alexey Shirov 1998-03-04 Simplified
   //[2023-03-09 24-ply in 6:21:09 @1.074 MHz over 24.554 Gnode] eval -9.25 after:
   // 50. Bb2 d4 51. Bc1 Kd3 52. Bb2 f5 53. Ke1 Kc4 54. Ba1 f4
@@ -527,14 +526,20 @@ partial class UCI {
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
   // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 // Annotates Draw upon 4... Kh8g8=
   "2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
-  // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6 // Annotates Draw upon 5. Qh6g6+=
-  // However, the following test case requires one more move to do so:
+  //
+  //[Fixed 2026-01-26]Test case for Clear Repetition bug
+  // The following correctly annotates a Draw upon 5. Qh6g6+=
+  // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6
+  // However, the following test case used to require one more move to do so:
   // moves h6g6
   // moves g8h8 g6h6 h8g8 h6g6
   // moves g8h8 g6h6 h8g8 h6g6
-  // moves g8h8                         // Finally annotates Draw upon 5... Kh8g8=
+  // moves g8h8
+  // Finally annotates Draw upon 5... Kh8g8=
+  // The following did annotate a Draw upon 5. Qh6g6+=
   // moves h6g6
-  // moves g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6 // Annotates Draw upon 5. Qh6g6+=
+  // moves g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6
+  //
   //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - d6 0 1"; // Draw3NEP
   //"2r2rk1/8/7Q/3pP3/2q1n3/6B1/5P2/5RK1 w - - 0 1"; // Draw3N0
   //"7r/8/5Q1k/pP2p3/Pp1bP3/2n5/2P3KP/3q4 b - - 0 1"; // Perpetua0
@@ -768,6 +773,8 @@ partial class UCI {
   //"r2qkbnr/ppp2ppp/2np4/4p2b/2B1P3/2N2N1P/PPPP1PP1/R1BQK2R w KQkq - 0 6"; // Légal Trap
   //"8/K6N/8/2N5/1n6/6Q1/6pn/7k w - - 0 1"; // Chekhov's Gun [White to Win in 4, Zwischenzug followed by Zugzwang] 8-ply in 0.68 sec
   //"5rk1/pp4pp/4p3/2R3Q1/3n4/2q4r/P1P2PPP/5RK1 b - - 0 1"; // Stefan Levitsky v Frank Marshall, Breslau 1912, "The Gold Coin Game"
+  //[2026-01-20 5-ply in 0.557 sec @292.307 KHz over 162.903 Knode] eval -4.0 after:
+  // 1... Qg3!! 2. Qxg3 Ne2+ 3. Kh1 Nxg3+ 4. Kg1 Nxf1 5. gxh3
   //"5k1r/p1Br1pb1/6q1/1pp2Npp/3n4/P2Q3P/1P3PP1/3RR2K w - - 0 29"; // 2023-08-03 Carlsen v Pantsulaia #5
   // Mobility Disabled
   //[2023-08-06 6-ply in 0.56 sec @536.1 KHz over 300 Knode]

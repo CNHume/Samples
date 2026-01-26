@@ -157,7 +157,6 @@ partial class Position : Board {
       //
       SetDrawIM();
 
-      ClrRepetition();
       if (bFindRepetition)
         findRepetition();
     }
@@ -230,6 +229,7 @@ partial class Position : Board {
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void findRepetition() {
+    ClrRepetition();
     var position = findRepetition1();
     if (position is not null) {
       if (IsNullMade())

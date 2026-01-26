@@ -233,7 +233,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void hashFlags(Boolean bWTM, ref Hashcode qHash) {
-    toggleEPHash(ref qHash);
+    applyEPHash(ref qHash);
     if (!bWTM) qHash ^= zobristTurn;
   }
 
