@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Fermat Tests/Fermat Tests.csproj" />
+  <Project Path="Fermat/Fermat.csproj" />
+</Solution>

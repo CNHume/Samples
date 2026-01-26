@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="InsertionSort/InsertionSort.csproj" />
+  <Project Path="MergeSort/MergeSort.csproj" />
+  <Project Path="SortTests/Sort Test.csproj" />
+</Solution>

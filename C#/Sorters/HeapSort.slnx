@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="HeapSort/Heap Sort.csproj" />
+  <Project Path="HeapTests/Heap Test.csproj" />
+  <Project Path="SortTests/Sort Test.csproj" />
+</Solution>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="InsertionSort/InsertionSort.csproj" />
+  <Project Path="SortTests/Sort Test.csproj" />
+</Solution>
