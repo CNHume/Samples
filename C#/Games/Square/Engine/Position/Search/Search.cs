@@ -577,8 +577,8 @@ partial class Position : Board {
   // See "The DTS high-performance parallel tree search algorithm" at
   // http://www.craftychess.com/hyatt/search.html
   //
-  // All Nodes [the successors of a Cut Node] are the best candidates for Split Points
-  // while a Cut Node [the successor of a PV or an  All Node] should be avoided.
+  // All Node [successors of a Cut Node] are the best candidates for Split Points
+  // while Cut Node [successors of a PV or an All Node] should be avoided.
   //
   // Cut-node becomes All-node once the first and all candidate cutoff moves are searched [Pradhu Kannan]
   // First child of a Cut-node, and other candidate cutoff moves (nullmove, killers, captures, checks, ...) is All-node

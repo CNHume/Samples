@@ -33,9 +33,6 @@ partial class Position : Board {
     if (Parent is null)
       throw new PositionException("resetMove() called at the Root Position");
     Copy(Parent);
-
-    // Reset En Passant state just prior to calling ExecuteMove()
-    ResetEP();
 #if DebugNodeTotal
     var qNodes = State.TotalMoves + State.NullMoves;
     if (State.Nodes != qNodes) {

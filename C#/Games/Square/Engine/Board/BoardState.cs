@@ -45,7 +45,7 @@ partial class Board {
   // setEPLegal
   // IsEPLegal
   // applyEPHash
-  // ResetEP
+  // resetEP
   //
   // InCheck
   // SetInCheck
@@ -255,7 +255,7 @@ partial class Board {
   }
 
   //
-  // The following is called by ResetEP() below,
+  // The following is called by resetEP() below,
   // and when TurnFlags.EPLegal is set by tryEP().
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -263,15 +263,19 @@ partial class Board {
     if (IsEPLegal()) qHash ^= epHash();
   }
 
-  //
-  // The following is called by resetMove()
-  //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected void ResetEP() {
+  private void resetEP() {
+    // Reset En Passant state
     // applyEPHash() calls epHash() which requires EPTarget.
     applyEPHash(ref Hash);
     // clrEPLegal() clears EPTarget.
     clrEPLegal();
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  private void setEP(int nFrom, int nTo) {
+    if (nTo == nFrom + 2 * Friend.Parameter.PawnStep)
+      EPTarget = (Byte)(nFrom + Friend.Parameter.PawnStep);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]

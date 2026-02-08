@@ -50,6 +50,7 @@ partial class UCI {
 
   //
   //"";
+  //"5Nr1/5Qpk/5p1p/3P3P/2b5/2P5/5PPK/2R5 b - - 0 49"; // #6 setoption NullMove value False
   //"8/1p4p1/pP2pp2/2B5/P3k3/4P1K1/8/8 b - - 0 39"; Boris Spassky v Bobby Fischer 1972 WCC R1 1972-07-11 Nimzo-Indian Defense (E56) Gligoric System
   // Fischer had a drawing move; but lost after playing 39... f5?
   // 39... e5! 40. Kg4 g6 [39... g6 40. Kg4 e5  {xposing}] 41. a5 Kd5 42. Be7 f5+ 43. Kg5 f4 44. exf4 exf4 45. Kxf4=
@@ -365,13 +366,16 @@ partial class UCI {
   //[9-ply in 7 sec @1.451 MHz over 10.19 Mnode]
   //"6rk/5p2/Q2pP2p/pNp1b2n/P3P1Nq/5R1P/3P2P1/6K1 b - - 0 30"; // Carlsen v Grischuk LCC R9 2015-12-13
   //"1b1Q4/1P6/6k1/1B6/5p2/6PK/5q2/8 w - - 0 66"; // Carlsen v Topalov 2015-06-16 [0-1 R1 Time Forfeit]
-  //[2022-09-01 15-Ply in 36:28 @1.314 MHz over 2.874 Gnode] eval 4.9
-  //[2022-09-01 16-Ply in 48:24.6 @1.337 MHz over 3.885 Gnode] eval 8.05
-  // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 73. Qb6+ Kxc4 74. Qxf2 Bd6 75. g5
   //
   // 66. Bd3+! Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 (68... Kh6 69. Qf8+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 {xposing})
   // 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+! Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
   // 73. Qb6+ Kxc4 74. Qxf2 Kb5 75. Qa2 Kc5 76. Qa6
+  //
+  //[2026-02-07 15-Ply in 9:58.68 @1.459 MHz over 873.5235 Gnode] eval 8.35 after:
+  // 66. Bd3+ Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Ke5 73. Qe6+ Kd4 74. Qb6+ Kxc4 75. Qxf2
+  //[2026-02-07 16-Ply in 15:30.57 @1.562 MHz over 1.453 Gnode] eval 8.55 after:
+  // 66. Bd3+ Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 73. Qb6+ Kxc4 74. Qxf2 Kb5
+  // 75. g5 Ka6 76.Qb2 f4f3
   //
   //"5Q2/5p1p/1pPr2p1/6k1/8/3pP2P/2q2PP1/3R1K2 w - - 0 44"; // Khismatullin v Eljanov 2015-03-06
   //[12-ply in 1:19.3 @1.317 MHz] eval 0.20
