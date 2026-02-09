@@ -371,7 +371,7 @@ partial class UCI {
   // 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+! Ke4 72. Qg6+ Kd4 (72... Kf3 73. Qc6+ Ke3 74. Qc5+ Kf3 75. Qd5+ Ke3 76. Qd3#)
   // 73. Qb6+ Kxc4 74. Qxf2 Kb5 75. Qa2 Kc5 76. Qa6
   //
-  //[2026-02-07 15-Ply in 9:58.68 @1.459 MHz over 873.5235 Gnode] eval 8.35 after:
+  //[2026-02-08 15-Ply in 9:43.57 @1.497 MHz over 873.5235 Gnode] eval 8.35 after:
   // 66. Bd3+ Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Ke5 73. Qe6+ Kd4 74. Qb6+ Kxc4 75. Qxf2
   //[2026-02-07 16-Ply in 15:30.57 @1.562 MHz over 1.453 Gnode] eval 8.55 after:
   // 66. Bd3+ Kf7 67. Bc4+ Kg6 68. Qg8+ Kf6 69. Qf7+ Kg5 70. Qg7+ Kf5 71. g4+ Ke4 72. Qg6+ Kd4 73. Qb6+ Kxc4 74. Qxf2 Kb5

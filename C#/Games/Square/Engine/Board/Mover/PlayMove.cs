@@ -154,8 +154,8 @@ partial class Board {
 
   //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
   protected void PlayMove(ref Move move) {
+    var bResetHMVC = false;
     resetEP();
-
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,
             out Boolean bCastles, out Boolean bCapture);
@@ -171,8 +171,7 @@ partial class Board {
       Friend.RaisePiece(vPiece, nFrom);
 
     if (bCapture) {
-      resetHalfMoveClock();             // Reset due to Capture
-
+      bResetHMVC = true;                // Reset due to Capture
       var vCapture = CaptureIndex(nTo, ref move, out Boolean bEnPassant);
       var nCaptureFrom = bEnPassant ? nTo + Foe.Parameter.PawnStep : nTo;
       Foe.RemovePiece(vCapture, nCaptureFrom);
@@ -189,10 +188,13 @@ partial class Board {
       Friend.LowerPiece(vPiece, nTo);
 
     if (vPiece == vP6) {
-      resetHalfMoveClock();             // Reset due to Pawn Move
-      setEP(nFrom, nTo);
+      bResetHMVC = true;                // Reset due to Pawn Move
+      setEP(nFrom, nTo, Friend.Parameter.PawnStep);
       Friend.ResetPawnAtx();
     }
+
+    if (bResetHMVC)
+      resetHalfMoveClock();
 
     verifyPieceColors();                //[Conditional]
 

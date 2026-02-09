@@ -46,6 +46,7 @@ partial class Board {
   // IsEPLegal
   // applyEPHash
   // resetEP
+  // setEP
   //
   // InCheck
   // SetInCheck
@@ -273,9 +274,9 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void setEP(int nFrom, int nTo) {
-    if (nTo == nFrom + 2 * Friend.Parameter.PawnStep)
-      EPTarget = (Byte)(nFrom + Friend.Parameter.PawnStep);
+  private void setEP(int nFrom, int nTo, int pawnStep) {
+    if (nTo == nFrom + 2 * pawnStep)
+      EPTarget = (Byte)(nFrom + pawnStep);
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
