@@ -297,6 +297,7 @@ partial class Position : Board {
   private void lookupPV(List<Move> vnMoves, Eval mAlpha, Eval mBeta) {
     const String methodName = nameof(lookupPV);
 
+    resetMove();                        // Cf. [null|try]Move()
     //[Note]LoadMove() and abbreviate() require the parent position to be supplied by resetMove():
     probeMove(mAlpha, mBeta, out Move moveFound);
 
@@ -345,7 +346,6 @@ partial class Position : Board {
       //
       var child = Push();               // Push Position to make the moves
       try {
-        child.resetMove();              // Usually called via [null|try]Move()
         child.lookupPV(vnMoves, (Eval)(-mBeta), (Eval)(-mAlpha));
       }
       finally {
@@ -396,7 +396,6 @@ partial class Position : Board {
   private void abbreviateRefresh(
     List<Move> vnMoves, Int32 nDepth, Eval mValue, Int32 nIndex = 0) {
     const String methodName = nameof(abbreviateRefresh);
-    resetMove();                        // Usually called via [null|try]Move()
     if (vnMoves.Count <= nIndex) {
       //[Safe]lookupPV() should not be called if a draw is detected
       if (!IsDraw())
@@ -410,6 +409,8 @@ partial class Position : Board {
       Debug.Assert(IsDefinite(moveNoted), message);
       return;
     }
+
+    resetMove();                        // Cf. [null|try]Move()
 
     if (!State.IsPure) {
       // Standard Algebraic Notation (AN) supports abbreviation

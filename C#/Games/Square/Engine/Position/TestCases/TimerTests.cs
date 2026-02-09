@@ -289,8 +289,8 @@ partial class Position : Board {
 
     // ~15 Mhz
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
-      resetMove();
       var move = mov;
+      resetMove();
       ExecuteMove(ref move);
     }
 

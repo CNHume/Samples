@@ -44,9 +44,10 @@ partial class Board {
   // clrEPLegal
   // setEPLegal
   // IsEPLegal
+  //
   // applyEPHash
-  // resetEP
-  // setEP
+  // resetTurnFlags
+  // setEPTarget
   //
   // InCheck
   // SetInCheck
@@ -256,8 +257,8 @@ partial class Board {
   }
 
   //
-  // The following is called by resetEP() below,
-  // and when TurnFlags.EPLegal is set by tryEP().
+  // The following is called by resetTurnFlags(),
+  // and when tryEP() sets TurnFlags.EPLegal.
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void applyEPHash(ref Hashcode qHash) {
@@ -265,8 +266,8 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void resetEP() {
-    // Reset En Passant state
+  private void resetTurnFlags() {
+    clrDraw0();
     // applyEPHash() calls epHash() which requires EPTarget.
     applyEPHash(ref Hash);
     // clrEPLegal() clears EPTarget.
@@ -274,7 +275,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void setEP(int nFrom, int nTo, int pawnStep) {
+  private void setEPTarget(int nFrom, int nTo, int pawnStep) {
     if (nTo == nFrom + 2 * pawnStep)
       EPTarget = (Byte)(nFrom + pawnStep);
   }

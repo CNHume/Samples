@@ -424,6 +424,9 @@ partial class UCI {
   // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Ke8 37. Ng7+ Kd7 38. Qxf7+ Qe7
   //[2024-04-25 20-ply in 3:39:39.58 @1.523 MHz over 20.068 Gnode] eval 3.00 after:
   // 28. Be4! Nd6 29. hxg6 hxg6 30. exd6 dxe4 31. Qh8+ Kxh8 32. Nxf7+ Kg7 33. Nxd8 Bd3 34. Nc6 Bb1 35. Nxa5 Bxa2 36. Nxe4 Bb1 37. Nc5 Bc2 38. g5
+  //[2026-02-09 20-ply in 4:10:11.45 @1.5934 MHz over 23.919 Gnode] eval 2.85 after:
+  // 28. Be4! Be8 29. hxg6 hxg6 30. Nh5 gxh5? 31. Bh7+ Nxh7 32. Nxh7 f6 33. Nxf6+ Kf7 34. Nxh5 Ke7 35. Qg7+ Bf7 36. Qf6+ Kd7 37. Qxf7+ Qe7
+  // 38. Qxe7+ Nxe7 39. g5 Nf5 40. Nf6+
   //
   //"4b1q1/7k/3PpQp1/p2p4/1p1P2P1/1P1B4/P4P2/6K1 b - - 0 37"; // Fischer v Panno 1970 Line
   //"2r1q1k1/r4p1p/b3pBp1/n3P1QP/p2p3R/P5P1/2p2PB1/R5K1 w - - 0 2"; // Fischer Mate, 8-ply for #7
@@ -565,9 +568,8 @@ partial class UCI {
   //"N5nr/pp1kppbp/6p1/1B6/8/4BP2/PP3P1P/n2K3R b - - 0 15";
   //
   //"rnb3nr/pppp1k1p/3b2q1/7Q/5B2/8/PPP3PP/RN3R1K w - - 0 14"; // Jensen v Urkedal 2013 #10
-  //[2023-04-04 16-ply in 35:57 @1.547 MHz over 3.336 Gnode] to find #11
-  //[2023-04-04 17-ply in 4:21:30 @1.47 MHz over 23.071 Gnode]
-  // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kg7 19. Qe7+ Kh6 20. Bf4+
+  //[2026-02-08 15-ply in 9:44.34 @2.430 MHz over 1.420 Gnode] to find #10 after:
+  // 14. Bxd6+ Nf6 15. Rxf6+ Kg7 16. Rxg6+ hxg6 17. Qe5+ Kg8 18. Qe8+ Kh7 19. Qe7+ Kh6 20. Bd6f4+
   //"rnb4r/pppp1k1p/3B1nq1/7Q/8/8/PPP3PP/RN3R1K w - - 0 15"; // Jensen v Urkedal 2013 #9
   //[13-ply in 15.24 sec @1.797 MHz over 27.4 Mnode]
   //"rnb4r/pppp2k1/3B2p1/7Q/8/8/PPP3PP/RN5K w - - 0 17"; // Jensen v Urkedal 2013 #7

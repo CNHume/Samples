@@ -155,7 +155,8 @@ partial class Board {
   //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
   protected void PlayMove(ref Move move) {
     var bResetHMVC = false;
-    resetEP();
+    resetTurnFlags();
+
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,
             out Boolean bCastles, out Boolean bCapture);
@@ -189,12 +190,12 @@ partial class Board {
 
     if (vPiece == vP6) {
       bResetHMVC = true;                // Reset due to Pawn Move
-      setEP(nFrom, nTo, Friend.Parameter.PawnStep);
+      setEPTarget(nFrom, nTo, Friend.Parameter.PawnStep);
       Friend.ResetPawnAtx();
     }
 
     if (bResetHMVC)
-      resetHalfMoveClock();
+      resetHalfMoveClock();             // Calls SetDraw0()
 
     verifyPieceColors();                //[Conditional]
 
@@ -237,8 +238,6 @@ partial class Board {
   //[Test]Validate any change made here by running Perft Tests!
   //
   internal void ExecuteMove(ref Move move) {
-    clrDraw0();
-
     PlayMove(ref move);
 
     #region Update En Passant
@@ -263,12 +262,7 @@ partial class Board {
   }
 
   protected void SkipTurn() {
-    resetEP();
-
-    //
-    // Defer Repetition Cycle determination to Parent Position
-    //
-    clrDraw0();
+    resetTurnFlags();
 
     //
     // Null Moves are neutral wrt the 50 move rule:
