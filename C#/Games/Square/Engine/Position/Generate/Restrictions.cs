@@ -44,8 +44,8 @@ partial class Position : Board {
     // tryMove() skips pinnedPiece moves not marked as allowed
     // in restricted[].
     //
-    //[Note]ExecuteMove() has called IncrementGamePly()
-    // to invert the sense of Friend and Foe.
+    //[Note]PlayMove() has called IncrementGamePly() to invert
+    // the sense of Friend and Foe.
     //
     byte vKingPos = Foe.GetKingPos();
     var qpChx = Friend.Checkers(vKingPos, Foe.Piece & King);

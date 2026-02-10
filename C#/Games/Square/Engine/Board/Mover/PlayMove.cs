@@ -36,7 +36,7 @@ partial class Board {
   // LowerPiece() is called via PlacePiece()
   // RaisePiece() is called via RemovePiece()
   //
-  // ExecuteMove()
+  // FinishEP()
   // SkipTurn()
   // tracePosition()
   //
@@ -152,6 +152,9 @@ partial class Board {
     Foe.LowerPiece(vP6, nMovedTo);
   }
 
+  //
+  //[Test]Validate any change made here by running Perft Tests!
+  //
   //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
   protected void PlayMove(ref Move move) {
     var bResetHMVC = false;
@@ -234,12 +237,7 @@ partial class Board {
     (Friend, Foe) = GetSides(WTM());
   }
 
-  //
-  //[Test]Validate any change made here by running Perft Tests!
-  //
-  internal void ExecuteMove(ref Move move) {
-    PlayMove(ref move);
-
+  internal void FinishEP() {
     #region Update En Passant
     //
     //[Note]tryEP() is being called after IncrementGamePly()
@@ -256,7 +254,7 @@ partial class Board {
     // are disallowed until the NullMade flag is cleared here: when this method makes
     // an actual move.
     //
-    ClrNullMade();
+    clrNullMade();
 #endif
     tracePosition();                    //[Conditional]
   }
@@ -277,7 +275,7 @@ partial class Board {
   #endregion                            // Piece Mover
 
   #region Trace Positions
-  // Called by ExecuteMove() and SkipTurn()
+  // Called by FinishEP() and SkipTurn()
   [Conditional("TracePosition")]
   private void tracePosition() {
     clrTrace();

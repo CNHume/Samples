@@ -57,7 +57,7 @@ partial class Position : Board {
   private Plane[] restricted;
   private Plane pinnedPiece;
 
-  public Move CurrentMove;              // Set by [null|try]Move() prior to calling Board.ExecuteMove()
+  public Move CurrentMove;              // Set by [null|try]Move()
 #if TestBest
   public List<BestMove> BestMoves;
 #else

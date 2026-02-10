@@ -41,7 +41,7 @@ partial class Position : Board {
 
     //
     //[Note]IsAbove() is assessed from the perspective of Foe
-    // because IncrementGamePly() was called by ExecuteMove().
+    // because IncrementGamePly() was called by PlayMove().
     //
     var parameter = Foe.Parameter;
     var bAbove = parameter.IsAbove(nTo);

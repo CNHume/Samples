@@ -69,14 +69,11 @@ partial class Position : Board {
     //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
-    timeExecuteMove(move);              //[Conditional]
+    timePlayMove(move);                 //[Conditional]
     resetMove();
-    ExecuteMove(ref move);
-
-    if (IsDraw0())
-      clrEval();                        // Captures and Pawn moves invalidate staticEval()
-
-    expireEnPassant();
+    PlayMove(ref move);
+    FinishEP();
+    expireEP();
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(tryMove));
@@ -101,8 +98,7 @@ partial class Position : Board {
     CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
     SkipTurn();
-
-    expireEnPassant();
+    expireEP();
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(nullMove));
@@ -127,7 +123,13 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void expireEnPassant() {
+  private void expireEP() {
+    if (IsDraw0()) {
+      // Captures and Pawn moves invalidate staticEval()
+      // However, castling moves need not.
+      clrEval();
+    }
+
     //
     //[Note]Any move begins a new Repetition Cycle when En Passant was possible
     // because the right to En Passant expires whether it is exercised or not.

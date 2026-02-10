@@ -282,16 +282,16 @@ partial class Position : Board {
   //[Perft3]g2g4 9.57 MHz 39% slower with tryEP()
   //
   [Conditional("TimePlayMove")]
-  private void timeExecuteMove(Move mov, UInt64 qTrials = 100000000UL) {
+  private void timePlayMove(Move mov, UInt64 qTrials = 100000000UL) {
     var sbMove = new StringBuilder();
     sbMove.AppendPACN(mov, Side, State.IsChess960);
-    var sw = timerStart($"{nameof(ExecuteMove)}({sbMove})", qTrials);
+    var sw = timerStart($"{nameof(PlayMove)}({sbMove})", qTrials);
 
     // ~15 Mhz
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++) {
       var move = mov;
       resetMove();
-      ExecuteMove(ref move);
+      PlayMove(ref move);
     }
 
     timerStop(sw, qTrials);
@@ -300,7 +300,7 @@ partial class Position : Board {
   private void timeMove(Move move, UInt64 qTrials = 100000000UL) {
     var child = Push();                 // Push Position to make the moves
     try {
-      child.timeExecuteMove(move, qTrials);
+      child.timePlayMove(move, qTrials);
     }
     finally {
       Pop(ref child);                   // Pop Position used for this Timer Test
