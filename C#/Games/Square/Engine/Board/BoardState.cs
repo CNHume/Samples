@@ -424,7 +424,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected void SetNullMade() {
+  private void setNullMade() {
     FlagsMode |= ModeFlags.NullMade;
   }
 

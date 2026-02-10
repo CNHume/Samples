@@ -268,7 +268,7 @@ partial class Board {
     //
     IncrementGamePly();
 
-    SetNullMade();                      // Prevent two consecutive Null Moves
+    setNullMade();                      // Prevent two consecutive Null Moves
 
     tracePosition();                    //[Conditional]
   }
