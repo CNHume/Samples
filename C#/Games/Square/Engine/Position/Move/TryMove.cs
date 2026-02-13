@@ -65,15 +65,16 @@ partial class Position : Board {
       return false;
     }
 
+    timePlayMove(move);                 //[Conditional]
+
     //
     //[Note]resetMove() is called here because it is needed for every subsequent move.  This leaves
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
-    timePlayMove(move);                 //[Conditional]
     resetMove();
-    PlayMove(ref move);
-    FinishEP();
-    expireEP();
+    PlayMove(ref move);                 // Calls resetTurnFlags(), and IncrementGamePly()
+    UpdateEPLegal();
+    expireParentEPLegal();              // May call SetDraw0()
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(tryMove));
@@ -98,7 +99,7 @@ partial class Position : Board {
     CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
     SkipTurn();
-    expireEP();
+    expireParentEPLegal();
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(nullMove));
@@ -123,7 +124,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void expireEP() {
+  private void expireParentEPLegal() {
     if (IsDraw0()) {
       // Captures and Pawn moves invalidate staticEval()
       // However, castling moves need not.

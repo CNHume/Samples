@@ -36,7 +36,7 @@ partial class Board {
   // LowerPiece() is called via PlacePiece()
   // RaisePiece() is called via RemovePiece()
   //
-  // FinishEP()
+  // UpdateEPLegal()
   // SkipTurn()
   // tracePosition()
   //
@@ -237,7 +237,7 @@ partial class Board {
     (Friend, Foe) = GetSides(WTM());
   }
 
-  internal void FinishEP() {
+  internal void UpdateEPLegal() {
     #region Update En Passant
     //
     //[Note]tryEP() is being called after IncrementGamePly()
@@ -275,7 +275,7 @@ partial class Board {
   #endregion                            // Piece Mover
 
   #region Trace Positions
-  // Called by FinishEP() and SkipTurn()
+  // Called by UpdateEPLegal() and SkipTurn()
   [Conditional("TracePosition")]
   private void tracePosition() {
     clrTrace();
