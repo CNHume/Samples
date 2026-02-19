@@ -117,8 +117,7 @@ partial class Position : Board {
 
     var qpAtxTo = PieceAtxTo(nFrom, nTo, piece, bCapture);
 
-    //[Conditional]
-    filterCandidates(move, ref qpAtxTo);
+    filterCandidates(move, ref qpAtxTo);  //[Conditional]
 
     if (qpAtxTo == 0) {
       var sAction = bCapture ? "capture" : "move";

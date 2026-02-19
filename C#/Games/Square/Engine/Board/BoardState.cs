@@ -267,6 +267,7 @@ partial class Board {
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void resetEP() {
+    clrDraw0();
     // applyEPHash() calls epHash() which requires EPTarget.
     applyEPHash(ref Hash);
     // clrEPLegal() clears EPTarget.
@@ -393,7 +394,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected void ClrDraw0() {
+  private void clrDraw0() {
     FlagsDraw &= ~DrawFlags.Draw0;
   }
 

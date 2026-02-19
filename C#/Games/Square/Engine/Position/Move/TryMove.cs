@@ -74,7 +74,6 @@ partial class Position : Board {
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
     resetMove();
-    ClrDraw0();
     PlayMove(ref move);                 // Calls resetEP(), and IncrementGamePly()
 #if RecursiveNullMade
     //
@@ -109,7 +108,6 @@ partial class Position : Board {
   private Boolean nullMove() {
     CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
-    ClrDraw0();
     SkipTurn();
     expireParentEP();                   // May call SetDraw0()
 #if TestHash
