@@ -46,7 +46,7 @@ partial class Board {
   // IsEPLegal
   //
   // applyEPHash
-  // resetTurnFlags
+  // resetEP
   // setEPTarget
   //
   // InCheck
@@ -257,7 +257,7 @@ partial class Board {
   }
 
   //
-  // The following is called by resetTurnFlags(),
+  // The following is called by resetEP(),
   // and when tryEP() sets TurnFlags.EPLegal.
   //
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
@@ -266,8 +266,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void resetTurnFlags() {
-    clrDraw0();
+  private void resetEP() {
     // applyEPHash() calls epHash() which requires EPTarget.
     applyEPHash(ref Hash);
     // clrEPLegal() clears EPTarget.
@@ -394,7 +393,7 @@ partial class Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void clrDraw0() {
+  protected void ClrDraw0() {
     FlagsDraw &= ~DrawFlags.Draw0;
   }
 
@@ -419,7 +418,7 @@ partial class Board {
 
   #region ModeFlags
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void clrNullMade() {
+  protected void ClrNullMade() {
     FlagsMode &= ~ModeFlags.NullMade;
   }
 

@@ -8,8 +8,10 @@
 //#define DebugDraw2
 //#define DebugNodeTotal
 //#define DisplayPosition
+#define RecursiveNullMade
 //#define TimePlayMove
 //#define TestHash
+//#define TracePosition
 //#define TurnTest
 
 using System.Diagnostics;
@@ -72,9 +74,18 @@ partial class Position : Board {
     // a window between the time initNode() initializes a node and when resetMove() is first called.
     //
     resetMove();
-    PlayMove(ref move);                 // Calls resetTurnFlags(), and IncrementGamePly()
-    UpdateEPLegal();
-    expireParentEPLegal();              // May call SetDraw0()
+    ClrDraw0();
+    PlayMove(ref move);                 // Calls resetEP(), and IncrementGamePly()
+#if RecursiveNullMade
+    //
+    // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
+    // are disallowed until the NullMade flag is cleared here, when this method makes
+    // an actual move.
+    //
+    ClrNullMade();
+#endif
+    UpdateEP();
+    expireParentEP();                   // May call SetDraw0()
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(tryMove));
@@ -98,8 +109,9 @@ partial class Position : Board {
   private Boolean nullMove() {
     CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
+    ClrDraw0();
     SkipTurn();
-    expireParentEPLegal();
+    expireParentEP();                   // May call SetDraw0()
 #if TestHash
     if (!TestHash())
       DisplayCurrent(nameof(nullMove));
@@ -124,7 +136,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void expireParentEPLegal() {
+  private void expireParentEP() {
     if (IsDraw0()) {
       // Captures and Pawn moves invalidate staticEval()
       // However, castling moves need not.
@@ -137,6 +149,8 @@ partial class Position : Board {
     //
     if (Parent is not null && Parent.IsEPLegal())
       SetDraw0();
+
+    TracePosition();                    //[Conditional]
   }
 
   // IsLegal() detects Checks and sets Draw Flags when moves are tried.

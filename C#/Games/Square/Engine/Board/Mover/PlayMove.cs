@@ -7,9 +7,7 @@
 //
 //#define CountCapturedPiece
 //#define CountEPNodes
-#define RecursiveNullMade
 #define SaveCapture
-//#define TracePosition
 //#define VerifyPieceColor
 //#define VerifyPromotion
 
@@ -36,9 +34,9 @@ partial class Board {
   // LowerPiece() is called via PlacePiece()
   // RaisePiece() is called via RemovePiece()
   //
-  // UpdateEPLegal()
+  // UpdateEP()
   // SkipTurn()
-  // tracePosition()
+  // TracePosition()
   //
 
   #region Piece Mover
@@ -158,7 +156,7 @@ partial class Board {
   //[2023-01-31]Capture: 21.6 MHz, Simple: 29.2 MHz, Pawn: 26.8 MHz, Passer: 27.7 MHz
   protected void PlayMove(ref Move move) {
     var bResetHMVC = false;
-    resetTurnFlags();
+    resetEP();
 
     unpack2(move, out Int32 nFrom, out Int32 nTo,
             out UInt32 uPiece, out UInt32 uPromotion,
@@ -237,8 +235,7 @@ partial class Board {
     (Friend, Foe) = GetSides(WTM());
   }
 
-  internal void UpdateEPLegal() {
-    #region Update En Passant
+  protected void UpdateEP() {
     //
     //[Note]tryEP() is being called after IncrementGamePly()
     // has inverted the sense of Friend and Foe.
@@ -247,20 +244,10 @@ partial class Board {
       tryEP(EPTarget.Value);
       applyEPHash(ref Hash);
     }
-    #endregion                          // Update En Passant
-#if RecursiveNullMade
-    //
-    // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
-    // are disallowed until the NullMade flag is cleared here: when this method makes
-    // an actual move.
-    //
-    clrNullMade();
-#endif
-    tracePosition();                    //[Conditional]
   }
 
   protected void SkipTurn() {
-    resetTurnFlags();
+    resetEP();
 
     //
     // Null Moves are neutral wrt the 50 move rule:
@@ -269,15 +256,13 @@ partial class Board {
     IncrementGamePly();
 
     setNullMade();                      // Prevent two consecutive Null Moves
-
-    tracePosition();                    //[Conditional]
   }
   #endregion                            // Piece Mover
 
   #region Trace Positions
-  // Called by UpdateEPLegal() and SkipTurn()
+  // Called by expireParentEP()
   [Conditional("TracePosition")]
-  private void tracePosition() {
+  protected void TracePosition() {
     clrTrace();
 
     //
