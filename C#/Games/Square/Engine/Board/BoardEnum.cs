@@ -348,7 +348,7 @@ partial class Board {
     // EqualMask distinguishes the three Limit Moves:
     //
     NullMove = Piece.P << nPromoteBit,  // Null Move Heuristic
-    Undefined = Piece.K << nPromoteBit,
+    Undefined = Piece.K << nPromoteBit, // Uninitialized Move Value
     EmptyMove = Castles | Undefined     // Denotes Final Position in Transposition
   }
   #endregion                            // Move Enum

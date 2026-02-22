@@ -8,7 +8,6 @@
 //#define DebugDraw2
 //#define DebugNodeTotal
 //#define DisplayPosition
-#define RecursiveNullMade
 //#define TimePlayMove
 //#define TestHash
 //#define TracePosition
@@ -60,6 +59,10 @@ partial class Position : Board {
 
   // ~2.3 MHz: slowed mostly by IsLegal() and only slightly by resetMove()
   private Boolean tryMove(ref Move move, Boolean bFindRepetition = true, Boolean bQxnt = false) {
+    const string methodName = nameof(tryMove);
+    if (!IsDefined(move))
+      throw new BoardException("Undefined Move");
+
     CurrentMove = move;                 // Current Pseudo Move
     var (bPrevented, bRestricted) = isPinned(move);
     if (bPrevented) {                   // Skip moves which violate known pins
@@ -75,30 +78,16 @@ partial class Position : Board {
     //
     resetMove();
     PlayMove(ref move);                 // Calls resetEP(), and IncrementGamePly()
-#if RecursiveNullMade
-    //
-    // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
-    // are disallowed until the NullMade flag is cleared here, when this method makes
-    // an actual move.
-    //
-    ClrNullMade();
-#endif
-    UpdateEP();
-    expireParentEP();                   // May call SetDraw0()
-#if TestHash
-    if (!TestHash())
-      DisplayCurrent(nameof(tryMove));
-#endif
+
     var bLegal = IsLegal(bRestricted);
-    if (IsDefined(move)) {
-      if (bLegal) {
-        if (bFindRepetition)
-          findRepetition();
-        move = annotateEarly(move);
-      }
-      else
-        restrictPiece(move);
+    if (bLegal) {
+      UpdateEP();
+      expireParentEP(methodName);       // May call SetDraw0(); then calls TracePosition()
+      if (bFindRepetition) findRepetition();
+      move = annotateEarly(move);
     }
+    else
+      restrictPiece(move);
 
     State.IncMove(bLegal, bQxnt);
     State.MonitorHeartbeat(this);
@@ -106,14 +95,11 @@ partial class Position : Board {
   }
 
   private Boolean nullMove() {
+    const string methodName = nameof(nullMove);
     CurrentMove = Move.NullMove;        // Current Pseudo Move
     resetMove();
     SkipTurn();
-    expireParentEP();                   // May call SetDraw0()
-#if TestHash
-    if (!TestHash())
-      DisplayCurrent(nameof(nullMove));
-#endif
+    expireParentEP(methodName);         // May call SetDraw0(); then calls TracePosition()
     var bInCheck = InCheck();
     if (bInCheck)
       throw new BoardException("Illegal Null Move");
@@ -134,7 +120,7 @@ partial class Position : Board {
   }
 
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  private void expireParentEP() {
+  private void expireParentEP(string callerName) {
     if (IsDraw0()) {
       // Captures and Pawn moves invalidate staticEval()
       // However, castling moves need not.
@@ -147,7 +133,10 @@ partial class Position : Board {
     //
     if (Parent is not null && Parent.IsEPLegal())
       SetDraw0();
-
+#if TestHash
+    if (!TestHash())
+      DisplayCurrent(callerName);
+#endif
     TracePosition();                    //[Conditional]
   }
 

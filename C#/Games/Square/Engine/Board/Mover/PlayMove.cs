@@ -7,6 +7,7 @@
 //
 //#define CountCapturedPiece
 //#define CountEPNodes
+#define RecursiveNullMade
 #define SaveCapture
 //#define VerifyPieceColor
 //#define VerifyPromotion
@@ -236,6 +237,14 @@ partial class Board {
   }
 
   protected void UpdateEP() {
+#if RecursiveNullMade
+    //
+    // The NullMade Flag is set when a Null Move is performed.  Subsequent Null Moves
+    // are disallowed until the NullMade flag is cleared here, when this method makes
+    // an actual move.
+    //
+    clrNullMade();
+#endif
     //
     //[Note]tryEP() is being called after IncrementGamePly()
     // has inverted the sense of Friend and Foe.
