@@ -329,6 +329,7 @@ partial class GameState {
   #region Move Count Methods
   private void displayHeartbeat(
     UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
+    const Boolean bAbbreviate = false;//[Speed]
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     var sb = new StringBuilder("info");
 
@@ -345,7 +346,6 @@ partial class GameState {
     //
     if (IsDisplayCurrentLine &&
         position is not null) {
-      const Boolean bAbbreviate = false;
 
       sb.Append(" currline");
       if (!IsPure)

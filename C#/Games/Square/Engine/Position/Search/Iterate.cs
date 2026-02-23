@@ -5,13 +5,14 @@
 //
 // Conditionals:
 //
+#define ClaimDraw
 #define RefreshPV
 #define WriteMultiPV
 #define DisplayDepth
 #define DisplayRate
 //#define DisplayPrediction
 //#define TestRegression
-#define ThrowFinal
+#define ThrowIfPositionFinal
 
 using System.Diagnostics;
 using System.Text;
@@ -47,7 +48,7 @@ partial class Position : Board {
 
   internal const String sTextStalemate = "stalemate";
   private const String sTextCheckmate = "checkmate";
-  private const String sTextInsufficient = "draw by insufficient material";
+  private const String sTextInsufficient = "insufficient material";
   #endregion                            // Constants
 
   #region Search Methods
@@ -56,14 +57,17 @@ partial class Position : Board {
     return ReferenceEquals(this, State.MovePosition);
   }
 
-  [Conditional("ThrowFinal")]
-  private void throwFinalPosition() {
+  [Conditional("ThrowIfPositionFinal")]
+  private void throwIfPositionFinal() {
     //[Assume]TurnFlags have been set by search()
-    if (IsFinal() || IsInsufficient()) {
+#if ClaimDraw
+    if (IsInsufficient()) {
+      throw new FinalPositionException(sTextInsufficient);
+    }
+#endif
+    if (IsFinal()) {
       String message;
-      if (IsInsufficient())
-        message = sTextInsufficient;
-      else if (InCheck())
+      if (InCheck())
         message = sTextCheckmate;
       else
         message = sTextStalemate;
@@ -136,7 +140,7 @@ partial class Position : Board {
       //
       var wDraft = draft(vDepth);
       mValue = search(wDraft, mAlpha, mBeta);
-      throwFinalPosition();
+      throwIfPositionFinal();
 
       if (mAlpha < mValue && mValue < mBeta)
         break;                          // Aspiration Window was adequate;

@@ -190,12 +190,14 @@ partial class UCI : ICommand {
       State.MovePosition.Display();
       break;
 
-    case "tabiya":
+    case "tabiya": {
       if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
 
-      Parser.TabiyaCommand(State.MovePosition);
+      const Boolean bAbbreviate = true;
+      Parser.TabiyaCommand(State.MovePosition, bAbbreviate);
       break;
+    }
 
     case "moves":
       State.OnMoveCommand();
@@ -211,15 +213,18 @@ partial class UCI : ICommand {
       State.Unmove();
       break;
 
-    case "list":
+    case "list": {
       if (State.MovePosition is null)
         throw new ChessException("Uninitialized Position");
+
       //[Conditional]
       State.MovePosition.DisplayPositions(State.RootPosition);
 
+      const Boolean bAbbreviate = true;
       State.MovePosition.ListMovesFromParent(
-        State.RootPosition, State.IsChess960, Parser.MovesKeyword());
+        State.RootPosition, State.IsChess960, Parser.MovesKeyword(), bAbbreviate);
       break;
+    }
 
     case "getoption":                   //[Debug]
       Parser.GetOptionCommand();

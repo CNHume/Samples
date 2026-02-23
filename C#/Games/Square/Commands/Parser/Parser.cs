@@ -428,13 +428,14 @@ partial class Parser : IDisposable {
     return position;
   }
 
-  public void TabiyaCommand(Position position) {
+  public void TabiyaCommand(Position position, bool bAbbreviate) {
     var state = position.State;
     var namedPosition = findNamedPosition(position, state?.RootPosition);
     if (namedPosition is not null && !IsNullOrEmpty(namedPosition.Name)) {
       namedPosition.Display(namedPosition.Name);
       var bChess960 = state?.IsChess960 ?? false;
-      position.ListMovesFromParent(namedPosition, bChess960, MovesKeyword());
+      position.ListMovesFromParent(
+        namedPosition, bChess960, MovesKeyword(), bAbbreviate);
     }
   }
 

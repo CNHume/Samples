@@ -62,8 +62,8 @@ partial class Position : Board {
     const string methodName = nameof(tryMove);
     if (!IsDefined(move))
       throw new BoardException("Undefined Move");
-
     CurrentMove = move;                 // Current Pseudo Move
+
     var (bPrevented, bRestricted) = isPinned(move);
     if (bPrevented) {                   // Skip moves which violate known pins
       GameState.AtomicIncrement(ref State.PinSkipTotal);
@@ -141,7 +141,7 @@ partial class Position : Board {
   }
 
   // IsLegal() detects Checks and sets Draw Flags when moves are tried.
-  //[Note]IncrementGamePly() inverts the sense of Friend and Foe.
+  //[Note]IncrementGamePly() has inverted the sense of Friend and Foe.
   public Boolean IsLegal(Boolean bRestricted = false) {
 #if TurnTest
     var bWhiteMoved = !WTM();

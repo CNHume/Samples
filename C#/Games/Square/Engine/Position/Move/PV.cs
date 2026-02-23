@@ -17,15 +17,12 @@
 using System.Diagnostics;
 using System.Text;
 
-using MoveOrder;
+using Exceptions;
 
 namespace Engine;
-
-using static Engine.Board;
 #if DebugPlace
 using Command;                          // For UCI.IsDebug
 #endif
-using static Logging.Logger;
 
 //
 // Type Aliases:
@@ -89,8 +86,7 @@ partial class Position : Board {
     if (InCheck()) move |= Move.NoteCheck;
 #if TestDraw3
     if (IsDraw2()) move |= Move.NoteDraw2;
-    if (IsDraw() ||
-        IsDraw50()) move |= Move.NoteDraw;
+    if (IsDraw() || IsDraw50()) move |= Move.NoteDraw;
 #endif
     return CurrentMove = move;
   }
@@ -489,10 +485,15 @@ partial class Position : Board {
   #endregion                            // MultiPV Support
 
   #region Move List Methods
+  //
+  // MovesFromParent() is used by ListMovesFromParent() to return the list
+  // of moves that lead to the current position, from the specified parent.
+  //
   public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
+    ArgumentNullException.ThrowIfNull(parent);
     const String methodName = nameof(MovesFromParent);
     List<Move> moves = [];
-    for (var position = this;           // toPosition
+    for (var position = this;
          position is not null &&        //[Safe]
          !ReferenceEquals(position, parent);
          position = position.Parent) {
@@ -502,7 +503,13 @@ partial class Position : Board {
         break;
       }
 
-      if (bAbbreviate && position.Parent is not null) {
+      //
+      // Throw Null Parent PositionException in case MovesFromParent()
+      // is invoked from the Root Position.
+      //
+      if (position.Parent is null)
+        throw new PositionException("Null Parent");
+      else if (bAbbreviate) {
         //[Conditional]
         position.Parent.verifyMoveIsLegal(move);
         var mov = position.Parent.abbreviate(move);
@@ -515,7 +522,7 @@ partial class Position : Board {
   }
 
   public void ListMovesFromParent(
-    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate = false) {
+    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate) {
     var moves = MovesFromParent(parent, bAbbreviate);
     var wGamePly = parent?.GamePly ?? 0;
     new StringBuilder()
@@ -526,10 +533,11 @@ partial class Position : Board {
   //
   // Displays current position and the moves leading up to it
   //
-  protected void DisplayCurrent(String sLabel) {
+  protected void DisplayCurrent(String sLabel, Boolean bAbbreviate = false) {
     Display(sLabel);
     // The following invokes MovesFromParent()
-    ListMovesFromParent(State.RootPosition, State.IsPure, State.IsChess960);
+    ListMovesFromParent(
+      State.RootPosition, State.IsPure, State.IsChess960, bAbbreviate);
   }
 
   [Conditional("DisplayPositions")]

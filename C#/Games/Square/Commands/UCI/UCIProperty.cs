@@ -50,6 +50,7 @@ partial class UCI {
 
   //
   //"";
+  //"8/8/8/8/8/1k6/Nb6/KN6 w - - 0 3";  // Initial Checkmate w Insufficient Material
   //"5Nr1/5Qpk/5p1p/3P3P/2b5/2P5/5PPK/2R5 b - - 0 49"; // #6 setoption NullMove value False
   //"8/1p4p1/pP2pp2/2B5/P3k3/4P1K1/8/8 b - - 0 39"; Boris Spassky v Bobby Fischer 1972 WCC R1 1972-07-11 Nimzo-Indian Defense (E56) Gligoric System
   // Fischer had a drawing move; but lost after playing 39... f5?

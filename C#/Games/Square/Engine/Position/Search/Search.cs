@@ -6,6 +6,7 @@
 // Conditionals:
 //
 #define Quiescence
+#define ClaimDraw
 //#define DebugMove
 #define AddBestMoves
 //#define DebugMoveIsLegal
@@ -74,7 +75,7 @@ partial class Position : Board {
     const String methodName = nameof(search);
     BestMoves.Clear();                  //[Required]per iteration
     var moveBest = Move.Undefined;      //[Init]
-
+#if ClaimDraw
     #region Test for Draw
     //[Note]IsDraw50() will be called after tryMove() below,
     // to detect Checkmate.
@@ -82,8 +83,8 @@ partial class Position : Board {
       State.IncEvalType(EvalType.Exact);
       return eval();
     }
-    #endregion
-
+    #endregion                          // Test for Draw
+#endif
     #region Test for entry into Quiet Search
     var bInCheck = InCheck();
     if (bInCheck) {                   // Check Extension
@@ -328,7 +329,7 @@ partial class Position : Board {
 
         uLegalMoves++;
         #endregion                      // Make Move
-
+#if ClaimDraw
         #region Test for 50-Move Rule
         if (child.IsDraw50()) {
           mBest = contempt();           //[ToDo]Referencing child.IsDraw50()
@@ -342,7 +343,7 @@ partial class Position : Board {
           goto exit;                    // Draw50 Dynamic Game Leaf
         }
         #endregion                      // Test for 50-Move Rule
-
+#endif                                  // ClaimDraw
         mValue = updateBest(
           child, wDepth, wDraft, ref wDraft1, wReducedDraft,
           uRaisedAlpha, mAlpha, mBeta, ref mBest, ref mBest2,
