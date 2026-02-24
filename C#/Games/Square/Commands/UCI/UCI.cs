@@ -123,9 +123,7 @@ partial class UCI : ICommand {
    * type [check | spin | combo | button | string] default | min | max | var*
    */
   public Boolean Dispatch(String sVerb) {
-    if (Parser == null)
-      throw new ChessException("Uninitialized Parser");
-
+    ArgumentNullException.ThrowIfNull(Parser);
     var bContinue = true;
     switch (sVerb.ToLower()) {
     case "":                            // Empty Commands String
@@ -184,16 +182,12 @@ partial class UCI : ICommand {
       break;
 
     case "board":                       //[Test]In the absence of a GUI
-      if (State.MovePosition is null)
-        throw new ChessException("Uninitialized Position");
-
+      ArgumentNullException.ThrowIfNull(State.MovePosition);
       State.MovePosition.Display();
       break;
 
     case "tabiya": {
-      if (State.MovePosition is null)
-        throw new ChessException("Uninitialized Position");
-
+      ArgumentNullException.ThrowIfNull(State.MovePosition);
       const Boolean bAbbreviate = true;
       Parser.TabiyaCommand(State.MovePosition, bAbbreviate);
       break;
@@ -214,9 +208,8 @@ partial class UCI : ICommand {
       break;
 
     case "list": {
-      if (State.MovePosition is null)
-        throw new ChessException("Uninitialized Position");
-
+      ArgumentNullException.ThrowIfNull(State.MovePosition);
+      ArgumentNullException.ThrowIfNull(State.RootPosition);
       //[Conditional]
       State.MovePosition.DisplayPositions(State.RootPosition);
 
@@ -251,16 +244,15 @@ partial class UCI : ICommand {
       State.BestMoveSearch(Parser);
       break;
 
-    case "best":                        //[Test]
-      if (State.MovePosition is null)
-        throw new ChessException("Uninitialized Position");
-
+    case "best": {                      //[Test]
+      ArgumentNullException.ThrowIfNull(State.MovePosition);
       //[Note]refreshPV() may not have been called
       var sb = new StringBuilder()
         .BestInfo(State.BestLine, State.MovePosition.Side, State.IsChess960);
       if (sb.Length > 0)
         throw new ChessException(sb.ToString());
       break;
+    }
 
     case "ponderhit":                   //[UCI]
       State.Ponderhit();

@@ -96,12 +96,9 @@ partial class UCI {
   // 1... Kf4 2. Re6 Bc3 3. Re7 Bb4 4. Re6 Kf3 5. Rf6+ Ke4 6. Re6+ Kf4 7. Kc1 Bc3 8. Re8 e2 9. Kb1 Be5 10. Rd8 e1=Q+
   // moves e4f4
   //"4R3/8/8/4b3/5k2/3pp3/8/3K4 w - - 0 7";   // Carlsen v Duda Endgame Line
-  //[2023-06-17 19-ply in 2:03:20 @1.354 MHz over 10.02 Gnode] eval -11.85 after:
-  // 7. Re6 Bc7 8. Ra6 Kf5 9. Ra2 Bg3 10. Rb2 Ke4 11. Rb4+ Kf3 12. Rb1 Bf4
-  // moves e8e6 e5c7 e6a6 f4f5
-  //"8/2b5/R7/5k2/8/3pp3/8/3K4 w - - 0 9";    // Carlsen v Duda Endgame Continuation
-  //[2023-08-17 16-ply in 7:25.15 @1.172 MHz over 521.6 Mnode] eval -9.75 after:
-  // 9. Ra2 Bg3 10. Rg2 Kf4 11. Rg1 Bf2 12. Rh1 Ke4 13. Re1 Bxe1 14. Kxe1 e2 15. Kd2 Kf4 16. Kxd3 e1=Q
+  //[2026-02-23 19-ply in 36:19.62 @1.093 MHz over 2.382 Gnode] eval -10.15 after:
+  // 7. Re6 Bc3 8. Re7 Bb4 9. Re6 Kf3 10. Rf6+ Ke4 11. Re6+ Kf4 12. Re8 Kf3
+  // 13. Kc1 e2 14. Kb2 d2 15. Re5 d1=Q 16. Rf5+ Kg2 17. Rg5+ Kf1
   //
   //"5r1k/R3N1p1/5p1p/3P3P/8/2P3Q1/p4PPK/1bq5 w - - 0 42"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6
   // Mobility Disabled

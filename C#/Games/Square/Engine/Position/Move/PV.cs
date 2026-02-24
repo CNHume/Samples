@@ -17,8 +17,6 @@
 using System.Diagnostics;
 using System.Text;
 
-using Exceptions;
-
 namespace Engine;
 #if DebugPlace
 using Command;                          // For UCI.IsDebug
@@ -489,8 +487,7 @@ partial class Position : Board {
   // MovesFromParent() is used by ListMovesFromParent() to return the list
   // of moves that lead to the current position, from the specified parent.
   //
-  public List<Move> MovesFromParent(Position? parent, Boolean bAbbreviate) {
-    ArgumentNullException.ThrowIfNull(parent);
+  public List<Move> MovesFromParent(Position parent, Boolean bAbbreviate) {
     const String methodName = nameof(MovesFromParent);
     List<Move> moves = [];
     for (var position = this;
@@ -503,26 +500,21 @@ partial class Position : Board {
         break;
       }
 
-      //
-      // Throw Null Parent PositionException in case MovesFromParent()
-      // is invoked from the Root Position.
-      //
-      if (position.Parent is null)
-        throw new PositionException("Null Parent");
-      else if (bAbbreviate) {
-        //[Conditional]
-        position.Parent.verifyMoveIsLegal(move);
-        var mov = position.Parent.abbreviate(move);
-        moves.Insert(0, mov);
-      }
-      else
-        moves.Insert(0, move);
+      ArgumentNullException.ThrowIfNull(position.Parent);
+
+      //[Conditional]
+      position.Parent.verifyMoveIsLegal(move);
+
+      if (bAbbreviate)
+        move = position.Parent.abbreviate(move);
+
+      moves.Insert(0, move);
     }
     return moves;
   }
 
   public void ListMovesFromParent(
-    Position? parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate) {
+    Position parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate) {
     var moves = MovesFromParent(parent, bAbbreviate);
     var wGamePly = parent?.GamePly ?? 0;
     new StringBuilder()
@@ -534,6 +526,7 @@ partial class Position : Board {
   // Displays current position and the moves leading up to it
   //
   protected void DisplayCurrent(String sLabel, Boolean bAbbreviate = false) {
+    ArgumentNullException.ThrowIfNull(State.RootPosition);
     Display(sLabel);
     // The following invokes MovesFromParent()
     ListMovesFromParent(
@@ -541,7 +534,7 @@ partial class Position : Board {
   }
 
   [Conditional("DisplayPositions")]
-  public void DisplayPositions(Position? parent) {
+  public void DisplayPositions(Position parent) {
     StringBuilder sb = new();
     var position = this;
     while (position is not null) {

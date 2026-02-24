@@ -102,8 +102,7 @@ partial class GameState {
     if (IsSearchInProgress)
       throw new ChessException("Search in progress");
 
-    if (MovePosition is null)
-      throw new ChessException("Uninitialized Position");
+    ArgumentNullException.ThrowIfNull(MovePosition);
 
     MovePosition.Validate();
     if (!MovePosition.IsLegal())
@@ -328,7 +327,7 @@ partial class GameState {
 
   #region Move Count Methods
   private void displayHeartbeat(
-    UInt64 qNodesDelta, Double dElapsedMS, Position? position) {
+    UInt64 qNodesDelta, Double dElapsedMS, Position position) {
     const Boolean bAbbreviate = false;//[Speed]
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     var sb = new StringBuilder("info");
@@ -344,8 +343,8 @@ partial class GameState {
     //
     // Display MovesFromParent(MovePosition) to Current Position
     //
-    if (IsDisplayCurrentLine &&
-        position is not null) {
+    if (IsDisplayCurrentLine) {
+      ArgumentNullException.ThrowIfNull(MovePosition);
 
       sb.Append(" currline");
       if (!IsPure)
@@ -359,7 +358,7 @@ partial class GameState {
       .FlushLine();
   }
 
-  private void pollSearchTimer(Position? position, UInt64 qNodes) {
+  private void pollSearchTimer(Position position, UInt64 qNodes) {
     var tsSearchElapsed = SearchTimer.Elapsed;
     var tsElapsedSinceLastHearbeat = tsSearchElapsed - SearchElapsedOfLastHeartbeat;
 
@@ -382,7 +381,7 @@ partial class GameState {
   //
   // Called for each move made by [null|try]Move() during searches:
   //
-  public void MonitorHeartbeat(Position? position = default) {
+  public void MonitorHeartbeat(Position position) {
     //
     // Assuming nodes are processed at a rate >1.2 MHz, Polling every
     // 120K nodes ensures a HeartbeatPeriod resolution <0.1 sec:

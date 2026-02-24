@@ -285,7 +285,6 @@ partial class Parser : IDisposable {
 
   public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
     ArgumentNullException.ThrowIfNull(Scanner);
-
     var bAccepted = Scanner.EndOfLine || eolToken.Accept();
     if (bAccepted)
       Scanner.ReadLine();
@@ -420,23 +419,19 @@ partial class Parser : IDisposable {
     return SpaceToken.Accept() && movesKeywordToken.Accept();
   }
 
-  private static Position? findNamedPosition(Position? position, Position? parent) {
-    while (position is not null &&
-           !ReferenceEquals(position, parent) &&
-           IsNullOrEmpty(position.Name))
-      position = position.Parent;
-    return position;
-  }
-
   public void TabiyaCommand(Position position, bool bAbbreviate) {
     var state = position.State;
-    var namedPosition = findNamedPosition(position, state?.RootPosition);
-    if (namedPosition is not null && !IsNullOrEmpty(namedPosition.Name)) {
-      namedPosition.Display(namedPosition.Name);
-      var bChess960 = state?.IsChess960 ?? false;
-      position.ListMovesFromParent(
-        namedPosition, bChess960, MovesKeyword(), bAbbreviate);
-    }
+    ArgumentNullException.ThrowIfNull(state);
+    var rootPosition = state.RootPosition;
+    ArgumentNullException.ThrowIfNull(rootPosition);
+
+    var namedParent = position.FirstNamedParent(rootPosition);
+    if (namedParent is null || IsNullOrEmpty(namedParent.Name))
+      return;
+
+    namedParent.Display(namedParent.Name);
+    position.ListMovesFromParent(
+      namedParent, state.IsChess960, MovesKeyword(), bAbbreviate);
   }
 
   private void setupPosition(SetupType setupType, ref Position position) {
