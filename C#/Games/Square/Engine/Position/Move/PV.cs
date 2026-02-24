@@ -491,7 +491,7 @@ partial class Position : Board {
     const String methodName = nameof(MovesFromParent);
     List<Move> moves = [];
     for (var position = this;
-         position is not null &&        //[Safe]
+         position.Parent is not null &&
          !ReferenceEquals(position, parent);
          position = position.Parent) {
       var move = position.CurrentMove;
@@ -500,13 +500,12 @@ partial class Position : Board {
         break;
       }
 
-      ArgumentNullException.ThrowIfNull(position.Parent);
-
       //[Conditional]
       position.Parent.verifyMoveIsLegal(move);
 
-      if (bAbbreviate)
+      if (bAbbreviate) {
         move = position.Parent.abbreviate(move);
+      }
 
       moves.Insert(0, move);
     }
@@ -516,9 +515,8 @@ partial class Position : Board {
   public void ListMovesFromParent(
     Position parent, Boolean bPure, Boolean bChess960, Boolean bAbbreviate) {
     var moves = MovesFromParent(parent, bAbbreviate);
-    var wGamePly = parent?.GamePly ?? 0;
     new StringBuilder()
-      .WriteMoves(moves, wGamePly, Side, bPure, bChess960)
+      .WriteMoves(moves, parent.GamePly, Side, bPure, bChess960)
       .FlushLine();
   }
 
