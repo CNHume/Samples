@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2016-08-30 CNHume]Created File
 //
@@ -102,7 +102,7 @@ partial class GameState {
     if (IsSearchInProgress)
       throw new ChessException("Search in progress");
 
-    ArgumentNullException.ThrowIfNull(MovePosition);
+    ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
 
     MovePosition.Validate();
     if (!MovePosition.IsLegal())
@@ -110,7 +110,7 @@ partial class GameState {
   }
 
   private List<Move>? startSearch(Position? position, SearchMode mode) {
-    ArgumentNullException.ThrowIfNull(position);
+    ArgumentNullException.ThrowIfNull(position, nameof(position));
 
     try {
       SearchTimer.Reset();
@@ -344,7 +344,7 @@ partial class GameState {
     // Display MovesFromParent(MovePosition) to Current Position
     //
     if (IsDisplayCurrentLine) {
-      ArgumentNullException.ThrowIfNull(MovePosition);
+      ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
 
       sb.Append(" currline");
       if (!IsPure)

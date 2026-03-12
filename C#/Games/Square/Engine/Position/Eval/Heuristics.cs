@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2022-08-11 CNHume]Split Heuristic Methods into their own file
 //

@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2016-01-25 CNHume]Split class from MoveHistory
 //

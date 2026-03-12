@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2013-06-24 CNHume]Created File
 //
@@ -167,12 +167,12 @@ partial class GameState {
   #region Properties
   public Ply MovePly {
     get {
-      ArgumentNullException.ThrowIfNull(MovePosition);
+      ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
       return MovePosition.GamePly;
     }
 
     set {
-      ArgumentNullException.ThrowIfNull(MovePosition);
+      ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
       MovePosition.GamePly = value;
     }
   }

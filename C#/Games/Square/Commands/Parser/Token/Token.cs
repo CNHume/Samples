@@ -82,7 +82,7 @@ partial class Parser : IDisposable {
       if (Accept(bShowMatch)) return;
 
       var scanner = Parser?.Scanner;
-      ArgumentNullException.ThrowIfNull(scanner);
+      ArgumentNullException.ThrowIfNull(scanner, nameof(scanner));
 
       var message = scanner.EndOfLine ?
         $"End Of Line encountered where {TokenType} was expected" :

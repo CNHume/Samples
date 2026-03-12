@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2014-09-07 CNHume]Created File
 //
@@ -10,11 +10,12 @@ using Engine;                           // For GameState
 
 partial class UCI {
   //
-  // Since 2020-02-20: Timing Results have been obtained using an i7-9700K CPU at 3.60GHz w 8-cores,
+  // Timing Results obtained using an i7-9700K CPU at 3.60GHz w 8-cores since 2020-02-20
   // in a Dell XPS 8930 workstation with 32 GB RAM
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
-  // Advanced to .NET 10 on 2025-12-09
+  // Advanced to net10.0 Target Framework on 2025-12-09
+  // VS 2026 Insiders Version [11605.296]
   //
   #region FEN Constants
   private const String sDefaultFEN =
@@ -54,7 +55,7 @@ partial class UCI {
   //"5Nr1/5Qpk/5p1p/3P3P/2b5/2P5/5PPK/2R5 b - - 0 49"; // #6 setoption NullMove value False
   //"8/1p4p1/pP2pp2/2B5/P3k3/4P1K1/8/8 b - - 0 39"; Boris Spassky v Bobby Fischer 1972 WCC R1 1972-07-11 Nimzo-Indian Defense (E56) Gligoric System
   // Fischer had a drawing move; but lost after playing 39... f5?
-  // 39... e5! 40. Kg4 g6 [39... g6 40. Kg4 e5  {xposing}] 41. a5 Kd5 42. Be7 f5+ 43. Kg5 f4 44. exf4 exf4 45. Kxf4=
+  // 39... e5! 40. Kg4 g6 (39... g6 40. Kg4 e5 {xposing}) 41. a5 Kd5 42. Be7 f5+ 43. Kg5 f4 44. exf4 exf4 45. Kxf4=
   //"5k2/3R4/8/5Kp1/6N1/r6p/8/8 w - - 0 69"; // Hans Niemann v Shakhriyar Mamedyarov 2025 World Rapid 2025-12-29
   // [12-ply in 20.224 sec @1.51 MHz over 30.529 Mnode] eval 5.0 after:
   // 69. Kg6 Rf3 70. Nf6 Rxf6+ 71. Kxf6 Ke8 72. Rg7 Kd8 73. Rxg5 Kc7 74. Rc5+ Kb6 75. Rh5 Ka6 76. Rxh3 Ka6a5
@@ -619,6 +620,11 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1"; // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
+  // 1. f8=N+ Kg8 2. Ne6 Qf7 3. Qd8+ Kh7 4. Ng5+ Kg6 5. Nxf7 Kxf7
+  // moves f7f8n h7g8 f8e6 h5f7 f6d8 g8h7 e6g5 h7g6 g5f7 g6f7
+  //"3Q4/5k2/8/8/8/6K1/8/8 w - - 0 6"; // White to Underpromote and Win Follow-up #6 [9-ply in 1.297 sec @793.481 KHz over 1.029 Mnode] after:
+  // 6. Qd7+ Kg6 (6... Kf6 7. Kf4 {xposing}) 7. Kf3 Kf6 8. Kf4 Kg6 9. Qe7 Kh6 10. Kf5 Kh5 11. Qg5#
   //"k1N5/2R5/7K/8/7P/8/1p6/8 w - - 0 1"; // Can you stop the pawn?  White to Play and Win [9-ply in 1.517 sec @535.611 KHz over 812.352 Knode] eval 4.8
   //"5k2/5p2/4P3/4P3/5K2/8/8/8 w - - 0 1" // White to Play Pawn Endgame [23-ply in 36.082 sec @1.461 MHz over 52.734 Mnode] eval 7.15
   //"8/8/1KP5/3r4/8/8/8/k7 w - - 0 1";  // White to Win

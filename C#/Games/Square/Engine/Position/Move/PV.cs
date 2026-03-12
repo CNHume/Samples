@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2012-03-01 CNHume]Created File
 //
@@ -494,6 +494,10 @@ partial class Position : Board {
          position.Parent is not null &&
          !ReferenceEquals(position, parent);
          position = position.Parent) {
+      //
+      //[Note]CurrentMove was made from position.Parent;
+      // and will be Undefined for RootPosition
+      //
       var move = position.CurrentMove;
       if (IsUndefined(move)) {
         Debug.Assert(IsDefined(move), $"CurrentMove Undefined [{methodName}]");
@@ -507,8 +511,10 @@ partial class Position : Board {
         move = position.Parent.abbreviate(move);
       }
 
+      // Build moves list in reverse order
       moves.Insert(0, move);
     }
+
     return moves;
   }
 
@@ -524,7 +530,7 @@ partial class Position : Board {
   // Displays current position and the moves leading up to it
   //
   protected void DisplayCurrent(String sLabel, Boolean bAbbreviate = false) {
-    ArgumentNullException.ThrowIfNull(State.RootPosition);
+    ArgumentNullException.ThrowIfNull(State.RootPosition, nameof(State.RootPosition));
     Display(sLabel);
     // The following invokes MovesFromParent()
     ListMovesFromParent(

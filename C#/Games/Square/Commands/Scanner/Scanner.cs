@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2020-09-04 CNHume]Collapsed TokenScanner into Scanner.  Added a new StreamScanner sub-class
 //                   which has a Rewind() method.

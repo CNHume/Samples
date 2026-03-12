@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2011-02-19 CNHume]Split Move Processor into its own file
 //
@@ -30,7 +30,7 @@ partial class Position : Board {
   // ~32 MHz on old PC
   [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   private void resetMove() {
-    ArgumentNullException.ThrowIfNull(Parent);
+    ArgumentNullException.ThrowIfNull(Parent, nameof(Parent));
     Copy(Parent);
 #if DebugNodeTotal
     var qNodes = State.TotalMoves + State.NullMoves;

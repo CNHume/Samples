@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[CNH 27-Nov-12]Created Memo Class to implement fast Hashtables
 //
@@ -22,12 +22,12 @@ class Memo<T> {
   #region Indexers
   public T this[MemoHashcode uHash] {
     get {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       return Entries[Index(uHash)];
     }
 
     set {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       Entries[Index(uHash)] = value;
     }
   }
@@ -69,24 +69,24 @@ class Memo2<T> : Memo<T> {
   #region Indexers
   public T this[PieceHashcode wHash] {// For GetCX2()
     get {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       return Entries[index(wHash)];
     }
 
     set {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       Entries[index(wHash)] = value;
     }
   }
 
   public T this[Hashcode qHash] {
     get {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       return Entries[index(qHash)];
     }
 
     set {
-      ArgumentNullException.ThrowIfNull(Entries);
+      ArgumentNullException.ThrowIfNull(Entries, nameof(Entries));
       Entries[index(qHash)] = value;
     }
   }

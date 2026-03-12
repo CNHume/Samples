@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 //[2016-09-05 CNHume]Created File
 //
@@ -284,7 +284,7 @@ partial class Parser : IDisposable {
   }
 
   public Boolean AcceptEOL(String? sMethodName = default, Boolean bShowText = true) {
-    ArgumentNullException.ThrowIfNull(Scanner);
+    ArgumentNullException.ThrowIfNull(Scanner, nameof(Scanner));
     var bAccepted = Scanner.EndOfLine || eolToken.Accept();
     if (bAccepted)
       Scanner.ReadLine();
@@ -300,7 +300,7 @@ partial class Parser : IDisposable {
 
   private String eolMessage(String? sMethodName = default) {
     const String sContext = "Could not parse text at End of Line";
-    ArgumentNullException.ThrowIfNull(Scanner);
+    ArgumentNullException.ThrowIfNull(Scanner, nameof(Scanner));
 
     var message = IsNullOrEmpty(sMethodName) ? sContext : $"{sMethodName} {sContext}";
     return Scanner.AppendDetails(message);
@@ -308,7 +308,7 @@ partial class Parser : IDisposable {
 
   //[ToDo]Refactor top-level Commands Loop
   public IEnumerable<object?> Parse() {
-    ArgumentNullException.ThrowIfNull(Scanner);
+    ArgumentNullException.ThrowIfNull(Scanner, nameof(Scanner));
 
     while (!Scanner.EndOfStream) {
       // Preserve value of Text prior to the Scanner side-effects of the Accept Method
@@ -421,9 +421,9 @@ partial class Parser : IDisposable {
 
   public void TabiyaCommand(Position position, bool bAbbreviate) {
     var state = position.State;
-    ArgumentNullException.ThrowIfNull(state);
+    ArgumentNullException.ThrowIfNull(state, nameof(state));
     var rootPosition = state.RootPosition;
-    ArgumentNullException.ThrowIfNull(rootPosition);
+    ArgumentNullException.ThrowIfNull(rootPosition, nameof(rootPosition));
 
     var namedParent = position.FirstNamedParent(rootPosition);
     if (namedParent is null || IsNullOrEmpty(namedParent.Name))

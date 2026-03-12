@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2010-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2010-2026, Christopher N. Hume.  All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -182,12 +182,12 @@ partial class UCI : ICommand {
       break;
 
     case "board":                       //[Test]In the absence of a GUI
-      ArgumentNullException.ThrowIfNull(State.MovePosition);
+      ArgumentNullException.ThrowIfNull(State.MovePosition, nameof(State.MovePosition));
       State.MovePosition.Display();
       break;
 
     case "tabiya": {
-      ArgumentNullException.ThrowIfNull(State.MovePosition);
+      ArgumentNullException.ThrowIfNull(State.MovePosition, nameof(State.MovePosition));
       const Boolean bAbbreviate = true;
       Parser.TabiyaCommand(State.MovePosition, bAbbreviate);
       break;
@@ -208,8 +208,8 @@ partial class UCI : ICommand {
       break;
 
     case "list": {
-      ArgumentNullException.ThrowIfNull(State.MovePosition);
-      ArgumentNullException.ThrowIfNull(State.RootPosition);
+      ArgumentNullException.ThrowIfNull(State.MovePosition, nameof(State.MovePosition));
+      ArgumentNullException.ThrowIfNull(State.RootPosition, nameof(State.RootPosition));
       //[Conditional]
       State.MovePosition.DisplayPositions(State.RootPosition);
 
@@ -245,7 +245,7 @@ partial class UCI : ICommand {
       break;
 
     case "best": {                      //[Test]
-      ArgumentNullException.ThrowIfNull(State.MovePosition);
+      ArgumentNullException.ThrowIfNull(State.MovePosition, nameof(State.MovePosition));
       //[Note]refreshPV() may not have been called
       var sb = new StringBuilder()
         .BestInfo(State.BestLine, State.MovePosition.Side, State.IsChess960);
