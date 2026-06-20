@@ -25,6 +25,8 @@ public class Button : CheckSetting {
   public event EventHandler? Click;
 
   internal override void OnPropertyChanged(PropertyChangedEventArgs e) {
+    // Button controls have no state; and OnPropertyChanged events
+    // are interpreted as OnClick
     Click?.Invoke(this, e);
   }
   #endregion                            // Events
