@@ -85,7 +85,7 @@ partial class Parser : IDisposable {
       ArgumentNullException.ThrowIfNull(scanner, nameof(scanner));
 
       var message = scanner.EndOfLine ?
-        $"End Of Line encountered where {TokenType} was expected" :
+        $"End of Line encountered where {TokenType} was expected" :
         @$"The {TokenType} token does not accept ""{scanner.Text}""";
 
       throw new ChessException(message);

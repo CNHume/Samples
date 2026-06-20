@@ -15,17 +15,17 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Insiders Version [11605.296]
+  // VS 2026 Version Insiders [11912.234]
   //
   #region FEN Constants
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-02-10 Perft1 (startpos) in 9.783 sec @13.326 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-01-24 Perft2 in 15.924 sec @12.913 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-01-24 Perft3 in 20.19 sec @10.839 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-01-24 Perft4 in 64.691 sec @11.861 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-01-24 Perft5 in 9.01 sec @9.723 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-06-19 Perft1 (startpos) in 9.722 sec, @13.41 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-06-19 Perft2 in 15.904 sec, @12.929 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-06-19 Perft3 in 19.745 sec, @11.083 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-06-19 Perft4 in 64.386 sec, @11.917 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-06-19 Perft5 in 8.973 sec, @9.763 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -81,9 +81,9 @@ partial class UCI {
   //"8/8/6k1/7p/2K2p1P/1p3P2/8/8 w - - 0 1";  // Magnus Carlsen v Aryan Tari Endgame
   // moves c4b3 g6f5
   //"8/8/8/5k1p/5p1P/1K3P2/8/8 w - - 0 2";    // Magnus Carlsen v Aryan Tari Endgame Line
-  //[2023-08-08 24-ply in 5:59 @1.315 MHz over 471.97 Mnode] eval 3.8 after:
-  // 2. Kc4 Ke6 3. Kd4 Kd6 4. Ke4 Ke7 5. Kxf4 Kf6 6. Ke4 Ke6 7. f4 Kf6 8. f5 Kg7 9. Ke3 Kh6 10. Kf4 Kg7 11. Kg5 Kf7 12. f6 Kf7f8
-  // 13. Kg5xh5 Kf8f7 14. Kh5g5 Kf7f8
+  //[2026-05-04] 26-ply in 9:15.8 @1.281 MHz over 711.74 Mnode] eval 3.4 after:
+  // 2. Kc4 Ke5 3. Kc5 Kf5 4. Kd4 Kf6 5. Ke4 Kg6 6. Kxf4 Kf6 7. Ke4 Ke6 8. f4 Kf6 9. f5 Kf7 10. Ke5 Ke7 11. f6+ Kf7 12. Kf5 Kg8
+  // 13. Kg6 Kh8 14. Kxh5 Kg8 15. Kh5g4
   //"r1b1qk2/1p2b1pQ/pn5p/3n4/7B/4R2P/BP3PP1/6K1 w - - 0 1"; // Stockfish 16 v Caissa 1.11 2023-08-04
   //[2023-08-08 13-ply in 1:31 @1.734 MHz over 157.9 Mnode] eval 2.95 after:
   // 1. Bf6 Qf7 2. Qh8+ Qg8 3. Bxg7+ Kf7 4. Rxe7+ Kxe7 5. Qxg8 Bf5 6. Qxa8 Nxa8 7. Bxd5 Bc8 8. Bxh6 Nb6 9. Bg8
@@ -616,6 +616,11 @@ partial class UCI {
   //[2022-09-17 19-ply in 24:42 @1.341 MHz over 1.9876 Gnode] to find #18
   // 1. Be6 Rd3+ 2. Bd5 Rc3 3. Rd7+ Kc8 4. Rh7 Kb8 5. Rb7+ Kc8 6. Rb4 Rd3 7. Ra4 Rxd5+ 8. Kxd5 Kc7 9. Rb4 Kd7 10. Rb7+ Kc8 11. Re7 Kd8
   // 12. Rg7 Ke8 13. Rg7g5
+  // 4k2K/8/8/8/7R/8/p7/3bN3 w - - 0 1  // White to Draw (by forcing R v RB) [13-ply in 21.762 sec @891.458 KHz over 19.4 Mnode] eval -3.25 after:
+  // 1. Re4+ Kf7 2. Nc2 Bxc2 3.Re1 Bb1 4. Re5 a1=R 5. Ra5 Ba2 6.Rh5? {Philidor}
+  // (6. Ra7+=) (6. Rf5+=) 6... Rf1 Rh7+ 7... Kf8 -+ (6... Bb3 -+) (6... Bc4 -+) (6... Bd5 -+) (6... Be6 -+)
+  // moves h4e4 e8f7 e1c2 d1c2 e4e1 c2b1 e1e5 a2a1R e5a5 b1a2 a5h5 a1f1 h5h7 f7f8
+  // 5k1K/7R/8/8/8/8/b7/5r2 w - - 7 8   // R v RB Philidor Line 
   #endregion                            // Philidor Studies
 
   #region Puzzles
@@ -687,7 +692,7 @@ partial class UCI {
   // 4... h5 5. Ke1 h4 6. Kf1 h3 7. Kg1 h2+ 8. Kh1 Rxf7 9. Rxf7 Ke8 10. Rf5 Kd7 11. Kxh2
   //"4B2k/6q1/5N2/8/3B4/8/8/1K6 w - - 0 1";     // KBBN v KQ [2025-01-27 7-ply in 0.711 sec @297 KHz over 211,067 nodes] eval 6.75 after:
   // 1. Bc6 Qg6+ 2. Be4 Qg7 3. Ka1 Qh6 4. Ng4+ Qg7 5. Bxg7+ Kh8xg7
-  //"2r5/6P1/8/3B2k1/8/6P1/8/K7 w - - 0 1";
+  //"2r5/6P1/8/3B2k1/8/6P1/8/K7 w - - 0 1";     // White to Play and Win
   //"k7/pN6/8/3B1r2/5B1K/8/8/8 w - - 0 1";      // Forked Bishops [2024-04-24 9-ply in 1.079 sec @610 KHz over 658.144 Knode] eval 4.75 after:
   // 1. Bg2 Rxf4+ 2. Kg3 Rf8 3. Nc5+ Kb8 4. Nd7+ Kc7 5. Nxf8 a5 6. Ng6 a4 7. Nf4
   //"5q1k/1RR5/8/8/8/8/4K3/8 w - - 0 1";        // KRR v KQ by Henri Rinck 1916

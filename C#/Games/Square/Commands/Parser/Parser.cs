@@ -411,8 +411,14 @@ partial class Parser : IDisposable {
   public void SetOptionCommand() {
     var sValueKeyword = parseOptionName(out Control? control);
     var sValue = parseOptionValue(sValueKeyword);
-    var setting = control?.AsSetting();
-    setting?.SetValue(sValue);
+    if (control is Button) {
+      var button = control as Button;
+      button?.SetValue(sValue);
+    }
+    else {
+      var setting = control?.AsSetting();
+      setting?.SetValue(sValue);
+    }
   }
 
   public Boolean MovesKeyword() {
