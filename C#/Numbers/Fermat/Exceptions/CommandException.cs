@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (C) 2019-2025, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2019-2026, Christopher N. Hume.  All rights reserved.
 //
 namespace Fermat.Exceptions;
 

@@ -1,5 +1,5 @@
 ﻿//
-// (C) Copyright 2018, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // Conditionals:
 //
