@@ -3,7 +3,9 @@
 //
 //[2013-09-08 CNHume]Created Class
 //
+
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using static System.String;
@@ -11,30 +13,30 @@ using static System.StringComparison;
 
 namespace Commands;
 
-using static Engine.Extension;
-
 using Events;
 
 using Exceptions;
 
+using static Engine.Extension;
+
 [Display(Name = "button")]
-public class Button : Control {
+public class Button : CheckSetting {
   #region Events
   public event EventHandler? Click;
 
-  protected virtual void OnClick(EventArgs e) {
+  internal override void OnPropertyChanged(PropertyChangedEventArgs e) {
     Click?.Invoke(this, e);
   }
   #endregion                            // Events
 
   #region Methods
-  public void SetValue(String? sValue) {
-    if (!IsNullOrEmpty(sValue))
-      throw new ControlException(
-        @$"Superfluous value ""{sValue}"" supplied for {Name}");
+  protected override Boolean TryParse(String? sValue) {
+    if (IsNullOrEmpty(sValue))
+      return true;                      // No value expected for button control
 
-    // Step 4a/6 Fire Button Click Event:
-    OnClick(EventArgs.Empty);
+    var typeName = GetType().GetTypeName();
+    throw new ControlException(
+      @$"Superfluous value ""{sValue}"" supplied for {Name} {typeName} control");
   }
   #endregion                            // Methods
 }
@@ -49,9 +51,7 @@ public class CheckSetting : Setting {
   public override Object? GetValue() { return Value; }
 
   protected override Boolean TryParse(String? sValue) {
-    if (IsNullOrEmpty(sValue))
-      throw new ControlException($"No value specified for {GetType()}");
-
+    EnsureValue(sValue);
     var bTypeParsed = Boolean.TryParse(sValue, out Boolean bChecked);
 
     if (bTypeParsed)
@@ -91,9 +91,7 @@ public class SpinSetting : Setting {
   #endregion                          // ToString() Override
 
   protected override Boolean TryParse(String? sValue) {
-    if (IsNullOrEmpty(sValue))
-      throw new ControlException($"No value specified for {GetType()}");
-
+    EnsureValue(sValue);
     var bTypeParsed = Int32.TryParse(sValue, out Int32 nSelection);
     var bValueValid = false;
 
@@ -135,9 +133,7 @@ public class ComboSetting : Setting {
   #endregion                            // ToString() Override
 
   protected override Boolean TryParse(String? sValue) {
-    if (IsNullOrEmpty(sValue))
-      throw new ControlException($"No value specified for {GetType()}");
-
+    EnsureValue(sValue);
     var bValueValid = false;
     if (Items != null) {
       var selection = Items.FirstOrDefault(item =>
@@ -163,9 +159,7 @@ public class StringSetting : Setting {
   public override String? GetValue() { return Value; }
 
   protected override Boolean TryParse(String? sValue) {
-    if (IsNullOrEmpty(sValue))
-      throw new ControlException($"No value specified for {GetType()}");
-
+    EnsureValue(sValue);
     Value = sValue;
     return true;
   }
@@ -206,13 +200,13 @@ public abstract class Setting : Control {
   public abstract Object? GetValue();
 
   public void SetValue(String? sValue) {
-    if (sValue == null || !TryParse(sValue)) {
+    if (!TryParse(sValue)) {
       var typeName = GetType().GetTypeName();
       throw new ControlException(
         @$"Could not set value of ""{sValue}"" for the {Name} {typeName} control");
     }
 
-    // Step 4b/6 Fire Property Changed Event:
+    // Step 4/6 Fire Property Changed Event:
     OnPropertyChanged(new PropertyChangedEventArgs());
   }
 
@@ -223,7 +217,7 @@ public abstract class Setting : Control {
         @$"Could not set default of ""{Default}"" for the {Name} {typeName} control");
     }
 
-    // Step 4b/6 Fire Property Changed Event:
+    // Step 4/6 Fire Property Changed Event:
     OnPropertyChanged(new());
   }
 
@@ -248,12 +242,21 @@ public partial class Control {
   #endregion                            // Fields
 
   #region Methods
+  protected void EnsureValue([NotNull] String? sValue) {
+    if (IsNullOrEmpty(sValue)) {
+      var typeName = GetType().GetTypeName();
+      throw new ControlException(
+        $"No value specified for {Name} {typeName} control");
+    }
+  }
+
   public Setting AsSetting() {
     var setting = this as Setting;
     if (setting == null) {
       var settingName = typeof(Setting).Name;
+      var typeName = GetType().GetTypeName();
       throw new ControlException(
-        $"{Name} control of type {GetType()} is not a {settingName}");
+        $"The {Name} {typeName} control is not a {settingName}");
     }
 
     return setting;
