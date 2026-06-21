@@ -24,21 +24,25 @@ public class Button : CheckSetting {
   #region Events
   public event EventHandler? Click;
 
-  internal override void OnPropertyChanged(PropertyChangedEventArgs e) {
-    // Button controls have no state; and OnPropertyChanged events
-    // are interpreted as OnClick
+  protected virtual void OnClick(EventArgs e) {
     Click?.Invoke(this, e);
   }
   #endregion                            // Events
 
   #region Methods
-  protected override Boolean TryParse(String? sValue) {
-    if (IsNullOrEmpty(sValue))
-      return true;                      // No value expected for button control
+  public override void SetValue(String? sValue) {
+    if (!IsNullOrEmpty(sValue)) {
+      var typeName = GetType().GetTypeName();
+      throw new ControlException(
+        @$"Superfluous value ""{sValue}"" supplied for {Name} {typeName} control");
+    }
 
-    var typeName = GetType().GetTypeName();
-    throw new ControlException(
-      @$"Superfluous value ""{sValue}"" supplied for {Name} {typeName} control");
+    // Step 4a/6 Fire Click Event:
+    OnClick(new());
+  }
+
+  public override void SetDefault() {
+    //[Ignore]OnClick(new());
   }
   #endregion                            // Methods
 }
@@ -178,7 +182,7 @@ public abstract class Setting : Control {
   // ----------------------------
   // Step 1 Define EventArgs Type
   // Step 2 Declare Event
-  // Step 3 Define "On" method to fire event
+  // Step 3 Define "On" event invocation method
   // Step 4 Fire Event by calling "On" method
   // Step 5 Define Event Handler to receive input from sender
   // Step 6 Subscribe to Event Handler in Wireup method
@@ -192,7 +196,7 @@ public abstract class Setting : Control {
   // Step 3/6: Define a virtual method to fire the event,
   // passing this instance as the sender
   //
-  internal virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
+  protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
     PropertyChanged?.Invoke(this, e);
   }
   #endregion                            // Events
@@ -201,26 +205,19 @@ public abstract class Setting : Control {
   protected abstract Boolean TryParse(String? sValue);
   public abstract Object? GetValue();
 
-  public void SetValue(String? sValue) {
+  public virtual void SetValue(String? sValue) {
     if (!TryParse(sValue)) {
       var typeName = GetType().GetTypeName();
       throw new ControlException(
         @$"Could not set value of ""{sValue}"" for the {Name} {typeName} control");
     }
 
-    // Step 4/6 Fire Property Changed Event:
+    // Step 4b/6 Fire Property Changed Event:
     OnPropertyChanged(new PropertyChangedEventArgs());
   }
 
-  public void SetDefault() {
-    if (!TryParse(Default)) {
-      var typeName = GetType().GetTypeName();
-      throw new ControlException(
-        @$"Could not set default of ""{Default}"" for the {Name} {typeName} control");
-    }
-
-    // Step 4/6 Fire Property Changed Event:
-    OnPropertyChanged(new());
+  public virtual void SetDefault() {
+    SetValue(Default);
   }
 
   #region ToString() Override

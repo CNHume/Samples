@@ -24,7 +24,7 @@ partial class GameState {
     var button = (Button?)findControl(Clear_Hash);
     // Step 6/6: Subscribe to Event Handler in Wireup method
     button?.Click += ClearHashButton_Click;
-    // Button controls have no Default
+    // Button controls have no state; and no Default
   }
 
   [MemberNotNull(nameof(Variation))]
