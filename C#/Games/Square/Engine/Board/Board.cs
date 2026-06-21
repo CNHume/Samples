@@ -211,7 +211,7 @@ partial class Board : IEquatable<Board> {
   private void ensureOperations() {
     if (Operations != null) return;
 
-    Operations = new(OperationsCapacity);
+    Operations = [with(OperationsCapacity)];
     var wMove = MoveNumber(GamePly);
     addOperation(Operations, "fmvn", wMove.ToString());
     addOperation(Operations, "hmvc", HalfMoveClock.ToString());

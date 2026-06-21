@@ -226,7 +226,7 @@ partial class Position : Board {
 #if TestBest
     BestMoves = new List<BestMove>(nCapacity);
 #else
-    BestMoves = new List<Move>(nCapacity);
+    BestMoves = [with(nCapacity)];
 #endif
   }
 
@@ -310,35 +310,35 @@ partial class Position : Board {
     PseudoCaptures = [];
     PseudoMoves = [];
 #else
-    PseudoQueenPromotion = new(2);
-    PseudoUnderPromotion = new(2 * 3);
-    PseudoQueenPromotionCapture = new(2);
-    PseudoUnderPromotionCapture = new(2 * 3);
-    PseudoEPCapture = new(2);
-    PseudoCastles = new(2);
+    PseudoQueenPromotion = [with(2)];
+    PseudoUnderPromotion = [with(2 * 3)];
+    PseudoQueenPromotionCapture = [with(2)];
+    PseudoUnderPromotionCapture = [with(2 * 3)];
+    PseudoEPCapture = [with(2)];
+    PseudoCastles = [with(2)];
 
-    PseudoPawnAboveMove = new(8 * 3);
-    PseudoPawnBelowMove = new(8 * 3);
-    PseudoKingMove = new(8);
-    PseudoKnightMove = new(2 * 8);
-    PseudoDiagAboveMove = new(2 * 13);
-    PseudoDiagBelowMove = new(2 * 13);
-    PseudoOrthAboveMove = new(2 * 14);
-    PseudoOrthBelowMove = new(2 * 14);
+    PseudoPawnAboveMove = [with(8 * 3)];
+    PseudoPawnBelowMove = [with(8 * 3)];
+    PseudoKingMove = [with(8)];
+    PseudoKnightMove = [with(2 * 8)];
+    PseudoDiagAboveMove = [with(2 * 13)];
+    PseudoDiagBelowMove = [with(2 * 13)];
+    PseudoOrthAboveMove = [with(2 * 14)];
+    PseudoOrthBelowMove = [with(2 * 14)];
 
-    PseudoPawnAboveCapture = new(8 * 2);
-    PseudoPawnBelowCapture = new(8 * 2);
-    PseudoKingCapture = new(6);
-    PseudoKnightCapture = new(2 * 6);
-    PseudoDiagAboveCapture = new(2 * 4);
-    PseudoDiagBelowCapture = new(2 * 4);
-    PseudoOrthAboveCapture = new(2 * 4);
-    PseudoOrthBelowCapture = new(2 * 4);
+    PseudoPawnAboveCapture = [with(8 * 2)];
+    PseudoPawnBelowCapture = [with(8 * 2)];
+    PseudoKingCapture = [with(6)];
+    PseudoKnightCapture = [with(2 * 6)];
+    PseudoDiagAboveCapture = [with(2 * 4)];
+    PseudoDiagBelowCapture = [with(2 * 4)];
+    PseudoOrthAboveCapture = [with(2 * 4)];
+    PseudoOrthBelowCapture = [with(2 * 4)];
 
-    PseudoGoodCaptures = new(32);
-    PseudoBadCaptures = new(32);
-    PseudoCaptures = new(48);
-    PseudoMoves = new(128);
+    PseudoGoodCaptures = [with(32)];
+    PseudoBadCaptures = [with(32)];
+    PseudoCaptures = [with(48)];
+    PseudoMoves = [with(128)];
 #endif
 #if UseMoveSort
     SortMoves = new SortMove[512];
@@ -351,7 +351,7 @@ partial class Position : Board {
   }
 
   internal List<Move> newSearchMoves() {
-    return SearchMoves = new(4);
+    return SearchMoves = [with(4)];
   }
   #endregion                            // Move List Initialization
 

@@ -73,7 +73,7 @@ partial class Position : Board {
 
   public void ParseEPD(String sPrefix, Dictionary<String, List<String>?>? operations) {
     using Scanner scanner = new(sPrefix);
-    List<Byte> rookFromSquares = new(rookFromSquaresCapacity);
+    List<Byte> rookFromSquares = [with(rookFromSquaresCapacity)];
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -100,7 +100,7 @@ partial class Position : Board {
 
   public void ParseFEN(String sPrefix, String sHalfMoveClock, String sFullMoveNumber) {
     using Scanner scanner = new(sPrefix);
-    List<Byte> rookFromSquares = new(rookFromSquaresCapacity);
+    List<Byte> rookFromSquares = [with(rookFromSquaresCapacity)];
     var bWTM = bWhiteMovesFirst;
     String? sEnPassant = default;
 
@@ -388,7 +388,7 @@ partial class Position : Board {
     //
     // Castling Rules can be determined now that the Pieces are in place:
     //
-    List<Byte> rookFromSquares = new(4);
+    List<Byte> rookFromSquares = [with(4)];
     setupCastling(nRookFileOOO, nRookFileOO, rookFromSquares);
     #endregion                          // Grant Castling Rights
 

@@ -185,7 +185,7 @@ partial class GameState : IDisposable {
 
   [MemberNotNull(nameof(BestLine))]
   private void newBestLine(Int32 nCapacity) {
-    BestLine = new(nCapacity);
+    BestLine = [with(nCapacity)];
   }
 
   [MemberNotNull(

@@ -515,7 +515,7 @@ partial class Parser : IDisposable {
   public Dictionary<String, List<String>?>? ParseOperations() {
     Dictionary<String, List<String>?>? operations = default;
     if (SpaceToken.Accept()) {
-      operations = new(Board.OperationsCapacity);
+      operations = [with(Board.OperationsCapacity)];
       while (opcodeToken.Accept()) {
         //
         // For a list of standard EPD opcodes see:

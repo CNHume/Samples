@@ -119,7 +119,7 @@ partial class Position : Board {
 #endif
     Debug.Assert(mAlpha < mBeta, "Alpha must be less than Beta");
 
-    List<GoodMove> goodMoves = new(nFirstCapacity);
+    List<GoodMove> goodMoves = [with(nFirstCapacity)];
     var bFoundValue = probeXP(
       wDepth, mAlpha, mBeta, moveExcluded, goodMoves,
       out Move moveFound, out Eval mValueFound, out EvalType etFound);

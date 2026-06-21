@@ -541,8 +541,8 @@ partial class UCI {
   // moves g8h8 g6h6 h8g8 h6g6
   // moves g8h8 g6h6 h8g8 h6g6
   // moves g8h8
-  // Finally annotates Draw upon 5... Kh8g8=
-  // The following did annotate a Draw upon 5. Qh6g6+=
+  // finally annotated a Draw upon 5... Kh8g8=
+  // The following moves commands did annotate a Draw upon 5. Qh6g6+=
   // moves h6g6
   // moves g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 h6g6
   //
