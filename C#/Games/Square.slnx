@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../Sorters/HeapSort/Heap Sort.csproj" />
+  <Project Path="../Sorters/SortTests/Sort Test.csproj" />
+  <Project Path="Square/Square.csproj" />
+</Solution>

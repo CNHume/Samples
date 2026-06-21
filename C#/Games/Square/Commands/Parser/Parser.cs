@@ -665,7 +665,7 @@ partial class Parser : IDisposable {
     if (!IsVerbatimLiteral(sValue))
       throw new ArgumentException("Not a verbatim literal", paramName);
 
-    if (sValue.Length < 2 || sValue[sValue.Length - 1] != cDoubleQuote)
+    if (sValue.Length < 2 || sValue[^1] != cDoubleQuote)
       throw new ArgumentException("Improperly delimited verbatim literal", paramName);
 
     var split = Regex.Split(sValue[1..^1], sEscapedDoubleQuote);
