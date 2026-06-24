@@ -191,20 +191,9 @@ partial class GameState {
     }
   }
 
-  public Int64 TotalLegalMoves {
-    get { return LegalMoves + LegalQxntMoves; }
-  }
-
-  public Int64 TotalIllegalMoves {
-    get { return IllegalMoves + IllegalQxntMoves; }
-  }
-
-  public Int64 TotalMoves {
-    get { return TotalIllegalMoves + TotalLegalMoves; }
-  }
-
-  public Int64 TotalQxntMoves {
-    get { return IllegalQxntMoves + LegalQxntMoves; }
-  }
+  public Int64 TotalLegalMoves => LegalMoves + LegalQxntMoves;
+  public Int64 TotalIllegalMoves => IllegalMoves + IllegalQxntMoves;
+  public Int64 TotalMoves => TotalIllegalMoves + TotalLegalMoves;
+  public Int64 TotalQxntMoves => IllegalQxntMoves + LegalQxntMoves;
   #endregion                            // Properties
 }
