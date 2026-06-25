@@ -142,16 +142,14 @@ partial class Board {
   //
   internal GameState State { get; set; }
 
-  public Ply SearchPly {
-    //
-    // IncrementGamePly() advances GamePly and therefore SearchPly
-    //
-    get { return (Ply)(GamePly - State.MovePly); }
-  }
+  //
+  // IncrementGamePly() advances GamePly and therefore SearchPly
+  //
+  public Ply SearchPly => (Ply)(GamePly - State.MovePly);
 
-  public Plane Bishop { get { return DiagPiece & ~OrthPiece; } }
-  public Plane Queen { get { return DiagPiece & OrthPiece; } }
-  public Plane Rook { get { return OrthPiece & ~DiagPiece; } }
+  public Plane Bishop => DiagPiece & ~OrthPiece;
+  public Plane Queen => DiagPiece & OrthPiece;
+  public Plane Rook => OrthPiece & ~DiagPiece;
 
   public String? Name { get; set; }
   public Dictionary<String, List<String>?>? Operations { get; set; }

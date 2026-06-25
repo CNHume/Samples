@@ -177,20 +177,16 @@ partial class GameState {
     }
   }
 
-  public Boolean IsSearchInProgress {
-    get {
 #if UseTask
-      //
-      // IsCompleted means a task has entered one of the Final States:
-      // Canceled, Faulted or RanToCompletion
-      //
-      return EngineTask != null && !EngineTask.IsCompleted;
+  //
+  // IsCompleted means a task has entered one of the Final States:
+  // Canceled, Faulted or RanToCompletion
+  //
+  public Boolean IsSearchInProgress =>
+    EngineTask != null && !EngineTask.IsCompleted;
 #else
-      return false;
+  public Boolean IsSearchInProgress => false;
 #endif
-    }
-  }
-
   public Int64 TotalLegalMoves => LegalMoves + LegalQxntMoves;
   public Int64 TotalIllegalMoves => IllegalMoves + IllegalQxntMoves;
   public Int64 TotalMoves => TotalIllegalMoves + TotalLegalMoves;

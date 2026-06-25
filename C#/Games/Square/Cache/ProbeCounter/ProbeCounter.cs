@@ -22,17 +22,8 @@ class SimpleCounter {
 
   #region Properties
   public String Name { get; protected set; }
-  public virtual UInt64 Writes {
-    get {
-      return GetReads - GetHits;
-    }
-  }
-
-  public UInt64 Replaced {
-    get {
-      return Writes - Added;
-    }
-  }
+  public virtual UInt64 Writes => GetReads - GetHits;
+  public UInt64 Replaced => Writes - Added;
   #endregion
 
   #region Methods
@@ -90,11 +81,7 @@ class ProbeCounter : SimpleCounter {
   #endregion
 
   #region Properties
-  public override UInt64 Writes {
-    get {
-      return SetReads - SetHits;
-    }
-  }
+  public override UInt64 Writes => SetReads - SetHits;
   #endregion
 
   #region Methods

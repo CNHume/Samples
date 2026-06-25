@@ -66,10 +66,7 @@ class QuietPosition : ITankable<QuietPosition> {
 
   #region ITankable Interface Properties
   public Hashcode Hash { get; set; }
-
-  public Boolean IsEmpty {
-    get { return Hash == 0; }
-  }
+  public readonly Boolean IsEmpty => Hash == 0;
   #endregion                            // ITankable Interface Properties
 
   #region ITankable Interface Methods
@@ -155,13 +152,8 @@ class QuietPosition : ITankable<QuietPosition> {
   #endregion                            // Fields
 
   #region Properties
-  public EvalType Type {
-    get { return IBType(ibv); }
-  }
-
-  public Eval Value {
-    get { return IBEval(ibv); }
-  }
+  public readonly EvalType Type => IBType(ibv);
+  public readonly Eval Value => IBEval(ibv);
 
   private const Int32 nIBVBits = 16;
   private const Int32 nMoveBits = nHideFileBit;
@@ -175,11 +167,10 @@ class QuietPosition : ITankable<QuietPosition> {
   private const Int32 nDataBits = nMovePlyBit + nPlyBits;
 
   public UInt64 Data {
-    get {
-      return ((UInt64)(wPlyMask & MovePly) << nMovePlyBit) |
-              ((UInt64)BestMove << nMoveLoBit) |
-              (UInt16)(/*wIBVMask & */ibv);
-    }
+    readonly get =>
+      ((UInt64)(wPlyMask & MovePly) << nMovePlyBit) |
+      ((UInt64)BestMove << nMoveLoBit) |
+      (UInt16)(/*wIBVMask & */ibv);
 
     set {
       ibv = (Bval)(value/* & wIBVMask*/);

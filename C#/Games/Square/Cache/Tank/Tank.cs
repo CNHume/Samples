@@ -43,7 +43,7 @@ partial class Tank<T> where T : ITankable<T>, new() {
 
   private UInt32 _LookupLength;
   public UInt32 LookupLength {
-    get { return _LookupLength; }
+    get => _LookupLength;
 
     protected set {
       _LookupLength = value;

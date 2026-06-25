@@ -69,9 +69,7 @@ class PositionMove : ITankable<PositionMove> {
   #region ITankable Interface Properties
   public Hashcode Hash { get; set; }
 
-  public Boolean IsEmpty {
-    get { return Hash == 0; }
-  }
+  public readonly Boolean IsEmpty => Hash == 0;
   #endregion                            // ITankable Interface Properties
 
   #region ITankable Interface Methods
@@ -180,22 +178,13 @@ class PositionMove : ITankable<PositionMove> {
   #endregion                            // Fields
 
   #region Properties
-  public Ply Quality {
-    //
-    // Deeper searches for preceding game plies are currently
-    // allowed for shallower searches from subsequent plies.
-    //
-    get { return (Ply)(MovePly + Depth); }
-  }
-
-  public EvalType Type {
-    get { return IBType(ibv); }
-  }
-
-  public Eval Value {
-    get { return IBEval(ibv); }
-    //set { ibv = IBV(value, Type); }
-  }
+  //
+  // Deeper searches for preceding game plies are currently
+  // allowed for shallower searches from subsequent plies.
+  //
+  public readonly Ply Quality => (Ply)(MovePly + Depth);
+  public readonly EvalType Type => IBType(ibv);
+  public readonly Eval Value => IBEval(ibv);
 
   private const Int32 nIBVBits = 16;
   private const Int32 nMoveBits = nHideFileBit;
@@ -212,12 +201,11 @@ class PositionMove : ITankable<PositionMove> {
   private const Int32 nDataBits = nDepthBit + nDepthBits;
 
   public UInt64 Data {
-    get {
-      return ((UInt64)(/*wDepthMask & */Depth) << nDepthBit) |
-              ((UInt64)(wPlyMask & MovePly) << nMovePlyBit) |
-              ((UInt64)BestMove << nMoveLoBit) |
-              (UInt16)(/*wIBVMask & */ibv);
-    }
+    get =>
+      ((UInt64)(/*wDepthMask & */Depth) << nDepthBit) |
+      ((UInt64)(wPlyMask & MovePly) << nMovePlyBit) |
+      ((UInt64)BestMove << nMoveLoBit) |
+      (UInt16)(/*wIBVMask & */ibv);
 
     set {
       ibv = (Bval)(value/* & wIBVMask*/);

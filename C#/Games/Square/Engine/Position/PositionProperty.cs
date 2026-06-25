@@ -122,8 +122,6 @@ partial class Position : Board {
   #endregion                            // Fields
 
   #region Properties
-  private String debugString {
-    get { return ToString(); }
-  }
+  private String debugString => ToString();
   #endregion                            // Properties
 }
