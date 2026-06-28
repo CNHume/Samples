@@ -56,8 +56,8 @@ partial class GameState {
 
   public UInt64 IntervalNodes;
   public UInt64 HeartbeatNodes;
-  public TimeSpan HeartbeatPeriod;
   public Boolean IsDisplayHeartbeat;
+  protected long? HeartbeatTicks;
   #endregion
 
   #region Count Fields

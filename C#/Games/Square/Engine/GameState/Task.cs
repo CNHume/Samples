@@ -133,7 +133,9 @@ partial class GameState {
 #endif
       }
 
+      //[Init]
       HeartbeatTimestamp = Stopwatch.GetTimestamp();
+
       switch (mode) {
       case SearchMode.BestMove:
         var mValue = position.IteratePlies(Bound);
@@ -357,13 +359,13 @@ partial class GameState {
   private void pollSearchTimer(Position position, UInt64 qNodes) {
     if (HeartbeatTimestamp.HasValue) {
       //
-      // Test for Heartbeat
+      // Test whether HeartbeatTicks have elapsed
       //
-      var tsHeartbeatElapsed = Stopwatch.GetElapsedTime(HeartbeatTimestamp.Value);
-      if (tsHeartbeatElapsed > HeartbeatPeriod) {
-        if (IsDisplayHeartbeat) {
+      var tsElapsed = Stopwatch.GetElapsedTime(HeartbeatTimestamp.Value);
+      if (tsElapsed.Ticks >= HeartbeatTicks) {
+        if (IsSearchInProgress && IsDisplayHeartbeat) {
           displayHeartbeat(
-            qNodes - HeartbeatNodes, tsHeartbeatElapsed.TotalMilliseconds, position);
+            qNodes - HeartbeatNodes, tsElapsed.TotalMilliseconds, position);
         }
 
         HeartbeatNodes = qNodes;
@@ -379,10 +381,10 @@ partial class GameState {
   //
   public void MonitorHeartbeat(Position position) {
     //
-    // Assuming nodes are processed at a rate >1.2 MHz, Polling every
-    // 120K nodes ensures a HeartbeatPeriod resolution <0.1 sec:
+    // Polling every 120K nodes ensures Heartbeat resolution
+    // of <0.1 sec, assuming nodes are processed at >1.2 MHz
     //
-    const UInt32 uIntervalNodes = 120 * 1000;
+    const UInt32 uIntervalNodes = 120_000;
 
     var qNodes = (UInt64)Nodes;
     var qIntervalDelta = qNodes - IntervalNodes;
@@ -390,7 +392,7 @@ partial class GameState {
     //
     // Test whether the Polling Interval has elapsed:
     //
-    if (qIntervalDelta > uIntervalNodes) {
+    if (qIntervalDelta >= uIntervalNodes) {
       IntervalNodes = qNodes;
       pollSearchTimer(position, qNodes);
     }

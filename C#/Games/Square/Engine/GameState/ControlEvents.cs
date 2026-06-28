@@ -205,7 +205,8 @@ partial class GameState {
     var value = setting.GetValue();
     if (value != null) {
       var uMilliseconds = Convert.ToUInt16(value);
-      HeartbeatPeriod = TimeSpan.FromMilliseconds(uMilliseconds);
+      var tsHeartbeat = TimeSpan.FromMilliseconds(uMilliseconds);
+      HeartbeatTicks = tsHeartbeat.Ticks;
     }
   }
 
