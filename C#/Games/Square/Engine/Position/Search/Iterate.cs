@@ -176,11 +176,11 @@ partial class Position : Board {
     var vDepthLimit = bound.Plies;
     var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
-    State.IterationTimestamp = Stopwatch.GetTimestamp();
-    var qNodes1 = (UInt64)State.Nodes;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
 #endif
+    var qNodes1 = (UInt64)State.Nodes;
+    State.IterationTimestamp = Stopwatch.GetTimestamp();
 #endif
     var vStartDepth = vStartDepthDefault;
     if (vDepthLimit.HasValue && vDepthLimit < vStartDepth)
@@ -199,10 +199,9 @@ partial class Position : Board {
       endIteration(vDepth);
 #if DisplayDepth
       if (UCI.IsDebug) {
-        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         var qNodes2 = (UInt64)State.Nodes;
         var qNodesDelta = qNodes2 - qNodes1;
-
+        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         GameState.DisplayRate(qNodesDelta, tsElapsed.TotalMilliseconds);
 #if DisplayPrediction
         var qPredicted2 =
@@ -252,8 +251,8 @@ partial class Position : Board {
       perft(vDepth);
 #if DisplayDepth
       if (UCI.IsDebug) {
-        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         var qNodesDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
+        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         GameState.DisplayRate(qNodesDelta, tsElapsed.TotalMilliseconds);
 #if DisplayPrediction
         var qPredicted2 = State.Predict(0, vDepth, qNodesDelta);

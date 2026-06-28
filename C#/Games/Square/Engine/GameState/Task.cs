@@ -111,9 +111,9 @@ partial class GameState {
 
   private List<Move>? startSearch(Position? position, SearchMode mode) {
     ArgumentNullException.ThrowIfNull(position, nameof(position));
+    SearchTimestamp = Stopwatch.GetTimestamp();
 
     try {
-      SearchTimestamp = Stopwatch.GetTimestamp();
       IntervalNodes =
         HeartbeatNodes = (UInt64)Nodes;
 
@@ -133,8 +133,7 @@ partial class GameState {
 #endif
       }
 
-      SearchElapsedOfLastHeartbeat = Stopwatch.GetElapsedTime(SearchTimestamp.Value);
-
+      HeartbeatTimestamp = Stopwatch.GetTimestamp();
       switch (mode) {
       case SearchMode.BestMove:
         var mValue = position.IteratePlies(Bound);
@@ -356,23 +355,20 @@ partial class GameState {
   }
 
   private void pollSearchTimer(Position position, UInt64 qNodes) {
-    if (!SearchTimestamp.HasValue)
-      throw new ArgumentNullException(nameof(SearchTimestamp));
+    if (HeartbeatTimestamp.HasValue) {
+      //
+      // Test for Heartbeat
+      //
+      var tsHeartbeatElapsed = Stopwatch.GetElapsedTime(HeartbeatTimestamp.Value);
+      if (tsHeartbeatElapsed > HeartbeatPeriod) {
+        if (IsDisplayHeartbeat) {
+          displayHeartbeat(
+            qNodes - HeartbeatNodes, tsHeartbeatElapsed.TotalMilliseconds, position);
+        }
 
-    var tsSearchElapsed = Stopwatch.GetElapsedTime(SearchTimestamp.Value);
-    var tsElapsedSinceLastHearbeat = tsSearchElapsed - SearchElapsedOfLastHeartbeat;
-
-    //
-    // Test for Heartbeat Due
-    //
-    if (tsElapsedSinceLastHearbeat > HeartbeatPeriod) {
-      SearchElapsedOfLastHeartbeat = tsSearchElapsed;
-      var qNodesDelta = qNodes - HeartbeatNodes;
-      HeartbeatNodes = qNodes;
-
-      if (IsDisplayHeartbeat)
-        displayHeartbeat(
-          qNodesDelta, tsElapsedSinceLastHearbeat.TotalMilliseconds, position);
+        HeartbeatNodes = qNodes;
+        HeartbeatTimestamp = Stopwatch.GetTimestamp();
+      }
     }
 
     throwIfCancelled();

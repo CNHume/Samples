@@ -47,12 +47,15 @@ partial class GameState {
   public Task<List<Move>?>? EngineTask;
   public Task<List<Move>?>? FinishTask;
 #endif
-  protected long? SearchTimestamp { get; set; }
+  // For Heartbeat
+  protected long? HeartbeatTimestamp { get; set; }
+  // For Iteration Time
   public long? IterationTimestamp { get; set; }
+  // For Total Search Time
+  protected long? SearchTimestamp { get; set; }
 
   public UInt64 IntervalNodes;
   public UInt64 HeartbeatNodes;
-  public TimeSpan SearchElapsedOfLastHeartbeat;
   public TimeSpan HeartbeatPeriod;
   public Boolean IsDisplayHeartbeat;
   #endregion
