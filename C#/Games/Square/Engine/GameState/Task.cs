@@ -113,10 +113,9 @@ partial class GameState {
     ArgumentNullException.ThrowIfNull(position, nameof(position));
 
     try {
-      SearchTimer.Reset();
+      SearchTimestamp = Stopwatch.GetTimestamp();
       IntervalNodes =
         HeartbeatNodes = (UInt64)Nodes;
-      SearchElapsedOfLastHeartbeat = SearchTimer.Elapsed;
 
       if (!position.IsLegal())
         throw new PositionException("Illegal Setup");
@@ -134,7 +133,7 @@ partial class GameState {
 #endif
       }
 
-      SearchTimer.Start();
+      SearchElapsedOfLastHeartbeat = Stopwatch.GetElapsedTime(SearchTimestamp.Value);
 
       switch (mode) {
       case SearchMode.BestMove:
@@ -166,15 +165,13 @@ partial class GameState {
       LogInfo(LogLevel.error, ex.ToString());
     }
     finally {
-      if (SearchTimer.IsRunning)
-        SearchTimer.Stop();
-
       if (UCI.IsDebug) {
         LogInfo(LogLevel.note);
 #if NoteStartAndFinish
         LogInfo(LogLevel.note, $"Finished at {DateTime.Now:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
-        displayCounts(mode, SearchTimer.Elapsed.TotalMilliseconds);
+        var tsSearchElapsed = Stopwatch.GetElapsedTime(SearchTimestamp.Value);
+        displayCounts(mode, tsSearchElapsed.TotalMilliseconds);
       }
     }
 
@@ -359,7 +356,10 @@ partial class GameState {
   }
 
   private void pollSearchTimer(Position position, UInt64 qNodes) {
-    var tsSearchElapsed = SearchTimer.Elapsed;
+    if (!SearchTimestamp.HasValue)
+      throw new ArgumentNullException(nameof(SearchTimestamp));
+
+    var tsSearchElapsed = Stopwatch.GetElapsedTime(SearchTimestamp.Value);
     var tsElapsedSinceLastHearbeat = tsSearchElapsed - SearchElapsedOfLastHeartbeat;
 
     //

@@ -104,7 +104,6 @@ partial class GameState : IDisposable {
     Case = new();
 
     newBestLine(wDepthMax);
-    newTimers();
     SeededRandom = new();               // Variable seed based on Environment.TickCount
 
     loadEndgameValue();
@@ -186,15 +185,6 @@ partial class GameState : IDisposable {
   [MemberNotNull(nameof(BestLine))]
   private void newBestLine(Int32 nCapacity) {
     BestLine = [with(nCapacity)];
-  }
-
-  [MemberNotNull(
-    nameof(IterationTimer),
-    nameof(SearchTimer)
-    )]
-  private void newTimers() {
-    IterationTimer = new();
-    SearchTimer = new();
   }
 
   private void clearSearchCounts() {

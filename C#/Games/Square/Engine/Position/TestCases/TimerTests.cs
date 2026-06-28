@@ -78,7 +78,7 @@ partial class Position : Board {
     sw.Stop();
     var dElapsedMS = sw.Elapsed.TotalMilliseconds;
     var dRate = qTrials / dElapsedMS;
-    LogLine($"Completed {qTrials:n0} trials in {dElapsedMS / 1E3:0.0##} sec, Rate = {dRate:0.0##} KHz");
+    LogLine($"Completed {qTrials:n0} trials in {dElapsedMS / 1E3:0.0##} sec @{dRate:0.0##} KHz");
   }
 
   [Conditional("TestOutsideSquare")]

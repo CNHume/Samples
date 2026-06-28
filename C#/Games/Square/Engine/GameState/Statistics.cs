@@ -157,7 +157,7 @@ partial class GameState {
     else {
       var dRate = Nodes / dElapsedMS;
       LogInfo(LogLevel.data,
-              $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1E3:0.0##} sec, {dRate:0.0##} KHz");
+              $"Searched a total of {Nodes:n0} nodes in {dElapsedMS / 1E3:0.0##} sec @{dRate:0.0##} KHz");
     }
   }
 
@@ -393,7 +393,7 @@ partial class GameState {
     else {
       var dRate = qNodesDelta / dElapsedMS;
       LogInfo(LogLevel.data,
-              $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1E3:0.0##} sec, {dRate:0.0##} KHz");
+              $"Searched {qNodesDelta:n0} nodes in {dElapsedMS / 1E3:0.0##} sec @{dRate:0.0##} KHz");
     }
   }
 

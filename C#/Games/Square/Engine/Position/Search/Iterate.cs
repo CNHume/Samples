@@ -176,9 +176,7 @@ partial class Position : Board {
     var vDepthLimit = bound.Plies;
     var wMovesToMate = bound.MovesToMate;
 #if DisplayDepth
-    var sw = State.IterationTimer;
-    sw.Start();
-
+    State.IterationTimestamp = Stopwatch.GetTimestamp();
     var qNodes1 = (UInt64)State.Nodes;
 #if DisplayPrediction
       var qPredicted1 = 0UL;
@@ -201,12 +199,11 @@ partial class Position : Board {
       endIteration(vDepth);
 #if DisplayDepth
       if (UCI.IsDebug) {
-        sw.Stop();
-        var dElapsedMS = sw.Elapsed.TotalMilliseconds;
+        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         var qNodes2 = (UInt64)State.Nodes;
         var qNodesDelta = qNodes2 - qNodes1;
 
-        GameState.DisplayRate(qNodesDelta, dElapsedMS);
+        GameState.DisplayRate(qNodesDelta, tsElapsed.TotalMilliseconds);
 #if DisplayPrediction
         var qPredicted2 =
 #if !TestRegression                     // Elide final prediction
@@ -218,7 +215,7 @@ partial class Position : Board {
         qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
         qNodes1 = qNodes2;
-        sw.Restart();
+        State.IterationTimestamp = Stopwatch.GetTimestamp();
       }
 #endif                                  // DisplayDepth
       if (wMovesToMate.HasValue) {
@@ -233,13 +230,11 @@ partial class Position : Board {
 
   public void IterateCases() {
 #if DisplayDepth
-    var sw = State.IterationTimer;
-    sw.Start();
-
-    var qNodes1 = State.Nodes;
 #if DisplayPrediction
     var qPredicted1 = 0UL;
 #endif                                  // DisplayPrediction
+    var qNodes1 = State.Nodes;
+    State.IterationTimestamp = Stopwatch.GetTimestamp();
 #endif                                  // DisplayDepth
     var testCases = getTestCases();
 
@@ -257,17 +252,16 @@ partial class Position : Board {
       perft(vDepth);
 #if DisplayDepth
       if (UCI.IsDebug) {
-        sw.Stop();
-        var dElapsedMS = sw.Elapsed.TotalMilliseconds;
+        var tsElapsed = Stopwatch.GetElapsedTime(State.IterationTimestamp.Value);
         var qNodesDelta = pc.TotalNodes.HasValue ? pc.TotalNodes.Value : 0;
-        GameState.DisplayRate(qNodesDelta, dElapsedMS);
+        GameState.DisplayRate(qNodesDelta, tsElapsed.TotalMilliseconds);
 #if DisplayPrediction
         var qPredicted2 = State.Predict(0, vDepth, qNodesDelta);
-        GameState.DisplayPrediction(dElapsedMS, qNodesDelta, qPredicted1, qPredicted2);
+        GameState.DisplayPrediction(tsElapsed.TotalMilliseconds, qNodesDelta, qPredicted1, qPredicted2);
         qPredicted1 = qPredicted2;
 #endif                                  // DisplayPrediction
         qNodes1 = State.Nodes;
-        sw.Restart();
+        State.IterationTimestamp = Stopwatch.GetTimestamp();
       }
 #endif                                  // DisplayDepth
       if (!tc.Passed(pc))

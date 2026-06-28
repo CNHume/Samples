@@ -47,8 +47,9 @@ partial class GameState {
   public Task<List<Move>?>? EngineTask;
   public Task<List<Move>?>? FinishTask;
 #endif
-  public Stopwatch SearchTimer;
-  public Stopwatch IterationTimer;
+  protected long? SearchTimestamp { get; set; }
+  public long? IterationTimestamp { get; set; }
+
   public UInt64 IntervalNodes;
   public UInt64 HeartbeatNodes;
   public TimeSpan SearchElapsedOfLastHeartbeat;
