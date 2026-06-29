@@ -54,10 +54,10 @@ partial class GameState {
   // For Total Search Time
   protected long? SearchTimestamp { get; set; }
 
-  public UInt64 IntervalNodes;
+  protected UInt64 IntervalNodes;
   public UInt64 HeartbeatNodes;
+  protected TimeSpan HeartbeatPeriod;
   public Boolean IsDisplayHeartbeat;
-  protected long? HeartbeatTicks;
   #endregion
 
   #region Count Fields

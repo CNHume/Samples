@@ -531,7 +531,7 @@ partial class UCI {
   //"2q1rrk1/5p2/6p1/8/2B5/8/2Q3P1/6K1 w - - 0 1"; // Draw3QxG6 [7-ply] eval 0.0
   //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5R1K w - d6 0 1"; // Draw3EPIllegal
   // moves h6g6 g8h8 g6h6 h8g8 h6g6 g8h8 g6h6 h8g8 // Annotates Draw upon 4... Kh8g8=
-  "2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
+  //"2r2rk1/8/2b4Q/3pP3/2q5/6B1/5P2/5RK1 w - d6 0 1"; // Draw3EPLegal
   //
   //[Fixed 2026-01-26]Test case for Clear Repetition bug
   // The following correctly annotates a Draw upon 5. Qh6g6+=
@@ -625,6 +625,7 @@ partial class UCI {
 
   #region Puzzles
   //
+  "4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
   //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1"; // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
   // 1. f8=N+ Kg8 2. Ne6 Qf7 3. Qd8+ Kh7 4. Ng5+ Kg6 5. Nxf7 Kxf7
   // moves f7f8n h7g8 f8e6 h5f7 f6d8 g8h7 e6g5 h7g6 g5f7 g6f7

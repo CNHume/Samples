@@ -359,10 +359,10 @@ partial class GameState {
   private void pollSearchTimer(Position position, UInt64 qNodes) {
     if (HeartbeatTimestamp.HasValue) {
       //
-      // Test whether HeartbeatTicks have elapsed
+      // Test whether HeartbeatPeriod has elapsed
       //
       var tsElapsed = Stopwatch.GetElapsedTime(HeartbeatTimestamp.Value);
-      if (tsElapsed.Ticks >= HeartbeatTicks) {
+      if (tsElapsed >= HeartbeatPeriod) {
         if (IsSearchInProgress && IsDisplayHeartbeat) {
           displayHeartbeat(
             qNodes - HeartbeatNodes, tsElapsed.TotalMilliseconds, position);
