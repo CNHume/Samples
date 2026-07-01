@@ -15,7 +15,7 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Version Insiders [11918.235]
+  // VS 2026 Version Insiders [11925.187]
   //
   #region FEN Constants
   private const String sDefaultFEN =

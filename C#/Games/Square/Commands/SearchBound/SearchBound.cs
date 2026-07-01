@@ -23,6 +23,24 @@ struct SearchBound {
   private const Int32 nMinMoveTimeMS = 1000;
   #endregion
 
+  #region Fields
+  public UInt16? WhiteIncrementMS;      // winc
+  public UInt16? BlackIncrementMS;      // binc
+  public UInt32? WhiteTimeMS;           // wtime
+  public UInt32? BlackTimeMS;           // btime
+  public UInt32? MoveTimeMS;            // movetime
+
+  public PlyDepth? Plies;               // depth
+  public UInt16? MovesToGo;             // movestogo
+  public UInt16? MovesToMate;           // mate
+  public UInt64? Nodes;                 // nodes
+
+  public Boolean IsDepth;               // Depth specified vs implied by MovesToMate
+  public Boolean IsInfinite;            // infinite
+  public Boolean IsPonder;              // ponder
+  public Boolean WTM;
+  #endregion                            // Fields
+
   #region Methods
   public void Clear(Boolean bWTM) {
     WTM = bWTM;
@@ -204,23 +222,5 @@ struct SearchBound {
 
     return bValid;
   }
-  #endregion
-
-  #region Primary Fields
-  public UInt16? WhiteIncrementMS;
-  public UInt16? BlackIncrementMS;
-  public UInt32? WhiteTimeMS;
-  public UInt32? BlackTimeMS;
-  public UInt32? MoveTimeMS;
-
-  public PlyDepth? Plies;
-  public UInt16? MovesToGo;
-  public UInt16? MovesToMate;
-  public UInt64? Nodes;
-
-  public Boolean IsDepth;               // Depth Bound explicitly set vs implied by MovesToMate
-  public Boolean IsInfinite;
-  public Boolean IsPonder;
-  public Boolean WTM;
-  #endregion
+  #endregion                            // Methods
 }
