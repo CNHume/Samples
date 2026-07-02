@@ -108,7 +108,7 @@ partial class Position : Board {
     wLateDrafthMin = draft(wLateDepthMin);
     wLerpDraftMax = draft(wLerpDepthMax);
 
-    PawnFeatures = (PawnFeature[])Enum.GetValues(typeof(PawnFeature));
+    PawnFeatures = Enum.GetValues<PawnFeature>();
     nFeatureBits = PawnFeatures.Length * nPerNibble;
     #endregion                          // Read Only Assignments
 
@@ -128,7 +128,7 @@ partial class Position : Board {
     //
     // Initialize Default MoveType Ordering:
     //
-    defaultMoveTypes = (MoveType[])Enum.GetValues(typeof(MoveType));
+    defaultMoveTypes = Enum.GetValues<MoveType>();
     defaultMoveTypeOrdering = compressMoveTypes(defaultMoveTypes);
   }
 

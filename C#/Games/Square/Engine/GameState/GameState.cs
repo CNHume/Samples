@@ -63,13 +63,7 @@ using static System.String;
 
 namespace Engine;
 
-using Commands;                          // For Scanner
-
 using MoveOrder;                        // For MoveBottle
-
-using Resource;
-
-using Test;
 
 using static Board;
 using static Position;
@@ -132,7 +126,7 @@ partial class GameState : IDisposable {
   }
 
   static GameState() {
-    Extensions = (SearchExtensions[])Enum.GetValues(typeof(SearchExtensions));
+    Extensions = Enum.GetValues<SearchExtensions>();
   }
 
   ~GameState() {

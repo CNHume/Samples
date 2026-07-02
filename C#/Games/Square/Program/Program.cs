@@ -43,7 +43,7 @@ try {
   while (bContinue) {
     Log(sPrompt);
     var sLine = Console.ReadLine();
-    if (sLine == null)
+    if (sLine == null)                  // Ctrl+Z (EOF)
       bContinue = false;
     else {
       LogLine(sLine, false);

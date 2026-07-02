@@ -109,7 +109,7 @@ partial class Board : IEquatable<Board> {
   }
 
   private static void ensureParameters() {
-    var sideNames = (SideName[])Enum.GetValues(typeof(SideName));
+    var sideNames = Enum.GetValues<SideName>();
     foreach (var sideName in sideNames) {
       var nSide = (Int32)sideName;
       if (Parameter[nSide] == null) {

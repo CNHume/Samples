@@ -15,8 +15,6 @@ using System.Runtime.CompilerServices;  // For MethodImplAttribute
 
 namespace Engine;
 
-using static Logging.Logger;
-
 //
 // Type Aliases:
 //
