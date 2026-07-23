@@ -15,7 +15,7 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Version Insiders [11925.187]
+  // VS 2026 Version Insiders [12020.428]
   //
   #region FEN Constants
   private const String sDefaultFEN =
@@ -625,8 +625,9 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"2B5/8/8/4N2P/8/6K1/p7/4k3 w - - 0 1";  // White to Fork and Win
   "4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
-  //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1"; // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
+  //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1";    // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
   // 1. f8=N+ Kg8 2. Ne6 Qf7 3. Qd8+ Kh7 4. Ng5+ Kg6 5. Nxf7 Kxf7
   // moves f7f8n h7g8 f8e6 h5f7 f6d8 g8h7 e6g5 h7g6 g5f7 g6f7
   //"3Q4/5k2/8/8/8/6K1/8/8 w - - 0 6"; // White to Underpromote and Win Follow-up #6 [9-ply in 1.297 sec @793.481 KHz over 1.029 Mnode] after:

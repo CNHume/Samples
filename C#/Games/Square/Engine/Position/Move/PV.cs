@@ -432,8 +432,8 @@ partial class Position : Board {
       DisplayCurrent(nameof(abbreviateRefresh));
 #endif
     //
-    // Recursion vs iteration links each Position to its parent,
-    // allowing findRepetition() and findCycle() to operate correctly:
+    // Recursion links each Position to its parent, allowing
+    // findRepetition() and findCycle() to operate correctly:
     //
     var child = Push();                 // Push Position to make the moves
     try {

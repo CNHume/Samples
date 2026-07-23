@@ -399,7 +399,11 @@ partial class Board : IEquatable<Board> {
     A1H8Piece = board.A1H8Piece;        // 8-bytes
     A8H1Piece = board.A8H1Piece;        // 8-bytes
 #endif
-    copySides(board);                   // 2 x 36 = 72-bytes
+    //
+    // 2 x 36 = 72-bytes, or 2 x 20 = 40-bytes
+    // if Pawn Attack Squares are calculated
+    //
+    copySides(board);
 
     ensureAtxToCount();                 //[Conditional]
     copyAtxToCount(board);              //[Conditional] 64-bytes
