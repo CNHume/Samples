@@ -6,6 +6,7 @@
 // Conditionals:
 //
 #define EnsureLogPathDirectoryExists
+#define FlushWriteToConsole
 
 using System.Text;
 
@@ -106,6 +107,10 @@ static class Logger {
     Log(s, bWriteToConsole);
     Log("\n", bWriteToConsole);
     Stream?.Flush();
+#if FlushWriteToConsole
+    if (bWriteToConsole)
+      Console.Out.Flush();
+#endif                                  // FlushWriteToConsole
   }
 
   public static void LogInfo(LogLevel level, String? s = default) {

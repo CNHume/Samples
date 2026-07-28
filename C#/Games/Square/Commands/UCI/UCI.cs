@@ -116,7 +116,7 @@ partial class UCI : ICommand {
    * ------
    * option name [Hash | SyzygyPath | SyzygyCache | Nullmove | OwnBook | Ponder | MultiPV |
    *              UCI_ShowCurrLine | UCI_ShowShowRefutations | UCI_LimitStrength |
-   *              UCI_Elo | UCI_AnalyseMode | UCI_Opponent]
+   *              UCI_Elo | UCI_Chess960 | UCI_AnalyseMode | UCI_Opponent]
    *
    * Type
    * ----

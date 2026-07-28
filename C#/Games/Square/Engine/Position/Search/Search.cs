@@ -298,7 +298,7 @@ partial class Position : Board {
       var uRaisedAlpha = 0U;
 #if LazyMoveSort
       // The Heap Enumerator uses Remove() to obtain the "minimum" SortMove,
-      // i.e., the one with the best Depth then best Score then least Index:
+      // i.e., the one with the best Score then least Index:
       foreach (var sm in PriorityMove) {
         var move = sm.Move;
 #else                                  //!LazyMoveSort

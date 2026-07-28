@@ -233,6 +233,13 @@ partial class GameState {
       setting.SetDefault();
     }
   }
+  private void wireChess960() {
+    var setting = (CheckSetting?)findControl(UCI_Chess960);
+    if (setting != null) {
+      setting.PropertyChanged += Chess960Value_PropertyChanged;
+      setting.SetDefault();
+    }
+  }
 
   private void wireAnalyseMode() {
     var setting = (CheckSetting?)findControl(UCI_AnalyseMode);

@@ -436,7 +436,7 @@ partial class Board {
       sb.Append(cNewline);
     }
 
-    if (!bTopRuler)                   // File Ruler at Bottom
+    if (!bTopRuler)                     // File Ruler at Bottom
       sb.AppendRuler(bRotateBoard, bFlip);
     sb.FlushLine();
   }

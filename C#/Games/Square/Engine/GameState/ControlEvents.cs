@@ -216,6 +216,13 @@ partial class GameState {
     IsPonderEnabled = Convert.ToBoolean(value);
   }
 
+  protected void Chess960Value_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
+    ArgumentNullException.ThrowIfNull(sender, nameof(sender));
+    var setting = (CheckSetting)sender;
+    var value = setting.GetValue();
+    IsChess960 = Convert.ToBoolean(value);
+  }
+
   protected void AnalyseModeValue_PropertyChanged(Object? sender, PropertyChangedEventArgs e) {
     ArgumentNullException.ThrowIfNull(sender, nameof(sender));
     var setting = (CheckSetting)sender;

@@ -15,7 +15,7 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Version Insiders [12020.428]
+  // VS 2026 Version Insiders [12023.133]
   //
   #region FEN Constants
   private const String sDefaultFEN =
@@ -106,9 +106,9 @@ partial class UCI {
   //[2023-09-04 16-ply in 6:03 @1.435 MHz over 520.87 Mnode] eval 12.95 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
-  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
-  //[2024-05-12 19-ply in 14:36 @1.529 MHz over 1.339 Gnode] #10 after:
+  //[2026-07-22 19-ply in 11:48 @1.568 MHz over 1.11 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
   // Mobility Enabled w 8Mx6 XPM w 48Mx2 XP w 16Mx4 QXP
   //[2024-03-08 19-ply in 1:11:29 @1.544 MHz over 6.622 Gnode] #11 after:
@@ -626,7 +626,7 @@ partial class UCI {
   #region Puzzles
   //
   //"2B5/8/8/4N2P/8/6K1/p7/4k3 w - - 0 1";  // White to Fork and Win
-  "4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
+  //"4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
   //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1";    // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
   // 1. f8=N+ Kg8 2. Ne6 Qf7 3. Qd8+ Kh7 4. Ng5+ Kg6 5. Nxf7 Kxf7
   // moves f7f8n h7g8 f8e6 h5f7 f6d8 g8h7 e6g5 h7g6 g5f7 g6f7

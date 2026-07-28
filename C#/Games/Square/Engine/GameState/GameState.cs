@@ -94,7 +94,6 @@ partial class GameState : IDisposable {
     PositionPool = new(this);
 
     Bound = new();
-    IsChess960 = false;
     Case = new();
 
     newBestLine(wDepthMax);
@@ -168,6 +167,7 @@ partial class GameState : IDisposable {
     wireHeartbeat();
     wireHeartbeatMS();
     wirePonder();
+    wireChess960();
     wireAnalyseMode();
     wireShowingLine();
     wireOpponent();

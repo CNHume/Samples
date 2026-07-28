@@ -743,8 +743,6 @@ static class Extension {
   public static StringBuilder BestInfo(
     this StringBuilder sb, List<Move> bestMoves, BoardSide[] sides, Boolean bChess960) {
     if (bestMoves.Count > 0) {
-      if (sb.Length == 0) sb.Append("info ");
-
       sb.Append("bestmove ")
         .AppendPACN(bestMoves[0], sides, bChess960);
 

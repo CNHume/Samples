@@ -262,7 +262,8 @@ partial class Position : Board {
       var nPlace = vn.Insert(nFinal);
       if (nPlace == 0) {
         var mEval = ReflectValue(WTM(), mValue);
-        new StringBuilder()
+        // Report BestLine for Variation
+        new StringBuilder("info ")
           .UpdateBestInfo(State.BestLine, vnMoves, mEval, bPonder, Side, State.IsChess960)
           .FlushLine();
       }

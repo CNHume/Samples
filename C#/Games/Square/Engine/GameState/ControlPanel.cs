@@ -139,8 +139,8 @@ partial class GameState {
     new CheckSetting {
       // Pure Algebraic Coordinate Notation (PACN) vs Algebraic Notation (AN)
       Name = Pure,
-      Default = "false",
-      IsHidden = true                   //[Debug]
+      Default = "true",
+      IsHidden = false                  //[Debug]
     },
     new CheckSetting {
       Name = Heartbeat,
@@ -157,6 +157,10 @@ partial class GameState {
     new CheckSetting {
       Name = Ponder,                    //[UCI]In case Time Management may be affected
       Default = "true"
+    },
+    new CheckSetting {
+      Name = UCI_Chess960,              //[UCI]Enable Chess960 / Fischer Random Chess
+      Default = "false"
     },
     new CheckSetting {
       Name = UCI_AnalyseMode,           //[UCI]Engine is not playing a game

@@ -41,6 +41,7 @@ partial class Control {
     HeartbeatMS,          //[Debug]
     Ponder,               //[UCI]
     UCI_AnalyseMode,      //[UCI]
+    UCI_Chess960,         //[UCI]
     UCI_ShowCurrLine,     //[UCI]
     UCI_Opponent,         //[UCI]
     Language,

@@ -155,9 +155,9 @@ partial class Position : Board {
     addKingCapturesAndMoves(~Friend.Piece, vKingPos);
 #endif
     if (bSwap && !bInCheck)
-      addPseudoMovesGood(moves);
+      addPseudoMovesByCaptureSwaps(moves);
     else
-      addPseudoMoves(moves);
+      addPseudoMovesByTypeOrdering(moves);
 
     return State.IncPseudoMoveTotal(moves.Count);
   }
@@ -255,7 +255,7 @@ partial class Position : Board {
   //
   // Order moves based on moveTypeOrdering:
   //
-  private void addPseudoMoves(List<Move> moves) {
+  private void addPseudoMovesByTypeOrdering(List<Move> moves) {
     expandMoveTypes(moveTypes, moveTypeOrdering);
 
     foreach (var moveType in moveTypes) {
@@ -320,7 +320,7 @@ partial class Position : Board {
     }
   }
 
-  private void addPseudoMovesGood(List<Move> moves) {
+  private void addPseudoMovesByCaptureSwaps(List<Move> moves) {
     //expandMoveTypeOrdering();
     var captures = PseudoCaptures;
 

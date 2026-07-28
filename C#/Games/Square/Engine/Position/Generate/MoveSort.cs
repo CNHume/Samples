@@ -59,14 +59,14 @@ partial class Position : Board {
     moveTypes.Rotate(0, nIndex);
 
     //
-    // expandMoveTypes(moveTypeOrdering) is called by addPseudoMoves() to
-    // provide preliminary ordering for PseudoMoves created by generate().
+    // expandMoveTypes(moveTypeOrdering) is called by addPseudoMovesByTypeOrdering()
+    // to order the PseudoMoves created by generate().
     //
     //[ToDo]Add moveTypeOrdering to the XPM payload in storeXPM() and probeXPM()
     // so that the new ordering will be recalled for subsequent searches at the
     // current Ply Depth.
     //
-    // This moveTypeOrdering is currently inherited by children at subsequent Depth.
+    // moveTypeOrdering is currently inherited by positions at subsequent Depth.
     //
     moveTypeOrdering = compressMoveTypes(moveTypes);
   }
@@ -99,18 +99,24 @@ partial class Position : Board {
     //[Test]goodMoves.Sort();
 
     var nMoves = moves.Count;
+    //
+    // Determine mLateStart starting point
+    // for moves not found among goodMoves
+    //
     var mLateStart = Eval.MaxValue;
     var nEarly = 0;                     //[Init]
     foreach (var move in moves) {
       var nIndex = goodMoves.FindIndex(gm => EqualMoves(gm.Move, move));
-      if (nIndex >= 0) {
-        nEarly++;
-        State.IncEarlyMoveCount(SearchPly);     // Update EarlyMove Histogram
-        var good = goodMoves[nIndex];
-        var mGoodValue = good.Value;
-        if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
-          mLateStart = mGoodValue;
-        }
+      if (nIndex < 0)
+        continue;
+
+      nEarly++;
+      // Update EarlyMove Histogram
+      State.IncEarlyMoveCount(SearchPly);
+      var good = goodMoves[nIndex];
+      var mGoodValue = good.Value;
+      if (EvalUndefined < mGoodValue && mGoodValue < mLateStart) {
+        mLateStart = mGoodValue;
       }
     }
 
@@ -124,8 +130,9 @@ partial class Position : Board {
 #if TestGoodValue
       var mValue = EvalUndefined;
 
-      if (nIndex < 0)                   // Move not found among goodMoves
+      if (nIndex < 0) {                 // Move not found among goodMoves
         mValue = --mLateNext;           // Next value below Eval.MaxValue
+      }
       else {
         var good = goodMoves[nIndex];
         var mGoodValue = good.Value;    // goodMove Eval

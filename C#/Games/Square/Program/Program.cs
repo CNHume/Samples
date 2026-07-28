@@ -18,6 +18,10 @@
 //
 // Conditionals:
 //
+//[Note]Disable ShowUCIPrompt when piping Console.Out to a UCI interface.
+// It is for interactive debugging.
+// 
+//#define ShowUCIPrompt
 #define NoteLaunchAndExit
 #define PressEnter
 //#define StackTrace
@@ -29,7 +33,9 @@ using static Logging.Logger;
 
 #region Constants
 const String sSpace = " ";
+#if ShowUCIPrompt
 const String sPrompt = "uci>";
+#endif                                  // ShowUCIPrompt
 #endregion
 
 using UCI command = new();
@@ -41,7 +47,9 @@ try {
   var sCommand = Join(sSpace, args).Trim();
   var bContinue = IsNullOrEmpty(sCommand) || command.Execute(sCommand);
   while (bContinue) {
+#if ShowUCIPrompt
     Log(sPrompt);
+#endif                                  // ShowUCIPrompt
     var sLine = Console.ReadLine();
     if (sLine == null)                  // Ctrl+Z (EOF)
       bContinue = false;

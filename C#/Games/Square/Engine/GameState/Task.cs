@@ -181,10 +181,10 @@ partial class GameState {
     //
     if (position is not null) {
       //[Note]refreshPV() has been called
+      // Report BestLine for Search
       var sb = new StringBuilder()
-        .BestInfo(BestLine, position.Side, IsChess960);
-      if (sb.Length > 0)
-        LogLine(sb.ToString());
+        .BestInfo(BestLine, position.Side, IsChess960)
+        .FlushLine();
     }
 
     return BestLine;
