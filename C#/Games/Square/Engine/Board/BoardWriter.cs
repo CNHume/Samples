@@ -7,7 +7,7 @@
 //
 //#define Magic
 #define TestRotation
-//#define DisplayFEN
+//#define DisplayEPD                    // vs. FEN
 #define DisplayFlags
 //#define DisplayCounts
 //#define DisplayPieceHash
@@ -343,12 +343,11 @@ partial class Board {
 
   protected void AppendBoardProperties(StringBuilder sb) {
     var (blackSide, whiteSide) = Side.GetBothSides();
-
     sb.Append("Hashcode = ").Append(formatHash(Hash))
-#if DisplayFEN
-      .Append("; FEN = ").AppendLine(ToString(PositionType.FEN))
-#else
+#if DisplayEPD
       .Append("; EPD = ").AppendLine(ToString(PositionType.EPD))
+#else
+      .Append("; FEN = ").AppendLine(ToString(PositionType.FEN))
 #endif
 #if DisplayFlags
       .Append("Flags: ")

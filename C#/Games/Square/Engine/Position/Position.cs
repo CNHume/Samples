@@ -88,7 +88,7 @@ partial class Position : Board {
   #region Constructors
   static Position() {
 #if DebugInit
-    LogLine("Initializing Position...");
+    LogInfo(LogLevel.note, "Initializing Position...");
 #endif
     #region Assertions
     Trace.Assert(EvalUndefined == Bval.MinValue, "EvalUndefined != Bval.MinValue");

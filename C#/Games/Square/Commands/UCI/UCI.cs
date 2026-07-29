@@ -101,7 +101,7 @@ partial class UCI : ICommand {
    *
    * Info
    * ----
-   * info [depth | seldepth | time | nodes | pw | multipv |
+   * info [depth | seldepth | time | nodes | pv | multipv |
    *       score [cp | mate | lowerbound | upperbound] |
    *       currmove | currmovenumber | hashfull | nps | tbhits |
    *       cpuload | string | refutation | currline]

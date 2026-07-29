@@ -6,6 +6,7 @@
 // Conditionals:
 //
 #define ShowClockSpeed
+//#define ShowUCIPrompt
 //#define TestSlowManagementObject
 #define ShowGC
 //#define ShowGCLatency
@@ -35,7 +36,6 @@
 #define CountPVDoubles
 //#define Controlled
 #define DisplayOptions
-#define DisplayPosition
 //#define DisplayPositionPool
 #define GetSmart
 #define UseHistory
@@ -66,6 +66,7 @@ namespace Engine;
 using MoveOrder;                        // For MoveBottle
 
 using static Board;
+using static Logging.Logger;
 using static Position;
 
 //
@@ -447,10 +448,9 @@ partial class GameState : IDisposable {
       sb.AppendFormat($" {MoveBottle.nKillers} Killers");
   }
 
-  private void herald(DateTime dtStarted, String? sName) {
-    var sb = new StringBuilder()
-      .AppendLine()                     // Following UCI prompt
-      .AppendFormat($"{dtStarted:yyyy-MM-dd}");
+  [Conditional("ShowHerald")]
+  public void Herald(StringBuilder sb, DateTime dtStarted, String? sName) {
+    sb.AppendFormat($"{dtStarted:yyyy-MM-dd}");
 
     if (!IsNullOrEmpty(sName)) {
       sb.Append(cSpace)
@@ -459,11 +459,12 @@ partial class GameState : IDisposable {
 
     Bound.AppendBounds(sb);
     appendOptions(sb);
-#if DisplayPosition
-    sb.AppendLine();
+    LogInfo(LogLevel.note, sb.ToString());
+  }
+
+  [Conditional("ShowStartPosition")]
+  public void DisplayStart(StringBuilder sb) {
     MovePosition?.Display(sb);
-#endif
-    sb.FlushLine();
   }
 
   private void displayCounts(SearchMode mode, Double dElapsedMS) {

@@ -77,7 +77,7 @@ partial class Board : IEquatable<Board> {
   #region Constructors
   static Board() {
 #if DebugInit
-    LogLine("Initializing Board...");
+    LogInfo(LogLevel.note, "Initializing Board...");
 #endif
     #region Assertions
     // Assumed by both CaptiveMask and PromoteMask

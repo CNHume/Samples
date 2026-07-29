@@ -7,7 +7,8 @@
 //
 //[Test]#define DisplayRate               // Cf. displayHeartbeat()
 #define UseTask
-#define Herald
+#define ShowHerald
+//#define ShowStartPosition
 #define NoteStartAndFinish
 //#define StackTrace
 
@@ -124,10 +125,13 @@ partial class GameState {
       clearSearchCounts();
 
       if (UCI.IsDebug) {
+        var sb = new StringBuilder();
+#if ShowUCIPrompt
+        sb.AppendLine();
+#endif                                  // ShowUCIPrompt
         var dtStarted = DateTime.Now;
-#if Herald
-        herald(dtStarted, position.Name);
-#endif
+        Herald(sb, dtStarted, position.Name);
+        DisplayStart(sb);
 #if NoteStartAndFinish
         LogInfo(LogLevel.note, $"Started at {dtStarted:yyyy-MM-dd HH:mm:ss.ff}");
 #endif
