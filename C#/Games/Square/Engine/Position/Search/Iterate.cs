@@ -160,15 +160,17 @@ partial class Position : Board {
   }
 
   private void endIteration(PlyDepth vDepth) {
+    var wDepth = (Depth)vDepth;
+
     //
     // Annotate PV abbreviations and refresh XP
     //
-    refreshPV((Depth)vDepth);           //[Conditional]
+    refreshPV(wDepth);                  //[Conditional]
 
     //
     // Display the Principal Variation(s)
     //
-    writeMultiPV();                     //[Conditional]
+    writeMultiPV(wDepth, State.Nodes);  //[Conditional]
   }
 
   public Eval IteratePlies(SearchBound bound) {

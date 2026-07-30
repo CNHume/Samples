@@ -5,7 +5,6 @@
 //
 // Conditionals:
 //
-#define ShowCurrentMove
 #define BitOperations
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
@@ -43,6 +42,7 @@ using Eval = Int16;
 //
 // Type Aliases:
 //
+using Depth = UInt16;
 using Parameter = Position.PositionSide.PositionParameter;
 using Plane = UInt64;
 using Ply = UInt16;
@@ -709,23 +709,22 @@ static class Extension {
   }
 
   public static StringBuilder WriteVariation(
-    this StringBuilder sb, Variation vn,
-    Int32 nLine, Boolean bMultiPV,
-    Boolean bWTM, Ply wGamePly,
+    this StringBuilder sb, Depth wDepth, Int64 lNodes, Variation vn, Int32 nLine,
+    Boolean bMultiPV, Boolean bWTM, Ply wGamePly,
     Boolean bPure, BoardSide[] sides, Boolean bChess960) {
-#if ShowCurrentMove
-    if (vn.Moves != null && vn.Moves.Any()) {
-      // Indicate Move and Line of the current variation
+    sb.Append(cSpace)
+      .Append("depth")
+      .Append(cSpace)
+      .Append(wDepth);
+
+    if (bMultiPV) {
       sb.Append(cSpace)
-        .Append("currmove")
+        .Append("multipv")
         .Append(cSpace)
-        .AppendPACN(vn.Moves[0], sides, bChess960)
-        .Append(cSpace)
-        .Append("currmovenumber")         // UCI movenumber is nLine + 1
-        .Append(cSpace)
-        .Append(nLine + 1);
+        .Append(nLine + 1);             //[UCI]MultiPV are one-based
     }
-#endif                                  // ShowCurrentMove
+
+    // Indicate Move and Line of the current variation
     var mEval = ReflectValue(bWTM, vn.Value);
     sb.Append(cSpace);
     if (bPure) {
@@ -737,12 +736,10 @@ static class Extension {
         .AppendEvalTerm(mEval);
     }
 
-    if (bMultiPV && nLine == 0) {
-      sb.Append(cSpace)
-        .Append("multipv")
-        .Append(cSpace)
-        .Append(nLine + 1);             //[UCI]MultiPV are one-based
-    }
+    sb.Append(cSpace)
+      .Append("nodes")
+      .Append(cSpace)
+      .Append(lNodes);
 
     sb.Append(cSpace)
       .Append(bPure ? "pv" : "pvan");
@@ -750,6 +747,25 @@ static class Extension {
     //[Note]Variations begin with BestMove from MovePosition
     if (vn.Moves != null)
       sb.WriteMoves(vn.Moves, wGamePly, sides, bPure, bChess960);
+
+    return sb;
+  }
+
+  public static StringBuilder AppendCurrentMove(
+    this StringBuilder sb, Ply wPly, Move move,
+    UInt32 uLegalMoves, BoardSide[] sides, bool bChess960) {
+    sb.Append(cSpace)
+      .Append("depth")
+      .Append(cSpace)
+      .Append(wPly)
+      .Append(cSpace)
+      .Append("currmove")
+      .Append(cSpace)
+      .AppendPACN(move, sides, bChess960)
+      .Append(cSpace)
+      .Append("currmovenumber")
+      .Append(cSpace)
+      .Append(uLegalMoves);
 
     return sb;
   }

@@ -34,7 +34,7 @@ partial class GameState {
     },
     new SpinSetting {                   // Step 1/6: Define Control
       Name = MultiPV,                   //[UCI]# of variations sought
-      Default = "1",
+      Default = "2",                    //[Test]
       Min = 1,
       Max = 64                          // High Max for proof of mate solutions
     },

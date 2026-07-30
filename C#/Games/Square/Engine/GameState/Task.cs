@@ -6,11 +6,12 @@
 // Conditionals:
 //
 //[Test]#define DisplayRate               // Cf. displayHeartbeat()
-#define UseTask
-#define ShowHerald
-//#define ShowStartPosition
 #define NoteStartAndFinish
+//#define ShowCurrentMove                 //[ToDo]Requires uIllegalMoves
+//#define ShowStartPosition
+#define ShowHerald
 //#define StackTrace
+#define UseTask
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -333,7 +334,11 @@ partial class GameState {
     const Boolean bAbbreviate = false;//[Speed]
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
     var sb = new StringBuilder("info");
-
+#if ShowCurrentMove
+    var uLegalMoves = 1u;               //[ToDo]Requires uIllegalMoves
+    sb.AppendCurrentMove(
+      position.SearchPly, position.CurrentMove, uLegalMoves, position.Side, IsChess960);
+#endif                                  // ShowCurrentMove
     //
     // Display nodes per second (nps)
     //

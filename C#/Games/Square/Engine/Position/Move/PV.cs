@@ -468,19 +468,23 @@ partial class Position : Board {
     }
   }
 
-  private void writePV(StringBuilder sb, Int32 nLine, Boolean bWTM) {
-    sb.WriteVariation(State.Variation[nLine], nLine, State.MultiPVLength > 1,
-                      bWTM, GamePly, State.IsPure, Side, State.IsChess960)
+  private void writePV(
+    StringBuilder sb, Depth wDepth, Int64 lNodes,
+    MoveOrder.Variation vn, Int32 nLine, Boolean bWTM) {
+    var bMultiPV = State.MultiPVLength > 1;
+    sb.WriteVariation(wDepth, lNodes, vn, nLine,
+         bMultiPV, bWTM, GamePly,
+         State.IsPure, Side, State.IsChess960)
       .FlushLine();
   }
 
   [Conditional("WriteMultiPV")]
-  private void writeMultiPV() {
+  private void writeMultiPV(Depth wDepth, Int64 lNodes) {
     var bWTM = WTM();
     var sb = new StringBuilder();
     for (var nLine = 0; nLine < State.MultiPVCount; nLine++) {
       sb.Append("info");
-      writePV(sb, nLine, bWTM);
+      writePV(sb, wDepth, lNodes, State.Variation[nLine], nLine, bWTM);
     }
   }
   #endregion                            // MultiPV Support
