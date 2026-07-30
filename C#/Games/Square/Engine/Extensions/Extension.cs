@@ -5,6 +5,7 @@
 //
 // Conditionals:
 //
+#define ShowCurrentMove
 #define BitOperations
 //#define DeBruijn                        // DeBruijn vs Mask
 //#define FullData                        // Full vs Half
@@ -712,26 +713,39 @@ static class Extension {
     Int32 nLine, Boolean bMultiPV,
     Boolean bWTM, Ply wGamePly,
     Boolean bPure, BoardSide[] sides, Boolean bChess960) {
+#if ShowCurrentMove
+    if (vn.Moves != null && vn.Moves.Any()) {
+      // Indicate Move and Line of the current variation
+      sb.Append(cSpace)
+        .Append("currmove")
+        .Append(cSpace)
+        .AppendPACN(vn.Moves[0], sides, bChess960)
+        .Append(cSpace)
+        .Append("currmovenumber")         // UCI movenumber is nLine + 1
+        .Append(cSpace)
+        .Append(nLine + 1);
+    }
+#endif                                  // ShowCurrentMove
     var mEval = ReflectValue(bWTM, vn.Value);
+    sb.Append(cSpace);
     if (bPure) {
-      sb.Append("info score")
+      sb.Append("score")
         .AppendEvalInfo(mEval);
     }
     else {
-      sb.Append("info eval")
+      sb.Append("eval")
         .AppendEvalTerm(mEval);
     }
 
-    sb.Append(cSpace);
-    var sPurePV = bPure ? "pv" : "pvan";
-    if (bMultiPV) {
-      sb.Append("multi")
-        .Append(sPurePV)
+    if (bMultiPV && nLine == 0) {
+      sb.Append(cSpace)
+        .Append("multipv")
         .Append(cSpace)
         .Append(nLine + 1);             //[UCI]MultiPV are one-based
     }
-    else
-      sb.Append(sPurePV);
+
+    sb.Append(cSpace)
+      .Append(bPure ? "pv" : "pvan");
 
     //[Note]Variations begin with BestMove from MovePosition
     if (vn.Moves != null)
@@ -747,7 +761,8 @@ static class Extension {
         .AppendPACN(bestMoves[0], sides, bChess960);
 
       if (bestMoves.Count > 1) {
-        sb.Append(" ponder ")
+        sb.Append(cSpace)
+          .Append("ponder ")
           .AppendPACN(bestMoves[1], sides, bChess960);
       }
     }
@@ -780,8 +795,8 @@ static class Extension {
     // Report score for every new variation, even if
     // the Best move and Ponder move remain the same.
     //
-    sb.Append(sb.Length > 0 ? "score" : "info score");
-    sb.AppendEvalInfo(mEval);
+    sb.Append(sb.Length > 0 ? "score" : "info score")
+      .AppendEvalInfo(mEval);
 
     return sb;
   }

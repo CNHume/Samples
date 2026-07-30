@@ -478,8 +478,10 @@ partial class Position : Board {
   private void writeMultiPV() {
     var bWTM = WTM();
     var sb = new StringBuilder();
-    for (var nLine = 0; nLine < State.MultiPVCount; nLine++)
+    for (var nLine = 0; nLine < State.MultiPVCount; nLine++) {
+      sb.Append("info");
       writePV(sb, nLine, bWTM);
+    }
   }
   #endregion                            // MultiPV Support
 
