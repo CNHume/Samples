@@ -7,7 +7,9 @@
 //
 //[Test]#define DisplayRate               // Cf. displayHeartbeat()
 #define NoteStartAndFinish
-//#define ShowCurrentMove                 //[ToDo]Requires uIllegalMoves
+//[ToDo]displayHeartbeat() needs wDepth, uMoveIndex, and uMoveCount
+//#define ShowCurrentMove
+//#define ShowNPS
 //#define ShowStartPosition
 #define ShowHerald
 //#define StackTrace
@@ -331,14 +333,24 @@ partial class GameState {
   #region Move Count Methods
   private void displayHeartbeat(
     UInt64 qNodesDelta, Double dElapsedMS, Position position) {
-    const Boolean bAbbreviate = false;//[Speed]
+    //[Speed]
+    const Boolean bAbbreviate = false;
     //[Test]GameState.DisplayRate(qNodesDelta, dElapsedMS);
+    ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
+    var moves = position.MovesFromParent(MovePosition, bAbbreviate);
     var sb = new StringBuilder("info");
 #if ShowCurrentMove
-    var uLegalMoves = 1u;               //[ToDo]Requires uIllegalMoves
-    sb.AppendCurrentMove(
-      position.SearchPly, position.CurrentMove, uLegalMoves, position.Side, IsChess960);
+    if (moves.Any()) {
+      //[ToDo]displayHeartbeat() needs wDepth, uMoveIndex, and uMoveCount
+      var wDepth = position.SearchPly;
+      var uMoveIndex = 0u;
+      var uMoveCount = 1u;
+      sb.AppendCurrentMove(
+        wDepth, uMoveIndex, uMoveCount,
+        moves[0], position.Side, IsChess960);
+    }
 #endif                                  // ShowCurrentMove
+#if ShowNPS
     //
     // Display nodes per second (nps)
     //
@@ -346,18 +358,15 @@ partial class GameState {
       var dRate = qNodesDelta * 1E3 / dElapsedMS;
       sb.AppendFormat($" nps {dRate:0}");
     }
-
+#endif                                  // ShowNPS
     //
     // Display MovesFromParent(MovePosition) to Current Position
     //
     if (IsDisplayCurrentLine) {
-      ArgumentNullException.ThrowIfNull(MovePosition, nameof(MovePosition));
-
       sb.Append(" currline");
       if (!IsPure)
         sb.Append("-an");
 
-      var moves = position.MovesFromParent(MovePosition, bAbbreviate);
       sb.AppendNumberedMoves(moves, MovePly, position.Side, IsPure, IsChess960);
     }
 

@@ -349,7 +349,7 @@ partial class Board {
     //
     NullMove = Piece.P << nPromoteBit,  // Null Move Heuristic
     Undefined = Piece.K << nPromoteBit, // Uninitialized Move Value
-    EmptyMove = Castles | Undefined     // Denotes Final Position in Transposition
+    EmptyMove = Castles | Undefined     // Denotes a Final Position
   }
   #endregion                            // Move Enum
   #endregion                            // Enumerations

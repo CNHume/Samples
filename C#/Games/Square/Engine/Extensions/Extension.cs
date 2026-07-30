@@ -38,11 +38,11 @@ using static CacheValue.PawnPosition;
 using static Logging.Logger;
 using static Position;
 
-using Eval = Int16;
 //
 // Type Aliases:
 //
 using Depth = UInt16;
+using Eval = Int16;
 using Parameter = Position.PositionSide.PositionParameter;
 using Plane = UInt64;
 using Ply = UInt16;
@@ -721,7 +721,7 @@ static class Extension {
       sb.Append(cSpace)
         .Append("multipv")
         .Append(cSpace)
-        .Append(nLine + 1);             //[UCI]MultiPV are one-based
+        .Append(nLine + 1);             //[UCI]MultiPV lines are one-based
     }
 
     // Indicate Move and Line of the current variation
@@ -752,12 +752,12 @@ static class Extension {
   }
 
   public static StringBuilder AppendCurrentMove(
-    this StringBuilder sb, Ply wPly, Move move,
-    UInt32 uLegalMoves, BoardSide[] sides, bool bChess960) {
+    this StringBuilder sb, Depth wDepth, UInt32 uMoveIndex, UInt32 uMoveCount,
+    Move move, BoardSide[] sides, bool bChess960) {
     sb.Append(cSpace)
       .Append("depth")
       .Append(cSpace)
-      .Append(wPly)
+      .Append(wDepth)
       .Append(cSpace)
       .Append("currmove")
       .Append(cSpace)
@@ -765,7 +765,7 @@ static class Extension {
       .Append(cSpace)
       .Append("currmovenumber")
       .Append(cSpace)
-      .Append(uLegalMoves);
+      .Append(uMoveIndex + 1);          //[UCI]currmovenumber is one-based
 
     return sb;
   }
