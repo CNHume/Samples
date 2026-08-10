@@ -27,10 +27,10 @@ partial class Board {
           PawnA8H1 = PawnSense * nA8H1;
           PawnStep = PawnSense * nFiles;
 
-          PieceRank = 7;
-          PawnRank = 6;
-          PassRank = 5;
-          BelowRank = 4;
+          PieceRank = InvertRank(0);
+          PawnRank = InvertRank(1);
+          PassRank = InvertRank(2);
+          BelowRank = InvertRank(3);
 
           EnPassantMask = qpRank6;
           PromotionMask = qpRank1;
