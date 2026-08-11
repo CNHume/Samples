@@ -397,15 +397,12 @@ partial class Board {
 
   private const Byte MASK8 = Byte.MaxValue;
 
-  // The following are used by resetWhite|BlackPawnAtx()
+  //
+  // The following are used by the Position.CountPawnFeatures() method
+  // and to initialize BoardParameter.FileLeft, and FileRight.
+  //
   protected const Plane qpFileA = 0x0101010101010101UL;
-  protected const Plane qpFileB = qpFileA << 1;
-  protected const Plane qpFileC = qpFileB << 1;
-  protected const Plane qpFileD = qpFileC << 1;
-  protected const Plane qpFileE = qpFileD << 1;
-  protected const Plane qpFileF = qpFileE << 1;
-  protected const Plane qpFileG = qpFileF << 1;
-  protected const Plane qpFileH = qpFileG << 1;
+  protected const Plane qpFileH = qpFileA << nFiles - 1;
 
   // The following are used by Position.white|blackCanPromote()
   protected const Plane qpRank1 = 0xFFUL;

@@ -104,6 +104,8 @@ partial class Position {
     //
     var qpWhite = qpFileA << nFiles;
     var qpBlack = qpFileH >> nFiles;
+    //var qpWhiteTest = qpFileH << 1;
+    //var qpBlackTest = qpFileA >> 1;
 
     for (Int32 nWhite = 0, y = 0; y < nRanks; y++) {
       //

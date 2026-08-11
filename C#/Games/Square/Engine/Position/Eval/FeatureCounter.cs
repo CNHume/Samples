@@ -23,10 +23,6 @@ using Plane = UInt64;
 
 partial class Position : Board {
   #region Constants
-  protected static Plane[] FileMask = {
-    qpFileA, qpFileB, qpFileC, qpFileD, qpFileE, qpFileF, qpFileG, qpFileH
-  };
-
   public enum PawnFeature : byte {
     Pawns, Passers, Divides, Isolani, Doubled, Awkward
   };
@@ -144,7 +140,7 @@ partial class Position : Board {
       var nFile = x(nFound);
       Debug.Assert((vOccupied & (Byte)bit(nFile)) == 0, "File Previously Visited", $"File = {nFile}");
       vOccupied |= (Byte)bit(nFile);
-      var qpFile = FileMask[nFile];
+      var qpFile = qpFileA << nFile;
       var qpFilePawn = qpFile & qpFriendPawn;
       qpFriendPawn &= ~qpFilePawn;      // Visit each occupied file only once
 
