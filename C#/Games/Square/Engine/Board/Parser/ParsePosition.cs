@@ -38,7 +38,7 @@ partial class Board {
         throw new InvalidPositionException(message);
       }
 
-      if (((qpRank1 | qpRank8) & Pawn) != 0) {
+      if ((side.Parameter.PromotionMask & Pawn) != 0) {
         var message = "Invalid Pawn Placement";
         throw new InvalidPositionException(message);
       }

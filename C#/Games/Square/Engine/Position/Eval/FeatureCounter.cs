@@ -140,7 +140,7 @@ partial class Position : Board {
       var nFile = x(nFound);
       Debug.Assert((vOccupied & (Byte)bit(nFile)) == 0, "File Previously Visited", $"File = {nFile}");
       vOccupied |= (Byte)bit(nFile);
-      var qpFile = qpFileA << nFile;
+      var qpFile = QPFile(nFile);
       var qpFilePawn = qpFile & qpFriendPawn;
       qpFriendPawn &= ~qpFilePawn;      // Visit each occupied file only once
 

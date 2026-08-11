@@ -126,6 +126,16 @@ partial class Board : IEquatable<Board> {
   }
 
   #region Methods
+  #region Rank and File Masks
+  protected static Plane QPRank(int nRank) {
+    return qpRank1 << nFiles * nRank;
+  }
+
+  protected static Plane QPFile(int nFile) {
+    return qpFileA << nFile;
+  }
+  #endregion                            // Rank and File Masks
+
   #region Initialization Methods
   [MemberNotNull(
     nameof(Friend),

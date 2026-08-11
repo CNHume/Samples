@@ -399,19 +399,15 @@ partial class Board {
 
   //
   // The following are used by the Position.CountPawnFeatures() method
-  // and to initialize BoardParameter.FileLeft, and FileRight.
+  // and to initialize BoardParameter.FileLeft, and FileRight
   //
   protected const Plane qpFileA = 0x0101010101010101UL;
   protected const Plane qpFileH = qpFileA << nFiles - 1;
 
-  // The following are used by Position.white|blackCanPromote()
+  //
+  // The following is used to initialize BoardParameter.PromotionMask,
+  // and EnPassantMask
+  //
   protected const Plane qpRank1 = 0xFFUL;
-  protected const Plane qpRank2 = qpRank1 << nFiles;
-  protected const Plane qpRank3 = qpRank2 << nFiles;
-  protected const Plane qpRank4 = qpRank3 << nFiles;
-  protected const Plane qpRank5 = qpRank4 << nFiles;
-  protected const Plane qpRank6 = qpRank5 << nFiles;
-  protected const Plane qpRank7 = qpRank6 << nFiles;
-  protected const Plane qpRank8 = qpRank7 << nFiles;
   #endregion                            // Plane
 }

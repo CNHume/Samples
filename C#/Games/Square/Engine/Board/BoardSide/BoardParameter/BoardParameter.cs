@@ -31,10 +31,11 @@ partial class Board {
           PawnRank = InvertRank(1);
           PassRank = InvertRank(2);
           BelowRank = InvertRank(3);
+          PromotionRank = InvertRank(7);
 
-          EnPassantMask = qpRank6;
-          PromotionMask = qpRank1;
-          (FileLeft, FileRight) = (qpFileH, qpFileA);
+          EnPassantMask = QPRank(PassRank);
+          PromotionMask = QPRank(PromotionRank);
+          (FileLeft, FileRight) = (QPFile(7), QPFile(0));
 
           Zobrist = zobristBlack;
           ZobristRights = zobristRightsBlack;
@@ -50,10 +51,11 @@ partial class Board {
           PawnRank = 1;
           PassRank = 2;
           BelowRank = 3;
+          PromotionRank = 7;
 
-          EnPassantMask = qpRank3;
-          PromotionMask = qpRank8;
-          (FileLeft, FileRight) = (qpFileA, qpFileH);
+          EnPassantMask = QPRank(PassRank);
+          PromotionMask = QPRank(PromotionRank);
+          (FileLeft, FileRight) = (QPFile(0), QPFile(7));
 
           Zobrist = zobristWhite;
           ZobristRights = zobristRightsWhite;
@@ -79,6 +81,7 @@ partial class Board {
       public readonly Int32 PawnRank;
       public readonly Int32 PassRank;
       public readonly Int32 BelowRank;
+      public readonly Int32 PromotionRank;
 
       public readonly Plane EnPassantMask;
       public readonly Plane PromotionMask;
