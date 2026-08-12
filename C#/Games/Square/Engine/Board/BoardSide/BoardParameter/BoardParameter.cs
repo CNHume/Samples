@@ -116,9 +116,8 @@ partial class Board {
       }
 
       [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-      public Boolean IsPromotion(Int32 nTo) {
-        var qp = bit(nTo);
-        return (qp & PromotionMask) != 0;
+      public Boolean IsPromotionRank(Int32 nTo) {
+        return y(nTo) == PromotionRank;
       }
       #endregion                      // Methods
     }                                   // BoardParameter

@@ -41,7 +41,7 @@ partial class Position : Board {
         var nFrom = RemoveLo(ref qpFrom);
         var nTo = nFrom + nDiag;
         var bAbove = Parameter.IsAbove(nTo);
-        var bPromote = Parameter.IsPromotion(nTo);
+        var bPromote = Parameter.IsPromotionRank(nTo);
         var bEnPassant = nTo == vEPTarget;
         Position.AddPawnCapture(nFrom, nTo, bAbove, bPromote, bEnPassant);
       }
@@ -66,7 +66,7 @@ partial class Position : Board {
         var nFrom = RemoveLo(ref qpAdv1From);
         var nTo = nFrom + Parameter.PawnStep;
         var bAbove = Parameter.IsAbove(nTo);
-        var bPromote = Parameter.IsPromotion(nTo);
+        var bPromote = Parameter.IsPromotionRank(nTo);
         Position.AddPawnMove(nFrom, nTo, bAbove, bPromote);
       }
 

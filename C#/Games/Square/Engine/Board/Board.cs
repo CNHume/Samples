@@ -127,14 +127,34 @@ partial class Board : IEquatable<Board> {
 
   #region Methods
   #region Rank and File Masks
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected static Plane QPRank(int nRank) {
     return qpRank1 << nFiles * nRank;
   }
 
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
   protected static Plane QPFile(int nFile) {
     return qpFileA << nFile;
   }
   #endregion                            // Rank and File Masks
+
+  #region Shift Methods
+  //
+  //[C#]The << and >> operators treat negative exponents
+  // as unsigned p-bit values, where p is the PBL of the
+  // data type size.  The shift overloads implement more
+  // intuitive semantics of additive, signed exponents:
+  //
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Plane ShiftL(Plane qp, Int32 n) {
+    return n < 0 ? qp >> -n : qp << n;
+  }
+
+  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+  protected static Plane ShiftR(Plane qp, Int32 n) {
+    return n < 0 ? qp << -n : qp >> n;
+  }
+  #endregion                            // Shift Methods
 
   #region Initialization Methods
   [MemberNotNull(

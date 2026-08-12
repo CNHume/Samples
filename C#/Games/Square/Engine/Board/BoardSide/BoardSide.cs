@@ -137,7 +137,7 @@ partial class Board {
       //
       // Validate Promotion
       //
-      var bRequired = vPiece == vP6 && Parameter.IsPromotion(nTo);
+      var bRequired = vPiece == vP6 && Parameter.IsPromotionRank(nTo);
       var bSupplied = promotion != default;
       if (bRequired != bSupplied) {
         var sDiagnosis = bRequired ? "Required" : "Illegal";

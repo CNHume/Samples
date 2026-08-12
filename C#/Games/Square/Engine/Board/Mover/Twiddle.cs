@@ -29,10 +29,12 @@ using static System.String;
 using static System.Math;
 
 namespace Engine;
-#if TestDeBruijn
-using SortTest.Extensions;              // For AppendDelim()
-#endif
+#if DEBUG || TestDeBruijn
 using static Logging.Logger;
+#endif
+#if TestDeBruijn
+using SortTests.Extensions;             // For AppendDelim()
+#endif
 
 //
 // Type Aliases:
@@ -622,22 +624,4 @@ partial class Board {
     return input & vTwoBits;
   }
   #endregion
-
-  #region Shift Methods
-  //
-  //[C#]The << and >> operators treat negative exponents
-  // as unsigned p-bit values, where p is the PBL of the
-  // data type size.  The shift overloads implement more
-  // intuitive semantics of additive, signed exponents:
-  //
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Plane ShiftL(Plane qp, Int32 n) {
-    return n < 0 ? qp >> -n : qp << n;
-  }
-
-  [MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
-  protected static Plane ShiftR(Plane qp, Int32 n) {
-    return n < 0 ? qp << -n : qp >> n;
-  }
-  #endregion                            // Shift Methods
 }
