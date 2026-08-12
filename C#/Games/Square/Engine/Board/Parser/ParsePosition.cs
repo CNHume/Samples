@@ -28,13 +28,25 @@ using static Logging.Logger;
 //
 // Type Aliases:
 //
+using Plane = UInt64;
+
 partial class Board {
   #region Board Setup
   public void Validate() {
+    Plane qpPiece = 0;
+    foreach (var side in Side)
+      qpPiece |= side.Piece;
+
+    if (qpPiece == 0) {
+      var message = $"No pieces have been placed";
+      throw new InvalidPositionException(message);
+    }
+
     foreach (var side in Side) {
+      var sideName = side.Parameter.SideName;
       var nKings = (Int32)side.PieceCount(vK6);
       if (nKings != 1) {
-        var message = $"Invalid {side.Parameter.SideName} King Placement";
+        var message = $"Invalid {sideName} King Placement";
         throw new InvalidPositionException(message);
       }
 
@@ -46,7 +58,7 @@ partial class Board {
       var nPawns = (Int32)side.PieceCount(vP6);
       var nLimit = nFiles - nPawns;
       if (nLimit < 0) {
-        var message = $"Too many {side.Parameter.SideName} Pawns";
+        var message = $"Too many {sideName} Pawns";
         throw new InvalidPositionException(message);
       }
 
@@ -66,7 +78,7 @@ partial class Board {
         if (nExtra > 0) nLimit -= nExtra;
 
         if (nLimit < 0) {
-          var message = $"Too many {side.Parameter.SideName} pieces";
+          var message = $"Too many {sideName} pieces";
           throw new InvalidPositionException(message);
         }
       }
