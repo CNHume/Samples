@@ -53,7 +53,7 @@ partial class Position : Board {
     //[Time]timeMove((Move)0x00010A61);         //[Perft3]b5b6
     //[Time]timeMove((Move)0x00040699);         //[Perft3]b4c4
     //timeWeighPieces();
-    //[Time]timeGenerate(PseudoMoves, !Swaps);
+    //[Time]timeGenerate(PseudoMoves);
     //[Time]timeAddPieceCapturesAndMoves();
     //[Time]
     //timeAddPawnCapturesAndMoves();
@@ -140,12 +140,12 @@ partial class Position : Board {
   }
 
   // generate() adds Pseudo Moves at 400 to 1000 KHz; Generates moves at ~18 MHz
-  private void timeGenerate(List<Move> moves, Boolean bSwap, UInt64 qTrials = 10000000UL) {
-    var sw = timerStart($"{nameof(generate)}({bSwap})", qTrials);
+  private void timeGenerate(List<Move> moves, UInt64 qTrials = 10000000UL) {
+    var sw = timerStart(nameof(generate), qTrials);
 
     var qMoveCount = 0UL;
     for (var qTrial = 0UL; qTrial < qTrials; qTrial++)
-      qMoveCount += (UInt32)generate(moves, bSwap);
+      qMoveCount += (UInt32)generate(moves);
 
     timerStop(sw, qTrials);
   }

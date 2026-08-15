@@ -43,7 +43,6 @@
 #define LazyMoveSort
 //#define QuietCheck
 //#define QuietMate
-//#define SwapOn
 //#define TestBest
 //#define TestCornerCP
 //#define TestLerp
@@ -379,9 +378,6 @@ partial class GameState : IDisposable {
     sb.Append(" QuietCheck");
 #elif QuietMate
     sb.Append(" QuietMate");
-#endif
-#if SwapOn
-    sb.Append(" SwapOn");
 #endif
 #if TestBest
     sb.Append(" TestBest");

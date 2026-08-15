@@ -103,11 +103,6 @@ partial class Position : Board {
   public List<Move> PseudoOrthAboveMove;
   public List<Move> PseudoOrthBelowMove;
 
-  //
-  // Swap Move Lists:
-  //
-  public List<Move> PseudoGoodCaptures;
-  public List<Move> PseudoBadCaptures;
   public List<Move> PseudoCaptures;
 
   //

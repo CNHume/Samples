@@ -13,7 +13,6 @@
 #define TransposeQuiet
 //#define QuietCheck
 //#define QuietMate                       //[Experimental]
-//#define SwapOn
 //#define VerifyUpper
 //#define DebugBest
 //#define TestBest
@@ -133,16 +132,7 @@ partial class Position : Board {
 #endif
       }
       else {
-#if SwapOn
-        generate(moves, Swaps);
-#elif QuietCheck || QuietMate
-        if (bInCheck)
-          generate(moves, !Swaps);
-        else
-          generateMaterialMoves(moves);
-#else
         generateMaterialMoves(moves);
-#endif
 #if DebugPseudoMoves
         DisplayCurrent(methodName);
         var sb = new StringBuilder("PseudoMoves:")
@@ -282,7 +272,7 @@ partial class Position : Board {
 
   protected Boolean isLeaf() {
     var moves = PseudoMoves;
-    generate(moves, !Swaps);
+    generate(moves);
     var child = Push();                 // Push Position to find a legal move
     try {
       foreach (var mov in moves) {

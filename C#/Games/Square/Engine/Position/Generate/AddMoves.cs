@@ -302,7 +302,6 @@ partial class Position : Board {
     addQueenCapturesAndMoves(qpTo);
   }
 
-  // Used by generateSwaps()
   private void addPieceCaptures(Plane qpTo) {
     addKnightCaptures(qpTo);
     addBishopCaptures(qpTo);

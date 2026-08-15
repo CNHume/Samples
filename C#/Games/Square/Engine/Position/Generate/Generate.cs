@@ -49,7 +49,7 @@ partial class Position : Board {
   //
   //[Warning]Duplicate Moves can result in a number of strange, difficult to debug side-effects.
   //
-  private void clearPseudoMoveLists(List<Move> moves, Boolean bSwap) {  // ~32 MHz
+  private void clearPseudoMoveLists(List<Move> moves) {  // ~32 MHz
     moves.Clear();
     clearPseudoCaptures();
     clearPseudoMoves();
@@ -61,11 +61,6 @@ partial class Position : Board {
     PseudoQueenPromotionCapture.Clear();
     PseudoUnderPromotionCapture.Clear();
     PseudoCaptures.Clear();
-
-    if (bSwap) {
-      PseudoBadCaptures.Clear();
-      PseudoGoodCaptures.Clear();
-    }
   }
 
   private void clearPseudoMaterialMoveLists(List<Move> moves) {
@@ -79,19 +74,6 @@ partial class Position : Board {
     PseudoUnderPromotionCapture.Clear();
 
     PseudoCaptures.Clear();
-  }
-
-  // Called by generateSwaps()
-  private void clearPseudoSwapLists(List<Move> moves) {
-    moves.Clear();
-    clearPseudoCaptures();
-
-    PseudoQueenPromotionCapture.Clear();
-    PseudoUnderPromotionCapture.Clear();
-    //PseudoEPCapture.Clear();            // Not needed for Swaps
-
-    PseudoBadCaptures.Clear();
-    PseudoGoodCaptures.Clear();
   }
   #endregion                            // Clear Pseudo Moves
 
@@ -110,11 +92,11 @@ partial class Position : Board {
     return qpFoe;
   }
 
-  private Int32 generate(List<Move> moves, Boolean bSwap) {
+  private Int32 generate(List<Move> moves) {
     var bInCheck = InCheck();
     var vKingPos = Friend.GetKingPos();
 
-    clearPseudoMoveLists(moves, bSwap);
+    clearPseudoMoveLists(moves);
 #if RemoveKingShadow2
     var bRayCheck = false;
 #endif
@@ -154,10 +136,7 @@ partial class Position : Board {
 #else
     addKingCapturesAndMoves(~Friend.Piece, vKingPos);
 #endif
-    if (bSwap && !bInCheck)
-      addPseudoMovesByCaptureSwaps(moves);
-    else
-      addPseudoMovesByTypeOrdering(moves);
+    addPseudoMovesByTypeOrdering(moves);
 
     return State.IncPseudoMoveTotal(moves.Count);
   }
@@ -207,46 +186,6 @@ partial class Position : Board {
     addKingCaptures(Foe.Piece, vKingPos);
 #endif
     addPseudoMaterialMoves(moves);
-    return State.IncPseudoMoveTotal(moves.Count);
-  }
-  #endregion
-
-  #region Swap Move Generator
-  private Int32 generateSwaps(List<Move> moves, Int32 nTo) {
-    var qpTo = bit(nTo);
-    var vKingPos = Friend.GetKingPos();
-    var bInCheck = InCheck();
-
-    clearPseudoSwapLists(moves);        // ~32 MHz
-#if RemoveKingShadow2
-    var bRayCheck = false;
-#endif
-    if (bInCheck) {
-      var qpChx = Foe.Checkers(vKingPos, Friend.Piece & King);
-#if RemoveKingShadow
-      bRayCheck = (qpChx & (DiagPiece | OrthPiece)) != 0;
-#endif
-      var bSingleCheck = IsOneOrLess(qpChx);
-      if (bSingleCheck) {
-        var qpFoe = qpChx & qpTo;
-
-        if (qpFoe != 0) {
-          addPieceCaptures(qpFoe);
-          Friend.AddPawnCaptures(qpFoe);
-        }
-      }                                 // bSingleCheck
-    }                                   //!bInCheck
-    else {
-      var qpFoe = qpTo & ~Friend.Piece;
-      addPieceCaptures(qpFoe);
-      Friend.AddPawnCaptures(qpFoe);
-    }                                   //!bInCheck
-#if RemoveKingShadow2
-    addKingCaptures(qpTo & ~Friend.Piece, vKingPos, bRayCheck);
-#else
-    addKingCaptures(qpTo & ~Friend.Piece, vKingPos);
-#endif
-    addPseudoSwaps(moves);
     return State.IncPseudoMoveTotal(moves.Count);
   }
   #endregion
@@ -318,65 +257,6 @@ partial class Position : Board {
         throw new PositionException("Unexpected MoveType");
       }
     }
-  }
-
-  private void addPseudoMovesByCaptureSwaps(List<Move> moves) {
-    //expandMoveTypeOrdering();
-    var captures = PseudoCaptures;
-
-    captures.AddRange(PseudoPawnAboveCapture);      // 2a
-    captures.AddRange(PseudoPawnBelowCapture);      // 2b
-    captures.AddRange(PseudoKnightCapture);         // 4
-    captures.AddRange(PseudoDiagAboveCapture);      // 3d
-    captures.AddRange(PseudoDiagBelowCapture);      // 5
-    captures.AddRange(PseudoOrthAboveCapture);      // 3r
-    captures.AddRange(PseudoOrthBelowCapture);      // 6
-    captures.AddRange(PseudoEPCapture);             //[Note]Legality is assessed via tryMoves()
-
-    sortSwaps(captures);
-
-    //
-    //[Note]In certain positions adding King Moves after the
-    // Piece Moves improved performance by a factor of three
-    //
-    // Establish Move Priorities:
-    //                                              // Best Cutoff Order
-    moves.AddRange(PseudoQueenPromotionCapture);    // 1A
-    moves.AddRange(PseudoQueenPromotion);           // 1B
-    moves.AddRange(PseudoUnderPromotionCapture);    // 1C
-
-    moves.AddRange(PseudoGoodCaptures);             // 2-6 Good
-
-    moves.AddRange(PseudoDiagAboveMove);            // 9d
-    moves.AddRange(PseudoDiagBelowMove);            // 11
-    moves.AddRange(PseudoOrthAboveMove);            // 9r
-    moves.AddRange(PseudoOrthBelowMove);            // 12
-    moves.AddRange(PseudoKnightMove);               // 10
-    moves.AddRange(PseudoKingCapture);              // 7
-    moves.AddRange(PseudoCastles);                  // 13
-    moves.AddRange(PseudoKingMove);                 // 14
-    moves.AddRange(PseudoPawnAboveMove);            // 15a
-    moves.AddRange(PseudoPawnBelowMove);            // 15b
-    moves.AddRange(PseudoUnderPromotion);           // 16
-
-    moves.AddRange(PseudoBadCaptures);              // 8B
-  }
-
-  private void addPseudoSwaps(List<Move> moves) {
-    //expandMoveTypeOrdering();
-    moves.AddRange(PseudoQueenPromotionCapture);    // 1A
-                                                    //moves.AddRange(PseudoUnderPromotionCapture);
-                                                    // 1C Not needed for Swaps
-    moves.AddRange(PseudoPawnAboveCapture);         // 2a
-    moves.AddRange(PseudoPawnBelowCapture);         // 2b
-    moves.AddRange(PseudoKingCapture);              // 7
-    moves.AddRange(PseudoKnightCapture);            // 4
-    moves.AddRange(PseudoDiagAboveCapture);         // 5
-    moves.AddRange(PseudoDiagBelowCapture);         // 3d
-    moves.AddRange(PseudoOrthAboveCapture);         // 6
-    moves.AddRange(PseudoOrthBelowCapture);         // 3r
-                                                    //moves.AddRange(PseudoEPCapture);
-                                                    // Not needed for Swaps
   }
 
   private void addPseudoMaterialMoves(List<Move> moves) {

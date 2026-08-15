@@ -63,7 +63,7 @@ partial class Position : Board {
     var vPlies1 = (PlyDepth)(vPlies - 1);
     var pc = State.Case;
 
-    generate(moves, !Swaps);
+    generate(moves);
     verifyMaterialMoves(moves);         //[Conditional]
 
     var child = Push();                 // Push Position to make the moves

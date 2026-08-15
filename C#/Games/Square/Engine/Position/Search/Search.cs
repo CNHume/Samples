@@ -23,7 +23,6 @@
 #define SingularExtension
 //#define DebugSingular
 //#define OccamReduced
-//#define SwapOn
 #define CountPVDoubles
 //#define DeepSingular
 //#define DeepThreat
@@ -57,8 +56,6 @@ using Eval = Int16;
 
 partial class Position : Board {
   #region Constants
-  protected const Boolean Swaps = true;
-
   //
   // Futility Prining is one type of Forward Pruning.
   // A second weight applies to "Pre-Frontier Nodes".
@@ -231,13 +228,8 @@ partial class Position : Board {
 #endif
     }
     else {
-#if SwapOn
-      var bSwap = wDepth < wSwapDepthMax;
-      generate(moves, bSwap);
-#else
-      generate(moves, !Swaps);
-#endif
-      //[Timer]timeGenerate(moves, !Swaps);
+      generate(moves);
+      //[Timer]timeGenerate(moves);
 #if DebugPseudoMoves
       DisplayCurrent($"{methodName}(Depth = {wDepth})");
       var sb = new StringBuilder("PseudoMoves:")

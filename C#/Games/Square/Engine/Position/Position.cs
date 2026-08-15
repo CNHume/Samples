@@ -61,7 +61,6 @@ using PlyDepth = Byte;
 partial class Position : Board {
   #region Constants
   protected const PlyDepth vStartDepthDefault = 6;
-  protected const Depth wSwapDepthMax = 1;
   // Carlsen v Topalov 2015-06-16 13-ply 1 PVSMin searched 0.25 Gnode in 4:24 vs 2 PVSMin searched 1.56 Gnode in 25:38
   internal const Depth wNullPlyMin = 1;         // 1 Added for Mavo Nice Mate1 #6, 3 added for Xiong v Nakamura
   internal const Depth wPVSDepthMin = 1;        // 1
@@ -270,8 +269,6 @@ partial class Position : Board {
     nameof(PseudoDiagBelowMove),
     nameof(PseudoOrthAboveMove),
     nameof(PseudoOrthBelowMove),
-    nameof(PseudoGoodCaptures),
-    nameof(PseudoBadCaptures),
     nameof(PseudoCaptures),
     nameof(PseudoMoves)
     )]
@@ -332,8 +329,6 @@ partial class Position : Board {
     PseudoOrthAboveCapture = [with(2 * 4)];
     PseudoOrthBelowCapture = [with(2 * 4)];
 
-    PseudoGoodCaptures = [with(32)];
-    PseudoBadCaptures = [with(32)];
     PseudoCaptures = [with(48)];
     PseudoMoves = [with(128)];
 #endif
