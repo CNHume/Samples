@@ -21,11 +21,11 @@ partial class UCI {
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-06-19 Perft1 (startpos) in 9.722 sec, @13.41 MHz over 130.364 Mnode]
-  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-06-19 Perft2 in 15.904 sec, @12.929 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-06-19 Perft3 in 19.745 sec, @11.083 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-06-19 Perft4 in 64.386 sec, @11.917 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-06-19 Perft5 in 8.973 sec, @9.763 MHz over 87.606 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-08-15 Perft1 (startpos) in 9.43 sec, @13.824 MHz over 130.364 Mnode]
+  //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-08-15 Perft2 in 15.36 sec, @13.387 MHz over 205.629 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-08-15 Perft3 in 19.005 sec, @11.515 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-08-15 Perft4 in 62.283 sec, @12.319 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-08-15 Perft5 in 8.795 sec, @9.961 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
