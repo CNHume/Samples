@@ -15,17 +15,17 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Version Insiders [12106.202]
+  // VS 2026 Version Insiders [12113.136]
   //
   #region FEN Constants
   private const String sDefaultFEN =
   #region Perft
   //
-  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-08-15 Perft1 (startpos) in 9.43 sec, @13.824 MHz over 130.364 Mnode]
+  //"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" //[2026-08-17 Perft1 (startpos) in 9.41 sec, @13.854 MHz over 130.364 Mnode]
   //"r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"; //[2026-08-15 Perft2 in 15.36 sec, @13.387 MHz over 205.629 Mnode]
-  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-08-15 Perft3 in 19.005 sec, @11.515 MHz over 218.84 Mnode]
-  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-08-15 Perft4 in 62.283 sec, @12.319 MHz over 767.28 Mnode]
-  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-08-15 Perft5 in 8.795 sec, @9.961 MHz over 87.606 Mnode]
+  //"8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1"; //[2026-08-17 Perft3 in 18.863 sec, @11.602 MHz over 218.84 Mnode]
+  //"r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1"; //[2026-08-17 Perft4 in 62.193 sec, @12.337 MHz over 767.28 Mnode]
+  //"n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1"; //[2026-08-17 Perft5 in 8.646 sec, @10.132 MHz over 87.606 Mnode]
   //
   #endregion                            // Perft
 
@@ -625,6 +625,10 @@ partial class UCI {
 
   #region Puzzles
   //
+  //"8/6q1/6p1/4p3/6Pk/3n1P2/Q2B4/K7 w - - 0 1"; White to Play and Win [2026-08-21 6-ply in 0.43 sec @181.195 KHz over 77.88 Knode] eval 6.80 after:
+  // 1. Bh6! Qxh6 2. Qh2+ Kg5 3. Qd2+ Kf6 4. Qxh6
+  //"Rb4kN/n1Q5/5P2/5N2/8/Bq5R/B6K/7b w - - 0 1";   // #1
+  //"8/8/8/Q7/8/1p6/Np6/1k2K3 w - - 0 1";   // #2
   //"2B5/8/8/4N2P/8/6K1/p7/4k3 w - - 0 1";  // White to Fork and Win
   //"4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
   //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1";    // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
