@@ -1,0 +1,531 @@
+                      C:\ChrisH\Audio Coverage\Foo.XML                                             C:\ChrisH\Audio Coverage\Bar.XML                      
+--------------------------------- [12:12] ----------------------------------+--------------------------------- [12:12] ----------------------------------
+  <LastSaved>2005-06-02T05:44:33Z</LastSaved>                               |  <LastSaved>2005-08-12T06:21:27Z</LastSaved>
+--------------------------------- [16:19] ----------------------------------+--------------------------------- [16:19] ----------------------------------
+  <WindowHeight>6810</WindowHeight>                                         |  <WindowHeight>9015</WindowHeight>
+  <WindowWidth>11880</WindowWidth>                                          |  <WindowWidth>15360</WindowWidth>
+  <WindowTopX>0</WindowTopX>                                                |  <WindowTopX>1560</WindowTopX>
+  <WindowTopY>1485</WindowTopY>                                             |  <WindowTopY>-225</WindowTopY>
+================================== [127] ===================================+-------------------------------- [127:134] ---------------------------------
+                                                                            |  <Style ss:ID="s44">
+                                                                            |   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+                                                                            |   <Font x:Family="Swiss" ss:Bold="1"/>
+                                                                            |  </Style>
+                                                                            |  <Style ss:ID="s45">
+                                                                            |   <Borders/>
+                                                                            |   <Interior/>
+                                                                            |  </Style>
+-------------------------------- [129:130] ---------------------------------+-------------------------------- [137:138] ---------------------------------
+  <NamedRange ss:Name="Guru_Gita" ss:RefersTo="='Guru Gita'!R1C1:R11C8"/>   |  <NamedRange ss:Name="Guru_Gita" ss:RefersTo="='Guru Gita'!R1C1:R14C8"/>
+  <NamedRange ss:Name="Programs" ss:RefersTo="=Programs!R1C1:R24C9"/>       |  <NamedRange ss:Name="Programs" ss:RefersTo="=Programs!R1C1:R33C9"/>
+-------------------------------- [144:144] ---------------------------------+-------------------------------- [152:152] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-01T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-08T00:00:00.000</Data><NamedCell
+-------------------------------- [149:149] ---------------------------------+-------------------------------- [157:157] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-05-31T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-11T00:00:00.000</Data><NamedCell
+================================== [165] ===================================+-------------------------------- [173:173] ---------------------------------
+                                                                            |     <ActiveRow>3</ActiveRow>
+-------------------------------- [173:173] ---------------------------------+-------------------------------- [182:182] ---------------------------------
+   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Programs!R1C1:R24C9"/>    |   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Programs!R1C1:R33C9"/>
+-------------------------------- [175:175] ---------------------------------+-------------------------------- [184:184] ---------------------------------
+  <Table ss:ExpandedColumnCount="11" ss:ExpandedRowCount="24" x:FullColumns=|  <Table ss:ExpandedColumnCount="11" ss:ExpandedRowCount="44" x:FullColumns=
+-------------------------------- [177:177] ---------------------------------+-------------------------------- [186:186] ---------------------------------
+   <Column ss:StyleID="s29" ss:Width="127.5"/>                              |   <Column ss:StyleID="s29" ss:Width="153.75"/>
+-------------------------------- [179:179] ---------------------------------+-------------------------------- [188:188] ---------------------------------
+   <Column ss:Index="4" ss:StyleID="s31" ss:Width="204"/>                   |   <Column ss:Index="4" ss:StyleID="s31" ss:Width="233.25"/>
+-------------------------------- [183:183] ---------------------------------+-------------------------------- [192:192] ---------------------------------
+   <Column ss:StyleID="s26" ss:Width="225"/>                                |   <Column ss:StyleID="s26" ss:Width="279.75"/>
+-------------------------------- [208:208] ---------------------------------+-------------------------------- [217:217] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-04T00:00:00.000</Data><NamedCell |    <Cell ss:Index="4"><Data ss:Type="String">August:</Data><NamedCell
+================================== [210] ===================================+-------------------------------- [219:226] ---------------------------------
+                                                                            |    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-08-13T00:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [214:214] ---------------------------------+-------------------------------- [231:231] ---------------------------------
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell          |    <Cell><Data ss:Type="String">Punyatithi &amp; Divya Diksha Special Satsa
+-------------------------------- [222:222] ---------------------------------+-------------------------------- [239:239] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-05T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-14T00:00:00.000</Data><NamedCell
+-------------------------------- [228:228] ---------------------------------+-------------------------------- [245:245] ---------------------------------
+    <Cell><Data ss:Type="String">Music Meeting</Data><NamedCell ss:Name="Pro|    <Cell><Data ss:Type="String">Audio Satsang</Data><NamedCell ss:Name="Pro
+-------------------------------- [232:232] ---------------------------------+-------------------------------- [249:249] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Andy</Data><NamedCell     |    <Cell ss:StyleID="s35"><Data ss:Type="String">Robin</Data><NamedCell
+-------------------------------- [234:234] ---------------------------------+-------------------------------- [251:251] ---------------------------------
+    <Cell ss:Index="8"><Data ss:Type="String">audio required</Data><NamedCel|    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE t
+-------------------------------- [238:238] ---------------------------------+-------------------------------- [255:255] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-07T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-18T00:00:00.000</Data><NamedCell
+-------------------------------- [240:240] ---------------------------------+-------------------------------- [257:257] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+-------------------------------- [244:245] ---------------------------------+-------------------------------- [261:262] ---------------------------------
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Pr|    <Cell><Data ss:Type="String">Tech Meeting for both Living SY workshops</
+      ss:Name="Print_Area"/></Cell>                                         |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [248:248] ---------------------------------+-------------------------------- [265:265] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Charles</Data><NamedCell  |    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward &amp; Sanford</Data
+-------------------------------- [250:251] ---------------------------------+-------------------------------- [267:268] ---------------------------------
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant</Data><NamedCell   |    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><Name
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |      ss:Name="Print_Area"/></Cell>
+-------------------------------- [254:254] ---------------------------------+-------------------------------- [271:271] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-11T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+-------------------------------- [260:260] ---------------------------------+-------------------------------- [277:277] ---------------------------------
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell          |    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+-------------------------------- [264:264] ---------------------------------+-------------------------------- [281:281] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell  |    <Cell ss:StyleID="s35"><Data ss:Type="String">Andy</Data><NamedCell
+================================== [266] ===================================+-------------------------------- [283:284] ---------------------------------
+                                                                            |    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+-------------------------------- [268:268] ---------------------------------+-------------------------------- [287:287] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-12T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+-------------------------------- [270:270] ---------------------------------+-------------------------------- [289:289] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+-------------------------------- [272:272] ---------------------------------+-------------------------------- [291:291] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+-------------------------------- [274:275] ---------------------------------+-------------------------------- [293:294] ---------------------------------
+    <Cell><Data ss:Type="String">Audio Satsang</Data><NamedCell ss:Name="Pro|    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - D
+      ss:Name="Print_Area"/></Cell>                                         |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [278:278] ---------------------------------+-------------------------------- [297:297] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell     |    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+-------------------------------- [280:280] ---------------------------------+-------------------------------- [299:299] ---------------------------------
+    <Cell ss:Index="8"><Data ss:Type="String">CD's and MC</Data><NamedCell  |    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live cha
+-------------------------------- [282:283] ---------------------------------+================================== [301] ===================================
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-|
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |
+-------------------------------- [286:286] ---------------------------------+-------------------------------- [303:303] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-18T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-21T00:00:00.000</Data><NamedCell
+-------------------------------- [288:288] ---------------------------------+-------------------------------- [305:305] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+-------------------------------- [290:290] ---------------------------------+-------------------------------- [307:307] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+-------------------------------- [292:292] ---------------------------------+-------------------------------- [309:309] ---------------------------------
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell   |    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - D
+-------------------------------- [298:299] ---------------------------------+-------------------------------- [315:316] ---------------------------------
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><Name|    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live cha
+      ss:Name="Print_Area"/></Cell>                                         |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [302:302] ---------------------------------+-------------------------------- [319:319] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-06-25T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+-------------------------------- [308:308] ---------------------------------+-------------------------------- [325:329] ---------------------------------
+    <Cell><Data ss:Type="String">Gurumayi's Birthday Celebration</Data><Name|    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Pr
+----------------------------------------------------------------------------+      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+================================== [310] ===================================+-------------------------------- [331:342] ---------------------------------
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - D
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [312:312] ---------------------------------+-------------------------------- [345:345] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Micah</Data><NamedCell    |    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+-------------------------------- [314:314] ---------------------------------+-------------------------------- [347:347] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Kelley</Data><NamedCell   |    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live cha
+-------------------------------- [316:316] ---------------------------------+-------------------------------- [349:351] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">Big program - Live chant</|   </Row>
+----------------------------------------------------------------------------+   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-08-28T00:00:00.000</Data><NamedCell
+================================== [318] ===================================+-------------------------------- [353:364] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - D
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live cha
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [320:320] ---------------------------------+-------------------------------- [367:367] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-02T00:00:00.000</Data><NamedCell |    <Cell ss:Index="4"><Data ss:Type="String">September:</Data><NamedCell
+================================== [322] ===================================+-------------------------------- [369:376] ---------------------------------
+                                                                            |    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-09-03T00:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [330:330] ---------------------------------+-------------------------------- [385:385] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell  |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+================================== [332] ===================================+-------------------------------- [387:390] ---------------------------------
+                                                                            |    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [334:334] ---------------------------------+-------------------------------- [393:393] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-05T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-06T00:00:00.000</Data><NamedCell
+-------------------------------- [346:346] ---------------------------------+-------------------------------- [405:405] ---------------------------------
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant</Data><NamedCell   |    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCe
+-------------------------------- [348:348] ---------------------------------+-------------------------------- [407:407] ---------------------------------
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-|    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+-------------------------------- [352:352] ---------------------------------+-------------------------------- [411:411] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-09T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-10T00:00:00.000</Data><NamedCell
+-------------------------------- [362:362] ---------------------------------+-------------------------------- [421:421] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell  |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+================================== [364] ===================================+-------------------------------- [423:426] ---------------------------------
+                                                                            |    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [366:366] ---------------------------------+-------------------------------- [429:429] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-16T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-11T00:00:00.000</Data><NamedCell
+-------------------------------- [368:368] ---------------------------------+-------------------------------- [431:431] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+-------------------------------- [370:370] ---------------------------------+-------------------------------- [433:433] ---------------------------------
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+-------------------------------- [372:372] ---------------------------------+-------------------------------- [435:435] ---------------------------------
+    <Cell><Data ss:Type="String">How to be a student of the intensive Satsan|    <Cell><Data ss:Type="String">Audio Satsang #5</Data><NamedCell
+-------------------------------- [374:374] ---------------------------------+-------------------------------- [437:437] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog
+-------------------------------- [378:378] ---------------------------------+-------------------------------- [441:441] ---------------------------------
+    <Cell ss:Index="8"><Data ss:Type="String">simple program</Data><NamedCel|    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE t
+-------------------------------- [380:380] ---------------------------------+-------------------------------- [443:443] ---------------------------------
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-|    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+-------------------------------- [384:384] ---------------------------------+-------------------------------- [447:447] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-17T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-17T00:00:00.000</Data><NamedCell
+-------------------------------- [386:390] ---------------------------------+-------------------------------- [449:449] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Shaktipat Intensive - Sacredness</Data><Nam|
+================================== [392] ===================================+-------------------------------- [451:454] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [394:395] ---------------------------------+================================== [457] ===================================
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell  |
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |
+-------------------------------- [398:398] ---------------------------------+-------------------------------- [459:459] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">Local intensive.  Rehearsa|    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+-------------------------------- [400:401] ---------------------------------+================================== [461] ===================================
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-|
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |
+-------------------------------- [404:404] ---------------------------------+-------------------------------- [463:463] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-19T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-21T00:00:00.000</Data><NamedCell
+-------------------------------- [406:410] ---------------------------------+-------------------------------- [465:465] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+================================== [412] ===================================+-------------------------------- [467:470] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Community Forum</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [414:414] ---------------------------------+-------------------------------- [473:473] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+-------------------------------- [416:418] ---------------------------------+-------------------------------- [475:475] ---------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |    <Cell ss:Index="8"><Data ss:Type="String">MC, shares, maybe live music (
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|
+================================== [420] ===================================+-------------------------------- [477:478] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [422:422] ---------------------------------+-------------------------------- [481:481] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-20T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-09-24T00:00:00.000</Data><NamedCell
+-------------------------------- [424:428] ---------------------------------+-------------------------------- [483:483] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+================================== [430] ===================================+-------------------------------- [485:488] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Pr
+                                                                            |      ss:Name="Print_Area"/></Cell>
+-------------------------------- [432:432] ---------------------------------+-------------------------------- [491:491] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+-------------------------------- [434:436] ---------------------------------+-------------------------------- [493:493] ---------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|
+-------------------------------- [440:440] ---------------------------------+-------------------------------- [497:497] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-21T00:00:00.000</Data><NamedCell |    <Cell ss:Index="4"><Data ss:Type="String">October:</Data><NamedCell
+-------------------------------- [442:442] ---------------------------------+-------------------------------- [499:499] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+-------------------------------- [444:446] ---------------------------------+-------------------------------- [501:501] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+-------------------------------- [448:455] ---------------------------------+================================== [503] ===================================
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          |
+-------------------------------- [458:458] ---------------------------------+-------------------------------- [505:505] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-22T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-01T00:00:00.000</Data><NamedCell
+-------------------------------- [460:464] ---------------------------------+-------------------------------- [507:507] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+================================== [466] ===================================+-------------------------------- [509:512] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Baba's Mahasamadhi Celebration Chanting Sat
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [468:468] ---------------------------------+-------------------------------- [515:515] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+-------------------------------- [470:472] ---------------------------------+-------------------------------- [517:517] ---------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |    <Cell ss:Index="8"><Data ss:Type="String">Live chant - big program</Data
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|
+================================== [474] ===================================+-------------------------------- [519:520] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [476:476] ---------------------------------+-------------------------------- [523:523] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-23T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-04T00:00:00.000</Data><NamedCell
+-------------------------------- [478:482] ---------------------------------+-------------------------------- [525:525] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+================================== [484] ===================================+-------------------------------- [527:530] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Pr
+                                                                            |      ss:Name="Print_Area"/></Cell>
+-------------------------------- [486:486] ---------------------------------+-------------------------------- [533:533] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+-------------------------------- [488:490] ---------------------------------+-------------------------------- [535:535] ---------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCe
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|
+================================== [492] ===================================+-------------------------------- [537:538] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [494:494] ---------------------------------+-------------------------------- [541:541] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-23T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-08T00:00:00.000</Data><NamedCell
+-------------------------------- [500:500] ---------------------------------+-------------------------------- [547:547] ---------------------------------
+    <Cell><Data ss:Type="String">Mantra &amp; Mediation Satsang</Data><Named|    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+-------------------------------- [506:506] ---------------------------------+-------------------------------- [553:553] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell     |    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program
+-------------------------------- [508:510] ---------------------------------+-------------------------------- [555:555] ---------------------------------
+    <Cell><Data ss:Type="String">simple program</Data><NamedCell ss:Name="Pr|    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data>
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-|
+-------------------------------- [514:514] ---------------------------------+-------------------------------- [559:559] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-24T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-15T00:00:00.000</Data><NamedCell
+-------------------------------- [516:520] ---------------------------------+-------------------------------- [561:561] ---------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N|
+      ss:Name="Print_Area"/></Cell>                                         |
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |
+-------------------------------- [522:524] ---------------------------------+-------------------------------- [563:563] ---------------------------------
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog|    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Print_Area"/></Cell>                                         +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |
+-------------------------------- [526:526] ---------------------------------+-------------------------------- [565:567] ---------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |    <Cell><Data ss:Type="String">How to be a Student of the Intensive</Data>
+----------------------------------------------------------------------------+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Somanath</Data><NamedCell ss:Name="Programs
+-------------------------------- [528:528] ---------------------------------+-------------------------------- [569:569] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+================================== [530] ===================================+-------------------------------- [571:572] ---------------------------------
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+-------------------------------- [532:532] ---------------------------------+-------------------------------- [575:575] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-25T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-13T00:00:00.000</Data><NamedCell
+-------------------------------- [538:538] ---------------------------------+-------------------------------- [581:581] ---------------------------------
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+-------------------------------- [542:544] ---------------------------------+-------------------------------- [585:585] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |
+-------------------------------- [546:546] ---------------------------------+-------------------------------- [587:587] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - wil
+-------------------------------- [550:550] ---------------------------------+-------------------------------- [591:591] ---------------------------------
+    <Cell><Data ss:Type="DateTime">2005-07-26T00:00:00.000</Data><NamedCell |    <Cell><Data ss:Type="DateTime">2005-10-14T00:00:00.000</Data><NamedCell
+-------------------------------- [556:556] ---------------------------------+-------------------------------- [597:597] ---------------------------------
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell          |    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+-------------------------------- [560:562] ---------------------------------+-------------------------------- [601:601] ---------------------------------
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell      |    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><N
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>          +----------------------------------------------------------------------------
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell        |
+-------------------------------- [564:564] ---------------------------------+-------------------------------- [603:603] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support requi|    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - wil
+-------------------------------- [582:582] ---------------------------------+-------------------------------- [621:621] ---------------------------------
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require mul|    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require mul
+================================== [603] ===================================+-------------------------------- [642:691] ---------------------------------
+                                                                            |   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-10-22T00:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">TBD</Data><NamedCell ss:Name="Programs"/><N
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell><Data ss:Type="DateTime">2005-10-29T00:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Pr
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Prog
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: 
+                                                                            |      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><Name
+                                                                            |      ss:Name="Print_Area"/></Cell>
+                                                                            |   </Row>
+                                                                            |   <Row ss:Index="35">
+                                                                            |    <Cell ss:Index="9"><Data ss:Type="String">color: red; font-style: italic
+                                                                            |   </Row>
+                                                                            |   <Row ss:Index="44">
+                                                                            |    <Cell ss:Index="4" ss:StyleID="s44"/>
+                                                                            |   </Row>
+================================== [620] ===================================+-------------------------------- [709:709] ---------------------------------
+                                                                            |   <LeftColumnVisible>1</LeftColumnVisible>
+-------------------------------- [631:632] ---------------------------------+-------------------------------- [721:722] ---------------------------------
+     <ActiveRow>33</ActiveRow>                                              |     <ActiveRow>0</ActiveRow>
+     <ActiveCol>3</ActiveCol>                                               |     <RangeSelection>R1C1:R33C9</RangeSelection>
+-------------------------------- [649:649] ---------------------------------+-------------------------------- [739:739] ---------------------------------
+  <Table ss:ExpandedColumnCount="256" ss:ExpandedRowCount="11" x:FullColumns|  <Table ss:ExpandedColumnCount="256" ss:ExpandedRowCount="17" x:FullColumns
+-------------------------------- [672:672] ---------------------------------+-------------------------------- [762:762] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-05-29T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-07T00:00:00.000<
+================================== [675] ===================================+-------------------------------- [765:780] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+                                                                            |    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-14T00:00:00.000<
+                                                                            |      ss:Name="Guru_Gita"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita
+                                                                            |    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+================================== [676] ===================================+-------------------------------- [782:787] ---------------------------------
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-21T00:00:00.000<
+                                                                            |      ss:Name="Guru_Gita"/></Cell>
+                                                                            |    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita
+                                                                            |    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>
+================================== [679] ===================================+-------------------------------- [791:791] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [680:680] ---------------------------------+================================== [793] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [683:683] ---------------------------------+-------------------------------- [795:795] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-05T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-28T00:00:00.000<
+================================== [690] ===================================+-------------------------------- [802:802] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [691:691] ---------------------------------+================================== [804] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [694:694] ---------------------------------+-------------------------------- [806:806] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-12T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-04T00:00:00.000<
+================================== [701] ===================================+-------------------------------- [813:813] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+================================== [702] ===================================+-------------------------------- [815:818] ---------------------------------
+                                                                            |   </Row>
+                                                                            |   <Row>
+                                                                            |    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-11T00:00:00.000<
+                                                                            |      ss:Name="Guru_Gita"/></Cell>
+================================== [703] ===================================+-------------------------------- [820:825] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>
+                                                                            |    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"
+                                                                            |    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>
+                                                                            |    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+                                                                            |    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>
+-------------------------------- [705:705] ---------------------------------+-------------------------------- [828:828] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-19T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-18T00:00:00.000<
+================================== [712] ===================================+-------------------------------- [835:835] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [713:713] ---------------------------------+================================== [837] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [716:716] ---------------------------------+-------------------------------- [839:839] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-26T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-25T00:00:00.000<
+-------------------------------- [718:718] ---------------------------------+-------------------------------- [841:841] ---------------------------------
+    <Cell><Data ss:Type="String">Not needed</Data><NamedCell ss:Name="Guru_G|    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita
+================================== [723] ===================================+-------------------------------- [846:846] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [724:724] ---------------------------------+================================== [848] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [727:727] ---------------------------------+-------------------------------- [850:850] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-03T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-02T00:00:00.000<
+================================== [734] ===================================+-------------------------------- [857:857] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [735:735] ---------------------------------+================================== [859] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [738:738] ---------------------------------+-------------------------------- [861:861] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-10T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-09T00:00:00.000<
+================================== [745] ===================================+-------------------------------- [868:868] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [746:746] ---------------------------------+================================== [870] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [749:749] ---------------------------------+-------------------------------- [872:872] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-17T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-16T00:00:00.000<
+================================== [756] ===================================+-------------------------------- [879:879] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [757:757] ---------------------------------+================================== [881] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [760:760] ---------------------------------+-------------------------------- [883:883] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-24T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-23T00:00:00.000<
+================================== [767] ===================================+-------------------------------- [890:890] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [768:768] ---------------------------------+================================== [892] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+-------------------------------- [771:771] ---------------------------------+-------------------------------- [894:894] ---------------------------------
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-31T00:00:00.000<|    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-30T00:00:00.000<
+================================== [778] ===================================+-------------------------------- [901:901] ---------------------------------
+                                                                            |    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/
+-------------------------------- [779:779] ---------------------------------+================================== [903] ===================================
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/>|
+================================== [781] ===================================+-------------------------------- [904:906] ---------------------------------
+                                                                            |   <Row ss:Index="17">
+                                                                            |    <Cell ss:Index="4" ss:StyleID="s45"><Data ss:Type="String">Murari would 
+                                                                            |   </Row>
+-------------------------------- [806:806] ---------------------------------+-------------------------------- [932:932] ---------------------------------
+     <RangeSelection>R1</RangeSelection>                                    |     <RangeSelection>R1C1:R14C8</RangeSelection>
+----------------------------------------------------------------------------+----------------------------------------------------------------------------

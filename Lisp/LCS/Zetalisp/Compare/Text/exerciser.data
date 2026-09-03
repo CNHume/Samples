@@ -1,0 +1,159 @@
+
+"Worst Case" Benchmark Series run 6-May-1990 under Genera 7.2.2 on a
+Symbolics 3620 with 3M Words of RAM and 10M Bytes of "Swapping" Space.
+
+In this test a string is formed by repeating the alphabet, in ascending
+order, once for each element of the alphabet.  Therefore the "magnitude"
+of the input string is equal to the square of the alphabet length.
+
+The "Worst Case" test then consists of finding the Longest Common Sequence
+between this string, and its reversal.
+
+
+Alphabet	 Pairs		"Fast"		"Fast"		"Hybrid"     Previous
+ Length		Matched		 Pairs		 Time		  Time	       Time
+--------	-------		------		------		--------     --------
+   25		   49		15,025		   5.1		    13.1         17.4
+
+
+   50		   99		122,550		  49		    91	        122
+								 (1:31)       (2:02)
+
+  100		  199		990,100		 475		   705	        883
+					       (7:55)	        (11:45)      (14:43)
+
+  200		  399	       7,960,200       5,390		 5,813	      6,683
+					    (1:29:50)	      (1:36:53)	   (1:51:23)
+
+  250		  499	      15,562,750      11,965		11,515	     13,098
+					    (3:19:25)	      (3:11:55)	   (3:38:18)
+
+
+Cross-Over Search
+-----------------
+Non-symmetrized Hybrid on 250
+took: 13,098 seconds (3:38:18).
+
+#'>= Symmetrized Hybrid on 250
+took: 11,515 seconds (3:11:55).
+
+Cross-over Occurred!  "Fast" on 250
+took: 11,965 seconds (3:19:25).
+
+
+The following equations fit the observed data well:
+
+    Fast Time	= (/ (expt alphabet-length 3.37) 10600)
+
+   Hybrid Time	= (/ (expt alphabet-length 2.95) 1080)
+
+ [Previous Time	= (/ (expt alphabet-length 2.88) 620)]
+
+
+These indicate that "cross over" should occur somewhere
+in the vicinity of an alphabet length of 230 [previously 340].
+
+At this point the time required would be about 8,585 [previously 29,520] seconds,
+or 2:23:05 [previously 8:12:00].  459 [previously 679] Pairs would be matched,
+and the "Fast" algolrithm would CONS 12,114,330 [previously 39,188,740] Pairs in
+the process of doing so.
+
+The "record sequences" would be 52,900 [previously 115,600] elements in length.
+This would be the equivalent of 840 [previously 1,835], full, typewritten pages.
+
+Note that the cross-over point will be further out for any pair of strings not
+producing "worst case" behaviour (in the general case.)
+
+The tests below, for example, show the results of allowing strings
+of the same magnitude (the square of the alphabet length) to be
+formed out of randomly selected letters (drawn from an alphabet of
+the indicated length).  On average, the "Fast" Times have increased
+by 25% while the "Hybrid" Times have increased by 40%.
+
+
+Alphabet	 Pairs		"Fast"		"Fast"		Previous
+ Length		Matched		 Pairs		 Time		  Time
+--------	-------		------		------		--------
+   25		  199		 9,856		   6.3		   27.3
+
+
+   50	     603 (vs. 601)	86,105		  61.6		  171.3
+								(2:51.3)
+
+  100	   1,819 (vs. 1,786)   779,914		 612		 1183.3
+					      (10:12)	       (19:43.3)
+
+
+These data suggest that the "Hybrid" algorithm would have to make a
+"constant" performance gain on the "Fast" algorithm of at least 2X,
+in order to justify conversion to the "Hybrid" algorithm.
+
+Even though 40M Words of Garbage Generation is not an unreasonable burden
+on existing systems, higher cross-over points introduce the possibility
+that the "Hybrid" algorithm might be favored due to the linearity of its
+generation of garbage.
+
+
+PROTOTYPE DESCRIPTION FOR ALGORITHM.TEXT
+========================================
+A somewhat more elaborate, recursive, version of the preceeding algorithm
+(which will not be developed here) confines its "new_node" memory to a
+linear O(m + n) bound.  As presented, however, the time it requires is of
+order O(mn).  It turns out this algorithm can be combined with the algorithm
+presented below to lower the time requirement to also be O((r + s) log s).
+Unfortunately, this hybrid algorithm starts out with a substantially higher
+"constant level" of overhead.
+
+Because of its linear space dependency, the hybrid algorithm might be
+useful in an applications where an enormously long worst case pair of
+sequences causes the algorithm presented below to allocate an unreasonably
+large amount of space.  In forseeable practical applications, however,
+the algorithm presented here will retain a substantial speed advantage.
+
+  Worst case conditions are achieved when the two sequences are comprised
+  of sigma cycles of an alphabet of size sigma.  That is, when both the
+  alphabet size and the number of cycles are near the square root of the
+  sequence length.  Comparing such a sequence with its own reflection
+  (or reversal) then results in the "worst case conditions".
+
+"Worst Case" Benchmark Series run 6-May-1990 under Genera 7.2.2 on a
+Symbolics 3620 with 3M Words of RAM and 10M Bytes of "Swapping" Space.
+
+In this test a string is formed by repeating the alphabet, in ascending
+order, once for each element of the alphabet.  Therefore the "magnitude"
+of the input string is equal to the square of the alphabet length.
+
+The "Worst Case" test then consists of finding the Longest Common Sequence
+between this string, and its reversal.
+
+
+Sequence	 Common		Matched		"Fast"		"Hybrid"
+ Length		 Length		 Pairs		 Time		  Time
+--------	 ------		-------		------		--------
+    625		   49		 15,025		   5.1		    13.1
+
+
+  2,500		   99		122,550		  49		    91
+								 (1:31)
+
+ 10,000		  199		990,100		 475		   705
+					       (7:55)	        (11:45)
+
+ 40,000		  399	      7,960,200        5,390		 5,813
+					    (1:29:50)	      (1:36:53)
+
+ 62,500		  499	     15,562,750       11,965		11,515
+					    (3:19:25)	      (3:11:55)
+
+
+  The following equations fit the observed (worst case) data well:
+
+  Fast Time (in Seconds) = (/ (expt length 1.685) 10600)
+  Hybrid Time		 = (/ (expt length 1.475) 1080)
+
+Solving this pair of equations yields a cross-over length of 52,875
+(or an alphabet size of 230.)  This corresponds to a running time of
+8578 seconds (2:22:58).
+
+The rate at which the (initially) slower Hybrid algorithm overcomes its
+nearly 10X overhead deficit is with the 5-th root of sequence length.

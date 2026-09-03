@@ -1,0 +1,1746 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Christopher Hume</Author>
+  <LastAuthor>Christopher Hume</LastAuthor>
+  <LastPrinted>2005-06-01T01:01:41Z</LastPrinted>
+  <Created>2005-02-24T06:37:31Z</Created>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 1 Modify [12:12] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  <LastSaved>2005-06-02T05:44:33Z</LastSaved>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 1 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 1 Modify [12:12] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <LastSaved>2005-08-12T06:21:27Z</LastSaved>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 1 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <Version>11.6360</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 2 Modify [16:19] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  <WindowHeight>6810</WindowHeight>
+  <WindowWidth>11880</WindowWidth>
+  <WindowTopX>0</WindowTopX>
+  <WindowTopY>1485</WindowTopY>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 2 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 2 Modify [16:19] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <WindowHeight>9015</WindowHeight>
+  <WindowWidth>15360</WindowWidth>
+  <WindowTopX>1560</WindowTopX>
+  <WindowTopY>-225</WindowTopY>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 2 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <ActiveSheet>1</ActiveSheet>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-409]h:mm\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s28">
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s29">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-F800]dddd\,\ mmmm\ dd\,\ yyyy"/>
+  </Style>
+  <Style ss:ID="s30">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Interior/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s31">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+  </Style>
+  <Style ss:ID="s32">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="[$-409]h:mm:ss\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s33">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-409]h:mm:ss\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s34">
+   <Borders/>
+   <Font x:Family="Swiss"/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s35">
+   <Alignment ss:Vertical="Bottom"/>
+   <Font x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s36">
+   <Font x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s37">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="[ENG][$-409]d\-mmm\-yy;@"/>
+  </Style>
+  <Style ss:ID="s38">
+   <Borders/>
+  </Style>
+  <Style ss:ID="s39">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s40">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s41">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[ENG][$-409]d/mmm/yy;@"/>
+  </Style>
+  <Style ss:ID="s42">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s43">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 3 Insert [127] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 3 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 3 Insert [127:134] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <Style ss:ID="s44">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s45">
+   <Borders/>
+   <Interior/>
+  </Style>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 3 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ </Styles>
+ <Names>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 4 Modify [129:130] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  <NamedRange ss:Name="Guru_Gita" ss:RefersTo="='Guru Gita'!R1C1:R11C8"/>
+  <NamedRange ss:Name="Programs" ss:RefersTo="=Programs!R1C1:R24C9"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 4 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 4 Modify [137:138] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <NamedRange ss:Name="Guru_Gita" ss:RefersTo="='Guru Gita'!R1C1:R14C8"/>
+  <NamedRange ss:Name="Programs" ss:RefersTo="=Programs!R1C1:R33C9"/>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 4 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <NamedRange ss:Name="Updated" ss:RefersTo="=Updated!R1C1:R3C2"/>
+ </Names>
+ <Worksheet ss:Name="Updated">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="3" x:FullColumns="1"
+   x:FullRows="1">
+   <Column ss:StyleID="s41" ss:AutoFitWidth="0" ss:Width="101.25"/>
+   <Column ss:StyleID="s43" ss:AutoFitWidth="0" ss:Width="96"/>
+   <Row ss:StyleID="s39">
+    <Cell><Data ss:Type="String">Date</Data><NamedCell ss:Name="Updated"/></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String">Page</Data><NamedCell
+      ss:Name="Updated"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 5 Modify [144:144] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-01T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 5 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 5 Modify [152:152] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-08T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 5 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Updated"/></Cell>
+    <Cell><Data ss:Type="String">Guru Gita</Data><NamedCell ss:Name="Updated"/></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5">
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 6 Modify [149:149] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-05-31T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 6 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 6 Modify [157:157] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-11T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 6 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Updated"/></Cell>
+    <Cell><Data ss:Type="String">Programs</Data><NamedCell ss:Name="Updated"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <FreezePanes/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 7 Insert [165] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 7 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 7 Insert [173:173] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     <ActiveRow>3</ActiveRow>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 7 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Programs">
+  <Names>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 8 Modify [173:173] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Programs!R1C1:R24C9"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 8 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 8 Modify [182:182] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Programs!R1C1:R33C9"/>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 8 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  </Names>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 9 Modify [175:175] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  <Table ss:ExpandedColumnCount="11" ss:ExpandedRowCount="24" x:FullColumns="1"
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 9 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 9 Modify [184:184] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <Table ss:ExpandedColumnCount="11" ss:ExpandedRowCount="44" x:FullColumns="1"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 9 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   x:FullRows="1">
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 10 Modify [177:177] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+   <Column ss:StyleID="s29" ss:Width="127.5"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 10 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 10 Modify [186:186] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:StyleID="s29" ss:Width="153.75"/>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 10 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:StyleID="s33" ss:AutoFitWidth="0" ss:Width="60.75" ss:Span="1"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 11 Modify [179:179] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+   <Column ss:Index="4" ss:StyleID="s31" ss:Width="204"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 11 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 11 Modify [188:188] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:Index="4" ss:StyleID="s31" ss:Width="233.25"/>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 11 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:StyleID="s27" ss:Width="63.75"/>
+   <Column ss:StyleID="s36" ss:Width="38.25"/>
+   <Column ss:StyleID="s36" ss:Width="41.25"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 12 Modify [183:183] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+   <Column ss:StyleID="s26" ss:Width="225"/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 12 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 12 Modify [192:192] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:StyleID="s26" ss:Width="279.75"/>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 12 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Column ss:StyleID="s28" ss:Width="237"/>
+   <Column ss:AutoFitWidth="0" ss:Width="177.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="67.5"/>
+   <Row ss:StyleID="s24">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">From</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">To</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Hall</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">Audio</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">Headset</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Notes</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Style</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 13 Modify [208:208] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-04T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 13 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 13 Modify [217:217] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="4"><Data ss:Type="String">August:</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 13 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 14 Insert [210] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 14 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 14 Insert [219:226] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-13T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 14 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 15 Modify [214:214] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 15 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 15 Modify [231:231] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Punyatithi &amp; Divya Diksha Special Satsang</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 15 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 16 Modify [222:222] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-05T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 16 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 16 Modify [239:239] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-14T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 16 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 17 Modify [228:228] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Music Meeting</Data><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 17 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 17 Modify [245:245] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Audio Satsang</Data><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 17 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 18 Modify [232:232] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Andy</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 18 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 18 Modify [249:249] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Robin</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 18 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 19 Modify [234:234] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8"><Data ss:Type="String">audio required</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 19 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 19 Modify [251:251] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE there is a fee of $15 for this program</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 19 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 20 Modify [238:238] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-07T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 20 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 20 Modify [255:255] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-18T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 20 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 21 Modify [240:240] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 21 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 21 Modify [257:257] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 21 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 22 Modify [244:245] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 22 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 22 Modify [261:262] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Tech Meeting for both Living SY workshops</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 22 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 23 Modify [248:248] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Charles</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 23 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 23 Modify [265:265] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward &amp; Sanford</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 23 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 24 Modify [250:251] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 24 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 24 Modify [267:268] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 24 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 25 Modify [254:254] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-11T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 25 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 25 Modify [271:271] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 25 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 26 Modify [260:260] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 26 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 26 Modify [277:277] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 26 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 27 Modify [264:264] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 27 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 27 Modify [281:281] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Andy</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 27 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 28 Insert [266] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 28 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 28 Insert [283:284] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 28 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 29 Modify [268:268] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-12T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 29 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 29 Modify [287:287] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 29 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30 Modify [270:270] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 30 Modify [289:289] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 30 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 31 Modify [272:272] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 31 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 31 Modify [291:291] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 31 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 32 Modify [274:275] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Audio Satsang</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 32 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 32 Modify [293:294] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - Day 1</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 32 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 33 Modify [278:278] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 33 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 33 Modify [297:297] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 33 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 34 Modify [280:280] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8"><Data ss:Type="String">CD's and MC</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 34 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 34 Modify [299:299] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><Name
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 34 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 35 Delete [282:283] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 35 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 35 Delete [301] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 35 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 36 Modify [286:286] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-18T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 36 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 36 Modify [303:303] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-21T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 36 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 37 Modify [288:288] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 37 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 37 Modify [305:305] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 37 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 38 Modify [290:290] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 38 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 38 Modify [307:307] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 38 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 39 Modify [292:292] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 39 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 39 Modify [309:309] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - Day 2</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 39 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 40 Modify [298:299] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 40 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 40 Modify [315:316] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><Name
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 40 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 41 Modify [302:302] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-06-25T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 41 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 41 Modify [319:319] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 41 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 42 Modify [308:308] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Gurumayi's Birthday Celebration</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 42 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 42 Modify [325:329] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 42 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 43 Insert [310] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 43 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 43 Insert [331:342] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - Day 1</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 43 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 44 Modify [312:312] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Micah</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 44 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 44 Modify [345:345] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 44 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 45 Modify [314:314] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Kelley</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 45 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 45 Modify [347:347] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><Name
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 45 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 46 Modify [316:316] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">Big program - Live chant</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 46 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 46 Modify [349:351] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-28T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 46 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 47 Insert [318] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 47 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 47 Insert [353:364] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - Day 2</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><Name
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 47 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 48 Modify [320:320] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-02T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 48 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 48 Modify [367:367] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="4"><Data ss:Type="String">September:</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 48 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 49 Insert [322] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 49 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 49 Insert [369:376] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-03T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 49 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 50 Modify [330:330] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 50 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 50 Modify [385:385] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 50 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 51 Insert [332] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 51 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 51 Insert [387:390] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 51 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 52 Modify [334:334] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-05T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 52 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 52 Modify [393:393] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-06T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 52 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 53 Modify [346:346] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 53 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 53 Modify [405:405] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 53 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 54 Modify [348:348] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 54 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 54 Modify [407:407] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 54 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 55 Modify [352:352] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-09T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 55 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 55 Modify [411:411] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-10T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 55 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 56 Modify [362:362] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 56 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 56 Modify [421:421] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 56 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 57 Insert [364] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 57 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 57 Insert [423:426] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 57 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 58 Modify [366:366] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-16T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 58 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 58 Modify [429:429] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-11T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 58 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 59 Modify [368:368] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 59 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 59 Modify [431:431] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 59 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 60 Modify [370:370] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 60 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 60 Modify [433:433] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 60 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 61 Modify [372:372] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">How to be a student of the intensive Satsang</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 61 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 61 Modify [435:435] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Audio Satsang #5</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 61 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 62 Modify [374:374] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 62 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 62 Modify [437:437] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 62 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 63 Modify [378:378] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:Index="8"><Data ss:Type="String">simple program</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 63 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 63 Modify [441:441] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE there is a fee of $15 for this program</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 63 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 64 Modify [380:380] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 64 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 64 Modify [443:443] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 64 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 65 Modify [384:384] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-17T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 65 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 65 Modify [447:447] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-17T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 65 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 66 Modify [386:390] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktipat Intensive - Sacredness</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 66 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 66 Modify [449:449] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 66 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 67 Insert [392] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 67 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 67 Insert [451:454] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 67 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 68 Delete [394:395] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 68 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 68 Delete [457] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 68 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 69 Modify [398:398] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">Local intensive.  Rehearsal will be 7/16/05</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 69 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 69 Modify [459:459] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 69 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 70 Delete [400:401] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 70 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 70 Delete [461] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 70 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 71 Modify [404:404] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-19T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 71 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 71 Modify [463:463] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-21T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 71 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 72 Modify [406:410] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 72 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 72 Modify [465:465] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 72 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 73 Insert [412] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 73 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 73 Insert [467:470] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Community Forum</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 73 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 74 Modify [414:414] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 74 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 74 Modify [473:473] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 74 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 75 Modify [416:418] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 75 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 75 Modify [475:475] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">MC, shares, maybe live music (small portion)</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 75 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 76 Insert [420] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 76 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 76 Insert [477:478] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 76 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 77 Modify [422:422] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-20T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 77 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 77 Modify [481:481] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-09-24T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 77 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 78 Modify [424:428] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 78 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 78 Modify [483:483] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 78 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 79 Insert [430] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 79 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 79 Insert [485:488] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 79 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 80 Modify [432:432] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 80 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 80 Modify [491:491] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 80 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 81 Modify [434:436] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 81 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 81 Modify [493:493] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 81 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 82 Modify [440:440] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-21T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 82 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 82 Modify [497:497] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="4"><Data ss:Type="String">October:</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 82 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 83 Modify [442:442] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 83 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 83 Modify [499:499] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 83 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 84 Modify [444:446] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 84 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 84 Modify [501:501] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 84 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 85 Delete [448:455] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 85 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 85 Delete [503] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 85 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 86 Modify [458:458] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-22T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 86 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 86 Modify [505:505] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-01T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 86 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 87 Modify [460:464] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 87 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 87 Modify [507:507] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 87 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 88 Insert [466] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 88 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 88 Insert [509:512] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Baba's Mahasamadhi Celebration Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 88 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 89 Modify [468:468] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 89 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 89 Modify [515:515] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 89 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 90 Modify [470:472] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 90 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 90 Modify [517:517] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant - big program</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 90 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 91 Insert [474] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 91 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 91 Insert [519:520] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 91 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 92 Modify [476:476] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-23T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 92 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 92 Modify [523:523] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-04T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 92 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 93 Modify [478:482] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 93 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 93 Modify [525:525] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 93 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 94 Insert [484] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 94 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 94 Insert [527:530] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 94 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 95 Modify [486:486] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 95 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 95 Modify [533:533] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 95 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 96 Modify [488:490] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 96 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 96 Modify [535:535] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 96 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 97 Insert [492] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 97 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 97 Insert [537:538] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 97 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 98 Modify [494:494] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-23T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 98 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 98 Modify [541:541] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-08T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 98 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 99 Modify [500:500] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Mantra &amp; Mediation Satsang</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 99 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 99 Modify [547:547] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 99 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 100 Modify [506:506] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 100 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 100 Modify [553:553] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 100 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 101 Modify [508:510] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">simple program</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 101 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 101 Modify [555:555] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 101 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 102 Modify [514:514] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-24T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 102 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 102 Modify [559:559] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-15T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 102 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 103 Modify [516:520] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 103 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 103 Modify [561:561] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 103 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 104 Modify [522:524] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 104 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 104 Modify [563:563] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 104 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 105 Modify [526:526] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 105 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 105 Modify [565:567] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">How to be a Student of the Intensive</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Somanath</Data><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 105 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 106 Modify [528:528] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 106 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 106 Modify [569:569] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 106 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 107 Insert [530] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 107 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 107 Insert [571:572] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 107 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 108 Modify [532:532] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-25T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 108 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 108 Modify [575:575] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-13T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 108 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 109 Modify [538:538] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 109 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 109 Modify [581:581] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 109 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 110 Modify [542:544] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 110 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 110 Modify [585:585] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 110 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 111 Modify [546:546] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 111 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 111 Modify [587:587] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 111 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 112 Modify [550:550] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="DateTime">2005-07-26T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 112 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 112 Modify [591:591] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="DateTime">2005-10-14T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 112 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 113 Modify [556:556] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Teachers Retreat</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 113 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 113 Modify [597:597] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 113 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 114 Modify [560:562] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s35"><Data ss:Type="String">tbd</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 114 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 114 Modify [601:601] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 114 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 115 Modify [564:564] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">simple audio support required, primarily evenings.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 115 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 115 Modify [603:603] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 115 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-15T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Intensive Rehearsal</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 116 Modify [582:582] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites on day &amp; lead up.</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 116 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 116 Modify [621:621] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites .</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 116 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-16T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Mahasamhadhi Global Broadcast Intensive</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 117 Insert [603] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 117 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 117 Insert [642:691] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-22T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">TBD</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-29T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row ss:Index="35">
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
+    <Cell ss:Index="4" ss:StyleID="s44"/>
+   </Row>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 117 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:Orientation="Landscape" x:CenterHorizontal="1"/>
+    <Header x:Margin="0.25" x:Data="&amp;F"/>
+    <Footer x:Margin="0.25" x:Data="&amp;A"/>
+    <PageMargins x:Bottom="0.5" x:Left="0" x:Right="0" x:Top="0.5"/>
+   </PageSetup>
+   <FitToPage/>
+   <Print>
+    <ValidPrinterInfo/>
+    <Scale>68</Scale>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+    <Gridlines/>
+   </Print>
+   <Selected/>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 118 Insert [620] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 118 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 118 Insert [709:709] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <LeftColumnVisible>1</LeftColumnVisible>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 118 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <FreezePanes/>
+   <FrozenNoSplit/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 119 Modify [631:632] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     <ActiveRow>33</ActiveRow>
+     <ActiveCol>3</ActiveCol>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 119 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 119 Modify [721:722] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     <ActiveRow>0</ActiveRow>
+     <RangeSelection>R1C1:R33C9</RangeSelection>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 119 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <PublishObjects xmlns="urn:schemas-microsoft-com:office:excel">
+   <PublishObject>
+    <Id>6581</Id>
+    <DivID>Audio Schedule - April &amp; May_6581</DivID>
+    <SourceType>SourceSheet</SourceType>
+    <HtmlType>HtmlStatic</HtmlType>
+    <Location x:HRef="C:\Documents and Settings\Christopher\Audio\Page.htm"/>
+   </PublishObject>
+  </PublishObjects>
+ </Worksheet>
+ <Worksheet ss:Name="Guru Gita">
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 120 Modify [649:649] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  <Table ss:ExpandedColumnCount="256" ss:ExpandedRowCount="11" x:FullColumns="1"
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 120 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 120 Modify [739:739] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  <Table ss:ExpandedColumnCount="256" ss:ExpandedRowCount="17" x:FullColumns="1"
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 120 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   x:FullRows="1" ss:StyleID="s38">
+   <Column ss:StyleID="s38" ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:StyleID="s38" ss:Width="54.75"/>
+   <Column ss:StyleID="s38" ss:Width="39.75"/>
+   <Column ss:StyleID="s38" ss:Width="42"/>
+   <Column ss:StyleID="s38" ss:Width="57"/>
+   <Column ss:StyleID="s38" ss:Width="45"/>
+   <Column ss:StyleID="s38" ss:Width="37.5"/>
+   <Column ss:StyleID="s38" ss:Width="44.25"/>
+   <Column ss:StyleID="s38" ss:AutoFitWidth="0" ss:Width="60.75" ss:Span="247"/>
+   <Row ss:StyleID="s40">
+    <Cell ss:StyleID="s39"><Data ss:Type="String">Week</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sunday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Monday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Tuesday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Wednesday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Thursday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Friday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Saturday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 121 Modify [672:672] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-05-29T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 121 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 121 Modify [762:762] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-07T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 121 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 122 Insert [675] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 122 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 122 Insert [765:780] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-14T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 122 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 123 Insert [676] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 123 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 123 Insert [782:787] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-21T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 123 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 124 Insert [679] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 124 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 124 Insert [791:791] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 124 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 125 Delete [680:680] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 125 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 125 Delete [793] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 125 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 126 Modify [683:683] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-05T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 126 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 126 Modify [795:795] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-28T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 126 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 127 Insert [690] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 127 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 127 Insert [802:802] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 127 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 128 Delete [691:691] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 128 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 128 Delete [804] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 128 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 129 Modify [694:694] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-12T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 129 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 129 Modify [806:806] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-04T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 129 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 130 Insert [701] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 130 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 130 Insert [813:813] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 130 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 131 Insert [702] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 131 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 131 Insert [815:818] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-11T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 131 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 132 Insert [703] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 132 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 132 Insert [820:825] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 132 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 133 Modify [705:705] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-19T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 133 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 133 Modify [828:828] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-18T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 133 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 134 Insert [712] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 134 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 134 Insert [835:835] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 134 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 135 Delete [713:713] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 135 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 135 Delete [837] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 135 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 136 Modify [716:716] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-06-26T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 136 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 136 Modify [839:839] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-25T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 136 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 137 Modify [718:718] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">Not needed</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 137 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 137 Modify [841:841] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 137 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 138 Insert [723] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 138 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 138 Insert [846:846] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 138 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 139 Delete [724:724] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 139 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 139 Delete [848] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 139 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 140 Modify [727:727] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-03T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 140 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 140 Modify [850:850] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-02T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 140 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 141 Insert [734] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 141 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 141 Insert [857:857] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 141 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 142 Delete [735:735] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 142 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 142 Delete [859] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 142 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 143 Modify [738:738] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-10T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 143 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 143 Modify [861:861] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-09T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 143 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 144 Insert [745] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 144 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 144 Insert [868:868] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 144 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 145 Delete [746:746] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 145 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 145 Delete [870] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 145 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 146 Modify [749:749] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-17T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 146 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 146 Modify [872:872] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-16T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 146 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 147 Insert [756] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 147 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 147 Insert [879:879] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 147 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 148 Delete [757:757] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 148 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 148 Delete [881] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 148 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 149 Modify [760:760] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-24T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 149 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 149 Modify [883:883] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-23T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 149 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 150 Insert [767] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 150 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 150 Insert [890:890] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 150 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 151 Delete [768:768] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 151 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 151 Delete [892] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 151 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+   <Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 152 Modify [771:771] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-07-31T00:00:00.000</Data><NamedCell
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 152 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 152 Modify [894:894] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-30T00:00:00.000</Data><NamedCell
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 152 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 153 Insert [778] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 153 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 153 Insert [901:901] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 153 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 154 Delete [779:779] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 154 Delete <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 154 Delete [903] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 154 Delete >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   </Row>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 155 Insert [781] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 155 Insert <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 155 Insert [904:906] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   <Row ss:Index="17">
+    <Cell ss:Index="4" ss:StyleID="s45"><Data ss:Type="String">Murari would like to do GG thursdays after Sept 13th</Data></Cell>
+   </Row>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 155 Insert >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:CenterHorizontal="1"/>
+    <Header x:Data="&amp;F"/>
+    <Footer x:Data="&amp;A"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+    <Gridlines/>
+   </Print>
+   <PageBreakZoom>60</PageBreakZoom>
+   <FreezePanes/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>0</ActiveRow>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 156 Modify [806:806] C:\ChrisH\Audio Coverage\Foo.XML <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+     <RangeSelection>R1</RangeSelection>
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 156 Modify <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 156 Modify [932:932] C:\ChrisH\Audio Coverage\Bar.XML >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     <RangeSelection>R1C1:R14C8</RangeSelection>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 156 Modify >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

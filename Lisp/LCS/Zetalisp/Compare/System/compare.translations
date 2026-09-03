@@ -1,0 +1,11 @@
+;;; -*- Mode: LISP; Syntax: Common-lisp; Package: USER; Base: 10 -*-
+;;;
+;;; Source: compare.translations  Module: compare	Status:	operational
+;;;
+;;; History:	Please record your edits in "compare-history.text".
+;;;
+;;; Purpose:	Define the Sequence Comparison Utility's Logical Pathnames.
+;;;
+(fs:set-logical-pathname-host "COMPARE"
+                              :physical-host "S"
+                              :translations '(("**;*" ">hacks>**>*")))

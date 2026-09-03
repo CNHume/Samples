@@ -1,0 +1,136 @@
+;;;
+;;; Source: compare-history.text  Module: compare	Status:	operational
+;;;
+;;; Author     Version	Edit Date	Purpose of Edit
+;;; ------     -------	---------	---------------
+;;; Chris Hume	 5.32	26-Mar-91	Protected Insert List in Delta Editor.
+;;; Chris Hume	 5.31	24-Mar-91	Removed Record Hasher's use of SUBSEQ.
+;;; Chris Hume	 5.30	22-Mar-91	Comparison now controlled via :METHOD.
+;;; Chris Hume	 5.29	22-Mar-91	Allowed recourse to SCAN-COMMON-PAIRS.
+;;; Chris Hume	 5.28	19-Mar-91	Added Index Range Checking to NSPLICE.
+;;; Chris Hume	 5.27	16-Mar-91	Added NSPLICE to simplify Delta Editor.
+;;; Chris Hume	 5.26	12-Mar-91	Added declarations for multiple values.
+;;; Chris Hume	 5.25	21-Feb-91	Added Progress Indication.
+;;; Chris Hume	 5.24	19-Feb-91	Improved HASH-STRING again.
+;;; Chris Hume	 5.23	10-Feb-91	Added :ANALYZE-METHOD.
+;;; Chris Hume	 5.22	 9-Feb-91	Optimized for Equivalent Sequences.
+;;; Chris Hume	 5.21	 8-Feb-91	Provided for Pretty Printer Interface.
+;;; Chris Hume	 5.20	 1-Feb-91	Cleaned up stray Special Declarations.
+;;; Chris Hume	 5.19	29-Jan-91	Simplified Delta Format Hashing.
+;;; Chris Hume	 5.18	28-Jan-91	Delta PPRINT specified by :PRETTY now.
+;;; Chris Hume	 5.17	20-Jan-91	Added Inline Functions to HASH-STRING.
+;;; Chris Hume	 5.16	19-Jan-91	Improved HASH-STRING further.
+;;; Chris Hume	 5.15	17-Jan-91	Avoided use of BIGNUMs by HASH-STRING.
+;;; Chris Hume	 5.14	10-Jan-91	Improved Dynamically Bound Interfaces.
+;;; Chris Hume	 5.13	 8-Jan-91	Finished String Garbage Optimizations.
+;;; Chris Hume	 5.12	 7-Jan-91	Took out some more Garbage Generation.
+;;; Chris Hume	 5.11	 5-Jan-91	Optimized unnecessary truncations out.
+;;; Chris Hume	 5.10	 3-Jan-91	Isolated Banner Writer Interfaces.
+;;; Chris Hume	 5.9	 2-Jan-91	Finally figured out SUBSEQ-INTERVALS.
+;;; Chris Hume	 5.8	 1-Jan-91	Finished Sequence Genericity.
+;;; Chris Hume	 5.7	23-Dec-90	Split out Formatting Support.
+;;; Chris Hume	 5.6	22-Dec-90	Made Frame Writing Sequence Generic.
+;;; Chris Hume	 5.5	20-Dec-90	Changed from TRUENAME to PROBE-FILE.
+;;; Chris Hume	 5.4	16-Dec-90	Record Writers became Frame Writers.
+;;; Chris Hume	 5.3	14-Dec-90	Suppressed Delta Keyword Evaluation.
+;;; Chris Hume	 5.2	13-Dec-90	Improved WRITE-RECORD-PAIR.
+;;; Chris Hume	 5.1	13-Dec-90	Fixed (and optimized) Delta Editor.
+;;; Chris Hume	 5.0	11-Dec-90	Header Bags became Character Types.
+;;; Chris Hume	 4.16	10-Dec-90	Isolated the FILE-P interface.
+;;; Chris Hume	 4.15	 9-Dec-90	Isolated the TRUNCATED-P interface.
+;;; Chris Hume	 4.14	 8-Dec-90	Reduced string handling overhead.
+;;; Chris Hume	 4.13	 5-Dec-90	Improved presentation interfaces.
+;;; Chris Hume	 4.12	28-Nov-90	Improved the utility of Delta Format.
+;;; Chris Hume	 4.11	16-Nov-90	Improved Review Format presentation.
+;;; Chris Hume	 4.10	12-Nov-90	Rendered Parallel Format presentable.
+;;; Chris Hume	 4.9	 9-Nov-90	Normalized for Vector Sequence Type.
+;;; Chris Hume	 4.8	 7-Nov-90	Elevated Tab Expansion Type for SCL.
+;;; Chris Hume	 4.7	29-Oct-90	Removed unnecessary List Coercions.
+;;; Chris Hume	 4.6	24-Oct-90	Removed edges from Edit Application.
+;;; Chris Hume	 4.5	19-Oct-90	Straightened out Edit Application.
+;;; Chris Hume	 4.4	19-Oct-90	Removed garbage due to Tab Expansion.
+;;; Chris Hume	 4.3	17-Oct-90	Finally figured presentation out.
+;;; Chris Hume	 4.2	15-Oct-90	Renamed :STREAM-PAIR to :SOURCE-PAIR.
+;;; Chris Hume	 4.1	14-Oct-90	Cleaned up Mode handling.
+;;; Chris Hume	 4.0	 6-Oct-90	Resumed presentation management work.
+;;; Chris Hume	 3.16	22-Sep-90	Now handle Mode via :HEADER-TYPE-PAIR.
+;;; Chris Hume	 3.15	 9-Sep-90	Added Header support to Series Format.
+;;; Chris Hume	 3.14	26-Aug-90	Fixed Review Format Pathname coercion.
+;;; Chris Hume	 3.13	31-Jul-90	Gave a new name to this file.
+;;; Chris Hume	 3.12	30-Jul-90	Hacked STREAM-NAME for ZWEI Buffers.
+;;; Chris Hume	 3.11	 8-Jul-90	Oriented toward Base 10 numeric output.
+;;; Chris Hume	 3.10	 3-Jul-90	Merge Format essentially in place.
+;;; Chris Hume	 3.9	29-Jun-90	Began work on (ZWEI) COMPARE-AND-MERGE.
+;;; Chris Hume	 3.8	31-May-90	Improved Tab Expansion and Center Fill.
+;;; Chris Hume	 3.7	22-May-90	Corrected some minor spelling errors.
+;;; Chris Hume	 3.6	20-May-90	Added the :AFFIX (defaulting) keyword.
+;;; Chris Hume	 3.5	 8-May-90	Performance Asymmetry has been removed.
+;;; Chris Hume	 3.4	 2-May-90	Reordered (DIAGNOSE-COMPARE) priorities.
+;;; Chris Hume	 3.3	27-Apr-90	Fixed COMPARE-AS-DELTA's RPLACD of NIL.
+;;; Chris Hume	 3.2	24-Apr-90	Internalized stream width sizing.
+;;; Chris Hume	 3.1	23-Apr-90	Expedited binary search over Thresholds.
+;;; Chris Hume	 3.0	10-Apr-90	Fixed STREAM-NAME and installed at SCRC.
+;;; Chris Hume	 2.26	24-Mar-90	Fixed the System and Translations Files.
+;;; Chris Hume	 2.25	21-Mar-90	Added the System and Translations Files.
+;;; Chris Hume	 2.24	16-Mar-90	Tightened up keyword value constraints.
+;;; Chris Hume	 2.23	13-Mar-90	Optimized APPEND out of INTERVAL-PAIRS.
+;;; Chris Hume	 2.22	 9-Mar-90	Brought up COMPARE-IN-REVIEW.
+;;; Chris Hume	 2.21	 7-Mar-90	Began work on COMPARE-IN-REVIEW.
+;;; Chris Hume	 2.20	 6-Mar-90	Removed COMMON-SEQUENCE keyword problem.
+;;; Chris Hume	 2.19	 4-Mar-90	Added "Transfixion" support.
+;;; Chris Hume	 2.18	 3-Mar-90	Reworked Compare Formatter interface.
+;;; Chris Hume	 2.17	27-Feb-90	Brought up Delta Application Macros.
+;;; Chris Hume	 2.16	26-Feb-90	Simplified Compare Formatter interface.
+;;; Chris Hume	 2.15	23-Feb-90	Brought up basic COMPARE-AS-DELTA.
+;;; Chris Hume	 2.14	20-Feb-90	Follow Interval Pairs with Length Pair.
+;;; Chris Hume	 2.13	16-Feb-90	Compare Formatter/Interface overhaul.
+;;; Chris Hume	 2.12	15-Feb-90	Worked on both "Compare Formatters".
+;;; Chris Hume	 2.11	13-Feb-90	Brought up basic COMPARE-IN-PARALLEL.
+;;; Chris Hume	 2.10	12-Feb-90	Added Tab Expansion for Record Framing.
+;;; Chris Hume	 2.9	11-Feb-90	Put Record Framing into place.
+;;; Chris Hume	 2.8	 8-Feb-90	Started splitting out new files.
+;;; Chris Hume	 2.7	 4-Feb-90	Added maximum improbability diagnostic.
+;;; Chris Hume	 2.6	 3-Feb-90	Improved :TIME-METHOD for testing.
+;;; Chris Hume	 2.5	 2-Feb-90	Started COMPARE-DIAGNOSE tests.
+;;; Chris Hume	 2.4	24-Jan-90	Defined "COMPARE" Package and System.
+;;; Chris Hume	 2.3	24-Jan-90	Entered module into "COMPARE" Package.
+;;; Chris Hume	 2.2	23-Jan-90	Coerced sequences for :VERIFY-MATCHES.
+;;;					Cleaned up Compare Formatter interface.
+;;; Chris Hume	 2.1	10-Jan-90	Reverted to USER Package to avoid ZL.
+;;; Chris Hume	 2.0	 5-Jan-90	Began Final Test of SYMBOLICS Release.
+;;; Chris Hume	 1.30	 5-Jan-90	Present Input Streams from Formatter.
+;;;					Fixed NORMALIZE-ELEMENT type coercion.
+;;; Chris Hume	 1.29	31-Dec-89	Clarified COMPARE-IN-SERIES naming.
+;;;					Touched up Affixing Rules.
+;;; Chris Hume	 1.28	29-Dec-89	Simplified "final pair" handling.
+;;; Chris Hume	 1.27	29-Dec-89	Enhanced :VERIFY-MATCHES support.
+;;;					Fixed interval handling.
+;;; Chris Hume	 1.26	29-Dec-89	Implemented "final" interface decisions.
+;;; Chris Hume	 1.25	27-Dec-89	Buried "truncated stream" hatchet.
+;;; Chris Hume	 1.24	21-Dec-89	Added the Ignore Keyword Normalizer.
+;;;					Isolated central algorithm support.
+;;; Chris Hume	 1.23	19-Dec-89	Introduced WRAP-INTERFACES Macro.
+;;; Chris Hume	 1.22	18-Dec-89	Fixed null interval oversight.
+;;; Chris Hume	 1.21	16-Dec-89	Cleaned up interval operators.
+;;; Chris Hume	 1.20	15-Dec-89	Added "prefix" and "suffix" support.
+;;; Chris Hume	 1.19	10-Dec-89	Merged Correspondence and Difference.
+;;; Chris Hume	 1.18	 9-Dec-89	Renamed file, and separated I/O support.
+;;; Chris Hume	 1.17	 8-Dec-89	Modernized baroque performance concepts.
+;;; Chris Hume	 1.16	 4-Dec-89	Worked on Compare Formatter interface.
+;;; Chris Hume	 1.15	 3-Dec-89	Ferreted out some remaining annoyances.
+;;; Chris Hume	 1.14	 1-Dec-89	Added some more comment and cleaned up.
+;;; Chris Hume	 1.13	30-Nov-89	Coerced inputs to LIST for NTHCDR fix.
+;;; Chris Hume	 1.12	21-Nov-89	Completed sequence "optimizations".
+;;; Chris Hume	 1.11	20-Nov-89	Began ELT and SUBSEQ optimizations.
+;;; Chris Hume	 1.10	20-Nov-89	Added comments and some re-organization.
+;;; Chris Hume	 1.9	19-Nov-89	Cleaned up Compare Formatter interface.
+;;; Chris Hume	 1.8	18-Nov-89	Analyzed performance, briefly.
+;;; Chris Hume	 1.7	17-Nov-89	Cleaned up comparison interfaces.
+;;; Chris Hume	 1.6	17-Nov-89	Renamed Package, Module, and File.
+;;; Chris Hume	 1.5	16-Nov-89	Added comparison interfaces.
+;;; Chris Hume	 1.4	16-Nov-89	Cleaned up various interfaces.
+;;; Chris Hume	 1.3	14-Nov-89	Optimized THRESHOLD "Log Entry".
+;;; Chris Hume	 1.2	13-Nov-89	Brought up First Operational Version.
+;;; Chris Hume	 1.1	12-Nov-89	Began coding the Comparison Algorithm.
+;;; Chris Hume	 1.0	 5-Nov-89	Created module.
+;;;

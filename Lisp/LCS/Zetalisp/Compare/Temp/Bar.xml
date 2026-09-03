@@ -1,0 +1,940 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>Christopher Hume</Author>
+  <LastAuthor>Christopher Hume</LastAuthor>
+  <LastPrinted>2005-06-01T01:01:41Z</LastPrinted>
+  <Created>2005-02-24T06:37:31Z</Created>
+  <LastSaved>2005-08-12T06:21:27Z</LastSaved>
+  <Version>11.6360</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>9015</WindowHeight>
+  <WindowWidth>15360</WindowWidth>
+  <WindowTopX>1560</WindowTopX>
+  <WindowTopY>-225</WindowTopY>
+  <ActiveSheet>1</ActiveSheet>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s26">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-409]h:mm\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s28">
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s29">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-F800]dddd\,\ mmmm\ dd\,\ yyyy"/>
+  </Style>
+  <Style ss:ID="s30">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Interior/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s31">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+  </Style>
+  <Style ss:ID="s32">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="[$-409]h:mm:ss\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s33">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[$-409]h:mm:ss\ am/pm;@"/>
+  </Style>
+  <Style ss:ID="s34">
+   <Borders/>
+   <Font x:Family="Swiss"/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s35">
+   <Alignment ss:Vertical="Bottom"/>
+   <Font x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s36">
+   <Font x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s37">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders/>
+   <NumberFormat ss:Format="[ENG][$-409]d\-mmm\-yy;@"/>
+  </Style>
+  <Style ss:ID="s38">
+   <Borders/>
+  </Style>
+  <Style ss:ID="s39">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s40">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s41">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="[ENG][$-409]d/mmm/yy;@"/>
+  </Style>
+  <Style ss:ID="s42">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s43">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <NumberFormat ss:Format="@"/>
+  </Style>
+  <Style ss:ID="s44">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s45">
+   <Borders/>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Names>
+  <NamedRange ss:Name="Guru_Gita" ss:RefersTo="='Guru Gita'!R1C1:R14C8"/>
+  <NamedRange ss:Name="Programs" ss:RefersTo="=Programs!R1C1:R33C9"/>
+  <NamedRange ss:Name="Updated" ss:RefersTo="=Updated!R1C1:R3C2"/>
+ </Names>
+ <Worksheet ss:Name="Updated">
+  <Table ss:ExpandedColumnCount="2" ss:ExpandedRowCount="3" x:FullColumns="1"
+   x:FullRows="1">
+   <Column ss:StyleID="s41" ss:AutoFitWidth="0" ss:Width="101.25"/>
+   <Column ss:StyleID="s43" ss:AutoFitWidth="0" ss:Width="96"/>
+   <Row ss:StyleID="s39">
+    <Cell><Data ss:Type="String">Date</Data><NamedCell ss:Name="Updated"/></Cell>
+    <Cell ss:StyleID="s42"><Data ss:Type="String">Page</Data><NamedCell
+      ss:Name="Updated"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-08T00:00:00.000</Data><NamedCell
+      ss:Name="Updated"/></Cell>
+    <Cell><Data ss:Type="String">Guru Gita</Data><NamedCell ss:Name="Updated"/></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="0" ss:Height="13.5">
+    <Cell><Data ss:Type="DateTime">2005-08-11T00:00:00.000</Data><NamedCell
+      ss:Name="Updated"/></Cell>
+    <Cell><Data ss:Type="String">Programs</Data><NamedCell ss:Name="Updated"/></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <FreezePanes/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>3</ActiveRow>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+ <Worksheet ss:Name="Programs">
+  <Names>
+   <NamedRange ss:Name="Print_Area" ss:RefersTo="=Programs!R1C1:R33C9"/>
+  </Names>
+  <Table ss:ExpandedColumnCount="11" ss:ExpandedRowCount="44" x:FullColumns="1"
+   x:FullRows="1">
+   <Column ss:StyleID="s29" ss:Width="153.75"/>
+   <Column ss:StyleID="s33" ss:AutoFitWidth="0" ss:Width="60.75" ss:Span="1"/>
+   <Column ss:Index="4" ss:StyleID="s31" ss:Width="233.25"/>
+   <Column ss:StyleID="s27" ss:Width="63.75"/>
+   <Column ss:StyleID="s36" ss:Width="38.25"/>
+   <Column ss:StyleID="s36" ss:Width="41.25"/>
+   <Column ss:StyleID="s26" ss:Width="279.75"/>
+   <Column ss:StyleID="s28" ss:Width="237"/>
+   <Column ss:AutoFitWidth="0" ss:Width="177.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="67.5"/>
+   <Row ss:StyleID="s24">
+    <Cell ss:StyleID="s23"><Data ss:Type="String">Date</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">From</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">To</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Hall</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">Audio</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s34"><Data ss:Type="String">Headset</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Notes</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Style</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4"><Data ss:Type="String">August:</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-13T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Punyatithi &amp; Divya Diksha Special Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-14T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Audio Satsang</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Robin</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE there is a fee of $15 for this program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-18T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Tech Meeting for both Living SY workshops</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward &amp; Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Andy</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-20T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - Day 1</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-21T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #1 w/ Sw Anantananda - Day 2</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Sanford</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-27T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - Day 1</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-08-28T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T09:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T17:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Living SY workshop #2 w/ Sw Anantananda - Day 2</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">Edward</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">Some Live chants, mainly speaker, small grp.  One tech meeting-Thurs Aug 18th at 7pm.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4"><Data ss:Type="String">September:</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-03T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-06T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-10T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-11T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T10:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T12:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Audio Satsang #5</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">simple program from CD. NOTE there is a fee of $15 for this program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-17T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Mantra &amp; Meditation</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-21T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Community Forum</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">MC, shares, maybe live music (small portion)</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-09-24T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="4"><Data ss:Type="String">October:</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: black; background-color: tan</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-01T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Baba's Mahasamadhi Celebration Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Live chant - big program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-04T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shiva Mahimnah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Live text chant</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-08T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8"><Data ss:Type="String">Regular Saturday night program</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-15T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T20:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">How to be a Student of the Intensive</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Somanath</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-13T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-14T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Intensive set up</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="8" ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-15T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Intensive Rehearsal</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites .</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-16T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Mahasamhadhi Global Broadcast Intensive</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">tbd</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s30"><Data ss:Type="String">All day - will require multiple audio sevites.</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-22T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Chanting Satsang</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">TBD</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="DateTime">2005-10-29T00:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T19:30:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="DateTime">1899-12-31T21:00:00.000</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Dancing Saptah</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell><Data ss:Type="String">Shaktinilaya</Data><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">OPEN</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; background-color: yellow</Data><NamedCell
+      ss:Name="Programs"/><NamedCell ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:Index="6" ss:StyleID="s35"><NamedCell ss:Name="Programs"/><NamedCell
+      ss:Name="Print_Area"/></Cell>
+   </Row>
+   <Row ss:Index="35">
+    <Cell ss:Index="9"><Data ss:Type="String">color: red; font-style: italic; background-color: yellow</Data></Cell>
+   </Row>
+   <Row ss:Index="44">
+    <Cell ss:Index="4" ss:StyleID="s44"/>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:Orientation="Landscape" x:CenterHorizontal="1"/>
+    <Header x:Margin="0.25" x:Data="&amp;F"/>
+    <Footer x:Margin="0.25" x:Data="&amp;A"/>
+    <PageMargins x:Bottom="0.5" x:Left="0" x:Right="0" x:Top="0.5"/>
+   </PageSetup>
+   <FitToPage/>
+   <Print>
+    <ValidPrinterInfo/>
+    <Scale>68</Scale>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+    <Gridlines/>
+   </Print>
+   <Selected/>
+   <LeftColumnVisible>1</LeftColumnVisible>
+   <FreezePanes/>
+   <FrozenNoSplit/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>0</ActiveRow>
+     <RangeSelection>R1C1:R33C9</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+  <PublishObjects xmlns="urn:schemas-microsoft-com:office:excel">
+   <PublishObject>
+    <Id>6581</Id>
+    <DivID>Audio Schedule - April &amp; May_6581</DivID>
+    <SourceType>SourceSheet</SourceType>
+    <HtmlType>HtmlStatic</HtmlType>
+    <Location x:HRef="C:\Documents and Settings\Christopher\Audio\Page.htm"/>
+   </PublishObject>
+  </PublishObjects>
+ </Worksheet>
+ <Worksheet ss:Name="Guru Gita">
+  <Table ss:ExpandedColumnCount="256" ss:ExpandedRowCount="17" x:FullColumns="1"
+   x:FullRows="1" ss:StyleID="s38">
+   <Column ss:StyleID="s38" ss:AutoFitWidth="0" ss:Width="69"/>
+   <Column ss:StyleID="s38" ss:Width="54.75"/>
+   <Column ss:StyleID="s38" ss:Width="39.75"/>
+   <Column ss:StyleID="s38" ss:Width="42"/>
+   <Column ss:StyleID="s38" ss:Width="57"/>
+   <Column ss:StyleID="s38" ss:Width="45"/>
+   <Column ss:StyleID="s38" ss:Width="37.5"/>
+   <Column ss:StyleID="s38" ss:Width="44.25"/>
+   <Column ss:StyleID="s38" ss:AutoFitWidth="0" ss:Width="60.75" ss:Span="247"/>
+   <Row ss:StyleID="s40">
+    <Cell ss:StyleID="s39"><Data ss:Type="String">Week</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sunday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Monday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Tuesday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Wednesday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Thursday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Friday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Saturday</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-07T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-14T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Murari</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-21T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-08-28T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-04T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-11T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-18T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-09-25T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-02T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-09T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-16T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-23T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s37"><Data ss:Type="DateTime">2005-10-30T00:00:00.000</Data><NamedCell
+      ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Chris H</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Edward</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Sybilla</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">Theya</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+    <Cell><Data ss:Type="String">OPEN</Data><NamedCell ss:Name="Guru_Gita"/></Cell>
+   </Row>
+   <Row ss:Index="17">
+    <Cell ss:Index="4" ss:StyleID="s45"><Data ss:Type="String">Murari would like to do GG thursdays after Sept 13th</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <Layout x:CenterHorizontal="1"/>
+    <Header x:Data="&amp;F"/>
+    <Footer x:Data="&amp;A"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+    <Gridlines/>
+   </Print>
+   <PageBreakZoom>60</PageBreakZoom>
+   <FreezePanes/>
+   <SplitHorizontal>1</SplitHorizontal>
+   <TopRowBottomPane>1</TopRowBottomPane>
+   <ActivePane>2</ActivePane>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+    </Pane>
+    <Pane>
+     <Number>2</Number>
+     <ActiveRow>0</ActiveRow>
+     <RangeSelection>R1C1:R14C8</RangeSelection>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

@@ -1,0 +1,443 @@
+
+	COMPARE: A System for the Efficient Comparison of Sequences
+	===========================================================
+							24-Mar-1991
+
+
+Introduction
+------------
+The following describes various user interfaces to an efficient algorithm
+for finding the Longest Common Subsequence (LCS) for two input sequences.
+
+In this context, "subsequence" refers not only to contiguous subsequences
+(as obtained via the SUBSEQ operation) but to any (possibly discontiguous)
+series of the elements, maintaining their original sequential order.
+
+Example:
+
+    The character sequences (more commonly known as strings) "abcbdda"
+    and "badbabd" have the subsequence "ada" in common, but they also
+    have the longer subsequence "abbd" in common.  Therefore, the former
+    would not qualify as a Longest Common Subsequence.  Where more than
+    one subsequence of greatest possible length exists, any one of these
+    subsequences would qualify as "the" LCS of the two input sequences.
+
+
+Interface Levels
+----------------
+This module wraps additional interfaces around the central algorithm and
+its interfaces at four higher levels: File, Stream, Subsequence, Position
+Interval.  The central algorithm itself returns Common Sequence Element
+Position pairs.  It also supports the next higher level by providing it
+with an alternative interface which gathers these pairs into the Common
+Sequence Position Intervals.  A final interface is available at this level
+which returns the "reduced" (i.e., concatenated) Common Subsequence itself.
+
+The next higher level returns "Matched" Position Interval pairs.  Matched
+Intervals may correspond to the Common Intervals, or to their Complement,
+as will be described below.  In addition, these intervals may be "affixed".
+
+The next highest level returns Matched Subsequence pairs and is expected
+to be the most widely applied.  The next two higher levels are concerned,
+respectively, with interpreting Streams and Files as sequences of Records.
+These highest levels support a variety of Output Formatters, which convert
+the matched record pairs into a form convenient for Human Interpretation,
+sending this output to the designated Output Stream/File.  These five levels
+of interface are summarized in the following table:
+
+    Level		Type of Output Produced
+    -----		-----------------------
+    Position		Common Element Position pairs
+ +  Interval		Paired Subsequence Intervals
+			(and their Paired Lengths)
+ +  Sequence		Paired Subsequences, or
+			the (un-affixed) Common Subsequence
+ *  Stream		Comparison Stream (in one of the output formats)
+ *  File		Comparison File (in one of the output formats)
+
+All five levels accept "normalization" (i.e., :IGNORE-...) keywords.
+"+" Indicates that the "affix" keywords may also be applied.
+"*" Indicates both "affix" and "output" keywords may be applied.
+
+
+Correspondence v. Difference
+----------------------------
+Pairs of "matched" intervals which specify apparent modifications
+(or "corresponding" pairs of differing subsequences) give rise to
+the term "difference", where reference to these differing pairs of
+subsequences is intended.  Differing subsequences may further be
+classified as: Insertions, Modifications, or Deletions where it
+makes sense to identify a first sequence as "prior" to the second.
+
+At each of these levels the "correspondence" variants identify what
+two sequences have IN COMMON, and the "difference" variants identify
+their differences (via "dotted pairs".)
+
+Underlying COMPARE-... implementations realize their CORRESPONDENCE-...
+function when the "differ-p" parameter is passed as NIL, and realize
+their DIFFERENCE-... function when the value of "differ-p" is Non-NIL.
+
+The underlying COMPARE-... implementations are NOT exported, currently.
+It has been felt that usage would only rarely benefit from parametric
+selection among the two variants, and that the (simpler) variant
+specific interfaces would facilitate most interactive application.
+
+At the File and Stream levels the sequences are assumed to consist
+of records based on the type STRING.  Streams are considered to
+have been truncated where their final record (before End of File)
+is not terminated by a Newline.  Records terminating prematurely in
+this way are marked by replacing them with a list consisting of the
+internal symbol "TRUNCATED" followed by their "untruncated" self.
+
+
+The User Interfaces
+-------------------
+ [Functions]
+
+    correspondence-files,
+    difference-files	    a-file b-file &key output-file
+			    format width affix transfix prefix suffix
+			    ignore-case-and-style ignore-whitespace
+
+    correspondence-streams,
+    difference-streams	    a-stream b-stream &key output-stream
+			    format width affix transfix prefix suffix
+			    ignore-case-and-style ignore-whitespace
+
+    correspondence-sequences,
+    difference-sequences    a-sequence b-sequence &key
+			    affix transfix prefix suffix
+			    ignore-case-and-style ignore-whitespace
+
+    common-sequence	    a-sequence b-sequence &key
+			    ignore-case-and-style ignore-whitespace
+
+    correspondence-intervals,
+    difference-intervals    a-sequence b-sequence &key
+			    affix transfix prefix suffix
+			    ignore-case-and-style ignore-whitespace
+
+    common-pairs	    a-sequence b-sequence &key
+			    ignore-case-and-style ignore-whitespace
+
+
+Examples:
+
+  ? (common-pairs "abcbdda" "badbabd")
+  ((0 . 1) (1 . 3) (3 . 5) (4 . 6))
+  (7 . 7)
+
+  ? (correspondence-intervals "abcbdda" "badbabd")
+  (((0 1) 1 2) ((1 2) 3 4) ((3 5) 5 7))
+  (7 . 7)
+
+  ? (correspondence-sequences "abcbdda" "badbabd")
+  (("a" . "a") ("b" . "b") ("bd" . "bd"))
+
+  ? (common-sequence "abcbdda" "badbabd")
+  "abbd"
+
+
+Normalization Keywords
+----------------------
+The :IGNORE-CASE-AND-STYLE and :IGNORE-WHITESPACE keywords, which take on
+the value NIL by default, specify that the comparison should be conducted
+without regard to the string "Case and Style" or to "White" Space, where
+the respective keyword supplies a non-NIL value.  In this context, White
+Space is taken to mean any combination of Tabs or Spaces before or after
+a Newline.
+
+
+Affix Keywords
+--------------
+At the four higher levels, various affix keywords may be specified
+to modulate which sequence elements are included in the output.
+        
+The Affix Precedence Rules are presented here.  Their purpose is to
+prevent the confusion that might arise if sequence elements were to be
+presented more than once (from overlapping intervals), or if elements
+from one interval were to be mis-represented as coming from some other
+interval.
+
+   1)	Prefices will not precede a Previous Suffix (or Interval) End.
+   2)	Negative Prefices will not succeed the Current Interval End.
+   3)	Suffices will not succeed a Subsequent Interval Start.
+   4)	Negative Suffices will not precede the Current Prefix
+	(or Interval) Start.
+
+The :TRANSFIX keyword is NIL by default, specifying that no Transfixion will
+take place.  When supplied with a numeric value (which must be non-negative),
+subsequent Position Intervals will be "transfixed" (or fastened), across any
+intervening "gap", where adjacent interval pairs (or either of a sequence's
+"ends") lie within the number of records specified ON BOTH SEQUENCES.
+
+It might seem that, where the :TRANSFIX keyword is used, it ought to specify
+a value at least as great as the sum of the values specified by :PREFIX and
+:SUFFIX.  This would make an appropriate default, but these keywords are not
+constrained to be used together in only this manner.
+
+For affix keywords the following may often be a useful list of values:
+(:PREFIX 1 :SUFFIX 1 :TRANSFIX 2).  To simplify specification of this
+form of affix keyword list, the :AFFIX keyword has also been provided.
+
+When :AFFIX is used to specify an (integer) value the remaining affix
+keywords have their DEFAULT values calculated as follows:
+
+        Affix Keyword   Calculated Default
+        -------------   ------------------
+        :TRANSFIX       (MAX AFFIX 0)
+        :PREFIX         (CEILING AFFIX 2)
+        :SUFFIX         (FLOOR AFFIX 2)
+
+So the "useful list of values" mentioned above could be obtained simply by
+specifying ":AFFIX 2", for example.  The usual list of default values for
+these keywords, however, is as follows: (:PREFIX 0 :SUFFIX 0 :TRANSFIX NIL).
+Affixing is disabled by default, in other words.
+
+Examples:
+
+  ? (correspondence-sequences "AooBooCoo DooEoo" "FooGoo HooIoo")
+  (("oo" . "oo") ("oo" . "oo") (" " . " ") ("oo" . "oo") ("oo" . "oo"))
+
+  ? (difference-sequences "AooBooCoo DooEoo" "FooGoo HooIoo")
+  (("A" . "F") ("B" . "G") ("Coo" . "") ("D" . "H") ("E" . "I"))
+
+
+  ? (correspondence-sequences "AooBooCoo DooEoo" "FooGoo HooIoo" :prefix 1)
+  (("Aoo" . "Foo") ("Boo" . "Goo") ("o " . " ") ("Doo" . "Hoo") ("Eoo" . "Ioo"))
+
+  ? (difference-sequences "AooBooCoo DooEoo" "FooGoo HooIoo" :prefix 1)
+  (("A" . "F") ("oB" . "oG") ("oCoo" . "o") (" D" . " H") ("oE" . "oI"))
+
+
+  ? (correspondence-sequences "AooBooCoo DooEoo" "FooGoo HooIoo" :transfix 2)
+  (("AooBoo" . "FooGoo") (" DooEoo" . " HooIoo"))
+
+  ? (difference-sequences "AooBooCoo DooEoo" "FooGoo HooIoo" :transfix 2)
+  (("AooBooCoo DooEoo" . "FooGoo HooIoo"))
+
+
+Output Keywords
+---------------
+In addition to the specific :OUTPUT-FILE and :OUTPUT-STREAM keywords for
+overriding their default *STANDARD-OUTPUT* stream, the two highest levels
+each support use of the :FORMAT and :WIDTH keywords.
+
+The :WIDTH keyword may be used with any of these output formats to supply a
+(non-negative) "record width" within which output will be constrained to fit.
+Various output operations WHICH REQUIRE A WIDTH will resort to some reasonable
+default, in the absence of user specification.
+
+The :FORMAT keyword will currently accept any of the following keyword
+symbols: :DELTA, :MERGE, :PARALLEL (its default value), :REVIEW, or :SERIES.
+
+In the examples below output from comparing the "record lists" (M A D E I N)
+and (T A I W A N) with each other is used to illustrate the various formats.
+
+The Series Output Format gives the most complete presentation of each
+pair of the requested Subsequence Intervals:
+
+        <<<<<<<< 1 Modify [0:0] MadeIn <<<<<<<<<
+        M
+        >>>>>>>> 1 Modify [0:0] Taiwan >>>>>>>>>
+        T
+        <<<<<<<< 2 Delete [2:3] MadeIn <<<<<<<<<
+        D
+        E
+        >>>>>>>>> 2 Delete [2] Taiwan >>>>>>>>>>
+        <<<<<<<<< 3 Insert [5] MadeIn <<<<<<<<<<
+        >>>>>>>> 3 Insert [3:4] Taiwan >>>>>>>>>
+        W
+        A
+        <<<<<<<< 4 Finish [5:5] MadeIn <<<<<<<<<
+        >>>>>>>> 4 Finish [5:5] Taiwan >>>>>>>>>
+
+Angle Bracket sense is used as a visual cue as to which file the following
+records came from.  Left Angle Brackets ("<") head records from the first,
+or leftward, file and Right Angle Brackets (">") head records from the second,
+or rightward, file.
+
+The descriptive terms: Modify, Insert, Delete, Common, and Voided are used
+under the assumption that the second (rightward) file is an updated version
+of the first (leftward) file.  The term Common arises where correspondences
+(as opposed to differences) are sought.  The term Voided may appear where
+affix keywords result in all of the records for one interval being "consumed"
+by a neighbouring interval.
+
+The term Header is used (but currently only in Series Output) to identify
+"header records".  In Lisp Mode, for example, any record beginning with an
+open parenthesis (presumably the beginning of a top level form) is a candidate
+for consideration as a header record.  Header records are displayed only once,
+when no other subsequent interval has already been displayed.
+
+The term Finish is used to identify "finish lines" which are not followed by
+any records they locate.  The User already knows that the file starts at the
+"zero-th" record position.  Finish lines serve to locate where the file ends.
+
+Intervals are assigned unique ascending indices helping to identify the two
+"interval halves" as being paired with each other.  The numbers appearing
+between matched Square Brackets are Interval Ranges.  Interval Ranges specify
+the Record Positions of the first and last record in the subsequence immediately
+following.  A solitary number identifies the record position of a Null Interval,
+one containing no records.
+
+Review Output sets the "change bar marked" Subsequence Intervals requested,
+within the context of their source, reviewing the current file in entirety:
+
+        +--------------- Taiwan ---------------+
+        |T
+         A
+        <<<<<<<<<<<<<<<< Delete <<<<<<<<<<<<<<<<
+         I
+        >W
+        >A
+         N
+
+A Right Angle Bracket (">") is used instead of a Virgule ("|") to distinguish
+inserted from modified records.  Deleted records leave a highly visible trace.
+
+The Merge Output Format combines elements of the Series and Parallel Formats.
+Common elements of (drawn from the "later" file) are presented in their entirety.
+Differences that might require merging on the part of an editor appear within
+this context, and are identified with the file from which they come.  The end
+of any differing component from either file is delimited by a closing "footer".
+
+        <<<<<<<< 1 Modify [0:0] MadeIn <<<<<<<<<
+        M
+        <<<<<<<<<<<<<<< 1 Modify <<<<<<<<<<<<<<<
+        >>>>>>>> 1 Modify [0:0] Taiwan >>>>>>>>>
+        T
+        >>>>>>>>>>>>>>> 1 Modify >>>>>>>>>>>>>>>
+        A
+        <<<<<<<< 2 Delete [2:3] MadeIn <<<<<<<<<
+        D
+        E
+        <<<<<<<<<<<<<<< 2 Delete <<<<<<<<<<<<<<<
+        >>>>>>>>> 2 Delete [2] Taiwan >>>>>>>>>>
+        >>>>>>>>>>>>>>> 2 Delete >>>>>>>>>>>>>>>
+        I
+        <<<<<<<<< 3 Insert [5] MadeIn <<<<<<<<<<
+        <<<<<<<<<<<<<<< 3 Insert <<<<<<<<<<<<<<<
+        >>>>>>>> 3 Insert [3:4] Taiwan >>>>>>>>>
+        W
+        A
+        >>>>>>>>>>>>>>> 3 Insert >>>>>>>>>>>>>>>
+        N
+
+As in Series Output, Angle Bracket sense is used as a visual cue indicating
+which file the delimited difference records came from.
+
+Parallel Output presents the Subsequence Intervals in a "half width" side-
+by-side format, making it easier to correlate the intervals with one other:
+
+              MadeIn              Taiwan       
+        ------ [0:0] ------+------ [0:0] ------
+        M                  |T
+        ------ [2:3] ------+======= [2] =======
+        D                  |
+        E                  |
+        ======= [5] =======+------ [3:4] ------
+                           |W
+                           |A
+                           +-------------------
+
+In this format, a trailing horizontal divider line is generated where one
+side terminates before the other.  A double divider line is produced where
+either side presents a Null Interval (devoid of records).  Null Intervals
+are further identified by "open intervals", which report their location.
+
+The "Delta" Output Format provides a basic "Source Patch" facility similar
+to that employed by the UNIX Source Code Control System (SCCS).  This output
+format uses the Macros presented below to produce a Source Patch which, when
+applied to its designated input, will "update" this input to match a desired
+output.  The advantage over shipping the output file itself being that Source
+Patches are generally much smaller than the fully updated file:
+
+	(DELTA-FILE
+	  ((DELTA-EDIT (T) :START 0 :END 1 :HASH 19802 :INDEX 1)
+	   (DELTA-EDIT () :START 2 :END 4 :HASH 1155148707 :INDEX 2)
+	   (DELTA-EDIT (W A) :START 5 :END 5 :INDEX 3))
+	  :INPUT-FILE "MadeIn" :OUTPUT-FILE "Taiwan"
+	  :OUTPUT-HASH 752771027 :HASH-VERSION 0)
+
+Edit Hash Values are not generated where a Null Interval is being modified
+(i.e., inserted into.)  The purpose of the Edit Hash Values is to prevent
+an Edit from being applied to text other than that for which it was intended.
+The Output Hash Value serves as a final checksum for the updated file.
+
+
+Delta Application
+-----------------
+The following Macros have been implemented, so that any file written in
+the Delta Output Format can be read in by LISP with the effect that an
+attempt will be made to create a new version of the output file from the
+designated input file:
+
+ [Macros]
+
+    delta-file	    (delta-edits) &key :input-file :output-file
+		    :output-hash :hash-version
+
+    delta-edit	    (inserted-records) &key :start :end :hash :index
+
+Space reduction can be obtained by compiling :DELTA Output Format forms
+(as they expand under these COMPARE-EDIT Subsystem Macros.)
+
+
+Source Files
+------------
+The COMPARE System must be loaded before the interfaces described below
+can be used.  Under the Symbolics Genera environment, the existing SRCCOM
+Sub-system's COMPARE-SOURCE-FILES can be "patched" to use this enhanced
+system by loading the file "srccom-patch.lisp" (which will REQUIRE the
+COMPARE System.)
+
+Definitions for the COMPARE package and sub-systems are provided in the
+file "compare.lisp".  The remaining source for this COMPARE system is
+currently spread across the following ten ".lisp" files:
+
+    compare-face	; Provides the various User Interfaces.
+    compare-interval	; Provides "Interval Operator" support.
+    compare-body	; Provides the favored algorithm's implementation.
+    compare-scan	; Provides alternative algorithmic implementation.
+    compare-io		; Provides Miscellaneous I/O support.
+    compare-format	; Provides Miscellaneous formatting support.
+    compare-delta	; Provides the COMPARE-AS-DELTA Output Formatter.
+    compare-merge	; Provides the COMPARE-AND-MERGE Output Formatter.
+    compare-parallel	; Provides the COMPARE-IN-PARALLEL Output Formatter.
+    compare-review	; Provides the COMPARE-IN-REVIEW Output Formatter.
+    compare-series	; Provides the COMPARE-IN-SERIES Output Formatter.
+
+There is also a subsystem which demonstrates how the output format provided
+by compare-delta might be applied, within the file:
+
+    compare-edit	; Provides the DELTA-FILE and DELTA-EDIT Macros.
+
+Finally, a test subsystem is contained in the file:
+
+    compare-test	; Provides limited self-diagnostic support.
+
+Self diagnosis is invoked via the following:
+
+ [Function]
+
+    diagnose-compare
+
+This function will return a keyword symbol identifying the first test which
+fails, or NIL if all tests complete successfully.  Currently, only the most
+essential functionality is verified.  This diagnostic capability will be
+enhanced to meet arising need.
+
+
+Performance
+-----------
+The algorithm's running time is O((r + s) log s), where r is (at worst)
+the number of ordered pairs of positions where the two sequences match
+and s is the maximum of (m and n) the two input sequence lengths.
+
+Performance could therefore be O(s^2 log s) in the worst case, but may
+be expected to be O(s log s) where most positions of one sequence match
+relatively few positions in the other.
+
+More detailed consideration of the algorithm has been included in the
+adjoining document "compare-algorithm.text".

@@ -1,0 +1,11 @@
+;;; -*- Mode: LISP; Syntax: Common-lisp; Package: USER; Base: 10 -*-
+;;;
+;;; Source: compare.system	Module: compare		Status:	operational
+;;;
+;;; History:	Please record your edits in "compare-history.text".
+;;;
+;;; Purpose:	Locate the Sequence Comparison Utility's System File.
+;;;
+(fs:make-logical-pathname-host "COMPARE")
+
+(sct:set-system-source-file "COMPARE" "COMPARE:COMPARE;compare")

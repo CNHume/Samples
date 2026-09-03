@@ -1,0 +1,549 @@
+
+	    Development of the Hunt and Szymanski LCS Algorithm
+	    ===================================================
+						    22-Sep-1990
+
+
+Introduction
+------------
+The following is intended to assist those interested in understanding the
+Modified Dynamic Programming algorithm used in this Sequence Comparison
+Utility.  The presentation closely parallels selected portions of the
+references [by Hunt and Szymanski, and by Hirschberg] cited below, which
+readers should be encouraged to obtain for themselves.
+
+Two algorithms are presented.  First, the "Standard" Dynamic Programming
+algorithm is provided because it is relatively straightforward to develop,
+and because it may already be somewhat familiar to readers due to the fact
+that its inherent flexibility supports wide variation and therefore wide
+applicability.  Second, the "Modified" Dynamic Programming algorithm is
+developed while paying particular attention to questions of "correctness".
+
+These algorithms owe their essential correctness to the "Principle of
+Optimality" attributed to R. Bellman (author of "Dynamic Programming"
+in 1957, Princeton University Press.)  Paraphrased in the context of
+the Longest Common Subsequence (LCS) problem this principle asserts:
+
+   "if a longest subsequence common to A[1:m] and B[1:n] can include
+    A[i] and B[j] as one of its matched pairs, then this subsequence
+    can include (as its prefix) any longest subsequence common to
+    A[1:i] and B[1:j]."
+
+
+The Standard Dynamic Programming Algorithm
+------------------------------------------
+If we use LCS[i,j] to denote a solution to A[1:i] and B[1:j] we can
+restate this principle as follows: it is possible to extend solutions
+to the problems LCS[i-1,j-1], LCS[i-1,j], and LCS[i,j-1] to a solution
+to LCS[i,j] since any solution to LCS[i,j] must include one of these as
+its prefix.  In its worst case the straightforward recursive approach
+would require O(2^(mn)) time, and space!
+
+In the "Standard" Dynamic Programming Algorithm, below, these sub-problems
+will be referred to as the Diagonal, Horizontal, and Vertical predecessors
+of LCS[i,j], respectively.  These terms make more sense if one visualizes
+elements of the A sequence arranged from left to right along a Horizontal
+axis, and elements of the B sequence arranged upwards along a Vertical axis.
+
+The solution to an LCS[m,n] problem can then be visualized as a path
+from the origin of this coordinate system proceeding in one unit steps
+(either Diagonally to a point LCS[i,j] where A[i] = B[j], or Horizontally
+or Vertically where A[i] and B[j] differ) until reaching the point LCS[m,n].
+
+The "magnitude" of a solution to each LCS problem is the Length of the
+Common Subsequence.  This value is only incremented, by one, at points
+where A[i] = B[j].  At points where A[i] and B[j] differ, either the
+Horizontal or the Vertical predecessor solution is preferred according
+to which ever has the greater magnitude.
+
+The LCS itself can be obtained from either the A[i] or the B[j] values
+obtained from the appropriate coordinate of each LCS[i,j] coordinate pair
+to which the Diagonal (or match) transitions were taken.
+
+In the following algorithm the "magnitudes" of only those LCS[i,j] for
+the current iteration value of i are maintained in each element of the
+array Distance[j].  However, O(r) space is still required where r is
+the number of ordered pairs of positions where the two sequences "match".
+This is because the array Back_Ptr[j] must hold on to a (reversed rep-
+resentation of) the various competing alternative Common Subsequence
+Element Pairs.
+
+program	"The Standard Dynamic Programming Algorithm:"
+
+comment	"The Two Input Sequences:"
+element array	A[1:m], B[1:n];
+
+comment	"Longest Common Sub-sequence Length Retrieval Structures:"
+integer array	Distance[1:n];
+integer		Diagonal, Horizontal, Vertical;
+
+comment	"(Optional) Common Sub-sequence Retrieval Structures:"
+pointer array	Back_Ptr[1:n];
+pointer		Diagonal_Ptr, Horizontal_Ptr, Vertical_Ptr, Ptr;
+
+comment	"Index Variables:"
+integer		i, j;
+
+comment	"Initialize Data Structures:"
+loop for j := 1 upto n do
+    begin
+    Distance[j] := 0;
+
+    Back_Ptr[j] = NIL;
+    end;
+
+comment	"Perform the O(mn) algorithm:"
+loop for i:= 1 upto m do
+    begin
+    Diagonal := 0;
+    Vertical := 0;
+
+    Diagonal_Ptr := NIL;
+    Vertical_Ptr := NIL;
+
+    loop for j := 1 upto n do
+        begin
+        Horizontal := Distance[j];
+        Horizontal_Ptr := Back_Ptr[j];
+
+        if A[i] = B[j] then
+            begin
+            Distance[j] := Diagonal + 1;
+
+            Back_Ptr[j] := new_node( i, j, Diagonal_Ptr );
+            end
+        else if Horizontal < Vertical then
+            begin
+            Distance[j] := Vertical;
+
+            Back_Ptr[j] := Vertical_Ptr;
+            end;
+
+        Diagonal := Horizontal;
+        Vertical := Distance[j];
+
+        Diagonal_Ptr := Horizontal_Ptr;
+        Vertical_Ptr := Back_Ptr[j];
+        end;
+    end;
+
+comment	"Now, obtain the length of the Longest Common Sequence."
+print Distance[n];
+
+comment	"Obtain the (reversed) Common Sequence itself."
+Ptr := Back_Ptr[n];
+loop until Ptr = NIL do
+    begin
+    print i, j pointed to by Ptr;
+    Ptr := Ptr pointed to by Ptr;
+    end;
+
+done.
+
+
+A somewhat more elaborate, binarily recursive, version of the preceding
+algorithm confines its "new_node" memory to a linear O(m + n) bound.
+As presented in the [Hirschberg] reference, however, the time required
+is of order O(mn).
+
+An interesting advantage to this latter alternative is that it would retain
+the Dynamic Programming method's ability to obtain a minimum "edit distance"
+between two sequences, where this distance is defined as the total cost accrued
+for each of the elements individually paired across the two input sequences.
+
+It turns out this algorithm can be combined with the algorithm now presented
+to lower the time requirement to also be O((r + s) log s).  [See below.]
+Unfortunately, this hybrid algorithm starts out with a substantially higher
+"constant level" of overhead.
+
+  The hybrid algorithm is not developed further here.  [Discussion
+  of it may be included in some future version of this document.]
+
+Of course, the preceding Standard algorithm suffers from both time and
+space inefficiency.  It goes to the trouble of solving LCS[i,j] for every
+possible 1 <= i <= m and 1 <= j <= n.  The modified version of the algorithm
+confines its attention to those LCS[i,j] which have some (threshold lowering)
+potential for providing an optimal solution.
+
+
+LCS Thresholds (for each length k)
+----------------------------------
+The key to the modified algorithm is a data structure which will maintain
+the MINIMUM, or "threshold", index j (into the sequence B) at which some
+common subsequence of length k exists (for every possible common subsequence
+length k) as successive indices i (into the sequence A) are iteratively
+admitted.  At iteration i, T[k] = the minimum j such that A[1:i] and B[1:j]
+have a common subsequence of length k.
+
+(1) The T[k] are linearly ordered.  Proof: The last member of the length k
+subsequence identified as being common to A[1:i] and B[1:T[k]] necessarily
+involves B[T[k]] in its final "matched pair", or else T[k] would not be
+minimal.  Therefore A[1:i] and B[1:T[k]-1] have a common subsequence of
+length k-1.  Therefore: T[k-1] <= T[k]-1, so T[k-1] < T[k].  q.e.d.
+
+Intuitively: only successively fewer elements of sequence B shall be required
+to obtain successively shorter (length k) common sequences to the currently
+admitted portion of sequence A, even as this portion incrementally expands
+to include the whole of sequence A.
+
+(2) The updated threshold value T'[k] must take its (minimum) value from
+the range: T[k-1] < T'[k] <= T[k].  Proof: A[1:i] and B[1:T[k]] have a
+common subsequence of length k.  A[1:i+1] and B[1:T[k]] will have this
+subsequence in common also.  Therefore: T'[k] <= T[k].  Since A[1:i+1]
+and B[1:T'[k]] must have a common subsequence of length k, we further
+have its prefix (a subsequence of length k-1) after its final matched pair
+(which must include B[T'[k]]) is deleted.  This prefix is common to A[1:i]
+and B[1:T'[k]-1].  Therefore: T[k-1] <= T'[k]-1, so T[k-1] < T'[k].  q.e.d.
+
+Intuitively: admitting the next element of sequence A can not lower the
+threshold value for any longest common subsequence length to a point below
+their prior "bounding intervals".  This is because after "moving up" a
+final pair to any newly available A[1:i+1] element (enabling corresponding
+moves down to each improved B[T[k]] element threshold), their previously
+identified prefices (longest common subsequences of length k-1, WHICH FOUND
+NO NEED THEN, and are not allowed currently, to preempt subsequent use of
+their now improved final pairings) still obtain as length k-1 prefices of
+these improved final pairings (for each length k.)
+
+Note that: it would be an error to use any improved length k-1 subsequence
+corresponding to a subsequently improved value of T'[k-1] on this A[i+1]
+iteration, since such an improvement will only come where A[i+1] is used
+in the final pair of the length k-1 subsequence.  This improved prefix
+would thereby prohibit the subsequent pairing of A[i+1] with B[T'[k]].
+
+At each iteration i, corresponding to successively greater element positions
+(within sequence A), each value of T[k] takes on its successively decreasing
+element positions (within sequence B).  One can visualize k loci linking
+together successive coordinate pairs (formed out of paired element positions
+into the two sequences, where the elements of T[k] are updated.)  These loci
+form "isolines", which arise near the upper left hand corner (of the two
+dimensional grid described above) and proceed down to the lower right hand
+corner, because successively fewer elements of sequence B will be required
+to obtain a subsequence of each magnitude k as additional elements of the
+A sequence are incrementally admitted.
+
+The previous theora suggest that the slope of these loci range from Zero
+down to (but not including) Negative Infinity.  If the elements of T[k]
+are maintained as specified these isolines never cross, or even osculate.
+
+Meanwhile, the LCS candidates are "logged" by maintaining "back pointers"
+or by "stacking" the new coordinate pairs whenever some value of T[k] is
+lowered (according to the criteria presented immediately below.)  A tree of
+candidates fans out (as the Threshold Array grows) from the lower left hand
+corner and proceeds towards the upper right hand corner.  The number of
+branches from any given node can be as few as zero, or as many as three.
+
+(3) For each successive iteration i+1, it is possible to update to values
+T'[k] as follows:
+
+  T'[k] = the minimum j such that T[k-1] < j <= T[k] and A[i+1] = B[j],
+          but holds its current value T[k] if no such j exists.
+
+
+First Case
+----------
+If the (minimum) value of j exists, then A[1:i+1] and B[1:j] contain a
+common subsequence of length k such that T[k-1] < j <= T[k]: the length
+k-1 subsequence common to A[1:i] and B[1:T[k-1]] with the matched pair
+A[i+1] and B[j] as its suffix.  Minimality of T'[k] then requires that
+T'[k] <= j.
+
+IF WE WERE TO HAVE: T'[k] < j, (2) provides that T[k-1] < T'[k] so we
+could proceed with the possibility that A[i+1] (which matched with B[j])
+is not needed in the length k subsequence common to A[1:i+1] and B[1:T'[k]].
+
+Thus A[1:i] and B[1:T'[k]] would have a length k subsequence in common.
+This would imply that T[k] <= T'[k], but (2) required that T'[k] <= T[k].
+In order to satisfy both constraints, we could only have: T'[k] = T[k].
+Substituting this result into our original assumption would bring us to
+the conclusion that T[k] < j.
+
+The constraints of (3) required that j <= T[k], however.  So we have then
+been led to conclude T[k] < j <= T[k], or that T[k] is not equal to itself!
+The assumption T'[k] < j resulted in this contradiction, so only the portion
+T'[k] = j of our earlier conclusion (that T'[k] <= j) can ever obtain.  q.e.d.
+
+Intuitively: where the newly element A[i+1] permits the threshold for a
+length k common subsequence to be lowered, the minimality of T'[k] requires
+that the threshold be updated to this lower value.  However, (2) provides
+that we need only consider values on the interval: T[k-1] < j <= T[k].
+
+This was because after any move up to the newly admitted A[i+1] element
+(enabling a corresponding move down to the improved B[T[k]] element threshold),
+the next smaller longest common subsequence (of length k-1) previously
+identified (and WHICH FOUND NO NEED THEN, and is not allowed currently,
+to preempt subsequent use of the element A[i]) still obtains: as the, new,
+final matched pair's prefix.
+
+
+Second Case
+-----------
+By the minimality of each threshold value: the longest sequence common
+to A[1:i+1] and B[1:T'[k]] will have to include B[T'[k]] in its final
+matched pair.  In the case where no j satisfies the constraints of (3),
+however, A[i+1] will not be needed by this final matched pair.  Therefore,
+the previously identified subsequence of length k must remain common to
+A[1:i] and B[1:T'[k]].  Then minimality of T[k] implies that T[k] <= T'[k],
+but to satisfy (2) we can only have T'[k] = T[k].  q.e.d.
+
+Intuitively: where no j, as specified by (3), exists for A[1:i+1] and
+B[1:T[k]], (2) implies that we keep B[T[k]] in the final matched pair
+to assure minimality of T'[k].
+
+
+The Modified Algorithm
+----------------------
+Where the values j for which A[i+1] = B[j] are considered in descending order,
+this update can be carried out "in place".  Since (1): the T[k] are linearly
+ordered, and a binary search can be used to identify the appropriate location
+for each of these "matching j".
+
+The "modified" algorithm, which will be more efficient in
+all but the most extreme (and pathological cases) follows:
+
+
+program	"The Modified Dynamic Programming Algorithm:"
+
+comment	"The Two Input Sequences:"
+element array	A[1:m], B[1:n];
+
+comment	"Longest Common Sub-sequence Length Retrieval Structures:"
+integer array	Threshold[0:m];
+
+comment	"(Optional) Common Sub-sequence Retrieval Structures:"
+pointer array	Entry_Ptr[0:m];
+pointer		Ptr;
+
+comment	"Index Variables:"
+integer		i, j, k;
+
+comment	"Initialize Common Sub-sequence Length Retrieval Structures:"
+Threshold[0] := 0;
+loop for i := 1 upto m do
+    Threshold[i] := n + 1;
+
+comment	"Initialize (Optional) Common Sub-sequence Retrieval Structures:"
+Entry_Ptr[0] := NIL;
+
+comment	"Perform the O((r + s) log s) version of this algorithm:"
+loop for i := 1 upto m do
+    loop for j := n downto 1 do
+    comment "...but more efficiently, only the equivalence class of
+             (descending) j on Matchlist[i]"
+        if A[i] = B[j] then
+            begin
+            binary search for k, such that Threshold[k - 1] < j <= Threshold[k];
+	    comment "...but also NOT next j on Matchlist[i] > Threshold[k - 1]
+		     so as to avoid the extraneous call to new_node(), here."
+            if j < Threshold[k] then
+                begin
+                Threshold[k] := j;
+
+                Entry_Ptr[k] := new_node( i, j, Entry_Ptr[k - 1] );
+                end;
+            end;
+    assert  "After every outer loop iteration: each Threshold[k] holds the
+             smallest j such that A[1:i] and B[1:j] have an LCS of length k."
+
+comment	"Now, obtain the length of the Longest Common Sequence."
+binary search for the largest k, such that Threshold[k] < n + 1;
+print k;
+
+comment	"Obtain the (reversed) Common Sequence itself."
+Ptr := Entry_Ptr[k];
+loop until Ptr = NIL do
+    begin
+    print i, j pointed to by Ptr;
+    Ptr := Ptr pointed to by Ptr;
+    end;
+
+done.
+
+
+Validity of this algorithm follows from validity of the logical assertions
+bearing upon elements of the "Threshold Array".  These assertions are main-
+tained within previously stated performance criteria.
+
+The algorithm can be viewed as a modification of the "standard" O(mn)
+Dynamic Programming algorithm for maximizing the "magnitude" of matching
+sequentially ordered elements from the two sequences.  In the present case
+the magnitude will only increase either by One for those letters of the
+"alphabet" which match, or by Zero for non-matching letters.
+
+This simplifying assumption allows the improved algorithm to function and
+achieve its distinctive performance advantage over the standard algorithm.
+
+The Matchlist[i] data structure, where each Matchlist[i] contains the list
+of all j (in DESCENDING order) such that A[i] = B[j], can be generated in
+O(m + n) time through the use of Hashing Techniques.
+
+A similar optimization (where a data structure presents equivalent j in
+ASCENDING order) can be used in the previous "Standard Dynamic Programming"
+algorithm to reduce comparison overhead, where the cost of performing pair-
+wise comparisons is high.  The number of comparison tests would still remain
+at O(mn), however.  The standard algorithm still has to distinguish between
+"Horizontal" and "Vertical" path propagation even where A[i] and B[j] are
+not equal.
+
+Let s = max( m, n ).  Upon incorporation of the Matchlist optimization
+this modified algorithm's running time is O((r + s) log s), where r is
+the number of ordered pairs of positions where the two sequences match.
+The space required is O(r + s).
+
+Performance will therefore be O(s^2 log s) in the worst case, but can be
+expected generally to be O(s log s) where most positions of one sequence
+match relatively few positions in the other.  In this typical case, only
+O(s) space will be required.
+
+
+Implementation
+--------------
+The COMPARE System was developed by Chris Hume over the 1989/90 Winter
+under Version 1.2.2 of Allegro CL, running in a 2M Byte memory segment,
+on an Apple Macintosh SE.
+
+The UNIX "diff" utility developed (in C) by James W. Hunt and M. Douglas
+McIlroy uses a closely related variant of this algorithm, but this LISP
+implementation is based on the approach described in the [Hunt and Szymanski]
+reference.
+
+While the current algorithm guarantees efficient identification of a common
+subsequence of maximum possible length, considerations such as minimization
+of subsequence "discontiguity" or other biasing toward one among several
+equally maximal subsequences have not as yet been provided for.
+
+
+References
+----------
+"A Fast Algorithm for Computing Longest Common Subsequences"
+ by James W. Hunt and Thomas G. Szymanski, published May 1977
+ Communications of the ACM [Volume 20, Number 5, pp. 350-353]
+
+"A Linear Space Algorithm for Computing Maximal Common
+ Subsequences" by Daniel S. Hirschberg, published June 1975
+ Communications of the ACM [Volume 18, Number 6, pp. 341-343]
+
+
+Appendix
+--------
+The "Traditional" Windowed Scan Algorithm is presented below.
+The method is fast where two sequences do not have many large
+difference sections, even in the presence of High Redundancy.
+
+Redundancy presents problems for "optimizing" algorithms, so
+the traditional method may find application in circumstances
+where an optimal result is not required.
+
+
+	    Performance of the Windowed Scan Algorithm
+	    ==========================================
+					   22-Mar-1991
+
+program	"The (Traditional) Windowed Scan Algorithm:"
+
+comment	"Resynchronization Parameters:"
+parameter	scan-window = 3;
+integer		match-range;
+
+comment	"The Two Input Sequences:"
+element array	A[1:m], B[1:n];
+
+comment	"(Optional) Common Sub-sequence Retrieval Structures:"
+integer		Distance;
+element array	Common[1:min( m, n )];
+
+comment	"Index Variables:"
+integer		i, j;
+integer		i-index, j-index;
+integer		i-cross, j-cross;
+
+comment	"Initialize Data Structures:"
+loop for j := 1 upto n do
+    begin
+    Back_Ptr[j] = NIL;
+    end;
+
+comment	"Perform the Windowed Scan Algorithm:"
+Distance := 0;
+
+i := 1, j := 1;
+
+loop while i <= m or j <= n do
+    begin Compare
+    unless i <= m and j <= n and A[i] = B[j] then
+        begin
+	comment "Perform opposing Windowed Scans, attempting to resynchronize."
+
+	i-cross := i + 1;
+	j-cross := j + 1;
+
+	loop forever do
+	    begin Scan
+	    unless i-cross <= m or j-cross <= n
+		leave Compare loop;
+
+	    when j-cross <= n
+		for i-index from i to min( i-cross, m )
+		    begin Left
+		    match-range := min( scan-window,
+					m - i-index,
+					n - j-cross );
+		    if A[i-index:i-index + match-range] =
+		       B[j-cross:j-cross + match-range] then
+			begin
+			i := i-index;
+			j := j-cross;
+
+			leave Scan loop;
+			end;
+		    end Left;
+
+	    when i-cross <= m
+		for j-index from j to min( j-cross, n )
+		    begin Right
+		    match-range := min( scan-window,
+					m - i-cross,
+					n - j-index );
+		    if A[i-cross:i-cross + match-range] =
+		       B[j-index:j-index + match-range] then
+			begin
+			i := i-cross;
+			j := j-index;
+
+			leave Scan loop;
+			end;
+		    end Right;
+
+	    i-cross := i-cross + 1;
+	    j-cross := j-cross + 1;
+	    end Scan;
+
+    Distance := Distance + 1;
+    Common[Distance] := B[j];
+
+    i := i + 1;
+    j := j + 1;
+    end Compare;
+
+comment	"Now, APPROXIMATE the length of the Longest Common Sequence."
+print Distance;
+
+comment	"Obtain the Common Sequence itself."
+loop for j := 1 upto Distance do
+    print Common[j];
+
+done.
+
+
+Analysis
+--------
+Take k <= |LCS( A[1:m], B[1:n] )| to be the number of records found to
+be common, p to be the number of "common intervals".  Let q represent
+the mean cost of attempting to "resynchronize" at some pair of records.
+
+Let d[i] denote the length of the i-th interval found NOT to be common.
+Then, the algorithm above has O(k + q*p*Mean(d[i]^2)) expected duration.
+
+In summary: this algorithm will perform well where its two input
+sequences are nearly identical, but it will perform poorly where
+(even only a few) large blocks of differing records occur!
