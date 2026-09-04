@@ -50,6 +50,7 @@ figwheel_server.log
 # ==============================================================================
 # Clj-kondo local analysis cache (Never commit the cache)
 .clj-kondo/.cache/
+.lsp/.cache/
 
 # Clojure-LSP local cache and diagnostics
 /.clojure-lsp/
