@@ -1,28 +1,28 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: COMPARE; Base: 10 -*-
 ;;;
-;;; Source: compare-dynamic.lisp  Module: compare	Status:	operational
+;;; Source: compare-dynamic.lisp  Module: compare        Status:        operational
 ;;;
-;;; Author     Version	Edit Date	Purpose of Edit
-;;; ------     -------	---------	---------------
-;;; Chris Hume	 1.1	 3-Nov-90	Added this header.
-;;; Chris Hume	 1.0	 2-May-90	Gathered performance data.
+;;; Author     Version        Edit Date        Purpose of Edit
+;;; ------     -------        ---------        ---------------
+;;; Chris Hume         1.1         3-Nov-90        Added this header.
+;;; Chris Hume         1.0         2-May-90        Gathered performance data.
 ;;;
-;;; Purpose:	Implement the "Standard" Dynamic Programming (LCS) algorithm.
+;;; Purpose:        Implement the "Standard" Dynamic Programming (LCS) algorithm.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:        This file is intended to be portable
+;;;                to any COMMON LISP Environment.
 ;;;
-;;; Compile:	Cf. "compare:compare;compare.lisp"
+;;; Compile:        Cf. "compare:compare;compare.lisp"
 ;;;
 ;;; Contents:
 ;;;
 ;;; NOTE!  Please consult "compare-face.lisp" for definition of the higher
-;;;	   level interfaces visible to Users.
+;;;           level interfaces visible to Users.
 ;;;
 ;;; Local Interfaces:
 ;;;
-;;;	basic-common-pairs	a-sequence b-sequence &key
-;;;				ignore-case-and-style ignore-whitespace
+;;;        basic-common-pairs        a-sequence b-sequence &key
+;;;                                ignore-case-and-style ignore-whitespace
 ;;;
 
 ;;;
@@ -37,10 +37,10 @@
 ;;; Nothing to Export.
 
 (defun BASIC-COMMON-PAIRS (a-sequence b-sequence
-			   &rest keys
-			   &key
-			   (debug-log-entry nil)
-			   &allow-other-keys)
+                           &rest keys
+                           &key
+                           (debug-log-entry nil)
+                           &allow-other-keys)
   "Match elements in the longest subsequence common to two sequences, simply."
   (let* ((a-length (length a-sequence))
          (b-length (length b-sequence))
@@ -52,12 +52,12 @@
     (do ((a-position 0 (1+ a-position))
          (ab-common-remains ab-matches (rest ab-common-remains)))
         ((= a-position a-length)
-         (values (unless (zerop b-length)	; Match Pair Sequence Found
+         (values (unless (zerop b-length)        ; Match Pair Sequence Found
                    (reverse (svref pairs-back (1- b-length))))
-                 (cons a-length b-length)	; Input Sequence Length Pair
-                 (if (zerop b-length)		; Common Subsequence Length
-		     0 (svref distance (1- b-length)))
-                 pair-count))			; Number of Log Entry Pairs
+                 (cons a-length b-length)        ; Input Sequence Length Pair
+                 (if (zerop b-length)                ; Common Subsequence Length
+                     0 (svref distance (1- b-length)))
+                 pair-count))                        ; Number of Log Entry Pairs
       (let ((diagonal-distance 0)
             (vertical-distance 0)
             (diagonal-pairs ())
@@ -71,23 +71,23 @@
                               (= (first b-common-remains) b-position))))
             
             (if matched
-		(let ((next-pair (cons a-position b-position)))
-		  (setq b-common-remains (rest b-common-remains))
-		  (setf (svref distance b-position) (1+ diagonal-distance))
-		  (setf (svref pairs-back b-position)
-			(list* next-pair diagonal-pairs))
-		  (incf pair-count)
-		  (when debug-log-entry
-		    (format t "~&i =~3D, j =~3D, distance = ~D, pairs = ~S~%"
-			    a-position
-			    b-position
-			    diagonal-distance
-			    diagonal-pairs)
-		    ))
-		(when (< horizontal-distance vertical-distance)
-		  (setf (svref distance b-position) vertical-distance)
-		  (setf (svref pairs-back b-position) vertical-pairs)
-		  ))
+                (let ((next-pair (cons a-position b-position)))
+                  (setq b-common-remains (rest b-common-remains))
+                  (setf (svref distance b-position) (1+ diagonal-distance))
+                  (setf (svref pairs-back b-position)
+                        (list* next-pair diagonal-pairs))
+                  (incf pair-count)
+                  (when debug-log-entry
+                    (format t "~&i =~3D, j =~3D, distance = ~D, pairs = ~S~%"
+                            a-position
+                            b-position
+                            diagonal-distance
+                            diagonal-pairs)
+                    ))
+                (when (< horizontal-distance vertical-distance)
+                  (setf (svref distance b-position) vertical-distance)
+                  (setf (svref pairs-back b-position) vertical-pairs)
+                  ))
             
             (setf diagonal-distance horizontal-distance)
             (setf vertical-distance (svref distance b-position))

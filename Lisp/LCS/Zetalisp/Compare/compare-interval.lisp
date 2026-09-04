@@ -1,39 +1,38 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: COMPARE; Base: 10 -*-
 ;;;
-;;; Source: compare-interval.lisp  Module: compare	Status:	operational
+;;; Source: compare-interval.lisp  Module: compare        Status:        operational
 ;;;
-;;; History:	Please record your edits in "compare-history.text".
+;;; History:    Please record your edits in "compare-history.text".
 ;;;
-;;; Purpose:	Provide the SEQUENCE COMPARISON utility with support
-;;;		for various operators over "Interval Lists".
+;;; Purpose:    Provide the SEQUENCE COMPARISON utility with support
+;;;             for various operators over "Interval Lists".
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	Cf. "compare:compare;compare.lisp"
+;;; Compile:    Cf. "compare:compare;compare.lisp"
 ;;;
-;;; Contents:	The following includes a number of fundamental sequence
-;;;		operations and transformations.  Among these: support
-;;;		for the :PREFIX and :SUFFIX options is provided here.
+;;; Contents:   The following includes a number of fundamental sequence
+;;;             operations and transformations.  Among these: support
+;;;             for the :PREFIX and :SUFFIX options is provided here.
 ;;;
 ;;; NOTE!  Please consult "compare-face.lisp" for definition of the higher
-;;;	   level interfaces visible to Users.
+;;;        level interfaces visible to Users.
 ;;;
 ;;; Local Interfaces:
 ;;;
-;;;	subseq-intervals	a-sequence b-sequence interval-pairs
+;;;        subseq-intervals        a-sequence b-sequence interval-pairs
 ;;;
-;;;	fasten-intervals	interval-pairs length-pair &key transfix
+;;;        fasten-intervals        interval-pairs length-pair &key transfix
 ;;;
-;;;	affix-intervals		interval-pairs length-pair &key prefix suffix
+;;;        affix-intervals                interval-pairs length-pair &key prefix suffix
 ;;;
-;;;	complement-intervals	interval-pairs length-pair
+;;;        complement-intervals        interval-pairs length-pair
 ;;;
-;;;	final-interval		interval-pairs length-pair
+;;;        final-interval                interval-pairs length-pair
 ;;;
-;;;	interval-pairs		pairs
+;;;        interval-pairs                pairs
 ;;;
-;;;	interval-led-p		interval-pair exterval-pair
+;;;        interval-led-p                interval-pair exterval-pair
 ;;;
 
 ;;;
@@ -71,42 +70,42 @@
         (a-remains (when (listp a-sequence) a-sequence))
         (b-remains (when (listp b-sequence) b-sequence)))
     (mapcar #'(lambda (interval-pair)
-		(let ((a-interval (car interval-pair))
-		      (b-interval (cdr interval-pair))
-		      (a-subseq ())
-		      (b-subseq ()))
+                (let ((a-interval (car interval-pair))
+                      (b-interval (cdr interval-pair))
+                      (a-subseq ())
+                      (b-subseq ()))
                
-		  (when a-interval
-		    (if a-position		; (LISTP A-SEQUENCE)?
-			(let* ((a-start (- (first a-interval) a-position))
-			       (a-end (- (second a-interval) a-position))
-			       (a-subseq-length (- a-end a-start)))
-			  (setf a-remains (nthcdr a-start a-remains))
-			  (setq a-subseq (subseq a-remains 0 a-subseq-length))
-			  (setf a-remains (nthcdr a-subseq-length a-remains))
-			  (incf a-position a-end))
-			(let ((a-start (first a-interval))
-			      (a-end (second a-interval)))
-			  (setq a-subseq (subseq a-sequence a-start a-end)))
-			))
+                  (when a-interval
+                    (if a-position                ; (LISTP A-SEQUENCE)?
+                        (let* ((a-start (- (first a-interval) a-position))
+                               (a-end (- (second a-interval) a-position))
+                               (a-subseq-length (- a-end a-start)))
+                          (setf a-remains (nthcdr a-start a-remains))
+                          (setq a-subseq (subseq a-remains 0 a-subseq-length))
+                          (setf a-remains (nthcdr a-subseq-length a-remains))
+                          (incf a-position a-end))
+                        (let ((a-start (first a-interval))
+                              (a-end (second a-interval)))
+                          (setq a-subseq (subseq a-sequence a-start a-end)))
+                        ))
 
-		  (when b-interval
-		    (if b-position		; (LISTP B-SEQUENCE)?
-			(let* ((b-start (- (first b-interval) b-position))
-			       (b-end (- (second b-interval) b-position))
-			       (b-subseq-length (- b-end b-start)))
-			  (setf b-remains (nthcdr b-start b-remains))
-			  (setq b-subseq (subseq b-remains 0 b-subseq-length))
-			  (setf b-remains (nthcdr b-subseq-length b-remains))
-			  (incf b-position b-end))
-			(let ((b-start (first b-interval))
-			      (b-end (second b-interval)))
-			  (setq b-subseq (subseq b-sequence b-start b-end)))
-			))
+                  (when b-interval
+                    (if b-position                ; (LISTP B-SEQUENCE)?
+                        (let* ((b-start (- (first b-interval) b-position))
+                               (b-end (- (second b-interval) b-position))
+                               (b-subseq-length (- b-end b-start)))
+                          (setf b-remains (nthcdr b-start b-remains))
+                          (setq b-subseq (subseq b-remains 0 b-subseq-length))
+                          (setf b-remains (nthcdr b-subseq-length b-remains))
+                          (incf b-position b-end))
+                        (let ((b-start (first b-interval))
+                              (b-end (second b-interval)))
+                          (setq b-subseq (subseq b-sequence b-start b-end)))
+                        ))
 
-		  (cons a-subseq b-subseq)
-		  ))
-	    interval-pairs)))
+                  (cons a-subseq b-subseq)
+                  ))
+            interval-pairs)))
 
 (defun FASTEN-INTERVALS (interval-pairs
                          length-pair
@@ -115,69 +114,69 @@
   "Fasten adjacent intervals, if both pairs lie within the specified transfix."
   (if (and interval-pairs transfix)
       (let* ((a-length (car length-pair))
-	     (b-length (cdr length-pair))
-	     (a-terminal (list a-length a-length))
-	     (b-terminal (list b-length b-length))
-	     (terminal-pair (cons a-terminal b-terminal))
-	     (last-a-start 0)
-	     (last-b-start 0)
-	     (last-a-end 0)
-	     (last-b-end 0)
-	     (intraval-pending nil))
-	(do ((interval-pair-remains (append interval-pairs (list terminal-pair))
-				    (rest interval-pair-remains))
-	     (intraval-pairs ()))
-	    ((endp interval-pair-remains) (values (nreverse intraval-pairs)
-						  length-pair))
-	  (let* ((intraval-broken nil)
-		 (interval-pair (first interval-pair-remains))
-		 (next-interval-pair-remains (rest interval-pair-remains))
-		 (a-interval (car interval-pair))
-		 (b-interval (cdr interval-pair))
-		 (a-start (first a-interval))
-		 (a-end (second a-interval))
-		 (b-start (first b-interval))
-		 (b-end (second b-interval))
-		 (a-gap (- a-start last-a-end))
-		 (b-gap (- b-start last-b-end))
-		 (a-intraval ())
-		 (b-intraval ()))
-	    ;;
-	    ;; Intervals will be "transfixed", through the intervening "gap",
-	    ;; if adjacent interval pairs, on BOTH sequences, lie within the
-	    ;; "transfix" specified.
-	    ;;
-	    (when (or (> a-gap transfix) (> b-gap transfix))
-	      (setq intraval-broken t))
+             (b-length (cdr length-pair))
+             (a-terminal (list a-length a-length))
+             (b-terminal (list b-length b-length))
+             (terminal-pair (cons a-terminal b-terminal))
+             (last-a-start 0)
+             (last-b-start 0)
+             (last-a-end 0)
+             (last-b-end 0)
+             (intraval-pending nil))
+        (do ((interval-pair-remains (append interval-pairs (list terminal-pair))
+                                    (rest interval-pair-remains))
+             (intraval-pairs ()))
+            ((endp interval-pair-remains) (values (nreverse intraval-pairs)
+                                                  length-pair))
+          (let* ((intraval-broken nil)
+                 (interval-pair (first interval-pair-remains))
+                 (next-interval-pair-remains (rest interval-pair-remains))
+                 (a-interval (car interval-pair))
+                 (b-interval (cdr interval-pair))
+                 (a-start (first a-interval))
+                 (a-end (second a-interval))
+                 (b-start (first b-interval))
+                 (b-end (second b-interval))
+                 (a-gap (- a-start last-a-end))
+                 (b-gap (- b-start last-b-end))
+                 (a-intraval ())
+                 (b-intraval ()))
+            ;;
+            ;; Intervals will be "transfixed", through the intervening "gap",
+            ;; if adjacent interval pairs, on BOTH sequences, lie within the
+            ;; "transfix" specified.
+            ;;
+            (when (or (> a-gap transfix) (> b-gap transfix))
+              (setq intraval-broken t))
           
-	    ;;
-	    ;; Allow transfixion through the "ends" of either sequence.
-	    ;;
-	    (unless intraval-broken
-	      (when (and (zerop last-a-end) (zerop last-b-end))
-		(setq intraval-pending t))
+            ;;
+            ;; Allow transfixion through the "ends" of either sequence.
+            ;;
+            (unless intraval-broken
+              (when (and (zerop last-a-end) (zerop last-b-end))
+                (setq intraval-pending t))
             
-	      (when intraval-pending
-		(setq last-a-end a-end
-		      last-b-end b-end)))
+              (when intraval-pending
+                (setq last-a-end a-end
+                      last-b-end b-end)))
           
-	    (when (or intraval-broken (endp next-interval-pair-remains))
-	      (when intraval-pending
-		(setq a-intraval (list last-a-start last-a-end)
-		      b-intraval (list last-b-start last-b-end))
-		;;
-		;; The intraval pairs are "stacked", in reverse order.
-		;;
-		(push (cons a-intraval b-intraval) intraval-pairs)
-		(setq intraval-pending nil)))
+            (when (or intraval-broken (endp next-interval-pair-remains))
+              (when intraval-pending
+                (setq a-intraval (list last-a-start last-a-end)
+                      b-intraval (list last-b-start last-b-end))
+                ;;
+                ;; The intraval pairs are "stacked", in reverse order.
+                ;;
+                (push (cons a-intraval b-intraval) intraval-pairs)
+                (setq intraval-pending nil)))
           
-	    (unless intraval-pending
-	      (setq last-a-start a-start
-		    last-b-start b-start
-		    last-a-end a-end
-		    last-b-end b-end
-		    intraval-pending t))
-	    )))
+            (unless intraval-pending
+              (setq last-a-start a-start
+                    last-b-start b-start
+                    last-a-end a-end
+                    last-b-end b-end
+                    intraval-pending t))
+            )))
       (values interval-pairs length-pair)))
 
 (defun AFFIX-INTERVALS (interval-pairs
@@ -283,16 +282,16 @@
          (a-terminal (list a-length a-length))
          (b-terminal (list b-length b-length))
          (terminal-pair (cons a-terminal b-terminal))
-	 (exterval-pairs ())
+         (exterval-pairs ())
          (a-position 0)
          (b-position 0))
     (dolist (interval-pair (append interval-pairs (list terminal-pair))
-			   (values (nreverse exterval-pairs) length-pair))
+                           (values (nreverse exterval-pairs) length-pair))
       (let ((interval-broken nil)
-	    (a-interval (car interval-pair))
-	    (b-interval (cdr interval-pair))
-	    (a-exterval ())
-	    (b-exterval ()))
+            (a-interval (car interval-pair))
+            (b-interval (cdr interval-pair))
+            (a-exterval ())
+            (b-exterval ()))
         
         (when a-interval
           (let ((a-start (first a-interval))
@@ -356,11 +355,11 @@
       ;; Check both sequences for a "contiguity break".
       ;;
       (if interval-pending
-	  (unless (and (= a-position a-index) (= b-position b-index))
-	    (setq interval-broken t))
-	  (setq interval-pending t
-		a-index (setq a-start a-position)
-		b-index (setq b-start b-position)))
+          (unless (and (= a-position a-index) (= b-position b-index))
+            (setq interval-broken t))
+          (setq interval-pending t
+                a-index (setq a-start a-position)
+                b-index (setq b-start b-position)))
       
       ;;
       ;; Once the longest common subsequence demands that contiguity

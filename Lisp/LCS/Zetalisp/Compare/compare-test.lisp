@@ -1,35 +1,34 @@
 ;;; -*- Mode: LISP; Syntax: Common-Lisp; Package: COMPARE; Base: 10 -*-
 ;;;
-;;; Source: compare-test.lisp  Module: compare		Status:	operational
+;;; Source: compare-test.lisp  Module: compare                Status:        operational
 ;;;
-;;; History:	Please record your edits in "compare-history.text".
+;;; History:    Please record your edits in "compare-history.text".
 ;;;
-;;; Purpose:	Test the Sequence Comparison Utility.
+;;; Purpose:    Test the Sequence Comparison Utility.
 ;;;
-;;; Usage:	This file is intended to be portable
-;;;		to any COMMON LISP Environment.
+;;; Usage:      This file is intended to be portable to any COMMON LISP Environment.
 ;;;
-;;; Compile:	Cf. "compare:compare;compare.lisp"
+;;; Compile:    Cf. "compare:compare;compare.lisp"
 ;;;
 ;;; Contents:
 ;;;
-;;;	This file exercises the Sequence Comparison Utility with a variety
-;;;	of test cases.  The DIAGNOSE-COMPARE function returns NIL if every
-;;;	test succeeds, and a non-NIL (failed test name) value otherwise.
+;;;        This file exercises the Sequence Comparison Utility with a variety
+;;;        of test cases.  The DIAGNOSE-COMPARE function returns NIL if every
+;;;        test succeeds, and a non-NIL (failed test name) value otherwise.
 ;;;
 ;;; External Interfaces:
 ;;;
-;;;	diagnose-compare	&rest keys
+;;;        diagnose-compare        &rest keys
 ;;;
 ;;; Local Interfaces:
 ;;;
-;;;	make-random-sequence	type size number
+;;;        make-random-sequence        type size number
 ;;;
-;;;	permutation-lcs-lengths	sequence &rest keys
+;;;        permutation-lcs-lengths        sequence &rest keys
 ;;;
-;;;	permutations		sequence
+;;;        permutations                sequence
 ;;;
-;;;	permute-list		elements
+;;;        permute-list                elements
 ;;;
 
 ;;;
@@ -90,9 +89,9 @@
          (permutation-lcs-lengths (apply #'permutation-lcs-lengths '(a b c d)
                                          keys))
          (desired-lcs-lengths
-	   '(4 3 3 3 3 2 3 2 3 3 2 2 3 2 2 2 2 2 3 2 2 2 2 1))
+           '(4 3 3 3 3 2 3 2 3 3 2 2 3 2 2 2 2 2 3 2 2 2 2 1))
          (a-quadratic
-	   "0123456701234567012345670123456701234567012345670123456701234567")
+           "0123456701234567012345670123456701234567012345670123456701234567")
          (b-quadratic (reverse a-quadratic))
          (forward-quadratic (apply #'common-sequence
                                    a-quadratic b-quadratic :symmetry nil keys))
@@ -114,7 +113,7 @@
          (desired-a-differences '((a) (e i) (n)))
          (desired-b-differences '((a) (i) (a n)))
          (alphabet-number 20.)
-         (improbability 2)			; Provide room for "absorption".
+         (improbability 2)                        ; Provide room for "absorption".
          (short-improbable-length 20.)
          (long-improbable-length (* alphabet-number
                                     improbability
@@ -288,7 +287,7 @@
 
 ;;;
 ;;; NOTE: The following permutes "alphabets" of unique characters.
-;;;	  Repeated elements are not distinguished and will thus
+;;;          Repeated elements are not distinguished and will thus
 ;;;       effectively be ignored.
 ;;;
 (defun PERMUTE-LIST (elements)
@@ -296,6 +295,6 @@
   (if (endp elements)
       '(())
       (mapcan #'(lambda (element)
-		  (mapcar #'(lambda (permutation) (cons element permutation))
-			  (permute-list (remove element elements))))
-	      elements)))
+                  (mapcar #'(lambda (permutation) (cons element permutation))
+                          (permute-list (remove element elements))))
+              elements)))
