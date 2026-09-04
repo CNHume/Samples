@@ -28,7 +28,7 @@ TestResult.xml
 /pom.xml
 
 # Clojure CLI & tools.deps cache
-/.cpcache/
+.cpcache/
 /.borkdude/
 /clojure-lsp.jar
 
