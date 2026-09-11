@@ -6,6 +6,7 @@
 //
 #include "LCS.h"
 
+#include <format>
 #include <iostream>
 #include <string>
 
@@ -13,7 +14,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
   if (argc < 3) {
-    cout << "Usage: rick s1 s2" << endl;
+    cout << "Usage: rick s1 s2\n";
     return EXIT_FAILURE;
   }
 
@@ -21,11 +22,11 @@ int main(int argc, char* argv[]) {
   string s2 = argv[2];
   auto result = LCS::FindMidpoint(s1, s2);
 
-  cout << "LCS length = " << result.length << endl;
+  cout << format("LCS length = {}\n", result.length);
   if (result.hasMidpoint)
-    cout << "Midpoint = (" << result.midpoint.index1 << ", "
-      << result.midpoint.index2 << ") -> '" << s1[result.midpoint.index1] << "'"
-      << endl;
+    cout << format("Midpoint = ({}, {}) -> '{}'\n",
+      result.midpoint.index1, result.midpoint.index2,
+      s1[(size_t)result.midpoint.index1]);
 
   return EXIT_SUCCESS;
 }

@@ -30,14 +30,15 @@ prefix and suffix separated by that midpoint, in the manner of Hirschberg.
 
 ## Build and test
 
-C++17 and any recent compiler.  From this directory:
+C++20 and any recent compiler (the code uses `std::ssize`, `std::format`,
+and designated initializers).  From this directory:
 
 ```sh
 # Demo: print the LCS length and a midpoint.
-g++ -std=c++17 -O2 -Wall -Wextra LCS.cpp main.cpp -o rick
+g++ -std=c++20 -O2 -Wall -Wextra LCS.cpp main.cpp -o rick
 ./rick thisisatest testing123testing
 
 # Verification: cross-check against a DP reference and Hunt-Szymanski.
-g++ -std=c++17 -O2 -Wall -Wextra LCS.cpp verify.cpp -o verify
+g++ -std=c++20 -O2 -Wall -Wextra LCS.cpp verify.cpp -o verify
 ./verify
 ```

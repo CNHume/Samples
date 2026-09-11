@@ -11,7 +11,9 @@
 #include "LCS.h"
 
 #include <algorithm>                    // lower_bound, max
+#include <format>
 #include <iostream>
+#include <iterator>                     // ssize
 #include <random>
 #include <string>
 #include <unordered_map>
@@ -66,7 +68,7 @@ static bool checkMidpoint(
 
   auto i = result.midpoint.index1;
   auto j = result.midpoint.index2;
-  if (i < 0 || j < 0 || i >= (int64_t)a.size() || j >= (int64_t)b.size())
+  if (i < 0 || j < 0 || i >= ssize(a) || j >= ssize(b))
     return false;
   if (a[(size_t)i] != b[(size_t)j])
     return false;
@@ -86,8 +88,8 @@ static void check(const string& a, const string& b) {
   if (!ok) {
     failures++;
     if (failures <= 20)
-      cout << "FAIL (" << a << ", " << b << ") len=" << result.length
-        << " dp=" << d << " hs=" << h << endl;
+      cout << format("FAIL ({}, {}) len={} dp={} hs={}\n",
+        a, b, result.length, d, h);
   }
 }
 
@@ -163,8 +165,8 @@ int main() {
   }
 
   if (failures == 0)
-    cout << "ALL TESTS PASSED" << endl;
+    cout << "ALL TESTS PASSED\n";
   else
-    cout << "FAILURES: " << failures << endl;
+    cout << format("FAILURES: {}\n", failures);
   return failures == 0 ? 0 : 1;
 }

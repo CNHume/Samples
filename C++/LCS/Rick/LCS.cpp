@@ -10,6 +10,7 @@
 
 #include <algorithm>                    // lower_bound, upper_bound, reverse
 #include <climits>                      // INT64_MAX
+#include <iterator>                     // ssize
 #include <utility>                      // swap
 
 //
@@ -38,7 +39,7 @@ LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
 
   // indexesOf2MatchedByChar[ch] holds the ascending positions of ch in b.
   CHAR_TO_INDEXES indexesOf2MatchedByChar;
-  for (int64_t j = 0; j < (int64_t)b.size(); j++)
+  for (auto j = 0; j < ssize(b); j++)
     indexesOf2MatchedByChar[b[j]].push_back(j);
 
   Result result;
@@ -89,13 +90,13 @@ LCS::Contour LCS::FirstForward(
   const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour contour;
   int64_t minJ = INT64_MAX;
-  for (int64_t i = 0; i < (int64_t)s1.size(); i++) {
+  for (auto i = 0; i < ssize(s1); i++) {
     auto it = indexesOf2MatchedByChar.find(s1[i]);
     if (it == indexesOf2MatchedByChar.end() || it->second.empty())
       continue;
     auto j = it->second.front();
     if (j < minJ) {
-      contour.push_back({ i, j });
+      contour.push_back({ .index1 = i, .index2 = j });
       minJ = j;
     }
   }
@@ -117,7 +118,7 @@ LCS::Contour LCS::NextForward(
   int64_t minJ = INT64_MAX;
   size_t l = 0;
   auto start = contour.empty() ? 0 : contour[0].index1 + 1;
-  for (int64_t i = start; i < (int64_t)s1.size(); i++) {
+  for (auto i = start; i < ssize(s1); i++) {
     while (l < contour.size() && contour[l].index1 < i)
       l++;
     if (l == 0)
@@ -132,7 +133,7 @@ LCS::Contour LCS::NextForward(
       continue;
     auto j = *p;
     if (j < minJ) {
-      next.push_back({ i, j });
+      next.push_back({ .index1 = i, .index2 = j });
       minJ = j;
     }
   }
@@ -149,13 +150,13 @@ LCS::Contour LCS::FirstBackward(
   const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour contour;
   int64_t maxJ = -1;
-  for (int64_t i = (int64_t)s1.size() - 1; i >= 0; i--) {
+  for (auto i = ssize(s1) - 1; i >= 0; i--) {
     auto it = indexesOf2MatchedByChar.find(s1[i]);
     if (it == indexesOf2MatchedByChar.end() || it->second.empty())
       continue;
     auto j = it->second.back();
     if (j > maxJ) {
-      contour.push_back({ i, j });
+      contour.push_back({ .index1 = i, .index2 = j });
       maxJ = j;
     }
   }
@@ -175,7 +176,7 @@ LCS::Contour LCS::NextBackward(
   Contour next;
   int64_t maxJ = -1;
   size_t l = contour.size();            // # contour matches below row i
-  for (int64_t i = (int64_t)s1.size() - 1; i >= 0; i--) {
+  for (auto i = ssize(s1) - 1; i >= 0; i--) {
     while (l > 0 && contour[l - 1].index1 > i)
       l--;
     if (l == contour.size())
@@ -190,7 +191,7 @@ LCS::Contour LCS::NextBackward(
       continue;                         // No occurrence before bound.
     auto j = *--p;
     if (j > maxJ) {
-      next.push_back({ i, j });
+      next.push_back({ .index1 = i, .index2 = j });
       maxJ = j;
     }
   }
@@ -222,5 +223,5 @@ LCS::Match LCS::Midpoint(const Contour& forward, const Contour& backward) {
     for (const auto& y : backward)
       if (y.index1 >= x.index1 && y.index2 >= x.index2)
         return x;
-  return { -1, -1 };
+  return { .index1 = -1, .index2 = -1 };
 }
