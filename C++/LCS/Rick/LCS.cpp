@@ -11,7 +11,7 @@
 #include <algorithm>                    // lower_bound, upper_bound, reverse
 #include <climits>                      // INT64_MAX
 #include <iterator>                     // ssize
-#include <utility>                      // swap
+#include <utility>                      // move, swap
 
 //
 // A match (i, j) has forward rank k when the longest common subsequence of
@@ -26,16 +26,16 @@
 // comparable, contradicting the antichain property.
 //
 
-uint32_t LCS::Length(const string& s1, const string& s2) {
+uint32_t LCS::Length(string_view s1, string_view s2) {
   return FindMidpoint(s1, s2).length;
 }
 
-LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
+LCS::Result LCS::FindMidpoint(string_view s1, string_view s2) {
   // Rick's time bound assumes m <= n.  LCS is symmetric, so swap the inputs to
   // make s1 the shorter string and un-swap the midpoint on return.
   auto swapped = s1.size() > s2.size();
-  const string& a = swapped ? s2 : s1;
-  const string& b = swapped ? s1 : s2;
+  string_view a = swapped ? s2 : s1;
+  string_view b = swapped ? s1 : s2;
 
   // indexesOf2MatchedByChar[ch] holds the ascending positions of ch in b.
   CHAR_TO_INDEXES indexesOf2MatchedByChar;
@@ -46,8 +46,11 @@ LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
   if (a.empty() || b.empty())
     return result;
 
-  // Contours are 1-indexed; FC[0] and BC[0] remain empty as sentinels.
-  vector<Contour> FC(1), BC(1);
+  //
+  // Only the two most recent contours of each direction are retained, so the
+  // working set stays O(|a| + |b|) (linear) instead of growing with p.
+  //
+  Contour fc, fcPrev, bc, bcPrev;
   int64_t f = 0;                        // # forward contours computed
   int64_t bCount = 0;                   // # backward contours computed
 
@@ -55,21 +58,23 @@ LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
     // Alternate: FC[1], BC[1], FC[2], BC[2], ... so |f - bCount| <= 1.
     if (f <= bCount) {
       f++;
-      FC.push_back(f == 1
+      fcPrev = move(fc);
+      fc = f == 1
         ? FirstForward(a, indexesOf2MatchedByChar)
-        : NextForward(FC[f - 1], a, indexesOf2MatchedByChar));
-      if (FC[f].empty())
+        : NextForward(fcPrev, a, indexesOf2MatchedByChar);
+      if (fc.empty())
         return result;                  // No matches: LCS length is zero.
     }
     else {
       bCount++;
-      BC.push_back(bCount == 1
+      bcPrev = move(bc);
+      bc = bCount == 1
         ? FirstBackward(a, indexesOf2MatchedByChar)
-        : NextBackward(BC[bCount - 1], a, indexesOf2MatchedByChar));
+        : NextBackward(bcPrev, a, indexesOf2MatchedByChar);
     }
 
-    if (f >= 1 && bCount >= 1 && Crossed(FC[f], BC[bCount])) {
-      auto midpoint = Midpoint(FC[f], BC[bCount]);
+    if (f >= 1 && bCount >= 1 && Crossed(fc, bc)) {
+      auto midpoint = Midpoint(fc, bc);
       if (swapped)
         swap(midpoint.index1, midpoint.index2);
       result.length = (uint32_t)(f + bCount - 1);
@@ -80,6 +85,32 @@ LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
   }
 }
 
+string LCS::Correspondence(string_view s1, string_view s2) {
+  string lcs;
+  Hirschberg(s1, s2, lcs);
+  return lcs;
+}
+
+//
+// Hirschberg (1975) recursion: split at the midpoint match and recurse on the
+// prefix and suffix it separates, exactly as in Hirschberg's divide-and-conquer
+// for the LCS problem.  The midpoint lies near the middle of some LCS (its
+// forward and backward ranks differ by at most one), so the recursion depth is
+// O(log p) and the working memory remains linear.
+//
+void LCS::Hirschberg(string_view s1, string_view s2, string& lcs) {
+  if (s1.empty() || s2.empty())
+    return;
+  auto result = FindMidpoint(s1, s2);
+  if (!result.hasMidpoint)
+    return;
+  auto i = result.midpoint.index1;
+  auto j = result.midpoint.index2;
+  Hirschberg(s1.substr(0, (size_t)i), s2.substr(0, (size_t)j), lcs);
+  lcs.push_back(s1[(size_t)i]);
+  Hirschberg(s1.substr((size_t)i + 1), s2.substr((size_t)j + 1), lcs);
+}
+
 //
 // FC[1] consists of the minimal matches: those (i, j) for which no other match
 // lies at the top-left.  Sweeping rows top to bottom, the first occurrence of
@@ -87,7 +118,7 @@ LCS::Result LCS::FindMidpoint(const string& s1, const string& s2) {
 // retained second coordinates filters matches dominated by an earlier row.
 //
 LCS::Contour LCS::FirstForward(
-  const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
+  string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour contour;
   int64_t minJ = INT64_MAX;
   for (auto i = 0; i < ssize(s1); i++) {
@@ -112,7 +143,7 @@ LCS::Contour LCS::FirstForward(
 // minimum filter again removes dominated matches.
 //
 LCS::Contour LCS::NextForward(
-  const Contour& contour, const string& s1,
+  const Contour& contour, string_view s1,
   const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour next;
   int64_t minJ = INT64_MAX;
@@ -147,7 +178,7 @@ LCS::Contour LCS::NextForward(
 // s1[i] in s2 is the only per-row candidate.
 //
 LCS::Contour LCS::FirstBackward(
-  const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
+  string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour contour;
   int64_t maxJ = -1;
   for (auto i = ssize(s1) - 1; i >= 0; i--) {
@@ -171,7 +202,7 @@ LCS::Contour LCS::FirstBackward(
 // "previous occurrence".
 //
 LCS::Contour LCS::NextBackward(
-  const Contour& contour, const string& s1,
+  const Contour& contour, string_view s1,
   const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
   Contour next;
   int64_t maxJ = -1;

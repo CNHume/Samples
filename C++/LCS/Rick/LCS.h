@@ -12,14 +12,15 @@
 // At that point the LCS length is p = f + b - 1 and a "midpoint" match is
 // identified, where f and b are the ranks of the two crossing contours.
 //
-// This unit provides the length and midpoint primitives.  The full
-// linear-space construction -- recursing at the midpoint in the manner of
-// Hirschberg -- is layered on top in a later phase.
+// Correspondence() reconstructs the full LCS by recursing at that midpoint via
+// Hirschberg().  Only the two most recent contours of each direction are
+// retained, so the working set is linear in the input lengths.
 //
 #pragma once
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -38,8 +39,9 @@ public:
     Match midpoint;
   };
 
-  static uint32_t Length(const string& s1, const string& s2);
-  static Result FindMidpoint(const string& s1, const string& s2);
+  static uint32_t Length(string_view s1, string_view s2);
+  static Result FindMidpoint(string_view s1, string_view s2);
+  static string Correspondence(string_view s1, string_view s2);
 
 private:
   // A contour is an antichain of dominant matches sorted by ascending index1
@@ -47,15 +49,17 @@ private:
   typedef vector<Match> Contour;
   typedef unordered_map<char, vector<int64_t>> CHAR_TO_INDEXES;
 
+  static void Hirschberg(string_view s1, string_view s2, string& lcs);
+
   static Contour FirstForward(
-    const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
+    string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static Contour NextForward(
-    const Contour& contour, const string& s1,
+    const Contour& contour, string_view s1,
     const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static Contour FirstBackward(
-    const string& s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
+    string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static Contour NextBackward(
-    const Contour& contour, const string& s1,
+    const Contour& contour, string_view s1,
     const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static bool Crossed(const Contour& forward, const Contour& backward);
   static Match Midpoint(const Contour& forward, const Contour& backward);

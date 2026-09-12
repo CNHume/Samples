@@ -59,6 +59,17 @@ static uint32_t huntSzymanskiLength(const string& a, const string& b) {
 }
 
 //
+// True when sub is a (not necessarily contiguous) subsequence of s.
+//
+static bool isSubsequence(const string& sub, const string& s) {
+  size_t k = 0;
+  for (char c : s)
+    if (k < sub.size() && sub[k] == c)
+      k++;
+  return k == sub.size();
+}
+
+//
 // Verify the reported midpoint independently of the Rick implementation.
 //
 static bool checkMidpoint(
@@ -84,12 +95,14 @@ static void check(const string& a, const string& b) {
   auto result = LCS::FindMidpoint(a, b);
   auto d = dpLength(a, b);
   auto h = huntSzymanskiLength(a, b);
-  bool ok = result.length == d && d == h && checkMidpoint(a, b, result);
+  auto lcs = LCS::Correspondence(a, b);
+  bool ok = result.length == d && d == h && checkMidpoint(a, b, result)
+    && lcs.size() == d && isSubsequence(lcs, a) && isSubsequence(lcs, b);
   if (!ok) {
     failures++;
     if (failures <= 20)
-      cout << format("FAIL ({}, {}) len={} dp={} hs={}\n",
-        a, b, result.length, d, h);
+      cout << format("FAIL ({}, {}) len={} dp={} hs={} lcs='{}'\n",
+        a, b, result.length, d, h, lcs);
   }
 }
 

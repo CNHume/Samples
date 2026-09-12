@@ -1,6 +1,6 @@
 // Longest Common Subsequence (LCS) -- Rick (2000) linear-space algorithm.
 //
-// Command-line driver for the length and midpoint primitives.
+// Command-line driver for the LCS primitives.
 //
 // Usage: rick s1 s2
 //
@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
   auto result = LCS::FindMidpoint(s1, s2);
 
   cout << format("LCS length = {}\n", result.length);
+  cout << format("LCS = '{}'\n", LCS::Correspondence(s1, s2));
   if (result.hasMidpoint)
     cout << format("Midpoint = ({}, {}) -> '{}'\n",
       result.midpoint.index1, result.midpoint.index2,

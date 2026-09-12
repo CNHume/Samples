@@ -12,7 +12,7 @@ This project is a standalone companion to the Hunt-Szymanski implementation in
 
 - [x] Forward/backward contour machinery (`FC`/`BC`).
 - [x] LCS length and midpoint (`LCS::Length`, `LCS::FindMidpoint`).
-- [ ] Full linear-space construction (Hirschberg-style recursion at the midpoint).
+- [x] Full linear-space construction (`LCS::Correspondence`, Hirschberg-style recursion).
 - [ ] Lemma 5 "contour cutting" speedup and linear-time contour scans.
 
 ## Algorithm
@@ -25,8 +25,9 @@ antichains of *dominant* rank-`k` matches.
 Contours are computed in an alternating order `FC[1], BC[1], FC[2], BC[2], ...`.
 When the two most recently computed contours first cross, the LCS length is
 `p = f + b - 1` and a shared (or touching) match is a midpoint of some LCS
-(Rick, Lemmas 2 and 3).  The full LCS is then obtained by recursing on the
-prefix and suffix separated by that midpoint, in the manner of Hirschberg.
+(Rick, Lemmas 2 and 3).  `Correspondence` recurses on the prefix and suffix
+separated by that midpoint, in the manner of Hirschberg.  Only the two most
+recent contours of each direction are retained, so the working set is linear.
 
 ## Build and test
 
@@ -34,7 +35,7 @@ C++20 and any recent compiler (the code uses `std::ssize`, `std::format`,
 and designated initializers).  From this directory:
 
 ```sh
-# Demo: print the LCS length and a midpoint.
+# Demo: print the LCS length, the LCS, and a midpoint.
 g++ -std=c++20 -O2 -Wall -Wextra LCS.cpp main.cpp -o rick
 ./rick thisisatest testing123testing
 
