@@ -43,6 +43,11 @@ public:
   static Result FindMidpoint(string_view s1, string_view s2);
   static string Correspondence(string_view s1, string_view s2);
 
+  // Number of contour candidates generated since the last ResetCandidates().
+  static uint64_t Candidates;
+
+  static void ResetCandidates();
+
 private:
   // A contour is an antichain of dominant matches sorted by ascending index1
   // (which forces descending index2).
@@ -50,6 +55,11 @@ private:
   typedef unordered_map<char, vector<int64_t>> CHAR_TO_INDEXES;
 
   static void Hirschberg(string_view s1, string_view s2, string& lcs);
+
+  // Lemma 5 contour cutting: retain only the sources that can still extend an
+  // LCS (the ones "uncovered" by the opposite contour).
+  static Contour CutForward(const Contour& forward, const Contour& backward);
+  static Contour CutBackward(const Contour& backward, const Contour& forward);
 
   static Contour FirstForward(
     string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);

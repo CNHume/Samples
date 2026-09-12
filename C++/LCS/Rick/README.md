@@ -13,7 +13,7 @@ This project is a standalone companion to the Hunt-Szymanski implementation in
 - [x] Forward/backward contour machinery (`FC`/`BC`).
 - [x] LCS length and midpoint (`LCS::Length`, `LCS::FindMidpoint`).
 - [x] Full linear-space construction (`LCS::Correspondence`, Hirschberg-style recursion).
-- [ ] Lemma 5 "contour cutting" speedup and linear-time contour scans.
+- [x] Lemma 5 "contour cutting" source pruning (instrumented via `LCS::Candidates`).
 
 ## Algorithm
 
@@ -28,6 +28,11 @@ When the two most recently computed contours first cross, the LCS length is
 (Rick, Lemmas 2 and 3).  `Correspondence` recurses on the prefix and suffix
 separated by that midpoint, in the manner of Hirschberg.  Only the two most
 recent contours of each direction are retained, so the working set is linear.
+
+Per Lemma 5, each contour is "cut": only forward matches still uncovered by
+the backward contours (those with a backward-contour match strictly below-
+right) are extended, and symmetrically for backward matches.  Sources that
+could only produce matches whose rank sum cannot reach the LCS are pruned.
 
 ## Build and test
 

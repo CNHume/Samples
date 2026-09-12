@@ -26,6 +26,12 @@
 // comparable, contradicting the antichain property.
 //
 
+uint64_t LCS::Candidates = 0;
+
+void LCS::ResetCandidates() {
+  Candidates = 0;
+}
+
 uint32_t LCS::Length(string_view s1, string_view s2) {
   return FindMidpoint(s1, s2).length;
 }
@@ -59,18 +65,31 @@ LCS::Result LCS::FindMidpoint(string_view s1, string_view s2) {
     if (f <= bCount) {
       f++;
       fcPrev = move(fc);
-      fc = f == 1
-        ? FirstForward(a, indexesOf2MatchedByChar)
-        : NextForward(fcPrev, a, indexesOf2MatchedByChar);
+      if (f == 1) {
+        fc = FirstForward(a, indexesOf2MatchedByChar);
+      }
+      else {
+        // Lemma 5: only extend from forward matches still "uncovered" by the
+        // backward contours (those with a BC match strictly below-right).
+        auto sources = CutForward(fcPrev, bc);
+        fc = NextForward(sources.empty() ? fcPrev : sources,
+          a, indexesOf2MatchedByChar);
+      }
       if (fc.empty())
         return result;                  // No matches: LCS length is zero.
     }
     else {
       bCount++;
       bcPrev = move(bc);
-      bc = bCount == 1
-        ? FirstBackward(a, indexesOf2MatchedByChar)
-        : NextBackward(bcPrev, a, indexesOf2MatchedByChar);
+      if (bCount == 1) {
+        bc = FirstBackward(a, indexesOf2MatchedByChar);
+      }
+      else {
+        // Symmetric cut for the backward direction.
+        auto sources = CutBackward(bcPrev, fc);
+        bc = NextBackward(sources.empty() ? bcPrev : sources,
+          a, indexesOf2MatchedByChar);
+      }
     }
 
     if (f >= 1 && bCount >= 1 && Crossed(fc, bc)) {
@@ -127,6 +146,7 @@ LCS::Contour LCS::FirstForward(
       continue;
     auto j = it->second.front();
     if (j < minJ) {
+      Candidates++;
       contour.push_back({ .index1 = i, .index2 = j });
       minJ = j;
     }
@@ -164,6 +184,7 @@ LCS::Contour LCS::NextForward(
       continue;
     auto j = *p;
     if (j < minJ) {
+      Candidates++;
       next.push_back({ .index1 = i, .index2 = j });
       minJ = j;
     }
@@ -187,6 +208,7 @@ LCS::Contour LCS::FirstBackward(
       continue;
     auto j = it->second.back();
     if (j > maxJ) {
+      Candidates++;
       contour.push_back({ .index1 = i, .index2 = j });
       maxJ = j;
     }
@@ -222,6 +244,7 @@ LCS::Contour LCS::NextBackward(
       continue;                         // No occurrence before bound.
     auto j = *--p;
     if (j > maxJ) {
+      Candidates++;
       next.push_back({ .index1 = i, .index2 = j });
       maxJ = j;
     }
@@ -255,4 +278,38 @@ LCS::Match LCS::Midpoint(const Contour& forward, const Contour& backward) {
       if (y.index1 >= x.index1 && y.index2 >= x.index2)
         return x;
   return { .index1 = -1, .index2 = -1 };
+}
+
+//
+// Lemma 5 contour cutting.  A forward-contour match x whose backward rank does
+// not exceed b (i.e., there is no BC match strictly below-right of x) can only
+// be extended into matches of backward rank below b, whose rank sum cannot
+// reach the LCS.  Such sources are pruned; the retained (uncovered) sources
+// are exactly those with a backward-contour match strictly below-right.
+//
+LCS::Contour LCS::CutForward(const Contour& forward, const Contour& backward) {
+  Contour kept;
+  for (const auto& x : forward)
+    for (const auto& y : backward)
+      if (y.index1 > x.index1 && y.index2 > x.index2) {
+        kept.push_back(x);
+        break;
+      }
+  return kept;
+}
+
+//
+// Symmetric cut for backward contours: retain backward matches y that have a
+// forward-contour match strictly above-left, i.e., whose forward rank exceeds
+// the current forward contour count.
+//
+LCS::Contour LCS::CutBackward(const Contour& backward, const Contour& forward) {
+  Contour kept;
+  for (const auto& y : backward)
+    for (const auto& x : forward)
+      if (x.index1 < y.index1 && x.index2 < y.index2) {
+        kept.push_back(y);
+        break;
+      }
+  return kept;
 }
