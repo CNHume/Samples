@@ -27,9 +27,11 @@
 //
 
 uint64_t LCS::Candidates = 0;
+uint64_t LCS::Rows = 0;
 
 void LCS::ResetCandidates() {
   Candidates = 0;
+  Rows = 0;
 }
 
 uint32_t LCS::Length(string_view s1, string_view s2) {
@@ -72,8 +74,11 @@ LCS::Result LCS::FindMidpoint(string_view s1, string_view s2) {
         // Lemma 5: only extend from forward matches still "uncovered" by the
         // backward contours (those with a BC match strictly below-right).
         auto sources = CutForward(fcPrev, bc);
+        // Skip rows that cannot hold a match of backward rank >= bCount:
+        // such a match needs bCount - 1 further rows below it.
+        auto rowLimit = ssize(a) - bCount + 1;
         fc = NextForward(sources.empty() ? fcPrev : sources,
-          a, indexesOf2MatchedByChar);
+          a, indexesOf2MatchedByChar, rowLimit);
       }
       if (fc.empty())
         return result;                  // No matches: LCS length is zero.
@@ -87,8 +92,11 @@ LCS::Result LCS::FindMidpoint(string_view s1, string_view s2) {
       else {
         // Symmetric cut for the backward direction.
         auto sources = CutBackward(bcPrev, fc);
+        // Skip rows that cannot hold a match of forward rank >= f (= bCount):
+        // such a match needs bCount - 1 rows above it.
+        auto rowFloor = bCount - 1;
         bc = NextBackward(sources.empty() ? bcPrev : sources,
-          a, indexesOf2MatchedByChar);
+          a, indexesOf2MatchedByChar, rowFloor);
       }
     }
 
@@ -141,6 +149,7 @@ LCS::Contour LCS::FirstForward(
   Contour contour;
   int64_t minJ = INT64_MAX;
   for (auto i = 0; i < ssize(s1); i++) {
+    Rows++;
     auto it = indexesOf2MatchedByChar.find(s1[i]);
     if (it == indexesOf2MatchedByChar.end() || it->second.empty())
       continue;
@@ -164,12 +173,14 @@ LCS::Contour LCS::FirstForward(
 //
 LCS::Contour LCS::NextForward(
   const Contour& contour, string_view s1,
-  const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
+  const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowLimit) {
   Contour next;
   int64_t minJ = INT64_MAX;
   size_t l = 0;
   auto start = contour.empty() ? 0 : contour[0].index1 + 1;
-  for (auto i = start; i < ssize(s1); i++) {
+  auto end = min(ssize(s1), rowLimit);
+  for (auto i = start; i < end; i++) {
+    Rows++;
     while (l < contour.size() && contour[l].index1 < i)
       l++;
     if (l == 0)
@@ -203,6 +214,7 @@ LCS::Contour LCS::FirstBackward(
   Contour contour;
   int64_t maxJ = -1;
   for (auto i = ssize(s1) - 1; i >= 0; i--) {
+    Rows++;
     auto it = indexesOf2MatchedByChar.find(s1[i]);
     if (it == indexesOf2MatchedByChar.end() || it->second.empty())
       continue;
@@ -225,11 +237,12 @@ LCS::Contour LCS::FirstBackward(
 //
 LCS::Contour LCS::NextBackward(
   const Contour& contour, string_view s1,
-  const CHAR_TO_INDEXES& indexesOf2MatchedByChar) {
+  const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowFloor) {
   Contour next;
   int64_t maxJ = -1;
   size_t l = contour.size();            // # contour matches below row i
-  for (auto i = ssize(s1) - 1; i >= 0; i--) {
+  for (auto i = ssize(s1) - 1; i >= rowFloor; i--) {
+    Rows++;
     while (l > 0 && contour[l - 1].index1 > i)
       l--;
     if (l == contour.size())

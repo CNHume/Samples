@@ -46,6 +46,9 @@ public:
   // Number of contour candidates generated since the last ResetCandidates().
   static uint64_t Candidates;
 
+  // Number of row positions scanned since the last ResetCandidates().
+  static uint64_t Rows;
+
   static void ResetCandidates();
 
 private:
@@ -65,12 +68,12 @@ private:
     string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static Contour NextForward(
     const Contour& contour, string_view s1,
-    const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
+    const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowLimit);
   static Contour FirstBackward(
     string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
   static Contour NextBackward(
     const Contour& contour, string_view s1,
-    const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
+    const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowFloor);
   static bool Crossed(const Contour& forward, const Contour& backward);
   static Match Midpoint(const Contour& forward, const Contour& backward);
 };

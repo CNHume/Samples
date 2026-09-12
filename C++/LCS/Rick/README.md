@@ -14,6 +14,7 @@ This project is a standalone companion to the Hunt-Szymanski implementation in
 - [x] LCS length and midpoint (`LCS::Length`, `LCS::FindMidpoint`).
 - [x] Full linear-space construction (`LCS::Correspondence`, Hirschberg-style recursion).
 - [x] Lemma 5 "contour cutting" source pruning (instrumented via `LCS::Candidates`).
+- [x] Row-range skipping in the contour scans (instrumented via `LCS::Rows`).
 
 ## Algorithm
 
@@ -33,6 +34,12 @@ Per Lemma 5, each contour is "cut": only forward matches still uncovered by
 the backward contours (those with a backward-contour match strictly below-
 right) are extended, and symmetrically for backward matches.  Sources that
 could only produce matches whose rank sum cannot reach the LCS are pruned.
+
+The contour scans also skip whole row ranges: a forward contour of rank `f`
+only scans rows `<= m - b` (a match of backward rank `>= b` needs `b - 1`
+further rows below it), and a backward contour of rank `b` only scans rows
+`>= b - 1`.  This tightens the contour work from `O(p*m)` toward
+`O(p*(m - p/2))`, approaching the paper's `min{pm, p(n-p)}` bound.
 
 ## Build and test
 
