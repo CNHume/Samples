@@ -21,7 +21,6 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -52,10 +51,29 @@ public:
   static void ResetCandidates();
 
 private:
-  // A contour is an antichain of dominant matches sorted by ascending index1
-  // (which forces descending index2).
+  // A contour is an antichain of dominant matches sorted by ascending index1,
+  // which forces descending index2 (if both coordinates increased, one match
+  // would lie top-left of the other and dominate it).
+  //
+  // Match (i1, j1) dominates (i2, j2) when i1 <= i2 and j1 <= j2 and they
+  // differ.  A dominant match of a given rank is one not dominated by any
+  // other match of that rank: forward contours keep the minimal (top-left)
+  // dominant matches, backward contours the maximal (bottom-right) ones.
   typedef vector<Match> Contour;
-  typedef unordered_map<char, vector<int64_t>> CHAR_TO_INDEXES;
+
+  // O(1) next/previous occurrence tables, built once from the longer string.
+  // charToId maps a character to a compact id (-1 if it never occurs);
+  // next[id][j] is the smallest position >= j holding that character (n if
+  // none); prev[id][j] is the largest position <= j holding it (-1 if none).
+  // This is the "LeftPos/TopPos" preprocessing of the threshold-array scan.
+  struct Occurrences {
+    vector<int64_t> charToId;      // 256 entries, indexed by unsigned char
+    vector<vector<int64_t>> next;  // [id][j], j in [0, n]
+    vector<vector<int64_t>> prev;  // [id][j], j in [0, n)
+    int64_t n = 0;                 // length of the string the table indexes
+  };
+
+  static Occurrences BuildOccurrences(string_view s2);
 
   static void Hirschberg(string_view s1, string_view s2, string& lcs);
 
@@ -64,16 +82,12 @@ private:
   static Contour CutForward(const Contour& forward, const Contour& backward);
   static Contour CutBackward(const Contour& backward, const Contour& forward);
 
-  static Contour FirstForward(
-    string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
-  static Contour NextForward(
-    const Contour& contour, string_view s1,
-    const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowLimit);
-  static Contour FirstBackward(
-    string_view s1, const CHAR_TO_INDEXES& indexesOf2MatchedByChar);
-  static Contour NextBackward(
-    const Contour& contour, string_view s1,
-    const CHAR_TO_INDEXES& indexesOf2MatchedByChar, int64_t rowFloor);
+  static Contour FirstForward(string_view s1, const Occurrences& occ);
+  static Contour NextForward(const Contour& contour, string_view s1,
+    const Occurrences& occ, int64_t rowLimit);
+  static Contour FirstBackward(string_view s1, const Occurrences& occ);
+  static Contour NextBackward(const Contour& contour, string_view s1,
+    const Occurrences& occ, int64_t rowFloor);
   static bool Crossed(const Contour& forward, const Contour& backward);
   static Match Midpoint(const Contour& forward, const Contour& backward);
 };

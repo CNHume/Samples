@@ -15,6 +15,7 @@ This project is a standalone companion to the Hunt-Szymanski implementation in
 - [x] Full linear-space construction (`LCS::Correspondence`, Hirschberg-style recursion).
 - [x] Lemma 5 "contour cutting" source pruning (instrumented via `LCS::Candidates`).
 - [x] Row-range skipping in the contour scans (instrumented via `LCS::Rows`).
+- [x] O(1) next/previous occurrence tables (`LeftPos`/`TopPos` preprocessing).
 
 ## Algorithm
 
@@ -40,6 +41,11 @@ only scans rows `<= m - b` (a match of backward rank `>= b` needs `b - 1`
 further rows below it), and a backward contour of rank `b` only scans rows
 `>= b - 1`.  This tightens the contour work from `O(p*m)` toward
 `O(p*(m - p/2))`, approaching the paper's `min{pm, p(n-p)}` bound.
+
+Each contour scan uses O(1) next/previous occurrence tables (`next`/`prev`,
+the "LeftPos/TopPos" preprocessing) instead of binary-searching per-character
+position lists.  The tables cost `O(s*n)` time and space per call, where `s`
+is the number of distinct characters.
 
 ## Build and test
 
