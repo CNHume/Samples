@@ -2,5 +2,5 @@
   <Configurations>
     <Platform Name="Win32" />
   </Configurations>
-  <Project Path="LCSDemo.vcxproj" />
+  <Project Path="LCSDemo.vcxproj" Id="c0e454f6-fb44-445e-b514-39a73f236fd4" />
 </Solution>
