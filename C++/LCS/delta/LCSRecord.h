@@ -23,14 +23,7 @@ protected:
     bool ignorecase = false, bool ignorespace = false);
   static void NormalCase(string& input);
   static void NormalSpace(const string& input, string& output);
-#if false
-  static RECORDS Select(shared_ptr<Delta> deltas, bool right,
-    const RECORDS& r1, const RECORDS& r2);
 
-  static RECORDS Difference(const RECORDS& r1, const RECORDS& r2,
-    bool isjoin = false, uint32_t join = 0,
-    bool ignorecase = false, bool ignorespace = false);
-#endif
   static shared_ptr<Delta> Compare(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 };

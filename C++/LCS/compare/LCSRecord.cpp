@@ -114,8 +114,8 @@ LCSRecord::RECORDS LCSRecord::Correspondence(const RECORDS& r1, const RECORDS& r
 }
 
 LCSRecord::RECORDS LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
-  bool isjoin, uint32_t join,
-  bool ignorecase, bool ignorespace) {
+  bool ignorecase, bool ignorespace, bool isjoin,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   auto intervals = Compare(r1, r2, ignorecase, ignorespace);
 
   auto size1 = r1.size();           // empty final delta
@@ -124,7 +124,7 @@ LCSRecord::RECORDS LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
 #ifdef SHOW_DELTAS
   Delta::List(deltas);
 #endif
-  //[ToDo]Delta::Context(deltas, size1, size2, prefix, suffix);
+  Delta::Context(deltas, size1, size2, prefix, suffix);
   auto joins = Delta::Coalesce(deltas, join);
   return Select(joins, false, r1, r2);
 }

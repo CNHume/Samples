@@ -31,8 +31,8 @@ public:
   static RECORDS Correspondence(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
   static RECORDS Difference(const RECORDS& r1, const RECORDS& r2,
-    bool isjoin = false, uint32_t join = 0,
-    bool ignorecase = false, bool ignorespace = false);
+    bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
 
   static shared_ptr<Delta> Compare(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);

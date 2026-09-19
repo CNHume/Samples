@@ -2,5 +2,5 @@
   <Configurations>
     <Platform Name="Win32" />
   </Configurations>
-  <Project Path="compare.vcxproj" />
+  <Project Path="compare.vcxproj" Id="14bd6659-eb48-4058-ad46-f8bf2e4c6916" />
 </Solution>

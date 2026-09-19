@@ -15,7 +15,8 @@ void LCSFile::Correspondence(const Command command) {
 #ifdef SHOW_DELTAS
   Delta::List(intervals);
 #endif
-  Delta::Context(intervals, size1, size2, command.prefix, command.suffix);
+  //[Note]Context usually shows records the two sources have in common, not records where they differ.
+  //[Unsupported]Delta::Context(intervals, size1, size2, command.prefix, command.suffix);
   Show(intervals, r1, r2, command.f1, command.f2);
 }
 

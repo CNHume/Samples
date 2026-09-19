@@ -2,5 +2,5 @@
   <Configurations>
     <Platform Name="Win32" />
   </Configurations>
-  <Project Path="delta.vcxproj" />
+  <Project Path="delta.vcxproj" Id="23a207eb-b207-407d-9c6c-1bf9dc0765c9" />
 </Solution>
