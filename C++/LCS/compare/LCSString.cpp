@@ -26,17 +26,17 @@ uint32_t LCSString::Match(
 }
 
 // Concatenate elements from the selected side
-string LCSString::Select(shared_ptr<Delta> deltas, bool right,
-  const string& s1, const string& s2) {
+string LCSString::Select(shared_ptr<Delta> deltas,
+  const string& s1, const string& s2, bool isright) {
   uint32_t length1, length2;
   Delta::Lengths(deltas, length1, length2);
   string buffer;
-  buffer.reserve(right ? length2 : length1);
+  buffer.reserve(isright ? length2 : length1);
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
-    auto begin = right ? next->begin2 : next->begin1;
-    auto end = right ? next->end2 : next->end1;
-    auto& s = right ? s2 : s1;
+    auto begin = isright ? next->begin2 : next->begin1;
+    auto end = isright ? next->end2 : next->end1;
+    auto& s = isright ? s2 : s1;
     for (auto index = begin; index <= end; index++)
       buffer.push_back(s[index]);
   }
@@ -45,7 +45,7 @@ string LCSString::Select(shared_ptr<Delta> deltas, bool right,
 
 string LCSString::Correspondence(const string& s1, const string& s2) {
   auto intervals = Compare(s1, s2);
-  return Select(intervals, false, s1, s2);
+  return Select(intervals, s1, s2);
 }
 
 shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
@@ -53,7 +53,7 @@ shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
   auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
 #ifdef SHOW_COUNTS
-  cout << count << " indexesOf2MatchedByIndex1" << endl;
+  cout << format("{} indexesOf2MatchedByIndex1\n", count);
 #endif
   shared_ptr<Pair> pairs;
   auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);

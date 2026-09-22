@@ -24,6 +24,11 @@ protected:
   static void NormalCase(string& input);
   static void NormalSpace(const string& input, string& output);
 
+public:
+  static shared_ptr<Delta> Difference(const RECORDS& r1, const RECORDS& r2,
+    bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+
   static shared_ptr<Delta> Compare(const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 };

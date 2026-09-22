@@ -20,6 +20,7 @@
 #include <string>
 #include <memory>                       // for shared_ptr<>
 #include <iostream>
+#include <format>
 #include <deque>
 #include <unordered_map>                //[C++11]
 #include <algorithm>                    // for lower_bound()
@@ -161,11 +162,11 @@ protected:
   }
 
   static string Select(shared_ptr<Pair> pairs, uint32_t length,
-    bool right, const string& s1, const string& s2) {
+    const string& s1, const string& s2, bool isright = false) {
     string buffer;
     buffer.reserve(length);
     for (auto next = pairs; next != nullptr; next = next->next) {
-      auto c = right ? s2[next->index2] : s1[next->index1];
+      auto c = isright ? s2[next->index2] : s1[next->index1];
       buffer.push_back(c);
     }
     return buffer;
@@ -178,7 +179,7 @@ public:
     Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
     shared_ptr<Pair> pairs;             // obtain the LCS as index pairs
     auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
-    return Select(pairs, length, false, s1, s2);
+    return Select(pairs, length, s1, s2);
   }
 };
 

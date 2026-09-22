@@ -22,6 +22,7 @@
 // delta [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2
 //
 #include "LCSFile.h"
+
 #include <iostream>                     // for cout
 
 //
@@ -34,7 +35,7 @@ int main(int argc, char* argv[]) {
     setlocale(LC_ALL, "");              // Set preferred locale vs. minimal C locale
 #ifdef _DEBUG
     auto locale = setlocale(LC_ALL, NULL);
-    cout << "locale: " << locale << endl;
+    cout << format("locale = {}\n", locale);
 #endif
     Command command;
     command.Parse(argc, argv);
@@ -51,7 +52,7 @@ int main(int argc, char* argv[]) {
   }
 #ifdef _DEBUG
 #ifdef SHOW_COUNTS
-  cout << "# Pairs = " << Pair::Pairs << endl;
+  cout << format("# Pairs = {}\n", Pair::Pairs);
 #endif
   cout << "Press Enter";
   char c;

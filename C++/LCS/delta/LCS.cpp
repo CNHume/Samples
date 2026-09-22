@@ -38,7 +38,7 @@ uint32_t LCS::FindLCS(
   for (const auto& it1 : indexesOf2MatchedByIndex1) {
     auto dq2 = *it1;
 #ifdef SHOW_MATCHES
-    cout << "L1[" << index1 << "] = " << join(dq2, " ") << endl;
+    cout << format("L1[{}] = {}\n", index1, join(dq2, " "));
 #endif
 #ifdef SHOW_PREFIXENDS
     auto updated = false;
@@ -81,8 +81,9 @@ uint32_t LCS::FindLCS(
         // Insert Case
 #ifdef SHOW_PREFIXENDS
         updated = true;
-        cout << "inserting " << index2 << " at " << index1
-          << " for length = " << len << endl;
+        cout << format(
+          "inserting {} at {} for length = {}\n",
+          index2, index1, len);
 #endif
         prefixEnd.push_back(index2);
         // Refresh limit iterator:
@@ -95,8 +96,9 @@ uint32_t LCS::FindLCS(
         // Update Case
 #ifdef SHOW_PREFIXENDS
         updated = true;
-        cout << "replacing " << *limit << " with " << index2 << " at " << index1
-          << " for length = " << len << endl;
+        cout << format(
+          "replacing {} with {} at {} for length = {}\n",
+          *limit, index2, index1, len);
 #endif
         // Update limit value:
         * limit = index2;
@@ -108,8 +110,12 @@ uint32_t LCS::FindLCS(
 #ifdef SHOW_PREFIXENDS
     if (updated) {
       uint32_t index = 0;
-      for (const auto& it3 : prefixEnd)
-        cout << "end[" << index++ << "] = " << it3 << endl;
+      for (const auto& it3 : prefixEnd) {
+        cout <<
+          format(
+            "end[{}] = {}\n",
+            index++, it3);
+      }
     }
 #endif
     index1++;
@@ -127,8 +133,9 @@ uint32_t LCS::FindLCS(
 
   auto length = prefixEnd.size();
 #ifdef SHOW_COUNTS
-  cout << "# Pairs = " << Pair::Pairs
-    << "; LCS length = " << length << endl;
+  cout << format(
+    "# Pairs = {}; LCS length = {}\n",
+    Pair::Pairs, length);
 #endif
   return length;
 }

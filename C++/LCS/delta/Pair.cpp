@@ -60,7 +60,10 @@ Pair& Pair::operator=(Pair&& other) noexcept {
 #endif                                  // MOVE_SEMANTICS
 
 ostream& operator<<(ostream& strm, const Pair& pair) {
-  return strm << "(" << pair.begin1 << ", " << pair.begin2 << ")";
+  return strm <<
+    format(
+      "({}:{})",
+      pair.begin1, pair.begin2);
 }
 
 uint32_t Pair::Count(const shared_ptr<Pair> pairs) {

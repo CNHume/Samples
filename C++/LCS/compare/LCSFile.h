@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include "LCSFormat.h"
+
 #include <fstream>
 #include <sstream>
 #include <iterator>

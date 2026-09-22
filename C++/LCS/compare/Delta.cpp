@@ -79,8 +79,9 @@ void Delta::Lengths(const shared_ptr<Delta> deltas, uint32_t& length1, uint32_t&
 
 void Delta::List(const shared_ptr<Delta> deltas) {
   for (auto next = deltas; next != nullptr; next = dynamic_pointer_cast<Delta>(next->next)) {
-    cout << "([" << next->begin1 << ":" << next->end1 << "], ["
-      << next->begin2 << ":" << next->end2 << "])" << endl;
+    cout << format(
+      "([{}:{}], [{}:{}])\n",
+      next->begin1, next->end1, next->begin2, next->end2);
   }
 }
 

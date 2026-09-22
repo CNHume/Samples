@@ -38,9 +38,9 @@ void LCSFormat::Side(string emblem, uint32_t counter, const string& label,
 void LCSFormat::Head(string emblem, uint32_t counter, const string& label,
   uint32_t begin, uint32_t end) {
   if (begin < end) {
-    cout << emblem << " " << counter + 1 << " " << label
-      << " [" << begin << ":" << end << "] "
-      << emblem << endl;
+    cout << format(
+      "{} {} {} [{}:{}] {}\n",
+      emblem, counter + 1, label, begin, end, emblem);
   }
 }
 

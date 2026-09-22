@@ -8,17 +8,10 @@
 void LCSFile::Difference(const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
-  auto intervals = Compare(r1, r2, command.ignorecase, command.ignorespace);
-
-  auto size1 = r1.size();           // empty final delta
-  auto size2 = r2.size();
-  auto deltas = Delta::Complement(intervals, size1, size2);
-#ifdef SHOW_DELTAS
-  Delta::List(deltas);
-#endif
-  Delta::Context(deltas, size1, size2, command.prefix, command.suffix);
-  auto joins = command.isjoin ? Delta::Coalesce(deltas, command.join) : deltas;
-  Show(joins, r1, r2, command.f1, command.f2);
+  auto intervals = LCSRecord::Difference(r1, r2,
+    command.ignorecase, command.ignorespace, command.isjoin,
+    command.join, command.prefix, command.suffix);
+  Show(intervals, r1, r2, command.f1, command.f2);
 }
 
 //
@@ -29,7 +22,7 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   input.open(filename, ios::in);
 
   if (input.fail()) {
-    string msg(filename + " not found");
+    string msg(format("{} not found", filename));
     throw runtime_error(msg);
   }
 
@@ -58,7 +51,9 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
 
   input.close();
 #ifdef SHOW_COUNTS
-  cout << records.size() << " records read from " << filename << endl;
+  cout << format(
+    "{} records read from {}\n",
+    records.size(), filename);
 #endif
   return records;
 }
@@ -89,7 +84,7 @@ const vector<vector<unsigned char>> LCSFile::BOM = {
   { 0xFB, 0xEE, 0x28 },                 // BOCU1
   { 0x0E, 0xFE, 0xFF },                 // SCSU
   { 0xDD, 0x73, 0x66, 0x73 },           // UTF_EBCDIC
-  { 0xF7, 0x64, 0x4C},                  // UTF1
+  { 0xF7, 0x64, 0x4C },                 // UTF1
   { 0x2B, 0x2F, 0x76 },                 // UTF7 [Obsolete]
   { 0x00, 0x00, 0xFE, 0xFF },           // UTF32_LE
   { 0xFF, 0xFE, 0x00, 0x00 },           // UTF32_BE

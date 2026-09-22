@@ -6,6 +6,8 @@
 
 #include "LCSRecord.h"
 
+#include <format>
+
 using namespace std;
 
 class LCSFormat : protected LCSRecord {
