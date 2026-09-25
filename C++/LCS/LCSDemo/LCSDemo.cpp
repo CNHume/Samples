@@ -20,7 +20,6 @@
 #include <string>
 #include <memory>                       // for shared_ptr<>
 #include <iostream>
-#include <format>
 #include <deque>
 #include <unordered_map>                //[C++11]
 #include <algorithm>                    // for lower_bound()
