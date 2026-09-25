@@ -45,6 +45,13 @@ void Command::Parse(int argc, char* argv[]) {
           ignorespace = true;
         break;
 
+      case 'c':                         // the correspondence switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isscorrespondence = true;
+        break;
+
       case 'i':                         // the ignorecase switch
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -108,5 +115,5 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error("Usage: compare [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2");
+    throw runtime_error("Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2");
 }

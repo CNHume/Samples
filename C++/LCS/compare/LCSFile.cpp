@@ -5,7 +5,7 @@
 //
 #include "LCSFile.h"
 
-void LCSFile::Correspondence(const Command command) {
+bool LCSFile::Correspondence(const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
   auto intervals = LCSRecord::Correspondence(r1, r2,
@@ -15,15 +15,17 @@ void LCSFile::Correspondence(const Command command) {
   Delta::List(intervals);
 #endif
   Show(intervals, r1, r2, command.f1, command.f2);
+  return true;
 }
 
-void LCSFile::Difference(const Command command) {
+bool LCSFile::Difference(const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
   auto intervals = LCSRecord::Difference(r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
     command.join, command.prefix, command.suffix);
   Show(intervals, r1, r2, command.f1, command.f2);
+  return true;
 }
 
 //

@@ -19,7 +19,7 @@
 //
 // Usage:
 //
-// delta [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2
+// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2
 //
 #include "LCSFile.h"
 
@@ -40,8 +40,11 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
-    LCSFile::Difference(command);
-    errorLevel = EXIT_SUCCESS;
+    auto result = LCSFile::Difference(command);
+
+    errorLevel = result ?
+      EXIT_SUCCESS :
+      EXIT_FAILURE;
   }
   catch (exception& ex) {
     cout << ex.what() << endl;

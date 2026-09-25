@@ -19,9 +19,8 @@
 //
 // Usage:
 //
-// compare [-w] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2
 //
-//#define TEST_CORRESPONDENCE
 
 #include "LCSFile.h"
 
@@ -41,12 +40,14 @@ int main(int argc, char* argv[]) {
 #endif
     Command command;
     command.Parse(argc, argv);
-#ifdef TEST_CORRESPONDENCE
-    LCSFile::Correspondence(command);
-#else
-    LCSFile::Difference(command);
-#endif
-    errorLevel = EXIT_SUCCESS;
+
+    auto result = command.isscorrespondence ?
+      LCSFile::Correspondence(command) :
+      LCSFile::Difference(command);
+
+    errorLevel = result ?
+      EXIT_SUCCESS :
+      EXIT_FAILURE;
   }
   catch (exception& ex) {
     cout << ex.what() << endl;

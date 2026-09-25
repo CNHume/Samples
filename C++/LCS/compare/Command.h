@@ -21,6 +21,7 @@ public:
   bool ignorecase;
   bool ignorespace;
   bool isword;
+  bool isscorrespondence;
 
 protected:
   static const uint32_t joinDefault = 0, affixDefault = 0;
@@ -36,7 +37,8 @@ public:
     isjoin(false),
     ignorecase(false),
     ignorespace(false),
-    isword(false) {
+    isword(false),
+    isscorrespondence(false) {
   }
 
   void Parse(int argc, char* argv[]);
