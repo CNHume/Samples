@@ -51,7 +51,7 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   }
 
   input.close();
-#ifdef SHOW_COUNTS
+#ifdef SHOW_MATCH_COUNT
   cout << format(
     "{} records read from {}\n",
     records.size(), filename);

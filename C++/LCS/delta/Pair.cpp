@@ -66,7 +66,7 @@ ostream& operator<<(ostream& strm, const Pair& pair) {
       pair.begin1, pair.begin2);
 }
 
-uint32_t Pair::Count(const shared_ptr<Pair> pairs) {
+uint32_t Pair::Length(const shared_ptr<Pair> pairs) {
   uint32_t length = 0;
   for (auto next = pairs; next != nullptr; next = next->next)
     length++;

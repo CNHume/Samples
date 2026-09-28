@@ -25,7 +25,7 @@
 #include <iterator>                     // for next() and prev()
 
 uint32_t LCS::FindLCS(
-  MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+  shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
   INDEXES prefixEnd;
@@ -132,10 +132,10 @@ uint32_t LCS::FindLCS(
   }
 
   auto length = prefixEnd.size();
-#ifdef SHOW_COUNTS
+#ifdef _DEBUG
   cout << format(
-    "# Pairs = {}; LCS length = {}\n",
-    Pair::Pairs, length);
+    "LCS Length = {}; Pair Count = {}\n",
+    length, Pair::Count);
 #endif
   return length;
   }

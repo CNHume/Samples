@@ -11,7 +11,7 @@ bool LCSFile::Correspondence(const Command command) {
   auto intervals = LCSRecord::Correspondence(r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
     command.join, command.prefix, command.suffix);
-#ifdef SHOW_DELTAS
+#ifdef SHOW_INTERVALS
   Delta::List(intervals);
 #endif
   Show(intervals, r1, r2, command.f1, command.f2);
@@ -64,7 +64,7 @@ LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   }
 
   input.close();
-#ifdef SHOW_COUNTS
+#ifdef SHOW_MATCH_COUNT
   cout << format(
     "{} records read from {}\n",
     records.size(), filename);

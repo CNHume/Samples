@@ -9,7 +9,8 @@
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
 uint32_t LCSString::Match(
-  CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+  MATCHES& indexesOf2MatchedByIndex1,
+  CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
   const string& s1, const string& s2) {
   uint32_t count = 0;
   uint32_t index = 0;
@@ -43,19 +44,47 @@ string LCSString::Select(shared_ptr<Delta> deltas,
   return buffer;
 }
 
-string LCSString::Correspondence(const string& s1, const string& s2) {
-  auto intervals = Compare(s1, s2);
-  return Select(intervals, s1, s2);
+shared_ptr<Delta> LCSString::Correspondence(const string& s1, const string& s2,
+  bool ignorecase, bool ignorespace, bool isjoin,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
+  shared_ptr<Delta> intervals;
+  auto length = Compare(&intervals, s1, s2);
+#ifdef SHOW_INTERVALS
+  Delta::List(intervals);
+#endif
+  auto size1 = s1.size();               // empty final delta
+  auto size2 = s2.size();
+  Delta::Context(intervals, size1, size2, prefix, suffix);
+  auto joins = isjoin ? Delta::Coalesce(intervals, join) : intervals;
+  return joins;
 }
 
-shared_ptr<Delta> LCSString::Compare(const string& s1, const string& s2) {
+shared_ptr<Delta> LCSString::Difference(const string& s1, const string& s2,
+  bool ignorecase, bool ignorespace, bool isjoin,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
+  shared_ptr<Delta> intervals;
+  auto length = Compare(&intervals, s1, s2);
+  auto size1 = s1.size();               // empty final delta
+  auto size2 = s2.size();
+  auto deltas = Delta::Complement(intervals, size1, size2);
+#ifdef SHOW_INTERVALS
+  Delta::List(deltas);
+#endif
+  Delta::Context(deltas, size1, size2, prefix, suffix);
+  auto joins = isjoin ? Delta::Coalesce(deltas, join) : deltas;
+  return joins;
+}
+
+uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, const string& s1, const string& s2) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
-  auto count = Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
-#ifdef SHOW_COUNTS
-  cout << format("{} indexesOf2MatchedByIndex1\n", count);
+  auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2);
+#ifdef SHOW_MATCH_COUNT
+  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
 #endif
   shared_ptr<Pair> pairs;
-  auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
-  return Delta::Coalesce(pairs);
+  auto length = FindLCS(deltas != nullptr ? &pairs : nullptr, indexesOf2MatchedByIndex1);
+  if (deltas != nullptr)
+    *deltas = Delta::Coalesce(pairs);
+  return length;
 }

@@ -35,7 +35,7 @@ public:
   Pair(Pair&& other) noexcept;
   Pair& operator=(Pair&& other) noexcept;
 #endif
-  static uint32_t Count(const shared_ptr<Pair> pairs);
+  static uint32_t Length(const shared_ptr<Pair> pairs);
   static void List(const shared_ptr<Pair> pairs);
   static shared_ptr<Pair> Copy(const shared_ptr<Pair> pairs);
   static shared_ptr<Pair> Reverse(const shared_ptr<Pair> pairs);

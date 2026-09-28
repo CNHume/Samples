@@ -54,7 +54,7 @@ protected:
   typedef deque<INDEXES*> MATCHES;
 
   static uint32_t FindLCS(
-    MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs) {
+    shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
     auto traceLCS = pairs != nullptr;
     PAIRS chains;
     INDEXES prefixEnd;
@@ -148,7 +148,8 @@ protected:
   // time will be O(log(m+n)), at most.
   //
   static void Match(
-    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar, MATCHES& indexesOf2MatchedByIndex1,
+    MATCHES& indexesOf2MatchedByIndex1,
+    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
     const string& s1, const string& s2) {
     uint32_t index = 0;
     for (const auto& it : s2)
@@ -172,12 +173,16 @@ protected:
   }
 
 public:
-  static string Correspondence(const string& s1, const string& s2) {
+  static uint32_t Compare(shared_ptr<Pair>* pairs, const string& s1, const string& s2) {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
-    Match(indexesOf2MatchedByChar, indexesOf2MatchedByIndex1, s1, s2);
+    Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2);
+    return FindLCS(pairs, indexesOf2MatchedByIndex1);
+  }
+
+  static string Correspondence(const string& s1, const string& s2) {
     shared_ptr<Pair> pairs;             // obtain the LCS as index pairs
-    auto length = FindLCS(indexesOf2MatchedByIndex1, &pairs);
+    auto length = Compare(&pairs, s1, s2);
     return Select(pairs, length, s1, s2);
   }
 };

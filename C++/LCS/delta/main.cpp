@@ -54,9 +54,6 @@ int main(int argc, char* argv[]) {
     throw;
   }
 #ifdef _DEBUG
-#ifdef SHOW_COUNTS
-  cout << format("# Pairs = {}\n", Pair::Pairs);
-#endif
   cout << "Press Enter";
   char c;
   cin.getline(&c, 1);

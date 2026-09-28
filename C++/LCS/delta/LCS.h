@@ -12,8 +12,8 @@
 //
 #pragma once
 //#define SHOW_PAIRS
-//#define SHOW_COUNTS
-//#define SHOW_DELTAS
+//#define SHOW_MATCH_COUNT
+//#define SHOW_INTERVALS
 //#define SHOW_MATCHES
 //#define SHOW_PREFIXENDS
 #define FILTER_PAIRS
@@ -38,7 +38,7 @@ protected:
   typedef deque<INDEXES*> MATCHES;
 
   static uint32_t FindLCS(
-    MATCHES& indexesOf2MatchedByIndex1, shared_ptr<Pair>* pairs);
+    shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
 
 private:
   static shared_ptr<Pair> pushPair(
