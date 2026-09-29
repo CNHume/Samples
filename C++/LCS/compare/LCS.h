@@ -42,5 +42,6 @@ protected:
 
 private:
   static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2);
+    PAIRS& chains, const ptrdiff_t& index3,
+    uint32_t& index1, uint32_t& index2);
 };

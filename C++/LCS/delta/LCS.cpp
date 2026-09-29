@@ -141,7 +141,8 @@ uint32_t LCS::FindLCS(
 }
 
 shared_ptr<Pair> LCS::pushPair(
-  PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+  PAIRS& chains, const ptrdiff_t& index3,
+  uint32_t& index1, uint32_t& index2) {
   auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
   return make_shared<Pair>(index1, index2, prefix);
 }

@@ -26,10 +26,12 @@ protected:
   static void NormalSpace(const string& input, string& output);
 
 public:
-  static shared_ptr<Delta> Difference(const RECORDS& r1, const RECORDS& r2,
+  static uint32_t Difference(shared_ptr<Delta>* intervals,
+    const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
     uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
 
-  static uint32_t Compare(shared_ptr<Delta>* deltas, const RECORDS& r1, const RECORDS& r2,
+  static uint32_t Compare(shared_ptr<Delta>* intervals,
+    const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 };

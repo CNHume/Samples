@@ -23,12 +23,15 @@ protected:
     const string& s1, const string& s2, bool isright = false);
 
 public:
-  static shared_ptr<Delta> Correspondence(const string& s1, const string& s2,
+  static uint32_t Correspondence(shared_ptr<Delta>* intervals,
+    const string& s1, const string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
     uint32_t join, uint32_t prefix, uint32_t suffix);
-  static shared_ptr<Delta> Difference(const string& s1, const string& s2,
+  static uint32_t Difference(shared_ptr<Delta>* intervals,
+    const string& s1, const string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
     uint32_t join, uint32_t prefix, uint32_t suffix);
 
-  static uint32_t Compare(shared_ptr<Delta>* deltas, const string& s1, const string& s2);
+  static uint32_t Compare(shared_ptr<Delta>* intervals,
+    const string& s1, const string& s2);
 };

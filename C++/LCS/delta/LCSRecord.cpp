@@ -88,23 +88,24 @@ void LCSRecord::NormalSpace(const string& input, string& output) {
   }
 }
 
-shared_ptr<Delta> LCSRecord::Difference(const RECORDS& r1, const RECORDS& r2,
+uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
+  const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
-  shared_ptr<Delta> intervals;
-  auto length = Compare(&intervals, r1, r2, ignorecase, ignorespace);
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
-  auto deltas = Delta::Complement(intervals, size1, size2);
+  auto deltas = Delta::Complement(*intervals, size1, size2);
 #ifdef SHOW_INTERVALS
   Delta::List(deltas);
 #endif
   Delta::Context(deltas, size1, size2, prefix, suffix);
-  auto joins = isjoin ? Delta::Coalesce(deltas, join) : deltas;
-  return joins;
+  *intervals = isjoin ? Delta::Coalesce(deltas) : deltas;
+  return length;
 }
 
-uint32_t LCSRecord::Compare(shared_ptr<Delta>* deltas, const RECORDS& r1, const RECORDS& r2,
+uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
+  const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
@@ -113,8 +114,9 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* deltas, const RECORDS& r1, const 
   cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
 #endif
   shared_ptr<Pair> pairs;
-  auto length = FindLCS(deltas != nullptr ? &pairs : nullptr, indexesOf2MatchedByIndex1);
-  if (deltas != nullptr)
-    *deltas = Delta::Coalesce(pairs);
+  auto ppairs = intervals != nullptr ? &pairs : nullptr;
+  auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
+  if (intervals != nullptr)
+    *intervals = Delta::Coalesce(pairs);
   return length;
 }

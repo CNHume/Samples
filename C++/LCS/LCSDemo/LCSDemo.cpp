@@ -133,7 +133,8 @@ protected:
 
 private:
   static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3, uint32_t& index1, uint32_t& index2) {
+    PAIRS& chains, const ptrdiff_t& index3,
+    uint32_t& index1, uint32_t& index2) {
     auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
     return make_shared<Pair>(index1, index2, prefix);
   }
@@ -173,7 +174,8 @@ protected:
   }
 
 public:
-  static uint32_t Compare(shared_ptr<Pair>* pairs, const string& s1, const string& s2) {
+  static uint32_t Compare(shared_ptr<Pair>* pairs,
+    const string& s1, const string& s2) {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2);
