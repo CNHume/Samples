@@ -5,14 +5,14 @@
 //
 #include "LCSFile.h"
 
-bool LCSFile::Difference(const Command command) {
+bool LCSFile::Difference(
+  shared_ptr<Delta>* intervals, const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
-  shared_ptr<Delta> intervals;
-  auto length = LCSRecord::Difference(&intervals, r1, r2,
+  auto length = LCSRecord::Difference(intervals, r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
     command.join, command.prefix, command.suffix);
-  Show(intervals, r1, r2, command.f1, command.f2);
+  Show(*intervals, r1, r2, command.f1, command.f2);
   return true;
 }
 

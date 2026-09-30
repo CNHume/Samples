@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include "LCSFormat.h"
+
 #include <fstream>
 #include <sstream>
 #include <iterator>
@@ -19,7 +20,8 @@ public:
     ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
   };
 
-  static bool Difference(const Command command);
+  static bool Difference(
+    shared_ptr<Delta>* intervals, const Command command);
 
   const static vector<vector<unsigned char>> BOM;
   const static vector<Encoding> encodings;

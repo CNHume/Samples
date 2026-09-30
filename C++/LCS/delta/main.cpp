@@ -40,7 +40,8 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
-    auto result = LCSFile::Difference(command);
+    shared_ptr<Delta> intervals;
+    auto result = LCSFile::Difference(&intervals, command);
 
     errorLevel = result ?
       EXIT_SUCCESS :

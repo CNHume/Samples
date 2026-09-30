@@ -41,9 +41,10 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
+    shared_ptr<Delta> intervals;
     auto result = command.isscorrespondence ?
-      LCSFile::Correspondence(command) :
-      LCSFile::Difference(command);
+      LCSFile::Correspondence(&intervals, command) :
+      LCSFile::Difference(&intervals, command);
 
     errorLevel = result ?
       EXIT_SUCCESS :
