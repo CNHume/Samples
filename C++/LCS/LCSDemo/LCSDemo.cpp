@@ -28,7 +28,7 @@
 using namespace std;
 
 class LCS {
-protected:
+public:
   // Instances of the Pair linked list class are used to recover the LCS:
   class Pair {
   public:
@@ -37,8 +37,7 @@ protected:
     shared_ptr<Pair> next;
 
     Pair(uint32_t index1, uint32_t index2, shared_ptr<Pair> next = nullptr)
-      : index1(index1), index2(index2), next(next) {
-    }
+      : index1(index1), index2(index2), next(next) {}
 
     static shared_ptr<Pair> Reverse(const shared_ptr<Pair> pairs) {
       shared_ptr<Pair> head = nullptr;
@@ -48,10 +47,18 @@ protected:
     }
   };
 
+protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> INDEXES;
   typedef unordered_map<char, INDEXES> CHAR_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
+
+  static shared_ptr<Pair> pushPair(
+    PAIRS& chains, const ptrdiff_t& index3,
+    uint32_t& index1, uint32_t& index2) {
+    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+    return make_shared<Pair>(index1, index2, prefix);
+  }
 
   static uint32_t FindLCS(
     shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
@@ -131,15 +138,6 @@ protected:
     return length;
   }
 
-private:
-  static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3,
-    uint32_t& index1, uint32_t& index2) {
-    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-    return make_shared<Pair>(index1, index2, prefix);
-  }
-
-protected:
   //
   // Match() avoids m*n comparisons by using CHAR_TO_INDEXES_MAP to
   // achieve O(m+n) performance, where m and n are the input lengths.
@@ -162,17 +160,6 @@ protected:
     }
   }
 
-  static string Select(shared_ptr<Pair> pairs, uint32_t length,
-    const string& s1, const string& s2, bool isright = false) {
-    string buffer;
-    buffer.reserve(length);
-    for (auto next = pairs; next != nullptr; next = next->next) {
-      auto c = isright ? s2[next->index2] : s1[next->index1];
-      buffer.push_back(c);
-    }
-    return buffer;
-  }
-
 public:
   static uint32_t Compare(shared_ptr<Pair>* pairs,
     const string& s1, const string& s2) {
@@ -182,10 +169,15 @@ public:
     return FindLCS(pairs, indexesOf2MatchedByIndex1);
   }
 
-  static string Correspondence(const string& s1, const string& s2) {
-    shared_ptr<Pair> pairs;             // obtain the LCS as index pairs
-    auto length = Compare(&pairs, s1, s2);
-    return Select(pairs, length, s1, s2);
+  static string Select(shared_ptr<Pair> pairs, uint32_t length,
+    const string& s1, const string& s2, bool isright = false) {
+    string buffer;
+    buffer.reserve(length);
+    for (auto next = pairs; next != nullptr; next = next->next) {
+      auto c = isright ? s2[next->index2] : s1[next->index1];
+      buffer.push_back(c);
+    }
+    return buffer;
   }
 };
 
@@ -227,8 +219,10 @@ int main(int argc, char* argv[]) {
     string s1, s2;
     parse(argc, argv, s1, s2);
 
-    auto s = LCS::Correspondence(s1, s2);
-    cout << s << endl;
+    shared_ptr<LCS::Pair> pairs;        // obtain LCS as index pairs
+    auto length = LCS::Compare(&pairs, s1, s2);
+    cout << "LCS = " << LCS::Select(pairs, length, s1, s2) << endl;
+    cout << "length = " << length << endl;
 
     errorLevel = EXIT_SUCCESS;
   }

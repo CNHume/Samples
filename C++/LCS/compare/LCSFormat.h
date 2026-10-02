@@ -6,7 +6,7 @@
 
 #include "LCSRecord.h"
 
-#include <format>
+#include <format>                       //[C++20]
 
 using namespace std;
 
