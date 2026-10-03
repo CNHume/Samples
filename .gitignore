@@ -149,6 +149,9 @@ bld/
 *.iobj
 *.ipdb
 
+# Ignore the consolidated MSBuild intermediate directory
+Intermediate/
+
 # Visual C++ cache files
 ipch/
 *.aps
