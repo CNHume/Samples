@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // 2017-07-09 CNHume  Moved Command overloads to LCSFile subclass
 // 2017-07-04 CNHume  Created LCSRecord subclass
@@ -6,6 +6,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "LCSNormal.h"
 
 using namespace std;
 
@@ -19,11 +20,6 @@ protected:
     STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
-
-  static void Normal(const string& input, string& output,
-    bool ignorecase = false, bool ignorespace = false);
-  static void NormalCase(string& input);
-  static void NormalSpace(const string& input, string& output);
 
   static RECORDS Select(shared_ptr<Delta> deltas,
     const RECORDS& r1, const RECORDS& r2, bool isright = false);

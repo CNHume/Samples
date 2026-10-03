@@ -85,6 +85,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="LCSFile.cpp" />
     <ClCompile Include="LCSFormat.cpp" />
+    <ClCompile Include="LCSNormal.cpp" />
     <ClCompile Include="LCSString.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="LCS.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSFile.h" />
     <ClInclude Include="LCSFormat.h" />
+    <ClInclude Include="LCSNormal.h" />
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="LCSString.h" />
     <ClInclude Include="Pair.h" />

@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // 2017-07-09 CNHume  Moved Command overloads to LCSFile subclass
 // 2017-07-04 CNHume  Created LCSRecord subclass
@@ -26,66 +26,18 @@ uint32_t LCSRecord::Match(
   uint32_t index = 0;
   string buffer;
   for (const auto& it : r2) {
-    Normal(it, buffer, ignorecase, ignorespace);
+    LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
     indexesOf2MatchedByString[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {
-    Normal(it, buffer, ignorecase, ignorespace);
+    LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
     auto& dq2 = indexesOf2MatchedByString[buffer];
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
 
   return count;
-}
-
-//
-// Normal() applies the ignorecase and ignorespace options,
-// normalizing records prior to their comparison in Match()
-//
-void LCSRecord::Normal(const string& input, string& output,
-  bool ignorecase, bool ignorespace) {
-  if (ignorespace)
-    NormalSpace(input, output);
-  else
-    output = input;
-
-  if (ignorecase)
-    NormalCase(output);
-}
-
-void LCSRecord::NormalCase(string& input) {
-  for (auto& c : input)
-    c = tolower(c);                     // normal case
-}
-
-void LCSRecord::NormalSpace(const string& input, string& output) {
-  // outer (right) trim
-  auto end = 0;
-  for (auto it = input.rbegin(); it != input.rend(); it++)
-    if (!isspace(*it)) {
-      end = input.rend() - it;
-      break;
-    }
-
-  output.clear();
-  output.reserve(input.size());
-  // inner (left) trims
-  bool allowSpace = false;
-  for (auto index = 0; index < end; index++) {
-    auto c = input[index];
-
-    if (!isspace(c)) {
-      output.push_back(c);
-      allowSpace = true;
-    }
-    else if (allowSpace) {
-      // normalized space
-      output.push_back(' ');
-      allowSpace = false;
-    }
-  }
 }
 
 uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,

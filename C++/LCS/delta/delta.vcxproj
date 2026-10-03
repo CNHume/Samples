@@ -89,6 +89,7 @@
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSFile.h" />
     <ClInclude Include="LCSFormat.h" />
+    <ClInclude Include="LCSNormal.h" />
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="Pair.h" />
   </ItemGroup>
@@ -98,6 +99,7 @@
     <ClCompile Include="LCS.cpp" />
     <ClCompile Include="LCSFile.cpp" />
     <ClCompile Include="LCSFormat.cpp" />
+    <ClCompile Include="LCSNormal.cpp" />
     <ClCompile Include="LCSRecord.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pair.cpp" />

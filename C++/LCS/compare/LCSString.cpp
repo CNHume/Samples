@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2022, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // 2017-07-04 CNHume  Created LCSString subclass
 // 2015-01-19 CNHume  Created file
@@ -11,14 +11,18 @@
 uint32_t LCSString::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
-  const string& s1, const string& s2) {
+  const string& s1, const string& s2,
+  bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
   uint32_t index = 0;
-  for (const auto& it : s2)
-    indexesOf2MatchedByChar[it].push_back(index++);
+  for (const auto& it : s2) {
+    auto c = ignorecase ? tolower(it) : it;
+    indexesOf2MatchedByChar[c].push_back(index++);
+  }
 
   for (const auto& it : s1) {
-    auto& dq2 = indexesOf2MatchedByChar[it];
+    auto c = ignorecase ? tolower(it) : it;
+    auto& dq2 = indexesOf2MatchedByChar[c];
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
@@ -77,10 +81,11 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 }
 
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
-  const string& s1, const string& s2) {
+  const string& s1, const string& s2,
+    bool ignorecase, bool ignorespace) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
-  auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2);
+  auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
 #ifdef SHOW_MATCH_COUNT
   cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
 #endif

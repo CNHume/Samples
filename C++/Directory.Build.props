@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <!-- Forces all final builds into a flat solution-level folder -->
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    
+    <!-- Cleans up temporary clutter into a unified 'Intermediate' directory -->
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+  </PropertyGroup>
+</Project>
