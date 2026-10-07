@@ -36,7 +36,9 @@ uint32_t LCSRecord::Match(
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
-
+#ifdef SHOW_MATCH_COUNT
+  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
+#endif
   return count;
 }
 
@@ -62,9 +64,6 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
   auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
-#ifdef SHOW_MATCH_COUNT
-  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
-#endif
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);

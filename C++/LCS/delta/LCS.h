@@ -11,12 +11,11 @@
 // 2014-12-19 CNHume  Created file
 //
 #pragma once
-//#define SHOW_PAIRS
-//#define SHOW_MATCH_COUNT
-//#define SHOW_INTERVALS
-//#define SHOW_MATCHES
-//#define SHOW_PREFIXENDS
 #define FILTER_PAIRS
+//#define SHOW_MATCHES
+//#define SHOW_MATCH_COUNT              // See Match() in LCSFile, LCSRecord, and LCSString
+//#define SHOW_PAIRS
+//#define SHOW_PREFIXENDS
 
 #include "Delta.h"
 #include "join.h"

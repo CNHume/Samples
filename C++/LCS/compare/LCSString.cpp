@@ -15,18 +15,20 @@ uint32_t LCSString::Match(
   bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
   uint32_t index = 0;
-  for (const auto& it : s2) {
-    auto c = ignorecase ? tolower(it) : it;
-    indexesOf2MatchedByChar[c].push_back(index++);
-  }
+  string buffer;
+  LCSNormal::Normal(s2, buffer, ignorecase, ignorespace);
+  for (const auto& it : buffer)
+    indexesOf2MatchedByChar[it].push_back(index++);
 
-  for (const auto& it : s1) {
-    auto c = ignorecase ? tolower(it) : it;
-    auto& dq2 = indexesOf2MatchedByChar[c];
+  LCSNormal::Normal(s1, buffer, ignorecase, ignorespace);
+  for (const auto& it : buffer) {
+    auto& dq2 = indexesOf2MatchedByChar[it];
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
   }
-
+#ifdef SHOW_MATCH_COUNT
+  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
+#endif
   return count;
 }
 
@@ -86,9 +88,6 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
   auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
-#ifdef SHOW_MATCH_COUNT
-  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
-#endif
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);

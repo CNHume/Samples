@@ -5,7 +5,7 @@
 //
 #include "LCSFile.h"
 
-bool LCSFile::Correspondence(
+uint32_t  LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
@@ -16,10 +16,10 @@ bool LCSFile::Correspondence(
   Delta::List(intervals);
 #endif
   Show(*intervals, r1, r2, command.f1, command.f2);
-  return true;
+  return length;
 }
 
-bool LCSFile::Difference(
+uint32_t  LCSFile::Difference(
   shared_ptr<Delta>* intervals, const Command command) {
   auto r1 = Read(command.f1, command.isword);
   auto r2 = Read(command.f2, command.isword);
@@ -27,11 +27,11 @@ bool LCSFile::Difference(
     command.ignorecase, command.ignorespace, command.isjoin,
     command.join, command.prefix, command.suffix);
   Show(*intervals, r1, r2, command.f1, command.f2);
-  return true;
+  return length;
 }
 
 //
-// file reader
+// RECORDS Reader
 //
 LCSRecord::RECORDS LCSFile::Read(const string& filename, bool isword) {
   ifstream input;

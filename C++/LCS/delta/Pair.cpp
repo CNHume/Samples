@@ -10,26 +10,26 @@
 //
 // static initialization
 //
-int64_t Pair::Pairs = 0;
+int64_t Pair::Count = 0;
 
 Pair::~Pair() {
-  Pairs--;
+  Count--;
 }
 
 Pair::Pair() {
-  Pairs++;
+  Count++;
 }
 
 Pair::Pair(uint32_t begin1, uint32_t begin2, shared_ptr<Pair> next)
   : begin1(begin1), begin2(begin2), next(next) {
-  Pairs++;
+  Count++;
 }
 
 #ifdef COPY_SEMANTICS
 Pair::Pair(const Pair& other)
   : begin1(other.begin1), begin2(other.begin2), next(other.next) {
   //[ToDo]Perform a deep, recursive copy here
-  Pairs++;
+  Count++;
 }
 
 Pair& Pair::operator=(const Pair& other) {
@@ -46,7 +46,7 @@ Pair& Pair::operator=(const Pair& other) {
 #ifdef MOVE_SEMANTICS
 Pair::Pair(Pair&& other) noexcept {
   *this = std::move(other);             // move ctor invokes move assignment
-  Pairs++;
+  Count++;
 }
 
 Pair& Pair::operator=(Pair&& other) noexcept {

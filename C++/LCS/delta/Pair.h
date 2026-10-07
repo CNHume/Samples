@@ -19,7 +19,7 @@ protected:
   friend ostream& operator<<(ostream&, const Pair&);
 
 public:
-  static int64_t Pairs;
+  static int64_t Count;
   uint32_t begin1 = 0;
   uint32_t begin2 = 0;
   shared_ptr<Pair> next;

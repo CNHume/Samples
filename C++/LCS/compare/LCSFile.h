@@ -4,6 +4,7 @@
 // 2017-07-09 CNHume  Created LCSFile subclass
 //
 #pragma once
+//#define SHOW_INTERVALS                // LCSFile::Correspondence() and LCSFile::Difference()
 
 #include "Command.h"
 #include "LCSFormat.h"
@@ -20,9 +21,9 @@ public:
     ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
   };
 
-  static bool Correspondence(
+  static uint32_t  Correspondence(
     shared_ptr<Delta>* intervals, const Command command);
-  static bool Difference(
+  static uint32_t  Difference(
     shared_ptr<Delta>* intervals, const Command command);
 
   const static vector<vector<unsigned char>> BOM;

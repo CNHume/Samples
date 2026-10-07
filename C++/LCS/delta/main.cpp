@@ -41,11 +41,11 @@ int main(int argc, char* argv[]) {
     command.Parse(argc, argv);
 
     shared_ptr<Delta> intervals;
-    auto result = LCSFile::Difference(&intervals, command);
-
-    errorLevel = result ?
-      EXIT_SUCCESS :
-      EXIT_FAILURE;
+    auto length = LCSFile::Difference(&intervals, command);
+#ifdef _DEBUG
+    cout << format("LCS Length = {}\n", length);
+#endif
+    errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
     cout << ex.what() << endl;

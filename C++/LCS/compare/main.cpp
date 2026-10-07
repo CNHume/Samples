@@ -42,13 +42,13 @@ int main(int argc, char* argv[]) {
     command.Parse(argc, argv);
 
     shared_ptr<Delta> intervals;
-    auto result = command.isscorrespondence ?
+    auto length = command.isscorrespondence ?
       LCSFile::Correspondence(&intervals, command) :
       LCSFile::Difference(&intervals, command);
-
-    errorLevel = result ?
-      EXIT_SUCCESS :
-      EXIT_FAILURE;
+#ifdef _DEBUG
+    cout << format("LCS Length = {}\n", length);
+#endif
+    errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
     cout << ex.what() << endl;
