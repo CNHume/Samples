@@ -87,6 +87,7 @@
     <ClInclude Include="Delta.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
+    <ClInclude Include="LCSEncoding.h" />
     <ClInclude Include="LCSFile.h" />
     <ClInclude Include="LCSFormat.h" />
     <ClInclude Include="LCSNormal.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Delta.cpp" />
     <ClCompile Include="LCS.cpp" />
+    <ClCompile Include="LCSEncoding.cpp" />
     <ClCompile Include="LCSFile.cpp" />
     <ClCompile Include="LCSFormat.cpp" />
     <ClCompile Include="LCSNormal.cpp" />

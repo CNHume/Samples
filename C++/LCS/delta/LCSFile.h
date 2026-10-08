@@ -3,10 +3,10 @@
 // 2018-05-11 CNHume  Added word switch
 // 2017-07-09 CNHume  Created LCSFile subclass
 //
-//#define SHOW_INTERVALS                // LCSFile::Correspondence() and LCSFile::Difference()
 #pragma once
 
 #include "Command.h"
+#include "LCSEncoding.h"
 #include "LCSFormat.h"
 
 #include <fstream>
@@ -17,17 +17,9 @@ using namespace std;
 
 class LCSFile : protected LCSFormat {
 public:
-  enum Encoding {
-    ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
-  };
-
-  static uint32_t Difference(
+  static uint32_t  Difference(
     shared_ptr<Delta>* intervals, const Command command);
-
-  const static vector<vector<unsigned char>> BOM;
-  const static vector<Encoding> encodings;
 
 protected:
   static RECORDS Read(const string& filename, bool isword);
-  static tuple<Encoding, int> GetEncoding(const string& buffer);
 };

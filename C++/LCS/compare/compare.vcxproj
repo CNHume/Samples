@@ -83,6 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="LCSEncoding.cpp" />
     <ClCompile Include="LCSFile.cpp" />
     <ClCompile Include="LCSFormat.cpp" />
     <ClCompile Include="LCSNormal.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
+    <ClInclude Include="LCSEncoding.h" />
     <ClInclude Include="LCSFile.h" />
     <ClInclude Include="LCSFormat.h" />
     <ClInclude Include="LCSNormal.h" />

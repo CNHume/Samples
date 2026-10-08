@@ -12,14 +12,16 @@ using namespace std;
 
 class Command {
 public:
-  string f1;
-  string f2;
+  string file1;
+  string file2;
   bool isjoin;
   uint32_t join;
   uint32_t prefix;
   uint32_t suffix;
   bool ignorecase;
   bool ignorespace;
+  bool isquote;
+  bool isrecord;
   bool isword;
 
 protected:
@@ -36,6 +38,8 @@ public:
     isjoin(false),
     ignorecase(false),
     ignorespace(false),
+    isquote(false),
+    isrecord(false),
     isword(false) {
   }
 

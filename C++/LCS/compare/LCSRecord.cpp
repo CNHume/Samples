@@ -64,9 +64,6 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   auto length = Compare(intervals, r1, r2, ignorecase, ignorespace);
-#ifdef SHOW_INTERVALS
-  Delta::List(intervals);
-#endif
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -83,9 +80,6 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
-#ifdef SHOW_INTERVALS
-  Delta::List(deltas);
-#endif
   Delta::Context(deltas, size1, size2, prefix, suffix);
   *intervals = isjoin ? Delta::Coalesce(deltas) : deltas;
   return length;

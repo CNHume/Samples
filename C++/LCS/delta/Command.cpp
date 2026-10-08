@@ -5,6 +5,10 @@
 //
 // 2017-06-29 CNHume  Created file
 //
+// Usage:
+//
+// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2
+//
 #include "Command.h"
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -71,6 +75,20 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
+      case 'q':                         // the quote switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isquote = true;
+        break;
+
+      case 'r':                         // the record switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isrecord = true;
+        break;
+
       case 's':                         // the suffix switch
         if (len > 2)                    // whitespace optional
           suffix = parse_uint32(&token[2], "suffix");
@@ -95,12 +113,12 @@ void Command::Parse(int argc, char* argv[]) {
   }
 
   if (n < argc)                         // parse f1
-    f1 = argv[n++];
+    file1 = argv[n++];
   else                                  // f1 is required
     usage = true;
 
   if (n < argc)                         // parse f2
-    f2 = argv[n++];
+    file2 = argv[n++];
   else                                  // f2 is required
     usage = true;
 
@@ -108,5 +126,6 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error("Usage: delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2");
+    throw runtime_error(
+      "Usage: delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2");
 }

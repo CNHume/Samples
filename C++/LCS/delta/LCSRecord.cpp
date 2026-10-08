@@ -50,9 +50,6 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
-#ifdef SHOW_INTERVALS
-  Delta::List(deltas);
-#endif
   Delta::Context(deltas, size1, size2, prefix, suffix);
   *intervals = isjoin ? Delta::Coalesce(deltas) : deltas;
   return length;

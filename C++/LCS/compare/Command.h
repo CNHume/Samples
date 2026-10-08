@@ -12,16 +12,18 @@ using namespace std;
 
 class Command {
 public:
-  string f1;
-  string f2;
+  string file1;
+  string file2;
   bool isjoin;
   uint32_t join;
   uint32_t prefix;
   uint32_t suffix;
+  bool isscorrespondence;
   bool ignorecase;
   bool ignorespace;
+  bool isquote;
+  bool isrecord;
   bool isword;
-  bool isscorrespondence;
 
 protected:
   static const uint32_t joinDefault = 0, affixDefault = 0;
@@ -34,11 +36,13 @@ public:
     join(joinDefault),
     prefix(affixDefault),
     suffix(affixDefault),
+    isscorrespondence(false),
     isjoin(false),
     ignorecase(false),
     ignorespace(false),
     isword(false),
-    isscorrespondence(false) {
+    isquote(false),
+    isrecord(false) {
   }
 
   void Parse(int argc, char* argv[]);

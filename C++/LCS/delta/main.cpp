@@ -17,10 +17,6 @@
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
 // the overview provided in "Doc/LCS Overview.md"
 //
-// Usage:
-//
-// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2
-//
 #include "LCSFile.h"
 
 #include <iostream>                     // for cout

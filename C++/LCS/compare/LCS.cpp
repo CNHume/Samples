@@ -111,10 +111,7 @@ uint32_t LCS::FindLCS(
     if (updated) {
       uint32_t index = 0;
       for (const auto& it3 : prefixEnd) {
-        cout <<
-          format(
-            "end[{}] = {}\n",
-            index++, it3);
+        cout << format("end[{}] = {}\n", index++, it3);
       }
     }
 #endif

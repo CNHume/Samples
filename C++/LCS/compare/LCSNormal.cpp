@@ -1,6 +1,6 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2026-10-02 CNHume  Created 2026-10-02 CNHume  Created LCSNormal class
+// 2026-10-02 CNHume  Created LCSNormal class
 //
 #include "LCSNormal.h"
 

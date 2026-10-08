@@ -14,6 +14,7 @@
 // 2014-12-31 CNHume  Created file
 //
 #pragma once
+//#define SHOW_INTERVALS                // Delta::Context()
 
 #include "Pair.h"
 #include <stdint.h>

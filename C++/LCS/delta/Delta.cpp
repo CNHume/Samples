@@ -200,6 +200,9 @@ shared_ptr<Delta> Delta::Complement(shared_ptr<Delta> deltas,
 //
 void Delta::Context(shared_ptr<Delta> deltas,
   size_t size1, size_t size2, uint32_t prefix, uint32_t suffix) {
+#ifdef SHOW_INTERVALS
+  Delta::List(deltas);
+#endif
   uint32_t prior1 = 0;                  // end of prior Delta
   uint32_t prior2 = 0;
 
