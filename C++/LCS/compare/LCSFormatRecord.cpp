@@ -8,6 +8,7 @@
 // Delta Formatters
 //
 // Concatenate elements from the selected side
+//
 LCSRecord::RECORDS LCSFormatRecord::Select(shared_ptr<Delta> deltas,
   const RECORDS& r1, const RECORDS& r2, bool isright) {
   uint32_t length1, length2;

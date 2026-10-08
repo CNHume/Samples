@@ -7,6 +7,7 @@
 
 #include "Command.h"
 #include "LCSFormatRecord.h"
+#include "LCSFormatString.h"
 
 using namespace std;
 

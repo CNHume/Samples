@@ -22,8 +22,6 @@ protected:
     CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
     const string& s1, const string& s2,
     bool ignorecase, bool ignorespace);
-  static string Select(shared_ptr<Delta> deltas,
-    const string& s1, const string& s2, bool isright = false);
 
 public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
