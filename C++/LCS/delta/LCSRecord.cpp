@@ -2,7 +2,6 @@
 //
 // 2017-07-09 CNHume  Moved Command overloads to LCSFile subclass
 // 2017-07-04 CNHume  Created LCSRecord subclass
-// 2017-06-29 CNHume  Added Command class
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSRecord.h"
@@ -67,4 +66,48 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
   return length;
+}
+
+//
+// RECORDS Reader
+//
+LCSRecord::RECORDS LCSRecord::Read(const string& filename, bool isword) {
+  ifstream input;
+  input.open(filename, ios::in);
+
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+
+  RECORDS records;
+  string buffer;
+  auto count = 0;
+  while (getline(input, buffer)) {
+    auto record = buffer;
+    if (count == 0) {
+      auto [encoding, length] = LCSEncoding::GetEncoding(buffer);
+      record = &buffer[length];
+    }
+
+    if (isword) {
+      istringstream iss(record);
+      string token;
+      while (!iss.eof()) {
+        iss >> token;
+        records.push_back(token);
+      }
+    }
+    else
+      records.push_back(record);
+    count++;
+  }
+
+  input.close();
+#ifdef SHOW_MATCH_COUNT
+  cout << format(
+    "{} records read from {}\n",
+    records.size(), filename);
+#endif
+  return records;
 }

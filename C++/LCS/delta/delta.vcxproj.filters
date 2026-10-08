@@ -36,7 +36,7 @@
     <ClInclude Include="join.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LCSFormat.h">
+    <ClInclude Include="LCSFormatRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCSNormal.h">
@@ -59,7 +59,7 @@
     <ClCompile Include="Pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LCSFormat.cpp">
+    <ClCompile Include="LCSFormatRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCSRecord.cpp">

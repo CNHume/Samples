@@ -6,20 +6,12 @@
 #pragma once
 
 #include "Command.h"
-#include "LCSEncoding.h"
-#include "LCSFormat.h"
-
-#include <fstream>
-#include <sstream>
-#include <iterator>
+#include "LCSFormatRecord.h"
 
 using namespace std;
 
-class LCSFile : protected LCSFormat {
+class LCSFile : protected LCSFormatRecord {
 public:
   static uint32_t  Difference(
     shared_ptr<Delta>* intervals, const Command command);
-
-protected:
-  static RECORDS Read(const string& filename, bool isword);
 };

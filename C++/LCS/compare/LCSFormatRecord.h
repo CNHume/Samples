@@ -10,8 +10,11 @@
 
 using namespace std;
 
-class LCSFormat : protected LCSRecord {
+class LCSFormatRecord : protected LCSRecord {
 protected:
+  static RECORDS Select(shared_ptr<Delta> deltas,
+    const RECORDS& r1, const RECORDS& r2, bool isright = false);
+
   static uint32_t Show(shared_ptr<Delta> deltas,
     const RECORDS& r1, const RECORDS& r2,
     const string& label1, const string& label2);

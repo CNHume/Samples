@@ -4,6 +4,9 @@
 //
 #pragma once
 
+#include <fstream>
+#include <sstream>
+#include <iterator>
 #include <string>
 #include <vector>
 

@@ -41,24 +41,6 @@ uint32_t LCSRecord::Match(
   return count;
 }
 
-// Concatenate elements from the selected side
-LCSRecord::RECORDS LCSRecord::Select(shared_ptr<Delta> deltas,
-  const RECORDS& r1, const RECORDS& r2, bool isright) {
-  uint32_t length1, length2;
-  Delta::Lengths(deltas, length1, length2);
-  RECORDS list;
-  list.reserve(isright ? length2 : length1);
-  for (auto next = deltas; next != nullptr;
-    next = dynamic_pointer_cast<Delta>(next->next)) {
-    auto begin = isright ? next->begin2 : next->begin1;
-    auto end = isright ? next->end2 : next->end1;
-    auto& records = isright ? r2 : r1;
-    for (auto index = begin; index <= end; index++)
-      list.push_back(records[index]);
-  }
-  return list;
-}
-
 uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
@@ -97,4 +79,48 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
   return length;
+}
+
+//
+// RECORDS Reader
+//
+LCSRecord::RECORDS LCSRecord::Read(const string& filename, bool isword) {
+  ifstream input;
+  input.open(filename, ios::in);
+
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+
+  RECORDS records;
+  string buffer;
+  auto count = 0;
+  while (getline(input, buffer)) {
+    auto record = buffer;
+    if (count == 0) {
+      auto [encoding, length] = LCSEncoding::GetEncoding(buffer);
+      record = &buffer[length];
+    }
+
+    if (isword) {
+      istringstream iss(record);
+      string token;
+      while (!iss.eof()) {
+        iss >> token;
+        records.push_back(token);
+      }
+    }
+    else
+      records.push_back(record);
+    count++;
+  }
+
+  input.close();
+#ifdef SHOW_MATCH_COUNT
+  cout << format(
+    "{} records read from {}\n",
+    records.size(), filename);
+#endif
+  return records;
 }

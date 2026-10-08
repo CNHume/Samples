@@ -6,6 +6,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "LCSEncoding.h"
 #include "LCSNormal.h"
 
 using namespace std;
@@ -21,9 +22,6 @@ protected:
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
 
-  static RECORDS Select(shared_ptr<Delta> deltas,
-    const RECORDS& r1, const RECORDS& r2, bool isright = false);
-
 public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
@@ -37,4 +35,6 @@ public:
   static uint32_t Compare(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false);
+
+  static RECORDS Read(const string& filename, bool isword);
 };

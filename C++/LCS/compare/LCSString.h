@@ -5,6 +5,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "LCSEncoding.h"
 #include "LCSNormal.h"
 
 using namespace std;
