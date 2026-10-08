@@ -7,7 +7,7 @@
 //
 // Usage:
 //
-// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2
+// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2
 //
 #include "Command.h"
 
@@ -75,20 +75,6 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
-      case 'q':                         // the quote switch
-        if (len > 2)                    // superfluous value specified
-          usage = true;
-        else
-          isquote = true;
-        break;
-
-      case 'r':                         // the record switch
-        if (len > 2)                    // superfluous value specified
-          usage = true;
-        else
-          isrecord = true;
-        break;
-
       case 's':                         // the suffix switch
         if (len > 2)                    // whitespace optional
           suffix = parse_uint32(&token[2], "suffix");
@@ -127,5 +113,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2");
+      "Usage: delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] file1 file2");
 }

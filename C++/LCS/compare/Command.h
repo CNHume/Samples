@@ -22,7 +22,7 @@ public:
   bool ignorecase;
   bool ignorespace;
   bool isquote;
-  bool isrecord;
+  bool istext;
   bool isword;
 
 protected:
@@ -42,7 +42,7 @@ public:
     ignorespace(false),
     isword(false),
     isquote(false),
-    isrecord(false) {
+    istext(false) {
   }
 
   void Parse(int argc, char* argv[]);

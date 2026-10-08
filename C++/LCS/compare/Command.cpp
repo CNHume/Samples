@@ -7,7 +7,7 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-t] [-w] file1 file2
 //
 #include "Command.h"
 
@@ -89,11 +89,11 @@ void Command::Parse(int argc, char* argv[]) {
           isquote = true;
         break;
 
-      case 'r':                         // the record switch
+      case 't':                         // the text switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
-          isrecord = true;
+          istext = true;
         break;
 
       case 's':                         // the suffix switch
@@ -134,5 +134,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q|-r] [-w] file1 file2");
+      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-t] [-w] file1 file2");
 }
