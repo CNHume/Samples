@@ -36,7 +36,7 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
   const string& s1, const string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
-  auto length = Compare(intervals, s1, s2);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -49,12 +49,12 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   const string& s1, const string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
-  auto length = Compare(intervals, s1, s2);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
   Delta::Context(deltas, size1, size2, prefix, suffix);
-  *intervals = isjoin ? Delta::Coalesce(deltas) : deltas;
+  *intervals = isjoin ? Delta::Coalesce(deltas, join) : deltas;
   return length;
 }
 
@@ -63,7 +63,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     bool ignorecase, bool ignorespace) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
-  auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
+  [[maybe_unused]] auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);

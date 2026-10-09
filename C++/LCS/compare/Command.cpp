@@ -11,6 +11,10 @@
 //
 #include "Command.h"
 
+#include <cerrno>                       // for errno
+#include <cstdlib>                      // for strtoul
+#include <cstring>                      // for strlen
+
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");
   msg += name;
@@ -21,6 +25,13 @@ string Command::arg_msg(const string& s, const string& name) {
 
 uint32_t Command::parse_uint32(const char* s, const string& name) {
   char* pEnd;
+  //
+  // Reset errno before strtoul(): strtoul() sets errno only on failure and
+  // leaves it unchanged on success, so a stale non-zero errno left by an
+  // earlier call (such as setlocale()) would otherwise make a valid numeric
+  // argument look like an overflow error.
+  //
+  errno = 0;
   auto result = strtoul(s, &pEnd, 10);
   if (errno != 0 || *pEnd != '\0')
     throw invalid_argument(arg_msg(s, name));

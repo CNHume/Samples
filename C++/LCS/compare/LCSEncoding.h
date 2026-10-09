@@ -20,6 +20,8 @@ public:
 
   static tuple<Encoding, int> GetEncoding(const string& buffer);
 
+  static bool IsWide(Encoding encoding);
+
   const static vector<vector<unsigned char>> BOM;
   const static vector<Encoding> encodings;
 };

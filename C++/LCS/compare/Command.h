@@ -33,16 +33,16 @@ protected:
 
 public:
   Command() :
+    isjoin(false),
     join(joinDefault),
     prefix(affixDefault),
     suffix(affixDefault),
     isscorrespondence(false),
-    isjoin(false),
     ignorecase(false),
     ignorespace(false),
-    isword(false),
     isquote(false),
-    istext(false) {
+    istext(false),
+    isword(false) {
   }
 
   void Parse(int argc, char* argv[]);

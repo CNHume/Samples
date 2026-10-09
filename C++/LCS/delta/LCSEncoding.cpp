@@ -5,20 +5,26 @@
 #include "LCSEncoding.h"
 
 tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer) {
-  int index = 0;
-  for (const auto& bom : BOM) {
-    int length = 0;
-    for (const auto& bom_uch : bom) {
-      auto buffer_uch = (unsigned char)buffer[length++];
-      if (buffer_uch != bom_uch)
-        goto next;
-    }
-    return { encodings[index], length };
+  for (int index = 0; index < (int)BOM.size(); index++) {
+    const auto& bom = BOM[index];
+    if (bom.size() > buffer.size())
+      continue;                         // Buffer too short for this BOM.
 
-  next:
-    index++;
+    auto matched = true;
+    for (int length = 0; length < (int)bom.size(); length++) {
+      if ((unsigned char)buffer[length] != bom[length]) {
+        matched = false;
+        break;
+      }
+    }
+    if (matched)
+      return { encodings[index], (int)bom.size() };
   }
-  return { encodings[index], 0 };
+  return { encodings.back(), 0 };       // ANSI: no BOM matched
+}
+
+bool LCSEncoding::IsWide(Encoding encoding) {
+  return encoding == UTF16_LE || encoding == UTF16_BE;
 }
 
 //

@@ -20,6 +20,7 @@
 
 #include "LCSFile.h"
 
+#include <clocale>                      // for setlocale
 #include <iostream>                     // for cout
 
 //
@@ -38,7 +39,7 @@ int main(int argc, char* argv[]) {
     command.Parse(argc, argv);
 
     shared_ptr<Delta> intervals;
-    auto length = command.isscorrespondence ?
+    [[maybe_unused]] auto length = command.isscorrespondence ?
       LCSFile::Correspondence(&intervals, command) :
       LCSFile::Difference(&intervals, command);
 #ifdef _DEBUG

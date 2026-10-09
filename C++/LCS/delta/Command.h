@@ -30,10 +30,10 @@ protected:
 
 public:
   Command() :
+    isjoin(false),
     join(joinDefault),
     prefix(affixDefault),
     suffix(affixDefault),
-    isjoin(false),
     ignorecase(false),
     ignorespace(false),
     isword(false) {
