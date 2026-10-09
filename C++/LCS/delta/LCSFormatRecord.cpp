@@ -19,7 +19,7 @@ LCSRecord::RECORDS LCSFormatRecord::Select(shared_ptr<Delta> deltas,
     auto begin = isright ? next->begin2 : next->begin1;
     auto end = isright ? next->end2 : next->end1;
     auto& records = isright ? r2 : r1;
-    for (auto index = begin; index <= end; index++)
+    for (auto index = begin; index < end; index++)
       list.push_back(records[index]);
   }
   return list;

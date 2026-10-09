@@ -4,6 +4,10 @@
 //
 #include "LCSEncoding.h"
 
+#include <cstdint>                      // for uint32_t
+#include <format>                       // for format
+#include <stdexcept>                    // for runtime_error
+
 tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer) {
   for (int index = 0; index < (int)BOM.size(); index++) {
     const auto& bom = BOM[index];
@@ -24,7 +28,140 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer)
 }
 
 bool LCSEncoding::IsWide(Encoding encoding) {
-  return encoding == UTF16_LE || encoding == UTF16_BE;
+  return encoding == UTF16_LE || encoding == UTF16_BE ||
+         encoding == UTF32_LE || encoding == UTF32_BE;
+}
+
+string LCSEncoding::ToUtf8(const u32string& codePoints) {
+  string utf8;
+  for (auto cp : codePoints) {
+    if (cp < 0x80)
+      utf8.push_back((char)cp);
+    else if (cp < 0x800) {
+      utf8.push_back((char)(0xC0u | (cp >> 6)));
+      utf8.push_back((char)(0x80u | (cp & 0x3Fu)));
+    }
+    else if (cp < 0x10000) {
+      utf8.push_back((char)(0xE0u | (cp >> 12)));
+      utf8.push_back((char)(0x80u | ((cp >> 6) & 0x3Fu)));
+      utf8.push_back((char)(0x80u | (cp & 0x3Fu)));
+    }
+    else {
+      utf8.push_back((char)(0xF0u | (cp >> 18)));
+      utf8.push_back((char)(0x80u | ((cp >> 12) & 0x3Fu)));
+      utf8.push_back((char)(0x80u | ((cp >> 6) & 0x3Fu)));
+      utf8.push_back((char)(0x80u | (cp & 0x3Fu)));
+    }
+  }
+  return utf8;
+}
+
+tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filename) {
+  ifstream input(filename, ios::binary);
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+  char head[4] = {};
+  input.read(head, 4);
+  string peek(head, input.gcount());
+  return GetEncoding(peek);
+}
+
+vector<string> LCSEncoding::ReadWide(
+  const string& filename, Encoding encoding, bool isword) {
+  ifstream input(filename, ios::binary);
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+  string bytes((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
+  input.close();
+
+  auto codePoints = DecodeCodePoints(bytes, encoding);
+
+  // Split into records: lines on '\n' (stripping a trailing '\r'), then
+  // optionally words on ASCII whitespace within each line.
+  vector<string> records;
+  u32string line;
+  auto flushLine = [&]() {
+    if (!line.empty() && line.back() == U'\r')
+      line.pop_back();
+    if (isword) {
+      u32string word;
+      auto flushWord = [&]() {
+        if (!word.empty())
+          records.push_back(ToUtf8(word));
+        word.clear();
+      };
+      for (auto cp : line) {
+        if (cp == U' ' || cp == U'\t' || cp == U'\v' || cp == U'\f' || cp == U'\r')
+          flushWord();
+        else
+          word.push_back(cp);
+      }
+      flushWord();
+    }
+    else
+      records.push_back(ToUtf8(line));
+    line.clear();
+  };
+
+  for (auto cp : codePoints) {
+    if (cp == U'\n')
+      flushLine();
+    else
+      line.push_back(cp);
+  }
+  if (!line.empty())
+    flushLine();
+
+  return records;
+}
+
+u32string LCSEncoding::DecodeCodePoints(
+  const string& bytes, Encoding encoding) {
+  auto is32 = encoding == UTF32_LE || encoding == UTF32_BE;
+  auto bigEndian = encoding == UTF16_BE || encoding == UTF32_BE;
+  auto width = is32 ? 4 : 2;
+
+  // Decode code units (skipping the BOM) into Unicode code points.  Code
+  // points are used internally rather than wchar_t, whose width differs
+  // between Windows (16-bit) and Linux (32-bit).
+  vector<uint32_t> units;
+  for (size_t i = width; i + width <= bytes.size(); i += width) {
+    uint32_t unit = 0;
+    if (bigEndian)
+      for (auto k = 0; k < width; k++)
+        unit = (unit << 8) | (uint32_t)(unsigned char)bytes[i + k];
+    else
+      for (auto k = 0; k < width; k++)
+        unit |= (uint32_t)(unsigned char)bytes[i + k] << (8 * k);
+    units.push_back(unit);
+  }
+
+  u32string codePoints;
+  if (is32) {
+    for (auto unit : units)
+      if (unit <= 0x10FFFF && !(unit >= 0xD800 && unit <= 0xDFFF))
+        codePoints.push_back((char32_t)unit);
+  }
+  else {
+    for (size_t i = 0; i < units.size(); i++) {
+      auto unit = units[i];
+      if (unit >= 0xD800 && unit <= 0xDBFF && i + 1 < units.size()) {
+        auto lo = units[i + 1];
+        if (lo >= 0xDC00 && lo <= 0xDFFF) {
+          codePoints.push_back((char32_t)(0x10000u +
+            ((unit - 0xD800u) << 10) + (lo - 0xDC00u)));
+          i++;
+          continue;
+        }
+      }
+      codePoints.push_back((char32_t)unit);
+    }
+  }
+  return codePoints;
 }
 
 //
@@ -38,8 +175,8 @@ const vector<vector<unsigned char>> LCSEncoding::BOM = {
   { 0xDD, 0x73, 0x66, 0x73 },           // UTF_EBCDIC
   { 0xF7, 0x64, 0x4C },                 // UTF1
   { 0x2B, 0x2F, 0x76 },                 // UTF7 [Obsolete]
-  { 0x00, 0x00, 0xFE, 0xFF },           // UTF32_LE
-  { 0xFF, 0xFE, 0x00, 0x00 },           // UTF32_BE
+  { 0xFF, 0xFE, 0x00, 0x00 },           // UTF32_LE
+  { 0x00, 0x00, 0xFE, 0xFF },           // UTF32_BE
   { 0xFF, 0xFE },                       // UTF16_LE (b[2] > 0 || b[3] > 0)
   { 0xFE, 0xFF },                       // UTF16_BE
   { 0xEF, 0xBB, 0xBF }                  // UTF8_BOM

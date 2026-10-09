@@ -110,7 +110,7 @@ LCS::Result LCS::FindMidpoint(string_view s1, string_view s2) {
   int64_t fCount = 0;                   // # forward contours computed
   int64_t bCount = 0;                   // # backward contours computed
 
-  for (;;) {
+  while (true) {
     // Alternate: FC[1], BC[1], FC[2], BC[2], ... so |fCount - bCount| <= 1.
     if (fCount <= bCount) {
       fCount++;

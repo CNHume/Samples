@@ -11,11 +11,11 @@
 uint32_t LCSString::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
-  const string& s1, const string& s2,
+  const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace) {
   uint32_t count = 0;
   uint32_t index = 0;
-  string buffer;
+  u32string buffer;
   LCSNormal::Normal(s2, buffer, ignorecase, ignorespace);
   for (const auto& it : buffer)
     indexesOf2MatchedByChar[it].push_back(index++);
@@ -33,9 +33,28 @@ uint32_t LCSString::Match(
 }
 
 uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
-  const string& s1, const string& s2,
+  const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
+  if (ignorespace) {
+    // Compare whitespace-collapsed strings, then expand the reported
+    // spans back to the original strings.  The number of code points
+    // changes under collapse, so indices must be remapped.
+    u32string t1, t2;
+    vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
+    LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    auto length = Compare(intervals, t1, t2, ignorecase, false);
+    auto size1 = t1.size();
+    auto size2 = t2.size();
+    Delta::Context(*intervals, size1, size2, prefix, suffix);
+    if (isjoin)
+      *intervals = Delta::Coalesce(*intervals, join);
+    MapDeltas(*intervals, mapBegin1, mapEnd1, mapBegin2, mapEnd2,
+      s1.size(), s2.size());
+    return length;
+  }
+
   auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
@@ -46,9 +65,26 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
 }
 
 uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
-  const string& s1, const string& s2,
+  const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
+  if (ignorespace) {
+    u32string t1, t2;
+    vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
+    LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    auto length = Compare(intervals, t1, t2, ignorecase, false);
+    auto size1 = t1.size();
+    auto size2 = t2.size();
+    auto deltas = Delta::Complement(*intervals, size1, size2);
+    Delta::Context(deltas, size1, size2, prefix, suffix);
+    deltas = isjoin ? Delta::Coalesce(deltas, join) : deltas;
+    MapDeltas(deltas, mapBegin1, mapEnd1, mapBegin2, mapEnd2,
+      s1.size(), s2.size());
+    *intervals = deltas;
+    return length;
+  }
+
   auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
@@ -59,7 +95,7 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 }
 
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
-  const string& s1, const string& s2,
+  const u32string& s1, const u32string& s2,
     bool ignorecase, bool ignorespace) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
@@ -70,4 +106,34 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
   return length;
+}
+
+u32string LCSString::Read(const string& filename) {
+  return LCSEncoding::ReadCodePoints(filename);
+}
+
+void LCSString::MapDeltas(shared_ptr<Delta> deltas,
+  const vector<uint32_t>& mapBegin1, const vector<uint32_t>& mapEnd1,
+  const vector<uint32_t>& mapBegin2, const vector<uint32_t>& mapEnd2,
+  size_t size1, size_t size2) {
+  for (auto next = deltas; next != nullptr;
+    next = dynamic_pointer_cast<Delta>(next->next)) {
+    MapSide(next->begin1, next->end1, mapBegin1, mapEnd1, size1);
+    MapSide(next->begin2, next->end2, mapBegin2, mapEnd2, size2);
+  }
+}
+
+void LCSString::MapSide(uint32_t& begin, uint32_t& end,
+  const vector<uint32_t>& mapBegin, const vector<uint32_t>& mapEnd,
+  size_t size) {
+  if (begin < end) {
+    begin = mapBegin[begin];
+    end = mapEnd[end - 1];
+  }
+  else {
+    // Empty interval: map to the corresponding original position.
+    auto pos = begin < mapBegin.size() ? mapBegin[begin] : (uint32_t)size;
+    begin = pos;
+    end = pos;
+  }
 }
