@@ -18,15 +18,15 @@ public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
     const u32string& s1, const u32string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
-    uint32_t join, uint32_t prefix, uint32_t suffix);
+    uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick = false);
   static uint32_t Difference(shared_ptr<Delta>* intervals,
     const u32string& s1, const u32string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
-    uint32_t join, uint32_t prefix, uint32_t suffix);
+    uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick = false);
 
   static uint32_t Compare(shared_ptr<Delta>* intervals,
     const u32string& s1, const u32string& s2,
-    bool ignorecase = false, bool ignorespace = false);
+    bool ignorecase = false, bool ignorespace = false, bool isrick = false);
 
   static u32string Read(const string& filename);
 

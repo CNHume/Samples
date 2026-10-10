@@ -5,6 +5,7 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSRecord.h"
+#include "LCSHuntSzymanski.h"
 
 //
 // Find Matches
@@ -76,7 +77,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
     indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
-  auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
+  auto length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
   return length;

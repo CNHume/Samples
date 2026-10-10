@@ -22,6 +22,7 @@ public:
   bool ignorecase;
   bool ignorespace;
   bool isquote;
+  bool isrick;
   bool istext;
   bool isword;
 
@@ -41,6 +42,7 @@ public:
     ignorecase(false),
     ignorespace(false),
     isquote(false),
+    isrick(false),
     istext(false),
     isword(false) {
   }

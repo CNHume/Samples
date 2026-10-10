@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
@@ -20,11 +20,11 @@
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
 // the overview provided in "Doc/LCS Overview.md"
 //
-#include "LCS.h"
+#include "LCSHuntSzymanski.h"
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
-uint32_t LCS::FindLCS(
+uint32_t LCSHuntSzymanski::Find(
   shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
@@ -135,7 +135,7 @@ uint32_t LCS::FindLCS(
   return length;
   }
 
-shared_ptr<Pair> LCS::pushPair(
+shared_ptr<Pair> LCSHuntSzymanski::pushPair(
   PAIRS& chains, const ptrdiff_t& index3,
   uint32_t& index1, uint32_t& index2) {
   auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;

@@ -4,6 +4,10 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSString.h"
+#include "LCSHuntSzymanski.h"
+#include "LCSRick.h"
+
+#include <utility>                      // for swap
 
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
@@ -35,7 +39,7 @@ uint32_t LCSString::Match(
 uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix) {
+  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
   if (ignorespace) {
     // Compare whitespace-collapsed strings, then expand the reported
     // spans back to the original strings.  The number of code points
@@ -44,7 +48,7 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, t1, t2, ignorecase, false);
+    auto length = Compare(intervals, t1, t2, ignorecase, false, isrick);
     auto size1 = t1.size();
     auto size2 = t2.size();
     Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -55,7 +59,7 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
     return length;
   }
 
-  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, isrick);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -67,13 +71,13 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix) {
+  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, t1, t2, ignorecase, false);
+    auto length = Compare(intervals, t1, t2, ignorecase, false, isrick);
     auto size1 = t1.size();
     auto size2 = t2.size();
     auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -85,7 +89,7 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
     return length;
   }
 
-  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, isrick);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -96,16 +100,31 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
-    bool ignorecase, bool ignorespace) {
+  bool ignorecase, bool ignorespace, bool isrick) {
+  // Swap (and un-swap below) so the shorter sequence is scanned and the
+  // longer is tabled, as Rick's time bound assumes m <= n.
+  auto swapped = s1.size() > s2.size();
+  const auto& shorter = swapped ? s2 : s1;
+  const auto& longer = swapped ? s1 : s2;
+
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
-  MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
+  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByChar
   [[maybe_unused]] auto count = Match(
-    indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
+    indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, shorter, longer, ignorecase, ignorespace);
+
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
-  auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
-  if (deltas != nullptr)
+  auto length = isrick
+    ? LCSRick::Find(ppairs, indexesOf2MatchedByIndex1,
+        (uint32_t)shorter.size(), (uint32_t)longer.size())
+    : LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+
+  if (deltas != nullptr) {
+    if (swapped)
+      for (auto pair = pairs; pair != nullptr; pair = pair->next)
+        swap(pair->begin1, pair->begin2);
     *deltas = Delta::Coalesce(pairs);
+  }
   return length;
 }
 

@@ -30,17 +30,9 @@
 using namespace std;
 
 class LCS {
-protected:
+public:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> INDEXES;
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
   typedef deque<INDEXES*> MATCHES;
-
-  static uint32_t FindLCS(
-    shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
-
-private:
-  static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3,
-    uint32_t& index1, uint32_t& index2);
 };

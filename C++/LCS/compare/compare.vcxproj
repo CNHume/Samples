@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -90,8 +90,9 @@
     <ClCompile Include="LCSNormal.cpp" />
     <ClCompile Include="LCSString.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="LCS.cpp" />
+    <ClCompile Include="LCSHuntSzymanski.cpp" />
     <ClCompile Include="LCSRecord.cpp" />
+    <ClCompile Include="LCSRick.cpp" />
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Delta.cpp" />
   </ItemGroup>
@@ -99,12 +100,14 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
+    <ClInclude Include="LCSHuntSzymanski.h" />
     <ClInclude Include="LCSEncoding.h" />
     <ClInclude Include="LCSFile.h" />
     <ClInclude Include="LCSFormatRecord.h" />
     <ClInclude Include="LCSFormatString.h" />
     <ClInclude Include="LCSNormal.h" />
     <ClInclude Include="LCSRecord.h" />
+    <ClInclude Include="LCSRick.h" />
     <ClInclude Include="LCSString.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Delta.h" />

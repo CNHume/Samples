@@ -12,7 +12,7 @@ uint32_t  LCSFile::Correspondence(
     auto s2 = LCSString::Read(command.file2);
     auto length = LCSString::Correspondence(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix);
+      command.join, command.prefix, command.suffix, command.isrick);
     LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
     return length;
   }
@@ -33,7 +33,7 @@ uint32_t  LCSFile::Difference(
     auto s2 = LCSString::Read(command.file2);
     auto length = LCSString::Difference(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix);
+      command.join, command.prefix, command.suffix, command.isrick);
     LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
     return length;
   }
