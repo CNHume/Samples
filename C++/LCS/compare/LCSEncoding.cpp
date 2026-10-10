@@ -3,6 +3,7 @@
 // 2026-10-07 CNHume  Created LCSEncoding class
 //
 #include "LCSEncoding.h"
+#include "LCSNormal.h"
 
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format
@@ -89,7 +90,7 @@ vector<string> LCSEncoding::ReadWide(
         word.clear();
       };
       for (auto cp : line) {
-        if (cp == U' ' || cp == U'\t' || cp == U'\v' || cp == U'\f' || cp == U'\r')
+        if (LCSNormal::IsSpace(cp))
           flushWord();
         else
           word.push_back(cp);
