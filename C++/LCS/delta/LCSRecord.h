@@ -11,18 +11,14 @@
 
 using namespace std;
 
-class LCSRecord : protected LCS {
+class LCSRecord : public LCS {
 public:
   typedef vector<string> RECORDS;
 
-protected:
-  static uint32_t Match(
-    MATCHES& indexesOf2MatchedByIndex1,
-    STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
+  static uint32_t Correspondence(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false);
-
-public:
+    bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
   static uint32_t Difference(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
@@ -33,4 +29,11 @@ public:
     bool ignorecase = false, bool ignorespace = false);
 
   static RECORDS Read(const string& filename, bool isword);
+
+protected:
+  static uint32_t Match(
+    MATCHES& indexesOf2MatchedByIndex1,
+    STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
+    const RECORDS& r1, const RECORDS& r2,
+    bool ignorecase = false, bool ignorespace = false);
 };

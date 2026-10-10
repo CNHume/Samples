@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class LCSFile : protected LCSFormatRecord {
+class LCSFile : public LCSFormatRecord {
 public:
   static uint32_t  Correspondence(
     shared_ptr<Delta>* intervals, const Command command);

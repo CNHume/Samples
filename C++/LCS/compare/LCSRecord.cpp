@@ -72,7 +72,8 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   bool ignorecase, bool ignorespace) {
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
-  [[maybe_unused]] auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
+  [[maybe_unused]] auto count = Match(
+    indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);

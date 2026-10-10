@@ -218,36 +218,6 @@ u32string LCSEncoding::DecodeUtf8(const string& bytes) {
   return codePoints;
 }
 
-u32string LCSEncoding::ReadCodePoints(const string& filename) {
-  auto [encoding, bomLength] = PeekEncoding(filename);
-  ifstream input(filename, ios::binary);
-  if (input.fail()) {
-    string msg(format("{} not found", filename));
-    throw runtime_error(msg);
-  }
-  string bytes((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
-  input.close();
-
-  u32string codePoints;
-  if (IsWide(encoding))
-    codePoints = DecodeCodePoints(bytes, encoding);
-  else {
-    if (bomLength > 0)
-      bytes.erase(0, (size_t)bomLength);
-    codePoints = DecodeUtf8(bytes);
-  }
-
-#ifndef KEEP_CRLF
-  // Normalize CRLF to LF so -t text comparison ignores line-ending
-  // differences, matching the line and word record readers.
-  return NormalizeCrlf(codePoints);
-#else
-  // Treat the file as one large string: leave end-of-line characters
-  // untouched.  They are non-printing, so -b can ignore them if desired.
-  return codePoints;
-#endif
-}
-
 u32string LCSEncoding::NormalizeCrlf(const u32string& codePoints) {
   u32string normalized;
   normalized.reserve(codePoints.size());

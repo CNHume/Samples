@@ -17,8 +17,8 @@
 //#define SHOW_INTERVALS                // Delta::Context()
 
 #include "Pair.h"
-#include <stdint.h>
 #include <iostream>                     // for cout
+#include <stdint.h>
 
 using namespace std;
 

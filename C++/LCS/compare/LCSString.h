@@ -13,21 +13,7 @@
 
 using namespace std;
 
-class LCSString : protected LCS {
-  //
-  // String Methods compare individual Unicode code points rather than
-  // UTF-8 bytes, so multi-byte characters are never split or partially
-  // matched during the comparison.
-  //
-protected:
-  typedef unordered_map<char32_t, INDEXES> CHAR_TO_INDEXES_MAP;
-
-  static uint32_t Match(
-    MATCHES& indexesOf2MatchedByIndex1,
-    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
-    const u32string& s1, const u32string& s2,
-    bool ignorecase, bool ignorespace);
-
+class LCSString : public LCS {
 public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
     const u32string& s1, const u32string& s2,
@@ -43,6 +29,20 @@ public:
     bool ignorecase = false, bool ignorespace = false);
 
   static u32string Read(const string& filename);
+
+  //
+  // String Methods compare individual Unicode code points rather than
+  // UTF-8 bytes, so multi-byte characters are never split or partially
+  // matched during the comparison.
+  //
+protected:
+  typedef unordered_map<char32_t, INDEXES> CHAR_TO_INDEXES_MAP;
+
+  static uint32_t Match(
+    MATCHES& indexesOf2MatchedByIndex1,
+    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
+    const u32string& s1, const u32string& s2,
+    bool ignorecase, bool ignorespace);
 
 private:
   // Map normalized-space Delta intervals back to original-space spans.

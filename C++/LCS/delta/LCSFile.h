@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class LCSFile : protected LCSFormatRecord {
+class LCSFile : public LCSFormatRecord {
 public:
   static uint32_t  Difference(
     shared_ptr<Delta>* intervals, const Command command);

@@ -20,17 +20,14 @@ public:
   };
 
   static tuple<Encoding, int> GetEncoding(const string& buffer);
-
   static bool IsWide(Encoding encoding);
-
   static string ToUtf8(const u32string& codePoints);
   static tuple<Encoding, int> PeekEncoding(const string& filename);
   static vector<string> ReadWide(
     const string& filename, Encoding encoding, bool isword);
 
+  static u32string DecodeCodePoints(const string& bytes, Encoding encoding);
+
   const static vector<vector<unsigned char>> BOM;
   const static vector<Encoding> encodings;
-
-private:
-  static u32string DecodeCodePoints(const string& bytes, Encoding encoding);
 };

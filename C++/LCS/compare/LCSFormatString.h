@@ -10,15 +10,15 @@
 
 using namespace std;
 
-class LCSFormatString : protected LCSString {
+class LCSFormatString : public LCSString {
 public:
+  static u32string Select(shared_ptr<Delta> deltas,
+    const u32string& s1, const u32string& s2, bool isright = false);
   static uint32_t Show(shared_ptr<Delta> deltas,
     const u32string& s1, const u32string& s2,
     const string& label1, const string& label2);
 
 protected:
-  static u32string Select(shared_ptr<Delta> deltas,
-    const u32string& s1, const u32string& s2, bool isright = false);
   static void Series(uint32_t counter,
     const string& label1, const u32string& s1, uint32_t begin1, uint32_t end1,
     const string& label2, const u32string& s2, uint32_t begin2, uint32_t end2);

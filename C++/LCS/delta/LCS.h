@@ -20,12 +20,12 @@
 #include "Delta.h"
 #include "join.h"
 
+#include <deque>
+#include <iostream>                     // for cout
 #include <stdint.h>
 #include <string>
-#include <deque>
 #include <vector>
 #include <unordered_map>                //[C++11]
-#include <iostream>                     // for cout
 
 using namespace std;
 

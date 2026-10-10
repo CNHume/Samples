@@ -99,7 +99,8 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     bool ignorecase, bool ignorespace) {
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByChar
-  [[maybe_unused]] auto count = Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
+  [[maybe_unused]] auto count = Match(
+    indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
@@ -109,7 +110,32 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 }
 
 u32string LCSString::Read(const string& filename) {
-  return LCSEncoding::ReadCodePoints(filename);
+  auto [encoding, bomLength] = LCSEncoding::PeekEncoding(filename);
+  ifstream input(filename, ios::binary);
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+  string bytes((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
+  input.close();
+
+  u32string codePoints;
+  if (LCSEncoding::IsWide(encoding))
+    codePoints = LCSEncoding::DecodeCodePoints(bytes, encoding);
+  else {
+    if (bomLength > 0)
+      bytes.erase(0, (size_t)bomLength);
+    codePoints = LCSEncoding::DecodeUtf8(bytes);
+  }
+#ifdef KEEP_CRLF
+  // Treat the file as one large string: leave end-of-line characters
+  // untouched.  They are non-printing, so -b can ignore them if desired.
+  return codePoints;
+#else
+  // Normalize CRLF to LF so -t text comparison ignores line-ending
+  // differences, matching the line and word record readers.
+  return LCSEncoding::NormalizeCrlf(codePoints);
+#endif
 }
 
 void LCSString::MapDeltas(shared_ptr<Delta> deltas,

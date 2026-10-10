@@ -7,10 +7,10 @@
 #define COPY_SEMANTICS
 #define MOVE_SEMANTICS
 
-#include <stdint.h>
-#include <memory>                       // for shared_ptr<>
 #include <iostream>                     // for cout
 #include <format>                       //[C++20]
+#include <memory>                       // for shared_ptr<>
+#include <stdint.h>
 
 using namespace std;
 
