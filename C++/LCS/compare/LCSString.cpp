@@ -117,7 +117,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   auto length = isrick ?
     LCSRick::Find(
       ppairs, indexesOf2MatchedByIndex1,
-        (uint32_t)shorter.size(), (uint32_t)longer.size()) :
+      (uint32_t)shorter.size(), (uint32_t)longer.size()) :
     LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
 
   if (deltas != nullptr) {

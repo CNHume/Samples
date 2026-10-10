@@ -21,7 +21,7 @@ uint32_t  LCSFile::Correspondence(
   auto r2 = Read(command.file2, command.isword);
   auto length = LCSRecord::Correspondence(intervals, r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
-    command.join, command.prefix, command.suffix);
+    command.join, command.prefix, command.suffix, command.isrick);
   Show(*intervals, r1, r2, command.file1, command.file2);
   return length;
 }
@@ -42,7 +42,7 @@ uint32_t  LCSFile::Difference(
   auto r2 = Read(command.file2, command.isword);
   auto length = LCSRecord::Difference(intervals, r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
-    command.join, command.prefix, command.suffix);
+    command.join, command.prefix, command.suffix, command.isrick);
   Show(*intervals, r1, r2, command.file1, command.file2);
   return length;
 }

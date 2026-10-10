@@ -6,6 +6,9 @@
 //
 #include "LCSRecord.h"
 #include "LCSHuntSzymanski.h"
+#include "LCSRick.h"
+
+#include <utility>                      // for swap
 
 //
 // Find Matches
@@ -45,8 +48,8 @@ uint32_t LCSRecord::Match(
 uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix) {
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace);
+  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, isrick);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -58,8 +61,8 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix) {
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace);
+  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, isrick);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -70,16 +73,32 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace) {
+  bool ignorecase, bool ignorespace, bool isrick) {
+  // Swap (and un-swap below) so the shorter sequence is scanned and the
+  // longer is tabled, as Rick's time bound assumes m <= n.
+  auto swapped = r2.size() < r1.size();
+  const auto& shorter = swapped ? r2 : r1;
+  const auto& longer = swapped ? r1 : r2;
+
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
-  MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
+  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
   [[maybe_unused]] auto count = Match(
-    indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
+    indexesOf2MatchedByIndex1, indexesOf2MatchedByString, shorter, longer, ignorecase, ignorespace);
+
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
-  auto length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
-  if (intervals != nullptr)
+  auto length = isrick ?
+    LCSRick::Find(
+      ppairs, indexesOf2MatchedByIndex1,
+      (uint32_t)shorter.size(), (uint32_t)longer.size()) :
+    LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+
+  if (intervals != nullptr) {
+    if (swapped)
+      for (auto pair = pairs; pair != nullptr; pair = pair->next)
+        swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);
+  }
   return length;
 }
 
