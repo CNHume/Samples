@@ -130,14 +130,8 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 }
 
 u32string LCSString::Read(const string& filename) {
-  auto [encoding, bomLength] = LCSEncoding::PeekEncoding(filename);
-  ifstream input(filename, ios::binary);
-  if (input.fail()) {
-    string msg(format("{} not found", filename));
-    throw runtime_error(msg);
-  }
-  string bytes((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
-  input.close();
+  auto bytes = LCSEncoding::ReadBytes(filename);
+  auto [encoding, bomLength] = LCSEncoding::GetEncoding(bytes);
 
   u32string codePoints;
   if (LCSEncoding::IsWide(encoding))
