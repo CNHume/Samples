@@ -103,7 +103,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   bool ignorecase, bool ignorespace, bool isrick) {
   // Swap (and un-swap below) so the shorter sequence is scanned and the
   // longer is tabled, as Rick's time bound assumes m <= n.
-  auto swapped = s1.size() > s2.size();
+  auto swapped = s2.size() < s1.size();
   const auto& shorter = swapped ? s2 : s1;
   const auto& longer = swapped ? s1 : s2;
 
@@ -114,10 +114,11 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
-  auto length = isrick
-    ? LCSRick::Find(ppairs, indexesOf2MatchedByIndex1,
-        (uint32_t)shorter.size(), (uint32_t)longer.size())
-    : LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  auto length = isrick ?
+    LCSRick::Find(
+      ppairs, indexesOf2MatchedByIndex1,
+        (uint32_t)shorter.size(), (uint32_t)longer.size()) :
+    LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
 
   if (deltas != nullptr) {
     if (swapped)
