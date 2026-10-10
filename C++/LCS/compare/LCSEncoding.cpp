@@ -64,7 +64,7 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filena
   }
   char head[4] = {};
   input.read(head, 4);
-  string peek(head, input.gcount());
+  string peek(head, (size_t)input.gcount());
   return GetEncoding(peek);
 }
 

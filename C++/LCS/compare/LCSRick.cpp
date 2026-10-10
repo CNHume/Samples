@@ -183,7 +183,7 @@ LCSRick::Contour LCSRick::NextForward(const Contour& contour,
     if (matchesAbove == 0)
       continue;                         // No contour match above this row.
     auto bound = contour[matchesAbove - 1].index2;
-    const auto& list = *matches[i];
+    const auto& list = *matches[(size_t)i];
     // First occurrence strictly greater than bound, still within [j0, j1).
     auto it = upper_bound(list.begin(), list.end(), (uint32_t)bound);
     if (it == list.end() || *it >= j1)
