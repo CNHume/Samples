@@ -72,7 +72,6 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filena
 vector<string> LCSEncoding::ReadWide(
   const string& filename, Encoding encoding, bool isword) {
   string bytes = ReadBytes(filename);
-
   auto codePoints = DecodeCodePoints(bytes, encoding);
 
   // Split into records: lines on '\n' (stripping a trailing '\r'), then

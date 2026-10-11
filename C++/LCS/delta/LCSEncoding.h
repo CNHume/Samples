@@ -25,7 +25,7 @@ public:
   static tuple<Encoding, int> PeekEncoding(const string& filename);
   static vector<string> ReadWide(
     const string& filename, Encoding encoding, bool isword);
-
+  static string ReadBytes(const string& filename);
   static u32string DecodeCodePoints(const string& bytes, Encoding encoding);
 
   const static vector<vector<unsigned char>> BOM;

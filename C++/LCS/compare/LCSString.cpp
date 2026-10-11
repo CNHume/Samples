@@ -142,12 +142,12 @@ u32string LCSString::Read(const string& filename) {
     codePoints = LCSEncoding::DecodeUtf8(bytes);
   }
 #ifdef KEEP_CRLF
-  // Treat the file as one large string: leave end-of-line characters
-  // untouched.  They are non-printing, so -b can ignore them if desired.
+  // Treat file as one long string without end-of-line normalization.
+  // CR and LF can be ignored via -b.
   return codePoints;
 #else
-  // Normalize CRLF to LF so -t text comparison ignores line-ending
-  // differences, matching the line and word record readers.
+  // Normalize CRLF to LF so -t text will ignore end-of-line differences
+  // as is done for LCSRecord::Read()
   return LCSEncoding::NormalizeCrlf(codePoints);
 #endif
 }

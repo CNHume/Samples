@@ -3,6 +3,7 @@
 // 2026-10-07 CNHume  Created LCSEncoding class
 //
 #include "LCSEncoding.h"
+#include "LCSNormal.h"
 
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format
@@ -64,20 +65,13 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filena
   }
   char head[4] = {};
   input.read(head, 4);
-  string peek(head, input.gcount());
+  string peek(head, (size_t)input.gcount());
   return GetEncoding(peek);
 }
 
 vector<string> LCSEncoding::ReadWide(
   const string& filename, Encoding encoding, bool isword) {
-  ifstream input(filename, ios::binary);
-  if (input.fail()) {
-    string msg(format("{} not found", filename));
-    throw runtime_error(msg);
-  }
-  string bytes((istreambuf_iterator<char>(input)), istreambuf_iterator<char>());
-  input.close();
-
+  string bytes = ReadBytes(filename);
   auto codePoints = DecodeCodePoints(bytes, encoding);
 
   // Split into records: lines on '\n' (stripping a trailing '\r'), then
@@ -95,7 +89,7 @@ vector<string> LCSEncoding::ReadWide(
         word.clear();
       };
       for (auto cp : line) {
-        if (cp == U' ' || cp == U'\t' || cp == U'\v' || cp == U'\f' || cp == U'\r')
+        if (LCSNormal::IsSpace(cp))
           flushWord();
         else
           word.push_back(cp);
@@ -117,6 +111,28 @@ vector<string> LCSEncoding::ReadWide(
     flushLine();
 
   return records;
+}
+
+string LCSEncoding::ReadBytes(const string& filename) {
+  // Open at the end to learn the file size, then rewind and read in a single
+  // call.  This avoids the per-byte growth of the istreambuf_iterator.
+  ifstream input(filename, ios::binary | ios::ate);
+  if (input.fail()) {
+    string msg(format("{} not found", filename));
+    throw runtime_error(msg);
+  }
+  streamsize size = input.tellg();
+  if (size < 0) {
+    string msg(format("{} is not seekable", filename));
+    throw runtime_error(msg);
+  }
+  input.seekg(0, ios::beg);
+
+  string bytes;
+  bytes.resize((size_t)size);
+  if (size > 0)
+    input.read(bytes.data(), size);
+  return bytes;
 }
 
 u32string LCSEncoding::DecodeCodePoints(

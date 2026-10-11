@@ -3,8 +3,8 @@
 // 2026-10-07 CNHume  Created LCSEncoding class
 //
 #pragma once
-//#define KEEP_CRLF                     // Suppress CRLF normalization in ReadCodePoints()
-// If KEEP_CRLF is defined -t istext would treat the files as one large string,
+//#define KEEP_CRLF                     // Suppress CRLF normalization in LCSString::Read()
+// If KEEP_CRLF is defined -t istext treats files as one long string,
 // leaving Windows (CRLF) vs. Linux (LF) end-of-line distinct.
 // -b ignorespace can be used to ignore them.
 
@@ -30,7 +30,6 @@ public:
   static vector<string> ReadWide(
     const string& filename, Encoding encoding, bool isword);
   static string ReadBytes(const string& filename);
-
   static u32string DecodeCodePoints(const string& bytes, Encoding encoding);
   static u32string DecodeUtf8(const string& bytes);
   static u32string NormalizeCrlf(const u32string& codePoints);

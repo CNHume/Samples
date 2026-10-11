@@ -14,4 +14,5 @@ public:
     bool ignorecase = false, bool ignorespace = false);
   static void NormalCase(string& input);
   static void NormalSpace(const string& input, string& output);
+  static bool IsSpace(char32_t c);
 };

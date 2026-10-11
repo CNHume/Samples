@@ -51,3 +51,7 @@ void LCSNormal::NormalSpace(const string& input, string& output) {
     }
   }
 }
+
+bool LCSNormal::IsSpace(char32_t c) {
+  return c == U' ' || (c >= U'\t' && c <= U'\r') || c == U'\u00A0';
+}
