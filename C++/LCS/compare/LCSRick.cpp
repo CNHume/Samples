@@ -1,3 +1,7 @@
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
+//
+// 2026-10-09 CNHume  Created LCSRick class
+//
 // Rick (2000) linear-space LCS, adapted to reuse the Hunt-Szymanski
 // Match() output.
 //
