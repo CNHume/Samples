@@ -102,12 +102,10 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isrick) {
-  //
-  //[ToDo]Invoke duration methods as they become available
-  //
+#ifdef SHOW_DURATION
   Duration duration{ "LCSString::Compare", 1 << 16 };
   duration.Show();
-
+#endif
   //
   //[Note]LCSRick::Find() assumes m <= n
   //

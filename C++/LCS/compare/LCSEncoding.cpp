@@ -75,7 +75,10 @@ vector<string> LCSEncoding::ReadWide(
   const string& filename, Encoding encoding, bool isword) {
   string bytes = ReadBytes(filename);
   auto codePoints = DecodeCodePoints(bytes, encoding);
-  // Split the entire input into views of lines
+  // Split the entire input into views of lines.  std::views::split appends
+  // an empty trailing view when the input ends with '\n'; that one is dropped
+  // below, but genuine empty lines (leading or interior) are kept.
+  auto endsWithNewline = !codePoints.empty() && codePoints.back() == U'\n';
   auto lines = codePoints | std::views::split(U'\n');
   std::vector<std::string> records;
   for (auto line_view : lines) {
@@ -103,14 +106,13 @@ vector<string> LCSEncoding::ReadWide(
         records.push_back(ToUtf8(word));
       }
     }
-    else {
-      // std::views::split will produce an empty view if the file ends
-      // with a trailing '\n'.  Only push if it really is an empty line.
-      if (!line.empty()) {
-        records.push_back(ToUtf8(line));
-      }
-    }
+    else
+      records.push_back(ToUtf8(line));
   }
+
+  // Drop the single trailing empty record a trailing '\n' produces.
+  if (!isword && endsWithNewline && !records.empty())
+    records.pop_back();
 
   return records;
 }

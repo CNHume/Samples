@@ -75,12 +75,10 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isrick) {
-  //
-  //[ToDo]Invoke duration methods as they become available
-  //
+#ifdef SHOW_DURATION
   Duration duration{ "LCSRecord::Compare", 1 << 16 };
   duration.Show();
-
+#endif
   //
   //[Note]LCSRick::Find() assumes m <= n
   //
