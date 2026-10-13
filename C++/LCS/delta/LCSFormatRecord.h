@@ -1,6 +1,6 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2022-07-04 CNHume  Created LCSFormat subclass
+// 2022-07-04 CNHume  Created LCSFormatRecord class
 //
 #pragma once
 

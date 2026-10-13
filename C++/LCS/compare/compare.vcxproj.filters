@@ -54,6 +54,9 @@
     <ClCompile Include="LCSFormatString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Duration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="join.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCSFormatString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Duration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

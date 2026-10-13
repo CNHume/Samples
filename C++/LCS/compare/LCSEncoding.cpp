@@ -5,8 +5,10 @@
 #include "LCSEncoding.h"
 #include "LCSNormal.h"
 
+#include <algorithm>
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format
+#include <ranges>
 #include <stdexcept>                    // for runtime_error
 
 tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer) {
@@ -30,7 +32,7 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer)
 
 bool LCSEncoding::IsWide(Encoding encoding) {
   return encoding == UTF16_LE || encoding == UTF16_BE ||
-         encoding == UTF32_LE || encoding == UTF32_BE;
+    encoding == UTF32_LE || encoding == UTF32_BE;
 }
 
 string LCSEncoding::ToUtf8(const u32string& codePoints) {
@@ -73,42 +75,42 @@ vector<string> LCSEncoding::ReadWide(
   const string& filename, Encoding encoding, bool isword) {
   string bytes = ReadBytes(filename);
   auto codePoints = DecodeCodePoints(bytes, encoding);
+  // Split the entire input into views of lines
+  auto lines = codePoints | std::views::split(U'\n');
+  std::vector<std::string> records;
+  for (auto line_view : lines) {
+    std::u32string line(line_view.begin(), line_view.end());
 
-  // Split into records: lines on '\n' (stripping a trailing '\r'), then
-  // optionally words on ASCII whitespace within each line.
-  vector<string> records;
-  u32string line;
-  auto flushLine = [&]() {
-    if (!line.empty() && line.back() == U'\r')
+    // Remove trailing \r
+    if (!line.empty() && line.back() == U'\r') {
       line.pop_back();
+    }
+
     if (isword) {
-      u32string word;
-      auto flushWord = [&]() {
-        if (!word.empty())
-          records.push_back(ToUtf8(word));
-        word.clear();
-      };
+      std::u32string word;
       for (auto cp : line) {
-        if (LCSNormal::IsSpace(cp))
-          flushWord();
+        if (LCSNormal::IsSpace(cp)) {
+          // Only push non-empty words 
+          if (!word.empty()) {
+            records.push_back(ToUtf8(word));
+            word.clear();
+          }
+        }
         else
           word.push_back(cp);
       }
-      flushWord();
+      if (!word.empty()) {
+        records.push_back(ToUtf8(word));
+      }
     }
-    else
-      records.push_back(ToUtf8(line));
-    line.clear();
-  };
-
-  for (auto cp : codePoints) {
-    if (cp == U'\n')
-      flushLine();
-    else
-      line.push_back(cp);
+    else {
+      // std::views::split will produce an empty view if the file ends
+      // with a trailing '\n'.  Only push if it really is an empty line.
+      if (!line.empty()) {
+        records.push_back(ToUtf8(line));
+      }
+    }
   }
-  if (!line.empty())
-    flushLine();
 
   return records;
 }
@@ -184,7 +186,7 @@ u32string LCSEncoding::DecodeUtf8(const string& bytes) {
   u32string codePoints;
   auto cont = [&](size_t k) {
     return (unsigned char)bytes[k] >= 0x80 && (unsigned char)bytes[k] < 0xC0;
-  };
+    };
   for (size_t i = 0; i < bytes.size();) {
     auto b0 = (unsigned char)bytes[i];
     if (b0 < 0x80) {

@@ -1,6 +1,6 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2017-07-04 CNHume  Created LCSString subclass
+// 2017-07-04 CNHume  Created LCSString class
 //
 #pragma once
 

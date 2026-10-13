@@ -1,9 +1,10 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2017-07-09 CNHume  Moved Command overloads to LCSFile subclass
-// 2017-07-04 CNHume  Created LCSRecord subclass
+// 2017-07-09 CNHume  Moved Command overloads to LCSFile class
+// 2017-07-04 CNHume  Created LCSRecord class
 // 2015-01-19 CNHume  Created file
 //
+#include "Duration.h"
 #include "LCSRecord.h"
 #include "LCSHuntSzymanski.h"
 #include "LCSRick.h"
@@ -74,11 +75,18 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isrick) {
-  // Swap (and un-swap below) so the shorter sequence is scanned and the
-  // longer is tabled, as Rick's time bound assumes m <= n.
-  auto swapped = r2.size() < r1.size();
-  const auto& shorter = swapped ? r2 : r1;
-  const auto& longer = swapped ? r1 : r2;
+  //
+  //[ToDo]Invoke duration methods as they become available
+  //
+  Duration duration{ "LCSRecord::Compare", 1 << 16 };
+  duration.Show();
+
+  //
+  //[Note]LCSRick::Find() assumes m <= n
+  //
+  auto isswapped = isrick && r2.size() < r1.size();
+  const auto& shorter = isswapped ? r2 : r1;
+  const auto& longer = isswapped ? r1 : r2;
 
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
@@ -94,7 +102,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
     LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
 
   if (intervals != nullptr) {
-    if (swapped)
+    if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);

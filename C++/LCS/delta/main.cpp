@@ -3,8 +3,8 @@
 // You should have received a copy of the MIT License along with this program.
 // If not, see https://opensource.org/licenses/MIT.
 //
-// 2017-07-09 CNHume  Created LCSFile subclass
-// 2017-07-04 CNHume  Created LCSRecord subclass
+// 2017-07-09 CNHume  Created LCSFile class
+// 2017-07-04 CNHume  Created LCSRecord class
 // 2017-06-29 CNHume  Added Command class
 // 2015-04-29 CNHume  Added support for isjoin
 // 2015-04-25 CNHume  Repurposed infix as join

@@ -1,8 +1,9 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2017-07-04 CNHume  Created LCSString subclass
+// 2017-07-04 CNHume  Created LCSString class
 // 2015-01-19 CNHume  Created file
 //
+#include "Duration.h"
 #include "LCSString.h"
 #include "LCSHuntSzymanski.h"
 #include "LCSRick.h"
@@ -101,11 +102,18 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isrick) {
-  // Swap (and un-swap below) so the shorter sequence is scanned and the
-  // longer is tabled, as Rick's time bound assumes m <= n.
-  auto swapped = s2.size() < s1.size();
-  const auto& shorter = swapped ? s2 : s1;
-  const auto& longer = swapped ? s1 : s2;
+  //
+  //[ToDo]Invoke duration methods as they become available
+  //
+  Duration duration{ "LCSString::Compare", 1 << 16 };
+  duration.Show();
+
+  //
+  //[Note]LCSRick::Find() assumes m <= n
+  //
+  auto isswapped = isrick && s2.size() < s1.size();
+  const auto& shorter = isswapped ? s2 : s1;
+  const auto& longer = isswapped ? s1 : s2;
 
   CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
   MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByChar
@@ -121,7 +129,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
 
   if (deltas != nullptr) {
-    if (swapped)
+    if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
     *deltas = Delta::Coalesce(pairs);

@@ -1,7 +1,7 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2017-07-09 CNHume  Moved Command overloads to LCSFile subclass
-// 2017-07-04 CNHume  Created LCSRecord subclass
+// 2017-07-09 CNHume  Moved Command overloads to LCSFile class
+// 2017-07-04 CNHume  Created LCSRecord class
 //
 #pragma once
 

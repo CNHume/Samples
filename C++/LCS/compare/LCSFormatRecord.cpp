@@ -1,6 +1,6 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2026-10-02 CNHume  Created LCSFormatRecord class
+// 2022-07-04 CNHume  Created LCSFormatRecord class
 //
 #include "LCSFormatRecord.h"
 

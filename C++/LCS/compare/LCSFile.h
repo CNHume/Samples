@@ -1,7 +1,7 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // 2018-05-11 CNHume  Added word switch
-// 2017-07-09 CNHume  Created LCSFile subclass
+// 2017-07-09 CNHume  Created LCSFile class
 //
 #pragma once
 
