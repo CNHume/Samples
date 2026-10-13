@@ -21,11 +21,6 @@
 
 #include <iostream>                     // for cout
 #include <locale>
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-#define NOGDI                           // Disable GDI graphics macros to resolve 'byte' conflict
-#include <windows.h>
-#endif
 //
 // command line application
 //

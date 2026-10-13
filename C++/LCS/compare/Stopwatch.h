@@ -3,10 +3,10 @@
 // 2026-10-13 CNHume  Created Stopwatch class
 //
 #pragma once
-#include "Stopwatch.h"
 
-#include <iostream>
 #include <chrono>
+#include <cstdint>                      // for int64_t
+#include <iostream>
 #include <thread>
 
 class Stopwatch {
