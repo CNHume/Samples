@@ -105,6 +105,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 #ifdef SHOW_DURATION
   Duration duration{ "LCSString::Compare", 1 << 16 };
   duration.Show();
+  duration.DemoStopwatch();
 #endif
   //
   //[Note]LCSRick::Find() assumes m <= n

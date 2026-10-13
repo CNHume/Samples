@@ -12,11 +12,11 @@
 //
 #pragma once
 #define FILTER_PAIRS
+#define SHOW_DURATION                   // See Duration::Show() in LCSRecord, and LCSString
 //#define SHOW_MATCHES
 //#define SHOW_MATCH_COUNT              // See Match() in LCSFile, LCSRecord, and LCSString
 //#define SHOW_PAIRS
 //#define SHOW_PREFIXENDS
-//#define SHOW_DURATION                 // See Duration::Show() in LCSRecord, and LCSString
 
 #include "Delta.h"
 #include "join.h"

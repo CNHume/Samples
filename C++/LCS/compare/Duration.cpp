@@ -26,3 +26,17 @@ void Duration::Show() {
   std::cout << std::format(
     "duration = {}\n", j.dump(2));
 }
+
+void Duration::DemoStopwatch() {
+  Stopwatch sw;
+
+  sw.start();
+
+  // Sleep for testing: 5 ms = 5000 microseconds
+  std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+  sw.stop();
+
+  std::cout << std::format(
+    "Elapsed time: {} µs\n", sw.elapsed_microseconds());
+}

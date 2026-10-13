@@ -78,6 +78,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
 #ifdef SHOW_DURATION
   Duration duration{ "LCSRecord::Compare", 1 << 16 };
   duration.Show();
+  duration.DemoStopwatch();
 #endif
   //
   //[Note]LCSRick::Find() assumes m <= n

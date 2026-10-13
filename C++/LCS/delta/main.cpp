@@ -19,20 +19,34 @@
 //
 #include "LCSFile.h"
 
-#include <clocale>                      // for setlocale
 #include <iostream>                     // for cout
-
+#include <locale>
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+#define NOGDI                           // Disable GDI graphics macros to resolve 'byte' conflict
+#include <windows.h>
+#endif
 //
 // command line application
 //
 int main(int argc, char* argv[]) {
   auto errorLevel = EXIT_FAILURE;
+  // Force the global runtime and standard streams to use UTF-8
+  // ".UTF-8", and "en_US.UTF-8" configure UTF-8 encoding
+  try {
+    std::locale::global(std::locale(".UTF-8"));
+    std::cout.imbue(std::locale());
+  }
+  catch (const std::exception&) {
+    // Fallback for environments with strict minimal locale installations
+    std::locale::global(std::locale(""));
+    std::cout.imbue(std::locale());
+  }
 
   try {
-    setlocale(LC_ALL, "");              // Set preferred locale vs. minimal C locale
 #ifdef _DEBUG
-    auto locale = setlocale(LC_ALL, NULL);
-    cout << format("locale = {}\n", locale);
+    std::locale current_locale;
+    cout << format("locale = {}\n", current_locale.name());
 #endif
     Command command;
     command.Parse(argc, argv);
