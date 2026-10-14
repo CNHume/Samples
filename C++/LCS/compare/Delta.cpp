@@ -14,6 +14,7 @@
 // 2014-12-31 CNHume  Created file
 //
 #include "Delta.h"
+
 #include <algorithm>                    // for min()
 
 //

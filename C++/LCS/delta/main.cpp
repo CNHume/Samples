@@ -21,6 +21,7 @@
 
 #include <iostream>                     // for cout
 #include <locale>
+
 //
 // command line application
 //

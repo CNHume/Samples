@@ -3,9 +3,11 @@
 // 2026-10-11 CNHume  Created Duration class
 //
 #pragma once
+
 #include "Stopwatch.h"
-#include <string>
+
 #include <nlohmann/json_fwd.hpp>        // Forward declaration header
+#include <string>
 
 class Duration {
 public:

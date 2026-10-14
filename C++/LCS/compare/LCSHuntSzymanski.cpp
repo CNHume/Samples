@@ -21,6 +21,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCSHuntSzymanski.h"
+
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 

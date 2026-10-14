@@ -3,6 +3,7 @@
 // 2014-12-06 CNHume  Created file
 //
 #pragma once
+
 #include <sstream>
 #include <string>
 

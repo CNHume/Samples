@@ -6,6 +6,7 @@
 #pragma once
 
 #include "Command.h"
+
 #include "LCSFormatRecord.h"
 #include "LCSFormatString.h"
 
