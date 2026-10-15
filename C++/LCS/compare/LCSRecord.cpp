@@ -118,7 +118,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
       (uint32_t)shorter.size(), (uint32_t)longer.size());
     break;
   case LCS::Algorithm::RickTime:
-    throw runtime_error("LCSRickTime is not yet implemented");
+    throw runtime_error("LCSRickTime is not available for the record path");
   default:
     throw runtime_error("unknown LCS algorithm");
   }

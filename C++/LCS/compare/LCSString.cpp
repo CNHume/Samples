@@ -9,6 +9,7 @@
 #include "LCSHuntSzymanski.h"
 #include "LCSNormal.h"
 #include "LCSRickSpace.h"
+#include "LCSRickTime.h"
 
 #include <format>                       // for format
 #include <iostream>                     // for cout
@@ -131,8 +132,9 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
     break;
   }
-  case LCS::Algorithm::RickSpace: {
-    // LCSRickSpace::Find() assumes m <= n: scan the shorter string, table the
+  case LCS::Algorithm::RickSpace:
+  case LCS::Algorithm::RickTime: {
+    // Both Rick variants assume m <= n: scan the shorter string, table the
     // longer.  Swap when needed and un-swap the reported positions here.
     auto isswapped = s2.size() < s1.size();
     const auto& shorter = isswapped ? s2 : s1;
@@ -143,14 +145,14 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     u32string ns1, ns2;
     LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
-    length = LCSRickSpace::Find(ppairs, ns1, ns2);
+    length = algorithm == LCS::Algorithm::RickTime ?
+      LCSRickTime::Find(ppairs, ns1, ns2) :
+      LCSRickSpace::Find(ppairs, ns1, ns2);
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
     break;
   }
-  case LCS::Algorithm::RickTime:
-    throw runtime_error("LCSRickTime is not yet implemented");
   default:
     throw runtime_error("unknown LCS algorithm");
   }

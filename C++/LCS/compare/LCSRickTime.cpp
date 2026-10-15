@@ -6,6 +6,8 @@
 //
 #include "LCSRickTime.h"
 
+#include <algorithm>                    // for lower_bound, sort
+#include <memory>                       // for make_shared
 #include <unordered_map>                // for symbol-id compression
 #include <vector>
 
@@ -24,6 +26,12 @@ namespace {
     vector<vector<int64_t>> next2;     // next2[id][j] over s2, j in [0, n]
     int64_t m = 0;
     int64_t n = 0;
+  };
+
+  // A recorded dominant match (coordinates in the shorter/longer strings).
+  struct DomMatch {
+    int64_t i;
+    int64_t j;
   };
 
   FlexTables BuildTables(const u32string& s1, const u32string& s2) {
@@ -66,7 +74,8 @@ namespace {
   }
 }
 
-uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s2) {
+uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
+  const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
   auto m = t.m;
   auto n = t.n;
@@ -79,6 +88,12 @@ uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s
   rowThresh[0] = -1;                    // virtual origin C_0
   colThresh[0] = -1;
   int64_t low = 1;                      // smallest class not yet complete
+
+  // Recorded dominant matches, grouped by rank.
+  auto traceLCS = pairs != nullptr;
+  vector<vector<DomMatch>> byRank;
+  if (traceLCS)
+    byRank.assign((size_t)m + 2, vector<DomMatch>());
 
   for (int64_t l = 0; l < m; l++) {
     //
@@ -98,6 +113,8 @@ uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s
       if (j < rowThresh[(size_t)k]) {
         auto temp = rowThresh[(size_t)k];
         rowThresh[(size_t)k] = j;       // dominant k-match (l, j)
+        if (traceLCS)
+          byRank[(size_t)k].push_back({ .i = l, .j = j });
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
       }
       if (j == rowThresh[(size_t)k])
@@ -122,6 +139,8 @@ uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s
       if (i < colThresh[(size_t)k]) {
         auto temp = colThresh[(size_t)k];
         colThresh[(size_t)k] = i;       // dominant k-match (i, l)
+        if (traceLCS)
+          byRank[(size_t)k].push_back({ .i = i, .j = l });
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];
       }
       if (i == colThresh[(size_t)k])
@@ -137,5 +156,41 @@ uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s
   for (int64_t k = 1; k <= m; k++)
     if (rowThresh[(size_t)k] < n || colThresh[(size_t)k] < m)
       p = (uint32_t)k;
+
+  //
+  // Reconstruct.  Each rank's dominant matches form an antichain, so sorting
+  // by ascending i forces descending j.  Walking backward from the p-th match,
+  // the largest-i (k-1)-match with i < current.i is necessarily above-left of
+  // the current match (its j < current.j), giving a valid LCS.
+  //
+  if (traceLCS && p > 0) {
+    for (int64_t k = 1; k <= (int64_t)p; k++) {
+      auto& v = byRank[(size_t)k];
+      sort(v.begin(), v.end(),
+        [](const DomMatch& a, const DomMatch& b) { return a.i < b.i; });
+    }
+
+    shared_ptr<Pair> chain = nullptr;   // ascending: rank 1 .. rank p
+    auto ci = byRank[(size_t)p].back().i;
+    auto cj = byRank[(size_t)p].back().j;
+    chain = make_shared<Pair>((uint32_t)ci, (uint32_t)cj, nullptr);
+    for (int64_t k = (int64_t)p - 1; k >= 1; k--) {
+      const auto& v = byRank[(size_t)k];
+      auto it = lower_bound(v.begin(), v.end(), ci,
+        [](const DomMatch& m, int64_t x) { return m.i < x; });
+      --it;                             // largest i < ci
+      ci = it->i;
+      cj = it->j;
+      chain = make_shared<Pair>((uint32_t)ci, (uint32_t)cj, chain);
+    }
+    *pairs = chain;
+  }
+  else if (traceLCS) {
+    *pairs = nullptr;
+  }
   return p;
+}
+
+uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s2) {
+  return Find(nullptr, s1, s2);
 }

@@ -13,16 +13,21 @@
 //
 #pragma once
 
-#include "LCS.h"                        // for LCS base
+#include "LCS.h"                        // for LCS base, Pair
 
 #include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
 #include <string>                       // for u32string
 
 using namespace std;
 
 class LCSRickTime : public LCS {
 public:
-  // Compute the length of an LCS of s1 and s2.  Assumes |s1| <= |s2|, which
-  // the caller (LCSString::Compare) guarantees by swapping when necessary.
+  // Compute the LCS length and, when pairs is non-null, the matched positions
+  // as a linked list of (begin1, begin2) Pairs in ascending order.  Assumes
+  // |s1| <= |s2|, which the caller guarantees by swapping when necessary.
+  static uint32_t Find(shared_ptr<Pair>* pairs,
+    const u32string& s1, const u32string& s2);
+  // Length only.
   static uint32_t FindFlexibleLength(const u32string& s1, const u32string& s2);
 };
