@@ -1,0 +1,499 @@
+
+
+===== PAGE 1 =====
+
+Information Processing Letters 75 (2000) 275–281
+Simple and fast linear space computation
+of longest common subsequences
+Claus Rick
+Universität Bonn, Institut für Informatik IV , Römerstr. 164, 53117 Bonn, Germany
+Received 17 March 2000
+Communicated by T. Lengauer
+Keywords: Algorithms; Longest common subsequence; Linear space
+1. Introduction
+Given two sequences AD a1a2:::a m and BD
+b1b2:::b n, m6n, over some alphabet  of size s
+the longest common subsequence (LCS) problem is
+to ﬁnd a sequence of greatest possible length that can
+be obtained from both A and B by deleting zero or
+more (not necessarily adjacent) symbols. Applications
+for the LCS problem arise in many different areas
+since the length,p, of a longest common subsequence
+can be viewed as a simple measure of similarity
+between two sequences. There is a wide range of
+efﬁcient algorithms, suiting different purposes, which
+can compute the length of an LCS using only linear
+space [7]. The space requirement of these algorithms
+usually rises to O .mn/ when a longest common
+subsequence has to be constructed, and, as stated
+in [2], it is not obvious in general that an LCS
+algorithm can be adapted to run in linear space without
+substantial alteration of its time complexity.
+In this paper we show how to maintain the
+O.minfpm;p.np/g/ time complexity and linear
+space of the algorithm introduced in [11] which seems
+to have been widely accepted as very fast and ﬂexi-
+E-mail address: rick@cs.uni-bonn.de (C. Rick).
+ble. All linear space implementations, including ours,
+rely on variations of a divide and conquer scheme ﬁrst
+introduced by Hirschberg [5]. The main difﬁculty in
+keeping up the time complexity of an algorithm is to
+ﬁnd a suitable partition into two subproblems such
+that the time to solve these is about half the time re-
+quired for the original problem [2]. Although the as-
+ymptotic time complexity could be shown to remain
+unchanged for some algorithms, the application of the
+divide and conquer scheme introduces some overhead,
+which can be estimated theoretically for the worst-
+case, and which varies for different methods suggested
+so far. In its ideal form, i.e., when problems are evenly
+split into subproblems, one can expect a doubling of
+the original running time. But in order to split the prob-
+lem evenly some methods have to calculate the length
+of an LCS in a separate stage preceding the divide and
+conquer scheme [3,8]. So their performance can be ex-
+pected to be three times that of the original algorithm.
+Recently, Goeman and Clausen [4] suggested a vari-
+ation of the algorithm from [11] and developed a lin-
+ear space implementation. Although they report exper-
+iments indicating that their algorithm is fast in prac-
+tice they had to add an m logm term with respect to
+the asymptotic running time, and they obtain a worst-
+case overhead factor of 5.25 since their algorithm is
+0020-0190/00/$ – see front matter Ó 2000 Elsevier Science B.V . All rights reserved.
+PI I : S0020-0190(00)00114-9
+
+===== PAGE 2 =====
+
+276 C. Rick / Information Processing Letters 75 (2000) 275–281
+Table 1
+Linear space algorithms computing an LCS.c gives the theoretical worst-case overhead
+Year Author(s) Time c Paradigm
+1975 Hirschberg [5] O .mn/ 2 dyn. programming
+1985 Apostolico, Guerra [1] O .m logmCpm/ T2; logmU contours
+1986 Myers [9] O .n.np// 2 shortest path
+1987 Kumar, Rangan [8] O .n.mp// 3 contours
+1990 Wu et al. [12] O .n.mp// 2 shortest path
+1992 Apostolico et al. [3] O .n.mp// 3 contours
+1992 Apostolico et al. [3] O .pm/ 3 contours
+1999 Goeman, Clausen [4] O .minfpm;m logmCp.np/g/ T5:25; logmU contours
+1999 this paper O .minfpm;p.np/g/ 2 contours
+not guaranteed to split the LCS evenly. Therefore, de-
+pending on p, the overhead varies between 5.25 and
+logm. The details of their method are quite involved.
+Table 1 gives a survey of linear space algorithms for
+the LCS problem. Most algorithms also have to per-
+form some additional bookkeeping which is difﬁcult
+to estimate theoretically. We omitted the times neces-
+sary for some standard preprocessing, solving the so-
+called string identiﬁcation problem, since it does not
+affect the time complexity of the divide and conquer
+scheme for the main processing phase.
+Our linear space implementation of the algorithm
+from [11] also employs the divide and conquer scheme
+and, like in most linear space implementations, it ex-
+ploits the fact that the basic algorithm can equally well
+be applied to the reversed input strings. We highlight
+general structural facts concerning this symmetry and
+use these facts to develop a general method which
+(1) eliminates the need for a separate stage to compute
+the length;
+(2) splits an LCS evenly;
+(3) supports a speed up of the computation in practice.
+Using this method we are able to reduce the theoret-
+ical overhead factor to 2 for a variety of algorithms
+based on the same paradigm (contours) to compute an
+LCS [6,3,11]. We will shortly review this paradigm
+in Section 2. Before, such a factor was only known
+to be achievable for the basic dynamic programming
+algorithm [5], and for algorithms employing a differ-
+ent paradigm [9,12]. For these latter algorithms it was
+observed [10] that in practice ﬁnding a midpoint (and
+thus the length) of an LCS by attacking the problem
+from two sides was twice as efﬁcient as the basic al-
+gorithm, which means that the time overhead of the
+divide and conquer scheme is negligible.
+2. Computing contours
+It is common to describe the LCS problem in the
+following way. An ordered pair .i;j/ ,1 6i6m,
+16j6n is called a match ifaiDbj .T h es e tM of
+all matches can be represented by a matching matrix
+of size mn in which each match is identiﬁed by
+a circle. Two matches .i;j/ and .i0;j0/ may be part
+of the same common subsequence if and only if i<
+i0^j<j 0 ori0 <i^j0 <j . A sequence of matches
+that is strictly increasing in both components is called
+a chain. The LCS problem can now be viewed as
+ﬁnding a longest chain.
+For a match .i;j/ we say that it is of rankk if the
+length of a longest chain ending at .i;j/ is k. Thus,
+M can be partitioned into classes C1;C 2;:::;C p,
+each class containing matches of the same rank. It
+is well known that these classes exhibit a special
+structure in the matching matrix. If sorted with respect
+to the ﬁrst component, matches belonging to the
+same class shift from right to left, and they form so-
+called contours when connected by lines as shown
+in Fig. 1(a). Contours of different classes may never
+cross or touch, and the contour of each class divides
+the matrix into a top/left part and a bottom/right part.
+Each contour can be completely speciﬁed bydominant
+matches, i.e., those matches.i;j/ in a class for which
+there is no other match .i0;j0/ in the same class with
+
+===== PAGE 3 =====
+
+C. Rick / Information Processing Letters 75 (2000) 275–281 277
+Fig. 1. Forward contours (a) and backward contours (b).
+i0Di^j0 <j ori0 <i^j0Dj. They are indicated
+by bold circles in Fig. 1. Note that there will always
+be an LCS consisting only of dominant matches. For
+more background on this see, for example, [11].
+One way to ﬁnd a longest common subsequence is
+to compute these classes (or contours) rank by rank
+employing the mentioned structural properties. This
+was ﬁrst suggested by Hirschberg [6]. Efﬁciency was
+later gained by concentrating on the computation of
+dominant matches [3]. We note that the algorithm
+from [11] can be easily modiﬁed to work in the
+same style while maintaining its time bound. It is
+this modiﬁed algorithm for which we describe a
+linear space implementation. Details on how these
+algorithms actually compute the contours are not
+important to understand our approach. However, we
+have to keep in mind that they will only determine the
+dominant matches.
+3. The new method
+Note that the strategy sketched in the previous
+section would equally well work to compute the length
+of an LCS if applied from the back of the strings (i.e.,
+to the reversed input strings). In this way we may
+obtain backward contours as opposed to our standard
+forward contours . The number of forward contours
+and backward contours will be the same and for every
+match there will be a unique forward contour and
+a unique backward contour. We will denote the set
+of matches with forward rank k by FCk and those
+with backward rankk by BCk. Forward contours and
+backward contours might look very different as can be
+seen in Fig. 1. Nevertheless they are related in a special
+way which forms the basis of our new approach.
+Lemma 1. Let p be the length of an LCS between
+strings A and B. Then for every match .i;j/ the
+following holds:
+There is an LCS containing.i;j/ if and only if.i;j/
+lies on thekth forward contourand on the.pkC1/st
+backward contour for somek2T 1;pU.
+Proof. .)/ If there is a forward chain of length k
+ending at .i;j/ and a backward chain of length p
+kC 1 ending at .i;j/ we can glue them together to
+obtain a CS of lengthp.
+.(/ Assume there is an LCS containing.i;j/ as its
+kth element. Then.i;j/ has forward rank at leastk and
+backward rank at least pkC 1 since matches of an
+LCS form a chain of lengthp. Would its forward rank
+or its backward rank be greater than k orpkC 1,
+respectively we could construct a CS of length >p .
+But this would contradict p being the length of an
+LCS. 2
+Based on this lemma our idea to compute the length
+and the midpoint of a longest common subsequence
+is as follows. Start computing forward contours and
+backward contours in an alternating fashion, i.e., use
+
+===== PAGE 4 =====
+
+278 C. Rick / Information Processing Letters 75 (2000) 275–281
+Fig. 2. Forward and backward contours overlayed.
+the order FC1; BC1; FC2; BC2;::: .I nt h i sw a ym o r e
+and more matches will be covered, i.e., assigned
+to a forward contour or to a backward contour.
+Sooner or later there will also be matches covered
+by both a forward contour and a backward contour.
+In particular this means that forward contours and
+backward contours will start to cross (see Fig. 2 for
+an example). Observing the last contour which covers
+matches not assigned to any previous contour we
+will have found the length of an LCS, and any of
+the matches covered by this last contour for the ﬁrst
+time may serve as a midpoint of an LCS (when the
+length of an LCS is even, say 2k, our “midpoint” will
+be the .kC 1/st match on an LCS). Then we can
+apply the same algorithm recursively. We now prove
+that this method is in fact correct and that it can be
+implemented efﬁciently.
+We deﬁne setsMi containing the matches which re-
+main uncovered by contours computed up to certain
+points in the computation:M0VDM,M1VDM0nFC1,
+M2VDM1n BC1,a n df o r i> 2w es e t M2i1VD
+M2.i1/n FCi and M2iVDM2i1n BCi .F o re x a m -
+ple, in Fig. 2(a) M4Df.3; 6/;. 5; 5/;. 5; 4/g while in
+Fig. 2(b)M5D; . Obviously,MDM0M1M2
+M3 .L e tOp be the minimal index such thatMOpD
+;.
+Lemma 2. The length of an LCS isOp and each match
+inMOp1 is a possible midpoint of an LCS.
+Proof. We only prove the case where Op is odd. The
+other case is analogous. Our situation is as follows.
+Since MOp is the ﬁrst set equal to ;, the matches in
+MOp1 were covered by FCk, kD.OpC 1/=2, but not
+by any contour FCl , BCl ,l<k . So their forward rank
+and their backward rank is at leastk which means that
+a CS of length 2k 1DOp exists. We have to show that
+there can be no longer CS. In order to prove this we
+will argue that there can be no match whose forward
+rank and backward rank adds up to more than 2k.
+We claim that all matches inMOp1 are also on BCk.
+Assume some match.i;j/2MOp1 has backward rank
+>k . This means that there has to be some match
+.i0;j0/ of backward rank k which succeeds a match
+in BCk1 and precedes .i;j/ on a backward chain.
+But such a match would not have been covered by any
+FCl;l 6k,o ra n y BCl;l<k . This, however, would
+imply that MOp6D; . A contradiction. Also note that
+all matches on FCk except those inMOp1 are covered
+by some BCl;l<k , i.e.,MOp1D FCkn BCk1 where
+BCt VDStiD1 BCi (FCt is deﬁned analogously). So no
+match on FCk has backward rank>k .
+This claim is the basis of an induction which,
+using similar arguments, shows that for 16l6k 1
+all matches in FCkln BCk1Cl are on BCkCl and,
+symmetrically, that all matches in BCkln FCk1Cl
+are on FCkCl. From this it follows that for 16l6k
+1, BCkCl FCkl and that FCkCl BCkl .B u tt h e n
+there is no match whose forward rank and backward
+
+===== PAGE 5 =====
+
+C. Rick / Information Processing Letters 75 (2000) 275–281 279
+rank sum up to more than.kCl/C.kl/D 2k which
+implies that no CS of length> 2k 1DOp exists.
+Since matches in MOp1 are on both FCk and BCk
+they are possible midpoints of an LCS by Lemma 1.
+2
+We can not, however, keep track of these sets
+explicitly in order to ﬁnd Op. This would be too costly.
+We need a criterion to detect that all matches have
+been covered which is solely based on the knowledge
+of dominant matches (this is all the information we
+can expect to obtain from our algorithm). Further, we
+would like to identify at least one dominant match as
+midpoint of an LCS. The basic idea is to check how the
+two most recently computed contours interact. From
+our alternating order of computation this will always
+be contours FCf and BCb with fb6 1. Let Of
+andOb be the minimal indices such that no dominant
+match in BCOb is to the bottom/right of any dominant
+match in FCOf (or, equivalently, no dominant match in
+FCOf is to the top/left of any dominant match match
+in BCOb). Intuitively, this is the ﬁrst time that the two
+contours do not cross anymore (they will, however,
+touch each other at least once). The following lemma
+shows that this is a suitable termination criterion for
+our computation.
+Lemma 3.
+(1) The length of an LCS isObC Of 1.
+(2) FCOf and BCOb share at least one match which is
+dominant on FCOf and/or BCOb.
+Proof. We only prove the case ObD Of , i.e., BCOb is
+the last computed contour (the case ObC 1D Of is
+symmetric).
+First we prove (2), i.e., we show that at least one
+dominant match on BCOb is on FCOf .S i n c eOf andOb
+are minimal we can conclude that there is a dominant
+match .i;j/2 FCOf which is to the top/left of some
+dominant match on BCOb1 and which is covered by
+BCOb. Consider the dominant match .i0;j0/2 BCOb
+which shares at least on component with .i;j/ .W e
+claim that.i0;j0/2 FCOf . From the shape of contours
+we know that eitheri6i0^jDj0 ori0Di^j6j0.
+So if.i0;j0/=2 FCOf it would have to be located to the
+bottom/right of some dominant match on FCOf .B u t
+this contradicts Of andOb being minimal.
+Now we prove thatObC Of 1DOp (then (1) follows
+from Lemma 2). Since no dominant match on BCOb is
+to the bottom/right of any dominant match onFCOf we
+can also conclude that BCOb FCOf . But this meansthat all matches will still be covered by FCOf andBCOb1 and thereforeOp6 OfCOb1. On the other handFCOf and BCOb share at least one match (by (2)). This
+match would not be covered byFCOf1 and BCOb1 andsoOp> OfCOb 2. 2
+So all we must be able to do is to check whether
+dominant matches of the most recent contour are to
+the top/left, to the bottom/right or on the contour com-
+puted just before the most recent contour. With respect
+to the time complexity it is important to perform these
+tests in time proportional to the number of dominant
+matches of the contours involved. Assuming that dom-
+inant matches of both contours are available as sorted
+lists (e.g., from bottom/left to top/right) and noting the
+special shape of contours it is not difﬁcult to see that
+a single appropriate scan of the lists is sufﬁcient. The
+discussion above ﬁnally gives
+Theorem 4. A longest common subsequence can be
+constructed in O.nsC minfpm;p.np/g/ time and
+linear space.
+Proof. Time and space O .ns/ is needed for a stan-
+dard preprocessing stage solving the so-called string
+identiﬁcation problem. This supports certain queries
+during the main processing stage. Note, however, that
+we have to solve this problem only once before start-
+ing the divide and conquer scheme. So the crucial
+part is the analysis of this scheme for the main al-
+gorithm. Since we only need to retain information on
+the most recent forward contour and on the most re-
+cent backward contour space requirement is clearly
+bounded by O .n/. Computing the forward contours
+takes time O.minf12pm; 12p.np/g/ as does the com-
+putation of the backward contours. The number of
+dominant matches on each contour is bounded by
+O.minfm;.np/g/. So checking for termination ac-
+cording to Lemma 3 is within our time bound. The to-
+tal time to compute the length and the midpoint of an
+LCS therefore remains O.nsC minfpm;p.np/g/.
+We split the problem at some match .m0;n0/ on
+contourd12pe which is the midpoint of the LCS to be
+constructed. Then we recursively determine an LCS
+
+===== PAGE 6 =====
+
+280 C. Rick / Information Processing Letters 75 (2000) 275–281
+of length p1Dd 12pe 1, for the length m0 1a n d
+length n0 1p r e ﬁ x e so fA and B, respectively, and
+an LCS of length p2Db 12pc, for the length mm0
+and length nn0 sufﬁxes of A and B, respectively.
+Sop1Cp2Dp 1a n dp1;p 26 12p. The recursion
+is stopped whenever we discover a subproblem having
+an LCS of length zero or when the length of the shorter
+string of the subproblem equals the length of an LCS.
+In the later case all characters of the shorter string must
+be part of the LCS. Note that we will always know the
+length of an LCS which has to be found for a certain
+subproblem.
+The actual number of steps performed by the
+original algorithm is upper bounded by 2  minfpm;
+p.n p/g. In calculating the time T1 to ﬁnd the
+midpoints of the two subproblems on the ﬁrst level of
+the recursion we have to consider both bounds in turn.
+First we have
+T16 2p1.m0 1/C 2p2.mm0/
+6p.m0 1Cmm0/
+6pm:
+In the other case there is a subtlety sincenD maxfm;ng
+is assumed in the time bound of the basic algorithm.
+But after splitting at .m0;n0/ it does not necessarily
+hold that
+maxfm0 1;n0 1gC maxfmm0;nn0g
+6 maxfm;ng:
+However, we note that the time bound of the basic
+algorithm can be reduced to p.np/Cp.mp/6
+2p.np/ whenp is known. Then we have
+T16p1.m0 1p1/Cp1.n0 1p1/
+Cp2.mm0p2/Cp2.nn0p2/
+6p2.m0 1p1Cmm0p2/
+Cp2.n0 1p1Cnn0p2/
+Dp2m 1.p1Cp2/
+Cp2n 1.p1Cp2/
+Dp2.mp/Cp2.np/:
+So T16 minfpm;p.np/g. Continuing the recur-
+sion, the total time to compute an LCS will be bounded
+by
+2
+logmX
+iD0
+1
+2
+i
+min
+
+pm;p.np/
+	
+6 4m i n
+
+pm;p.np/
+	
+giving a worst-case overhead factor of 2. 2
+Apart from eliminating the need for an extra stage
+to compute the length of an LCS the alternating com-
+putation of forward contours and backward contours
+supports an additional speedup of the implementa-
+tion. Observing the crossing of the two most recently
+computed contours, say FCf and BCb, we can iden-
+tify parts of the next contour which need not be
+computed at all. In general there will be matches
+on .i;j/ 2 FCf which have been covered by some
+BCl;l 6b (a symmetric observation holds for BCb).
+Thus the sum of the forward rank and backward rank
+of .i;j/ will be at most fCb.A n ym a t c h.i0;j0/
+on FCfC1 which originates from .i;j/ (i.e.,i<i 0^
+j<j 0) will be covered by some BCl0;l 0 <l .T h i s
+means that the sum of the forward rank and back-
+ward rank of .i0;j0/ will not exceed bC f .B u t
+our goal is to identify some match maximizing this
+sum. The value bC f may only be exceeded by
+matches on FCfC1 which have been uncovered so
+far or which have been covered by BCb. Fig. 3 il-
+lustrates this situation. Thus we have the following
+fact.
+Lemma 5. It is sufﬁcient to compute only those
+matches on FCfC1 which originate from (dominant)
+matches.i;j/2 FCfn BCb.
+A similar statement holds for the computation of
+BCbC1. An easy way to apply this observation in
+practice is to ﬁnd the two “outer” matches in FCf n
+BCb, i.e., the leftmost and the rightmost one (in
+Fig. 3 this would be matches a andb). We then only
+determine that part of FCfC1 which originates from
+matches on FCf located between these two outer
+matches. Note that ﬁnding (one of) the outer matches
+is also necessary to check for termination. This is
+easily done by scanning the sorted lists of dominant
+matches of the involved contours. In practice we can
+expect those parts of the contours that really have to be
+computed to get smaller and smaller as we approach
+the middle of an LCS.
+
+===== PAGE 7 =====
+
+C. Rick / Information Processing Letters 75 (2000) 275–281 281
+Fig. 3. Cutting of contours.
+4. Conclusion
+We presented a new simple method to obtain fast
+linear space implementations for some LCS algo-
+rithms. In particular we showed that an LCS can be
+constructed in O.nsC minfpm;p.np/g/ time and
+linear space.
+References
+[1] A. Apostolico, C. Guerra, A fast linear space algorithm for
+computing longest common subsequences, in: Proc. of the
+23rd Allerton Conference on Communication, Control and
+Computing, Monticello, 1985, pp. 76–84.
+[2] A. Apostolico, String editing and longest common subse-
+quences, in: G. Rozenberg, A. Salomaa (Eds.), Handbook of
+Formal Languages, V ol. 2, Springer, Berlin, 1997, pp. 361–
+398.
+[3] A. Apostolico, S. Browne, C. Guerra, Fast linear-space com-
+putations of longest common subsequences, Theoret. Comput.
+Sci. 92 (1992) 3–17.
+[4] H. Goeman, M. Clausen, A new practical linear space algo-
+rithm for the longest common subsequence problem, in: Proc.
+Prague Stringology Club Workshop’99, Report DC-99-05, De-
+partment of Computer Science and Engineering, Czech Tech-
+nical University, 1999, pp. 40–60.
+[5] D. Hirschberg, A linear space algorithm for computing maxi-
+mal common subsequences, Comm. ACM 18 (1975) 341–343.
+[6] D. Hirschberg, Algorithms for the longest common subse-
+quence problem, J. ACM 24 (1977) 664–675.
+[7] D. Hirschberg, Serial computations of Levenshtein distances,
+in: A. Apostolico, Z. Galil (Eds.), Pattern Matching Algo-
+rithms, Oxford University Press, 1997, pp. 123–141.
+[8] S. Kumar, C. Rangan, A linear space algorithm for the LCS
+problem, Acta Inform. 24 (1987) 353–363.
+[9] E.W. Myers, An O.nd/ difference algorithm and its variations,
+Algorithmica 1 (1986) 251–266.
+[10] E.W. Myers, W. Miller, Optimal alignments in linear space,
+CABIOS 4 (1988) 11–17.
+[11] C. Rick, A new ﬂexible algorithm for the longest common
+subsequence problem, in: Proc. CPM’95, Lecture Notes in
+Comput. Sci., V ol. 937, Springer, Berlin, 1995, pp. 340–351.
+Also in: Nordic J. Comput. 2 (1995) 444–461.
+[12] S. Wu, U. Manber, G. Myers, W. Miller, An O .np/ sequence
+comparison algorithm, Inform. Process. Lett. 35 (1990) 317–
+323.
