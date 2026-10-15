@@ -9,9 +9,10 @@
 //
 #include "LCSRick.h"
 
-#include <algorithm>                    // for lower_bound, upper_bound, min, reverse
+#include <algorithm>                    // for min, reverse
 #include <climits>                      // for INT64_MAX
 #include <memory>                       // for make_shared
+#include <unordered_map>                // for pointer -> symbol id
 #include <utility>                      // for move
 
 //
@@ -25,14 +26,18 @@
 // midpoints.
 //
 // Each contour scan needs, per row index1, the first (or last) occurrence of
-// s1[index1] relative to a bound.  The sorted match list matches[index1]
-// answers these queries via lower_bound()/upper_bound(), at O(log r) cost.
+// s1[index1] relative to a bound.  These queries are answered in O(1) by the
+// next/previous occurrence tables built from the shared match lists.
 //
 
 uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
+  // Build O(1) occurrence tables once and amortize them over the whole
+  // Hirschberg recursion (the O(ns) preprocessing of the Rick bound).
+  auto occ = BuildOccurrences(matches, size1, size2);
+
   vector<Match> out;
-  Hirschberg(matches, 0, size1, 0, size2, out);
+  Hirschberg(occ, 0, size1, 0, size2, out);
 
   if (pairs != nullptr) {
     shared_ptr<Pair> head = nullptr;
@@ -52,21 +57,85 @@ uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
   return (uint32_t)out.size();
 }
 
-void LCSRick::Hirschberg(const MATCHES& matches,
+//
+// Builds O(1) next/previous occurrence tables from the shared match lists in
+// O(s*n + r) time and space, where s is the number of distinct symbols
+// (distinct match-list pointers) and r the total number of matches.  This is
+// the "LeftPos/TopPos" preprocessing that lets each contour scan jump straight
+// to the next (or previous) occurrence instead of binary-searching a list.
+//
+LCSRick::Occurrences LCSRick::BuildOccurrences(
+  const MATCHES& matches, size_t size1, size_t size2) {
+  Occurrences occ;
+  occ.n = (int64_t)size2;
+
+  // Two rows sharing a symbol share the same match-list pointer, so pointer
+  // identity compresses the symbols without needing the symbol values.
+  unordered_map<const INDEXES*, int64_t> pointerToId;
+  vector<const INDEXES*> lists;         // lists[id] = sorted positions of symbol id
+  occ.rowId.assign(size1, -1);
+  for (size_t i = 0; i < size1; i++) {
+    const auto* p = matches[i];
+    auto it = pointerToId.find(p);
+    int64_t id;
+    if (it == pointerToId.end()) {
+      id = (int64_t)lists.size();
+      pointerToId.emplace(p, id);
+      lists.push_back(p);
+    }
+    else {
+      id = it->second;
+    }
+    occ.rowId[i] = id;
+  }
+
+  auto s = lists.size();
+  occ.next.assign(s, vector<int64_t>((size_t)size2 + 1, occ.n));
+  occ.prev.assign(s, vector<int64_t>((size_t)size2, -1));
+
+  for (size_t id = 0; id < s; id++) {
+    const auto& list = *lists[id];      // sorted positions, ascending
+    auto& nxt = occ.next[id];
+    auto& prv = occ.prev[id];
+
+    // next[id][j] = first list element >= j.
+    size_t li = 0;
+    for (int64_t j = 0; j <= occ.n; j++) {
+      while (li < list.size() && (int64_t)list[li] < j)
+        li++;
+      nxt[(size_t)j] = li < list.size() ? (int64_t)list[li] : occ.n;
+    }
+
+    // prev[id][j] = last list element <= j.
+    li = 0;
+    int64_t last = -1;
+    for (int64_t j = 0; j < occ.n; j++) {
+      while (li < list.size() && (int64_t)list[li] <= j) {
+        last = (int64_t)list[li];
+        li++;
+      }
+      prv[(size_t)j] = last;
+    }
+  }
+
+  return occ;
+}
+
+void LCSRick::Hirschberg(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1, vector<Match>& out) {
   if (i0 >= i1 || j0 >= j1)
     return;
-  auto result = FindMidpoint(matches, i0, i1, j0, j1);
+  auto result = FindMidpoint(occ, i0, i1, j0, j1);
   if (!result.hasMidpoint)
     return;
   auto i = (size_t)result.midpoint.index1;
   auto j = (size_t)result.midpoint.index2;
-  Hirschberg(matches, i0, i, j0, j, out);
+  Hirschberg(occ, i0, i, j0, j, out);
   out.push_back(result.midpoint);
-  Hirschberg(matches, i + 1, i1, j + 1, j1, out);
+  Hirschberg(occ, i + 1, i1, j + 1, j1, out);
 }
 
-LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
+LCSRick::Result LCSRick::FindMidpoint(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Result result;
   if (i0 >= i1 || j0 >= j1)
@@ -84,7 +153,7 @@ LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
       fCount++;
       fcPrev = move(fc);
       if (fCount == 1) {
-        fc = FirstForward(matches, i0, i1, j0, j1);
+        fc = FirstForward(occ, i0, i1, j0, j1);
       }
       else {
         // Lemma 5: only extend from forward matches still "uncovered" by the
@@ -94,7 +163,7 @@ LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
         // such a match needs bCount - 1 further rows below it.
         auto rowLimit = (int64_t)i1 - bCount + 1;
         fc = NextForward(sources.empty() ? fcPrev : sources,
-          matches, i0, i1, j0, j1, rowLimit);
+          occ, i0, i1, j0, j1, rowLimit);
       }
       if (fc.empty())
         return result;                  // No matches: sub-LCS length is zero.
@@ -103,7 +172,7 @@ LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
       bCount++;
       bcPrev = move(bc);
       if (bCount == 1) {
-        bc = FirstBackward(matches, i0, i1, j0, j1);
+        bc = FirstBackward(occ, i0, i1, j0, j1);
       }
       else {
         // Symmetric cut for the backward direction.
@@ -112,7 +181,7 @@ LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
         // such a match needs bCount - 1 rows above it.
         auto rowFloor = (int64_t)i0 + bCount - 1;
         bc = NextBackward(sources.empty() ? bcPrev : sources,
-          matches, i0, i1, j0, j1, rowFloor);
+          occ, i0, i1, j0, j1, rowFloor);
       }
     }
 
@@ -162,17 +231,16 @@ LCSRick::Contour LCSRick::CutBackward(const Contour& backward, const Contour& fo
 //
 // FC[1]: dominant rank-1 matches of the sub-problem [i0, i1) x [j0, j1).
 //
-LCSRick::Contour LCSRick::FirstForward(const MATCHES& matches,
+LCSRick::Contour LCSRick::FirstForward(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Contour contour;
   int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
   for (auto i = i0; i < i1; i++) {
-    const auto& list = *matches[i];
+    auto id = occ.rowId[i];
     // Leftmost occurrence in [j0, j1).
-    auto it = lower_bound(list.begin(), list.end(), (uint32_t)j0);
-    if (it == list.end() || *it >= j1)
+    auto index2 = occ.next[(size_t)id][j0];
+    if (index2 >= (int64_t)j1)
       continue;
-    auto index2 = (int64_t)*it;
     if (index2 < minIndex2) {
       contour.push_back({ .index1 = (int64_t)i, .index2 = index2 });
       minIndex2 = index2;
@@ -185,7 +253,7 @@ LCSRick::Contour LCSRick::FirstForward(const MATCHES& matches,
 // FC[k + 1]: dominant matches strictly bottom-right of some FC[k] match.
 //
 LCSRick::Contour LCSRick::NextForward(const Contour& contour,
-  const MATCHES& matches, size_t i0, size_t i1, [[maybe_unused]] size_t j0,
+  const Occurrences& occ, size_t i0, size_t i1, [[maybe_unused]] size_t j0,
   size_t j1, int64_t rowLimit) {
   Contour next;
   int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
@@ -198,12 +266,11 @@ LCSRick::Contour LCSRick::NextForward(const Contour& contour,
     if (matchesAbove == 0)
       continue;                         // No contour match above this row.
     auto bound = contour[matchesAbove - 1].index2;
-    const auto& list = *matches[(size_t)i];
+    auto id = occ.rowId[(size_t)i];
     // First occurrence strictly greater than bound, still within [j0, j1).
-    auto it = upper_bound(list.begin(), list.end(), (uint32_t)bound);
-    if (it == list.end() || *it >= j1)
+    auto index2 = occ.next[(size_t)id][(size_t)(bound + 1)];
+    if (index2 >= (int64_t)j1)
       continue;
-    auto index2 = (int64_t)*it;
     if (index2 < minIndex2) {
       next.push_back({ .index1 = i, .index2 = index2 });
       minIndex2 = index2;
@@ -216,20 +283,16 @@ LCSRick::Contour LCSRick::NextForward(const Contour& contour,
 // BC[1]: dominant (maximal) rank-1 matches, the forward computation applied
 // from the back of the strings.
 //
-LCSRick::Contour LCSRick::FirstBackward(const MATCHES& matches,
+LCSRick::Contour LCSRick::FirstBackward(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Contour contour;
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   for (auto i = (int64_t)i1 - 1; i >= (int64_t)i0; i--) {
-    const auto& list = *matches[(size_t)i];
+    auto id = occ.rowId[(size_t)i];
     // Rightmost occurrence in [j0, j1): last position strictly less than j1.
-    auto it = lower_bound(list.begin(), list.end(), (uint32_t)j1);
-    if (it == list.begin())
+    auto index2 = occ.prev[(size_t)id][(size_t)(j1 - 1)];
+    if (index2 < (int64_t)j0)
       continue;
-    --it;
-    if (*it < j0)
-      continue;
-    auto index2 = (int64_t)*it;
     if (index2 > maxIndex2) {
       contour.push_back({ .index1 = i, .index2 = index2 });
       maxIndex2 = index2;
@@ -243,7 +306,7 @@ LCSRick::Contour LCSRick::FirstBackward(const MATCHES& matches,
 // BC[k + 1]: dominant matches strictly top-left of some BC[k] match.
 //
 LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
-  const MATCHES& matches, [[maybe_unused]] size_t i0, size_t i1,
+  const Occurrences& occ, [[maybe_unused]] size_t i0, size_t i1,
   size_t j0, [[maybe_unused]] size_t j1, int64_t rowFloor) {
   Contour next;
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
@@ -256,13 +319,9 @@ LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
     auto bound = contour[matchesBelow].index2;
     if (bound <= (int64_t)j0)
       continue;                         // No occurrence can precede j0.
-    const auto& list = *matches[(size_t)i];
+    auto id = occ.rowId[(size_t)i];
     // Last occurrence strictly less than bound, still within [j0, j1).
-    auto it = lower_bound(list.begin(), list.end(), (uint32_t)bound);
-    if (it == list.begin())
-      continue;
-    --it;
-    auto index2 = (int64_t)*it;
+    auto index2 = occ.prev[(size_t)id][(size_t)(bound - 1)];
     if (index2 < (int64_t)j0)
       continue;
     if (index2 > maxIndex2) {

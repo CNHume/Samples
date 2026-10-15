@@ -44,9 +44,25 @@ private:
   // index1, which forces descending index2.
   typedef vector<Match> Contour;
 
-  static Result FindMidpoint(const MATCHES& matches,
+  // O(1) next/previous occurrence tables built once from the shared match
+  // lists.  Two rows sharing a symbol share the same match-list pointer, so
+  // pointer identity is used as the symbol id.  next[id][j] is the smallest
+  // position >= j holding symbol id (n if none); prev[id][j] is the largest
+  // position <= j holding it (-1 if none).  This is the "LeftPos/TopPos"
+  // O(ns) preprocessing of the Rick contour scan.
+  struct Occurrences {
+    vector<int64_t> rowId;             // symbol id of each row, [0, size1)
+    vector<vector<int64_t>> next;      // [id][j], j in [0, n]
+    vector<vector<int64_t>> prev;      // [id][j], j in [0, n)
+    int64_t n = 0;                     // size2
+  };
+
+  static Occurrences BuildOccurrences(const MATCHES& matches,
+    size_t size1, size_t size2);
+
+  static Result FindMidpoint(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1);
-  static void Hirschberg(const MATCHES& matches,
+  static void Hirschberg(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1, vector<Match>& out);
 
   // Lemma 5 contour cutting: retain only the sources that can still extend
@@ -54,13 +70,13 @@ private:
   static Contour CutForward(const Contour& forward, const Contour& backward);
   static Contour CutBackward(const Contour& backward, const Contour& forward);
 
-  static Contour FirstForward(const MATCHES& matches,
+  static Contour FirstForward(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1);
-  static Contour NextForward(const Contour& contour, const MATCHES& matches,
+  static Contour NextForward(const Contour& contour, const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1, int64_t rowLimit);
-  static Contour FirstBackward(const MATCHES& matches,
+  static Contour FirstBackward(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1);
-  static Contour NextBackward(const Contour& contour, const MATCHES& matches,
+  static Contour NextBackward(const Contour& contour, const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1, int64_t rowFloor);
   static bool Crossed(const Contour& forward, const Contour& backward);
   static Match Midpoint(const Contour& forward, const Contour& backward);
