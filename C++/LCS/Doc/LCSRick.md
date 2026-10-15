@@ -38,6 +38,18 @@ Rick (2000) credits the split explicitly: computing contours rank by rank was
 concentrating on the computation of dominant matches [3]" (Apostolico et al.
 1992).
 
+Underlying the dual viewpoint is **Dilworth's theorem** (1950): in a finite
+partially ordered set, the maximum size of an antichain equals the minimum
+number of chains in a chain decomposition — and, dually (Mirsky's theorem), the
+maximum size of a *chain* equals the minimum number of *antichains* in an
+antichain decomposition.  For LCS, the match set `M` is a poset under the
+product order: a **chain** is a common subsequence, and an **antichain** is a
+set of pairwise incomparable matches.  Hence the LCS length `p` is at once the
+length of the longest chain (what Rick's contours find) and the minimum number
+of antichains needed to cover `M` (what Goeman & Clausen's decomposition
+constructs).  This equivalence is why the chain-based and antichain-based
+algorithms share the same bound.
+
 Linear-space contour algorithms, as tabulated in Rick (2000):
 
 | Year | Authors | Time |
@@ -181,5 +193,7 @@ against `LCSHuntSzymanski::Find` on over 220,000 fixed and randomized cases.
   *Journal of the ACM* 24(4), 1977, pp. 664–675.
 - H. Goeman, M. Clausen, "A new practical linear space algorithm for the longest
   common subsequence problem", *Kybernetika* 38(1), 2002, pp. 45–66.
+- R. P. Dilworth, "A Decomposition Theorem for Partially Ordered Sets",
+  *Annals of Mathematics* 51 (1950), pp. 161–166.
 - Daniel S. Hirschberg, "A linear space algorithm for computing maximal common
   subsequences", *Communications of the ACM* 18(6), 1975, pp. 341–343.
