@@ -4,6 +4,8 @@
 //
 #pragma once
 
+#include "LCS.h"                        // for LCS::Algorithm
+
 #include <cstdint>                      // for uint32_t
 #include <string>
 
@@ -21,7 +23,7 @@ public:
   bool ignorecase;
   bool ignorespace;
   bool isquote;
-  bool isrick;
+  LCS::Algorithm algorithm;
   bool istext;
   bool isword;
 
@@ -41,7 +43,7 @@ public:
     ignorecase(false),
     ignorespace(false),
     isquote(false),
-    isrick(false),
+    algorithm(LCS::Algorithm::HuntSzymanski),
     istext(false),
     isword(false) {
   }

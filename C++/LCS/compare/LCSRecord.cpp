@@ -56,8 +56,8 @@ uint32_t LCSRecord::Match(
 uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, isrick);
+  uint32_t join, uint32_t prefix, uint32_t suffix, LCS::Algorithm algorithm) {
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -69,8 +69,8 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix, bool isrick) {
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, isrick);
+  uint32_t join, uint32_t prefix, uint32_t suffix, LCS::Algorithm algorithm) {
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -81,7 +81,7 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, bool isrick) {
+  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
 #if defined(SHOW_DURATION) || defined(DEMO_STOPWATCH)
   Duration duration{ "LCSRecord::Compare", 1 << 16 };
 #endif
@@ -93,10 +93,11 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
   duration.DemoStopwatch();
 #endif
-  // LCSRickSpace::Find() assumes m <= n, so swap for Rick; Hunt-Szymanski is
-  // symmetric.  Match() consumes the (possibly swapped) inputs, so the swap
-  // must precede the shared match-list build.
-  auto isswapped = isrick && r2.size() < r1.size();
+  // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
+  // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
+  // inputs, so the swap must precede the shared match-list build.
+  auto isswapped =
+    algorithm != LCS::Algorithm::HuntSzymanski && r2.size() < r1.size();
   const auto& shorter = isswapped ? r2 : r1;
   const auto& longer = isswapped ? r1 : r2;
 
@@ -107,11 +108,20 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
 
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
-  auto length = isrick ?
-    LCSRickSpace::Find(
-      ppairs, indexesOf2MatchedByIndex1,
-      (uint32_t)shorter.size(), (uint32_t)longer.size()) :
-    LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  uint32_t length;
+  switch (algorithm) {
+  case LCS::Algorithm::HuntSzymanski:
+    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+    break;
+  case LCS::Algorithm::RickSpace:
+    length = LCSRickSpace::Find(ppairs, indexesOf2MatchedByIndex1,
+      (uint32_t)shorter.size(), (uint32_t)longer.size());
+    break;
+  case LCS::Algorithm::RickTime:
+    throw runtime_error("LCSRickTime is not yet implemented");
+  default:
+    throw runtime_error("unknown LCS algorithm");
+  }
 
   if (intervals != nullptr) {
     if (isswapped)

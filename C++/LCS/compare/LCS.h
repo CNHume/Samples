@@ -30,6 +30,13 @@ using namespace std;
 
 class LCS {
 public:
+  // The LCS algorithm selected at run time.
+  enum class Algorithm {
+    HuntSzymanski,   // LCSHuntSzymanski: threshold array over match lists
+    RickSpace,       // LCSRickSpace: Rick 2000, contours + Hirschberg, linear space
+    RickTime,        // LCSRickTime: Rick 1995, diagonal sweep, min{pm, p(n-p)} time
+  };
+
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> INDEXES;
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
