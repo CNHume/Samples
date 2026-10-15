@@ -16,30 +16,34 @@ Hunt–Szymanski algorithm.)
 LCS                        shared typedefs: PAIRS, INDEXES,
                            STRING_TO_INDEXES_MAP, MATCHES
 ├── LCSHuntSzymanski       Find(pairs, matches)          — threshold array
-└── LCSRick                Find(pairs, matches, m, n)    — contours + Hirschberg
+└── LCSRick                Find(pairs, matches, m, n) / Find(pairs, s1, s2)
+                           — contours + Hirschberg
 ```
 
-Both algorithm classes derive publicly from `LCS` and consume the **same**
-match structure built by `Match()`.  Their `Find()` methods return the LCS
-length and fill `*pairs` with matched positions in ascending order, so the
-downstream `Delta::Coalesce` / `Context` / `Complement` / display pipeline is
-identical regardless of which algorithm ran.
+Both algorithm classes derive publicly from `LCS`.  `LCSHuntSzymanski` and the
+record path of `LCSRick` consume the `Match()` output; the character path of
+`LCSRick` builds its tables straight from the code points instead.  Their
+`Find()` methods all return the LCS length and fill `*pairs` with matched
+positions in ascending order, so the downstream `Delta::Coalesce` / `Context`
+/ `Complement` / display pipeline is identical regardless of which algorithm
+ran.
 
-## Input: the shared `Match()` output
+## Input
 
-`Match()` builds `MATCHES = deque<INDEXES*>`, where `*matches[i]` is the sorted
-list of positions `j` in the second sequence matching position `i` in the
-first.  `LCSRick::Find()` uses these lists directly, answering each occurrence
-query with `std::lower_bound` / `std::upper_bound`.
+`LCSRick` answers every occurrence query in O(1) from dense `next`/`prev`
+tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound).  The two
+`Find()` overloads build those tables differently:
 
-`LCSRick::Find()` first runs a pre-pass over these lists to build O(1)
-`next`/`prev` occurrence tables — the "LeftPos"/"TopPos" preprocessing of the
-`O(ns)` bound — and the contour scans then answer each occurrence query in
-O(1) instead of binary-searching a list.  Two rows sharing a symbol share the
-same match-list pointer, so pointer identity is used as the symbol→id
-compression; no symbol type is needed.  The tables cost `O(s·n + r)` time and
-space, where `s` is the number of distinct symbols (distinct match-list
-pointers) and `r` the total number of matches.
+- **Character path (`-t -r`)** — `Find(pairs, s1, s2)` compresses the code
+  points of `s2` and builds the tables directly in `O(s·n)` time and space,
+  where `s` is the number of distinct code points.  No match lists are
+  materialized, so this path stays feasible for very long strings even when
+  the number of matches `r` would be quadratic.
+- **Record path (`-r` without `-t`)** — `Find(pairs, matches, m, n)` reuses the
+  shared `Match()` output (`MATCHES = deque<INDEXES*>`, where `*matches[i]` is
+  the sorted list of positions in the second sequence matching position `i` in
+  the first).  Two rows sharing a symbol share the same match-list pointer, so
+  pointer identity is the symbol→id compression; the tables cost `O(s·n + r)`.
 
 ## Algorithm
 
