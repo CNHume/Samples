@@ -32,15 +32,14 @@ list of positions `j` in the second sequence matching position `i` in the
 first.  `LCSRick::Find()` uses these lists directly, answering each occurrence
 query with `std::lower_bound` / `std::upper_bound`.
 
-This is the principal difference from the standalone `Rick/` reference
-implementation, which precomputes O(1) `next`/`prev` occurrence tables
-(the "LeftPos"/"TopPos" preprocessing) at `O(s·n)` time and space per call,
-indexed by a symbol→id compression.  Reusing the match lists removes the
-symbol→id compression and the occurrence tables entirely — no symbol type is
-needed — at the cost of an `O(log r)` factor per occurrence query.  If the
-tighter `min{pm, p(n−p)}` bound becomes important, the O(1) tables can be
-reintroduced as a pre-pass over the same match lists without changing
-`Find()`'s interface.
+`LCSRick::Find()` first runs a pre-pass over these lists to build O(1)
+`next`/`prev` occurrence tables — the "LeftPos"/"TopPos" preprocessing of the
+`O(ns)` bound — and the contour scans then answer each occurrence query in
+O(1) instead of binary-searching a list.  Two rows sharing a symbol share the
+same match-list pointer, so pointer identity is used as the symbol→id
+compression; no symbol type is needed.  The tables cost `O(s·n + r)` time and
+space, where `s` is the number of distinct symbols (distinct match-list
+pointers) and `r` the total number of matches.
 
 ## Algorithm
 
@@ -65,8 +64,11 @@ backward match non-strictly below-right of it (Rick, Lemmas 2 and 3).
 Only the two most recent contours of each direction are retained, so the
 working set is linear in the input lengths.
 
-Two refinements from the paper are implemented:
+Three refinements from the paper are implemented:
 
+- **O(p) contour scans** — the cut (`CutForward`/`CutBackward`), the crossing
+  test, and the midpoint search are single merged scans over the two sorted
+  contours (`O(|forward| + |backward|)`), not quadratic products.
 - **Lemma 5 contour cutting** — before extending `FC[k]`, forward sources that
   have no backward-contour match strictly below-right (and so can only reach
   matches whose rank sum cannot reach the LCS) are pruned; symmetrically for
@@ -75,6 +77,11 @@ Two refinements from the paper are implemented:
   `≤ m − b` (a match of backward rank `≥ b` needs `b − 1` further rows below
   it), and a backward contour of rank `b` scans only rows `≥ b − 1`.  This
   tightens the contour work from `O(p·m)` toward `O(p·(m − p/2))`.
+
+The exact `min{pm, p(n−p)}` bound additionally requires Rick's Lemma 5
+"outer matches" narrowing — scanning only the sub-range between the leftmost
+and rightmost uncovered source of the previous contour — which remains the
+next refinement for the `p(n−p)` side of the bound.
 
 ## Reconstruction
 
