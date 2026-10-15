@@ -124,18 +124,26 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const auto& shorter = isswapped ? s2 : s1;
   const auto& longer = isswapped ? s1 : s2;
 
-  CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
-  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByChar
-  [[maybe_unused]] auto count = Match(
-    indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, shorter, longer, ignorecase, ignorespace);
-
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
-  auto length = isrick ?
-    LCSRick::Find(
-      ppairs, indexesOf2MatchedByIndex1,
-      (uint32_t)shorter.size(), (uint32_t)longer.size()) :
-    LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  uint32_t length;
+
+  if (isrick) {
+    // Normalize exactly as Match() would, then build O(ns) occurrence tables
+    // directly from the code points, bypassing the O(r) match-list
+    // materialization so very long strings stay feasible.
+    u32string ns1, ns2;
+    LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
+    LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
+    length = LCSRick::Find(ppairs, ns1, ns2);
+  }
+  else {
+    CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
+    [[maybe_unused]] auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, shorter, longer, ignorecase, ignorespace);
+    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  }
 
   if (deltas != nullptr) {
     if (isswapped)

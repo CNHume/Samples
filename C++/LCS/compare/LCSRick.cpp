@@ -32,10 +32,23 @@
 
 uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
-  // Build O(1) occurrence tables once and amortize them over the whole
-  // Hirschberg recursion (the O(ns) preprocessing of the Rick bound).
-  auto occ = BuildOccurrences(matches, size1, size2);
+  return Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
+}
 
+uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
+  const u32string& s1, const u32string& s2) {
+  // Build O(ns) occurrence tables directly from the code points and amortize
+  // them over the whole Hirschberg recursion.  No match lists are ever
+  // materialized, so this path stays feasible for very long strings.
+  return Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
+}
+
+//
+// Runs the Hirschberg recursion over an occurrence table and, when pairs is
+// requested, reconstructs the linked list of matched positions.
+//
+uint32_t LCSRick::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
+  size_t size1, size_t size2) {
   vector<Match> out;
   Hirschberg(occ, 0, size1, 0, size2, out);
 
@@ -116,6 +129,63 @@ LCSRick::Occurrences LCSRick::BuildOccurrences(
       }
       prv[(size_t)j] = last;
     }
+  }
+
+  return occ;
+}
+
+//
+// Character-path overload: builds the same tables directly from code-point
+// strings in O(s*n) time and space, where s is the number of distinct code
+// points in s2.  No match lists are materialized, so the preprocessing stays
+// linear even when the number of matches r would be quadratic.
+//
+LCSRick::Occurrences LCSRick::BuildOccurrences(
+  const u32string& s1, const u32string& s2) {
+  Occurrences occ;
+  occ.n = (int64_t)s2.size();
+
+  // Compress the code points of s2 (the tabled string) to dense ids.
+  unordered_map<char32_t, int64_t> charToId;
+  vector<int64_t> s2Id(s2.size(), -1);
+  for (size_t j = 0; j < s2.size(); j++) {
+    auto c = s2[j];
+    auto it = charToId.find(c);
+    int64_t id;
+    if (it == charToId.end()) {
+      id = (int64_t)charToId.size();
+      charToId.emplace(c, id);
+    }
+    else {
+      id = it->second;
+    }
+    s2Id[j] = id;
+  }
+
+  auto s = charToId.size();
+
+  // rowId[i] = symbol id of s1[i], or -1 when it never occurs in s2.
+  occ.rowId.assign(s1.size(), -1);
+  for (size_t i = 0; i < s1.size(); i++) {
+    auto it = charToId.find(s1[i]);
+    if (it != charToId.end())
+      occ.rowId[i] = it->second;
+  }
+
+  // next[id][j] = first occurrence of symbol id at/after j (n if none).
+  occ.next.assign(s, vector<int64_t>((size_t)occ.n + 1, occ.n));
+  for (int64_t j = occ.n - 1; j >= 0; j--) {
+    for (size_t id = 0; id < s; id++)
+      occ.next[id][(size_t)j] = occ.next[id][(size_t)j + 1];
+    occ.next[(size_t)s2Id[(size_t)j]][(size_t)j] = j;
+  }
+
+  // prev[id][j] = last occurrence of symbol id at/before j (-1 if none).
+  occ.prev.assign(s, vector<int64_t>((size_t)occ.n, -1));
+  for (int64_t j = 0; j < occ.n; j++) {
+    for (size_t id = 0; id < s; id++)
+      occ.prev[id][(size_t)j] = j > 0 ? occ.prev[id][(size_t)j - 1] : -1;
+    occ.prev[(size_t)s2Id[(size_t)j]][(size_t)j] = j;
   }
 
   return occ;
@@ -237,6 +307,8 @@ LCSRick::Contour LCSRick::FirstForward(const Occurrences& occ,
   int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
   for (auto i = i0; i < i1; i++) {
     auto id = occ.rowId[i];
+    if (id < 0)
+      continue;                         // Symbol never occurs in s2.
     // Leftmost occurrence in [j0, j1).
     auto index2 = occ.next[(size_t)id][j0];
     if (index2 >= (int64_t)j1)
@@ -267,6 +339,8 @@ LCSRick::Contour LCSRick::NextForward(const Contour& contour,
       continue;                         // No contour match above this row.
     auto bound = contour[matchesAbove - 1].index2;
     auto id = occ.rowId[(size_t)i];
+    if (id < 0)
+      continue;                         // Symbol never occurs in s2.
     // First occurrence strictly greater than bound, still within [j0, j1).
     auto index2 = occ.next[(size_t)id][(size_t)(bound + 1)];
     if (index2 >= (int64_t)j1)
@@ -289,6 +363,8 @@ LCSRick::Contour LCSRick::FirstBackward(const Occurrences& occ,
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   for (auto i = (int64_t)i1 - 1; i >= (int64_t)i0; i--) {
     auto id = occ.rowId[(size_t)i];
+    if (id < 0)
+      continue;                         // Symbol never occurs in s2.
     // Rightmost occurrence in [j0, j1): last position strictly less than j1.
     auto index2 = occ.prev[(size_t)id][(size_t)(j1 - 1)];
     if (index2 < (int64_t)j0)
@@ -320,6 +396,8 @@ LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
     if (bound <= (int64_t)j0)
       continue;                         // No occurrence can precede j0.
     auto id = occ.rowId[(size_t)i];
+    if (id < 0)
+      continue;                         // Symbol never occurs in s2.
     // Last occurrence strictly less than bound, still within [j0, j1).
     auto index2 = occ.prev[(size_t)id][(size_t)(bound - 1)];
     if (index2 < (int64_t)j0)

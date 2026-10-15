@@ -2,9 +2,10 @@
 //
 // 2026-10-09 CNHume  Created LCSRick class
 //
-// Rick (2000) linear-space LCS, adapted to reuse the Hunt-Szymanski
-// Match() output.  The contour scans query the sorted match lists with
-// binary search instead of building O(1) next/previous occurrence tables.
+// Rick (2000) linear-space LCS.  The contour scans query O(1) next/previous
+// occurrence tables ("LeftPos"/"TopPos" preprocessing) built either directly
+// from code-point strings (the character path) or from the shared
+// Hunt-Szymanski match lists (the record path).
 //
 // Based on:
 //   Claus Rick, "Simple and fast linear space computation of longest common
@@ -16,18 +17,22 @@
 
 #include <cstdint>                      // for int64_t, uint32_t
 #include <memory>                       // for shared_ptr
+#include <string>                       // for u32string
 #include <vector>
 
 using namespace std;
 
 class LCSRick : public LCS {
 public:
-  // Find the LCS length and matched positions of the sub-problem
-  // s1[0:size1] x s2[0:size2], where matches[i] is the sorted list of
-  // positions in s2 matching s1[i].  On return, *pairs (when non-null) is
-  // a linked list of matched (begin1, begin2) positions in ascending order.
+  // Find the LCS length and matched positions.  On return, *pairs (when
+  // non-null) is a linked list of matched (begin1, begin2) positions in
+  // ascending order.  The match-list overload serves the record path; the
+  // code-point overload builds O(ns) tables directly from the strings and
+  // serves the character (-t -r) path.  Both assume size1 <= size2.
   static uint32_t Find(shared_ptr<Pair>* pairs,
     const MATCHES& matches, uint32_t size1, uint32_t size2);
+  static uint32_t Find(shared_ptr<Pair>* pairs,
+    const u32string& s1, const u32string& s2);
 
 private:
   struct Match {
@@ -44,12 +49,11 @@ private:
   // index1, which forces descending index2.
   typedef vector<Match> Contour;
 
-  // O(1) next/previous occurrence tables built once from the shared match
-  // lists.  Two rows sharing a symbol share the same match-list pointer, so
-  // pointer identity is used as the symbol id.  next[id][j] is the smallest
-  // position >= j holding symbol id (n if none); prev[id][j] is the largest
-  // position <= j holding it (-1 if none).  This is the "LeftPos/TopPos"
-  // O(ns) preprocessing of the Rick contour scan.
+  // O(1) next/previous occurrence tables.  rowId[i] is the symbol id of row i
+  // (-1 when the symbol never occurs); next[id][j] is the smallest position
+  // >= j holding symbol id (n if none); prev[id][j] is the largest position
+  // <= j holding it (-1 if none).  This is the "LeftPos/TopPos" O(ns)
+  // preprocessing of the Rick contour scan.
   struct Occurrences {
     vector<int64_t> rowId;             // symbol id of each row, [0, size1)
     vector<vector<int64_t>> next;      // [id][j], j in [0, n]
@@ -57,7 +61,15 @@ private:
     int64_t n = 0;                     // size2
   };
 
+  // Record path: compress distinct match-list pointers (two rows sharing a
+  // symbol share a pointer) and build tables from the sorted position lists.
   static Occurrences BuildOccurrences(const MATCHES& matches,
+    size_t size1, size_t size2);
+  // Character path: compress the code points of s2 (the longer string) and
+  // build tables directly, never materializing match lists.
+  static Occurrences BuildOccurrences(const u32string& s1, const u32string& s2);
+
+  static uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     size_t size1, size_t size2);
 
   static Result FindMidpoint(const Occurrences& occ,
