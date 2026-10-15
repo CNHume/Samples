@@ -1,45 +1,50 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
 // 2026-10-11 CNHume  Created Duration class
+// 2026-10-15 CNHume  Completed Duration as an RAII performance timer
 //
 #include "Duration.h"
-#include "Stopwatch.h"
 
-#include <chrono>                       // for milliseconds
-#include <format>
+#include <format>                       // for format
 #include <iostream>                     // for cout
 #include <nlohmann/json.hpp>            // Full implementation header
-#include <string>
-#include <thread>                       // for sleep_for
+#include <utility>                      // for move
+
+Duration::Duration(std::string name, long included)
+  : name_(std::move(name)), included_(included) {
+  stopwatch_.start();
+}
+
+Duration::~Duration() {
+  stopwatch_.stop();
+}
 
 void Duration::from_json(const nlohmann::json& j) {
-  name = j.at("Name").get<std::string>();
-  included = j.at("Included").get<long>();
+  name_ = j.at("Name").get<std::string>();
+  included_ = j.at("Included").get<long>();
 }
 
 nlohmann::json Duration::to_json() const {
+  auto seconds = stopwatch_.elapsed_seconds();
+  auto rate = seconds > 0 ? (double)included_ / seconds : 0.0;
   return nlohmann::json{
-    { "Name", name },
-    { "Included", included }
+    { "Name", name_ },
+    { "Included", included_ },
+    { "ElapsedMicroseconds", stopwatch_.elapsed_microseconds() },
+    { "Seconds", seconds },
+    { "ItemsPerSecond", rate }
   };
 }
 
-void Duration::Show() {
-  auto j = to_json();
-  std::cout << std::format(
-    "duration = {}\n", j.dump(2));
+void Duration::Stop() {
+  stopwatch_.stop();
 }
 
-void Duration::DemoStopwatch() {
-  Stopwatch sw;
-
-  sw.start();
-
-  // Sleep for testing: 5 ms = 5000 microseconds
-  std::this_thread::sleep_for(std::chrono::milliseconds(5));
-
-  sw.stop();
-
+void Duration::Show() {
+  stopwatch_.stop();
+  auto seconds = stopwatch_.elapsed_seconds();
+  auto rate = seconds > 0 ? (double)included_ / seconds : 0.0;
   std::cout << std::format(
-    "Elapsed time: {} sec\n", sw.format_seconds());
+    "{}: {} sec for {} items ({:.0f} items/sec)\n",
+    name_, stopwatch_.format_seconds(), included_, rate);
 }

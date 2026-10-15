@@ -108,16 +108,8 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#if defined(SHOW_DURATION) || defined(DEMO_STOPWATCH)
-  Duration duration{ "LCSString::Compare", 1 << 16 };
-#endif
 #ifdef SHOW_DURATION
-  duration.Show();
-#endif
-#ifdef DEMO_STOPWATCH
-  // Demonstrates the Stopwatch with a fixed 5 ms sleep.  Isolated under its
-  // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
-  duration.DemoStopwatch();
+  Duration duration{ "LCSString::Compare", (long)(s1.size() + s2.size()) };
 #endif
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
@@ -159,6 +151,9 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
+#ifdef SHOW_DURATION
+  duration.Show();
+#endif
   return length;
 }
 

@@ -82,16 +82,8 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#if defined(SHOW_DURATION) || defined(DEMO_STOPWATCH)
-  Duration duration{ "LCSRecord::Compare", 1 << 16 };
-#endif
 #ifdef SHOW_DURATION
-  duration.Show();
-#endif
-#ifdef DEMO_STOPWATCH
-  // Demonstrates the Stopwatch with a fixed 5 ms sleep.  Isolated under its
-  // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
-  duration.DemoStopwatch();
+  Duration duration{ "LCSRecord::Compare", (long)(r1.size() + r2.size()) };
 #endif
   // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
   // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
@@ -129,6 +121,9 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
         swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);
   }
+#ifdef SHOW_DURATION
+  duration.Show();
+#endif
   return length;
 }
 
