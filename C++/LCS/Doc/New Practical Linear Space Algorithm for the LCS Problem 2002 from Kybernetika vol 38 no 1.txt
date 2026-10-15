@@ -1,0 +1,1149 @@
+
+
+===== PAGE 1 =====
+
+Kybernetika
+Heiko Goeman; Michael Clausen
+A new practical linear space algorithm for the longest common subsequence problem
+Kybernetika, Vol. 38 (2002), No. 1, [45]--66
+Persistent URL: http://dml.cz/dmlcz/135445
+Terms of use:
+© Institute of Information Theory and Automation AS CR, 2002
+Institute of Mathematics of the Academy of Sciences of the Czech Republic provides access to digitized
+documents strictly for personal use. Each copy of any part of this document must contain these
+Terms of use .
+This paper has been digitized, optimized for electronic delivery and stamped with
+digital signature within the project DML-CZ: The Czech Digital Mathematics Library
+http://project.dml.cz
+
+===== PAGE 2 =====
+
+KYBERNETIKA — VOLUME 38 (2002), NUMBER 1, PAGES 45-66 
+A NEW PRACTICAL LINEAR SPACE ALGORITHM 
+FOR THE LONGEST COMMON SUBSEQUENCE 
+PROBLEM* 
+HEIKO GOEMAN AND MICHAEL CLAUSEN 
+This paper deals with a new practical method for solving the longest common sub­
+sequence (LCS) problem. Given two strings of lengths m and n, n > m, on an alpha­
+bet of size s, we first present an algorithm which determines the length p of an LCS in 
+0(ns + mm{mp,p(n  —  p)}) time and 0(ns) space. This result has been achieved before 
+[29, 30], but our algorithm is significantly faster than previous methods. We also pro­
+vide a second algorithm which generates an LCS in 0(ns + min{rap, m log m + p(n  —  p)}) 
+time while preserving the linear space bound, thus solving the problem posed in [29, 30]. 
+Experimental results confirm the efficiency of our method. 
+1. INTRODUCTION 
+Let x = xi...x m and y = yi.. .y n, n > m, be two strings over an alphabet 
+£ = {r/i,... ,a s} of size s. A subsequence of  a: is a sequence of symbols obtained by 
+deleting zero or more characters from x. The Longest Common Subsequence (LCS) 
+Problem is to find a common subsequence of x and y which is of greatest possible 
+length. 
+It will be convenient to describe the problem in another way. An ordered pair 
+(k,£), 1 < k < m, 1 < £ < n, is called a match if Xk = yi. The set M of all matches 
+can be identified with a matching matrix of size mxnin which each match is marked 
+with a dot. For example, if x = abacbcba and y = cbabbacac, then M is as shown 
+in Figure 1 (a). Define a partial order « on N x N by establishing (k,£) < (k',£') 
+iff both k < k' and £ < £'. A chain C C M is a set of points which are pairwise 
+comparable, i.e., for any two distinct pi,p2 € C, either pi < p 2 or pi > p 2, where 
+Pi > p 2 means p 2 < pi. Then the LCS problem can be viewed as finding a chain 
+of maximal cardinality in M. One such chain is indicated as a path in Figure 1 (b). 
+Finding an LCS is closely related with the computation of string edit distances [21, 
+24, 34, 36] and shortest common supersequences [14]. It was first used by biologists 
+to study amino acids [9, 10, 27, 31]. Other applications are in data compression 
+[1, 14, 23] and pattern recognition [13, 22]. 
+* Research supported by Deutsche Forschungsgemeinschaft, Grant CL  64/3-1. 
+
+
+===== PAGE 3 =====
+
+46 H. GOEMAN AND M. CLAUSEN 
+1 2 3 4 5 6 7 8 9 i 2 3 4 5 6 7 8 9 
+a 
+c b a b b a c a c 
+1 a 
+c b a b b a c a c 
+1 a • • • 1 a • • 
+2 b • • • 2 b • • 
+3 a • • • 3 a • • • 
+4 c • o • 4 c • • • 
+5 b • • • 5 b • • 
+6 c • • • 6 c • • 
+7 b • • • 7 b • a • 
+8 a • • • 8 a ф • 
+(a) (b) 
+Fig. 1. (a) matching matrix, (b) path representing an LCS. 
+The  LCS problem can be solved in 0(mn) time by a dynamic programming 
+approach  [32, 35], while the asymptotically fastest general solution uses the "four 
+russians" trick and takes 0(nmj logn) time [24], A lot of other algorithms have also 
+been developed which are sensitive to other problem parameters, e. g., the length p of 
+an LCS. They usually perform much better than the latter algorithms, although they 
+all have a worst case time complexity at least of  iTi(mn). To  give an example,  Hunt 
+and  Szymanski [19] have presented an 0((r + n)logn) algorithm, where r := \M\. 
+Thus  their approch is  fast  when r is small, e.g., r = 0(n), but its worst-case time 
+complexity is 0(n 2 logn). Later, this has been improved to 0(mn) [2]. There are 
+also several routines [25, 26, 33, 37] which run in 0(n(n + 1  — p)) or 0(n(m +1 —p)) 
+time,  and thus are efficient when an LCS is expected to be long. Other algorithms 
+have running times 0(n(p + 1)) or 0(m(p + 1)) and should be used for short LCS 
+[3, 4, 17, 18]. However, it might be  very  difficult to a  priori select a good strategy 
+because in general the length p cannot be easily estimated.  Also,  when having 
+a small alphabet, we can expect p to be of intermediate size, e.g., for s = 4, the 
+average length of an LCS is bounded between 0.54-m < p < 0.71-m [7, 8, 11, 28, 32]. 
+Then  none of the above methods performs  well.  Therefore recent research has been 
+concentrated  on more  flexible algorithms which are efficient for short, intermediate, 
+and  long LCS, such as the method proposed by Chin/Poon [6]. Another approach 
+from Rick [29, 30] with running time 0(ns +  min{mp,p(n —  p)}) has been widely 
+accepted as the fastest algorithm for the general LCS problem. 
+In this paper, we shall develop a new algorithm which is based on a kind of 
+dualization of Rick's method. A detailed description of the theoretical background 
+will be given in Sections 2 and 3. We do not improve the 0(ns + min{mp,p(n  —  p)}) 
+time  bound, but two important advantages are obtained. First, the number of 
+matches  processed while computing the length of an LCS is significantly decreased, 
+resulting in a faster execution speed. The corresponding algorithm  will  be presented 
+
+
+===== PAGE 4 =====
+
+A New Practical  Linear  Space Algorithm for the  Longest  Common Subsequence  Problem  47 
+in Section 4. Second, when generating an LCS, we can achieve linear space through 
+a divide-and-conquer scheme similar to that of  several  other (but  slower) algorithms 
+[5, 16, 20]. This  will  be explained in Section 5. The methods mentioned before all 
+need at least $l(nra/logn) space in their worst cases (see [28] for a survey), and 
+most of them, including Rick's approach, cannot be combined with the divide-and-
+conquer technique. The open problem of a linear space implementation of Rick's 
+algorithm [30] is hereby  solved.  Experimental results presented in Section 6 confirm 
+the  efficiency of our method. 
+2. A NEW APPROACH TO THE LCS PROBLEM 
+As already mentioned in the introduction, the LCS problem is equivalent to finding 
+a chain of maximum cardinality in M. Dilworth's fundamental theorem [12] states 
+that  this cardinality equals the minimum number of disjoint  antichains  into which 
+M can be decomposed (an antichain of M consists of matches which are  pairwise 
+incomparable). In our example, this number (called the  Sperner  number of M) 
+equals  five.  A suitable decomposition is shown in Figure. 2(f). To find such a 
+minimum  decomposition, we  first  split [1 : ra] x [1 : n] into subsets denoted by T 2, 
+L\ B l, and _R l, where 
+rpi 
+V 
+вг 
+Rг 
+= {i} x [i : n + 1 - i] 
+= [i + 1 : ra + 1 - i] x  {%} 
+= {m + 1 - i} x [i + 1 : n + 1 - i] 
+= [i + 1 : ra - i] x {n + 1 - i} 
+and 1 < i < \m/2] (see Figure 2 (a) for an illustration). Additionally, let 
+T^=M T'',  L^:=\\  L\ B^:=  I  J B\ R^  :=  I J Ri. 
+W J<-  ^j<* ^j<i ^3<i 
+Now for i =  1,2,...,  [ra/2], we construct four sets of antichains _4 T'\ _4 L>i, _4 B>i , and 
+AR>% which decompose (a suitable subset of) T-^, L-\ B^ l\ and R- 1, respectively. 
+The decompositions are generated by updating the previous sets, using the matches 
+found in T\ L\ J3*, and R 1' (details are  given  below). We use A T>1' to denote an 
+antichain  in _4 T'2, where u is an index between 1 and the  size  e T' 2 := \A T>i\ of _4 T'\ 
+Therefore  e Tyl is also called the end index of _4 T'2. For _4 L'1, A B}t\ and A R>1\ we 
+introduce analogous notations. Furthermore, there are two  start  indices  s TL>1' and 
+SBR,I i>he  first  one is used to split both A T>1' and A L,i into two parts. One part 
+contains all antichains with indices  less  than  s TL>i , and the other part consists of the 
+rest. Only the latter part  will  be used for the updating process, whereas the former 
+one will be copied to _4 T' l+1  resp. _4 L' Z+1  without change, s BR,i similarly splits A B,i 
+and A R>\ 
+Figure 2 (b), (c), (d), and (e)  give  a  preview  of the construction in the sample 
+matching matrix after step i = 1, 2, 3, and 4, respectively. The centered  grey  box 
+represents the remaining part of M which has not been processed so far. By our 
+construction, with each step, it shrinks by two  rows  and columns. 
+
+
+===== PAGE 5 =====
+
+48 H. GOEMAN AND M. CLAUSEN 
+123456789 
+cbabbacac 
+i a 
+2 b 
+3 a 
+4 C 
+5 Ь 
+6 C 
+7 Ь 
+8 a 
+X' © 
+Ľ 
+r Ľ 
+П 
+L1 
+r-p4 
+© в1 RІ 
+B3 
+R3 
+B2 
+R1 
+© в' 
+(a) 
+123456789 
+cbabbacac 
+(c) 
+123456789 
+cbabbacac 
+(e) 
+123456789 
+cbabbacac 
+(b) 
+123456789 
+cbabbacac 
+(d) 
+123456789 
+cbabbacac 
+(f) 
+Fig. 2. (a)  splitting  of M, (b)-(e) construction of antichains, (f)  final  decomposition. 
+
+
+===== PAGE 6 =====
+
+A New  Practical Linear Space Algorithm  for the  Longest Common Subsequence Problem  49 
+We need the  following terminology  for the description  of the construction process. 
+For two  antichains C,  D C M the set 
+IP(C,D) :={pi  eC\Vp2eD: ^( Pl <p 2 Vpi  »p 2 )} 
+is called  the  incomparable part  of C  relative  to D.  Clearly, IP(C,D) U  D is the 
+greatest antichain above  D  contained  in C  U D. We say C is  incomparable to D 
+if JP(C,  D) = C  Furthermore,  a  single match  p\ G M is  incomparable  to  _D if 
+ip({pi},D)  =  {pi}-
+We are now  prepared  to  discuss  the  generation  of the  antichains  in  more detail. 
+Initially, there  are no  antichains,  i.e., we  have A T,° = A L,° = A B,° = A R,° = 0 by 
+initializing each start  and end  index  to 1 and 0,  respectively. Then,  for each step 
+i =  1,..., \m/2],  we  start with  T l to  determine  A T,i from  _4 T' i_1 . Let 5 :=  s TL,i~1 
+and e :=  eT,l~1. The  first 5  — 1 antichains remain unchanged  and are  simply copied 
+from A T,i~1 to A T,i. Now define  A T,i as A^ 1'1 U  IP(T{nM,AT,i~1). For  example, 
+when processing  T 2 in Figure 2 (b), JP(T 2nM, _4 T'X) = {(2,2)},  and  thus the  match 
+(2,2) combined with  A~ ,x makes  up  _4 T'2 as  shown  in  Figure  2(c).  Next, setting 
+u =  5  + 1,..., e,  the  antichain  A T,l~1 is  handled  in the  same way  to set up _4T'1, but 
+only those matches  in T l not  belonging  to  _4 T' 2,...  ,_4 Ti\ are  considered. Finally, 
+we establish  s TL,% := s and, if  there  are no  matches left,  e T,% := e.  Otherwise,  we 
+set e T'1 to e + 1  and collect all  remaining matches  in a  new antichain  A T±\. Also,  if 
+j^R,i-i __/.  0^ we  check whether  its  last antichain  A R,t_1, e :=  e H'1_1 , is  incomparable 
+to Aj±\. In  this case  we say .Af' 1-1 is  inactivated by  -4^\,  and we  remove _4f' 2_1 
+from A R,t by  setting  e^' z := e H' z-1 . Continuing  our example with  T 2 in Figure 2 (b), 
+we see there  are two  matches  (2,4) and (2,5)  left after processing  _4 T'2. Therefore 
+a new antichain _4 T'2 is created,  but A R,X remains unchanged because,  for example, 
+(2,4) <£: (4,9).  The  final set A 7,2 is  shown in Figure 2 (c)  (the  modifications  to the 
+other antichains  are  described below).  Now let us  consider  the  work involved with 
+T 3. The  match  (3,3)  cannot  be put  into  _4f'3, but  into  _4 T'3, and the  other match 
+(3,6) makes  up the new  antichain  _4 T'3. This time  (3,6)  inactivates (3,8),  and  thus 
+AR,2t is  removed.  The  result  is  illustrated  in  Figure 2 (d)  (all  matches located  in 
+deleted antichains  are  indicated  by  grey dots). 
+Having determined  _4 T'\ we continue with  the  necessary calculations  for A L,i 
+which are  very similar. Again,  the  first 5  — 1 antichains  are  copied. Then,  by setting 
+u —  5,...,  e L' z-1 , A L,% is defined as the  union of AL,l~1 and the  incomparable part 
+of 27 relative  to  A L,l~1, where only those matches  are  considered which have  not 
+already been used. Remaining matches form  a  new antichain and,  if they are  incom­
+parable  to the  last antichain  in  _4 B' l_1 , we decrease e B,% by one. The  corresponding 
+algorithm  in  Figure  3  (a) also introduces  two  additional sets  D TR and D BL which 
+contain  all  deleted matches. Details will  be given in the  next section. 
+Before processing  A B,l~1 and  _4 fi 'l_1  in an  analogous way,  we first check whether 
+the first antichain  in AT,% or AL,% is TL-complete, i. e., whether one  of them contains 
+a match  (k,£)  such that  1 < k,£ < i. For  example,  in the  configuration shown  in 
+Figure  2(c), _4 T'2 is TL-complete  due to the  match (2,2).  As  soon  as A T,% is 
+detected  to be  TL-complete,  s TL,% is increased  by one,  thus the  first antichains  in 
+both corresponding sets which  are  checked for additional matches remain unchanged 
+
+
+===== PAGE 7 =====
+
+50 H. GOEMAN  AND M. CLAUSEN 
+10 
+5 := T* n M; (*  Determine  A T,i *) 
+For u := .s^" 1 To e 1 ^" 1 Do { 
+AT,i :=A T,i - 1 UlP(5,A T,i - 1 ); 
+S:=S\IP(S,AT'i-1); 
+}; 
+If 5 ^ 0  Then  { 
+e r ''  : = e T,i " 1 + 1; e := e T,i ; A T,i := 5; 
+eR,i := e fl,i_1 - e := e R,i-
+If  s BR,i-i < e H,t-i  Then  { 
+If IP(A R,i-\AT^) =  A?'*" 1 Then  { 
+DTR :=DTRuAR,i-i. 
+eH,f  : _ e _ 1; 
+}; 
+15 } Else { e т,i  :=  e Tti-1\ 
+For u := 1 To в"^- 1 -
+p н,i  ,_ p я,í-i }; 
+5 := B i n M; (* Determine A B,i *) 
+For u :=  a 23 *^ -1  To e B,i  Do { 
+AB>{ :=A;? ,i - 1 UlP(5,A* ,i - 1 ); 
+S:=S\IP(S,AB,i-1); 
+}; 
+If 5 ^ 0 Then { 
+„B,t ._ „B,t ,  -, .  „ «B,t. ,*B,t c . 
+e := e + 1; e := e ' ; -A e •=  *->; 
+If s TI/,i  < e L,i  Then { 
+e:=e L,i ; 
+ItIP(AL'i,AB'i) = A L>{ Then { 
+DBL :=D BL UA|" i ; 
+eL,i := e - 1; 
+}; 
+}; 
+}; 1 Do A т,i :=  Л т,i - 1 ; For u := 1 To  в™-*" 1 - 1 Do  Л fî,i  := Aí 
+20 
+5 := V n M; (* Determine A L,i *) 
+For w := 8TL*i-1 To e 1"*" 1 Do { 
+AL'{ := Ai^" 1 U IP(5,  A^ -1); 
+5:=5\/P(5,Ai" i - 1 ); 
+}; 
+If 5 ^ 0 Then { 
+5 := .R* n M; (* Determine A H,i *) 
+For u := a1"*''" 1 To e R,i  Do { 
+Ati,t ._ A*t, 
+S:=S\IP(S,AÍ 
+UIP(5,AÍ 
+'); 
+L,t ^L.t-l 
+0Bti 
++ 1; e: ._  pLti 
+P B,І-1.  = î=p fl,i, 
+25 
+; A e ' :— o; 
+e~>* :— e-''* -• e .— e J,i * 
+Ifs BH,t-i < e B,i-i T hen{ 
+If IP(Af^-\A L,i) = Af ,i"1 Then { 
+DBL :=DBLuABti-l. 
+e ñ,i ;A д,i  :=5; 
+}; 
+30 }; 
+} Else { e L,i := 
+For u := 1 To s 
+L,t-1.  B,» ._ _B,t-l ';  e-" := e~— }; 
+1 -1 Do A L>{ :=  ЛІ'*- 1 ; 
+}; 
+If 5 j- 0  Then  { 
+e ' := e ' + 1; e : 
+If s TLi  < e T,i  Then  { 
+e := e ' ; 
+UIP(Aj>iiAR>i) = AF  Then  { 
+DTR:=DTRUAV\ 
+e T,i  := e- 1; 
+}; 
+}; 
+}; 
+For u := 1 To  a 1"*'*" 1 - 1 Do A R,i := .A?'* -1; 
+33 s л 
+0TL,І-I. BRti BR t i-1. 
+(a) (b) 
+Fig.  3. The algorithms for generating A T,i & A L,i (a), and A B,i & A R,i (b). 
+from now on. If  there  is no such  antichain  in A L,% (i.  e. s >  e L,z ),  but s BR,l~l < e B,t , 
+then  we additionally test whether A~ ,z is  incomparable  to the last  antichain  in A B,l~l 
+and,  should this situation arise, delete this  antichain  from A B,% by decreasing e B,x. 
+Now assume A L,X is  TL-complete.  Then,  as shown in Figure 4  (a),  we also increase 
+5 TL,t , and similarly, if s > e T,% and s BR,l~~l < e R,t, we decrease e^' 2 if A L,l inactivates 
+the  last  antichain  in A R,t. 
+The  remaining work in step i concerns with the analogous  construction  of A B,% 
+and A 11'1. (The analogue of  TL-completeness  is called BR-completeness. An an­
+tichain  is BR-complete if it contains a  match  (k,£) with m — i < k < m and 
+n —  i < £ < n.) Details are available from the algorithms shown in Figure 3 (b) and 
+Figure 4(b). 
+The main program shown in Figure 5 is straightforward. Our next task is to elab­
+orate the connection between the generated antichains and a minimal decomposition 
+of M. This is done in the next section. 
+
+
+===== PAGE 8 =====
+
+A New Practical Linear Space Algorithm for the Longest Common  Subsequence Problem 51 
+10 
+(* Check  A T,i for  TL-completeness  *) 
+UsTL,i <e T,i Then{ 
+„ eTL,t. 
+s := s ; 
+If 3 (k, £) e A T,i: k,£<i Then  { 
+If s > e Li  Then  { 
+If  s BB,t-l  < eB,i - hen  | 
+e:=e B ' i ; 
+If IP(A? ,i~1,AT,i) =  A B,i~1 Then  { 
+DBL,i ^D^UAf' 1 '" 1 ; 
+eB,i :=e-l; 
+}; 
+}; 
+eL 
+(* Check  A B,t  for  BR-completeness  *) 
+If s BR,i < e B,i Then  { 
+_ BBR,i. 
+s := s ' ; 
+If 3 (k,  £) e Af  '*:  k> m-i A £> n-i  Then  { 
+If s > e R,i Then  { 
+HsTL,i <e T,i Then{ 
+e:=e T '*; 
+HIP(Aj,i,AR,i) = Aj ,{ Then  { 
+DTR,i :=D TR,iUAT,i\ 
+eT,i : __e_i ; 
+}; }; 
+}; 
+15 _™-,t ._ = s  + 1; 
+pЯ,.  ._ 
+QBR,І 
+• s; A я ' ť :=  I 
+s + 1; 
+20 
+25 
+(* Check __ L'* for  TL-completeness  *) 
+If s TL,i < e L,i Then  { 
+TL,i 
+s :=  s  ' ; 
+If 3 (k, £) e A L,i: 1 < k, £ < i  Then  { 
+If s > e Ti  Then  { 
+Ifs BR,t-l  <  c R,i  - hen  { 
+e:=e H ' i ; 
+If IP(A R,i-\AL,i) =  Af' 1"1 Then  { 
+DTR,i :=DTR,iuAR,i-i. 
+}; 
+}; 
+(* Check  A R,t for  BR-completeness  *) 
+If s BR,i < e R,i Then  { 
+-Bi-,t. 
+s :=  s ' ; 
+If 3 (k, £) e A R,i: k> m-i A £> n-i  Then  { 
+If s > e B,i Then  { 
+If s TL,i < e L,i Then  { 
+e:=e L ' f '; 
+HIP(AL,i,AB,i) = A L,i Then  { 
+DBL,i :=  D BL,i \J A L,i\ pД.i  ._, 
+}; 
+1; 
+}; 
+:=ê-l; 
+30 := s;  Л т,ť  ._ pß.i  ._ s; Af'*'  :-  0; 
+я T.L,t  . = 
+= s+1; := s  + 1; 
+34 }; 
+(a) (b) 
+Fig.  4.  The  algorithms  for handling complete antichains  in A T'X &  _4L'1 (a),  and  in A B,% 
+& A R^ (b). 
+3. ANALYSIS  OF THE  CONSTRUCTION 
+In this section,  we study  how to  combine  the  antichains into larger ones such that  a 
+minimal  decomposition  of M is  obtained.  We  further establish some results which 
+later help  us to  construct  an  LCS in linear space. 
+Let us  assume  m is  odd,  and let i =  |~ra/2"|. For  technical reasons,  we  then  put 
+AB^ := A**- 1 and  A*>* := A^- 1 for all 1 < u < e 3^1 and 1 < u < e^" 1 . 
+We also  set  s BR>1 :=  s3^1'1, e B>1' :=  e^' 1' -1 , and e R^ :=  e*'*"" 1. Furthermore,  for 
+0 < i <  |m/ 2l> we  define A TJ :=  0, AL* := 0, A B* :=  0, and AR>1 := 0 for u > e T>\ 
+u > e L' z, u > e B>1, and u > e R'%, respectively. 
+Lemma 3.1. Let 1 < i <  |~ra/2~|. Then  the  following holds: 
+a) Vs 77 ^" 1 < u < v < e T'2' Vpi G  AT>* 3 P2 G  A^{: Pl  > P2. 
+b) Vs 77 "*" 1 < u < v <  e L>1 Vpi G  AL>1 3P2 G  A^: pi > p 2 . 
+
+
+===== PAGE 9 =====
+
+52 H. GOEMAN AND M. CLAUSEN 
+I 
+sт,° : =  1; s L,° : =  1; S в'° := 1;  S я>° 
+eт,° :=0;  e L,° :=0;  e в'° := 0;  e R,° 
+Foг i := 0 To [m/ 2 ] Do D TL » ť := 0 
+Foг ż:=0To  Lm/ 2J Do  DBR,г := 0 
+1; (*  Initialization  *) 
+0; 
+5 i  :=  1; 
+While  i < [m/2j Do { (*  Main loop  *) 
+Determine  A T,t and A L,t\ (* see  Figure  3(a) *) 
+Look for TL-complete antichains  in A T,t and A L,t\ (* see  Figure  4(a) *) 
+Determine  A B,t and A R,t\ (* see  Figure  3(b) *) 
+10 Look  for BR-complete antichains  in A B'* and A R,t\ (* see  Figure  4(b) *) 
+i := t +  1; 
+}; 
+If Odd(m)  Then { 
+Determine  A T ' rm/21  and  A L,*~rn/2^\ (* see  Figure  3(a) *) 
+15 Look  for TL-complete antichains  in  A T,^rn/2^ and  A L,[m/2^\ (* see  Figure  4  (a) *) 
+}; 
+Fig.  5. The  main program  for  decomposing  M. 
+c) Vs^" 1 <u<v<  e B,i Vpi  G  AB,i 3p 2 G  AB,i: Pl «p 2. 
+d) Vs™**- 1 < u < v < e R,i Vpi  G  A?»* 3p 2 G  AR,i: Pl <p 2 . 
+Proof.  We  only  show the first  claim,  the  other  proofs are similar.  Letpi  =  (k,£). 
+Since A T,t C  T-^ m/ 2l, p\ has  been added  to A T,k while processing  T k in  step  A;, 
+and k < i.  Clearly, from  the way S is  handled  in  lines 1-5 of  Figure 3 (a),  we have 
+pi $  IP(T k H M^P" 1 ),  for  s 77"*" 1 < j < v.  Since  s 7^*" 1 <  s^.i-i  < ^ < v? 
+there  is  some  p 2 G  .A^'fc_1 such that  p\ ^> p 2 or p\ «p 2 . But the  second case 
+would imply  p2 G  Tk for  some k! > k which  is impossible during  the  first k steps  of 
+our construction. Finally observe that  the  algorithm never removes matches while 
+updating  an  antichain, thus  p2 is  still present  in  A T,'t. • 
+Lemma  3.2. The  following holds: 
+a) VI < i <  \rn/2] Mv: v <  sTL,i ^=> AT' 1 or AL,i is  TL-complete. 
+b) VI < i <  [m/21  \/v: v <  sBR,i <=>  AB,i or A R,i is  BR-complete. 
+Proof.  We  only prove  the  first claim,  the  other  one is similar. 
+If. By  contradiction,  let i be the  first step such that  A^ ,% or AL,% is TL-complete, 
+but v >  s TL,t. Clearly  v ^  s TL,l~1, otherwise  the  TL-completeness would have 
+been detected  by the  algorithm shown  in  Figure 4(a),  and  thus, contradicting  the 
+property  of v, we  would have  v < s TL,% = s TL,l~1 + 1.  Hence  v >  sTL,l~1. By the 
+TL-completeness, there  is  some match  (k,t) G  A£>% U  AL,X such that  1 < k,£ < i. 
+Furthermore,  by  Lemma 3.1, there exists some match (k',£')  G  AT±\ U  ALI\ such 
+
+
+===== PAGE 10 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 53 
+that (k',£') <  (k,l).  But then 1 < k'J' < i, and therefore either A Ti\ or A Li\ 
+would be TL-complete after step i  — 1, a contradiction .to the choice of i. 
+Only if. Obvious from the management of the start indices. • 
+Lemma 3.3. For all i,u define  A TL>1 := A T>1 U _4L'1' and  A****  := _4?»* U _4?>\ 
+Then 
+a) VO < i < \m/2] VI < u <  min{e T' i,e L' i}: A TL>{ is an antichain. 
+b) VO < i < \m/2] VI < u <  min{e B' i,e /? ' i}: A~ R>{ is an antichain. 
+Proof.  We prove the first claim by induction on i. The base i = 0 it trivial 
+because _4 T'° = _4 L'° = 0. For the induction step i  —  1 -» i, we consider three 
+different cases. 
+Case a: 1 < u <  a 71'*" 1. Then  A***  = A^' 1-1  and _4 L)i =  _4 L' i_1  (see lines 15 
+and 30 in Figure 3 (a), respectively). Thus, by the induction hypothesis,  _4 TL'Z is an 
+antichain. 
+Case b:  a 12"*'1 <u<  min{e T' i- 1,e L' i" 1}. By definition the set T := IP(S, JC*" 1 ) 
+added to _4 T'1 in line 3 (Figure 3 (a)) is incomparable to  _4 T'2_1 , but it is also incom­
+parable to  _4 L>i as we now demonstrate. Let (fc,^) G IP(S, -4 T'i_1 ) and (k',£') G A L>\ 
+Observe k = i and £ > i. Also note that k' > £' and £' < i because  _4 L>i C L- i . 
+Thus (k,£) < (k',£') would contradict £ > i > £'. Furthermore, (k',£') < (k,£) 
+would imply £' < k' < k = i, i.e.,  _4 L'1_1  would be TL-complete, a contradic­
+tion to Lemma 3.2 and the choice of u. Similar arguments can be used for the set 
+L := JP(5,_4 L'i-1) added to  _4 L'2' in line 19. Finally note that T C T* and L C U 
+are also incomparable. 
+Case c: min{e T'2_1 ,e L'z~1} < w <  min{e T'2,e L'1}. Clearly, this case is only possible 
+if u = e T'1' = e 71'2-1 + 1 or u = e L'i = e L' i_1  + 1. If both conditions hold, then 
+A~>{ CTflM (lines 1 and 7) and  _4 L'Z' C VDM (lines 17 and 23), thus their union 
+obviously makes up an antichain. Otherwise, only one new antichain is generated 
+whereas the other one is updated, and we can argument as in the second case to 
+show that both antichains are incomparable. 
+The proof of the second claim is similar. • 
+Lemma 3.4. Let 1 < i < \m/2]. Then the following holds: 
+a) V j < max{e T' i,e L' i} V Pj G A TL^ 3 Pl G  _4 TL '\ ... ,p i _ 1 G A TL{{: 
+Pl < ... < Pj. 
+b) V j < max{e B>\ e R>1} M Pj G Af~^ 3 Pl G A~ R>\ ... , Pi _i G Af R/: 
+Pl > ... »Pj. 
+Proof.  We prove the first claim by choosing Pv for v = j  —  1,..., 1. 
+
+
+===== PAGE 11 =====
+
+54 H. GOEMAN AND M. CLAUSEN 
+Consider step j' < i when p v+\ was added to A T+^ C A T+{1. Then Lemma 3.1 
+implies the existence of p v if v >  s TLij ~ 1. Otherwise, by Lemma 3.2, _4 Tj  _1  or 
+ALfi'-1 has been detected to be TL-complete before step  j',  i.e.,  A TL,j _1  contains 
+a match (k',£ l) such that k!,1' <  j'.  But  p v+i is of the form (k,f) with k,H > j', 
+thus we can choose p v := (k'  ,£'). 
+Similar arguments can be used for the second claim. D 
+Lemma 3.5. For 0 < i < \m/2], there are two chains 
+CTi *'\ C BL>1 C T^ U L^ U £- 2 U R& 
+of length e T'1 + e R,% and e B,% + e L,t , respectively. 
+Proof.  We prove the existence of the first chain C TR,% by induction on i. The 
+base i = 0 is trivial. For the induction step (i  —  1) —r i, we have to analyse the 
+situations which cause e T'2 + e 71'2 to be greater than e T' l_1  + e^' 1-1 . One such 
+situation is given in lines 7-14 of Figure 3 (a) if the condition in line 10 is not 
+satisfied because then e := e T,t = e T' l_1  + 1 and e := e R,t =  e R,l~l. But since 
+IP(ARii~1 ,-4 T'2) 7-= AR,l~l there exist two comparable matches c T G -4 T,i and c R G 
+AR'i_1. More precisely, since c T G T z and c H G -R- 2"1, we must have (&,^) <C  (k',£'). 
+Thus,  by Lemma 3.4, we can construct a chain 
+Pl < . .  . < Pe-l < C T < C^ <  p'g_!  <  .  . . < p\ 
+of length e + e. 
+Similar arguments can be used for the remaining situations and for the other 
+chain. • 
+Our next task is to reveal the structure in D TR and D BL. We shall show that 
+for each deleted match there always is some antichain which is incomparable to 
+this match. In order to prove this property, we keep track of each deleted match 
+by assigning it to some antichain during the construction process. More precisely, 
+whenever an antichain A is removed due to the existence of some other antichain 
+B which inactivates it, all matches in A are assigned to B, e.g., considering the 
+situation in Figure 2 (d), the match (3,8) is assigned to A[' 3. Furthermore, all pre­
+viously deleted matches assigned to A now also belong to B. The assigned matches 
+are inherited when an antichain is updated, e.g., in Figure 2(e), (3,8) also belongs 
+to Aj> 4. These rules guarantee that after step i, each deleted match is assigned to 
+exactly one antichain in _4 T,t U AL,i U A B>1 U A R>1. We write D(A) to denote the set 
+of matches assigned to an antichain A. 
+Lemma 3.6. Let 1 < i < \m/2], and assume (k,£) G D(A) for some antichain A 
+in _4 T>\ A L>{, _4 B'\ or A R>1. Then 
+a) (k,£) G D TR =-=-> V(*\0  G  A: k < k' A I > £'. 
+
+
+===== PAGE 12 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 55 
+b) (k,£)eD BL =» V(k',£')eA: k>k' M<1'. 
+Proof.  For the first claim, let us assume (k,  £) was assigned to A while executing 
+line 11 in Figure 3(a) during step j < i (the following arguments can analogously 
+be applied to the other instructions which modify D TR). Thus A = A T>1, where 
+e = e Tj . Now we consider two cases concerning the status of (k,£) before step j. 
+Case a: (k,£) E A^" 1 C R^' 1, e = c^'" 1 . Then £ > n - j + 1. From lines 1, 
+6, 7, and 10 we see that (k,£) is incomparable to any match (k" JJ') in A[^. But 
+j\Tj Q rpj^ faus k" = j and £" < n  —  j + 1. Hence, the incomparability implies 
+k < j. Now observe that A T^ is the first constructed part of  A T>1, later extensions 
+are taken from JP +1 ,...,T\ Thus every match (k',t) G Ap fulfills k' > j and 
+^7 < n  —  j H-1, and the claim follows. 
+Case b: (k,£) is assigned to  Af' J_1 . We can inductively assume 
+V(k",£") e  -4F" 1 : k < k" A £ > £". 
+Deleted matches are never assigned to empty antichains. Thus there is at least one 
+match (k",£") G  A R^~X, and we can prove as in the first case that k" < k' and 
+£" > £'. Hence we have k < k' and £ > £'. 
+The proof of the second claim is similar and therefore omitted. • 
+Lemma 3.7. Let 1 < i <  |"m/2].  Then the following holds: 
+a) V1 < u <  eTii: D BL n D(A^ {) ^ 0 =>  A Lii = 0 A  A Tii is TL-complete. 
+b) V1 < u <  eLii: D TR n D(A L>1) ^ 0 =>  A Tii = 0 A  A Lii is TL-complete. 
+c) V1 < u < e B^: D TR n D(A B>{) 7- 0 =*  A?> 1 = 0 A  A?** is BR-complete. 
+d) V1 < u < e R>{: D BL n D(A R>{) / 0 =>  A***  = 0 A  A Rii is BR-complete. 
+Proof.  We again only show the first claim. From lines 10 and 11 in Figure 3 (a), 
+we see that all matches assigned there to A T,t are either placed into D TR, or they 
+have been assigned before to some non-complete antichain in A fi,i_1 . But concerning 
+the latter case, we see from lines 26 and 27 in Figure 3 (b) that any such match has 
+been put into D TR as well, or again belongs to some non-complete antichain in _4 Tj , 
+j < i. Repeating this argument, we conclude that all matches assigned to A T'1 are 
+contained in D TR. The only exception is given by lines 8 and 9 in Figure 4 (a), where 
+deleted matches are assigned to A Ti%, but added to D BL. But then, from lines 3, 4, 
+and 13, the claim follows. • 
+
+
+===== PAGE 13 =====
+
+56 H. GOEMAN AND M. CLAUSEN 
+Lemma 3.8. All matches assigned to an antichain A are pair wise incomparable, 
+thus by Lemma 3.6, they extend the antichain to a larger one. 
+Proof.  Whenever a match is deleted, the algorithm always removes a complete 
+antichain. By induction, this antichain B together with its assigned matches forms a 
+larger antichain C. If there already is a set of matches D assigned to A (which is only 
+possible when A is detected to be complete), then, following the arguments given 
+in the proof of Lemma 3.7, C C D BL and D C D TR or vice versa, and Lemma 3.6 
+immediately implies that B and D are pair wise incomparable. • 
+We are now prepared to construct a minimal decomposition of M. We start 
+by decomposing M \ (D TR U D BL), the deleted matches are later considered in 
+Thmeorem 3.9 below. The construction is as follows. Using Lemma 3.3, we com­
+bine the first e TL := min{e T'r m/ 2l,e L'r m/ 2l} antichains in A T'Tm/2l and  A L^m/2^ to 
+larger ones. We also connect the.first e BR := min{e B, rm/2l jeR>r m/2l j.  antichains in 
+.AB,[m/2l to the corresponding ones in  A R^m/2\ For example, in Figure 2(e), we 
+have eT>rW 2l = e B J m / 2 l = 3 and eL>rW 2l = e«,rW2l = 2, thus this generates four 
+combined antichains. Concerning the remaining antichains we consider four different 
+cases. 
+Case a: eT>r m/2l < e ^r m / 2 l an d eB,\m/2] > eIU m/ 2l. Then we leave the remaining 
+antichains as they are and have p := eL>r m/2l _|_ eB,[ m/2l antichains in total. But by 
+Lemma 3.5, there also exists a chain of this length. Thus, by Dilworth's theorem, 
+the decomposition is minimal. 
+Case b:  e T'^ m/2l >  e L^m/2l and  e B'f m/2l < e ^r m / 2 l. Similar to the first case we 
+have p := eT>r m/2l + eI*,r m/2l antichains, and also a chain of this length. -
+Casec: eT>r m/2l < e-V m/ 2l and eB>r m/2l < eB,r m/ 2l. From the management of 
+the start and end indices, we have eT>r m/2l > 5TL,r m/2l _ \ m Thus, by Lemma 3.2, 
+^L,rm/2l is  not  TL-complete for u > e T'T m/ 2l. This implies k > \m/2] and £ < 
+|m/2l for any match (k,£) e  jl^rW 2! c L-^ m/ 2l. For all v > e5>r m/2l and 
+\k\e) e A R^mW We similarly have k' < \m/2] and £' > n - [m/2\ > \m/2]. 
+Thus A L^™/2] and  ^B,[m/2i are  i nC0 mparable. Now assume eL>Tm/2l > e1^,r m/2l. 
+Then we can connect all remaining antichains in A^'r m/21 to corresponding ones in 
+_4L,rm/2l and obtain p := eL>r m/2l _|_e-3,[m/2i antichains in total, thus again a minimal 
+decomposition. If eL>r™/2l < eR,\m/2]^ then similarly p := eT>Tm/2l -4- eR,r m/2l [ s the 
+optimal length of a chain in M \ (D TR U D BL). 
+Case d: eT>r m/2l > e^.r m/ 2l and e^>r m/2l > eI-,r m/2l. Finding a minimal decompo­
+sition is slightly more complicated in this case. Consider the following algorithm. 
+Starting with u :=  e^171/^ and v := eR^m^ + 1, we check whether  A T^m/2^ and 
+j^B,\m/2] are  incomparable. If they are not, then we backup u and v in u and {/, 
+respectively, and increase v by one. Otherwise the antichains are connected, u is set 
+to u  — 1, and v is set to v + 1. We repeat this until all remaining antichains in either 
+^T,[m/2l Qr  ^B.rm/21 have  been  used>  j e ?  u  =  e L,[m/2l Qr  y  >  e B,[m/2l Then 
+the total number of antichains is p := u + eB>Tm/2l m Thus, if u = eL>r m/2l ? we  have 
+p = eL,\rn/2'\ _|_eB,[m/2l ^ an( j foe decomposition is optimal. Now assume u > eL>T m/2l. 
+i 
+
+
+===== PAGE 14 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 57 
+If u and v are unused, then all remaining antichains in  A B^m/2^ have been connected 
+to corresponding antichains in  A T^m/2^, and we havep =  e T'Tm/2l +eR^m/2^. Hence, 
+in this case the decomposition is also a minimal one. Finally assume that u and v 
+have been used for saving u and v at least once. Then for j = v + 1,..., e B^ m/ 2l. 
+^B,fm/2l hag  been  connecte d t0  A[^W, and we have u = u- (e B'T m/2l - v). Thus 
+p = u  —  (e B'^ m/2l —  v) +  eB^m/2^ = u + v. But from the properties of u and £, it 
+can be shown (similar to the proof of Lemma 3.5) that there is a chain of length 
+u + v which contains two matches pi G A T'^ m/2l and p2 G  Af^m/2\ Hence, the 
+constructed decomposition is optimal. 
+Let us consider our example. Case d applies to the situation in Figure 2(e), 
+and A[' 4 is compared with Af ' 4. Since these antichains are incomparable, they are 
+connected, and we obtain a decomposition consisting of 5 antichains in total. 
+Theorem 3.9. The length of an LCS in M equals p as defined in the four cases 
+above. 
+Proof.  Consider a combined antichain A of the decomposition. Assume an 
+antichain  A[^ m/2^ G  AT^m/2^ is one component of it (otherwise, we can handle the 
+following construction in a similar way). 
+Case a:  A[^ m/2^ is the only component of A. Then we extend A with the set B of 
+deleted matches assigned to  A[^ m/2^. Lemma 3.8 guarantees that the result is still 
+an antichain. 
+Case b: A[^ mW has been combined with AH m/2 l. By Lemma 3.7, B C D TR. Let 
+(M) G A£J mM and (k',t') G  A[^m/2\ Now (k,t) G  L^ m/ 21, the incomparability 
+of (M) and (k',£')> and (k'J')  G  T^m/21 imply that k > k' A I < £'. Now consider 
+a match (k",t") G B. By Lemma 3.6, we have k > k' > k" and t < t' < t". 
+Hence, A[^ m/2^ is incomparable to B. We can use a similar way to show that the 
+set C of deleted matches assigned to  A L^m/2^ is a subset of D BL and incomparable 
+to A[^ m/2\ Finally, B and C are clearly incomparable as well. This implies that 
+^T,rm/2l ,j ^L,rm/2l [j B U C is still an antichain. 
+Case c: A T'^ m/2l has been combined with some other antichain D G A B>1. Then, 
+similar to the proof of the second case, we can show that the union of A and the 
+two corresponding sets of assigned matches still make up an antichain. 
+By handling each combined antichain in this wqy, we can construct a decompo­
+sition of M without generating any additional antichains. The proof is complete. 
+• 
+Figure 2 (f) illustrates the corresponding decomposition for our example. 
+4. IMPLEMENTATION 
+We now describe an efficient implementation for the given algorithm and analyse its 
+time and space complexity. 
+All new antichains created in step i are extensions from antichains generated 
+during step i  — 1. Furthermore, the only antichains used for decomposing M are from 
+
+
+===== PAGE 15 =====
+
+58 H. GOEMAN AND M. CLAUSEN 
+the  last step. Thus for the implementation it is sufficient to update the antichains 
+of interest. The same is true for the start and end indices, and we thus sometimes 
+drop  the index i from now on. The necessary information for each actual antichain 
+can be kept in one single number as follows. Let 1 < i < [ra/2] and 1 < u < e T>1. 
+We define ThreshT[u] as the leftmost column used by some match in  .A T'2, i.e., 
+ThreshT[u] := min{^|3Jfc: (k,t)  G  Ap}. 
+For example, in Figure 2 (b), ThreshT[l] = 3, and in Figure 2  (d),  Top-Thresh[l] = 2, 
+ThreshT[2] = 3, and ThreshT[3] = 6. To update this array in each step, we use an 
+auxiliary array LeftPos on E x [1 : n + 1] given by 
+LeftPos[c, t] := min({n + 1}  U  {j \t < j < n A yj = c}), 
+i.e.,  LeftPos[ai,t]  equals the column number of the leftmost occurence of a match 
+in row i located right to column^, and equals n + 1 if there is no such match. In 
+our example (y = cbabbacac), we obtain the following values: 
+a 3 3 3 6 6 6 8 8 10 10 
+b 2 2 4 4 5 10 10 10 10 10 
+c 17 7 7 7 7 7 9 9 10 
+Now it is not difficult to see that the following routine correctly updates ThreshT 
+when processing T l, representing lines 1-7 in Figure 3(a). (Similar procedures are 
+used in [4, 29, 30] to determine  contours  which correspond to the antichains used 
+here.) 
+k :=  LeftPos[a,i,  i]\ 
+For  u := s TL To e T Do { 
+j := ThreshT[u]\ 
+If k < j And k < n - i + 1  Then  { 
+ThreshT[u] := k\ k :=  LeftPos[<nJ  + 1]; 
+}; 
+}; 
+If fc < n - i + 1  Then  { e T := e T + 1; ThreshT[e T] := k }; 
+For A L' 1, A B'%, and A R'% we introduce additional arrays ThreshL, ThreshB, and 
+ThreshR which similarly store the topmost rows, rightmost columns, and bottom­
+most rows used by the corresponding antichains. To handle them analogously to 
+ThreshT, we also need three more auxiliary arrays given by 
+TopPos[c, k] 
+RightPos[c, t] 
+BottomPos[c, k] 
+= тт({ш + 1} ^ {Л к < з < т Л х^ = с}), (1 < к < т + 1), 
+= тах({0} 1>{з\1<з<елу,= с}), (0 < I < п), 
+= тах({0}  ^ {] 11 < з < к Л х, = с}), (0 < к < т). 
+Note that in Figure 3 and Figure 4, each test for the incomparability of two antichains 
+can be replaced by a rather simple conditional statement. For example, considering 
+line 10 in Figure 3  (a),  we know that all matches in T l are located to the left of any 
+match  in  R- l~l. Thus, with e := e T' 2 and e :=  eRjl, A T and A R are incomparable if 
+
+
+===== PAGE 16 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 59 
+and only if A R is also completely contained in the first i rows, i.e., ThreshR[e] < i. 
+The algorithm presented in Figure 6 shows how the other situations are handled. 
+It also makes use of some special implementation details which cannot be discussed 
+here, e.g., the construction starts with the bottommost row instead of the topmost 
+one when m is even. In Figure 6 some lines are marked with a dot (•) on their left 
+sides. These lines are used for the construction of an LCS and should be ignored for 
+the moment. 
+The complexity of the algorithm may be deduced as follows. The four auxiliary 
+arrays can be easily preprocessed in 0(ns) time and space, where s = |E|. Clearly, 
+during one of the [m/2] iterations of the main loop, none of the four inner While-
+loops takes more than 0(p) time, and when determining p, at most [m/2] pairs of 
+antichains have to be compared. Thus the algorithm takes at most 0(ns  +  mp) time. 
+Furthermore, observe that the j-th. antichain in A T (which is added to A T during 
+some step i > j) must contain a match (k,£) with I <n  —  (p — j), otherwise it would 
+be impossible to construct a chain of length p. But then this antichain is detected 
+to be TL-complete after step n  — (p — j), therefore it is only considered for at most 
+n — (p — j) —  i <n  —  p times in the corresponding While-loop (lines 59-65). Similar 
+arguments can be given for antichains in A L, A B, and A R. Hence, we have shown 
+the following theorem. 
+Theorem 4.1. Let x,y G S + , m = |x|, n = |y|, m < n, and s = |E|. Then the 
+length p of an LCS of x and y can be computed in 0(ns + min{mp,p(n  —  p)}) time 
+and 0(ns) space. 
+This result has been achieved before by Rick [29, 30], and in fact, the algorithm 
+presented here is some kind of dualization of Rick's method, but our algorithm is 
+significantly faster as we shall show in Section 6. 
+5. CONSTRUCTION OF AN LCS IN LINEAR SPACE 
+This section deals with the generation of an LCS. The idea is to apply the divide-
+and-conquer scheme [5, 16, 20] which first identifies at least one point of an LCS such 
+that this LCS is splitted into two parts of roughly the same size. Then the remainder 
+is computed by recursive calls. The method presented here usually determines two 
+LCS-neighbouring matches c TL and c BR which are located in  T-^ m/2l U L-^ m/2l 
+and B-^ m/2^ U  R-^m/2^, respectively. This is accomplished as follows. 
+In each step i of the construction described in Section 2, we subsequently update 
+the following variables: 
+- p TL is the match which caused A[> 1 or A L'* to become TL-complete, where 
+s =  s TL"x —  1. For example, in Figure 2(c), p TL = (2,2), and in Figure 2(d) 
+and(e),p TL = (3,3). 
+- p BR has a corresponding meaning for the last BR-complete antichain in A B,t 
+and A R'\ e. g., in Figure 2 (d), p BR = (6,7). 
+
+
+===== PAGE 17 =====
+
+60 H. GOEMAN AND M.  CLAUSEN 
+Determine TopPos and LeftPos\ 
+Determine BottomPos and RightPos\ 
+For u := 0 To [m/2] Do { 
+ThreshT[u] := 0; ThreshL[u] := 0; 
+5 }; 
+For u := 0 To [m/2j Do { 
+ThreshB[u] := n + 1; ThreshR[u] := m + 1; 
+}; 
+t := 1;  £  := 1;  b := m\ r := n\ 
+10 s Ilj := 1; e l 0; e ь ._ 0; 
+s BH  := 1; e a :  = 0; e"  :=  0; 
+If Odd(m)  Then Goto  Line  57; 
+While  t < b Do { (*  Main  loop  *) 
+k :=  RightPos[x b,r]\ (*  Update  A B *) 
+15 u := s BH ; 
+While  u < e B Do { 
+j := ThreshB[u]\ 
+Uk>j Then { 
+ThreshB[u] := k\ k := RightPos[x b, j - 1]; 
+20 }; 
+u :=  u + 1; 
+}; 
+If k > £ Then { 
+eB := u; ThreshB[e B] := k\ 
+25 If ThreshL[e L] > b Then e L := e L - 1 
+• Else Update c B, c L, £ BL\ 
+}; 
+k := BottomPos[y r, b  — 1]; (* Update A R *) 
+u:=sBR\ 
+30 While u < e R Do { 
+j := ThreshR[u]\ 
+Uk>j Then { 
+ThreshR[u] := k\ k := BottomPos[y r,j - 1]; 
+}; 
+35 u:=u + l; 
+}; 
+If k > t Then { 
+eR := u; ThreshR[e R] := k\ 
+If ThreshT[e T] > r Then e T := e T - 1 
+• Else Update c T, c R, £ TR\ 
+}; 
+(* Check for BR-complete antichains *) 
+If ThreshB[s BR] = r Then { 
+If s BR > e R Then { 
+45 If ThreshT[e T] > r Then e T := e T - 1 
+• Else Update c T, c R, £ TR\ 
+}; 
+sBR:=sBR + l\ 
+} Else If ThreshR[s BR] = b Then { 
+50 If s BR > e B Then { 
+If ThreshL[e L] > b Then e L := e L - 1 
+• Else Update c B, c L, £ BL\ 
+}; 
+sBR;=sBR + \\ 
+55 }; 
+t := t+ 1;  £ :=£+ 1; 
+k := LeftPos[x t,£]\ (* Update A T *) 
+TL 
+u := s \ 
+While u < e T Do { 
+60 j := ThreshT[u]\ 
+If k < j Then { 
+ThreshT[u] := k\ k := LeftPos[x t,j + 1]; 
+}; 
+u :=  u  + 1; 
+65 }; 
+If k < r Then { *? •-- u; ThreshT[e г] := k\ 
+If ThreshR[e R] < t Then e R := e R - 1 
+• Else  Update  c T, c R, £ TR\ 
+70 }; 
+k := TopPos[y t,t]\ (* Update A L *) 
+u := s ; 
+While u < e L Do { 
+j := ThreshL[u]\ 
+75 If k < j Then { 
+ThreshL[u] := k\ k := TopPos[yi,j + 1]; 
+}; 
+u := u +  1; 
+}; 
+80 If k < b Then { 
+eL := u; ThreshL[e L] := k\ 
+If ThreshB[e B] < £ Then e B := e B - 1 
+• Else Update c B, c L, £ BL\ 
+}; 
+85 (* Check for TL-complete antichains *) 
+If ThreshT[s TL] = £ Then { 
+If s TL > e L Then { 
+If ThreshB[e B] < £ Then e B := e B - 1 
+• Else Update c B, c L, £ BL\ 
+90 }; 
+STL _ STL + 1; 
+} Else If ThreshL[s TL] = t Then { 
+If s TL > e T Then { 
+If ThreshR[e R] < t Then e R := e R - 1 
+• Else Update c T, c R, £ TR\ 
+}; 
+sTL :=s TL + l\ 
+}; 
+6 := b  — 1;  r := r  —  1; 
+100 }; 
+(* Determine length p of an LCS *) 
+If e T > e L And e B > e R Then { 
+If s TL < e L Then s TL := e L + 1; 
+If s BR < e R Then s BH := e R + 1; 
+105 u:= e T\ v := s BR\ 
+While u > s TL And v < e B Do { 
+If ThreshT[u] > ThreshB[v] 
+Then u := u  — 1 
+• Else { u := u; v := v }; 
+110 v:=v + l; 
+}; 
+p := u + e B; 
+113 } Else p :=max{e L + e B ,e T + e H}; 
+Fig.  6. The 0(ns +  min{mp,p(n —  p)}) algorithm  for determining  the  length  p of an LCS. 
+
+
+===== PAGE 18 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 61 
+- c T and c R are the two matches introduced in the proof of Lemma 3.5. They 
+both lie in C™' 1 and are neighbours in this chain. Furthermore, c T and c R 
+are always located in the first i topmost rows and i rightmost columns of M, 
+respectively. 
+- c B and c L have analogous properties for  C BL"%. 
+- £ TR and l BL is the position of c T in  C TR,t and of c L in C BL '2, respectively. 
+Also, t TR + 1 and t BL + 1 is the position of c R in C™'* and of c B in C BL>\ 
+respectively. 
+Variables p TL and p BR can be easily updated. For example, consider lines 85-98 in 
+Figure 6 where new TL-complete antichains are handled. Let p TL =  (u,v).  If the 
+condition in line 86 is satisfied, then we know p TL has to be set to the bottommost 
+match located in the first t rows and column I. Therefore two additional statements 
+can be inserted between lines 86 and 87 such that u is set to BottomPos[yi,  t]  and v is 
+set to l. Similar statements apply for the situation in lines 92-98, and this completes 
+the description of the management for p TL. p BR can be handled in a similar way. 
+cT, c R, and £ TR must be updated whenever the length of C™' 1 increases. These 
+situations are indicated in lines 40, 46, 69, and 95 in Figure 6, and here we only 
+sketch how to manage them. By arguments analogous to the ones given in the proof 
+of Lemma 3.4, we have to distinguish two cases when updating c T. If s TL'1 > e T'\ 
+then c T is set to p TL , otherwise c T can be determined by some additional statements 
+which are similar to the ones used for updating p TL. In either case, we set £ TR to 
+eT'* because e T'* is the position of c T in C Ti? '\ as seen in the proof of Lemma 3.5. 
+The management of c B, c L, and £ BL is similar. 
+Now let us review the construction of the final decomposition given in the end 
+of Section 3. If p is set to  e T^m/2^ +  e R^m^2\ then we can use c T and c R as the 
+appropriate matches for c TL and c BR. Similarly, if p = eB>rW 2l + eL,\m/2]^ we 
+establish c TL = c L and c BR = c B. Finally, if a longest chain is determined by 
+the algorithm described in case d of the construction (corresponding to lines 103-
+112 in Figure 6), and p is not set to one of the above values, then we can use 
+the backup values u and v to determine c TL := (BottomPostyu^yn) and c BR := 
+(TopPos[yi,,t],yv), where u := ThreshT[u] and v := ThreshB[v]. 
+Before recursively calling the algorithm for the remaining parts of the LCS, we 
+see it is necessary for our routine to not only work on the complete matrix of size 
+[1 : m] x [1 : n], but also on any subarea [ki : k 2] x [£\  : £ 2]. The necessary changes 
+are quite straightforward, and we do not provide any details here. Moreover, it 
+might be impossible to locate both c TL and c BR (e. g., when \M\ = 1), but then one 
+recursive call can simply be skipped. 
+Theorem 5.1. An LCS can be constructed in 0(ns + min{rap,p(n - p)}) time 
+arid 0(ns) space. 
+Proof.  Clearly, for the top-level call, the additional overhead needed to keep 
+track of the new variables is bounded by 0(m). Thus, not taking into account the 
+time consumed by preprocessing or any recursive calls, we can assume the number 
+
+
+===== PAGE 19 =====
+
+62 H. GOEMAN AND M. CLAUSEN 
+of elementary operations to be bounded by d(m + min{mp,p(n  —  P)}), for some 
+appropriate constant d. We first examine the bound d(m + mp). Let c TL = (k,£) 
+and c BR = (k',C) (if only one match has been determined, the analysis is similar). 
+Consider the two first-level recursive calls concerning the areas Mi and M 2, where 
+Mi := [1 : k - 1] x [1 : I - 1] and M 2 := [k' + 1 : m] x  [£'  + 1 : n]. Let p l and p 2 
+denote the length of an LCS in Mi and M 2, respectively, i. e., p\ +p 2 = p  — 2. Recall 
+that c TL is located in the first [m/2] rows and columns, i.e., the length of one side 
+of Mi is bounded by [m/2] - 1. The same is true for M 2, and thus the number of 
+operations taken for both first-level calls is bounded by 
+m d(\m/2] - l)(pi + 1) + d(\m/2] - \)(p 2 + 1) < dp-. 
+Repeating this argument, we obtain a dmp/2 l bound for the at most 2 l ith-level 
+recursive calls. Since recursion ends at level |~log(m/2)~|, this sums up to at most 
+2 • dmp for the complete algorithm. 
+Similar (but somewhat more complicated) arguments can be used to show the 
+other bound d(m +p(n  —  p)). We refer to [15] for details. 
+Now finally observe that when comparing the divide-and-conquer routine with 
+the algorithm which determines the length p of an LCS, we only need O(logm) 
+additional stack space, and thus the 0(ns) space bound is still valid. • 
+6. EXPERIMENTAL RESULTS 
+We compared our routine with the algorithm proposed by Rick [29, 30] which clearly 
+outperforms any other method when constructing longest common subsequences of 
+intermediate lengths. Rick's algorithm is also a flexible one, being very efficient 
+for short and long LCS as well. It uses a strategy similar to the one presented 
+here,  but only constructs antichains (or contours) from the top and left side of M. 
+While this substantially simplifies the implementation and also the preprocessing 
+phase (i.e., we only have to compute LeftPos and TopPos), there are two severe 
+drawbacks. First, in order to recover an LCS after determining its length, the so-
+called dominant matches must be saved during the construction of the contours, 
+and this might take ft(mn) space. Second, the number of checks of Thresh-values is 
+significantly increased when decomposing M from only two sides. For an alphabet of 
+size 8, Table 1 shows some sample results when determining p for different settings 
+of m, n, and p. 
+The corresponding running times are presented in Table 2. Both algorithms were 
+programmed in a straightforward way, using no special optimizations, and were 
+tested on an Intel Pentium II at 300 MHz. It can be seen that our algorithm only 
+takes about 70% of the time needed by Rick's method when computing the length of 
+an LCS which is of intermediate length. For very short or very long LCS our method 
+slightly suffers from the additional overhead during the preprocessing phase, but is 
+still very efficient. 
+Finally, we checked the running times and the consumed space when generating 
+an LCS. Table 3 shows that in spite of the linear space restriction, our algorithm 
+
+
+===== PAGE 20 =====
+
+A New Practical Linear Space Algorithm  for the Longest Common Subsequence Problem 63 
+Table 1. Frequency of checks of Thresh-values. 
+m n P Rick [30] New method 
+500 500 100 16864 14983 
+500 500 200 28962 23078 
+500 500 300 33276 23394 
+500 500 400 20384 13276 
+1500 1500 300 145129 126796 
+1500 1500 600 265107 216845 
+1500 1500 900 280026 207000 
+1500 1500 1200 172846 121516 
+Table 2. Running times in microseconds 
+for determining the length p of an LCS. 
+m n P Rick [30] New method 
+500 500 100 3352 3626 
+500 500 200 5659 4725 
+500 500 300 6978 4890 
+500 500 400 5000 3516 
+1500 1500 300 24451 21868 
+1500 1500 600 46099 34835 
+1500 1500 900 54176 33791 
+1500 1500 1200 38791 22308 
+sometimes runs more than twice as fast as Rick's method. This is due to the sig­
+nificant overhead in Rick's routine which is caused by the additional statements 
+responsible for saving the contours in memory. 
+7. CONCLUSION 
+We have investigated a new algorithm for the Longest Common Subsequence Prob­
+lem. In spite of the quite complicated technical details necessary for the construction 
+and analysis, the final routines proved to be very practical. More precisely, we have 
+shown three results. First, we have presented a new fast method for determining 
+the length of an LCS. Second, we have developed a linear space algorithm for con­
+structing an LCS in 0(ns + min{rap,p(n -p)}) time, thus solving a previously open 
+problem. And third, we have shown by some experimental results that this algorithm 
+seems to be well-suited for many usual applications. 
+The presented method can be extended to find all LCS of two given strings while 
+preserving the time complexity 0(ns + min{mp yp(n -p)}), which is the same time 
+
+
+===== PAGE 21 =====
+
+64 H. GOEMAN AND M. CLAUSEN 
+Table 3. Running times in microseconds 
+for constructing an LCS of length p. 
+m n P Rick [30] New method 
+500 500 100 6319 6044 
+500 500 200 14341 9066 
+500 500 300 19505 9890 
+500 500 400 15769 7802 
+750 750 250 23132 16374 
+750 750 400 39835 20495 
+750 750 550 38516 16758 
+750 750' 700 16319 9945 
+Table 4. Allocated space in bytes 
+for constructing an LCS of length p. 
+m n P Rick [30] New method 
+500 500 100 64284 ' 34072 
+500 500 200 143820 34072 
+500 500 300 199464 34072 
+500 500 400 176328 34072 
+750 750 250 219244 51072 
+750 750 400 390172 51072 
+750 750 550 396136 51072 
+750 750 700 193780 51072 
+complexity as for Rick's algorithm. Details can be found in [15]. 
+ACKNOWLEDGEMENT 
+We would like to thank Dr. F. Kurth and the anonymous referees for helpful comments. 
+(Received May 12, 2000.) 
+REFERENCES 
+[1] A.V. Aho, D.S. Hirschberg, and J.D. Ullman: Bounds on the complexity of the 
+longest common subsequence problem. J. Assoc. Comput. Mach. 23 (1976), 1, 1-12. 
+[2] A. Apostolico: Improving the worst-case performance of the Hunt-Szymanski strategy 
+for the longest common subsequence of two strings. Inform. Process. Lett. 23 (1986), 
+63-69. 
+[3] A. Apostolico: Remarks on the Hsu-Du new algorithm for the longest common sub­
+sequence problem. Inform. Process. Lett. 25 (1987), 235-236. 
+
+
+===== PAGE 22 =====
+
+A New Practical Linear Space Algorithm for the Longest Common Subsequence Problem 65 
+A. Apostolico and G. Guerra: The longest common subsequence problem revisited. 
+Algorithmica 2 (1987), 315-336. 
+A. Apostolico, S. Browne, and C. Guerra: Fast linear-space computations of longest 
+common subsequences. Theoret. Comput. Sci. 92 (1992), 3-17. 
+F. Y. L. Chin and C. K. Poon: A fast algorithm for computing longest common subse­
+quences of small alphabet size. J. Inform. Process. 13 (1990), 4, 463-469. 
+V. Chvatal and D.  Sankoff:  Longest common subsequences of two random strings. 
+J. Appl. Probab. 12 (1975), 306-315. 
+V. Dancfk and M. Paterson: Upper bounds for the expected length of a longest com­
+mon subsequence of two binary sequences. In: Proceedings 11th Annual Symp. on 
+Theoretical Aspects of Computer Science (Lecture Notes in Computer Science 775), 
+Springer-Verlag, Berlin 1994, pp. 669-678. 
+M. O. Dayhoff:  Computer aids to protein sequence determination. J. Theoret. Biol. 8 
+(1965),  97-112. 
+M. O. Dayhoff:  Computer analysis of protein evolution. Sci. Amer. 221 (1969), 1, 
+86-95. 
+J. G. Deken: Some limit results for longest common subsequences. Discrete Math. 26 
+(1979),  17-31. 
+R. P. Dilworth: A decomposition theorem for partially ordered sets. Ann. of Math. 51 
+(1950),  161-166. 
+K. S. Fu and B. K. Bhargava: Tree systems for syntactic pattern recognition. IEEE 
+Trans.  Comput. C-22 (1973), 12, 1087-1099. 
+J. Gallant, D. Maier, and J. A. Storer: On finding minimal length superstrings. J. Com­
+put. System Sci. 20 (1980), 50-58. 
+H. Goeman: Time and Space Efficient Algorithms for Decomposing Certain Partially 
+Ordered Sets. PhD Thesis, Department of Computer Science, University of Bonn 1999. 
+To appear in Bayreuther Mathematische Schriften. 
+D. S. Hirschberg: A linear space algorithm for computing maximal common subse­
+quences. Comm. ACM 18 (1975), 6, 341-343. 
+D. S. Hirschberg: Algorithms for the longest common subsequence problem. J. Assoc. 
+Comput. Mach. 24 (1977), 4, 664-675. 
+W. J. Hsu and M. W. Du: New algorithms for the LCS problem. J. Comput. System 
+Sci. 29 (1984), 133-152. 
+J. W. Hunt and T. G. Szymanski: A fast algorithm for computing longest common 
+subsequences. Comm. ACM 20 (1977), 5, 350-353. 
+S. K. Kumar and C. P. Rangan: A linear space algorithm for the LCS problem. Acta 
+Inform. 24 (1987), 353-363. 
+R. Lowrance and R. A. Wagner: An extension of the string-to-string correction prob­
+lem. J. Assoc. Comput. Mach. 22, (1975), 2, 177-183. 
+S. Y. Lu and K. S. Fu: A sentence-to-sentence clustering procedure for pattern anal­
+ysis.  IEEE Trans. Systems Man Cybernet. SMC-8, (1978), 5, 381-389. 
+D. Maier: The complexity of some problem on subsequences and supersequences. 
+J. Assoc. Comput. Mach. 25 (1978), 2, 322-336. 
+W. J. Masek and M. S. Paterson: A faster algorithm for computing string edit dis­
+tances. J. Comput. System Sci. 20 (1980), 1,  18-31. 
+E. W. Myers: An O(ND) difference algorithm and its variations. Algorithmica 1 
+(1986),  251-266. 
+N. Nakatsu, Y. Kambayashi, and S. Yajima: A longest common subsequence algorithm 
+suitable for similar text strings. Acta Inform. 18 (1982), 171-179. 
+S.B. Needleman and C. S. Wunsch: A general method applicable to the search for 
+similarities in the amino acid sequence of two proteins. J. Molecular Biol. */8 (1970), 
+443-453. 
+
+
+===== PAGE 23 =====
+
+66 H. GOEMAN AND M. CLAUSEN 
+[28] M. Paterson and V. Dancik: Longest common subsequences. In: Proceedings, 19th 
+Intern. Symp. on Mathematical Foundations of Computer Science (Lecture Notes in 
+Computer Science 841), Springer Verlag, Berlin 1994, pp. 127-142. 
+[29] C. Rick: New Algorithms for the Longest Common Subsequence Problem. Research 
+Report No. 85123-CS, Department of Computer Science, University of Bonn 1994. 
+[30] C. Rick: A new flexible algorithm for the longest common subsequence problem. In: 
+Proceedings, 6th Annual Symp. on Combinatorial Pattern Matching (Lecture Notes 
+in Computer Science 937), Springer Verlag, Berlin 1995, pp.  340-351. 
+[31] D. Sankoff and R. J. Cedergren: A test for nucleotide sequence homology. J. Molecular 
+Biol. 77(1973), 159-164. 
+[32] D. Sankoff and J. B. Kruskal: Time Warps, String Edits, and Macromolecules: The 
+Theory And Practice of Sequence Comparison. Addison-Wesley, Reading, MA 1983. 
+[33] E. Ukkonen: Algorithms for approximate string matching. Inform, and Control 64 
+(1985),  100-118. 
+[34] R. A. Wagner: On the complexity of the extended string-to-string correction problem. 
+In: Proceedings, 7th Ann. ACM Sympos. on Theory of Comput. 1975, pp. 218-223. 
+[35] R. A. Wagner and M. J. Fischer: The string-to-string correction problem. J. Assoc. 
+Comput. Mach. 21 (1974), 1, 168-173. 
+[36] C. K. Wong and A. K. Chandra: Bounds for the string editing problem. J. Assoc. 
+Comput. Mach. 28 (1976), 1, 13-18. 
+[37] S. Wu, U. Manber, G. Myers, and W. Miller: An O(NP) sequence comparison algo­
+rithm. Inform. Process. Lett. 35 (1990), 317-323. 
+Dr. Heiko Goeman and  Prof.  Dr. Michael Clausen, University of Bonn, Computer Sci­
+ence Department III, D-53117 Bonn. Germany, 
+e-mails: Heiko.Goeman@tlc.de, clausen@cs.uni-bonn.de 
