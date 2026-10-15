@@ -33,6 +33,9 @@
     <ClCompile Include="LCSRickSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LCSRickTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="LCSFormatRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCSRickSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LCSRickTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCSString.h">
