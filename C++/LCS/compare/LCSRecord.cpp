@@ -82,9 +82,15 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isrick) {
-#ifdef SHOW_DURATION
+#if defined(SHOW_DURATION) || defined(DEMO_STOPWATCH)
   Duration duration{ "LCSRecord::Compare", 1 << 16 };
+#endif
+#ifdef SHOW_DURATION
   duration.Show();
+#endif
+#ifdef DEMO_STOPWATCH
+  // Demonstrates the Stopwatch with a fixed 5 ms sleep.  Isolated under its
+  // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
   duration.DemoStopwatch();
 #endif
   //
