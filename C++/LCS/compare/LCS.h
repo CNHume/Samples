@@ -32,9 +32,9 @@ class LCS {
 public:
   // The LCS algorithm selected at run time.
   enum class Algorithm {
-    HuntSzymanski,   // LCSHuntSzymanski: threshold array over match lists
-    RickSpace,       // LCSRickSpace: Rick 2000, contours + Hirschberg, linear space
-    RickTime,        // LCSRickTime: Rick 1995, diagonal sweep, min{pm, p(n-p)} time
+    HuntSzymanski,      // Dynamic Programming over match lists
+    RickSpace,          // Rick 2000, contours + Hirschberg, linear space
+    RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
   };
 
   typedef deque<shared_ptr<Pair>> PAIRS;
