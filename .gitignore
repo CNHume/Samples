@@ -144,6 +144,9 @@ bld/
 *.dll
 *.lib
 
+# Ignore the consolidated MSBuild intermediate directory
+Intermediate/
+
 # C Projects
 *.gdb
 *.iobj
