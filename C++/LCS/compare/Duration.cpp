@@ -38,5 +38,5 @@ void Duration::DemoStopwatch() {
   sw.stop();
 
   std::cout << std::format(
-    "Elapsed time: {} µs\n", sw.elapsed_microseconds());
+    "Elapsed time: {} sec\n", sw.format_seconds());
 }

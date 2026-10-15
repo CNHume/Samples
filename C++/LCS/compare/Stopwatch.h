@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cstdint>                      // for int64_t
 #include <iostream>
+#include <string>
 #include <thread>
 
 class Stopwatch {
@@ -20,4 +21,6 @@ public:
   void stop();
   void reset();
   int64_t elapsed_microseconds() const;
+  double elapsed_seconds() const;
+  std::string format_seconds() const;
 };
