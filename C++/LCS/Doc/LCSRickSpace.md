@@ -6,8 +6,8 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 > subsequences", *Information Processing Letters* 75 (2000), pp. 275–281.
 
 `LCSRickSpace` is the Rick/Hirschberg refinement integrated into the `compare`
-application.  It is the run-time alternative to `LCSHuntSzymanski`, selected
-with the `-r` switch in `-t` (text) mode.  (`delta` continues to use only the
+application.  It is a run-time alternative to `LCSHuntSzymanski`, selected with
+the `-as` switch in `-t` (text) mode.  (`delta` continues to use only the
 Hunt–Szymanski algorithm.)
 
 ## Background
@@ -83,12 +83,12 @@ ran.
 tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound).  The two
 `Find()` overloads build those tables differently:
 
-- **Character path (`-t -r`)** — `Find(pairs, s1, s2)` compresses the code
+- **Character path (`-t -as`)** — `Find(pairs, s1, s2)` compresses the code
   points of `s2` and builds the tables directly in `O(s·n)` time and space,
   where `s` is the number of distinct code points.  No match lists are
   materialized, so this path stays feasible for very long strings even when
   the number of matches `r` would be quadratic.
-- **Record path (`-r` without `-t`)** — `Find(pairs, matches, m, n)` reuses the
+- **Record path (`-as` without `-t`)** — `Find(pairs, matches, m, n)` reuses the
   shared `Match()` output (`MATCHES = deque<INDEXES*>`, where `*matches[i]` is
   the sorted list of positions in the second sequence matching position `i` in
   the first).  Two rows sharing a symbol share the same match-list pointer, so
@@ -152,9 +152,10 @@ on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 
 ## Selection
 
-In `compare`, `-t -r` selects `LCSRickSpace::Find` for the character (code-point)
-path; omitting `-r` selects `LCSHuntSzymanski::Find`.  The record/word path
-ignores `-r`.
+In `compare`, the `-a` switch selects the LCS algorithm: `-ad`
+(`LCSHuntSzymanski`, the default), `-at` (`LCSRickTime`, the 1995 flexible
+algorithm), or `-as` (`LCSRickSpace`, this algorithm).  `LCSRickSpace` serves
+the character (code-point) path under `-t` and the record/word path otherwise.
 
 ## Build and test
 
@@ -164,12 +165,12 @@ C++20 (uses `std::format`, `std::ssize`, and designated initializers).  From
 ```sh
 g++ -std=c++20 -O2 -Wall -Wextra *.cpp -o compare
 
-# Difference (Hunt vs. Rick produce identical output):
-compare -t    file1 file2
-compare -t -r file1 file2
+# Difference (Hunt-Szymanski vs. RickSpace):
+compare -t     file1 file2
+compare -t -as file1 file2
 
 # Correspondence:
-compare -t -r -c file1 file2
+compare -t -as -c file1 file2
 ```
 
 Correctness was verified against an O(m·n) dynamic-programming reference and

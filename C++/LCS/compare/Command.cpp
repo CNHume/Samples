@@ -7,7 +7,7 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <h|f|r>] [-t] [-w] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|t|s>] [-t] [-w] file1 file2
 //
 #include "Command.h"
 
@@ -54,16 +54,16 @@ void Command::Parse(int argc, char* argv[]) {
       usage = true;
     else {                              // parse single character switch
       switch (token[1]) {
-      case 'a':                         // the algorithm switch: h=Hunt-Szymanski, f=flexible, r=Rick
-        if (len == 3) {                 // expects -ah, -af, or -ar
+      case 'a':                         // the algorithm switch: d=dynamic programming, t=time, s=space
+        if (len == 3) {                 // expects -ad, -at, or -as
           switch (token[2]) {
-          case 'h':
+          case 'd':
             algorithm = LCS::Algorithm::HuntSzymanski;
             break;
-          case 'f':
+          case 't':
             algorithm = LCS::Algorithm::RickTime;
             break;
-          case 'r':
+          case 's':
             algorithm = LCS::Algorithm::RickSpace;
             break;
           default:
@@ -166,5 +166,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <h|f|r>] [-t] [-w] file1 file2");
+      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|t|s>] [-t] [-w] file1 file2");
 }
