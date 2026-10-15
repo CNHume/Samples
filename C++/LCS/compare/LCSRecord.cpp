@@ -9,7 +9,7 @@
 #include "LCSEncoding.h"
 #include "LCSHuntSzymanski.h"
 #include "LCSNormal.h"
-#include "LCSRick.h"
+#include "LCSRickSpace.h"
 
 #include <format>                       // for format
 #include <fstream>                      // for ifstream
@@ -93,7 +93,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
   duration.DemoStopwatch();
 #endif
-  // LCSRick::Find() assumes m <= n, so swap for Rick; Hunt-Szymanski is
+  // LCSRickSpace::Find() assumes m <= n, so swap for Rick; Hunt-Szymanski is
   // symmetric.  Match() consumes the (possibly swapped) inputs, so the swap
   // must precede the shared match-list build.
   auto isswapped = isrick && r2.size() < r1.size();
@@ -108,7 +108,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   auto length = isrick ?
-    LCSRick::Find(
+    LCSRickSpace::Find(
       ppairs, indexesOf2MatchedByIndex1,
       (uint32_t)shorter.size(), (uint32_t)longer.size()) :
     LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);

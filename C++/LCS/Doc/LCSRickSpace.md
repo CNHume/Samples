@@ -1,18 +1,18 @@
-# LCSRick — Rick (2000) linear-space LCS
+# LCSRickSpace — Rick (2000) linear-space LCS
 
 An implementation of the Longest Common Subsequence (LCS) problem based on:
 
 > Claus Rick, "Simple and fast linear space computation of longest common
 > subsequences", *Information Processing Letters* 75 (2000), pp. 275–281.
 
-`LCSRick` is the Rick/Hirschberg refinement integrated into the `compare`
+`LCSRickSpace` is the Rick/Hirschberg refinement integrated into the `compare`
 application.  It is the run-time alternative to `LCSHuntSzymanski`, selected
 with the `-r` switch in `-t` (text) mode.  (`delta` continues to use only the
 Hunt–Szymanski algorithm.)
 
 ## Background
 
-The contour/dominant-match paradigm behind `LCSRick` predates Rick's papers.
+The contour/dominant-match paradigm behind `LCSRickSpace` predates Rick's papers.
 Its lineage, as traced in Rick (2000):
 
 - **Hirschberg (1977)** first suggested computing the LCS match classes
@@ -20,7 +20,7 @@ Its lineage, as traced in Rick (2000):
 - **Apostolico & Guerra (1985)** introduced the first fast *linear-space* LCS
   algorithm beyond the `O(mn)` DP, representing the DP frontier as contours of
   *dominant* matches — the origin of the `Contour` / dominant-match
-  representation used throughout `LCSRick`.
+  representation used throughout `LCSRickSpace`.
 - **Apostolico, Browne & Guerra (1992)** improved this to `O(pm)` and
   `O(n(m−p))` time while retaining linear space.
 - **Rick (1995)** gave the "flexible algorithm" with the
@@ -65,13 +65,13 @@ Linear-space contour algorithms, as tabulated in Rick (2000):
 LCS                        shared typedefs: PAIRS, INDEXES,
                            STRING_TO_INDEXES_MAP, MATCHES
 ├── LCSHuntSzymanski       Find(pairs, matches)          — threshold array
-└── LCSRick                Find(pairs, matches, m, n) / Find(pairs, s1, s2)
+└── LCSRickSpace                Find(pairs, matches, m, n) / Find(pairs, s1, s2)
                            — contours + Hirschberg
 ```
 
 Both algorithm classes derive publicly from `LCS`.  `LCSHuntSzymanski` and the
-record path of `LCSRick` consume the `Match()` output; the character path of
-`LCSRick` builds its tables straight from the code points instead.  Their
+record path of `LCSRickSpace` consume the `Match()` output; the character path of
+`LCSRickSpace` builds its tables straight from the code points instead.  Their
 `Find()` methods all return the LCS length and fill `*pairs` with matched
 positions in ascending order, so the downstream `Delta::Coalesce` / `Context`
 / `Complement` / display pipeline is identical regardless of which algorithm
@@ -79,7 +79,7 @@ ran.
 
 ## Input
 
-`LCSRick` answers every occurrence query in O(1) from dense `next`/`prev`
+`LCSRickSpace` answers every occurrence query in O(1) from dense `next`/`prev`
 tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound).  The two
 `Find()` overloads build those tables differently:
 
@@ -138,7 +138,7 @@ next refinement for the `p(n−p)` side of the bound.
 
 ## Reconstruction
 
-`LCSRick::Hirschberg` recurses over full-string index ranges `[i0,i1) × [j0,j1)`
+`LCSRickSpace::Hirschberg` recurses over full-string index ranges `[i0,i1) × [j0,j1)`
 and emits each matched position as an `(index1, index2)` `Pair`, in ascending
 order.  Because full-string coordinates are used, no offset bookkeeping is
 required, and the emitted pairs feed `Delta::Coalesce` unchanged.
@@ -148,11 +148,11 @@ required, and the emitted pairs feed `Delta::Coalesce` unchanged.
 Rick's time bound assumes `m ≤ n` (the shorter sequence is scanned, the longer
 is tabled).  `LCSString::Compare` therefore swaps the inputs when necessary
 before calling `Match()`, and un-swaps the reported `begin1`/`begin2` positions
-on the resulting pairs.  `LCSRick::Find()` itself is orientation-agnostic.
+on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 
 ## Selection
 
-In `compare`, `-t -r` selects `LCSRick::Find` for the character (code-point)
+In `compare`, `-t -r` selects `LCSRickSpace::Find` for the character (code-point)
 path; omitting `-r` selects `LCSHuntSzymanski::Find`.  The record/word path
 ignores `-r`.
 

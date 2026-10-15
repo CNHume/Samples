@@ -30,7 +30,7 @@
     <ClCompile Include="LCSRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LCSRick.cpp">
+    <ClCompile Include="LCSRickSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LCSFormatRecord.cpp">
@@ -83,7 +83,7 @@
     <ClInclude Include="LCSRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LCSRick.h">
+    <ClInclude Include="LCSRickSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LCSString.h">

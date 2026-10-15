@@ -1,13 +1,13 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2026-10-09 CNHume  Created LCSRick class
+// 2026-10-09 CNHume  Created LCSRickSpace class
 //
 // Rick (2000) linear-space LCS, adapted to reuse the Hunt-Szymanski
 // Match() output.
 //
-// See LCSRick.h for an overview.
+// See LCSRickSpace.h for an overview.
 //
-#include "LCSRick.h"
+#include "LCSRickSpace.h"
 
 #include <algorithm>                    // for min, reverse
 #include <climits>                      // for INT64_MAX
@@ -30,12 +30,12 @@
 // next/previous occurrence tables built from the shared match lists.
 //
 
-uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
+uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   return Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
 }
 
-uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
+uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   const u32string& s1, const u32string& s2) {
   // Build O(ns) occurrence tables directly from the code points and amortize
   // them over the whole Hirschberg recursion.  No match lists are ever
@@ -47,7 +47,7 @@ uint32_t LCSRick::Find(shared_ptr<Pair>* pairs,
 // Runs the Hirschberg recursion over an occurrence table and, when pairs is
 // requested, reconstructs the linked list of matched positions.
 //
-uint32_t LCSRick::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
+uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
   size_t size1, size_t size2) {
   vector<Match> out;
   Hirschberg(occ, 0, size1, 0, size2, out);
@@ -77,7 +77,7 @@ uint32_t LCSRick::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
 // the "LeftPos/TopPos" preprocessing that lets each contour scan jump straight
 // to the next (or previous) occurrence instead of binary-searching a list.
 //
-LCSRick::Occurrences LCSRick::BuildOccurrences(
+LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   const MATCHES& matches, size_t size1, size_t size2) {
   Occurrences occ;
   occ.n = (int64_t)size2;
@@ -140,7 +140,7 @@ LCSRick::Occurrences LCSRick::BuildOccurrences(
 // points in s2.  No match lists are materialized, so the preprocessing stays
 // linear even when the number of matches r would be quadratic.
 //
-LCSRick::Occurrences LCSRick::BuildOccurrences(
+LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   const u32string& s1, const u32string& s2) {
   Occurrences occ;
   occ.n = (int64_t)s2.size();
@@ -191,7 +191,7 @@ LCSRick::Occurrences LCSRick::BuildOccurrences(
   return occ;
 }
 
-void LCSRick::Hirschberg(const Occurrences& occ,
+void LCSRickSpace::Hirschberg(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1, vector<Match>& out) {
   if (i0 >= i1 || j0 >= j1)
     return;
@@ -205,7 +205,7 @@ void LCSRick::Hirschberg(const Occurrences& occ,
   Hirschberg(occ, i + 1, i1, j + 1, j1, out);
 }
 
-LCSRick::Result LCSRick::FindMidpoint(const Occurrences& occ,
+LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Result result;
   if (i0 >= i1 || j0 >= j1)
@@ -266,7 +266,7 @@ LCSRick::Result LCSRick::FindMidpoint(const Occurrences& occ,
 //
 // Lemma 5 contour cutting.
 //
-LCSRick::Contour LCSRick::CutForward(const Contour& forward, const Contour& backward) {
+LCSRickSpace::Contour LCSRickSpace::CutForward(const Contour& forward, const Contour& backward) {
   Contour kept;
   // Both contours are sorted by ascending index1 (hence descending index2).
   // For each forward match x, the first backward match with index1 > x.index1
@@ -283,7 +283,7 @@ LCSRick::Contour LCSRick::CutForward(const Contour& forward, const Contour& back
   return kept;
 }
 
-LCSRick::Contour LCSRick::CutBackward(const Contour& backward, const Contour& forward) {
+LCSRickSpace::Contour LCSRickSpace::CutBackward(const Contour& backward, const Contour& forward) {
   Contour kept;
   // Symmetric to CutForward: for each backward match y, the last forward match
   // with index1 < y.index1 has the smallest index2 of any forward match
@@ -301,7 +301,7 @@ LCSRick::Contour LCSRick::CutBackward(const Contour& backward, const Contour& fo
 //
 // FC[1]: dominant rank-1 matches of the sub-problem [i0, i1) x [j0, j1).
 //
-LCSRick::Contour LCSRick::FirstForward(const Occurrences& occ,
+LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Contour contour;
   int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
@@ -324,7 +324,7 @@ LCSRick::Contour LCSRick::FirstForward(const Occurrences& occ,
 //
 // FC[k + 1]: dominant matches strictly bottom-right of some FC[k] match.
 //
-LCSRick::Contour LCSRick::NextForward(const Contour& contour,
+LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
   const Occurrences& occ, size_t i0, size_t i1, [[maybe_unused]] size_t j0,
   size_t j1, int64_t rowLimit) {
   Contour next;
@@ -357,7 +357,7 @@ LCSRick::Contour LCSRick::NextForward(const Contour& contour,
 // BC[1]: dominant (maximal) rank-1 matches, the forward computation applied
 // from the back of the strings.
 //
-LCSRick::Contour LCSRick::FirstBackward(const Occurrences& occ,
+LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Contour contour;
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
@@ -381,7 +381,7 @@ LCSRick::Contour LCSRick::FirstBackward(const Occurrences& occ,
 //
 // BC[k + 1]: dominant matches strictly top-left of some BC[k] match.
 //
-LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
+LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
   const Occurrences& occ, [[maybe_unused]] size_t i0, size_t i1,
   size_t j0, [[maybe_unused]] size_t j1, int64_t rowFloor) {
   Contour next;
@@ -415,7 +415,7 @@ LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
 // Two contours have crossed when no backward match is strictly bottom-right
 // of any forward match (Rick, Lemma 3).
 //
-bool LCSRick::Crossed(const Contour& forward, const Contour& backward) {
+bool LCSRickSpace::Crossed(const Contour& forward, const Contour& backward) {
   // The crossing test is the same merged scan as CutForward, but it can stop
   // at the first forward match that still has a backward match below-right.
   size_t j = 0;
@@ -432,7 +432,7 @@ bool LCSRick::Crossed(const Contour& forward, const Contour& backward) {
 // After the contours have crossed, a midpoint is any forward match x for
 // which some backward match y lies non-strictly bottom-right of x.
 //
-LCSRick::Match LCSRick::Midpoint(const Contour& forward, const Contour& backward) {
+LCSRickSpace::Match LCSRickSpace::Midpoint(const Contour& forward, const Contour& backward) {
   // Merged scan: for each forward match x, the first backward match with
   // index1 >= x.index1 has the largest index2 of any backward match
   // non-strictly below-right of x; it decides whether x is a midpoint.

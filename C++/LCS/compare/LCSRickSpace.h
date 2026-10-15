@@ -1,6 +1,6 @@
 // Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
 //
-// 2026-10-09 CNHume  Created LCSRick class
+// 2026-10-09 CNHume  Created LCSRickSpace class
 //
 // Rick (2000) linear-space LCS.  The contour scans query O(1) next/previous
 // occurrence tables ("LeftPos"/"TopPos" preprocessing) built either directly
@@ -22,7 +22,7 @@
 
 using namespace std;
 
-class LCSRick : public LCS {
+class LCSRickSpace : public LCS {
 public:
   // Find the LCS length and matched positions.  On return, *pairs (when
   // non-null) is a linked list of matched (begin1, begin2) positions in

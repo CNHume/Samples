@@ -3,7 +3,7 @@
 // 2026-10-09 CNHume  Created LCSHuntSzymanski class
 //
 // Hunt-Szymanski LCS: O((r + n) log n) using a threshold array over the
-// match lists built by Match().  Parallel to LCSRick::Find().
+// match lists built by Match().  Parallel to LCSRickSpace::Find().
 //
 #pragma once
 
