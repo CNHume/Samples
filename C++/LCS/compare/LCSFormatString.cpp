@@ -3,6 +3,10 @@
 // 2026-10-08 CNHume  Created LCSFormatString class
 //
 #include "LCSFormatString.h"
+#include "LCSEncoding.h"
+
+#include <format>                       //[C++20]
+#include <iostream>                     // for cout
 
 //
 // Delta Formatters

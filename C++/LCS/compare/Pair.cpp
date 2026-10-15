@@ -5,6 +5,11 @@
 //
 #include "Pair.h"
 
+#include <format>                       //[C++20]
+#include <iostream>                     // for cout, endl, ostream
+#include <memory>                       // for make_shared
+#include <utility>                      // for move
+
 //
 // Pair Class Implementation
 //

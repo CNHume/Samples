@@ -5,9 +5,9 @@
 #include "LCSEncoding.h"
 #include "LCSNormal.h"
 
-#include <algorithm>
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format
+#include <fstream>                      // for ifstream
 #include <ranges>
 #include <stdexcept>                    // for runtime_error
 

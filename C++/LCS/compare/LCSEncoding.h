@@ -8,9 +8,6 @@
 // leaving Windows (CRLF) vs. Linux (LF) end-of-line distinct.
 // -b ignorespace can be used to ignore them.
 
-#include <fstream>
-#include <sstream>
-#include <iterator>
 #include <string>
 #include <tuple>
 #include <vector>

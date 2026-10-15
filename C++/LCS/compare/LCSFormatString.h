@@ -6,7 +6,9 @@
 
 #include "LCSString.h"
 
-#include <format>                       //[C++20]
+#include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
+#include <string>                       // for string, u32string
 
 using namespace std;
 

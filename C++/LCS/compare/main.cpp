@@ -19,6 +19,8 @@
 //
 #include "LCSFile.h"
 
+#include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
+#include <format>                       // for format
 #include <iostream>                     // for cout
 #include <locale>
 

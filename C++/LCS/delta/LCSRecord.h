@@ -6,8 +6,11 @@
 #pragma once
 
 #include "LCS.h"
-#include "LCSEncoding.h"
-#include "LCSNormal.h"
+
+#include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
+#include <string>                       // for string
+#include <vector>                       // for vector
 
 using namespace std;
 

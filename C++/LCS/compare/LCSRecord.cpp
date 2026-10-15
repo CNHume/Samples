@@ -4,11 +4,18 @@
 // 2017-07-04 CNHume  Created LCSRecord class
 // 2015-01-19 CNHume  Created file
 //
-#include "Duration.h"
 #include "LCSRecord.h"
+#include "Duration.h"
+#include "LCSEncoding.h"
 #include "LCSHuntSzymanski.h"
+#include "LCSNormal.h"
 #include "LCSRick.h"
 
+#include <format>                       // for format
+#include <fstream>                      // for ifstream
+#include <iostream>                     // for cout
+#include <sstream>                      // for istringstream
+#include <stdexcept>                    // for runtime_error
 #include <utility>                      // for swap
 
 //

@@ -16,6 +16,8 @@
 #include "Delta.h"
 
 #include <algorithm>                    // for min()
+#include <format>                       // for format
+#include <iostream>                     // for cout
 
 //
 // Delta Class Implementation

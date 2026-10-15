@@ -14,6 +14,7 @@
 #include <cerrno>                       // for errno
 #include <cstdlib>                      // for strtoul
 #include <cstring>                      // for strlen
+#include <stdexcept>                    // for invalid_argument, runtime_error
 
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");

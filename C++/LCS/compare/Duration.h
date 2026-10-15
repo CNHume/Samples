@@ -4,8 +4,6 @@
 //
 #pragma once
 
-#include "Stopwatch.h"
-
 #include <nlohmann/json_fwd.hpp>        // Forward declaration header
 #include <string>
 
@@ -14,9 +12,7 @@ public:
   std::string name;
   long included;
 
-  // The compiler only needs to know 'json' exists to look at these signatures:
   void from_json(const nlohmann::json& json);
-
   nlohmann::json to_json() const;
 
   void Show();

@@ -11,6 +11,7 @@
 
 #include <algorithm>                    // for lower_bound, upper_bound, min, reverse
 #include <climits>                      // for INT64_MAX
+#include <memory>                       // for make_shared
 #include <utility>                      // for move
 
 //

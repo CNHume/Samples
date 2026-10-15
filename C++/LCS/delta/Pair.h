@@ -7,10 +7,9 @@
 #define COPY_SEMANTICS
 #define MOVE_SEMANTICS
 
-#include <iostream>                     // for cout
-#include <format>                       //[C++20]
+#include <cstdint>                      // for int64_t, uint32_t
+#include <iostream>                     // for ostream
 #include <memory>                       // for shared_ptr<>
-#include <stdint.h>
 
 using namespace std;
 

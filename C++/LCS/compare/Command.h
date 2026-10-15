@@ -4,8 +4,7 @@
 //
 #pragma once
 
-#include <stdexcept>
-#include <stdint.h>
+#include <cstdint>                      // for uint32_t
 #include <string>
 
 using namespace std;

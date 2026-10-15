@@ -21,8 +21,11 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCSHuntSzymanski.h"
+#include "join.h"
 
 #include <algorithm>                    // for lower_bound()
+#include <format>                       // for format
+#include <iostream>                     // for cout
 #include <iterator>                     // for next() and prev()
 
 uint32_t LCSHuntSzymanski::Find(

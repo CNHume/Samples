@@ -4,6 +4,9 @@
 //
 #include "LCSFormatRecord.h"
 
+#include <format>                       //[C++20]
+#include <iostream>                     // for cout
+
 //
 // Delta Formatters
 //

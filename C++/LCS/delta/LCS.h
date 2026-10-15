@@ -18,13 +18,12 @@
 //#define SHOW_PREFIXENDS
 
 #include "Delta.h"
-#include "join.h"
 
+#include <cstddef>                      // for ptrdiff_t
+#include <cstdint>                      // for uint32_t
 #include <deque>
-#include <iostream>                     // for cout
-#include <stdint.h>
+#include <memory>                       // for shared_ptr
 #include <string>
-#include <vector>
 #include <unordered_map>                //[C++11]
 
 using namespace std;

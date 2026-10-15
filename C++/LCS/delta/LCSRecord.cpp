@@ -5,6 +5,14 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSRecord.h"
+#include "LCSEncoding.h"
+#include "LCSNormal.h"
+
+#include <format>                       // for format
+#include <fstream>                      // for ifstream
+#include <iostream>                     // for cout
+#include <sstream>                      // for istringstream
+#include <stdexcept>                    // for runtime_error
 
 //
 // Find Matches

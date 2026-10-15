@@ -8,6 +8,9 @@
 #include "Command.h"
 #include "LCSFormatRecord.h"
 
+#include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
+
 using namespace std;
 
 class LCSFile : public LCSFormatRecord {

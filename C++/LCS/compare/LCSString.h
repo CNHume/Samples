@@ -5,10 +5,11 @@
 #pragma once
 
 #include "LCS.h"
-#include "LCSEncoding.h"
-#include "LCSNormal.h"
 
 #include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
+#include <string>                       // for string, u32string
+#include <unordered_map>                //[C++11]
 #include <vector>
 
 using namespace std;

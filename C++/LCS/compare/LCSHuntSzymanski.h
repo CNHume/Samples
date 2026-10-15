@@ -9,6 +9,10 @@
 
 #include "LCS.h"
 
+#include <cstddef>                      // for ptrdiff_t
+#include <cstdint>                      // for uint32_t
+#include <memory>                       // for shared_ptr
+
 using namespace std;
 
 class LCSHuntSzymanski : public LCS {

@@ -18,8 +18,8 @@
 
 #include "Pair.h"
 
-#include <iostream>                     // for cout
-#include <stdint.h>
+#include <cstdint>                      // for int64_t, uint32_t
+#include <memory>                       // for shared_ptr
 
 using namespace std;
 

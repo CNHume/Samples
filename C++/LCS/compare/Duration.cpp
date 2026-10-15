@@ -3,11 +3,14 @@
 // 2026-10-11 CNHume  Created Duration class
 //
 #include "Duration.h"
-#include <nlohmann/json.hpp>            // Full implementation header
+#include "Stopwatch.h"
 
+#include <chrono>                       // for milliseconds
 #include <format>
 #include <iostream>                     // for cout
+#include <nlohmann/json.hpp>            // Full implementation header
 #include <string>
+#include <thread>                       // for sleep_for
 
 void Duration::from_json(const nlohmann::json& j) {
   name = j.at("Name").get<std::string>();

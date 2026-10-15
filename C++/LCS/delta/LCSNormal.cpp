@@ -4,6 +4,8 @@
 //
 #include "LCSNormal.h"
 
+#include <cctype>                       // for isspace, tolower
+
 //
 // Normal() applies the ignorecase and ignorespace options,
 // normalizing records prior to their comparison in Match()
