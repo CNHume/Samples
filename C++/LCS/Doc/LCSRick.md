@@ -10,6 +10,43 @@ application.  It is the run-time alternative to `LCSHuntSzymanski`, selected
 with the `-r` switch in `-t` (text) mode.  (`delta` continues to use only the
 Hunt–Szymanski algorithm.)
 
+## Background
+
+The contour/dominant-match paradigm behind `LCSRick` predates Rick's papers.
+Its lineage, as traced in Rick (2000):
+
+- **Hirschberg (1977)** first suggested computing the LCS match classes
+  ("contours") rank by rank.
+- **Apostolico & Guerra (1985)** introduced the first fast *linear-space* LCS
+  algorithm beyond the `O(mn)` DP, representing the DP frontier as contours of
+  *dominant* matches — the origin of the `Contour` / dominant-match
+  representation used throughout `LCSRick`.
+- **Apostolico, Browne & Guerra (1992)** improved this to `O(pm)` and
+  `O(n(m−p))` time while retaining linear space.
+- **Rick (1995)** gave the "flexible algorithm" with the
+  `O(ns + min{pm, p(n−p)})` bound, since widely regarded as the fastest
+  general-purpose LCS method.
+- **Rick (2000)** — the paper implemented here — added the linear-space
+  construction: forward/backward contours computed in alternation, the
+  crossing test (Lemma 3), and Hirschberg recursion, all while keeping that
+  bound.
+- **Goeman & Clausen (2002)** re-derived the same bound from the *dual*
+  (antichain / T–L–B–R decomposition) viewpoint.
+
+Rick (2000) credits the split explicitly: computing contours rank by rank was
+"first suggested by Hirschberg [6]", with "efficiency … later gained by
+concentrating on the computation of dominant matches [3]" (Apostolico et al.
+1992).
+
+Linear-space contour algorithms, as tabulated in Rick (2000):
+
+| Year | Authors | Time |
+|---|---|---|
+| 1985 | Apostolico, Guerra | `O(m log m + pm)` |
+| 1992 | Apostolico, Browne, Guerra | `O(pm)` / `O(n(m−p))` |
+| 1999 | Goeman, Clausen | `O(min{pm, m log m + p(n−p)})` |
+| 1999/2000 | Rick | `O(min{pm, p(n−p)})` |
+
 ## Relationship to the other classes
 
 ```
@@ -130,5 +167,19 @@ against `LCSHuntSzymanski::Find` on over 220,000 fixed and randomized cases.
 
 - Claus Rick, "Simple and fast linear space computation of longest common
   subsequences", *Information Processing Letters* 75 (2000), pp. 275–281.
+- Claus Rick, "A new flexible algorithm for the longest common subsequence
+  problem", *Proc. CPM'95*, Lecture Notes in Computer Science 937, Springer,
+  1995, pp. 340–351.  Also in *Nordic Journal of Computing* 2 (1995),
+  pp. 444–461.
+- A. Apostolico, C. Guerra, "A fast linear space algorithm for computing longest
+  common subsequences", *Proc. 23rd Allerton Conference on Communication,
+  Control, and Computing*, 1985, pp. 76–84.
+- A. Apostolico, S. Browne, C. Guerra, "Fast linear-space computations of
+  longest common subsequences", *Theoretical Computer Science* 92 (1992),
+  pp. 3–17.
+- D. S. Hirschberg, "Algorithms for the longest common subsequence problem",
+  *Journal of the ACM* 24(4), 1977, pp. 664–675.
+- H. Goeman, M. Clausen, "A new practical linear space algorithm for the longest
+  common subsequence problem", *Kybernetika* 38(1), 2002, pp. 45–66.
 - Daniel S. Hirschberg, "A linear space algorithm for computing maximal common
   subsequences", *Communications of the ACM* 18(6), 1975, pp. 341–343.
