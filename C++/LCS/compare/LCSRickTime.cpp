@@ -20,10 +20,10 @@ namespace {
   // position >= j holding symbol id (the string length if none).
   //
   struct FlexTables {
-    vector<int64_t> id1;               // symbol id of s1[i]
-    vector<int64_t> id2;               // symbol id of s2[j]
-    vector<vector<int64_t>> next1;     // next1[id][j] over s1, j in [0, m]
-    vector<vector<int64_t>> next2;     // next2[id][j] over s2, j in [0, n]
+    vector<int64_t> id1;                // symbol id of s1[i]
+    vector<int64_t> id2;                // symbol id of s2[j]
+    vector<vector<int64_t>> next1;      // next1[id][j] over s1, j in [0, m]
+    vector<vector<int64_t>> next2;      // next2[id][j] over s2, j in [0, n]
     int64_t m = 0;
     int64_t n = 0;
   };
