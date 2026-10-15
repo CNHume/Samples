@@ -149,9 +149,6 @@ bld/
 *.iobj
 *.ipdb
 
-# Ignore the consolidated MSBuild intermediate directory
-Intermediate/
-
 # Visual C++ cache files
 ipch/
 *.aps
@@ -399,6 +396,9 @@ NetBeansProjects/**/nbproject/private/
 .Rhistory
 .RData
 .Ruserdata
+
 Python/restaurant_manager/.vscode/.ropeproject/
 Python/sieve/.vscode/.ropeproject/
 Python/restaurant_manager/.venv/
+*.fasl
+C++/LCS/Doc/A New Flexible Algorithm for the Longest Common Subsequence Problem/
