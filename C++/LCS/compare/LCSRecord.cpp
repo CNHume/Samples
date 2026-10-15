@@ -93,32 +93,36 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
   duration.DemoStopwatch();
 #endif
-  //
-  //[Note]LCSRick::Find() assumes m <= n
-  //
-  auto isswapped = isrick && r2.size() < r1.size();
-  const auto& shorter = isswapped ? r2 : r1;
-  const auto& longer = isswapped ? r1 : r2;
-
-  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
-  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
-  [[maybe_unused]] auto count = Match(
-    indexesOf2MatchedByIndex1, indexesOf2MatchedByString, shorter, longer, ignorecase, ignorespace);
-
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
-  auto length = isrick ?
-    LCSRick::Find(
-      ppairs, indexesOf2MatchedByIndex1,
-      (uint32_t)shorter.size(), (uint32_t)longer.size()) :
-    LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  uint32_t length;
 
-  if (intervals != nullptr) {
+  if (isrick) {
+    // LCSRick::Find() assumes m <= n: scan the shorter list, table the longer.
+    // Swap when needed and un-swap the reported positions here.
+    auto isswapped = r2.size() < r1.size();
+    const auto& shorter = isswapped ? r2 : r1;
+    const auto& longer = isswapped ? r1 : r2;
+    STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByString
+    [[maybe_unused]] auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByString, shorter, longer, ignorecase, ignorespace);
+    length = LCSRick::Find(ppairs, indexesOf2MatchedByIndex1,
+      (uint32_t)shorter.size(), (uint32_t)longer.size());
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
-    *intervals = Delta::Coalesce(pairs);
   }
+  else {
+    STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByString
+    [[maybe_unused]] auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByString, r1, r2, ignorecase, ignorespace);
+    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+  }
+
+  if (intervals != nullptr)
+    *intervals = Delta::Coalesce(pairs);
   return length;
 }
 

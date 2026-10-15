@@ -117,18 +117,16 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   // own macro so test/fuzz runs do not pay the sleep on every Compare() call.
   duration.DemoStopwatch();
 #endif
-  //
-  //[Note]LCSRick::Find() assumes m <= n
-  //
-  auto isswapped = isrick && s2.size() < s1.size();
-  const auto& shorter = isswapped ? s2 : s1;
-  const auto& longer = isswapped ? s1 : s2;
-
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   uint32_t length;
 
   if (isrick) {
+    // LCSRick::Find() assumes m <= n: scan the shorter string, table the
+    // longer.  Swap when needed and un-swap the reported positions here.
+    auto isswapped = s2.size() < s1.size();
+    const auto& shorter = isswapped ? s2 : s1;
+    const auto& longer = isswapped ? s1 : s2;
     // Normalize exactly as Match() would, then build O(ns) occurrence tables
     // directly from the code points, bypassing the O(r) match-list
     // materialization so very long strings stay feasible.
@@ -136,21 +134,20 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
     length = LCSRick::Find(ppairs, ns1, ns2);
+    if (isswapped)
+      for (auto pair = pairs; pair != nullptr; pair = pair->next)
+        swap(pair->begin1, pair->begin2);
   }
   else {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     [[maybe_unused]] auto count = Match(
-      indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, shorter, longer, ignorecase, ignorespace);
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
   }
 
-  if (deltas != nullptr) {
-    if (isswapped)
-      for (auto pair = pairs; pair != nullptr; pair = pair->next)
-        swap(pair->begin1, pair->begin2);
+  if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
-  }
   return length;
 }
 
