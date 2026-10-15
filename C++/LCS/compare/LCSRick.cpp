@@ -129,23 +129,33 @@ LCSRick::Result LCSRick::FindMidpoint(const MATCHES& matches,
 //
 LCSRick::Contour LCSRick::CutForward(const Contour& forward, const Contour& backward) {
   Contour kept;
-  for (const auto& x : forward)
-    for (const auto& y : backward)
-      if (y.index1 > x.index1 && y.index2 > x.index2) {
-        kept.push_back(x);
-        break;
-      }
+  // Both contours are sorted by ascending index1 (hence descending index2).
+  // For each forward match x, the first backward match with index1 > x.index1
+  // also has the largest index2 of any backward match below-right of x, so it
+  // alone decides whether x is covered.  A single merged scan runs in linear
+  // time O(|forward| + |backward|) instead of the quadratic product.
+  size_t j = 0;                         // first backward match with index1 > x.index1
+  for (const auto& x : forward) {
+    while (j < backward.size() && backward[j].index1 <= x.index1)
+      j++;
+    if (j < backward.size() && backward[j].index2 > x.index2)
+      kept.push_back(x);
+  }
   return kept;
 }
 
 LCSRick::Contour LCSRick::CutBackward(const Contour& backward, const Contour& forward) {
   Contour kept;
-  for (const auto& y : backward)
-    for (const auto& x : forward)
-      if (x.index1 < y.index1 && x.index2 < y.index2) {
-        kept.push_back(y);
-        break;
-      }
+  // Symmetric to CutForward: for each backward match y, the last forward match
+  // with index1 < y.index1 has the smallest index2 of any forward match
+  // above-left of y, so it alone decides whether y is covered.
+  size_t k = 0;                         // first forward match with index1 >= y.index1
+  for (const auto& y : backward) {
+    while (k < forward.size() && forward[k].index1 < y.index1)
+      k++;
+    if (k > 0 && forward[k - 1].index2 < y.index2)
+      kept.push_back(y);
+  }
   return kept;
 }
 
@@ -269,10 +279,15 @@ LCSRick::Contour LCSRick::NextBackward(const Contour& contour,
 // of any forward match (Rick, Lemma 3).
 //
 bool LCSRick::Crossed(const Contour& forward, const Contour& backward) {
-  for (const auto& x : forward)
-    for (const auto& y : backward)
-      if (y.index1 > x.index1 && y.index2 > x.index2)
-        return false;
+  // The crossing test is the same merged scan as CutForward, but it can stop
+  // at the first forward match that still has a backward match below-right.
+  size_t j = 0;
+  for (const auto& x : forward) {
+    while (j < backward.size() && backward[j].index1 <= x.index1)
+      j++;
+    if (j < backward.size() && backward[j].index2 > x.index2)
+      return false;                     // Still crossing.
+  }
   return true;
 }
 
@@ -281,9 +296,15 @@ bool LCSRick::Crossed(const Contour& forward, const Contour& backward) {
 // which some backward match y lies non-strictly bottom-right of x.
 //
 LCSRick::Match LCSRick::Midpoint(const Contour& forward, const Contour& backward) {
-  for (const auto& x : forward)
-    for (const auto& y : backward)
-      if (y.index1 >= x.index1 && y.index2 >= x.index2)
-        return x;
+  // Merged scan: for each forward match x, the first backward match with
+  // index1 >= x.index1 has the largest index2 of any backward match
+  // non-strictly below-right of x; it decides whether x is a midpoint.
+  size_t j = 0;
+  for (const auto& x : forward) {
+    while (j < backward.size() && backward[j].index1 < x.index1)
+      j++;
+    if (j < backward.size() && backward[j].index2 >= x.index2)
+      return x;
+  }
   return { .index1 = -1, .index2 = -1 };
 }
