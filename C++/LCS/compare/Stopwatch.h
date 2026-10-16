@@ -18,9 +18,9 @@ public:
   void start();
   void stop();
   void reset();
-  int64_t elapsed_microseconds() const;
   double elapsed_seconds() const;
-  std::string format_microseconds() const;
-  std::string format_milliseconds() const;
+  int64_t elapsed_microseconds() const;
   std::string format_seconds() const;
+  std::string format_milliseconds() const;
+  std::string format_microseconds() const;
 };
