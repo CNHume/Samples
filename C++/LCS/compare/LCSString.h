@@ -40,7 +40,7 @@ public:
 protected:
   typedef unordered_map<char32_t, INDEXES> CHAR_TO_INDEXES_MAP;
 
-  static uint32_t Match(
+  static uint64_t Match(
     MATCHES& indexesOf2MatchedByIndex1,
     CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
     const u32string& s1, const u32string& s2,

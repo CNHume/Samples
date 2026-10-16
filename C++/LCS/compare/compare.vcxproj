@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Diagnostic.cpp" />
     <ClCompile Include="Duration.cpp" />
     <ClCompile Include="LCSEncoding.cpp" />
     <ClCompile Include="LCSFile.cpp" />
@@ -107,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Diagnostic.h" />
     <ClInclude Include="Duration.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />

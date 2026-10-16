@@ -5,6 +5,7 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSRecord.h"
+#include "Diagnostic.h"
 #include "Duration.h"
 #include "LCSEncoding.h"
 #include "LCSHuntSzymanski.h"
@@ -28,12 +29,12 @@
 // The symbol space is larger in the case of records; but the lookup
 // time will be O(log(m+n)), at most.
 //
-uint32_t LCSRecord::Match(
+uint64_t LCSRecord::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
-  uint32_t count = 0;
+  uint64_t count = 0;
   uint32_t index = 0;
   string buffer;
   for (const auto& it : r2) {
@@ -95,7 +96,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
 
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
-  [[maybe_unused]] auto count = Match(
+  auto count = Match(
     indexesOf2MatchedByIndex1, indexesOf2MatchedByString, shorter, longer, ignorecase, ignorespace);
 
   shared_ptr<Pair> pairs;
@@ -103,6 +104,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   uint32_t length;
   switch (algorithm) {
   case LCS::Algorithm::HuntSzymanski:
+    Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
     break;
   case LCS::Algorithm::RickSpace:

@@ -36,7 +36,7 @@ public:
   static RECORDS Read(const string& filename, bool isword);
 
 protected:
-  static uint32_t Match(
+  static uint64_t Match(
     MATCHES& indexesOf2MatchedByIndex1,
     STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
     const RECORDS& r1, const RECORDS& r2,

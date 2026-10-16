@@ -4,6 +4,7 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSString.h"
+#include "Diagnostic.h"
 #include "Duration.h"
 #include "LCSEncoding.h"
 #include "LCSHuntSzymanski.h"
@@ -14,17 +15,18 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for runtime_error
+#include <unordered_set>                // for counting distinct symbols
 #include <utility>                      // for swap
 
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
-uint32_t LCSString::Match(
+uint64_t LCSString::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace) {
-  uint32_t count = 0;
+  uint64_t count = 0;
   uint32_t index = 0;
   u32string buffer;
   LCSNormal::Normal(s2, buffer, ignorecase, ignorespace);
@@ -119,8 +121,9 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   case LCS::Algorithm::HuntSzymanski: {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
-    [[maybe_unused]] auto count = Match(
+    auto count = Match(
       indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
+    Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
     break;
   }
@@ -137,6 +140,12 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     u32string ns1, ns2;
     LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
+    if (algorithm == LCS::Algorithm::RickTime) {
+      unordered_set<char32_t> symbols;
+      for (auto c : ns1) symbols.insert(c);
+      for (auto c : ns2) symbols.insert(c);
+      Diagnostic::WarnTableSize(ns1.size(), ns2.size(), symbols.size());
+    }
     length = algorithm == LCS::Algorithm::RickTime ?
       LCSRickTime::Find(ppairs, ns1, ns2) :
       LCSRickSpace::Find(ppairs, ns1, ns2);
