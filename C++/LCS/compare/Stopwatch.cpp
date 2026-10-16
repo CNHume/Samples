@@ -28,6 +28,10 @@ double Stopwatch::elapsed_seconds() const {
   return (double)elapsed_microseconds() / 1e6;
 }
 
+double Stopwatch::elapsed_milliseconds() const {
+  return (double)elapsed_microseconds() / 1e3;
+}
+
 int64_t Stopwatch::elapsed_microseconds() const {
   std::chrono::steady_clock::time_point end_point;
   if (running_) {
