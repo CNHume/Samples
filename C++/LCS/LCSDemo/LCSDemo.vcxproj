@@ -87,7 +87,7 @@
     <ClCompile Include="LCSDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LICENSE.txt" />
+    <Text Include="LICENSES\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

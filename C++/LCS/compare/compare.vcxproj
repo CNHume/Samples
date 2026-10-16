@@ -127,7 +127,8 @@
     <ClInclude Include="Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="LICENSE.txt" />
+    <Text Include="LICENSES\COPYING.txt" />
+    <Text Include="LICENSES\COPYING_LESSER.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
