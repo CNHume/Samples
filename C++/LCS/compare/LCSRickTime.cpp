@@ -5,6 +5,7 @@
 // See LCSRickTime.h for an overview.
 //
 #include "LCSRickTime.h"
+#include "Diagnostic.h"
 
 #include <algorithm>                    // for lower_bound, sort
 #include <memory>                       // for make_shared
@@ -56,6 +57,9 @@ namespace {
       t.id2[(size_t)j] = idOf(s2[(size_t)j]);
 
     auto s = charToId.size();
+    // Warn before allocating the dense next tables, reusing the symbol count
+    // already gathered above rather than counting distinct symbols again.
+    Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
     // One extra sentinel slot so "first occurrence > j" at j == length (the
     // threshold sentinel) stays in bounds and returns length.
     t.next1.assign(s, vector<int64_t>((size_t)t.m + 2, t.m));

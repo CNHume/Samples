@@ -15,7 +15,6 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for runtime_error
-#include <unordered_set>                // for counting distinct symbols
 #include <utility>                      // for swap
 
 //
@@ -140,12 +139,6 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     u32string ns1, ns2;
     LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
-    if (algorithm == LCS::Algorithm::RickTime) {
-      unordered_set<char32_t> symbols;
-      for (auto c : ns1) symbols.insert(c);
-      for (auto c : ns2) symbols.insert(c);
-      Diagnostic::WarnTableSize(ns1.size(), ns2.size(), symbols.size());
-    }
     length = algorithm == LCS::Algorithm::RickTime ?
       LCSRickTime::Find(ppairs, ns1, ns2) :
       LCSRickSpace::Find(ppairs, ns1, ns2);
