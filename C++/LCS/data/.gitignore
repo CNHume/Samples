@@ -1,0 +1,4 @@
+# Keep downloaded test data out of the repository.  This file lives inside
+# the data folder, so the rule travels with the folder if it is renamed.
+*
+!.gitignore
