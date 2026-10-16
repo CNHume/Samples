@@ -33,13 +33,9 @@ double Stopwatch::elapsed_milliseconds() const {
 }
 
 int64_t Stopwatch::elapsed_microseconds() const {
-  std::chrono::steady_clock::time_point end_point;
-  if (running_) {
-    end_point = std::chrono::steady_clock::now();
-  }
-  else {
-    end_point = stop_time_;
-  }
+  auto end_point = running_ ?
+    std::chrono::steady_clock::now() :
+    stop_time_;
 
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(
     end_point - start_time_);
