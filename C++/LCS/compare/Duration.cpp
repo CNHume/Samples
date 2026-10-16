@@ -30,15 +30,15 @@ nlohmann::json Duration::to_json() const {
   // when to_json() is called on a still-running stopwatch.
   auto microseconds = sw_.elapsed_microseconds();
   auto seconds = (double)microseconds / 1e6;
-  auto rate = seconds > 0 ?
-    (double)count_ / seconds :
+  auto rateMHz = microseconds > 0 ?
+    (double)count_ / microseconds :
     std::numeric_limits<double>::quiet_NaN();
   return nlohmann::json{
     { "name", name_ },
     { "count", count_ },
     { "elapsedMicroseconds", microseconds },
     { "elapsedSeconds", seconds },
-    { "rate", rate }
+    { "rateMHz", rateMHz }
   };
 }
 
@@ -48,11 +48,11 @@ void Duration::Stop() {
 
 void Duration::Show() {
   sw_.stop();
-  auto hasrate = sw_.elapsed_seconds() > 0;
-  auto rate =  hasrate ?
-    (double)count_ / sw_.elapsed_seconds() :
+  auto hasrate = sw_.elapsed_microseconds() > 0;
+  auto rateMHz = hasrate ?
+    (double)count_ / sw_.elapsed_microseconds() :
     std::numeric_limits<double>::quiet_NaN();
   std::cout << std::format(
-    "{}: {} items in {} sec @{:.0f} Hz\n",
-    name_, count_, sw_.format_seconds(), rate);
+    "{}: {} operations in {} sec @{:.0f} MHz\n",
+    name_, count_, sw_.format_seconds(), rateMHz);
 }
