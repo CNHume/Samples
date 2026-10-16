@@ -18,18 +18,18 @@
 //
 class Duration {
 private:
-  Stopwatch stopwatch_;
+  Stopwatch sw_;
   std::string name_;
-  long item_count_ = 0;                 // number of items included in the operation
+  long count_ = 0;                      // Operation count
 
 public:
-  Duration(std::string name, long item_count = 0);
+  Duration(std::string name, long count = 0);
   ~Duration();
 
-  // The compiler only needs to know 'json' exists to look at these signatures:
+  // Serialization/Deserialization
   void from_json(const nlohmann::json& json);
   nlohmann::json to_json() const;
 
-  void Stop();                          // stop the stopwatch
-  void Show();                          // stop and report the measurement
+  void Stop();                          // Stop the stopwatch
+  void Show();                          // Stop and report the measurement
 };

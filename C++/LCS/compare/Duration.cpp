@@ -7,44 +7,52 @@
 
 #include <format>                       // for format
 #include <iostream>                     // for cout
+#include <limits>                       // for numeric_limits
 #include <nlohmann/json.hpp>            // Full implementation header
 #include <utility>                      // for move
 
-Duration::Duration(std::string name, long item_count)
-  : name_(std::move(name)), item_count_(item_count) {
-  stopwatch_.start();
+Duration::Duration(std::string name, long count)
+  : name_(std::move(name)), count_(count) {
+  sw_.start();
 }
 
 Duration::~Duration() {
-  stopwatch_.stop();
+  sw_.stop();
 }
 
 void Duration::from_json(const nlohmann::json& j) {
-  name_ = j.at("Name").get<std::string>();
-  item_count_ = j.at("ItemCount").get<long>();
+  name_ = j.at("name").get<std::string>();
+  count_ = j.at("count").get<long>();
 }
 
 nlohmann::json Duration::to_json() const {
-  auto seconds = stopwatch_.elapsed_seconds();
-  auto item_rate = seconds > 0 ? (double)item_count_ / seconds : 0.0;
+  // Snapshot the elapsed time once so rate and elapsedSeconds agree, even
+  // when to_json() is called on a still-running stopwatch.
+  auto microseconds = sw_.elapsed_microseconds();
+  auto seconds = (double)microseconds / 1e6;
+  auto rate = seconds > 0 ?
+    (double)count_ / seconds :
+    std::numeric_limits<double>::quiet_NaN();
   return nlohmann::json{
-    { "Name", name_ },
-    { "ItemCount", item_count_ },
-    { "ElapsedMicroseconds", stopwatch_.elapsed_microseconds() },
-    { "ElapsedSeconds", seconds },
-    { "ItemRate", item_rate }
+    { "name", name_ },
+    { "count", count_ },
+    { "elapsedMicroseconds", microseconds },
+    { "elapsedSeconds", seconds },
+    { "rate", rate }
   };
 }
 
 void Duration::Stop() {
-  stopwatch_.stop();
+  sw_.stop();
 }
 
 void Duration::Show() {
-  stopwatch_.stop();
-  auto seconds = stopwatch_.elapsed_seconds();
-  auto item_rate = seconds > 0 ? (double)item_count_ / seconds : 0.0;
+  sw_.stop();
+  auto hasrate = sw_.elapsed_seconds() > 0;
+  auto rate =  hasrate ?
+    (double)count_ / sw_.elapsed_seconds() :
+    std::numeric_limits<double>::quiet_NaN();
   std::cout << std::format(
-    "{}: {} sec for {} items ({:.0f} items/sec)\n",
-    name_, stopwatch_.format_seconds(), item_count_, item_rate);
+    "{}: {} items in {} sec @{:.0f} Hz\n",
+    name_, count_, sw_.format_seconds(), rate);
 }
