@@ -180,6 +180,33 @@ u32string LCSString::Read(const string& filename) {
 #endif
 }
 
+//
+// StripFasta() removes FASTA header lines, which begin with '>' in column
+// zero, and joins the remaining sequence lines into a single string with
+// whitespace removed.  Wrapped sequence is thereby unrolled into one
+// unbroken sequence, and multi-FASTA records are concatenated.
+//
+u32string LCSString::StripFasta(const u32string& s) {
+  u32string buffer;
+  buffer.reserve(s.size());
+  auto n = s.size();
+  size_t i = 0;
+  while (i < n) {
+    auto j = s.find(U'\n', i);
+    if (j == u32string::npos)
+      j = n;
+    if (i < j && s[i] != U'>') {        // sequence line
+      for (auto k = i; k < j; k++) {
+        auto c = s[k];
+        if (c != U' ' && c != U'\t' && c != U'\r')
+          buffer.push_back(c);
+      }
+    }
+    i = j < n ? j + 1 : n;              // advance past the line terminator
+  }
+  return buffer;
+}
+
 void LCSString::MapDeltas(shared_ptr<Delta> deltas,
   const vector<uint32_t>& mapBegin1, const vector<uint32_t>& mapEnd1,
   const vector<uint32_t>& mapBegin2, const vector<uint32_t>& mapEnd2,

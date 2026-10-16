@@ -30,6 +30,7 @@ public:
     bool ignorecase = false, bool ignorespace = false, LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
 
   static u32string Read(const string& filename);
+  static u32string StripFasta(const u32string& s);
 
   //
   // String Methods compare individual Unicode code points rather than

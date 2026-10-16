@@ -10,6 +10,10 @@ uint32_t  LCSFile::Correspondence(
   if (command.istext) {
     auto s1 = LCSString::Read(command.file1);
     auto s2 = LCSString::Read(command.file2);
+    if (command.isfasta) {
+      s1 = LCSString::StripFasta(s1);
+      s2 = LCSString::StripFasta(s2);
+    }
     auto length = LCSString::Correspondence(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
       command.join, command.prefix, command.suffix, command.algorithm);
@@ -31,6 +35,10 @@ uint32_t  LCSFile::Difference(
   if (command.istext) {
     auto s1 = LCSString::Read(command.file1);
     auto s2 = LCSString::Read(command.file2);
+    if (command.isfasta) {
+      s1 = LCSString::StripFasta(s1);
+      s2 = LCSString::StripFasta(s2);
+    }
     auto length = LCSString::Difference(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
       command.join, command.prefix, command.suffix, command.algorithm);

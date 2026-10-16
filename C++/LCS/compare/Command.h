@@ -25,6 +25,7 @@ public:
   bool isquote;
   LCS::Algorithm algorithm;
   bool istext;
+  bool isfasta;
   bool isword;
 
 protected:
@@ -45,6 +46,7 @@ public:
     isquote(false),
     algorithm(LCS::Algorithm::HuntSzymanski),
     istext(false),
+    isfasta(false),
     isword(false) {
   }
 

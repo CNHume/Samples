@@ -7,7 +7,7 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-t] [-w] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] file1 file2
 //
 #include "Command.h"
 
@@ -88,6 +88,13 @@ void Command::Parse(int argc, char* argv[]) {
           isscorrespondence = true;
         break;
 
+      case 'f':                         // the fasta switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isfasta = true;
+        break;
+
       case 'i':                         // the ignorecase switch
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -166,5 +173,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-t] [-w] file1 file2");
+      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] file1 file2");
 }
