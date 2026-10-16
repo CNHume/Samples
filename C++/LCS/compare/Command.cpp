@@ -88,11 +88,13 @@ void Command::Parse(int argc, char* argv[]) {
           isscorrespondence = true;
         break;
 
-      case 'f':                         // the fasta switch
+      case 'f':                         // the fasta switch, which implies text
         if (len > 2)                    // superfluous value specified
           usage = true;
-        else
+        else {
           isfasta = true;
+          istext = true;                // -f implies -t
+        }
         break;
 
       case 'i':                         // the ignorecase switch
