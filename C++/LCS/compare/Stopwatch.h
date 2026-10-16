@@ -21,5 +21,6 @@ public:
   int64_t elapsed_microseconds() const;
   double elapsed_seconds() const;
   std::string format_microseconds() const;
+  std::string format_milliseconds() const;
   std::string format_seconds() const;
 };

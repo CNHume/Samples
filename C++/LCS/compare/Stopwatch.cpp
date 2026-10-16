@@ -46,6 +46,19 @@ std::string Stopwatch::format_microseconds() const {
   return std::format("{}", elapsed_microseconds());
 }
 
+std::string Stopwatch::format_milliseconds() const {
+  auto microseconds = elapsed_microseconds();
+  auto fp = microseconds % 1000;
+  auto ip = microseconds / 1000;
+  // Trim trailing zeros, keeping one fractional digit.
+  auto digits = 3;
+  while (fp % 10 == 0 && digits > 1) {
+    fp /= 10;
+    digits--;
+  }
+  return std::format("{}.{:0{}}", ip, fp, digits);
+}
+
 std::string Stopwatch::format_seconds() const {
   auto microseconds = elapsed_microseconds();
   auto fp = microseconds % 1000000;
