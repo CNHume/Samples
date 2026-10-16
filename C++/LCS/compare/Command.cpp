@@ -17,14 +17,35 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2
 //
 #include "Command.h"
 
 #include <cerrno>                       // for errno
-#include <cstdlib>                      // for strtoul
+#include <cstdlib>                      // for EXIT_SUCCESS, exit, strtoul
 #include <cstring>                      // for strlen
+#include <format>                       // for format
+#include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
+
+namespace {
+  constexpr auto programName = "compare";
+  constexpr auto programVersion = "1.0";
+  constexpr auto copyrightYears = "2017-2026";
+  constexpr auto author = "Christopher N. Hume";
+
+  // Print the GNU-style version banner and exit successfully.
+  void Version() {
+    cout << format(
+      "{} {}\n"
+      "Copyright (C) {} {}\n"
+      "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\n"
+      "This is free software: you are free to change and redistribute it.\n"
+      "There is NO WARRANTY, to the extent permitted by law.\n",
+      programName, programVersion, copyrightYears, author);
+    exit(EXIT_SUCCESS);
+  }
+}
 
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");
@@ -156,6 +177,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
+      case 'v':                         // the version switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          Version();
+        break;
+
       case 'w':                         // the word switch
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -185,5 +213,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] file1 file2");
+      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2");
 }
