@@ -54,7 +54,7 @@ void Command::Parse(int argc, char* argv[]) {
       usage = true;
     else {                              // parse single character switch
       switch (token[1]) {
-      case 'a':                         // the algorithm switch: d=dynamic programming, t=time, s=space
+      case 'a':                         // the algorithm switch: d=dynamic programming, s=space, t=time
         if (len == 3) {                 // expects -ad, -at, or -as
           switch (token[2]) {
           case 'd':

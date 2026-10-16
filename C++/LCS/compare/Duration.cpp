@@ -31,7 +31,7 @@ nlohmann::json Duration::to_json() const {
     { "Name", name_ },
     { "ItemCount", item_count_ },
     { "ElapsedMicroseconds", stopwatch_.elapsed_microseconds() },
-    { "Seconds", seconds },
+    { "ElapsedSeconds", seconds },
     { "ItemRate", item_rate }
   };
 }
