@@ -10,8 +10,8 @@
 #include <nlohmann/json.hpp>            // Full implementation header
 #include <utility>                      // for move
 
-Duration::Duration(std::string name, long included)
-  : name_(std::move(name)), included_(included) {
+Duration::Duration(std::string name, long item_count)
+  : name_(std::move(name)), item_count_(item_count) {
   stopwatch_.start();
 }
 
@@ -21,18 +21,18 @@ Duration::~Duration() {
 
 void Duration::from_json(const nlohmann::json& j) {
   name_ = j.at("Name").get<std::string>();
-  included_ = j.at("Included").get<long>();
+  item_count_ = j.at("ItemCount").get<long>();
 }
 
 nlohmann::json Duration::to_json() const {
   auto seconds = stopwatch_.elapsed_seconds();
-  auto rate = seconds > 0 ? (double)included_ / seconds : 0.0;
+  auto item_rate = seconds > 0 ? (double)item_count_ / seconds : 0.0;
   return nlohmann::json{
     { "Name", name_ },
-    { "Included", included_ },
+    { "ItemCount", item_count_ },
     { "ElapsedMicroseconds", stopwatch_.elapsed_microseconds() },
     { "Seconds", seconds },
-    { "ItemsPerSecond", rate }
+    { "ItemRate", item_rate }
   };
 }
 
@@ -43,8 +43,8 @@ void Duration::Stop() {
 void Duration::Show() {
   stopwatch_.stop();
   auto seconds = stopwatch_.elapsed_seconds();
-  auto rate = seconds > 0 ? (double)included_ / seconds : 0.0;
+  auto item_rate = seconds > 0 ? (double)item_count_ / seconds : 0.0;
   std::cout << std::format(
     "{}: {} sec for {} items ({:.0f} items/sec)\n",
-    name_, stopwatch_.format_seconds(), included_, rate);
+    name_, stopwatch_.format_seconds(), item_count_, item_rate);
 }

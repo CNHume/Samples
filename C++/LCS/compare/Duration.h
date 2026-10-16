@@ -12,7 +12,7 @@
 
 //
 // Duration measures the elapsed time of a named operation and reports
-// the throughput over the number of items included in the operation.
+// the item rate over the number of items included in the operation.
 // Construct it at the start of the region to time and call Show() at
 // the end to stop the stopwatch and print the measurement.
 //
@@ -20,10 +20,10 @@ class Duration {
 private:
   Stopwatch stopwatch_;
   std::string name_;
-  long included_ = 0;                   // number of items included in the operation
+  long item_count_ = 0;                 // number of items included in the operation
 
 public:
-  Duration(std::string name, long included = 0);
+  Duration(std::string name, long item_count = 0);
   ~Duration();
 
   // The compiler only needs to know 'json' exists to look at these signatures:
