@@ -36,8 +36,8 @@ public:
 
 private:
   struct Match {
-    int64_t index1 = 0;
-    int64_t index2 = 0;
+    uint32_t index1 = 0;
+    uint32_t index2 = 0;
   };
 
   struct Result {
@@ -50,14 +50,14 @@ private:
   typedef vector<Match> Contour;
 
   // O(1) next/previous occurrence tables.  rowId[i] is the symbol id of row i
-  // (-1 when the symbol never occurs); next[id][j] is the smallest position
-  // >= j holding symbol id (n if none); prev[id][j] is the largest position
-  // <= j holding it (-1 if none).  This is the "LeftPos/TopPos" O(ns)
-  // preprocessing of the Rick contour scan.
+  // (UINT32_MAX when the symbol never occurs); next[id][j] is the smallest
+  // position >= j holding symbol id (n if none); prev[id][j] is the largest
+  // position <= j holding it (UINT32_MAX if none).  This is the
+  // "LeftPos/TopPos" O(ns) preprocessing of the Rick contour scan.
   struct Occurrences {
-    vector<int64_t> rowId;             // symbol id of each row, [0, size1)
-    vector<vector<int64_t>> next;      // [id][j], j in [0, n]
-    vector<vector<int64_t>> prev;      // [id][j], j in [0, n)
+    vector<uint32_t> rowId;            // symbol id of each row, [0, size1)
+    vector<vector<uint32_t>> next;     // [id][j], j in [0, n]
+    vector<vector<uint32_t>> prev;     // [id][j], j in [0, n)
     int64_t n = 0;                     // size2
   };
 

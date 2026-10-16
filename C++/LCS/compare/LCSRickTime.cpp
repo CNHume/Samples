@@ -21,18 +21,18 @@ namespace {
   // position >= j holding symbol id (the string length if none).
   //
   struct FlexTables {
-    vector<int64_t> id1;                // symbol id of s1[i]
-    vector<int64_t> id2;                // symbol id of s2[j]
-    vector<vector<int64_t>> next1;      // next1[id][j] over s1, j in [0, m]
-    vector<vector<int64_t>> next2;      // next2[id][j] over s2, j in [0, n]
+    vector<uint32_t> id1;               // symbol id of s1[i]
+    vector<uint32_t> id2;               // symbol id of s2[j]
+    vector<vector<uint32_t>> next1;     // next1[id][j] over s1, j in [0, m]
+    vector<vector<uint32_t>> next2;     // next2[id][j] over s2, j in [0, n]
     int64_t m = 0;
     int64_t n = 0;
   };
 
   // A recorded dominant match (coordinates in the shorter/longer strings).
   struct DomMatch {
-    int64_t i;
-    int64_t j;
+    uint32_t i;
+    uint32_t j;
   };
 
   FlexTables BuildTables(const u32string& s1, const u32string& s2) {
@@ -40,12 +40,12 @@ namespace {
     t.m = (int64_t)s1.size();
     t.n = (int64_t)s2.size();
 
-    unordered_map<char32_t, int64_t> charToId;
-    auto idOf = [&](char32_t c) -> int64_t {
+    unordered_map<char32_t, uint32_t> charToId;
+    auto idOf = [&](char32_t c) -> uint32_t {
       auto it = charToId.find(c);
       if (it != charToId.end())
         return it->second;
-      auto id = (int64_t)charToId.size();
+      auto id = (uint32_t)charToId.size();
       charToId.emplace(c, id);
       return id;
     };
@@ -62,17 +62,17 @@ namespace {
     Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
     // One extra sentinel slot so "first occurrence > j" at j == length (the
     // threshold sentinel) stays in bounds and returns length.
-    t.next1.assign(s, vector<int64_t>((size_t)t.m + 2, t.m));
+    t.next1.assign(s, vector<uint32_t>((size_t)t.m + 2, (uint32_t)t.m));
     for (int64_t j = t.m - 1; j >= 0; j--) {
       for (size_t id = 0; id < s; id++)
         t.next1[id][(size_t)j] = t.next1[id][(size_t)j + 1];
-      t.next1[(size_t)t.id1[(size_t)j]][(size_t)j] = j;
+      t.next1[(size_t)t.id1[(size_t)j]][(size_t)j] = (uint32_t)j;
     }
-    t.next2.assign(s, vector<int64_t>((size_t)t.n + 2, t.n));
+    t.next2.assign(s, vector<uint32_t>((size_t)t.n + 2, (uint32_t)t.n));
     for (int64_t j = t.n - 1; j >= 0; j--) {
       for (size_t id = 0; id < s; id++)
         t.next2[id][(size_t)j] = t.next2[id][(size_t)j + 1];
-      t.next2[(size_t)t.id2[(size_t)j]][(size_t)j] = j;
+      t.next2[(size_t)t.id2[(size_t)j]][(size_t)j] = (uint32_t)j;
     }
     return t;
   }
@@ -87,10 +87,10 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   // rowThresh[k] = leftmost column of a dominant k-match (n if none);
   // colThresh[k] = topmost row of a dominant k-match (m if none).
   // Sized m+2 so the "low" index may advance one past the last class.
-  vector<int64_t> rowThresh((size_t)m + 2, n);
-  vector<int64_t> colThresh((size_t)m + 2, m);
-  rowThresh[0] = -1;                    // virtual origin C_0
-  colThresh[0] = -1;
+  vector<uint32_t> rowThresh((size_t)m + 2, (uint32_t)n);
+  vector<uint32_t> colThresh((size_t)m + 2, (uint32_t)m);
+  rowThresh[0] = UINT32_MAX;            // virtual origin C_0 (unused)
+  colThresh[0] = UINT32_MAX;
   int64_t low = 1;                      // smallest class not yet complete
 
   // Recorded dominant matches, grouped by rank.
@@ -116,9 +116,9 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     while (j != n) {
       if (j < rowThresh[(size_t)k]) {
         auto temp = rowThresh[(size_t)k];
-        rowThresh[(size_t)k] = j;       // dominant k-match (l, j)
+        rowThresh[(size_t)k] = (uint32_t)j;  // dominant k-match (l, j)
         if (traceLCS)
-          byRank[(size_t)k].push_back({ .i = l, .j = j });
+          byRank[(size_t)k].push_back({ .i = (uint32_t)l, .j = (uint32_t)j });
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
       }
       if (j == rowThresh[(size_t)k])
@@ -142,9 +142,9 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     while (i != m) {
       if (i < colThresh[(size_t)k]) {
         auto temp = colThresh[(size_t)k];
-        colThresh[(size_t)k] = i;       // dominant k-match (i, l)
+        colThresh[(size_t)k] = (uint32_t)i;  // dominant k-match (i, l)
         if (traceLCS)
-          byRank[(size_t)k].push_back({ .i = i, .j = l });
+          byRank[(size_t)k].push_back({ .i = (uint32_t)i, .j = (uint32_t)l });
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];
       }
       if (i == colThresh[(size_t)k])
@@ -177,15 +177,15 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     shared_ptr<Pair> chain = nullptr;   // ascending: rank 1 .. rank p
     auto ci = byRank[(size_t)p].back().i;
     auto cj = byRank[(size_t)p].back().j;
-    chain = make_shared<Pair>((uint32_t)ci, (uint32_t)cj, nullptr);
+    chain = make_shared<Pair>(ci, cj, nullptr);
     for (int64_t k = (int64_t)p - 1; k >= 1; k--) {
       const auto& v = byRank[(size_t)k];
       auto it = lower_bound(v.begin(), v.end(), ci,
-        [](const DomMatch& m, int64_t x) { return m.i < x; });
+        [](const DomMatch& m, uint32_t x) { return m.i < x; });
       --it;                             // largest i < ci
       ci = it->i;
       cj = it->j;
-      chain = make_shared<Pair>((uint32_t)ci, (uint32_t)cj, chain);
+      chain = make_shared<Pair>(ci, cj, chain);
     }
     *pairs = chain;
   }

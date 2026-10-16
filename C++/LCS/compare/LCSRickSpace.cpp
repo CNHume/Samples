@@ -10,7 +10,6 @@
 #include "LCSRickSpace.h"
 
 #include <algorithm>                    // for min, reverse
-#include <climits>                      // for INT64_MAX
 #include <memory>                       // for make_shared
 #include <unordered_map>                // for pointer -> symbol id
 #include <utility>                      // for move
@@ -56,8 +55,7 @@ uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     shared_ptr<Pair> head = nullptr;
     shared_ptr<Pair> tail = nullptr;
     for (const auto& match : out) {
-      auto pair = make_shared<Pair>(
-        (uint32_t)match.index1, (uint32_t)match.index2);
+      auto pair = make_shared<Pair>(match.index1, match.index2);
       if (tail == nullptr)
         head = pair;
       else
@@ -84,15 +82,15 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
 
   // Two rows sharing a symbol share the same match-list pointer, so pointer
   // identity compresses the symbols without needing the symbol values.
-  unordered_map<const INDEXES*, int64_t> pointerToId;
+  unordered_map<const INDEXES*, uint32_t> pointerToId;
   vector<const INDEXES*> lists;         // lists[id] = sorted positions of symbol id
-  occ.rowId.assign(size1, -1);
+  occ.rowId.assign(size1, UINT32_MAX);
   for (size_t i = 0; i < size1; i++) {
     const auto* p = matches[i];
     auto it = pointerToId.find(p);
-    int64_t id;
+    uint32_t id;
     if (it == pointerToId.end()) {
-      id = (int64_t)lists.size();
+      id = (uint32_t)lists.size();
       pointerToId.emplace(p, id);
       lists.push_back(p);
     }
@@ -103,8 +101,8 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   }
 
   auto s = lists.size();
-  occ.next.assign(s, vector<int64_t>((size_t)size2 + 1, occ.n));
-  occ.prev.assign(s, vector<int64_t>((size_t)size2, -1));
+  occ.next.assign(s, vector<uint32_t>((size_t)size2 + 1, (uint32_t)occ.n));
+  occ.prev.assign(s, vector<uint32_t>((size_t)size2, UINT32_MAX));
 
   for (size_t id = 0; id < s; id++) {
     const auto& list = *lists[id];      // sorted positions, ascending
@@ -116,15 +114,15 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
     for (int64_t j = 0; j <= occ.n; j++) {
       while (li < list.size() && (int64_t)list[li] < j)
         li++;
-      nxt[(size_t)j] = li < list.size() ? (int64_t)list[li] : occ.n;
+      nxt[(size_t)j] = li < list.size() ? list[li] : (uint32_t)occ.n;
     }
 
     // prev[id][j] = last list element <= j.
     li = 0;
-    int64_t last = -1;
+    uint32_t last = UINT32_MAX;
     for (int64_t j = 0; j < occ.n; j++) {
       while (li < list.size() && (int64_t)list[li] <= j) {
-        last = (int64_t)list[li];
+        last = list[li];
         li++;
       }
       prv[(size_t)j] = last;
@@ -146,14 +144,14 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   occ.n = (int64_t)s2.size();
 
   // Compress the code points of s2 (the tabled string) to dense ids.
-  unordered_map<char32_t, int64_t> charToId;
-  vector<int64_t> s2Id(s2.size(), -1);
+  unordered_map<char32_t, uint32_t> charToId;
+  vector<uint32_t> s2Id(s2.size(), UINT32_MAX);
   for (size_t j = 0; j < s2.size(); j++) {
     auto c = s2[j];
     auto it = charToId.find(c);
-    int64_t id;
+    uint32_t id;
     if (it == charToId.end()) {
-      id = (int64_t)charToId.size();
+      id = (uint32_t)charToId.size();
       charToId.emplace(c, id);
     }
     else {
@@ -164,8 +162,8 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
 
   auto s = charToId.size();
 
-  // rowId[i] = symbol id of s1[i], or -1 when it never occurs in s2.
-  occ.rowId.assign(s1.size(), -1);
+  // rowId[i] = symbol id of s1[i], or UINT32_MAX when it never occurs in s2.
+  occ.rowId.assign(s1.size(), UINT32_MAX);
   for (size_t i = 0; i < s1.size(); i++) {
     auto it = charToId.find(s1[i]);
     if (it != charToId.end())
@@ -173,19 +171,19 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   }
 
   // next[id][j] = first occurrence of symbol id at/after j (n if none).
-  occ.next.assign(s, vector<int64_t>((size_t)occ.n + 1, occ.n));
+  occ.next.assign(s, vector<uint32_t>((size_t)occ.n + 1, (uint32_t)occ.n));
   for (int64_t j = occ.n - 1; j >= 0; j--) {
     for (size_t id = 0; id < s; id++)
       occ.next[id][(size_t)j] = occ.next[id][(size_t)j + 1];
-    occ.next[(size_t)s2Id[(size_t)j]][(size_t)j] = j;
+    occ.next[(size_t)s2Id[(size_t)j]][(size_t)j] = (uint32_t)j;
   }
 
-  // prev[id][j] = last occurrence of symbol id at/before j (-1 if none).
-  occ.prev.assign(s, vector<int64_t>((size_t)occ.n, -1));
+  // prev[id][j] = last occurrence of symbol id at/before j (UINT32_MAX if none).
+  occ.prev.assign(s, vector<uint32_t>((size_t)occ.n, UINT32_MAX));
   for (int64_t j = 0; j < occ.n; j++) {
     for (size_t id = 0; id < s; id++)
-      occ.prev[id][(size_t)j] = j > 0 ? occ.prev[id][(size_t)j - 1] : -1;
-    occ.prev[(size_t)s2Id[(size_t)j]][(size_t)j] = j;
+      occ.prev[id][(size_t)j] = j > 0 ? occ.prev[id][(size_t)j - 1] : UINT32_MAX;
+    occ.prev[(size_t)s2Id[(size_t)j]][(size_t)j] = (uint32_t)j;
   }
 
   return occ;
@@ -304,17 +302,17 @@ LCSRickSpace::Contour LCSRickSpace::CutBackward(const Contour& backward, const C
 LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
   size_t i0, size_t i1, size_t j0, size_t j1) {
   Contour contour;
-  int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
+  uint32_t minIndex2 = UINT32_MAX;      // running minimum: the dominance test
   for (auto i = i0; i < i1; i++) {
     auto id = occ.rowId[i];
-    if (id < 0)
+    if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
     // Leftmost occurrence in [j0, j1).
     auto index2 = occ.next[(size_t)id][j0];
-    if (index2 >= (int64_t)j1)
+    if (index2 >= j1)
       continue;
     if (index2 < minIndex2) {
-      contour.push_back({ .index1 = (int64_t)i, .index2 = index2 });
+      contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       minIndex2 = index2;
     }
   }
@@ -328,25 +326,25 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
   const Occurrences& occ, size_t i0, size_t i1, [[maybe_unused]] size_t j0,
   size_t j1, int64_t rowLimit) {
   Contour next;
-  int64_t minIndex2 = INT64_MAX;        // running minimum: the dominance test
+  uint32_t minIndex2 = UINT32_MAX;      // running minimum: the dominance test
   size_t matchesAbove = 0;              // # contour matches above the row
-  auto start = contour.empty() ? (int64_t)i0 : contour[0].index1 + 1;
+  auto start = contour.empty() ? (int64_t)i0 : (int64_t)contour[0].index1 + 1;
   auto end = min((int64_t)i1, rowLimit);
   for (auto i = start; i < end; i++) {
-    while (matchesAbove < contour.size() && contour[matchesAbove].index1 < i)
+    while (matchesAbove < contour.size() && contour[matchesAbove].index1 < (uint32_t)i)
       matchesAbove++;
     if (matchesAbove == 0)
       continue;                         // No contour match above this row.
     auto bound = contour[matchesAbove - 1].index2;
     auto id = occ.rowId[(size_t)i];
-    if (id < 0)
+    if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
     // First occurrence strictly greater than bound, still within [j0, j1).
     auto index2 = occ.next[(size_t)id][(size_t)(bound + 1)];
-    if (index2 >= (int64_t)j1)
+    if (index2 >= j1)
       continue;
     if (index2 < minIndex2) {
-      next.push_back({ .index1 = i, .index2 = index2 });
+      next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       minIndex2 = index2;
     }
   }
@@ -363,14 +361,14 @@ LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   for (auto i = (int64_t)i1 - 1; i >= (int64_t)i0; i--) {
     auto id = occ.rowId[(size_t)i];
-    if (id < 0)
+    if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
     // Rightmost occurrence in [j0, j1): last position strictly less than j1.
     auto index2 = occ.prev[(size_t)id][(size_t)(j1 - 1)];
-    if (index2 < (int64_t)j0)
+    if (index2 == UINT32_MAX || index2 < j0)
       continue;
     if (index2 > maxIndex2) {
-      contour.push_back({ .index1 = i, .index2 = index2 });
+      contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       maxIndex2 = index2;
     }
   }
@@ -388,22 +386,22 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   size_t matchesBelow = contour.size(); // # contour matches below the row
   for (auto i = (int64_t)i1 - 1; i >= rowFloor; i--) {
-    while (matchesBelow > 0 && contour[matchesBelow - 1].index1 > i)
+    while (matchesBelow > 0 && contour[matchesBelow - 1].index1 > (uint32_t)i)
       matchesBelow--;
     if (matchesBelow == contour.size())
       continue;                         // No contour match below this row.
     auto bound = contour[matchesBelow].index2;
-    if (bound <= (int64_t)j0)
+    if (bound <= j0)
       continue;                         // No occurrence can precede j0.
     auto id = occ.rowId[(size_t)i];
-    if (id < 0)
+    if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
     // Last occurrence strictly less than bound, still within [j0, j1).
     auto index2 = occ.prev[(size_t)id][(size_t)(bound - 1)];
-    if (index2 < (int64_t)j0)
+    if (index2 == UINT32_MAX || index2 < j0)
       continue;
     if (index2 > maxIndex2) {
-      next.push_back({ .index1 = i, .index2 = index2 });
+      next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       maxIndex2 = index2;
     }
   }
@@ -443,5 +441,5 @@ LCSRickSpace::Match LCSRickSpace::Midpoint(const Contour& forward, const Contour
     if (j < backward.size() && backward[j].index2 >= x.index2)
       return x;
   }
-  return { .index1 = -1, .index2 = -1 };
+  return { .index1 = UINT32_MAX, .index2 = UINT32_MAX };
 }
