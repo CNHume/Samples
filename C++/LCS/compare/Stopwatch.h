@@ -20,5 +20,5 @@ public:
   void reset();
   int64_t elapsed_microseconds() const;
   double elapsed_seconds() const;
-  std::string format_seconds() const;
+  std::string format_microseconds() const;
 };

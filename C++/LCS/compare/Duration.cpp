@@ -53,6 +53,6 @@ void Duration::Show() {
     (double)count_ / sw_.elapsed_microseconds() :
     std::numeric_limits<double>::quiet_NaN();
   std::cout << std::format(
-    "{}: {} operations in {} sec @{:.3g} MHz\n",
-    name_, count_, sw_.format_seconds(), rateMHz);
+    "{}: {} operations in {} usec @{:.3g} MHz\n",
+    name_, count_, sw_.format_microseconds(), rateMHz);
 }
