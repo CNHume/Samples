@@ -22,6 +22,7 @@
 #include <iostream>
 #include <deque>
 #include <unordered_map>                //[C++11]
+#include <utility>                      // for move
 #include <algorithm>                    // for lower_bound()
 #include <iterator>                     // for next() and prev()
 
@@ -38,6 +39,15 @@ public:
 
     Pair(uint32_t index1, uint32_t index2, shared_ptr<Pair> next = nullptr)
       : index1(index1), index2(index2), next(next) {}
+
+    ~Pair() {
+      // Unlink the chain iteratively.  A long match list would otherwise be
+      // destroyed recursively through the shared_ptr<Pair> next members,
+      // one stack frame per node, overflowing the stack for large LCS lengths.
+      auto node = std::move(next);
+      while (node)
+        node = std::move(node->next);
+    }
 
     static shared_ptr<Pair> Reverse(const shared_ptr<Pair> pairs) {
       shared_ptr<Pair> head = nullptr;

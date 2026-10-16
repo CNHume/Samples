@@ -19,6 +19,12 @@ int64_t Pair::Count = 0;
 
 Pair::~Pair() {
   Count--;
+  // Unlink the chain iteratively.  A long match list would otherwise be
+  // destroyed recursively through the shared_ptr<Pair> next members, one
+  // stack frame per node, overflowing the stack for large LCS lengths.
+  auto node = std::move(next);
+  while (node)
+    node = std::move(node->next);
 }
 
 Pair::Pair() {
