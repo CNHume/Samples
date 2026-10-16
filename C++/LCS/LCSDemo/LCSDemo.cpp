@@ -219,7 +219,6 @@ void parse(int argc, char* argv[], string& s1, string& s2) {
 // command line application
 //
 int main(int argc, char* argv[]) {
-  const int32_t displayDefault = 0;
   auto errorLevel = EXIT_FAILURE;
 
   try {
