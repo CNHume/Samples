@@ -34,6 +34,4 @@ public:
     shared_ptr<Delta>* intervals, const Command command);
   static uint32_t  Difference(
     shared_ptr<Delta>* intervals, const Command command);
-  static uint32_t  Length(
-    const Command command);
 };

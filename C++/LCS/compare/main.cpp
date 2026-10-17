@@ -60,9 +60,11 @@ int main(int argc, char* argv[]) {
     command.Parse(argc, argv);
 
     if (command.islength) {
-      // Length only: report the LCS length without constructing the
-      // correspondence or difference, using the fastest length path.
-      auto length = LCSFile::Length(command);
+      // Length only: run the selected algorithm for its length and skip the
+      // correspondence/difference construction entirely.
+      auto length = command.isscorrespondence ?
+        LCSFile::Correspondence(nullptr, command) :
+        LCSFile::Difference(nullptr, command);
       cout << format("LCS Length = {}\n", length);
     }
     else {

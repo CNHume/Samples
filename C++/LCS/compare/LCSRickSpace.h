@@ -47,11 +47,6 @@ public:
   static uint32_t Find(shared_ptr<Pair>* pairs,
     const u32string& s1, const u32string& s2);
 
-  // Length only: run the top-level forward/backward contour alternation once
-  // and return the LCS length without reconstructing the matches.  Serves the
-  // record path; the character path uses the faster LCSRickTime::FindFlexibleLength.
-  static uint32_t FindLength(const MATCHES& matches, uint32_t size1, uint32_t size2);
-
   // Diagnostic counters (since the last ResetCounters()): the number of
   // dominant matches generated (Candidates), the number of diagonal sweep
   // steps (Rows), and the number of contour sweeps run (Contours).  They

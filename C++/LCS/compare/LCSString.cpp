@@ -60,7 +60,13 @@ uint64_t LCSString::Match(
 uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix, LCS::Algorithm algorithm) {
+  uint32_t join, uint32_t prefix, uint32_t suffix,
+  LCS::Algorithm algorithm) {
+  // A null interval pointer requests length only: skip the span/context
+  // construction and return the length directly.
+  if (intervals == nullptr)
+    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm);
+
   if (ignorespace) {
     // Compare whitespace-collapsed strings, then expand the reported
     // spans back to the original strings.  The number of code points
@@ -92,7 +98,12 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix, LCS::Algorithm algorithm) {
+  uint32_t join, uint32_t prefix, uint32_t suffix,
+  LCS::Algorithm algorithm) {
+  // A null interval pointer requests length only.
+  if (intervals == nullptr)
+    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm);
+
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
@@ -119,27 +130,14 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   return length;
 }
 
-uint32_t LCSString::Length(const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace) {
-  // Normalize both strings first (whitespace collapse and/or case fold), then
-  // swap on the normalized lengths, exactly as Correspondence()/Difference()
-  // feed Compare()'s Rick path.  The swap follows normalization because
-  // whitespace collapse can change which string is the shorter one.
-  u32string ns1, ns2;
-  LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
-  LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
-  auto isswapped = ns2.size() < ns1.size();
-  const auto& shorter = isswapped ? ns2 : ns1;
-  const auto& longer = isswapped ? ns1 : ns2;
-  return LCSRickTime::FindFlexibleLength(shorter, longer);
-}
-
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
 #ifdef SHOW_DURATION
   Duration duration{ "LCSString::Compare", (long)(s1.size() + s2.size()) };
 #endif
+  // A null delta pointer is the length-only flag: forward it to the algorithm
+  // as a null pairs pointer so it skips reconstruction.
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   uint32_t length;
@@ -157,19 +155,17 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   case LCS::Algorithm::RickSpace:
   case LCS::Algorithm::RickTime: {
     // Both Rick variants assume m <= n: scan the shorter string, table the
-    // longer.  Swap when needed and un-swap the reported positions here.
-    auto isswapped = s2.size() < s1.size();
-    const auto& shorter = isswapped ? s2 : s1;
-    const auto& longer = isswapped ? s1 : s2;
-    // Normalize exactly as Match() would, then build O(ns) occurrence tables
-    // directly from the code points, bypassing the O(r) match-list
-    // materialization so very long strings stay feasible.
+    // longer.  Normalize both strings first, then swap on the normalized
+    // lengths, because whitespace collapse can change which is the shorter.
     u32string ns1, ns2;
-    LCSNormal::Normal(shorter, ns1, ignorecase, ignorespace);
-    LCSNormal::Normal(longer, ns2, ignorecase, ignorespace);
+    LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
+    LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
+    auto isswapped = ns2.size() < ns1.size();
+    const auto& shorter = isswapped ? ns2 : ns1;
+    const auto& longer = isswapped ? ns1 : ns2;
     length = algorithm == LCS::Algorithm::RickTime ?
-      LCSRickTime::Find(ppairs, ns1, ns2) :
-      LCSRickSpace::Find(ppairs, ns1, ns2);
+      LCSRickTime::Find(ppairs, shorter, longer) :
+      LCSRickSpace::Find(ppairs, shorter, longer);
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
