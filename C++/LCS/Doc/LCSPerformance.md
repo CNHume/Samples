@@ -76,6 +76,59 @@ position per thousand), so its substitution count scales with the input size.
 | 100 | 46,709,883 | 65.4 s | 7.31 GB | 25.1 s | 13.8 GB |
 | 1,000 | 46,708,983 | 318 s | 7.31 GB | — | OOM (14.0 GB) |
 
+## Length only
+
+The `-l` switch asks for just the LCS length: the caller passes a null
+interval pointer, and each algorithm runs only its forward pass, returning the
+length without reconstructing the matches — RickSpace skips the Hirschberg
+recursion entirely, and RickTime skips the `byRank` back-trace (so the
+dominant-match list is never built).  This is the null-pointer protocol
+`Compare()` uses to signal length-only.
+
+Times are wall-clock seconds and are the **median of three runs**; RSS is the
+median peak resident set, converted to GB as described in Metrics above.  The
+lengths are what the CLI reports under `-t`, which treats the trailing newline
+as one code point, so every length here is one higher than the full-build
+table in Results above (whose harness stripped the newline).
+
+### 1M (E. coli)
+
+| Mutations | LCS length | RickSpace time | RickSpace RSS | RickTime time | RickTime RSS |
+|---|---:|---:|---:|---:|---:|
+| 100 | 999,901 | 0.83 s | 0.11 GB | 0.26 s | 0.08 GB |
+| 1,000 | 999,001 | 5.85 s | 0.11 GB | 1.41 s | 0.08 GB |
+| 10,000 | 990,066 | 82.9 s | 0.11 GB | 12.9 s | 0.08 GB |
+
+### 4.6M (E. coli)
+
+| Mutations | LCS length | RickSpace time | RickSpace RSS | RickTime time | RickTime RSS |
+|---|---:|---:|---:|---:|---:|
+| 100 | 4,641,553 | 3.84 s | 0.50 GB | 1.32 s | 0.34 GB |
+| 1,000 | 4,640,653 | 30.7 s | 0.50 GB | 9.38 s | 0.34 GB |
+| 0.1% rate (4,642) | 4,637,011 | 180 s | 0.50 GB | 45.8 s | 0.34 GB |
+
+### 16M (chr21)
+
+| Mutations | LCS length | RickSpace time | RickSpace RSS | RickTime time | RickTime RSS |
+|---|---:|---:|---:|---:|---:|
+| 100 | 15,999,901 | 8.15 s | 1.96 GB | 2.08 s | 1.27 GB |
+| 1,000 | 15,999,001 | 42.9 s | 1.96 GB | 6.68 s | 1.27 GB |
+
+### 46.7M (chr21)
+
+| Mutations | LCS length | RickSpace time | RickSpace RSS | RickTime time | RickTime RSS |
+|---|---:|---:|---:|---:|---:|
+| 100 | 46,709,884 | 21.2 s | 5.66 GB | 8.12 s | 3.65 GB |
+
+Compared with the full build (Results above), length-only is 2–3× faster for
+RickSpace and 3–19× faster for RickTime; RickTime's peak RSS collapses from up
+to ~14 GB (full) to at most 3.65 GB (length-only) because the dominant match
+list is never materialized.  RickTime is the faster choice for a length-only
+query at every size.  Length-only is still not `O(n)`: it scales with the edit
+count (equivalently the match count) — on 4.6M, RickSpace goes 30.7 s → 180 s
+and RickTime 9.38 s → 45.8 s as the input moves from 1,000 substitutions to
+the 0.1% rate.
+
 ## Observations
 
 - **Space is the binding constraint.**  RickSpace's RSS is constant *for a given
