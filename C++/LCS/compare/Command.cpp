@@ -17,7 +17,7 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2
+// compare [-c] [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2
 //
 #include "Command.h"
 
@@ -145,6 +145,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
+      case 'l':                         // the length-only switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          islength = true;
+        break;
+
       case 'p':                         // the prefix switch
         if (len > 2)                    // whitespace optional
           prefix = parse_uint32(&token[2], "prefix");
@@ -213,5 +220,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2");
+      "Usage: compare [-c] [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2");
 }

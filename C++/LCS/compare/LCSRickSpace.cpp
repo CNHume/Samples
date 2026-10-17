@@ -65,6 +65,13 @@ uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   return Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
 }
 
+uint32_t LCSRickSpace::FindLength(const MATCHES& matches,
+  uint32_t size1, uint32_t size2) {
+  // Length only: one forward/backward alternation finds the length and a
+  // midpoint; no Hirschberg recursion or Pair list is produced.
+  return FindMidpoint(BuildOccurrences(matches, size1, size2), 0, size1, 0, size2).length;
+}
+
 //
 // Runs the Hirschberg recursion over an occurrence table and, when pairs is
 // requested, reconstructs the linked list of matched positions.

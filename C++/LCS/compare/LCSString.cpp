@@ -119,6 +119,21 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   return length;
 }
 
+uint32_t LCSString::Length(const u32string& s1, const u32string& s2,
+  bool ignorecase, bool ignorespace) {
+  // Normalize both strings first (whitespace collapse and/or case fold), then
+  // swap on the normalized lengths, exactly as Correspondence()/Difference()
+  // feed Compare()'s Rick path.  The swap follows normalization because
+  // whitespace collapse can change which string is the shorter one.
+  u32string ns1, ns2;
+  LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
+  LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
+  auto isswapped = ns2.size() < ns1.size();
+  const auto& shorter = isswapped ? ns2 : ns1;
+  const auto& longer = isswapped ? ns1 : ns2;
+  return LCSRickTime::FindFlexibleLength(shorter, longer);
+}
+
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {

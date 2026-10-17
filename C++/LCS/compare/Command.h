@@ -39,6 +39,7 @@ public:
   LCS::Algorithm algorithm;
   bool istext;
   bool isfasta;
+  bool islength;
   bool isword;
 
 protected:
@@ -60,6 +61,7 @@ public:
     algorithm(LCS::Algorithm::HuntSzymanski),
     istext(false),
     isfasta(false),
+    islength(false),
     isword(false) {
   }
 

@@ -42,6 +42,12 @@ public:
     const u32string& s1, const u32string& s2,
     bool ignorecase = false, bool ignorespace = false, LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
 
+  // LCS length only, without constructing the matched positions.  Uses the
+  // single-pass Rick (1995) diagonal sweep, which needs neither the O(r)
+  // match lists nor the Hirschberg recursion.
+  static uint32_t Length(const u32string& s1, const u32string& s2,
+    bool ignorecase = false, bool ignorespace = false);
+
   static u32string Read(const string& filename);
   static u32string StripFasta(const u32string& s);
 

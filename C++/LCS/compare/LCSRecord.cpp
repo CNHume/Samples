@@ -93,6 +93,23 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   return length;
 }
 
+uint32_t LCSRecord::Length(const RECORDS& r1, const RECORDS& r2,
+  bool ignorecase, bool ignorespace) {
+  // Mirror Compare()'s swap and match-list build, then ask LCSRickSpace for
+  // just the length (one contour alternation, no reconstruction).
+  auto isswapped = r2.size() < r1.size();
+  const auto& shorter = isswapped ? r2 : r1;
+  const auto& longer = isswapped ? r1 : r2;
+
+  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
+  Match(indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
+    shorter, longer, ignorecase, ignorespace);
+
+  return LCSRickSpace::FindLength(indexesOf2MatchedByIndex1,
+    (uint32_t)shorter.size(), (uint32_t)longer.size());
+}
+
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {

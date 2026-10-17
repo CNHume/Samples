@@ -46,6 +46,12 @@ public:
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
 
+  // LCS length only, without constructing the matched positions.  The record
+  // path has no character-code Rick sweep, so this runs the single
+  // forward/backward contour alternation of LCSRickSpace instead.
+  static uint32_t Length(const RECORDS& r1, const RECORDS& r2,
+    bool ignorecase = false, bool ignorespace = false);
+
   static RECORDS Read(const string& filename, bool isword);
 
 protected:

@@ -59,13 +59,21 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
-    shared_ptr<Delta> intervals;
-    [[maybe_unused]] auto length = command.isscorrespondence ?
-      LCSFile::Correspondence(&intervals, command) :
-      LCSFile::Difference(&intervals, command);
+    if (command.islength) {
+      // Length only: report the LCS length without constructing the
+      // correspondence or difference, using the fastest length path.
+      auto length = LCSFile::Length(command);
+      cout << format("LCS Length = {}\n", length);
+    }
+    else {
+      shared_ptr<Delta> intervals;
+      [[maybe_unused]] auto length = command.isscorrespondence ?
+        LCSFile::Correspondence(&intervals, command) :
+        LCSFile::Difference(&intervals, command);
 #ifdef _DEBUG
-    cout << format("LCS Length = {}\n", length);
+      cout << format("LCS Length = {}\n", length);
 #endif
+    }
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
