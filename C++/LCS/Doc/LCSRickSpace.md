@@ -142,10 +142,16 @@ Four refinements from the paper are implemented:
 
 ## Reconstruction
 
-`LCSRickSpace::Hirschberg` recurses over full-string index ranges `[i0,i1) × [j0,j1)`
-and emits each matched position as an `(index1, index2)` `Pair`, in ascending
-order.  Because full-string coordinates are used, no offset bookkeeping is
-required, and the emitted pairs feed `Delta::Coalesce` unchanged.
+`LCSRickSpace::Hirschberg` recurses over full-string index ranges `[row0,row1) ×
+[column0,column1)` and emits each matched position as a `(row, column)` `Match`,
+in ascending order.  Because full-string coordinates are used, no offset
+bookkeeping is required, and the emitted pairs feed `Delta::Coalesce` unchanged.
+
+Rick's early-termination rule is applied: when a sub-problem's LCS length
+equals the length of its shorter string, that whole string is part of the LCS,
+so the recursion stops and the greedy leftmost matches are emitted directly.
+This prunes the recursion tree on near-identical inputs and removes the
+`O(log m)` factor the balanced divide-and-conquer would otherwise introduce.
 
 ## Orientation
 

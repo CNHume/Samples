@@ -44,10 +44,12 @@
 
 uint64_t LCSRickSpace::Candidates = 0;
 uint64_t LCSRickSpace::Rows = 0;
+uint64_t LCSRickSpace::Contours = 0;
 
 void LCSRickSpace::ResetCounters() {
   Candidates = 0;
   Rows = 0;
+  Contours = 0;
 }
 
 uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
@@ -272,6 +274,36 @@ void LCSRickSpace::Hirschberg(const Occurrences& occ,
   auto result = FindMidpoint(occ, row0, row1, column0, column1);
   if (!result.hasMidpoint)
     return;
+
+  // Rick (2000) early termination: when the shorter string is matched in its
+  // entirety, every one of its positions lies on the LCS, so emit the greedy
+  // leftmost matches directly instead of recursing.  This prunes the
+  // recursion tree for near-identical inputs and drops the O(log m) factor.
+  auto rowCount = row1 - row0;
+  auto columnCount = column1 - column0;
+  if (result.length == rowCount && rowCount <= columnCount) {
+    // All rows matched: greedy leftmost occurrence per row.
+    size_t bound = column0;
+    for (auto row = row0; row < row1; row++) {
+      auto symbol = occ.rowId[row];
+      auto column = occ.next[symbol][bound];
+      out.push_back({ .row = (uint32_t)row, .column = column });
+      bound = (size_t)column + 1;
+    }
+    return;
+  }
+  if (result.length == columnCount) {
+    // All columns matched: greedy topmost occurrence per column.
+    size_t bound = row0;
+    for (auto column = column0; column < column1; column++) {
+      auto symbol = occ.colId[column];
+      auto row = occ.next1[symbol][bound];
+      out.push_back({ .row = row, .column = (uint32_t)column });
+      bound = (size_t)row + 1;
+    }
+    return;
+  }
+
   auto rowIndex = (size_t)result.midpoint.row;
   auto columnIndex = (size_t)result.midpoint.column;
   Hirschberg(occ, row0, rowIndex, column0, columnIndex, out);
@@ -325,6 +357,7 @@ LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
 
     if (fCount >= 1 && bCount >= 1 && Crossed(fc, bc)) {
       result.hasMidpoint = true;
+      result.length = (uint32_t)(fCount + bCount - 1);
       result.midpoint = Midpoint(fc, bc);
       return result;
     }
@@ -388,6 +421,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
 LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
   const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
+  Contours++;
   auto rowCount = row1 - row0;          // rows
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);
@@ -481,6 +515,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
 LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
   const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
+  Contours++;
   auto rowCount = row1 - row0;          // rows
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);

@@ -48,11 +48,12 @@ public:
     const u32string& s1, const u32string& s2);
 
   // Diagnostic counters (since the last ResetCounters()): the number of
-  // dominant matches generated and the number of row positions scanned by the
-  // contour sweeps.  They witness the narrowing of the contour scans toward
-  // the O(p(n-p)) time bound.
+  // dominant matches generated (Candidates), the number of diagonal sweep
+  // steps (Rows), and the number of contour sweeps run (Contours).  They
+  // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
   static uint64_t Candidates;
   static uint64_t Rows;
+  static uint64_t Contours;
   static void ResetCounters();
 
 private:
@@ -63,6 +64,7 @@ private:
 
   struct Result {
     bool hasMidpoint = false;
+    uint32_t length = 0;               // LCS length of the sub-problem
     Match midpoint;
   };
 
