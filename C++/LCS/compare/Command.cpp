@@ -35,15 +35,14 @@ namespace {
   constexpr auto author = "Christopher N. Hume";
 
   // Print the GNU-style version banner and exit successfully.
-  void Version() {
-    cout << format(
+  std::string format_version() {
+    return format(
       "{} {}\n"
       "Copyright (C) {} {}\n"
       "License LGPLv3+: GNU LGPL version 3 or later <https://gnu.org/licenses/lgpl.html>.\n"
       "This is free software: you are free to change and redistribute it.\n"
       "There is NO WARRANTY, to the extent permitted by law.\n",
       programName, programVersion, copyrightYears, author);
-    exit(EXIT_SUCCESS);
   }
 }
 
@@ -188,7 +187,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
-          Version();
+          isversion = true;
         break;
 
       case 'w':                         // the word switch
@@ -203,6 +202,11 @@ void Command::Parse(int argc, char* argv[]) {
         break;
       }
     }
+  }
+
+  if (isversion) {
+    cout << format_version();
+    exit(EXIT_SUCCESS);
   }
 
   if (n < argc)                         // parse f1

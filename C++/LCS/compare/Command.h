@@ -40,6 +40,7 @@ public:
   bool istext;
   bool isfasta;
   bool islength;
+  bool isversion;
   bool isword;
 
 protected:
@@ -62,6 +63,7 @@ public:
     istext(false),
     isfasta(false),
     islength(false),
+    isversion(false),
     isword(false) {
   }
 

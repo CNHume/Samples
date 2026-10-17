@@ -59,23 +59,15 @@ int main(int argc, char* argv[]) {
     Command command;
     command.Parse(argc, argv);
 
-    if (command.islength) {
-      // Length only: run the selected algorithm for its length and skip the
-      // correspondence/difference construction entirely.
-      auto length = command.isscorrespondence ?
-        LCSFile::Correspondence(nullptr, command) :
-        LCSFile::Difference(nullptr, command);
-      cout << format("LCS Length = {}\n", length);
-    }
-    else {
-      shared_ptr<Delta> intervals;
-      [[maybe_unused]] auto length = command.isscorrespondence ?
-        LCSFile::Correspondence(&intervals, command) :
-        LCSFile::Difference(&intervals, command);
-#ifdef _DEBUG
-      cout << format("LCS Length = {}\n", length);
-#endif
-    }
+    shared_ptr<Delta> intervals;
+    auto pintervals = command.islength ?
+      nullptr : &intervals;
+
+    auto length = command.isscorrespondence ?
+      LCSFile::Correspondence(pintervals, command) :
+      LCSFile::Difference(pintervals, command);
+
+    cout << format("LCS Length = {}\n", length);
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
