@@ -47,6 +47,14 @@ public:
   static uint32_t Find(shared_ptr<Pair>* pairs,
     const u32string& s1, const u32string& s2);
 
+  // Diagnostic counters (since the last ResetCounters()): the number of
+  // dominant matches generated and the number of row positions scanned by the
+  // contour sweeps.  They witness the narrowing of the contour scans toward
+  // the O(p(n-p)) time bound.
+  static uint64_t Candidates;
+  static uint64_t Rows;
+  static void ResetCounters();
+
 private:
   struct Match {
     uint32_t index1 = 0;

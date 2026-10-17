@@ -42,6 +42,14 @@
 // next/previous occurrence tables built from the shared match lists.
 //
 
+uint64_t LCSRickSpace::Candidates = 0;
+uint64_t LCSRickSpace::Rows = 0;
+
+void LCSRickSpace::ResetCounters() {
+  Candidates = 0;
+  Rows = 0;
+}
+
 uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   return Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
@@ -317,6 +325,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
   Contour contour;
   uint32_t minIndex2 = UINT32_MAX;      // running minimum: the dominance test
   for (auto i = i0; i < i1; i++) {
+    Rows++;
     auto id = occ.rowId[i];
     if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
@@ -325,6 +334,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
     if (index2 >= j1)
       continue;
     if (index2 < minIndex2) {
+      Candidates++;
       contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       minIndex2 = index2;
     }
@@ -344,6 +354,7 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
   auto start = contour.empty() ? (int64_t)i0 : (int64_t)contour[0].index1 + 1;
   auto end = min((int64_t)i1, rowLimit);
   for (auto i = start; i < end; i++) {
+    Rows++;
     while (matchesAbove < contour.size() && contour[matchesAbove].index1 < (uint32_t)i)
       matchesAbove++;
     if (matchesAbove == 0)
@@ -357,8 +368,14 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
     if (index2 >= j1)
       continue;
     if (index2 < minIndex2) {
+      Candidates++;
       next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       minIndex2 = index2;
+      // Every future candidate lies strictly right of the rightmost source's
+      // column, so once the running minimum reaches that column + 1 no later
+      // row can produce a dominant match: terminate the scan early.
+      if (minIndex2 <= (int64_t)contour.back().index2 + 1)
+        break;
     }
   }
   return next;
@@ -373,6 +390,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
   Contour contour;
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   for (auto i = (int64_t)i1 - 1; i >= (int64_t)i0; i--) {
+    Rows++;
     auto id = occ.rowId[(size_t)i];
     if (id == UINT32_MAX)
       continue;                         // Symbol never occurs in s2.
@@ -381,6 +399,7 @@ LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
     if (index2 == UINT32_MAX || index2 < j0)
       continue;
     if (index2 > maxIndex2) {
+      Candidates++;
       contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       maxIndex2 = index2;
     }
@@ -398,7 +417,13 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
   Contour next;
   int64_t maxIndex2 = -1;               // running maximum: the dominance test
   size_t matchesBelow = contour.size(); // # contour matches below the row
-  for (auto i = (int64_t)i1 - 1; i >= rowFloor; i--) {
+  // The lowest row that can hold a successor is the row just above the
+  // bottom-most (rightmost) source: any lower row has no source below it.
+  // Start there instead of at i1 - 1, which would waste a full diagonal band.
+  auto start = contour.empty() ? (int64_t)i1 - 1
+    : (int64_t)contour.back().index1 - 1;
+  for (auto i = start; i >= rowFloor; i--) {
+    Rows++;
     while (matchesBelow > 0 && contour[matchesBelow - 1].index1 > (uint32_t)i)
       matchesBelow--;
     if (matchesBelow == contour.size())
@@ -414,8 +439,15 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
     if (index2 == UINT32_MAX || index2 < j0)
       continue;
     if (index2 > maxIndex2) {
+      Candidates++;
       next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
       maxIndex2 = index2;
+      // Symmetric early termination: every future (higher) candidate lies
+      // strictly left of the leftmost source's column, so once the running
+      // maximum reaches that column - 1 no higher row can produce a dominant
+      // match.
+      if (maxIndex2 >= (int64_t)contour.front().index2 - 1)
+        break;
     }
   }
   reverse(next.begin(), next.end());    // Restore ascending index1.
