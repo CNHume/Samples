@@ -135,7 +135,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   case LCS::Algorithm::RickTime:
     throw runtime_error("LCSRickTime is not available for the record path");
   default:
-    throw runtime_error("unknown LCS algorithm");
+    throw runtime_error("Unknown LCS algorithm");
   }
 
   if (intervals != nullptr) {

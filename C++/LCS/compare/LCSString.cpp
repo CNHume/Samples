@@ -172,7 +172,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     break;
   }
   default:
-    throw runtime_error("unknown LCS algorithm");
+    throw runtime_error("Unknown LCS algorithm");
   }
 
   if (deltas != nullptr)
