@@ -15,7 +15,7 @@ partial class UCI {
   // Windows 10 Pro was installed originally.
   // Windows 11 Pro (24H2) upgrade was installed on 2025-02-23
   // Advanced to net10.0 Target Framework on 2025-12-09
-  // VS 2026 Version Insiders [12120.281]
+  // VS 2026 Version Insiders [12308.306]
   //
   #region FEN Constants
   private const String sDefaultFEN =
@@ -106,7 +106,7 @@ partial class UCI {
   //[2023-09-04 16-ply in 6:03 @1.435 MHz over 520.87 Mnode] eval 12.95 after:
   // 42. Qc7 Qg5 43. Ng6+ Qxg6 44. hxg6 Rg8 45. Qf7 Bxg6 46. Qxg6 a1=Q 47. Rxa1 Rb8 48. Ra7 Rg8 49. Rf7 f5 50. Qxf5
   //
-  "5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
+  //"5r2/R1Q1N1pk/5p1p/3P3P/8/2P5/p4PPK/1bq5 w - - 0 43"; // Ding Liren v Ian Nepomniachtchi 2023 WCC R6 #10
   // Mobility Enabled w 16Mx6 XPM w 96Mx2 XP w 32Mx4 QXP
   //[2026-07-22 19-ply in 11:48 @1.568 MHz over 1.11 Gnode] #10 after:
   // 43. Ng6 Rg8 44. Qf7 Qf4+ 45. Nxf4 a1=Q 46. Rxa1 Bf5 47. Ng6 Rd8 48. Ra7 Bd7 49. Rxd7 Rxd7 50. Qxd7 Kg8 51. Qc8+ Kh7 52. Qh8#
@@ -628,9 +628,18 @@ partial class UCI {
   //"8/6q1/6p1/4p3/6Pk/3n1P2/Q2B4/K7 w - - 0 1"; White to Play and Win [2026-08-21 6-ply in 0.43 sec @181.195 KHz over 77.88 Knode] eval 6.80 after:
   // 1. Bh6! Qxh6 2. Qh2+ Kg5 3. Qd2+ Kf6 4. Qxh6
   //"Rb4kN/n1Q5/5P2/5N2/8/Bq5R/B6K/7b w - - 0 1";   // #1
-  //"k7/2QK4/8/8/8/8/4P1PR/2R4q w - - 0 1"; // #2
-  //"8/8/8/Q7/8/1p6/Np6/1k2K3 w - - 0 1";   // #2
-  //"r4k2/pppb1Pp1/2np3p/2b5/2B2Bnq/2N5/PP2Q1PP/4RR1K w - - 0 1"; // #3 [4-ply in 0.121 sec @57.517 KHz over 6.965 Knode]
+  //"K6N/n7/6Rp/7k/8/5RPP/8/3B3q w - - 0 1";  // #2
+  //"k7/2QK4/8/8/8/8/4P1PR/2R4q w - - 0 1";   // #2
+  //"8/8/8/Q7/8/1p6/Np6/1k2K3 w - - 0 1";     // #2
+  //"r4k2/pppb1Pp1/2np3p/2b5/2B2Bnq/2N5/PP2Q1PP/4RR1K w - - 0 1"; // #3 [2026-09-09 4-ply in 0.121 sec @57.517 KHz over 6.965 Knode]
+  //"q2rk3/1Q6/8/8/8/1R6/8/7K w - - 0 1";     // #8 [2026-09-15 12-ply in 3.06 sec @682 KHz over 2.087 Mnode]
+  "r1b1kr2/pp3p1p/2p1q1p1/1B6/2N1P1n1/2P3Q1/P4PPP/R4RK1 w - - 0 1"; // Fischer Tactical Awareness (by Igor Smirnov of Remote Chess Academy)
+  // [16-ply in 46:54 @1.784 MHz over 5.019 Gnode] eval 1.92
+  // 1. Rad1 cxb5 2. Qc7 Bd7 3. Nd6+ Ke7 4. Nf5+ gxf5 5. exf5 Qxf5
+  // (5... Qe5 6. Rfe1 Kf6 7. Rxe5 Nxe5 8. f4 Ng4 9. Rxd7 Rae8 10. Rd1 Rc8 11. Qd6+ Kg7 12. Qd4+ Kg8 13. Qxa7 Rxc3 14. Qxb7 Ne3)
+  // (5... Rac8 6. Rxd7+ Qxd7 7. f6+ Kxf6 8. Qxd7 Ne5 9. Qxb7 Rxc3 10. Qxb5 Rc2 11. Qa6+ Nc6 12. Qb7 Na5)
+  // (5... Kf6 6. fxe6)
+  // 6. Qd6+ Ke8 7. Rfe1+ Kd8 8. Qxf8+ Kc7 9. Qd6+ Kd8 10. f4 Nf2 11. Kxf2 Rc8 [12. Rd5! 13. Qxd5 Qxd5]
   //"2B5/8/8/4N2P/8/6K1/p7/4k3 w - - 0 1";  // White to Fork and Win
   //"4r1k1/3q2P1/6Q1/8/8/7p/7P/5R1K w - - 0 1";   // White to Play and Win
   //"8/5P1k/5Q2/7q/8/6K1/8/8 w - - 0 1";    // White to Underpromote and Win [8-ply in 1.025 sec @313.048 KHz over 320.949 Knode] eval 9.75 after:
