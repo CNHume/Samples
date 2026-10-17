@@ -18,6 +18,7 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "LCSRecord.h"
+#include "Duration.h"
 #include "LCSEncoding.h"
 #include "LCSNormal.h"
 
@@ -81,6 +82,9 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
+#ifdef SHOW_DURATION
+  Duration duration{ "LCSRecord::Compare", (long)(r1.size() + r2.size()) };
+#endif
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
   [[maybe_unused]] auto count = Match(
@@ -90,6 +94,9 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
+#ifdef SHOW_DURATION
+  duration.Show();
+#endif
   return length;
 }
 

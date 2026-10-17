@@ -25,6 +25,7 @@
 //
 #pragma once
 #define FILTER_PAIRS
+#define SHOW_DURATION                   // See Duration::Show() in LCSRecord
 //#define SHOW_MATCHES
 //#define SHOW_MATCH_COUNT              // See Match() in LCSFile, LCSRecord, and LCSString
 //#define SHOW_PAIRS
