@@ -167,6 +167,23 @@ In `compare`, the `-a` switch selects the LCS algorithm: `-ad`
 algorithm), or `-as` (`LCSRickSpace`, this algorithm).  `LCSRickSpace` serves
 the character (code-point) path under `-t` and the record/word path otherwise.
 
+## Future work
+
+- **Jump over the off-diagonal confirmation.**  A substitution inside a
+  repeated region (the `N` runs in chr21) yields a dominant match shifted off
+  the diagonal; the dual sweep then walks each intervening diagonal just to
+  have the cross-stripe dominance test reject its candidate.  On chr21 vs
+  `_100subs` this is the whole remaining `~2.8×` gap to `LCSRickTime` (16M:
+  20.6 s vs 7.27 s).  A per-contour *jump* — the next row whose symbol occurs
+  in the column window `(bound, rowThresh)`, answered by a small range
+  structure over the occurrence tables — would skip those diagonals and
+  approach `-at`'s speed while keeping linear space.
+- **Merge instead of sort.**  `NextForward`/`NextBackward` sort each contour at
+  the end.  The row-swept and column-swept matches are each already in order,
+  so a linear merge would drop the `log` factor.  Negligible for the
+  near-diagonal target data (contours are ~1 match), but relevant when
+  contours are large.
+
 ## Build and test
 
 C++20 (uses `std::format`, `std::ssize`, and designated initializers).  From
