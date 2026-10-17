@@ -28,19 +28,27 @@
 #include <utility>                      // for move
 
 //
-// A match (i, j) has forward rank k when the longest common subsequence of
-// the prefixes s1[0..i] and s2[0..j] ending at (i, j) has length k.  The k-th
-// forward contour FC[k] is the antichain of "dominant" (minimal under the
-// product order) rank-k matches.  Backward contours BC[k] are the symmetric
-// notion applied to the reversed strings.  Two contours are computed in an
-// alternating fashion until they cross, which fixes the LCS length and a
-// midpoint match.  Hirschberg recursion reconstructs the full LCS from the
-// midpoints.
+// A match (row, column) has forward rank k when the longest common
+// subsequence of the prefixes s1[0..row] and s2[0..column] ending at
+// (row, column) has length k.  The k-th forward contour FC[k] is the
+// antichain of "dominant" (minimal under the product order) rank-k matches.
+// Backward contours BC[k] are the symmetric notion applied to the reversed
+// strings.  Two contours are computed in an alternating fashion until they
+// cross, which fixes the LCS length and a midpoint match.  Hirschberg
+// recursion reconstructs the full LCS from the midpoints.
 //
-// Each contour scan needs, per row index1, the first (or last) occurrence of
-// s1[index1] relative to a bound.  These queries are answered in O(1) by the
+// Each contour scan needs, per row, the first (or last) occurrence of s1[row]
+// relative to a bound.  These queries are answered in O(1) by the
 // next/previous occurrence tables built from the shared match lists.
 //
+
+uint64_t LCSRickSpace::Candidates = 0;
+uint64_t LCSRickSpace::Rows = 0;
+
+void LCSRickSpace::ResetCounters() {
+  Candidates = 0;
+  Rows = 0;
+}
 
 uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
@@ -68,7 +76,10 @@ uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     shared_ptr<Pair> head = nullptr;
     shared_ptr<Pair> tail = nullptr;
     for (const auto& match : out) {
-      auto pair = make_shared<Pair>(match.index1, match.index2);
+      // Translate the matrix (row, column) match back into input-sequence
+      // indexes: row is the position in s1 (Pair::begin1) and column the
+      // position in s2 (Pair::begin2).
+      auto pair = make_shared<Pair>(match.row, match.column);
       if (tail == nullptr)
         head = pair;
       else
@@ -91,55 +102,84 @@ uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
 LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   const MATCHES& matches, size_t size1, size_t size2) {
   Occurrences occ;
-  occ.n = (int64_t)size2;
+  occ.rows = (int64_t)size1;
+  occ.columns = (int64_t)size2;
 
   // Two rows sharing a symbol share the same match-list pointer, so pointer
   // identity compresses the symbols without needing the symbol values.
   unordered_map<const INDEXES*, uint32_t> pointerToId;
   vector<const INDEXES*> lists;         // lists[id] = sorted positions of symbol id
   occ.rowId.assign(size1, UINT32_MAX);
-  for (size_t i = 0; i < size1; i++) {
-    const auto* p = matches[i];
-    auto it = pointerToId.find(p);
-    uint32_t id;
-    if (it == pointerToId.end()) {
-      id = (uint32_t)lists.size();
-      pointerToId.emplace(p, id);
-      lists.push_back(p);
+  for (size_t rowIndex = 0; rowIndex < size1; rowIndex++) {
+    const auto* matchList = matches[rowIndex];
+    auto found = pointerToId.find(matchList);
+    uint32_t symbolId;
+    if (found == pointerToId.end()) {
+      symbolId = (uint32_t)lists.size();
+      pointerToId.emplace(matchList, symbolId);
+      lists.push_back(matchList);
     }
     else {
-      id = it->second;
+      symbolId = found->second;
     }
-    occ.rowId[i] = id;
+    occ.rowId[rowIndex] = symbolId;
   }
 
-  auto s = lists.size();
-  occ.next.assign(s, vector<uint32_t>((size_t)size2 + 1, (uint32_t)occ.n));
-  occ.prev.assign(s, vector<uint32_t>((size_t)size2, UINT32_MAX));
+  auto symbols = lists.size();
+  occ.next.assign(symbols, vector<uint32_t>((size_t)size2 + 1, (uint32_t)occ.columns));
+  occ.prev.assign(symbols, vector<uint32_t>((size_t)size2, UINT32_MAX));
 
-  for (size_t id = 0; id < s; id++) {
-    const auto& list = *lists[id];      // sorted positions, ascending
-    auto& nxt = occ.next[id];
-    auto& prv = occ.prev[id];
+  // colId[j] = symbol id of s2[j], inverting the match lists.
+  occ.colId.assign(size2, UINT32_MAX);
+
+  for (size_t symbolId = 0; symbolId < symbols; symbolId++) {
+    const auto& list = *lists[symbolId];  // sorted positions, ascending
+    auto& nextTable = occ.next[symbolId];
+    auto& prevTable = occ.prev[symbolId];
 
     // next[id][j] = first list element >= j.
-    size_t li = 0;
-    for (int64_t j = 0; j <= occ.n; j++) {
-      while (li < list.size() && (int64_t)list[li] < j)
-        li++;
-      nxt[(size_t)j] = li < list.size() ? list[li] : (uint32_t)occ.n;
+    size_t listIndex = 0;
+    for (int64_t columnIndex = 0; columnIndex <= occ.columns; columnIndex++) {
+      while (listIndex < list.size() && (int64_t)list[listIndex] < columnIndex)
+        listIndex++;
+      nextTable[(size_t)columnIndex] = listIndex < list.size() ? list[listIndex] : (uint32_t)occ.columns;
     }
 
     // prev[id][j] = last list element <= j.
-    li = 0;
+    listIndex = 0;
     uint32_t last = UINT32_MAX;
-    for (int64_t j = 0; j < occ.n; j++) {
-      while (li < list.size() && (int64_t)list[li] <= j) {
-        last = list[li];
-        li++;
+    for (int64_t columnIndex = 0; columnIndex < occ.columns; columnIndex++) {
+      while (listIndex < list.size() && (int64_t)list[listIndex] <= columnIndex) {
+        last = list[listIndex];
+        listIndex++;
       }
-      prv[(size_t)j] = last;
+      prevTable[(size_t)columnIndex] = last;
     }
+
+    // Invert: each position in the list holds symbol id.
+    for (auto columnIndex : list)
+      occ.colId[(size_t)columnIndex] = (uint32_t)symbolId;
+  }
+
+  // next1[id][i] = first occurrence of symbol id at/after i in s1 (m if none).
+  occ.next1.assign(symbols, vector<uint32_t>((size_t)occ.rows + 1, (uint32_t)occ.rows));
+  for (int64_t rowIndex = occ.rows - 1; rowIndex >= 0; rowIndex--) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.next1[symbolId][(size_t)rowIndex] = occ.next1[symbolId][(size_t)rowIndex + 1];
+    auto rowSymbol = occ.rowId[(size_t)rowIndex];
+    if (rowSymbol != UINT32_MAX)
+      occ.next1[(size_t)rowSymbol][(size_t)rowIndex] = (uint32_t)rowIndex;
+  }
+
+  // prev1[id][i] = last occurrence of symbol id at/before i in s1 (UINT32_MAX
+  // if none).
+  occ.prev1.assign(symbols, vector<uint32_t>((size_t)occ.rows, UINT32_MAX));
+  for (int64_t rowIndex = 0; rowIndex < occ.rows; rowIndex++) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.prev1[symbolId][(size_t)rowIndex] = rowIndex > 0 ? occ.prev1[symbolId][(size_t)rowIndex - 1] : UINT32_MAX;
+    auto rowSymbol = occ.rowId[(size_t)rowIndex];
+    if (rowSymbol != UINT32_MAX)
+      occ.prev1[(size_t)rowSymbol][(size_t)rowIndex] = (uint32_t)rowIndex;
   }
 
   return occ;
@@ -154,72 +194,95 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
 LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   const u32string& s1, const u32string& s2) {
   Occurrences occ;
-  occ.n = (int64_t)s2.size();
+  occ.rows = (int64_t)s1.size();
+  occ.columns = (int64_t)s2.size();
 
   // Compress the code points of s2 (the tabled string) to dense ids.
   unordered_map<char32_t, uint32_t> charToId;
   vector<uint32_t> s2Id(s2.size(), UINT32_MAX);
-  for (size_t j = 0; j < s2.size(); j++) {
-    auto c = s2[j];
-    auto it = charToId.find(c);
-    uint32_t id;
-    if (it == charToId.end()) {
-      id = (uint32_t)charToId.size();
-      charToId.emplace(c, id);
+  for (size_t columnIndex = 0; columnIndex < s2.size(); columnIndex++) {
+    auto codePoint = s2[columnIndex];
+    auto found = charToId.find(codePoint);
+    uint32_t symbolId;
+    if (found == charToId.end()) {
+      symbolId = (uint32_t)charToId.size();
+      charToId.emplace(codePoint, symbolId);
     }
     else {
-      id = it->second;
+      symbolId = found->second;
     }
-    s2Id[j] = id;
+    s2Id[columnIndex] = symbolId;
   }
 
-  auto s = charToId.size();
+  auto symbols = charToId.size();
+  occ.colId = move(s2Id);
 
   // rowId[i] = symbol id of s1[i], or UINT32_MAX when it never occurs in s2.
   occ.rowId.assign(s1.size(), UINT32_MAX);
-  for (size_t i = 0; i < s1.size(); i++) {
-    auto it = charToId.find(s1[i]);
-    if (it != charToId.end())
-      occ.rowId[i] = it->second;
+  for (size_t rowIndex = 0; rowIndex < s1.size(); rowIndex++) {
+    auto found = charToId.find(s1[rowIndex]);
+    if (found != charToId.end())
+      occ.rowId[rowIndex] = found->second;
   }
 
   // next[id][j] = first occurrence of symbol id at/after j (n if none).
-  occ.next.assign(s, vector<uint32_t>((size_t)occ.n + 1, (uint32_t)occ.n));
-  for (int64_t j = occ.n - 1; j >= 0; j--) {
-    for (size_t id = 0; id < s; id++)
-      occ.next[id][(size_t)j] = occ.next[id][(size_t)j + 1];
-    occ.next[(size_t)s2Id[(size_t)j]][(size_t)j] = (uint32_t)j;
+  occ.next.assign(symbols, vector<uint32_t>((size_t)occ.columns + 1, (uint32_t)occ.columns));
+  for (int64_t columnIndex = occ.columns - 1; columnIndex >= 0; columnIndex--) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.next[symbolId][(size_t)columnIndex] = occ.next[symbolId][(size_t)columnIndex + 1];
+    occ.next[(size_t)occ.colId[(size_t)columnIndex]][(size_t)columnIndex] = (uint32_t)columnIndex;
   }
 
   // prev[id][j] = last occurrence of symbol id at/before j (UINT32_MAX if none).
-  occ.prev.assign(s, vector<uint32_t>((size_t)occ.n, UINT32_MAX));
-  for (int64_t j = 0; j < occ.n; j++) {
-    for (size_t id = 0; id < s; id++)
-      occ.prev[id][(size_t)j] = j > 0 ? occ.prev[id][(size_t)j - 1] : UINT32_MAX;
-    occ.prev[(size_t)s2Id[(size_t)j]][(size_t)j] = (uint32_t)j;
+  occ.prev.assign(symbols, vector<uint32_t>((size_t)occ.columns, UINT32_MAX));
+  for (int64_t columnIndex = 0; columnIndex < occ.columns; columnIndex++) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.prev[symbolId][(size_t)columnIndex] = columnIndex > 0 ? occ.prev[symbolId][(size_t)columnIndex - 1] : UINT32_MAX;
+    occ.prev[(size_t)occ.colId[(size_t)columnIndex]][(size_t)columnIndex] = (uint32_t)columnIndex;
+  }
+
+  // next1[id][i] = first occurrence of symbol id at/after i in s1 (m if none).
+  occ.next1.assign(symbols, vector<uint32_t>((size_t)occ.rows + 1, (uint32_t)occ.rows));
+  for (int64_t rowIndex = occ.rows - 1; rowIndex >= 0; rowIndex--) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.next1[symbolId][(size_t)rowIndex] = occ.next1[symbolId][(size_t)rowIndex + 1];
+    auto rowSymbol = occ.rowId[(size_t)rowIndex];
+    if (rowSymbol != UINT32_MAX)
+      occ.next1[(size_t)rowSymbol][(size_t)rowIndex] = (uint32_t)rowIndex;
+  }
+
+  // prev1[id][i] = last occurrence of symbol id at/before i in s1 (UINT32_MAX
+  // if none).
+  occ.prev1.assign(symbols, vector<uint32_t>((size_t)occ.rows, UINT32_MAX));
+  for (int64_t rowIndex = 0; rowIndex < occ.rows; rowIndex++) {
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      occ.prev1[symbolId][(size_t)rowIndex] = rowIndex > 0 ? occ.prev1[symbolId][(size_t)rowIndex - 1] : UINT32_MAX;
+    auto rowSymbol = occ.rowId[(size_t)rowIndex];
+    if (rowSymbol != UINT32_MAX)
+      occ.prev1[(size_t)rowSymbol][(size_t)rowIndex] = (uint32_t)rowIndex;
   }
 
   return occ;
 }
 
 void LCSRickSpace::Hirschberg(const Occurrences& occ,
-  size_t i0, size_t i1, size_t j0, size_t j1, vector<Match>& out) {
-  if (i0 >= i1 || j0 >= j1)
+  size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out) {
+  if (row0 >= row1 || column0 >= column1)
     return;
-  auto result = FindMidpoint(occ, i0, i1, j0, j1);
+  auto result = FindMidpoint(occ, row0, row1, column0, column1);
   if (!result.hasMidpoint)
     return;
-  auto i = (size_t)result.midpoint.index1;
-  auto j = (size_t)result.midpoint.index2;
-  Hirschberg(occ, i0, i, j0, j, out);
+  auto rowIndex = (size_t)result.midpoint.row;
+  auto columnIndex = (size_t)result.midpoint.column;
+  Hirschberg(occ, row0, rowIndex, column0, columnIndex, out);
   out.push_back(result.midpoint);
-  Hirschberg(occ, i + 1, i1, j + 1, j1, out);
+  Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out);
 }
 
 LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
-  size_t i0, size_t i1, size_t j0, size_t j1) {
+  size_t row0, size_t row1, size_t column0, size_t column1) {
   Result result;
-  if (i0 >= i1 || j0 >= j1)
+  if (row0 >= row1 || column0 >= column1)
     return result;
 
   // Only the two most recent contours of each direction are retained, so the
@@ -234,17 +297,14 @@ LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
       fCount++;
       fcPrev = move(fc);
       if (fCount == 1) {
-        fc = FirstForward(occ, i0, i1, j0, j1);
+        fc = FirstForward(occ, row0, row1, column0, column1);
       }
       else {
         // Lemma 5: only extend from forward matches still "uncovered" by the
         // backward contours (those with a BC match strictly below-right).
         auto sources = CutForward(fcPrev, bc);
-        // Skip rows that cannot hold a match of backward rank >= bCount:
-        // such a match needs bCount - 1 further rows below it.
-        auto rowLimit = (int64_t)i1 - bCount + 1;
         fc = NextForward(sources.empty() ? fcPrev : sources,
-          occ, i0, i1, j0, j1, rowLimit);
+          occ, row0, row1, column0, column1);
       }
       if (fc.empty())
         return result;                  // No matches: sub-LCS length is zero.
@@ -253,16 +313,13 @@ LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
       bCount++;
       bcPrev = move(bc);
       if (bCount == 1) {
-        bc = FirstBackward(occ, i0, i1, j0, j1);
+        bc = FirstBackward(occ, row0, row1, column0, column1);
       }
       else {
         // Symmetric cut for the backward direction.
         auto sources = CutBackward(bcPrev, fc);
-        // Skip rows that cannot hold a match of forward rank >= fCount:
-        // such a match needs bCount - 1 rows above it.
-        auto rowFloor = (int64_t)i0 + bCount - 1;
         bc = NextBackward(sources.empty() ? bcPrev : sources,
-          occ, i0, i1, j0, j1, rowFloor);
+          occ, row0, row1, column0, column1);
       }
     }
 
@@ -279,146 +336,234 @@ LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
 //
 LCSRickSpace::Contour LCSRickSpace::CutForward(const Contour& forward, const Contour& backward) {
   Contour kept;
-  // Both contours are sorted by ascending index1 (hence descending index2).
-  // For each forward match x, the first backward match with index1 > x.index1
-  // also has the largest index2 of any backward match below-right of x, so it
-  // alone decides whether x is covered.  A single merged scan runs in linear
-  // time O(|forward| + |backward|) instead of the quadratic product.
-  size_t j = 0;                         // first backward match with index1 > x.index1
-  for (const auto& x : forward) {
-    while (j < backward.size() && backward[j].index1 <= x.index1)
-      j++;
-    if (j < backward.size() && backward[j].index2 > x.index2)
-      kept.push_back(x);
+  // Both contours are sorted by ascending row (hence descending column).
+  // For each forward match, the first backward match with row > match.row also
+  // has the largest column of any backward match below-right of it, so it
+  // alone decides whether the match is covered.  A single merged scan runs in
+  // linear time O(|forward| + |backward|) instead of the quadratic product.
+  size_t backwardIndex = 0;               // first backward match with row > match.row
+  for (const auto& match : forward) {
+    while (backwardIndex < backward.size() && backward[backwardIndex].row <= match.row)
+      backwardIndex++;
+    if (backwardIndex < backward.size() && backward[backwardIndex].column > match.column)
+      kept.push_back(match);
   }
   return kept;
 }
 
 LCSRickSpace::Contour LCSRickSpace::CutBackward(const Contour& backward, const Contour& forward) {
   Contour kept;
-  // Symmetric to CutForward: for each backward match y, the last forward match
-  // with index1 < y.index1 has the smallest index2 of any forward match
-  // above-left of y, so it alone decides whether y is covered.
-  size_t k = 0;                         // first forward match with index1 >= y.index1
-  for (const auto& y : backward) {
-    while (k < forward.size() && forward[k].index1 < y.index1)
-      k++;
-    if (k > 0 && forward[k - 1].index2 < y.index2)
-      kept.push_back(y);
+  // Symmetric to CutForward: for each backward match, the last forward match
+  // with row < match.row has the smallest column of any forward match
+  // above-left of it, so it alone decides whether the match is covered.
+  size_t forwardIndex = 0;              // first forward match with row >= match.row
+  for (const auto& match : backward) {
+    while (forwardIndex < forward.size() && forward[forwardIndex].row < match.row)
+      forwardIndex++;
+    if (forwardIndex > 0 && forward[forwardIndex - 1].column < match.column)
+      kept.push_back(match);
   }
   return kept;
 }
 
 //
-// FC[1]: dominant rank-1 matches of the sub-problem [i0, i1) x [j0, j1).
+// FC[1]: dominant rank-1 matches of the sub-problem [row0, row1) x
+// [column0, column1).  This is the dual diagonal sweep with no predecessor
+// contour.
 //
 LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
-  size_t i0, size_t i1, size_t j0, size_t j1) {
-  Contour contour;
-  uint32_t minIndex2 = UINT32_MAX;      // running minimum: the dominance test
-  for (auto i = i0; i < i1; i++) {
-    auto id = occ.rowId[i];
-    if (id == UINT32_MAX)
-      continue;                         // Symbol never occurs in s2.
-    // Leftmost occurrence in [j0, j1).
-    auto index2 = occ.next[(size_t)id][j0];
-    if (index2 >= j1)
-      continue;
-    if (index2 < minIndex2) {
-      contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
-      minIndex2 = index2;
-    }
-  }
-  return contour;
+  size_t row0, size_t row1, size_t column0, size_t column1) {
+  return NextForward(Contour{}, occ, row0, row1, column0, column1);
 }
 
 //
-// FC[k + 1]: dominant matches strictly bottom-right of some FC[k] match.
+// FC[k + 1]: dominant matches strictly bottom-right of some FC[k] match,
+// computed by Rick's dual diagonal sweep: a row sweep for the horizontal
+// stripe (column - column0 >= row - row0) and a column sweep for the vertical
+// stripe (row - row0 > column - column0), interleaved over the diagonal and
+// stopped by the lmin completeness test once a dominant match has both
+// components within the current diagonal.  This bounds each contour's work at
+// O(min{m, n-p}).
 //
 LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
-  const Occurrences& occ, size_t i0, size_t i1, [[maybe_unused]] size_t j0,
-  size_t j1, int64_t rowLimit) {
+  const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
-  uint32_t minIndex2 = UINT32_MAX;      // running minimum: the dominance test
-  size_t matchesAbove = 0;              // # contour matches above the row
-  auto start = contour.empty() ? (int64_t)i0 : (int64_t)contour[0].index1 + 1;
-  auto end = min((int64_t)i1, rowLimit);
-  for (auto i = start; i < end; i++) {
-    while (matchesAbove < contour.size() && contour[matchesAbove].index1 < (uint32_t)i)
+  auto rowCount = row1 - row0;          // rows
+  auto columnCount = column1 - column0;  // columns
+  auto diagonalCount = min(rowCount, columnCount);
+
+  int64_t rowThresh = (int64_t)column1;  // leftmost column of a dominant match
+  int64_t colThresh = (int64_t)row1;    // topmost row of a dominant match
+  size_t matchesAbove = 0;              // # sources above the current row
+  size_t leftSources = contour.size();  // first source left of the current column
+
+  // The sweeps stay idle until a source lies above the row (row sweep) or
+  // left of the column (column sweep); begin at the first diagonal that can
+  // yield a match instead of walking the whole idle prefix.
+  auto startRowDiagonal = contour.empty() ? (size_t)0 : (size_t)contour[0].row - row0 + 1;
+  auto startColumnDiagonal = contour.empty() ? (size_t)0 : (size_t)contour.back().column - column0 + 1;
+  auto startDiagonal = min(min(startRowDiagonal, startColumnDiagonal), diagonalCount);
+  auto startRow = row0 + startDiagonal;
+  auto startColumn = column0 + startDiagonal;
+  while (matchesAbove < contour.size() && contour[matchesAbove].row < (uint32_t)startRow)
+    matchesAbove++;
+  while (leftSources > 0 && contour[leftSources - 1].column < (uint32_t)startColumn)
+    leftSources--;
+
+  for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
+    Rows++;                             // one row + one column sweep step
+    auto rowIndex = row0 + diagonal;    // row
+    auto columnIndex = column0 + diagonal;  // column
+
+    // Row sweep: horizontal matches in the diagonal row, at/right of the diagonal column.  A source above the row
+    // is needed unless the contour is empty (the rank-1 case).
+    while (matchesAbove < contour.size() && contour[matchesAbove].row < (uint32_t)rowIndex)
       matchesAbove++;
-    if (matchesAbove == 0)
-      continue;                         // No contour match above this row.
-    auto bound = contour[matchesAbove - 1].index2;
-    auto id = occ.rowId[(size_t)i];
-    if (id == UINT32_MAX)
-      continue;                         // Symbol never occurs in s2.
-    // First occurrence strictly greater than bound, still within [j0, j1).
-    auto index2 = occ.next[(size_t)id][(size_t)(bound + 1)];
-    if (index2 >= j1)
-      continue;
-    if (index2 < minIndex2) {
-      next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
-      minIndex2 = index2;
+    auto rowId = occ.rowId[(size_t)rowIndex];
+    if (rowId != UINT32_MAX && (contour.empty() || matchesAbove > 0)) {
+      auto lower = columnIndex;         // first occurrence at/after the diagonal column (horizontal)
+      if (matchesAbove > 0)
+        lower = max(lower, (size_t)contour[matchesAbove - 1].column + 1);
+      auto column = occ.next[(size_t)rowId][lower];
+      // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
+      if (column < rowThresh && (int64_t)rowIndex < colThresh) {
+        Candidates++;
+        next.push_back({ .row = (uint32_t)rowIndex, .column = column });
+        rowThresh = column;
+      }
     }
+
+    // Column sweep: vertical matches in the diagonal column, below the diagonal row.  A source left of the column
+    // is needed unless the contour is empty (the rank-1 case).
+    while (leftSources > 0 && contour[leftSources - 1].column < (uint32_t)columnIndex)
+      leftSources--;
+    auto colId = occ.colId[(size_t)columnIndex];
+    if (colId != UINT32_MAX && (contour.empty() || leftSources < contour.size())) {
+      auto lower = rowIndex + 1;        // first occurrence below the diagonal row (vertical)
+      if (leftSources < contour.size())
+        lower = max(lower, (size_t)contour[leftSources].row + 1);
+      auto row = occ.next1[(size_t)colId][lower];
+      // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
+      if (row < colThresh && (int64_t)columnIndex < rowThresh) {
+        Candidates++;
+        next.push_back({ .row = row, .column = (uint32_t)columnIndex });
+        colThresh = row;
+      }
+    }
+
+    // Completeness: a dominant match with both components within the current
+    // diagonal means no later diagonal can hold another dominant match.
+    if (rowThresh <= (int64_t)columnIndex || colThresh <= (int64_t)rowIndex)
+      break;
   }
+
+  sort(next.begin(), next.end(),
+    [](const Match& left, const Match& right) { return left.row < right.row; });
   return next;
 }
 
 //
-// BC[1]: dominant (maximal) rank-1 matches, the forward computation applied
-// from the back of the strings.
+// BC[1]: dominant (maximal) rank-1 matches, the backward dual sweep applied
+// with no predecessor contour.
 //
 LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
-  size_t i0, size_t i1, size_t j0, size_t j1) {
-  Contour contour;
-  int64_t maxIndex2 = -1;               // running maximum: the dominance test
-  for (auto i = (int64_t)i1 - 1; i >= (int64_t)i0; i--) {
-    auto id = occ.rowId[(size_t)i];
-    if (id == UINT32_MAX)
-      continue;                         // Symbol never occurs in s2.
-    // Rightmost occurrence in [j0, j1): last position strictly less than j1.
-    auto index2 = occ.prev[(size_t)id][(size_t)(j1 - 1)];
-    if (index2 == UINT32_MAX || index2 < j0)
-      continue;
-    if (index2 > maxIndex2) {
-      contour.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
-      maxIndex2 = index2;
-    }
-  }
-  reverse(contour.begin(), contour.end());  // Restore ascending index1.
-  return contour;
+  size_t row0, size_t row1, size_t column0, size_t column1) {
+  return NextBackward(Contour{}, occ, row0, row1, column0, column1);
 }
 
 //
-// BC[k + 1]: dominant matches strictly top-left of some BC[k] match.
+// BC[k + 1]: dominant matches strictly top-left of some BC[k] match.  This is
+// the backward dual sweep, the mirror image of NextForward: a row sweep for
+// the backward horizontal stripe (column - column0 <= row - row0) and a
+// column sweep for the backward vertical stripe, interleaved over the
+// anti-diagonal and stopped by the symmetric completeness test.
 //
 LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
-  const Occurrences& occ, [[maybe_unused]] size_t i0, size_t i1,
-  size_t j0, [[maybe_unused]] size_t j1, int64_t rowFloor) {
+  const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
-  int64_t maxIndex2 = -1;               // running maximum: the dominance test
-  size_t matchesBelow = contour.size(); // # contour matches below the row
-  for (auto i = (int64_t)i1 - 1; i >= rowFloor; i--) {
-    while (matchesBelow > 0 && contour[matchesBelow - 1].index1 > (uint32_t)i)
+  auto rowCount = row1 - row0;          // rows
+  auto columnCount = column1 - column0;  // columns
+  auto diagonalCount = min(rowCount, columnCount);
+
+  int64_t rowThresh = (int64_t)column0 - 1;  // rightmost column of a dominant match
+  int64_t colThresh = (int64_t)row0 - 1;  // bottommost row of a dominant match
+  size_t matchesBelow = contour.size();  // first source below the current row
+  size_t rightSources = 0;              // # sources right of the current column
+
+  // Mirror of the forward idle-prefix skip: begin at the first diagonal that
+  // can yield a match in either sweep.
+  auto startRowDiagonal = contour.empty() ? (size_t)0 : row1 - (size_t)contour.back().row;
+  auto startColumnDiagonal = contour.empty() ? (size_t)0 : column1 - (size_t)contour[0].column;
+  auto startDiagonal = min(min(startRowDiagonal, startColumnDiagonal), diagonalCount);
+  auto startRow = row1 - 1 - startDiagonal;
+  auto startColumn = column1 - 1 - startDiagonal;
+  while (matchesBelow > 0 && contour[matchesBelow - 1].row > (uint32_t)startRow)
+    matchesBelow--;
+  while (rightSources < contour.size() && contour[rightSources].column > (uint32_t)startColumn)
+    rightSources++;
+
+  for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
+    Rows++;                             // one row + one column sweep step
+    auto rowIndex = row1 - 1 - diagonal;  // row
+    auto columnIndex = column1 - 1 - diagonal;  // column
+
+    // Row sweep: backward horizontal matches in the diagonal row, at/left of the diagonal column.  A source
+    // below the row is needed unless the contour is empty (the rank-1 case).
+    while (matchesBelow > 0 && contour[matchesBelow - 1].row > (uint32_t)rowIndex)
       matchesBelow--;
-    if (matchesBelow == contour.size())
-      continue;                         // No contour match below this row.
-    auto bound = contour[matchesBelow].index2;
-    if (bound <= j0)
-      continue;                         // No occurrence can precede j0.
-    auto id = occ.rowId[(size_t)i];
-    if (id == UINT32_MAX)
-      continue;                         // Symbol never occurs in s2.
-    // Last occurrence strictly less than bound, still within [j0, j1).
-    auto index2 = occ.prev[(size_t)id][(size_t)(bound - 1)];
-    if (index2 == UINT32_MAX || index2 < j0)
-      continue;
-    if (index2 > maxIndex2) {
-      next.push_back({ .index1 = (uint32_t)i, .index2 = index2 });
-      maxIndex2 = index2;
+    auto rowId = occ.rowId[(size_t)rowIndex];
+    if (rowId != UINT32_MAX && (contour.empty() || matchesBelow < contour.size())) {
+      bool active = true;
+      auto upper = columnIndex;         // rank 1: rightmost occurrence at/left of the diagonal column
+      if (matchesBelow < contour.size()) {
+        auto bound = contour[matchesBelow].column;
+        active = bound > column0;       // an occurrence must precede column0
+        if (active)
+          upper = min((size_t)(bound - 1), columnIndex);
+      }
+      if (active) {
+        auto column = occ.prev[(size_t)rowId][upper];
+        // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
+        if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
+          Candidates++;
+          next.push_back({ .row = (uint32_t)rowIndex, .column = column });
+          rowThresh = column;
+        }
+      }
     }
+
+    // Column sweep: backward vertical matches in the diagonal column, above the diagonal row.  A source
+    // right of the column is needed unless the contour is empty (rank-1 case).
+    while (rightSources < contour.size() && contour[rightSources].column > (uint32_t)columnIndex)
+      rightSources++;
+    auto colId = occ.colId[(size_t)columnIndex];
+    if (colId != UINT32_MAX && (contour.empty() || rightSources > 0) && rowIndex > row0) {
+      bool active = true;
+      auto upper = (int64_t)rowIndex - 1;  // rank 1: bottommost occurrence above the diagonal row
+      if (rightSources > 0) {
+        auto bound = contour[rightSources - 1].row;
+        active = bound > row0;
+        if (active)
+          upper = min((int64_t)bound - 1, (int64_t)rowIndex - 1);
+      }
+      if (active && upper >= (int64_t)row0) {
+        auto row = occ.prev1[(size_t)colId][(size_t)upper];
+        // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
+        if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
+          Candidates++;
+          next.push_back({ .row = row, .column = (uint32_t)columnIndex });
+          colThresh = row;
+        }
+      }
+    }
+
+    // Completeness (mirror image).
+    if (rowThresh >= (int64_t)columnIndex || colThresh >= (int64_t)rowIndex)
+      break;
   }
-  reverse(next.begin(), next.end());    // Restore ascending index1.
+
+  sort(next.begin(), next.end(),
+    [](const Match& left, const Match& right) { return left.row < right.row; });
   return next;
 }
 
@@ -429,30 +574,31 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
 bool LCSRickSpace::Crossed(const Contour& forward, const Contour& backward) {
   // The crossing test is the same merged scan as CutForward, but it can stop
   // at the first forward match that still has a backward match below-right.
-  size_t j = 0;
-  for (const auto& x : forward) {
-    while (j < backward.size() && backward[j].index1 <= x.index1)
-      j++;
-    if (j < backward.size() && backward[j].index2 > x.index2)
+  size_t backwardIndex = 0;
+  for (const auto& match : forward) {
+    while (backwardIndex < backward.size() && backward[backwardIndex].row <= match.row)
+      backwardIndex++;
+    if (backwardIndex < backward.size() && backward[backwardIndex].column > match.column)
       return false;                     // Still crossing.
   }
   return true;
 }
 
 //
-// After the contours have crossed, a midpoint is any forward match x for
-// which some backward match y lies non-strictly bottom-right of x.
+// After the contours have crossed, a midpoint is any forward match for which
+// some backward match lies non-strictly bottom-right of it.
 //
 LCSRickSpace::Match LCSRickSpace::Midpoint(const Contour& forward, const Contour& backward) {
-  // Merged scan: for each forward match x, the first backward match with
-  // index1 >= x.index1 has the largest index2 of any backward match
-  // non-strictly below-right of x; it decides whether x is a midpoint.
-  size_t j = 0;
-  for (const auto& x : forward) {
-    while (j < backward.size() && backward[j].index1 < x.index1)
-      j++;
-    if (j < backward.size() && backward[j].index2 >= x.index2)
-      return x;
+  // Merged scan: for each forward match, the first backward match with
+  // row >= match.row has the largest column of any backward match
+  // non-strictly below-right of it; it decides whether the match is a
+  // midpoint.
+  size_t backwardIndex = 0;
+  for (const auto& match : forward) {
+    while (backwardIndex < backward.size() && backward[backwardIndex].row < match.row)
+      backwardIndex++;
+    if (backwardIndex < backward.size() && backward[backwardIndex].column >= match.column)
+      return match;
   }
-  return { .index1 = UINT32_MAX, .index2 = UINT32_MAX };
+  return { .row = UINT32_MAX, .column = UINT32_MAX };
 }

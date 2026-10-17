@@ -17,7 +17,7 @@ switch).
 ```
 LCS                        shared typedefs and Algorithm enum
 ├── LCSHuntSzymanski       threshold array over match lists  — O((r+n) log n)
-├── LCSRickSpace           contours + Hirschberg             — O(ns + pm), linear space
+├── LCSRickSpace           contours + Hirschberg             — O(ns + min{pm, p(n−p)}), linear space
 └── LCSRickTime            diagonal sweep, dual thresholds   — O(ns + min{pm, p(n−p)})
 ```
 
@@ -52,7 +52,7 @@ match.  `FindFlexibleLength` is the length-only variant (it skips recording).
 | | Time | Space |
 |---|---|---|
 | `LCSRickTime` | `O(ns + min{pm, p(n−p)})` | `O(ns + d)` |
-| `LCSRickSpace` (contrast) | `O(ns + pm)` | `O(ns)`, linear |
+| `LCSRickSpace` (contrast) | `O(ns + min{pm, p(n−p)})` | `O(ns)`, linear |
 
 ## Selection
 
