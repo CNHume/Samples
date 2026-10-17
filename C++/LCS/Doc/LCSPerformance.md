@@ -9,9 +9,25 @@ A comparison of the two Rick algorithms implemented in `compare`:
   `O(ns + min{pm, p(n−p)})`, space `O(ns + d)`, where `d` is the number of
   dominant matches it records for reconstruction.
 
-Both are run on the character (`-t`) path.  Time is wall-clock; peak RSS is the
-maximum resident set size reported by `/usr/bin/time -v`.  The host has 15 GB
-of RAM, so any run whose recording grows past ~14 GB is killed (shown as OOM).
+Both are run on the character (`-t`) path.  The host has 15 GB of RAM, so any
+run whose recording grows past ~14 GB is killed (shown as OOM).
+
+## Metrics
+
+- **Time** is wall-clock, in seconds.
+- **RSS** is **Resident Set Size** — the portion of a process's memory that is
+  actually held in physical RAM (as opposed to parts that have been swapped out
+  to disk or are merely reserved address space).  The tables report **peak
+  RSS**: the *maximum* resident set size the process reached at any moment
+  during its run, taken from `Maximum resident set size (kbytes)` in
+  `/usr/bin/time -v` and converted to GB.
+
+  Peak RSS is the metric that matters here because it captures each algorithm's
+  *live* working set: RickSpace's `O(ns)` occurrence tables (plus the two input
+  strings) versus RickTime's additional `byRank` table that records every
+  dominant match (`d`).  That is what decides whether a run fits in the host's
+  RAM — RickSpace's RSS is constant for a given size, while RickTime's grows
+  with the mutation count until it is killed.
 
 ## Data
 
