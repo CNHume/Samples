@@ -169,15 +169,26 @@ the character (code-point) path under `-t` and the record/word path otherwise.
 
 ## Future work
 
-- **Jump over the off-diagonal confirmation.**  A substitution inside a
-  repeated region (the `N` runs in chr21) yields a dominant match shifted off
-  the diagonal; the dual sweep then walks each intervening diagonal just to
-  have the cross-stripe dominance test reject its candidate.  On chr21 vs
-  `_100subs` this is the whole remaining `~2.8×` gap to `LCSRickTime` (16M:
-  20.6 s vs 7.27 s).  A per-contour *jump* — the next row whose symbol occurs
-  in the column window `(bound, rowThresh)`, answered by a small range
-  structure over the occurrence tables — would skip those diagonals and
-  approach `-at`'s speed while keeping linear space.
+The next algorithmic focus is the **range jump** below; the sort merge is a
+minor follow-on.  Both target RickSpace's wall-clock without changing its
+linear memory (see `LCSPerformance.md`).
+
+- **Jump over the off-diagonal confirmation (primary).**  A substitution inside
+  a repeated region (the `N` runs in chr21) yields a dominant match shifted off
+  the diagonal; the dual sweep then walks every intervening diagonal only to
+  have the cross-stripe dominance test reject its candidate.  This is the whole
+  remaining gap to `LCSRickTime` on time (46.7M vs `_100subs`: 65.4 s vs
+  25.1 s), while RickSpace keeps its flat 7.3 GB footprint.
+
+  The fix is to replace the per-diagonal scan with a *jump*: after recording a
+  match `(row, column)`, advance straight to the smallest `row' > row` whose
+  symbol occurs in the column window `(bound, rowThresh)`.  That is a range
+  query — the minimum over columns `j` in the window of
+  `next1[colId[j]][row + 1]` — answered by a small auxiliary structure (a
+  wavelet matrix over `s2`, or per-symbol rank/select with range-min) rather
+  than by iterating diagonals.  It would cut the confirmation work to `O(1)`
+  amortized per dominant match and approach `-at`'s speed in linear space.
+
 - **Merge instead of sort.**  `NextForward`/`NextBackward` sort each contour at
   the end.  The row-swept and column-swept matches are each already in order,
   so a linear merge would drop the `log` factor.  Negligible for the
