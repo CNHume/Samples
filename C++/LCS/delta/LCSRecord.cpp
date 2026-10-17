@@ -66,6 +66,9 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
+  if (intervals == nullptr)
+    return Compare(nullptr, r1, r2, ignorecase, ignorespace);
+
   auto length = Compare(intervals, r1, r2, ignorecase, ignorespace);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();

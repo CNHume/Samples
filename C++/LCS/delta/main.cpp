@@ -60,10 +60,12 @@ int main(int argc, char* argv[]) {
     command.Parse(argc, argv);
 
     shared_ptr<Delta> intervals;
-    [[maybe_unused]] auto length = LCSFile::Difference(&intervals, command);
-#ifdef _DEBUG
+    auto pintervals = command.islength ?
+      nullptr : &intervals;
+
+    auto length = LCSFile::Difference(pintervals, command);
+
     cout << format("LCS Length = {}\n", length);
-#endif
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {

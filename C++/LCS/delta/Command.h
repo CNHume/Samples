@@ -32,6 +32,8 @@ public:
   uint32_t suffix;
   bool ignorecase;
   bool ignorespace;
+  bool islength;
+  bool isversion;
   bool isword;
 
 protected:
@@ -48,6 +50,8 @@ public:
     suffix(affixDefault),
     ignorecase(false),
     ignorespace(false),
+    islength(false),
+    isversion(false),
     isword(false) {
   }
 

@@ -17,7 +17,7 @@
 //
 // Usage:
 //
-// delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2
+// delta [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2
 //
 #include "Command.h"
 
@@ -34,16 +34,15 @@ namespace {
   constexpr auto copyrightYears = "2017-2026";
   constexpr auto author = "Christopher N. Hume";
 
-  // Print the GNU-style version banner and exit successfully.
-  void Version() {
-    cout << format(
+  // Return the GNU-style version banner.
+  std::string format_version() {
+    return format(
       "{} {}\n"
       "Copyright (C) {} {}\n"
       "License LGPLv3+: GNU LGPL version 3 or later <https://gnu.org/licenses/lgpl.html>.\n"
       "This is free software: you are free to change and redistribute it.\n"
       "There is NO WARRANTY, to the extent permitted by law.\n",
       programName, programVersion, copyrightYears, author);
-    exit(EXIT_SUCCESS);
   }
 }
 
@@ -109,6 +108,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
+      case 'l':                         // the length-only switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          islength = true;
+        break;
+
       case 'p':                         // the prefix switch
         if (len > 2)                    // whitespace optional
           prefix = parse_uint32(&token[2], "prefix");
@@ -131,7 +137,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
-          Version();
+          isversion = true;
         break;
 
       case 'w':                         // the word switch
@@ -146,6 +152,11 @@ void Command::Parse(int argc, char* argv[]) {
         break;
       }
     }
+  }
+
+  if (isversion) {
+    cout << format_version();
+    exit(EXIT_SUCCESS);
   }
 
   if (n < argc)                         // parse f1
@@ -163,5 +174,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: delta [-b] [-i] [-j <join>] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2");
+      "Usage: delta [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2");
 }

@@ -25,6 +25,7 @@ uint32_t  LCSFile::Difference(
   auto length = LCSRecord::Difference(intervals, r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
     command.join, command.prefix, command.suffix);
-  Show(*intervals, r1, r2, command.file1, command.file2);
+  if (intervals != nullptr)
+    Show(*intervals, r1, r2, command.file1, command.file2);
   return length;
 }
