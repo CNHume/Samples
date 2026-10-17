@@ -76,6 +76,9 @@ uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     shared_ptr<Pair> head = nullptr;
     shared_ptr<Pair> tail = nullptr;
     for (const auto& match : out) {
+      // Translate the matrix (row, column) match back into input-sequence
+      // indexes: row is the position in s1 (Pair::begin1) and column the
+      // position in s2 (Pair::begin2).
       auto pair = make_shared<Pair>(match.row, match.column);
       if (tail == nullptr)
         head = pair;
