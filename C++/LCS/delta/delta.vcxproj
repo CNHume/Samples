@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Delta.h" />
+    <ClInclude Include="Duration.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSEncoding.h" />
@@ -99,10 +100,12 @@
     <ClInclude Include="LCSNormal.h" />
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="Pair.h" />
+    <ClInclude Include="Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Delta.cpp" />
+    <ClCompile Include="Duration.cpp" />
     <ClCompile Include="LCS.cpp" />
     <ClCompile Include="LCSEncoding.cpp" />
     <ClCompile Include="LCSFile.cpp" />
@@ -111,6 +114,7 @@
     <ClCompile Include="LCSRecord.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pair.cpp" />
+    <ClCompile Include="Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSES\COPYING.txt" />
