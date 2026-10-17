@@ -80,11 +80,12 @@ ran.
 ## Input
 
 `LCSRickSpace` answers every occurrence query in O(1) from dense `next`/`prev`
-tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound).  The two
+tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound), built over
+*both* strings so the column sweep of the dual diagonal sweep can run.  The two
 `Find()` overloads build those tables differently:
 
 - **Character path (`-t -as`)** — `Find(pairs, s1, s2)` compresses the code
-  points of `s2` and builds the tables directly in `O(s·n)` time and space,
+  points of `s2` and builds the tables directly in `O(s·(m+n))` time and space,
   where `s` is the number of distinct code points.  No match lists are
   materialized, so this path stays feasible for very long strings even when
   the number of matches `r` would be quadratic.
@@ -92,7 +93,7 @@ tables (the "LeftPos"/"TopPos" preprocessing of the `O(ns)` bound).  The two
   shared `Match()` output (`MATCHES = deque<INDEXES*>`, where `*matches[i]` is
   the sorted list of positions in the second sequence matching position `i` in
   the first).  Two rows sharing a symbol share the same match-list pointer, so
-  pointer identity is the symbol→id compression; the tables cost `O(s·n + r)`.
+  pointer identity is the symbol→id compression; the tables cost `O(s·(m+n) + r)`.
 
 ## Algorithm
 
@@ -117,7 +118,7 @@ backward match non-strictly below-right of it (Rick, Lemmas 2 and 3).
 Only the two most recent contours of each direction are retained, so the
 working set is linear in the input lengths.
 
-Three refinements from the paper are implemented:
+Four refinements from the paper are implemented:
 
 - **O(p) contour scans** — the cut (`CutForward`/`CutBackward`), the crossing
   test, and the midpoint search are single merged scans over the two sorted
@@ -126,15 +127,18 @@ Three refinements from the paper are implemented:
   have no backward-contour match strictly below-right (and so can only reach
   matches whose rank sum cannot reach the LCS) are pruned; symmetrically for
   backward sources.
-- **Row-range skipping** — a forward contour of rank `f` scans only rows
-  `≤ m − b` (a match of backward rank `≥ b` needs `b − 1` further rows below
-  it), and a backward contour of rank `b` scans only rows `≥ b − 1`.  This
-  tightens the contour work from `O(p·m)` toward `O(p·(m − p/2))`.
-
-The exact `min{pm, p(n−p)}` bound additionally requires Rick's Lemma 5
-"outer matches" narrowing — scanning only the sub-range between the leftmost
-and rightmost uncovered source of the previous contour — which remains the
-next refinement for the `p(n−p)` side of the bound.
+- **Dual diagonal sweep** — each contour is built by Rick's (1995) row +
+  column sweep: a row sweep for the horizontal stripe (`j − j0 ≥ i − i0`) and
+  a column sweep for the vertical stripe (`i − i0 > j − j0`), interleaved over
+  the diagonal and begun at the first source, so the idle prefix before the
+  sources is skipped.  A cross-stripe dominance test (a column-sweep match at
+  row `≤ i` dominates a row-sweep match at `(i, j)`, and vice versa) keeps the
+  two sweeps consistent.
+- **Completeness detection** — once a dominant match has both components within
+  the current diagonal (`lmin(k)`), no later diagonal can hold another dominant
+  match, so the sweep stops.  This is the "outer matches" narrowing of Lemma 5:
+  it caps each contour's work at `O(min{m, n−p})`, giving the paper's
+  `O(ns + min{pm, p(n−p)})` bound.
 
 ## Reconstruction
 

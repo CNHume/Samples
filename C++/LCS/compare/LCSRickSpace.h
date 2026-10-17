@@ -70,15 +70,21 @@ private:
   // index1, which forces descending index2.
   typedef vector<Match> Contour;
 
-  // O(1) next/previous occurrence tables.  rowId[i] is the symbol id of row i
-  // (UINT32_MAX when the symbol never occurs); next[id][j] is the smallest
-  // position >= j holding symbol id (n if none); prev[id][j] is the largest
-  // position <= j holding it (UINT32_MAX if none).  This is the
-  // "LeftPos/TopPos" O(ns) preprocessing of the Rick contour scan.
+  // O(1) next/previous occurrence tables over both strings.  rowId[i] is the
+  // symbol id of s1[i] and colId[j] that of s2[j] (UINT32_MAX when the symbol
+  // never occurs); next/prev are over s2 (the longer string) and next1/prev1
+  // over s1, each giving the smallest position >= j / largest position <= j
+  // holding the symbol (length / UINT32_MAX if none).  This is the
+  // "LeftPos/TopPos" O(ns) preprocessing of the Rick contour scan, extended
+  // to both strings so the column sweep of the dual diagonal sweep can run.
   struct Occurrences {
-    vector<uint32_t> rowId;            // symbol id of each row, [0, size1)
-    vector<vector<uint32_t>> next;     // [id][j], j in [0, n]
-    vector<vector<uint32_t>> prev;     // [id][j], j in [0, n)
+    vector<uint32_t> rowId;            // symbol id of each s1 position
+    vector<uint32_t> colId;            // symbol id of each s2 position
+    vector<vector<uint32_t>> next;     // [id][j] over s2, j in [0, n]
+    vector<vector<uint32_t>> prev;     // [id][j] over s2, j in [0, n)
+    vector<vector<uint32_t>> next1;    // [id][i] over s1, i in [0, m]
+    vector<vector<uint32_t>> prev1;    // [id][i] over s1, i in [0, m)
+    int64_t m = 0;                     // size1
     int64_t n = 0;                     // size2
   };
 
@@ -106,11 +112,11 @@ private:
   static Contour FirstForward(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1);
   static Contour NextForward(const Contour& contour, const Occurrences& occ,
-    size_t i0, size_t i1, size_t j0, size_t j1, int64_t rowLimit);
+    size_t i0, size_t i1, size_t j0, size_t j1);
   static Contour FirstBackward(const Occurrences& occ,
     size_t i0, size_t i1, size_t j0, size_t j1);
   static Contour NextBackward(const Contour& contour, const Occurrences& occ,
-    size_t i0, size_t i1, size_t j0, size_t j1, int64_t rowFloor);
+    size_t i0, size_t i1, size_t j0, size_t j1);
   static bool Crossed(const Contour& forward, const Contour& backward);
   static Match Midpoint(const Contour& forward, const Contour& backward);
 };
