@@ -26,7 +26,28 @@
 uint32_t LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, const Command command) {
   uint32_t length(0);
-  if (!command.istext) {
+  if (command.istext) {
+    u32string s1, s2;
+    if (command.isquote) {
+      // Treat filename arguments as literal strings.
+      s1 = LCSEncoding::DecodeUtf8(command.file1);
+      s2 = LCSEncoding::DecodeUtf8(command.file2);
+    }
+    else {
+      s1 = LCSString::Read(command.file1);
+      s2 = LCSString::Read(command.file2);
+      if (command.isfasta) {
+        s1 = LCSString::StripFasta(s1);
+        s2 = LCSString::StripFasta(s2);
+      }
+    }
+    length = LCSString::Correspondence(intervals, s1, s2,
+      command.ignorecase, command.ignorespace, command.isjoin,
+      command.join, command.prefix, command.suffix, command.algorithm);
+    if (intervals != nullptr)
+      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
+  }
+  else {
     auto r1 = LCSRecord::Read(command.file1, command.isword);
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Correspondence(intervals, r1, r2,
@@ -35,36 +56,34 @@ uint32_t LCSFile::Correspondence(
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }
-  else if (command.isquote) {
-    // Quick demo: treat the filename arguments as literal strings.
-    auto s1 = LCSEncoding::DecodeUtf8(command.file1);
-    auto s2 = LCSEncoding::DecodeUtf8(command.file2);
-    length = LCSString::Correspondence(intervals, s1, s2,
-      command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
-    if (intervals != nullptr)
-      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
-  }
-  else {
-    auto s1 = LCSString::Read(command.file1);
-    auto s2 = LCSString::Read(command.file2);
-    if (command.isfasta) {
-      s1 = LCSString::StripFasta(s1);
-      s2 = LCSString::StripFasta(s2);
-    }
-    length = LCSString::Correspondence(intervals, s1, s2,
-      command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
-    if (intervals != nullptr)
-      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
-  }
   return length;
 }
 
 uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, const Command command) {
   uint32_t length(0);
-  if (!command.istext) {
+  if (command.istext) {
+    u32string s1, s2;
+    if (command.isquote) {
+      // Treat filename arguments as literal strings.
+      s1 = LCSEncoding::DecodeUtf8(command.file1);
+      s2 = LCSEncoding::DecodeUtf8(command.file2);
+    }
+    else {
+      s1 = LCSString::Read(command.file1);
+      s2 = LCSString::Read(command.file2);
+      if (command.isfasta) {
+        s1 = LCSString::StripFasta(s1);
+        s2 = LCSString::StripFasta(s2);
+      }
+    }
+    length = LCSString::Difference(intervals, s1, s2,
+      command.ignorecase, command.ignorespace, command.isjoin,
+      command.join, command.prefix, command.suffix, command.algorithm);
+    if (intervals != nullptr)
+      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
+  }
+  else {
     auto r1 = LCSRecord::Read(command.file1, command.isword);
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Difference(intervals, r1, r2,
@@ -72,29 +91,6 @@ uint32_t LCSFile::Difference(
       command.join, command.prefix, command.suffix, command.algorithm);
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
-  }
-  else if (command.isquote) {
-    // Quick demo: treat the filename arguments as literal strings.
-    auto s1 = LCSEncoding::DecodeUtf8(command.file1);
-    auto s2 = LCSEncoding::DecodeUtf8(command.file2);
-    length = LCSString::Difference(intervals, s1, s2,
-      command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
-    if (intervals != nullptr)
-      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
-  }
-  else {
-    auto s1 = LCSString::Read(command.file1);
-    auto s2 = LCSString::Read(command.file2);
-    if (command.isfasta) {
-      s1 = LCSString::StripFasta(s1);
-      s2 = LCSString::StripFasta(s2);
-    }
-    length = LCSString::Difference(intervals, s1, s2,
-      command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
-    if (intervals != nullptr)
-      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
   }
   return length;
 }
