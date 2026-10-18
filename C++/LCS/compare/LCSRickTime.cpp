@@ -34,9 +34,10 @@ namespace {
   // preprocessing (s = distinct symbols) that the sweep queries in O(1).
   //
   //[Assert]next1[id][i] is the first position >= i in s1 holding symbol id
-  //        (m if none) and next2[id][j] the first position >= j in s2 (n if
-  //        none).  The extra sentinel column keeps a "first occurrence > j"
-  //        probe at a length bound within range.
+  // (m if none) and next2[id][j] the first position >= j in s2 (n if none).
+  //
+  // The extra sentinel column keeps a "first occurrence > j" probe at a length
+  // bound within range.
   //
   struct FlexTables {
     vector<uint32_t> id1;               // symbol id of s1[i]
@@ -75,17 +76,22 @@ namespace {
       t.id2[(size_t)j] = idOf(s2[(size_t)j]);
 
     auto s = charToId.size();
+    //
     // Warn before allocating the dense next tables, reusing the symbol count
     // already gathered above rather than counting distinct symbols again.
+    //
     Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
+    //
     // One extra sentinel slot so "first occurrence > j" at j == length (the
     // threshold sentinel) stays in bounds and returns length.
+    //
     t.next1.assign(s, vector<uint32_t>((size_t)t.m + 2, (uint32_t)t.m));
     for (int64_t j = t.m - 1; j >= 0; j--) {
       for (size_t id = 0; id < s; id++)
         t.next1[id][(size_t)j] = t.next1[id][(size_t)j + 1];
       t.next1[(size_t)t.id1[(size_t)j]][(size_t)j] = (uint32_t)j;
     }
+
     t.next2.assign(s, vector<uint32_t>((size_t)t.n + 2, (uint32_t)t.n));
     for (int64_t j = t.n - 1; j >= 0; j--) {
       for (size_t id = 0; id < s; id++)
@@ -102,15 +108,18 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   auto m = t.m;
   auto n = t.n;
 
+  //
   //[Assert]For each class k, rowThresh[k] is the leftmost column of a dominant
-  //        k-match found so far (n if none) and colThresh[k] the topmost row
-  //        (m if none).  A row-l match (l, j) is a new dominant k-match exactly
-  //        when j < rowThresh[k], and a column-l match (i, l) when
-  //        i < colThresh[k]; assigning one shrinks the threshold toward the
-  //        diagonal, which keeps each class an antichain.
+  // k-match found so far (n if none) and colThresh[k] the topmost row (m if
+  // none).  A row-l match (l, j) is a new dominant k-match exactly when
+  // j < rowThresh[k], and a column-l match (i, l) when i < colThresh[k];
+  // assigning one shrinks the threshold toward the diagonal, which keeps each
+  // class an antichain.
+  //
   // rowThresh[k] = leftmost column of a dominant k-match (n if none);
   // colThresh[k] = topmost row of a dominant k-match (m if none).
   // Sized m+2 so the "low" index may advance one past the last class.
+  //
   vector<uint32_t> rowThresh((size_t)m + 2, (uint32_t)n);
   vector<uint32_t> colThresh((size_t)m + 2, (uint32_t)m);
   rowThresh[0] = UINT32_MAX;            // virtual origin C_0 (unused)
@@ -135,10 +144,10 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   for (int64_t l = 0; l < m; l++) {
     //
     //[Assert]On entry to diagonal l every class k < low is complete — its
-    //        rowThresh/colThresh values are final — because the sweep has
-    //        already passed the diagonal that could still have produced it.
-    //        The row and column sweeps below each advance low by one when
-    //        their threshold first equals l.
+    // rowThresh/colThresh values are final — because the sweep has already
+    // passed the diagonal that could still have produced it.  The row and
+    // column sweeps below each advance low by one when their threshold first
+    // equals l.
     //
     // Row l: dominant matches (l, j) with j >= l.
     //
@@ -192,9 +201,10 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     }
   }
 
-  // LCS length = number of non-empty classes.  A class may hold dominant
-  // matches only above/below the diagonal, so either threshold array can
-  // witness it.
+  //
+  // LCS length = number of non-empty classes.  A class may hold dominant matches
+  // only above/below the diagonal, so either threshold array can witness it.
+  //
   uint32_t p = 0;
   for (int64_t k = 1; k <= m; k++)
     if (rowThresh[(size_t)k] < n || colThresh[(size_t)k] < m)
@@ -228,9 +238,8 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     }
     *pairs = chain;
   }
-  else if (traceLCS) {
+  else if (traceLCS)
     *pairs = nullptr;
-  }
   return p;
 }
 
