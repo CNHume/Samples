@@ -101,6 +101,7 @@
     <ClInclude Include="LCSRecord.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Stopwatch.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
+    <ClCompile Include="Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSES\COPYING.txt" />

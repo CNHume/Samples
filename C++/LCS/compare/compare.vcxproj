@@ -105,6 +105,7 @@
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Delta.cpp" />
     <ClCompile Include="Stopwatch.cpp" />
+    <ClCompile Include="Version.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Delta.h" />
     <ClInclude Include="Stopwatch.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSES\COPYING.txt" />

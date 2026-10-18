@@ -20,31 +20,13 @@
 // delta [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2
 //
 #include "Command.h"
+#include "Version.h"
 
 #include <cerrno>                       // for errno
 #include <cstdlib>                      // for EXIT_SUCCESS, exit, strtoul
 #include <cstring>                      // for strlen
-#include <format>                       // for format
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
-
-namespace {
-  constexpr auto programName = "delta";
-  constexpr auto programVersion = "1.0";
-  constexpr auto copyrightYears = "2017-2026";
-  constexpr auto author = "Christopher N. Hume";
-
-  // Return the GNU-style version banner.
-  std::string format_version() {
-    return format(
-      "{} {}\n"
-      "Copyright (C) {} {}\n"
-      "License LGPLv3+: GNU LGPL version 3 or later <https://gnu.org/licenses/lgpl.html>.\n"
-      "This is free software: you are free to change and redistribute it.\n"
-      "There is NO WARRANTY, to the extent permitted by law.\n",
-      programName, programVersion, copyrightYears, author);
-  }
-}
 
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");
@@ -155,7 +137,7 @@ void Command::Parse(int argc, char* argv[]) {
   }
 
   if (isversion) {
-    cout << format_version();
+    cout << Version::ToString();
     exit(EXIT_SUCCESS);
   }
 
