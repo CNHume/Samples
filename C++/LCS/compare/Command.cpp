@@ -142,11 +142,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
-      case 'q':                         // the quote switch
+      case 'q':                         // the quote switch, which implies text
         if (len > 2)                    // superfluous value specified
           usage = true;
-        else
+        else {
           isquote = true;
+          istext = true;                // -q implies -t
+        }
         break;
 
       case 't':                         // the text switch

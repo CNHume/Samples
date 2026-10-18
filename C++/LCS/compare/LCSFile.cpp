@@ -17,10 +17,22 @@
 // 2017-07-09 CNHume  Created LCSFile class
 //
 #include "LCSFile.h"
+#include "LCSEncoding.h"
 
-uint32_t  LCSFile::Correspondence(
+uint32_t LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, const Command command) {
-  if (command.istext) {
+  if (command.isquote) {
+    // Quick demo: treat the filename arguments as literal strings.
+    auto s1 = LCSEncoding::DecodeUtf8(command.file1);
+    auto s2 = LCSEncoding::DecodeUtf8(command.file2);
+    auto length = LCSString::Correspondence(intervals, s1, s2,
+      command.ignorecase, command.ignorespace, command.isjoin,
+      command.join, command.prefix, command.suffix, command.algorithm);
+    if (intervals != nullptr)
+      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
+    return length;
+  }
+  else if (command.istext) {
     auto s1 = LCSString::Read(command.file1);
     auto s2 = LCSString::Read(command.file2);
     if (command.isfasta) {
@@ -45,9 +57,20 @@ uint32_t  LCSFile::Correspondence(
   return length;
 }
 
-uint32_t  LCSFile::Difference(
+uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, const Command command) {
-  if (command.istext) {
+  if (command.isquote) {
+    // Quick demo: treat the filename arguments as literal strings.
+    auto s1 = LCSEncoding::DecodeUtf8(command.file1);
+    auto s2 = LCSEncoding::DecodeUtf8(command.file2);
+    auto length = LCSString::Difference(intervals, s1, s2,
+      command.ignorecase, command.ignorespace, command.isjoin,
+      command.join, command.prefix, command.suffix, command.algorithm);
+    if (intervals != nullptr)
+      LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
+    return length;
+  }
+  else if (command.istext) {
     auto s1 = LCSString::Read(command.file1);
     auto s2 = LCSString::Read(command.file2);
     if (command.isfasta) {
