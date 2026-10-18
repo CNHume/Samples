@@ -171,11 +171,65 @@ the character (code-point) path under `-t` and the record/word path otherwise.
 
 The **merge instead of sort** refinement has landed: the row-swept and
 column-swept matches are each emitted in order, so `NextForward`/`NextBackward`
-now reverse the descending list and linearly merge instead of sorting.  The
-**range jump** — the first attempt at closing the gap to `LCSRickTime` — was
-implemented and fuzz-verified but reverted after benchmarking; it is recorded in
-the Range jump (reverted) section below.  The amended plan is the **hybrid
-auto-select**, designed in the section after it.
+now reverse the descending list and linearly merge instead of sorting.  Profiling
+(Where the time goes) then located the remaining gap precisely, and the current
+plan is **contour reuse**, designed below.  The hybrid auto-select is retained as
+an alternative; the earlier range-jump attempt is recorded in the Range jump
+(reverted) section below.
+
+## Where the time goes
+
+Instrumenting `Find` to accumulate wall-clock per phase — `BuildOccurrences`
+(table build), the `FindMidpoint` contour sweep, and the greedy early-termination
+emission — gives the split that decides the next improvement:
+
+| Input | total | table build | **contour sweep** | greedy | misc | Contours | Rows (diagonals) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 4.6M / 100 subs | 9.80 s | 0.48 s (5%) | **9.04 s (92%)** | 0.06 s | 0.22 s | 44.3M | 139M |
+| 4.6M / 1000 subs | 53.6 s | 0.55 s (1%) | **52.8 s (99%)** | 0.05 s | 0.21 s | 56.9M | 981M |
+| 16M / 100 subs | 21.5 s | 2.27 s (11%) | **18.2 s (84%)** | 0.14 s | 0.95 s | 120M | 523M |
+
+The **contour sweep is 84–99% of the time** at every scale and mutation level;
+table build (5–11%), greedy emission (<1%), and recursion bookkeeping (2–4%)
+are noise.  The recomputation — 44M–120M rank-by-rank forward+backward contour
+builds summing to 139M–981M diagonal steps — *is* the cost.  This closes the
+question the range jump left open: the gap is not the per-diagonal walk (only
+3.3% of steps are skippable), it is the *number of contour builds* themselves.
+One structural detail: diagonal steps per contour build grow with mutation
+(3.1 at 100 subs, 17.2 at 1000 subs on 4.6M), so the cost concentrates in the
+high-mutation regime where the antichains are wide.
+
+## Contour reuse (proposed)
+
+Because the cost is the number of contour builds, the direct fix is to stop
+rebuilding the contours a parent already computed.  A Hirschberg node builds
+`FC[1..f]` and `BC[1..b]` to find one midpoint, then recurses into a prefix and
+a suffix:
+
+- the **prefix**'s forward contours are the parent's `FC` restricted to matches
+  strictly above-left of the midpoint (rank is preserved there, because every
+  predecessor of such a match lies above-left of the midpoint too), and
+- the **suffix**'s backward contours are the parent's `BC` restricted to matches
+  strictly below-right of it.
+
+So pass the filtered parent contours down and let each child build only its
+*cross* direction (the prefix's backward, the suffix's forward).  Each level's
+contour work then drops from `p` to `p/2`, roughly **halving** the contour builds
+and the diagonal steps: 65 s → ~37–40 s at 46.7M/100-subs (≈1.8×).  It is
+deterministic — no budget guess, no try/fail/retry — and it is the direct attack
+on the recomputation the profile identifies.
+
+### Ceiling and memory
+
+Halving is the ceiling for this scheme: the cross directions are genuinely new at
+each level, and reusing those too would mean retaining every contour — RickTime's
+`O(d)` recording.  Retaining the reused (aligned) contours costs one level's
+worth of matches: ~`p` matches (a few hundred MB at 46.7M), negligible beside the
+8.36 GB tables.  But at high mutation the contours are wide antichains
+(`Rows`/contour 3.1 → 17.2), so a level's contours approach `O(d)` — the same
+growth that OOMs RickTime.  To keep the "never OOMs" guarantee there, cap the
+retained contours and recompute past the cap; that cap is a fixed budget (a
+smooth time↔space tradeoff), not a fallback.
 
 ## Range jump (reverted)
 
@@ -184,8 +238,8 @@ gap to RickTime on the character path while keeping its linear memory.  It
 replaced the per-diagonal walk in `NextForward`/`NextBackward` with a *range
 jump* that skips the diagonals whose candidates the dominance test is bound to
 reject.  It was implemented, fuzz-verified, benchmarked, and reverted — the
-Result subsection records why — and is superseded by the hybrid auto-select in
-the next section.
+Result subsection records why — and is superseded by the contour reuse design
+above.
 
 ### The confirmation cost
 
@@ -281,9 +335,12 @@ cannot reach the RickTime time and was reverted.  A jump could still pay off on
 insertion/deletion-heavy inputs with long off-diagonal gaps, but no such corpus
 is benchmarked here.
 
-## Hybrid auto-select (proposed)
+## Hybrid auto-select (alternative)
 
-The range-jump result pinned the RickSpace↔RickTime gap to *structure*, not to
+Contour reuse above is the preferred path because it is deterministic; this
+section is the fallback that actually reaches RickTime's ~25 s, at the cost of a
+try/fail/retry heuristic.  The range-jump result pinned the RickSpace↔RickTime
+gap to *structure*, not to
 any avoidable per-step cost: RickTime finds each dominant match exactly once in
 one diagonal sweep (`O(m + d)` probes), while RickSpace rebuilds forward and
 backward contours rank-by-rank at every Hirschberg level — ~9.5× the LCS length
