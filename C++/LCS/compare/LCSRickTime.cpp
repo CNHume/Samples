@@ -30,8 +30,13 @@ using namespace std;
 namespace {
   //
   // Dense "next occurrence" tables for both strings, with a shared symbol-id
-  // compression over the union of their code points.  next[id][j] is the first
-  // position >= j holding symbol id (the string length if none).
+  // compression over the union of their code points.  This is the O(ns)
+  // preprocessing (s = distinct symbols) that the sweep queries in O(1).
+  //
+  //[Assert]next1[id][i] is the first position >= i in s1 holding symbol id
+  //        (m if none) and next2[id][j] the first position >= j in s2 (n if
+  //        none).  The extra sentinel column keeps a "first occurrence > j"
+  //        probe at a length bound within range.
   //
   struct FlexTables {
     vector<uint32_t> id1;               // symbol id of s1[i]
@@ -97,6 +102,12 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   auto m = t.m;
   auto n = t.n;
 
+  //[Assert]For each class k, rowThresh[k] is the leftmost column of a dominant
+  //        k-match found so far (n if none) and colThresh[k] the topmost row
+  //        (m if none).  A row-l match (l, j) is a new dominant k-match exactly
+  //        when j < rowThresh[k], and a column-l match (i, l) when
+  //        i < colThresh[k]; assigning one shrinks the threshold toward the
+  //        diagonal, which keeps each class an antichain.
   // rowThresh[k] = leftmost column of a dominant k-match (n if none);
   // colThresh[k] = topmost row of a dominant k-match (m if none).
   // Sized m+2 so the "low" index may advance one past the last class.
@@ -112,7 +123,22 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   if (traceLCS)
     byRank.assign((size_t)m + 2, vector<DomMatch>());
 
+  //
+  // "Single diagonal sweep": one forward pass over the m diagonals.  At each
+  // diagonal l the sweep handles two frontiers in the same pass — row l
+  // (dominant matches (l, j) with j >= l, i.e. at/right of the diagonal) and
+  // column l (dominant matches (i, l) with i > l, i.e. below the diagonal).
+  // There is no separate forward/backward alternation as in Rick (2000); the
+  // single pass is possible because each dominant match is found exactly once,
+  // via an O(1) next1/next2 occurrence probe.
+  //
   for (int64_t l = 0; l < m; l++) {
+    //
+    //[Assert]On entry to diagonal l every class k < low is complete — its
+    //        rowThresh/colThresh values are final — because the sweep has
+    //        already passed the diagonal that could still have produced it.
+    //        The row and column sweeps below each advance low by one when
+    //        their threshold first equals l.
     //
     // Row l: dominant matches (l, j) with j >= l.
     //

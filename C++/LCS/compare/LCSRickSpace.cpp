@@ -60,6 +60,12 @@ namespace {
   // which forces descending column.
   typedef vector<Match> Contour;
 
+  //[Assert]next[id][j] = first column >= j in s2 holding symbol id (columns if
+  //        none), prev[id][j] = last column <= j; next1/prev1 are the same
+  //        queries over s1 rows.  Each contour-scan step therefore advances
+  //        straight to the next/previous occurrence in O(1) instead of binary-
+  //        searching a position list — the "LeftPos/TopPos" trick behind the
+  //        time bound.
   // O(1) next/previous occurrence tables over both strings.  rowId[row] is
   // the symbol id of s1[row] and colId[column] that of s2[column] (UINT32_MAX
   // when the symbol never occurs); next/prev are over s2 (the longer string)
@@ -359,8 +365,12 @@ Result FindMidpoint(const Occurrences& occ,
   if (row0 >= row1 || column0 >= column1)
     return result;
 
-  // Only the two most recent contours of each direction are retained, so the
-  // working set stays linear in the sub-problem size.
+  //[Assert]Across iterations fc == FC[fCount] and bc == BC[bCount], and only
+  //        fcPrev/bcPrev are retained, so the working set stays O(|fc|+|bc|) —
+  //        linear in the sub-problem, not O(p·m).  The loop alternates
+  //        FC[1], BC[1], FC[2], BC[2], ... (|fCount - bCount| <= 1) until the
+  //        two newest contours cross, which fixes length = fCount + bCount - 1
+  //        and a midpoint for the Hirschberg split.
   Contour fc, fcPrev, bc, bcPrev;
   int64_t fCount = 0;                   // # forward contours computed
   int64_t bCount = 0;                   // # backward contours computed
@@ -468,6 +478,14 @@ Contour NextForward(const Contour& contour,
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);
 
+  //[Assert]Across the diagonal loop, rowThresh is the leftmost column of a
+  //        dominant match emitted so far and colThresh the topmost row (both
+  //        non-increasing), so a candidate (r, c) is emitted as dominant
+  //        exactly when c < rowThresh and r < colThresh.  The two cursors
+  //        track the predecessor contour relative to the current row/column:
+  //        matchesAbove counts sources strictly above the row, and leftSources
+  //        indexes the topmost source strictly left of the column, so an O(1)
+  //        test rejects any candidate that no source can extend.
   int64_t rowThresh = (int64_t)column1;  // leftmost column of a dominant match
   int64_t colThresh = (int64_t)row1;    // topmost row of a dominant match
   size_t matchesAbove = 0;              // # sources above the current row
@@ -562,6 +580,12 @@ Contour NextBackward(const Contour& contour,
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);
 
+  //[Assert]Mirror image of NextForward: rowThresh is the rightmost column of a
+  //        dominant match emitted so far and colThresh the bottommost row (both
+  //        non-decreasing), so a backward candidate (r, c) is emitted as
+  //        dominant exactly when c > rowThresh and r > colThresh.  matchesBelow
+  //        indexes the bottommost source strictly below the row, and
+  //        rightSources counts sources strictly right of the column.
   int64_t rowThresh = (int64_t)column0 - 1;  // rightmost column of a dominant match
   int64_t colThresh = (int64_t)row0 - 1;  // bottommost row of a dominant match
   size_t matchesBelow = contour.size();  // first source below the current row
