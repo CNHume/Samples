@@ -23,9 +23,11 @@
 #include "LCSRickSpace.h"
 
 #include <algorithm>                    // for min, reverse
+#include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX
 #include <memory>                       // for make_shared
 #include <unordered_map>                // for pointer -> symbol id
 #include <utility>                      // for move
+#include <vector>                       // for vector
 
 //
 // A match (row, column) has forward rank k when the longest common
@@ -42,28 +44,63 @@
 // next/previous occurrence tables built from the shared match lists.
 //
 
-uint64_t LCSRickSpace::Candidates = 0;
-uint64_t LCSRickSpace::Rows = 0;
-uint64_t LCSRickSpace::Contours = 0;
+namespace {
+  struct Match {
+    uint32_t row = 0;
+    uint32_t column = 0;
+  };
 
-void LCSRickSpace::ResetCounters() {
-  Candidates = 0;
-  Rows = 0;
-  Contours = 0;
-}
+  struct Result {
+    bool hasMidpoint = false;
+    uint32_t length = 0;               // LCS length of the sub-problem
+    Match midpoint;
+  };
 
-uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
-  const MATCHES& matches, uint32_t size1, uint32_t size2) {
-  return Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
-}
+  // A contour is an antichain of dominant matches sorted by ascending row,
+  // which forces descending column.
+  typedef vector<Match> Contour;
 
-uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
-  const u32string& s1, const u32string& s2) {
-  // Build O(ns) occurrence tables directly from the code points and amortize
-  // them over the whole Hirschberg recursion.  No match lists are ever
-  // materialized, so this path stays feasible for very long strings.
-  return Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
-}
+  // O(1) next/previous occurrence tables over both strings.  rowId[row] is
+  // the symbol id of s1[row] and colId[column] that of s2[column] (UINT32_MAX
+  // when the symbol never occurs); next/prev are over s2 (the longer string)
+  // and next1/prev1 over s1, each giving the smallest position >= column /
+  // largest position <= column holding the symbol (length / UINT32_MAX if
+  // none).  This is the "LeftPos/TopPos" O(ns) preprocessing of the Rick
+  // contour scan, extended to both strings so the column sweep of the dual
+  // diagonal sweep can run.
+  struct Occurrences {
+    vector<uint32_t> rowId;            // symbol id of each s1 position
+    vector<uint32_t> colId;            // symbol id of each s2 position
+    vector<vector<uint32_t>> next;     // [symbol][column] over s2, [0, columns]
+    vector<vector<uint32_t>> prev;     // [symbol][column] over s2, [0, columns)
+    vector<vector<uint32_t>> next1;    // [symbol][row] over s1, [0, rows]
+    vector<vector<uint32_t>> prev1;    // [symbol][row] over s1, [0, rows]
+    int64_t rows = 0;                  // size1
+    int64_t columns = 0;               // size2
+  };
+
+  // Forward declarations (definitions follow).
+  uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
+    size_t size1, size_t size2);
+  Occurrences BuildOccurrences(const LCS::MATCHES& matches,
+    size_t size1, size_t size2);
+  Occurrences BuildOccurrences(const u32string& s1, const u32string& s2);
+  void Hirschberg(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out);
+  Result FindMidpoint(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1);
+  Contour CutForward(const Contour& forward, const Contour& backward);
+  Contour CutBackward(const Contour& backward, const Contour& forward);
+  Contour FirstForward(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1);
+  Contour NextForward(const Contour& contour, const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1);
+  Contour FirstBackward(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1);
+  Contour NextBackward(const Contour& contour, const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, size_t column1);
+  bool Crossed(const Contour& forward, const Contour& backward);
+  Match Midpoint(const Contour& forward, const Contour& backward);
 
 //
 // Runs the Hirschberg recursion over an occurrence table and, when pairs is
@@ -71,7 +108,7 @@ uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
 // null only the length is wanted, so one forward/backward contour alternation
 // (FindMidpoint) suffices and the recursion is skipped.
 //
-uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
+uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
   size_t size1, size_t size2) {
   if (pairs == nullptr)
     return FindMidpoint(occ, 0, size1, 0, size2).length;
@@ -106,16 +143,16 @@ uint32_t LCSRickSpace::Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
 // the "LeftPos/TopPos" preprocessing that lets each contour scan jump straight
 // to the next (or previous) occurrence instead of binary-searching a list.
 //
-LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
-  const MATCHES& matches, size_t size1, size_t size2) {
+Occurrences BuildOccurrences(
+  const LCS::MATCHES& matches, size_t size1, size_t size2) {
   Occurrences occ;
   occ.rows = (int64_t)size1;
   occ.columns = (int64_t)size2;
 
   // Two rows sharing a symbol share the same match-list pointer, so pointer
   // identity compresses the symbols without needing the symbol values.
-  unordered_map<const INDEXES*, uint32_t> pointerToId;
-  vector<const INDEXES*> lists;         // lists[id] = sorted positions of symbol id
+  unordered_map<const LCS::INDEXES*, uint32_t> pointerToId;
+  vector<const LCS::INDEXES*> lists;    // lists[id] = sorted positions of symbol id
   occ.rowId.assign(size1, UINT32_MAX);
   for (size_t rowIndex = 0; rowIndex < size1; rowIndex++) {
     const auto* matchList = matches[rowIndex];
@@ -198,7 +235,7 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
 // points in s2.  No match lists are materialized, so the preprocessing stays
 // linear even when the number of matches r would be quadratic.
 //
-LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
+Occurrences BuildOccurrences(
   const u32string& s1, const u32string& s2) {
   Occurrences occ;
   occ.rows = (int64_t)s1.size();
@@ -272,7 +309,7 @@ LCSRickSpace::Occurrences LCSRickSpace::BuildOccurrences(
   return occ;
 }
 
-void LCSRickSpace::Hirschberg(const Occurrences& occ,
+void Hirschberg(const Occurrences& occ,
   size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out) {
   if (row0 >= row1 || column0 >= column1)
     return;
@@ -316,7 +353,7 @@ void LCSRickSpace::Hirschberg(const Occurrences& occ,
   Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out);
 }
 
-LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
+Result FindMidpoint(const Occurrences& occ,
   size_t row0, size_t row1, size_t column0, size_t column1) {
   Result result;
   if (row0 >= row1 || column0 >= column1)
@@ -372,7 +409,7 @@ LCSRickSpace::Result LCSRickSpace::FindMidpoint(const Occurrences& occ,
 //
 // Lemma 5 contour cutting.
 //
-LCSRickSpace::Contour LCSRickSpace::CutForward(const Contour& forward, const Contour& backward) {
+Contour CutForward(const Contour& forward, const Contour& backward) {
   Contour kept;
   // Both contours are sorted by ascending row (hence descending column).
   // For each forward match, the first backward match with row > match.row also
@@ -389,7 +426,7 @@ LCSRickSpace::Contour LCSRickSpace::CutForward(const Contour& forward, const Con
   return kept;
 }
 
-LCSRickSpace::Contour LCSRickSpace::CutBackward(const Contour& backward, const Contour& forward) {
+Contour CutBackward(const Contour& backward, const Contour& forward) {
   Contour kept;
   // Symmetric to CutForward: for each backward match, the last forward match
   // with row < match.row has the smallest column of any forward match
@@ -409,7 +446,7 @@ LCSRickSpace::Contour LCSRickSpace::CutBackward(const Contour& backward, const C
 // [column0, column1).  This is the dual diagonal sweep with no predecessor
 // contour.
 //
-LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
+Contour FirstForward(const Occurrences& occ,
   size_t row0, size_t row1, size_t column0, size_t column1) {
   return NextForward(Contour{}, occ, row0, row1, column0, column1);
 }
@@ -423,10 +460,10 @@ LCSRickSpace::Contour LCSRickSpace::FirstForward(const Occurrences& occ,
 // components within the current diagonal.  This bounds each contour's work at
 // O(min{m, n-p}).
 //
-LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
+Contour NextForward(const Contour& contour,
   const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
-  Contours++;
+  LCSRickSpace::Contours++;
   auto rowCount = row1 - row0;          // rows
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);
@@ -450,7 +487,7 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
     leftSources--;
 
   for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-    Rows++;                             // one row + one column sweep step
+    LCSRickSpace::Rows++;                             // one row + one column sweep step
     auto rowIndex = row0 + diagonal;    // row
     auto columnIndex = column0 + diagonal;  // column
 
@@ -466,7 +503,7 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
       auto column = occ.next[(size_t)rowId][lower];
       // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
       if (column < rowThresh && (int64_t)rowIndex < colThresh) {
-        Candidates++;
+        LCSRickSpace::Candidates++;
         next.push_back({ .row = (uint32_t)rowIndex, .column = column });
         rowThresh = column;
       }
@@ -484,7 +521,7 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
       auto row = occ.next1[(size_t)colId][lower];
       // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
       if (row < colThresh && (int64_t)columnIndex < rowThresh) {
-        Candidates++;
+        LCSRickSpace::Candidates++;
         next.push_back({ .row = row, .column = (uint32_t)columnIndex });
         colThresh = row;
       }
@@ -505,7 +542,7 @@ LCSRickSpace::Contour LCSRickSpace::NextForward(const Contour& contour,
 // BC[1]: dominant (maximal) rank-1 matches, the backward dual sweep applied
 // with no predecessor contour.
 //
-LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
+Contour FirstBackward(const Occurrences& occ,
   size_t row0, size_t row1, size_t column0, size_t column1) {
   return NextBackward(Contour{}, occ, row0, row1, column0, column1);
 }
@@ -517,10 +554,10 @@ LCSRickSpace::Contour LCSRickSpace::FirstBackward(const Occurrences& occ,
 // column sweep for the backward vertical stripe, interleaved over the
 // anti-diagonal and stopped by the symmetric completeness test.
 //
-LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
+Contour NextBackward(const Contour& contour,
   const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1) {
   Contour next;
-  Contours++;
+  LCSRickSpace::Contours++;
   auto rowCount = row1 - row0;          // rows
   auto columnCount = column1 - column0;  // columns
   auto diagonalCount = min(rowCount, columnCount);
@@ -543,7 +580,7 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
     rightSources++;
 
   for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-    Rows++;                             // one row + one column sweep step
+    LCSRickSpace::Rows++;                             // one row + one column sweep step
     auto rowIndex = row1 - 1 - diagonal;  // row
     auto columnIndex = column1 - 1 - diagonal;  // column
 
@@ -565,7 +602,7 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
         auto column = occ.prev[(size_t)rowId][upper];
         // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
         if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
-          Candidates++;
+          LCSRickSpace::Candidates++;
           next.push_back({ .row = (uint32_t)rowIndex, .column = column });
           rowThresh = column;
         }
@@ -590,7 +627,7 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
         auto row = occ.prev1[(size_t)colId][(size_t)upper];
         // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
         if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
-          Candidates++;
+          LCSRickSpace::Candidates++;
           next.push_back({ .row = row, .column = (uint32_t)columnIndex });
           colThresh = row;
         }
@@ -611,7 +648,7 @@ LCSRickSpace::Contour LCSRickSpace::NextBackward(const Contour& contour,
 // Two contours have crossed when no backward match is strictly bottom-right
 // of any forward match (Rick, Lemma 3).
 //
-bool LCSRickSpace::Crossed(const Contour& forward, const Contour& backward) {
+bool Crossed(const Contour& forward, const Contour& backward) {
   // The crossing test is the same merged scan as CutForward, but it can stop
   // at the first forward match that still has a backward match below-right.
   size_t backwardIndex = 0;
@@ -628,7 +665,7 @@ bool LCSRickSpace::Crossed(const Contour& forward, const Contour& backward) {
 // After the contours have crossed, a midpoint is any forward match for which
 // some backward match lies non-strictly bottom-right of it.
 //
-LCSRickSpace::Match LCSRickSpace::Midpoint(const Contour& forward, const Contour& backward) {
+Match Midpoint(const Contour& forward, const Contour& backward) {
   // Merged scan: for each forward match, the first backward match with
   // row >= match.row has the largest column of any backward match
   // non-strictly below-right of it; it decides whether the match is a
@@ -641,4 +678,28 @@ LCSRickSpace::Match LCSRickSpace::Midpoint(const Contour& forward, const Contour
       return match;
   }
   return { .row = UINT32_MAX, .column = UINT32_MAX };
+}
+}
+
+uint64_t LCSRickSpace::Candidates = 0;
+uint64_t LCSRickSpace::Rows = 0;
+uint64_t LCSRickSpace::Contours = 0;
+
+void LCSRickSpace::ResetCounters() {
+  Candidates = 0;
+  Rows = 0;
+  Contours = 0;
+}
+
+uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
+  const MATCHES& matches, uint32_t size1, uint32_t size2) {
+  return Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
+}
+
+uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
+  const u32string& s1, const u32string& s2) {
+  // Build O(ns) occurrence tables directly from the code points and amortize
+  // them over the whole Hirschberg recursion.  No match lists are ever
+  // materialized, so this path stays feasible for very long strings.
+  return Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
 }

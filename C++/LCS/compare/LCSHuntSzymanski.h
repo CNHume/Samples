@@ -22,7 +22,6 @@
 
 #include "LCS.h"
 
-#include <cstddef>                      // for ptrdiff_t
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
 
@@ -32,9 +31,4 @@ class LCSHuntSzymanski : public LCS {
 public:
   static uint32_t Find(
     shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
-
-private:
-  static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3,
-    uint32_t& index1, uint32_t& index2);
 };
