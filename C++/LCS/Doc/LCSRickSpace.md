@@ -172,10 +172,13 @@ the character (code-point) path under `-t` and the record/word path otherwise.
 The **merge instead of sort** refinement has landed: the row-swept and
 column-swept matches are each emitted in order, so `NextForward`/`NextBackward`
 now reverse the descending list and linearly merge instead of sorting.  Profiling
-(Where the time goes) then located the remaining gap precisely, and the current
-plan is **contour reuse**, designed below.  The hybrid auto-select is retained as
-an alternative; the earlier range-jump attempt is recorded in the Range jump
-(reverted) section below.
+(Where the time goes) then located the remaining gap in the contour sweep, and
+the **contour reuse** attack on it was implemented, fuzz-verified, benchmarked as
+a wash, and reverted — see its Result subsection.  Both experiments (the range
+jump and contour reuse) point to the same conclusion: RickSpace's linear-space
+recomputation is near-optimal, and the gap to `LCSRickTime` is the price of
+RickTime's `O(d)` recording, not a fixable overhead.  The hybrid auto-select
+remains the only path to RickTime's speed.
 
 ## Where the time goes
 
@@ -199,12 +202,13 @@ One structural detail: diagonal steps per contour build grow with mutation
 (3.1 at 100 subs, 17.2 at 1000 subs on 4.6M), so the cost concentrates in the
 high-mutation regime where the antichains are wide.
 
-## Contour reuse (proposed)
+## Contour reuse (reverted)
 
-Because the cost is the number of contour builds, the direct fix is to stop
-rebuilding the contours a parent already computed.  A Hirschberg node builds
-`FC[1..f]` and `BC[1..b]` to find one midpoint, then recurses into a prefix and
-a suffix:
+The design below was the direct attack on the recomputation the profile
+identifies: stop rebuilding the contours a parent already computed.  It was
+implemented, fuzz-verified, benchmarked as a wash, and reverted — the Result
+subsection records why and what it implies.  A Hirschberg node builds `FC[1..f]`
+and `BC[1..b]` to find one midpoint, then recurses into a prefix and a suffix:
 
 - the **prefix**'s forward contours are the parent's `FC` restricted to matches
   strictly above-left of the midpoint (rank is preserved there, because every
@@ -215,9 +219,7 @@ a suffix:
 So pass the filtered parent contours down and let each child build only its
 *cross* direction (the prefix's backward, the suffix's forward).  Each level's
 contour work then drops from `p` to `p/2`, roughly **halving** the contour builds
-and the diagonal steps: 65 s → ~37–40 s at 46.7M/100-subs (≈1.8×).  It is
-deterministic — no budget guess, no try/fail/retry — and it is the direct attack
-on the recomputation the profile identifies.
+and the diagonal steps — the predicted 65 s → ~37–40 s at 46.7M/100-subs (≈1.8×).
 
 ### Ceiling and memory
 
@@ -230,6 +232,30 @@ worth of matches: ~`p` matches (a few hundred MB at 46.7M), negligible beside th
 growth that OOMs RickTime.  To keep the "never OOMs" guarantee there, cap the
 retained contours and recompute past the cap; that cap is a fixed budget (a
 smooth time↔space tradeoff), not a fallback.
+
+### Result (reverted)
+
+The reuse was implemented, fuzz-verified (all 200,000 trials passed), and
+benchmarked back-to-back against the discard-and-recompute baseline on
+4.6M/100-subs:
+
+| Build | Contours | Rows | User time | Wall | Peak RSS |
+|---|---:|---:|---:|---:|---:|
+| Baseline | 44.3M | 139M | 9.01 s | 9.46 s | 0.80 GB |
+| Contour reuse | 24.5M | 94.8M | 8.75 s | 10.09 s | 1.93 GB |
+
+The reuse cut the recomputation exactly as designed — 1.81× fewer contour builds
+and 1.47× fewer diagonal steps — yet the net time was a wash (3% faster on CPU,
+7% slower wall) and the memory 2.4× worse.  Retaining and filtering the contours
+(`FilterBox` allocations plus a 1.13 GB larger working set) consumed the saved
+sweep work, because the sweep is memory-bound, not CPU-bound.
+
+This overturns the premise of this section.  RickSpace's discard-and-recompute is
+already near-optimal for linear space: the 8 GB occurrence tables — not the
+contour rebuilds — are the binding cost, and retention only adds to the one
+resource that is scarce.  The gap to RickTime is therefore the price of
+RickTime's `O(d)` recording (its memory), not a fixable recomputation overhead,
+and the code was reverted.
 
 ## Range jump (reverted)
 
@@ -337,10 +363,9 @@ is benchmarked here.
 
 ## Hybrid auto-select (alternative)
 
-Contour reuse above is the preferred path because it is deterministic; this
-section is the fallback that actually reaches RickTime's ~25 s, at the cost of a
-try/fail/retry heuristic.  The range-jump result pinned the RickSpace↔RickTime
-gap to *structure*, not to
+With contour reuse reverted, this is the only remaining path to RickTime's ~25 s,
+at the cost of a try/fail/retry heuristic.  The range-jump and contour-reuse
+results together pinned the RickSpace↔RickTime gap to *memory*, not to
 any avoidable per-step cost: RickTime finds each dominant match exactly once in
 one diagonal sweep (`O(m + d)` probes), while RickSpace rebuilds forward and
 backward contours rank-by-rank at every Hirschberg level — ~9.5× the LCS length
