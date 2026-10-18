@@ -18,18 +18,22 @@
 //
 #include "LCSFile.h"
 #include "LCSEncoding.h"
+#include "LCSFormatRecord.h"
+#include "LCSFormatString.h"
+#include "LCSRecord.h"
+#include "LCSString.h"
 
 uint32_t LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, const Command command) {
   uint32_t length(0);
   if (!command.istext) {
-    auto r1 = Read(command.file1, command.isword);
-    auto r2 = Read(command.file2, command.isword);
+    auto r1 = LCSRecord::Read(command.file1, command.isword);
+    auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Correspondence(intervals, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
       command.join, command.prefix, command.suffix, command.algorithm);
     if (intervals != nullptr)
-      Show(*intervals, r1, r2, command.file1, command.file2);
+      LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }
   else if (command.isquote) {
     // Quick demo: treat the filename arguments as literal strings.
@@ -61,13 +65,13 @@ uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, const Command command) {
   uint32_t length(0);
   if (!command.istext) {
-    auto r1 = Read(command.file1, command.isword);
-    auto r2 = Read(command.file2, command.isword);
+    auto r1 = LCSRecord::Read(command.file1, command.isword);
+    auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Difference(intervals, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
       command.join, command.prefix, command.suffix, command.algorithm);
     if (intervals != nullptr)
-      Show(*intervals, r1, r2, command.file1, command.file2);
+      LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }
   else if (command.isquote) {
     // Quick demo: treat the filename arguments as literal strings.

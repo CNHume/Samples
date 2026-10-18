@@ -20,15 +20,12 @@
 
 #include "Command.h"
 
-#include "LCSFormatRecord.h"
-#include "LCSFormatString.h"
-
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
 
 using namespace std;
 
-class LCSFile : public LCSFormatRecord {
+class LCSFile {
 public:
   static uint32_t Correspondence(
     shared_ptr<Delta>* intervals, const Command command);
