@@ -67,8 +67,18 @@ void Command::Parse(int argc, char* argv[]) {
     else {                              // parse single character switch
       switch (token[1]) {
       case 'a':                         // the algorithm switch: d=dynamic programming, s=space, t=time
-        if (len == 3) {                 // expects -ad, -at, or -as
-          switch (token[2]) {
+        {
+          // Accept both -ad and -a d (whitespace optional, as with -j, -p, -s).
+          const char* sub = nullptr;
+          if (len == 3)                 // -ad, -as, or -at
+            sub = &token[2];
+          else if (len == 2 && n + 1 < argc && strlen(argv[n + 1]) == 1)
+            sub = argv[++n];            // -a d, -a s, or -a t
+          else {
+            usage = true;               // -a needs exactly one sub-letter
+            break;
+          }
+          switch (sub[0]) {
           case 'd':
             algorithm = LCS::Algorithm::HuntSzymanski;
             break;
@@ -82,8 +92,6 @@ void Command::Parse(int argc, char* argv[]) {
             usage = true;               // unknown algorithm
           }
         }
-        else
-          usage = true;                 // -a needs exactly one sub-letter
         break;
 
       case 'b':                         // the ignorespace switch
