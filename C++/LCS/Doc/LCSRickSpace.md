@@ -177,8 +177,9 @@ the **contour reuse** attack on it was implemented, fuzz-verified, benchmarked a
 a wash, and reverted — see its Result subsection.  Both experiments (the range
 jump and contour reuse) point to the same conclusion: RickSpace's linear-space
 recomputation is near-optimal, and the gap to `LCSRickTime` is the price of
-RickTime's `O(d)` recording, not a fixable overhead.  The hybrid auto-select
-remains the only path to RickTime's speed.
+RickTime's `O(d)` recording, not a fixable overhead.  The remaining plan is the
+**advisory guidance** below: keep the explicit algorithm choice and warn or
+suggest when the other algorithm would serve the input better.
 
 ## Where the time goes
 
@@ -198,7 +199,9 @@ are noise.  The recomputation — 44M–120M rank-by-rank forward+backward conto
 builds summing to 139M–981M diagonal steps — *is* the cost.  This closes the
 question the range jump left open: the gap is not the per-diagonal walk (only
 3.3% of steps are skippable), it is the *number of contour builds* themselves.
-One structural detail: diagonal steps per contour build grow with mutation
+Attacking that directly — contour reuse — halved the builds but not the time: the
+sweep is memory-bound, not CPU-bound (see the Contour reuse Result below).  One
+structural detail: diagonal steps per contour build grow with mutation
 (3.1 at 100 subs, 17.2 at 1000 subs on 4.6M), so the cost concentrates in the
 high-mutation regime where the antichains are wide.
 
@@ -361,84 +364,69 @@ cannot reach the RickTime time and was reverted.  A jump could still pay off on
 insertion/deletion-heavy inputs with long off-diagonal gaps, but no such corpus
 is benchmarked here.
 
-## Hybrid auto-select (alternative)
+## Advisory guidance (proposed)
 
-With contour reuse reverted, this is the only remaining path to RickTime's ~25 s,
-at the cost of a try/fail/retry heuristic.  The range-jump and contour-reuse
-results together pinned the RickSpace↔RickTime gap to *memory*, not to
-any avoidable per-step cost: RickTime finds each dominant match exactly once in
-one diagonal sweep (`O(m + d)` probes), while RickSpace rebuilds forward and
-backward contours rank-by-rank at every Hirschberg level — ~9.5× the LCS length
-in contour builds at 4.6M/100-subs.  No within-sweep optimization can close a
-recomputation gap, so the pragmatic design stops trying to make RickSpace run
-like RickTime and instead **chooses between them**: run RickTime when its
-recording fits, fall back to RickSpace when it does not.
+The two reverted experiments settled the question: RickSpace's linear-space
+recomputation is near-optimal, and the only lever that reaches RickTime's speed
+is RickTime's memory.  So instead of making either algorithm something it is not —
+or auto-switching between them — `compare` keeps the explicit `-ad`/`-as`/`-at`
+choice and *advises* the user when that choice is pathological for the input.
+This delivers the hybrid's value (steering toward the better algorithm) without
+its try/fail/retry: no automatic re-run, no bimodal performance, and the user
+stays in control.
 
-### Selection
+### Two one-way hints
 
-`compare` gains an auto mode (`-a a`, made the default) that runs `LCSRickTime`
-under a **byRank budget** and hands off to `LCSRickSpace` when the budget is
-exceeded:
+The two algorithms fail asymmetrically, so the guidance is two one-way hints
+rather than one symmetric mechanism:
 
-- RickTime's peak memory is its `O(ns)` occurrence tables plus one `DomMatch`
-  (8 bytes) per recorded dominant match in `byRank`.  The budget is a cap on
-  that record count `d`, derived from available RAM minus the known,
-  size-constant table footprint, with a safety margin.
-- When the count exceeds the cap, RickTime stops recording, frees `byRank`, and
-  reports "too large"; `compare` then re-runs the same inputs through
-  `LCSRickSpace`.
+**`-at` (RickTime) — a proactive warning.**  RickTime's peak memory is its
+`O(ns)` tables plus one `DomMatch` (8 bytes) per recorded dominant match in
+`byRank`, and `byRank` grows monotonically during its single sweep.  It can
+watch its own record count `d` and, when `d` would push the working set past
+available RAM (with a safety margin), print
+"match recording needs ~X GB beyond the tables; use `-as` for linear memory" and
+abort cleanly — before the OS OOM-killer does.  This turns an abrupt kill into a
+clear diagnostic; the user re-runs with `-as`.
 
-Because the cap is RAM-derived, RickTime is only attempted when its recording
-can actually fit, so the auto mode keeps RickSpace's "never OOMs" property while
-taking RickTime's speed whenever memory allows.  Scope is the character path
-(`-t`), where `LCSRickTime` exists; the record path is unchanged.
+**`-as` (RickSpace) — a post-hoc suggestion.**  RickSpace never runs out of
+memory, so its pathology is slowness: near-identical inputs are exactly where it
+is ~2.6× slower than RickTime and where RickTime's recording is small enough to
+fit.  The one cheap signal is the LCS length `p` RickSpace already returns; when
+`min(m, n) − p` is small, it can print
+"near-identical input; `-at` would likely fit and run ~2.6× faster".  Post-hoc
+and advisory, so imprecision is acceptable — the user simply re-runs.
 
-### Worst case
+### Why advisory, not automatic
 
-The concern with any fallback is that the fallback path itself becomes
-pathological.  It does not, because every branch is bounded by either the cap or
-RickSpace's own bound:
+- `compare` is already user-driven through `-ad`/`-as`/`-at`; an auto mode would
+  second-guess an explicit choice.
+- No try/fail/retry means no variable, bimodal performance (the objection to the
+  auto-select form of this plan).
+- The user may legitimately prefer RickSpace's flat `O(ns)` memory even where
+  RickTime would be faster; a suggestion lets them make that call.
+- Deterministic: the hints are a pure function of (input, chosen algorithm,
+  budget) and never alter the emitted LCS.
 
-**Time.**  In the `d ≤ cap` regime the auto mode is exactly RickTime.  In the
-`d > cap` regime it is a *partial* RickTime sweep (recording stops at the cap)
-followed by a full RickSpace run.  The partial sweep costs at most one `O(ns)`
-table build plus an `O(m)` diagonal walk — bounded by the cap, not by `d` — so
-the worst case is **RickSpace + one RickTime sweep**, roughly 65 s + 25 s
-≈ 90 s at 46.7M, i.e. ~1.4× RickSpace.  It is never unboundedly worse than
-running RickSpace directly; the overhead is a constant controlled by the cap.
+### Implementation sketch
 
-**Memory.**  Peak RSS is the larger of (a) RickTime's tables plus a cap-sized
-`byRank` — the instant before a bail-out — and (b) RickSpace's flat `O(ns)`
-footprint.  Both stay under the host limit by construction, because the cap is
-set from available RAM with a margin.  The hybrid is therefore **not**
-flat-memory like RickSpace: it deliberately spends up to the cap to buy
-RickTime's speed.  Its peak is capped, never `O(d)`-unbounded, and never an
-OOM — which is the property that matters.
-
-**Fits-but-slower risk** (the one tunable).  If RickTime fits yet is slower
-than RickSpace — a boundary region near the cap — the auto mode is slower than
-pure RickSpace.  At every benchmarked point where RickTime fit (100 and
-1000 subs) it was faster — 3.4–3.6× at 16M, 1.35× at 4.6M/1000-subs — and it
-OOM'd rather than slowed at 10k subs.  If a fits-but-slower case appears,
-tightening the cap (a smaller record budget) moves the fallback earlier; a
-safety margin in the cap also guards against swap-thrash as the working set
-approaches the host limit.
-
-**Double work on abort.**  The bail-out discards RickTime's tables and redoes
-RickSpace's different `next`/`prev`/`next1`/`prev1` build — a second `O(ns)`
-table build of a few seconds — paid only in the high-mutation regime where
-RickSpace is required anyway.  Correctness is unaffected: both algorithms are
-fuzz-verified to agree with the DP reference, so the emitted LCS is valid no
-matter which one ran.
+- **RickTime warning** — a `byRank` budget check in the recording path (RickTime
+  already records through `push_back`); when the count exceeds a RAM-derived cap,
+  free `byRank` and report "too large" instead of running on into an OOM.  This
+  reuses the bail-out *detection* from the earlier auto-select design, but it
+  *reports* rather than *retries*.
+- **RickSpace suggestion** — after `Find` returns `p`, compare emits the hint when
+  `min(m, n) − p ≤ threshold`; the existing `Diagnostic` machinery is the natural
+  home for both hints.
 
 ### Open questions
 
-- Exact cap derivation — query available RAM at startup vs. a conservative
-  constant calibrated to the benchmark host — and the size of the safety margin.
-- Whether the auto mode is the default or stays opt-in behind `-a a`.
-- Whether a cheap `d` pre-estimate (e.g. a length-only forward pass) is worth
-  it to skip the double table build in the common case; only if the abort
-  regime turns out to be frequent.
+- Budget source for the RickTime cap (query available RAM at startup vs. a
+  conservative constant) and the size of the safety margin.
+- The "near-identical" threshold for the RickSpace suggestion — an absolute bound
+  on `min(m,n) − p`, or a ratio — and whether to also report estimated RickTime
+  time/memory.
+- A quiet switch so the hints can be suppressed in scripts.
 
 ## Build and test
 
