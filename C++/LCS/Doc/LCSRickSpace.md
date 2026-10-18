@@ -172,7 +172,8 @@ the character (code-point) path under `-t` and the record/word path otherwise.
 The **merge instead of sort** refinement has landed: the row-swept and
 column-swept matches are each emitted in order, so `NextForward`/`NextBackward`
 now reverse the descending list and linearly merge instead of sorting.  The
-remaining item is the **range jump**, designed in the Enhancements section below.
+**range jump**, designed in the Enhancements section below, was implemented and
+fuzz-verified but reverted after benchmarking — see the Result subsection there.
 
 ## Enhancements
 
@@ -248,6 +249,32 @@ so the 200k-trial fuzz harness is the correctness gate.  The plan: add
 `RowJump`/`ColumnJump` helpers, rewire the two loops to
 `min(rowJump, colJump)`, advance the source cursors in one step, then fuzz and
 benchmark 46.7M/100-subs.
+
+### Result (reverted)
+
+The jump was implemented, fuzz-verified (all 200,000 trials passed, emitting
+exactly the same dominant matches), and benchmarked back-to-back against the
+per-diagonal scan on 46.7M/100-subs:
+
+| Build | Wall | Peak RSS |
+|---|---:|---:|
+| Per-diagonal scan | 71.5 s | 8.36 GB |
+| Range jump | 158.3 s | 8.36 GB |
+
+The jump is ~2.2× *slower*, with memory unchanged.  Instrumenting the `Rows`
+counter on 4.6M/100-subs shows why: the jump visits 134,775,921 diagonals
+against the scan's 139,382,907 — it skips only **3.3%** — while every visited
+diagonal now pays an `O(s)` scan (5 symbols × 2 sweeps with `lower_bound`)
+instead of the scan's `O(1)`.  On near-identical inputs the matches are dense
+on the diagonal, so there is almost nothing to skip and the overhead dominates.
+
+This falsifies the hypothesis above that the confirmation walk is the 65.4 s
+vs 25.1 s gap to `LCSRickTime`: that gap is structural — RickSpace recomputes
+forward and backward contours at every Hirschberg level, while RickTime sweeps
+once.  The jump's ceiling on substitution-only data is a few percent, so it
+cannot reach the RickTime time and was reverted.  A jump could still pay off on
+insertion/deletion-heavy inputs with long off-diagonal gaps, but no such corpus
+is benchmarked here.
 
 ## Build and test
 
