@@ -21,8 +21,9 @@
 //
 #include "LCSRickSpace.h"
 
-#include <algorithm>                    // for min, reverse
+#include <algorithm>                    // for merge, max, min, reverse
 #include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX
+#include <iterator>                     // for back_inserter
 #include <memory>                       // for make_shared
 #include <unordered_map>                // for pointer -> symbol id
 #include <utility>                      // for move
@@ -485,7 +486,8 @@ namespace {
   Contour NextForward(
     const Contour& contour, const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1) {
-    Contour next;
+    Contour rowMatches;
+    Contour colMatches;
     LCSRickSpace::Contours++;
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
@@ -540,7 +542,7 @@ namespace {
         // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
         if (column < rowThresh && (int64_t)rowIndex < colThresh) {
           LCSRickSpace::Candidates++;
-          next.push_back({ .row = (uint32_t)rowIndex, .column = column });
+          rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
           rowThresh = column;
         }
       }
@@ -560,7 +562,7 @@ namespace {
         // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
         if (row < colThresh && (int64_t)columnIndex < rowThresh) {
           LCSRickSpace::Candidates++;
-          next.push_back({ .row = row, .column = (uint32_t)columnIndex });
+          colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
           colThresh = row;
         }
       }
@@ -573,8 +575,18 @@ namespace {
         break;
     }
 
-    sort(next.begin(), next.end(), [](const Match& left, const Match& right) {
-      return left.row < right.row; });
+    //
+    // Row-swept matches are already in ascending row order and column-swept
+    // matches in descending row order, so reverse the latter and merge rather
+    // than sort.
+    //
+    reverse(colMatches.begin(), colMatches.end());
+    Contour next;
+    next.reserve(rowMatches.size() + colMatches.size());
+    merge(rowMatches.begin(), rowMatches.end(),
+      colMatches.begin(), colMatches.end(),
+      back_inserter(next),
+      [](const Match& left, const Match& right) { return left.row < right.row; });
     return next;
   }
 
@@ -598,7 +610,8 @@ namespace {
   Contour NextBackward(
     const Contour& contour, const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1) {
-    Contour next;
+    Contour rowMatches;
+    Contour colMatches;
     LCSRickSpace::Contours++;
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
@@ -656,7 +669,7 @@ namespace {
           // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
           if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
             LCSRickSpace::Candidates++;
-            next.push_back({ .row = (uint32_t)rowIndex, .column = column });
+            rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
             rowThresh = column;
           }
         }
@@ -683,7 +696,7 @@ namespace {
           // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
           if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
             LCSRickSpace::Candidates++;
-            next.push_back({ .row = row, .column = (uint32_t)columnIndex });
+            colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
             colThresh = row;
           }
         }
@@ -694,10 +707,17 @@ namespace {
         break;
     }
 
-    sort(
-      next.begin(), next.end(), [](const Match& left, const Match& right) {
-        return left.row < right.row;
-      });
+    //
+    // Row-swept matches are in descending row order and column-swept matches in
+    // ascending row order, so reverse the former and merge rather than sort.
+    //
+    reverse(rowMatches.begin(), rowMatches.end());
+    Contour next;
+    next.reserve(rowMatches.size() + colMatches.size());
+    merge(rowMatches.begin(), rowMatches.end(),
+      colMatches.begin(), colMatches.end(),
+      back_inserter(next),
+      [](const Match& left, const Match& right) { return left.row < right.row; });
     return next;
   }
 
