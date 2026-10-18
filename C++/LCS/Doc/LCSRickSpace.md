@@ -169,31 +169,85 @@ the character (code-point) path under `-t` and the record/word path otherwise.
 
 ## Future work
 
-The next algorithmic focus is the **range jump** below; the sort merge is a
-minor follow-on.  Both target RickSpace's wall-clock without changing its
-linear memory (see `LCSPerformance.md`).
+The **merge instead of sort** refinement has landed: the row-swept and
+column-swept matches are each emitted in order, so `NextForward`/`NextBackward`
+now reverse the descending list and linearly merge instead of sorting.  The
+remaining item is the **range jump**, designed in the Enhancements section below.
 
-- **Jump over the off-diagonal confirmation (primary).**  A substitution inside
-  a repeated region (the `N` runs in chr21) yields a dominant match shifted off
-  the diagonal; the dual sweep then walks every intervening diagonal only to
-  have the cross-stripe dominance test reject its candidate.  This is the whole
-  remaining gap to `LCSRickTime` on time (46.7M vs `_100subs`: 65.4 s vs
-  25.1 s), while RickSpace keeps its flat 7.3 GB footprint.
+## Enhancements
 
-  The fix is to replace the per-diagonal scan with a *jump*: after recording a
-  match `(row, column)`, advance straight to the smallest `row' > row` whose
-  symbol occurs in the column window `(bound, rowThresh)`.  That is a range
-  query — the minimum over columns `j` in the window of
-  `next1[colId[j]][row + 1]` — answered by a small auxiliary structure (a
-  wavelet matrix over `s2`, or per-symbol rank/select with range-min) rather
-  than by iterating diagonals.  It would cut the confirmation work to `O(1)`
-  amortized per dominant match and approach `-at`'s speed in linear space.
+The following design closes RickSpace's remaining wall-clock gap to RickTime on
+the character path while keeping its linear memory.  It replaces the
+per-diagonal walk in `NextForward`/`NextBackward` with a *range jump* that skips
+the diagonals whose candidates the dominance test is bound to reject.
 
-- **Merge instead of sort.**  `NextForward`/`NextBackward` sort each contour at
-  the end.  The row-swept and column-swept matches are each already in order,
-  so a linear merge would drop the `log` factor.  Negligible for the
-  near-diagonal target data (contours are ~1 match), but relevant when
-  contours are large.
+### The confirmation cost
+
+`NextForward` walks each diagonal `d` (`rowIndex = row0 + d`,
+`columnIndex = column0 + d`) and runs two sweeps:
+
+- **Row sweep** — candidate `(rowIndex, column)`,
+  `column = next[rowId[rowIndex]][lower]`, emitted when
+  `column < rowThresh && rowIndex < colThresh`, then `rowThresh = column`.
+- **Column sweep** — candidate `(row, columnIndex)`,
+  `row = next1[colId[columnIndex]][lower]`, emitted when
+  `row < colThresh && columnIndex < rowThresh`, then `colThresh = row`.
+
+Between two emissions the sweep still visits every diagonal, computes a
+candidate, and has the dominance test reject it.  A substitution inside a
+repeated run (chr21's `N` regions) shifts the match off the diagonal, so this
+confirmation walk is the 65.4 s vs 25.1 s gap to `LCSRickTime` at
+46.7M/100-subs.
+
+### The jump
+
+Advance the diagonal straight to the smallest `d` where either sweep can emit,
+instead of `diagonal++`: two sub-jumps, then `nextDiagonal = min(rowJump, colJump)`.
+
+**Row-sweep jump.**  A symbol `σ`'s candidate passes when its next occurrence at
+or after the diagonal column is left of `rowThresh` — equivalently, when the
+diagonal column does not exceed `σ`'s last occurrence before `rowThresh`:
+
+    rowJump = min over σ of  next1[σ][r + 1]
+              where next1[σ][r + 1] ≤ row0 + prev[σ][rowThresh − 1] − column0
+                and sourceCol + 1 ≤ prev[σ][rowThresh − 1]
+
+**Column-sweep jump** (transposed):
+
+    colJump = min over σ of  next[σ][c + 1]
+              where next[σ][c + 1] ≤ column0 + prev1[σ][colThresh − 1] − row0 − 1
+                and sourceRow + 1 ≤ prev1[σ][colThresh − 1]
+
+Both queries use only the `next`/`prev`/`next1`/`prev1` tables already built, so
+on the character path (`s = 5` symbols) each jump is `O(s) = O(1)` — no new data
+structure.  For rank-1 contours (`contour` empty) the `sourceCol`/`sourceRow`
+conditions drop out.
+
+### Completeness
+
+The jump is clamped to the existing completeness diagonal — the first `d` where
+`column0 + d ≥ rowThresh` or `row0 + d ≥ colThresh` — and the loop breaks there,
+exactly as the per-diagonal scan does.
+
+### `NextBackward`
+
+The mirror image, with the thresholds moving rightward/downward; the queries
+become "smallest previous row/column" over `prev`/`prev1` where the forward
+sweep used `next`/`next1`.
+
+### Record path
+
+The same logic applies, but `s` is large there, so the `O(s)` symbol scan is
+infeasible and would be replaced by a wavelet matrix or per-symbol rank/select
+with range-min.  Deferred; the character path is the target.
+
+### Verification and plan
+
+The jump must emit exactly the same dominant matches as the per-diagonal scan,
+so the 200k-trial fuzz harness is the correctness gate.  The plan: add
+`RowJump`/`ColumnJump` helpers, rewire the two loops to
+`min(rowJump, colJump)`, advance the source cursors in one step, then fuzz and
+benchmark 46.7M/100-subs.
 
 ## Build and test
 
