@@ -36,20 +36,24 @@ using namespace std;
 
 class LCSRickSpace : public LCS {
 public:
+  //
   // Find the LCS length and matched positions.  On return, *pairs (when
   // non-null) is a linked list of matched (begin1, begin2) positions in
   // ascending order.  The match-list overload serves the record path; the
   // code-point overload builds O(ns) tables directly from the strings and
   // serves the character (-t -r) path.  Both assume size1 <= size2.
-  static uint32_t Find(shared_ptr<Pair>* pairs,
-    const MATCHES& matches, uint32_t size1, uint32_t size2);
-  static uint32_t Find(shared_ptr<Pair>* pairs,
-    const u32string& s1, const u32string& s2);
+  //
+  static uint32_t Find(
+    shared_ptr<Pair>* pairs, const MATCHES& matches, uint32_t size1, uint32_t size2);
+  static uint32_t Find(
+    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2);
 
+  //
   // Diagnostic counters (since the last ResetCounters()): the number of
   // dominant matches generated (Candidates), the number of diagonal sweep
   // steps (Rows), and the number of contour sweeps run (Contours).  They
   // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
+  //
   static uint64_t Candidates;
   static uint64_t Rows;
   static uint64_t Contours;
