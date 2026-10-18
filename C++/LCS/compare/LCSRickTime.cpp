@@ -214,7 +214,7 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   // Reconstruct.  Each rank's dominant matches form an antichain, so sorting
   // by ascending i forces descending j.  Walking backward from the p-th match,
   // the largest-i (k-1)-match with i < current.i is necessarily above-left of
-  // the current match (its j < current.j), giving a valid LCS.
+  // the current match (its j < current.j) giving a valid LCS.
   //
   if (traceLCS && p > 0) {
     for (int64_t k = 1; k <= (int64_t)p; k++) {
