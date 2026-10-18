@@ -31,4 +31,12 @@ public:
   static void WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n);
   // RickTime allocates two dense s x length occurrence tables.
   static void WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols);
+  // Maximum dominant matches RickTime may record before its byRank recording,
+  // added to the dense tables, would approach available RAM.
+  static uint64_t RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols);
+  // Warn that RickTime's match recording has exceeded its budget.
+  static void WarnRecordingSize(uint64_t records, uint64_t recordBudget);
+  // Suggest RickTime when RickSpace's result is near-identical (few edits),
+  // the regime where RickTime fits and is ~2.6x faster.
+  static void SuggestRickTime(uint32_t length, uint64_t shorter);
 };

@@ -438,10 +438,10 @@ g++ -std=c++20 -O2 -Wall -Wextra *.cpp -o compare
 
 # Difference (Hunt-Szymanski vs. RickSpace):
 compare -t     file1 file2
-compare -t -as file1 file2
+compare -as -t file1 file2
 
 # Correspondence:
-compare -t -as -c file1 file2
+compare -as -c -t file1 file2
 ```
 
 Correctness was verified against an O(m·n) dynamic-programming reference and

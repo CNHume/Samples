@@ -20,6 +20,10 @@
 #include <format>                       // for format
 #include <iostream>                     // for cerr
 
+#if defined(__unix__) || defined(__APPLE__) || defined(__linux__)
+#include <unistd.h>                     // for sysconf
+#endif
+
 namespace {
   // Warn when the match count exceeds this percentage of the full m x n
   // matching matrix.  Hunt-Szymanski is O((r + n) log n), so r near m*n is
@@ -31,6 +35,24 @@ namespace {
 
   // Warn when the estimated RickTime table footprint exceeds this byte budget.
   constexpr uint64_t tableByteBudget = 1ull << 30;   // 1 GiB
+
+  // Stop RickTime's recording before it fills this fraction of available RAM.
+  constexpr double recordingMargin = 0.8;
+
+  // Near-identical: at most this many edits (min(m, n) - p), and no more than
+  // 1% of the shorter string.
+  constexpr uint64_t nearIdenticalEdits = 1000;
+
+  // Available physical memory, with a conservative fallback.
+  uint64_t availableBytes() {
+#if defined(_SC_AVPHYS_PAGES)
+    auto pages = sysconf(_SC_AVPHYS_PAGES);
+    auto pageSize = sysconf(_SC_PAGESIZE);
+    if (pages > 0 && pageSize > 0)
+      return (uint64_t)pages * (uint64_t)pageSize;
+#endif
+    return 15ull << 30;                 // conservative fallback: 15 GiB
+  }
 }
 
 void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
@@ -53,5 +75,29 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
       "warning: RickTime occurrence tables need ~{} bytes for {} symbols "
       "over a {}x{} input; consider -as (linear space)\n",
       bytes, symbols, m, n);
+  }
+}
+
+uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
+  // next1/next2 are uint32_t tables; byRank holds one 8-byte DomMatch per
+  // dominant match.  Reserve a safety margin of the available RAM.
+  auto tableBytes = 4 * symbols * (m + n + 4);
+  auto budgetBytes = (uint64_t)((double)availableBytes() * recordingMargin);
+  return budgetBytes > tableBytes ? (budgetBytes - tableBytes) / 8 : 0;
+}
+
+void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
+  std::cerr << std::format(
+    "warning: RickTime match recording needs ~{} bytes, exceeding the ~{} byte "
+    "budget; use -as (RickSpace) for linear memory instead\n",
+    records * 8, recordBudget * 8);
+}
+
+void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
+  auto edits = shorter - length;
+  if (edits <= nearIdenticalEdits && edits * 100 <= shorter) {
+    std::cerr << std::format(
+      "note: near-identical input (LCS {} of {}); -at (RickTime) would likely "
+      "fit and run ~2.6x faster\n", length, shorter);
   }
 }

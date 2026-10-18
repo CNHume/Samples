@@ -166,6 +166,10 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     length = algorithm == LCS::Algorithm::RickTime ?
       LCSRickTime::Find(ppairs, shorter, longer) :
       LCSRickSpace::Find(ppairs, shorter, longer);
+    if (algorithm == LCS::Algorithm::RickSpace)
+      // RickSpace is memory-safe but slow on near-identical inputs, the regime
+      // where RickTime fits and is ~2.6x faster.
+      Diagnostic::SuggestRickTime(length, shorter.size());
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);

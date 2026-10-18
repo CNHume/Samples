@@ -21,7 +21,9 @@
 #include "Diagnostic.h"
 
 #include <algorithm>                    // for lower_bound, sort
+#include <cstdint>                      // for uint64_t
 #include <memory>                       // for make_shared
+#include <stdexcept>                    // for runtime_error
 #include <unordered_map>                // for symbol-id compression
 #include <vector>
 
@@ -133,6 +135,17 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
     byRank.assign((size_t)m + 2, vector<DomMatch>());
 
   //
+  // Bound the match recording by available memory.  The dense next tables are
+  // fixed once built, but byRank grows with the number of dominant matches and
+  // is what OOMs RickTime, so abort with a clear diagnostic before the OS
+  // OOM-killer does.
+  //
+  uint64_t records = 0;
+  uint64_t recordBudget = 0;
+  if (traceLCS)
+    recordBudget = Diagnostic::RecordingBudget((uint64_t)m, (uint64_t)n, t.next1.size());
+
+  //
   // "Single diagonal sweep": one forward pass over the m diagonals.  At each
   // diagonal l the sweep handles two frontiers in the same pass — row l
   // (dominant matches (l, j) with j >= l, i.e. at/right of the diagonal) and
@@ -165,8 +178,13 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
       if (j < rowThresh[(size_t)k]) {
         auto temp = rowThresh[(size_t)k];
         rowThresh[(size_t)k] = (uint32_t)j;  // dominant k-match (l, j)
-        if (traceLCS)
+        if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)l, .j = (uint32_t)j });
+          if (++records > recordBudget) {
+            Diagnostic::WarnRecordingSize(records, recordBudget);
+            throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+          }
+        }
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
       }
       if (j == rowThresh[(size_t)k])
@@ -191,8 +209,13 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
       if (i < colThresh[(size_t)k]) {
         auto temp = colThresh[(size_t)k];
         colThresh[(size_t)k] = (uint32_t)i;  // dominant k-match (i, l)
-        if (traceLCS)
+        if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)i, .j = (uint32_t)l });
+          if (++records > recordBudget) {
+            Diagnostic::WarnRecordingSize(records, recordBudget);
+            throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+          }
+        }
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];
       }
       if (i == colThresh[(size_t)k])

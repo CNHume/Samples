@@ -17,7 +17,7 @@
 //
 // Usage:
 //
-// compare [-c] [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2
+// compare [-a <d|s|t>] [-b] [-c] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2
 //
 #include "Command.h"
 #include "Version.h"
@@ -208,5 +208,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-c] [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-q] [-a <d|s|t>] [-f] [-t] [-w] [-v] file1 file2");
+      "Usage: compare [-a <d|s|t>] [-b] [-c] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2");
 }
