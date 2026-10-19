@@ -20,8 +20,11 @@
 #include <format>                       // for format
 #include <iostream>                     // for cerr
 
-#if defined(__unix__) || defined(__APPLE__) || defined(__linux__)
-#include <unistd.h>                     // for sysconf
+#if defined(_WIN32)
+  #define NOMINMAX
+  #include <windows.h>                  // for GlobalMemoryStatusEx
+#elif defined(__unix__) || defined(__APPLE__) || defined(__linux__)
+  #include <unistd.h>                   // for sysconf
 #endif
 
 namespace {
@@ -47,9 +50,17 @@ namespace {
   //
   constexpr uint64_t nearIdenticalEdits = 1000;
 
-  // Available physical memory, with a conservative fallback.
+  //
+  // Available physical memory — the working-set ceiling before the OS starts
+  // killing (Linux OOM) or paging (Windows) — with a conservative fallback.
+  //
   uint64_t availableBytes() {
-#if defined(_SC_AVPHYS_PAGES)
+#if defined(_WIN32)
+    MEMORYSTATUSEX mem{};
+    mem.dwLength = sizeof(mem);
+    if (GlobalMemoryStatusEx(&mem))
+      return mem.ullAvailPhys;
+#elif defined(_SC_AVPHYS_PAGES)
     auto pages = sysconf(_SC_AVPHYS_PAGES);
     auto pageSize = sysconf(_SC_PAGESIZE);
     if (pages > 0 && pageSize > 0)

@@ -17,7 +17,7 @@
 //
 // Usage:
 //
-// compare [-a <d|s|t>] [-b] [-c] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2
+// compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2
 //
 #include "Command.h"
 #include "Version.h"
@@ -106,6 +106,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           isscorrespondence = true;
+        break;
+
+      case 'e':                         // the environment switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isenvironment = true;
         break;
 
       case 'f':                         // the fasta switch, which implies text
@@ -216,5 +223,5 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (usage)                            // throw usage line if parse failed
     throw runtime_error(
-      "Usage: compare [-a <d|s|t>] [-b] [-c] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2");
+      "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2");
 }

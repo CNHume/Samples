@@ -41,6 +41,7 @@ public:
   bool isfasta;
   bool islength;
   bool isversion;
+  bool isenvironment;
   bool isword;
 
 protected:
@@ -64,6 +65,7 @@ public:
     isfasta(false),
     islength(false),
     isversion(false),
+    isenvironment(false),
     isword(false) {
   }
 
