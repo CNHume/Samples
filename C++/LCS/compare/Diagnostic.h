@@ -26,8 +26,8 @@
 //
 class Diagnostic {
 public:
-  // Hunt-Szymanski degenerates when the match count r is large relative to
-  // the full m x n matching matrix, since it runs in O((r + n) log n).
+  // Hunt-Szymanski degenerates when the match count r is large relative
+  // to the full m x n matching matrix, since it runs in O((r + n) log n).
   static void WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n);
   // RickTime allocates two dense s x length occurrence tables.
   static void WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols);

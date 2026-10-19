@@ -107,9 +107,11 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
 #ifdef SHOW_DURATION
   Duration duration{ "LCSRecord::Compare", (long)(r1.size() + r2.size()) };
 #endif
+  //
   // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
   // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
   // inputs, so the swap must precede the shared match-list build.
+  //
   auto isswapped =
     algorithm != LCS::Algorithm::HuntSzymanski && r2.size() < r1.size();
   const auto& shorter = isswapped ? r2 : r1;

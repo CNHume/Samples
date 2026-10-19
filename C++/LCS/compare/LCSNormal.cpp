@@ -134,8 +134,10 @@ void LCSNormal::NormalSpace(const u32string& input, u32string& output,
       i++;
     }
     else {
-      // Collapse an internal whitespace run to a single space whose
-      // original span is the whole run [runStart, i).
+      //
+      // Collapse an internal whitespace run to a single space
+      // whose original span is the whole run [runStart, i).
+      //
       auto runStart = i;
       while (i < end && IsSpace(input[i]))
         i++;

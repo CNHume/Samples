@@ -57,20 +57,25 @@ uint64_t LCSString::Match(
   return count;
 }
 
-uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
+uint32_t LCSString::Correspondence(
+  shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
   LCS::Algorithm algorithm) {
+  //
   // A null interval pointer requests length only: skip the span/context
   // construction and return the length directly.
+  //
   if (intervals == nullptr)
     return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm);
 
   if (ignorespace) {
+    //
     // Compare whitespace-collapsed strings, then expand the reported
     // spans back to the original strings.  The number of code points
     // changes under collapse, so indices must be remapped.
+    //
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
@@ -81,8 +86,8 @@ uint32_t LCSString::Correspondence(shared_ptr<Delta>* intervals,
     Delta::Context(*intervals, size1, size2, prefix, suffix);
     if (isjoin)
       *intervals = Delta::Coalesce(*intervals, join);
-    MapDeltas(*intervals, mapBegin1, mapEnd1, mapBegin2, mapEnd2,
-      s1.size(), s2.size());
+    MapDeltas(
+      *intervals, mapBegin1, mapEnd1, mapBegin2, mapEnd2, s1.size(), s2.size());
     return length;
   }
 
@@ -115,8 +120,8 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
     auto deltas = Delta::Complement(*intervals, size1, size2);
     Delta::Context(deltas, size1, size2, prefix, suffix);
     deltas = isjoin ? Delta::Coalesce(deltas, join) : deltas;
-    MapDeltas(deltas, mapBegin1, mapEnd1, mapBegin2, mapEnd2,
-      s1.size(), s2.size());
+    MapDeltas(
+      deltas, mapBegin1, mapEnd1, mapBegin2, mapEnd2, s1.size(), s2.size());
     *intervals = deltas;
     return length;
   }
@@ -136,8 +141,10 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 #ifdef SHOW_DURATION
   Duration duration{ "LCSString::Compare", (long)(s1.size() + s2.size()) };
 #endif
-  // A null delta pointer is the length-only flag: forward it to the algorithm
-  // as a null pairs pointer so it skips reconstruction.
+  //
+  // A null delta pointer is the length-only flag: forward it to the
+  // algorithm as a null pairs pointer so it skips reconstruction.
+  //
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   uint32_t length;
@@ -154,9 +161,11 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   }
   case LCS::Algorithm::RickSpace:
   case LCS::Algorithm::RickTime: {
-    // Both Rick variants assume m <= n: scan the shorter string, table the
-    // longer.  Normalize both strings first, then swap on the normalized
-    // lengths, because whitespace collapse can change which is the shorter.
+    //
+    // Both Rick variants assume m <= n: scan the shorter string, table the longer.
+    // Normalize both strings first, then swap on the normalized lengths because
+    // whitespace collapse can change which is shorter.
+    //
     u32string ns1, ns2;
     LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
@@ -167,8 +176,10 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
       LCSRickTime::Find(ppairs, shorter, longer) :
       LCSRickSpace::Find(ppairs, shorter, longer);
     if (algorithm == LCS::Algorithm::RickSpace)
-      // RickSpace is memory-safe but slow on near-identical inputs, the regime
-      // where RickTime fits and is ~2.6x faster.
+      //
+      // RickSpace is memory-safe but slow on near-identical inputs,
+      // the regime where RickTime fits and is ~2.6x faster.
+      //
       Diagnostic::SuggestRickTime(length, shorter.size());
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
@@ -200,12 +211,16 @@ u32string LCSString::Read(const string& filename) {
     codePoints = LCSEncoding::DecodeUtf8(bytes);
   }
 #ifdef KEEP_CRLF
+  //
   // Treat file as one long string without end-of-line normalization.
   // CR and LF can be ignored via -b.
+  //
   return codePoints;
 #else
+  //
   // Normalize CRLF to LF so -t text will ignore end-of-line differences
   // as is done for LCSRecord::Read()
+  //
   return LCSEncoding::NormalizeCrlf(codePoints);
 #endif
 }

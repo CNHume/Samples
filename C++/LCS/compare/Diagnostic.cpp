@@ -25,22 +25,26 @@
 #endif
 
 namespace {
+  //
   // Warn when the match count exceeds this percentage of the full m x n
   // matching matrix.  Hunt-Szymanski is O((r + n) log n), so r near m*n is
   // pathological; the algorithm is meant for the sparse r = O(n) regime.
+  //
   constexpr uint64_t matchPercent = 1;
 
   // Absolute floor below which a match count is too small to matter.
   constexpr uint64_t matchFloor = 10'000'000;
 
   // Warn when the estimated RickTime table footprint exceeds this byte budget.
-  constexpr uint64_t tableByteBudget = 1ull << 30;   // 1 GiB
+  constexpr uint64_t tableByteBudget = 1ull << 30;   // 1 GB
 
   // Stop RickTime's recording before it fills this fraction of available RAM.
   constexpr double recordingMargin = 0.8;
 
-  // Near-identical: at most this many edits (min(m, n) - p), and no more than
-  // 1% of the shorter string.
+  //
+  // Near-identical: at most this many edits (min(m, n) - p),
+  // and no more than 1% of the shorter string.
+  //
   constexpr uint64_t nearIdenticalEdits = 1000;
 
   // Available physical memory, with a conservative fallback.
@@ -51,7 +55,7 @@ namespace {
     if (pages > 0 && pageSize > 0)
       return (uint64_t)pages * (uint64_t)pageSize;
 #endif
-    return 15ull << 30;                 // conservative fallback: 15 GiB
+    return 15ull << 30;                 // conservative fallback: 15 GB
   }
 }
 
@@ -61,9 +65,9 @@ void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
     threshold = matchFloor;
   if (matches > threshold) {
     std::cerr << std::format(
-      "warning: Hunt-Szymanski will process {} matches over a {}x{} input, "
-      "which is pathological; consider -at (time) or -as (space)\n",
-      matches, m, n);
+      "Warning: Hunt-Szymanski will process {} matches over a {}x{} input, "
+      "which is pathological; consider -at (time) or -as (space)",
+      matches, m, n) << std::endl;
   }
 }
 
@@ -72,15 +76,17 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
   auto bytes = 8 * symbols * (m + n + 4);
   if (bytes > tableByteBudget) {
     std::cerr << std::format(
-      "warning: RickTime occurrence tables need ~{} bytes for {} symbols "
-      "over a {}x{} input; consider -as (linear space)\n",
-      bytes, symbols, m, n);
+      "Warning: RickTime occurrence tables need ~{} bytes for {} symbols "
+      "over a {}x{} input; consider -as (linear space)",
+      bytes, symbols, m, n) << std::endl;
   }
 }
 
 uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
-  // next1/next2 are uint32_t tables; byRank holds one 8-byte DomMatch per
-  // dominant match.  Reserve a safety margin of the available RAM.
+  //
+  // next1/next2 are uint32_t tables; byRank holds one 8-byte DomMatch
+  // per dominant match.  Reserve a safety margin of the available RAM.
+  //
   auto tableBytes = 4 * symbols * (m + n + 4);
   auto budgetBytes = (uint64_t)((double)availableBytes() * recordingMargin);
   return budgetBytes > tableBytes ? (budgetBytes - tableBytes) / 8 : 0;
@@ -88,16 +94,17 @@ uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
 
 void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
   std::cerr << std::format(
-    "warning: RickTime match recording needs ~{} bytes, exceeding the ~{} byte "
-    "budget; use -as (RickSpace) for linear memory instead\n",
-    records * 8, recordBudget * 8);
+    "Warning: RickTime match recording needs ~{} bytes, "
+    "exceeding the ~{} byte budget; use -as (RickSpace) for linear memory instead",
+    records * 8, recordBudget * 8) << std::endl;
 }
 
 void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
   auto edits = shorter - length;
   if (edits <= nearIdenticalEdits && edits * 100 <= shorter) {
     std::cerr << std::format(
-      "note: near-identical input (LCS {} of {}); -at (RickTime) would likely "
-      "fit and run ~2.6x faster\n", length, shorter);
+      "Note: near-identical input (LCS {} of {}); "
+      "-at (RickTime) would likely fit and run ~2.6x faster",
+      length, shorter) << std::endl;
   }
 }
