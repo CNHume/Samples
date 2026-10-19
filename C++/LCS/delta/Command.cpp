@@ -84,7 +84,7 @@ void Command::Parse(int argc, char* argv[]) {
         isjoin = true;
         if (len > 2)                    // whitespace optional
           join = parse_uint32(&token[2], "join");
-        else if (n < argc)              // whitespace allowed
+        else if (n + 1 < argc)              // whitespace allowed
           join = parse_uint32(argv[++n], "join");
         else
           usage = true;
@@ -100,7 +100,7 @@ void Command::Parse(int argc, char* argv[]) {
       case 'p':                         // the prefix switch
         if (len > 2)                    // whitespace optional
           prefix = parse_uint32(&token[2], "prefix");
-        else if (n < argc)              // whitespace allowed
+        else if (n + 1 < argc)              // whitespace allowed
           prefix = parse_uint32(argv[++n], "prefix");
         else
           usage = true;
@@ -109,7 +109,7 @@ void Command::Parse(int argc, char* argv[]) {
       case 's':                         // the suffix switch
         if (len > 2)                    // whitespace optional
           suffix = parse_uint32(&token[2], "suffix");
-        else if (n < argc)              // whitespace allowed
+        else if (n + 1 < argc)              // whitespace allowed
           suffix = parse_uint32(argv[++n], "suffix");
         else
           usage = true;
