@@ -41,9 +41,7 @@ public:
       : index1(index1), index2(index2), next(next) {}
 
     ~Pair() {
-      // Unlink the chain iteratively.  A long match list would otherwise be
-      // destroyed recursively through the shared_ptr<Pair> next members,
-      // one stack frame per node, overflowing the stack for large LCS lengths.
+      // Call destructor iteratively to prevent stack overflow when LCS is long
       auto node = std::move(next);
       while (node)
         node = std::move(node->next);
