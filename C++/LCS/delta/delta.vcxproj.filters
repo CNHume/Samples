@@ -48,6 +48,9 @@
     <ClInclude Include="Duration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Stopwatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -87,6 +90,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Duration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Stopwatch.cpp">
