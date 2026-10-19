@@ -28,6 +28,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCSFile.h"
+#include "Environment.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
 #include <format>                       // for format
@@ -52,12 +53,10 @@ int main(int argc, char* argv[]) {
   }
 
   try {
-#ifdef _DEBUG
-    std::locale current_locale;
-    cout << format("locale = {}\n", current_locale.name());
-#endif
     Command command;
     command.Parse(argc, argv);
+    if (command.isenvironment)
+      cout << Environment::ToString();
 
     shared_ptr<Delta> intervals;
     auto pintervals = command.islength ?
@@ -69,7 +68,7 @@ int main(int argc, char* argv[]) {
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
-    cout << ex.what() << endl;
+    cerr << ex.what() << endl;
   }
   catch (...) {
     cout << "exception" << endl;

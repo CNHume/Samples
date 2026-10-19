@@ -34,6 +34,7 @@ public:
   bool ignorespace;
   bool islength;
   bool isversion;
+  bool isenvironment;
   bool isword;
 
 protected:
@@ -52,6 +53,7 @@ public:
     ignorespace(false),
     islength(false),
     isversion(false),
+    isenvironment(false),
     isword(false) {
   }
 

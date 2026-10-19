@@ -64,6 +64,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,12 +87,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Delta.h" />
     <ClInclude Include="Duration.h" />
+    <ClInclude Include="Environment.h" />
     <ClInclude Include="join.h" />
     <ClInclude Include="LCS.h" />
     <ClInclude Include="LCSEncoding.h" />
@@ -107,6 +110,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Delta.cpp" />
     <ClCompile Include="Duration.cpp" />
+    <ClCompile Include="Environment.cpp" />
     <ClCompile Include="LCS.cpp" />
     <ClCompile Include="LCSEncoding.cpp" />
     <ClCompile Include="LCSFile.cpp" />

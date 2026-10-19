@@ -17,7 +17,8 @@
 //
 // Usage:
 //
-// delta [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2
+// The usage synopsis is the `usageSynopsis` string below, thrown by Parse()
+// when the command line fails to parse.
 //
 #include "Command.h"
 #include "Version.h"
@@ -27,6 +28,12 @@
 #include <cstring>                      // for strlen
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
+
+namespace {
+  constexpr const char* usageSynopsis =
+    "Usage: delta [-b] [-e] [-i] [-j <join>] [-l] "
+    "[-p <prefix>] [-s <suffix>] [-v] [-w] file1 file2";
+}
 
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");
@@ -71,6 +78,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           ignorespace = true;
+        break;
+
+      case 'e':                         // the environment switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isenvironment = true;
         break;
 
       case 'i':                         // the ignorecase switch
@@ -155,6 +169,5 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error(
-      "Usage: delta [-b] [-i] [-j <join>] [-l] [-p <prefix>] [-s <suffix>] [-w] [-v] file1 file2");
+    throw runtime_error(usageSynopsis);
 }

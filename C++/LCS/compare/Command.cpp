@@ -17,7 +17,8 @@
 //
 // Usage:
 //
-// compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2
+// The usage synopsis is the `usageSynopsis` string below, thrown by Parse()
+// when the command line fails to parse.
 //
 #include "Command.h"
 #include "Version.h"
@@ -27,6 +28,12 @@
 #include <cstring>                      // for strlen
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
+
+namespace {
+  constexpr const char* usageSynopsis =
+    "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-i] [-j <join>] [-l] "
+    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2";
+}
 
 string Command::arg_msg(const string& s, const string& name) {
   auto msg = string("Invalid ");
@@ -222,6 +229,5 @@ void Command::Parse(int argc, char* argv[]) {
     usage = true;
 
   if (usage)                            // throw usage line if parse failed
-    throw runtime_error(
-      "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-i] [-j <join>] [-l] [-p <prefix>] [-q] [-s <suffix>] [-t] [-v] [-w] file1 file2");
+    throw runtime_error(usageSynopsis);
 }

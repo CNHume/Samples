@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
-    cout << ex.what() << endl;
+    cerr << ex.what() << endl;
   }
   catch (...) {
     cout << "exception" << endl;
