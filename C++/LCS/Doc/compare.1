@@ -1,0 +1,200 @@
+.\" Manual page for the compare command
+.TH COMPARE 1 "October 2026" "compare 1.0" "User Commands"
+.SH NAME
+compare \- longest common subsequence of two files
+.SH SYNOPSIS
+.B compare
+[\fIoptions\fR]
+.I file1 file2
+.SH DESCRIPTION
+.B compare
+computes the Longest Common Subsequence (LCS) of
+.I file1
+and
+.IR file2 .
+By default it prints their differences as an edit script; with
+.B \-c
+it prints the common (matching) records instead, and with
+.B \-l
+it prints only the LCS length.
+.PP
+Each difference is introduced by a header line:
+.RS
+.nf
+\fB<<<<<\fR n \fIfile1\fR [\fIbegin\fR:\fIend\fR] \fB<<<<<\fR
+        (records present only in \fIfile1\fR)
+\fB>>>>>\fR n \fIfile2\fR [\fIbegin\fR:\fIend\fR] \fB>>>>>\fR
+        (records present only in \fIfile2\fR)
+.fi
+.RE
+where
+.I n
+is the one-based difference number and
+.I [begin:end]
+the half-open range of records involved.  A final line reports the LCS
+length, and when compiled with duration reporting enabled, a timing line
+such as
+\fIRickSpace: 28 operations in 9 microseconds @3.111 MHz\fR
+follows.
+.PP
+The two files are compared at one of three granularities:
+.TP
+.B record
+each input line is one record (the default);
+.TP
+.B text
+.RB ( \-t )
+the whole file is one sequence of Unicode code points, so multi-byte
+characters are never split;
+.TP
+.B word
+.RB ( \-w )
+each whitespace-separated word is one record.
+.PP
+Three LCS algorithms are available through
+.BR \-a :
+.TP
+.B d
+Hunt\-Szymanski (1977), the default: a threshold array over the match
+lists, O((r+n) log n) time.
+.TP
+.B s
+RickSpace (Rick 2000): forward/backward contours plus Hirschberg recursion,
+O(ns) space.
+.TP
+.B t
+RickTime (Rick 1995): a single diagonal sweep, O(ns + d) space.
+.SH OPTIONS
+.TP
+.BI \-a " d|s|t"
+Select the LCS algorithm:
+.B d
+(Hunt\-Szymanski, the default),
+.B s
+(RickSpace), or
+.B t
+(RickTime).  Accepts
+.B \-ad
+or
+.BR "\-a d" .
+.TP
+.B \-b
+Ignore whitespace: collapse each run of whitespace to a single space before
+comparing, and expand the reported spans back to the original positions.
+.TP
+.B \-c
+Print the correspondence (the common, matching records) instead of the
+differences.
+.TP
+.B \-e
+Print a report of the host environment (locale, processor, and memory) and
+exit without comparing.
+.TP
+.B \-f
+Treat the input files as FASTA and strip header lines; implies
+.BR \-t .
+.TP
+.B \-h
+Print a usage synopsis and exit.
+.TP
+.B \-i
+Perform a case-insensitive comparison.
+.TP
+.BI \-j " join"
+Coalesce nearby differences that lie within
+.I join
+records of each other.
+.TP
+.B \-l
+Report only the LCS length; skip reconstructing the differences.
+.TP
+.BI \-p " prefix"
+Print
+.I prefix
+lines of context before each difference.
+.TP
+.B \-q
+Treat
+.I file1
+and
+.I file2
+as literal strings rather than filenames; implies
+.BR \-t .
+.TP
+.BI \-s " suffix"
+Print
+.I suffix
+lines of context after each difference.
+.TP
+.B \-t
+Compare the whole file as a sequence of Unicode code points (the text path)
+rather than line-by-line records.
+.TP
+.B \-V
+Print the version and exit.
+.TP
+.B \-w
+Split each line into whitespace-separated words and compare word by word
+(record mode).
+.SH EXIT STATUS
+.TP
+.B 0
+Success (including
+.BR \-h ,
+.BR \-V ,
+and
+.BR \-e ).
+.TP
+.B 1
+Error: a command-line parse failure, a missing file, or an algorithm failure.
+.SH ENVIRONMENT
+The locale (in particular
+.BR LANG ,
+.BR LC_ALL ,
+and
+.BR LC_NUMERIC )
+controls the thousands separator used in the reported counts and the locale
+name shown by
+.BR \-e .
+On a system whose locale defines digit grouping, counts are printed with
+comma separators (for example
+.BR "LCS Length = 4,591,960" );
+otherwise they are printed ungrouped.
+.SH EXAMPLES
+.TP
+Compare two files line by line and show the differences:
+.nf
+.RS
+compare old.txt new.txt
+.RE
+.fi
+.TP
+Compare as text (code points), case-insensitively, showing only the length:
+.nf
+.RS
+compare \-t \-i \-l a.fa b.fa
+.RE
+.fi
+.TP
+Compare two FASTA genomes with the linear-space algorithm and show matches:
+.nf
+.RS
+compare \-as \-c \-f ecoli.seq ecoli_100subs.seq
+.RE
+.fi
+.TP
+Compare two literal strings word by word:
+.nf
+.RS
+compare \-q \-w "the quick fox" "the lazy fox"
+.RE
+.fi
+.SH SEE ALSO
+.BR diff (1),
+.BR cmp (1)
+.PP
+The LCS algorithms and their performance bounds are described in
+.I LCSRickSpace.md
+and
+.I LCSRickTime.md
+in the project documentation.
