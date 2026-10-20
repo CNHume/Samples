@@ -104,7 +104,7 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
   //
@@ -146,7 +146,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
         swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);
   }
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;

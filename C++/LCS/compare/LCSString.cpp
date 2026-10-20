@@ -138,7 +138,7 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
   //
@@ -192,7 +192,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
 
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;

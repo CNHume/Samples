@@ -82,7 +82,7 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace) {
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
@@ -94,7 +94,7 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   auto length = FindLCS(ppairs, indexesOf2MatchedByIndex1);
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
-#ifdef SHOW_DURATION
+#ifdef SHOW_START_FINISH
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;
