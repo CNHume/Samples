@@ -1,0 +1,135 @@
+.\" Manual page for the delta command
+.TH DELTA 1 "October 2026" "delta 1.0" "User Commands"
+.SH NAME
+delta \- differences (edit script) between two files
+.SH SYNOPSIS
+.B delta
+[\fIoptions\fR]
+.I file1 file2
+.SH DESCRIPTION
+.B delta
+computes the Longest Common Subsequence (LCS) of
+.I file1
+and
+.IR file2 ,
+and prints their differences as an edit script.  With
+.B \-l
+it prints only the LCS length.
+.PP
+.B delta
+is a simplified companion of
+.BR compare (1):
+it always reports differences (there is no correspondence mode), it always
+uses the Hunt\-Szymanski algorithm, and it compares records rather than
+code points.
+.PP
+Each difference is introduced by a header line:
+.RS
+.nf
+\fB<<<<<\fR n \fIfile1\fR [\fIbegin\fR:\fIend\fR] \fB<<<<<\fR
+        (records present only in \fIfile1\fR)
+\fB>>>>>\fR n \fIfile2\fR [\fIbegin\fR:\fIend\fR] \fB>>>>>\fR
+        (records present only in \fIfile2\fR)
+.fi
+.RE
+where
+.I n
+is the one-based difference number and
+.I [begin:end]
+the half-open range of records involved.  A final line reports the LCS
+length, followed (when compiled with duration reporting enabled) by a
+timing line such as
+\fIHunt-Szymanski: 28 operations in 9 microseconds @3.111 MHz\fR.
+.PP
+Each input line is one record; with
+.B \-w
+each whitespace-separated word is one record.
+.SH OPTIONS
+.TP
+.B \-b
+Ignore whitespace: collapse each run of whitespace to a single space before
+comparing, and expand the reported spans back to the original positions.
+.TP
+.B \-e
+Print a report of the host environment (locale, processor, and memory) and
+exit without comparing.
+.TP
+.B \-h
+Print a usage synopsis and exit.
+.TP
+.B \-i
+Perform a case-insensitive comparison.
+.TP
+.BI \-j " join"
+Coalesce nearby differences that lie within
+.I join
+records of each other.
+.TP
+.B \-l
+Report only the LCS length; skip reconstructing the differences.
+.TP
+.BI \-p " prefix"
+Print
+.I prefix
+lines of context before each difference.
+.TP
+.BI \-s " suffix"
+Print
+.I suffix
+lines of context after each difference.
+.TP
+.B \-V
+Print the version and exit.
+.TP
+.B \-w
+Split each line into whitespace-separated words and compare word by word.
+.SH EXIT STATUS
+.TP
+.B 0
+Success (including
+.BR \-h ,
+.BR \-V ,
+and
+.BR \-e ).
+.TP
+.B 1
+Error: a command-line parse failure, a missing file, or an algorithm failure.
+.SH ENVIRONMENT
+The locale (in particular
+.BR LANG ,
+.BR LC_ALL ,
+and
+.BR LC_NUMERIC )
+controls the thousands separator used in the reported counts and the locale
+name shown by
+.BR \-e .
+On a system whose locale defines digit grouping, counts are printed with
+comma separators (for example
+.BR "LCS Length = 4,591,960" );
+otherwise they are printed ungrouped.
+.SH EXAMPLES
+.TP
+Compare two files line by line and show the differences:
+.nf
+.RS
+delta old.txt new.txt
+.RE
+.fi
+.TP
+Compare two files word by word, ignoring case:
+.nf
+.RS
+delta \-i \-w a.txt b.txt
+.RE
+.fi
+.TP
+Report only the LCS length of two files:
+.nf
+.RS
+delta \-l a.txt b.txt
+.RE
+.fi
+.SH SEE ALSO
+.BR compare (1),
+.BR diff (1),
+.BR cmp (1)
