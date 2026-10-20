@@ -16,16 +16,10 @@
 // 2026-10-16 CNHume  Created Diagnostic class
 //
 #include "Diagnostic.h"
+#include "Environment.h"
 
 #include <format>                       // for format
 #include <iostream>                     // for cerr
-
-#if defined(_WIN32)
-  #define NOMINMAX
-  #include <windows.h>                  // for GlobalMemoryStatusEx
-#elif defined(__unix__) || defined(__APPLE__) || defined(__linux__)
-  #include <unistd.h>                   // for sysconf
-#endif
 
 namespace {
   //
@@ -55,25 +49,6 @@ namespace {
   // and no more than 1% of the shorter string.
   //
   constexpr uint64_t nearIdenticalEdits = 1000;
-
-  //
-  // Available physical memory — the working-set ceiling before the OS starts
-  // killing (Linux OOM) or paging (Windows) — with a conservative fallback.
-  //
-  uint64_t availableBytes() {
-#if defined(_WIN32)
-    MEMORYSTATUSEX mem{};
-    mem.dwLength = sizeof(mem);
-    if (GlobalMemoryStatusEx(&mem))
-      return mem.ullAvailPhys;
-#elif defined(_SC_AVPHYS_PAGES)
-    auto pages = sysconf(_SC_AVPHYS_PAGES);
-    auto pageSize = sysconf(_SC_PAGESIZE);
-    if (pages > 0 && pageSize > 0)
-      return (uint64_t)pages * (uint64_t)pageSize;
-#endif
-    return 15ull << 30;                 // conservative fallback: 15 GB
-  }
 }
 
 void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
@@ -106,7 +81,7 @@ uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
   //
   auto tableBytes = 4 * symbols * (m + n + 4);
   auto headerBytes = vectorHeaderBytes * (m + 2);
-  auto budgetBytes = (uint64_t)((double)availableBytes() * recordingMargin);
+  auto budgetBytes = (uint64_t)((double)Environment::AvailableBytes() * recordingMargin);
   auto room = budgetBytes > tableBytes + headerBytes ?
     budgetBytes - tableBytes - headerBytes : 0;
   return room / recordBytes;

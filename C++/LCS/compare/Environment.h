@@ -17,6 +17,7 @@
 //
 #pragma once
 
+#include <cstdint>                      // for uint64_t
 #include <string>
 
 //
@@ -26,4 +27,6 @@
 class Environment {
 public:
   static std::string ToString();
+  // Available physical memory in bytes, or 0 when unknown.
+  static uint64_t AvailableBytes();
 };

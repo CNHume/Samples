@@ -50,26 +50,6 @@ namespace {
 #endif
   }
 
-  //
-  // Available physical memory — the working-set ceiling before the OS starts
-  // killing (Linux OOM) or paging (Windows) — or 0 when unknown.
-  //
-  uint64_t availableBytes() {
-#if defined(_WIN32)
-    MEMORYSTATUSEX mem{};
-    mem.dwLength = sizeof(mem);
-    return GlobalMemoryStatusEx(&mem) ? mem.ullAvailPhys : 0;
-#elif defined(_SC_AVPHYS_PAGES)
-    auto pages = sysconf(_SC_AVPHYS_PAGES);
-    auto pageSize = sysconf(_SC_PAGESIZE);
-    if (pages > 0 && pageSize > 0)
-      return (uint64_t)pages * (uint64_t)pageSize;
-    return 0;
-#else
-    return 0;
-#endif
-  }
-
 #if defined(__linux__)
   //
   // Value of the first /proc/cpuinfo field whose name matches, or empty.
@@ -142,6 +122,26 @@ namespace {
   }
 }
 
+//
+// Available physical memory — the working-set ceiling before the OS starts
+// killing (Linux OOM) or paging (Windows) — or 0 when unknown.
+//
+uint64_t Environment::AvailableBytes() {
+#if defined(_WIN32)
+  MEMORYSTATUSEX mem{};
+  mem.dwLength = sizeof(mem);
+  return GlobalMemoryStatusEx(&mem) ? mem.ullAvailPhys : 0;
+#elif defined(_SC_AVPHYS_PAGES)
+  auto pages = sysconf(_SC_AVPHYS_PAGES);
+  auto pageSize = sysconf(_SC_PAGESIZE);
+  if (pages > 0 && pageSize > 0)
+    return (uint64_t)pages * (uint64_t)pageSize;
+  return 0;
+#else
+  return 0;
+#endif
+}
+
 std::string Environment::ToString() {
   std::string text;
   text += std::format(
@@ -161,7 +161,7 @@ std::string Environment::ToString() {
     text += std::format(
       "total memory = {:.3f} GB\n",
       (double)total / (1ull << 30));
-  auto available = availableBytes();
+  auto available = AvailableBytes();
   if (available > 0)
     text += std::format(
       "available memory = {:.3f} GB\n",
