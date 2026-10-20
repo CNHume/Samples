@@ -63,8 +63,8 @@ Pair& Pair::operator=(const Pair& other) {
 #endif                                  // COPY_SEMANTICS
 
 #ifdef MOVE_SEMANTICS
-Pair::Pair(Pair&& other) noexcept {
-  *this = std::move(other);             // move ctor invokes move assignment
+Pair::Pair(Pair&& other) noexcept
+  : begin1(other.begin1), begin2(other.begin2), next(std::move(other.next)) {
   Count++;
 }
 
@@ -72,7 +72,7 @@ Pair& Pair::operator=(Pair&& other) noexcept {
   if (this != &other) {
     begin1 = other.begin1;
     begin2 = other.begin2;
-    next = other.next;
+    next = std::move(other.next);
   }
   return *this;
 }
