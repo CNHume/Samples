@@ -49,17 +49,14 @@ Pair::Pair(uint32_t begin1, uint32_t begin2, shared_ptr<Pair> next)
 
 #ifdef COPY_SEMANTICS
 Pair::Pair(const Pair& other)
-  : begin1(other.begin1), begin2(other.begin2), next(other.next) {
-  //[ToDo]Perform a deep, recursive copy here
-  Count++;
+  : Pair(other.begin1, other.begin2, Pair::Copy(other.next)) {
 }
 
 Pair& Pair::operator=(const Pair& other) {
   if (this != &other) {
     begin1 = other.begin1;
     begin2 = other.begin2;
-    //[ToDo]Perform a deep, recursive copy here
-    next = other.next;
+    next = Pair::Copy(other.next);
   }
   return *this;
 }
