@@ -32,7 +32,7 @@
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-w] file1 file2";
+    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-v] [-w] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -201,6 +201,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           isversion = true;
+        break;
+
+      case 'v':                         // the verbose switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isverbose = true;
         break;
 
       case 'w':                         // the word switch

@@ -72,11 +72,11 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, bool isverbose) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -90,11 +90,11 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, bool isverbose) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -105,13 +105,10 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#ifdef SHOW_START_FINISH
-  cout << format("Started at {}\n", Duration::WallClock());
-#endif
-#ifdef SHOW_DURATION
+  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm, bool isverbose) {
+  if (isverbose)
+    cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
-#endif
   //
   // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
   // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
@@ -155,14 +152,11 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
         swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);
   }
-#ifdef SHOW_DURATION
   duration.Stop();
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
-#endif
-#ifdef SHOW_START_FINISH
-  cout << format("Finished at {}\n", Duration::WallClock());
-#endif
+  if (isverbose)
+    cout << format("Finished at {}\n", Duration::WallClock());
   return length;
 }
 

@@ -44,7 +44,7 @@ uint32_t LCSFile::Correspondence(
     }
     length = LCSString::Correspondence(intervals, statistics, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, command.isverbose);
     if (intervals != nullptr)
       LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
   }
@@ -53,7 +53,7 @@ uint32_t LCSFile::Correspondence(
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Correspondence(intervals, statistics, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, command.isverbose);
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }
@@ -81,7 +81,7 @@ uint32_t LCSFile::Difference(
     }
     length = LCSString::Difference(intervals, statistics, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, command.isverbose);
     if (intervals != nullptr)
       LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
   }
@@ -90,7 +90,7 @@ uint32_t LCSFile::Difference(
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Difference(intervals, statistics, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, command.isverbose);
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }

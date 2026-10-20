@@ -35,6 +35,7 @@ public:
   bool ishelp;
   bool islength;
   bool isversion;
+  bool isverbose;
   bool isenvironment;
   bool isword;
 
@@ -55,6 +56,7 @@ public:
     ishelp(false),
     islength(false),
     isversion(false),
+    isverbose(false),
     isenvironment(false),
     isword(false) {
   }

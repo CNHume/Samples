@@ -68,10 +68,10 @@ int main(int argc, char* argv[]) {
       LCSFile::Correspondence(pintervals, &statistics, command) :
       LCSFile::Difference(pintervals, &statistics, command);
 
-    cout << format(std::locale(), "LCS Length = {:L}\n", length);
-#ifdef SHOW_DURATION
-    statistics.ShowDuration();
-#endif
+    if (command.isverbose || command.islength)
+      cout << format(std::locale(), "LCS Length = {:L}\n", length);
+    if (command.isverbose)
+      statistics.ShowDuration();
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {

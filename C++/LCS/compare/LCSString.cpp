@@ -62,13 +62,13 @@ uint32_t LCSString::Correspondence(
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, bool isverbose) {
   //
   // A null interval pointer requests length only: skip the span/context
   // construction and return the length directly.
   //
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
 
   if (ignorespace) {
     //
@@ -80,7 +80,7 @@ uint32_t LCSString::Correspondence(
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm);
+    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -91,7 +91,7 @@ uint32_t LCSString::Correspondence(
     return length;
   }
 
-  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -104,17 +104,17 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statist
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, bool isverbose) {
   // A null interval pointer requests length only.
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
 
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm);
+    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -126,7 +126,7 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statist
     return length;
   }
 
-  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -137,13 +137,10 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statist
 
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
-#ifdef SHOW_START_FINISH
-  cout << format("Started at {}\n", Duration::WallClock());
-#endif
-#ifdef SHOW_DURATION
+  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm, bool isverbose) {
+  if (isverbose)
+    cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
-#endif
   //
   // A null delta pointer is the length-only flag: forward it to the
   // algorithm as a null pairs pointer so it skips reconstruction.
@@ -199,14 +196,11 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, Statistics* statistics,
 
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
-#ifdef SHOW_DURATION
   duration.Stop();
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
-#endif
-#ifdef SHOW_START_FINISH
-  cout << format("Finished at {}\n", Duration::WallClock());
-#endif
+  if (isverbose)
+    cout << format("Finished at {}\n", Duration::WallClock());
   return length;
 }
 

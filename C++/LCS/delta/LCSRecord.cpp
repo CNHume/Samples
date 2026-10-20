@@ -67,11 +67,11 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix) {
+  uint32_t join, uint32_t prefix, uint32_t suffix, bool isverbose) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace);
+    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace);
+  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -82,13 +82,10 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace) {
-#ifdef SHOW_START_FINISH
-  cout << format("Started at {}\n", Duration::WallClock());
-#endif
-#ifdef SHOW_DURATION
+  bool ignorecase, bool ignorespace, bool isverbose) {
+  if (isverbose)
+    cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
-#endif
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
   auto count = Match(
@@ -102,14 +99,11 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
   }
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
-#ifdef SHOW_DURATION
   duration.Stop();
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
-#endif
-#ifdef SHOW_START_FINISH
-  cout << format("Finished at {}\n", Duration::WallClock());
-#endif
+  if (isverbose)
+    cout << format("Finished at {}\n", Duration::WallClock());
   return length;
 }
 

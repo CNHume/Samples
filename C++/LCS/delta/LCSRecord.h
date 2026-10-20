@@ -36,17 +36,20 @@ public:
     Statistics* statistics,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
+    bool isverbose = false);
   static uint32_t Difference(shared_ptr<Delta>* intervals,
     Statistics* statistics,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
+    bool isverbose = false);
 
   static uint32_t Compare(shared_ptr<Delta>* intervals,
     Statistics* statistics,
     const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false);
+    bool ignorecase = false, bool ignorespace = false,
+    bool isverbose = false);
 
   static RECORDS Read(const string& filename, bool isword);
 
