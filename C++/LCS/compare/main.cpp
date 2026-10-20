@@ -28,7 +28,6 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCSFile.h"
-#include "Duration.h"
 #include "Environment.h"
 #include "Statistics.h"
 
@@ -71,9 +70,7 @@ int main(int argc, char* argv[]) {
 
     cout << format("LCS Length = {}\n", length);
 #ifdef SHOW_DURATION
-    cout << Duration::ToString(
-      statistics.AlgorithmName(), (long)statistics.Operations(),
-      (int64_t)statistics.elapsedMicroseconds);
+    statistics.ShowDuration();
 #endif
     errorLevel = EXIT_SUCCESS;
   }
