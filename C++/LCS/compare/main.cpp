@@ -65,16 +65,15 @@ int main(int argc, char* argv[]) {
       nullptr : &intervals;
 
     Statistics statistics;
-#ifdef SHOW_DURATION
-    Duration duration;
-#endif
     auto length = command.isscorrespondence ?
       LCSFile::Correspondence(pintervals, &statistics, command) :
       LCSFile::Difference(pintervals, &statistics, command);
 
     cout << format("LCS Length = {}\n", length);
 #ifdef SHOW_DURATION
-    duration.Show(statistics.AlgorithmName(), (long)statistics.Operations());
+    cout << Duration::ToString(
+      statistics.AlgorithmName(), (long)statistics.Operations(),
+      (int64_t)statistics.elapsedMicroseconds);
 #endif
     errorLevel = EXIT_SUCCESS;
   }

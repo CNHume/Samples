@@ -141,6 +141,9 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, Statistics* statistics,
 #ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
+#ifdef SHOW_DURATION
+  Duration duration;                    // time the algorithm
+#endif
   //
   // A null delta pointer is the length-only flag: forward it to the
   // algorithm as a null pairs pointer so it skips reconstruction.
@@ -196,6 +199,11 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, Statistics* statistics,
 
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
+#ifdef SHOW_DURATION
+  duration.Stop();
+  if (statistics)
+    statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
+#endif
 #ifdef SHOW_START_FINISH
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif

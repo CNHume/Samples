@@ -109,6 +109,9 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
 #ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
+#ifdef SHOW_DURATION
+  Duration duration;                    // time the algorithm
+#endif
   //
   // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
   // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
@@ -152,6 +155,11 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
         swap(pair->begin1, pair->begin2);
     *intervals = Delta::Coalesce(pairs);
   }
+#ifdef SHOW_DURATION
+  duration.Stop();
+  if (statistics)
+    statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
+#endif
 #ifdef SHOW_START_FINISH
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif

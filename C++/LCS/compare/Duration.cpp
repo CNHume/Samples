@@ -166,9 +166,12 @@ void Duration::Stop() {
   sw_.stop();
 }
 
-void Duration::Show(const char* name, long count) {
-  sw_.stop();
-  auto us = sw_.elapsed_microseconds();
+int64_t Duration::ElapsedMicroseconds() const {
+  return sw_.elapsed_microseconds();
+}
+
+std::string Duration::ToString(const char* name, long count, int64_t microseconds) {
+  auto us = microseconds;
 
   auto timeUnit = getTimeUnits(us);
   auto timeValue = (double)us / (double)timeInterval(timeUnit);
@@ -182,7 +185,7 @@ void Duration::Show(const char* name, long count) {
     rateValue = (double)count * (double)rateInterval(rateUnit) / (double)us;
   }
 
-  std::cout << std::format(
+  return std::format(
     "{}: {} operations in {} {} @{} {}\n",
     name, count, formatScaled(timeValue), timeUnitsName(timeUnit),
     formatScaled(rateValue), rateUnitsName(rateUnit));

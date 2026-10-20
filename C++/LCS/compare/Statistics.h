@@ -36,6 +36,7 @@ public:
   uint64_t candidates = 0;              // RickSpace dominant matches emitted
   uint64_t rows = 0;                    // RickSpace diagonal sweep steps
   uint64_t contours = 0;                // RickSpace contour sweeps
+  uint64_t elapsedMicroseconds = 0;     // Compare() elapsed time
 
   // The salient work count for the algorithm that produced these statistics.
   uint64_t Operations() const {

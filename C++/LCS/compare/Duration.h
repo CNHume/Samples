@@ -24,9 +24,9 @@
 
 //
 // Duration measures the elapsed time of an operation.  Construct it at the
-// start of the region to time and call Show(name, count) at the end to stop the
-// stopwatch and print the measurement, where name labels the operation and
-// count is the number of operations performed in the measured region.
+// start of the region to time, call Stop() at the end, and read the elapsed
+// with ElapsedMicroseconds().  ToString() formats a report line from raw
+// values so the caller can print it where it chooses.
 //
 class Duration {
 private:
@@ -40,5 +40,9 @@ public:
   static std::string WallClock();
 
   void Stop();                          // Stop the stopwatch
-  void Show(const char* name, long count);  // Stop and report the measurement
+  int64_t ElapsedMicroseconds() const;  // Elapsed time in microseconds
+
+  // Format a duration report from raw values (name, operation count, elapsed).
+  static std::string ToString(
+    const char* name, long count, int64_t microseconds);
 };
