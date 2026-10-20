@@ -20,6 +20,7 @@
 #include "Duration.h"
 
 #include <cstdint>                      // for int64_t, uint8_t
+#include <ctime>                        // for localtime_r, localtime_s, tm
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <limits>                       // for numeric_limits
@@ -211,4 +212,21 @@ void Duration::Show() {
     "{}: {} operations in {} {} @{} {}\n",
     name_, count_, formatScaled(timeValue), timeUnitsName(timeUnit),
     formatScaled(rateValue), rateUnitsName(rateUnit));
+}
+
+std::string Duration::WallClock() {
+  using namespace std::chrono;
+  auto now = system_clock::now();
+  auto tt = system_clock::to_time_t(now);
+  std::tm local{};
+#if defined(_WIN32)
+  localtime_s(&local, &tt);
+#else
+  localtime_r(&tt, &local);
+#endif
+  auto centis = duration_cast<milliseconds>(
+    now.time_since_epoch() % seconds{ 1 }).count() / 10;
+  return std::format("{:04}-{:02}-{:02} {:02}:{:02}:{:02}.{:02}",
+    local.tm_year + 1900, local.tm_mon + 1, local.tm_mday,
+    local.tm_hour, local.tm_min, local.tm_sec, centis);
 }

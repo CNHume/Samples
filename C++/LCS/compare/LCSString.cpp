@@ -139,6 +139,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
 #ifdef SHOW_DURATION
+  cout << format("Started at {}\n", Duration::WallClock());
   Duration duration{ "LCSString::Compare", (long)(s1.size() + s2.size()) };
 #endif
   //
@@ -194,6 +195,7 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     *deltas = Delta::Coalesce(pairs);
 #ifdef SHOW_DURATION
   duration.Show();
+  cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;
 }

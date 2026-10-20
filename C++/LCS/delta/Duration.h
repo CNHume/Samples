@@ -39,6 +39,9 @@ public:
   Duration(std::string name, long count = 0);
   ~Duration();
 
+  // Current local wall-clock time as "YYYY-MM-DD HH:MM:SS.cc".
+  static std::string WallClock();
+
   // Serialization/Deserialization
   void from_json(const nlohmann::json& json);
   nlohmann::json to_json() const;
