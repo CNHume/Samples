@@ -42,7 +42,7 @@ namespace {
   constexpr uint64_t tableByteBudget = 1ull << 30;   // 1 GB
 
   // Stop RickTime's recording before it fills this fraction of available RAM.
-  constexpr double recordingMargin = 0.8;
+  constexpr double recordingMargin = 0.75;
 
   // A recorded dominant match is an 8-byte DomMatch, but byRank's vector
   // capacity growth (up to 2x) and per-rank overhead make ~16 bytes per match
