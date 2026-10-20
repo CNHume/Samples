@@ -44,6 +44,12 @@ namespace {
   // Stop RickTime's recording before it fills this fraction of available RAM.
   constexpr double recordingMargin = 0.8;
 
+  // A recorded dominant match is an 8-byte DomMatch, but byRank's vector
+  // capacity growth (up to 2x) and per-rank overhead make ~16 bytes per match
+  // the safe estimate; each rank also carries a 24-byte vector object.
+  constexpr uint64_t recordBytes = 16;
+  constexpr uint64_t vectorHeaderBytes = 24;
+
   //
   // Near-identical: at most this many edits (min(m, n) - p),
   // and no more than 1% of the shorter string.
@@ -95,19 +101,22 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
 
 uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
   //
-  // next1/next2 are uint32_t tables; byRank holds one 8-byte DomMatch
-  // per dominant match.  Reserve a safety margin of the available RAM.
+  // next1/next2 are uint32_t tables; byRank is m+2 vector<DomMatch> objects
+  // plus the recorded matches.  Reserve a safety margin of the available RAM.
   //
   auto tableBytes = 4 * symbols * (m + n + 4);
+  auto headerBytes = vectorHeaderBytes * (m + 2);
   auto budgetBytes = (uint64_t)((double)availableBytes() * recordingMargin);
-  return budgetBytes > tableBytes ? (budgetBytes - tableBytes) / 8 : 0;
+  auto room = budgetBytes > tableBytes + headerBytes ?
+    budgetBytes - tableBytes - headerBytes : 0;
+  return room / recordBytes;
 }
 
 void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
   std::cerr << std::format(
     "Warning: RickTime match recording needs ~{} bytes, "
     "exceeding the ~{} byte budget; use -as (RickSpace) for linear memory instead",
-    records * 8, recordBudget * 8) << std::endl;
+    records * recordBytes, recordBudget * recordBytes) << std::endl;
 }
 
 void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
