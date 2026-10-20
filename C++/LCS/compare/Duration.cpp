@@ -24,6 +24,7 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <limits>                       // for numeric_limits
+#include <locale>                       // for locale
 #include <string>                       // for string
 #include <utility>                      // for move
 
@@ -186,7 +187,8 @@ std::string Duration::ToString(const char* name, long count, int64_t microsecond
   }
 
   return std::format(
-    "{}: {} operations in {} {} @{} {}\n",
+    std::locale(),
+    "{}: {:L} operations in {} {} @{} {}\n",
     name, count, formatScaled(timeValue), timeUnitsName(timeUnit),
     formatScaled(rateValue), rateUnitsName(rateUnit));
 }
