@@ -84,3 +84,31 @@ std::string Stopwatch::format_milliseconds() const {
 std::string Stopwatch::format_microseconds() const {
   return std::format("{}", elapsed_microseconds());
 }
+
+std::string Stopwatch::format_duration() const {
+  auto us = elapsed_microseconds();
+  //
+  // Auto-scale to the coarsest unit whose interval <= us, so the reported
+  // value is >= 1.  At most three fractional digits, trailing zeros trimmed.
+  //
+  constexpr struct { int64_t us; const char* name; } units[] = {
+    { 604800000000LL, "weeks" },
+    { 86400000000LL, "days" },
+    { 3600000000LL, "hours" },
+    { 60000000LL, "min" },
+    { 1000000LL, "sec" },
+    { 1000LL, "ms" },
+    { 1LL, "µs" },
+  };
+  for (const auto& unit : units) {
+    if (us >= unit.us) {
+      auto text = std::format("{:.3f}", (double)us / (double)unit.us);
+      while (!text.empty() && text.back() == '0')
+        text.pop_back();
+      if (!text.empty() && text.back() == '.')
+        text.pop_back();
+      return std::format("{} {}", text, unit.name);
+    }
+  }
+  return "0 µs";
+}

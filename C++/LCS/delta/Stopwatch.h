@@ -37,4 +37,5 @@ public:
   std::string format_seconds() const;
   std::string format_milliseconds() const;
   std::string format_microseconds() const;
+  std::string format_duration() const;
 };

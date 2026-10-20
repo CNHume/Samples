@@ -29,6 +29,7 @@
 //
 #include "LCSFile.h"
 #include "Environment.h"
+#include "Stopwatch.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
 #include <format>                       // for format
@@ -62,11 +63,14 @@ int main(int argc, char* argv[]) {
     auto pintervals = command.islength ?
       nullptr : &intervals;
 
+    Stopwatch stopwatch;
+    stopwatch.start();                  // log time before Compare
     auto length = command.isscorrespondence ?
       LCSFile::Correspondence(pintervals, command) :
       LCSFile::Difference(pintervals, command);
+    stopwatch.stop();                   // log time after Compare
 
-    cout << format("LCS Length = {}\n", length);
+    cout << format("LCS Length = {} (elapsed {})\n", length, stopwatch.format_duration());
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
