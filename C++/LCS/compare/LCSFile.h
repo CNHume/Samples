@@ -29,9 +29,9 @@ using namespace std;
 class LCSFile {
 public:
   static uint32_t Correspondence(
-    shared_ptr<Delta>* intervals, const Command command,
-    Statistics* statistics = nullptr);
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const Command command);
   static uint32_t Difference(
-    shared_ptr<Delta>* intervals, const Command command,
-    Statistics* statistics = nullptr);
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const Command command);
 };

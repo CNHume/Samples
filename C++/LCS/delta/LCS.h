@@ -25,7 +25,8 @@
 //
 #pragma once
 #define FILTER_PAIRS
-#define SHOW_DURATION                   // See Duration::Show() in LCSRecord
+#define SHOW_DURATION                   // See Duration::Show() in main()
+#define SHOW_START_FINISH               // See Started/Finished lines in Compare()
 //#define SHOW_MATCHES
 //#define SHOW_MATCH_COUNT              // See Match() in LCSFile, LCSRecord, and LCSString
 //#define SHOW_PAIRS
@@ -43,6 +44,14 @@
 using namespace std;
 
 class LCS {
+public:
+  // The LCS algorithm selected at run time.
+  enum class Algorithm {
+    HuntSzymanski,      // Dynamic Programming over match lists
+    RickSpace,          // Rick 2000, contours + Hirschberg, linear space
+    RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
+  };
+
 protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> INDEXES;

@@ -45,8 +45,8 @@ public:
   //[Note]The caller should guarantee |s1| <= |s2| by swapping when necessary.
   //
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2,
-    Statistics* statistics = nullptr);
+    shared_ptr<Pair>* pairs, Statistics* statistics,
+    const u32string& s1, const u32string& s2);
   // Length only.
   static uint32_t FindFlexibleLength(const u32string& s1, const u32string& s2);
 };

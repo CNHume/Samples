@@ -772,17 +772,21 @@ void LCSRickSpace::ResetCounters() {
 }
 
 uint32_t LCSRickSpace::Find(
-  shared_ptr<Pair>* pairs, const MATCHES& matches, uint32_t size1, uint32_t size2,
-  Statistics* statistics) {
+  shared_ptr<Pair>* pairs, Statistics* statistics,
+  const MATCHES& matches, uint32_t size1, uint32_t size2) {
   ResetCounters();
   auto length = Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
-  if (statistics)
-    statistics->operations = Candidates;
+  if (statistics) {
+    statistics->algorithm = LCS::Algorithm::RickSpace;
+    statistics->candidates = Candidates;
+    statistics->rows = Rows;
+    statistics->contours = Contours;
+  }
   return length;
 }
 
-uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
-  const u32string& s1, const u32string& s2, Statistics* statistics) {
+uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
+  const u32string& s1, const u32string& s2) {
   //
   // Build O(ns) occurrence tables directly from the code points and amortize them
   // over the whole Hirschberg recursion.  No match lists are ever materialized,
@@ -790,7 +794,11 @@ uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs,
   //
   ResetCounters();
   auto length = Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
-  if (statistics)
-    statistics->operations = Candidates;
+  if (statistics) {
+    statistics->algorithm = LCS::Algorithm::RickSpace;
+    statistics->candidates = Candidates;
+    statistics->rows = Rows;
+    statistics->contours = Contours;
+  }
   return length;
 }

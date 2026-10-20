@@ -23,23 +23,22 @@
 #include <string>
 
 //
-// Duration measures the elapsed time of a named operation.  Construct it at
-// the start of the region to time and call Show(count) at the end to stop the
-// stopwatch and print the measurement, where count is the number of operations
-// performed in the measured region.
+// Duration measures the elapsed time of an operation.  Construct it at the
+// start of the region to time and call Show(name, count) at the end to stop the
+// stopwatch and print the measurement, where name labels the operation and
+// count is the number of operations performed in the measured region.
 //
 class Duration {
 private:
   Stopwatch sw_;
-  std::string name_;
 
 public:
-  Duration(std::string name);
+  Duration();
   ~Duration();
 
   // Current local wall-clock time as "YYYY-MM-DD HH:MM:SS.cc".
   static std::string WallClock();
 
   void Stop();                          // Stop the stopwatch
-  void Show(long count);                // Stop and report the measurement
+  void Show(const char* name, long count);  // Stop and report the measurement
 };

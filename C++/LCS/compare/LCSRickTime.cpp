@@ -104,8 +104,8 @@ namespace {
   }
 }
 
-uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
-  const u32string& s1, const u32string& s2, Statistics* statistics) {
+uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
+  const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
   auto m = t.m;
   auto n = t.n;
@@ -265,11 +265,13 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   }
   else if (traceLCS)
     *pairs = nullptr;
-  if (statistics)
-    statistics->operations = records;
+  if (statistics) {
+    statistics->algorithm = LCS::Algorithm::RickTime;
+    statistics->records = records;
+  }
   return p;
 }
 
 uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s2) {
-  return Find(nullptr, s1, s2, nullptr);
+  return Find(nullptr, nullptr, s1, s2);
 }

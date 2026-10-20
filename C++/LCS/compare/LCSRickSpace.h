@@ -45,11 +45,11 @@ public:
   // serves the character (-t -r) path.  Both assume size1 <= size2.
   //
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const MATCHES& matches, uint32_t size1, uint32_t size2,
-    Statistics* statistics = nullptr);
+    shared_ptr<Pair>* pairs, Statistics* statistics,
+    const MATCHES& matches, uint32_t size1, uint32_t size2);
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2,
-    Statistics* statistics = nullptr);
+    shared_ptr<Pair>* pairs, Statistics* statistics,
+    const u32string& s1, const u32string& s2);
 
   //
   // Diagnostic counters (since the last ResetCounters()): the number of

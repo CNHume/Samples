@@ -31,23 +31,23 @@ using namespace std;
 class LCSString : public LCS {
 public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
+    Statistics* statistics,
     const u32string& s1, const u32string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
     uint32_t join, uint32_t prefix, uint32_t suffix,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    Statistics* statistics = nullptr);
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
   static uint32_t Difference(shared_ptr<Delta>* intervals,
+    Statistics* statistics,
     const u32string& s1, const u32string& s2,
     bool ignorecase, bool ignorespace, bool isjoin,
     uint32_t join, uint32_t prefix, uint32_t suffix,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    Statistics* statistics = nullptr);
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
 
   static uint32_t Compare(shared_ptr<Delta>* intervals,
+    Statistics* statistics,
     const u32string& s1, const u32string& s2,
     bool ignorecase = false, bool ignorespace = false,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    Statistics* statistics = nullptr);
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski);
 
   static u32string Read(const string& filename);
   static u32string StripFasta(const u32string& s);

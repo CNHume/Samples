@@ -154,8 +154,7 @@ namespace {
   }
 }
 
-Duration::Duration(std::string name)
-  : name_(std::move(name)) {
+Duration::Duration() {
   sw_.start();
 }
 
@@ -167,7 +166,7 @@ void Duration::Stop() {
   sw_.stop();
 }
 
-void Duration::Show(long count) {
+void Duration::Show(const char* name, long count) {
   sw_.stop();
   auto us = sw_.elapsed_microseconds();
 
@@ -185,7 +184,7 @@ void Duration::Show(long count) {
 
   std::cout << std::format(
     "{}: {} operations in {} {} @{} {}\n",
-    name_, count, formatScaled(timeValue), timeUnitsName(timeUnit),
+    name, count, formatScaled(timeValue), timeUnitsName(timeUnit),
     formatScaled(rateValue), rateUnitsName(rateUnit));
 }
 

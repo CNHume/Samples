@@ -17,15 +17,49 @@
 //
 #pragma once
 
+#include "LCS.h"                        // for LCS::Algorithm
+
 #include <cstdint>                      // for uint64_t
 
 //
-// Statistics carries the work metric of one LCS run, assessed by the algorithm
-// that produced it.  Each algorithm decides which of its internal counters is
-// the salient "operations" count and records it here, so the caller can report
-// a per-algorithm effort without knowing the algorithm's internals.
+// Statistics carries the work metrics of one LCS run, assessed by the algorithm
+// that produced it.  Each algorithm records its own counters here, maintained
+// alongside each other; Operations() returns the salient work count and
+// AlgorithmName() the algorithm's name, both derived from the algorithm enum.
 //
 class Statistics {
 public:
-  uint64_t operations = 0;              // the algorithm's salient work count
+  LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
+
+  uint64_t matches = 0;                 // r: Hunt-Szymanski match-list magnitude
+  uint64_t records = 0;                 // d: RickTime dominant matches recorded
+  uint64_t candidates = 0;              // RickSpace dominant matches emitted
+  uint64_t rows = 0;                    // RickSpace diagonal sweep steps
+  uint64_t contours = 0;                // RickSpace contour sweeps
+
+  // The salient work count for the algorithm that produced these statistics.
+  uint64_t Operations() const {
+    switch (algorithm) {
+    case LCS::Algorithm::RickTime:
+      return records;
+    case LCS::Algorithm::RickSpace:
+      return candidates;
+    default:                            // Hunt-Szymanski
+      return matches;
+    }
+  }
+
+  // A human-readable algorithm name.
+  const char* AlgorithmName() const {
+    switch (algorithm) {
+    case LCS::Algorithm::HuntSzymanski:
+      return "Hunt-Szymanski";
+    case LCS::Algorithm::RickSpace:
+      return "RickSpace";
+    case LCS::Algorithm::RickTime:
+      return "RickTime";
+    default:
+      return "Unknown";
+    }
+  }
 };

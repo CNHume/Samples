@@ -66,15 +66,15 @@ int main(int argc, char* argv[]) {
 
     Statistics statistics;
 #ifdef SHOW_DURATION
-    Duration duration{ "Compare" };
+    Duration duration;
 #endif
     auto length = command.isscorrespondence ?
-      LCSFile::Correspondence(pintervals, command, &statistics) :
-      LCSFile::Difference(pintervals, command, &statistics);
+      LCSFile::Correspondence(pintervals, &statistics, command) :
+      LCSFile::Difference(pintervals, &statistics, command);
 
     cout << format("LCS Length = {}\n", length);
 #ifdef SHOW_DURATION
-    duration.Show((long)statistics.operations);
+    duration.Show(statistics.AlgorithmName(), (long)statistics.Operations());
 #endif
     errorLevel = EXIT_SUCCESS;
   }

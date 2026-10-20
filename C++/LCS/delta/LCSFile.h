@@ -30,6 +30,6 @@ using namespace std;
 class LCSFile : public LCSFormatRecord {
 public:
   static uint32_t  Difference(
-    shared_ptr<Delta>* intervals, const Command command,
-    Statistics* statistics = nullptr);
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const Command command);
 };
