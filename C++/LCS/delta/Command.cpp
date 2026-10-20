@@ -17,8 +17,8 @@
 //
 // Usage:
 //
-// The usage synopsis is the `usageSynopsis` string below, thrown by Parse()
-// when the command line fails to parse.
+// The usage synopsis is the `usageSynopsis` string below, printed by -h and
+// thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
 #include "Version.h"
@@ -31,8 +31,8 @@
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: delta [-b] [-e] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-s <suffix>] [-v] [-w] file1 file2";
+    "Usage: delta [-b] [-e] [-h] [-i] [-j <join>] [-l] "
+    "[-p <prefix>] [-s <suffix>] [-V] [-w] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -87,6 +87,13 @@ void Command::Parse(int argc, char* argv[]) {
           isenvironment = true;
         break;
 
+      case 'h':                         // the help switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          ishelp = true;
+        break;
+
       case 'i':                         // the ignorecase switch
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -129,7 +136,7 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
-      case 'v':                         // the version switch
+      case 'V':                         // the version switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
@@ -148,6 +155,11 @@ void Command::Parse(int argc, char* argv[]) {
         break;
       }
     }
+  }
+
+  if (ishelp) {
+    cout << usageSynopsis << endl;
+    exit(EXIT_SUCCESS);
   }
 
   if (isversion) {

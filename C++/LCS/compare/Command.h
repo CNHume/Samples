@@ -39,6 +39,7 @@ public:
   LCS::Algorithm algorithm;
   bool istext;
   bool isfasta;
+  bool ishelp;
   bool islength;
   bool isversion;
   bool isenvironment;
@@ -63,6 +64,7 @@ public:
     algorithm(LCS::Algorithm::HuntSzymanski),
     istext(false),
     isfasta(false),
+    ishelp(false),
     islength(false),
     isversion(false),
     isenvironment(false),

@@ -32,6 +32,7 @@ public:
   uint32_t suffix;
   bool ignorecase;
   bool ignorespace;
+  bool ishelp;
   bool islength;
   bool isversion;
   bool isenvironment;
@@ -51,6 +52,7 @@ public:
     suffix(affixDefault),
     ignorecase(false),
     ignorespace(false),
+    ishelp(false),
     islength(false),
     isversion(false),
     isenvironment(false),
