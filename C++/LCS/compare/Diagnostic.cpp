@@ -114,9 +114,10 @@ uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
 
 void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
   std::cerr << std::format(
-    "Warning: RickTime match recording needs ~{} bytes, "
-    "exceeding the ~{} byte budget; use -as (RickSpace) for linear memory instead",
-    records * recordBytes, recordBudget * recordBytes) << std::endl;
+    "Warning: RickTime match recording needs ~{:.3f} GB, "
+    "exceeding the ~{:.3f} GB budget; use -as (RickSpace) for linear memory instead",
+    (double)(records * recordBytes) / (1ull << 30),
+    (double)(recordBudget * recordBytes) / (1ull << 30)) << std::endl;
 }
 
 void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
