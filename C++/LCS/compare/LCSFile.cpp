@@ -24,7 +24,8 @@
 #include "LCSString.h"
 
 uint32_t LCSFile::Correspondence(
-  shared_ptr<Delta>* intervals, const Command command) {
+  shared_ptr<Delta>* intervals, const Command command,
+  Statistics* statistics) {
   uint32_t length(0);
   if (command.istext) {
     u32string s1, s2;
@@ -43,7 +44,7 @@ uint32_t LCSFile::Correspondence(
     }
     length = LCSString::Correspondence(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, statistics);
     if (intervals != nullptr)
       LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
   }
@@ -52,7 +53,7 @@ uint32_t LCSFile::Correspondence(
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Correspondence(intervals, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, statistics);
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }
@@ -60,7 +61,8 @@ uint32_t LCSFile::Correspondence(
 }
 
 uint32_t LCSFile::Difference(
-  shared_ptr<Delta>* intervals, const Command command) {
+  shared_ptr<Delta>* intervals, const Command command,
+  Statistics* statistics) {
   uint32_t length(0);
   if (command.istext) {
     u32string s1, s2;
@@ -79,7 +81,7 @@ uint32_t LCSFile::Difference(
     }
     length = LCSString::Difference(intervals, s1, s2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, statistics);
     if (intervals != nullptr)
       LCSFormatString::Show(*intervals, s1, s2, command.file1, command.file2);
   }
@@ -88,7 +90,7 @@ uint32_t LCSFile::Difference(
     auto r2 = LCSRecord::Read(command.file2, command.isword);
     length = LCSRecord::Difference(intervals, r1, r2,
       command.ignorecase, command.ignorespace, command.isjoin,
-      command.join, command.prefix, command.suffix, command.algorithm);
+      command.join, command.prefix, command.suffix, command.algorithm, statistics);
     if (intervals != nullptr)
       LCSFormatRecord::Show(*intervals, r1, r2, command.file1, command.file2);
   }

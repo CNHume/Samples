@@ -19,6 +19,7 @@
 #pragma once
 
 #include "Command.h"
+#include "Statistics.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -28,7 +29,9 @@ using namespace std;
 class LCSFile {
 public:
   static uint32_t Correspondence(
-    shared_ptr<Delta>* intervals, const Command command);
+    shared_ptr<Delta>* intervals, const Command command,
+    Statistics* statistics = nullptr);
   static uint32_t Difference(
-    shared_ptr<Delta>* intervals, const Command command);
+    shared_ptr<Delta>* intervals, const Command command,
+    Statistics* statistics = nullptr);
 };

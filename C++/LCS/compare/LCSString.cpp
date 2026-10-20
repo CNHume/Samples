@@ -62,13 +62,13 @@ uint32_t LCSString::Correspondence(
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, Statistics* statistics) {
   //
   // A null interval pointer requests length only: skip the span/context
   // construction and return the length directly.
   //
   if (intervals == nullptr)
-    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm, statistics);
 
   if (ignorespace) {
     //
@@ -80,7 +80,7 @@ uint32_t LCSString::Correspondence(
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, t1, t2, ignorecase, false, algorithm);
+    auto length = Compare(intervals, t1, t2, ignorecase, false, algorithm, statistics);
     auto size1 = t1.size();
     auto size2 = t2.size();
     Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -91,7 +91,7 @@ uint32_t LCSString::Correspondence(
     return length;
   }
 
-  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, algorithm, statistics);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -104,17 +104,17 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
   const u32string& s1, const u32string& s2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, Statistics* statistics) {
   // A null interval pointer requests length only.
   if (intervals == nullptr)
-    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, s1, s2, ignorecase, ignorespace, algorithm, statistics);
 
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, t1, t2, ignorecase, false, algorithm);
+    auto length = Compare(intervals, t1, t2, ignorecase, false, algorithm, statistics);
     auto size1 = t1.size();
     auto size2 = t2.size();
     auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -126,7 +126,7 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
     return length;
   }
 
-  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, s1, s2, ignorecase, ignorespace, algorithm, statistics);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -137,7 +137,8 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
+  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm,
+  Statistics* statistics) {
 #ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
@@ -157,6 +158,8 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
       indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
     Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+    if (statistics)
+      statistics->operations = count;
     break;
   }
   case LCS::Algorithm::RickSpace:
@@ -173,8 +176,8 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
     const auto& shorter = isswapped ? ns2 : ns1;
     const auto& longer = isswapped ? ns1 : ns2;
     length = algorithm == LCS::Algorithm::RickTime ?
-      LCSRickTime::Find(ppairs, shorter, longer) :
-      LCSRickSpace::Find(ppairs, shorter, longer);
+      LCSRickTime::Find(ppairs, shorter, longer, statistics) :
+      LCSRickSpace::Find(ppairs, shorter, longer, statistics);
     if (algorithm == LCS::Algorithm::RickSpace)
       //
       // RickSpace is memory-safe but slow on near-identical inputs,

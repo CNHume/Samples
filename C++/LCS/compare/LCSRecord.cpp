@@ -71,11 +71,11 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, Statistics* statistics) {
   if (intervals == nullptr)
-    return Compare(nullptr, r1, r2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, r1, r2, ignorecase, ignorespace, algorithm, statistics);
 
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm, statistics);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -88,11 +88,11 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isjoin,
   uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm) {
+  LCS::Algorithm algorithm, Statistics* statistics) {
   if (intervals == nullptr)
-    return Compare(nullptr, r1, r2, ignorecase, ignorespace, algorithm);
+    return Compare(nullptr, r1, r2, ignorecase, ignorespace, algorithm, statistics);
 
-  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm);
+  auto length = Compare(intervals, r1, r2, ignorecase, ignorespace, algorithm, statistics);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -103,7 +103,8 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
+  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm,
+  Statistics* statistics) {
 #ifdef SHOW_START_FINISH
   cout << format("Started at {}\n", Duration::WallClock());
 #endif
@@ -129,10 +130,12 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   case LCS::Algorithm::HuntSzymanski:
     Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
     length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+    if (statistics)
+      statistics->operations = count;
     break;
   case LCS::Algorithm::RickSpace:
     length = LCSRickSpace::Find(ppairs, indexesOf2MatchedByIndex1,
-      (uint32_t)shorter.size(), (uint32_t)longer.size());
+      (uint32_t)shorter.size(), (uint32_t)longer.size(), statistics);
     break;
   case LCS::Algorithm::RickTime:
     throw runtime_error("LCSRickTime is not available for the record path");

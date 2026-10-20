@@ -105,7 +105,7 @@ namespace {
 }
 
 uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
-  const u32string& s1, const u32string& s2) {
+  const u32string& s1, const u32string& s2, Statistics* statistics) {
   auto t = BuildTables(s1, s2);
   auto m = t.m;
   auto n = t.n;
@@ -178,9 +178,10 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
       if (j < rowThresh[(size_t)k]) {
         auto temp = rowThresh[(size_t)k];
         rowThresh[(size_t)k] = (uint32_t)j;  // dominant k-match (l, j)
+        records++;                      // a dominant match was found
         if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)l, .j = (uint32_t)j });
-          if (++records > recordBudget) {
+          if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
@@ -209,9 +210,10 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
       if (i < colThresh[(size_t)k]) {
         auto temp = colThresh[(size_t)k];
         colThresh[(size_t)k] = (uint32_t)i;  // dominant k-match (i, l)
+        records++;                      // a dominant match was found
         if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)i, .j = (uint32_t)l });
-          if (++records > recordBudget) {
+          if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
@@ -263,9 +265,11 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs,
   }
   else if (traceLCS)
     *pairs = nullptr;
+  if (statistics)
+    statistics->operations = records;
   return p;
 }
 
 uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s2) {
-  return Find(nullptr, s1, s2);
+  return Find(nullptr, s1, s2, nullptr);
 }

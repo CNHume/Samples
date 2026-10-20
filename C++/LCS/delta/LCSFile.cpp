@@ -19,12 +19,13 @@
 #include "LCSFile.h"
 
 uint32_t  LCSFile::Difference(
-  shared_ptr<Delta>* intervals, const Command command) {
+  shared_ptr<Delta>* intervals, const Command command,
+  Statistics* statistics) {
   auto r1 = Read(command.file1, command.isword);
   auto r2 = Read(command.file2, command.isword);
   auto length = LCSRecord::Difference(intervals, r1, r2,
     command.ignorecase, command.ignorespace, command.isjoin,
-    command.join, command.prefix, command.suffix);
+    command.join, command.prefix, command.suffix, statistics);
   if (intervals != nullptr)
     Show(*intervals, r1, r2, command.file1, command.file2);
   return length;

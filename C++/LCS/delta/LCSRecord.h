@@ -19,6 +19,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "Statistics.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -34,15 +35,18 @@ public:
   static uint32_t Correspondence(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
+    Statistics* statistics = nullptr);
   static uint32_t Difference(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
+    Statistics* statistics = nullptr);
 
   static uint32_t Compare(shared_ptr<Delta>* intervals,
     const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false);
+    bool ignorecase = false, bool ignorespace = false,
+    Statistics* statistics = nullptr);
 
   static RECORDS Read(const string& filename, bool isword);
 

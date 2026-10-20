@@ -28,6 +28,7 @@
 #pragma once
 
 #include "LCS.h"                        // for LCS base, Pair
+#include "Statistics.h"                 // for Statistics
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -44,7 +45,8 @@ public:
   //[Note]The caller should guarantee |s1| <= |s2| by swapping when necessary.
   //
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2);
+    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2,
+    Statistics* statistics = nullptr);
   // Length only.
   static uint32_t FindFlexibleLength(const u32string& s1, const u32string& s2);
 };

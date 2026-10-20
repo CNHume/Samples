@@ -27,6 +27,7 @@
 #pragma once
 
 #include "LCS.h"                        // for MATCHES, Pair
+#include "Statistics.h"                 // for Statistics
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <memory>                       // for shared_ptr
@@ -44,9 +45,11 @@ public:
   // serves the character (-t -r) path.  Both assume size1 <= size2.
   //
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const MATCHES& matches, uint32_t size1, uint32_t size2);
+    shared_ptr<Pair>* pairs, const MATCHES& matches, uint32_t size1, uint32_t size2,
+    Statistics* statistics = nullptr);
   static uint32_t Find(
-    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2);
+    shared_ptr<Pair>* pairs, const u32string& s1, const u32string& s2,
+    Statistics* statistics = nullptr);
 
   //
   // Diagnostic counters (since the last ResetCounters()): the number of
