@@ -38,6 +38,7 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <iterator>                     // for next() and prev()
+#include <locale>                       // for locale
 #include <memory>                       // for make_shared
 
 namespace {
@@ -155,7 +156,7 @@ uint32_t LCSHuntSzymanski::Find(
 
   auto length = prefixEnd.size();
 #ifdef _DEBUG
-  cout << format("Pair Count = {}\n", Pair::Count);
+  cout << format(std::locale(), "Pair Count = {:L}\n", Pair::Count);
 #endif
   return length;
   }

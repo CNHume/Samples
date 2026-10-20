@@ -37,6 +37,7 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <iterator>                     // for next() and prev()
+#include <locale>                       // for locale
 
 uint32_t LCS::FindLCS(
   shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
@@ -144,7 +145,7 @@ uint32_t LCS::FindLCS(
 
   auto length = prefixEnd.size();
 #ifdef _DEBUG
-  cout << format("Pair Count = {}\n", Pair::Count);
+  cout << format(std::locale(), "Pair Count = {:L}\n", Pair::Count);
 #endif
   return length;
 }
