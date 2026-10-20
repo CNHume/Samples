@@ -80,5 +80,5 @@ void LCSFormatRecord::Head(string emblem, uint32_t counter, const string& label,
 
 void LCSFormatRecord::Body(const RECORDS& records, uint32_t begin, uint32_t end) {
   for (auto index = begin; index < end; index++)
-    cout << records[index] << endl;
+    cout << records[index] << '\n';
 }

@@ -81,5 +81,5 @@ void LCSFormatString::Head(string emblem, uint32_t counter, const string& label,
 }
 
 void LCSFormatString::Body(const u32string& s, uint32_t begin, uint32_t end) {
-  cout << LCSEncoding::ToUtf8(s.substr(begin, end - begin)) << endl;
+  cout << LCSEncoding::ToUtf8(s.substr(begin, end - begin)) << '\n';
 }

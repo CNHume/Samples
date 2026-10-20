@@ -19,7 +19,7 @@
 #include "Pair.h"
 
 #include <format>                       //[C++20]
-#include <iostream>                     // for cout, endl, ostream
+#include <iostream>                     // for cout, ostream
 #include <memory>                       // for make_shared
 #include <utility>                      // for move
 
@@ -97,7 +97,7 @@ uint32_t Pair::Length(const shared_ptr<Pair> pairs) {
 
 void Pair::List(const shared_ptr<Pair> pairs) {
   for (auto next = pairs; next != nullptr; next = next->next)
-    cout << *next << endl;
+    cout << *next << '\n';
 }
 
 shared_ptr<Pair> Pair::Copy(const shared_ptr<Pair> pairs) {

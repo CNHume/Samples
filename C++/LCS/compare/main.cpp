@@ -68,17 +68,17 @@ int main(int argc, char* argv[]) {
       LCSFile::Correspondence(pintervals, &statistics, command) :
       LCSFile::Difference(pintervals, &statistics, command);
 
-    cout << format("LCS Length = {}\n", length);
+    cout << format(std::locale(), "LCS Length = {:L}\n", length);
 #ifdef SHOW_DURATION
     statistics.ShowDuration();
 #endif
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
-    cerr << ex.what() << endl;
+    cerr << ex.what() << '\n';
   }
   catch (...) {
-    cout << "exception" << endl;
+    cout << "exception" << '\n';
     throw;
   }
 #ifdef _DEBUG

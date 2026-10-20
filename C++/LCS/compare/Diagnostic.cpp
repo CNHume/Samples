@@ -59,7 +59,7 @@ void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
     std::cerr << std::format(
       "Warning: Hunt-Szymanski will process {} matches over a {}x{} input, "
       "which is pathological; consider -at (time) or -as (space)",
-      matches, m, n) << std::endl;
+      matches, m, n) << '\n';
   }
 }
 
@@ -70,7 +70,7 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
     std::cerr << std::format(
       "Warning: RickTime occurrence tables need ~{} bytes for {} symbols "
       "over a {}x{} input; consider -as (linear space)",
-      bytes, symbols, m, n) << std::endl;
+      bytes, symbols, m, n) << '\n';
   }
 }
 
@@ -92,7 +92,7 @@ void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
     "Warning: RickTime match recording needs ~{:.3f} GB, "
     "exceeding the ~{:.3f} GB budget; use -as (RickSpace) for linear memory instead",
     (double)(records * recordBytes) / (1ull << 30),
-    (double)(recordBudget * recordBytes) / (1ull << 30)) << std::endl;
+    (double)(recordBudget * recordBytes) / (1ull << 30)) << '\n';
 }
 
 void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
@@ -101,6 +101,6 @@ void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
     std::cerr << std::format(
       "Note: near-identical input (LCS {} of {}); "
       "-at (RickTime) would likely fit and run ~2.6x faster",
-      length, shorter) << std::endl;
+      length, shorter) << '\n';
   }
 }

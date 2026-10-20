@@ -158,7 +158,7 @@ void Command::Parse(int argc, char* argv[]) {
   }
 
   if (ishelp) {
-    cout << usageSynopsis << endl;
+    cout << usageSynopsis << '\n';
     exit(EXIT_SUCCESS);
   }
 
