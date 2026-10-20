@@ -120,10 +120,11 @@ table in Results above (whose harness stripped the newline).
 |---|---:|---:|---:|---:|---:|
 | 100 | 46,709,884 | 21.2 s | 5.66 GB | 8.12 s | 3.65 GB |
 
-Compared with the full build (Results above), length-only is 2–3× faster for
-RickSpace and 3–19× faster for RickTime; RickTime's peak RSS collapses from up
-to ~14 GB (full) to at most 3.65 GB (length-only) because the dominant match
-list is never materialized.  RickTime is the faster choice for a length-only
+Compared with the full build (Results above), length-only is ~1.7–2.5× faster
+for RickSpace — 2.5× only at 100 substitutions, ~1.7× from 1,000 up — and
+~3–4.6× faster for RickTime; RickTime's peak RSS collapses from up to ~14 GB
+(full) to at most 3.65 GB (length-only) because the dominant match list is
+never materialized.  RickTime is the faster choice for a length-only
 query at every size.  Length-only is still not `O(n)`: it scales with the edit
 count (equivalently the match count) — on 4.6M, RickSpace goes 30.7 s → 180 s
 and RickTime 9.38 s → 45.8 s as the input moves from 1,000 substitutions to

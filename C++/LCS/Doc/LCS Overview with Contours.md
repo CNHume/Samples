@@ -89,11 +89,26 @@ A binary search optimization due to [Hunt and Szymanski 1977][^5] can be applied
 
 ## Legend
 
-    A, B are input strings of lengths m, n respectively
+    A, B are input strings of lengths m, n respectively (m ≤ n)
     p is the length of the LCS
     M is the set of matches (i, j) such that A[i] = B[j]
     r is the magnitude of M
     s is the magnitude of the alphabet Σ of distinct symbols in A + B
+    d is the number of dominant matches
+    n − p is the gap: the number of positions in B not on the LCS
+
+The Rick bound `O(ns + min{pm, p(n−p)})` is three terms: `ns`, the occurrence
+table build (one next-occurrence table per symbol, over the longer string, paid
+once); `pm`, the *match side* — `p` ranks, each contour an antichain of at most
+`m` matches; and `p(n−p)`, the *gap side* — `p` ranks times the `n−p`
+off-diagonal positions.  The `min` is `p·min{m, n−p}`: the smaller of the two
+sides.
+
+On near-identical inputs the gap side dominates: each edit shifts the path off
+the diagonal for every rank above it, so `d ≈ p(n−p)/2`.  The dominant-match
+count is therefore `d = O(min{pm, p(n−p)} + p)` — the `+p` carrying the
+on-diagonal matches when the strings are identical — and the sweep adds `O(m)`,
+making the honest time `O(ns + m + min{pm, p(n−p)})`.
 
 ## References
 
