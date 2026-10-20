@@ -84,7 +84,6 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   bool ignorecase, bool ignorespace) {
 #ifdef SHOW_DURATION
   cout << format("Started at {}\n", Duration::WallClock());
-  Duration duration{ "LCSRecord::Compare", (long)(r1.size() + r2.size()) };
 #endif
   STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
   MATCHES indexesOf2MatchedByIndex1;    // indexesOf2MatchedByIndex1 holds references into indexesOf2MatchedByString
@@ -96,7 +95,6 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals,
   if (intervals != nullptr)
     *intervals = Delta::Coalesce(pairs);
 #ifdef SHOW_DURATION
-  duration.Show();
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;

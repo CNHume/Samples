@@ -140,7 +140,6 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   bool ignorecase, bool ignorespace, LCS::Algorithm algorithm) {
 #ifdef SHOW_DURATION
   cout << format("Started at {}\n", Duration::WallClock());
-  Duration duration{ "LCSString::Compare", (long)(s1.size() + s2.size()) };
 #endif
   //
   // A null delta pointer is the length-only flag: forward it to the
@@ -194,7 +193,6 @@ uint32_t LCSString::Compare(shared_ptr<Delta>* deltas,
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
 #ifdef SHOW_DURATION
-  duration.Show();
   cout << format("Finished at {}\n", Duration::WallClock());
 #endif
   return length;

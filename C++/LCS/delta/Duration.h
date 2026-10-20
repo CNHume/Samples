@@ -20,32 +20,26 @@
 
 #include "Stopwatch.h"
 
-#include <nlohmann/json_fwd.hpp>        // Forward declaration header
 #include <string>
 
 //
-// Duration measures the elapsed time of a named operation and reports
-// the item rate over the number of items included in the operation.
-// Construct it at the start of the region to time and call Show() at
-// the end to stop the stopwatch and print the measurement.
+// Duration measures the elapsed time of a named operation.  Construct it at
+// the start of the region to time and call Show(count) at the end to stop the
+// stopwatch and print the measurement, where count is the number of operations
+// performed in the measured region.
 //
 class Duration {
 private:
   Stopwatch sw_;
   std::string name_;
-  long count_ = 0;                      // Operation count
 
 public:
-  Duration(std::string name, long count = 0);
+  Duration(std::string name);
   ~Duration();
 
   // Current local wall-clock time as "YYYY-MM-DD HH:MM:SS.cc".
   static std::string WallClock();
 
-  // Serialization/Deserialization
-  void from_json(const nlohmann::json& json);
-  nlohmann::json to_json() const;
-
   void Stop();                          // Stop the stopwatch
-  void Show();                          // Stop and report the measurement
+  void Show(long count);                // Stop and report the measurement
 };

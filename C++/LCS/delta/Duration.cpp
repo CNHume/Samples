@@ -24,7 +24,6 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <limits>                       // for numeric_limits
-#include <nlohmann/json.hpp>            // Full implementation header
 #include <string>                       // for string
 #include <utility>                      // for move
 
@@ -155,8 +154,8 @@ namespace {
   }
 }
 
-Duration::Duration(std::string name, long count)
-  : name_(std::move(name)), count_(count) {
+Duration::Duration(std::string name)
+  : name_(std::move(name)) {
   sw_.start();
 }
 
@@ -164,53 +163,29 @@ Duration::~Duration() {
   sw_.stop();
 }
 
-void Duration::from_json(const nlohmann::json& j) {
-  name_ = j.at("name").get<std::string>();
-  count_ = j.at("count").get<long>();
-}
-
-nlohmann::json Duration::to_json() const {
-  // Snapshot the elapsed time once so rate and elapsedSeconds agree, even
-  // when to_json() is called on a still-running stopwatch.
-  auto microseconds = sw_.elapsed_microseconds();
-  auto seconds = (double)microseconds / 1e6;
-  auto hasrate = microseconds > 0;
-  auto rateMHz = hasrate ?
-    (double)count_ / microseconds :
-    std::numeric_limits<double>::quiet_NaN();
-  auto j = nlohmann::json{
-    { "name", name_ },
-    { "count", count_ },
-    { "elapsedMicroseconds", microseconds },
-    { "elapsedSeconds", seconds },
-    { "rateMHz", rateMHz }
-  };
-  return j;
-}
-
 void Duration::Stop() {
   sw_.stop();
 }
 
-void Duration::Show() {
+void Duration::Show(long count) {
   sw_.stop();
   auto us = sw_.elapsed_microseconds();
 
   auto timeUnit = getTimeUnits(us);
   auto timeValue = (double)us / (double)timeInterval(timeUnit);
 
-  auto hasrate = us > 0 && count_ > 0;
+  auto hasrate = us > 0 && count > 0;
   auto rateValue = std::numeric_limits<double>::quiet_NaN();
   auto rateUnit = RateUnits::MHz;
   if (hasrate) {
-    auto usPerOp = (double)us / (double)count_;
+    auto usPerOp = (double)us / (double)count;
     rateUnit = getRateUnits(usPerOp);
-    rateValue = (double)count_ * (double)rateInterval(rateUnit) / (double)us;
+    rateValue = (double)count * (double)rateInterval(rateUnit) / (double)us;
   }
 
   std::cout << std::format(
     "{}: {} operations in {} {} @{} {}\n",
-    name_, count_, formatScaled(timeValue), timeUnitsName(timeUnit),
+    name_, count, formatScaled(timeValue), timeUnitsName(timeUnit),
     formatScaled(rateValue), rateUnitsName(rateUnit));
 }
 

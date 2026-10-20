@@ -28,6 +28,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "LCSFile.h"
+#include "Duration.h"
 #include "Environment.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
@@ -62,9 +63,15 @@ int main(int argc, char* argv[]) {
     auto pintervals = command.islength ?
       nullptr : &intervals;
 
+#ifdef SHOW_DURATION
+    Duration duration{ "Compare" };
+#endif
     auto length = LCSFile::Difference(pintervals, command);
 
     cout << format("LCS Length = {}\n", length);
+#ifdef SHOW_DURATION
+    duration.Show((long)length);
+#endif
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
