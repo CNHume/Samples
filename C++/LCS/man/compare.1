@@ -140,10 +140,9 @@ Split each line into whitespace-separated words and compare word by word
 .TP
 .B 0
 Success (including
-.BR \-h ,
-.BR \-V ,
+.BR \-h
 and
-.BR \-e ).
+.BR \-V ).
 .TP
 .B 1
 Error: a command-line parse failure, a missing file, or an algorithm failure.
@@ -172,7 +171,7 @@ compare old.txt new.txt
 Compare as text (code points), case-insensitively, showing only the length:
 .nf
 .RS
-compare \-t \-i \-l a.fa b.fa
+compare \-i \-l \-t a.fa b.fa
 .RE
 .fi
 .TP
@@ -183,10 +182,10 @@ compare \-as \-c \-f ecoli.seq ecoli_100subs.seq
 .RE
 .fi
 .TP
-Compare two literal strings word by word:
+Compare two literal strings rather than files:
 .nf
 .RS
-compare \-q \-w "the quick fox" "the lazy fox"
+compare \-q "the quick fox" "the lazy fox"
 .RE
 .fi
 .SH SEE ALSO
