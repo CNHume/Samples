@@ -259,7 +259,10 @@ u32string LCSString::StripFasta(const u32string& s) {
           buffer.push_back(c);
       }
     }
-    i = j < n ? j + 1 : n;              // advance past the line terminator
+
+    // advance past the line terminator
+    i = j < n ?
+      j + 1 : n;              
   }
   return buffer;
 }
@@ -284,7 +287,8 @@ void LCSString::MapSide(uint32_t& begin, uint32_t& end,
   }
   else {
     // Empty interval: map to the corresponding original position.
-    auto pos = begin < mapBegin.size() ? mapBegin[begin] : (uint32_t)size;
+    auto pos = begin < mapBegin.size() ?
+      mapBegin[begin] : (uint32_t)size;
     begin = pos;
     end = pos;
   }

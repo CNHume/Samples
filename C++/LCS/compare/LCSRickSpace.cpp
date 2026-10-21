@@ -292,7 +292,8 @@ namespace {
     occ.prev.assign(symbols, vector<uint32_t>((size_t)occ.columns, UINT32_MAX));
     for (int64_t columnIndex = 0; columnIndex < occ.columns; columnIndex++) {
       for (size_t symbolId = 0; symbolId < symbols; symbolId++)
-        occ.prev[symbolId][(size_t)columnIndex] = columnIndex > 0 ? occ.prev[symbolId][(size_t)columnIndex - 1] : UINT32_MAX;
+        occ.prev[symbolId][(size_t)columnIndex] = columnIndex > 0 ?
+          occ.prev[symbolId][(size_t)columnIndex - 1] : UINT32_MAX;
       occ.prev[(size_t)occ.colId[(size_t)columnIndex]][(size_t)columnIndex] = (uint32_t)columnIndex;
     }
 
@@ -310,7 +311,8 @@ namespace {
     occ.prev1.assign(symbols, vector<uint32_t>((size_t)occ.rows, UINT32_MAX));
     for (int64_t rowIndex = 0; rowIndex < occ.rows; rowIndex++) {
       for (size_t symbolId = 0; symbolId < symbols; symbolId++)
-        occ.prev1[symbolId][(size_t)rowIndex] = rowIndex > 0 ? occ.prev1[symbolId][(size_t)rowIndex - 1] : UINT32_MAX;
+        occ.prev1[symbolId][(size_t)rowIndex] = rowIndex > 0 ?
+          occ.prev1[symbolId][(size_t)rowIndex - 1] : UINT32_MAX;
       auto rowSymbol = occ.rowId[(size_t)rowIndex];
       if (rowSymbol != UINT32_MAX)
         occ.prev1[(size_t)rowSymbol][(size_t)rowIndex] = (uint32_t)rowIndex;
@@ -571,7 +573,9 @@ namespace {
       // Completeness: a dominant match with both components within the current
       // diagonal means no later diagonal can hold another dominant match.
       //
-      if (rowThresh <= (int64_t)columnIndex || colThresh <= (int64_t)rowIndex)
+      if (
+        rowThresh <= (int64_t)columnIndex ||
+        colThresh <= (int64_t)rowIndex)
         break;
     }
 
@@ -640,7 +644,9 @@ namespace {
     auto startColumn = column1 - 1 - startDiagonal;
     while (matchesBelow > 0 && contour[matchesBelow - 1].row > (uint32_t)startRow)
       matchesBelow--;
-    while (rightSources < contour.size() && contour[rightSources].column > (uint32_t)startColumn)
+    while (
+      rightSources < contour.size() &&
+      contour[rightSources].column > (uint32_t)startColumn)
       rightSources++;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
@@ -703,7 +709,9 @@ namespace {
       }
 
       // Completeness (mirror image).
-      if (rowThresh >= (int64_t)columnIndex || colThresh >= (int64_t)rowIndex)
+      if (
+        rowThresh >= (int64_t)columnIndex ||
+        colThresh >= (int64_t)rowIndex)
         break;
     }
 
@@ -772,8 +780,8 @@ void LCSRickSpace::ResetCounters() {
 }
 
 uint32_t LCSRickSpace::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
-  const MATCHES& matches, uint32_t size1, uint32_t size2) {
+  shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
+  uint32_t size1, uint32_t size2) {
   ResetCounters();
   auto length = Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
   if (statistics) {
@@ -785,7 +793,8 @@ uint32_t LCSRickSpace::Find(
   return length;
 }
 
-uint32_t LCSRickSpace::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
+uint32_t LCSRickSpace::Find(
+  shared_ptr<Pair>* pairs, Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   //
   // Build O(ns) occurrence tables directly from the code points and amortize them

@@ -104,9 +104,11 @@ uint32_t LCSRecord::Difference(
   return length;
 }
 
-uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics,
+uint32_t LCSRecord::Compare(
+  shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  LCS::Algorithm algorithm, bool ignorecase, bool ignorespace, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
     cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
@@ -139,7 +141,8 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
     }
     break;
   case LCS::Algorithm::RickSpace:
-    length = LCSRickSpace::Find(ppairs, statistics, indexesOf2MatchedByIndex1,
+    length = LCSRickSpace::Find(
+      ppairs, statistics, indexesOf2MatchedByIndex1,
       (uint32_t)shorter.size(), (uint32_t)longer.size());
     break;
   case LCS::Algorithm::RickTime:

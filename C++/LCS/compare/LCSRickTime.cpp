@@ -104,7 +104,8 @@ namespace {
   }
 }
 
-uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
+uint32_t LCSRickTime::Find(
+  shared_ptr<Pair>* pairs, Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
   auto m = t.m;
@@ -143,7 +144,8 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
   uint64_t records = 0;
   uint64_t recordBudget = 0;
   if (traceLCS)
-    recordBudget = Diagnostic::RecordingBudget((uint64_t)m, (uint64_t)n, t.next1.size());
+    recordBudget = Diagnostic::RecordingBudget(
+      (uint64_t)m, (uint64_t)n, t.next1.size());
 
   //
   // "Single diagonal sweep": one forward pass over the m diagonals.  At each
@@ -183,7 +185,8 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
           byRank[(size_t)k].push_back({ .i = (uint32_t)l, .j = (uint32_t)j });
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
-            throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+            throw runtime_error(
+              "LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
         }
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
@@ -215,7 +218,8 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
           byRank[(size_t)k].push_back({ .i = (uint32_t)i, .j = (uint32_t)l });
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
-            throw runtime_error("LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+            throw runtime_error(
+              "LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
         }
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];
@@ -232,7 +236,9 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
   //
   uint32_t p = 0;
   for (int64_t k = 1; k <= m; k++)
-    if (rowThresh[(size_t)k] < n || colThresh[(size_t)k] < m)
+    if (
+      rowThresh[(size_t)k] < n ||
+      colThresh[(size_t)k] < m)
       p = (uint32_t)k;
 
   //
@@ -272,6 +278,7 @@ uint32_t LCSRickTime::Find(shared_ptr<Pair>* pairs, Statistics* statistics,
   return p;
 }
 
-uint32_t LCSRickTime::FindFlexibleLength(const u32string& s1, const u32string& s2) {
+uint32_t LCSRickTime::FindFlexibleLength(
+  const u32string& s1, const u32string& s2) {
   return Find(nullptr, nullptr, s1, s2);
 }
