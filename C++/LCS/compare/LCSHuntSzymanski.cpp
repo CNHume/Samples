@@ -94,8 +94,10 @@ uint32_t LCSHuntSzymanski::Find(
         (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
 
       //
-      // Depending on match redundancy, this optimization may reduce the number
-      // of Pair allocations by factors ranging from 2 up to 10 or more.
+      // Depending on match redundancy, this optimization reduces the number of
+      // Pair allocations by up to (r/n + 1)/2, where r/n is the match
+      // redundancy (the average number of matches per position).  At r/n = 1
+      // there is no reduction; at maximal redundancy the factor approaches n/2.
       //
       if (preferNextIndex2) continue;
 #endif
