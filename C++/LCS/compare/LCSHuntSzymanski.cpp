@@ -95,13 +95,13 @@ uint32_t LCSHuntSzymanski::Find(
 
       //
       // Depending on match redundancy, this optimization reduces the number of
-      // Pair allocations by up to (r/n + 1)/2, where r/n is the match
-      // redundancy (the average number of matches per position).  At r/n = 1
-      // there is no reduction; at maximal redundancy the factor approaches n/2.
+      // Pair allocations by up to (r/n + 1)/2.  r/n is the match redundancy,
+      // the average number of matches per position.  At r/n = 1 there is no
+      // reduction.  At maximal redundancy the factor approaches n/2.
       //
       // The wall-clock benefit is modest and decays with n: ~1.40x faster at
-      // n = 10,000 versus ~1.26x at n = 100,000, because the O(log n)
-      // lower_bound dominates the saved allocation as the input grows.
+      // n = 10,000 vs. ~1.26x at n = 100,000, because the O(log n) lower_bound
+      // dominates the saved allocation as the input grows.
       //
       if (preferNextIndex2) continue;
 #endif
