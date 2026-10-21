@@ -62,21 +62,22 @@ uint64_t LCSRecord::Match(
     count += dq2.size();
   }
 #ifdef SHOW_MATCH_COUNT
-  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
+  cout << format(
+    std::locale(), "count = {:L} of indexesOf2MatchedByIndex1\n", count);
 #endif
   return count;
 }
 
-uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
-  Statistics* statistics,
+uint32_t LCSRecord::Correspondence(
+  shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
+    return Compare(nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
+  auto length = Compare(intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -85,16 +86,16 @@ uint32_t LCSRecord::Correspondence(shared_ptr<Delta>* intervals,
   return length;
 }
 
-uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
-  Statistics* statistics,
+uint32_t LCSRecord::Difference(
+  shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
+    return Compare(nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, algorithm, isverbose);
+  auto length = Compare(intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -105,7 +106,7 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
 
 uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm, bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
     cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
@@ -115,7 +116,8 @@ uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics
   // inputs, so the swap must precede the shared match-list build.
   //
   auto isswapped =
-    algorithm != LCS::Algorithm::HuntSzymanski && r2.size() < r1.size();
+    algorithm != LCS::Algorithm::HuntSzymanski &&
+    r2.size() < r1.size();
   const auto& shorter = isswapped ? r2 : r1;
   const auto& longer = isswapped ? r1 : r2;
 

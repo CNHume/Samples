@@ -58,20 +58,23 @@ uint32_t LCSRecord::Match(
     count += dq2.size();
   }
 #ifdef SHOW_MATCH_COUNT
-  cout << format("count = {} of indexesOf2MatchedByIndex1\n", count);
+  cout << format(
+    std::locale(), "count = {:L} of indexesOf2MatchedByIndex1\n", count);
 #endif
   return count;
 }
 
-uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
-  Statistics* statistics,
+uint32_t LCSRecord::Difference(
+  shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix, bool isverbose) {
+  bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, ignorecase, ignorespace, isverbose);
+    return Compare(
+      nullptr, statistics, r1, r2, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, ignorecase, ignorespace, isverbose);
+  auto length = Compare(
+    intervals, statistics, r1, r2, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -80,7 +83,8 @@ uint32_t LCSRecord::Difference(shared_ptr<Delta>* intervals,
   return length;
 }
 
-uint32_t LCSRecord::Compare(shared_ptr<Delta>* intervals, Statistics* statistics,
+uint32_t LCSRecord::Compare(
+  shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)

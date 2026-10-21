@@ -60,15 +60,16 @@ uint64_t LCSString::Match(
 uint32_t LCSString::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   //
   // A null interval pointer requests length only: skip the span/context
   // construction and return the length directly.
   //
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
+    return Compare(
+      nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
 
   if (ignorespace) {
     //
@@ -80,7 +81,7 @@ uint32_t LCSString::Correspondence(
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm, isverbose);
+    auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -91,7 +92,8 @@ uint32_t LCSString::Correspondence(
     return length;
   }
 
-  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
+  auto length = Compare(
+    intervals, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -102,19 +104,20 @@ uint32_t LCSString::Correspondence(
 
 uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace, bool isjoin,
-  uint32_t join, uint32_t prefix, uint32_t suffix,
-  LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace,
+  bool isjoin, bool isverbose,
+  uint32_t join, uint32_t prefix, uint32_t suffix) {
   // A null interval pointer requests length only.
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
+    return Compare(nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
 
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, ignorecase, false, algorithm, isverbose);
+    auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -126,7 +129,8 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statist
     return length;
   }
 
-  auto length = Compare(intervals, statistics, s1, s2, ignorecase, ignorespace, algorithm, isverbose);
+  auto length = Compare(
+    intervals, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -135,9 +139,11 @@ uint32_t LCSString::Difference(shared_ptr<Delta>* intervals, Statistics* statist
   return length;
 }
 
-uint32_t LCSString::Compare(shared_ptr<Delta>* deltas, Statistics* statistics,
+uint32_t LCSString::Compare(
+  shared_ptr<Delta>* deltas, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  bool ignorecase, bool ignorespace, LCS::Algorithm algorithm, bool isverbose) {
+  LCS::Algorithm algorithm,
+  bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
     cout << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm

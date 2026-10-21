@@ -30,26 +30,27 @@ using namespace std;
 
 class LCSString : public LCS {
 public:
-  static uint32_t Correspondence(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
+  static uint32_t Correspondence(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
     const u32string& s1, const u32string& s2,
-    bool ignorecase, bool ignorespace, bool isjoin,
-    uint32_t join, uint32_t prefix, uint32_t suffix,
     LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool isverbose = false);
-  static uint32_t Difference(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
-    const u32string& s1, const u32string& s2,
-    bool ignorecase, bool ignorespace, bool isjoin,
-    uint32_t join, uint32_t prefix, uint32_t suffix,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool isverbose = false);
-
-  static uint32_t Compare(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
-    const u32string& s1, const u32string& s2,
     bool ignorecase = false, bool ignorespace = false,
+    bool isjoin = false, bool isverbose = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+
+  static uint32_t Difference(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const u32string& s1, const u32string& s2,
     LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+    bool ignorecase = false, bool ignorespace = false,
+    bool isjoin = false, bool isverbose = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+
+  static uint32_t Compare(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const u32string& s1, const u32string& s2,
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+    bool ignorecase = false, bool ignorespace = false,
     bool isverbose = false);
 
   static u32string Read(const string& filename);

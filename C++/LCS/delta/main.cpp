@@ -64,19 +64,22 @@ int main(int argc, char* argv[]) {
       nullptr : &intervals;
 
     Statistics statistics;
-    auto length = LCSFile::Difference(pintervals, &statistics, command);
+    auto length = LCSFile::Difference(
+      pintervals, &statistics, command);
 
     if (command.isverbose || command.islength)
-      cout << format(std::locale(), "LCS Length = {:L}\n", length);
+      cout << format(
+        std::locale(), "LCS Length = {:L}\n", length);
     if (command.isverbose)
       statistics.ShowDuration();
+
     errorLevel = EXIT_SUCCESS;
   }
   catch (exception& ex) {
-    cerr << ex.what() << '\n';
+    cerr << ex.what() << std::endl;
   }
   catch (...) {
-    cout << "exception" << '\n';
+    cout << "exception" << std::endl;
     throw;
   }
 #ifdef _DEBUG

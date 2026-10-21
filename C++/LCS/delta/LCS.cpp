@@ -145,7 +145,8 @@ uint32_t LCS::FindLCS(
 
   auto length = prefixEnd.size();
 #ifdef _DEBUG
-  cout << format(std::locale(), "Pair Count = {:L}\n", Pair::Count);
+  cout << format(
+    std::locale(), "Pair Count = {:L}\n", Pair::Count);
 #endif
   return length;
 }

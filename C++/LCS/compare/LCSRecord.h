@@ -32,26 +32,27 @@ class LCSRecord : public LCS {
 public:
   typedef vector<string> RECORDS;
 
-  static uint32_t Correspondence(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
+  static uint32_t Correspondence(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
     const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
     LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool isverbose = false);
-  static uint32_t Difference(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
-    const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false, bool isjoin = false,
-    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool isverbose = false);
-
-  static uint32_t Compare(shared_ptr<Delta>* intervals,
-    Statistics* statistics,
-    const RECORDS& r1, const RECORDS& r2,
     bool ignorecase = false, bool ignorespace = false,
+    bool isjoin = false, bool isverbose = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+
+  static uint32_t Difference(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const RECORDS& r1, const RECORDS& r2,
     LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+    bool ignorecase = false, bool ignorespace = false,
+    bool isjoin = false, bool isverbose = false,
+    uint32_t join = 0, uint32_t prefix = 0, uint32_t suffix = 0);
+
+  static uint32_t Compare(
+    shared_ptr<Delta>* intervals, Statistics* statistics,
+    const RECORDS& r1, const RECORDS& r2,
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+    bool ignorecase = false, bool ignorespace = false,
     bool isverbose = false);
 
   static RECORDS Read(const string& filename, bool isword);

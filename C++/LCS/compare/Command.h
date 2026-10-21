@@ -26,25 +26,25 @@ using namespace std;
 
 class Command {
 public:
+  LCS::Algorithm algorithm;
   string file1;
   string file2;
+  bool ignorecase;
+  bool ignorespace;
+  bool isscorrespondence;
+  bool isenvironment;
+  bool isfasta;
+  bool ishelp;
   bool isjoin;
+  bool islength;
+  bool isquote;
+  bool istext;
+  bool isverbose;
+  bool isversion;
+  bool isword;
   uint32_t join;
   uint32_t prefix;
   uint32_t suffix;
-  bool isscorrespondence;
-  bool ignorecase;
-  bool ignorespace;
-  bool isquote;
-  LCS::Algorithm algorithm;
-  bool istext;
-  bool isfasta;
-  bool ishelp;
-  bool islength;
-  bool isversion;
-  bool isverbose;
-  bool isenvironment;
-  bool isword;
 
 protected:
   static const uint32_t joinDefault = 0, affixDefault = 0;
@@ -54,24 +54,23 @@ protected:
 
 public:
   Command() :
-    isjoin(false),
-    join(joinDefault),
-    prefix(affixDefault),
-    suffix(affixDefault),
-    isscorrespondence(false),
+    algorithm(LCS::Algorithm::HuntSzymanski),
     ignorecase(false),
     ignorespace(false),
-    isquote(false),
-    algorithm(LCS::Algorithm::HuntSzymanski),
-    istext(false),
+    isscorrespondence(false),
+    isenvironment(false),
     isfasta(false),
     ishelp(false),
+    isjoin(false),
     islength(false),
-    isversion(false),
+    isquote(false),
+    istext(false),
     isverbose(false),
-    isenvironment(false),
-    isword(false) {
-  }
+    isversion(false),
+    isword(false),
+    join(joinDefault),
+    prefix(affixDefault),
+    suffix(affixDefault) {}
 
   void Parse(int argc, char* argv[]);
 };

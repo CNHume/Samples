@@ -26,18 +26,18 @@ class Command {
 public:
   string file1;
   string file2;
+  bool ignorecase;
+  bool ignorespace;
+  bool isenvironment;
+  bool ishelp;
   bool isjoin;
+  bool islength;
+  bool isverbose;
+  bool isversion;
+  bool isword;
   uint32_t join;
   uint32_t prefix;
   uint32_t suffix;
-  bool ignorecase;
-  bool ignorespace;
-  bool ishelp;
-  bool islength;
-  bool isversion;
-  bool isverbose;
-  bool isenvironment;
-  bool isword;
 
 protected:
   static const uint32_t joinDefault = 0, affixDefault = 0;
@@ -47,19 +47,18 @@ protected:
 
 public:
   Command() :
-    isjoin(false),
-    join(joinDefault),
-    prefix(affixDefault),
-    suffix(affixDefault),
     ignorecase(false),
     ignorespace(false),
-    ishelp(false),
-    islength(false),
-    isversion(false),
-    isverbose(false),
     isenvironment(false),
-    isword(false) {
-  }
+    ishelp(false),
+    isjoin(false),
+    islength(false),
+    isverbose(false),
+    isversion(false),
+    isword(false),
+    join(joinDefault),
+    prefix(affixDefault),
+    suffix(affixDefault) {}
 
   void Parse(int argc, char* argv[]);
 };
