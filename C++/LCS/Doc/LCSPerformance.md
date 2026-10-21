@@ -149,3 +149,82 @@ the 0.1% rate.
   the best wall-clock when memory allows; RickSpace is the safe default because
   its memory stays linear and it never exhausts the host, which is what makes
   46.7M tractable in 7.3 GB (versus RickTime's 13.8 GB, already near the limit).
+
+## Hunt-Szymanski: FILTER_PAIRS vs. match redundancy
+
+`compare` also ships the classic Hunt–Szymanski (1977) algorithm (`-ad`, the
+default).  It walks each position's match list in descending `index2` order and
+maintains the usual `prefixEnd` threshold array, so every match does one
+`lower_bound` and most matches also allocate a `Pair` node — `O((r + n) log n)`
+time for `r` total matches.  The `FILTER_PAIRS` optimization in
+`LCSHuntSzymanski::Find` skips the allocation for a match whose `index2` is
+already dominated by the next match on the same list.  Because the test runs
+*after* the `lower_bound`, it never reduces the binary-search count — it only
+removes `Pair` allocations.
+
+**Match redundancy** `ρ = r/n` is the average number of matches per position.
+For two identical strings over an alphabet of `s` symbols, each position
+matches the `n/s` positions holding the same symbol, so `ρ = n/s`.
+
+### Model
+
+With `r = n·ρ` matches, `A` the cost of one `lower_bound`, and `B` the cost of
+one `Pair` allocation, the two builds differ only in the allocation term:
+
+- `pairs_filt = n` — the filter allocates exactly one `Pair` per position.
+- `pairs_nofilt = n·(ρ+1)/2` — so the filter saves `n·(ρ−1)/2` allocations,
+  i.e. it reduces the allocation count by a factor of `(ρ+1)/2`.
+
+```
+t_ratio = [A·ρ·log n + B·(ρ+1)/2] / [A·ρ·log n + B]   →   1 + B/(2A·log n)
+```
+
+as `ρ → ∞`.  That limit — the ceiling the ratio approaches — depends only on
+`n` (through `log n`), never on `ρ`.
+
+### Data
+
+Self-contained benchmark (`scratch/hsbench.cpp`): two identical
+block-structured strings of length `n`, alphabet size `s` (with `s | n`),
+compared to themselves.  Built twice — with and without `-DFILTER_PAIRS` — and
+each point is the median of five runs.  `length` is `n` throughout, so the
+table omits it.
+
+| Redundancy ρ = n/s | s | Pairs (filter) | Pairs (no filter) | Time filter | Time no filter | t_ratio |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 10,000 | 10,000 | 10,000 | 1.52 ms | 1.66 ms | 1.10 |
+| 2 | 5,000 | 10,000 | 15,000 | 1.81 ms | 2.16 ms | 1.19 |
+| 4 | 2,500 | 10,000 | 25,000 | 2.30 ms | 2.76 ms | 1.20 |
+| 5 | 2,000 | 10,000 | 30,000 | 2.92 ms | 3.25 ms | 1.11 |
+| 8 | 1,250 | 10,000 | 45,000 | 3.38 ms | 4.36 ms | 1.29 |
+| 10 | 1,000 | 10,000 | 55,000 | 4.12 ms | 5.22 ms | 1.27 |
+| 20 | 500 | 10,000 | 105,000 | 6.88 ms | 9.00 ms | 1.31 |
+| 40 | 250 | 10,000 | 205,000 | 12.4 ms | 17.4 ms | 1.41 |
+| 50 | 200 | 10,000 | 255,000 | 15.1 ms | 20.9 ms | 1.39 |
+| 100 | 100 | 10,000 | 505,000 | 29.5 ms | 41.3 ms | 1.40 |
+| 200 | 50 | 10,000 | 1,005,000 | 60.7 ms | 82.2 ms | 1.36 |
+| 400 | 25 | 10,000 | 2,005,000 | 119 ms | 167 ms | 1.40 |
+| 500 | 20 | 10,000 | 2,505,000 | 145 ms | 202 ms | 1.39 |
+| 1,000 | 10 | 10,000 | 5,005,000 | 288 ms | 401 ms | 1.39 |
+| 2,000 | 5 | 10,000 | 10,005,000 | 551 ms | 765 ms | 1.39 |
+| 2,500 | 4 | 10,000 | 12,505,000 | 681 ms | 951 ms | 1.40 |
+| 5,000 | 2 | 10,000 | 25,005,000 | 1.35 s | 1.88 s | 1.40 |
+| 10,000 | 1 | 10,000 | 50,005,000 | 2.66 s | 3.71 s | 1.40 |
+
+### Observations
+
+- **The allocation savings are exact and linear.**  `pairs_filt` stays at `n`
+  while `pairs_nofilt` follows `n·(ρ+1)/2` to the node, so the filter removes
+  `n·(ρ−1)/2` allocations — nothing at `ρ = 1`, growing without bound with `ρ`.
+- **The time benefit saturates early.**  `t_ratio` climbs from ~1.1 toward ~1.4
+  and is essentially flat (within noise) by `ρ ≈ 40`; pushing redundancy from
+  40 to 10,000 moves it only from 1.41 to 1.40.  The low-`ρ` values are noisy
+  because those runs are under 5 ms — at `ρ = 1` the two builds do identical
+  work, so the 1.10 there is measurement noise, not a real saving.
+- **Redundancy can't beat the ceiling.**  The speedup ceiling is
+  `1 + B/(2A·log n)`, which depends on `n` alone.  That is why a fixed-`s`
+  comparison across sizes shows the ratio *falling*: at `s = 1` (so `ρ = n`)
+  the ratio is already pinned at the ceiling, and the ceiling itself drops as
+  `log n` grows — ~1.40× at `n = 10,000` versus ~1.26× at `n = 100,000`.
+  `FILTER_PAIRS` is a free win (it only ever removes work), but a modest,
+  bounded one.
