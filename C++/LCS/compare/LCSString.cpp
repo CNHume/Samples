@@ -262,7 +262,7 @@ u32string LCSString::StripFasta(const u32string& s) {
 
     // advance past the line terminator
     i = j < n ?
-      j + 1 : n;              
+      j + 1 : n;
   }
   return buffer;
 }

@@ -106,7 +106,7 @@ vector<string> LCSEncoding::ReadWide(
       std::u32string word;
       for (auto cp : line) {
         if (LCSNormal::IsSpace(cp)) {
-          // Only push non-empty words 
+          // Only push non-empty words
           if (!word.empty()) {
             records.push_back(ToUtf8(word));
             word.clear();
