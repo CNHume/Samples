@@ -99,6 +99,10 @@ uint32_t LCSHuntSzymanski::Find(
       // redundancy (the average number of matches per position).  At r/n = 1
       // there is no reduction; at maximal redundancy the factor approaches n/2.
       //
+      // The wall-clock benefit is modest and decays with n: ~1.38x faster at
+      // n = 10,000 versus ~1.26x at n = 100,000, because the O(log n)
+      // lower_bound dominates the saved allocation as the input grows.
+      //
       if (preferNextIndex2) continue;
 #endif
       auto index3 = distance(prefixEnd.begin(), limit);
