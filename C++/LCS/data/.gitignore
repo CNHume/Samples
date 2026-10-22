@@ -7,3 +7,6 @@
 # so the data files relocated from the former top-level Test/ stay in git.
 !/Test/
 !/Test/**
+
+# The data generator is source, not data: track it.
+!makedata.cpp
