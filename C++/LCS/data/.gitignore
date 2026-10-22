@@ -2,3 +2,8 @@
 # the data folder, so the rule travels with the folder if it is renamed.
 *
 !.gitignore
+
+# Test fixtures under Test/ are small and tracked: re-include that subtree
+# so the data files relocated from the former top-level Test/ stay in git.
+!/Test/
+!/Test/**
