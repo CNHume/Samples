@@ -77,25 +77,25 @@ Annals of Mathematics [Volume 51, Number 1, *pp.* 161-166]
 by Heiko Goeman and Michael Clausen, published 2002,
 Kybernetika [Volume 38, Issue 1, *pp.* 45-66]
 
-[^3]: ["A linear space algorithm for computing maximal common subsequences"](https://doi.org/10.1145/360825.360861)
+[^3]: ["A linear space algorithm for computing maximal common subsequences"](https://dl.acm.org/doi/pdf/10.1145/360825.360861)
 by Daniel S. Hirschberg, published June 1975
-Communications of the ACM [Volume 18, Number 6, *pp.* 341-343]
+Communications of the ACM [Volume 18, Number 6, *pp.* 341-343].  [DOI](https://doi.org/10.1145/360825.360861)
 
 [^4]: ["An Algorithm for Differential File Comparison"](https://www.cs.dartmouth.edu/~doug/diff.pdf)
 by James W. Hunt and M. Douglas McIlroy, June 1976
 Computing Science Technical Report, Bell Laboratories 41
 
-[^5]: ["A Fast Algorithm for Computing Longest Common Subsequences"](https://doi.org/10.1145/359581.359603)
+[^5]: ["A Fast Algorithm for Computing Longest Common Subsequences"](https://dl.acm.org/doi/pdf/10.1145/359581.359603)
 by James W. Hunt and Thomas G. Szymanski, published May 1977
-Communications of the ACM [Volume 20, Number 5, *pp.* 350-353]
+Communications of the ACM [Volume 20, Number 5, *pp.* 350-353].  [DOI](https://doi.org/10.1145/359581.359603)
 
-[^6]: ["Simple and fast linear space computation of longest common subsequences"](https://doi.org/10.1016/S0020-0190(00)00100-1)
+[^6]: ["Simple and fast linear space computation of longest common subsequences"](https://theory.cs.uni-bonn.de/blum/Mitarbeiter/rick/welcome-english.html)
 by Claus Rick, received 17 March 2000, Information Processing Letters,
-Elsevier Science [Volume 75, *pp.* 275–281]
+Elsevier Science [Volume 75, *pp.* 275–281].  [DOI](https://doi.org/10.1016/S0020-0190(00)00100-1)
 
-[^7]: ["Algorithms for the longest common subsequence problem"](https://doi.org/10.1145/322033.322044)
+[^7]: ["Algorithms for the longest common subsequence problem"](https://dl.acm.org/doi/pdf/10.1145/322033.322044)
 by Daniel S. Hirschberg, published October 1977
-Journal of the ACM [Volume 24, Number 4, *pp.* 664-675]
+Journal of the ACM [Volume 24, Number 4, *pp.* 664-675].  [DOI](https://doi.org/10.1145/322033.322044)
 
 [^8]: ["A fast linear space algorithm for computing longest common subsequences"](https://www.semanticscholar.org/paper/A-Fast-Linear-Space-Algorithm-for-Computing-Longest-Apostolio-Guerra/7d380f831959f869af2dcacad264c95468822109)
 by Alberto Apostolico and Concettina Guerra, published 1985
