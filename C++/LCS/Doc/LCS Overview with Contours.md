@@ -71,6 +71,52 @@ Dominant Matches of a Reverse Contour are those m1 for which there exists no oth
 
 Where multiple Dominant Matches exist within a Meet (or Join, respectively) the Dominant Matches will be incomparable to each other.
 
+## History
+
+The chain/antichain viewpoint is the thread connecting the practical LCS
+algorithms.  Its lineage:
+
+- [Dilworth 1950][^1] supplied the poset foundation: the maximum size of an
+  antichain equals the minimum number of chains in a chain decomposition (and
+  dually, Mirsky's theorem).  A **chain** is a common subsequence; an
+  **antichain** is a set of pairwise-incomparable matches.  This is the source
+  of the chain concept, but it is not specific to LCS.
+- [Hirschberg 1977][^7] first applied the chain idea to LCS as *contours*:
+  computing the match classes (the matches of a given rank) rank by rank.
+- [Apostolico & Guerra 1985][^8] made each contour cheap to walk by
+  concentrating on its **dominant** (minimal) matches — the antichain that
+  suffices to build the next contour — giving the first fast linear-space LCS
+  beyond the `O(mn)` DP.
+- [Apostolico, Browne & Guerra 1992][^9] sharpened this to `O(pm)` /
+  `O(n(m−p))` time in linear space.
+- [Rick 1995][^10] gave the "flexible algorithm" with
+  `O(ns + min{pm, p(n−p)})`; [Rick 2000][^6] added the linear-space
+  forward/backward construction.
+- [Goeman & Clausen 2002][^2] re-derived the same bound from the dual
+  antichain viewpoint.
+
+Rick (2000) credits the split: computing contours rank by rank was "first
+suggested by Hirschberg [6]", with "efficiency … later gained by concentrating
+on the computation of dominant matches [3]" (Apostolico et al. 1992).
+
+### The DP frontier
+
+The classic LCS dynamic program fills an `(m+1)×(n+1)` table of prefix LCS
+lengths — `O(mn)` cells, nearly all of them irrelevant.  Its **frontier** is
+the sparse boundary of that computation: the matches lying on the edge of the
+region already settled.  The frontier of rank `k` is exactly the contour
+`FC[k]`, and it can be represented by its dominant (minimal) matches alone.
+The whole DP thus collapses to a walk over the contours, each step described by
+a handful of dominant matches instead of `O(mn)` cells — the compression that
+turns `O(mn)` into Hirschberg's `O(pn)` and Rick's
+`O(ns + min{pm, p(n−p)})`.
+
+| DP view | Sparse view |
+|---|---|
+| fill `O(mn)` cells | walk only the frontier |
+| the frontier at length `k` | the contour `FC[k]` |
+| all rank-`k` matches on it | only its dominant (minimal) matches |
+
 ## Background
 
 Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards O(*m\*n*) quadratic growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
@@ -135,3 +181,20 @@ Communications of the ACM [Volume 20, Number 5, *pp.* 350-353]
 [^6]: "Simple and fast linear space computation of longest common subsequences"
 by Claus Rick, received 17 March 2000, Information Processing Letters,
 Elsevier Science [Volume 75, *pp.* 275–281]
+
+[^7]: "Algorithms for the longest common subsequence problem"
+by Daniel S. Hirschberg, published October 1977
+Journal of the ACM [Volume 24, Number 4, *pp.* 664-675]
+
+[^8]: "A fast linear space algorithm for computing longest common subsequences"
+by Alberto Apostolico and Concettina Guerra, published 1985
+Proceedings of the 23rd Allerton Conference on Communication, Control, and Computing, *pp.* 76-84
+
+[^9]: "Fast linear-space computations of longest common subsequences"
+by Alberto Apostolico, Stephen Browne, and Concettina Guerra, published 1992
+Theoretical Computer Science [Volume 92, *pp.* 3-17]
+
+[^10]: "A new flexible algorithm for the longest common subsequence problem"
+by Claus Rick, published 1995
+Proceedings of the 6th Annual Symposium on Combinatorial Pattern Matching (CPM '95),
+Lecture Notes in Computer Science 937, Springer, *pp.* 340-351

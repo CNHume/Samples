@@ -50,6 +50,28 @@ of antichains needed to cover `M` (what Goeman & Clausen's decomposition
 constructs).  This equivalence is why the chain-based and antichain-based
 algorithms share the same bound.
 
+### The "DP frontier" in the Apostolico–Guerra description
+
+The Background phrasing "representing the DP frontier as contours of dominant
+matches" compresses three ideas.  The classic LCS dynamic program fills an
+`(m+1)×(n+1)` table of prefix LCS lengths — `O(mn)` cells, nearly all of them
+irrelevant.  Its **frontier** is the sparse boundary of that computation: the
+matches lying on the edge of the already-settled region.  The frontier of rank
+`k` is exactly the contour `FC[k]`, and it can be represented by its
+**dominant** (minimal) matches alone — an antichain — which is what makes each
+contour cheap to extend.  The whole DP thus collapses to a walk over the
+contours:
+
+| DP view | Sparse view |
+|---|---|
+| fill `O(mn)` cells | walk only the frontier |
+| the frontier at length `k` | the contour `FC[k]` |
+| all rank-`k` matches on it | only its dominant (minimal) matches |
+
+That is the compression that turns `O(mn)` into Hirschberg's `O(pn)` and the
+`O(ns + min{pm, p(n−p)})` bound below.  The fuller citation history is
+centralized in `LCS Overview with Contours.md`.
+
 Linear-space contour algorithms, as tabulated in Rick (2000):
 
 | Year | Authors | Time |

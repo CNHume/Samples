@@ -25,6 +25,24 @@ Every Common Sequence of length *q* corresponds to a chain of cardinality *q*, o
 
 According to [Dilworth 1950][^1], this cardinality *p* is equal to the minimum number of disjoint antichains into which **M** can be decomposed.  Note that such a decomposition of **M** into the minimum number of disjoint antichains may not be unique.
 
+## History
+
+The chain/antichain viewpoint is the thread connecting the practical LCS
+algorithms.  [Dilworth 1950][^1] supplied the poset foundation above, though
+it is not specific to LCS.  Its application to LCS:
+
+- [Hirschberg 1975][^3] gave the linear-space divide-and-conquer (still
+  `O(mn)` time).
+- [Hunt & McIlroy 1976][^4] and [Hunt & Szymanski 1977][^5] gave the
+  match-list and threshold algorithms.
+- [Hirschberg 1977][^7] first computed the match classes rank by rank — the
+  *contours* (defined in the "with Contours" overview).
+- [Apostolico & Guerra 1985][^8] and [Apostolico, Browne & Guerra 1992][^9]
+  made the contours efficient via *dominant* matches, in linear space.
+- [Rick 1995][^10] and [Rick 2000][^6] packaged these into the
+  `O(ns + min{pm, p(n−p)})` algorithms; [Goeman & Clausen 2002][^2] re-derived
+  the bound from the dual antichain viewpoint.
+
 ## Background
 
 Where the number of symbols appearing in matches is small relative to the length of the input strings, reuse of the symbols increases; and the number of matches will tend towards O(*m\*n*) quadratic growth.  This occurs, for example, in the Bioinformatics application of nucleotide and protein sequencing.
@@ -74,3 +92,20 @@ Communications of the ACM [Volume 20, Number 5, *pp.* 350-353]
 [^6]: "Simple and fast linear space computation of longest common subsequences"
 by Claus Rick, received 17 March 2000, Information Processing Letters,
 Elsevier Science [Volume 75, *pp.* 275–281]
+
+[^7]: "Algorithms for the longest common subsequence problem"
+by Daniel S. Hirschberg, published October 1977
+Journal of the ACM [Volume 24, Number 4, *pp.* 664-675]
+
+[^8]: "A fast linear space algorithm for computing longest common subsequences"
+by Alberto Apostolico and Concettina Guerra, published 1985
+Proceedings of the 23rd Allerton Conference on Communication, Control, and Computing, *pp.* 76-84
+
+[^9]: "Fast linear-space computations of longest common subsequences"
+by Alberto Apostolico, Stephen Browne, and Concettina Guerra, published 1992
+Theoretical Computer Science [Volume 92, *pp.* 3-17]
+
+[^10]: "A new flexible algorithm for the longest common subsequence problem"
+by Claus Rick, published 1995
+Proceedings of the 6th Annual Symposium on Combinatorial Pattern Matching (CPM '95),
+Lecture Notes in Computer Science 937, Springer, *pp.* 340-351
