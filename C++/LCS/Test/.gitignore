@@ -1,0 +1,9 @@
+# Keep command-line build artifacts out of the repository.  This file lives
+# inside the Test folder, so the rule travels with the folder if it is
+# renamed.
+#
+# GNU Make out-of-source build directory (object files and the test
+# executable).  The BUILD ?= build variable is overridable, so ignore any
+# build-* variant as well.
+build/
+build-*/
