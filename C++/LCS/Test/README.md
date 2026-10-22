@@ -1,6 +1,6 @@
 # LCS Test Application
 
-A single `test` binary that links the `compare` library sources and unifies
+A single `test` binary that links the LCS library sources and unifies
 the LCS project's testing into one application.  It dispatches on its first
 argument:
 

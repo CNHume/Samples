@@ -4,7 +4,7 @@
 #   make test     build and run the tests
 #   make clean    remove build/
 #
-# The test binary links the compare library sources (all but compare/main.cpp)
+# The test binary links the LCS library sources (all but compare/main.cpp)
 # together with the doctest test cases in this directory, so the tests exercise
 # the same code the compare tool ships.
 
@@ -35,7 +35,7 @@ test: $(TARGET)
 $(TARGET): $(LIB_OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
-# Compile a compare library source.
+# Compile an LCS library source.
 $(BUILD)/%.o: ../compare/%.cpp | $(BUILD)
 	$(CXX) $(CPPFLAGS) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
