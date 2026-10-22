@@ -41,9 +41,13 @@ public:
       : index1(index1), index2(index2), next(next) {}
 
     ~Pair() {
-      // Call destructor iteratively to prevent stack overflow when LCS is long
+      //
+      // Destroy the chain iteratively to prevent stack overflow when the LCS
+      // is long.  Stop at the first node still referenced elsewhere, so its
+      // next pointer (and the chain below it) stays intact.
+      //
       auto node = std::move(next);
-      while (node)
+      while (node && node.use_count() == 1)
         node = std::move(node->next);
     }
 

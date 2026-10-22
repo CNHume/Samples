@@ -32,9 +32,15 @@ int64_t Pair::Count = 0;
 
 Pair::~Pair() {
   Count--;
-  // Call destructor iteratively to prevent stack overflow when LCS is long
+  //
+  // Destroy the chain iteratively to prevent stack overflow when the LCS is
+  // long.  Stop at the first node that is still referenced elsewhere: a node
+  // held by the chains[] deque (or by another chain's next pointer) must keep
+  // its own next pointer intact, so marching through it with std::move() and
+  // nulling its next would corrupt the LCS reconstruction.
+  //
   auto node = std::move(next);
-  while (node)
+  while (node && node.use_count() == 1)
     node = std::move(node->next);
 }
 
