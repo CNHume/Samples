@@ -5,16 +5,25 @@
 // License as published by the Free Software Foundation; either
 // version 3 of the License, or (at your option) any later version.
 //
-// 2026-10-21 CNHume  Created the LCS regression test application entry point.
+// 2026-10-21 CNHume  Created the LCS test application entry point.
 //
-// doctest entry point: define the implementation and main() once, here.
-// Other test translation units only include <doctest/doctest.h>.
+// The test application dispatches on its first argument:
 //
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+//   test                 run the doctest regression suite (default)
+//   test stress [N] [S]  randomized stress: N trials, seed S
+//   test perf <which>    performance benchmarks (rick | measure | filterpairs)
+//
+// Regression tests use doctest; stress and perf are standalone entry points
+// (test_stress.cpp and test_perf.cpp) that share the same library sources.
+//
+#define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest/doctest.h"
 
+#include <cstring>                      // for strcmp
 #include <iostream>                     // for cerr
 #include <streambuf>
+
+using namespace std;
 
 namespace {
   //
@@ -36,4 +45,27 @@ namespace {
   };
 
   CerrRedirect redirectCerr;
+}
+
+// Subcommand entry points, defined in test_stress.cpp and test_perf.cpp.
+int runStress(int argc, char* argv[]);
+int runPerf(int argc, char* argv[]);
+
+int main(int argc, char* argv[]) {
+  //
+  // Dispatch on the first argument.  Each subcommand receives the remainder
+  // of the argument vector, with its own name as argv[0].
+  //
+  if (argc >= 2 && strcmp(argv[1], "stress") == 0)
+    return runStress(argc - 1, argv + 1);
+  if (argc >= 2 && strcmp(argv[1], "perf") == 0)
+    return runPerf(argc - 1, argv + 1);
+
+  // Default: run the doctest regression suite.
+  doctest::Context context;
+  context.applyCommandLine(argc, argv);
+  auto result = context.run();
+  if (context.shouldExit())
+    return result;
+  return result;
 }
