@@ -471,23 +471,11 @@ against `LCSHuntSzymanski::Find` on over 220,000 fixed and randomized cases.
 
 ## References
 
-- Claus Rick, "Simple and fast linear space computation of longest common
-  subsequences", *Information Processing Letters* 75 (2000), pp. 275–281.
-- Claus Rick, "A new flexible algorithm for the longest common subsequence
-  problem", *Proc. CPM'95*, Lecture Notes in Computer Science 937, Springer,
-  1995, pp. 340–351.  Also in *Nordic Journal of Computing* 2 (1995),
-  pp. 444–461.
-- A. Apostolico, C. Guerra, "A fast linear space algorithm for computing longest
-  common subsequences", *Proc. 23rd Allerton Conference on Communication,
-  Control, and Computing*, 1985, pp. 76–84.
-- A. Apostolico, S. Browne, C. Guerra, "Fast linear-space computations of
-  longest common subsequences", *Theoretical Computer Science* 92 (1992),
-  pp. 3–17.
-- D. S. Hirschberg, "Algorithms for the longest common subsequence problem",
-  *Journal of the ACM* 24(4), 1977, pp. 664–675.
-- H. Goeman, M. Clausen, "A new practical linear space algorithm for the longest
-  common subsequence problem", *Kybernetika* 38(1), 2002, pp. 45–66.
-- R. P. Dilworth, "A Decomposition Theorem for Partially Ordered Sets",
-  *Annals of Mathematics* 51 (1950), pp. 161–166.
-- Daniel S. Hirschberg, "A linear space algorithm for computing maximal common
-  subsequences", *Communications of the ACM* 18(6), 1975, pp. 341–343.
+- Claus Rick, "[Simple and fast linear space computation of longest common subsequences](https://doi.org/10.1016/S0020-0190(00)00100-1)", *Information Processing Letters* 75 (2000), pp. 275–281.
+- Claus Rick, "[A new flexible algorithm for the longest common subsequence problem](https://doi.org/10.1007/3-540-60044-2_53)", *Proc. CPM'95*, Lecture Notes in Computer Science 937, Springer, 1995, pp. 340–351.  Also in *Nordic Journal of Computing* 2 (1995), pp. 444–461.
+- A. Apostolico, C. Guerra, "[A fast linear space algorithm for computing longest common subsequences](https://www.semanticscholar.org/paper/A-Fast-Linear-Space-Algorithm-for-Computing-Longest-Apostolio-Guerra/7d380f831959f869af2dcacad264c95468822109)", *Proc. 23rd Allerton Conference on Communication, Control, and Computing*, 1985, pp. 76–84.
+- A. Apostolico, S. Browne, C. Guerra, "[Fast linear-space computations of longest common subsequences](https://www.sciencedirect.com/science/article/pii/030439759290132Y)", *Theoretical Computer Science* 92 (1992), pp. 3–17.
+- D. S. Hirschberg, "[Algorithms for the longest common subsequence problem](https://doi.org/10.1145/322033.322044)", *Journal of the ACM* 24(4), 1977, pp. 664–675.
+- H. Goeman, M. Clausen, "[A new practical linear space algorithm for the longest common subsequence problem](https://www.kybernetika.cz/content/2002/1/45)", *Kybernetika* 38(1), 2002, pp. 45–66.
+- R. P. Dilworth, "[A Decomposition Theorem for Partially Ordered Sets](https://doi.org/10.2307/1969503)", *Annals of Mathematics* 51 (1950), pp. 161–166.
+- Daniel S. Hirschberg, "[A linear space algorithm for computing maximal common subsequences](https://doi.org/10.1145/360825.360861)", *Communications of the ACM* 18(6), 1975, pp. 341–343.
