@@ -194,7 +194,7 @@ Proceedings of the 23rd Allerton Conference on Communication, Control, and Compu
 by Alberto Apostolico, Stephen Browne, and Concettina Guerra, published 1992
 Theoretical Computer Science [Volume 92, *pp.* 3-17]
 
-[^10]: ["A new flexible algorithm for the longest common subsequence problem"](https://doi.org/10.1007/3-540-60044-2_53)
+[^10]: ["A new flexible algorithm for the longest common subsequence problem"](https://theory.cs.uni-bonn.de/blum/Mitarbeiter/rick/welcome-english.html)
 by Claus Rick, published 1995
 Proceedings of the 6th Annual Symposium on Combinatorial Pattern Matching (CPM '95),
-Lecture Notes in Computer Science 937, Springer, *pp.* 340-351
+Lecture Notes in Computer Science 937, Springer, *pp.* 340-351.  [DOI](https://doi.org/10.1007/3-540-60044-2_53)

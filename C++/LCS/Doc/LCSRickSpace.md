@@ -472,7 +472,7 @@ against `LCSHuntSzymanski::Find` on over 220,000 fixed and randomized cases.
 ## References
 
 - Claus Rick, "[Simple and fast linear space computation of longest common subsequences](https://doi.org/10.1016/S0020-0190(00)00100-1)", *Information Processing Letters* 75 (2000), pp. 275–281.
-- Claus Rick, "[A new flexible algorithm for the longest common subsequence problem](https://doi.org/10.1007/3-540-60044-2_53)", *Proc. CPM'95*, Lecture Notes in Computer Science 937, Springer, 1995, pp. 340–351.  Also in *Nordic Journal of Computing* 2 (1995), pp. 444–461.
+- Claus Rick, "[A new flexible algorithm for the longest common subsequence problem](https://theory.cs.uni-bonn.de/blum/Mitarbeiter/rick/welcome-english.html)", *Proc. CPM'95*, Lecture Notes in Computer Science 937, Springer, 1995, pp. 340–351.  Also in *Nordic Journal of Computing* 2 (1995), pp. 444–461.  [DOI](https://doi.org/10.1007/3-540-60044-2_53)
 - A. Apostolico, C. Guerra, "[A fast linear space algorithm for computing longest common subsequences](https://www.semanticscholar.org/paper/A-Fast-Linear-Space-Algorithm-for-Computing-Longest-Apostolio-Guerra/7d380f831959f869af2dcacad264c95468822109)", *Proc. 23rd Allerton Conference on Communication, Control, and Computing*, 1985, pp. 76–84.
 - A. Apostolico, S. Browne, C. Guerra, "[Fast linear-space computations of longest common subsequences](https://www.sciencedirect.com/science/article/pii/030439759290132Y)", *Theoretical Computer Science* 92 (1992), pp. 3–17.
 - D. S. Hirschberg, "[Algorithms for the longest common subsequence problem](https://doi.org/10.1145/322033.322044)", *Journal of the ACM* 24(4), 1977, pp. 664–675.
