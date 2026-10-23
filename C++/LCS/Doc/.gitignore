@@ -1,0 +1,3 @@
+# Private correspondence drafts are kept on disk only and never committed
+# to the repository.
+Email to *.txt
