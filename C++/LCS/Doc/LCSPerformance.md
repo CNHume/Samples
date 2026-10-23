@@ -10,8 +10,9 @@ A comparison of the two Rick algorithms implemented in `compare`:
   dominant matches it records for reconstruction.
 
 Both are run on the character (`-t`) path.  The host is an Intel Core
-i7-9700K (8 cores) at 3.60 GHz with 15 GB of RAM, so any run whose recording
-grows past ~14 GB is killed (shown as OOM).
+i7-9700K (8 cores) at 3.60 GHz with 15 GB of RAM, running Ubuntu 26.04 LTS
+under WSL2, so any run whose recording grows past ~14 GB is killed (shown as
+OOM).
 
 ## Metrics
 

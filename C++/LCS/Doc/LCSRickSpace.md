@@ -208,7 +208,8 @@ suggest when the other algorithm would serve the input better.
 Instrumenting `Find` to accumulate wall-clock per phase — `BuildOccurrences`
 (table build), the `FindMidpoint` contour sweep, and the greedy early-termination
 emission — gives the split that decides the next improvement.  Timings are
-wall-clock on an Intel Core i7-9700K (8 cores) at 3.60 GHz with 15 GB of RAM.
+wall-clock on an Intel Core i7-9700K (8 cores) at 3.60 GHz with 15 GB of RAM,
+running Ubuntu 26.04 LTS under WSL2.
 
 | Input | total | table build | **contour sweep** | greedy | misc | Contours | Rows (diagonals) |
 |---|---:|---:|---:|---:|---:|---:|---:|
