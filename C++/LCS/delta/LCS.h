@@ -50,7 +50,6 @@ public:
     RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
   };
 
-protected:
   typedef deque<shared_ptr<Pair>> PAIRS;
   typedef deque<uint32_t> INDEXES;
   typedef unordered_map<string, INDEXES> STRING_TO_INDEXES_MAP;
@@ -58,9 +57,4 @@ protected:
 
   static uint32_t FindLCS(
     shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
-
-private:
-  static shared_ptr<Pair> pushPair(
-    PAIRS& chains, const ptrdiff_t& index3,
-    uint32_t& index1, uint32_t& index2);
 };

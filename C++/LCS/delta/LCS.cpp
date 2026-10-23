@@ -34,10 +34,21 @@
 #include "join.h"
 
 #include <algorithm>                    // for lower_bound()
+#include <cstddef>                      // for ptrdiff_t
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <iterator>                     // for next() and prev()
 #include <locale>                       // for locale
+#include <memory>                       // for make_shared
+
+namespace {
+  shared_ptr<Pair> pushPair(
+    LCS::PAIRS& chains, const ptrdiff_t& index3,
+    uint32_t& index1, uint32_t& index2) {
+    auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
+    return make_shared<Pair>(index1, index2, prefix);
+  }
+}
 
 uint32_t LCS::FindLCS(
   shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
@@ -155,11 +166,4 @@ uint32_t LCS::FindLCS(
     std::locale(), "Pair Count = {:L}\n", Pair::Count);
 #endif
   return length;
-}
-
-shared_ptr<Pair> LCS::pushPair(
-  PAIRS& chains, const ptrdiff_t& index3,
-  uint32_t& index1, uint32_t& index2) {
-  auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
-  return make_shared<Pair>(index1, index2, prefix);
 }

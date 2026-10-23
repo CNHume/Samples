@@ -166,4 +166,4 @@ uint32_t LCSHuntSzymanski::Find(
     std::locale(), "Pair Count = {:L}\n", Pair::Count);
 #endif
   return length;
-  }
+}
