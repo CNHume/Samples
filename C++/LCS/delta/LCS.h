@@ -32,7 +32,6 @@
 
 #include "Delta.h"
 
-#include <cstddef>                      // for ptrdiff_t
 #include <cstdint>                      // for uint32_t
 #include <deque>
 #include <memory>                       // for shared_ptr
