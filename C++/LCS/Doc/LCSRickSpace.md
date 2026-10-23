@@ -70,7 +70,7 @@ contours:
 
 That is the compression that turns `O(mn)` into Hirschberg's `O(pn)` and the
 `O(ns + min{pm, p(n−p)})` bound below.  The fuller citation history is
-centralized in `LCS Overview with Contours.md`.
+centralized in `LCS Overview.md`.
 
 Linear-space contour algorithms, as tabulated in Rick (2000):
 
