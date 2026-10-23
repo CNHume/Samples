@@ -21,7 +21,6 @@
 // thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
-#include "Environment.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno
@@ -232,11 +231,6 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (isversion) {
     cout << Version::ToString();
-    exit(EXIT_SUCCESS);
-  }
-
-  if (isenvironment) {
-    cout << Environment::ToString();
     exit(EXIT_SUCCESS);
   }
 
