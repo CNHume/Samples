@@ -86,8 +86,8 @@ comparing, and expand the reported spans back to the original positions.
 Print the correspondence (the common, matching records) instead of the
 differences.
 .TP
-.B \-e
-Include the host environment (locale, processor, and memory) in the output.
+.B \-E
+Print the host environment (locale, processor, and memory) and exit.
 .TP
 .B \-f
 Treat the input files as FASTA and strip header lines; implies
@@ -139,13 +139,22 @@ times, and a timing summary; by default only the differences are shown.
 .B \-w
 Split each line into whitespace-separated words and compare word by word
 (record mode).
+.PP
+The
+.BR \-h ,
+.BR \-V ,
+and
+.B \-E
+switches are early-exit switches: each prints its report and terminates
+without comparing files.
 .SH EXIT STATUS
 .TP
 .B 0
 Success (including
-.BR \-h
+.BR \-h ,
+.BR \-V ,
 and
-.BR \-V ).
+.BR \-E ).
 .TP
 .B 1
 Error: a command-line parse failure, a missing file, or an algorithm failure.
@@ -157,7 +166,7 @@ and
 .BR LC_NUMERIC )
 controls the thousands separator used in the reported counts and the locale
 name shown by
-.BR \-e .
+.BR \-E .
 On a system whose locale defines digit grouping, counts are printed with
 comma separators (for example
 .BR "LCS Length = 4,591,960" );

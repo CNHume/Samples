@@ -21,6 +21,7 @@
 // thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
+#include "Environment.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno
@@ -34,7 +35,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-h] [-i] [-j <join>] [-l] "
+    "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
     "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-v] [-w] file1 file2";
 }
 
@@ -118,7 +119,7 @@ void Command::Parse(int argc, char* argv[]) {
           isscorrespondence = true;
         break;
 
-      case 'e':                         // the environment switch
+      case 'E':                         // the environment switch (early exit)
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
@@ -227,6 +228,7 @@ void Command::Parse(int argc, char* argv[]) {
     }
   }
 
+  // Early-exit switches print their report and terminate without comparing.
   if (ishelp) {
     cout << usageSynopsis << '\n';
     exit(EXIT_SUCCESS);
@@ -234,6 +236,11 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (isversion) {
     cout << Version::ToString();
+    exit(EXIT_SUCCESS);
+  }
+
+  if (isenvironment) {
+    cout << Environment::ToString();
     exit(EXIT_SUCCESS);
   }
 

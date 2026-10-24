@@ -29,7 +29,6 @@
 //
 #include "Command.h"
 #include "LCSFile.h"
-#include "Environment.h"
 #include "Statistics.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
@@ -60,8 +59,6 @@ int main(int argc, char* argv[]) {
   try {
     Command command;
     command.Parse(argc, argv);
-    if (command.isenvironment)
-      cout << Environment::ToString();
 
     shared_ptr<Delta> intervals;
     auto pintervals = command.islength ?
