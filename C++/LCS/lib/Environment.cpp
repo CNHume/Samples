@@ -22,16 +22,16 @@
 #include <locale>                       // for locale
 #include <string>
 
-using namespace std;
-using namespace lcs;
-
 #if defined(_WIN32)
   #define NOMINMAX
-  #include <windows.h>
+  #include <windows.h>                  // before using-directives: windows.h defines ::byte
 #elif defined(__linux__)
   #include <fstream>                    // for ifstream
   #include <unistd.h>                   // for sysconf
 #endif
+
+using namespace std;
+using namespace lcs;
 
 namespace {
   //
