@@ -27,6 +27,7 @@
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
 // the overview provided in "Doc/LCS Overview.md"
 //
+#include "Command.h"
 #include "LCSFile.h"
 #include "Environment.h"
 #include "Statistics.h"
@@ -35,6 +36,9 @@
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <locale>
+
+using namespace std;
+using namespace lcs;
 
 //
 // command line application

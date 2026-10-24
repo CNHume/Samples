@@ -34,6 +34,8 @@
 #include <utility>                      // for move, swap
 #include <vector>
 
+using namespace lcs;
+
 using namespace std;
 using Clock = chrono::steady_clock;
 

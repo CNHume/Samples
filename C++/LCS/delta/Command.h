@@ -13,52 +13,32 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
+// 2026-10-24 CNHume  Derive from LCSOptions; library parameters move to the base
 // 2017-06-29 CNHume  Created file
 //
 #pragma once
 
+#include "LCSOptions.h"
+
 #include <cstdint>                      // for uint32_t
 #include <string>
 
-using namespace std;
-
-class Command {
+//
+// Command parses the delta tool's command line.  The comparison parameters
+// are inherited from lcs::LCSOptions; only the tool-specific switches are
+// declared here.  delta is Hunt-Szymanski and record-only, so the base's
+// algorithm/istext/isfasta/isquote fields simply keep their defaults.
+//
+class Command : public lcs::LCSOptions {
 public:
-  string file1;
-  string file2;
-  bool ignorecase;
-  bool ignorespace;
-  bool isenvironment;
-  bool ishelp;
-  bool isjoin;
-  bool islength;
-  bool isverbose;
-  bool isversion;
-  bool isword;
-  uint32_t join;
-  uint32_t prefix;
-  uint32_t suffix;
-
-protected:
-  static const uint32_t joinDefault = 0, affixDefault = 0;
-
-  static string arg_msg(const string& s, const string& name = "argument");
-  static uint32_t parse_uint32(const char* s, const string& name = "argument");
-
-public:
-  Command() :
-    ignorecase(false),
-    ignorespace(false),
-    isenvironment(false),
-    ishelp(false),
-    isjoin(false),
-    islength(false),
-    isverbose(false),
-    isversion(false),
-    isword(false),
-    join(joinDefault),
-    prefix(affixDefault),
-    suffix(affixDefault) {}
+  bool isenvironment = false;
+  bool ishelp = false;
+  bool islength = false;
+  bool isversion = false;
 
   void Parse(int argc, char* argv[]);
+
+protected:
+  static std::string arg_msg(const std::string& s, const std::string& name = "argument");
+  static std::uint32_t parse_uint32(const char* s, const std::string& name = "argument");
 };

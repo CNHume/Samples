@@ -4,20 +4,20 @@
 #   make test     build and run the tests
 #   make clean    remove build/
 #
-# The test binary links the LCS library sources (all but compare/main.cpp)
-# together with the doctest test cases in this directory, so the tests exercise
-# the same code the compare tool ships.
+# The test binary links the shared library sources in ../lib/ together with
+# the doctest test cases in this directory, so the tests exercise the same
+# code the compare and delta tools ship.
 
 CXX      ?= g++
-CPPFLAGS ?= -I../compare -I. -DTEST_DATA_DIR=\"$(abspath ../data)\"
+CPPFLAGS ?= -I../lib -I. -DTEST_DATA_DIR=\"$(abspath ../data)\"
 CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra
 DEPFLAGS := -MMD -MP
 
 BUILD   ?= build
 
-# Library objects: one per compare/*.cpp, excluding compare/main.cpp.
-LIB_SOURCES := $(filter-out %/main.cpp, $(wildcard ../compare/*.cpp))
-LIB_OBJECTS := $(patsubst ../compare/%.cpp, $(BUILD)/%.o, $(LIB_SOURCES))
+# Library objects: one per lib/*.cpp.
+LIB_SOURCES := $(wildcard ../lib/*.cpp)
+LIB_OBJECTS := $(patsubst ../lib/%.cpp, $(BUILD)/%.o, $(LIB_SOURCES))
 
 # Test objects: one per *.cpp in this directory.
 TEST_SOURCES := $(wildcard *.cpp)
@@ -36,7 +36,7 @@ $(TARGET): $(LIB_OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 # Compile an LCS library source.
-$(BUILD)/%.o: ../compare/%.cpp | $(BUILD)
+$(BUILD)/%.o: ../lib/%.cpp | $(BUILD)
 	$(CXX) $(CPPFLAGS) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 # Compile a local test source.

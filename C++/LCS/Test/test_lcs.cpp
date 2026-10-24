@@ -19,7 +19,7 @@
 // is right but whose reconstruction is incomplete (the Pair destructor bug).
 //
 #include "doctest/doctest.h"
-#include "LCSString.h"
+#include "LCSText.h"
 #include "Delta.h"
 
 #include <algorithm>                    // for equal, max
@@ -27,6 +27,8 @@
 #include <random>                       // for mt19937
 #include <string>
 #include <vector>
+
+using namespace lcs;
 
 using namespace std;
 
@@ -82,7 +84,7 @@ namespace {
                  const u32string& s1, const u32string& s2,
                  uint32_t expected) {
     shared_ptr<Delta> deltas;
-    auto length = LCSString::Correspondence(
+    auto length = LCSText::Correspondence(
       &deltas, nullptr, s1, s2, algo, false, false, false, false, 0, 0, 0);
     CAPTURE((int)algo);
     CHECK(length == expected);
@@ -148,7 +150,7 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
     uint32_t reference = 0;
     for (int k = 0; k < 3; ++k) {
       shared_ptr<Delta> deltas;
-      auto length = LCSString::Correspondence(
+      auto length = LCSText::Correspondence(
         &deltas, nullptr, u1, u2, algos[k], false, false, false, false, 0, 0, 0);
       if (k == 0)
         reference = length;
@@ -160,9 +162,9 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
 }
 
 TEST_CASE("string fixtures load and reconstruct validly") {
-  auto u1 = LCSString::Read(
+  auto u1 = LCSText::Read(
     string(TEST_DATA_DIR) + "/Test/String/demanoeuvre.txt");
-  auto u2 = LCSString::Read(
+  auto u2 = LCSText::Read(
     string(TEST_DATA_DIR) + "/Test/String/reendeavour.txt");
   CHECK(u1.size() == 11);
   CHECK(u2.size() == 11);

@@ -12,10 +12,12 @@
 // variant must decode to the identical sequence of code points.
 //
 #include "doctest/doctest.h"
-#include "LCSString.h"
+#include "LCSText.h"
 
 #include <string>
 #include <vector>
+
+using namespace lcs;
 
 using namespace std;
 
@@ -28,7 +30,7 @@ namespace {
     u32string reference;
     bool first = true;
     for (auto& name : names) {
-      auto codePoints = LCSString::Read(fixture(name));
+      auto codePoints = LCSText::Read(fixture(name));
       CAPTURE(name);
       if (first) {
         reference = codePoints;

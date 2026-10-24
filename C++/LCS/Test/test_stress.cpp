@@ -13,7 +13,7 @@
 // reconstructed match trace, so a sub-optimal or corrupted trace is caught,
 // not just a wrong length.
 //
-#include "LCSString.h"
+#include "LCSText.h"
 #include "Delta.h"
 
 #include <algorithm>                    // for equal, fill, max
@@ -22,6 +22,8 @@
 #include <cstdlib>                      // for strtoul, strtoull
 #include <string>
 #include <vector>
+
+using namespace lcs;
 
 using namespace std;
 
@@ -89,7 +91,7 @@ namespace {
     };
     for (auto algorithm : algos) {
       shared_ptr<Delta> deltas;
-      auto length = LCSString::Correspondence(
+      auto length = LCSText::Correspondence(
         &deltas, nullptr, s1, s2, algorithm, false, false, false, false, 0, 0, 0);
       if (length != expected) {
         fprintf(stderr, "[trial %llu] %s length %u != DP %u\n",

@@ -29,6 +29,9 @@
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
 
+using namespace std;
+using namespace lcs;
+
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: delta [-b] [-e] [-h] [-i] [-j <join>] [-l] "

@@ -178,7 +178,7 @@ This prunes the recursion tree on near-identical inputs and removes the
 ## Orientation
 
 Rick's time bound assumes `m ≤ n` (the shorter sequence is scanned, the longer
-is tabled).  `LCSString::Compare` therefore swaps the inputs when necessary
+is tabled).  `LCSText::Compare` therefore swaps the inputs when necessary
 before calling `Match()`, and un-swaps the reported `begin1`/`begin2` positions
 on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 

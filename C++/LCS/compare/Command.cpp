@@ -29,6 +29,9 @@
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
 
+using namespace std;
+using namespace lcs;
+
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-e] [-f] [-h] [-i] [-j <join>] [-l] "

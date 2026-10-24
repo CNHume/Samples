@@ -57,8 +57,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include
-</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\lib</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -77,8 +76,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)include
-</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\lib</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -91,46 +89,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="Diagnostic.cpp" />
-    <ClCompile Include="Duration.cpp" />
-    <ClCompile Include="Environment.cpp" />
-    <ClCompile Include="LCSEncoding.cpp" />
-    <ClCompile Include="LCSFile.cpp" />
-    <ClCompile Include="LCSFormatRecord.cpp" />
-    <ClCompile Include="LCSFormatString.cpp" />
-    <ClCompile Include="LCSNormal.cpp" />
-    <ClCompile Include="LCSString.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="LCSHuntSzymanski.cpp" />
-    <ClCompile Include="LCSRecord.cpp" />
-    <ClCompile Include="LCSRickSpace.cpp" />
-    <ClCompile Include="LCSRickTime.cpp" />
-    <ClCompile Include="Pair.cpp" />
-    <ClCompile Include="Delta.cpp" />
-    <ClCompile Include="Stopwatch.cpp" />
     <ClCompile Include="Version.cpp" />
+    <ClCompile Include="..\lib\Delta.cpp" />
+    <ClCompile Include="..\lib\Diagnostic.cpp" />
+    <ClCompile Include="..\lib\Duration.cpp" />
+    <ClCompile Include="..\lib\Environment.cpp" />
+    <ClCompile Include="..\lib\LCSEncoding.cpp" />
+    <ClCompile Include="..\lib\LCSFile.cpp" />
+    <ClCompile Include="..\lib\LCSFormatRecord.cpp" />
+    <ClCompile Include="..\lib\LCSFormatText.cpp" />
+    <ClCompile Include="..\lib\LCSHuntSzymanski.cpp" />
+    <ClCompile Include="..\lib\LCSNormal.cpp" />
+    <ClCompile Include="..\lib\LCSRecord.cpp" />
+    <ClCompile Include="..\lib\LCSRickSpace.cpp" />
+    <ClCompile Include="..\lib\LCSRickTime.cpp" />
+    <ClCompile Include="..\lib\LCSText.cpp" />
+    <ClCompile Include="..\lib\Pair.cpp" />
+    <ClCompile Include="..\lib\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
-    <ClInclude Include="Diagnostic.h" />
-    <ClInclude Include="Duration.h" />
-    <ClInclude Include="Environment.h" />
-    <ClInclude Include="join.h" />
-    <ClInclude Include="LCS.h" />
-    <ClInclude Include="LCSHuntSzymanski.h" />
-    <ClInclude Include="LCSEncoding.h" />
-    <ClInclude Include="LCSFile.h" />
-    <ClInclude Include="LCSFormatRecord.h" />
-    <ClInclude Include="LCSFormatString.h" />
-    <ClInclude Include="LCSNormal.h" />
-    <ClInclude Include="LCSRecord.h" />
-    <ClInclude Include="LCSRickSpace.h" />
-    <ClInclude Include="LCSRickTime.h" />
-    <ClInclude Include="LCSString.h" />
-    <ClInclude Include="Pair.h" />
-    <ClInclude Include="Delta.h" />
-    <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="Version.h" />
+    <ClInclude Include="..\lib\Delta.h" />
+    <ClInclude Include="..\lib\Diagnostic.h" />
+    <ClInclude Include="..\lib\Duration.h" />
+    <ClInclude Include="..\lib\Environment.h" />
+    <ClInclude Include="..\lib\join.h" />
+    <ClInclude Include="..\lib\LCS.h" />
+    <ClInclude Include="..\lib\LCSEncoding.h" />
+    <ClInclude Include="..\lib\LCSFile.h" />
+    <ClInclude Include="..\lib\LCSFormatRecord.h" />
+    <ClInclude Include="..\lib\LCSFormatText.h" />
+    <ClInclude Include="..\lib\LCSHuntSzymanski.h" />
+    <ClInclude Include="..\lib\LCSNormal.h" />
+    <ClInclude Include="..\lib\LCSOptions.h" />
+    <ClInclude Include="..\lib\LCSRecord.h" />
+    <ClInclude Include="..\lib\LCSRickSpace.h" />
+    <ClInclude Include="..\lib\LCSRickTime.h" />
+    <ClInclude Include="..\lib\LCSText.h" />
+    <ClInclude Include="..\lib\Pair.h" />
+    <ClInclude Include="..\lib\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="LICENSES\COPYING.txt" />
