@@ -76,8 +76,8 @@ void LCSParallel::Layout(
 }
 
 std::string LCSParallel::Head(const SideSpan& side1, const SideSpan& side2) const {
-  return format(
-    "{:<{}}+{:<{}}\n", Heading(side1), leftWidth(), Heading(side2), rightWidth());
+  return format("{}+{}\n",
+    Heading(side1, leftWidth()), Heading(side2, rightWidth()));
 }
 
 std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) const {
@@ -92,8 +92,8 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   return text;
 }
 
-std::string LCSParallel::Heading(const SideSpan& side) const {
+std::string LCSParallel::Heading(const SideSpan& side, uint32_t width) const {
   return side.begin < side.end ?
-    format("------ [{}:{}] ------", side.begin, side.end) :
-    format("======= [{}] =======", side.begin);
+    format("{:-^{}}", format("[{}:{}]", side.begin, side.end), width) :
+    format("{:=^{}}", format("[{}]", side.begin), width);
 }

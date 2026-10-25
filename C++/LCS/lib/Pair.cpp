@@ -88,12 +88,12 @@ Pair& Pair::operator=(Pair&& other) noexcept {
 #endif                                  // MOVE_SEMANTICS
 
 namespace lcs {
-ostream& operator<<(ostream& strm, const Pair& pair) {
-  return strm <<
-    format(
-      "({}:{})",
-      pair.begin1, pair.begin2);
-}
+  ostream& operator<<(ostream& strm, const Pair& pair) {
+    return strm <<
+      format(
+        "({}:{})",
+        pair.begin1, pair.begin2);
+  }
 } // namespace lcs
 
 uint32_t Pair::Length(const shared_ptr<Pair> pairs) {

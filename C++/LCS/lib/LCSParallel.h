@@ -44,7 +44,7 @@ namespace lcs {
     std::uint32_t rightWidth() const;
     std::string Head(const SideSpan& side1, const SideSpan& side2) const;
     std::string Body(const SideSpan& side1, const SideSpan& side2) const;
-    std::string Heading(const SideSpan& side) const;
+    std::string Heading(const SideSpan& side, std::uint32_t width) const;
   };
 
 } // namespace lcs
