@@ -1,0 +1,5 @@
+# clj-kondo linter cache (never commit)
+.clj-kondo/.cache/
+
+# clojure-lsp cache (never commit)
+.lsp/.cache/
