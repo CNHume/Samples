@@ -70,8 +70,10 @@ void LCSFormatText::Series(uint32_t counter,
 
 void LCSFormatText::Side(string emblem, uint32_t counter, const string& label,
   const u32string& s, uint32_t begin, uint32_t end) {
-  Head(emblem, counter, label, begin, end);
-  Body(s, begin, end);
+  if (begin < end) {
+    Head(emblem, counter, label, begin, end);
+    Body(s, begin, end);
+  }
 }
 
 void LCSFormatText::Head(string emblem, uint32_t counter, const string& label,
