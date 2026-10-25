@@ -24,6 +24,24 @@
 using namespace std;
 using namespace lcs;
 
+namespace {
+  //
+  // Split a label into chunks of at most width characters so a long file
+  // name wraps within its column; each chunk is centered by the caller.
+  //
+  vector<string> Wrap(const string& text, uint32_t width) {
+    vector<string> lines;
+    if (width == 0 || text.size() <= width) {
+      lines.push_back(text);
+      return lines;
+    }
+    lines.reserve((text.size() + width - 1) / width);
+    for (size_t i = 0; i < text.size(); i += width)
+      lines.push_back(text.substr(i, width));
+    return lines;
+  }
+}
+
 LCSParallel::LCSParallel(uint32_t width) : width_(max(width, 2u)) {}
 
 uint32_t LCSParallel::leftWidth() const {
@@ -35,8 +53,15 @@ uint32_t LCSParallel::rightWidth() const {
 }
 
 void LCSParallel::Begin(const string& label1, const string& label2) {
-  cout <<
-    format("{:^{}} {:^{}}\n", label1, leftWidth(), label2, rightWidth());
+  auto lines1 = Wrap(label1, leftWidth());
+  auto lines2 = Wrap(label2, rightWidth());
+  auto rows = max(lines1.size(), lines2.size());
+  for (size_t i = 0; i < rows; i++) {
+    auto l1 = i < lines1.size() ? lines1[i] : string{};
+    auto l2 = i < lines2.size() ? lines2[i] : string{};
+    cout <<
+      format("{:^{}} {:^{}}\n", l1, leftWidth(), l2, rightWidth());
+  }
 }
 
 void LCSParallel::End() {

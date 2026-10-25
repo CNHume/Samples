@@ -36,9 +36,9 @@ public:
 private:
   void Side(
     const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-  void Head(
+  std::string Head(
     const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-  void Body(const SideSpan& side);
+  std::string Body(const SideSpan& side);
 };
 
 } // namespace lcs

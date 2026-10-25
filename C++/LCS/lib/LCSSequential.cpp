@@ -32,20 +32,22 @@ void LCSSequential::Layout(
 
 void LCSSequential::Side(
   const SideSpan& side, const string& emblem, uint32_t counter) {
-  if (side.begin < side.end) {
-    Head(side, emblem, counter);
-    Body(side);
-  }
+  if (side.begin < side.end)
+    cout << Head(side, emblem, counter) << Body(side);
 }
 
-void LCSSequential::Head(
+std::string LCSSequential::Head(
   const SideSpan& side, const string& emblem, uint32_t counter) {
-  cout << format(
+  return format(
     "{} {} {} [{}:{}] {}\n",
     emblem, counter + 1, side.label, side.begin, side.end, emblem);
 }
 
-void LCSSequential::Body(const SideSpan& side) {
-  for (const auto& line : side.lines)
-    cout << line << '\n';
+std::string LCSSequential::Body(const SideSpan& side) {
+  string text;
+  for (const auto& line : side.lines) {
+    text += line;
+    text += '\n';
+  }
+  return text;
 }
