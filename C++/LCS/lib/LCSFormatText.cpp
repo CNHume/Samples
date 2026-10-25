@@ -27,8 +27,9 @@ using namespace lcs;
 //
 // Concatenate elements from the selected side
 //
-u32string LCSFormatText::Select(shared_ptr<Delta> deltas,
-  const u32string& s1, const u32string& s2, bool isright) {
+u32string LCSFormatText::Select(
+  shared_ptr<Delta> deltas, const u32string& s1, const u32string& s2,
+  bool isright) {
   uint32_t length1, length2;
   Delta::Lengths(deltas, length1, length2);
   u32string buffer;
@@ -44,8 +45,8 @@ u32string LCSFormatText::Select(shared_ptr<Delta> deltas,
   return buffer;
 }
 
-uint32_t LCSFormatText::Show(LCSFormat& format,
-  shared_ptr<Delta> deltas,
+uint32_t LCSFormatText::Show(
+  LCSFormat& format, shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
   const string& label1, const string& label2) {
   uint32_t ndelta = 0;                  // # of deltas
@@ -59,8 +60,9 @@ uint32_t LCSFormatText::Show(LCSFormat& format,
   return ndelta;
 }
 
-SideSpan LCSFormatText::MakeSpan(const string& label,
-  const u32string& s, uint32_t begin, uint32_t end) {
+SideSpan LCSFormatText::MakeSpan(
+  const string& label, const u32string& s,
+  uint32_t begin, uint32_t end) {
   SideSpan span;
   span.label = label;
   span.begin = begin;

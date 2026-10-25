@@ -113,7 +113,8 @@ uint32_t LCSText::Difference(shared_ptr<Delta>* intervals, Statistics* statistic
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   // A null interval pointer requests length only.
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
+    return Compare(
+      nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
 
   if (ignorespace) {
     u32string t1, t2;

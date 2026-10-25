@@ -29,16 +29,19 @@ namespace lcs {
 
 class LCSFormatRecord : public LCSRecord {
 public:
-  static RECORDS Select(std::shared_ptr<Delta> deltas,
-    const RECORDS& r1, const RECORDS& r2, bool isright = false);
-  static std::uint32_t Show(LCSFormat& format,
-    std::shared_ptr<Delta> deltas,
+  static RECORDS Select(
+    std::shared_ptr<Delta> deltas, const RECORDS& r1, const RECORDS& r2,
+    bool isright = false);
+
+  static std::uint32_t Show(
+    LCSFormat& format, std::shared_ptr<Delta> deltas,
     const RECORDS& r1, const RECORDS& r2,
     const std::string& label1, const std::string& label2);
 
 private:
-  static SideSpan MakeSpan(const std::string& label,
-    const RECORDS& records, std::uint32_t begin, std::uint32_t end);
+  static SideSpan MakeSpan(
+    const std::string& label, const RECORDS& records,
+    std::uint32_t begin, std::uint32_t end);
 };
 
 } // namespace lcs

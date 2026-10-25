@@ -34,8 +34,10 @@ public:
     std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
 
 private:
-  void Side(const std::string& emblem, std::uint32_t counter, const SideSpan& side);
-  void Head(const std::string& emblem, std::uint32_t counter, const SideSpan& side);
+  void Side(
+    const SideSpan& side, const std::string& emblem, std::uint32_t counter);
+  void Head(
+    const SideSpan& side, const std::string& emblem, std::uint32_t counter);
   void Body(const SideSpan& side);
 };
 

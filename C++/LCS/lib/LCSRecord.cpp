@@ -78,7 +78,8 @@ uint32_t LCSRecord::Correspondence(
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+    return Compare(
+      nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
   auto length = Compare(intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
@@ -96,9 +97,11 @@ uint32_t LCSRecord::Difference(
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
-    return Compare(nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+    return Compare(
+      nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+  auto length = Compare(
+    intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);

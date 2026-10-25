@@ -26,8 +26,9 @@ using namespace lcs;
 //
 // Concatenate elements from the selected side
 //
-LCSRecord::RECORDS LCSFormatRecord::Select(shared_ptr<Delta> deltas,
-  const RECORDS& r1, const RECORDS& r2, bool isright) {
+LCSRecord::RECORDS LCSFormatRecord::Select(
+  shared_ptr<Delta> deltas, const RECORDS& r1, const RECORDS& r2,
+  bool isright) {
   uint32_t length1, length2;
   Delta::Lengths(deltas, length1, length2);
   RECORDS list;
@@ -43,8 +44,8 @@ LCSRecord::RECORDS LCSFormatRecord::Select(shared_ptr<Delta> deltas,
   return list;
 }
 
-uint32_t LCSFormatRecord::Show(LCSFormat& format,
-  shared_ptr<Delta> deltas,
+uint32_t LCSFormatRecord::Show(
+  LCSFormat& format, shared_ptr<Delta> deltas,
   const RECORDS& r1, const RECORDS& r2,
   const string& label1, const string& label2) {
   uint32_t ndelta = 0;                  // # of deltas
@@ -58,8 +59,9 @@ uint32_t LCSFormatRecord::Show(LCSFormat& format,
   return ndelta;
 }
 
-SideSpan LCSFormatRecord::MakeSpan(const string& label,
-  const RECORDS& records, uint32_t begin, uint32_t end) {
+SideSpan LCSFormatRecord::MakeSpan(
+  const string& label, const RECORDS& records,
+  uint32_t begin, uint32_t end) {
   SideSpan span;
   span.label = label;
   span.begin = begin;
