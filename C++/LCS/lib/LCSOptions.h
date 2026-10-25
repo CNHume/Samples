@@ -24,30 +24,30 @@
 
 namespace lcs {
 
-//
-// LCSOptions carries the comparison-relevant command-line parameters, so
-// LCSFile can accept options without depending on any tool's switch set.
-// Command-line tools derive their Command class from it and add only the
-// switches that are tool concerns.
-//
-class LCSOptions {
-public:
-  LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
-  LCS::Format format = LCS::Format::Series;
-  std::string file1;
-  std::string file2;
-  bool ignorecase = false;
-  bool ignorespace = false;
-  bool isfasta = false;
-  bool isjoin = false;
-  bool isquote = false;
-  bool istext = false;
-  bool isverbose = false;
-  bool isword = false;
-  std::uint32_t join = 0;
-  std::uint32_t prefix = 0;
-  std::uint32_t suffix = 0;
-  std::uint32_t width = 132;
-};
+  //
+  // LCSOptions carries the comparison-relevant command-line parameters, so
+  // LCSFile can accept options without depending on any tool's switch set.
+  // Command-line tools derive their Command class from it and add only the
+  // switches that are tool concerns.
+  //
+  class LCSOptions {
+  public:
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
+    LCS::Format format = LCS::Format::Series;
+    std::string file1;
+    std::string file2;
+    bool ignorecase = false;
+    bool ignorespace = false;
+    bool isfasta = false;
+    bool isjoin = false;
+    bool isquote = false;
+    bool istext = false;
+    bool isverbose = false;
+    bool isword = false;
+    std::uint32_t join = 0;
+    std::uint32_t prefix = 0;
+    std::uint32_t suffix = 0;
+    std::uint32_t width = 132;
+  };
 
 } // namespace lcs

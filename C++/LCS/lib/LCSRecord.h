@@ -28,41 +28,41 @@
 
 namespace lcs {
 
-class LCSRecord : public LCS {
-public:
-  typedef std::vector<std::string> RECORDS;
+  class LCSRecord : public LCS {
+  public:
+    typedef std::vector<std::string> RECORDS;
 
-  static std::uint32_t Correspondence(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const RECORDS& r1, const RECORDS& r2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isjoin = false, bool isverbose = false,
-    std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
+    static std::uint32_t Correspondence(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const RECORDS& r1, const RECORDS& r2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isjoin = false, bool isverbose = false,
+      std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
-  static std::uint32_t Difference(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const RECORDS& r1, const RECORDS& r2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isjoin = false, bool isverbose = false,
-    std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
+    static std::uint32_t Difference(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const RECORDS& r1, const RECORDS& r2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isjoin = false, bool isverbose = false,
+      std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
-  static std::uint32_t Compare(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const RECORDS& r1, const RECORDS& r2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isverbose = false);
+    static std::uint32_t Compare(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const RECORDS& r1, const RECORDS& r2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isverbose = false);
 
-  static RECORDS Read(const std::string& filename, bool isword);
+    static RECORDS Read(const std::string& filename, bool isword);
 
-protected:
-  static std::uint64_t Match(
-    MATCHES& indexesOf2MatchedByIndex1,
-    STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
-    const RECORDS& r1, const RECORDS& r2,
-    bool ignorecase = false, bool ignorespace = false);
-};
+  protected:
+    static std::uint64_t Match(
+      MATCHES& indexesOf2MatchedByIndex1,
+      STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
+      const RECORDS& r1, const RECORDS& r2,
+      bool ignorecase = false, bool ignorespace = false);
+  };
 
 } // namespace lcs

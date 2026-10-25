@@ -36,33 +36,33 @@
 
 namespace lcs {
 
-class Delta : public Pair {
-public:
-  static std::int64_t Deltas;
-  std::uint32_t end1 = 0;
-  std::uint32_t end2 = 0;
+  class Delta : public Pair {
+  public:
+    static std::int64_t Deltas;
+    std::uint32_t end1 = 0;
+    std::uint32_t end2 = 0;
 
-  virtual ~Delta();
-  Delta();
-  Delta(std::uint32_t begin1, std::uint32_t begin2, std::uint32_t end1, std::uint32_t end2,
-    std::shared_ptr<Delta> next = nullptr);
-#ifdef COPY_SEMANTICS
-  Delta(const Delta& other);
-  Delta& operator=(const Delta& other);
-#endif                                  // COPY_SEMANTICS
-#ifdef MOVE_SEMANTICS
-  Delta(Delta&& other) noexcept;
-  Delta& operator=(Delta&& other) noexcept;
-#endif
-  static void Lengths(const std::shared_ptr<Delta> deltas, std::uint32_t& length1, std::uint32_t& length2);
-  static void List(const std::shared_ptr<Delta> deltas);
-  static std::shared_ptr<Delta> Copy(const std::shared_ptr<Delta> deltas);
-  static std::shared_ptr<Delta> Coalesce(const std::shared_ptr<Pair> pairs);
-  static std::shared_ptr<Delta> Coalesce(const std::shared_ptr<Delta> deltas, std::uint32_t join = 0);
-  static std::shared_ptr<Delta> Complement(const std::shared_ptr<Delta> deltas,
-    std::size_t size1, std::size_t size2);
-  static void Context(std::shared_ptr<Delta> deltas,
-    std::size_t size1, std::size_t size2, std::uint32_t prefix, std::uint32_t suffix);
-};
+    virtual ~Delta();
+    Delta();
+    Delta(std::uint32_t begin1, std::uint32_t begin2, std::uint32_t end1, std::uint32_t end2,
+      std::shared_ptr<Delta> next = nullptr);
+  #ifdef COPY_SEMANTICS
+    Delta(const Delta& other);
+    Delta& operator=(const Delta& other);
+  #endif                                  // COPY_SEMANTICS
+  #ifdef MOVE_SEMANTICS
+    Delta(Delta&& other) noexcept;
+    Delta& operator=(Delta&& other) noexcept;
+  #endif
+    static void Lengths(const std::shared_ptr<Delta> deltas, std::uint32_t& length1, std::uint32_t& length2);
+    static void List(const std::shared_ptr<Delta> deltas);
+    static std::shared_ptr<Delta> Copy(const std::shared_ptr<Delta> deltas);
+    static std::shared_ptr<Delta> Coalesce(const std::shared_ptr<Pair> pairs);
+    static std::shared_ptr<Delta> Coalesce(const std::shared_ptr<Delta> deltas, std::uint32_t join = 0);
+    static std::shared_ptr<Delta> Complement(const std::shared_ptr<Delta> deltas,
+      std::size_t size1, std::size_t size2);
+    static void Context(std::shared_ptr<Delta> deltas,
+      std::size_t size1, std::size_t size2, std::uint32_t prefix, std::uint32_t suffix);
+  };
 
 } // namespace lcs

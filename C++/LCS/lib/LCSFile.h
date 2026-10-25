@@ -27,14 +27,14 @@
 
 namespace lcs {
 
-class LCSFile {
-public:
-  static std::uint32_t Correspondence(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const LCSOptions& options);
-  static std::uint32_t Difference(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const LCSOptions& options);
-};
+  class LCSFile {
+  public:
+    static std::uint32_t Correspondence(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const LCSOptions& options);
+    static std::uint32_t Difference(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const LCSOptions& options);
+  };
 
 } // namespace lcs

@@ -29,57 +29,57 @@
 
 namespace lcs {
 
-class LCSText : public LCS {
-public:
-  static std::uint32_t Correspondence(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const std::u32string& s1, const std::u32string& s2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isjoin = false, bool isverbose = false,
-    std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
+  class LCSText : public LCS {
+  public:
+    static std::uint32_t Correspondence(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const std::u32string& s1, const std::u32string& s2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isjoin = false, bool isverbose = false,
+      std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
-  static std::uint32_t Difference(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const std::u32string& s1, const std::u32string& s2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isjoin = false, bool isverbose = false,
-    std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
+    static std::uint32_t Difference(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const std::u32string& s1, const std::u32string& s2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isjoin = false, bool isverbose = false,
+      std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
-  static std::uint32_t Compare(
-    std::shared_ptr<Delta>* intervals, Statistics* statistics,
-    const std::u32string& s1, const std::u32string& s2,
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
-    bool ignorecase = false, bool ignorespace = false,
-    bool isverbose = false);
+    static std::uint32_t Compare(
+      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      const std::u32string& s1, const std::u32string& s2,
+      LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski,
+      bool ignorecase = false, bool ignorespace = false,
+      bool isverbose = false);
 
-  static std::u32string Read(const std::string& filename);
-  static std::u32string StripFasta(const std::u32string& s);
+    static std::u32string Read(const std::string& filename);
+    static std::u32string StripFasta(const std::u32string& s);
 
-  //
-  // String Methods compare individual Unicode code points rather than
-  // UTF-8 bytes, so multi-byte characters are never split or partially
-  // matched during the comparison.
-  //
-protected:
-  typedef std::unordered_map<char32_t, INDEXES> CHAR_TO_INDEXES_MAP;
+    //
+    // String Methods compare individual Unicode code points rather than
+    // UTF-8 bytes, so multi-byte characters are never split or partially
+    // matched during the comparison.
+    //
+  protected:
+    typedef std::unordered_map<char32_t, INDEXES> CHAR_TO_INDEXES_MAP;
 
-  static std::uint64_t Match(
-    MATCHES& indexesOf2MatchedByIndex1,
-    CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
-    const std::u32string& s1, const std::u32string& s2,
-    bool ignorecase, bool ignorespace);
+    static std::uint64_t Match(
+      MATCHES& indexesOf2MatchedByIndex1,
+      CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
+      const std::u32string& s1, const std::u32string& s2,
+      bool ignorecase, bool ignorespace);
 
-private:
-  // Map normalized-space Delta intervals back to original-space spans.
-  static void MapDeltas(std::shared_ptr<Delta> deltas,
-    const std::vector<std::uint32_t>& mapBegin1, const std::vector<std::uint32_t>& mapEnd1,
-    const std::vector<std::uint32_t>& mapBegin2, const std::vector<std::uint32_t>& mapEnd2,
-    std::size_t size1, std::size_t size2);
-  static void MapSide(std::uint32_t& begin, std::uint32_t& end,
-    const std::vector<std::uint32_t>& mapBegin, const std::vector<std::uint32_t>& mapEnd,
-    std::size_t size);
-};
+  private:
+    // Map normalized-space Delta intervals back to original-space spans.
+    static void MapDeltas(std::shared_ptr<Delta> deltas,
+      const std::vector<std::uint32_t>& mapBegin1, const std::vector<std::uint32_t>& mapEnd1,
+      const std::vector<std::uint32_t>& mapBegin2, const std::vector<std::uint32_t>& mapEnd2,
+      std::size_t size1, std::size_t size2);
+    static void MapSide(std::uint32_t& begin, std::uint32_t& end,
+      const std::vector<std::uint32_t>& mapBegin, const std::vector<std::uint32_t>& mapEnd,
+      std::size_t size);
+  };
 
 } // namespace lcs

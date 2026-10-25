@@ -24,21 +24,21 @@
 
 namespace lcs {
 
-//
-// LCSSequential lays out each Delta's two sides one after the other,
-// preserving the historic <<<<< / >>>>> vertical format.
-//
-class LCSSequential : public LCSFormat {
-public:
-  void Layout(
-    std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
+  //
+  // LCSSequential lays out each Delta's two sides one after the other,
+  // preserving the historic <<<<< / >>>>> vertical format.
+  //
+  class LCSSequential : public LCSFormat {
+  public:
+    void Layout(
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
 
-private:
-  void Side(
-    const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-  std::string Head(
-    const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-  std::string Body(const SideSpan& side);
-};
+  private:
+    void Side(
+      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
+    std::string Head(
+      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
+    std::string Body(const SideSpan& side);
+  };
 
 } // namespace lcs

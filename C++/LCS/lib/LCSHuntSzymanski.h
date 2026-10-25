@@ -27,10 +27,10 @@
 
 namespace lcs {
 
-class LCSHuntSzymanski : public LCS {
-public:
-  static std::uint32_t Find(
-    std::shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
-};
+  class LCSHuntSzymanski : public LCS {
+  public:
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
+  };
 
 } // namespace lcs

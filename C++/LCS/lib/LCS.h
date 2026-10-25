@@ -40,26 +40,26 @@
 
 namespace lcs {
 
-class LCS {
-public:
-  // The LCS algorithm selected at run time.
-  enum class Algorithm {
-    HuntSzymanski,      // Dynamic Programming over match lists
-    RickSpace,          // Rick 2000, contours + Hirschberg, linear space
-    RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
-  };
+  class LCS {
+  public:
+    // The LCS algorithm selected at run time.
+    enum class Algorithm {
+      HuntSzymanski,      // Dynamic Programming over match lists
+      RickSpace,          // Rick 2000, contours + Hirschberg, linear space
+      RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
+    };
 
-  // The output format selected at run time.
-  enum class Format {
-    Series,             // sequential: one side under the other
-    Parallel,           // side-by-side columns
-    CIGAR,              // CIGAR alignment string (reserved)
-  };
+    // The output format selected at run time.
+    enum class Format {
+      Series,             // sequential: one side under the other
+      Parallel,           // side-by-side columns
+      CIGAR,              // CIGAR alignment string (reserved)
+    };
 
-  typedef std::deque<std::shared_ptr<Pair>> PAIRS;
-  typedef std::deque<std::uint32_t> INDEXES;
-  typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;
-  typedef std::deque<INDEXES*> MATCHES;
-};
+    typedef std::deque<std::shared_ptr<Pair>> PAIRS;
+    typedef std::deque<std::uint32_t> INDEXES;
+    typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;
+    typedef std::deque<INDEXES*> MATCHES;
+  };
 
 } // namespace lcs

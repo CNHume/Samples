@@ -25,55 +25,55 @@
 
 namespace lcs {
 
-//
-// Statistics carries the work metrics of one LCS run, assessed by the algorithm
-// that produced it.  Each algorithm records its own counters here, maintained
-// alongside each other; Operations() returns the salient work count,
-// AlgorithmName() the algorithm's name, and ShowDuration() reports the elapsed
-// time — all derived from the recorded values.
-//
-class Statistics {
-public:
-  LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
+  //
+  // Statistics carries the work metrics of one LCS run, assessed by the algorithm
+  // that produced it.  Each algorithm records its own counters here, maintained
+  // alongside each other; Operations() returns the salient work count,
+  // AlgorithmName() the algorithm's name, and ShowDuration() reports the elapsed
+  // time — all derived from the recorded values.
+  //
+  class Statistics {
+  public:
+    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
 
-  std::uint64_t matches = 0;            // r: Hunt-Szymanski match-list magnitude
-  std::uint64_t records = 0;            // d: RickTime dominant matches recorded
-  std::uint64_t candidates = 0;         // RickSpace dominant matches emitted
-  std::uint64_t rows = 0;               // RickSpace diagonal sweep steps
-  std::uint64_t contours = 0;           // RickSpace contour sweeps
-  std::uint64_t elapsedMicroseconds = 0;// Compare() elapsed time
+    std::uint64_t matches = 0;            // r: Hunt-Szymanski match-list magnitude
+    std::uint64_t records = 0;            // d: RickTime dominant matches recorded
+    std::uint64_t candidates = 0;         // RickSpace dominant matches emitted
+    std::uint64_t rows = 0;               // RickSpace diagonal sweep steps
+    std::uint64_t contours = 0;           // RickSpace contour sweeps
+    std::uint64_t elapsedMicroseconds = 0;// Compare() elapsed time
 
-  // The salient work count for the algorithm that produced these statistics.
-  std::uint64_t Operations() const {
-    switch (algorithm) {
-    case LCS::Algorithm::RickTime:
-      return records;
-    case LCS::Algorithm::RickSpace:
-      return candidates;
-    default:                            // Hunt-Szymanski
-      return matches;
+    // The salient work count for the algorithm that produced these statistics.
+    std::uint64_t Operations() const {
+      switch (algorithm) {
+      case LCS::Algorithm::RickTime:
+        return records;
+      case LCS::Algorithm::RickSpace:
+        return candidates;
+      default:                            // Hunt-Szymanski
+        return matches;
+      }
     }
-  }
 
-  // A human-readable algorithm name.
-  const char* AlgorithmName() const {
-    switch (algorithm) {
-    case LCS::Algorithm::HuntSzymanski:
-      return "Hunt-Szymanski";
-    case LCS::Algorithm::RickSpace:
-      return "RickSpace";
-    case LCS::Algorithm::RickTime:
-      return "RickTime";
-    default:
-      return "Unknown";
+    // A human-readable algorithm name.
+    const char* AlgorithmName() const {
+      switch (algorithm) {
+      case LCS::Algorithm::HuntSzymanski:
+        return "Hunt-Szymanski";
+      case LCS::Algorithm::RickSpace:
+        return "RickSpace";
+      case LCS::Algorithm::RickTime:
+        return "RickTime";
+      default:
+        return "Unknown";
+      }
     }
-  }
 
-  // Report the elapsed time as a duration line.
-  void ShowDuration() const {
-    std::cout << Duration::ToString(
-      AlgorithmName(), (long)Operations(), (std::int64_t)elapsedMicroseconds);
-  }
-};
+    // Report the elapsed time as a duration line.
+    void ShowDuration() const {
+      std::cout << Duration::ToString(
+        AlgorithmName(), (long)Operations(), (std::int64_t)elapsedMicroseconds);
+    }
+  };
 
 } // namespace lcs

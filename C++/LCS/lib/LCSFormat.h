@@ -23,35 +23,35 @@
 
 namespace lcs {
 
-//
-// SideSpan is one side of a Delta, materialized for rendering: the label,
-// the half-open [begin, end) range, and the side's content as UTF-8 lines.
-//
-struct SideSpan {
-  std::string label;
-  std::uint32_t begin;
-  std::uint32_t end;
-  std::vector<std::string> lines;
-};
+  //
+  // SideSpan is one side of a Delta, materialized for rendering: the label,
+  // the half-open [begin, end) range, and the side's content as UTF-8 lines.
+  //
+  struct SideSpan {
+    std::string label;
+    std::uint32_t begin;
+    std::uint32_t end;
+    std::vector<std::string> lines;
+  };
 
-//
-// LCSFormat is the dispatch base for output layouts.  The Format specifier
-// selects a concrete subclass; the content classes build SideSpans and call
-// Layout() to render each Delta.
-//
-class LCSFormat {
-public:
-  virtual ~LCSFormat() = default;
+  //
+  // LCSFormat is the dispatch base for output layouts.  The Format specifier
+  // selects a concrete subclass; the content classes build SideSpans and call
+  // Layout() to render each Delta.
+  //
+  class LCSFormat {
+  public:
+    virtual ~LCSFormat() = default;
 
-  // Begin a rendering session (e.g. the parallel column labels).
-  virtual void Begin(const std::string& label1, const std::string& label2) {}
+    // Begin a rendering session (e.g. the parallel column labels).
+    virtual void Begin(const std::string& label1, const std::string& label2) {}
 
-  // End a rendering session (e.g. the parallel footer).
-  virtual void End() {}
+    // End a rendering session (e.g. the parallel footer).
+    virtual void End() {}
 
-  // Lay out one Delta's two sides, given their pre-rendered SideSpans.
-  virtual void Layout(
-    std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) = 0;
-};
+    // Lay out one Delta's two sides, given their pre-rendered SideSpans.
+    virtual void Layout(
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) = 0;
+  };
 
 } // namespace lcs

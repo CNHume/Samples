@@ -24,29 +24,29 @@
 
 namespace lcs {
 
-//
-// Duration measures the elapsed time of an operation.  Construct it at the
-// start of the region to time, call Stop() at the end, and read the elapsed
-// with ElapsedMicroseconds().  ToString() formats a report line from raw
-// values so the caller can print it where it chooses.
-//
-class Duration {
-private:
-  Stopwatch sw_;
+  //
+  // Duration measures the elapsed time of an operation.  Construct it at the
+  // start of the region to time, call Stop() at the end, and read the elapsed
+  // with ElapsedMicroseconds().  ToString() formats a report line from raw
+  // values so the caller can print it where it chooses.
+  //
+  class Duration {
+  private:
+    Stopwatch sw_;
 
-public:
-  Duration();
-  ~Duration();
+  public:
+    Duration();
+    ~Duration();
 
-  // Current local wall-clock time as "YYYY-MM-DD HH:MM:SS.cc".
-  static std::string WallClock();
+    // Current local wall-clock time as "YYYY-MM-DD HH:MM:SS.cc".
+    static std::string WallClock();
 
-  void Stop();                          // Stop the stopwatch
-  std::int64_t ElapsedMicroseconds() const;  // Elapsed time in microseconds
+    void Stop();                          // Stop the stopwatch
+    std::int64_t ElapsedMicroseconds() const;  // Elapsed time in microseconds
 
-  // Format a duration report from raw values (name, operation count, elapsed).
-  static std::string ToString(
-    const char* name, long count, std::int64_t microseconds);
-};
+    // Format a duration report from raw values (name, operation count, elapsed).
+    static std::string ToString(
+      const char* name, long count, std::int64_t microseconds);
+  };
 
 } // namespace lcs

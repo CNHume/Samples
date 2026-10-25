@@ -26,32 +26,32 @@
 
 namespace lcs {
 
-class Pair {
-protected:
-  friend std::ostream& operator<<(std::ostream&, const Pair&);
+  class Pair {
+  protected:
+    friend std::ostream& operator<<(std::ostream&, const Pair&);
 
-public:
-  static std::int64_t Count;
-  std::uint32_t begin1 = 0;
-  std::uint32_t begin2 = 0;
-  std::shared_ptr<Pair> next;
+  public:
+    static std::int64_t Count;
+    std::uint32_t begin1 = 0;
+    std::uint32_t begin2 = 0;
+    std::shared_ptr<Pair> next;
 
-  virtual ~Pair();
-  Pair();
-  Pair(std::uint32_t begin1, std::uint32_t begin2, std::shared_ptr<Pair> next = nullptr);
-#ifdef COPY_SEMANTICS
-  Pair(const Pair& other);
-  Pair& operator=(const Pair& other);
-#endif                                  // COPY_SEMANTICS
-#ifdef MOVE_SEMANTICS
-  Pair(Pair&& other) noexcept;
-  Pair& operator=(Pair&& other) noexcept;
-#endif
-  static std::uint32_t Length(const std::shared_ptr<Pair> pairs);
-  static void List(const std::shared_ptr<Pair> pairs);
-  static std::shared_ptr<Pair> Copy(const std::shared_ptr<Pair> pairs);
-  static std::shared_ptr<Pair> Reverse(const std::shared_ptr<Pair> pairs);
-  static std::shared_ptr<Pair> MuReverse(std::shared_ptr<Pair> pairs);
-};
+    virtual ~Pair();
+    Pair();
+    Pair(std::uint32_t begin1, std::uint32_t begin2, std::shared_ptr<Pair> next = nullptr);
+  #ifdef COPY_SEMANTICS
+    Pair(const Pair& other);
+    Pair& operator=(const Pair& other);
+  #endif                                  // COPY_SEMANTICS
+  #ifdef MOVE_SEMANTICS
+    Pair(Pair&& other) noexcept;
+    Pair& operator=(Pair&& other) noexcept;
+  #endif
+    static std::uint32_t Length(const std::shared_ptr<Pair> pairs);
+    static void List(const std::shared_ptr<Pair> pairs);
+    static std::shared_ptr<Pair> Copy(const std::shared_ptr<Pair> pairs);
+    static std::shared_ptr<Pair> Reverse(const std::shared_ptr<Pair> pairs);
+    static std::shared_ptr<Pair> MuReverse(std::shared_ptr<Pair> pairs);
+  };
 
 } // namespace lcs

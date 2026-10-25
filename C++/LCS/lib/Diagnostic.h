@@ -21,26 +21,26 @@
 
 namespace lcs {
 
-//
-// Diagnostic reports warnings when an LCS algorithm is about to hit a
-// pathological case, so users can switch to a more suitable algorithm
-// before paying the cost.
-//
-class Diagnostic {
-public:
-  // Hunt-Szymanski degenerates when the match count r is large relative
-  // to the full m x n matching matrix, since it runs in O((r + n) log n).
-  static void WarnMatchCount(std::uint64_t matches, std::uint64_t m, std::uint64_t n);
-  // RickTime allocates two dense s x length occurrence tables.
-  static void WarnTableSize(std::uint64_t m, std::uint64_t n, std::uint64_t symbols);
-  // Maximum dominant matches RickTime may record before its byRank recording,
-  // added to the dense tables, would approach available RAM.
-  static std::uint64_t RecordingBudget(std::uint64_t m, std::uint64_t n, std::uint64_t symbols);
-  // Warn that RickTime's match recording has exceeded its budget.
-  static void WarnRecordingSize(std::uint64_t records, std::uint64_t recordBudget);
-  // Suggest RickTime when RickSpace's result is near-identical (few edits),
-  // the regime where RickTime fits and is ~2.6x faster.
-  static void SuggestRickTime(std::uint32_t length, std::uint64_t shorter);
-};
+  //
+  // Diagnostic reports warnings when an LCS algorithm is about to hit a
+  // pathological case, so users can switch to a more suitable algorithm
+  // before paying the cost.
+  //
+  class Diagnostic {
+  public:
+    // Hunt-Szymanski degenerates when the match count r is large relative
+    // to the full m x n matching matrix, since it runs in O((r + n) log n).
+    static void WarnMatchCount(std::uint64_t matches, std::uint64_t m, std::uint64_t n);
+    // RickTime allocates two dense s x length occurrence tables.
+    static void WarnTableSize(std::uint64_t m, std::uint64_t n, std::uint64_t symbols);
+    // Maximum dominant matches RickTime may record before its byRank recording,
+    // added to the dense tables, would approach available RAM.
+    static std::uint64_t RecordingBudget(std::uint64_t m, std::uint64_t n, std::uint64_t symbols);
+    // Warn that RickTime's match recording has exceeded its budget.
+    static void WarnRecordingSize(std::uint64_t records, std::uint64_t recordBudget);
+    // Suggest RickTime when RickSpace's result is near-identical (few edits),
+    // the regime where RickTime fits and is ~2.6x faster.
+    static void SuggestRickTime(std::uint32_t length, std::uint64_t shorter);
+  };
 
 } // namespace lcs

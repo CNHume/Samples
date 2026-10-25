@@ -23,22 +23,22 @@
 
 namespace lcs {
 
-class Stopwatch {
-private:
-  std::chrono::steady_clock::time_point start_time_;
-  std::chrono::steady_clock::time_point stop_time_;
-  bool running_ = false;
+  class Stopwatch {
+  private:
+    std::chrono::steady_clock::time_point start_time_;
+    std::chrono::steady_clock::time_point stop_time_;
+    bool running_ = false;
 
-public:
-  void start();
-  void stop();
-  void reset();
-  double elapsed_seconds() const;
-  double elapsed_milliseconds() const;
-  std::int64_t elapsed_microseconds() const;
-  std::string format_seconds() const;
-  std::string format_milliseconds() const;
-  std::string format_microseconds() const;
-};
+  public:
+    void start();
+    void stop();
+    void reset();
+    double elapsed_seconds() const;
+    double elapsed_milliseconds() const;
+    std::int64_t elapsed_microseconds() const;
+    std::string format_seconds() const;
+    std::string format_milliseconds() const;
+    std::string format_microseconds() const;
+  };
 
 } // namespace lcs

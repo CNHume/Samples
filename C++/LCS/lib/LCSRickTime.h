@@ -36,19 +36,19 @@
 
 namespace lcs {
 
-class LCSRickTime : public LCS {
-public:
-  //
-  // Compute the LCS length and, when pairs is non-null, the matched positions
-  // as a linked list of (begin1, begin2) Pairs in ascending order.
-  //
-  //[Note]The caller should guarantee |s1| <= |s2| by swapping when necessary.
-  //
-  static std::uint32_t Find(
-    std::shared_ptr<Pair>* pairs, Statistics* statistics,
-    const std::u32string& s1, const std::u32string& s2);
-  // Length only.
-  static std::uint32_t FindFlexibleLength(const std::u32string& s1, const std::u32string& s2);
-};
+  class LCSRickTime : public LCS {
+  public:
+    //
+    // Compute the LCS length and, when pairs is non-null, the matched positions
+    // as a linked list of (begin1, begin2) Pairs in ascending order.
+    //
+    //[Note]The caller should guarantee |s1| <= |s2| by swapping when necessary.
+    //
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      const std::u32string& s1, const std::u32string& s2);
+    // Length only.
+    static std::uint32_t FindFlexibleLength(const std::u32string& s1, const std::u32string& s2);
+  };
 
 } // namespace lcs

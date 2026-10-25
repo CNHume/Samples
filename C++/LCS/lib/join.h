@@ -22,21 +22,21 @@
 
 namespace lcs {
 
-template <typename T>
-std::string join(const T& list, const std::string& delim = " ") {
-  std::ostringstream ss;
+  template <typename T>
+  std::string join(const T& list, const std::string& delim = " ") {
+    std::ostringstream ss;
 
-  auto delimit = false;
-  for (const auto& it : list) {
-    if (delimit)
-      ss << delim;
-    else
-      delimit = true;
+    auto delimit = false;
+    for (const auto& it : list) {
+      if (delimit)
+        ss << delim;
+      else
+        delimit = true;
 
-    ss << it;
+      ss << it;
+    }
+
+    return ss.str();
   }
-
-  return ss.str();
-}
 
 } // namespace lcs

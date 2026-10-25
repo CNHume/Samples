@@ -22,15 +22,15 @@
 
 namespace lcs {
 
-//
-// Environment renders a report of the host: the locale, processor type and
-// speed, and total physical memory, for both Windows and Linux.
-//
-class Environment {
-public:
-  static std::string ToString();
-  // Available physical memory in bytes, or 0 when unknown.
-  static std::uint64_t AvailableBytes();
-};
+  //
+  // Environment renders a report of the host: the locale, processor type and
+  // speed, and total physical memory, for both Windows and Linux.
+  //
+  class Environment {
+  public:
+    static std::string ToString();
+    // Available physical memory in bytes, or 0 when unknown.
+    static std::uint64_t AvailableBytes();
+  };
 
 } // namespace lcs

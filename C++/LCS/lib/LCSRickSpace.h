@@ -35,32 +35,32 @@
 
 namespace lcs {
 
-class LCSRickSpace : public LCS {
-public:
-  //
-  // Find the LCS length and matched positions.  On return, *pairs (when
-  // non-null) is a linked list of matched (begin1, begin2) positions in
-  // ascending order.  The match-list overload serves the record path; the
-  // code-point overload builds O(ns) tables directly from the strings and
-  // serves the character (-t -r) path.  Both assume size1 <= size2.
-  //
-  static std::uint32_t Find(
-    std::shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
-    std::uint32_t size1, std::uint32_t size2);
-  static std::uint32_t Find(
-    std::shared_ptr<Pair>* pairs, Statistics* statistics,
-    const std::u32string& s1, const std::u32string& s2);
+  class LCSRickSpace : public LCS {
+  public:
+    //
+    // Find the LCS length and matched positions.  On return, *pairs (when
+    // non-null) is a linked list of matched (begin1, begin2) positions in
+    // ascending order.  The match-list overload serves the record path; the
+    // code-point overload builds O(ns) tables directly from the strings and
+    // serves the character (-t -r) path.  Both assume size1 <= size2.
+    //
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
+      std::uint32_t size1, std::uint32_t size2);
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      const std::u32string& s1, const std::u32string& s2);
 
-  //
-  // Diagnostic counters (since the last ResetCounters()): the number of
-  // dominant matches generated (Candidates), the number of diagonal sweep
-  // steps (Rows), and the number of contour sweeps run (Contours).  They
-  // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
-  //
-  static std::uint64_t Candidates;
-  static std::uint64_t Rows;
-  static std::uint64_t Contours;
-  static void ResetCounters();
-};
+    //
+    // Diagnostic counters (since the last ResetCounters()): the number of
+    // dominant matches generated (Candidates), the number of diagonal sweep
+    // steps (Rows), and the number of contour sweeps run (Contours).  They
+    // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
+    //
+    static std::uint64_t Candidates;
+    static std::uint64_t Rows;
+    static std::uint64_t Contours;
+    static void ResetCounters();
+  };
 
 } // namespace lcs

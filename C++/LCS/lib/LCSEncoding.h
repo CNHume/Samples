@@ -27,25 +27,25 @@
 
 namespace lcs {
 
-class LCSEncoding {
-public:
-  enum Encoding {
-    ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
+  class LCSEncoding {
+  public:
+    enum Encoding {
+      ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
+    };
+
+    static std::tuple<Encoding, int> GetEncoding(const std::string& buffer);
+    static bool IsWide(Encoding encoding);
+    static std::string ToUtf8(const std::u32string& codePoints);
+    static std::tuple<Encoding, int> PeekEncoding(const std::string& filename);
+    static std::vector<std::string> ReadWide(
+      const std::string& filename, Encoding encoding, bool isword);
+    static std::string ReadBytes(const std::string& filename);
+    static std::u32string DecodeCodePoints(const std::string& bytes, Encoding encoding);
+    static std::u32string DecodeUtf8(const std::string& bytes);
+    static std::u32string NormalizeCrlf(const std::u32string& codePoints);
+
+    const static std::vector<std::vector<unsigned char>> BOM;
+    const static std::vector<Encoding> encodings;
   };
-
-  static std::tuple<Encoding, int> GetEncoding(const std::string& buffer);
-  static bool IsWide(Encoding encoding);
-  static std::string ToUtf8(const std::u32string& codePoints);
-  static std::tuple<Encoding, int> PeekEncoding(const std::string& filename);
-  static std::vector<std::string> ReadWide(
-    const std::string& filename, Encoding encoding, bool isword);
-  static std::string ReadBytes(const std::string& filename);
-  static std::u32string DecodeCodePoints(const std::string& bytes, Encoding encoding);
-  static std::u32string DecodeUtf8(const std::string& bytes);
-  static std::u32string NormalizeCrlf(const std::u32string& codePoints);
-
-  const static std::vector<std::vector<unsigned char>> BOM;
-  const static std::vector<Encoding> encodings;
-};
 
 } // namespace lcs

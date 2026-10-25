@@ -23,22 +23,22 @@
 
 namespace lcs {
 
-class LCSNormal {
-public:
-  static void Normal(const std::string& input, std::string& output,
-    bool ignorecase = false, bool ignorespace = false);
-  static void NormalCase(std::string& input);
-  static void NormalSpace(const std::string& input, std::string& output);
-  static bool IsSpace(char32_t c);
+  class LCSNormal {
+  public:
+    static void Normal(const std::string& input, std::string& output,
+      bool ignorecase = false, bool ignorespace = false);
+    static void NormalCase(std::string& input);
+    static void NormalSpace(const std::string& input, std::string& output);
+    static bool IsSpace(char32_t c);
 
-  // Code-point overloads used by LCSText character comparison.
-  static void Normal(const std::u32string& input, std::u32string& output,
-    bool ignorecase = false, bool ignorespace = false);
-  static void NormalCase(std::u32string& input);
-  static void NormalSpace(const std::u32string& input, std::u32string& output);
-  static void NormalSpace(const std::u32string& input, std::u32string& output,
-    std::vector<std::uint32_t>& mapBegin, std::vector<std::uint32_t>& mapEnd);
-  static char32_t ToLower(char32_t c);
-};
+    // Code-point overloads used by LCSText character comparison.
+    static void Normal(const std::u32string& input, std::u32string& output,
+      bool ignorecase = false, bool ignorespace = false);
+    static void NormalCase(std::u32string& input);
+    static void NormalSpace(const std::u32string& input, std::u32string& output);
+    static void NormalSpace(const std::u32string& input, std::u32string& output,
+      std::vector<std::uint32_t>& mapBegin, std::vector<std::uint32_t>& mapEnd);
+    static char32_t ToLower(char32_t c);
+  };
 
 } // namespace lcs

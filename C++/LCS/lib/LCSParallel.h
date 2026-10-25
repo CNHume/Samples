@@ -24,27 +24,27 @@
 
 namespace lcs {
 
-//
-// LCSParallel lays out each Delta's two sides in side-by-side columns,
-// separated by '+' in the heading row and '|' in the content rows.
-//
-class LCSParallel : public LCSFormat {
-public:
-  explicit LCSParallel(std::uint32_t width);
+  //
+  // LCSParallel lays out each Delta's two sides in side-by-side columns,
+  // separated by '+' in the heading row and '|' in the content rows.
+  //
+  class LCSParallel : public LCSFormat {
+  public:
+    explicit LCSParallel(std::uint32_t width);
 
-  void Begin(const std::string& label1, const std::string& label2) override;
-  void End() override;
-  void Layout(
-    std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
+    void Begin(const std::string& label1, const std::string& label2) override;
+    void End() override;
+    void Layout(
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
 
-private:
-  std::uint32_t width_;
+  private:
+    std::uint32_t width_;
 
-  std::uint32_t leftWidth() const;
-  std::uint32_t rightWidth() const;
-  std::string Head(const SideSpan& side1, const SideSpan& side2) const;
-  std::string Body(const SideSpan& side1, const SideSpan& side2) const;
-  std::string Heading(const SideSpan& side) const;
-};
+    std::uint32_t leftWidth() const;
+    std::uint32_t rightWidth() const;
+    std::string Head(const SideSpan& side1, const SideSpan& side2) const;
+    std::string Body(const SideSpan& side1, const SideSpan& side2) const;
+    std::string Heading(const SideSpan& side) const;
+  };
 
 } // namespace lcs
