@@ -105,6 +105,7 @@
     <ClCompile Include="..\lib\LCSRecord.cpp" />
     <ClCompile Include="..\lib\LCSRickSpace.cpp" />
     <ClCompile Include="..\lib\LCSRickTime.cpp" />
+    <ClCompile Include="..\lib\LCSSequential.cpp" />
     <ClCompile Include="..\lib\LCSText.cpp" />
     <ClCompile Include="..\lib\Pair.cpp" />
     <ClCompile Include="..\lib\Stopwatch.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\lib\LCS.h" />
     <ClInclude Include="..\lib\LCSEncoding.h" />
     <ClInclude Include="..\lib\LCSFile.h" />
+    <ClInclude Include="..\lib\LCSFormat.h" />
     <ClInclude Include="..\lib\LCSFormatRecord.h" />
     <ClInclude Include="..\lib\LCSFormatText.h" />
     <ClInclude Include="..\lib\LCSHuntSzymanski.h" />
@@ -128,6 +130,7 @@
     <ClInclude Include="..\lib\LCSRecord.h" />
     <ClInclude Include="..\lib\LCSRickSpace.h" />
     <ClInclude Include="..\lib\LCSRickTime.h" />
+    <ClInclude Include="..\lib\LCSSequential.h" />
     <ClInclude Include="..\lib\LCSText.h" />
     <ClInclude Include="..\lib\Pair.h" />
     <ClInclude Include="..\lib\Stopwatch.h" />

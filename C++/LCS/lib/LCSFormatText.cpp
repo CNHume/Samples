@@ -13,13 +13,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
+// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
 // 2026-10-08 CNHume  Created LCSFormatText class
 //
 #include "LCSFormatText.h"
 #include "LCSEncoding.h"
-
-#include <format>                       //[C++20]
-#include <iostream>                     // for cout
 
 using namespace std;
 using namespace lcs;
@@ -48,41 +46,24 @@ u32string LCSFormatText::Select(shared_ptr<Delta> deltas,
 
 uint32_t LCSFormatText::Show(shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
-  const string& label1, const string& label2) {
+  const string& label1, const string& label2, LCSFormat& format) {
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
-    Series(ndelta,
-      label1, s1, next->begin1, next->end1,
-      label2, s2, next->begin2, next->end2);
+    auto side1 = Span(label1, s1, next->begin1, next->end1);
+    auto side2 = Span(label2, s2, next->begin2, next->end2);
+    format.Layout(ndelta, side1, side2);
     ndelta++;
   }
   return ndelta;
 }
 
-// Write both sides of a Delta in series
-void LCSFormatText::Series(uint32_t counter,
-  const string& label1, const u32string& s1, uint32_t begin1, uint32_t end1,
-  const string& label2, const u32string& s2, uint32_t begin2, uint32_t end2) {
-  Side("<<<<<", counter, label1, s1, begin1, end1);
-  Side(">>>>>", counter, label2, s2, begin2, end2);
-}
-
-void LCSFormatText::Side(string emblem, uint32_t counter, const string& label,
+SideSpan LCSFormatText::Span(const string& label,
   const u32string& s, uint32_t begin, uint32_t end) {
-  if (begin < end) {
-    Head(emblem, counter, label, begin, end);
-    Body(s, begin, end);
-  }
-}
-
-void LCSFormatText::Head(string emblem, uint32_t counter, const string& label,
-  uint32_t begin, uint32_t end) {
-  cout << format(
-    "{} {} {} [{}:{}] {}\n",
-    emblem, counter + 1, label, begin, end, emblem);
-}
-
-void LCSFormatText::Body(const u32string& s, uint32_t begin, uint32_t end) {
-  cout << LCSEncoding::ToUtf8(s.substr(begin, end - begin)) << '\n';
+  SideSpan span;
+  span.label = label;
+  span.begin = begin;
+  span.end = end;
+  span.lines.push_back(LCSEncoding::ToUtf8(s.substr(begin, end - begin)));
+  return span;
 }

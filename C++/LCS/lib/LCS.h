@@ -49,6 +49,13 @@ public:
     RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
   };
 
+  // The output format selected at run time.
+  enum class Format {
+    Series,             // sequential: one side under the other
+    Parallel,           // side-by-side columns
+    CIGAR,              // CIGAR alignment string (reserved)
+  };
+
   typedef std::deque<std::shared_ptr<Pair>> PAIRS;
   typedef std::deque<std::uint32_t> INDEXES;
   typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;

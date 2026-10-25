@@ -13,12 +13,14 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
+// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
 // 2026-10-24 CNHume  Renamed LCSFormatString to LCSFormatText
 // 2026-10-08 CNHume  Created LCSFormatString class
 //
 #pragma once
 
 #include "LCSText.h"
+#include "LCSFormat.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -32,17 +34,12 @@ public:
     const std::u32string& s1, const std::u32string& s2, bool isright = false);
   static std::uint32_t Show(std::shared_ptr<Delta> deltas,
     const std::u32string& s1, const std::u32string& s2,
-    const std::string& label1, const std::string& label2);
+    const std::string& label1, const std::string& label2,
+    LCSFormat& format);
 
-protected:
-  static void Series(std::uint32_t counter,
-    const std::string& label1, const std::u32string& s1, std::uint32_t begin1, std::uint32_t end1,
-    const std::string& label2, const std::u32string& s2, std::uint32_t begin2, std::uint32_t end2);
-  static void Side(std::string emblem, std::uint32_t counter, const std::string& label,
+private:
+  static SideSpan Span(const std::string& label,
     const std::u32string& s, std::uint32_t begin, std::uint32_t end);
-  static void Head(std::string emblem, std::uint32_t counter, const std::string& label,
-    std::uint32_t begin, std::uint32_t end);
-  static void Body(const std::u32string& s, std::uint32_t begin, std::uint32_t end);
 };
 
 } // namespace lcs

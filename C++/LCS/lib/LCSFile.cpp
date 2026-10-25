@@ -22,6 +22,7 @@
 #include "LCSFormatText.h"
 #include "LCSRecord.h"
 #include "LCSText.h"
+#include "LCSSequential.h"
 
 using namespace std;
 using namespace lcs;
@@ -30,6 +31,7 @@ uint32_t LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const LCSOptions& options) {
   uint32_t length(0);
+  LCSSequential format;
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
@@ -51,7 +53,7 @@ uint32_t LCSFile::Correspondence(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2);
+      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2, format);
   }
   else {
     auto r1 = LCSRecord::Read(options.file1, options.isword);
@@ -62,7 +64,7 @@ uint32_t LCSFile::Correspondence(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2);
+      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2, format);
   }
   return length;
 }
@@ -71,6 +73,7 @@ uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const LCSOptions& options) {
   uint32_t length(0);
+  LCSSequential format;
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
@@ -92,7 +95,7 @@ uint32_t LCSFile::Difference(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2);
+      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2, format);
   }
   else {
     auto r1 = LCSRecord::Read(options.file1, options.isword);
@@ -103,7 +106,7 @@ uint32_t LCSFile::Difference(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2);
+      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2, format);
   }
   return length;
 }

@@ -63,6 +63,9 @@
     <ClCompile Include="..\lib\LCSRickTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\LCSSequential.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\LCSText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -104,6 +107,9 @@
     <ClInclude Include="..\lib\LCSFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\lib\LCSFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\lib\LCSFormatRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -126,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSRickTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\LCSSequential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSText.h">
