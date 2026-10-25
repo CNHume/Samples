@@ -35,35 +35,40 @@ uint32_t LCSParallel::rightWidth() const {
 }
 
 void LCSParallel::Begin(const string& label1, const string& label2) {
-  cout << format("{:<{}} {:<{}}\n", label1, leftWidth(), label2, rightWidth());
+  cout <<
+    format("{:^{}} {:^{}}\n", label1, leftWidth(), label2, rightWidth());
 }
 
 void LCSParallel::End() {
-  cout << string(leftWidth(), ' ') << '+' << string(rightWidth(), '-') << '\n';
+  cout <<
+    format("{:<{}}+{:-<{}}\n", "", leftWidth(), "", rightWidth());
 }
 
 void LCSParallel::Layout(
   uint32_t, const SideSpan& side1, const SideSpan& side2) {
-  Head(side1, side2);
-  Body(side1, side2);
+  cout <<
+    Head(side1, side2) << Body(side1, side2);
 }
 
-void LCSParallel::Head(const SideSpan& side1, const SideSpan& side2) const {
-  cout << format("{:<{}}+{:<{}}\n",
-    Heading(side1), leftWidth(), Heading(side2), rightWidth());
+std::string LCSParallel::Head(const SideSpan& side1, const SideSpan& side2) const {
+  return format(
+    "{:<{}}+{:<{}}\n", Heading(side1), leftWidth(), Heading(side2), rightWidth());
 }
 
-void LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) const {
+std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) const {
+  string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
     auto line1 = i < side1.lines.size() ? side1.lines[i] : string{};
     auto line2 = i < side2.lines.size() ? side2.lines[i] : string{};
-    cout << format("{:<{}}|{:<{}}\n", line1, leftWidth(), line2, rightWidth());
+    text +=
+      format("{:<{}}|{:<{}}\n", line1, leftWidth(), line2, rightWidth());
   }
+  return text;
 }
 
 std::string LCSParallel::Heading(const SideSpan& side) const {
-  if (side.begin < side.end)
-    return format("------ [{}:{}] ------", side.begin, side.end);
-  return format("======= [{}] =======", side.begin);
+  return side.begin < side.end ?
+    format("------ [{}:{}] ------", side.begin, side.end) :
+    format("======= [{}] =======", side.begin);
 }
