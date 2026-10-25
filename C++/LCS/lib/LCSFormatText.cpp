@@ -78,11 +78,9 @@ void LCSFormatText::Side(string emblem, uint32_t counter, const string& label,
 
 void LCSFormatText::Head(string emblem, uint32_t counter, const string& label,
   uint32_t begin, uint32_t end) {
-  if (begin < end) {
-    cout << format(
-      "{} {} {} [{}:{}] {}\n",
-      emblem, counter + 1, label, begin, end, emblem);
-  }
+  cout << format(
+    "{} {} {} [{}:{}] {}\n",
+    emblem, counter + 1, label, begin, end, emblem);
 }
 
 void LCSFormatText::Body(const u32string& s, uint32_t begin, uint32_t end) {

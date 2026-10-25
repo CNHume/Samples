@@ -69,17 +69,17 @@ void LCSFormatRecord::Series(uint32_t counter,
 
 void LCSFormatRecord::Side(string emblem, uint32_t counter, const string& label,
   const RECORDS& list, uint32_t begin, uint32_t end) {
-  Head(emblem, counter, label, begin, end);
-  Body(list, begin, end);
+  if (begin < end) {
+    Head(emblem, counter, label, begin, end);
+    Body(list, begin, end);
+  }
 }
 
 void LCSFormatRecord::Head(string emblem, uint32_t counter, const string& label,
   uint32_t begin, uint32_t end) {
-  if (begin < end) {
-    cout << format(
-      "{} {} {} [{}:{}] {}\n",
-      emblem, counter + 1, label, begin, end, emblem);
-  }
+  cout << format(
+    "{} {} {} [{}:{}] {}\n",
+    emblem, counter + 1, label, begin, end, emblem);
 }
 
 void LCSFormatRecord::Body(const RECORDS& records, uint32_t begin, uint32_t end) {
