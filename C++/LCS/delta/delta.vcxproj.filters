@@ -54,6 +54,9 @@
     <ClCompile Include="..\lib\LCSNormal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\LCSParallel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\LCSRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\LCSParallel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSRecord.h">

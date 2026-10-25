@@ -33,6 +33,7 @@ namespace lcs {
 class LCSOptions {
 public:
   LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
+  LCS::Format format = LCS::Format::Series;
   std::string file1;
   std::string file2;
   bool ignorecase = false;
@@ -46,6 +47,7 @@ public:
   std::uint32_t join = 0;
   std::uint32_t prefix = 0;
   std::uint32_t suffix = 0;
+  std::uint32_t width = 132;
 };
 
 } // namespace lcs

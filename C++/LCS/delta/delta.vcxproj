@@ -102,6 +102,7 @@
     <ClCompile Include="..\lib\LCSFormatText.cpp" />
     <ClCompile Include="..\lib\LCSHuntSzymanski.cpp" />
     <ClCompile Include="..\lib\LCSNormal.cpp" />
+    <ClCompile Include="..\lib\LCSParallel.cpp" />
     <ClCompile Include="..\lib\LCSRecord.cpp" />
     <ClCompile Include="..\lib\LCSRickSpace.cpp" />
     <ClCompile Include="..\lib\LCSRickTime.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="..\lib\LCSHuntSzymanski.h" />
     <ClInclude Include="..\lib\LCSNormal.h" />
     <ClInclude Include="..\lib\LCSOptions.h" />
+    <ClInclude Include="..\lib\LCSParallel.h" />
     <ClInclude Include="..\lib\LCSRecord.h" />
     <ClInclude Include="..\lib\LCSRickSpace.h" />
     <ClInclude Include="..\lib\LCSRickTime.h" />

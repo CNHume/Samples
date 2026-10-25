@@ -36,7 +36,7 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-v] [-w] file1 file2";
+    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -219,6 +219,40 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           isword = true;
+        break;
+
+      case 'y':                         // the format switch: s=series, p=parallel
+        {
+          // Accept both -yp and -y p (whitespace optional, as with -a).
+          const char* sub = nullptr;
+          if (len == 3)                 // -ys or -yp
+            sub = &token[2];
+          else if (len == 2 && n + 1 < argc && strlen(argv[n + 1]) == 1)
+            sub = argv[++n];            // -y s or -y p
+          else {
+            usage = true;               // -y needs exactly one sub-letter
+            break;
+          }
+          switch (sub[0]) {
+          case 's':
+            format = LCS::Format::Series;
+            break;
+          case 'p':
+            format = LCS::Format::Parallel;
+            break;
+          default:
+            usage = true;               // unknown format
+          }
+        }
+        break;
+
+      case 'W':                         // the width switch (parallel layout)
+        if (len > 2)                    // whitespace optional
+          width = parse_uint32(&token[2], "width");
+        else if (n + 1 < argc)              // whitespace allowed
+          width = parse_uint32(argv[++n], "width");
+        else
+          usage = true;
         break;
 
       default:                          // switch unknown

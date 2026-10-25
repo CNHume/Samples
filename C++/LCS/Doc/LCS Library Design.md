@@ -24,8 +24,8 @@ Two renames were applied:
   type; `Text` matches the `istext` dispatch flag and avoids confusion with
   `std::string`.  `LCSFormatString` → `LCSFormatText` likewise.
 - `LCS` was **not** renamed.  It remains the base class holding the `Algorithm`
-  enum and the shared typedefs (`PAIRS`/`INDEXES`/`STRING_TO_INDEXES_MAP`/
-  `MATCHES`).
+  and `Format` enums and the shared typedefs (`PAIRS`/`INDEXES`/
+  `STRING_TO_INDEXES_MAP`/`MATCHES`).
 
 ## Agreed design
 
@@ -38,6 +38,7 @@ Fields, in `Command`'s original relative order, with in-class defaults:
 
 ```
 algorithm    LCS::Algorithm = LCS::Algorithm::HuntSzymanski
+format       LCS::Format = LCS::Format::Series
 file1        std::string
 file2        std::string
 ignorecase   bool = false
@@ -51,6 +52,7 @@ isword       bool = false
 join         uint32_t = 0
 prefix       uint32_t = 0
 suffix       uint32_t = 0
+width        uint32_t = 132
 ```
 
 Excluded from `LCSOptions` (CLI concerns):
@@ -136,6 +138,7 @@ binaries are shipped later:
   `LCSRickTime`
 - `LCSRecord`, `LCSText`, `LCSEncoding`, `LCSNormal`
 - `LCSFile`, `LCSOptions`
+- `LCSFormat`, `LCSSequential`, `LCSParallel`, `SideSpan`
 - `LCSFormatRecord`, `LCSFormatText`, `Statistics`
 - `Duration`, `Stopwatch`, `Diagnostic`, `Environment`, `join`
 
@@ -146,8 +149,9 @@ identical apart from the class name).
 **Tools (`compare/`, `delta/`)** — remain tool-specific:
 
 - `main.cpp` — maps `Command` → `LCSOptions`, picks `Correspondence` vs.
-  `Difference`, handles `-e`, `-h`, `-V`, and the null-interval length-only case.
-- `Command` — derives from `LCSOptions`; parses the tool's switch set.
+  `Difference`, and handles the null-interval length-only case.
+- `Command` — derives from `LCSOptions`; parses the tool's switch set, including
+  the early-exit `-E`/`-h`/`-V` and the `-y`/`-W` format switches.
 - `Version`
 
 ## Build

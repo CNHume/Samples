@@ -43,6 +43,12 @@ class LCSFormat {
 public:
   virtual ~LCSFormat() = default;
 
+  // Begin a rendering session (e.g. the parallel column labels).
+  virtual void Begin(const std::string& label1, const std::string& label2) {}
+
+  // End a rendering session (e.g. the parallel footer).
+  virtual void End() {}
+
   // Lay out one Delta's two sides, given their pre-rendered SideSpans.
   virtual void Layout(
     std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) = 0;

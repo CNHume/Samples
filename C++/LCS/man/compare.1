@@ -132,6 +132,11 @@ rather than line-by-line records.
 .B \-V
 Print the version and exit.
 .TP
+.BI \-W " width"
+Set the output line width used by the parallel
+.BR \-y " p"
+format (default 132).
+.TP
 .B \-v
 Enable verbose output: print the LCS length, the start and finish wall-clock
 times, and a timing summary; by default only the differences are shown.
@@ -139,6 +144,13 @@ times, and a timing summary; by default only the differences are shown.
 .B \-w
 Split each line into whitespace-separated words and compare word by word
 (record mode).
+.TP
+.BI \-y " s|p"
+Select the output format:
+.B s
+(series, the default: one side under the other) or
+.B p
+(parallel: side-by-side columns).
 .PP
 The
 .BR \-h ,

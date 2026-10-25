@@ -49,6 +49,7 @@ uint32_t LCSFormatText::Show(
   LCSFormat& format, shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
   const string& label1, const string& label2) {
+  format.Begin(label1, label2);
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
@@ -57,6 +58,7 @@ uint32_t LCSFormatText::Show(
     format.Layout(ndelta, side1, side2);
     ndelta++;
   }
+  format.End();
   return ndelta;
 }
 
