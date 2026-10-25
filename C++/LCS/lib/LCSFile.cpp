@@ -53,7 +53,7 @@ uint32_t LCSFile::Correspondence(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2, format);
+      LCSFormatText::Show(format, *intervals, s1, s2, options.file1, options.file2);
   }
   else {
     auto r1 = LCSRecord::Read(options.file1, options.isword);
@@ -64,7 +64,7 @@ uint32_t LCSFile::Correspondence(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2, format);
+      LCSFormatRecord::Show(format, *intervals, r1, r2, options.file1, options.file2);
   }
   return length;
 }
@@ -95,7 +95,7 @@ uint32_t LCSFile::Difference(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(*intervals, s1, s2, options.file1, options.file2, format);
+      LCSFormatText::Show(format, *intervals, s1, s2, options.file1, options.file2);
   }
   else {
     auto r1 = LCSRecord::Read(options.file1, options.isword);
@@ -106,7 +106,7 @@ uint32_t LCSFile::Difference(
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatRecord::Show(*intervals, r1, r2, options.file1, options.file2, format);
+      LCSFormatRecord::Show(format, *intervals, r1, r2, options.file1, options.file2);
   }
   return length;
 }

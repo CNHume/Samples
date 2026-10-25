@@ -44,21 +44,22 @@ u32string LCSFormatText::Select(shared_ptr<Delta> deltas,
   return buffer;
 }
 
-uint32_t LCSFormatText::Show(shared_ptr<Delta> deltas,
+uint32_t LCSFormatText::Show(LCSFormat& format,
+  shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
-  const string& label1, const string& label2, LCSFormat& format) {
+  const string& label1, const string& label2) {
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
-    auto side1 = Span(label1, s1, next->begin1, next->end1);
-    auto side2 = Span(label2, s2, next->begin2, next->end2);
+    auto side1 = MakeSpan(label1, s1, next->begin1, next->end1);
+    auto side2 = MakeSpan(label2, s2, next->begin2, next->end2);
     format.Layout(ndelta, side1, side2);
     ndelta++;
   }
   return ndelta;
 }
 
-SideSpan LCSFormatText::Span(const string& label,
+SideSpan LCSFormatText::MakeSpan(const string& label,
   const u32string& s, uint32_t begin, uint32_t end) {
   SideSpan span;
   span.label = label;
