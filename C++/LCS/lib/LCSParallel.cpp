@@ -24,13 +24,19 @@
 using namespace std;
 using namespace lcs;
 
+//#define TRUNCATE_LABELS             // Cut over-long labels instead of wrapping them
+
 namespace {
   //
-  // Split a label into chunks of at most width characters so a long file
-  // name wraps within its column; each chunk is centered by the caller.
+  // Return the label as one or more centered lines of at most width
+  // characters.  By default a long label wraps so the full name remains
+  // visible; with TRUNCATE_LABELS it is cut to the column width.
   //
   vector<string> Wrap(const string& text, uint32_t width) {
     vector<string> lines;
+#ifdef TRUNCATE_LABELS
+    lines.push_back(text.substr(0, width));
+#else
     if (width == 0 || text.size() <= width) {
       lines.push_back(text);
       return lines;
@@ -38,6 +44,7 @@ namespace {
     lines.reserve((text.size() + width - 1) / width);
     for (size_t i = 0; i < text.size(); i += width)
       lines.push_back(text.substr(i, width));
+#endif
     return lines;
   }
 }
