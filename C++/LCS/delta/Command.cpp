@@ -115,7 +115,7 @@ void Command::Parse(int argc, char* argv[]) {
         isjoin = true;
         if (len > 2)                    // whitespace optional
           join = parse_uint32(&token[2], "join");
-        else if (n + 1 < argc)              // whitespace allowed
+        else if (n + 1 < argc)          // whitespace allowed
           join = parse_uint32(argv[++n], "join");
         else
           usage = true;
@@ -131,7 +131,7 @@ void Command::Parse(int argc, char* argv[]) {
       case 'p':                         // the prefix switch
         if (len > 2)                    // whitespace optional
           prefix = parse_uint32(&token[2], "prefix");
-        else if (n + 1 < argc)              // whitespace allowed
+        else if (n + 1 < argc)          // whitespace allowed
           prefix = parse_uint32(argv[++n], "prefix");
         else
           usage = true;
@@ -149,7 +149,7 @@ void Command::Parse(int argc, char* argv[]) {
       case 't':                         // the tab size switch (parallel layout)
         if (len > 2)                    // whitespace optional
           tabsize = parse_uint32(&token[2], "tabsize");
-        else if (n + 1 < argc)              // whitespace allowed
+        else if (n + 1 < argc)          // whitespace allowed
           tabsize = parse_uint32(argv[++n], "tabsize");
         else
           usage = true;
@@ -176,6 +176,19 @@ void Command::Parse(int argc, char* argv[]) {
           isword = true;
         break;
 
+      case 'W':                         // the width switch (parallel layout)
+        if (len > 2)                    // whitespace optional
+          width = parse_uint32(&token[2], "width");
+        else if (n + 1 < argc)          // whitespace allowed
+          width = parse_uint32(argv[++n], "width");
+        else
+          usage = true;
+        if (width < MIN_WIDTH)          // reject below the minimum
+          throw invalid_argument(
+            "Invalid width: " + to_string(width) +
+            " (minimum is " + to_string(MIN_WIDTH) + ")");
+        break;
+
       case 'y':                         // the format switch: s=series, p=parallel
         {
           // Accept both -yp and -y p (whitespace optional, as with -a).
@@ -199,19 +212,6 @@ void Command::Parse(int argc, char* argv[]) {
             usage = true;               // unknown format
           }
         }
-        break;
-
-      case 'W':                         // the width switch (parallel layout)
-        if (len > 2)                    // whitespace optional
-          width = parse_uint32(&token[2], "width");
-        else if (n + 1 < argc)              // whitespace allowed
-          width = parse_uint32(argv[++n], "width");
-        else
-          usage = true;
-        if (width < MIN_WIDTH)          // reject below the minimum
-          throw invalid_argument(
-            "Invalid width: " + to_string(width) +
-            " (minimum is " + to_string(MIN_WIDTH) + ")");
         break;
 
       default:                          // switch unknown

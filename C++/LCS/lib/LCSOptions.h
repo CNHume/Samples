@@ -47,9 +47,6 @@ namespace lcs {
     std::uint32_t join = 0;
     std::uint32_t prefix = 0;
     std::uint32_t suffix = 0;
-    // The narrowest parallel heading "[1:2]" fits in five columns; widths
-    // below this minimum are rejected rather than silently clamped.
-    static constexpr std::uint32_t MIN_WIDTH = 5;
     std::uint32_t width = 72;
     std::uint32_t tabsize = 8;
   };

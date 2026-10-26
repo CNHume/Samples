@@ -30,6 +30,10 @@
 //
 class Command : public lcs::LCSOptions {
 public:
+  // The narrowest parallel width the -W switch accepts: the "[1:2]" heading
+  // occupies five columns, so smaller widths are rejected by Parse().
+  static constexpr std::uint32_t MIN_WIDTH = 5;
+
   bool isscorrespondence = false;
   bool isenvironment = false;
   bool ishelp = false;
