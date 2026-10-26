@@ -47,6 +47,28 @@ namespace {
 #endif
     return lines;
   }
+
+  //
+  // Replace tabs with spaces to the next 8-column tab stop, so each
+  // character occupies one display column and the truncated content
+  // lines up with the border rule.
+  //
+  string ExpandTabs(const string& text) {
+    string out;
+    size_t column = 0;
+    for (auto c : text) {
+      if (c == '\t') {
+        auto spaces = 8 - column % 8;
+        out.append(spaces, ' ');
+        column += spaces;
+      }
+      else {
+        out.push_back(c);
+        column++;
+      }
+    }
+    return out;
+  }
 }
 
 LCSParallel::LCSParallel(uint32_t width) : width_(max(width, 2u)) {}
@@ -92,8 +114,8 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
-    auto line1 = i < side1.lines.size() ? side1.lines[i] : string{};
-    auto line2 = i < side2.lines.size() ? side2.lines[i] : string{};
+    auto line1 = i < side1.lines.size() ? ExpandTabs(side1.lines[i]) : string{};
+    auto line2 = i < side2.lines.size() ? ExpandTabs(side2.lines[i]) : string{};
     text +=
       format("{:<{}}|{:<{}}\n",
         line1.substr(0, leftWidth()), leftWidth(),
