@@ -75,9 +75,9 @@ void Command::Parse(int argc, char* argv[]) {
     auto len = strlen(token);
     if (len < 1 || token[0] != '-') {   // end of switches
       auto message = SuspectDashMessage(token);
-      if (!message.empty())             // switch typed with a Unicode dash
-        throw runtime_error(message);
-      break;
+      if (message.empty())              // not a switch
+        break;
+      throw runtime_error(message);     // switch typed with a Unicode dash
     }
     else if (len < 2)
       usage = true;
