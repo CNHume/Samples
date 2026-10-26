@@ -43,7 +43,7 @@ The two files are compared at one of three granularities:
 each input line is one record (the default);
 .TP
 .B text
-.RB ( \-t )
+.RB ( \-T )
 the whole file is one sequence of Unicode code points, so multi-byte
 characters are never split;
 .TP
@@ -198,10 +198,17 @@ compare old.txt new.txt
 .RE
 .fi
 .TP
+Compare side by side (parallel output) with 40-character sides and 2-space tab stops:
+.nf
+.RS
+compare \-yp \-W 40 \-t 2 old.txt new.txt
+.RE
+.fi
+.TP
 Compare as text (code points), case-insensitively, showing only the length:
 .nf
 .RS
-compare \-i \-l \-t a.fa b.fa
+compare \-i \-l \-T a.fa b.fa
 .RE
 .fi
 .TP
