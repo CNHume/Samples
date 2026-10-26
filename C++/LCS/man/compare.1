@@ -125,31 +125,31 @@ Print
 .I suffix
 lines of context after each difference.
 .TP
+.BI \-t " tabsize"
+Set the tab size used to expand tab characters in the parallel
+.BR \-y " p"
+output (default 8).
+.TP
 .B \-T
 Compare the whole file as a sequence of Unicode code points (the text path)
 rather than line-by-line records.
 .TP
+.B \-v
+Enable verbose output: print the LCS length, the start and finish wall-clock
+times, and a timing summary; by default only the differences are shown.
+.TP
 .B \-V
 Print the version and exit.
+.TP
+.B \-w
+Split each line into whitespace-separated words and compare word by word
+(record mode).
 .TP
 .BI \-W " width"
 Set the per-side content width used by the parallel
 .BR \-y " p"
 format (default 72).  Content is truncated to this width, so the total
 output line is 1 + 2 x width characters.
-.TP
-.BI \-t " tabsize"
-Set the tab size used to expand tab characters in the parallel
-.BR \-y " p"
-output (default 8).
-.TP
-.B \-v
-Enable verbose output: print the LCS length, the start and finish wall-clock
-times, and a timing summary; by default only the differences are shown.
-.TP
-.B \-w
-Split each line into whitespace-separated words and compare word by word
-(record mode).
 .TP
 .BI \-y " s|p"
 Select the output format:
