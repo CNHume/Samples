@@ -22,6 +22,7 @@
 //
 #include "Command.h"
 #include "Environment.h"
+#include "LCSSuspectDash.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno
@@ -72,8 +73,12 @@ void Command::Parse(int argc, char* argv[]) {
   for (; n < argc && !usage; n++) {     // parse any switches
     char* token = argv[n];
     auto len = strlen(token);
-    if (len < 1 || token[0] != '-')     // end of switches
+    if (len < 1 || token[0] != '-') {   // end of switches
+      auto message = SuspectDashMessage(token);
+      if (!message.empty())             // switch typed with a Unicode dash
+        throw runtime_error(message);
       break;
+    }
     else if (len < 2)
       usage = true;
     else {                              // parse single character switch
