@@ -82,13 +82,10 @@ namespace {
     auto right = padding - left;        // extra padding goes on the right
     return string(left, fill) + text + string(right, fill);
   }
-
-  // The smallest per-side width that keeps the parallel layout readable.
-  constexpr uint32_t MIN_WIDTH = 8;
 }
 
 LCSParallel::LCSParallel(uint32_t width, uint32_t tabsize) :
-  width_(max(width, MIN_WIDTH)),
+  width_(width),
   tabsize_(max(tabsize, 1u)) {}
 
 // Both sides share the same width for now; they may diverge later.
@@ -113,7 +110,7 @@ void LCSParallel::Begin(const string& label1, const string& label2) {
 }
 
 void LCSParallel::End() {
-  cout << string(leftWidth(), ' ') << horizontalCenter
+  cout << string(leftWidth(), horizontal) << horizontalCenter
     << string(rightWidth(), horizontal) << '\n';
 }
 

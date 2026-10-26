@@ -140,17 +140,19 @@ void Command::Parse(int argc, char* argv[]) {
       case 's':                         // the suffix switch
         if (len > 2)                    // whitespace optional
           suffix = parse_uint32(&token[2], "suffix");
-        else if (n + 1 < argc)              // whitespace allowed
+        else if (n + 1 < argc)          // whitespace allowed
           suffix = parse_uint32(argv[++n], "suffix");
         else
           usage = true;
         break;
 
-      case 'V':                         // the version switch
-        if (len > 2)                    // superfluous value specified
-          usage = true;
+      case 't':                         // the tab size switch (parallel layout)
+        if (len > 2)                    // whitespace optional
+          tabsize = parse_uint32(&token[2], "tabsize");
+        else if (n + 1 < argc)              // whitespace allowed
+          tabsize = parse_uint32(argv[++n], "tabsize");
         else
-          isversion = true;
+          usage = true;
         break;
 
       case 'v':                         // the verbose switch
@@ -158,6 +160,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           isverbose = true;
+        break;
+
+      case 'V':                         // the version switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isversion = true;
         break;
 
       case 'w':                         // the word switch
@@ -199,15 +208,10 @@ void Command::Parse(int argc, char* argv[]) {
           width = parse_uint32(argv[++n], "width");
         else
           usage = true;
-        break;
-
-      case 't':                         // the tab size switch (parallel layout)
-        if (len > 2)                    // whitespace optional
-          tabsize = parse_uint32(&token[2], "tabsize");
-        else if (n + 1 < argc)              // whitespace allowed
-          tabsize = parse_uint32(argv[++n], "tabsize");
-        else
-          usage = true;
+        if (width < MIN_WIDTH)          // reject below the minimum
+          throw invalid_argument(
+            "Invalid width: " + to_string(width) +
+            " (minimum is " + to_string(MIN_WIDTH) + ")");
         break;
 
       default:                          // switch unknown

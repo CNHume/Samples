@@ -190,6 +190,15 @@ void Command::Parse(int argc, char* argv[]) {
         }
         break;
 
+      case 't':                         // the tab size switch (parallel layout)
+        if (len > 2)                    // whitespace optional
+          tabsize = parse_uint32(&token[2], "tabsize");
+        else if (n + 1 < argc)          // whitespace allowed
+          tabsize = parse_uint32(argv[++n], "tabsize");
+        else
+          usage = true;
+        break;
+
       case 'T':                         // the text switch
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -206,18 +215,18 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
-      case 'V':                         // the version switch
-        if (len > 2)                    // superfluous value specified
-          usage = true;
-        else
-          isversion = true;
-        break;
-
       case 'v':                         // the verbose switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
           isverbose = true;
+        break;
+
+      case 'V':                         // the version switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isversion = true;
         break;
 
       case 'w':                         // the word switch
@@ -259,15 +268,10 @@ void Command::Parse(int argc, char* argv[]) {
           width = parse_uint32(argv[++n], "width");
         else
           usage = true;
-        break;
-
-      case 't':                         // the tab size switch (parallel layout)
-        if (len > 2)                    // whitespace optional
-          tabsize = parse_uint32(&token[2], "tabsize");
-        else if (n + 1 < argc)              // whitespace allowed
-          tabsize = parse_uint32(argv[++n], "tabsize");
-        else
-          usage = true;
+        if (width < MIN_WIDTH)          // reject below the minimum
+          throw invalid_argument(
+            "Invalid width: " + to_string(width) +
+            " (minimum is " + to_string(MIN_WIDTH) + ")");
         break;
 
       default:                          // switch unknown
