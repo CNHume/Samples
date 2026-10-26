@@ -48,6 +48,7 @@ namespace lcs {
     std::uint32_t prefix = 0;
     std::uint32_t suffix = 0;
     std::uint32_t width = 72;
+    std::uint32_t tabsize = 8;
   };
 
 } // namespace lcs

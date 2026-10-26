@@ -32,9 +32,10 @@ namespace {
   //
   // Build the formatter selected by the format specifier.
   //
-  unique_ptr<LCSFormat> MakeFormat(LCS::Format format, uint32_t width) {
+  unique_ptr<LCSFormat> MakeFormat(
+    LCS::Format format, uint32_t width, uint32_t tabsize) {
     if (format == LCS::Format::Parallel)
-      return make_unique<LCSParallel>(width);
+      return make_unique<LCSParallel>(width, tabsize);
     return make_unique<LCSSequential>();
   }
 }
@@ -43,7 +44,7 @@ uint32_t LCSFile::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const LCSOptions& options) {
   uint32_t length(0);
-  auto format = MakeFormat(options.format, options.width);
+  auto format = MakeFormat(options.format, options.width, options.tabsize);
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
@@ -87,7 +88,7 @@ uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const LCSOptions& options) {
   uint32_t length(0);
-  auto format = MakeFormat(options.format, options.width);
+  auto format = MakeFormat(options.format, options.width, options.tabsize);
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {

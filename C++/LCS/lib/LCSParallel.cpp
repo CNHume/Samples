@@ -49,16 +49,16 @@ namespace {
   }
 
   //
-  // Replace tabs with spaces to the next 8-column tab stop, so each
+  // Replace tabs with spaces to the next tabsize-column stop, so each
   // character occupies one display column and the truncated content
   // lines up with the border rule.
   //
-  string ExpandTabs(const string& text) {
+  string ExpandTabs(const string& text, uint32_t tabsize) {
     string out;
     size_t column = 0;
     for (auto c : text) {
       if (c == '\t') {
-        auto spaces = 8 - column % 8;
+        auto spaces = tabsize - column % tabsize;
         out.append(spaces, ' ');
         column += spaces;
       }
@@ -71,7 +71,9 @@ namespace {
   }
 }
 
-LCSParallel::LCSParallel(uint32_t width) : width_(max(width, 2u)) {}
+LCSParallel::LCSParallel(uint32_t width, uint32_t tabsize) :
+  width_(max(width, 2u)),
+  tabsize_(max(tabsize, 1u)) {}
 
 // Both sides share the same width for now; they may diverge later.
 uint32_t LCSParallel::leftWidth() const {
@@ -114,8 +116,10 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
-    auto line1 = i < side1.lines.size() ? ExpandTabs(side1.lines[i]) : string{};
-    auto line2 = i < side2.lines.size() ? ExpandTabs(side2.lines[i]) : string{};
+    auto line1 = i < side1.lines.size() ?
+      ExpandTabs(side1.lines[i], tabsize_) : string{};
+    auto line2 = i < side2.lines.size() ?
+      ExpandTabs(side2.lines[i], tabsize_) : string{};
     text +=
       format("{:<{}}|{:<{}}\n",
         line1.substr(0, leftWidth()), leftWidth(),

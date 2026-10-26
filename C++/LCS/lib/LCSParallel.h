@@ -30,7 +30,7 @@ namespace lcs {
   //
   class LCSParallel : public LCSFormat {
   public:
-    explicit LCSParallel(std::uint32_t width);
+    explicit LCSParallel(std::uint32_t width, std::uint32_t tabsize);
 
     void Begin(const std::string& label1, const std::string& label2) override;
     void End() override;
@@ -39,6 +39,7 @@ namespace lcs {
 
   private:
     std::uint32_t width_;
+    std::uint32_t tabsize_;
 
     std::uint32_t leftWidth() const;
     std::uint32_t rightWidth() const;

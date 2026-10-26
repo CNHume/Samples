@@ -36,7 +36,7 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
+    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-T <tabsize>] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -251,6 +251,15 @@ void Command::Parse(int argc, char* argv[]) {
           width = parse_uint32(&token[2], "width");
         else if (n + 1 < argc)              // whitespace allowed
           width = parse_uint32(argv[++n], "width");
+        else
+          usage = true;
+        break;
+
+      case 'T':                         // the tab size switch (parallel layout)
+        if (len > 2)                    // whitespace optional
+          tabsize = parse_uint32(&token[2], "tabsize");
+        else if (n + 1 < argc)              // whitespace allowed
+          tabsize = parse_uint32(argv[++n], "tabsize");
         else
           usage = true;
         break;

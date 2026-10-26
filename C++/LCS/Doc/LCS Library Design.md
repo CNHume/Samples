@@ -53,6 +53,7 @@ join         uint32_t = 0
 prefix       uint32_t = 0
 suffix       uint32_t = 0
 width        uint32_t = 72
+tabsize      uint32_t = 8
 ```
 
 Excluded from `LCSOptions` (CLI concerns):
