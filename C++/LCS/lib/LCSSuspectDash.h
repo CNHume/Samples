@@ -46,13 +46,13 @@ namespace lcs {
         suspect = true;
         break;
       }
-    if (!suspect)
-      return {};
-    return std::format(
-      "Error: Unknown argument '{}'.\n"
-      "Did you copy-paste this command? It looks like you used a Unicode "
-      "minus (U+2212) or dash instead of a standard ASCII hyphen (-).",
-      token);
+    auto message = suspect ?
+      std::format(
+        "Error: Unknown argument '{}'.\n"
+        "Did you copy-paste this command?  It looks like you used a Unicode minus (U+2212) "
+        "or dash instead of a standard ASCII hyphen (-).", token) :
+      std::string{};
+    return message;
   }
 
 } // namespace lcs
