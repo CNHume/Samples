@@ -52,6 +52,16 @@ namespace lcs {
     // Lay out one Delta's two sides, given their pre-rendered SideSpans.
     virtual void Layout(
       std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) = 0;
+
+  protected:
+    // Default glyphs shared by the output layouts.  The names are abstract
+    // (roles, not characters) so a subclass may override the glyph later.
+    static constexpr char horizontalEmpty = '=';  // empty-side rule fill
+    static constexpr char horizontal = '-';       // ranged-side rule fill
+    static constexpr char horizontalCenter = '+'; // rule-row separator
+    static constexpr char contentCenter = '|';    // content-row separator
+    static constexpr char leftEmblem = '<';       // series left marker
+    static constexpr char rightEmblem = '>';      // series right marker
   };
 
 } // namespace lcs

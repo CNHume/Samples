@@ -26,7 +26,7 @@ namespace lcs {
 
   //
   // LCSParallel lays out each Delta's two sides in side-by-side columns,
-  // separated by '+' in the heading row and '|' in the content rows.
+  // using the separator and rule glyphs inherited from LCSFormat.
   //
   class LCSParallel : public LCSFormat {
   public:

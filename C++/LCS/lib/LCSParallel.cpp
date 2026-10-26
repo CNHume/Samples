@@ -69,10 +69,26 @@ namespace {
     }
     return out;
   }
+
+  //
+  // Center text within width using fill, without truncating over-long text
+  // (matching the behavior of format's '^' alignment).
+  //
+  string Centered(const string& text, uint32_t width, char fill) {
+    if (text.size() >= width)
+      return text;
+    auto padding = width - text.size();
+    auto left = padding / 2;
+    auto right = padding - left;        // extra padding goes on the right
+    return string(left, fill) + text + string(right, fill);
+  }
+
+  // The smallest per-side width that keeps the parallel layout readable.
+  constexpr uint32_t MIN_WIDTH = 8;
 }
 
 LCSParallel::LCSParallel(uint32_t width, uint32_t tabsize) :
-  width_(max(width, 2u)),
+  width_(max(width, MIN_WIDTH)),
   tabsize_(max(tabsize, 1u)) {}
 
 // Both sides share the same width for now; they may diverge later.
@@ -92,13 +108,13 @@ void LCSParallel::Begin(const string& label1, const string& label2) {
     auto l1 = i < lines1.size() ? lines1[i] : string{};
     auto l2 = i < lines2.size() ? lines2[i] : string{};
     cout <<
-      format("{:^{}} {:^{}}\n", l1, leftWidth(), l2, rightWidth());
+      format("{:^{}}{}{:^{}}\n", l1, leftWidth(), contentCenter, l2, rightWidth());
   }
 }
 
 void LCSParallel::End() {
-  cout <<
-    format("{:<{}}+{:-<{}}\n", "", leftWidth(), "", rightWidth());
+  cout << string(leftWidth(), ' ') << horizontalCenter
+    << string(rightWidth(), horizontal) << '\n';
 }
 
 void LCSParallel::Layout(
@@ -108,8 +124,8 @@ void LCSParallel::Layout(
 }
 
 std::string LCSParallel::Head(const SideSpan& side1, const SideSpan& side2) const {
-  return format("{}+{}\n",
-    Heading(side1, leftWidth()), Heading(side2, rightWidth()));
+  return format("{}{}{}\n",
+    Heading(side1, leftWidth()), horizontalCenter, Heading(side2, rightWidth()));
 }
 
 std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) const {
@@ -121,15 +137,18 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
     auto line2 = i < side2.lines.size() ?
       ExpandTabs(side2.lines[i], tabsize_) : string{};
     text +=
-      format("{:<{}}|{:<{}}\n",
+      format("{:<{}}{}{:<{}}\n",
         line1.substr(0, leftWidth()), leftWidth(),
+        contentCenter,
         line2.substr(0, rightWidth()), rightWidth());
   }
   return text;
 }
 
 std::string LCSParallel::Heading(const SideSpan& side, uint32_t width) const {
-  return side.begin < side.end ?
-    format("{:-^{}}", format("[{}:{}]", side.begin, side.end), width) :
-    format("{:=^{}}", format("[{}]", side.begin), width);
+  auto fill = side.begin < side.end ? horizontal : horizontalEmpty;
+  auto range = side.begin < side.end ?
+    format("[{}:{}]", side.begin, side.end) :
+    format("[{}]", side.begin);
+  return Centered(range, width, fill);
 }
