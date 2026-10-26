@@ -47,7 +47,7 @@ namespace lcs {
     std::uint32_t join = 0;
     std::uint32_t prefix = 0;
     std::uint32_t suffix = 0;
-    std::uint32_t width = 132;
+    std::uint32_t width = 72;
   };
 
 } // namespace lcs

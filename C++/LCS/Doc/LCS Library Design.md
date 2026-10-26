@@ -52,7 +52,7 @@ isword       bool = false
 join         uint32_t = 0
 prefix       uint32_t = 0
 suffix       uint32_t = 0
-width        uint32_t = 132
+width        uint32_t = 72
 ```
 
 Excluded from `LCSOptions` (CLI concerns):

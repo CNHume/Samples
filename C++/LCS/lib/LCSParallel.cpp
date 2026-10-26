@@ -44,12 +44,13 @@ namespace {
 
 LCSParallel::LCSParallel(uint32_t width) : width_(max(width, 2u)) {}
 
+// Both sides share the same width for now; they may diverge later.
 uint32_t LCSParallel::leftWidth() const {
-  return (width_ - 1) / 2;
+  return width_;
 }
 
 uint32_t LCSParallel::rightWidth() const {
-  return width_ - 1 - leftWidth();
+  return width_;
 }
 
 void LCSParallel::Begin(const string& label1, const string& label2) {
@@ -87,7 +88,9 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
     auto line1 = i < side1.lines.size() ? side1.lines[i] : string{};
     auto line2 = i < side2.lines.size() ? side2.lines[i] : string{};
     text +=
-      format("{:<{}}|{:<{}}\n", line1, leftWidth(), line2, rightWidth());
+      format("{:<{}}|{:<{}}\n",
+        line1.substr(0, leftWidth()), leftWidth(),
+        line2.substr(0, rightWidth()), rightWidth());
   }
   return text;
 }

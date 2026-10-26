@@ -133,9 +133,10 @@ rather than line-by-line records.
 Print the version and exit.
 .TP
 .BI \-W " width"
-Set the output line width used by the parallel
+Set the per-side content width used by the parallel
 .BR \-y " p"
-format (default 132).
+format (default 72).  Content is truncated to this width, so the total
+output line is 1 + 2 x width characters.
 .TP
 .B \-v
 Enable verbose output: print the LCS length, the start and finish wall-clock
