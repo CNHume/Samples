@@ -13,9 +13,9 @@ computes the Longest Common Subsequence (LCS) of
 and
 .IR file2 .
 By default it prints their differences as an edit script; with
-.B \-c
+.B -c
 it prints the common (matching) records instead, and with
-.B \-l
+.B -l
 it prints only the LCS length.
 .PP
 Each difference is introduced by a header line:
@@ -43,19 +43,19 @@ The two files are compared at one of three granularities:
 each input line is one record (the default);
 .TP
 .B text
-.RB ( \-T )
+.RB ( -T )
 the whole file is one sequence of Unicode code points, so multi-byte
 characters are never split;
 .TP
 .B word
-.RB ( \-w )
+.RB ( -w )
 each whitespace-separated word is one record.
 .PP
 Three LCS algorithms are available through
-.BR \-a :
+.BR -a :
 .TP
 .B d
-Hunt\-Szymanski (1977), the default: a threshold array over the match
+Hunt-Szymanski (1977), the default: a threshold array over the match
 lists, O((r+n) log n) time.
 .TP
 .B s
@@ -66,92 +66,92 @@ O(ns) space.
 RickTime (Rick 1995): a single diagonal sweep, O(ns + d) space.
 .SH OPTIONS
 .TP
-.BI \-a " d|s|t"
+.BI -a " d|s|t"
 Select the LCS algorithm:
 .B d
-(Hunt\-Szymanski, the default),
+(Hunt-Szymanski, the default),
 .B s
 (RickSpace), or
 .B t
 (RickTime).  Accepts
-.B \-ad
+.B -ad
 or
-.BR "\-a d" .
+.BR "-a d" .
 .TP
-.B \-b
+.B -b
 Ignore whitespace: collapse each run of whitespace to a single space before
 comparing, and expand the reported spans back to the original positions.
 .TP
-.B \-c
+.B -c
 Print the correspondence (the common, matching records) instead of the
 differences.
 .TP
-.B \-E
+.B -E
 Print the host environment (locale, processor, and memory) and exit.
 .TP
-.B \-f
+.B -f
 Treat the input files as FASTA and strip header lines; implies
-.BR \-T .
+.BR -T .
 .TP
-.B \-h
+.B -h
 Print a usage synopsis and exit.
 .TP
-.B \-i
+.B -i
 Perform a case-insensitive comparison.
 .TP
-.BI \-j " join"
+.BI -j " join"
 Coalesce nearby differences that lie within
 .I join
 records of each other.
 .TP
-.B \-l
+.B -l
 Report only the LCS length; skip reconstructing the differences.
 .TP
-.BI \-p " prefix"
+.BI -p " prefix"
 Print
 .I prefix
 lines of context before each difference.
 .TP
-.B \-q
+.B -q
 Treat
 .I file1
 and
 .I file2
 as literal strings rather than filenames; implies
-.BR \-T .
+.BR -T .
 .TP
-.BI \-s " suffix"
+.BI -s " suffix"
 Print
 .I suffix
 lines of context after each difference.
 .TP
-.BI \-t " tabsize"
+.BI -t " tabsize"
 Set the tab size used to expand tab characters in the parallel
-.BR \-y " p"
+.BR -y " p"
 output (default 8).
 .TP
-.B \-T
+.B -T
 Compare the whole file as a sequence of Unicode code points (the text path)
 rather than line-by-line records.
 .TP
-.B \-v
+.B -v
 Enable verbose output: print the LCS length, the start and finish wall-clock
 times, and a timing summary; by default only the differences are shown.
 .TP
-.B \-V
+.B -V
 Print the version and exit.
 .TP
-.B \-w
+.B -w
 Split each line into whitespace-separated words and compare word by word
 (record mode).
 .TP
-.BI \-W " width"
+.BI -W " width"
 Set the per-side content width used by the parallel
-.BR \-y " p"
+.BR -y " p"
 format (default 72, minimum 5).  Content is truncated to this width, so the
 total output line is 1 + 2 x width characters.
 .TP
-.BI \-y " s|p"
+.BI -y " s|p"
 Select the output format:
 .B s
 (series, the default: one side under the other) or
@@ -159,20 +159,20 @@ Select the output format:
 (parallel: side-by-side columns).
 .PP
 The
-.BR \-h ,
-.BR \-V ,
+.BR -h ,
+.BR -V ,
 and
-.B \-E
+.B -E
 switches are early-exit switches: each prints its report and terminates
 without comparing files.
 .SH EXIT STATUS
 .TP
 .B 0
 Success (including
-.BR \-h ,
-.BR \-V ,
+.BR -h ,
+.BR -V ,
 and
-.BR \-E ).
+.BR -E ).
 .TP
 .B 1
 Error: a command-line parse failure, a missing file, or an algorithm failure.
@@ -184,7 +184,7 @@ and
 .BR LC_NUMERIC )
 controls the thousands separator used in the reported counts and the locale
 name shown by
-.BR \-E .
+.BR -E .
 On a system whose locale defines digit grouping, counts are printed with
 comma separators (for example
 .BR "LCS Length = 4,591,960" );
@@ -201,28 +201,28 @@ compare old.txt new.txt
 Compare side by side (parallel output) with 40-character sides and 2-space tab stops:
 .nf
 .RS
-compare \-yp \-W 40 \-t 2 old.txt new.txt
+compare -yp -W 40 -t 2 old.txt new.txt
 .RE
 .fi
 .TP
 Compare as text (code points), case-insensitively, showing only the length:
 .nf
 .RS
-compare \-i \-l \-T a.fa b.fa
+compare -i -l -T a.fa b.fa
 .RE
 .fi
 .TP
 Compare two FASTA genomes with the linear-space algorithm and show matches:
 .nf
 .RS
-compare \-as \-c \-f ecoli.seq ecoli_100subs.seq
+compare -as -c -f ecoli.seq ecoli_100subs.seq
 .RE
 .fi
 .TP
 Compare two literal strings rather than files:
 .nf
 .RS
-compare \-q "the quick sly fox jumped" "over the lazy brown dog"
+compare -q "the quick sly fox jumped" "over the lazy brown dog"
 .RE
 .fi
 .SH SEE ALSO
