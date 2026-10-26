@@ -69,21 +69,16 @@ uint32_t Command::parse_uint32(const char* s, const string& name) {
 //
 void Command::Parse(int argc, char* argv[]) {
   auto usage = false;
-
-  // Recognize a dash-like Unicode character in any argument, so a switch
-  // typed with a suspect dash can be reported with a specific diagnostic
-  // instead of the generic usage line.  Such an argument otherwise parses
-  // exactly like any other non-switch argument (for example, "=").
-  string suspectDashMessage;
-  for (auto i = 1; i < argc && suspectDashMessage.empty(); i++)
-    suspectDashMessage = SuspectDashMessage(argv[i]);
-
   auto n = 1;                           // skip verb
   for (; n < argc && !usage; n++) {     // parse any switches
     char* token = argv[n];
     auto len = strlen(token);
-    if (len < 1 || token[0] != '-')     // end of switches
+    if (len < 1 || token[0] != '-') {   // end of switches
+      auto message = SuspectDashMessage(token);
+      if (!message.empty())             // switch typed with a Unicode dash
+        throw runtime_error(message);
       break;
+    }
     else if (len < 2)
       usage = true;
     else {                              // parse single character switch
@@ -311,9 +306,6 @@ void Command::Parse(int argc, char* argv[]) {
   if (n < argc)                         // superfluous argument specified
     usage = true;
 
-  if (usage) {                          // throw usage line if parse failed
-    if (!suspectDashMessage.empty())    // replace with suspect-dash diagnostic
-      throw runtime_error(suspectDashMessage);
+  if (usage)                            // throw usage line if parse failed
     throw runtime_error(usageSynopsis);
-  }
 }
