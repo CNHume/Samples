@@ -148,26 +148,26 @@ uint64_t Environment::AvailableBytes() {
 std::string Environment::ToString() {
   std::string text;
   text += std::format(
-    "locale = {}\n",
+    "locale: {}\n",
     std::locale().name());
   auto type = processorType();
   if (!type.empty())
     text += std::format(
-      "processor = {}\n", type);
+      "processor: {}\n", type);
   auto mhz = processorMHz();
   if (mhz > 0)
     text += std::format(
-      "processor speed = {:.2f} GHz\n",
+      "processor speed: {:.2f} GHz\n",
       (double)mhz / 1000.0);
   auto total = totalBytes();
   if (total > 0)
     text += std::format(
-      "total memory = {:.3f} GB\n",
+      "total memory: {:.3f} GB\n",
       (double)total / (1ull << 30));
   auto available = AvailableBytes();
   if (available > 0)
     text += std::format(
-      "available memory = {:.3f} GB\n",
+      "available memory: {:.3f} GB\n",
       (double)available / (1ull << 30));
   return text;
 }

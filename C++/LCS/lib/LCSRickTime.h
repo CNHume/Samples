@@ -48,7 +48,8 @@ namespace lcs {
       std::shared_ptr<Pair>* pairs, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2);
     // Length only.
-    static std::uint32_t FindFlexibleLength(const std::u32string& s1, const std::u32string& s2);
+    static std::uint32_t FindFlexibleLength(
+      const std::u32string& s1, const std::u32string& s2);
   };
 
 } // namespace lcs

@@ -24,7 +24,7 @@
 using namespace std;
 using namespace lcs;
 
-//#define TRUNCATE_LABELS             // Cut over-long labels instead of wrapping them
+//#define TRUNCATE_LABELS               // Cut over-long labels instead of wrapping them
 
 namespace {
   //

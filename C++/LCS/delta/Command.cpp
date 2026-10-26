@@ -36,7 +36,8 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: delta [-b] [-E] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-s <suffix>] [-t <tabsize>] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
+    "[-p <prefix>] [-s <suffix>] [-t <tabsize>] [-V] [-v] "
+    "[-W <width>] [-w] [-y <s|p>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {

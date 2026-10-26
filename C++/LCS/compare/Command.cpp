@@ -36,7 +36,8 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
+    "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-V] [-v] "
+    "[-W <width>] [-w] [-y <s|p>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
