@@ -44,7 +44,7 @@ namespace lcs {
     virtual ~LCSFormat() = default;
 
     // Begin a rendering session (e.g. the parallel column labels).
-    virtual void Begin(const std::string& label1, const std::string& label2) {}
+    virtual void Begin(const std::string&, const std::string&) {}
 
     // End a rendering session (e.g. the parallel footer).
     virtual void End() {}

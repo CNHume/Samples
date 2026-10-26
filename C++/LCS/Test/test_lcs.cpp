@@ -143,8 +143,8 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
     auto n1 = 100 + rng() % 200;
     auto n2 = 100 + rng() % 200;
     string s1, s2;
-    for (auto i = 0; i < n1; ++i) s1.push_back(ab[rng() % 4]);
-    for (auto i = 0; i < n2; ++i) s2.push_back(ab[rng() % 4]);
+    for (auto i = 0u; i < n1; ++i) s1.push_back(ab[rng() % 4]);
+    for (auto i = 0u; i < n2; ++i) s2.push_back(ab[rng() % 4]);
     auto u1 = toU32(s1);
     auto u2 = toU32(s2);
     uint32_t reference = 0;
