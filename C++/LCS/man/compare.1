@@ -91,7 +91,7 @@ Print the host environment (locale, processor, and memory) and exit.
 .TP
 .B \-f
 Treat the input files as FASTA and strip header lines; implies
-.BR \-t .
+.BR \-T .
 .TP
 .B \-h
 Print a usage synopsis and exit.
@@ -118,14 +118,14 @@ Treat
 and
 .I file2
 as literal strings rather than filenames; implies
-.BR \-t .
+.BR \-T .
 .TP
 .BI \-s " suffix"
 Print
 .I suffix
 lines of context after each difference.
 .TP
-.B \-t
+.B \-T
 Compare the whole file as a sequence of Unicode code points (the text path)
 rather than line-by-line records.
 .TP
@@ -138,7 +138,7 @@ Set the per-side content width used by the parallel
 format (default 72).  Content is truncated to this width, so the total
 output line is 1 + 2 x width characters.
 .TP
-.BI \-T " tabsize"
+.BI \-t " tabsize"
 Set the tab size used to expand tab characters in the parallel
 .BR \-y " p"
 output (default 8).

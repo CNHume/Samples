@@ -82,7 +82,7 @@ public:
 ```
 
 `compare`'s `Command` parses the full switch set; `delta`'s parses its subset
-(no `-a`, `-c`, `-f`, `-q`, `-t`), leaving the inherited `algorithm`, `istext`,
+(no `-a`, `-c`, `-f`, `-q`, `-T`), leaving the inherited `algorithm`, `istext`,
 `isfasta`, and `isquote` at their defaults — which is how delta stays
 Hunt-Szymanski and record-only.
 

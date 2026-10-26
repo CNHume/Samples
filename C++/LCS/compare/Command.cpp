@@ -36,7 +36,7 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t] [-T <tabsize>] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
+    "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-V] [-W <width>] [-v] [-w] [-y <s|p>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -131,7 +131,7 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else {
           isfasta = true;
-          istext = true;                // -f implies -t
+          istext = true;                // -f implies -T
         }
         break;
 
@@ -180,11 +180,11 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else {
           isquote = true;
-          istext = true;                // -q implies -t
+          istext = true;                // -q implies -T
         }
         break;
 
-      case 't':                         // the text switch
+      case 'T':                         // the text switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
@@ -255,7 +255,7 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         break;
 
-      case 'T':                         // the tab size switch (parallel layout)
+      case 't':                         // the tab size switch (parallel layout)
         if (len > 2)                    // whitespace optional
           tabsize = parse_uint32(&token[2], "tabsize");
         else if (n + 1 < argc)              // whitespace allowed
