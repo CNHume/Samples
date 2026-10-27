@@ -135,16 +135,17 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
-    // A horizontal bar marks the row just after a side's last line; rows
-    // beyond it stay blank.  '+' marks the bar's junction with the divider.
-    auto isbar = i == side1.lines.size() || i == side2.lines.size();
-    auto center = isbar ? horizontalCenter : contentCenter;
+    // A horizontal bar marks the row just after a side's last line; an
+    // empty side gets no bar.  '+' marks the bar's junction with the divider.
+    auto bar1 = side1.lines.size() > 0 && i == side1.lines.size();
+    auto bar2 = side2.lines.size() > 0 && i == side2.lines.size();
+    auto center = (bar1 || bar2) ? horizontalCenter : contentCenter;
     auto line1 = i < side1.lines.size() ?
       ExpandTabs(side1.lines[i], tabsize_) :
-      i == side1.lines.size() ? string(leftWidth(), horizontal) : string{};
+      bar1 ? string(leftWidth(), horizontal) : string{};
     auto line2 = i < side2.lines.size() ?
       ExpandTabs(side2.lines[i], tabsize_) :
-      i == side2.lines.size() ? string(rightWidth(), horizontal) : string{};
+      bar2 ? string(rightWidth(), horizontal) : string{};
     text +=
       format("{:<{}}{}{:<{}}\n",
         line1.substr(0, leftWidth()), leftWidth(),
