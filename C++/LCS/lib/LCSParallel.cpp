@@ -25,6 +25,8 @@ using namespace std;
 using namespace lcs;
 
 //#define TRUNCATE_LABELS               // Cut over-long labels instead of wrapping them
+#define SHOW_HEADER_LINE                // Show the parallel header rule
+#define SHOW_FOOTER_LINE                // Show the parallel footer rule
 
 namespace {
   //
@@ -98,6 +100,9 @@ uint32_t LCSParallel::rightWidth() const {
 }
 
 void LCSParallel::Begin(const string& label1, const string& label2) {
+#ifdef SHOW_HEADER_LINE
+  cout << Rule() << '\n';
+#endif
   auto lines1 = Wrap(label1, leftWidth());
   auto lines2 = Wrap(label2, rightWidth());
   auto rows = max(lines1.size(), lines2.size());
@@ -110,8 +115,9 @@ void LCSParallel::Begin(const string& label1, const string& label2) {
 }
 
 void LCSParallel::End() {
-  cout << string(leftWidth(), horizontal) << horizontalCenter
-    << string(rightWidth(), horizontal) << '\n';
+#ifdef SHOW_FOOTER_LINE
+  cout << Rule() << '\n';
+#endif
 }
 
 void LCSParallel::Layout(
@@ -154,4 +160,12 @@ std::string LCSParallel::Heading(const SideSpan& side, uint32_t width) const {
     format("[{}:{}]", side.begin, side.end) :
     format("[{}]", side.begin);
   return Centered(range, width, fill);
+}
+
+//
+// The horizontal rule shared by the header and footer.
+//
+std::string LCSParallel::Rule() const {
+  return string(leftWidth(), horizontal) + horizontalCenter +
+    string(rightWidth(), horizontal);
 }
