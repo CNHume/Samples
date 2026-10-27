@@ -47,8 +47,15 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer)
 }
 
 bool LCSEncoding::IsWide(Encoding encoding) {
-  return encoding == UTF16_LE || encoding == UTF16_BE ||
-    encoding == UTF32_LE || encoding == UTF32_BE;
+  switch (encoding) {
+  case UTF16_LE:
+  case UTF16_BE:
+  case UTF32_LE:
+  case UTF32_BE:
+    return true;
+  default:
+    return false;
+  }
 }
 
 string LCSEncoding::ToUtf8(const u32string& codePoints) {

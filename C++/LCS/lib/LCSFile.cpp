@@ -26,6 +26,8 @@
 #include "LCSParallel.h"
 #include "LCSSequential.h"
 
+#include <stdexcept>                    // for runtime_error
+
 using namespace std;
 using namespace lcs;
 
@@ -35,11 +37,21 @@ namespace {
   //
   unique_ptr<LCSFormat> MakeFormat(
     LCS::Format format, uint32_t width, uint32_t tabsize) {
-    if (format == LCS::Format::Parallel)
-      return make_unique<LCSParallel>(width, tabsize);
-    if (format == LCS::Format::CIGAR)
-      return make_unique<LCSCigar>();
-    return make_unique<LCSSequential>();
+    unique_ptr<LCSFormat> formatter;
+    switch (format) {
+    case LCS::Format::CIGAR:
+      formatter = make_unique<LCSCigar>();
+      break;
+    case LCS::Format::Parallel:
+      formatter = make_unique<LCSParallel>(width, tabsize);
+      break;
+    case LCS::Format::Series:
+      formatter = make_unique<LCSSequential>();
+      break;
+    default:
+      throw runtime_error("Unknown format");
+    }
+    return formatter;
   }
 }
 
