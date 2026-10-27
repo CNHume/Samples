@@ -38,7 +38,7 @@ Fields, in `Command`'s original relative order, with in-class defaults:
 
 ```
 algorithm    LCS::Algorithm = LCS::Algorithm::HuntSzymanski
-format       LCS::Format = LCS::Format::Series
+format       LCS::Format = LCS::Format::Sequential
 file1        std::string
 file2        std::string
 ignorecase   bool = false

@@ -33,7 +33,7 @@ namespace lcs {
   class LCSOptions {
   public:
     LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
-    LCS::Format format = LCS::Format::Series;
+    LCS::Format format = LCS::Format::Sequential;
     std::string file1;
     std::string file2;
     bool ignorecase = false;

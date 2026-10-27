@@ -45,7 +45,7 @@ namespace {
     case LCS::Format::Parallel:
       formatter = make_unique<LCSParallel>(width, tabsize);
       break;
-    case LCS::Format::Series:
+    case LCS::Format::Sequential:
       formatter = make_unique<LCSSequential>();
       break;
     default:

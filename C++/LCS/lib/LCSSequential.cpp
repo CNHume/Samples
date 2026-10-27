@@ -23,7 +23,7 @@
 using namespace std;
 using namespace lcs;
 
-// Write both sides of a Delta in series
+// Write both sides of a Delta sequentially
 void LCSSequential::Layout(
   uint32_t counter, const SideSpan& side1, const SideSpan& side2) {
   Side(side1, string(5, leftEmblem), counter);   // <<<<<

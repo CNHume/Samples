@@ -62,8 +62,8 @@ namespace lcs {
     static constexpr char horizontal = '-';       // ranged-side rule fill
     static constexpr char horizontalCenter = '+'; // rule-row separator
     static constexpr char contentCenter = '|';    // content-row separator
-    static constexpr char leftEmblem = '<';       // series left marker
-    static constexpr char rightEmblem = '>';      // series right marker
+    static constexpr char leftEmblem = '<';       // sequential left marker
+    static constexpr char rightEmblem = '>';      // sequential right marker
   };
 
 } // namespace lcs

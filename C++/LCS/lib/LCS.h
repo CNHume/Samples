@@ -51,8 +51,8 @@ namespace lcs {
 
     // The output format selected at run time.
     enum class Format {
-      Series,             // sequential: one side under the other
-      Parallel,           // side-by-side columns
+      Sequential,         // one side after the other
+      Parallel,           // two columns side-by-side
       CIGAR,              // CIGAR alignment string
     };
 

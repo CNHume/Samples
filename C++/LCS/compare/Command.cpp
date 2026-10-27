@@ -249,7 +249,7 @@ void Command::Parse(int argc, char* argv[]) {
             " (minimum is " + to_string(MIN_WIDTH) + ")");
         break;
 
-      case 'y':                         // the format switch: s=series, p=parallel, c=cigar
+      case 'y':                         // the format switch: s=sequential, p=parallel, c=cigar
         {
           // Accept both -yp and -y p (whitespace optional, as with -a).
           const char* sub = nullptr;
@@ -263,7 +263,7 @@ void Command::Parse(int argc, char* argv[]) {
           }
           switch (sub[0]) {
           case 's':
-            format = LCS::Format::Series;
+            format = LCS::Format::Sequential;
             break;
           case 'p':
             format = LCS::Format::Parallel;
