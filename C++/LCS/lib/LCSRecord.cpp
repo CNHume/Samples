@@ -116,7 +116,7 @@ uint32_t LCSRecord::Compare(
   LCS::Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
-    cout << format("Started at {}\n", Duration::WallClock());
+    cerr << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
   //
   // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
@@ -167,7 +167,7 @@ uint32_t LCSRecord::Compare(
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
   if (isverbose)
-    cout << format("Finished at {}\n", Duration::WallClock());
+    cerr << format("Finished at {}\n", Duration::WallClock());
   return length;
 }
 

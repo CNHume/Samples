@@ -33,7 +33,7 @@
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
 #include <format>                       // for format
-#include <iostream>                     // for cout
+#include <iostream>                     // for cout, cerr
 #include <locale>
 
 using namespace std;
@@ -49,11 +49,13 @@ int main(int argc, char* argv[]) {
   try {
     std::locale::global(std::locale(".UTF-8"));
     std::cout.imbue(std::locale());
+    std::cerr.imbue(std::locale());
   }
   catch (const std::exception&) {
     // Fallback for environments with strict minimal locale installations
     std::locale::global(std::locale(""));
     std::cout.imbue(std::locale());
+    std::cerr.imbue(std::locale());
   }
 
   try {
@@ -70,10 +72,10 @@ int main(int argc, char* argv[]) {
       LCSFile::Difference(pintervals, &statistics, command);
 
     if (command.isverbose || command.islength)
-      cout << format(
+      cerr << format(
         std::locale(), "LCS Length = {:L}\n", length);
     if (command.isverbose)
-      statistics.ShowDuration();
+      cerr << statistics.DurationReport();
 
     errorLevel = EXIT_SUCCESS;
   }

@@ -149,7 +149,7 @@ uint32_t LCSText::Compare(
   LCS::Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
-    cout << format("Started at {}\n", Duration::WallClock());
+    cerr << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
   //
   // A null delta pointer is the length-only flag: forward it to the
@@ -210,7 +210,7 @@ uint32_t LCSText::Compare(
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
   if (isverbose)
-    cout << format("Finished at {}\n", Duration::WallClock());
+    cerr << format("Finished at {}\n", Duration::WallClock());
   return length;
 }
 

@@ -21,7 +21,7 @@
 #include "LCS.h"                        // for LCS::Algorithm
 
 #include <cstdint>                      // for uint64_t
-#include <iostream>                     // for cout
+#include <string>                       // for string
 
 namespace lcs {
 
@@ -29,7 +29,7 @@ namespace lcs {
   // Statistics carries the work metrics of one LCS run, assessed by the algorithm
   // that produced it.  Each algorithm records its own counters here, maintained
   // alongside each other; Operations() returns the salient work count,
-  // AlgorithmName() the algorithm's name, and ShowDuration() reports the elapsed
+  // AlgorithmName() the algorithm's name, and DurationReport() formats the elapsed
   // time — all derived from the recorded values.
   //
   class Statistics {
@@ -69,9 +69,9 @@ namespace lcs {
       }
     }
 
-    // Report the elapsed time as a duration line.
-    void ShowDuration() const {
-      std::cout << Duration::ToString(
+    // Format the elapsed time as a duration report.
+    std::string DurationReport() const {
+      return Duration::ToString(
         AlgorithmName(), (long)Operations(), (std::int64_t)elapsedMicroseconds);
     }
   };
