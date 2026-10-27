@@ -25,8 +25,8 @@ using namespace std;
 using namespace lcs;
 
 //#define TRUNCATE_LABELS               // Cut over-long labels instead of wrapping them
-#define SHOW_HEADER_LINE                // Show the parallel header rule
-#define SHOW_FOOTER_LINE                // Show the parallel footer rule
+#define SHOW_HEADER_RULE
+#define SHOW_FOOTER_RULE
 
 namespace {
   //
@@ -100,7 +100,7 @@ uint32_t LCSParallel::rightWidth() const {
 }
 
 void LCSParallel::Begin(const string& label1, const string& label2) {
-#ifdef SHOW_HEADER_LINE
+#ifdef SHOW_HEADER_RULE
   cout << Rule() << '\n';
 #endif
   auto lines1 = Wrap(label1, leftWidth());
@@ -115,7 +115,7 @@ void LCSParallel::Begin(const string& label1, const string& label2) {
 }
 
 void LCSParallel::End() {
-#ifdef SHOW_FOOTER_LINE
+#ifdef SHOW_FOOTER_RULE
   cout << Rule() << '\n';
 #endif
 }
