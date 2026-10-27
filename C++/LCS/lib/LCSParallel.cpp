@@ -129,10 +129,11 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
+    // A horizontal bar fills a side that has ended before the other.
     auto line1 = i < side1.lines.size() ?
-      ExpandTabs(side1.lines[i], tabsize_) : string{};
+      ExpandTabs(side1.lines[i], tabsize_) : string(leftWidth(), horizontal);
     auto line2 = i < side2.lines.size() ?
-      ExpandTabs(side2.lines[i], tabsize_) : string{};
+      ExpandTabs(side2.lines[i], tabsize_) : string(rightWidth(), horizontal);
     text +=
       format("{:<{}}{}{:<{}}\n",
         line1.substr(0, leftWidth()), leftWidth(),
