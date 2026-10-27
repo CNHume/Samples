@@ -151,6 +151,11 @@ the 0.1% rate.
   the best wall-clock when memory allows; RickSpace is the safe default because
   its memory stays linear and it never exhausts the host, which is what makes
   46.7M tractable in 7.3 GB (versus RickTime's 13.8 GB, already near the limit).
+- **The `-at` hint now checks memory first.**  The "near-identical → use `-at`"
+  note compares RickSpace's dominant-match count (`Statistics::candidates`,
+  equal to RickTime's `d`) against `Diagnostic::RecordingBudget` and stays
+  silent when `-at` would exhaust RAM, so it no longer recommends `-at` where
+  RickTime would abort.
 
 ## Hunt-Szymanski: FILTER_PAIRS vs. match redundancy
 

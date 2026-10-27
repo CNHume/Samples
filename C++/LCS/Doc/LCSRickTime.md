@@ -54,6 +54,11 @@ match.  `FindFlexibleLength` is the length-only variant (it skips recording).
 | `LCSRickTime` | `O(ns + min{pm, p(n−p)})` | `O(ns + d)` |
 | `LCSRickSpace` (contrast) | `O(ns + min{pm, p(n−p)})` | `O(ns)`, linear |
 
+When reconstruction is requested, `compare` aborts RickTime before its `byRank`
+recording passes `Diagnostic::RecordingBudget` (the available RAM less the `ns`
+tables), and the `-at` hint RickSpace emits applies the same test before
+recommending RickTime.
+
 ## Selection
 
 In `compare`, `-at` selects `LCSRickTime` for the character (code-point) path

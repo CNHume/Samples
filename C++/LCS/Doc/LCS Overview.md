@@ -156,6 +156,12 @@ count is therefore `d = O(min{pm, p(n−p)} + p)` — the `+p` carrying the
 on-diagonal matches when the strings are identical — and the sweep adds `O(m)`,
 making the honest time `O(ns + m + min{pm, p(n−p)})`.
 
+RickTime pays for the same `d` in *space* — it records every dominant match so
+it can reconstruct the LCS, giving `O(ns + d)` — and on a large near-identical
+input `d ≈ p(n−p)/2` can exceed RAM even when the edit count is tiny.  `compare`
+therefore checks the recording budget against the dominant-match count RickSpace
+just measured before recommending `-at`.
+
 ## References
 
 [^1]: ["A decomposition theorem for partially ordered sets"](https://doi.org/10.2307/1969503)
