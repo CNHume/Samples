@@ -151,12 +151,14 @@ Set the per-side content width used by the parallel
 format (default 72, minimum 5).  Content is truncated to this width, so the
 total output line is 1 + 2 x width characters.
 .TP
-.BI -y " s|p"
+.BI -y " s|p|c"
 Select the output format:
 .B s
-(series, the default: one side under the other) or
+(series, the default: one side under the other),
 .B p
-(parallel: side-by-side columns).
+(parallel: side-by-side columns), or
+.B c
+(CIGAR alignment string; file1 is the reference and file2 the query).
 .PP
 The
 .BR -h ,

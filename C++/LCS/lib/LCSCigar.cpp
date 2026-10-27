@@ -1,0 +1,55 @@
+// Copyright (C) 2017-2026, Christopher N. Hume.  All rights reserved.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, see <https://www.gnu.org/licenses/>.
+//
+// 2026-10-26 CNHume  Created LCSCigar class
+//
+#include "LCSCigar.h"
+
+#include <format>                       //[C++20]
+#include <iostream>                     // for cout
+
+using namespace std;
+using namespace lcs;
+
+void LCSCigar::Begin(
+  const string&, const string&, uint32_t size1, uint32_t) {
+  size1_ = size1;
+  prevEnd1_ = 0;
+  cigar_.clear();
+}
+
+void LCSCigar::Layout(
+  uint32_t, const SideSpan& side1, const SideSpan& side2) {
+  // The match preceding this delta.
+  auto match = side1.begin - prevEnd1_;
+  if (match > 0)
+    cigar_ += format("{}M", match);
+  // Deletions (reference-only), then insertions (query-only).
+  auto del = side1.end - side1.begin;
+  if (del > 0)
+    cigar_ += format("{}D", del);
+  auto ins = side2.end - side2.begin;
+  if (ins > 0)
+    cigar_ += format("{}I", ins);
+  prevEnd1_ = side1.end;
+}
+
+void LCSCigar::End() {
+  // The match following the last delta.
+  auto match = size1_ - prevEnd1_;
+  if (match > 0)
+    cigar_ += format("{}M", match);
+  cout << cigar_ << '\n';
+}

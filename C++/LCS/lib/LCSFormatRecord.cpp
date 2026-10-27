@@ -48,7 +48,7 @@ uint32_t LCSFormatRecord::Show(
   LCSFormat& format, shared_ptr<Delta> deltas,
   const RECORDS& r1, const RECORDS& r2,
   const string& label1, const string& label2) {
-  format.Begin(label1, label2);
+  format.Begin(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {

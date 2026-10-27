@@ -99,7 +99,8 @@ uint32_t LCSParallel::rightWidth() const {
   return width_;
 }
 
-void LCSParallel::Begin(const string& label1, const string& label2) {
+void LCSParallel::Begin(
+  const string& label1, const string& label2, uint32_t, uint32_t) {
 #ifdef SHOW_HEADER_RULE
   cout << Rule() << '\n';
 #endif

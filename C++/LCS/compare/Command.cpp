@@ -38,7 +38,7 @@ namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
     "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-v] [-V] "
-    "[-w] [-W <width>] [-y <s|p>] file1 file2";
+    "[-w] [-W <width>] [-y <s|p|c>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -249,7 +249,7 @@ void Command::Parse(int argc, char* argv[]) {
             " (minimum is " + to_string(MIN_WIDTH) + ")");
         break;
 
-      case 'y':                         // the format switch: s=series, p=parallel
+      case 'y':                         // the format switch: s=series, p=parallel, c=cigar
         {
           // Accept both -yp and -y p (whitespace optional, as with -a).
           const char* sub = nullptr;
@@ -267,6 +267,9 @@ void Command::Parse(int argc, char* argv[]) {
             break;
           case 'p':
             format = LCS::Format::Parallel;
+            break;
+          case 'c':
+            format = LCS::Format::CIGAR;
             break;
           default:
             usage = true;               // unknown format

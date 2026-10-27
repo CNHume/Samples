@@ -53,7 +53,7 @@ namespace lcs {
     enum class Format {
       Series,             // sequential: one side under the other
       Parallel,           // side-by-side columns
-      CIGAR,              // CIGAR alignment string (reserved)
+      CIGAR,              // CIGAR alignment string
     };
 
     typedef std::deque<std::shared_ptr<Pair>> PAIRS;

@@ -22,6 +22,7 @@
 #include "LCSFormatText.h"
 #include "LCSRecord.h"
 #include "LCSText.h"
+#include "LCSCigar.h"
 #include "LCSParallel.h"
 #include "LCSSequential.h"
 
@@ -36,6 +37,8 @@ namespace {
     LCS::Format format, uint32_t width, uint32_t tabsize) {
     if (format == LCS::Format::Parallel)
       return make_unique<LCSParallel>(width, tabsize);
+    if (format == LCS::Format::CIGAR)
+      return make_unique<LCSCigar>();
     return make_unique<LCSSequential>();
   }
 }
