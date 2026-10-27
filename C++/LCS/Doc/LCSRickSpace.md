@@ -175,6 +175,27 @@ so the recursion stops and the greedy leftmost matches are emitted directly.
 This prunes the recursion tree on near-identical inputs and removes the
 `O(log m)` factor the balanced divide-and-conquer would otherwise introduce.
 
+## Multi-threading
+
+The Hirschberg recursion admits a clean, opt-in two-thread split.  Under the
+compile-time `ENABLE_MULTI_THREADING` macro (the Makefiles pass it, with
+`-pthread`, when built as `make ENABLE_MULTI_THREADING=1`), `Solve` calls
+`HirschbergRoot`, which finds the root midpoint serially and then recurses the
+top-left and bottom-right halves on separate threads.  The halves are disjoint
+in both rows and columns, so each appends to its own match buffer and one join
+re-assembles them in row order (left, midpoint, right); deeper recursion stays
+the serial `Hirschberg`, and dominant-match detection, the midpoint choice, and
+reconstruction all remain on the serial path.  The diagnostic counters are
+`std::atomic` so they stay exact across the two halves.
+
+The split is the smallest parallelism that reaches the recursion fan-out: the
+root `FindMidpoint` is serial (its forward/backward alternation is serialized by
+the Lemma-5 cuts), and the contour sweep itself is memory-bound (see Where the
+time goes), so a deeper thread pool would add fork/join and load-balancing
+machinery against an irregular, early-termination-pruned tree for an uncertain
+return.  The two-thread split is the baseline against which that tradeoff is
+measured.
+
 ## Orientation
 
 Rick's time bound assumes `m ≤ n` (the shorter sequence is scanned, the longer

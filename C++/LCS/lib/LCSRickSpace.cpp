@@ -22,9 +22,13 @@
 #include "LCSRickSpace.h"
 
 #include <algorithm>                    // for merge, max, min, reverse
+#include <atomic>                       // for atomic, memory_order_relaxed
 #include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX
 #include <iterator>                     // for back_inserter
 #include <memory>                       // for make_shared
+#ifdef ENABLE_MULTI_THREADING
+#include <thread>                       // for jthread
+#endif
 #include <unordered_map>                // for pointer -> symbol id
 #include <utility>                      // for move
 #include <vector>                       // for vector
@@ -98,6 +102,13 @@ namespace {
   Occurrences BuildOccurrences(const u32string& s1, const u32string& s2);
   void Hirschberg(const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out);
+  void EmitAllRows(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, vector<Match>& out);
+  void EmitAllColumns(const Occurrences& occ,
+    size_t row0, size_t column0, size_t column1, vector<Match>& out);
+#ifdef ENABLE_MULTI_THREADING
+  void HirschbergRoot(const Occurrences& occ, vector<Match>& out);
+#endif
   Result FindMidpoint(const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1);
   Contour CutForward(const Contour& forward, const Contour& backward);
@@ -125,7 +136,11 @@ namespace {
       return FindMidpoint(occ, 0, size1, 0, size2).length;
 
     vector<Match> out;
+#ifdef ENABLE_MULTI_THREADING
+    HirschbergRoot(occ, out);
+#else
     Hirschberg(occ, 0, size1, 0, size2, out);
+#endif
 
     if (pairs != nullptr) {
       shared_ptr<Pair> head = nullptr;
@@ -327,6 +342,39 @@ namespace {
     return occ;
   }
 
+  //
+  // Rick (2000) early termination: when a sub-problem's shorter string is
+  // matched in its entirety, every one of its positions lies on the LCS, so the
+  // greedy leftmost (or topmost) matches are emitted directly instead of
+  // recursing.  EmitAllRows handles a fully matched shorter string,
+  // EmitAllColumns the symmetric fully matched longer-string case.  Both are
+  // shared by the serial Hirschberg and the threaded HirschbergRoot so the
+  // near-identical-input shortcut stays in one place.
+  //
+  void EmitAllRows(const Occurrences& occ,
+    size_t row0, size_t row1, size_t column0, vector<Match>& out) {
+    // All rows matched: greedy leftmost occurrence per row.
+    size_t bound = column0;
+    for (auto row = row0; row < row1; row++) {
+      auto symbol = occ.rowId[row];
+      auto column = occ.next[symbol][bound];
+      out.push_back({ .row = (uint32_t)row, .column = column });
+      bound = (size_t)column + 1;
+    }
+  }
+
+  void EmitAllColumns(const Occurrences& occ,
+    size_t row0, size_t column0, size_t column1, vector<Match>& out) {
+    // All columns matched: greedy topmost occurrence per column.
+    size_t bound = row0;
+    for (auto column = column0; column < column1; column++) {
+      auto symbol = occ.colId[column];
+      auto row = occ.next1[symbol][bound];
+      out.push_back({ .row = row, .column = (uint32_t)column });
+      bound = (size_t)row + 1;
+    }
+  }
+
   void Hirschberg(
     const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1,
     vector<Match>& out) {
@@ -345,25 +393,11 @@ namespace {
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     if (result.length == rowCount && rowCount <= columnCount) {
-      // All rows matched: greedy leftmost occurrence per row.
-      size_t bound = column0;
-      for (auto row = row0; row < row1; row++) {
-        auto symbol = occ.rowId[row];
-        auto column = occ.next[symbol][bound];
-        out.push_back({ .row = (uint32_t)row, .column = column });
-        bound = (size_t)column + 1;
-      }
+      EmitAllRows(occ, row0, row1, column0, out);
       return;
     }
     if (result.length == columnCount) {
-      // All columns matched: greedy topmost occurrence per column.
-      size_t bound = row0;
-      for (auto column = column0; column < column1; column++) {
-        auto symbol = occ.colId[column];
-        auto row = occ.next1[symbol][bound];
-        out.push_back({ .row = row, .column = (uint32_t)column });
-        bound = (size_t)row + 1;
-      }
+      EmitAllColumns(occ, row0, column0, column1, out);
       return;
     }
 
@@ -373,6 +407,53 @@ namespace {
     out.push_back(result.midpoint);
     Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out);
   }
+
+#ifdef ENABLE_MULTI_THREADING
+  //
+  // Multi-threading (Option 1): split the root Hirschberg problem at its
+  // midpoint and run the two independent halves on separate threads.  The root
+  // FindMidpoint stays serial — it is the Amdahl floor of the recursion — but
+  // the top-left and bottom-right sub-problems are disjoint in both rows and
+  // columns, so each half appends to its own match buffer and a single join
+  // re-assembles them in row order (left, midpoint, right).  Deeper recursion
+  // below each half remains the serial Hirschberg above, keeping dominant-match
+  // detection, the midpoint choice, and reconstruction on the one serial path.
+  //
+  void HirschbergRoot(const Occurrences& occ, vector<Match>& out) {
+    auto result = FindMidpoint(occ, 0, (size_t)occ.rows, 0, (size_t)occ.columns);
+    if (!result.hasMidpoint)
+      return;
+
+    // The same Rick (2000) early termination as Hirschberg, so near-identical
+    // inputs still take the greedy shortcut instead of recursing.
+    auto rowCount = (size_t)occ.rows;
+    auto columnCount = (size_t)occ.columns;
+    if (result.length == rowCount && rowCount <= columnCount) {
+      EmitAllRows(occ, 0, rowCount, 0, out);
+      return;
+    }
+    if (result.length == columnCount) {
+      EmitAllColumns(occ, 0, 0, columnCount, out);
+      return;
+    }
+
+    auto rowIndex = (size_t)result.midpoint.row;
+    auto columnIndex = (size_t)result.midpoint.column;
+    vector<Match> right;
+    {
+      // Run the bottom-right half on a second thread; the top-left half runs
+      // inline here.  The jthread joins automatically at the closing brace, so
+      // `right` is complete before the two halves are re-assembled.
+      jthread worker([&occ, &right, rowIndex, columnIndex] {
+        Hirschberg(occ, rowIndex + 1, (size_t)occ.rows,
+          columnIndex + 1, (size_t)occ.columns, right);
+      });
+      Hirschberg(occ, 0, rowIndex, 0, columnIndex, out);
+    }
+    out.push_back(result.midpoint);
+    out.insert(out.end(), right.begin(), right.end());
+  }
+#endif
 
   Result FindMidpoint(const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1) {
@@ -496,7 +577,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours++;
+    LCSRickSpace::Contours.fetch_add(1, memory_order_relaxed);
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -531,7 +612,7 @@ namespace {
       leftSources--;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows++;             // one row + one column sweep step
+      LCSRickSpace::Rows.fetch_add(1, memory_order_relaxed);  // one row + one column sweep step
       auto rowIndex = row0 + diagonal;
       auto columnIndex = column0 + diagonal;
 
@@ -549,7 +630,7 @@ namespace {
         auto column = occ.next[(size_t)rowId][lower];
         // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
         if (column < rowThresh && (int64_t)rowIndex < colThresh) {
-          LCSRickSpace::Candidates++;
+          LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
           rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
           rowThresh = column;
         }
@@ -569,7 +650,7 @@ namespace {
         auto row = occ.next1[(size_t)colId][lower];
         // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
         if (row < colThresh && (int64_t)columnIndex < rowThresh) {
-          LCSRickSpace::Candidates++;
+          LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
           colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
           colThresh = row;
         }
@@ -622,7 +703,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours++;
+    LCSRickSpace::Contours.fetch_add(1, memory_order_relaxed);
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -656,7 +737,7 @@ namespace {
       rightSources++;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows++;             // one row + one column sweep step
+      LCSRickSpace::Rows.fetch_add(1, memory_order_relaxed);  // one row + one column sweep step
       auto rowIndex = row1 - 1 - diagonal;
       auto columnIndex = column1 - 1 - diagonal;
 
@@ -680,7 +761,7 @@ namespace {
           auto column = occ.prev[(size_t)rowId][upper];
           // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
           if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
-            LCSRickSpace::Candidates++;
+            LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
             rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
             rowThresh = column;
           }
@@ -707,7 +788,7 @@ namespace {
           auto row = occ.prev1[(size_t)colId][(size_t)upper];
           // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
           if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
-            LCSRickSpace::Candidates++;
+            LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
             colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
             colThresh = row;
           }
@@ -775,14 +856,14 @@ namespace {
   }
 }
 
-uint64_t LCSRickSpace::Candidates = 0;
-uint64_t LCSRickSpace::Rows = 0;
-uint64_t LCSRickSpace::Contours = 0;
+atomic<uint64_t> LCSRickSpace::Candidates = 0;
+atomic<uint64_t> LCSRickSpace::Rows = 0;
+atomic<uint64_t> LCSRickSpace::Contours = 0;
 
 void LCSRickSpace::ResetCounters() {
-  Candidates = 0;
-  Rows = 0;
-  Contours = 0;
+  Candidates.store(0, memory_order_relaxed);
+  Rows.store(0, memory_order_relaxed);
+  Contours.store(0, memory_order_relaxed);
 }
 
 uint32_t LCSRickSpace::Find(
@@ -793,9 +874,9 @@ uint32_t LCSRickSpace::Find(
   auto length = Solve(pairs, occ, size1, size2);
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
-    statistics->candidates = Candidates;
-    statistics->rows = Rows;
-    statistics->contours = Contours;
+    statistics->candidates = Candidates.load(memory_order_relaxed);
+    statistics->rows = Rows.load(memory_order_relaxed);
+    statistics->contours = Contours.load(memory_order_relaxed);
     statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;
@@ -814,9 +895,9 @@ uint32_t LCSRickSpace::Find(
   auto length = Solve(pairs, occ, s1.size(), s2.size());
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
-    statistics->candidates = Candidates;
-    statistics->rows = Rows;
-    statistics->contours = Contours;
+    statistics->candidates = Candidates.load(memory_order_relaxed);
+    statistics->rows = Rows.load(memory_order_relaxed);
+    statistics->contours = Contours.load(memory_order_relaxed);
     statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;

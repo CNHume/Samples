@@ -13,6 +13,15 @@ CPPFLAGS ?= -I../lib -I. -DTEST_DATA_DIR=\"$(abspath ../data)\"
 CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra
 DEPFLAGS := -MMD -MP
 
+# Define ENABLE_MULTI_THREADING=1 on the make command line to compile the
+# RickSpace two-thread Hirschberg root split (Option 1); -pthread is added
+# automatically.  The default remains single-threaded.
+ENABLE_MULTI_THREADING ?= 0
+ifeq ($(ENABLE_MULTI_THREADING),1)
+CPPFLAGS += -DENABLE_MULTI_THREADING
+CXXFLAGS += -pthread
+endif
+
 BUILD   ?= build
 
 # Library objects: one per lib/*.cpp.

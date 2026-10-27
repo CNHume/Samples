@@ -29,6 +29,7 @@
 #include "LCS.h"                        // for MATCHES, Pair
 #include "Statistics.h"                 // for Statistics
 
+#include <atomic>                       // for atomic
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <memory>                       // for shared_ptr
 #include <string>                       // for u32string
@@ -57,10 +58,12 @@ namespace lcs {
     // dominant matches generated (Candidates), the number of diagonal sweep
     // steps (Rows), and the number of contour sweeps run (Contours).  They
     // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
+    // They are atomic so the two Hirschberg halves can run concurrently under
+    // ENABLE_MULTI_THREADING without losing increments.
     //
-    static std::uint64_t Candidates;
-    static std::uint64_t Rows;
-    static std::uint64_t Contours;
+    static std::atomic<std::uint64_t> Candidates;
+    static std::atomic<std::uint64_t> Rows;
+    static std::atomic<std::uint64_t> Contours;
     static void ResetCounters();
   };
 
