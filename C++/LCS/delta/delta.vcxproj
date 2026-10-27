@@ -96,6 +96,7 @@
     <ClCompile Include="..\lib\Diagnostic.cpp" />
     <ClCompile Include="..\lib\Duration.cpp" />
     <ClCompile Include="..\lib\Environment.cpp" />
+    <ClCompile Include="..\lib\LCSCigar.cpp" />
     <ClCompile Include="..\lib\LCSEncoding.cpp" />
     <ClCompile Include="..\lib\LCSFile.cpp" />
     <ClCompile Include="..\lib\LCSFormatRecord.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="..\lib\Environment.h" />
     <ClInclude Include="..\lib\join.h" />
     <ClInclude Include="..\lib\LCS.h" />
+    <ClInclude Include="..\lib\LCSCigar.h" />
     <ClInclude Include="..\lib\LCSEncoding.h" />
     <ClInclude Include="..\lib\LCSFile.h" />
     <ClInclude Include="..\lib\LCSFormat.h" />
