@@ -40,7 +40,10 @@ namespace lcs {
 
   private:
     std::uint32_t size1_ = 0;           // reference length
+    std::uint32_t size2_ = 0;           // query length
     std::uint32_t prevEnd1_ = 0;        // previous delta's reference end
+    std::uint32_t reference_ = 0;       // reference positions accounted for
+    std::uint32_t query_ = 0;           // query positions accounted for
     std::string cigar_;
   };
 

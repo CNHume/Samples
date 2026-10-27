@@ -19,14 +19,18 @@
 
 #include <format>                       //[C++20]
 #include <iostream>                     // for cout
+#include <stdexcept>                    // for runtime_error
 
 using namespace std;
 using namespace lcs;
 
 void LCSCigar::Begin(
-  const string&, const string&, uint32_t size1, uint32_t) {
+  const string&, const string&, uint32_t size1, uint32_t size2) {
   size1_ = size1;
+  size2_ = size2;
   prevEnd1_ = 0;
+  reference_ = 0;
+  query_ = 0;
   cigar_.clear();
 }
 
@@ -34,22 +38,37 @@ void LCSCigar::Layout(
   uint32_t, const SideSpan& side1, const SideSpan& side2) {
   // The match preceding this delta.
   auto match = side1.begin - prevEnd1_;
-  if (match > 0)
+  if (match > 0) {
     cigar_ += format("{}M", match);
+    reference_ += match;
+    query_ += match;
+  }
   // Deletions (reference-only), then insertions (query-only).
   auto del = side1.end - side1.begin;
-  if (del > 0)
+  if (del > 0) {
     cigar_ += format("{}D", del);
+    reference_ += del;
+  }
   auto ins = side2.end - side2.begin;
-  if (ins > 0)
+  if (ins > 0) {
     cigar_ += format("{}I", ins);
+    query_ += ins;
+  }
   prevEnd1_ = side1.end;
 }
 
 void LCSCigar::End() {
   // The match following the last delta.
   auto match = size1_ - prevEnd1_;
-  if (match > 0)
+  if (match > 0) {
     cigar_ += format("{}M", match);
+    reference_ += match;
+    query_ += match;
+  }
+  //
+  // The trace must account for exactly the reference and query lengths.
+  //
+  if (reference_ != size1_ || query_ != size2_)
+    throw runtime_error("CIGAR trace does not match the input lengths");
   cout << cigar_ << '\n';
 }

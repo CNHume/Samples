@@ -300,6 +300,10 @@ void Command::Parse(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
   }
 
+  if (isscorrespondence && format == LCS::Format::CIGAR)
+    throw invalid_argument(
+      "-c (correspondence) cannot be combined with -y c (CIGAR)");
+
   if (n < argc)                         // parse f1
     file1 = argv[n++];
   else                                  // f1 is required
