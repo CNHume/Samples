@@ -87,6 +87,7 @@ namespace {
     vector<vector<uint32_t>> prev1;     // [symbol][row] over s1, [0, rows]
     int64_t rows = 0;                   // size1
     int64_t columns = 0;                // size2
+    int64_t symbols = 0;                // distinct symbols
   };
 
   // Forward declarations (definitions follow).
@@ -185,6 +186,7 @@ namespace {
     }
 
     auto symbols = lists.size();
+    occ.symbols = (int64_t)symbols;
     occ.next.assign(symbols, vector<uint32_t>((size_t)size2 + 1, (uint32_t)occ.columns));
     occ.prev.assign(symbols, vector<uint32_t>((size_t)size2, UINT32_MAX));
 
@@ -273,6 +275,7 @@ namespace {
     }
 
     auto symbols = charToId.size();
+    occ.symbols = (int64_t)symbols;
     occ.colId = move(s2Id);
 
     // rowId[i] = symbol id of s1[i], or UINT32_MAX when it never occurs in s2.
@@ -786,12 +789,14 @@ uint32_t LCSRickSpace::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
   uint32_t size1, uint32_t size2) {
   ResetCounters();
-  auto length = Solve(pairs, BuildOccurrences(matches, size1, size2), size1, size2);
+  auto occ = BuildOccurrences(matches, size1, size2);
+  auto length = Solve(pairs, occ, size1, size2);
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
     statistics->candidates = Candidates;
     statistics->rows = Rows;
     statistics->contours = Contours;
+    statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;
 }
@@ -805,12 +810,14 @@ uint32_t LCSRickSpace::Find(
   // so this path stays feasible for very long strings.
   //
   ResetCounters();
-  auto length = Solve(pairs, BuildOccurrences(s1, s2), s1.size(), s2.size());
+  auto occ = BuildOccurrences(s1, s2);
+  auto length = Solve(pairs, occ, s1.size(), s2.size());
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
     statistics->candidates = Candidates;
     statistics->rows = Rows;
     statistics->contours = Contours;
+    statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;
 }

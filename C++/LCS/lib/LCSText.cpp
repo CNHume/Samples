@@ -189,12 +189,14 @@ uint32_t LCSText::Compare(
     length = algorithm == LCS::Algorithm::RickTime ?
       LCSRickTime::Find(ppairs, statistics, shorter, longer) :
       LCSRickSpace::Find(ppairs, statistics, shorter, longer);
-    if (algorithm == LCS::Algorithm::RickSpace)
+    if (algorithm == LCS::Algorithm::RickSpace && statistics)
       //
-      // RickSpace is memory-safe but slow on near-identical inputs,
-      // the regime where RickTime fits and is ~2.6x faster.
+      // RickSpace is memory-safe but slow on near-identical inputs, the
+      // regime where RickTime is ~2.6x faster when it fits.
       //
-      Diagnostic::SuggestRickTime(length, shorter.size());
+      Diagnostic::SuggestRickTime(
+        length, shorter.size(), longer.size(),
+        statistics->candidates, statistics->symbols);
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);

@@ -38,9 +38,12 @@ namespace lcs {
     static std::uint64_t RecordingBudget(std::uint64_t m, std::uint64_t n, std::uint64_t symbols);
     // Warn that RickTime's match recording has exceeded its budget.
     static void WarnRecordingSize(std::uint64_t records, std::uint64_t recordBudget);
-    // Suggest RickTime when RickSpace's result is near-identical (few edits),
-    // the regime where RickTime fits and is ~2.6x faster.
-    static void SuggestRickTime(std::uint32_t length, std::uint64_t shorter);
+    // Suggest RickTime when RickSpace's result is near-identical (few edits)
+    // and its dominant-match recording would fit in memory, the regime where
+    // RickTime is ~2.6x faster.
+    static void SuggestRickTime(
+      std::uint32_t length, std::uint64_t shorter, std::uint64_t longer,
+      std::uint64_t candidates, std::uint64_t symbols);
   };
 
 } // namespace lcs

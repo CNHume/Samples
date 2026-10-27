@@ -98,12 +98,20 @@ void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
     (double)(recordBudget * recordBytes) / (1ull << 30)) << '\n';
 }
 
-void Diagnostic::SuggestRickTime(uint32_t length, uint64_t shorter) {
+void Diagnostic::SuggestRickTime(
+  uint32_t length, uint64_t shorter, uint64_t longer,
+  uint64_t candidates, uint64_t symbols) {
   auto edits = shorter - length;
-  if (edits <= nearIdenticalEdits && edits * 100 <= shorter) {
-    std::cerr << std::format(
-      "Note: near-identical input (LCS {} of {}); "
-      "-at (RickTime) would likely fit and run ~2.6x faster",
-      length, shorter) << '\n';
-  }
+  if (edits > nearIdenticalEdits || edits * 100 > shorter)
+    return;                             // not near-identical
+  //
+  // RickTime records the same dominant matches RickSpace just emitted, so
+  // skip the suggestion when that recording would exhaust the memory budget.
+  //
+  if (candidates > RecordingBudget(shorter, longer, symbols))
+    return;                             // -at would exhaust memory
+  std::cerr << std::format(
+    "Note: near-identical input (LCS {} of {}); "
+    "-at (RickTime) would likely fit and run ~2.6x faster",
+    length, shorter) << '\n';
 }

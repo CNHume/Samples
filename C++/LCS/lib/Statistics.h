@@ -41,6 +41,7 @@ namespace lcs {
     std::uint64_t candidates = 0;         // RickSpace dominant matches emitted
     std::uint64_t rows = 0;               // RickSpace diagonal sweep steps
     std::uint64_t contours = 0;           // RickSpace contour sweeps
+    std::uint64_t symbols = 0;            // s: distinct symbols
     std::uint64_t elapsedMicroseconds = 0;// Compare() elapsed time
 
     // The salient work count for the algorithm that produced these statistics.
