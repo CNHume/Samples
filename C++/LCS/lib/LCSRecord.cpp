@@ -153,6 +153,8 @@ uint32_t LCSRecord::Compare(
     break;
   case LCS::Algorithm::RickTime:
     throw runtime_error("LCSRickTime is not available for the record path");
+  case LCS::Algorithm::Myers:
+    throw runtime_error("LCSMyers is not available for the record path");
   default:
     throw runtime_error("Unknown LCS algorithm");
   }

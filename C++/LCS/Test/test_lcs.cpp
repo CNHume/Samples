@@ -21,10 +21,12 @@
 #include "doctest/doctest.h"
 #include "LCSText.h"
 #include "Delta.h"
+#include "LCSMyers.h"
 
 #include <algorithm>                    // for equal, max
 #include <cstdint>                      // for uint32_t
 #include <random>                       // for mt19937
+#include <stdexcept>                    // for runtime_error
 #include <string>
 #include <vector>
 
@@ -33,10 +35,11 @@ using namespace lcs;
 using namespace std;
 
 namespace {
-  const LCS::Algorithm algos[3] = {
+  const LCS::Algorithm algos[4] = {
     LCS::Algorithm::HuntSzymanski,
     LCS::Algorithm::RickSpace,
     LCS::Algorithm::RickTime,
+    LCS::Algorithm::Myers,
   };
 
   u32string toU32(const string& s) {
@@ -148,7 +151,7 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
     auto u1 = toU32(s1);
     auto u2 = toU32(s2);
     uint32_t reference = 0;
-    for (int k = 0; k < 3; ++k) {
+    for (int k = 0; k < 4; ++k) {
       shared_ptr<Delta> deltas;
       auto length = LCSText::Correspondence(
         &deltas, nullptr, u1, u2, algos[k], false, false, false, false, 0, 0, 0);
@@ -171,4 +174,15 @@ TEST_CASE("string fixtures load and reconstruct validly") {
   auto expected = dpLcsLength(u1, u2);
   for (auto algo : algos)
     checkAlgo(algo, u1, u2, expected);
+}
+
+TEST_CASE("Myers aborts when the edit distance exceeds its budget") {
+  // Disjoint alphabets drive the composition pre-filter's lower bound past
+  // the memory-derived D budget, so Find() must throw instead of running the
+  // O(D^2) sweep on a dissimilar input.
+  u32string s1(1000000, U'A');
+  u32string s2(1000000, U'B');
+  CHECK_THROWS_AS(
+    LCSMyers::Find(nullptr, nullptr, s1, s2),
+    std::runtime_error);
 }

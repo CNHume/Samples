@@ -54,6 +54,9 @@
     <ClCompile Include="..\lib\LCSHuntSzymanski.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\LCSMyers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\LCSNormal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSHuntSzymanski.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\LCSMyers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSNormal.h">

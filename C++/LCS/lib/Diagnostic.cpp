@@ -18,6 +18,8 @@
 #include "Diagnostic.h"
 #include "Environment.h"
 
+#include <algorithm>                    // for min
+#include <cmath>                        // for sqrt
 #include <format>                       // for format
 #include <iostream>                     // for cerr
 
@@ -114,4 +116,23 @@ void Diagnostic::SuggestRickTime(
     "Note: near-identical input (LCS {} of {}); "
     "-at (RickTime) would likely fit and run ~2.6x faster",
     length, shorter) << '\n';
+}
+
+uint64_t Diagnostic::MyersBudget(uint64_t m, uint64_t n) {
+  //
+  // The reconstruction stores the V frontier for every depth d = 0..D, a total
+  // of (D+1)^2 int64 entries (8 bytes each).  Bound D so that history fits a
+  // safety margin of available RAM; D also cannot exceed the combined length.
+  //
+  auto budgetBytes = (uint64_t)((double)Environment::AvailableBytes() * recordingMargin);
+  auto maxD = (uint64_t)sqrt((double)(budgetBytes / 8));
+  auto bound = m + n;
+  return min(maxD, bound);
+}
+
+void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
+  std::cerr << std::format(
+    "Warning: Myers edit distance {} exceeds the {} budget; "
+    "use -as (RickSpace) or -at (RickTime) instead",
+    distance, budget) << '\n';
 }

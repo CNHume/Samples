@@ -78,16 +78,19 @@ namespace {
       return "RickSpace";
     case LCS::Algorithm::RickTime:
       return "RickTime";
+    case LCS::Algorithm::Myers:
+      return "Myers";
     }
     return "?";
   }
 
   bool checkOne(const u32string& s1, const u32string& s2, uint64_t trial) {
     auto expected = dpLength(s1, s2);
-    const LCS::Algorithm algos[3] = {
+    const LCS::Algorithm algos[4] = {
       LCS::Algorithm::HuntSzymanski,
       LCS::Algorithm::RickSpace,
       LCS::Algorithm::RickTime,
+      LCS::Algorithm::Myers,
     };
     for (auto algorithm : algos) {
       shared_ptr<Delta> deltas;

@@ -36,7 +36,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <d|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
+    "Usage: compare [-a <d|s|t|m>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
     "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-v] [-V] "
     "[-w] [-W <width>] [-y <s|p|c>] file1 file2";
 }
@@ -83,7 +83,7 @@ void Command::Parse(int argc, char* argv[]) {
       usage = true;
     else {                              // parse single character switch
       switch (token[1]) {
-      case 'a':                         // the algorithm switch: d=dynamic programming, s=space, t=time
+      case 'a':                         // the algorithm switch: d=dynamic, s=space, t=time, m=Myers
         {
           // Accept both -ad and -a d (whitespace optional, as with -j, -p, -s).
           const char* sub = nullptr;
@@ -104,6 +104,9 @@ void Command::Parse(int argc, char* argv[]) {
             break;
           case 't':
             algorithm = LCS::Algorithm::RickTime;
+            break;
+          case 'm':
+            algorithm = LCS::Algorithm::Myers;
             break;
           default:
             usage = true;               // unknown algorithm

@@ -51,7 +51,7 @@ characters are never split;
 .RB ( -w )
 each whitespace-separated word is one record.
 .PP
-Three LCS algorithms are available through
+Four LCS algorithms are available through
 .BR -a :
 .TP
 .B d
@@ -64,16 +64,22 @@ O(ns) space.
 .TP
 .B t
 RickTime (Rick 1995): a single diagonal sweep, O(ns + d) space.
+.TP
+.B m
+Myers (1986): the O(ND) minimal edit-script algorithm, fastest on
+near-identical text input.
 .SH OPTIONS
 .TP
-.BI -a " d|s|t"
+.BI -a " d|s|t|m"
 Select the LCS algorithm:
 .B d
 (Hunt-Szymanski, the default),
 .B s
-(RickSpace), or
+(RickSpace),
 .B t
-(RickTime).  Accepts
+(RickTime), or
+.B m
+(Myers).  Accepts
 .B -ad
 or
 .BR "-a d" .

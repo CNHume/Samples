@@ -42,6 +42,7 @@ namespace lcs {
     std::uint64_t rows = 0;               // RickSpace diagonal sweep steps
     std::uint64_t contours = 0;           // RickSpace contour sweeps
     std::uint64_t symbols = 0;            // s: distinct symbols
+    std::uint64_t edits = 0;              // D: Myers edit distance (insertions + deletions)
     std::uint64_t elapsedMicroseconds = 0;// Compare() elapsed time
 
     // The salient work count for the algorithm that produced these statistics.
@@ -51,6 +52,8 @@ namespace lcs {
         return records;
       case LCS::Algorithm::RickSpace:
         return candidates;
+      case LCS::Algorithm::Myers:
+        return edits;
       default:                            // Hunt-Szymanski
         return matches;
       }
@@ -65,6 +68,8 @@ namespace lcs {
         return "RickSpace";
       case LCS::Algorithm::RickTime:
         return "RickTime";
+      case LCS::Algorithm::Myers:
+        return "Myers";
       default:
         return "Unknown";
       }

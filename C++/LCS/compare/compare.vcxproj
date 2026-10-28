@@ -101,6 +101,7 @@
     <ClCompile Include="..\lib\LCSFormatRecord.cpp" />
     <ClCompile Include="..\lib\LCSFormatText.cpp" />
     <ClCompile Include="..\lib\LCSHuntSzymanski.cpp" />
+    <ClCompile Include="..\lib\LCSMyers.cpp" />
     <ClCompile Include="..\lib\LCSNormal.cpp" />
     <ClCompile Include="..\lib\LCSParallel.cpp" />
     <ClCompile Include="..\lib\LCSRecord.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="..\lib\LCSFormatRecord.h" />
     <ClInclude Include="..\lib\LCSFormatText.h" />
     <ClInclude Include="..\lib\LCSHuntSzymanski.h" />
+    <ClInclude Include="..\lib\LCSMyers.h" />
     <ClInclude Include="..\lib\LCSNormal.h" />
     <ClInclude Include="..\lib\LCSOptions.h" />
     <ClInclude Include="..\lib\LCSParallel.h" />

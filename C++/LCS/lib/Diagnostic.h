@@ -44,6 +44,12 @@ namespace lcs {
     static void SuggestRickTime(
       std::uint32_t length, std::uint64_t shorter, std::uint64_t longer,
       std::uint64_t candidates, std::uint64_t symbols);
+    // Myers runs in O(N*D); its reconstruction stores the V frontier for every
+    // D, an O(D^2) int64 history.  Return the largest D whose history fits a
+    // memory-derived budget (also bounding the O(D^2) time).
+    static std::uint64_t MyersBudget(std::uint64_t m, std::uint64_t n);
+    // Warn that Myers' edit distance exceeded its budget.
+    static void WarnMyersDistance(std::uint64_t distance, std::uint64_t budget);
   };
 
 } // namespace lcs
