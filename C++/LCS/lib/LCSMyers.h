@@ -15,10 +15,11 @@
 //
 // 2026-10-27 CNHume  Created LCSMyers class
 //
-// Myers (1986) minimal edit-script algorithm, run over code points.  The
-// shortest edit script (insertions + deletions) is the dual of the LCS: the
-// diagonal "snake" runs are exactly the matched positions.  It is the
-// near-identical fast path, guarded by a memory-derived D budget.
+// Myers (1986) minimal edit-script algorithm, run over code points (text) or
+// records (lines/words).  The shortest edit script (insertions + deletions) is
+// the dual of the LCS: the diagonal "snake" runs are exactly the matched
+// positions.  It is the near-identical fast path, guarded by a memory-derived
+// D budget.
 //
 // Based on:
 //   Eugene W. Myers, "An O(ND) Difference Algorithm and Its Variations",
@@ -32,6 +33,7 @@
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
 #include <string>                       // for u32string
+#include <vector>                       // for vector
 
 namespace lcs {
 
@@ -48,6 +50,13 @@ namespace lcs {
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2);
+    //
+    // Record path: compare sequences of records.  Records must already be
+    // normalized for case/space; indices map 1:1 to the input records.
+    //
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      const std::vector<std::string>& r1, const std::vector<std::string>& r2);
   };
 
 } // namespace lcs

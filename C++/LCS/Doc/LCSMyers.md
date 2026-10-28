@@ -63,10 +63,10 @@ spending `O(D²)` time and memory.
 
 ## Selection
 
-In `compare`, `-am` selects `LCSMyers` for the character (code-point) path
-(`-T -am`).  The record/word path does not yet support it (it throws), for the
-same reason RickTime does: the record alphabet (strings) would need its own
-symbol→id compression, and Myers targets the code-point comparison.
+In `compare`, `-am` selects `LCSMyers` for both the character (code-point) path
+(`-T -am`) and the default record/word path.  On the record path each record is
+normalized for case/space before comparison; normalization preserves record
+indices, so the matched positions map 1:1 back to the input records.
 
 ## References
 

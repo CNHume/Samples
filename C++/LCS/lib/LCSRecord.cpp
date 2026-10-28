@@ -22,6 +22,7 @@
 #include "Duration.h"
 #include "LCSEncoding.h"
 #include "LCSHuntSzymanski.h"
+#include "LCSMyers.h"
 #include "LCSNormal.h"
 #include "LCSRickSpace.h"
 
@@ -118,41 +119,64 @@ uint32_t LCSRecord::Compare(
   if (isverbose)
     cerr << format("Started at {}\n", Duration::WallClock());
   Duration duration;                    // time the algorithm
-  //
-  // Rick variants (LCSRickSpace, LCSRickTime) assume m <= n, so swap for them;
-  // Hunt-Szymanski is symmetric.  Match() consumes the (possibly swapped)
-  // inputs, so the swap must precede the shared match-list build.
-  //
-  auto isswapped =
-    algorithm != LCS::Algorithm::HuntSzymanski &&
-    r2.size() < r1.size();
-  const auto& shorter = isswapped ? r2 : r1;
-  const auto& longer = isswapped ? r1 : r2;
-
-  STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
-  MATCHES indexesOf2MatchedByIndex1;    // holds references into indexesOf2MatchedByString
-  auto count = Match(
-    indexesOf2MatchedByIndex1, indexesOf2MatchedByString, shorter, longer, ignorecase, ignorespace);
-
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   uint32_t length;
+  bool isswapped = false;
+
   switch (algorithm) {
   case LCS::Algorithm::HuntSzymanski:
-    Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
-    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
-    if (statistics) {
-      statistics->algorithm = LCS::Algorithm::HuntSzymanski;
-      statistics->matches = count;
+  case LCS::Algorithm::RickSpace: {
+    //
+    // RickSpace assumes m <= n, so swap for it; Hunt-Szymanski is symmetric.
+    // Match() consumes the (possibly swapped) inputs, so the swap must precede
+    // the shared match-list build.
+    //
+    isswapped =
+      algorithm == LCS::Algorithm::RickSpace && r2.size() < r1.size();
+    const auto& shorter = isswapped ? r2 : r1;
+    const auto& longer = isswapped ? r1 : r2;
+    STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByString
+    auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
+      shorter, longer, ignorecase, ignorespace);
+    if (algorithm == LCS::Algorithm::HuntSzymanski) {
+      Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
+      length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+      if (statistics) {
+        statistics->algorithm = LCS::Algorithm::HuntSzymanski;
+        statistics->matches = count;
+      }
+    }
+    else {
+      length = LCSRickSpace::Find(
+        ppairs, statistics, indexesOf2MatchedByIndex1,
+        (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     break;
-  case LCS::Algorithm::Myers:
-    throw runtime_error("LCSMyers is not available for the record path");
-  case LCS::Algorithm::RickSpace:
-    length = LCSRickSpace::Find(
-      ppairs, statistics, indexesOf2MatchedByIndex1,
-      (uint32_t)shorter.size(), (uint32_t)longer.size());
+  }
+  case LCS::Algorithm::Myers: {
+    //
+    // Myers is symmetric and needs no match lists; normalize each record for
+    // case/space, then run the edit-graph sweep directly.  Normalization
+    // preserves record indices, so the positions map 1:1 back to r1/r2.
+    //
+    RECORDS nr1, nr2;
+    nr1.reserve(r1.size());
+    nr2.reserve(r2.size());
+    string buffer;
+    for (const auto& it : r1) {
+      LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+      nr1.push_back(buffer);
+    }
+    for (const auto& it : r2) {
+      LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+      nr2.push_back(buffer);
+    }
+    length = LCSMyers::Find(ppairs, statistics, nr1, nr2);
     break;
+  }
   case LCS::Algorithm::RickTime:
     throw runtime_error("LCSRickTime is not available for the record path");
   default:

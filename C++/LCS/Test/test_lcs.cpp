@@ -22,6 +22,7 @@
 #include "LCSText.h"
 #include "Delta.h"
 #include "LCSMyers.h"
+#include "LCSRecord.h"
 
 #include <algorithm>                    // for equal, max
 #include <cstdint>                      // for uint32_t
@@ -185,4 +186,42 @@ TEST_CASE("Myers aborts when the edit distance exceeds its budget") {
   CHECK_THROWS_AS(
     LCSMyers::Find(nullptr, nullptr, s1, s2),
     std::runtime_error);
+}
+
+TEST_CASE("Myers agrees with Hunt-Szymanski on the record path") {
+  const vector<vector<string>> records1 = {
+    { "alpha", "beta", "gamma", "delta" },
+    { "a", "b", "c" },
+    { "x", "x", "x" },
+  };
+  const vector<vector<string>> records2 = {
+    { "alpha", "beta", "epsilon", "delta" },
+    { "a", "b" },
+    { "x", "y", "x" },
+  };
+  for (size_t i = 0; i < records1.size(); ++i) {
+    const auto& r1 = records1[i];
+    const auto& r2 = records2[i];
+    uint32_t reference = 0;
+    for (auto algo : { LCS::Algorithm::HuntSzymanski, LCS::Algorithm::Myers }) {
+      shared_ptr<Delta> deltas;
+      auto length = LCSRecord::Correspondence(
+        &deltas, nullptr, r1, r2, algo, false, false, false, false, 0, 0, 0);
+      CAPTURE((int)algo);
+      if (algo == LCS::Algorithm::HuntSzymanski)
+        reference = length;
+      else
+        CHECK(length == reference);
+      // The trace must be a valid common subsequence summing to `length`.
+      uint32_t sum = 0;
+      for (auto d = deltas; d != nullptr; d = dynamic_pointer_cast<Delta>(d->next)) {
+        auto len = d->end1 - d->begin1;
+        REQUIRE(len == d->end2 - d->begin2);
+        for (uint32_t k = 0; k < len; ++k)
+          REQUIRE(r1[d->begin1 + k] == r2[d->begin2 + k]);
+        sum += len;
+      }
+      CHECK(sum == length);
+    }
+  }
 }
