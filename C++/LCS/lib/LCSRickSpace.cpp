@@ -37,6 +37,17 @@ using namespace std;
 using namespace lcs;
 
 //
+// The diagnostic counters are plain in the single-threaded build and atomic
+// under ENABLE_MULTI_THREADING (see LCSRickSpace.h).  LCS_BUMP abstracts the
+// increment so the sweep code reads identically either way.
+//
+#ifdef ENABLE_MULTI_THREADING
+#define LCS_BUMP(counter) (counter).fetch_add(1, memory_order_relaxed)
+#else
+#define LCS_BUMP(counter) ++(counter)
+#endif
+
+//
 // A match (row, column) has forward rank k when the longest common
 // subsequence of the prefixes s1[0..row] and s2[0..column] ending at
 // (row, column) has length k.  The k-th forward contour FC[k] is the
@@ -577,7 +588,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours.fetch_add(1, memory_order_relaxed);
+    LCS_BUMP(LCSRickSpace::Contours);
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -612,7 +623,7 @@ namespace {
       leftSources--;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows.fetch_add(1, memory_order_relaxed);  // one row + one column sweep step
+      LCS_BUMP(LCSRickSpace::Rows);  // one row + one column sweep step
       auto rowIndex = row0 + diagonal;
       auto columnIndex = column0 + diagonal;
 
@@ -630,7 +641,7 @@ namespace {
         auto column = occ.next[(size_t)rowId][lower];
         // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
         if (column < rowThresh && (int64_t)rowIndex < colThresh) {
-          LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
+          LCS_BUMP(LCSRickSpace::Candidates);
           rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
           rowThresh = column;
         }
@@ -650,7 +661,7 @@ namespace {
         auto row = occ.next1[(size_t)colId][lower];
         // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
         if (row < colThresh && (int64_t)columnIndex < rowThresh) {
-          LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
+          LCS_BUMP(LCSRickSpace::Candidates);
           colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
           colThresh = row;
         }
@@ -703,7 +714,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours.fetch_add(1, memory_order_relaxed);
+    LCS_BUMP(LCSRickSpace::Contours);
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -737,7 +748,7 @@ namespace {
       rightSources++;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows.fetch_add(1, memory_order_relaxed);  // one row + one column sweep step
+      LCS_BUMP(LCSRickSpace::Rows);  // one row + one column sweep step
       auto rowIndex = row1 - 1 - diagonal;
       auto columnIndex = column1 - 1 - diagonal;
 
@@ -761,7 +772,7 @@ namespace {
           auto column = occ.prev[(size_t)rowId][upper];
           // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
           if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
-            LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
+            LCS_BUMP(LCSRickSpace::Candidates);
             rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
             rowThresh = column;
           }
@@ -788,7 +799,7 @@ namespace {
           auto row = occ.prev1[(size_t)colId][(size_t)upper];
           // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
           if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
-            LCSRickSpace::Candidates.fetch_add(1, memory_order_relaxed);
+            LCS_BUMP(LCSRickSpace::Candidates);
             colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
             colThresh = row;
           }
@@ -856,14 +867,20 @@ namespace {
   }
 }
 
+#ifdef ENABLE_MULTI_THREADING
 atomic<uint64_t> LCSRickSpace::Candidates = 0;
 atomic<uint64_t> LCSRickSpace::Rows = 0;
 atomic<uint64_t> LCSRickSpace::Contours = 0;
+#else
+uint64_t LCSRickSpace::Candidates = 0;
+uint64_t LCSRickSpace::Rows = 0;
+uint64_t LCSRickSpace::Contours = 0;
+#endif
 
 void LCSRickSpace::ResetCounters() {
-  Candidates.store(0, memory_order_relaxed);
-  Rows.store(0, memory_order_relaxed);
-  Contours.store(0, memory_order_relaxed);
+  Candidates = 0;
+  Rows = 0;
+  Contours = 0;
 }
 
 uint32_t LCSRickSpace::Find(
@@ -874,9 +891,9 @@ uint32_t LCSRickSpace::Find(
   auto length = Solve(pairs, occ, size1, size2);
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
-    statistics->candidates = Candidates.load(memory_order_relaxed);
-    statistics->rows = Rows.load(memory_order_relaxed);
-    statistics->contours = Contours.load(memory_order_relaxed);
+    statistics->candidates = Candidates;
+    statistics->rows = Rows;
+    statistics->contours = Contours;
     statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;
@@ -895,9 +912,9 @@ uint32_t LCSRickSpace::Find(
   auto length = Solve(pairs, occ, s1.size(), s2.size());
   if (statistics) {
     statistics->algorithm = LCS::Algorithm::RickSpace;
-    statistics->candidates = Candidates.load(memory_order_relaxed);
-    statistics->rows = Rows.load(memory_order_relaxed);
-    statistics->contours = Contours.load(memory_order_relaxed);
+    statistics->candidates = Candidates;
+    statistics->rows = Rows;
+    statistics->contours = Contours;
     statistics->symbols = (uint64_t)occ.symbols;
   }
   return length;

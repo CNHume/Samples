@@ -178,23 +178,28 @@ This prunes the recursion tree on near-identical inputs and removes the
 ## Multi-threading
 
 The Hirschberg recursion admits a clean, opt-in two-thread split.  Under the
-compile-time `ENABLE_MULTI_THREADING` macro (the Makefiles pass it, with
-`-pthread`, when built as `make ENABLE_MULTI_THREADING=1`), `Solve` calls
-`HirschbergRoot`, which finds the root midpoint serially and then recurses the
-top-left and bottom-right halves on separate threads.  The halves are disjoint
-in both rows and columns, so each appends to its own match buffer and one join
-re-assembles them in row order (left, midpoint, right); deeper recursion stays
-the serial `Hirschberg`, and dominant-match detection, the midpoint choice, and
-reconstruction all remain on the serial path.  The diagnostic counters are
-`std::atomic` so they stay exact across the two halves.
+compile-time `ENABLE_MULTI_THREADING` macro — the Makefiles pass it (with
+`-pthread`) under `make ENABLE_MULTI_THREADING=1` and default to single-threaded;
+the Visual Studio projects define it — `Solve` calls `HirschbergRoot`, which
+finds the root midpoint serially and then recurses the top-left and bottom-right
+halves on separate threads.  The halves are disjoint in both rows and columns,
+so each appends to its own match buffer and one join re-assembles them in row
+order (left, midpoint, right); deeper recursion stays the serial `Hirschberg`,
+and dominant-match detection, the midpoint choice, and reconstruction all remain
+on the serial path.  The diagnostic counters are `std::atomic` only under the
+macro (plain otherwise), so the default single-threaded build pays no atomic
+overhead.
 
-The split is the smallest parallelism that reaches the recursion fan-out: the
-root `FindMidpoint` is serial (its forward/backward alternation is serialized by
-the Lemma-5 cuts), and the contour sweep itself is memory-bound (see Where the
-time goes), so a deeper thread pool would add fork/join and load-balancing
-machinery against an irregular, early-termination-pruned tree for an uncertain
-return.  The two-thread split is the baseline against which that tradeoff is
-measured.
+Measured on the 4.6M E. coli corpus, the split is a wash: 9.12 s → 9.01 s at
+100 substitutions and 52.3 s → 52.5 s at 1,000 substitutions, with identical
+match counts and counters in both builds.  Two effects cancel.  The contour
+sweep is memory-bound, so two threads scale it only ~1.1–1.2×; and the atomic
+increments the threaded build needs for the counters cost about as much as that
+gain (≈1.6 s at 100 substitutions, ≈13 s at 1,000, where the counters are bumped
+~2.9 billion times).  A deeper thread pool would only add contention for the
+same memory bandwidth, so it is not worth pursuing: RickSpace's linear-space
+recomputation is already near-optimal, and the split is kept opt-in for
+completeness rather than speed.
 
 ## Orientation
 
