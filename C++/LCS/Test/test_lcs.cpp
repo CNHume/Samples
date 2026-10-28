@@ -37,9 +37,9 @@ using namespace std;
 namespace {
   const LCS::Algorithm algos[4] = {
     LCS::Algorithm::HuntSzymanski,
+    LCS::Algorithm::Myers,
     LCS::Algorithm::RickSpace,
     LCS::Algorithm::RickTime,
-    LCS::Algorithm::Myers,
   };
 
   u32string toU32(const string& s) {

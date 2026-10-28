@@ -36,9 +36,9 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <d|s|t|m>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] [-l] "
-    "[-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] [-v] [-V] "
-    "[-w] [-W <width>] [-y <s|p|c>] file1 file2";
+    "Usage: compare [-a <d|s|t|m>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
+    "[-l] [-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] "
+    "[-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -83,14 +83,17 @@ void Command::Parse(int argc, char* argv[]) {
       usage = true;
     else {                              // parse single character switch
       switch (token[1]) {
-      case 'a':                         // the algorithm switch: d=dynamic, s=space, t=time, m=Myers
+      case 'a':                         // the algorithm switch
         {
-          // Accept both -ad and -a d (whitespace optional, as with -j, -p, -s).
+          //
+          // Parse algorithm specifier: d=dynamic, s=space, t=time, m=Myers
+          // Allow leading spaces -a d (as in -j, -p, -s)
+          //
           const char* sub = nullptr;
-          if (len == 3)                 // -ad, -as, or -at
+          if (len == 3)                 // Same token
             sub = &token[2];
           else if (len == 2 && n + 1 < argc && strlen(argv[n + 1]) == 1)
-            sub = argv[++n];            // -a d, -a s, or -a t
+            sub = argv[++n];            // Next token
           else {
             usage = true;               // -a needs exactly one sub-letter
             break;
@@ -99,14 +102,14 @@ void Command::Parse(int argc, char* argv[]) {
           case 'd':
             algorithm = LCS::Algorithm::HuntSzymanski;
             break;
+          case 'm':
+            algorithm = LCS::Algorithm::Myers;
+            break;
           case 's':
             algorithm = LCS::Algorithm::RickSpace;
             break;
           case 't':
             algorithm = LCS::Algorithm::RickTime;
-            break;
-          case 'm':
-            algorithm = LCS::Algorithm::Myers;
             break;
           default:
             usage = true;               // unknown algorithm

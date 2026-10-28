@@ -174,6 +174,18 @@ uint32_t LCSText::Compare(
     }
     break;
   }
+  case LCS::Algorithm::Myers: {
+    //
+    // Myers is symmetric in its two strings, so no shorter-first swap and no
+    // occurrence tables; normalize for case/space, then run the edit-graph
+    // sweep.  Find() guards the D budget and aborts on a dissimilar input.
+    //
+    u32string ns1, ns2;
+    LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
+    LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
+    length = LCSMyers::Find(ppairs, statistics, ns1, ns2);
+    break;
+  }
   case LCS::Algorithm::RickSpace:
   case LCS::Algorithm::RickTime: {
     //
@@ -201,18 +213,6 @@ uint32_t LCSText::Compare(
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)
         swap(pair->begin1, pair->begin2);
-    break;
-  }
-  case LCS::Algorithm::Myers: {
-    //
-    // Myers is symmetric in its two strings, so no shorter-first swap and no
-    // occurrence tables; normalize for case/space, then run the edit-graph
-    // sweep.  Find() guards the D budget and aborts on a dissimilar input.
-    //
-    u32string ns1, ns2;
-    LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
-    LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
-    length = LCSMyers::Find(ppairs, statistics, ns1, ns2);
     break;
   }
   default:

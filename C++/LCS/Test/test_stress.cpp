@@ -74,12 +74,12 @@ namespace {
     switch (algorithm) {
     case LCS::Algorithm::HuntSzymanski:
       return "Hunt-Szymanski";
+    case LCS::Algorithm::Myers:
+      return "Myers";
     case LCS::Algorithm::RickSpace:
       return "RickSpace";
     case LCS::Algorithm::RickTime:
       return "RickTime";
-    case LCS::Algorithm::Myers:
-      return "Myers";
     }
     return "?";
   }
@@ -88,9 +88,9 @@ namespace {
     auto expected = dpLength(s1, s2);
     const LCS::Algorithm algos[4] = {
       LCS::Algorithm::HuntSzymanski,
+      LCS::Algorithm::Myers,
       LCS::Algorithm::RickSpace,
       LCS::Algorithm::RickTime,
-      LCS::Algorithm::Myers,
     };
     for (auto algorithm : algos) {
       shared_ptr<Delta> deltas;

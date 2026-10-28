@@ -48,12 +48,12 @@ namespace lcs {
     // The salient work count for the algorithm that produced these statistics.
     std::uint64_t Operations() const {
       switch (algorithm) {
-      case LCS::Algorithm::RickTime:
-        return records;
-      case LCS::Algorithm::RickSpace:
-        return candidates;
       case LCS::Algorithm::Myers:
         return edits;
+      case LCS::Algorithm::RickSpace:
+        return candidates;
+      case LCS::Algorithm::RickTime:
+        return records;
       default:                            // Hunt-Szymanski
         return matches;
       }
@@ -64,12 +64,12 @@ namespace lcs {
       switch (algorithm) {
       case LCS::Algorithm::HuntSzymanski:
         return "Hunt-Szymanski";
+      case LCS::Algorithm::Myers:
+        return "Myers";
       case LCS::Algorithm::RickSpace:
         return "RickSpace";
       case LCS::Algorithm::RickTime:
         return "RickTime";
-      case LCS::Algorithm::Myers:
-        return "Myers";
       default:
         return "Unknown";
       }
