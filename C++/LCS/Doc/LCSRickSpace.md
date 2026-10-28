@@ -175,32 +175,17 @@ so the recursion stops and the greedy leftmost matches are emitted directly.
 This prunes the recursion tree on near-identical inputs and removes the
 `O(log m)` factor the balanced divide-and-conquer would otherwise introduce.
 
-## Multi-threading
+## Threading (rejected)
 
-The Hirschberg recursion admits a clean two-thread split behind the
-compile-time `TEST_THREADING` macro, disabled by default.  The Makefiles pass
-it (with `-pthread`) under `make TEST_THREADING=1`; to test on Visual Studio,
-add `TEST_THREADING` to the project's preprocessor definitions.  `Solve` calls
-`HirschbergRoot`, which
-finds the root midpoint serially and then recurses the top-left and bottom-right
-halves on separate threads.  The halves are disjoint in both rows and columns,
-so each appends to its own match buffer and one join re-assembles them in row
-order (left, midpoint, right); deeper recursion stays the serial `Hirschberg`,
-and dominant-match detection, the midpoint choice, and reconstruction all remain
-on the serial path.  The diagnostic counters are `std::atomic` only under the
-macro (plain otherwise), so the default single-threaded build pays no atomic
-overhead.
-
-Measured on the 4.6M E. coli corpus, the split is a wash: 9.12 s → 9.01 s at
-100 substitutions and 52.3 s → 52.5 s at 1,000 substitutions, with identical
-match counts and counters in both builds.  Two effects cancel.  The contour
-sweep is memory-bound, so two threads scale it only ~1.1–1.2×; and the atomic
-increments the threaded build needs for the counters cost about as much as that
-gain (≈1.6 s at 100 substitutions, ≈13 s at 1,000, where the counters are bumped
-~2.9 billion times).  A deeper thread pool would only add contention for the
-same memory bandwidth, so it is not worth pursuing: RickSpace's linear-space
-recomputation is already near-optimal, and the split is kept behind
-`TEST_THREADING` (disabled by default) for completeness rather than speed.
+A two-thread Hirschberg root split was prototyped behind a `TEST_THREADING`
+compile-time switch, measured, and removed.  It was a wash on the 4.6M E. coli
+corpus (9.12 s → 9.01 s at 100 substitutions, 52.3 s → 52.5 s at 1,000): the
+contour sweep is memory-bound, so two threads scale it only ~1.1–1.2× on this
+hardware, and the atomic increments the threaded build needed for its counters
+cost about as much as that gain.  A deeper thread pool would only add contention
+for the same memory bandwidth, so parallelizing the recursion is not worthwhile
+— the sweep, not the split, is the bottleneck, and the sweep is already
+memory-bound.
 
 ## Orientation
 
