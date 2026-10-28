@@ -36,7 +36,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <d|s|t|m>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
+    "Usage: compare [-a <d|m|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
     "[-l] [-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] "
     "[-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
 }
