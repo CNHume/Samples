@@ -26,7 +26,7 @@
 #include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX
 #include <iterator>                     // for back_inserter
 #include <memory>                       // for make_shared
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
 #include <thread>                       // for jthread
 #endif
 #include <unordered_map>                // for pointer -> symbol id
@@ -38,10 +38,10 @@ using namespace lcs;
 
 //
 // The diagnostic counters are plain in the single-threaded build and atomic
-// under ENABLE_MULTI_THREADING (see LCSRickSpace.h).  LCS_BUMP abstracts the
+// under TEST_THREADING (see LCSRickSpace.h).  LCS_BUMP abstracts the
 // increment so the sweep code reads identically either way.
 //
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
 #define LCS_BUMP(counter) (counter).fetch_add(1, memory_order_relaxed)
 #else
 #define LCS_BUMP(counter) ++(counter)
@@ -117,7 +117,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, vector<Match>& out);
   void EmitAllColumns(const Occurrences& occ,
     size_t row0, size_t column0, size_t column1, vector<Match>& out);
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
   void HirschbergRoot(const Occurrences& occ, vector<Match>& out);
 #endif
   Result FindMidpoint(const Occurrences& occ,
@@ -147,7 +147,7 @@ namespace {
       return FindMidpoint(occ, 0, size1, 0, size2).length;
 
     vector<Match> out;
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
     HirschbergRoot(occ, out);
 #else
     Hirschberg(occ, 0, size1, 0, size2, out);
@@ -419,7 +419,7 @@ namespace {
     Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out);
   }
 
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
   //
   // Multi-threading (Option 1): split the root Hirschberg problem at its
   // midpoint and run the two independent halves on separate threads.  The root
@@ -867,7 +867,7 @@ namespace {
   }
 }
 
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
 atomic<uint64_t> LCSRickSpace::Candidates = 0;
 atomic<uint64_t> LCSRickSpace::Rows = 0;
 atomic<uint64_t> LCSRickSpace::Contours = 0;

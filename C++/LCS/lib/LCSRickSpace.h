@@ -58,11 +58,11 @@ namespace lcs {
     // dominant matches generated (Candidates), the number of diagonal sweep
     // steps (Rows), and the number of contour sweeps run (Contours).  They
     // witness the narrowing of the contour scans toward the O(p(n-p)) bound.
-    // They are atomic only under ENABLE_MULTI_THREADING (so the two Hirschberg
+    // They are atomic only under TEST_THREADING (so the two Hirschberg
     // halves can run concurrently without losing increments); the single-
     // threaded build keeps them plain to avoid atomic-increment overhead.
     //
-#ifdef ENABLE_MULTI_THREADING
+#ifdef TEST_THREADING
     static std::atomic<std::uint64_t> Candidates;
     static std::atomic<std::uint64_t> Rows;
     static std::atomic<std::uint64_t> Contours;
