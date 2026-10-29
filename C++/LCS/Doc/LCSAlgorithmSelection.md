@@ -92,6 +92,7 @@ and the recording budget (`Diagnostic::RecordingBudget`).
 
 ## Status
 
-`-a` selects the algorithm explicitly (`d|s|t|m`).  An automatic `-a a`
-heuristic dispatch is **not yet implemented**; the decision tree above is its
-specification.
+`-a` selects the algorithm explicitly (`d|m|s|t`): `d` = EditDistance (Myers),
+`m` = Matches (Hunt-Szymanski), `s` = RickSpace, `t` = RickTime.  An automatic
+`-a a` heuristic dispatch is **not yet implemented**; the decision tree above
+is its specification.

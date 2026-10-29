@@ -34,7 +34,7 @@ namespace lcs {
   //
   class Statistics {
   public:
-    LCS::Algorithm algorithm = LCS::Algorithm::HuntSzymanski;
+    LCS::Algorithm algorithm = LCS::Algorithm::Matches;
 
     std::uint64_t matches = 0;            // r: Hunt-Szymanski match-list magnitude
     std::uint64_t records = 0;            // d: RickTime dominant matches recorded
@@ -48,13 +48,13 @@ namespace lcs {
     // The salient work count for the algorithm that produced these statistics.
     std::uint64_t Operations() const {
       switch (algorithm) {
-      case LCS::Algorithm::Myers:
+      case LCS::Algorithm::EditDistance:
         return edits;
       case LCS::Algorithm::RickSpace:
         return candidates;
       case LCS::Algorithm::RickTime:
         return records;
-      default:                            // Hunt-Szymanski
+      default:                            // Matches (Hunt-Szymanski)
         return matches;
       }
     }
@@ -62,10 +62,10 @@ namespace lcs {
     // A human-readable algorithm name.
     const char* AlgorithmName() const {
       switch (algorithm) {
-      case LCS::Algorithm::HuntSzymanski:
-        return "Hunt-Szymanski";
-      case LCS::Algorithm::Myers:
+      case LCS::Algorithm::EditDistance:
         return "Myers";
+      case LCS::Algorithm::Matches:
+        return "Hunt-Szymanski";
       case LCS::Algorithm::RickSpace:
         return "RickSpace";
       case LCS::Algorithm::RickTime:

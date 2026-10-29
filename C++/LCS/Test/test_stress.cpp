@@ -73,10 +73,10 @@ namespace {
 
   const char* algoName(LCS::Algorithm algorithm) {
     switch (algorithm) {
-    case LCS::Algorithm::HuntSzymanski:
-      return "Hunt-Szymanski";
-    case LCS::Algorithm::Myers:
+    case LCS::Algorithm::EditDistance:
       return "Myers";
+    case LCS::Algorithm::Matches:
+      return "Hunt-Szymanski";
     case LCS::Algorithm::RickSpace:
       return "RickSpace";
     case LCS::Algorithm::RickTime:
@@ -88,8 +88,8 @@ namespace {
   bool checkOne(const u32string& s1, const u32string& s2, uint64_t trial) {
     auto expected = dpLength(s1, s2);
     const LCS::Algorithm algos[4] = {
-      LCS::Algorithm::HuntSzymanski,
-      LCS::Algorithm::Myers,
+      LCS::Algorithm::EditDistance,
+      LCS::Algorithm::Matches,
       LCS::Algorithm::RickSpace,
       LCS::Algorithm::RickTime,
     };
@@ -178,8 +178,8 @@ namespace {
   bool checkOneRecord(const vector<string>& r1, const vector<string>& r2, uint64_t trial) {
     auto expected = dpLengthRecords(r1, r2);
     const LCS::Algorithm recordAlgos[3] = {
-      LCS::Algorithm::HuntSzymanski,
-      LCS::Algorithm::Myers,
+      LCS::Algorithm::EditDistance,
+      LCS::Algorithm::Matches,
       LCS::Algorithm::RickSpace,
     };
     for (auto algorithm : recordAlgos) {

@@ -55,12 +55,12 @@ Four LCS algorithms are available through
 .BR -a :
 .TP
 .B d
-Hunt-Szymanski (1977), the default: a threshold array over the match
-lists, O((r+n) log n) time.
+Myers (1986): the O(ND) minimal edit-script algorithm, driven by the
+edit distance D; fastest on near-identical input.
 .TP
 .B m
-Myers (1986): the O(ND) minimal edit-script algorithm, fastest on
-near-identical input.
+Hunt-Szymanski (1977), the default: a threshold array over the match
+lists, O((r+n) log n) time.
 .TP
 .B s
 RickSpace (Rick 2000): forward/backward contours plus Hirschberg recursion,
@@ -73,9 +73,9 @@ RickTime (Rick 1995): a single diagonal sweep, O(ns + d) space.
 .BI -a " d|m|s|t"
 Select the LCS algorithm:
 .B d
-(Hunt-Szymanski, the default),
-.B m
 (Myers),
+.B m
+(Hunt-Szymanski, the default),
 .B s
 (RickSpace), or
 .B t

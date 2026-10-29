@@ -86,7 +86,7 @@ void Command::Parse(int argc, char* argv[]) {
       case 'a':                         // the algorithm switch
         {
           //
-          // Parse algorithm specifier: d=dynamic, s=space, t=time, m=Myers
+          // Parse algorithm specifier: d=edit distance, m=matches, s=space, t=time
           // Allow leading spaces -a d (as in -j, -p, -s)
           //
           const char* sub = nullptr;
@@ -100,10 +100,10 @@ void Command::Parse(int argc, char* argv[]) {
           }
           switch (sub[0]) {
           case 'd':
-            algorithm = LCS::Algorithm::HuntSzymanski;
+            algorithm = LCS::Algorithm::EditDistance;
             break;
           case 'm':
-            algorithm = LCS::Algorithm::Myers;
+            algorithm = LCS::Algorithm::Matches;
             break;
           case 's':
             algorithm = LCS::Algorithm::RickSpace;

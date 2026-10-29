@@ -161,20 +161,7 @@ uint32_t LCSText::Compare(
   uint32_t length;
 
   switch (algorithm) {
-  case LCS::Algorithm::HuntSzymanski: {
-    CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
-    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
-    auto count = Match(
-      indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
-    Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
-    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
-    if (statistics) {
-      statistics->algorithm = LCS::Algorithm::HuntSzymanski;
-      statistics->matches = count;
-    }
-    break;
-  }
-  case LCS::Algorithm::Myers: {
+  case LCS::Algorithm::EditDistance: {
     //
     // Myers is symmetric in its two strings, so no shorter-first swap and no
     // occurrence tables; normalize for case/space, then run the edit-graph
@@ -184,6 +171,19 @@ uint32_t LCSText::Compare(
     LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
     LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
     length = LCSMyers::Find(ppairs, statistics, ns1, ns2);
+    break;
+  }
+  case LCS::Algorithm::Matches: {
+    CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
+    auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
+    Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
+    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+    if (statistics) {
+      statistics->algorithm = LCS::Algorithm::Matches;
+      statistics->matches = count;
+    }
     break;
   }
   case LCS::Algorithm::RickSpace:

@@ -44,8 +44,8 @@ namespace lcs {
   public:
     // The LCS algorithm selected at run time.
     enum class Algorithm {
-      HuntSzymanski,      // Dynamic Programming over match lists
-      Myers,              // Myers 1986, O(ND) edit graph, minimal edit script
+      EditDistance,       // Myers 1986, O(ND) edit graph, minimal edit script
+      Matches,            // Hunt-Szymanski, threshold array over match lists
       RickSpace,          // Rick 2000, contours + Hirschberg, linear space
       RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
     };

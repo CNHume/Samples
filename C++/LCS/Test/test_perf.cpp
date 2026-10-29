@@ -311,8 +311,8 @@ namespace {
     const size_t lengths[] = { 1000, 10000, 100000 };
     const size_t alphabets[] = { 4, 20, 100, 1000 };
     const LCS::Algorithm algos[4] = {
-      LCS::Algorithm::HuntSzymanski,
-      LCS::Algorithm::Myers,
+      LCS::Algorithm::EditDistance,
+      LCS::Algorithm::Matches,
       LCS::Algorithm::RickSpace,
       LCS::Algorithm::RickTime,
     };

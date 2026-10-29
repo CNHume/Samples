@@ -132,7 +132,7 @@ namespace {
 
     auto length = (uint32_t)((m + n - (size_t)D) / 2);
     if (statistics) {
-      statistics->algorithm = LCS::Algorithm::Myers;
+      statistics->algorithm = LCS::Algorithm::EditDistance;
       statistics->edits = (uint64_t)D;
     }
 

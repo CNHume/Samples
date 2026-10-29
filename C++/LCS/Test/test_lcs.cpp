@@ -37,8 +37,8 @@ using namespace std;
 
 namespace {
   const LCS::Algorithm algos[4] = {
-    LCS::Algorithm::HuntSzymanski,
-    LCS::Algorithm::Myers,
+    LCS::Algorithm::EditDistance,
+    LCS::Algorithm::Matches,
     LCS::Algorithm::RickSpace,
     LCS::Algorithm::RickTime,
   };
@@ -202,16 +202,17 @@ TEST_CASE("Myers agrees with Hunt-Szymanski on the record path") {
   for (size_t i = 0; i < records1.size(); ++i) {
     const auto& r1 = records1[i];
     const auto& r2 = records2[i];
-    uint32_t reference = 0;
-    for (auto algo : { LCS::Algorithm::HuntSzymanski, LCS::Algorithm::Myers }) {
+    // Reference length from Hunt-Szymanski (Matches), independent of loop order.
+    shared_ptr<Delta> refDeltas;
+    auto reference = LCSRecord::Correspondence(
+      &refDeltas, nullptr, r1, r2, LCS::Algorithm::Matches,
+      false, false, false, false, 0, 0, 0);
+    for (auto algo : { LCS::Algorithm::EditDistance, LCS::Algorithm::Matches }) {
       shared_ptr<Delta> deltas;
       auto length = LCSRecord::Correspondence(
         &deltas, nullptr, r1, r2, algo, false, false, false, false, 0, 0, 0);
       CAPTURE((int)algo);
-      if (algo == LCS::Algorithm::HuntSzymanski)
-        reference = length;
-      else
-        CHECK(length == reference);
+      CHECK(length == reference);
       // The trace must be a valid common subsequence summing to `length`.
       uint32_t sum = 0;
       for (auto d = deltas; d != nullptr; d = dynamic_pointer_cast<Delta>(d->next)) {

@@ -37,7 +37,7 @@ A plain data struct carrying the comparison-relevant command-line parameters.
 Fields, in `Command`'s original relative order, with in-class defaults:
 
 ```
-algorithm    LCS::Algorithm = LCS::Algorithm::HuntSzymanski
+algorithm    LCS::Algorithm = LCS::Algorithm::Matches
 format       LCS::Format = LCS::Format::Sequential
 file1        std::string
 file2        std::string

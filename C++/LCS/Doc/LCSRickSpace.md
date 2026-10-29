@@ -196,10 +196,11 @@ on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 
 ## Selection
 
-In `compare`, the `-a` switch selects the LCS algorithm: `-ad`
-(`LCSHuntSzymanski`, the default), `-at` (`LCSRickTime`, the 1995 flexible
-algorithm), or `-as` (`LCSRickSpace`, this algorithm).  `LCSRickSpace` serves
-the character (code-point) path under `-t` and the record/word path otherwise.
+In `compare`, the `-a` switch selects the LCS algorithm: `-am`
+(`LCSHuntSzymanski`, the default), `-ad` (`LCSMyers`), `-at` (`LCSRickTime`,
+the 1995 flexible algorithm), or `-as` (`LCSRickSpace`, this algorithm).
+`LCSRickSpace` serves the character (code-point) path under `-t` and the
+record/word path otherwise.
 
 ## Future work
 
@@ -405,7 +406,7 @@ is benchmarked here.
 The two reverted experiments settled the question: RickSpace's linear-space
 recomputation is near-optimal, and the only lever that reaches RickTime's speed
 is RickTime's memory.  So instead of making either algorithm something it is not —
-or auto-switching between them — `compare` keeps the explicit `-ad`/`-as`/`-at`
+or auto-switching between them — `compare` keeps the explicit `-am`/`-as`/`-at`
 choice and *advises* the user when that choice is pathological for the input.
 This delivers the hybrid's value (steering toward the better algorithm) without
 its try/fail/retry: no automatic re-run, no bimodal performance, and the user
@@ -435,7 +436,7 @@ and advisory, so imprecision is acceptable — the user simply re-runs.
 
 ### Why advisory, not automatic
 
-- `compare` is already user-driven through `-ad`/`-as`/`-at`; an auto mode would
+- `compare` is already user-driven through `-am`/`-as`/`-at`; an auto mode would
   second-guess an explicit choice.
 - No try/fail/retry means no variable, bimodal performance (the objection to the
   auto-select form of this plan).

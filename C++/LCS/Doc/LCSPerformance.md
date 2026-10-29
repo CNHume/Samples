@@ -159,7 +159,7 @@ the 0.1% rate.
 
 ## Hunt-Szymanski: FILTER_PAIRS vs. match redundancy
 
-`compare` also ships the classic Hunt–Szymanski (1977) algorithm (`-ad`, the
+`compare` also ships the classic Hunt–Szymanski (1977) algorithm (`-am`, the
 default).  It walks each position's match list in descending `index2` order and
 maintains the usual `prefixEnd` threshold array, so every match does one
 `lower_bound` and most matches also allocate a `Pair` node — `O((r + n) log n)`

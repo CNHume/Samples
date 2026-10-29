@@ -125,38 +125,7 @@ uint32_t LCSRecord::Compare(
   bool isswapped = false;
 
   switch (algorithm) {
-  case LCS::Algorithm::HuntSzymanski:
-  case LCS::Algorithm::RickSpace: {
-    //
-    // RickSpace assumes m <= n, so swap for it; Hunt-Szymanski is symmetric.
-    // Match() consumes the (possibly swapped) inputs, so the swap must precede
-    // the shared match-list build.
-    //
-    isswapped =
-      algorithm == LCS::Algorithm::RickSpace && r2.size() < r1.size();
-    const auto& shorter = isswapped ? r2 : r1;
-    const auto& longer = isswapped ? r1 : r2;
-    STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
-    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByString
-    auto count = Match(
-      indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
-      shorter, longer, ignorecase, ignorespace);
-    if (algorithm == LCS::Algorithm::HuntSzymanski) {
-      Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
-      length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
-      if (statistics) {
-        statistics->algorithm = LCS::Algorithm::HuntSzymanski;
-        statistics->matches = count;
-      }
-    }
-    else {
-      length = LCSRickSpace::Find(
-        ppairs, statistics, indexesOf2MatchedByIndex1,
-        (uint32_t)shorter.size(), (uint32_t)longer.size());
-    }
-    break;
-  }
-  case LCS::Algorithm::Myers: {
+  case LCS::Algorithm::EditDistance: {
     //
     // Myers is symmetric and needs no match lists; normalize each record for
     // case/space, then run the edit-graph sweep directly.  Normalization
@@ -175,6 +144,37 @@ uint32_t LCSRecord::Compare(
       nr2.push_back(buffer);
     }
     length = LCSMyers::Find(ppairs, statistics, nr1, nr2);
+    break;
+  }
+  case LCS::Algorithm::Matches:
+  case LCS::Algorithm::RickSpace: {
+    //
+    // RickSpace assumes m <= n, so swap for it; Hunt-Szymanski is symmetric.
+    // Match() consumes the (possibly swapped) inputs, so the swap must precede
+    // the shared match-list build.
+    //
+    isswapped =
+      algorithm == LCS::Algorithm::RickSpace && r2.size() < r1.size();
+    const auto& shorter = isswapped ? r2 : r1;
+    const auto& longer = isswapped ? r1 : r2;
+    STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
+    MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByString
+    auto count = Match(
+      indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
+      shorter, longer, ignorecase, ignorespace);
+    if (algorithm == LCS::Algorithm::Matches) {
+      Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
+      length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+      if (statistics) {
+        statistics->algorithm = LCS::Algorithm::Matches;
+        statistics->matches = count;
+      }
+    }
+    else {
+      length = LCSRickSpace::Find(
+        ppairs, statistics, indexesOf2MatchedByIndex1,
+        (uint32_t)shorter.size(), (uint32_t)longer.size());
+    }
     break;
   }
   case LCS::Algorithm::RickTime:
