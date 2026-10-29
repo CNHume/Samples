@@ -73,6 +73,8 @@ namespace {
 
   const char* algoName(LCS::Algorithm algorithm) {
     switch (algorithm) {
+    case LCS::Algorithm::Automatic:
+      return "Automatic";
     case LCS::Algorithm::EditDistance:
       return "Myers";
     case LCS::Algorithm::Matches:

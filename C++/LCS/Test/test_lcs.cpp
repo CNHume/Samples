@@ -188,6 +188,29 @@ TEST_CASE("Myers aborts when the edit distance exceeds its budget") {
     std::runtime_error);
 }
 
+TEST_CASE("automatic dispatch returns a correct LCS") {
+  // -aa should select a working algorithm: the length and trace must match the
+  // O(m*n) DP reference regardless of which algorithm it picks.
+  const vector<pair<string, string>> cases = {
+    { "ACGTACGTACGT", "ACGTAGGTACGT" },
+    { "ABCDEFGHIJ", "ABXDEFGHIJ" },
+    { "AAAAAA", "AAAAAA" },
+    { "AAAAAA", "BBBBBB" },
+    { "demanoeuvre", "reendeavour" },
+  };
+  for (auto& [s1, s2] : cases) {
+    auto u1 = toU32(s1);
+    auto u2 = toU32(s2);
+    auto expected = dpLcsLength(u1, u2);
+    shared_ptr<Delta> deltas;
+    auto length = LCSText::Correspondence(
+      &deltas, nullptr, u1, u2, LCS::Algorithm::Automatic,
+      false, false, false, false, 0, 0, 0);
+    CHECK(length == expected);
+    checkTrace(deltas, length, u1, u2);
+  }
+}
+
 TEST_CASE("Myers agrees with Hunt-Szymanski on the record path") {
   const vector<vector<string>> records1 = {
     { "alpha", "beta", "gamma", "delta" },

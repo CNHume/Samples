@@ -59,9 +59,11 @@ namespace lcs {
       }
     }
 
-    // A human-readable algorithm name.
-    const char* AlgorithmName() const {
+    // A human-readable algorithm name for any Algorithm value.
+    static const char* NameOf(LCS::Algorithm algorithm) {
       switch (algorithm) {
+      case LCS::Algorithm::Automatic:
+        return "Automatic";
       case LCS::Algorithm::EditDistance:
         return "Myers";
       case LCS::Algorithm::Matches:
@@ -73,6 +75,11 @@ namespace lcs {
       default:
         return "Unknown";
       }
+    }
+
+    // A human-readable algorithm name.
+    const char* AlgorithmName() const {
+      return NameOf(algorithm);
     }
 
     // Format the elapsed time as a duration report.

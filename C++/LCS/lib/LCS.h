@@ -44,6 +44,7 @@ namespace lcs {
   public:
     // The LCS algorithm selected at run time.
     enum class Algorithm {
+      Automatic,          // heuristic dispatch (-aa) selects among the below
       EditDistance,       // Myers 1986, O(ND) edit graph, minimal edit script
       Matches,            // Hunt-Szymanski, threshold array over match lists
       RickSpace,          // Rick 2000, contours + Hirschberg, linear space

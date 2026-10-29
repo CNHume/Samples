@@ -27,11 +27,13 @@
 #include "LCSRickSpace.h"
 #include "LCSRickTime.h"
 
+#include <algorithm>                    // for min
 #include <format>                       // for format
 #include <fstream>                      // for ifstream
 #include <iostream>                     // for cout
 #include <sstream>                      // for istringstream
 #include <stdexcept>                    // for runtime_error
+#include <unordered_map>                // for symbol counts
 #include <utility>                      // for swap
 
 using namespace std;
@@ -124,6 +126,37 @@ uint32_t LCSRecord::Compare(
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   uint32_t length;
   bool isswapped = false;
+
+  if (algorithm == LCS::Algorithm::Automatic) {
+    //
+    // Heuristic dispatch over records: same decision tree as the text path,
+    // with record strings as the symbols.
+    //
+    unordered_map<string, uint64_t> count1, count2;
+    for (const auto& rec : r1)
+      count1[rec]++;
+    for (const auto& rec : r2)
+      count2[rec]++;
+    uint64_t symbols = 0, matches = 0, sumMin = 0;
+    for (const auto& [symbol, count] : count1) {
+      symbols++;
+      auto found = count2.find(symbol);
+      if (found != count2.end()) {
+        matches += count * found->second;
+        sumMin += min(count, found->second);
+      }
+    }
+    for (const auto& [symbol, count] : count2)
+      if (count1.find(symbol) == count1.end())
+        symbols++;
+    auto editLowerBound = r1.size() + r2.size() - 2 * sumMin;
+    string reason;
+    algorithm = Diagnostic::SelectAutomatic(
+      r1.size(), r2.size(), matches, symbols, editLowerBound, reason);
+    if (isverbose)
+      cerr << format("Automatic: selected {} because {}\n",
+        Statistics::NameOf(algorithm), reason);
+  }
 
   switch (algorithm) {
   case LCS::Algorithm::EditDistance: {

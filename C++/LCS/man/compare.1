@@ -51,8 +51,12 @@ characters are never split;
 .RB ( -w )
 each whitespace-separated word is one record.
 .PP
-Four LCS algorithms are available through
+Four LCS algorithms — or automatic dispatch — are available through
 .BR -a :
+.TP
+.B a
+Automatic: heuristic dispatch that selects the algorithm from the input's
+edit distance, match count, and alphabet size.
 .TP
 .B d
 Myers (1986): the O(ND) minimal edit-script algorithm, driven by the
@@ -68,10 +72,16 @@ O(ns) space.
 .TP
 .B t
 RickTime (Rick 1995): a single diagonal sweep, O(ns + d) space.
+.PP
+Automatic dispatch selects Myers when the edit distance is small,
+Hunt-Szymanski when the matches are sparse, RickTime when its match
+recording fits in memory, and RickSpace otherwise.
 .SH OPTIONS
 .TP
-.BI -a " d|m|s|t"
+.BI -a " a|d|m|s|t"
 Select the LCS algorithm:
+.B a
+(Automatic),
 .B d
 (Myers),
 .B m

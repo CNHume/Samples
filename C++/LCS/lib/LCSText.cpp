@@ -26,9 +26,11 @@
 #include "LCSRickSpace.h"
 #include "LCSRickTime.h"
 
+#include <algorithm>                    // for min
 #include <format>                       // for format
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for runtime_error
+#include <unordered_map>                // for symbol counts
 #include <utility>                      // for swap
 
 using namespace std;
@@ -159,6 +161,38 @@ uint32_t LCSText::Compare(
   shared_ptr<Pair> pairs;
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   uint32_t length;
+
+  if (algorithm == LCS::Algorithm::Automatic) {
+    //
+    // Heuristic dispatch: estimate the edit-distance lower bound and the match
+    // count from the symbol counts, then select per LCSAlgorithmSelection.md.
+    // Report the choice and its reason under verbose.
+    //
+    unordered_map<char32_t, uint64_t> count1, count2;
+    for (auto c : s1)
+      count1[c]++;
+    for (auto c : s2)
+      count2[c]++;
+    uint64_t symbols = 0, matches = 0, sumMin = 0;
+    for (const auto& [symbol, count] : count1) {
+      symbols++;
+      auto found = count2.find(symbol);
+      if (found != count2.end()) {
+        matches += count * found->second;
+        sumMin += min(count, found->second);
+      }
+    }
+    for (const auto& [symbol, count] : count2)
+      if (count1.find(symbol) == count1.end())
+        symbols++;
+    auto editLowerBound = s1.size() + s2.size() - 2 * sumMin;
+    string reason;
+    algorithm = Diagnostic::SelectAutomatic(
+      s1.size(), s2.size(), matches, symbols, editLowerBound, reason);
+    if (isverbose)
+      cerr << format("Automatic: selected {} because {}\n",
+        Statistics::NameOf(algorithm), reason);
+  }
 
   switch (algorithm) {
   case LCS::Algorithm::EditDistance: {

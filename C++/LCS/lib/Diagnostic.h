@@ -17,7 +17,10 @@
 //
 #pragma once
 
+#include "LCS.h"                        // for LCS::Algorithm
+
 #include <cstdint>                      // for uint64_t
+#include <string>                       // for string
 
 namespace lcs {
 
@@ -50,6 +53,14 @@ namespace lcs {
     static std::uint64_t MyersBudget(std::uint64_t m, std::uint64_t n);
     // Warn that Myers' edit distance exceeded its budget.
     static void WarnMyersDistance(std::uint64_t distance, std::uint64_t budget);
+    //
+    // Automatic (-aa) dispatch: select the algorithm from the three metrics and
+    // record the reason in `reason` for verbose output.
+    //
+    static LCS::Algorithm SelectAutomatic(
+      std::uint64_t m, std::uint64_t n,
+      std::uint64_t matches, std::uint64_t symbols,
+      std::uint64_t editLowerBound, std::string& reason);
   };
 
 } // namespace lcs

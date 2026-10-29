@@ -36,7 +36,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <d|m|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
+    "Usage: compare [-a <a|d|m|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
     "[-l] [-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] "
     "[-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
 }
@@ -86,8 +86,8 @@ void Command::Parse(int argc, char* argv[]) {
       case 'a':                         // the algorithm switch
         {
           //
-          // Parse algorithm specifier: d=edit distance, m=matches, s=space, t=time
-          // Allow leading spaces -a d (as in -j, -p, -s)
+          // Parse algorithm specifier: a=automatic, d=edit distance, m=matches,
+          // s=space, t=time.  Allow leading spaces -a d (as in -j, -p, -s).
           //
           const char* sub = nullptr;
           if (len == 3)                 // Same token
@@ -99,6 +99,9 @@ void Command::Parse(int argc, char* argv[]) {
             break;
           }
           switch (sub[0]) {
+          case 'a':
+            algorithm = LCS::Algorithm::Automatic;
+            break;
           case 'd':
             algorithm = LCS::Algorithm::EditDistance;
             break;

@@ -54,6 +54,12 @@ namespace {
   // and no more than 1% of the shorter string.
   //
   constexpr uint64_t nearIdenticalEdits = 1000;
+
+  //
+  // Automatic (-aa) dispatch thresholds.
+  //
+  constexpr uint64_t autoEditThreshold = 2000;     // D lower bound: Myers' fast range
+  constexpr uint64_t autoSparseRedundancy = 100;   // r/n below which H-S is sparse
 }
 
 void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
@@ -135,4 +141,26 @@ void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
     "Warning: Myers edit distance {} exceeds the {} budget; "
     "use -as (RickSpace) or -at (RickTime) instead",
     distance, budget) << '\n';
+}
+
+LCS::Algorithm Diagnostic::SelectAutomatic(
+  uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols,
+  uint64_t editLowerBound, string& reason) {
+  auto shorter = min(m, n);
+  if (editLowerBound <= autoEditThreshold) {
+    reason = format(
+      "edit distance lower bound {} is within Myers' fast range", editLowerBound);
+    return LCS::Algorithm::EditDistance;
+  }
+  if (matches <= autoSparseRedundancy * shorter) {
+    reason = format("{} matches is sparse", matches);
+    return LCS::Algorithm::Matches;
+  }
+  auto budget = RecordingBudget(m, n, symbols);
+  if (budget >= shorter) {
+    reason = format("RickTime recording budget {} fits", budget);
+    return LCS::Algorithm::RickTime;
+  }
+  reason = format("RickTime recording budget {} is too small", budget);
+  return LCS::Algorithm::RickSpace;
 }
