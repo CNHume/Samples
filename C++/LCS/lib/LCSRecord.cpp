@@ -25,6 +25,7 @@
 #include "LCSMyers.h"
 #include "LCSNormal.h"
 #include "LCSRickSpace.h"
+#include "LCSRickTime.h"
 
 #include <format>                       // for format
 #include <fstream>                      // for ifstream
@@ -147,14 +148,15 @@ uint32_t LCSRecord::Compare(
     break;
   }
   case LCS::Algorithm::Matches:
-  case LCS::Algorithm::RickSpace: {
+  case LCS::Algorithm::RickSpace:
+  case LCS::Algorithm::RickTime: {
     //
-    // RickSpace assumes m <= n, so swap for it; Hunt-Szymanski is symmetric.
-    // Match() consumes the (possibly swapped) inputs, so the swap must precede
-    // the shared match-list build.
+    // The Rick variants assume m <= n, so swap for them; Hunt-Szymanski is
+    // symmetric.  Match() consumes the (possibly swapped) inputs, so the swap
+    // must precede the shared match-list build.
     //
     isswapped =
-      algorithm == LCS::Algorithm::RickSpace && r2.size() < r1.size();
+      algorithm != LCS::Algorithm::Matches && r2.size() < r1.size();
     const auto& shorter = isswapped ? r2 : r1;
     const auto& longer = isswapped ? r1 : r2;
     STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
@@ -170,15 +172,18 @@ uint32_t LCSRecord::Compare(
         statistics->matches = count;
       }
     }
-    else {
+    else if (algorithm == LCS::Algorithm::RickSpace) {
       length = LCSRickSpace::Find(
+        ppairs, statistics, indexesOf2MatchedByIndex1,
+        (uint32_t)shorter.size(), (uint32_t)longer.size());
+    }
+    else {
+      length = LCSRickTime::Find(
         ppairs, statistics, indexesOf2MatchedByIndex1,
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     break;
   }
-  case LCS::Algorithm::RickTime:
-    throw runtime_error("LCSRickTime is not available for the record path");
   default:
     throw runtime_error("Unknown LCS algorithm");
   }

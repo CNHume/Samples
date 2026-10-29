@@ -47,6 +47,14 @@ namespace lcs {
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2);
+    //
+    // Record path: build the O(ns) tables from the shared match lists, using
+    // match-list pointer identity as the symbol->id compression, then run the
+    // same diagonal sweep.  The caller guarantees size1 <= size2.
+    //
+    static std::uint32_t Find(
+      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
     // Length only.
     static std::uint32_t FindFlexibleLength(
       const std::u32string& s1, const std::u32string& s2);

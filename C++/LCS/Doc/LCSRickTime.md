@@ -61,9 +61,10 @@ recommending RickTime.
 
 ## Selection
 
-In `compare`, `-at` selects `LCSRickTime` for the character (code-point) path
-(`-t -at`).  The record/word path does not yet support it (it throws), because
-the record alphabet (strings) would need its own symbol→id compression.
+In `compare`, `-at` selects `LCSRickTime` for both the character (code-point)
+path (`-T -at`) and the record/word path.  On the record path the `O(ns)`
+tables are built from the shared match lists — match-list pointer identity is
+the symbol→id compression, the same compression `LCSRickSpace` uses.
 
 ## References
 

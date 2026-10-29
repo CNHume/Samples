@@ -104,12 +104,72 @@ namespace {
     }
     return t;
   }
+
+  FlexTables BuildTables(const LCS::MATCHES& matches, size_t size1, size_t size2) {
+    FlexTables t;
+    t.m = (int64_t)size1;
+    t.n = (int64_t)size2;
+
+    //
+    // Pointer identity compresses symbols: two rows sharing a symbol share the
+    // same match-list pointer, so the pointer is the symbol id.
+    //
+    unordered_map<const LCS::INDEXES*, uint32_t> pointerToId;
+    vector<const LCS::INDEXES*> lists;   // lists[id] = sorted positions of symbol id
+    t.id1.assign(size1, UINT32_MAX);
+    for (size_t i = 0; i < size1; i++) {
+      const auto* matchList = matches[i];
+      auto found = pointerToId.find(matchList);
+      uint32_t symbolId;
+      if (found == pointerToId.end()) {
+        symbolId = (uint32_t)lists.size();
+        pointerToId.emplace(matchList, symbolId);
+        lists.push_back(matchList);
+      }
+      else {
+        symbolId = found->second;
+      }
+      t.id1[i] = symbolId;
+    }
+
+    auto s = lists.size();
+    Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
+
+    //
+    // id2[j] = symbol id of s2[j], inverting the match lists.  A position whose
+    // symbol never occurs in s1 stays UINT32_MAX; the sweep skips those.
+    //
+    t.id2.assign(size2, UINT32_MAX);
+
+    // next2[id][j] = first position >= j in s2 holding symbol id.
+    t.next2.assign(s, vector<uint32_t>((size_t)size2 + 2, (uint32_t)t.n));
+    for (size_t symbolId = 0; symbolId < s; symbolId++) {
+      const auto& list = *lists[symbolId];   // sorted positions, ascending
+      auto& nextTable = t.next2[symbolId];
+      size_t listIndex = 0;
+      for (int64_t j = 0; j <= t.n; j++) {
+        while (listIndex < list.size() && (int64_t)list[listIndex] < j)
+          listIndex++;
+        nextTable[(size_t)j] = listIndex < list.size() ?
+          list[listIndex] : (uint32_t)t.n;
+      }
+      for (auto columnIndex : list)
+        t.id2[(size_t)columnIndex] = (uint32_t)symbolId;
+    }
+
+    // next1[id][i] = first position >= i in s1 holding symbol id.
+    t.next1.assign(s, vector<uint32_t>((size_t)size1 + 2, (uint32_t)t.m));
+    for (int64_t i = t.m - 1; i >= 0; i--) {
+      for (size_t id = 0; id < s; id++)
+        t.next1[id][(size_t)i] = t.next1[id][(size_t)i + 1];
+      t.next1[(size_t)t.id1[(size_t)i]][(size_t)i] = (uint32_t)i;
+    }
+    return t;
+  }
 }
 
-uint32_t LCSRickTime::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
-  const u32string& s1, const u32string& s2) {
-  auto t = BuildTables(s1, s2);
+static uint32_t Sweep(
+  shared_ptr<Pair>* pairs, Statistics* statistics, const FlexTables& t) {
   auto m = t.m;
   auto n = t.n;
 
@@ -202,13 +262,16 @@ uint32_t LCSRickTime::Find(
     // Column l: dominant matches (i, l) with i > l.
     //
     int64_t i;
+    auto colSymbol = t.id2[(size_t)l];
     if (rowThresh[(size_t)low] == l) {
       // Class C_low is complete: resume from its topmost row.
-      i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(colThresh[(size_t)low] + 1)];
+      i = colSymbol == UINT32_MAX ? m :
+        (int64_t)t.next1[(size_t)colSymbol][(size_t)(colThresh[(size_t)low] + 1)];
       low++;
     }
     else {
-      i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(l + 1)];
+      i = colSymbol == UINT32_MAX ? m :
+        (int64_t)t.next1[(size_t)colSymbol][(size_t)(l + 1)];
     }
     k = low;
     while (i != m) {
@@ -278,6 +341,20 @@ uint32_t LCSRickTime::Find(
     statistics->records = records;
   }
   return p;
+}
+
+uint32_t LCSRickTime::Find(
+  shared_ptr<Pair>* pairs, Statistics* statistics,
+  const u32string& s1, const u32string& s2) {
+  auto t = BuildTables(s1, s2);
+  return Sweep(pairs, statistics, t);
+}
+
+uint32_t LCSRickTime::Find(
+  shared_ptr<Pair>* pairs, Statistics* statistics,
+  const MATCHES& matches, uint32_t size1, uint32_t size2) {
+  auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
+  return Sweep(pairs, statistics, t);
 }
 
 uint32_t LCSRickTime::FindFlexibleLength(

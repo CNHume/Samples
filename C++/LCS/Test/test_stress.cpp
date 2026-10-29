@@ -177,10 +177,11 @@ namespace {
 
   bool checkOneRecord(const vector<string>& r1, const vector<string>& r2, uint64_t trial) {
     auto expected = dpLengthRecords(r1, r2);
-    const LCS::Algorithm recordAlgos[3] = {
+    const LCS::Algorithm recordAlgos[4] = {
       LCS::Algorithm::EditDistance,
       LCS::Algorithm::Matches,
       LCS::Algorithm::RickSpace,
+      LCS::Algorithm::RickTime,
     };
     for (auto algorithm : recordAlgos) {
       shared_ptr<Delta> deltas;
