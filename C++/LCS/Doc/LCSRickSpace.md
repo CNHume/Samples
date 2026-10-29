@@ -7,8 +7,7 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 
 `LCSRickSpace` is the Rick/Hirschberg refinement integrated into the `compare`
 application.  It is a run-time alternative to `LCSHuntSzymanski`, selected with
-the `-as` switch in `-t` (text) mode.  (`delta` continues to use only the
-Hunt–Szymanski algorithm.)
+the `-as` switch in `-T` (text) mode.
 
 ## Background
 

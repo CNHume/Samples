@@ -12,7 +12,7 @@
 # the -include below pulls in so a header edit rebuilds its dependents.
 #
 # The tool sources in this directory are linked with the shared library
-# sources in ../lib/ (the LCS library extracted from compare and delta).
+# sources in ../lib/ (the LCS library extracted from compare).
 #
 # CXX, CPPFLAGS, and CXXFLAGS honor environment overrides and are also
 # overridable on the make command line (GNU convention); DEPFLAGS is

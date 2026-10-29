@@ -6,7 +6,7 @@
 #
 # The test binary links the shared library sources in ../lib/ together with
 # the doctest test cases in this directory, so the tests exercise the same
-# code the compare and delta tools ship.
+# code the compare tool ships.
 
 CXX      ?= g++
 CPPFLAGS ?= -I../lib -I. -DTEST_DATA_DIR=\"$(abspath ../data)\"

@@ -1,7 +1,7 @@
 # LCS Library Design
 
-How the reusable C++ library in `lib/` was factored out of the `compare` and
-`delta` command-line tools.
+How the reusable C++ library in `lib/` was factored out of the `compare`
+command-line tool.
 
 ## Goal
 
@@ -81,10 +81,7 @@ public:
 };
 ```
 
-`compare`'s `Command` parses the full switch set; `delta`'s parses its subset
-(no `-a`, `-c`, `-f`, `-q`, `-T`), leaving the inherited `algorithm`, `istext`,
-`isfasta`, and `isquote` at their defaults — which is how delta stays
-Hunt-Szymanski and record-only.
+`compare`'s `Command` parses the full switch set.
 
 ### LCSFile interface
 
@@ -99,8 +96,7 @@ static uint32_t Difference(std::shared_ptr<Delta>* intervals,
 
 `LCSFile` unpacks `options` and dispatches to `LCSText` (text) or `LCSRecord`
 (record).  Those keep their explicit-parameter signatures, with the `algorithm`
-parameter unified everywhere (delta pins `Matches`, keeping its
-Hunt-Szymanski subset, while the default is now `Automatic`).
+parameter unified everywhere and defaulting to `Automatic`.
 
 ## Header hygiene
 
@@ -144,11 +140,7 @@ binaries are shipped later:
 - `LCSFormatRecord`, `LCSFormatText`, `Statistics`
 - `Duration`, `Stopwatch`, `Diagnostic`, `Environment`, `join`
 
-`delta`'s `LCS.cpp`/`LCS.h` were absorbed by the library's
-`LCSHuntSzymanski`/`LCS` (they had already been aligned to be textually
-identical apart from the class name).
-
-**Tools (`compare/`, `delta/`)** — remain tool-specific:
+**Tool (`compare/`)** — remains tool-specific:
 
 - `main.cpp` — maps `Command` → `LCSOptions`, picks `Correspondence` vs.
   `Difference`, and handles the null-interval length-only case.
