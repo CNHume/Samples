@@ -26,11 +26,15 @@
 //
 // Command parses the delta tool's command line.  The comparison parameters
 // are inherited from lcs::LCSOptions; only the tool-specific switches are
-// declared here.  delta is Hunt-Szymanski and record-only, so the base's
-// algorithm/istext/isfasta/isquote fields simply keep their defaults.
+// declared here.  delta is Hunt-Szymanski and record-only, so it pins the
+// algorithm to Matches even though the base class now defaults to Automatic.
 //
 class Command : public lcs::LCSOptions {
 public:
+  Command() {
+    algorithm = lcs::LCS::Algorithm::Matches;
+  }
+
   bool isenvironment = false;
   bool ishelp = false;
   bool islength = false;

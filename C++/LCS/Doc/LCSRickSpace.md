@@ -196,8 +196,8 @@ on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 
 ## Selection
 
-In `compare`, the `-a` switch selects the LCS algorithm: `-am`
-(`LCSHuntSzymanski`, the default), `-ad` (`LCSMyers`), `-at` (`LCSRickTime`,
+In `compare`, the `-a` switch selects the LCS algorithm: `-aa` (Automatic, the
+default), `-am` (`LCSHuntSzymanski`), `-ad` (`LCSMyers`), `-at` (`LCSRickTime`,
 the 1995 flexible algorithm), or `-as` (`LCSRickSpace`, this algorithm).
 `LCSRickSpace` serves the character (code-point) path under `-t` and the
 record/word path otherwise.

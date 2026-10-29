@@ -55,15 +55,15 @@ Four LCS algorithms — or automatic dispatch — are available through
 .BR -a :
 .TP
 .B a
-Automatic: heuristic dispatch that selects the algorithm from the input's
-edit distance, match count, and alphabet size.
+Automatic (the default): heuristic dispatch that selects the algorithm from
+the input's edit distance, match count, and alphabet size.
 .TP
 .B d
 Myers (1986): the O(ND) minimal edit-script algorithm, driven by the
 edit distance D; fastest on near-identical input.
 .TP
 .B m
-Hunt-Szymanski (1977), the default: a threshold array over the match
+Hunt-Szymanski (1977): a threshold array over the match
 lists, O((r+n) log n) time.
 .TP
 .B s
@@ -81,11 +81,11 @@ recording fits in memory, and RickSpace otherwise.
 .BI -a " a|d|m|s|t"
 Select the LCS algorithm:
 .B a
-(Automatic),
+(Automatic, the default),
 .B d
 (Myers),
 .B m
-(Hunt-Szymanski, the default),
+(Hunt-Szymanski),
 .B s
 (RickSpace), or
 .B t

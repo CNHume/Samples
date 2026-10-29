@@ -32,7 +32,7 @@ namespace lcs {
   //
   class LCSOptions {
   public:
-    LCS::Algorithm algorithm = LCS::Algorithm::Matches;
+    LCS::Algorithm algorithm = LCS::Algorithm::Automatic;
     LCS::Format format = LCS::Format::Sequential;
     std::string file1;
     std::string file2;

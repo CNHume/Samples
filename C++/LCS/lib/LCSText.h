@@ -34,7 +34,7 @@ namespace lcs {
     static std::uint32_t Correspondence(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Matches,
+      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -42,7 +42,7 @@ namespace lcs {
     static std::uint32_t Difference(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Matches,
+      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -50,7 +50,7 @@ namespace lcs {
     static std::uint32_t Compare(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Matches,
+      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isverbose = false);
 

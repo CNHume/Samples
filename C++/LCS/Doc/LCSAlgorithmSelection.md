@@ -92,7 +92,7 @@ and the recording budget (`Diagnostic::RecordingBudget`).
 
 ## Status
 
-`-a` selects the algorithm explicitly (`a|d|m|s|t`): `a` = Automatic,
+`-a` selects the algorithm (`a|d|m|s|t`): `a` = Automatic (the default),
 `d` = EditDistance (Myers), `m` = Matches (Hunt-Szymanski), `s` = RickSpace,
 `t` = RickTime.  `-aa` implements the decision tree above — it estimates the
 edit distance and match count from the symbol counts, then selects Myers,

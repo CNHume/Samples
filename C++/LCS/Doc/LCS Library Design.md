@@ -99,7 +99,8 @@ static uint32_t Difference(std::shared_ptr<Delta>* intervals,
 
 `LCSFile` unpacks `options` and dispatches to `LCSText` (text) or `LCSRecord`
 (record).  Those keep their explicit-parameter signatures, with the `algorithm`
-parameter unified everywhere (delta passes `HuntSzymanski` by default).
+parameter unified everywhere (delta pins `Matches`, keeping its
+Hunt-Szymanski subset, while the default is now `Automatic`).
 
 ## Header hygiene
 
