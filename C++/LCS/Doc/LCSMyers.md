@@ -8,7 +8,8 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 `LCSMyers` computes the shortest edit script (insertions + deletions) between
 two sequences.  The shortest edit script is the dual of the LCS — the diagonal
 "snake" runs are exactly the matched positions — and the classic algorithm
-finds it in `O(ND)` time, where `D` is the edit distance.  In `compare` it is
+finds it in `O(ND)` time, where `N = n + m` is the total length of the two
+sequences and `D` is the edit distance.  In `compare` it is
 selected with `-ad` (the edit-distance case of the `-a` algorithm switch).
 
 ## Relationship to the other classes

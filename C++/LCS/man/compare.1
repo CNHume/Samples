@@ -59,8 +59,11 @@ Automatic (the default): heuristic dispatch that selects the algorithm from
 the input's edit distance, match count, and alphabet size.
 .TP
 .B d
-Myers (1986): the O(ND) minimal edit-script algorithm, driven by the
-edit distance D; fastest on near-identical input.
+Myers (1986): the O(ND) minimal edit-script algorithm
+.RB ( N
+the sum of the two input lengths,
+.I D
+the edit distance); fastest on near-identical input.
 .TP
 .B m
 Hunt-Szymanski (1977): a threshold array over the match
@@ -207,7 +210,9 @@ The algorithms and their regimes:
 .B d
 Myers (edit distance): fastest on near-identical input (small
 .IR D ).
-The O(ND) minimal edit-script algorithm; its reconstruction history grows
+The O(ND) minimal edit-script algorithm
+.RB ( N
+the sum of the two input lengths); its reconstruction history grows
 with the square of
 .IR D ,
 so it is bounded by a memory-derived budget.
