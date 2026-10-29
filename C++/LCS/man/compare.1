@@ -183,6 +183,69 @@ and
 .B -E
 switches are early-exit switches: each prints its report and terminates
 without comparing files.
+.SH ALGORITHM
+The
+.B -a
+selector chooses among four algorithms, each fastest in its own regime.
+Three independent properties of the input decide which regime applies:
+.TP
+Edit distance
+.IR D :
+insertions plus deletions of the minimal edit script.
+.TP
+Redundancy \[*r]
+.IR r/n :
+average matches per position; low for sparse matches, high for skewed or
+small alphabets.
+.TP
+Alphabet size
+.IR s :
+number of distinct symbols, which sizes the Rick table builds.
+.PP
+The algorithms and their regimes:
+.TP
+.B d
+Myers (edit distance): fastest on near-identical input (small
+.IR D ).
+The O(ND) minimal edit-script algorithm; its reconstruction history grows
+with the square of
+.IR D ,
+so it is bounded by a memory-derived budget.
+.TP
+.B m
+Hunt-Szymanski (matches): fastest when the matches are sparse (low
+\[*r], large alphabet), the regime its threshold array is built for.
+.TP
+.B s
+RickSpace (space): the linear-memory fallback; O(ns) space via Hirschberg
+recursion, so it never exhausts memory and completes when no other
+algorithm does.
+.TP
+.B t
+RickTime (time): fastest at high redundancy (high \[*r]), when its
+dominant-match recording fits in memory.
+.PP
+Automatic dispatch (
+.BR -aa ,
+the default) estimates
+.I D
+and
+.I r
+from the symbol counts and selects in order:
+.RS
+.IP 1. 4
+Myers when the edit distance lower bound is at most 2000;
+.IP 2. 4
+Hunt-Szymanski when the match count is at most 100 times the shorter
+input length (sparse matches);
+.IP 3. 4
+RickTime when its recording budget covers the shorter input;
+.IP 4. 4
+RickSpace otherwise.
+.RE
+.PP
+.B -v
+reports which algorithm automatic dispatch selected and why.
 .SH EXIT STATUS
 .TP
 .B 0
