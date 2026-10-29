@@ -24,7 +24,7 @@
 using namespace std;
 using namespace lcs;
 
-void LCSCigar::Begin(
+void LCSCigar::BeginResult(
   const string&, const string&, uint32_t size1, uint32_t size2) {
   size1_ = size1;
   size2_ = size2;
@@ -35,7 +35,7 @@ void LCSCigar::Begin(
 }
 
 void LCSCigar::Layout(
-  uint32_t, const SideSpan& side1, const SideSpan& side2) {
+  uint32_t, const SideSpan& side1, const SideSpan& side2, EditKind) {
   // The match preceding this delta.
   auto match = side1.begin - prevEnd1_;
   if (match > 0) {
@@ -57,7 +57,7 @@ void LCSCigar::Layout(
   prevEnd1_ = side1.end;
 }
 
-void LCSCigar::End() {
+void LCSCigar::EndResult() {
   // The match following the last delta.
   auto match = size1_ - prevEnd1_;
   if (match > 0) {

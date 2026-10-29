@@ -18,6 +18,7 @@
 //
 #include "LCSFile.h"
 #include "LCSEncoding.h"
+#include "LCSEdit.h"
 #include "LCSFormatRecord.h"
 #include "LCSFormatText.h"
 #include "LCSRecord.h"
@@ -103,8 +104,8 @@ uint32_t LCSFile::Difference(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const LCSOptions& options) {
   uint32_t length(0);
-  auto format = MakeFormat(options.format, options.width, options.tabsize);
   if (options.istext) {
+    auto format = MakeFormat(options.format, options.width, options.tabsize);
     u32string s1, s2;
     if (options.isquote) {
       // Treat filename arguments as literal strings.
@@ -131,14 +132,34 @@ uint32_t LCSFile::Difference(
   else {
     auto r1 = LCSRecord::Read(options.file1, options.isword);
     auto r2 = LCSRecord::Read(options.file2, options.isword);
-    length = LCSRecord::Difference(
-      intervals, statistics, r1, r2,
-      options.algorithm, options.ignorecase, options.ignorespace,
-      options.isjoin, options.isverbose,
-      options.join, options.prefix, options.suffix);
-    if (intervals != nullptr)
-      LCSFormatRecord::Show(
-        *format, *intervals, r1, r2, options.file1, options.file2);
+    if (options.format == LCS::Format::Edit) {
+      shared_ptr<Delta> matches;
+      length = LCSRecord::Compare(
+        &matches, statistics, r1, r2,
+        options.algorithm, options.ignorecase, options.ignorespace,
+        options.isverbose);
+      if (intervals != nullptr) {
+        auto differences = Delta::Complement(matches, r1.size(), r2.size());
+        auto editIntervals = LCSEdit::BuildIntervals(
+          matches, differences, options.prefix, options.suffix);
+        if (!editIntervals.empty()) {   // identical files: emit nothing, like diff -u
+          LCSEdit edit;
+          LCSFormatRecord::ShowEdit(
+            edit, editIntervals, r1, r2, options.file1, options.file2);
+        }
+      }
+    }
+    else {
+      auto format = MakeFormat(options.format, options.width, options.tabsize);
+      length = LCSRecord::Difference(
+        intervals, statistics, r1, r2,
+        options.algorithm, options.ignorecase, options.ignorespace,
+        options.isjoin, options.isverbose,
+        options.join, options.prefix, options.suffix);
+      if (intervals != nullptr)
+        LCSFormatRecord::Show(
+          *format, *intervals, r1, r2, options.file1, options.file2);
+    }
   }
   return length;
 }

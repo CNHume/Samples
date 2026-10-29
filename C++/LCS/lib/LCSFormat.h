@@ -17,6 +17,8 @@
 //
 #pragma once
 
+#include "Delta.h"
+
 #include <cstdint>                      // for uint32_t
 #include <string>
 #include <vector>
@@ -43,17 +45,24 @@ namespace lcs {
   public:
     virtual ~LCSFormat() = default;
 
-    // Begin a rendering session (e.g. the parallel column labels), given the
-    // reference and query sizes.
-    virtual void Begin(
+    // Begin a file-level result (e.g. the parallel column labels, or the
+    // Edit format's ---/+++ file header), given the reference and query sizes.
+    virtual void BeginResult(
       const std::string&, const std::string&, std::uint32_t, std::uint32_t) {}
 
-    // End a rendering session (e.g. the parallel footer).
-    virtual void End() {}
+    // Begin an interval within the result (the Edit format's @@ header).
+    // Part of the protocol for every format; only LCSEdit implements it.
+    virtual void BeginInterval(
+      std::uint32_t, std::uint32_t,
+      std::uint32_t, std::uint32_t) {}
 
     // Lay out one Delta's two sides, given their pre-rendered SideSpans.
     virtual void Layout(
-      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) = 0;
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
+      EditKind kind = EditKind::None) = 0;
+
+    // End a file-level result (e.g. the parallel footer).
+    virtual void EndResult() {}
 
   protected:
     // Default glyphs shared by the output layouts.  The names are abstract

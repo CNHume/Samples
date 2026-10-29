@@ -153,6 +153,25 @@ output (default 8).
 Compare the whole file as a sequence of Unicode code points (the text path)
 rather than line-by-line records.
 .TP
+.B -u
+Emit a GNU unified diff patch of the two files (the Edit format) instead of
+the default differences view.  Context lines come from
+.B -p
+(prefix) and
+.B -s
+(suffix), defaulting to 3 for whichever is not given explicitly.
+.B -u
+is incompatible with
+.BR -y ,
+.BR -c ,
+.BR -l ,
+.BR -T ,
+.BR -q ,
+.BR -f ,
+.BR -w ,
+and
+.BR -j .
+.TP
 .B -v
 Enable verbose output: print the LCS length, the start and finish wall-clock
 times, and a timing summary; by default only the differences are shown.

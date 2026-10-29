@@ -20,6 +20,7 @@
 
 #include "LCSRecord.h"
 #include "LCSFormat.h"
+#include "LCSEdit.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -35,6 +36,11 @@ namespace lcs {
 
     static std::uint32_t Show(
       LCSFormat& format, std::shared_ptr<Delta> deltas,
+      const RECORDS& r1, const RECORDS& r2,
+      const std::string& label1, const std::string& label2);
+
+    static std::uint32_t ShowEdit(
+      LCSEdit& edit, const EDIT_INTERVALS& intervals,
       const RECORDS& r1, const RECORDS& r2,
       const std::string& label1, const std::string& label2);
 

@@ -39,6 +39,9 @@
     <ClCompile Include="..\lib\LCSCigar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\LCSEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\LCSEncoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSCigar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\LCSEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSEncoding.h">

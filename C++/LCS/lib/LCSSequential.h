@@ -31,7 +31,8 @@ namespace lcs {
   class LCSSequential : public LCSFormat {
   public:
     void Layout(
-      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
+      EditKind) override;
 
   private:
     void Side(

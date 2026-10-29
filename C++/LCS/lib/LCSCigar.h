@@ -31,12 +31,13 @@ namespace lcs {
   //
   class LCSCigar : public LCSFormat {
   public:
-    void Begin(
+    void BeginResult(
       const std::string&, const std::string&,
       std::uint32_t size1, std::uint32_t) override;
-    void End() override;
+    void EndResult() override;
     void Layout(
-      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2) override;
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
+      EditKind) override;
 
   private:
     std::uint32_t size1_ = 0;           // reference length

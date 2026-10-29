@@ -53,9 +53,10 @@ namespace lcs {
 
     // The output format selected at run time.
     enum class Format {
-      Sequential,         // one side after the other
-      Parallel,           // two columns side-by-side
       CIGAR,              // CIGAR alignment string
+      Edit,               // GNU unified diff patch (-u)
+      Parallel,           // two columns side-by-side
+      Sequential,         // one side after the other
     };
 
     typedef std::deque<std::shared_ptr<Pair>> PAIRS;

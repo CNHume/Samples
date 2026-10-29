@@ -36,11 +36,19 @@
 
 namespace lcs {
 
+  //
+  // The edit-script role of a Delta, consumed by the Edit output format.
+  // Match marks an LCS match run (both sides equal); Change marks a
+  // difference run (the sides differ — delete, insert, or substitution).
+  //
+  enum class EditKind { None, Match, Change };
+
   class Delta : public Pair {
   public:
     static std::int64_t Deltas;
     std::uint32_t end1 = 0;
     std::uint32_t end2 = 0;
+    EditKind kind = EditKind::None;
 
     virtual ~Delta();
     Delta();

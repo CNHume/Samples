@@ -99,7 +99,7 @@ uint32_t LCSParallel::rightWidth() const {
   return width_;
 }
 
-void LCSParallel::Begin(
+void LCSParallel::BeginResult(
   const string& label1, const string& label2, uint32_t, uint32_t) {
 #ifdef SHOW_HEADER_RULE
   cout << Rule() << '\n';
@@ -115,14 +115,14 @@ void LCSParallel::Begin(
   }
 }
 
-void LCSParallel::End() {
+void LCSParallel::EndResult() {
 #ifdef SHOW_FOOTER_RULE
   cout << Rule() << '\n';
 #endif
 }
 
 void LCSParallel::Layout(
-  uint32_t, const SideSpan& side1, const SideSpan& side2) {
+  uint32_t, const SideSpan& side1, const SideSpan& side2, EditKind) {
   cout <<
     Head(side1, side2) << Body(side1, side2);
 }

@@ -38,7 +38,9 @@ namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <a|d|m|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
     "[-l] [-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] "
-    "[-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
+    "[-u] [-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
+
+  constexpr uint32_t edit_context_affix = 3;  // -u default context
 }
 
 string Command::arg_msg(const string& s, const string& name) {
@@ -69,6 +71,10 @@ uint32_t Command::parse_uint32(const char* s, const string& name) {
 //
 void Command::Parse(int argc, char* argv[]) {
   auto usage = false;
+  auto isunified = false;               // -u given
+  auto isyformat = false;               // -y given
+  auto prefixGiven = false;             // -p given
+  auto suffixGiven = false;             // -s given
   auto n = 1;                           // skip verb
   for (; n < argc && !usage; n++) {     // parse any switches
     char* token = argv[n];
@@ -188,6 +194,7 @@ void Command::Parse(int argc, char* argv[]) {
           prefix = parse_uint32(argv[++n], "prefix");
         else
           usage = true;
+        prefixGiven = true;
         break;
 
       case 'q':                         // the quote switch, which implies text
@@ -206,6 +213,7 @@ void Command::Parse(int argc, char* argv[]) {
           suffix = parse_uint32(argv[++n], "suffix");
         else
           usage = true;
+        suffixGiven = true;
         break;
 
       case 't':                         // the tab size switch (parallel layout)
@@ -222,6 +230,15 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           istext = true;
+        break;
+
+      case 'u':                         // the unified diff switch
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else {
+          format = LCS::Format::Edit;
+          isunified = true;
+        }
         break;
 
       case 'v':                         // the verbose switch
@@ -283,6 +300,7 @@ void Command::Parse(int argc, char* argv[]) {
           default:
             usage = true;               // unknown format
           }
+          isyformat = true;
         }
         break;
 
@@ -312,6 +330,28 @@ void Command::Parse(int argc, char* argv[]) {
   if (isscorrespondence && format == LCS::Format::CIGAR)
     throw invalid_argument(
       "-c (correspondence) cannot be combined with -y c (CIGAR)");
+
+  if (isunified && isyformat)
+    throw invalid_argument("-u cannot be combined with -y");
+
+  if (isunified) {
+    if (isscorrespondence)
+      throw invalid_argument("-c (correspondence) cannot be combined with -u");
+    if (islength)
+      throw invalid_argument("-l (length only) cannot be combined with -u");
+    if (istext)
+      throw invalid_argument(
+        "-T, -q, and -f (text mode) cannot be combined with -u");
+    if (isword)
+      throw invalid_argument("-w (word mode) cannot be combined with -u");
+    if (isjoin)
+      throw invalid_argument("-j (join) cannot be combined with -u");
+
+    if (!prefixGiven)
+      prefix = edit_context_affix;
+    if (!suffixGiven)
+      suffix = edit_context_affix;
+  }
 
   if (n < argc)                         // parse f1
     file1 = argv[n++];
