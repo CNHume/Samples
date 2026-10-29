@@ -10,7 +10,8 @@
 // The test application dispatches on its first argument:
 //
 //   test                 run the doctest regression suite (default)
-//   test stress [N] [S]  randomized stress: N trials, seed S
+//   test stress [N] [S]  randomized text stress: N trials, seed S
+//   test recordstress    randomized record stress: N trials, seed S
 //   test perf <which>    performance benchmarks (rick | measure | filterpairs)
 //
 // Regression tests use doctest; stress and perf are standalone entry points
@@ -49,6 +50,7 @@ namespace {
 
 // Subcommand entry points, defined in test_stress.cpp and test_perf.cpp.
 int runStress(int argc, char* argv[]);
+int runRecordStress(int argc, char* argv[]);
 int runPerf(int argc, char* argv[]);
 
 int main(int argc, char* argv[]) {
@@ -58,6 +60,8 @@ int main(int argc, char* argv[]) {
   //
   if (argc >= 2 && strcmp(argv[1], "stress") == 0)
     return runStress(argc - 1, argv + 1);
+  if (argc >= 2 && strcmp(argv[1], "recordstress") == 0)
+    return runRecordStress(argc - 1, argv + 1);
   if (argc >= 2 && strcmp(argv[1], "perf") == 0)
     return runPerf(argc - 1, argv + 1);
 

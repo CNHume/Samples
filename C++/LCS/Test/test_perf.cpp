@@ -17,9 +17,11 @@
 //
 #include "LCSRickSpace.h"
 #include "LCSRickTime.h"
+#include "LCSText.h"
 
 #include <algorithm>                    // for lower_bound, swap
 #include <chrono>
+#include <cmath>                        // for pow
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <cstdio>                       // for fprintf, printf
 #include <cstdlib>                      // for atoi, strtoull
@@ -224,12 +226,111 @@ namespace {
       timeF, timeN, timeN / timeF);
     return 0;
   }
+
+  //
+  // Region benchmark: time each algorithm over a grid of (input length,
+  // alphabet size) on near-identical inputs.  The substitution count sets the
+  // EditDistance (D = 2*subs for substitution-only edits); the skew parameter
+  // decouples Redundancy from AlphabetSize (uniform gives rho ~ n/s, while a
+  // Zipf-like skew concentrates frequency so rho stays high even at large s).
+  //
+  uint32_t regionRng = 0x12345678u;
+  uint32_t regionRand() {
+    uint32_t x = regionRng;
+    x ^= x << 13; x ^= x >> 17; x ^= x << 5;
+    return regionRng = x;
+  }
+
+  u32string regionReference(size_t n, size_t s, double skew) {
+    // Zipf-like weights: symbol i has weight (i+1)^(-skew); skew 0 is uniform.
+    vector<double> weight(s);
+    double total = 0;
+    for (size_t i = 0; i < s; ++i) {
+      weight[i] = pow((double)(i + 1), -skew);
+      total += weight[i];
+    }
+    vector<double> cum(s + 1, 0);
+    for (size_t i = 0; i < s; ++i)
+      cum[i + 1] = cum[i] + weight[i] / total;
+
+    u32string r;
+    r.reserve(n);
+    for (size_t i = 0; i < n; ++i) {
+      auto x = (double)regionRand() / (double)UINT32_MAX;
+      auto it = upper_bound(cum.begin(), cum.end(), x);
+      auto sym = (size_t)(it - cum.begin()) - 1;
+      if (sym >= s)
+        sym = s - 1;
+      r.push_back((char32_t)('A' + sym));
+    }
+    return r;
+  }
+
+  u32string regionMutate(const u32string& ref, size_t s, size_t subs) {
+    u32string q = ref;
+    for (size_t k = 0; k < subs; ++k) {
+      auto pos = regionRand() % q.size();
+      char32_t c;
+      do { c = (char32_t)('A' + regionRand() % s); } while (c == q[pos]);
+      q[pos] = c;
+    }
+    return q;
+  }
+
+  double regionRedundancy(const u32string& a, const u32string& b, size_t s) {
+    vector<uint64_t> c1(s, 0), c2(s, 0);
+    for (auto c : a)
+      c1[(size_t)(c - U'A')]++;
+    for (auto c : b)
+      c2[(size_t)(c - U'A')]++;
+    uint64_t r = 0;
+    for (size_t i = 0; i < s; ++i)
+      r += c1[i] * c2[i];
+    return (double)r / a.size();       // matches per position (rho)
+  }
+
+  double regionTime(LCS::Algorithm algo, const u32string& a, const u32string& b) {
+    shared_ptr<Delta> deltas;
+    auto t0 = Clock::now();
+    LCSText::Correspondence(
+      &deltas, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
+    auto t1 = Clock::now();
+    return chrono::duration<double>(t1 - t0).count();
+  }
+
+  int benchRegion(int argc, char* argv[]) {
+    auto subs = argc > 0 ? (size_t)strtoull(argv[0], nullptr, 10) : 100;
+    auto skew = argc > 1 ? strtod(argv[1], nullptr) : 0.0;
+    const size_t lengths[] = { 1000, 10000, 100000 };
+    const size_t alphabets[] = { 4, 20, 100, 1000 };
+    const LCS::Algorithm algos[4] = {
+      LCS::Algorithm::HuntSzymanski,
+      LCS::Algorithm::Myers,
+      LCS::Algorithm::RickSpace,
+      LCS::Algorithm::RickTime,
+    };
+
+    printf("InputLength\tAlphabetSize\tRedundancy\tEditDistance\tH-S\tMyers\tRickSpace\tRickTime\n");
+    for (auto n : lengths) {
+      for (auto s : alphabets) {
+        regionRng = 0x12345678u;
+        auto a = regionReference(n, s, skew);
+        auto b = regionMutate(a, s, subs);
+        auto rho = regionRedundancy(a, b, s);
+        printf("%zu\t%zu\t%.2f\t%zu", 2 * n, s, rho, 2 * subs);
+        for (auto algo : algos)
+          printf("\t%.3f", regionTime(algo, a, b));
+        printf("\n");
+      }
+    }
+    return 0;
+  }
 }
 
 int runPerf(int argc, char* argv[]) {
   if (argc < 2) {
     fprintf(stderr,
-      "usage: test perf <rick|measure|filterpairs> [args]\n");
+      "usage: test perf <rick|measure|filterpairs|region> [args]\n");
     return 2;
   }
   const char* which = argv[1];
@@ -239,6 +340,8 @@ int runPerf(int argc, char* argv[]) {
     return benchMeasure(argc - 2, argv + 2);
   if (strcmp(which, "filterpairs") == 0)
     return benchFilterPairs(argc - 2, argv + 2);
+  if (strcmp(which, "region") == 0)
+    return benchRegion(argc - 2, argv + 2);
 
   fprintf(stderr, "unknown perf benchmark '%s'\n", which);
   return 2;
