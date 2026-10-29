@@ -27,6 +27,7 @@
 #include <cstdlib>                      // for atoi, strtoull
 #include <cstring>                      // for strcmp
 #include <deque>
+#include <exception>                    // for exception
 #include <fstream>
 #include <iterator>
 #include <memory>                       // for make_shared, shared_ptr
@@ -292,8 +293,13 @@ namespace {
   double regionTime(LCS::Algorithm algo, const u32string& a, const u32string& b) {
     shared_ptr<Delta> deltas;
     auto t0 = Clock::now();
-    LCSText::Correspondence(
-      &deltas, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
+    try {
+      LCSText::Correspondence(
+        &deltas, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
+    }
+    catch (const exception&) {
+      return -1.0;                       // unavailable (e.g., D exceeds budget)
+    }
     auto t1 = Clock::now();
     return chrono::duration<double>(t1 - t0).count();
   }
@@ -301,6 +307,7 @@ namespace {
   int benchRegion(int argc, char* argv[]) {
     auto subs = argc > 0 ? (size_t)strtoull(argv[0], nullptr, 10) : 100;
     auto skew = argc > 1 ? strtod(argv[1], nullptr) : 0.0;
+    auto dissimilar = argc > 2 ? (atoi(argv[2]) != 0) : false;
     const size_t lengths[] = { 1000, 10000, 100000 };
     const size_t alphabets[] = { 4, 20, 100, 1000 };
     const LCS::Algorithm algos[4] = {
@@ -315,11 +322,27 @@ namespace {
       for (auto s : alphabets) {
         regionRng = 0x12345678u;
         auto a = regionReference(n, s, skew);
-        auto b = regionMutate(a, s, subs);
+        size_t D;
+        u32string b;
+        if (dissimilar) {
+          // Independent random second string: a large, uncontrolled D.
+          b = regionReference(n, s, skew);
+          auto p = LCSRickTime::FindFlexibleLength(a, b);
+          D = 2 * n - 2 * p;
+        }
+        else {
+          b = regionMutate(a, s, subs);
+          D = 2 * subs;
+        }
         auto rho = regionRedundancy(a, b, s);
-        printf("%zu\t%zu\t%.2f\t%zu", 2 * n, s, rho, 2 * subs);
-        for (auto algo : algos)
-          printf("\t%.3f", regionTime(algo, a, b));
+        printf("%zu\t%zu\t%.2f\t%zu", 2 * n, s, rho, D);
+        for (auto algo : algos) {
+          auto t = regionTime(algo, a, b);
+          if (t < 0)
+            printf("\tN/A");
+          else
+            printf("\t%.3f", t);
+        }
         printf("\n");
       }
     }
