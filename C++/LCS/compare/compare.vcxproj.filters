@@ -42,7 +42,7 @@
     <ClCompile Include="..\lib\Duration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\Environment.cpp">
+    <ClCompile Include="..\lib\Host.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\formatters\Cigar.cpp">
@@ -113,7 +113,7 @@
     <ClInclude Include="..\lib\Duration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\Environment.h">
+    <ClInclude Include="..\lib\Host.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\join.h">

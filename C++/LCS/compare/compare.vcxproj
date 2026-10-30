@@ -94,7 +94,7 @@
     <ClCompile Include="..\lib\Delta.cpp" />
     <ClCompile Include="..\lib\Diagnostic.cpp" />
     <ClCompile Include="..\lib\Duration.cpp" />
-    <ClCompile Include="..\lib\Environment.cpp" />
+    <ClCompile Include="..\lib\Host.cpp" />
     <ClCompile Include="..\lib\formatters\Cigar.cpp" />
     <ClCompile Include="..\lib\formatters\Edit.cpp" />
     <ClCompile Include="..\lib\Encoding.cpp" />
@@ -119,7 +119,7 @@
     <ClInclude Include="..\lib\Delta.h" />
     <ClInclude Include="..\lib\Diagnostic.h" />
     <ClInclude Include="..\lib\Duration.h" />
-    <ClInclude Include="..\lib\Environment.h" />
+    <ClInclude Include="..\lib\Host.h" />
     <ClInclude Include="..\lib\join.h" />
     <ClInclude Include="..\lib\LCS.h" />
     <ClInclude Include="..\lib\formatters\Cigar.h" />

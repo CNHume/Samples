@@ -31,7 +31,7 @@
 class Command : public lcs::Options {
 public:
   bool isscorrespondence = false;
-  bool isenvironment = false;
+  bool ishost = false;
   bool ishelp = false;
   bool islength = false;
   bool isversion = false;

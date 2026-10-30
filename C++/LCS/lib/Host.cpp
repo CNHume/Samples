@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-19 CNHume  Created Environment class
+// 2026-10-19 CNHume  Created Host class
 //
-#include "Environment.h"
+#include "Host.h"
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <format>                       // for format
@@ -50,6 +50,25 @@ namespace {
     return 0;
 #else
     return 0;
+#endif
+  }
+
+  //
+  // Host name, or empty when unknown.
+  //
+  std::string hostName() {
+#if defined(_WIN32)
+    char buffer[256] = {};
+    DWORD size = sizeof(buffer);
+    return GetComputerNameA(buffer, &size) ? buffer : std::string{};
+#elif defined(__linux__)
+    char buffer[256];
+    if (gethostname(buffer, sizeof(buffer)) != 0)
+      return {};
+    buffer[sizeof(buffer) - 1] = '\0';  // gethostname may not terminate on truncation
+    return buffer;
+#else
+    return {};
 #endif
   }
 
@@ -129,7 +148,7 @@ namespace {
 // Available physical memory — the working-set ceiling before the OS starts
 // killing (Linux OOM) or paging (Windows) — or 0 when unknown.
 //
-uint64_t Environment::AvailableBytes() {
+uint64_t Host::AvailableBytes() {
 #if defined(_WIN32)
   MEMORYSTATUSEX mem{};
   mem.dwLength = sizeof(mem);
@@ -145,8 +164,12 @@ uint64_t Environment::AvailableBytes() {
 #endif
 }
 
-std::string Environment::ToString() {
+std::string Host::ToString() {
   std::string text;
+  auto host = hostName();
+  if (!host.empty())
+    text += std::format(
+      "host name: {}\n", host);
   text += std::format(
     "locale: {}\n",
     std::locale().name());

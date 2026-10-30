@@ -21,7 +21,7 @@
 // thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
-#include "Environment.h"
+#include "Host.h"
 #include "SuspectDash.h"
 #include "Version.h"
 
@@ -36,7 +36,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-E] [-F] [-h] [-i] [-j <join>] "
+    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-H] [-F] [-h] [-i] [-j <join>] "
     "[-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] [-T] "
     "[-u] [-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
 
@@ -140,11 +140,11 @@ void Command::Parse(int argc, char* argv[]) {
           isscorrespondence = true;
         break;
 
-      case 'E':                         // the environment switch (early exit)
+      case 'H':                         // the host switch (early exit)
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
-          isenvironment = true;
+          ishost = true;
         break;
 
       case 'F':                         // the fasta switch, which implies text
@@ -322,8 +322,8 @@ void Command::Parse(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
   }
 
-  if (isenvironment) {
-    cout << Environment::ToString();
+  if (ishost) {
+    cout << Host::ToString();
     exit(EXIT_SUCCESS);
   }
 

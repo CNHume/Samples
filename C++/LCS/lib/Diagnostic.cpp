@@ -16,7 +16,7 @@
 // 2026-10-16 CNHume  Created Diagnostic class
 //
 #include "Diagnostic.h"
-#include "Environment.h"
+#include "Host.h"
 
 #include <algorithm>                    // for min
 #include <cmath>                        // for sqrt
@@ -92,7 +92,7 @@ uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
   //
   auto tableBytes = 4 * symbols * (m + n + 4);
   auto headerBytes = vectorHeaderBytes * (m + 2);
-  auto budgetBytes = (uint64_t)((double)Environment::AvailableBytes() * recordingMargin);
+  auto budgetBytes = (uint64_t)((double)Host::AvailableBytes() * recordingMargin);
   auto room = budgetBytes > tableBytes + headerBytes ?
     budgetBytes - tableBytes - headerBytes : 0;
   return room / recordBytes;
@@ -130,7 +130,7 @@ uint64_t Diagnostic::MyersBudget(uint64_t m, uint64_t n) {
   // of (D+1)^2 int64 entries (8 bytes each).  Bound D so that history fits a
   // safety margin of available RAM; D also cannot exceed the combined length.
   //
-  auto budgetBytes = (uint64_t)((double)Environment::AvailableBytes() * recordingMargin);
+  auto budgetBytes = (uint64_t)((double)Host::AvailableBytes() * recordingMargin);
   auto maxD = (uint64_t)sqrt((double)(budgetBytes / 8));
   auto bound = m + n;
   return min(maxD, bound);

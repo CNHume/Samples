@@ -105,8 +105,8 @@ comparing, and expand the reported spans back to the original positions.
 Print the correspondence (the common, matching records) instead of the
 differences.
 .TP
-.B -E
-Print the host environment (locale, processor, and memory) and exit.
+.B -H
+Print host information (name, locale, processor, and memory) and exit.
 .TP
 .B -F
 Treat the input files as FASTA and strip header lines; implies
@@ -205,7 +205,7 @@ The
 .BR -h ,
 .BR -V ,
 and
-.B -E
+.B -H
 switches are early-exit switches: each prints its report and terminates
 without comparing files.
 .SH ALGORITHM
@@ -280,7 +280,7 @@ Success (including
 .BR -h ,
 .BR -V ,
 and
-.BR -E ).
+.BR -H ).
 .TP
 .B 1
 Error: a command-line parse failure, a missing file, or an algorithm failure.
@@ -292,7 +292,7 @@ and
 .BR LC_NUMERIC )
 controls the thousands separator used in the reported counts and the locale
 name shown by
-.BR -E .
+.BR -H .
 On a system whose locale defines digit grouping, counts are printed with
 comma separators (for example
 .BR "LCS Length = 4,591,960" );

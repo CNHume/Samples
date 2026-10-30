@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-19 CNHume  Created Environment class
+// 2026-10-19 CNHume  Created Host class
 //
 #pragma once
 
@@ -23,10 +23,11 @@
 namespace lcs {
 
   //
-  // Environment renders a report of the host: the locale, processor type and
-  // speed, and total physical memory, for both Windows and Linux.
+  // Host renders a report of the host machine: the host name, locale,
+  // processor type and speed, and total physical memory, for both Windows
+  // and Linux.
   //
-  class Environment {
+  class Host {
   public:
     static std::string ToString();
     // Available physical memory in bytes, or 0 when unknown.
