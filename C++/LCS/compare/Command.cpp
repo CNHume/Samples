@@ -36,9 +36,9 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-H] [-F] [-h] [-i] [-j <join>] "
-    "[-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] [-T] "
-    "[-u] [-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
+    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-F] [-h] [-H] [-i] "
+    "[-j <join>] [-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] "
+    "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y <c|s|p>] file1 file2";
 
   constexpr uint32_t edit_context_affix = 3;  // -u default context
 }
@@ -140,13 +140,6 @@ void Command::Parse(int argc, char* argv[]) {
           isscorrespondence = true;
         break;
 
-      case 'H':                         // the host switch (early exit)
-        if (len > 2)                    // superfluous value specified
-          usage = true;
-        else
-          ishost = true;
-        break;
-
       case 'F':                         // the fasta switch, which implies text
         if (len > 2)                    // superfluous value specified
           usage = true;
@@ -161,6 +154,13 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         else
           ishelp = true;
+        break;
+
+      case 'H':                         // the host switch (early exit)
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          ishost = true;
         break;
 
       case 'i':                         // the ignorecase switch
@@ -288,14 +288,14 @@ void Command::Parse(int argc, char* argv[]) {
             break;
           }
           switch (sub[0]) {
+          case 'c':
+            format = Format::CIGAR;
+            break;
           case 's':
             format = Format::Sequential;
             break;
           case 'p':
             format = Format::Parallel;
-            break;
-          case 'c':
-            format = Format::CIGAR;
             break;
           default:
             usage = true;               // unknown format
