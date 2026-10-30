@@ -68,95 +68,69 @@ string Edit::Range(uint32_t begin, uint32_t end) {
     format("{}", line) : format("{},{}", line, count);
 }
 
+//
+// MakeRun() creates a Delta run tagged Match (context) or Change.
+//
+shared_ptr<Delta> Edit::MakeRun(
+  EditKind kind, uint32_t begin1, uint32_t begin2, uint32_t end1, uint32_t end2) {
+  auto run = make_shared<Delta>(begin1, begin2, end1, end2);
+  run->kind = kind;
+  return run;
+}
+
+//
+// BuildIntervals() groups the differences into unified-diff hunks:
+// Delta::Coalesce() merges the differences at distance max(prefix + suffix,
+// join); each merged hunk is then split at the matches it encloses, with
+// prefix/suffix context around it.
+//
 EDIT_INTERVALS Edit::BuildIntervals(
   const shared_ptr<Delta>& matches, const shared_ptr<Delta>& differences,
   uint32_t prefix, uint32_t suffix, uint32_t join) {
+  auto merge = max(prefix + suffix, join);
+  auto changes = Delta::Coalesce(differences, merge);
+
   EDIT_INTERVALS intervals;
-
-  //
-  // Merge the match and difference runs into one ordered, tagged list.  The
-  // runs are disjoint, so (begin1, begin2) orders them; the tuple tiebreak
-  // keeps a pure insertion (empty old side) before the match that follows it.
-  //
-  vector<shared_ptr<Delta>> segments;
   auto mp = matches;
-  auto dp = differences;
-  while (mp != nullptr || dp != nullptr) {
-    bool takeMatch;
-    if (mp == nullptr)
-      takeMatch = false;
-    else if (dp == nullptr)
-      takeMatch = true;
-    else
-      takeMatch =
-        mp->begin1 < dp->begin1 ||
-        (mp->begin1 == dp->begin1 && mp->begin2 < dp->begin2);
-    if (takeMatch) {
-      mp->kind = EditKind::Match;
-      segments.push_back(mp);
-      mp = dynamic_pointer_cast<Delta>(mp->next);
-    }
-    else {
-      dp->kind = EditKind::Change;
-      segments.push_back(dp);
-      dp = dynamic_pointer_cast<Delta>(dp->next);
-    }
-  }
-
-  // Build a Match context run over a sub-range of a match.
-  auto context = [](uint32_t b1, uint32_t e1, uint32_t b2, uint32_t e2) {
-    auto run = make_shared<Delta>(b1, b2, e1, e2);
-    run->kind = EditKind::Match;
-    return run;
-  };
-
-  auto n = segments.size();
-  size_t i = 0;
-  while (i < n) {
-    // Skip any leading Match runs (no difference precedes them).
-    while (i < n && segments[i]->kind == EditKind::Match)
-      i++;
-    if (i >= n)
-      break;
+  for (auto c = changes; c != nullptr; c = dynamic_pointer_cast<Delta>(c->next)) {
+    auto cBegin1 = c->begin1, cBegin2 = c->begin2;
+    auto cEnd1 = c->end1, cEnd2 = c->end2;
 
     vector<shared_ptr<Delta>> interval;
-    // Leading context: the tail of the Match before this Change.
-    if (i > 0 && segments[i - 1]->kind == EditKind::Match) {
-      const auto& lead = segments[i - 1];
-      auto len = lead->end1 - lead->begin1;
-      auto nctx = min(prefix, len);
-      if (nctx > 0)
-        interval.push_back(context(
-          lead->end1 - nctx, lead->end1, lead->end2 - nctx, lead->end2));
+
+    // Prefix context: the tail of the match ending where the hunk begins.
+    shared_ptr<Delta> lead = nullptr;
+    while (mp != nullptr && mp->end1 <= cBegin1) {
+      if (mp->end1 == cBegin1)
+        lead = mp;
+      mp = dynamic_pointer_cast<Delta>(mp->next);
+    }
+    if (lead != nullptr) {
+      auto n = min(prefix, lead->end1 - lead->begin1);
+      if (n > 0)
+        interval.push_back(MakeRun(EditKind::Match,
+          lead->end1 - n, lead->end2 - n, lead->end1, lead->end2));
     }
 
-    // The change run(s), merging while the Match between them is small.  Use
-    // Coalesce()'s logic: merge when the gap is within the merge distance on
-    // both sides; the distance is at least prefix + suffix (so the context
-    // windows touch), extended by -j join.
-    auto merge = max(prefix + suffix, join);
-    interval.push_back(segments[i++]);
-    while (i + 1 < n && segments[i]->kind == EditKind::Match) {
-      const auto& between = segments[i];
-      if (
-        between->begin1 + (uint64_t)merge < between->end1 ||
-        between->begin2 + (uint64_t)merge < between->end2)
-        break;
-      interval.push_back(context(
-        between->begin1, between->end1, between->begin2, between->end2));
-      i++;                              // past the between match
-      interval.push_back(segments[i++]); // the following Change
+    // Body: split the hunk at each enclosed match, emitting Change/Match runs.
+    auto b1 = cBegin1, b2 = cBegin2;
+    while (mp != nullptr && mp->begin1 < cEnd1) {
+      interval.push_back(MakeRun(EditKind::Change,
+        b1, b2, mp->begin1, mp->begin2));
+      interval.push_back(MakeRun(EditKind::Match,
+        mp->begin1, mp->begin2, mp->end1, mp->end2));
+      b1 = mp->end1;
+      b2 = mp->end2;
+      mp = dynamic_pointer_cast<Delta>(mp->next);
     }
+    interval.push_back(MakeRun(EditKind::Change, b1, b2, cEnd1, cEnd2));
 
-    // Trailing context: the head of the Match after the last Change.
-    if (i < n && segments[i]->kind == EditKind::Match) {
-      const auto& trail = segments[i];
-      auto len = trail->end1 - trail->begin1;
-      auto nctx = min(suffix, len);
-      if (nctx > 0)
-        interval.push_back(context(
-          trail->begin1, trail->begin1 + nctx,
-          trail->begin2, trail->begin2 + nctx));
+    // Suffix context: the head of the match starting where the hunk ends.
+    if (mp != nullptr && mp->begin1 == cEnd1) {
+      auto n = min(suffix, mp->end1 - mp->begin1);
+      if (n > 0)
+        interval.push_back(MakeRun(EditKind::Match,
+          mp->begin1, mp->begin2, mp->begin1 + n, mp->begin2 + n));
     }
 
     intervals.push_back(interval);

@@ -50,10 +50,10 @@ namespace lcs::formatters {
     void EndResult() override;
 
     //
-    // Build the intervals from the match and difference runs: tag each Delta,
-    // group differences into intervals with prefix/suffix context, and merge
-    // consecutive differences when the matches between them number <=
-    // max(prefix + suffix, join).
+    // Build the unified-diff hunks from the match and difference runs:
+    // Delta::Coalesce() merges the differences at distance max(prefix +
+    // suffix, join), then each merged hunk is split at the matches it
+    // encloses, with prefix/suffix context around it.
     //
     static EDIT_INTERVALS BuildIntervals(
       const std::shared_ptr<Delta>& matches,
@@ -63,6 +63,10 @@ namespace lcs::formatters {
 
   private:
     static std::string Range(std::uint32_t begin, std::uint32_t end);
+    // A Delta run tagged Match (context) or Change.
+    static std::shared_ptr<Delta> MakeRun(
+      EditKind kind, std::uint32_t begin1, std::uint32_t begin2,
+      std::uint32_t end1, std::uint32_t end2);
   };
 
 } // namespace lcs::formatters
