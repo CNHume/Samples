@@ -18,14 +18,14 @@
 //
 #include "LCSFile.h"
 #include "LCSEncoding.h"
-#include "LCSEdit.h"
-#include "LCSFormatRecord.h"
-#include "LCSFormatText.h"
-#include "LCSRecord.h"
-#include "LCSText.h"
-#include "LCSCigar.h"
-#include "LCSParallel.h"
-#include "LCSSequential.h"
+#include "formatters/LCSEdit.h"
+#include "formatters/LCSFormatRecord.h"
+#include "formatters/LCSFormatText.h"
+#include "modes/LCSRecord.h"
+#include "modes/LCSText.h"
+#include "formatters/LCSCigar.h"
+#include "formatters/LCSParallel.h"
+#include "formatters/LCSSequential.h"
 
 #include <stdexcept>                    // for runtime_error
 

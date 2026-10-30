@@ -36,10 +36,10 @@
     <ClCompile Include="..\lib\Environment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSCigar.cpp">
+    <ClCompile Include="..\lib\formatters\LCSCigar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSEdit.cpp">
+    <ClCompile Include="..\lib\formatters\LCSEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\LCSEncoding.cpp">
@@ -48,37 +48,37 @@
     <ClCompile Include="..\lib\LCSFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSFormatRecord.cpp">
+    <ClCompile Include="..\lib\formatters\LCSFormatRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSFormatText.cpp">
+    <ClCompile Include="..\lib\formatters\LCSFormatText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSHuntSzymanski.cpp">
+    <ClCompile Include="..\lib\algorithms\LCSHuntSzymanski.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSMyers.cpp">
+    <ClCompile Include="..\lib\algorithms\LCSMyers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\LCSNormal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSParallel.cpp">
+    <ClCompile Include="..\lib\formatters\LCSParallel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSRecord.cpp">
+    <ClCompile Include="..\lib\modes\LCSRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSRickSpace.cpp">
+    <ClCompile Include="..\lib\algorithms\LCSRickSpace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSRickTime.cpp">
+    <ClCompile Include="..\lib\algorithms\LCSRickTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSSequential.cpp">
+    <ClCompile Include="..\lib\formatters\LCSSequential.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\LCSText.cpp">
+    <ClCompile Include="..\lib\modes\LCSText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\Pair.cpp">
@@ -113,10 +113,10 @@
     <ClInclude Include="..\lib\LCS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSCigar.h">
+    <ClInclude Include="..\lib\formatters\LCSCigar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSEdit.h">
+    <ClInclude Include="..\lib\formatters\LCSEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSEncoding.h">
@@ -125,19 +125,19 @@
     <ClInclude Include="..\lib\LCSFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSFormat.h">
+    <ClInclude Include="..\lib\formatters\LCSFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSFormatRecord.h">
+    <ClInclude Include="..\lib\formatters\LCSFormatRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSFormatText.h">
+    <ClInclude Include="..\lib\formatters\LCSFormatText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSHuntSzymanski.h">
+    <ClInclude Include="..\lib\algorithms\LCSHuntSzymanski.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSMyers.h">
+    <ClInclude Include="..\lib\algorithms\LCSMyers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\LCSNormal.h">
@@ -146,22 +146,22 @@
     <ClInclude Include="..\lib\LCSOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSParallel.h">
+    <ClInclude Include="..\lib\formatters\LCSParallel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSRecord.h">
+    <ClInclude Include="..\lib\modes\LCSRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSRickSpace.h">
+    <ClInclude Include="..\lib\algorithms\LCSRickSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSRickTime.h">
+    <ClInclude Include="..\lib\algorithms\LCSRickTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSSequential.h">
+    <ClInclude Include="..\lib\formatters\LCSSequential.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\LCSText.h">
+    <ClInclude Include="..\lib\modes\LCSText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\Pair.h">

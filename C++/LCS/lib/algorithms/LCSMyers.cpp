@@ -19,7 +19,7 @@
 //
 // See LCSMyers.h for an overview.
 //
-#include "LCSMyers.h"
+#include "algorithms/LCSMyers.h"
 #include "Diagnostic.h"
 
 #include <algorithm>                    // for min, reverse

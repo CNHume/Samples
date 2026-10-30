@@ -16,7 +16,7 @@ DEPFLAGS := -MMD -MP
 BUILD   ?= build
 
 # Library objects: one per lib/*.cpp.
-LIB_SOURCES := $(wildcard ../lib/*.cpp)
+LIB_SOURCES := $(wildcard ../lib/*.cpp ../lib/*/*.cpp)
 LIB_OBJECTS := $(patsubst ../lib/%.cpp, $(BUILD)/%.o, $(LIB_SOURCES))
 
 # Test objects: one per *.cpp in this directory.
@@ -37,6 +37,7 @@ $(TARGET): $(LIB_OBJECTS) $(TEST_OBJECTS)
 
 # Compile an LCS library source.
 $(BUILD)/%.o: ../lib/%.cpp | $(BUILD)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 # Compile a local test source.

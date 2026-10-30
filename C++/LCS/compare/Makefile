@@ -26,7 +26,7 @@ DEPFLAGS := -MMD -MP
 BUILD   ?= build
 SOURCES := $(wildcard *.cpp)
 OBJECTS := $(patsubst %.cpp,$(BUILD)/%.o,$(SOURCES))
-LIB_SOURCES := $(wildcard ../lib/*.cpp)
+LIB_SOURCES := $(wildcard ../lib/*.cpp ../lib/*/*.cpp)
 LIB_OBJECTS := $(patsubst ../lib/%.cpp,$(BUILD)/%.o,$(LIB_SOURCES))
 DEPS    := $(OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
 TARGET  := $(BUILD)/compare
@@ -41,6 +41,7 @@ $(BUILD)/%.o: %.cpp | $(BUILD)
 	$(CXX) $(CPPFLAGS) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD)/%.o: ../lib/%.cpp | $(BUILD)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(DEPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD):

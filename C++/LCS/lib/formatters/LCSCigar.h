@@ -13,11 +13,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSParallel class
+// 2026-10-26 CNHume  Created LCSCigar class
 //
 #pragma once
 
-#include "LCSFormat.h"
+#include "formatters/LCSFormat.h"
 
 #include <cstdint>                      // for uint32_t
 #include <string>
@@ -25,31 +25,27 @@
 namespace lcs {
 
   //
-  // LCSParallel lays out each Delta's two sides in side-by-side columns,
-  // using the separator and rule glyphs inherited from LCSFormat.
+  // LCSCigar emits the SAM CIGAR alignment trace of the query against the
+  // reference: M for matched records, D for reference-only records, and I
+  // for query-only records.
   //
-  class LCSParallel : public LCSFormat {
+  class LCSCigar : public LCSFormat {
   public:
-    explicit LCSParallel(std::uint32_t width, std::uint32_t tabsize);
-
     void BeginResult(
-      const std::string& label1, const std::string& label2,
-      std::uint32_t, std::uint32_t) override;
+      const std::string&, const std::string&,
+      std::uint32_t size1, std::uint32_t) override;
     void EndResult() override;
     void Layout(
       std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
       EditKind) override;
 
   private:
-    std::uint32_t width_;
-    std::uint32_t tabsize_;
-
-    std::uint32_t leftWidth() const;
-    std::uint32_t rightWidth() const;
-    std::string Head(const SideSpan& side1, const SideSpan& side2) const;
-    std::string Body(const SideSpan& side1, const SideSpan& side2) const;
-    std::string Heading(const SideSpan& side, std::uint32_t width) const;
-    std::string Rule() const;
+    std::uint32_t size1_ = 0;           // reference length
+    std::uint32_t size2_ = 0;           // query length
+    std::uint32_t prevEnd1_ = 0;        // previous delta's reference end
+    std::uint32_t reference_ = 0;       // reference positions accounted for
+    std::uint32_t query_ = 0;           // query positions accounted for
+    std::string cigar_;
   };
 
 } // namespace lcs

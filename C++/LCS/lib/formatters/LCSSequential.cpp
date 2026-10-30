@@ -15,7 +15,7 @@
 //
 // 2026-10-24 CNHume  Created LCSSequential class
 //
-#include "LCSSequential.h"
+#include "formatters/LCSSequential.h"
 
 #include <format>                       //[C++20]
 #include <iostream>                     // for cout

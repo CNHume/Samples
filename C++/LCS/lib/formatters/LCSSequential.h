@@ -13,36 +13,33 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
-// 2026-10-24 CNHume  Renamed LCSFormatString to LCSFormatText
-// 2026-10-08 CNHume  Created LCSFormatString class
+// 2026-10-24 CNHume  Created LCSSequential class
 //
 #pragma once
 
-#include "LCSText.h"
-#include "LCSFormat.h"
+#include "formatters/LCSFormat.h"
 
 #include <cstdint>                      // for uint32_t
-#include <memory>                       // for shared_ptr
-#include <string>                       // for string, u32string
+#include <string>
 
 namespace lcs {
 
-  class LCSFormatText : public LCSText {
+  //
+  // LCSSequential lays out each Delta's two sides one after the other,
+  // preserving the historic <<<<< / >>>>> vertical format.
+  //
+  class LCSSequential : public LCSFormat {
   public:
-    static std::u32string Select(
-      std::shared_ptr<Delta> deltas, const std::u32string& s1, const std::u32string& s2,
-      bool isright = false);
-
-    static std::uint32_t Show(
-      LCSFormat& format, std::shared_ptr<Delta> deltas,
-      const std::u32string& s1, const std::u32string& s2,
-      const std::string& label1, const std::string& label2);
+    void Layout(
+      std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
+      EditKind) override;
 
   private:
-    static SideSpan MakeSpan(
-      const std::string& label, const std::u32string& s, std::uint32_t begin,
-      std::uint32_t end);
+    void Side(
+      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
+    std::string Head(
+      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
+    std::string Body(const SideSpan& side);
   };
 
 } // namespace lcs

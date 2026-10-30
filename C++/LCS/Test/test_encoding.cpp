@@ -12,7 +12,7 @@
 // variant must decode to the identical sequence of code points.
 //
 #include "doctest/doctest.h"
-#include "LCSText.h"
+#include "modes/LCSText.h"
 
 #include <string>
 #include <vector>

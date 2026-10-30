@@ -19,7 +19,7 @@
 //
 // See LCSRickSpace.h for an overview.
 //
-#include "LCSRickSpace.h"
+#include "algorithms/LCSRickSpace.h"
 
 #include <algorithm>                    // for merge, max, min, reverse
 #include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX

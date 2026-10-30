@@ -14,9 +14,10 @@
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
 // 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
-// 2022-07-04 CNHume  Created LCSFormatRecord class
+// 2026-10-08 CNHume  Created LCSFormatText class
 //
-#include "LCSFormatRecord.h"
+#include "formatters/LCSFormatText.h"
+#include "LCSEncoding.h"
 
 using namespace std;
 using namespace lcs;
@@ -26,34 +27,34 @@ using namespace lcs;
 //
 // Concatenate elements from the selected side
 //
-LCSRecord::RECORDS LCSFormatRecord::Select(
-  shared_ptr<Delta> deltas, const RECORDS& r1, const RECORDS& r2,
+u32string LCSFormatText::Select(
+  shared_ptr<Delta> deltas, const u32string& s1, const u32string& s2,
   bool isright) {
   uint32_t length1, length2;
   Delta::Lengths(deltas, length1, length2);
-  RECORDS list;
-  list.reserve(isright ? length2 : length1);
+  u32string buffer;
+  buffer.reserve(isright ? length2 : length1);
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
     auto begin = isright ? next->begin2 : next->begin1;
     auto end = isright ? next->end2 : next->end1;
-    auto& records = isright ? r2 : r1;
+    auto& s = isright ? s2 : s1;
     for (auto index = begin; index < end; index++)
-      list.push_back(records[index]);
+      buffer.push_back(s[index]);
   }
-  return list;
+  return buffer;
 }
 
-uint32_t LCSFormatRecord::Show(
+uint32_t LCSFormatText::Show(
   LCSFormat& format, shared_ptr<Delta> deltas,
-  const RECORDS& r1, const RECORDS& r2,
+  const u32string& s1, const u32string& s2,
   const string& label1, const string& label2) {
-  format.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
+  format.BeginResult(label1, label2, (uint32_t)s1.size(), (uint32_t)s2.size());
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
-    auto side1 = MakeSpan(label1, r1, next->begin1, next->end1);
-    auto side2 = MakeSpan(label2, r2, next->begin2, next->end2);
+    auto side1 = MakeSpan(label1, s1, next->begin1, next->end1);
+    auto side2 = MakeSpan(label2, s2, next->begin2, next->end2);
     format.Layout(ndelta, side1, side2);
     ndelta++;
   }
@@ -61,34 +62,13 @@ uint32_t LCSFormatRecord::Show(
   return ndelta;
 }
 
-uint32_t LCSFormatRecord::ShowEdit(
-  LCSEdit& edit, const EDIT_INTERVALS& intervals,
-  const RECORDS& r1, const RECORDS& r2,
-  const string& label1, const string& label2) {
-  edit.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
-  uint32_t ndelta = 0;                  // # of runs
-  for (const auto& interval : intervals) {
-    edit.BeginInterval(
-      interval.front()->begin1, interval.back()->end1,
-      interval.front()->begin2, interval.back()->end2);
-    for (const auto& run : interval) {
-      auto side1 = MakeSpan(label1, r1, run->begin1, run->end1);
-      auto side2 = MakeSpan(label2, r2, run->begin2, run->end2);
-      edit.Layout(ndelta, side1, side2, run->kind);
-      ndelta++;
-    }
-  }
-  edit.EndResult();
-  return ndelta;
-}
-
-SideSpan LCSFormatRecord::MakeSpan(
-  const string& label, const RECORDS& records,
+SideSpan LCSFormatText::MakeSpan(
+  const string& label, const u32string& s,
   uint32_t begin, uint32_t end) {
   SideSpan span;
   span.label = label;
   span.begin = begin;
   span.end = end;
-  span.lines.assign(records.begin() + begin, records.begin() + end);
+  span.lines.push_back(LCSEncoding::ToUtf8(s.substr(begin, end - begin)));
   return span;
 }

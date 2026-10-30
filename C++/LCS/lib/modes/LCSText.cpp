@@ -16,15 +16,15 @@
 // 2017-07-04 CNHume  Created LCSText class
 // 2015-01-19 CNHume  Created file
 //
-#include "LCSText.h"
+#include "modes/LCSText.h"
 #include "Diagnostic.h"
 #include "Duration.h"
 #include "LCSEncoding.h"
-#include "LCSHuntSzymanski.h"
-#include "LCSMyers.h"
+#include "algorithms/LCSHuntSzymanski.h"
+#include "algorithms/LCSMyers.h"
 #include "LCSNormal.h"
-#include "LCSRickSpace.h"
-#include "LCSRickTime.h"
+#include "algorithms/LCSRickSpace.h"
+#include "algorithms/LCSRickTime.h"
 
 #include <algorithm>                    // for min
 #include <format>                       // for format

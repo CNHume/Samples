@@ -13,9 +13,9 @@
 // reconstructed match trace, so a sub-optimal or corrupted trace is caught,
 // not just a wrong length.
 //
-#include "LCSText.h"
+#include "modes/LCSText.h"
 #include "Delta.h"
-#include "LCSRecord.h"
+#include "modes/LCSRecord.h"
 
 #include <algorithm>                    // for equal, fill, max
 #include <cstdint>                      // for uint32_t, uint64_t

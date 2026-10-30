@@ -15,7 +15,7 @@
 //
 // 2026-10-26 CNHume  Created LCSCigar class
 //
-#include "LCSCigar.h"
+#include "formatters/LCSCigar.h"
 
 #include <format>                       //[C++20]
 #include <iostream>                     // for cout

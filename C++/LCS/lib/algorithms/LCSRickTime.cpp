@@ -17,7 +17,7 @@
 //
 // See LCSRickTime.h for an overview.
 //
-#include "LCSRickTime.h"
+#include "algorithms/LCSRickTime.h"
 #include "Diagnostic.h"
 
 #include <algorithm>                    // for lower_bound, sort

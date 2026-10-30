@@ -15,7 +15,7 @@
 //
 // 2026-10-29 CNHume  Created LCSEdit class
 //
-#include "LCSEdit.h"
+#include "formatters/LCSEdit.h"
 
 #include <algorithm>                    // for min
 #include <format>                       //[C++20]

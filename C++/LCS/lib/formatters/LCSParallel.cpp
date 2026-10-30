@@ -15,7 +15,7 @@
 //
 // 2026-10-24 CNHume  Created LCSParallel class
 //
-#include "LCSParallel.h"
+#include "formatters/LCSParallel.h"
 
 #include <algorithm>                    // for max
 #include <format>                       //[C++20]
