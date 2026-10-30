@@ -190,7 +190,7 @@ uint32_t Text::Compare(
     auto editLowerBound = s1.size() + s2.size() - 2 * sumMin;
     string reason;
     algorithm = Diagnostic::SelectAutomatic(
-      s1.size(), s2.size(), matches, symbols, editLowerBound, reason);
+      reason, s1.size(), s2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
         Statistics::NameOf(algorithm), reason);

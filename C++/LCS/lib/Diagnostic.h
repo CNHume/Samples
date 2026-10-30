@@ -58,9 +58,10 @@ namespace lcs {
     // record the reason in `reason` for verbose output.
     //
     static Algorithm SelectAutomatic(
+      std::string& reason,
       std::uint64_t m, std::uint64_t n,
       std::uint64_t matches, std::uint64_t symbols,
-      std::uint64_t editLowerBound, std::string& reason);
+      std::uint64_t editLowerBound);
   };
 
 } // namespace lcs

@@ -144,8 +144,8 @@ void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
 }
 
 Algorithm Diagnostic::SelectAutomatic(
-  uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols,
-  uint64_t editLowerBound, string& reason) {
+  string& reason, uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols,
+  uint64_t editLowerBound) {
   auto shorter = min(m, n);
   if (editLowerBound <= autoEditThreshold) {
     reason = format(

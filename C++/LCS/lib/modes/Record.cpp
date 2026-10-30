@@ -154,7 +154,7 @@ uint32_t Record::Compare(
     auto editLowerBound = r1.size() + r2.size() - 2 * sumMin;
     string reason;
     algorithm = Diagnostic::SelectAutomatic(
-      r1.size(), r2.size(), matches, symbols, editLowerBound, reason);
+      reason, r1.size(), r2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
         Statistics::NameOf(algorithm), reason);
