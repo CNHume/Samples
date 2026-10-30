@@ -162,12 +162,9 @@ LCS::Algorithm Diagnostic::SelectAutomatic(
   // shorter length under-counts high-redundancy inputs, where r is O(n^2).
   //
   auto budget = RecordingBudget(m, n, symbols);
-  if (budget >= matches) {
-    reason = format(
-      "RickTime recording budget {} covers {} matches", budget, matches);
-    return LCS::Algorithm::RickTime;
-  }
-  reason = format(
-    "RickTime recording budget {} is below {} matches", budget, matches);
-  return LCS::Algorithm::RickSpace;
+  auto fits = budget >= matches;
+  reason = fits
+    ? format("RickTime recording budget {} covers {} matches", budget, matches)
+    : format("RickTime recording budget {} is below {} matches", budget, matches);
+  return fits ? LCS::Algorithm::RickTime : LCS::Algorithm::RickSpace;
 }
