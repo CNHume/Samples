@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSSequential class
+// 2026-10-24 CNHume  Created Sequential class
 //
 #pragma once
 
@@ -22,13 +22,13 @@
 #include <cstdint>                      // for uint32_t
 #include <string>
 
-namespace lcs {
+namespace lcs::formatters {
 
   //
-  // LCSSequential lays out each Delta's two sides one after the other,
+  // Sequential lays out each Delta's two sides one after the other,
   // preserving the historic <<<<< / >>>>> vertical format.
   //
-  class LCSSequential : public LCSFormat {
+  class Sequential : public Formatter {
   public:
     void Layout(
       std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
@@ -42,4 +42,4 @@ namespace lcs {
     std::string Body(const SideSpan& side);
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

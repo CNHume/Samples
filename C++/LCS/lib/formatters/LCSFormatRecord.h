@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
-// 2022-07-04 CNHume  Created LCSFormatRecord class
+// 2026-10-24 CNHume  Delegate layout to Formatter subclasses
+// 2022-07-04 CNHume  Created RecordDriver class
 //
 #pragma once
 
@@ -26,21 +26,21 @@
 #include <memory>                       // for shared_ptr
 #include <string>                       // for string
 
-namespace lcs {
+namespace lcs::formatters {
 
-  class LCSFormatRecord : public LCSRecord {
+  class RecordDriver : public modes::Record {
   public:
     static RECORDS Select(
       std::shared_ptr<Delta> deltas, const RECORDS& r1, const RECORDS& r2,
       bool isright = false);
 
     static std::uint32_t Show(
-      LCSFormat& format, std::shared_ptr<Delta> deltas,
+      Formatter& format, std::shared_ptr<Delta> deltas,
       const RECORDS& r1, const RECORDS& r2,
       const std::string& label1, const std::string& label2);
 
     static std::uint32_t ShowEdit(
-      LCSEdit& edit, const EDIT_INTERVALS& intervals,
+      Edit& edit, const EDIT_INTERVALS& intervals,
       const RECORDS& r1, const RECORDS& r2,
       const std::string& label1, const std::string& label2);
 
@@ -50,4 +50,4 @@ namespace lcs {
       std::uint32_t begin, std::uint32_t end);
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

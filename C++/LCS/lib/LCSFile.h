@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Changed to accept LCSOptions rather than Command
+// 2026-10-24 CNHume  Changed to accept Options rather than Command
 // 2018-05-11 CNHume  Added word switch
-// 2017-07-09 CNHume  Created LCSFile class
+// 2017-07-09 CNHume  Created File class
 //
 #pragma once
 
@@ -27,15 +27,15 @@
 
 namespace lcs {
 
-  class LCSFile {
+  class File {
   public:
     static std::uint32_t Correspondence(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
-      const LCSOptions& options);
+      const Options& options);
 
     static std::uint32_t Difference(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
-      const LCSOptions& options);
+      const Options& options);
   };
 
 } // namespace lcs

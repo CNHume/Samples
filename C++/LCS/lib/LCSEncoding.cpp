@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-07 CNHume  Created LCSEncoding class
+// 2026-10-07 CNHume  Created Encoding class
 //
 #include "LCSEncoding.h"
 #include "LCSNormal.h"
@@ -27,7 +27,7 @@
 using namespace std;
 using namespace lcs;
 
-tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer) {
+tuple<Encoding::Kind, int> Encoding::GetEncoding(const string& buffer) {
   for (int index = 0; index < (int)BOM.size(); index++) {
     const auto& bom = BOM[index];
     if (bom.size() > buffer.size())
@@ -46,7 +46,7 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::GetEncoding(const string& buffer)
   return { encodings.back(), 0 };       // ANSI: no BOM matched
 }
 
-bool LCSEncoding::IsWide(Encoding encoding) {
+bool Encoding::IsWide(Kind encoding) {
   switch (encoding) {
   case UTF16_LE:
   case UTF16_BE:
@@ -58,7 +58,7 @@ bool LCSEncoding::IsWide(Encoding encoding) {
   }
 }
 
-string LCSEncoding::ToUtf8(const u32string& codePoints) {
+string Encoding::ToUtf8(const u32string& codePoints) {
   string utf8;
   for (auto cp : codePoints) {
     if (cp < 0x80)
@@ -82,7 +82,7 @@ string LCSEncoding::ToUtf8(const u32string& codePoints) {
   return utf8;
 }
 
-tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filename) {
+tuple<Encoding::Kind, int> Encoding::PeekEncoding(const string& filename) {
   ifstream input(filename, ios::binary);
   if (input.fail()) {
     string msg(format("{} not found", filename));
@@ -94,8 +94,8 @@ tuple<LCSEncoding::Encoding, int> LCSEncoding::PeekEncoding(const string& filena
   return GetEncoding(peek);
 }
 
-vector<string> LCSEncoding::ReadWide(
-  const string& filename, Encoding encoding, bool isword) {
+vector<string> Encoding::ReadWide(
+  const string& filename, Kind encoding, bool isword) {
   string bytes = ReadBytes(filename);
   auto codePoints = DecodeCodePoints(bytes, encoding);
   // Split the entire input into views of lines.  std::views::split appends
@@ -115,7 +115,7 @@ vector<string> LCSEncoding::ReadWide(
     if (isword) {
       std::u32string word;
       for (auto cp : line) {
-        if (LCSNormal::IsSpace(cp)) {
+        if (Normal::IsSpace(cp)) {
           // Only push non-empty words
           if (!word.empty()) {
             records.push_back(ToUtf8(word));
@@ -140,7 +140,7 @@ vector<string> LCSEncoding::ReadWide(
   return records;
 }
 
-string LCSEncoding::ReadBytes(const string& filename) {
+string Encoding::ReadBytes(const string& filename) {
   // Open at the end to learn the file size, then rewind and read in a single
   // call.  This avoids the per-byte growth of the istreambuf_iterator.
   ifstream input(filename, ios::binary | ios::ate);
@@ -162,8 +162,8 @@ string LCSEncoding::ReadBytes(const string& filename) {
   return bytes;
 }
 
-u32string LCSEncoding::DecodeCodePoints(
-  const string& bytes, Encoding encoding) {
+u32string Encoding::DecodeCodePoints(
+  const string& bytes, Kind encoding) {
   auto is32 = encoding == UTF32_LE || encoding == UTF32_BE;
   auto bigEndian = encoding == UTF16_BE || encoding == UTF32_BE;
   auto width = is32 ? 4 : 2;
@@ -207,7 +207,7 @@ u32string LCSEncoding::DecodeCodePoints(
   return codePoints;
 }
 
-u32string LCSEncoding::DecodeUtf8(const string& bytes) {
+u32string Encoding::DecodeUtf8(const string& bytes) {
   u32string codePoints;
   auto cont = [&](size_t k) {
     return (unsigned char)bytes[k] >= 0x80 && (unsigned char)bytes[k] < 0xC0;
@@ -261,7 +261,7 @@ u32string LCSEncoding::DecodeUtf8(const string& bytes) {
   return codePoints;
 }
 
-u32string LCSEncoding::NormalizeCrlf(const u32string& codePoints) {
+u32string Encoding::NormalizeCrlf(const u32string& codePoints) {
   u32string normalized;
   normalized.reserve(codePoints.size());
   for (size_t i = 0; i < codePoints.size(); i++) {
@@ -277,7 +277,7 @@ u32string LCSEncoding::NormalizeCrlf(const u32string& codePoints) {
 // Byte Order Mark (BOM)
 // See https://en.wikipedia.org/wiki/Byte_order_mark
 //
-const vector<vector<unsigned char>> LCSEncoding::BOM = {
+const vector<vector<unsigned char>> Encoding::BOM = {
   { 0x84, 0x31, 0x95, 0x33 },           // GB18030
   { 0xFB, 0xEE, 0x28 },                 // BOCU1
   { 0x0E, 0xFE, 0xFF },                 // SCSU
@@ -291,7 +291,7 @@ const vector<vector<unsigned char>> LCSEncoding::BOM = {
   { 0xEF, 0xBB, 0xBF }                  // UTF8_BOM
 };
 
-const vector<LCSEncoding::Encoding> LCSEncoding::encodings = {
+const vector<Encoding::Kind> Encoding::encodings = {
   GB18030,
   BOCU1,
   SCSU,

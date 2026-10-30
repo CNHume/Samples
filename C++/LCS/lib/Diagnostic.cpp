@@ -143,18 +143,18 @@ void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
     distance, budget) << '\n';
 }
 
-LCS::Algorithm Diagnostic::SelectAutomatic(
+Algorithm Diagnostic::SelectAutomatic(
   uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols,
   uint64_t editLowerBound, string& reason) {
   auto shorter = min(m, n);
   if (editLowerBound <= autoEditThreshold) {
     reason = format(
       "edit distance lower bound {} is within Myers' fast range", editLowerBound);
-    return LCS::Algorithm::EditDistance;
+    return Algorithm::EditDistance;
   }
   if (matches <= autoSparseRedundancy * shorter) {
     reason = format("{} matches is sparse", matches);
-    return LCS::Algorithm::Matches;
+    return Algorithm::Matches;
   }
   //
   // RickTime records dominant matches, a subset of the total match count r,
@@ -166,5 +166,5 @@ LCS::Algorithm Diagnostic::SelectAutomatic(
   reason = fits
     ? format("RickTime recording budget {} covers {} matches", budget, matches)
     : format("RickTime recording budget {} is below {} matches", budget, matches);
-  return fits ? LCS::Algorithm::RickTime : LCS::Algorithm::RickSpace;
+  return fits ? Algorithm::RickTime : Algorithm::RickSpace;
 }

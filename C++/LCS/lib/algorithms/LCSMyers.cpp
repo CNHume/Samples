@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-27 CNHume  Created LCSMyers class
+// 2026-10-27 CNHume  Created Myers class
 //
 // Myers (1986) minimal edit-script algorithm, over code points or records.
 //
@@ -32,6 +32,8 @@
 
 using namespace std;
 using namespace lcs;
+
+namespace lcs::algorithms {
 
 namespace {
   struct Match {
@@ -80,7 +82,7 @@ namespace {
     if (lower > budget) {
       Diagnostic::WarnMyersDistance(lower, budget);
       throw runtime_error(
-        "LCSMyers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
+        "Myers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
     }
 
     //
@@ -127,12 +129,12 @@ namespace {
     if (D < 0) {
       Diagnostic::WarnMyersDistance(budget, budget);
       throw runtime_error(
-        "LCSMyers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
+        "Myers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
     }
 
     auto length = (uint32_t)((m + n - (size_t)D) / 2);
     if (statistics) {
-      statistics->algorithm = LCS::Algorithm::EditDistance;
+      statistics->algorithm = Algorithm::EditDistance;
       statistics->edits = (uint64_t)D;
     }
 
@@ -185,14 +187,16 @@ namespace {
   }
 }
 
-uint32_t LCSMyers::Find(
+uint32_t Myers::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   return MyersFind(pairs, statistics, s1, s2);
 }
 
-uint32_t LCSMyers::Find(
+uint32_t Myers::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics,
   const vector<string>& r1, const vector<string>& r2) {
   return MyersFind(pairs, statistics, r1, r2);
 }
+
+} // namespace lcs::algorithms

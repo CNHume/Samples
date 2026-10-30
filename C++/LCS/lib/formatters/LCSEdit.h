@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-29 CNHume  Created LCSEdit class
+// 2026-10-29 CNHume  Created Edit class
 //
 #pragma once
 
@@ -24,7 +24,7 @@
 #include <string>                       // for string
 #include <vector>                       // for vector
 
-namespace lcs {
+namespace lcs::formatters {
 
   //
   // A result is a list of intervals; each interval is a list of tagged runs
@@ -33,10 +33,10 @@ namespace lcs {
   typedef std::vector<std::vector<std::shared_ptr<Delta>>> EDIT_INTERVALS;
 
   //
-  // LCSEdit renders the GNU unified diff patch (-u): a ---/+++ file header,
+  // Edit renders the GNU unified diff patch (-u): a ---/+++ file header,
   // then per-interval @@ headers and the prefixed body lines.
   //
-  class LCSEdit : public LCSFormat {
+  class Edit : public Formatter {
   public:
     void BeginResult(
       const std::string& label1, const std::string& label2,
@@ -64,4 +64,4 @@ namespace lcs {
     static std::string Range(std::uint32_t begin, std::uint32_t end);
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

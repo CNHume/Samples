@@ -13,10 +13,10 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-07 CNHume  Created LCSEncoding class
+// 2026-10-07 CNHume  Created Encoding class
 //
 #pragma once
-//#define KEEP_CRLF                     // Suppress CRLF normalization in LCSText::Read()
+//#define KEEP_CRLF                     // Suppress CRLF normalization in modes::Text::Read()
 // If KEEP_CRLF is defined -t istext treats files as one long string,
 // leaving Windows (CRLF) vs. Linux (LF) end-of-line distinct.
 // -b ignorespace can be used to ignore them.
@@ -27,25 +27,25 @@
 
 namespace lcs {
 
-  class LCSEncoding {
+  class Encoding {
   public:
-    enum Encoding {
+    enum Kind {
       ANSI, UTF8_BOM, UTF16_BE, UTF16_LE, UTF32_BE, UTF32_LE, UTF7, UTF1, UTF_EBCDIC, SCSU, BOCU1, GB18030
     };
 
-    static std::tuple<Encoding, int> GetEncoding(const std::string& buffer);
-    static bool IsWide(Encoding encoding);
+    static std::tuple<Kind, int> GetEncoding(const std::string& buffer);
+    static bool IsWide(Kind encoding);
     static std::string ToUtf8(const std::u32string& codePoints);
-    static std::tuple<Encoding, int> PeekEncoding(const std::string& filename);
+    static std::tuple<Kind, int> PeekEncoding(const std::string& filename);
     static std::vector<std::string> ReadWide(
-      const std::string& filename, Encoding encoding, bool isword);
+      const std::string& filename, Kind encoding, bool isword);
     static std::string ReadBytes(const std::string& filename);
-    static std::u32string DecodeCodePoints(const std::string& bytes, Encoding encoding);
+    static std::u32string DecodeCodePoints(const std::string& bytes, Kind encoding);
     static std::u32string DecodeUtf8(const std::string& bytes);
     static std::u32string NormalizeCrlf(const std::u32string& codePoints);
 
     const static std::vector<std::vector<unsigned char>> BOM;
-    const static std::vector<Encoding> encodings;
+    const static std::vector<Kind> encodings;
   };
 
 } // namespace lcs

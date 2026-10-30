@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-15 CNHume  Created LCSRickTime class
+// 2026-10-15 CNHume  Created RickTime class
 //
 // Rick (1995) flexible LCS algorithm: a diagonal sweep that computes dominant
 // matches row-by-row and column-by-column with two threshold arrays.
@@ -34,9 +34,9 @@
 #include <memory>                       // for shared_ptr
 #include <string>                       // for u32string
 
-namespace lcs {
+namespace lcs::algorithms {
 
-  class LCSRickTime : public LCS {
+  class RickTime {
   public:
     //
     // Compute the LCS length and, when pairs is non-null, the matched positions
@@ -60,4 +60,4 @@ namespace lcs {
       const std::u32string& s1, const std::u32string& s2);
   };
 
-} // namespace lcs
+} // namespace lcs::algorithms

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2017-07-04 CNHume  Moved methods to LCSRecord and LCSString subclasses
+// 2017-07-04 CNHume  Moved methods to modes::Record and LCSString subclasses
 // 2017-06-29 CNHume  Added Command class
 // 2015-01-19 CNHume  Refactored Show() and Delta::Complement()
 // 2015-01-17 CNHume  Added reclamation via shared_ptr<>
@@ -26,7 +26,7 @@
 #pragma once
 #define FILTER_PAIRS
 //#define SHOW_MATCHES
-//#define SHOW_MATCH_COUNT              // See Match() in LCSFile, LCSRecord, and LCSText
+//#define SHOW_MATCH_COUNT              // See Match() in File, modes::Record, and modes::Text
 //#define SHOW_PAIRS
 //#define SHOW_PREFIXENDS
 
@@ -40,29 +40,26 @@
 
 namespace lcs {
 
-  class LCS {
-  public:
-    // The LCS algorithm selected at run time.
-    enum class Algorithm {
-      Automatic,          // heuristic dispatch (-aa) selects among the below
-      EditDistance,       // Myers 1986, O(ND) edit graph, minimal edit script
-      Matches,            // Hunt-Szymanski, threshold array over match lists
-      RickSpace,          // Rick 2000, contours + Hirschberg, linear space
-      RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
-    };
-
-    // The output format selected at run time.
-    enum class Format {
-      CIGAR,              // CIGAR alignment string
-      Edit,               // GNU unified diff patch (-u)
-      Parallel,           // two columns side-by-side
-      Sequential,         // one side after the other
-    };
-
-    typedef std::deque<std::shared_ptr<Pair>> PAIRS;
-    typedef std::deque<std::uint32_t> INDEXES;
-    typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;
-    typedef std::deque<INDEXES*> MATCHES;
+  // The LCS algorithm selected at run time.
+  enum class Algorithm {
+    Automatic,          // heuristic dispatch (-aa) selects among the below
+    EditDistance,       // Myers 1986, O(ND) edit graph, minimal edit script
+    Matches,            // Hunt-Szymanski, threshold array over match lists
+    RickSpace,          // Rick 2000, contours + Hirschberg, linear space
+    RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
   };
+
+  // The output format selected at run time.
+  enum class Format {
+    CIGAR,              // CIGAR alignment string
+    Edit,               // GNU unified diff patch (-u)
+    Parallel,           // two columns side-by-side
+    Sequential,         // one side after the other
+  };
+
+  typedef std::deque<std::shared_ptr<Pair>> PAIRS;
+  typedef std::deque<std::uint32_t> INDEXES;
+  typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;
+  typedef std::deque<INDEXES*> MATCHES;
 
 } // namespace lcs

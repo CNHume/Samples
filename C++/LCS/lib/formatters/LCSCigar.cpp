@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-26 CNHume  Created LCSCigar class
+// 2026-10-26 CNHume  Created Cigar class
 //
 #include "formatters/LCSCigar.h"
 
@@ -24,7 +24,9 @@
 using namespace std;
 using namespace lcs;
 
-void LCSCigar::BeginResult(
+namespace lcs::formatters {
+
+void Cigar::BeginResult(
   const string&, const string&, uint32_t size1, uint32_t size2) {
   size1_ = size1;
   size2_ = size2;
@@ -34,7 +36,7 @@ void LCSCigar::BeginResult(
   cigar_.clear();
 }
 
-void LCSCigar::Layout(
+void Cigar::Layout(
   uint32_t, const SideSpan& side1, const SideSpan& side2, EditKind) {
   // The match preceding this delta.
   auto match = side1.begin - prevEnd1_;
@@ -57,7 +59,7 @@ void LCSCigar::Layout(
   prevEnd1_ = side1.end;
 }
 
-void LCSCigar::EndResult() {
+void Cigar::EndResult() {
   // The match following the last delta.
   auto match = size1_ - prevEnd1_;
   if (match > 0) {
@@ -72,3 +74,5 @@ void LCSCigar::EndResult() {
     throw runtime_error("CIGAR trace does not match the input lengths");
   cout << cigar_ << '\n';
 }
+
+} // namespace lcs::formatters

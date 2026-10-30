@@ -17,7 +17,7 @@
 //
 #pragma once
 
-#include "LCS.h"                        // for LCS::Algorithm
+#include "LCS.h"                        // for Algorithm
 
 #include <cstdint>                      // for uint64_t
 #include <string>                       // for string
@@ -57,7 +57,7 @@ namespace lcs {
     // Automatic (-aa) dispatch: select the algorithm from the three metrics and
     // record the reason in `reason` for verbose output.
     //
-    static LCS::Algorithm SelectAutomatic(
+    static Algorithm SelectAutomatic(
       std::uint64_t m, std::uint64_t n,
       std::uint64_t matches, std::uint64_t symbols,
       std::uint64_t editLowerBound, std::string& reason);

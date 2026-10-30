@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-15 CNHume  Created LCSRickTime class
+// 2026-10-15 CNHume  Created RickTime class
 //
 // See LCSRickTime.h for an overview.
 //
@@ -28,6 +28,8 @@
 #include <vector>
 
 using namespace lcs;
+
+namespace lcs::algorithms {
 
 using namespace std;
 
@@ -105,7 +107,7 @@ namespace {
     return t;
   }
 
-  FlexTables BuildTables(const LCS::MATCHES& matches, size_t size1, size_t size2) {
+  FlexTables BuildTables(const MATCHES& matches, size_t size1, size_t size2) {
     FlexTables t;
     t.m = (int64_t)size1;
     t.n = (int64_t)size2;
@@ -114,8 +116,8 @@ namespace {
     // Pointer identity compresses symbols: two rows sharing a symbol share the
     // same match-list pointer, so the pointer is the symbol id.
     //
-    unordered_map<const LCS::INDEXES*, uint32_t> pointerToId;
-    vector<const LCS::INDEXES*> lists;   // lists[id] = sorted positions of symbol id
+    unordered_map<const INDEXES*, uint32_t> pointerToId;
+    vector<const INDEXES*> lists;   // lists[id] = sorted positions of symbol id
     t.id1.assign(size1, UINT32_MAX);
     for (size_t i = 0; i < size1; i++) {
       const auto* matchList = matches[i];
@@ -248,7 +250,7 @@ static uint32_t Sweep(
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
-              "LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+              "RickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
         }
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
@@ -284,7 +286,7 @@ static uint32_t Sweep(
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
-              "LCSRickTime: match recording would exhaust memory; use -as (RickSpace)");
+              "RickTime: match recording would exhaust memory; use -as (RickSpace)");
           }
         }
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];
@@ -337,27 +339,29 @@ static uint32_t Sweep(
   else if (traceLCS)
     *pairs = nullptr;
   if (statistics) {
-    statistics->algorithm = LCS::Algorithm::RickTime;
+    statistics->algorithm = Algorithm::RickTime;
     statistics->records = records;
   }
   return p;
 }
 
-uint32_t LCSRickTime::Find(
+uint32_t RickTime::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
   return Sweep(pairs, statistics, t);
 }
 
-uint32_t LCSRickTime::Find(
+uint32_t RickTime::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
   return Sweep(pairs, statistics, t);
 }
 
-uint32_t LCSRickTime::FindFlexibleLength(
+uint32_t RickTime::FindFlexibleLength(
   const u32string& s1, const u32string& s2) {
   return Find(nullptr, nullptr, s1, s2);
 }
+
+} // namespace lcs::algorithms

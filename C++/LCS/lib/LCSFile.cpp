@@ -14,7 +14,7 @@
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
 // 2018-05-11 CNHume  Added word switch
-// 2017-07-09 CNHume  Created LCSFile class
+// 2017-07-09 CNHume  Created File class
 //
 #include "LCSFile.h"
 #include "LCSEncoding.h"
@@ -36,18 +36,18 @@ namespace {
   //
   // Build the formatter selected by the format specifier.
   //
-  unique_ptr<LCSFormat> MakeFormat(
-    LCS::Format format, uint32_t width, uint32_t tabsize) {
-    unique_ptr<LCSFormat> formatter;
+  unique_ptr<formatters::Formatter> MakeFormat(
+    Format format, uint32_t width, uint32_t tabsize) {
+    unique_ptr<formatters::Formatter> formatter;
     switch (format) {
-    case LCS::Format::CIGAR:
-      formatter = make_unique<LCSCigar>();
+    case Format::CIGAR:
+      formatter = make_unique<formatters::Cigar>();
       break;
-    case LCS::Format::Parallel:
-      formatter = make_unique<LCSParallel>(width, tabsize);
+    case Format::Parallel:
+      formatter = make_unique<formatters::Parallel>(width, tabsize);
       break;
-    case LCS::Format::Sequential:
-      formatter = make_unique<LCSSequential>();
+    case Format::Sequential:
+      formatter = make_unique<formatters::Sequential>();
       break;
     default:
       throw runtime_error("Unknown format");
@@ -56,108 +56,108 @@ namespace {
   }
 }
 
-uint32_t LCSFile::Correspondence(
+uint32_t File::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
-  const LCSOptions& options) {
+  const Options& options) {
   uint32_t length(0);
   auto format = MakeFormat(options.format, options.width, options.tabsize);
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
       // Treat filename arguments as literal strings.
-      s1 = LCSEncoding::DecodeUtf8(options.file1);
-      s2 = LCSEncoding::DecodeUtf8(options.file2);
+      s1 = Encoding::DecodeUtf8(options.file1);
+      s2 = Encoding::DecodeUtf8(options.file2);
     }
     else {
-      s1 = LCSText::Read(options.file1);
-      s2 = LCSText::Read(options.file2);
+      s1 = modes::Text::Read(options.file1);
+      s2 = modes::Text::Read(options.file2);
       if (options.isfasta) {
-        s1 = LCSText::StripFasta(s1);
-        s2 = LCSText::StripFasta(s2);
+        s1 = modes::Text::StripFasta(s1);
+        s2 = modes::Text::StripFasta(s2);
       }
     }
-    length = LCSText::Correspondence(
+    length = modes::Text::Correspondence(
       intervals, statistics, s1, s2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(
+      formatters::TextDriver::Show(
         *format, *intervals, s1, s2, options.file1, options.file2);
   }
   else {
-    auto r1 = LCSRecord::Read(options.file1, options.isword);
-    auto r2 = LCSRecord::Read(options.file2, options.isword);
-    length = LCSRecord::Correspondence(
+    auto r1 = modes::Record::Read(options.file1, options.isword);
+    auto r2 = modes::Record::Read(options.file2, options.isword);
+    length = modes::Record::Correspondence(
       intervals, statistics, r1, r2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatRecord::Show(
+      formatters::RecordDriver::Show(
         *format, *intervals, r1, r2, options.file1, options.file2);
   }
   return length;
 }
 
-uint32_t LCSFile::Difference(
+uint32_t File::Difference(
   shared_ptr<Delta>* intervals, Statistics* statistics,
-  const LCSOptions& options) {
+  const Options& options) {
   uint32_t length(0);
   if (options.istext) {
     auto format = MakeFormat(options.format, options.width, options.tabsize);
     u32string s1, s2;
     if (options.isquote) {
       // Treat filename arguments as literal strings.
-      s1 = LCSEncoding::DecodeUtf8(options.file1);
-      s2 = LCSEncoding::DecodeUtf8(options.file2);
+      s1 = Encoding::DecodeUtf8(options.file1);
+      s2 = Encoding::DecodeUtf8(options.file2);
     }
     else {
-      s1 = LCSText::Read(options.file1);
-      s2 = LCSText::Read(options.file2);
+      s1 = modes::Text::Read(options.file1);
+      s2 = modes::Text::Read(options.file2);
       if (options.isfasta) {
-        s1 = LCSText::StripFasta(s1);
-        s2 = LCSText::StripFasta(s2);
+        s1 = modes::Text::StripFasta(s1);
+        s2 = modes::Text::StripFasta(s2);
       }
     }
-    length = LCSText::Difference(
+    length = modes::Text::Difference(
       intervals, statistics, s1, s2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
     if (intervals != nullptr)
-      LCSFormatText::Show(
+      formatters::TextDriver::Show(
         *format, *intervals, s1, s2, options.file1, options.file2);
   }
   else {
-    auto r1 = LCSRecord::Read(options.file1, options.isword);
-    auto r2 = LCSRecord::Read(options.file2, options.isword);
-    if (options.format == LCS::Format::Edit) {
+    auto r1 = modes::Record::Read(options.file1, options.isword);
+    auto r2 = modes::Record::Read(options.file2, options.isword);
+    if (options.format == Format::Edit) {
       shared_ptr<Delta> matches;
-      length = LCSRecord::Compare(
+      length = modes::Record::Compare(
         &matches, statistics, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isverbose);
       if (intervals != nullptr) {
         auto differences = Delta::Complement(matches, r1.size(), r2.size());
-        auto editIntervals = LCSEdit::BuildIntervals(
+        auto editIntervals = formatters::Edit::BuildIntervals(
           matches, differences, options.prefix, options.suffix);
         if (!editIntervals.empty()) {   // identical files: emit nothing, like diff -u
-          LCSEdit edit;
-          LCSFormatRecord::ShowEdit(
+          formatters::Edit edit;
+          formatters::RecordDriver::ShowEdit(
             edit, editIntervals, r1, r2, options.file1, options.file2);
         }
       }
     }
     else {
       auto format = MakeFormat(options.format, options.width, options.tabsize);
-      length = LCSRecord::Difference(
+      length = modes::Record::Difference(
         intervals, statistics, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isjoin, options.isverbose,
         options.join, options.prefix, options.suffix);
       if (intervals != nullptr)
-        LCSFormatRecord::Show(
+        formatters::RecordDriver::Show(
           *format, *intervals, r1, r2, options.file1, options.file2);
     }
   }

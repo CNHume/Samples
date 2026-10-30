@@ -13,20 +13,22 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
-// 2022-07-04 CNHume  Created LCSFormatRecord class
+// 2026-10-24 CNHume  Delegate layout to Formatter subclasses
+// 2022-07-04 CNHume  Created RecordDriver class
 //
 #include "formatters/LCSFormatRecord.h"
 
 using namespace std;
 using namespace lcs;
 
+namespace lcs::formatters {
+
 //
 // Delta Formatters
 //
 // Concatenate elements from the selected side
 //
-LCSRecord::RECORDS LCSFormatRecord::Select(
+modes::Record::RECORDS RecordDriver::Select(
   shared_ptr<Delta> deltas, const RECORDS& r1, const RECORDS& r2,
   bool isright) {
   uint32_t length1, length2;
@@ -44,8 +46,8 @@ LCSRecord::RECORDS LCSFormatRecord::Select(
   return list;
 }
 
-uint32_t LCSFormatRecord::Show(
-  LCSFormat& format, shared_ptr<Delta> deltas,
+uint32_t RecordDriver::Show(
+  Formatter& format, shared_ptr<Delta> deltas,
   const RECORDS& r1, const RECORDS& r2,
   const string& label1, const string& label2) {
   format.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
@@ -61,8 +63,8 @@ uint32_t LCSFormatRecord::Show(
   return ndelta;
 }
 
-uint32_t LCSFormatRecord::ShowEdit(
-  LCSEdit& edit, const EDIT_INTERVALS& intervals,
+uint32_t RecordDriver::ShowEdit(
+  Edit& edit, const EDIT_INTERVALS& intervals,
   const RECORDS& r1, const RECORDS& r2,
   const string& label1, const string& label2) {
   edit.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
@@ -82,7 +84,7 @@ uint32_t LCSFormatRecord::ShowEdit(
   return ndelta;
 }
 
-SideSpan LCSFormatRecord::MakeSpan(
+SideSpan RecordDriver::MakeSpan(
   const string& label, const RECORDS& records,
   uint32_t begin, uint32_t end) {
   SideSpan span;
@@ -92,3 +94,5 @@ SideSpan LCSFormatRecord::MakeSpan(
   span.lines.assign(records.begin() + begin, records.begin() + end);
   return span;
 }
+
+} // namespace lcs::formatters

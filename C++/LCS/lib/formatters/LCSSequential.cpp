@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSSequential class
+// 2026-10-24 CNHume  Created Sequential class
 //
 #include "formatters/LCSSequential.h"
 
@@ -23,27 +23,29 @@
 using namespace std;
 using namespace lcs;
 
+namespace lcs::formatters {
+
 // Write both sides of a Delta sequentially
-void LCSSequential::Layout(
+void Sequential::Layout(
   uint32_t counter, const SideSpan& side1, const SideSpan& side2, EditKind) {
   Side(side1, string(5, leftEmblem), counter);   // <<<<<
   Side(side2, string(5, rightEmblem), counter);  // >>>>>
 }
 
-void LCSSequential::Side(
+void Sequential::Side(
   const SideSpan& side, const string& emblem, uint32_t counter) {
   if (side.begin < side.end)
     cout << Head(side, emblem, counter) << Body(side);
 }
 
-std::string LCSSequential::Head(
+std::string Sequential::Head(
   const SideSpan& side, const string& emblem, uint32_t counter) {
   return format(
     "{} {} {} [{}:{}] {}\n",
     emblem, counter + 1, side.label, side.begin, side.end, emblem);
 }
 
-std::string LCSSequential::Body(const SideSpan& side) {
+std::string Sequential::Body(const SideSpan& side) {
   string text;
   for (const auto& line : side.lines) {
     text += line;
@@ -51,3 +53,5 @@ std::string LCSSequential::Body(const SideSpan& side) {
   }
   return text;
 }
+
+} // namespace lcs::formatters

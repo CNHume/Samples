@@ -44,16 +44,18 @@
 using namespace std;
 using namespace lcs;
 
+namespace lcs::algorithms {
+
 namespace {
   shared_ptr<Pair> pushPair(
-    LCS::PAIRS& chains, const ptrdiff_t& index3,
+    PAIRS& chains, const ptrdiff_t& index3,
     uint32_t& index1, uint32_t& index2) {
     auto prefix = index3 > 0 ? chains[index3 - 1] : nullptr;
     return make_shared<Pair>(index1, index2, prefix);
   }
 }
 
-uint32_t LCSHuntSzymanski::Find(
+uint32_t HuntSzymanski::Find(
   shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1) {
   auto traceLCS = pairs != nullptr;
   PAIRS chains;
@@ -170,3 +172,5 @@ uint32_t LCSHuntSzymanski::Find(
 #endif
   return length;
 }
+
+} // namespace lcs::algorithms

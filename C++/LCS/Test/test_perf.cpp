@@ -44,7 +44,7 @@ using Clock = chrono::steady_clock;
 
 namespace {
   //
-  // bench.cpp: time LCSRickSpace or LCSRickTime on two raw sequence files.
+  // bench.cpp: time algorithms::RickSpace or algorithms::RickTime on two raw sequence files.
   //
   u32string loadFile(const char* path) {
     ifstream f(path, ios::binary);
@@ -72,9 +72,9 @@ namespace {
     shared_ptr<Pair> pairs = nullptr;
     auto t0 = Clock::now();
     if (strcmp(argv[0], "time") == 0)
-      p = LCSRickTime::Find(&pairs, nullptr, a, b);
+      p = algorithms::RickTime::Find(&pairs, nullptr, a, b);
     else
-      p = LCSRickSpace::Find(&pairs, nullptr, a, b);
+      p = algorithms::RickSpace::Find(&pairs, nullptr, a, b);
     auto t1 = Clock::now();
     printf("p=%u time_ms=%lld\n", p,
       (long long)chrono::duration_cast<chrono::milliseconds>(t1 - t0).count());
@@ -82,7 +82,7 @@ namespace {
   }
 
   //
-  // measure.cpp: LCSRickSpace contour work on a near-diagonal (long-LCS) input.
+  // measure.cpp: algorithms::RickSpace contour work on a near-diagonal (long-LCS) input.
   //
   int benchMeasure(int argc, char* argv[]) {
     auto N = argc > 0 ? (size_t)strtoull(argv[0], nullptr, 10) : 100000;
@@ -116,17 +116,17 @@ namespace {
       s1[p] = c;
     }
 
-    LCSRickSpace::ResetCounters();
+    algorithms::RickSpace::ResetCounters();
     shared_ptr<Pair> pairs = nullptr;
-    auto p = LCSRickSpace::Find(&pairs, nullptr, s1, s2);
+    auto p = algorithms::RickSpace::Find(&pairs, nullptr, s1, s2);
 
     auto m = s1.size(), n = s2.size();
     printf("m=%zu n=%zu p=%u m-p=%zd n-p=%zd Rows=%llu Candidates=%llu "
       "Rows/(p*(n-p))=%g\n",
       m, n, p, (ptrdiff_t)(m - p), (ptrdiff_t)(n - p),
-      (unsigned long long)LCSRickSpace::Rows,
-      (unsigned long long)LCSRickSpace::Candidates,
-      (double)LCSRickSpace::Rows / (double)((uint64_t)p * (uint64_t)(n - p)));
+      (unsigned long long)algorithms::RickSpace::Rows,
+      (unsigned long long)algorithms::RickSpace::Candidates,
+      (double)algorithms::RickSpace::Rows / (double)((uint64_t)p * (uint64_t)(n - p)));
     return 0;
   }
 
@@ -290,11 +290,11 @@ namespace {
     return (double)r / a.size();       // matches per position (rho)
   }
 
-  double regionTime(LCS::Algorithm algo, const u32string& a, const u32string& b) {
+  double regionTime(Algorithm algo, const u32string& a, const u32string& b) {
     shared_ptr<Delta> deltas;
     auto t0 = Clock::now();
     try {
-      LCSText::Correspondence(
+      modes::Text::Correspondence(
         &deltas, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
     }
     catch (const exception&) {
@@ -310,11 +310,11 @@ namespace {
     auto dissimilar = argc > 2 ? (atoi(argv[2]) != 0) : false;
     const size_t lengths[] = { 1000, 10000, 100000 };
     const size_t alphabets[] = { 4, 20, 100, 1000 };
-    const LCS::Algorithm algos[4] = {
-      LCS::Algorithm::EditDistance,
-      LCS::Algorithm::Matches,
-      LCS::Algorithm::RickSpace,
-      LCS::Algorithm::RickTime,
+    const Algorithm algos[4] = {
+      Algorithm::EditDistance,
+      Algorithm::Matches,
+      Algorithm::RickSpace,
+      Algorithm::RickTime,
     };
 
     printf("InputLength\tAlphabetSize\tRedundancy\tEditDistance\tH-S\tMyers\tRickSpace\tRickTime\n");
@@ -327,7 +327,7 @@ namespace {
         if (dissimilar) {
           // Independent random second string: a large, uncontrolled D.
           b = regionReference(n, s, skew);
-          auto p = LCSRickTime::FindFlexibleLength(a, b);
+          auto p = algorithms::RickTime::FindFlexibleLength(a, b);
           D = 2 * n - 2 * p;
         }
         else {

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-09 CNHume  Created LCSRickSpace class
+// 2026-10-09 CNHume  Created RickSpace class
 //
 // Rick (2000) linear-space LCS.  The contour scans query O(1) next/previous
 // occurrence tables ("LeftPos"/"TopPos" preprocessing) built either directly
@@ -33,9 +33,9 @@
 #include <memory>                       // for shared_ptr
 #include <string>                       // for u32string
 
-namespace lcs {
+namespace lcs::algorithms {
 
-  class LCSRickSpace : public LCS {
+  class RickSpace {
   public:
     //
     // Find the LCS length and matched positions.  On return, *pairs (when
@@ -64,4 +64,4 @@ namespace lcs {
     static void ResetCounters();
   };
 
-} // namespace lcs
+} // namespace lcs::algorithms

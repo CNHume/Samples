@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSOptions class
+// 2026-10-24 CNHume  Created Options class
 //
 #pragma once
 
@@ -25,15 +25,15 @@
 namespace lcs {
 
   //
-  // LCSOptions carries the comparison-relevant command-line parameters, so
-  // LCSFile can accept options without depending on any tool's switch set.
+  // Options carries the comparison-relevant command-line parameters, so
+  // File can accept options without depending on any tool's switch set.
   // Command-line tools derive their Command class from it and add only the
   // switches that are tool concerns.
   //
-  class LCSOptions {
+  class Options {
   public:
-    LCS::Algorithm algorithm = LCS::Algorithm::Automatic;
-    LCS::Format format = LCS::Format::Sequential;
+    Algorithm algorithm = Algorithm::Automatic;
+    Format format = Format::Sequential;
     std::string file1;
     std::string file2;
     bool ignorecase = false;

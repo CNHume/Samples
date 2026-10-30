@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2017-07-09 CNHume  Moved Command overloads to LCSFile class
-// 2017-07-04 CNHume  Created LCSRecord class
+// 2017-07-09 CNHume  Moved Command overloads to File class
+// 2017-07-04 CNHume  Created Record class
 //
 #pragma once
 
@@ -26,16 +26,16 @@
 #include <string>                       // for string
 #include <vector>                       // for vector
 
-namespace lcs {
+namespace lcs::modes {
 
-  class LCSRecord : public LCS {
+  class Record {
   public:
     typedef std::vector<std::string> RECORDS;
 
     static std::uint32_t Correspondence(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const RECORDS& r1, const RECORDS& r2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -43,7 +43,7 @@ namespace lcs {
     static std::uint32_t Difference(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const RECORDS& r1, const RECORDS& r2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -51,7 +51,7 @@ namespace lcs {
     static std::uint32_t Compare(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const RECORDS& r1, const RECORDS& r2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isverbose = false);
 
@@ -65,4 +65,4 @@ namespace lcs {
       bool ignorecase = false, bool ignorespace = false);
   };
 
-} // namespace lcs
+} // namespace lcs::modes

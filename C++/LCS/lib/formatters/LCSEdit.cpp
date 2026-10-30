@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-29 CNHume  Created LCSEdit class
+// 2026-10-29 CNHume  Created Edit class
 //
 #include "formatters/LCSEdit.h"
 
@@ -24,19 +24,21 @@
 using namespace std;
 using namespace lcs;
 
-void LCSEdit::BeginResult(
+namespace lcs::formatters {
+
+void Edit::BeginResult(
   const string& label1, const string& label2, uint32_t, uint32_t) {
   cout << "--- " << label1 << '\n';
   cout << "+++ " << label2 << '\n';
 }
 
-void LCSEdit::BeginInterval(
+void Edit::BeginInterval(
   uint32_t begin1, uint32_t end1, uint32_t begin2, uint32_t end2) {
   cout << format("@@ -{} +{} @@\n",
     Range(begin1, end1), Range(begin2, end2));
 }
 
-void LCSEdit::Layout(
+void Edit::Layout(
   uint32_t, const SideSpan& side1, const SideSpan& side2, EditKind kind) {
   if (kind == EditKind::Match) {
     for (const auto& line : side1.lines)
@@ -50,14 +52,14 @@ void LCSEdit::Layout(
   }
 }
 
-void LCSEdit::EndResult() {}
+void Edit::EndResult() {}
 
 //
 // Format one side of an @@ header from a semi-open [begin, end) range.  A
 // count of 0 means the block has no lines from that file, so the start is the
 // line just before the block; a count of 1 is omitted.
 //
-string LCSEdit::Range(uint32_t begin, uint32_t end) {
+string Edit::Range(uint32_t begin, uint32_t end) {
   auto count = end - begin;
   if (count == 0)
     return format("{},0", begin);       // empty: start is the line before the block
@@ -66,7 +68,7 @@ string LCSEdit::Range(uint32_t begin, uint32_t end) {
     format("{}", line) : format("{},{}", line, count);
 }
 
-EDIT_INTERVALS LCSEdit::BuildIntervals(
+EDIT_INTERVALS Edit::BuildIntervals(
   const shared_ptr<Delta>& matches, const shared_ptr<Delta>& differences,
   uint32_t prefix, uint32_t suffix) {
   EDIT_INTERVALS intervals;
@@ -157,3 +159,5 @@ EDIT_INTERVALS LCSEdit::BuildIntervals(
 
   return intervals;
 }
+
+} // namespace lcs::formatters

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2017-07-04 CNHume  Created LCSText class
+// 2017-07-04 CNHume  Created Text class
 // 2015-01-19 CNHume  Created file
 //
 #include "modes/LCSText.h"
@@ -36,10 +36,12 @@
 using namespace std;
 using namespace lcs;
 
+namespace lcs::modes {
+
 //
 // Compare with STRING_TO_INDEXES_MAP used for RECORDS
 //
-uint64_t LCSText::Match(
+uint64_t Text::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   CHAR_TO_INDEXES_MAP& indexesOf2MatchedByChar,
   const u32string& s1, const u32string& s2,
@@ -47,11 +49,11 @@ uint64_t LCSText::Match(
   uint64_t count = 0;
   uint32_t index = 0;
   u32string buffer;
-  LCSNormal::Normal(s2, buffer, ignorecase, ignorespace);
+  Normal::Normalize(s2, buffer, ignorecase, ignorespace);
   for (const auto& it : buffer)
     indexesOf2MatchedByChar[it].push_back(index++);
 
-  LCSNormal::Normal(s1, buffer, ignorecase, ignorespace);
+  Normal::Normalize(s1, buffer, ignorecase, ignorespace);
   for (const auto& it : buffer) {
     auto& dq2 = indexesOf2MatchedByChar[it];
     indexesOf2MatchedByIndex1.push_back(&dq2);
@@ -63,10 +65,10 @@ uint64_t LCSText::Match(
   return count;
 }
 
-uint32_t LCSText::Correspondence(
+uint32_t Text::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   //
@@ -85,8 +87,8 @@ uint32_t LCSText::Correspondence(
     //
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
-    LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
-    LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
     auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
@@ -108,9 +110,9 @@ uint32_t LCSText::Correspondence(
   return length;
 }
 
-uint32_t LCSText::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
+uint32_t Text::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace,
   bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
@@ -122,8 +124,8 @@ uint32_t LCSText::Difference(shared_ptr<Delta>* intervals, Statistics* statistic
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
-    LCSNormal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
-    LCSNormal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
     auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
@@ -146,10 +148,10 @@ uint32_t LCSText::Difference(shared_ptr<Delta>* intervals, Statistics* statistic
   return length;
 }
 
-uint32_t LCSText::Compare(
+uint32_t Text::Compare(
   shared_ptr<Delta>* deltas, Statistics* statistics,
   const u32string& s1, const u32string& s2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
     cerr << format("Started at {}\n", Duration::WallClock());
@@ -162,7 +164,7 @@ uint32_t LCSText::Compare(
   auto ppairs = deltas != nullptr ? &pairs : nullptr;
   uint32_t length;
 
-  if (algorithm == LCS::Algorithm::Automatic) {
+  if (algorithm == Algorithm::Automatic) {
     //
     // Heuristic dispatch: estimate the edit-distance lower bound and the match
     // count from the symbol counts, then select per LCSAlgorithmSelection.md.
@@ -195,48 +197,48 @@ uint32_t LCSText::Compare(
   }
 
   switch (algorithm) {
-  case LCS::Algorithm::EditDistance: {
+  case Algorithm::EditDistance: {
     //
     // Myers is symmetric in its two strings, so no shorter-first swap and no
     // occurrence tables; normalize for case/space, then run the edit-graph
     // sweep.  Find() guards the D budget and aborts on a dissimilar input.
     //
     u32string ns1, ns2;
-    LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
-    LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
-    length = LCSMyers::Find(ppairs, statistics, ns1, ns2);
+    Normal::Normalize(s1, ns1, ignorecase, ignorespace);
+    Normal::Normalize(s2, ns2, ignorecase, ignorespace);
+    length = algorithms::Myers::Find(ppairs, statistics, ns1, ns2);
     break;
   }
-  case LCS::Algorithm::Matches: {
+  case Algorithm::Matches: {
     CHAR_TO_INDEXES_MAP indexesOf2MatchedByChar;
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     auto count = Match(
       indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
     Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
-    length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+    length = algorithms::HuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
     if (statistics) {
-      statistics->algorithm = LCS::Algorithm::Matches;
+      statistics->algorithm = Algorithm::Matches;
       statistics->matches = count;
     }
     break;
   }
-  case LCS::Algorithm::RickSpace:
-  case LCS::Algorithm::RickTime: {
+  case Algorithm::RickSpace:
+  case Algorithm::RickTime: {
     //
     // Both Rick variants assume m <= n: scan the shorter string, table the longer.
     // Normalize both strings first, then swap on the normalized lengths because
     // whitespace collapse can change which is shorter.
     //
     u32string ns1, ns2;
-    LCSNormal::Normal(s1, ns1, ignorecase, ignorespace);
-    LCSNormal::Normal(s2, ns2, ignorecase, ignorespace);
+    Normal::Normalize(s1, ns1, ignorecase, ignorespace);
+    Normal::Normalize(s2, ns2, ignorecase, ignorespace);
     auto isswapped = ns2.size() < ns1.size();
     const auto& shorter = isswapped ? ns2 : ns1;
     const auto& longer = isswapped ? ns1 : ns2;
-    length = algorithm == LCS::Algorithm::RickTime ?
-      LCSRickTime::Find(ppairs, statistics, shorter, longer) :
-      LCSRickSpace::Find(ppairs, statistics, shorter, longer);
-    if (algorithm == LCS::Algorithm::RickSpace && statistics)
+    length = algorithm == Algorithm::RickTime ?
+      algorithms::RickTime::Find(ppairs, statistics, shorter, longer) :
+      algorithms::RickSpace::Find(ppairs, statistics, shorter, longer);
+    if (algorithm == Algorithm::RickSpace && statistics)
       //
       // RickSpace is memory-safe but slow on near-identical inputs, the
       // regime where RickTime is ~2.6x faster when it fits.
@@ -263,17 +265,17 @@ uint32_t LCSText::Compare(
   return length;
 }
 
-u32string LCSText::Read(const string& filename) {
-  auto bytes = LCSEncoding::ReadBytes(filename);
-  auto [encoding, bomLength] = LCSEncoding::GetEncoding(bytes);
+u32string Text::Read(const string& filename) {
+  auto bytes = Encoding::ReadBytes(filename);
+  auto [encoding, bomLength] = Encoding::GetEncoding(bytes);
 
   u32string codePoints;
-  if (LCSEncoding::IsWide(encoding))
-    codePoints = LCSEncoding::DecodeCodePoints(bytes, encoding);
+  if (Encoding::IsWide(encoding))
+    codePoints = Encoding::DecodeCodePoints(bytes, encoding);
   else {
     if (bomLength > 0)
       bytes.erase(0, (size_t)bomLength);
-    codePoints = LCSEncoding::DecodeUtf8(bytes);
+    codePoints = Encoding::DecodeUtf8(bytes);
   }
 #ifdef KEEP_CRLF
   //
@@ -284,9 +286,9 @@ u32string LCSText::Read(const string& filename) {
 #else
   //
   // Normalize CRLF to LF so -t text will ignore end-of-line differences
-  // as is done for LCSRecord::Read()
+  // as is done for Record::Read()
   //
-  return LCSEncoding::NormalizeCrlf(codePoints);
+  return Encoding::NormalizeCrlf(codePoints);
 #endif
 }
 
@@ -296,7 +298,7 @@ u32string LCSText::Read(const string& filename) {
 // whitespace removed.  Wrapped sequence is thereby unrolled into one
 // unbroken sequence, and multi-FASTA records are concatenated.
 //
-u32string LCSText::StripFasta(const u32string& s) {
+u32string Text::StripFasta(const u32string& s) {
   u32string buffer;
   buffer.reserve(s.size());
   auto n = s.size();
@@ -320,7 +322,7 @@ u32string LCSText::StripFasta(const u32string& s) {
   return buffer;
 }
 
-void LCSText::MapDeltas(shared_ptr<Delta> deltas,
+void Text::MapDeltas(shared_ptr<Delta> deltas,
   const vector<uint32_t>& mapBegin1, const vector<uint32_t>& mapEnd1,
   const vector<uint32_t>& mapBegin2, const vector<uint32_t>& mapEnd2,
   size_t size1, size_t size2) {
@@ -331,7 +333,7 @@ void LCSText::MapDeltas(shared_ptr<Delta> deltas,
   }
 }
 
-void LCSText::MapSide(uint32_t& begin, uint32_t& end,
+void Text::MapSide(uint32_t& begin, uint32_t& end,
   const vector<uint32_t>& mapBegin, const vector<uint32_t>& mapEnd,
   size_t size) {
   if (begin < end) {
@@ -346,3 +348,5 @@ void LCSText::MapSide(uint32_t& begin, uint32_t& end,
     end = pos;
   }
 }
+
+} // namespace lcs::modes

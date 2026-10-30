@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Renamed LCSString to LCSText
+// 2026-10-24 CNHume  Renamed LCSString to Text
 // 2017-07-04 CNHume  Created LCSString class
 //
 #pragma once
@@ -27,14 +27,14 @@
 #include <unordered_map>                //[C++11]
 #include <vector>
 
-namespace lcs {
+namespace lcs::modes {
 
-  class LCSText : public LCS {
+  class Text {
   public:
     static std::uint32_t Correspondence(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -42,7 +42,7 @@ namespace lcs {
     static std::uint32_t Difference(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isjoin = false, bool isverbose = false,
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
@@ -50,7 +50,7 @@ namespace lcs {
     static std::uint32_t Compare(
       std::shared_ptr<Delta>* intervals, Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2,
-      LCS::Algorithm algorithm = LCS::Algorithm::Automatic,
+      Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
       bool isverbose = false);
 
@@ -82,4 +82,4 @@ namespace lcs {
       std::size_t size);
   };
 
-} // namespace lcs
+} // namespace lcs::modes

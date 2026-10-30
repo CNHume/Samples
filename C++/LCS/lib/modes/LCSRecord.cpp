@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2017-07-09 CNHume  Moved Command overloads to LCSFile class
-// 2017-07-04 CNHume  Created LCSRecord class
+// 2017-07-09 CNHume  Moved Command overloads to File class
+// 2017-07-04 CNHume  Created Record class
 // 2015-01-19 CNHume  Created file
 //
 #include "modes/LCSRecord.h"
@@ -39,6 +39,8 @@
 using namespace std;
 using namespace lcs;
 
+namespace lcs::modes {
+
 //
 // Find Matches
 //
@@ -49,7 +51,7 @@ using namespace lcs;
 // The symbol space is larger in the case of records; but the lookup
 // time will be O(log(m+n)), at most.
 //
-uint64_t LCSRecord::Match(
+uint64_t Record::Match(
   MATCHES& indexesOf2MatchedByIndex1,
   STRING_TO_INDEXES_MAP& indexesOf2MatchedByString,
   const RECORDS& r1, const RECORDS& r2,
@@ -58,12 +60,12 @@ uint64_t LCSRecord::Match(
   uint32_t index = 0;
   string buffer;
   for (const auto& it : r2) {
-    LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+    Normal::Normalize(it, buffer, ignorecase, ignorespace);
     indexesOf2MatchedByString[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {
-    LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+    Normal::Normalize(it, buffer, ignorecase, ignorespace);
     auto& dq2 = indexesOf2MatchedByString[buffer];
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
@@ -75,10 +77,10 @@ uint64_t LCSRecord::Match(
   return count;
 }
 
-uint32_t LCSRecord::Correspondence(
+uint32_t Record::Correspondence(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
@@ -94,10 +96,10 @@ uint32_t LCSRecord::Correspondence(
   return length;
 }
 
-uint32_t LCSRecord::Difference(
+uint32_t Record::Difference(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
@@ -114,10 +116,10 @@ uint32_t LCSRecord::Difference(
   return length;
 }
 
-uint32_t LCSRecord::Compare(
+uint32_t Record::Compare(
   shared_ptr<Delta>* intervals, Statistics* statistics,
   const RECORDS& r1, const RECORDS& r2,
-  LCS::Algorithm algorithm,
+  Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
     cerr << format("Started at {}\n", Duration::WallClock());
@@ -127,7 +129,7 @@ uint32_t LCSRecord::Compare(
   uint32_t length;
   bool isswapped = false;
 
-  if (algorithm == LCS::Algorithm::Automatic) {
+  if (algorithm == Algorithm::Automatic) {
     //
     // Heuristic dispatch over records: same decision tree as the text path,
     // with record strings as the symbols.
@@ -159,7 +161,7 @@ uint32_t LCSRecord::Compare(
   }
 
   switch (algorithm) {
-  case LCS::Algorithm::EditDistance: {
+  case Algorithm::EditDistance: {
     //
     // Myers is symmetric and needs no match lists; normalize each record for
     // case/space, then run the edit-graph sweep directly.  Normalization
@@ -170,26 +172,26 @@ uint32_t LCSRecord::Compare(
     nr2.reserve(r2.size());
     string buffer;
     for (const auto& it : r1) {
-      LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+      Normal::Normalize(it, buffer, ignorecase, ignorespace);
       nr1.push_back(buffer);
     }
     for (const auto& it : r2) {
-      LCSNormal::Normal(it, buffer, ignorecase, ignorespace);
+      Normal::Normalize(it, buffer, ignorecase, ignorespace);
       nr2.push_back(buffer);
     }
-    length = LCSMyers::Find(ppairs, statistics, nr1, nr2);
+    length = algorithms::Myers::Find(ppairs, statistics, nr1, nr2);
     break;
   }
-  case LCS::Algorithm::Matches:
-  case LCS::Algorithm::RickSpace:
-  case LCS::Algorithm::RickTime: {
+  case Algorithm::Matches:
+  case Algorithm::RickSpace:
+  case Algorithm::RickTime: {
     //
     // The Rick variants assume m <= n, so swap for them; Hunt-Szymanski is
     // symmetric.  Match() consumes the (possibly swapped) inputs, so the swap
     // must precede the shared match-list build.
     //
     isswapped =
-      algorithm != LCS::Algorithm::Matches && r2.size() < r1.size();
+      algorithm != Algorithm::Matches && r2.size() < r1.size();
     const auto& shorter = isswapped ? r2 : r1;
     const auto& longer = isswapped ? r1 : r2;
     STRING_TO_INDEXES_MAP indexesOf2MatchedByString;
@@ -197,21 +199,21 @@ uint32_t LCSRecord::Compare(
     auto count = Match(
       indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
       shorter, longer, ignorecase, ignorespace);
-    if (algorithm == LCS::Algorithm::Matches) {
+    if (algorithm == Algorithm::Matches) {
       Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
-      length = LCSHuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
+      length = algorithms::HuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
       if (statistics) {
-        statistics->algorithm = LCS::Algorithm::Matches;
+        statistics->algorithm = Algorithm::Matches;
         statistics->matches = count;
       }
     }
-    else if (algorithm == LCS::Algorithm::RickSpace) {
-      length = LCSRickSpace::Find(
+    else if (algorithm == Algorithm::RickSpace) {
+      length = algorithms::RickSpace::Find(
         ppairs, statistics, indexesOf2MatchedByIndex1,
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     else {
-      length = LCSRickTime::Find(
+      length = algorithms::RickTime::Find(
         ppairs, statistics, indexesOf2MatchedByIndex1,
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
@@ -238,11 +240,11 @@ uint32_t LCSRecord::Compare(
 //
 // RECORDS Reader
 //
-LCSRecord::RECORDS LCSRecord::Read(const string& filename, bool isword) {
-  auto [encoding, bomLength] = LCSEncoding::PeekEncoding(filename);
+Record::RECORDS Record::Read(const string& filename, bool isword) {
+  auto [encoding, bomLength] = Encoding::PeekEncoding(filename);
 
-  if (LCSEncoding::IsWide(encoding))
-    return LCSEncoding::ReadWide(filename, encoding, isword);
+  if (Encoding::IsWide(encoding))
+    return Encoding::ReadWide(filename, encoding, isword);
 
   ifstream input(filename, ios::binary);
 
@@ -282,3 +284,5 @@ LCSRecord::RECORDS LCSRecord::Read(const string& filename, bool isword) {
 #endif
   return records;
 }
+
+} // namespace lcs::modes

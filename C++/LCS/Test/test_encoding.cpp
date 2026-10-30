@@ -30,7 +30,7 @@ namespace {
     u32string reference;
     bool first = true;
     for (auto& name : names) {
-      auto codePoints = LCSText::Read(fixture(name));
+      auto codePoints = modes::Text::Read(fixture(name));
       CAPTURE(name);
       if (first) {
         reference = codePoints;

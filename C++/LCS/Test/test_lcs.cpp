@@ -36,11 +36,11 @@ using namespace lcs;
 using namespace std;
 
 namespace {
-  const LCS::Algorithm algos[4] = {
-    LCS::Algorithm::EditDistance,
-    LCS::Algorithm::Matches,
-    LCS::Algorithm::RickSpace,
-    LCS::Algorithm::RickTime,
+  const Algorithm algos[4] = {
+    Algorithm::EditDistance,
+    Algorithm::Matches,
+    Algorithm::RickSpace,
+    Algorithm::RickTime,
   };
 
   u32string toU32(const string& s) {
@@ -84,11 +84,11 @@ namespace {
   }
 
   // Run one (algorithm, s1, s2) case through the reconstruction oracle.
-  void checkAlgo(LCS::Algorithm algo,
+  void checkAlgo(Algorithm algo,
                  const u32string& s1, const u32string& s2,
                  uint32_t expected) {
     shared_ptr<Delta> deltas;
-    auto length = LCSText::Correspondence(
+    auto length = modes::Text::Correspondence(
       &deltas, nullptr, s1, s2, algo, false, false, false, false, 0, 0, 0);
     CAPTURE((int)algo);
     CHECK(length == expected);
@@ -154,7 +154,7 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
     uint32_t reference = 0;
     for (int k = 0; k < 4; ++k) {
       shared_ptr<Delta> deltas;
-      auto length = LCSText::Correspondence(
+      auto length = modes::Text::Correspondence(
         &deltas, nullptr, u1, u2, algos[k], false, false, false, false, 0, 0, 0);
       if (k == 0)
         reference = length;
@@ -166,9 +166,9 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
 }
 
 TEST_CASE("string fixtures load and reconstruct validly") {
-  auto u1 = LCSText::Read(
+  auto u1 = modes::Text::Read(
     string(TEST_DATA_DIR) + "/Test/String/demanoeuvre.txt");
-  auto u2 = LCSText::Read(
+  auto u2 = modes::Text::Read(
     string(TEST_DATA_DIR) + "/Test/String/reendeavour.txt");
   CHECK(u1.size() == 11);
   CHECK(u2.size() == 11);
@@ -184,7 +184,7 @@ TEST_CASE("Myers aborts when the edit distance exceeds its budget") {
   u32string s1(1000000, U'A');
   u32string s2(1000000, U'B');
   CHECK_THROWS_AS(
-    LCSMyers::Find(nullptr, nullptr, s1, s2),
+    algorithms::Myers::Find(nullptr, nullptr, s1, s2),
     std::runtime_error);
 }
 
@@ -203,8 +203,8 @@ TEST_CASE("automatic dispatch returns a correct LCS") {
     auto u2 = toU32(s2);
     auto expected = dpLcsLength(u1, u2);
     shared_ptr<Delta> deltas;
-    auto length = LCSText::Correspondence(
-      &deltas, nullptr, u1, u2, LCS::Algorithm::Automatic,
+    auto length = modes::Text::Correspondence(
+      &deltas, nullptr, u1, u2, Algorithm::Automatic,
       false, false, false, false, 0, 0, 0);
     CHECK(length == expected);
     checkTrace(deltas, length, u1, u2);
@@ -227,12 +227,12 @@ TEST_CASE("Myers agrees with Hunt-Szymanski on the record path") {
     const auto& r2 = records2[i];
     // Reference length from Hunt-Szymanski (Matches), independent of loop order.
     shared_ptr<Delta> refDeltas;
-    auto reference = LCSRecord::Correspondence(
-      &refDeltas, nullptr, r1, r2, LCS::Algorithm::Matches,
+    auto reference = modes::Record::Correspondence(
+      &refDeltas, nullptr, r1, r2, Algorithm::Matches,
       false, false, false, false, 0, 0, 0);
-    for (auto algo : { LCS::Algorithm::EditDistance, LCS::Algorithm::Matches }) {
+    for (auto algo : { Algorithm::EditDistance, Algorithm::Matches }) {
       shared_ptr<Delta> deltas;
-      auto length = LCSRecord::Correspondence(
+      auto length = modes::Record::Correspondence(
         &deltas, nullptr, r1, r2, algo, false, false, false, false, 0, 0, 0);
       CAPTURE((int)algo);
       CHECK(length == reference);

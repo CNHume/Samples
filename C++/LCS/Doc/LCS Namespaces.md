@@ -47,7 +47,7 @@ namespace lcs {
   }
 
   namespace formatters {
-    class Format;                        // was LCSFormat (base)
+    class Formatter;                     // was LCSFormat (base)
     class Sequential;                    // was LCSSequential
     class Parallel;                      // was LCSParallel
     class Cigar;                         // was LCSCigar
@@ -80,13 +80,17 @@ lib/
 - Namespace names are lowercase (C++ idiom); class names stay PascalCase.
 - The `LCS` prefix is dropped inside the sub-namespaces, since the namespace
   supplies the context (`lcs::formatters::Edit`, not `LCSEdit`).
-- The `LCS` base class dissolves: `Algorithm`/`Format` move to `lcs::` as
-  namespace-level enums; the `PAIRS`/`INDEXES`/`MATCHES` typedefs move to
-  `lcs::algorithms` where they are used.
+- The `LCS` base class dissolves: `Algorithm`/`Format` become `lcs::`-level
+  enums, and the `PAIRS`/`INDEXES`/`STRING_TO_INDEXES_MAP`/`MATCHES` typedefs
+  stay in `lcs::` (shared by the modes and the algorithms).
+- The formatter base is `formatters::Formatter` (not `Format`), so it does not
+  collide with the `lcs::Format` enum.
 - `Encoding` and `Normal` stay in `lcs::` — they are content *support*, not a
-  mode.
+  mode.  `Encoding`'s nested enum is `Kind` (was `Encoding`) and `Normal`'s
+  normalize method is `Normalize` (was `Normal`), to avoid colliding with the
+  class names.
 - The driver names `RecordDriver`/`TextDriver` avoid colliding with
-  `modes::Record`/`modes::Text`; the exact names are still open.
+  `modes::Record`/`modes::Text`.
 
 ## Stages
 

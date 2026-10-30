@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-09 CNHume  Created LCSRickSpace class
+// 2026-10-09 CNHume  Created RickSpace class
 //
 // Rick (2000) linear-space LCS, adapted to reuse Hunt-Szymanski Match()
 //
@@ -31,6 +31,8 @@
 
 using namespace std;
 using namespace lcs;
+
+namespace lcs::algorithms {
 
 //
 // A match (row, column) has forward rank k when the longest common
@@ -93,7 +95,7 @@ namespace {
   // Forward declarations (definitions follow).
   uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     size_t size1, size_t size2);
-  Occurrences BuildOccurrences(const LCS::MATCHES& matches,
+  Occurrences BuildOccurrences(const MATCHES& matches,
     size_t size1, size_t size2);
   Occurrences BuildOccurrences(const u32string& s1, const u32string& s2);
   void Hirschberg(const Occurrences& occ,
@@ -158,7 +160,7 @@ namespace {
   // straight to the next (or previous) occurrence vs. binary-searching a list.
   //
   Occurrences BuildOccurrences(
-    const LCS::MATCHES& matches, size_t size1, size_t size2) {
+    const MATCHES& matches, size_t size1, size_t size2) {
     Occurrences occ;
     occ.rows = (int64_t)size1;
     occ.columns = (int64_t)size2;
@@ -167,8 +169,8 @@ namespace {
     // Two rows sharing a symbol share the same match-list pointer, so pointer
     // identity compresses the symbols without needing the symbol values.
     //
-    unordered_map<const LCS::INDEXES*, uint32_t> pointerToId;
-    vector<const LCS::INDEXES*> lists;  // lists[id] = sorted positions of symbol id
+    unordered_map<const INDEXES*, uint32_t> pointerToId;
+    vector<const INDEXES*> lists;  // lists[id] = sorted positions of symbol id
     occ.rowId.assign(size1, UINT32_MAX);
     for (size_t rowIndex = 0; rowIndex < size1; rowIndex++) {
       const auto* matchList = matches[rowIndex];
@@ -496,7 +498,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours++;
+    RickSpace::Contours++;
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -531,7 +533,7 @@ namespace {
       leftSources--;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows++;             // one row + one column sweep step
+      RickSpace::Rows++;             // one row + one column sweep step
       auto rowIndex = row0 + diagonal;
       auto columnIndex = column0 + diagonal;
 
@@ -549,7 +551,7 @@ namespace {
         auto column = occ.next[(size_t)rowId][lower];
         // Skip if a vertical (column-sweep) match at row <= rowIndex dominates it.
         if (column < rowThresh && (int64_t)rowIndex < colThresh) {
-          LCSRickSpace::Candidates++;
+          RickSpace::Candidates++;
           rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
           rowThresh = column;
         }
@@ -569,7 +571,7 @@ namespace {
         auto row = occ.next1[(size_t)colId][lower];
         // Skip if a horizontal (row-sweep) match at column <= columnIndex dominates it.
         if (row < colThresh && (int64_t)columnIndex < rowThresh) {
-          LCSRickSpace::Candidates++;
+          RickSpace::Candidates++;
           colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
           colThresh = row;
         }
@@ -622,7 +624,7 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1) {
     Contour rowMatches;
     Contour colMatches;
-    LCSRickSpace::Contours++;
+    RickSpace::Contours++;
     auto rowCount = row1 - row0;
     auto columnCount = column1 - column0;
     auto diagonalCount = min(rowCount, columnCount);
@@ -656,7 +658,7 @@ namespace {
       rightSources++;
 
     for (size_t diagonal = startDiagonal; diagonal < diagonalCount; diagonal++) {
-      LCSRickSpace::Rows++;             // one row + one column sweep step
+      RickSpace::Rows++;             // one row + one column sweep step
       auto rowIndex = row1 - 1 - diagonal;
       auto columnIndex = column1 - 1 - diagonal;
 
@@ -680,7 +682,7 @@ namespace {
           auto column = occ.prev[(size_t)rowId][upper];
           // Skip if a vertical (column-sweep) match at row >= rowIndex dominates it.
           if (column != UINT32_MAX && column > rowThresh && (int64_t)rowIndex > colThresh) {
-            LCSRickSpace::Candidates++;
+            RickSpace::Candidates++;
             rowMatches.push_back({ .row = (uint32_t)rowIndex, .column = column });
             rowThresh = column;
           }
@@ -707,7 +709,7 @@ namespace {
           auto row = occ.prev1[(size_t)colId][(size_t)upper];
           // Skip if a horizontal (row-sweep) match at column >= columnIndex dominates it.
           if (row != UINT32_MAX && row > colThresh && (int64_t)columnIndex > rowThresh) {
-            LCSRickSpace::Candidates++;
+            RickSpace::Candidates++;
             colMatches.push_back({ .row = row, .column = (uint32_t)columnIndex });
             colThresh = row;
           }
@@ -775,24 +777,24 @@ namespace {
   }
 }
 
-uint64_t LCSRickSpace::Candidates = 0;
-uint64_t LCSRickSpace::Rows = 0;
-uint64_t LCSRickSpace::Contours = 0;
+uint64_t RickSpace::Candidates = 0;
+uint64_t RickSpace::Rows = 0;
+uint64_t RickSpace::Contours = 0;
 
-void LCSRickSpace::ResetCounters() {
+void RickSpace::ResetCounters() {
   Candidates = 0;
   Rows = 0;
   Contours = 0;
 }
 
-uint32_t LCSRickSpace::Find(
+uint32_t RickSpace::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
   uint32_t size1, uint32_t size2) {
   ResetCounters();
   auto occ = BuildOccurrences(matches, size1, size2);
   auto length = Solve(pairs, occ, size1, size2);
   if (statistics) {
-    statistics->algorithm = LCS::Algorithm::RickSpace;
+    statistics->algorithm = Algorithm::RickSpace;
     statistics->candidates = Candidates;
     statistics->rows = Rows;
     statistics->contours = Contours;
@@ -801,7 +803,7 @@ uint32_t LCSRickSpace::Find(
   return length;
 }
 
-uint32_t LCSRickSpace::Find(
+uint32_t RickSpace::Find(
   shared_ptr<Pair>* pairs, Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   //
@@ -813,7 +815,7 @@ uint32_t LCSRickSpace::Find(
   auto occ = BuildOccurrences(s1, s2);
   auto length = Solve(pairs, occ, s1.size(), s2.size());
   if (statistics) {
-    statistics->algorithm = LCS::Algorithm::RickSpace;
+    statistics->algorithm = Algorithm::RickSpace;
     statistics->candidates = Candidates;
     statistics->rows = Rows;
     statistics->contours = Contours;
@@ -821,3 +823,5 @@ uint32_t LCSRickSpace::Find(
   }
   return length;
 }
+
+} // namespace lcs::algorithms

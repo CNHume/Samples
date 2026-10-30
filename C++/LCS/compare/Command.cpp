@@ -106,19 +106,19 @@ void Command::Parse(int argc, char* argv[]) {
           }
           switch (sub[0]) {
           case 'a':
-            algorithm = LCS::Algorithm::Automatic;
+            algorithm = Algorithm::Automatic;
             break;
           case 'd':
-            algorithm = LCS::Algorithm::EditDistance;
+            algorithm = Algorithm::EditDistance;
             break;
           case 'm':
-            algorithm = LCS::Algorithm::Matches;
+            algorithm = Algorithm::Matches;
             break;
           case 's':
-            algorithm = LCS::Algorithm::RickSpace;
+            algorithm = Algorithm::RickSpace;
             break;
           case 't':
-            algorithm = LCS::Algorithm::RickTime;
+            algorithm = Algorithm::RickTime;
             break;
           default:
             usage = true;               // unknown algorithm
@@ -236,7 +236,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
-          format = LCS::Format::Edit;
+          format = Format::Edit;
           isunified = true;
         }
         break;
@@ -289,13 +289,13 @@ void Command::Parse(int argc, char* argv[]) {
           }
           switch (sub[0]) {
           case 's':
-            format = LCS::Format::Sequential;
+            format = Format::Sequential;
             break;
           case 'p':
-            format = LCS::Format::Parallel;
+            format = Format::Parallel;
             break;
           case 'c':
-            format = LCS::Format::CIGAR;
+            format = Format::CIGAR;
             break;
           default:
             usage = true;               // unknown format
@@ -327,7 +327,7 @@ void Command::Parse(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
   }
 
-  if (isscorrespondence && format == LCS::Format::CIGAR)
+  if (isscorrespondence && format == Format::CIGAR)
     throw invalid_argument(
       "-c (correspondence) cannot be combined with -y c (CIGAR)");
 

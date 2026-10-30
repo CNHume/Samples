@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-02 CNHume  Created LCSNormal class
+// 2026-10-02 CNHume  Created Normal class
 //
 #pragma once
 
@@ -23,16 +23,16 @@
 
 namespace lcs {
 
-  class LCSNormal {
+  class Normal {
   public:
-    static void Normal(const std::string& input, std::string& output,
+    static void Normalize(const std::string& input, std::string& output,
       bool ignorecase = false, bool ignorespace = false);
     static void NormalCase(std::string& input);
     static void NormalSpace(const std::string& input, std::string& output);
     static bool IsSpace(char32_t c);
 
-    // Code-point overloads used by LCSText character comparison.
-    static void Normal(const std::u32string& input, std::u32string& output,
+    // Code-point overloads used by modes::Text character comparison.
+    static void Normalize(const std::u32string& input, std::u32string& output,
       bool ignorecase = false, bool ignorespace = false);
     static void NormalCase(std::u32string& input);
     static void NormalSpace(const std::u32string& input, std::u32string& output);

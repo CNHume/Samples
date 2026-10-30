@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Derive from LCSOptions; library parameters move to the base
+// 2026-10-24 CNHume  Derive from Options; library parameters move to the base
 // 2017-06-29 CNHume  Created file
 //
 #pragma once
@@ -25,10 +25,10 @@
 
 //
 // Command parses the compare tool's command line.  The comparison parameters
-// are inherited from lcs::LCSOptions; only the tool-specific switches are
+// are inherited from lcs::Options; only the tool-specific switches are
 // declared here.
 //
-class Command : public lcs::LCSOptions {
+class Command : public lcs::Options {
 public:
   bool isscorrespondence = false;
   bool isenvironment = false;

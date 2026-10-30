@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSFormat dispatch base
+// 2026-10-24 CNHume  Created Formatter dispatch base
 //
 #pragma once
 
@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-namespace lcs {
+namespace lcs::formatters {
 
   //
   // SideSpan is one side of a Delta, materialized for rendering: the label,
@@ -37,13 +37,13 @@ namespace lcs {
   };
 
   //
-  // LCSFormat is the dispatch base for output layouts.  The Format specifier
+  // Formatter is the dispatch base for output layouts.  The Format specifier
   // selects a concrete subclass; the content classes build SideSpans and call
   // Layout() to render each Delta.
   //
-  class LCSFormat {
+  class Formatter {
   public:
-    virtual ~LCSFormat() = default;
+    virtual ~Formatter() = default;
 
     // Begin a file-level result (e.g. the parallel column labels, or the
     // Edit format's ---/+++ file header), given the reference and query sizes.
@@ -51,7 +51,7 @@ namespace lcs {
       const std::string&, const std::string&, std::uint32_t, std::uint32_t) {}
 
     // Begin an interval within the result (the Edit format's @@ header).
-    // Part of the protocol for every format; only LCSEdit implements it.
+    // Part of the protocol for every format; only Edit implements it.
     virtual void BeginInterval(
       std::uint32_t, std::uint32_t,
       std::uint32_t, std::uint32_t) {}
@@ -75,4 +75,4 @@ namespace lcs {
     static constexpr char rightEmblem = '>';      // sequential right marker
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

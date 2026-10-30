@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSParallel class
+// 2026-10-24 CNHume  Created Parallel class
 //
 #include "formatters/LCSParallel.h"
 
@@ -23,6 +23,8 @@
 
 using namespace std;
 using namespace lcs;
+
+namespace lcs::formatters {
 
 //#define TRUNCATE_LABELS               // Cut over-long labels instead of wrapping them
 #define SHOW_HEADER_RULE
@@ -86,20 +88,20 @@ namespace {
   }
 }
 
-LCSParallel::LCSParallel(uint32_t width, uint32_t tabsize) :
+Parallel::Parallel(uint32_t width, uint32_t tabsize) :
   width_(width),
   tabsize_(max(tabsize, 1u)) {}
 
 // Both sides share the same width for now; they may diverge later.
-uint32_t LCSParallel::leftWidth() const {
+uint32_t Parallel::leftWidth() const {
   return width_;
 }
 
-uint32_t LCSParallel::rightWidth() const {
+uint32_t Parallel::rightWidth() const {
   return width_;
 }
 
-void LCSParallel::BeginResult(
+void Parallel::BeginResult(
   const string& label1, const string& label2, uint32_t, uint32_t) {
 #ifdef SHOW_HEADER_RULE
   cout << Rule() << '\n';
@@ -115,24 +117,24 @@ void LCSParallel::BeginResult(
   }
 }
 
-void LCSParallel::EndResult() {
+void Parallel::EndResult() {
 #ifdef SHOW_FOOTER_RULE
   cout << Rule() << '\n';
 #endif
 }
 
-void LCSParallel::Layout(
+void Parallel::Layout(
   uint32_t, const SideSpan& side1, const SideSpan& side2, EditKind) {
   cout <<
     Head(side1, side2) << Body(side1, side2);
 }
 
-std::string LCSParallel::Head(const SideSpan& side1, const SideSpan& side2) const {
+std::string Parallel::Head(const SideSpan& side1, const SideSpan& side2) const {
   return format("{}{}{}\n",
     Heading(side1, leftWidth()), horizontalCenter, Heading(side2, rightWidth()));
 }
 
-std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) const {
+std::string Parallel::Body(const SideSpan& side1, const SideSpan& side2) const {
   string text;
   auto rows = max(side1.lines.size(), side2.lines.size());
   for (size_t i = 0; i < rows; i++) {
@@ -156,7 +158,7 @@ std::string LCSParallel::Body(const SideSpan& side1, const SideSpan& side2) cons
   return text;
 }
 
-std::string LCSParallel::Heading(const SideSpan& side, uint32_t width) const {
+std::string Parallel::Heading(const SideSpan& side, uint32_t width) const {
   auto fill = side.begin < side.end ? horizontal : horizontalEmpty;
   auto range = side.begin < side.end ?
     format("[{}:{}]", side.begin, side.end) :
@@ -167,7 +169,9 @@ std::string LCSParallel::Heading(const SideSpan& side, uint32_t width) const {
 //
 // The horizontal rule shared by the header and footer.
 //
-std::string LCSParallel::Rule() const {
+std::string Parallel::Rule() const {
   return string(leftWidth(), horizontal) + horizontalCenter +
     string(rightWidth(), horizontal);
 }
+
+} // namespace lcs::formatters

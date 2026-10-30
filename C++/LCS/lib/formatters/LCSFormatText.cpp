@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Delegate layout to LCSFormat subclasses
-// 2026-10-08 CNHume  Created LCSFormatText class
+// 2026-10-24 CNHume  Delegate layout to Formatter subclasses
+// 2026-10-08 CNHume  Created TextDriver class
 //
 #include "formatters/LCSFormatText.h"
 #include "LCSEncoding.h"
@@ -22,12 +22,14 @@
 using namespace std;
 using namespace lcs;
 
+namespace lcs::formatters {
+
 //
 // Delta Formatters
 //
 // Concatenate elements from the selected side
 //
-u32string LCSFormatText::Select(
+u32string TextDriver::Select(
   shared_ptr<Delta> deltas, const u32string& s1, const u32string& s2,
   bool isright) {
   uint32_t length1, length2;
@@ -45,8 +47,8 @@ u32string LCSFormatText::Select(
   return buffer;
 }
 
-uint32_t LCSFormatText::Show(
-  LCSFormat& format, shared_ptr<Delta> deltas,
+uint32_t TextDriver::Show(
+  Formatter& format, shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
   const string& label1, const string& label2) {
   format.BeginResult(label1, label2, (uint32_t)s1.size(), (uint32_t)s2.size());
@@ -62,13 +64,15 @@ uint32_t LCSFormatText::Show(
   return ndelta;
 }
 
-SideSpan LCSFormatText::MakeSpan(
+SideSpan TextDriver::MakeSpan(
   const string& label, const u32string& s,
   uint32_t begin, uint32_t end) {
   SideSpan span;
   span.label = label;
   span.begin = begin;
   span.end = end;
-  span.lines.push_back(LCSEncoding::ToUtf8(s.substr(begin, end - begin)));
+  span.lines.push_back(Encoding::ToUtf8(s.substr(begin, end - begin)));
   return span;
 }
+
+} // namespace lcs::formatters

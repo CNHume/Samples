@@ -71,17 +71,17 @@ namespace {
     return true;
   }
 
-  const char* algoName(LCS::Algorithm algorithm) {
+  const char* algoName(Algorithm algorithm) {
     switch (algorithm) {
-    case LCS::Algorithm::Automatic:
+    case Algorithm::Automatic:
       return "Automatic";
-    case LCS::Algorithm::EditDistance:
+    case Algorithm::EditDistance:
       return "Myers";
-    case LCS::Algorithm::Matches:
+    case Algorithm::Matches:
       return "Hunt-Szymanski";
-    case LCS::Algorithm::RickSpace:
+    case Algorithm::RickSpace:
       return "RickSpace";
-    case LCS::Algorithm::RickTime:
+    case Algorithm::RickTime:
       return "RickTime";
     }
     return "?";
@@ -89,15 +89,15 @@ namespace {
 
   bool checkOne(const u32string& s1, const u32string& s2, uint64_t trial) {
     auto expected = dpLength(s1, s2);
-    const LCS::Algorithm algos[4] = {
-      LCS::Algorithm::EditDistance,
-      LCS::Algorithm::Matches,
-      LCS::Algorithm::RickSpace,
-      LCS::Algorithm::RickTime,
+    const Algorithm algos[4] = {
+      Algorithm::EditDistance,
+      Algorithm::Matches,
+      Algorithm::RickSpace,
+      Algorithm::RickTime,
     };
     for (auto algorithm : algos) {
       shared_ptr<Delta> deltas;
-      auto length = LCSText::Correspondence(
+      auto length = modes::Text::Correspondence(
         &deltas, nullptr, s1, s2, algorithm, false, false, false, false, 0, 0, 0);
       if (length != expected) {
         fprintf(stderr, "[trial %llu] %s length %u != DP %u\n",
@@ -179,15 +179,15 @@ namespace {
 
   bool checkOneRecord(const vector<string>& r1, const vector<string>& r2, uint64_t trial) {
     auto expected = dpLengthRecords(r1, r2);
-    const LCS::Algorithm recordAlgos[4] = {
-      LCS::Algorithm::EditDistance,
-      LCS::Algorithm::Matches,
-      LCS::Algorithm::RickSpace,
-      LCS::Algorithm::RickTime,
+    const Algorithm recordAlgos[4] = {
+      Algorithm::EditDistance,
+      Algorithm::Matches,
+      Algorithm::RickSpace,
+      Algorithm::RickTime,
     };
     for (auto algorithm : recordAlgos) {
       shared_ptr<Delta> deltas;
-      auto length = LCSRecord::Correspondence(
+      auto length = modes::Record::Correspondence(
         &deltas, nullptr, r1, r2, algorithm, false, false, false, false, 0, 0, 0);
       if (length != expected) {
         fprintf(stderr, "[trial %llu] %s length %u != DP %u\n",

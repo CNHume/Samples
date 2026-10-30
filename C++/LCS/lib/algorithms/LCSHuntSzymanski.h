@@ -13,10 +13,10 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-09 CNHume  Created LCSHuntSzymanski class
+// 2026-10-09 CNHume  Created HuntSzymanski class
 //
 // Hunt-Szymanski LCS: O((r + n) log n) using a threshold array over the
-// match lists built by Match().  Parallel to LCSRickSpace::Find().
+// match lists built by Match().  Parallel to RickSpace::Find().
 //
 #pragma once
 
@@ -25,12 +25,12 @@
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
 
-namespace lcs {
+namespace lcs::algorithms {
 
-  class LCSHuntSzymanski : public LCS {
+  class HuntSzymanski {
   public:
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, MATCHES& indexesOf2MatchedByIndex1);
   };
 
-} // namespace lcs
+} // namespace lcs::algorithms

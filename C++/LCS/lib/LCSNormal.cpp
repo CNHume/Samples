@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-02 CNHume  Created LCSNormal class
+// 2026-10-02 CNHume  Created Normal class
 //
 #include "LCSNormal.h"
 
@@ -26,7 +26,7 @@ using namespace lcs;
 // Normal() applies the ignorecase and ignorespace options,
 // normalizing records prior to their comparison in Match()
 //
-void LCSNormal::Normal(const string& input, string& output,
+void Normal::Normalize(const string& input, string& output,
   bool ignorecase, bool ignorespace) {
   if (ignorespace)
     NormalSpace(input, output);
@@ -37,12 +37,12 @@ void LCSNormal::Normal(const string& input, string& output,
     NormalCase(output);
 }
 
-void LCSNormal::NormalCase(string& input) {
+void Normal::NormalCase(string& input) {
   for (auto& c : input)
     c = tolower(c);                     // normal case
 }
 
-void LCSNormal::NormalSpace(const string& input, string& output) {
+void Normal::NormalSpace(const string& input, string& output) {
   // outer (right) trim
   auto end = 0;
   for (auto it = input.rbegin(); it != input.rend(); it++)
@@ -71,10 +71,10 @@ void LCSNormal::NormalSpace(const string& input, string& output) {
 }
 
 //
-// Code-point normalization for LCSText character comparison.
+// Code-point normalization for modes::Text character comparison.
 //
 
-void LCSNormal::Normal(const u32string& input, u32string& output,
+void Normal::Normalize(const u32string& input, u32string& output,
   bool ignorecase, bool ignorespace) {
   if (ignorespace)
     NormalSpace(input, output);
@@ -85,7 +85,7 @@ void LCSNormal::Normal(const u32string& input, u32string& output,
     NormalCase(output);
 }
 
-char32_t LCSNormal::ToLower(char32_t c) {
+char32_t Normal::ToLower(char32_t c) {
   // ASCII and Latin-1 Supplement one-to-one case mappings.  Full Unicode
   // case folding requires a large table and is intentionally out of scope.
   if (c >= U'A' && c <= U'Z')
@@ -96,21 +96,21 @@ char32_t LCSNormal::ToLower(char32_t c) {
   return c;
 }
 
-bool LCSNormal::IsSpace(char32_t c) {
+bool Normal::IsSpace(char32_t c) {
   return c == U' ' || (c >= U'\t' && c <= U'\r') || c == U'\u00A0';
 }
 
-void LCSNormal::NormalCase(u32string& input) {
+void Normal::NormalCase(u32string& input) {
   for (auto& c : input)
     c = ToLower(c);
 }
 
-void LCSNormal::NormalSpace(const u32string& input, u32string& output) {
+void Normal::NormalSpace(const u32string& input, u32string& output) {
   vector<uint32_t> mapBegin, mapEnd;
   NormalSpace(input, output, mapBegin, mapEnd);
 }
 
-void LCSNormal::NormalSpace(const u32string& input, u32string& output,
+void Normal::NormalSpace(const u32string& input, u32string& output,
   vector<uint32_t>& mapBegin, vector<uint32_t>& mapEnd) {
   // outer (right) trim
   size_t end = input.size();

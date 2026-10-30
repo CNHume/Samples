@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-26 CNHume  Created LCSCigar class
+// 2026-10-26 CNHume  Created Cigar class
 //
 #pragma once
 
@@ -22,14 +22,14 @@
 #include <cstdint>                      // for uint32_t
 #include <string>
 
-namespace lcs {
+namespace lcs::formatters {
 
   //
-  // LCSCigar emits the SAM CIGAR alignment trace of the query against the
+  // Cigar emits the SAM CIGAR alignment trace of the query against the
   // reference: M for matched records, D for reference-only records, and I
   // for query-only records.
   //
-  class LCSCigar : public LCSFormat {
+  class Cigar : public Formatter {
   public:
     void BeginResult(
       const std::string&, const std::string&,
@@ -48,4 +48,4 @@ namespace lcs {
     std::string cigar_;
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

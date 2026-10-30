@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created LCSParallel class
+// 2026-10-24 CNHume  Created Parallel class
 //
 #pragma once
 
@@ -22,15 +22,15 @@
 #include <cstdint>                      // for uint32_t
 #include <string>
 
-namespace lcs {
+namespace lcs::formatters {
 
   //
-  // LCSParallel lays out each Delta's two sides in side-by-side columns,
-  // using the separator and rule glyphs inherited from LCSFormat.
+  // Parallel lays out each Delta's two sides in side-by-side columns,
+  // using the separator and rule glyphs inherited from Formatter.
   //
-  class LCSParallel : public LCSFormat {
+  class Parallel : public Formatter {
   public:
-    explicit LCSParallel(std::uint32_t width, std::uint32_t tabsize);
+    explicit Parallel(std::uint32_t width, std::uint32_t tabsize);
 
     void BeginResult(
       const std::string& label1, const std::string& label2,
@@ -52,4 +52,4 @@ namespace lcs {
     std::string Rule() const;
   };
 
-} // namespace lcs
+} // namespace lcs::formatters

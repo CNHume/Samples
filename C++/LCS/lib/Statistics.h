@@ -18,7 +18,7 @@
 #pragma once
 
 #include "Duration.h"                   // for Duration::ToString
-#include "LCS.h"                        // for LCS::Algorithm
+#include "LCS.h"                        // for Algorithm
 
 #include <cstdint>                      // for uint64_t
 #include <string>                       // for string
@@ -34,7 +34,7 @@ namespace lcs {
   //
   class Statistics {
   public:
-    LCS::Algorithm algorithm = LCS::Algorithm::Matches;
+    Algorithm algorithm = Algorithm::Matches;
 
     std::uint64_t matches = 0;            // r: Hunt-Szymanski match-list magnitude
     std::uint64_t records = 0;            // d: RickTime dominant matches recorded
@@ -48,11 +48,11 @@ namespace lcs {
     // The salient work count for the algorithm that produced these statistics.
     std::uint64_t Operations() const {
       switch (algorithm) {
-      case LCS::Algorithm::EditDistance:
+      case Algorithm::EditDistance:
         return edits;
-      case LCS::Algorithm::RickSpace:
+      case Algorithm::RickSpace:
         return candidates;
-      case LCS::Algorithm::RickTime:
+      case Algorithm::RickTime:
         return records;
       default:                            // Matches (Hunt-Szymanski)
         return matches;
@@ -60,17 +60,17 @@ namespace lcs {
     }
 
     // A human-readable algorithm name for any Algorithm value.
-    static const char* NameOf(LCS::Algorithm algorithm) {
+    static const char* NameOf(Algorithm algorithm) {
       switch (algorithm) {
-      case LCS::Algorithm::Automatic:
+      case Algorithm::Automatic:
         return "Automatic";
-      case LCS::Algorithm::EditDistance:
+      case Algorithm::EditDistance:
         return "Myers";
-      case LCS::Algorithm::Matches:
+      case Algorithm::Matches:
         return "Hunt-Szymanski";
-      case LCS::Algorithm::RickSpace:
+      case Algorithm::RickSpace:
         return "RickSpace";
-      case LCS::Algorithm::RickTime:
+      case Algorithm::RickTime:
         return "RickTime";
       default:
         return "Unknown";
