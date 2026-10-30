@@ -162,15 +162,18 @@ the default differences view.  Context lines come from
 (suffix), defaulting to 3 for whichever is not given explicitly.
 .B -u
 is incompatible with
-.BR -y ,
 .BR -c ,
-.BR -l ,
-.BR -T ,
-.BR -q ,
 .BR -f ,
-.BR -w ,
+.BR -j ,
+.BR -l ,
+.BR -q ,
+.BR -T ,
 and
-.BR -j .
+.BR -y .
+.BR -w
+with
+.B -u
+is not yet implemented.
 .TP
 .B -v
 Enable verbose output: print the LCS length, the start and finish wall-clock

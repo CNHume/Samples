@@ -337,15 +337,15 @@ void Command::Parse(int argc, char* argv[]) {
   if (isunified) {
     if (isscorrespondence)
       throw invalid_argument("-c (correspondence) cannot be combined with -u");
-    if (islength)
-      throw invalid_argument("-l (length only) cannot be combined with -u");
     if (istext)
       throw invalid_argument(
-        "-T, -q, and -f (text mode) cannot be combined with -u");
-    if (isword)
-      throw invalid_argument("-w (word mode) cannot be combined with -u");
+        "-f, -q, and -T (text mode) cannot be combined with -u");
     if (isjoin)
       throw invalid_argument("-j (join) cannot be combined with -u");
+    if (islength)
+      throw invalid_argument("-l (length only) cannot be combined with -u");
+    if (isword)
+      throw invalid_argument("-w (word mode) with -u is not yet implemented");
 
     if (!prefixGiven)
       prefix = edit_context_affix;

@@ -156,11 +156,18 @@ LCS::Algorithm Diagnostic::SelectAutomatic(
     reason = format("{} matches is sparse", matches);
     return LCS::Algorithm::Matches;
   }
+  //
+  // RickTime records dominant matches, a subset of the total match count r,
+  // so its recording fits whenever the budget covers r.  Comparing to the
+  // shorter length under-counts high-redundancy inputs, where r is O(n^2).
+  //
   auto budget = RecordingBudget(m, n, symbols);
-  if (budget >= shorter) {
-    reason = format("RickTime recording budget {} fits", budget);
+  if (budget >= matches) {
+    reason = format(
+      "RickTime recording budget {} covers {} matches", budget, matches);
     return LCS::Algorithm::RickTime;
   }
-  reason = format("RickTime recording budget {} is too small", budget);
+  reason = format(
+    "RickTime recording budget {} is below {} matches", budget, matches);
   return LCS::Algorithm::RickSpace;
 }
