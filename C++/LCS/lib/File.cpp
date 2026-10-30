@@ -141,7 +141,7 @@ uint32_t File::Difference(
       if (intervals != nullptr) {
         auto differences = Delta::Complement(matches, r1.size(), r2.size());
         auto editIntervals = formatters::Edit::BuildIntervals(
-          matches, differences, options.prefix, options.suffix);
+          matches, differences, options.prefix, options.suffix, options.join);
         if (!editIntervals.empty()) {   // identical files: emit nothing, like diff -u
           formatters::Edit edit;
           formatters::RecordDriver::ShowEdit(

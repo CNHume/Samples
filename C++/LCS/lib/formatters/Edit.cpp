@@ -70,7 +70,7 @@ string Edit::Range(uint32_t begin, uint32_t end) {
 
 EDIT_INTERVALS Edit::BuildIntervals(
   const shared_ptr<Delta>& matches, const shared_ptr<Delta>& differences,
-  uint32_t prefix, uint32_t suffix) {
+  uint32_t prefix, uint32_t suffix, uint32_t join) {
   EDIT_INTERVALS intervals;
 
   //
@@ -130,12 +130,17 @@ EDIT_INTERVALS Edit::BuildIntervals(
           lead->end1 - nctx, lead->end1, lead->end2 - nctx, lead->end2));
     }
 
-    // The change run(s), merging while the Match between them is small.
+    // The change run(s), merging while the Match between them is small.  Use
+    // Coalesce()'s logic: merge when the gap is within the merge distance on
+    // both sides; the distance is at least prefix + suffix (so the context
+    // windows touch), extended by -j join.
+    auto merge = max(prefix + suffix, join);
     interval.push_back(segments[i++]);
     while (i + 1 < n && segments[i]->kind == EditKind::Match) {
       const auto& between = segments[i];
-      auto len = between->end1 - between->begin1;
-      if (len > prefix + suffix)
+      if (
+        between->begin1 + (uint64_t)merge < between->end1 ||
+        between->begin2 + (uint64_t)merge < between->end2)
         break;
       interval.push_back(context(
         between->begin1, between->end1, between->begin2, between->end2));

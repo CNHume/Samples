@@ -121,7 +121,9 @@ Perform a case-insensitive comparison.
 .BI -j " join"
 Coalesce nearby differences that lie within
 .I join
-records of each other.
+records of each other.  In unified
+.B -u
+mode it also merges hunks within that distance.
 .TP
 .B -l
 Report only the LCS length; skip reconstructing the differences.
@@ -164,7 +166,6 @@ the default differences view.  Context lines come from
 is incompatible with
 .BR -C ,
 .BR -F ,
-.BR -j ,
 .BR -l ,
 .BR -Q ,
 .BR -T ,
@@ -192,20 +193,20 @@ Set the per-side content width used by the parallel
 format (default 80, minimum 5).  Content is truncated to this width, so the
 total output line is 1 + 2 x width characters.
 .TP
-.BI -y " s|p|c"
+.BI -y " c|p|s"
 Select the output format:
-.B s
-(sequential, the default: one side after the other),
+.B c
+(CIGAR alignment string; file1 is the reference and file2 the query),
 .B p
 (parallel: side-by-side columns), or
-.B c
-(CIGAR alignment string; file1 is the reference and file2 the query).
+.B s
+(sequential, the default: one side after the other).
 .PP
 The
 .BR -h ,
-.BR -V ,
+.BR -H ,
 and
-.B -H
+.B -V
 switches are early-exit switches: each prints its report and terminates
 without comparing files.
 .SH ALGORITHM

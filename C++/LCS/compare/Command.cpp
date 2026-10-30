@@ -39,7 +39,7 @@ namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-F] [-h] [-H] [-i] "
     "[-j <join>] [-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] "
-    "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y <c|s|p>] file1 file2";
+    "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y <c|p|s>] file1 file2";
 
   constexpr uint32_t edit_context_affix = 3;  // -u default context
 }
@@ -275,11 +275,11 @@ void Command::Parse(int argc, char* argv[]) {
             std::format("Invalid width: {} (minimum is {})", width, MIN_WIDTH));
         break;
 
-      case 'y':                         // the format switch: s=sequential, p=parallel, c=cigar
+      case 'y':                         // the format switch: c=CIGAR, p=parallel, s=sequential
         {
           //
-          // Parse format specifier: c=CIGAR, s=sequential, p=parallel.
-          // Allow leading spaces -y s (as in -j, -p, -s).
+          // Parse format specifier: c=CIGAR, p=parallel, s=sequential.
+          // Allow leading spaces -y c (as in -j, -p, -s).
           //
           const char* sub = nullptr;
           if (len > 2)                 // Same token
@@ -294,11 +294,11 @@ void Command::Parse(int argc, char* argv[]) {
           case 'c':
             format = Format::CIGAR;
             break;
-          case 's':
-            format = Format::Sequential;
-            break;
           case 'p':
             format = Format::Parallel;
+            break;
+          case 's':
+            format = Format::Sequential;
             break;
           default:
             usage = true;               // unknown format
@@ -343,8 +343,6 @@ void Command::Parse(int argc, char* argv[]) {
     if (istext)
       throw invalid_argument(
         "-F, -Q, and -T (text mode) cannot be combined with -u");
-    if (isjoin)
-      throw invalid_argument("-j (join) cannot be combined with -u");
     if (islength)
       throw invalid_argument("-l (length only) cannot be combined with -u");
     if (isword)

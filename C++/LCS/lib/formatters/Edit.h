@@ -53,12 +53,13 @@ namespace lcs::formatters {
     // Build the intervals from the match and difference runs: tag each Delta,
     // group differences into intervals with prefix/suffix context, and merge
     // consecutive differences when the matches between them number <=
-    // prefix + suffix.
+    // max(prefix + suffix, join).
     //
     static EDIT_INTERVALS BuildIntervals(
       const std::shared_ptr<Delta>& matches,
       const std::shared_ptr<Delta>& differences,
-      std::uint32_t prefix, std::uint32_t suffix);
+      std::uint32_t prefix, std::uint32_t suffix,
+      std::uint32_t join = 0);
 
   private:
     static std::string Range(std::uint32_t begin, std::uint32_t end);
