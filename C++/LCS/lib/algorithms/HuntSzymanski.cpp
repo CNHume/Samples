@@ -30,7 +30,7 @@
 // (LCS) Problem based on the Hunt and Szymanski algorithm.  Please see
 // the overview provided in "Doc/LCS Overview.md"
 //
-#include "algorithms/LCSHuntSzymanski.h"
+#include "algorithms/HuntSzymanski.h"
 #include "join.h"
 
 #include <algorithm>                    // for lower_bound()

@@ -22,7 +22,7 @@
 //
 #include "Command.h"
 #include "Environment.h"
-#include "LCSSuspectDash.h"
+#include "SuspectDash.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno

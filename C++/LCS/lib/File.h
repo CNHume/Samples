@@ -19,7 +19,7 @@
 //
 #pragma once
 
-#include "LCSOptions.h"
+#include "Options.h"
 #include "Statistics.h"
 
 #include <cstdint>                      // for uint32_t

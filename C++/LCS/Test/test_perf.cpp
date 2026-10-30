@@ -15,9 +15,9 @@
 //   test perf measure [N] [K]
 //   test perf filterpairs [n] [s]
 //
-#include "algorithms/LCSRickSpace.h"
-#include "algorithms/LCSRickTime.h"
-#include "modes/LCSText.h"
+#include "algorithms/RickSpace.h"
+#include "algorithms/RickTime.h"
+#include "modes/Text.h"
 
 #include <algorithm>                    // for lower_bound, swap
 #include <chrono>

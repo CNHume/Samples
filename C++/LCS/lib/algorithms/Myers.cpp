@@ -17,9 +17,9 @@
 //
 // Myers (1986) minimal edit-script algorithm, over code points or records.
 //
-// See LCSMyers.h for an overview.
+// See Myers.h for an overview.
 //
-#include "algorithms/LCSMyers.h"
+#include "algorithms/Myers.h"
 #include "Diagnostic.h"
 
 #include <algorithm>                    // for min, reverse

@@ -16,16 +16,16 @@
 // 2018-05-11 CNHume  Added word switch
 // 2017-07-09 CNHume  Created File class
 //
-#include "LCSFile.h"
-#include "LCSEncoding.h"
-#include "formatters/LCSEdit.h"
-#include "formatters/LCSFormatRecord.h"
-#include "formatters/LCSFormatText.h"
-#include "modes/LCSRecord.h"
-#include "modes/LCSText.h"
-#include "formatters/LCSCigar.h"
-#include "formatters/LCSParallel.h"
-#include "formatters/LCSSequential.h"
+#include "File.h"
+#include "Encoding.h"
+#include "formatters/Edit.h"
+#include "formatters/RecordDriver.h"
+#include "formatters/TextDriver.h"
+#include "modes/Record.h"
+#include "modes/Text.h"
+#include "formatters/Cigar.h"
+#include "formatters/Parallel.h"
+#include "formatters/Sequential.h"
 
 #include <stdexcept>                    // for runtime_error
 

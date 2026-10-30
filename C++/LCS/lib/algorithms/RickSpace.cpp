@@ -17,9 +17,9 @@
 //
 // Rick (2000) linear-space LCS, adapted to reuse Hunt-Szymanski Match()
 //
-// See LCSRickSpace.h for an overview.
+// See RickSpace.h for an overview.
 //
-#include "algorithms/LCSRickSpace.h"
+#include "algorithms/RickSpace.h"
 
 #include <algorithm>                    // for merge, max, min, reverse
 #include <cstdint>                      // for int64_t, uint32_t, UINT32_MAX

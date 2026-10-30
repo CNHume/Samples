@@ -16,8 +16,8 @@
 // 2026-10-24 CNHume  Delegate layout to Formatter subclasses
 // 2026-10-08 CNHume  Created TextDriver class
 //
-#include "formatters/LCSFormatText.h"
-#include "LCSEncoding.h"
+#include "formatters/TextDriver.h"
+#include "Encoding.h"
 
 using namespace std;
 using namespace lcs;

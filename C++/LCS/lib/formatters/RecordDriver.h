@@ -18,9 +18,9 @@
 //
 #pragma once
 
-#include "modes/LCSRecord.h"
-#include "formatters/LCSFormat.h"
-#include "formatters/LCSEdit.h"
+#include "modes/Record.h"
+#include "formatters/Formatter.h"
+#include "formatters/Edit.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr

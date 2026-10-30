@@ -16,7 +16,7 @@
 // 2026-10-24 CNHume  Delegate layout to Formatter subclasses
 // 2022-07-04 CNHume  Created RecordDriver class
 //
-#include "formatters/LCSFormatRecord.h"
+#include "formatters/RecordDriver.h"
 
 using namespace std;
 using namespace lcs;

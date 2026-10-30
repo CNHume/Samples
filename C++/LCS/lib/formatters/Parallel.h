@@ -13,11 +13,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Created Sequential class
+// 2026-10-24 CNHume  Created Parallel class
 //
 #pragma once
 
-#include "formatters/LCSFormat.h"
+#include "formatters/Formatter.h"
 
 #include <cstdint>                      // for uint32_t
 #include <string>
@@ -25,21 +25,31 @@
 namespace lcs::formatters {
 
   //
-  // Sequential lays out each Delta's two sides one after the other,
-  // preserving the historic <<<<< / >>>>> vertical format.
+  // Parallel lays out each Delta's two sides in side-by-side columns,
+  // using the separator and rule glyphs inherited from Formatter.
   //
-  class Sequential : public Formatter {
+  class Parallel : public Formatter {
   public:
+    explicit Parallel(std::uint32_t width, std::uint32_t tabsize);
+
+    void BeginResult(
+      const std::string& label1, const std::string& label2,
+      std::uint32_t, std::uint32_t) override;
+    void EndResult() override;
     void Layout(
       std::uint32_t counter, const SideSpan& side1, const SideSpan& side2,
       EditKind) override;
 
   private:
-    void Side(
-      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-    std::string Head(
-      const SideSpan& side, const std::string& emblem, std::uint32_t counter);
-    std::string Body(const SideSpan& side);
+    std::uint32_t width_;
+    std::uint32_t tabsize_;
+
+    std::uint32_t leftWidth() const;
+    std::uint32_t rightWidth() const;
+    std::string Head(const SideSpan& side1, const SideSpan& side2) const;
+    std::string Body(const SideSpan& side1, const SideSpan& side2) const;
+    std::string Heading(const SideSpan& side, std::uint32_t width) const;
+    std::string Rule() const;
   };
 
 } // namespace lcs::formatters

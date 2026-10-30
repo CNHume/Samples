@@ -19,10 +19,10 @@
 // is right but whose reconstruction is incomplete (the Pair destructor bug).
 //
 #include "doctest/doctest.h"
-#include "modes/LCSText.h"
+#include "modes/Text.h"
 #include "Delta.h"
-#include "algorithms/LCSMyers.h"
-#include "modes/LCSRecord.h"
+#include "algorithms/Myers.h"
+#include "modes/Record.h"
 
 #include <algorithm>                    // for equal, max
 #include <cstdint>                      // for uint32_t

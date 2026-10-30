@@ -15,9 +15,9 @@
 //
 // 2026-10-15 CNHume  Created RickTime class
 //
-// See LCSRickTime.h for an overview.
+// See RickTime.h for an overview.
 //
-#include "algorithms/LCSRickTime.h"
+#include "algorithms/RickTime.h"
 #include "Diagnostic.h"
 
 #include <algorithm>                    // for lower_bound, sort

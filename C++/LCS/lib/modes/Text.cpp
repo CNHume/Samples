@@ -16,15 +16,15 @@
 // 2017-07-04 CNHume  Created Text class
 // 2015-01-19 CNHume  Created file
 //
-#include "modes/LCSText.h"
+#include "modes/Text.h"
 #include "Diagnostic.h"
 #include "Duration.h"
-#include "LCSEncoding.h"
-#include "algorithms/LCSHuntSzymanski.h"
-#include "algorithms/LCSMyers.h"
-#include "LCSNormal.h"
-#include "algorithms/LCSRickSpace.h"
-#include "algorithms/LCSRickTime.h"
+#include "Encoding.h"
+#include "algorithms/HuntSzymanski.h"
+#include "algorithms/Myers.h"
+#include "Normal.h"
+#include "algorithms/RickSpace.h"
+#include "algorithms/RickTime.h"
 
 #include <algorithm>                    // for min
 #include <format>                       // for format

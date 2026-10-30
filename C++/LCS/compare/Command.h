@@ -18,7 +18,7 @@
 //
 #pragma once
 
-#include "LCSOptions.h"
+#include "Options.h"
 
 #include <cstdint>                      // for uint32_t
 #include <string>

@@ -15,8 +15,8 @@
 //
 // 2026-10-07 CNHume  Created Encoding class
 //
-#include "LCSEncoding.h"
-#include "LCSNormal.h"
+#include "Encoding.h"
+#include "Normal.h"
 
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format

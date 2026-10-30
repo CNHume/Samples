@@ -58,21 +58,20 @@ namespace lcs {
 }
 ```
 
-## Directory layout (stage 1)
+## Directory layout
 
 ```
 lib/
 ├── algorithms/
-│   └── LCSMyers, LCSHuntSzymanski, LCSRickSpace, LCSRickTime
+│   └── Myers, HuntSzymanski, RickSpace, RickTime
 ├── modes/
-│   └── LCSText, LCSRecord
+│   └── Text, Record
 ├── formatters/
-│   └── LCSFormat, LCSSequential, LCSParallel, LCSCigar, LCSEdit,
-│       LCSFormatRecord, LCSFormatText
+│   └── Formatter, Sequential, Parallel, Cigar, Edit,
+│       RecordDriver, TextDriver
 └── (top level)
     └── LCS, Delta, Pair, Statistics, Diagnostic, Duration, Stopwatch,
-        Environment, LCSEncoding, LCSNormal, LCSOptions, LCSFile, join,
-        LCSSuspectDash
+        Environment, Encoding, Normal, Options, File, join, SuspectDash
 ```
 
 ## Decisions
@@ -97,4 +96,5 @@ lib/
 1. Physically reorganize the files into the subdirectories above (header and
    source together), updating `#include` paths and the build files, with no
    namespace changes.
-2. Implement the namespaces and rename the classes per the target layout above.
+2. Implement the namespaces and rename the classes per the target layout.
+3. Rename the files to match the classes they contain.

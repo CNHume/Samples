@@ -28,7 +28,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "Command.h"
-#include "LCSFile.h"
+#include "File.h"
 #include "Statistics.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS

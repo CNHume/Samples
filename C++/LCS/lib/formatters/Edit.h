@@ -17,7 +17,7 @@
 //
 #pragma once
 
-#include "formatters/LCSFormat.h"
+#include "formatters/Formatter.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
