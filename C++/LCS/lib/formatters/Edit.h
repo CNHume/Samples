@@ -50,16 +50,13 @@ namespace lcs::formatters {
     void EndResult() override;
 
     //
-    // Build the unified-diff hunks from the match and difference runs:
-    // Delta::Coalesce() merges the differences at distance max(prefix +
-    // suffix, join), then each merged hunk is split at the matches it
-    // encloses, with prefix/suffix context around it.
+    // Split the coalesced differences into unified-diff hunks: each hunk is
+    // split at the matches it encloses, with prefix/suffix context around it.
     //
     static EDIT_INTERVALS BuildIntervals(
       const std::shared_ptr<Delta>& matches,
       const std::shared_ptr<Delta>& differences,
-      std::uint32_t prefix, std::uint32_t suffix,
-      std::uint32_t join = 0);
+      std::uint32_t prefix, std::uint32_t suffix);
 
   private:
     static std::string Range(std::uint32_t begin, std::uint32_t end);

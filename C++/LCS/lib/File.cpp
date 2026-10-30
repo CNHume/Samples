@@ -43,6 +43,9 @@ namespace {
     case Format::CIGAR:
       formatter = make_unique<formatters::Cigar>();
       break;
+    case Format::Edit:
+      formatter = make_unique<formatters::Edit>();
+      break;
     case Format::Parallel:
       formatter = make_unique<formatters::Parallel>(width, tabsize);
       break;
@@ -133,6 +136,7 @@ uint32_t File::Difference(
     auto r1 = modes::Record::Read(options.file1, options.isword);
     auto r2 = modes::Record::Read(options.file2, options.isword);
     if (options.format == Format::Edit) {
+      auto format = MakeFormat(options.format, options.width, options.tabsize);
       shared_ptr<Delta> matches;
       length = modes::Record::Compare(
         &matches, statistics, r1, r2,
@@ -140,12 +144,14 @@ uint32_t File::Difference(
         options.isverbose);
       if (intervals != nullptr) {
         auto differences = Delta::Complement(matches, r1.size(), r2.size());
+        // Coalesce the differences: first by -j join, then by -u context.
+        auto joined = Delta::Coalesce(differences, options.join);
+        auto changes = Delta::Coalesce(joined, options.prefix + options.suffix);
         auto editIntervals = formatters::Edit::BuildIntervals(
-          matches, differences, options.prefix, options.suffix, options.join);
+          matches, changes, options.prefix, options.suffix);
         if (!editIntervals.empty()) {   // identical files: emit nothing, like diff -u
-          formatters::Edit edit;
-          formatters::RecordDriver::ShowEdit(
-            edit, editIntervals, r1, r2, options.file1, options.file2);
+          formatters::RecordDriver::Show(
+            *format, editIntervals, r1, r2, options.file1, options.file2);
         }
       }
     }

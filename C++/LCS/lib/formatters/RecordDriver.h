@@ -39,8 +39,8 @@ namespace lcs::formatters {
       const RECORDS& r1, const RECORDS& r2,
       const std::string& label1, const std::string& label2);
 
-    static std::uint32_t ShowEdit(
-      Edit& edit, const EDIT_INTERVALS& intervals,
+    static std::uint32_t Show(
+      Formatter& format, const EDIT_INTERVALS& intervals,
       const RECORDS& r1, const RECORDS& r2,
       const std::string& label1, const std::string& label2);
 

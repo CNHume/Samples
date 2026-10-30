@@ -79,20 +79,16 @@ shared_ptr<Delta> Edit::MakeRun(
 }
 
 //
-// BuildIntervals() groups the differences into unified-diff hunks:
-// Delta::Coalesce() merges the differences at distance max(prefix + suffix,
-// join); each merged hunk is then split at the matches it encloses, with
-// prefix/suffix context around it.
+// BuildIntervals() splits the coalesced differences into unified-diff hunks:
+// each hunk is split at the matches it encloses, with prefix/suffix context
+// around it.
 //
 EDIT_INTERVALS Edit::BuildIntervals(
   const shared_ptr<Delta>& matches, const shared_ptr<Delta>& differences,
-  uint32_t prefix, uint32_t suffix, uint32_t join) {
-  auto merge = max(prefix + suffix, join);
-  auto changes = Delta::Coalesce(differences, merge);
-
+  uint32_t prefix, uint32_t suffix) {
   EDIT_INTERVALS intervals;
   auto mp = matches;
-  for (auto c = changes; c != nullptr; c = dynamic_pointer_cast<Delta>(c->next)) {
+  for (auto c = differences; c != nullptr; c = dynamic_pointer_cast<Delta>(c->next)) {
     auto cBegin1 = c->begin1, cBegin2 = c->begin2;
     auto cEnd1 = c->end1, cEnd2 = c->end2;
 

@@ -63,24 +63,24 @@ uint32_t RecordDriver::Show(
   return ndelta;
 }
 
-uint32_t RecordDriver::ShowEdit(
-  Edit& edit, const EDIT_INTERVALS& intervals,
+uint32_t RecordDriver::Show(
+  Formatter& format, const EDIT_INTERVALS& intervals,
   const RECORDS& r1, const RECORDS& r2,
   const string& label1, const string& label2) {
-  edit.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
+  format.BeginResult(label1, label2, (uint32_t)r1.size(), (uint32_t)r2.size());
   uint32_t ndelta = 0;                  // # of runs
   for (const auto& interval : intervals) {
-    edit.BeginInterval(
+    format.BeginInterval(
       interval.front()->begin1, interval.back()->end1,
       interval.front()->begin2, interval.back()->end2);
     for (const auto& run : interval) {
       auto side1 = MakeSpan(label1, r1, run->begin1, run->end1);
       auto side2 = MakeSpan(label2, r2, run->begin2, run->end2);
-      edit.Layout(ndelta, side1, side2, run->kind);
+      format.Layout(ndelta, side1, side2, run->kind);
       ndelta++;
     }
   }
-  edit.EndResult();
+  format.EndResult();
   return ndelta;
 }
 
