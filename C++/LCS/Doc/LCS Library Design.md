@@ -58,7 +58,7 @@ tabsize      uint32_t = 8
 
 Excluded from `LCSOptions` (CLI concerns):
 
-- `isscorrespondence` — selects Correspondence vs. Difference (read in `main.cpp`).
+- `iscorrespondence` — selects Correspondence vs. Difference (read in `main.cpp`).
 - `islength` — expressed as `intervals == nullptr` (the null-pointer protocol, read in `main.cpp`).
 - `isenvironment`, `ishelp`, `isversion` — early-exit switches handled in `Command::Parse` (print a report and exit).
 
@@ -70,7 +70,7 @@ Excluded from `LCSOptions` (CLI concerns):
 ```
 class Command : public lcs::LCSOptions {
 public:
-  bool isscorrespondence = false;   // compare only
+  bool iscorrespondence = false;   // compare only
   bool isenvironment = false;
   bool ishelp = false;
   bool islength = false;

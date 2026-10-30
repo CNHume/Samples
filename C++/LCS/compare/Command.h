@@ -30,7 +30,7 @@
 //
 class Command : public lcs::Options {
 public:
-  bool isscorrespondence = false;
+  bool iscorrespondence = false;
   bool ishost = false;
   bool ishelp = false;
   bool islength = false;

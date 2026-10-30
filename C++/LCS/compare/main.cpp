@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
       nullptr : &intervals;
 
     Statistics statistics;
-    auto length = command.isscorrespondence ?
+    auto length = command.iscorrespondence ?
       File::Correspondence(pintervals, &statistics, command) :
       File::Difference(pintervals, &statistics, command);
 

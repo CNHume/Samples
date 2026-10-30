@@ -330,7 +330,7 @@ void Command::Parse(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
   }
 
-  if (isscorrespondence && format == Format::CIGAR)
+  if (iscorrespondence && format == Format::CIGAR)
     throw invalid_argument(
       "-C (correspondence) cannot be combined with -y c (CIGAR)");
 
@@ -338,7 +338,7 @@ void Command::Parse(int argc, char* argv[]) {
     throw invalid_argument("-u cannot be combined with -y");
 
   if (isunified) {
-    if (isscorrespondence)
+    if (iscorrespondence)
       throw invalid_argument("-C (correspondence) cannot be combined with -u");
     if (istext)
       throw invalid_argument(
