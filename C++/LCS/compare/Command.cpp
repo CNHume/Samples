@@ -28,6 +28,7 @@
 #include <cerrno>                       // for errno
 #include <cstdlib>                      // for EXIT_SUCCESS, exit, strtoul
 #include <cstring>                      // for strlen
+#include <format>                       // for format
 #include <iostream>                     // for cout
 #include <stdexcept>                    // for invalid_argument, runtime_error
 
@@ -96,9 +97,9 @@ void Command::Parse(int argc, char* argv[]) {
           // s=space, t=time.  Allow leading spaces -a d (as in -j, -p, -s).
           //
           const char* sub = nullptr;
-          if (len == 3)                 // Same token
+          if (len > 2)                 // Same token
             sub = &token[2];
-          else if (len == 2 && n + 1 < argc && strlen(argv[n + 1]) == 1)
+          else if (n + 1 < argc && strlen(argv[n + 1]) == 1)
             sub = argv[++n];            // Next token
           else {
             usage = true;               // -a needs exactly one sub-letter
@@ -137,7 +138,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
-          isscorrespondence = true;
+          iscorrespondence = true;
         break;
 
       case 'F':                         // the fasta switch, which implies text
@@ -271,18 +272,20 @@ void Command::Parse(int argc, char* argv[]) {
           usage = true;
         if (width < MIN_WIDTH)          // reject below the minimum
           throw invalid_argument(
-            "Invalid width: " + to_string(width) +
-            " (minimum is " + to_string(MIN_WIDTH) + ")");
+            std::format("Invalid width: {} (minimum is {})", width, MIN_WIDTH));
         break;
 
       case 'y':                         // the format switch: s=sequential, p=parallel, c=cigar
         {
-          // Accept both -yp and -y p (whitespace optional, as with -a).
+          //
+          // Parse format specifier: c=CIGAR, s=sequential, p=parallel.
+          // Allow leading spaces -y s (as in -j, -p, -s).
+          //
           const char* sub = nullptr;
-          if (len == 3)                 // -ys or -yp
+          if (len > 2)                 // Same token
             sub = &token[2];
-          else if (len == 2 && n + 1 < argc && strlen(argv[n + 1]) == 1)
-            sub = argv[++n];            // -y s or -y p
+          else if (n + 1 < argc && strlen(argv[n + 1]) == 1)
+            sub = argv[++n];            // Next token
           else {
             usage = true;               // -y needs exactly one sub-letter
             break;
