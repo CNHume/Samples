@@ -13,7 +13,7 @@ computes the Longest Common Subsequence (LCS) of
 and
 .IR file2 .
 By default it prints their differences as an edit script; with
-.B -c
+.B -C
 it prints the common (matching) records instead, and with
 .B -l
 it prints only the LCS length.
@@ -101,14 +101,14 @@ or
 Ignore whitespace: collapse each run of whitespace to a single space before
 comparing, and expand the reported spans back to the original positions.
 .TP
-.B -c
+.B -C
 Print the correspondence (the common, matching records) instead of the
 differences.
 .TP
 .B -E
 Print the host environment (locale, processor, and memory) and exit.
 .TP
-.B -f
+.B -F
 Treat the input files as FASTA and strip header lines; implies
 .BR -T .
 .TP
@@ -131,7 +131,7 @@ Print
 .I prefix
 lines of context before each difference.
 .TP
-.B -q
+.B -Q
 Treat
 .I file1
 and
@@ -162,11 +162,11 @@ the default differences view.  Context lines come from
 (suffix), defaulting to 3 for whichever is not given explicitly.
 .B -u
 is incompatible with
-.BR -c ,
-.BR -f ,
+.BR -C ,
+.BR -F ,
 .BR -j ,
 .BR -l ,
-.BR -q ,
+.BR -Q ,
 .BR -T ,
 and
 .BR -y .
@@ -323,14 +323,14 @@ compare -i -l -T a.fa b.fa
 Compare two FASTA genomes with the linear-space algorithm and show matches:
 .nf
 .RS
-compare -as -c -f ecoli.seq ecoli_100subs.seq
+compare -as -C -F ecoli.seq ecoli_100subs.seq
 .RE
 .fi
 .TP
 Compare two literal strings rather than files:
 .nf
 .RS
-compare -q "the quick sly fox jumped" "over the lazy brown dog"
+compare -Q "the quick sly fox jumped" "over the lazy brown dog"
 .RE
 .fi
 .SH SEE ALSO

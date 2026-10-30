@@ -36,8 +36,8 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <a|d|m|s|t>] [-b] [-c] [-E] [-f] [-h] [-i] [-j <join>] "
-    "[-l] [-p <prefix>] [-q] [-s <suffix>] [-t <tabsize>] [-T] "
+    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-E] [-F] [-h] [-i] [-j <join>] "
+    "[-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] [-T] "
     "[-u] [-v] [-V] [-w] [-W <width>] [-y <s|p|c>] file1 file2";
 
   constexpr uint32_t edit_context_affix = 3;  // -u default context
@@ -133,7 +133,7 @@ void Command::Parse(int argc, char* argv[]) {
           ignorespace = true;
         break;
 
-      case 'c':                         // the correspondence switch
+      case 'C':                         // the correspondence switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
@@ -147,12 +147,12 @@ void Command::Parse(int argc, char* argv[]) {
           isenvironment = true;
         break;
 
-      case 'f':                         // the fasta switch, which implies text
+      case 'F':                         // the fasta switch, which implies text
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
           isfasta = true;
-          istext = true;                // -f implies -T
+          istext = true;                // -F implies -T
         }
         break;
 
@@ -197,12 +197,12 @@ void Command::Parse(int argc, char* argv[]) {
         prefixGiven = true;
         break;
 
-      case 'q':                         // the quote switch, which implies text
+      case 'Q':                         // the quote switch, which implies text
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
           isquote = true;
-          istext = true;                // -q implies -T
+          istext = true;                // -Q implies -T
         }
         break;
 
@@ -329,17 +329,17 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (isscorrespondence && format == Format::CIGAR)
     throw invalid_argument(
-      "-c (correspondence) cannot be combined with -y c (CIGAR)");
+      "-C (correspondence) cannot be combined with -y c (CIGAR)");
 
   if (isunified && isyformat)
     throw invalid_argument("-u cannot be combined with -y");
 
   if (isunified) {
     if (isscorrespondence)
-      throw invalid_argument("-c (correspondence) cannot be combined with -u");
+      throw invalid_argument("-C (correspondence) cannot be combined with -u");
     if (istext)
       throw invalid_argument(
-        "-f, -q, and -T (text mode) cannot be combined with -u");
+        "-F, -Q, and -T (text mode) cannot be combined with -u");
     if (isjoin)
       throw invalid_argument("-j (join) cannot be combined with -u");
     if (islength)
