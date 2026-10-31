@@ -51,8 +51,9 @@ characters are never split;
 .RB ( -w )
 each whitespace-separated word is one record.
 .PP
-Four LCS algorithms — or automatic dispatch — are available through
-.BR -A :
+The
+.BR -A
+specifier selects one of four LCS algorithms, or automatic dispatch:
 .TP
 .B a
 Automatic (the default): heuristic dispatch that selects the algorithm from
@@ -221,7 +222,7 @@ whose name begins with a hyphen can follow it.
 .SH ALGORITHM
 The
 .B -A
-selector chooses among four algorithms, each fastest in its own regime.
+specifier chooses among four algorithms, each fastest in its own regime.
 Three independent properties of the input decide which regime applies:
 .TP
 Edit distance
