@@ -86,6 +86,10 @@ void Command::Parse(int argc, char* argv[]) {
         break;
       throw runtime_error(message);     // switch typed with a Unicode dash
     }
+    else if (len == 2 && token[1] == '-') {
+      n++;                              // skip the -- delimiter
+      break;                            // remaining arguments are operands
+    }
     else if (len < 2)
       usage = true;
     else {                              // parse single character switch
