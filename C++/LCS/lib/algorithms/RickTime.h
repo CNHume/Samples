@@ -55,9 +55,6 @@ namespace lcs::algorithms {
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, Statistics* statistics,
       const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
-    // Length only.
-    static std::uint32_t FindFlexibleLength(
-      const std::u32string& s1, const std::u32string& s2);
   };
 
 } // namespace lcs::algorithms

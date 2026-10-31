@@ -60,26 +60,30 @@ namespace {
     uint32_t j;
   };
 
+  //
+  // Assign dense symbol ids to distinct code points.
+  //
+  uint32_t SymbolId(unordered_map<char32_t, uint32_t>& charToId, char32_t c) {
+    auto it = charToId.find(c);
+    if (it != charToId.end())
+      return it->second;
+    auto id = (uint32_t)charToId.size();
+    charToId.emplace(c, id);
+    return id;
+  }
+
   FlexTables BuildTables(const u32string& s1, const u32string& s2) {
     FlexTables t;
     t.m = (int64_t)s1.size();
     t.n = (int64_t)s2.size();
 
     unordered_map<char32_t, uint32_t> charToId;
-    auto idOf = [&](char32_t c) -> uint32_t {
-      auto it = charToId.find(c);
-      if (it != charToId.end())
-        return it->second;
-      auto id = (uint32_t)charToId.size();
-      charToId.emplace(c, id);
-      return id;
-    };
     t.id1.assign((size_t)t.m, 0);
     for (int64_t i = 0; i < t.m; i++)
-      t.id1[(size_t)i] = idOf(s1[(size_t)i]);
+      t.id1[(size_t)i] = SymbolId(charToId, s1[(size_t)i]);
     t.id2.assign((size_t)t.n, 0);
     for (int64_t j = 0; j < t.n; j++)
-      t.id2[(size_t)j] = idOf(s2[(size_t)j]);
+      t.id2[(size_t)j] = SymbolId(charToId, s2[(size_t)j]);
 
     auto s = charToId.size();
     //
@@ -357,11 +361,6 @@ uint32_t RickTime::Find(
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
   return Sweep(pairs, statistics, t);
-}
-
-uint32_t RickTime::FindFlexibleLength(
-  const u32string& s1, const u32string& s2) {
-  return Find(nullptr, nullptr, s1, s2);
 }
 
 } // namespace lcs::algorithms

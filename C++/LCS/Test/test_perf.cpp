@@ -327,7 +327,7 @@ namespace {
         if (dissimilar) {
           // Independent random second string: a large, uncontrolled D.
           b = regionReference(n, s, skew);
-          auto p = algorithms::RickTime::FindFlexibleLength(a, b);
+          auto p = algorithms::RickTime::Find(nullptr, nullptr, a, b);
           D = 2 * n - 2 * p;
         }
         else {
