@@ -52,7 +52,7 @@ characters are never split;
 each whitespace-separated word is one record.
 .PP
 Four LCS algorithms — or automatic dispatch — are available through
-.BR -a :
+.BR -A :
 .TP
 .B a
 Automatic (the default): heuristic dispatch that selects the algorithm from
@@ -81,7 +81,7 @@ Hunt-Szymanski when the matches are sparse, RickTime when its match
 recording fits in memory, and RickSpace otherwise.
 .SH OPTIONS
 .TP
-.BI -a " a|d|m|s|t"
+.BI -A " a|d|m|s|t"
 Select the LCS algorithm:
 .B a
 (Automatic, the default),
@@ -93,9 +93,9 @@ Select the LCS algorithm:
 (RickSpace), or
 .B t
 (RickTime).  Accepts
-.B -ad
+.B -Ad
 or
-.BR "-a d" .
+.BR "-A d" .
 .TP
 .B -b
 Ignore whitespace: collapse each run of whitespace to a single space before
@@ -148,7 +148,7 @@ lines of context after each difference.
 .TP
 .BI -t " tabsize"
 Set the tab size used to expand tab characters in the parallel
-.BR -y " p"
+.BR -y
 output (default 8).
 .TP
 .B -T
@@ -166,6 +166,7 @@ the default differences view.  Context lines come from
 is incompatible with
 .BR -C ,
 .BR -F ,
+.BR -g ,
 .BR -l ,
 .BR -Q ,
 .BR -T ,
@@ -189,18 +190,21 @@ Split each line into whitespace-separated words and compare word by word
 .TP
 .BI -W " width"
 Set the per-side content width used by the parallel
-.BR -y " p"
+.BR -y
 format (default 80, minimum 5).  Content is truncated to this width, so the
 total output line is 1 + 2 x width characters.
 .TP
-.BI -y " c|p|s"
-Select the output format:
-.B c
-(CIGAR alignment string; file1 is the reference and file2 the query),
-.B p
-(parallel: side-by-side columns), or
-.B s
-(sequential, the default: one side after the other).
+.B -g
+Emit the CIGAR (gapped) alignment string; file1 is the reference and
+file2 the query.  Incompatible with
+.BR -C ,
+.BR -u ,
+and
+.BR -y .
+.TP
+.B -y
+Emit side-by-side (parallel) output, in the manner of
+.BR diff (1).
 .PP
 The
 .BR -h ,
@@ -216,7 +220,7 @@ argument ends the options; the remaining arguments are operands, so a file
 whose name begins with a hyphen can follow it.
 .SH ALGORITHM
 The
-.B -a
+.B -A
 selector chooses among four algorithms, each fastest in its own regime.
 Three independent properties of the input decide which regime applies:
 .TP
@@ -259,7 +263,7 @@ RickTime (time): fastest at high redundancy (high \[*r]), when its
 dominant-match recording fits in memory.
 .PP
 Automatic dispatch (
-.BR -aa ,
+.BR -Aa ,
 the default) estimates
 .I D
 and
@@ -329,7 +333,7 @@ compare -i -l -T a.fa b.fa
 Compare two FASTA genomes with the linear-space algorithm and show matches:
 .nf
 .RS
-compare -as -C -F ecoli.seq ecoli_100subs.seq
+compare -As -C -F ecoli.seq ecoli_100subs.seq
 .RE
 .fi
 .TP

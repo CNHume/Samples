@@ -37,9 +37,9 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-a <a|d|m|s|t>] [-b] [-C] [-F] [-h] [-H] [-i] "
+    "Usage: compare [-A <a|d|m|s|t>] [-b] [-C] [-F] [-g] [-h] [-H] [-i] "
     "[-j <join>] [-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] "
-    "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y <c|p|s>] file1 file2";
+    "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y] file1 file2";
 
   constexpr uint32_t edit_context_affix = 3;  // -u default context
 }
@@ -73,7 +73,8 @@ uint32_t Command::parse_uint32(const char* s, const string& name) {
 void Command::Parse(int argc, char* argv[]) {
   auto usage = false;
   auto isunified = false;               // -u given
-  auto isyformat = false;               // -y given
+  auto isparallel = false;              // -y given
+  auto isgapped = false;                // -g given
   auto prefixGiven = false;             // -p given
   auto suffixGiven = false;             // -s given
   auto n = 1;                           // skip verb
@@ -94,11 +95,11 @@ void Command::Parse(int argc, char* argv[]) {
     }
     else {                              // parse single character switch
       switch (token[1]) {
-      case 'a':                         // the algorithm switch
+      case 'A':                         // the algorithm switch
         {
           //
           // Parse algorithm specifier: a=automatic, d=edit distance, m=matches,
-          // s=space, t=time.  Allow leading spaces -a d (as in -j, -p, -s).
+          // s=space, t=time.  Allow leading spaces -A d (as in -j, -p, -s).
           //
           const char* sub = nullptr;
           if (len > 2)                 // Same token
@@ -106,7 +107,7 @@ void Command::Parse(int argc, char* argv[]) {
           else if (n + 1 < argc && strlen(argv[n + 1]) == 1)
             sub = argv[++n];            // Next token
           else {
-            usage = true;               // -a needs exactly one sub-letter
+            usage = true;               // -A needs exactly one sub-letter
             break;
           }
           switch (sub[0]) {
@@ -151,6 +152,15 @@ void Command::Parse(int argc, char* argv[]) {
         else {
           isfasta = true;
           istext = true;                // -F implies -T
+        }
+        break;
+
+      case 'g':                         // the gapped switch (CIGAR alignment)
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else {
+          format = Format::CIGAR;
+          isgapped = true;
         }
         break;
 
@@ -279,35 +289,12 @@ void Command::Parse(int argc, char* argv[]) {
             std::format("Invalid width: {} (minimum is {})", width, MIN_WIDTH));
         break;
 
-      case 'y':                         // the format switch: c=CIGAR, p=parallel, s=sequential
-        {
-          //
-          // Parse format specifier: c=CIGAR, p=parallel, s=sequential.
-          // Allow leading spaces -y c (as in -j, -p, -s).
-          //
-          const char* sub = nullptr;
-          if (len > 2)                 // Same token
-            sub = &token[2];
-          else if (n + 1 < argc && strlen(argv[n + 1]) == 1)
-            sub = argv[++n];            // Next token
-          else {
-            usage = true;               // -y needs exactly one sub-letter
-            break;
-          }
-          switch (sub[0]) {
-          case 'c':
-            format = Format::CIGAR;
-            break;
-          case 'p':
-            format = Format::Parallel;
-            break;
-          case 's':
-            format = Format::Sequential;
-            break;
-          default:
-            usage = true;               // unknown format
-          }
-          isyformat = true;
+      case 'y':                         // the parallel switch (side-by-side)
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else {
+          format = Format::Parallel;
+          isparallel = true;
         }
         break;
 
@@ -334,12 +321,16 @@ void Command::Parse(int argc, char* argv[]) {
     exit(EXIT_SUCCESS);
   }
 
-  if (iscorrespondence && format == Format::CIGAR)
+  if (iscorrespondence && isgapped)
     throw invalid_argument(
-      "-C (correspondence) cannot be combined with -y c (CIGAR)");
+      "-C (correspondence) cannot be combined with -g (CIGAR)");
 
-  if (isunified && isyformat)
-    throw invalid_argument("-u cannot be combined with -y");
+  // The output-format switches are mutually exclusive.
+  if ((isparallel && isgapped) ||
+      (isparallel && isunified) ||
+      (isgapped && isunified))
+    throw invalid_argument(
+      "-g (CIGAR), -y (parallel), and -u (unified) are mutually exclusive");
 
   if (isunified) {
     if (iscorrespondence)

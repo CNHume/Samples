@@ -56,7 +56,7 @@ namespace {
   constexpr uint64_t nearIdenticalEdits = 1000;
 
   //
-  // Automatic (-aa) dispatch thresholds.
+  // Automatic (-Aa) dispatch thresholds.
   //
   constexpr uint64_t autoEditThreshold = 2000;     // D lower bound: Myers' fast range
   constexpr uint64_t autoSparseRedundancy = 100;   // r/n below which H-S is sparse
@@ -69,7 +69,7 @@ void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
   if (matches > threshold) {
     std::cerr << std::format(
       "Warning: Hunt-Szymanski will process {} matches over a {}x{} input, "
-      "which is pathological; consider -at (time) or -as (space)",
+      "which is pathological; consider -At (time) or -As (space)",
       matches, m, n) << '\n';
   }
 }
@@ -80,7 +80,7 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
   if (bytes > tableByteBudget) {
     std::cerr << std::format(
       "Warning: RickTime occurrence tables need ~{} bytes for {} symbols "
-      "over a {}x{} input; consider -as (linear space)",
+      "over a {}x{} input; consider -As (linear space)",
       bytes, symbols, m, n) << '\n';
   }
 }
@@ -101,7 +101,7 @@ uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
 void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
   std::cerr << std::format(
     "Warning: RickTime match recording needs ~{:.3f} GB, "
-    "exceeding the ~{:.3f} GB budget; use -as (RickSpace) for linear memory instead",
+    "exceeding the ~{:.3f} GB budget; use -As (RickSpace) for linear memory instead",
     (double)(records * recordBytes) / (1ull << 30),
     (double)(recordBudget * recordBytes) / (1ull << 30)) << '\n';
 }
@@ -117,10 +117,10 @@ void Diagnostic::SuggestRickTime(
   // skip the suggestion when that recording would exhaust the memory budget.
   //
   if (candidates > RecordingBudget(shorter, longer, symbols))
-    return;                             // -at would exhaust memory
+    return;                             // -At would exhaust memory
   std::cerr << std::format(
     "Note: near-identical input (LCS {} of {}); "
-    "-at (RickTime) would likely fit and run ~2.6x faster",
+    "-At (RickTime) would likely fit and run ~2.6x faster",
     length, shorter) << '\n';
 }
 
@@ -139,7 +139,7 @@ uint64_t Diagnostic::MyersBudget(uint64_t m, uint64_t n) {
 void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
   std::cerr << std::format(
     "Warning: Myers edit distance {} exceeds the {} budget; "
-    "use -as (RickSpace) or -at (RickTime) instead",
+    "use -As (RickSpace) or -At (RickTime) instead",
     distance, budget) << '\n';
 }
 

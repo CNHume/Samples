@@ -54,7 +54,7 @@ namespace lcs {
     // Warn that Myers' edit distance exceeded its budget.
     static void WarnMyersDistance(std::uint64_t distance, std::uint64_t budget);
     //
-    // Automatic (-aa) dispatch: select the algorithm from the three metrics and
+    // Automatic (-Aa) dispatch: select the algorithm from the three metrics and
     // record the reason in `reason` for verbose output.
     //
     static Algorithm SelectAutomatic(

@@ -254,7 +254,7 @@ static uint32_t Sweep(
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
-              "RickTime: match recording would exhaust memory; use -as (RickSpace)");
+              "RickTime: match recording would exhaust memory; use -As (RickSpace)");
           }
         }
         j = t.next2[(size_t)t.id1[(size_t)l]][(size_t)(temp + 1)];
@@ -290,7 +290,7 @@ static uint32_t Sweep(
           if (records > recordBudget) {
             Diagnostic::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
-              "RickTime: match recording would exhaust memory; use -as (RickSpace)");
+              "RickTime: match recording would exhaust memory; use -As (RickSpace)");
           }
         }
         i = t.next1[(size_t)t.id2[(size_t)l]][(size_t)(temp + 1)];

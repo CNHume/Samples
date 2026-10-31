@@ -82,7 +82,7 @@ namespace {
     if (lower > budget) {
       Diagnostic::WarnMyersDistance(lower, budget);
       throw runtime_error(
-        "Myers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
+        "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
     }
 
     //
@@ -129,7 +129,7 @@ namespace {
     if (D < 0) {
       Diagnostic::WarnMyersDistance(budget, budget);
       throw runtime_error(
-        "Myers: edit distance exceeds the budget; use -as (RickSpace) or -at (RickTime)");
+        "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
     }
 
     auto length = (uint32_t)((m + n - (size_t)D) / 2);

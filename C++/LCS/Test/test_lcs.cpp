@@ -189,7 +189,7 @@ TEST_CASE("Myers aborts when the edit distance exceeds its budget") {
 }
 
 TEST_CASE("automatic dispatch returns a correct LCS") {
-  // -aa should select a working algorithm: the length and trace must match the
+  // -Aa should select a working algorithm: the length and trace must match the
   // O(m*n) DP reference regardless of which algorithm it picks.
   const vector<pair<string, string>> cases = {
     { "ACGTACGTACGT", "ACGTAGGTACGT" },
