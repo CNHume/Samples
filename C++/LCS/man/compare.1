@@ -53,7 +53,7 @@ each whitespace-separated word is one record.
 .PP
 The
 .BR -A
-specifier selects one of four LCS algorithms, or automatic dispatch:
+option specifies one of four LCS algorithms, or automatic dispatch, as follows:
 .TP
 .B a
 Automatic (the default): heuristic dispatch that selects the algorithm from
@@ -83,17 +83,17 @@ recording fits in memory, and RickSpace otherwise.
 .SH OPTIONS
 .TP
 .BI -A " a|d|m|s|t"
-Select the LCS algorithm:
+Specify the LCS algorithm:
 .B a
-(Automatic, the default),
+Automatic (the default),
 .B d
-(Myers),
+Myers (1986),
 .B m
-(Hunt-Szymanski),
+Hunt-Szymanski (1977),
 .B s
-(RickSpace), or
+RickSpace (2000), or
 .B t
-(RickTime).  Accepts
+RickTime (1995).  Accepts
 .B -Ad
 or
 .BR "-A d" .
@@ -222,7 +222,7 @@ whose name begins with a hyphen can follow it.
 .SH ALGORITHM
 The
 .B -A
-specifier chooses among four algorithms, each fastest in its own regime.
+option chooses among four algorithms, each fastest in its own regime.
 Three independent properties of the input decide which regime applies:
 .TP
 Edit distance
