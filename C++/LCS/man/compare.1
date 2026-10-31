@@ -105,15 +105,23 @@ comparing, and expand the reported spans back to the original positions.
 Print the correspondence (the common, matching records) instead of the
 differences.
 .TP
-.B -H
-Print host information (name, locale, processor, and memory) and exit.
-.TP
 .B -F
 Treat the input files as FASTA and strip header lines; implies
 .BR -T .
 .TP
+.B -G
+Emit the (gapped) CIGAR alignment string; file1 is the reference and
+file2 the query.  Incompatible with
+.BR -C ,
+.BR -u ,
+and
+.BR -y .
+.TP
 .B -h
 Print a usage synopsis and exit.
+.TP
+.B -H
+Print host information (name, locale, processor, and memory) and exit.
 .TP
 .B -i
 Perform a case-insensitive comparison.
@@ -166,7 +174,7 @@ the default differences view.  Context lines come from
 is incompatible with
 .BR -C ,
 .BR -F ,
-.BR -g ,
+.BR -G ,
 .BR -l ,
 .BR -Q ,
 .BR -T ,
@@ -193,14 +201,6 @@ Set the per-side content width used by the parallel
 .BR -y
 format (default 80, minimum 5).  Content is truncated to this width, so the
 total output line is 1 + 2 x width characters.
-.TP
-.B -g
-Emit the CIGAR (gapped) alignment string; file1 is the reference and
-file2 the query.  Incompatible with
-.BR -C ,
-.BR -u ,
-and
-.BR -y .
 .TP
 .B -y
 Emit side-by-side (parallel) output, in the manner of

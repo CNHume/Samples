@@ -37,7 +37,7 @@ using namespace lcs;
 
 namespace {
   constexpr const char* usageSynopsis =
-    "Usage: compare [-A <a|d|m|s|t>] [-b] [-C] [-F] [-g] [-h] [-H] [-i] "
+    "Usage: compare [-A <a|d|m|s|t>] [-b] [-C] [-F] [-G] [-h] [-H] [-i] "
     "[-j <join>] [-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] "
     "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y] file1 file2";
 
@@ -74,7 +74,7 @@ void Command::Parse(int argc, char* argv[]) {
   auto usage = false;
   auto isunified = false;               // -u given
   auto isparallel = false;              // -y given
-  auto isgapped = false;                // -g given
+  auto isgapped = false;                // -G given
   auto prefixGiven = false;             // -p given
   auto suffixGiven = false;             // -s given
   auto n = 1;                           // skip verb
@@ -155,7 +155,7 @@ void Command::Parse(int argc, char* argv[]) {
         }
         break;
 
-      case 'g':                         // the gapped switch (CIGAR alignment)
+      case 'G':                         // the gapped switch (CIGAR alignment)
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
@@ -323,14 +323,14 @@ void Command::Parse(int argc, char* argv[]) {
 
   if (iscorrespondence && isgapped)
     throw invalid_argument(
-      "-C (correspondence) cannot be combined with -g (CIGAR)");
+      "-C (correspondence) cannot be combined with -G (CIGAR)");
 
   // The output-format switches are mutually exclusive.
   if ((isparallel && isgapped) ||
       (isparallel && isunified) ||
       (isgapped && isunified))
     throw invalid_argument(
-      "-g (CIGAR), -y (parallel), and -u (unified) are mutually exclusive");
+      "-G (CIGAR), -y (parallel), and -u (unified) are mutually exclusive");
 
   if (isunified) {
     if (iscorrespondence)
