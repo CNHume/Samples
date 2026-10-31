@@ -51,7 +51,8 @@ uint32_t TextDriver::Show(
   Formatter& format, shared_ptr<Delta> deltas,
   const u32string& s1, const u32string& s2,
   const string& label1, const string& label2) {
-  format.BeginResult(label1, label2, (uint32_t)s1.size(), (uint32_t)s2.size());
+  format.BeginResult(
+    label1, label2, (uint32_t)s1.size(), (uint32_t)s2.size());
   uint32_t ndelta = 0;                  // # of deltas
   for (auto next = deltas; next != nullptr;
     next = dynamic_pointer_cast<Delta>(next->next)) {
@@ -71,7 +72,8 @@ SideSpan TextDriver::MakeSpan(
   span.label = label;
   span.begin = begin;
   span.end = end;
-  span.lines.push_back(Encoding::ToUtf8(s.substr(begin, end - begin)));
+  span.lines.push_back(
+    Encoding::ToUtf8(s.substr(begin, end - begin)));
   return span;
 }
 

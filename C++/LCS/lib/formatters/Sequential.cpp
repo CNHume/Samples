@@ -28,8 +28,8 @@ namespace lcs::formatters {
 // Write both sides of a Delta sequentially
 void Sequential::Layout(
   uint32_t counter, const SideSpan& side1, const SideSpan& side2, EditKind) {
-  Side(side1, string(5, leftEmblem), counter);   // <<<<<
-  Side(side2, string(5, rightEmblem), counter);  // >>>>>
+  Side(side1, string(5, leftEmblem), counter);
+  Side(side2, string(5, rightEmblem), counter);
 }
 
 void Sequential::Side(

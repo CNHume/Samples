@@ -113,7 +113,9 @@ void Parallel::BeginResult(
     auto l1 = i < lines1.size() ? lines1[i] : string{};
     auto l2 = i < lines2.size() ? lines2[i] : string{};
     cout <<
-      format("{:^{}}{}{:^{}}\n", l1, leftWidth(), contentCenter, l2, rightWidth());
+      format(
+        "{:^{}}{}{:^{}}\n",
+        l1, leftWidth(), contentCenter, l2, rightWidth());
   }
 }
 
@@ -130,7 +132,8 @@ void Parallel::Layout(
 }
 
 std::string Parallel::Head(const SideSpan& side1, const SideSpan& side2) const {
-  return format("{}{}{}\n",
+  return format(
+    "{}{}{}\n",
     Heading(side1, leftWidth()), horizontalCenter, Heading(side2, rightWidth()));
 }
 
