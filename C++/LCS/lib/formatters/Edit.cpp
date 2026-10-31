@@ -79,9 +79,7 @@ shared_ptr<Delta> Edit::MakeRun(
 }
 
 //
-// BuildIntervals() splits the coalesced differences into unified-diff hunks:
-// each hunk is split at the matches it encloses, with prefix/suffix context
-// around it.
+// BuildIntervals() splits coalesced differences into EDIT_INTERVALS.
 //
 EDIT_INTERVALS Edit::BuildIntervals(
   const shared_ptr<Delta>& matches, const shared_ptr<Delta>& differences,
@@ -94,7 +92,7 @@ EDIT_INTERVALS Edit::BuildIntervals(
 
     vector<shared_ptr<Delta>> interval;
 
-    // Prefix context: the tail of the match ending where the hunk begins.
+    // Prefix context: the tail of the match ending where the interval begins.
     shared_ptr<Delta> lead = nullptr;
     while (mp != nullptr && mp->end1 <= cBegin1) {
       if (mp->end1 == cBegin1)
@@ -108,7 +106,7 @@ EDIT_INTERVALS Edit::BuildIntervals(
           lead->end1 - n, lead->end2 - n, lead->end1, lead->end2));
     }
 
-    // Body: split the hunk at each enclosed match, emitting Change/Match runs.
+    // Body: split the interval at each enclosed match, emitting Change/Match runs.
     auto b1 = cBegin1, b2 = cBegin2;
     while (mp != nullptr && mp->begin1 < cEnd1) {
       interval.push_back(MakeRun(EditKind::Change,
@@ -121,7 +119,7 @@ EDIT_INTERVALS Edit::BuildIntervals(
     }
     interval.push_back(MakeRun(EditKind::Change, b1, b2, cEnd1, cEnd2));
 
-    // Suffix context: the head of the match starting where the hunk ends.
+    // Suffix context: the head of the match starting where the interval ends.
     if (mp != nullptr && mp->begin1 == cEnd1) {
       auto n = min(suffix, mp->end1 - mp->begin1);
       if (n > 0)
@@ -133,6 +131,28 @@ EDIT_INTERVALS Edit::BuildIntervals(
   }
 
   return intervals;
+}
+
+//
+// Difference() computes the Edit Intervals: compare to find the matches,
+// complement to get the differences, coalesce (join then context overlap),
+// and split into EDIT_INTERVALS.
+//
+uint32_t Edit::Difference(
+  EDIT_INTERVALS* intervals, Statistics* statistics,
+  const modes::Record::RECORDS& r1, const modes::Record::RECORDS& r2,
+  Algorithm algorithm, bool ignorecase, bool ignorespace,
+  bool isjoin, bool isverbose, uint32_t join, uint32_t prefix, uint32_t suffix) {
+  shared_ptr<Delta> matches;
+  auto length = modes::Record::Compare(
+    &matches, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+  if (intervals == nullptr)
+    return length;
+  auto differences = Delta::Complement(matches, r1.size(), r2.size());
+  auto joined = isjoin ? Delta::Coalesce(differences, join) : differences;
+  auto changes = Delta::Coalesce(joined, prefix + suffix);
+  *intervals = BuildIntervals(matches, changes, prefix, suffix);
+  return length;
 }
 
 } // namespace lcs::formatters

@@ -137,22 +137,16 @@ uint32_t File::Difference(
     auto r2 = modes::Record::Read(options.file2, options.isword);
     if (options.format == Format::Edit) {
       auto format = MakeFormat(options.format, options.width, options.tabsize);
-      shared_ptr<Delta> matches;
-      length = modes::Record::Compare(
-        &matches, statistics, r1, r2,
+      formatters::EDIT_INTERVALS editIntervals;
+      length = formatters::Edit::Difference(
+        intervals != nullptr ? &editIntervals : nullptr,
+        statistics, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,
-        options.isverbose);
-      if (intervals != nullptr) {
-        auto differences = Delta::Complement(matches, r1.size(), r2.size());
-        // Coalesce the differences: first by -j join, then by -u context.
-        auto joined = Delta::Coalesce(differences, options.join);
-        auto changes = Delta::Coalesce(joined, options.prefix + options.suffix);
-        auto editIntervals = formatters::Edit::BuildIntervals(
-          matches, changes, options.prefix, options.suffix);
-        if (!editIntervals.empty()) {   // identical files: emit nothing, like diff -u
-          formatters::RecordDriver::Show(
-            *format, editIntervals, r1, r2, options.file1, options.file2);
-        }
+        options.isjoin, options.isverbose,
+        options.join, options.prefix, options.suffix);
+      if (!editIntervals.empty()) {     // identical files: emit nothing, like diff -u
+        formatters::RecordDriver::Show(
+          *format, editIntervals, r1, r2, options.file1, options.file2);
       }
     }
     else {

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "formatters/Formatter.h"
+#include "modes/Record.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -27,8 +28,9 @@
 namespace lcs::formatters {
 
   //
-  // A result is a list of intervals; each interval is a list of tagged runs
-  // (Deltas whose EditKind is Match or Change).
+  // EDIT_INTERVALS is a list of Edit Intervals, one per unified-diff @@ block.
+  // Each Edit Interval is a list of tagged runs (Deltas whose EditKind is
+  // Match, for context, or Change).  "Interval" alone denotes a single Delta.
   //
   typedef std::vector<std::vector<std::shared_ptr<Delta>>> EDIT_INTERVALS;
 
@@ -50,13 +52,23 @@ namespace lcs::formatters {
     void EndResult() override;
 
     //
-    // Split the coalesced differences into unified-diff hunks: each hunk is
-    // split at the matches it encloses, with prefix/suffix context around it.
+    // BuildIntervals() splits coalesced differences into EDIT_INTERVALS.
     //
     static EDIT_INTERVALS BuildIntervals(
       const std::shared_ptr<Delta>& matches,
       const std::shared_ptr<Delta>& differences,
       std::uint32_t prefix, std::uint32_t suffix);
+
+    //
+    // Difference() mirrors modes::Record::Difference(): compare, complement,
+    // coalesce, and build the Edit Intervals.
+    //
+    static std::uint32_t Difference(
+      EDIT_INTERVALS* intervals, Statistics* statistics,
+      const modes::Record::RECORDS& r1, const modes::Record::RECORDS& r2,
+      Algorithm algorithm, bool ignorecase, bool ignorespace,
+      bool isjoin, bool isverbose,
+      std::uint32_t join, std::uint32_t prefix, std::uint32_t suffix);
 
   private:
     static std::string Range(std::uint32_t begin, std::uint32_t end);
