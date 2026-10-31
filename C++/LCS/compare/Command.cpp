@@ -80,18 +80,18 @@ void Command::Parse(int argc, char* argv[]) {
   for (; n < argc && !usage; n++) {     // parse any switches
     char* token = argv[n];
     auto len = strlen(token);
-    if (len < 1 || token[0] != '-') {   // end of switches
+    if (len < 1 || token[0] != '-') {
       auto message = SuspectDashMessage(token);
       if (message.empty())              // not a switch
         break;
-      throw runtime_error(message);     // switch typed with a Unicode dash
-    }
-    else if (len == 2 && token[1] == '-') {
-      n++;                              // skip the -- delimiter
-      break;                            // remaining arguments are operands
+      throw runtime_error(message);     // switch typed with a suspect dash
     }
     else if (len < 2)
       usage = true;
+    else if (len == 2 && token[1] == '-') {
+      n++;                              // skip the -- operand delimiter
+      break;                            // end of switches
+    }
     else {                              // parse single character switch
       switch (token[1]) {
       case 'a':                         // the algorithm switch
