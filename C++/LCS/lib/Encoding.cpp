@@ -207,53 +207,50 @@ u32string Encoding::DecodeCodePoints(
   return codePoints;
 }
 
+//
+// A UTF-8 continuation byte has the form 10xxxxxx.
+//
+static bool isContinuation(unsigned char c) {
+  return (c & 0xC0) == 0x80;
+}
+
 u32string Encoding::DecodeUtf8(const string& bytes) {
   u32string codePoints;
-  auto cont = [&](size_t k) {
-    return (unsigned char)bytes[k] >= 0x80 && (unsigned char)bytes[k] < 0xC0;
-    };
   for (size_t i = 0; i < bytes.size();) {
     auto b0 = (unsigned char)bytes[i];
-    if (b0 < 0x80) {
-      codePoints.push_back((char32_t)b0);
+
+    // The lead byte gives the sequence length and payload bits; a length
+    // of one covers ASCII, stray continuation bytes, and invalid lead
+    // bytes, each of which is its own code point.
+    size_t length = 1;
+    uint32_t codePoint = b0;
+    if (b0 >= 0xE0 && b0 < 0xF0) { length = 3; codePoint = b0 & 0x0Fu; }
+    else if (b0 >= 0xF0 && b0 < 0xF5) { length = 4; codePoint = b0 & 0x07u; }
+    else if (b0 >= 0xC0 && b0 < 0xE0) { length = 2; codePoint = b0 & 0x1Fu; }
+
+    if (length == 1) {
+      codePoints.push_back((char32_t)codePoint);
       i++;
+      continue;
     }
-    else if (b0 < 0xC0) {
-      // Stray continuation byte: treat as Latin-1.
-      codePoints.push_back((char32_t)b0);
-      i++;
-    }
-    else if (b0 < 0xE0) {
-      if (i + 1 < bytes.size() && cont(i + 1)) {
-        codePoints.push_back((char32_t)(
-          ((b0 & 0x1Fu) << 6) | ((unsigned char)bytes[i + 1] & 0x3Fu)));
-        i += 2;
+
+    // Complete the code point from the continuation bytes; fall back to
+    // a one-byte code point when the sequence is incomplete or malformed.
+    auto valid = i + length <= bytes.size();
+    for (size_t k = 1; valid && k < length; k++) {
+      auto c = (unsigned char)bytes[i + k];
+      if (!isContinuation(c)) {
+        valid = false;
+        break;
       }
-      else { codePoints.push_back((char32_t)b0); i++; }
+      codePoint = (codePoint << 6) | (c & 0x3Fu);
     }
-    else if (b0 < 0xF0) {
-      if (i + 2 < bytes.size() && cont(i + 1) && cont(i + 2)) {
-        codePoints.push_back((char32_t)(
-          ((b0 & 0x0Fu) << 12) |
-          (((unsigned char)bytes[i + 1] & 0x3Fu) << 6) |
-          ((unsigned char)bytes[i + 2] & 0x3Fu)));
-        i += 3;
-      }
-      else { codePoints.push_back((char32_t)b0); i++; }
-    }
-    else if (b0 < 0xF5) {
-      if (i + 3 < bytes.size() && cont(i + 1) && cont(i + 2) && cont(i + 3)) {
-        codePoints.push_back((char32_t)(
-          ((b0 & 0x07u) << 18) |
-          (((unsigned char)bytes[i + 1] & 0x3Fu) << 12) |
-          (((unsigned char)bytes[i + 2] & 0x3Fu) << 6) |
-          ((unsigned char)bytes[i + 3] & 0x3Fu)));
-        i += 4;
-      }
-      else { codePoints.push_back((char32_t)b0); i++; }
+
+    if (valid) {
+      codePoints.push_back((char32_t)codePoint);
+      i += length;
     }
     else {
-      // Invalid lead byte: treat as Latin-1.
       codePoints.push_back((char32_t)b0);
       i++;
     }
