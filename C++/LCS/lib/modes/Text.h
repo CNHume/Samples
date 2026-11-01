@@ -19,8 +19,8 @@
 #pragma once
 
 #include "LCS.h"
-#include "Progress.h"
-#include "Statistics.h"
+#include "metrics/Progress.h"
+#include "metrics/Statistics.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr

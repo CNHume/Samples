@@ -22,6 +22,9 @@
     <Filter Include="formatters">
       <UniqueIdentifier>{9A7D3C4E-5F6B-4C9D-BE7F-8A9B0C1D2E3F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="metrics">
+      <UniqueIdentifier>{A8E4D5F6-0A1B-4C2D-9E3F-0B1C2D3E4F5A}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp">
@@ -42,8 +45,8 @@
     <ClCompile Include="..\lib\Diagnostic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\Duration.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\lib\metrics\Duration.cpp">
+      <Filter>metrics</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\Host.cpp">
       <Filter>Source Files</Filter>
@@ -96,8 +99,8 @@
     <ClCompile Include="..\lib\Pair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\Stopwatch.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\lib\metrics\Stopwatch.cpp">
+      <Filter>metrics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,8 +119,11 @@
     <ClInclude Include="..\lib\Diagnostic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\Duration.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\lib\metrics\Duration.h">
+      <Filter>metrics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\metrics\Statistics.h">
+      <Filter>metrics</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\Host.h">
       <Filter>Header Files</Filter>
@@ -182,11 +188,11 @@
     <ClInclude Include="..\lib\Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\Progress.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\lib\metrics\Progress.h">
+      <Filter>metrics</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\Stopwatch.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\lib\metrics\Stopwatch.h">
+      <Filter>metrics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

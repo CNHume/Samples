@@ -17,8 +17,8 @@
 //
 #pragma once
 
-#include "Progress.h"
-#include "Stopwatch.h"
+#include "metrics/Progress.h"
+#include "metrics/Stopwatch.h"
 
 //
 // ProgressBar renders a simple ASCII progress bar to stderr, throttled to

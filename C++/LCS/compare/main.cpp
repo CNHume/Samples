@@ -30,7 +30,7 @@
 #include "Command.h"
 #include "File.h"
 #include "ProgressBar.h"
-#include "Statistics.h"
+#include "metrics/Statistics.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
 #include <format>                       // for format

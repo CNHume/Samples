@@ -17,7 +17,7 @@
 // 2026-10-15 CNHume  Completed Duration as an RAII performance timer
 // 2026-10-17 CNHume  Added auto-scaling of time and rate units
 //
-#include "Duration.h"
+#include "metrics/Duration.h"
 
 #include <cstdint>                      // for int64_t, uint8_t
 #include <ctime>                        // for localtime_r, localtime_s, tm

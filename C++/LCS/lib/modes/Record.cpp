@@ -19,7 +19,7 @@
 //
 #include "modes/Record.h"
 #include "Diagnostic.h"
-#include "Duration.h"
+#include "metrics/Duration.h"
 #include "Encoding.h"
 #include "algorithms/HuntSzymanski.h"
 #include "algorithms/Myers.h"
