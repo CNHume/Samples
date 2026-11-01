@@ -226,6 +226,8 @@ uint32_t Record::Compare(
     throw runtime_error("Unknown LCS algorithm");
   }
 
+  if (progress)
+    progress->Finish();
   if (intervals != nullptr) {
     if (isswapped)
       for (auto pair = pairs; pair != nullptr; pair = pair->next)

@@ -51,7 +51,7 @@ ProgressBar::ProgressBar() {
 }
 
 ProgressBar::~ProgressBar() {
-  Clear();
+  Finish();                             // safety net if Finish() was never called
 }
 
 void ProgressBar::Update(double fraction) {
@@ -67,7 +67,11 @@ void ProgressBar::Update(double fraction) {
 }
 
 void ProgressBar::Finish() {
-  Clear();
+  if (isTerminal()) {
+    // Overwrite the bar line and return to the column start.
+    auto barLength = progressGlyphCount + progressFrameCount;
+    cerr << '\r' << string(barLength, ' ') << '\r' << flush;
+  }
 }
 
 void ProgressBar::Draw(double fraction) const {
@@ -78,12 +82,4 @@ void ProgressBar::Draw(double fraction) const {
   cerr << '\r' << '[' << string(filled, '#')
     << string(progressGlyphCount - filled, '-')
     << "] " << format("{:3d}%", percent) << flush;
-}
-
-void ProgressBar::Clear() const {
-  if (isTerminal()) {
-    // Overwrite the bar line and return to the column start.
-    auto barLength = progressGlyphCount + progressFrameCount;
-    cerr << '\r' << string(barLength, ' ') << '\r' << flush;
-  }
 }

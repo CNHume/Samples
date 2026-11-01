@@ -34,7 +34,6 @@ public:
 
 private:
   void Draw(double fraction) const;
-  void Clear() const;
 
   lcs::metrics::Stopwatch stopwatch_;
   double latest_ = 0.0;

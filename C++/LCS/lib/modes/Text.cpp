@@ -260,6 +260,8 @@ uint32_t Text::Compare(
     throw runtime_error("Unknown LCS algorithm");
   }
 
+  if (progress)
+    progress->Finish();
   if (deltas != nullptr)
     *deltas = Delta::Coalesce(pairs);
   duration.Stop();
