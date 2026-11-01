@@ -19,6 +19,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "Progress.h"
 #include "Statistics.h"
 
 #include <cstdint>                      // for uint32_t
@@ -32,7 +33,8 @@ namespace lcs::modes {
   class Text {
   public:
     static std::uint32_t Correspondence(
-      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const std::u32string& s1, const std::u32string& s2,
       Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
@@ -40,7 +42,8 @@ namespace lcs::modes {
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
     static std::uint32_t Difference(
-      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const std::u32string& s1, const std::u32string& s2,
       Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,
@@ -48,7 +51,8 @@ namespace lcs::modes {
       std::uint32_t join = 0, std::uint32_t prefix = 0, std::uint32_t suffix = 0);
 
     static std::uint32_t Compare(
-      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const std::u32string& s1, const std::u32string& s2,
       Algorithm algorithm = Algorithm::Automatic,
       bool ignorecase = false, bool ignorespace = false,

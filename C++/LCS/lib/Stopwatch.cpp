@@ -20,7 +20,7 @@
 #include <format>
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::metrics;
 
 void Stopwatch::start() {
   start_time_ = std::chrono::steady_clock::now();

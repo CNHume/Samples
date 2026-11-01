@@ -139,13 +139,14 @@ EDIT_INTERVALS Edit::BuildIntervals(
 // and split into EDIT_INTERVALS.
 //
 uint32_t Edit::Difference(
-  EDIT_INTERVALS* intervals, Statistics* statistics,
+  EDIT_INTERVALS* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const modes::Record::RECORDS& r1, const modes::Record::RECORDS& r2,
   Algorithm algorithm, bool ignorecase, bool ignorespace,
   bool isjoin, bool isverbose, uint32_t join, uint32_t prefix, uint32_t suffix) {
   shared_ptr<Delta> matches;
   auto length = modes::Record::Compare(
-    &matches, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+    &matches, statistics, progress, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   if (intervals == nullptr)
     return length;
   auto differences = Delta::Complement(matches, r1.size(), r2.size());

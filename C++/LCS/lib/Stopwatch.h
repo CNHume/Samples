@@ -21,7 +21,7 @@
 #include <cstdint>                      // for int64_t
 #include <string>
 
-namespace lcs {
+namespace lcs::metrics {
 
   class Stopwatch {
   private:
@@ -41,4 +41,4 @@ namespace lcs {
     std::string format_microseconds() const;
   };
 
-} // namespace lcs
+} // namespace lcs::metrics

@@ -94,12 +94,13 @@ namespace {
 
   // Forward declarations (definitions follow).
   uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
-    size_t size1, size_t size2);
+    size_t size1, size_t size2, metrics::Progress* progress);
   Occurrences BuildOccurrences(const MATCHES& matches,
     size_t size1, size_t size2);
   Occurrences BuildOccurrences(const u32string& s1, const u32string& s2);
   void Hirschberg(const Occurrences& occ,
-    size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out);
+    size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out,
+    metrics::Progress* progress);
   Result FindMidpoint(const Occurrences& occ,
     size_t row0, size_t row1, size_t column0, size_t column1);
   Contour CutForward(const Contour& forward, const Contour& backward);
@@ -122,12 +123,12 @@ namespace {
   // (FindMidpoint) suffices and the recursion is skipped.
   //
   uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
-    size_t size1, size_t size2) {
+    size_t size1, size_t size2, metrics::Progress* progress) {
     if (pairs == nullptr)
       return FindMidpoint(occ, 0, size1, 0, size2).length;
 
     vector<Match> out;
-    Hirschberg(occ, 0, size1, 0, size2, out);
+    Hirschberg(occ, 0, size1, 0, size2, out, progress);
 
     if (pairs != nullptr) {
       shared_ptr<Pair> head = nullptr;
@@ -331,7 +332,9 @@ namespace {
 
   void Hirschberg(
     const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1,
-    vector<Match>& out) {
+    vector<Match>& out, metrics::Progress* progress) {
+    if (progress && occ.rows > 0)
+      progress->Update((double)row0 / (double)occ.rows);
     if (row0 >= row1 || column0 >= column1)
       return;
     auto result = FindMidpoint(occ, row0, row1, column0, column1);
@@ -371,9 +374,9 @@ namespace {
 
     auto rowIndex = (size_t)result.midpoint.row;
     auto columnIndex = (size_t)result.midpoint.column;
-    Hirschberg(occ, row0, rowIndex, column0, columnIndex, out);
+    Hirschberg(occ, row0, rowIndex, column0, columnIndex, out, progress);
     out.push_back(result.midpoint);
-    Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out);
+    Hirschberg(occ, rowIndex + 1, row1, columnIndex + 1, column1, out, progress);
   }
 
   Result FindMidpoint(const Occurrences& occ,
@@ -788,11 +791,12 @@ void RickSpace::ResetCounters() {
 }
 
 uint32_t RickSpace::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics, const MATCHES& matches,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+  metrics::Progress* progress, const MATCHES& matches,
   uint32_t size1, uint32_t size2) {
   ResetCounters();
   auto occ = BuildOccurrences(matches, size1, size2);
-  auto length = Solve(pairs, occ, size1, size2);
+  auto length = Solve(pairs, occ, size1, size2, progress);
   if (statistics) {
     statistics->algorithm = Algorithm::RickSpace;
     statistics->candidates = Candidates;
@@ -804,7 +808,8 @@ uint32_t RickSpace::Find(
 }
 
 uint32_t RickSpace::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const u32string& s1, const u32string& s2) {
   //
   // Build O(ns) occurrence tables directly from the code points and amortize them
@@ -813,7 +818,7 @@ uint32_t RickSpace::Find(
   //
   ResetCounters();
   auto occ = BuildOccurrences(s1, s2);
-  auto length = Solve(pairs, occ, s1.size(), s2.size());
+  auto length = Solve(pairs, occ, s1.size(), s2.size(), progress);
   if (statistics) {
     statistics->algorithm = Algorithm::RickSpace;
     statistics->candidates = Candidates;

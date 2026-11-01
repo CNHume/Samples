@@ -175,7 +175,7 @@ namespace {
 }
 
 static uint32_t Sweep(
-  shared_ptr<Pair>* pairs, Statistics* statistics, const FlexTables& t) {
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics, const FlexTables& t) {
   auto m = t.m;
   auto n = t.n;
 
@@ -350,14 +350,14 @@ static uint32_t Sweep(
 }
 
 uint32_t RickTime::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
   return Sweep(pairs, statistics, t);
 }
 
 uint32_t RickTime::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
   return Sweep(pairs, statistics, t);

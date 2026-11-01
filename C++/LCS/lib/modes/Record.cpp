@@ -78,16 +78,17 @@ uint64_t Record::Match(
 }
 
 uint32_t Record::Correspondence(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const RECORDS& r1, const RECORDS& r2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
     return Compare(
-      nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+      nullptr, statistics, progress, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
-  auto length = Compare(intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+  auto length = Compare(intervals, statistics, progress, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -97,17 +98,18 @@ uint32_t Record::Correspondence(
 }
 
 uint32_t Record::Difference(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const RECORDS& r1, const RECORDS& r2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
   uint32_t join, uint32_t prefix, uint32_t suffix) {
   if (intervals == nullptr)
     return Compare(
-      nullptr, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+      nullptr, statistics, progress, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
 
   auto length = Compare(
-    intervals, statistics, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
+    intervals, statistics, progress, r1, r2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = r1.size();               // empty final delta
   auto size2 = r2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -117,13 +119,14 @@ uint32_t Record::Difference(
 }
 
 uint32_t Record::Compare(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const RECORDS& r1, const RECORDS& r2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
-    cerr << format("Started at {}\n", Duration::WallClock());
-  Duration duration;                    // time the algorithm
+    cerr << format("Started at {}\n", metrics::Duration::WallClock());
+  metrics::Duration duration;                    // time the algorithm
   shared_ptr<Pair> pairs;
   auto ppairs = intervals != nullptr ? &pairs : nullptr;
   uint32_t length;
@@ -157,7 +160,7 @@ uint32_t Record::Compare(
       reason, r1.size(), r2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
-        Statistics::NameOf(algorithm), reason);
+        metrics::Statistics::NameOf(algorithm), reason);
   }
 
   switch (algorithm) {
@@ -209,7 +212,7 @@ uint32_t Record::Compare(
     }
     else if (algorithm == Algorithm::RickSpace) {
       length = algorithms::RickSpace::Find(
-        ppairs, statistics, indexesOf2MatchedByIndex1,
+        ppairs, statistics, progress, indexesOf2MatchedByIndex1,
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     else {
@@ -233,7 +236,7 @@ uint32_t Record::Compare(
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
   if (isverbose)
-    cerr << format("Finished at {}\n", Duration::WallClock());
+    cerr << format("Finished at {}\n", metrics::Duration::WallClock());
   return length;
 }
 

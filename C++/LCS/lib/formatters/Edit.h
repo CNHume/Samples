@@ -64,7 +64,8 @@ namespace lcs::formatters {
     // coalesce, and build the Edit Intervals.
     //
     static std::uint32_t Difference(
-      EDIT_INTERVALS* intervals, Statistics* statistics,
+      EDIT_INTERVALS* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const modes::Record::RECORDS& r1, const modes::Record::RECORDS& r2,
       Algorithm algorithm, bool ignorecase, bool ignorespace,
       bool isjoin, bool isverbose,

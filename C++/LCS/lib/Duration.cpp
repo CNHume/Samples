@@ -29,7 +29,7 @@
 #include <utility>                      // for move
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::metrics;
 
 namespace {
   //

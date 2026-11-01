@@ -68,7 +68,7 @@ namespace {
   //
   template <typename Sequence>
   uint32_t MyersFind(
-    shared_ptr<Pair>* pairs, Statistics* statistics,
+    shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
     const Sequence& s1, const Sequence& s2) {
     auto m = s1.size();
     auto n = s2.size();
@@ -188,13 +188,13 @@ namespace {
 }
 
 uint32_t Myers::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
   const u32string& s1, const u32string& s2) {
   return MyersFind(pairs, statistics, s1, s2);
 }
 
 uint32_t Myers::Find(
-  shared_ptr<Pair>* pairs, Statistics* statistics,
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
   const vector<string>& r1, const vector<string>& r2) {
   return MyersFind(pairs, statistics, r1, r2);
 }

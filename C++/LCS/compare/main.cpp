@@ -29,6 +29,7 @@
 //
 #include "Command.h"
 #include "File.h"
+#include "ProgressBar.h"
 #include "Statistics.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
@@ -66,10 +67,12 @@ int main(int argc, char* argv[]) {
     auto pintervals = command.islength ?
       nullptr : &intervals;
 
-    Statistics statistics;
+    metrics::Statistics statistics;
+    ProgressBar progressBar;
+    auto progress = command.isprogress ? &progressBar : nullptr;
     auto length = command.iscorrespondence ?
-      File::Correspondence(pintervals, &statistics, command) :
-      File::Difference(pintervals, &statistics, command);
+      File::Correspondence(pintervals, &statistics, progress, command) :
+      File::Difference(pintervals, &statistics, progress, command);
 
     if (command.isverbose || command.islength)
       cerr << format(

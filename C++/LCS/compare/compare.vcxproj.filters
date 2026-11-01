@@ -30,6 +30,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">
@@ -174,6 +180,9 @@
       <Filter>modes</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\Pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\Progress.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\Stopwatch.h">

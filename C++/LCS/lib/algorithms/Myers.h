@@ -28,7 +28,7 @@
 #pragma once
 
 #include "LCS.h"                        // for LCS base, Pair
-#include "Statistics.h"                 // for Statistics
+#include "Statistics.h"                 // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -48,14 +48,14 @@ namespace lcs::algorithms {
     // budget rather than spending O(N*D) time on a dissimilar input.
     //
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2);
     //
     // Record path: compare sequences of records.  Records must already be
     // normalized for case/space; indices map 1:1 to the input records.
     //
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       const std::vector<std::string>& r1, const std::vector<std::string>& r2);
   };
 

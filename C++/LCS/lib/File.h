@@ -20,6 +20,7 @@
 #pragma once
 
 #include "Options.h"
+#include "Progress.h"
 #include "Statistics.h"
 
 #include <cstdint>                      // for uint32_t
@@ -30,11 +31,13 @@ namespace lcs {
   class File {
   public:
     static std::uint32_t Correspondence(
-      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const Options& options);
 
     static std::uint32_t Difference(
-      std::shared_ptr<Delta>* intervals, Statistics* statistics,
+      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const Options& options);
   };
 

@@ -60,7 +60,8 @@ namespace {
 }
 
 uint32_t File::Correspondence(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const Options& options) {
   uint32_t length(0);
   auto format = MakeFormat(options.format, options.width, options.tabsize);
@@ -80,7 +81,7 @@ uint32_t File::Correspondence(
       }
     }
     length = modes::Text::Correspondence(
-      intervals, statistics, s1, s2,
+      intervals, statistics, progress, s1, s2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
@@ -92,7 +93,7 @@ uint32_t File::Correspondence(
     auto r1 = modes::Record::Read(options.file1, options.isword);
     auto r2 = modes::Record::Read(options.file2, options.isword);
     length = modes::Record::Correspondence(
-      intervals, statistics, r1, r2,
+      intervals, statistics, progress, r1, r2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
@@ -104,7 +105,8 @@ uint32_t File::Correspondence(
 }
 
 uint32_t File::Difference(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const Options& options) {
   uint32_t length(0);
   if (options.istext) {
@@ -124,7 +126,7 @@ uint32_t File::Difference(
       }
     }
     length = modes::Text::Difference(
-      intervals, statistics, s1, s2,
+      intervals, statistics, progress, s1, s2,
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
@@ -140,7 +142,7 @@ uint32_t File::Difference(
       formatters::EDIT_INTERVALS editIntervals;
       length = formatters::Edit::Difference(
         intervals != nullptr ? &editIntervals : nullptr,
-        statistics, r1, r2,
+        statistics, progress, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isjoin, options.isverbose,
         options.join, options.prefix, options.suffix);
@@ -152,7 +154,7 @@ uint32_t File::Difference(
     else {
       auto format = MakeFormat(options.format, options.width, options.tabsize);
       length = modes::Record::Difference(
-        intervals, statistics, r1, r2,
+        intervals, statistics, progress, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isjoin, options.isverbose,
         options.join, options.prefix, options.suffix);

@@ -27,7 +27,8 @@
 #pragma once
 
 #include "LCS.h"                        // for MATCHES, Pair
-#include "Statistics.h"                 // for Statistics
+#include "Progress.h"                   // for metrics::Progress
+#include "Statistics.h"                 // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <memory>                       // for shared_ptr
@@ -45,11 +46,13 @@ namespace lcs::algorithms {
     // serves the character (-t -r) path.  Both assume size1 <= size2.
     //
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const MATCHES& matches,
       std::uint32_t size1, std::uint32_t size2);
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const std::u32string& s1, const std::u32string& s2);
 
     //

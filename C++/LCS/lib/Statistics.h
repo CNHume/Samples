@@ -23,7 +23,7 @@
 #include <cstdint>                      // for uint64_t
 #include <string>                       // for string
 
-namespace lcs {
+namespace lcs::metrics {
 
   //
   // Statistics carries the work metrics of one LCS run, assessed by the algorithm
@@ -89,4 +89,4 @@ namespace lcs {
     }
   };
 
-} // namespace lcs
+} // namespace lcs::metrics

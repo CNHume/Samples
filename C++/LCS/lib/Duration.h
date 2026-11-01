@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace lcs {
+namespace lcs::metrics {
 
   //
   // Duration measures the elapsed time of an operation.  Construct it at the
@@ -49,4 +49,4 @@ namespace lcs {
       const char* name, long count, std::int64_t microseconds);
   };
 
-} // namespace lcs
+} // namespace lcs::metrics

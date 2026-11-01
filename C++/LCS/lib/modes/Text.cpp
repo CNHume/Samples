@@ -66,7 +66,8 @@ uint64_t Text::Match(
 }
 
 uint32_t Text::Correspondence(
-  shared_ptr<Delta>* intervals, Statistics* statistics,
+  shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const u32string& s1, const u32string& s2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isjoin, bool isverbose,
@@ -77,7 +78,7 @@ uint32_t Text::Correspondence(
   //
   if (intervals == nullptr)
     return Compare(
-      nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
+      nullptr, statistics, progress, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
 
   if (ignorespace) {
     //
@@ -89,7 +90,7 @@ uint32_t Text::Correspondence(
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
+    auto length = Compare(intervals, statistics, progress, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -101,7 +102,7 @@ uint32_t Text::Correspondence(
   }
 
   auto length = Compare(
-    intervals, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
+    intervals, statistics, progress, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   Delta::Context(*intervals, size1, size2, prefix, suffix);
@@ -110,7 +111,8 @@ uint32_t Text::Correspondence(
   return length;
 }
 
-uint32_t Text::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
+uint32_t Text::Difference(shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const u32string& s1, const u32string& s2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace,
@@ -119,14 +121,14 @@ uint32_t Text::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
   // A null interval pointer requests length only.
   if (intervals == nullptr)
     return Compare(
-      nullptr, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
+      nullptr, statistics, progress, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
 
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
     Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
     Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
-    auto length = Compare(intervals, statistics, t1, t2, algorithm, ignorecase, false, isverbose);
+    auto length = Compare(intervals, statistics, progress, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
     auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -139,7 +141,7 @@ uint32_t Text::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
   }
 
   auto length = Compare(
-    intervals, statistics, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
+    intervals, statistics, progress, s1, s2, algorithm, ignorecase, ignorespace, isverbose);
   auto size1 = s1.size();               // empty final delta
   auto size2 = s2.size();
   auto deltas = Delta::Complement(*intervals, size1, size2);
@@ -149,13 +151,14 @@ uint32_t Text::Difference(shared_ptr<Delta>* intervals, Statistics* statistics,
 }
 
 uint32_t Text::Compare(
-  shared_ptr<Delta>* deltas, Statistics* statistics,
+  shared_ptr<Delta>* deltas, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const u32string& s1, const u32string& s2,
   Algorithm algorithm,
   bool ignorecase, bool ignorespace, bool isverbose) {
   if (isverbose)
-    cerr << format("Started at {}\n", Duration::WallClock());
-  Duration duration;                    // time the algorithm
+    cerr << format("Started at {}\n", metrics::Duration::WallClock());
+  metrics::Duration duration;                    // time the algorithm
   //
   // A null delta pointer is the length-only flag: forward it to the
   // algorithm as a null pairs pointer so it skips reconstruction.
@@ -193,7 +196,7 @@ uint32_t Text::Compare(
       reason, s1.size(), s2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
-        Statistics::NameOf(algorithm), reason);
+        metrics::Statistics::NameOf(algorithm), reason);
   }
 
   switch (algorithm) {
@@ -237,7 +240,7 @@ uint32_t Text::Compare(
     const auto& longer = isswapped ? ns1 : ns2;
     length = algorithm == Algorithm::RickTime ?
       algorithms::RickTime::Find(ppairs, statistics, shorter, longer) :
-      algorithms::RickSpace::Find(ppairs, statistics, shorter, longer);
+      algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
     if (algorithm == Algorithm::RickSpace && statistics)
       //
       // RickSpace is memory-safe but slow on near-identical inputs, the
@@ -261,7 +264,7 @@ uint32_t Text::Compare(
   if (statistics)
     statistics->elapsedMicroseconds = (uint64_t)duration.ElapsedMicroseconds();
   if (isverbose)
-    cerr << format("Finished at {}\n", Duration::WallClock());
+    cerr << format("Finished at {}\n", metrics::Duration::WallClock());
   return length;
 }
 

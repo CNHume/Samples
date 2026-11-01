@@ -74,7 +74,7 @@ namespace {
     if (strcmp(argv[0], "time") == 0)
       p = algorithms::RickTime::Find(&pairs, nullptr, a, b);
     else
-      p = algorithms::RickSpace::Find(&pairs, nullptr, a, b);
+      p = algorithms::RickSpace::Find(&pairs, nullptr, nullptr, a, b);
     auto t1 = Clock::now();
     printf("p=%u time_ms=%lld\n", p,
       (long long)chrono::duration_cast<chrono::milliseconds>(t1 - t0).count());
@@ -118,7 +118,7 @@ namespace {
 
     algorithms::RickSpace::ResetCounters();
     shared_ptr<Pair> pairs = nullptr;
-    auto p = algorithms::RickSpace::Find(&pairs, nullptr, s1, s2);
+    auto p = algorithms::RickSpace::Find(&pairs, nullptr, nullptr, s1, s2);
 
     auto m = s1.size(), n = s2.size();
     printf("m=%zu n=%zu p=%u m-p=%zd n-p=%zd Rows=%llu Candidates=%llu "
@@ -295,7 +295,7 @@ namespace {
     auto t0 = Clock::now();
     try {
       modes::Text::Correspondence(
-        &deltas, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
+        &deltas, nullptr, nullptr, a, b, algo, false, false, false, false, 0, 0, 0);
     }
     catch (const exception&) {
       return -1.0;                       // unavailable (e.g., D exceeds budget)

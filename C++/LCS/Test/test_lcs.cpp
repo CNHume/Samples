@@ -89,7 +89,7 @@ namespace {
                  uint32_t expected) {
     shared_ptr<Delta> deltas;
     auto length = modes::Text::Correspondence(
-      &deltas, nullptr, s1, s2, algo, false, false, false, false, 0, 0, 0);
+      &deltas, nullptr, nullptr, s1, s2, algo, false, false, false, false, 0, 0, 0);
     CAPTURE((int)algo);
     CHECK(length == expected);
     checkTrace(deltas, length, s1, s2);
@@ -155,7 +155,7 @@ TEST_CASE("algorithms agree on larger redundant inputs") {
     for (int k = 0; k < 4; ++k) {
       shared_ptr<Delta> deltas;
       auto length = modes::Text::Correspondence(
-        &deltas, nullptr, u1, u2, algos[k], false, false, false, false, 0, 0, 0);
+        &deltas, nullptr, nullptr, u1, u2, algos[k], false, false, false, false, 0, 0, 0);
       if (k == 0)
         reference = length;
       else
@@ -204,7 +204,7 @@ TEST_CASE("automatic dispatch returns a correct LCS") {
     auto expected = dpLcsLength(u1, u2);
     shared_ptr<Delta> deltas;
     auto length = modes::Text::Correspondence(
-      &deltas, nullptr, u1, u2, Algorithm::Automatic,
+      &deltas, nullptr, nullptr, u1, u2, Algorithm::Automatic,
       false, false, false, false, 0, 0, 0);
     CHECK(length == expected);
     checkTrace(deltas, length, u1, u2);
@@ -228,12 +228,12 @@ TEST_CASE("Myers agrees with Hunt-Szymanski on the record path") {
     // Reference length from Hunt-Szymanski (Matches), independent of loop order.
     shared_ptr<Delta> refDeltas;
     auto reference = modes::Record::Correspondence(
-      &refDeltas, nullptr, r1, r2, Algorithm::Matches,
+      &refDeltas, nullptr, nullptr, r1, r2, Algorithm::Matches,
       false, false, false, false, 0, 0, 0);
     for (auto algo : { Algorithm::EditDistance, Algorithm::Matches }) {
       shared_ptr<Delta> deltas;
       auto length = modes::Record::Correspondence(
-        &deltas, nullptr, r1, r2, algo, false, false, false, false, 0, 0, 0);
+        &deltas, nullptr, nullptr, r1, r2, algo, false, false, false, false, 0, 0, 0);
       CAPTURE((int)algo);
       CHECK(length == reference);
       // The trace must be a valid common subsequence summing to `length`.

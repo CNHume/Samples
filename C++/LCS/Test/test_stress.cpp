@@ -98,7 +98,7 @@ namespace {
     for (auto algorithm : algos) {
       shared_ptr<Delta> deltas;
       auto length = modes::Text::Correspondence(
-        &deltas, nullptr, s1, s2, algorithm, false, false, false, false, 0, 0, 0);
+        &deltas, nullptr, nullptr, s1, s2, algorithm, false, false, false, false, 0, 0, 0);
       if (length != expected) {
         fprintf(stderr, "[trial %llu] %s length %u != DP %u\n",
           (unsigned long long)trial, algoName(algorithm), length, expected);
@@ -188,7 +188,7 @@ namespace {
     for (auto algorithm : recordAlgos) {
       shared_ptr<Delta> deltas;
       auto length = modes::Record::Correspondence(
-        &deltas, nullptr, r1, r2, algorithm, false, false, false, false, 0, 0, 0);
+        &deltas, nullptr, nullptr, r1, r2, algorithm, false, false, false, false, 0, 0, 0);
       if (length != expected) {
         fprintf(stderr, "[trial %llu] %s length %u != DP %u\n",
           (unsigned long long)trial, algoName(algorithm), length, expected);

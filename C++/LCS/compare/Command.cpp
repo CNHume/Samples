@@ -38,7 +38,7 @@ using namespace lcs;
 namespace {
   constexpr const char* usageSynopsis =
     "Usage: compare [-A <a|d|m|s|t>] [-b] [-C] [-F] [-G] [-h] [-H] [-i] "
-    "[-j <join>] [-l] [-p <prefix>] [-Q] [-s <suffix>] [-t <tabsize>] "
+    "[-j <join>] [-l] [-p <prefix>] [-P] [-Q] [-s <suffix>] [-t <tabsize>] "
     "[-T] [-u] [-v] [-V] [-w] [-W <width>] [-y] file1 file2";
 
   constexpr uint32_t edit_context_affix = 3;  // -u default context
@@ -210,6 +210,13 @@ void Command::Parse(int argc, char* argv[]) {
         else
           usage = true;
         prefixGiven = true;
+        break;
+
+      case 'P':                         // the progress switch (bar)
+        if (len > 2)                    // superfluous value specified
+          usage = true;
+        else
+          isprogress = true;
         break;
 
       case 'Q':                         // the quote switch, which implies text

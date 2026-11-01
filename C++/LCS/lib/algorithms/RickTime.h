@@ -28,7 +28,7 @@
 #pragma once
 
 #include "LCS.h"                        // for LCS base, Pair
-#include "Statistics.h"                 // for Statistics
+#include "Statistics.h"                 // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
@@ -45,7 +45,7 @@ namespace lcs::algorithms {
     //[Note]The caller should guarantee |s1| <= |s2| by swapping when necessary.
     //
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       const std::u32string& s1, const std::u32string& s2);
     //
     // Record path: build the O(ns) tables from the shared match lists, using
@@ -53,7 +53,7 @@ namespace lcs::algorithms {
     // same diagonal sweep.  The caller guarantees size1 <= size2.
     //
     static std::uint32_t Find(
-      std::shared_ptr<Pair>* pairs, Statistics* statistics,
+      std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
   };
 

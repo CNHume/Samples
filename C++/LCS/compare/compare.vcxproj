@@ -90,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="Version.cpp" />
     <ClCompile Include="..\lib\Delta.cpp" />
     <ClCompile Include="..\lib\Diagnostic.cpp" />
@@ -115,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
+    <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="Version.h" />
     <ClInclude Include="..\lib\Delta.h" />
     <ClInclude Include="..\lib\Diagnostic.h" />
@@ -140,6 +142,7 @@
     <ClInclude Include="..\lib\formatters\Sequential.h" />
     <ClInclude Include="..\lib\modes\Text.h" />
     <ClInclude Include="..\lib\Pair.h" />
+    <ClInclude Include="..\lib\Progress.h" />
     <ClInclude Include="..\lib\Stopwatch.h" />
   </ItemGroup>
   <ItemGroup>

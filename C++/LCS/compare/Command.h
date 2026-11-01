@@ -34,6 +34,7 @@ public:
   bool ishost = false;
   bool ishelp = false;
   bool islength = false;
+  bool isprogress = false;
   bool isversion = false;
 
   void Parse(int argc, char* argv[]);
