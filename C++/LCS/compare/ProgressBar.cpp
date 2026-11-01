@@ -33,7 +33,8 @@ using namespace std;
 using namespace lcs;
 
 namespace {
-  constexpr size_t progressGlyphCount = 100;        // 1% per glyph
+  constexpr size_t progressFrameCount = 7;
+  constexpr size_t progressGlyphCount = 100;    // 1% per glyph
   constexpr int64_t progressUpdateMilliseconds = 750;
 
   bool isTerminal() {
@@ -55,12 +56,18 @@ ProgressBar::~ProgressBar() {
 
 void ProgressBar::Update(double fraction) {
   latest_ = fraction;
-  if (!isTerminal())
-    return;
-  if (stopwatch_.elapsed_milliseconds() >= (double)progressUpdateMilliseconds) {
-    Draw(latest_);
-    stopwatch_.start();                 // re-arm the update interval
+  if (isTerminal()) {
+    auto isdraw =
+      stopwatch_.elapsed_milliseconds() >= (double)progressUpdateMilliseconds;
+    if (isdraw) {
+      Draw(latest_);
+      stopwatch_.start();               // re-arm the update interval
+    }
   }
+}
+
+void ProgressBar::Finish() {
+  Clear();
 }
 
 void ProgressBar::Draw(double fraction) const {
@@ -74,8 +81,9 @@ void ProgressBar::Draw(double fraction) const {
 }
 
 void ProgressBar::Clear() const {
-  if (!isTerminal())
-    return;
-  // Overwrite the bar line and return to the column start.
-  cerr << '\r' << string(progressGlyphCount + 7, ' ') << '\r' << flush;
+  if (isTerminal()) {
+    // Overwrite the bar line and return to the column start.
+    auto barLength = progressGlyphCount + progressFrameCount;
+    cerr << '\r' << string(barLength, ' ') << '\r' << flush;
+  }
 }

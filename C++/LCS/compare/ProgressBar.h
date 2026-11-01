@@ -30,6 +30,7 @@ public:
   ~ProgressBar() override;
 
   void Update(double fraction) override;
+  void Finish() override;
 
 private:
   void Draw(double fraction) const;

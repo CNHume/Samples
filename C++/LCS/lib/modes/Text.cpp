@@ -241,10 +241,12 @@ uint32_t Text::Compare(
     length = algorithm == Algorithm::RickTime ?
       algorithms::RickTime::Find(ppairs, statistics, shorter, longer) :
       algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
-    if (algorithm == Algorithm::RickSpace && statistics)
+    if (algorithm == Algorithm::RickSpace && statistics && progress == nullptr)
       //
       // RickSpace is memory-safe but slow on near-identical inputs, the
-      // regime where RickTime is ~2.6x faster when it fits.
+      // regime where RickTime is ~2.6x faster when it fits.  Suppress the
+      // suggestion while a progress bar is active so it cannot interleave
+      // with the bar on stderr.
       //
       Diagnostic::SuggestRickTime(
         length, shorter.size(), longer.size(),

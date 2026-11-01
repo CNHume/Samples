@@ -85,6 +85,8 @@ uint32_t File::Correspondence(
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
+    if (progress)
+      progress->Finish();
     if (intervals != nullptr)
       formatters::TextDriver::Show(
         *format, *intervals, s1, s2, options.file1, options.file2);
@@ -97,6 +99,8 @@ uint32_t File::Correspondence(
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
+    if (progress)
+      progress->Finish();
     if (intervals != nullptr)
       formatters::RecordDriver::Show(
         *format, *intervals, r1, r2, options.file1, options.file2);
@@ -130,6 +134,8 @@ uint32_t File::Difference(
       options.algorithm, options.ignorecase, options.ignorespace,
       options.isjoin, options.isverbose,
       options.join, options.prefix, options.suffix);
+    if (progress)
+      progress->Finish();
     if (intervals != nullptr)
       formatters::TextDriver::Show(
         *format, *intervals, s1, s2, options.file1, options.file2);
@@ -146,6 +152,8 @@ uint32_t File::Difference(
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isjoin, options.isverbose,
         options.join, options.prefix, options.suffix);
+      if (progress)
+        progress->Finish();
       if (!editIntervals.empty()) {     // identical files: emit nothing, like diff -u
         formatters::RecordDriver::Show(
           *format, editIntervals, r1, r2, options.file1, options.file2);
@@ -158,6 +166,8 @@ uint32_t File::Difference(
         options.algorithm, options.ignorecase, options.ignorespace,
         options.isjoin, options.isverbose,
         options.join, options.prefix, options.suffix);
+      if (progress)
+        progress->Finish();
       if (intervals != nullptr)
         formatters::RecordDriver::Show(
           *format, *intervals, r1, r2, options.file1, options.file2);

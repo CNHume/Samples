@@ -28,6 +28,11 @@ namespace lcs::metrics {
   public:
     virtual ~Progress() = default;
     virtual void Update(double fraction) = 0;
+    //
+    // Finish() is called once when progress reporting ends, before any results
+    // are printed, so a renderer can erase the display it has drawn.
+    //
+    virtual void Finish() {}
   };
 
 } // namespace lcs::metrics
