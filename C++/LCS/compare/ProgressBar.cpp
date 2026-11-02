@@ -35,6 +35,7 @@ using namespace lcs;
 namespace {
   constexpr size_t progressGlyphCount = 100;    // 1% per glyph
   constexpr int64_t progressUpdateMilliseconds = 750;
+  constexpr double progressRateAlpha = 0.5;     // EMA weight for the fraction rate
 
   bool isTerminal() {
 #if defined(_WIN32)
@@ -84,12 +85,24 @@ void ProgressBar::Draw(double fraction) {
   string time;
   if (showTime_ && fraction > 0.0 && fraction < 1.0) {
     //
-    // Extrapolate the total time from the fraction completed and report what
-    // remains: elapsed * (1 - fraction) / fraction.
+    // Estimate the remaining time from a smoothed fraction rate rather than
+    // the all-time average, so the ETA tracks the current contour rate and
+    // stays steadier as that rate slows.
     //
-    auto elapsed = (double)elapsed_.elapsed_microseconds();
-    auto remaining = (int64_t)(elapsed * (1.0 - fraction) / fraction);
-    time = format(" {} remaining", metrics::Duration::Elapsed(remaining));
+    auto micros = elapsed_.elapsed_microseconds();
+    auto deltaFraction = fraction - lastFraction_;
+    auto deltaMicros = micros - lastMicros_;
+    if (deltaMicros > 0 && deltaFraction > 0.0) {
+      auto instant = deltaFraction / (double)deltaMicros;  // fraction per µs
+      rate_ = rate_ > 0.0 ?
+        progressRateAlpha * instant + (1.0 - progressRateAlpha) * rate_ : instant;
+    }
+    lastFraction_ = fraction;
+    lastMicros_ = micros;
+    if (rate_ > 0.0) {
+      auto remaining = (int64_t)((1.0 - fraction) / rate_);
+      time = format(" {}", metrics::Duration::Elapsed(remaining));
+    }
   }
 
   auto bar = format("\r[{}{}] {:3d}%{}",
