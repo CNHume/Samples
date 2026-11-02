@@ -75,8 +75,8 @@ void Command::Parse(int argc, char* argv[]) {
   auto isunified = false;               // -u given
   auto isparallel = false;              // -y given
   auto isgapped = false;                // -G given
-  auto prefixGiven = false;             // -p given
-  auto suffixGiven = false;             // -s given
+  auto isprefix = false;                // -p given
+  auto issuffix = false;                // -s given
   auto n = 1;                           // skip verb
   for (; n < argc && !usage; n++) {     // parse any switches
     char* token = argv[n];
@@ -102,7 +102,7 @@ void Command::Parse(int argc, char* argv[]) {
           // s=space, t=time.  Allow leading spaces -A d (as in -j, -p, -s).
           //
           const char* sub = nullptr;
-          if (len > 2)                 // Same token
+          if (len > 2)                  // Same token
             sub = &token[2];
           else if (n + 1 < argc && strlen(argv[n + 1]) == 1)
             sub = argv[++n];            // Next token
@@ -155,7 +155,7 @@ void Command::Parse(int argc, char* argv[]) {
         }
         break;
 
-      case 'G':                         // the gapped switch (CIGAR alignment)
+      case 'G':                         // the gapped (CIGAR alignment) switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
@@ -209,10 +209,10 @@ void Command::Parse(int argc, char* argv[]) {
           prefix = parse_uint32(argv[++n], "prefix");
         else
           usage = true;
-        prefixGiven = true;
+        isprefix = true;
         break;
 
-      case 'P':                         // the progress switch (bar)
+      case 'P':                         // the progress bar switch
         if (len > 2)                    // superfluous value specified
           usage = true;
         else
@@ -235,7 +235,7 @@ void Command::Parse(int argc, char* argv[]) {
           suffix = parse_uint32(argv[++n], "suffix");
         else
           usage = true;
-        suffixGiven = true;
+        issuffix = true;
         break;
 
       case 't':                         // the tab size switch (parallel layout)
@@ -350,9 +350,9 @@ void Command::Parse(int argc, char* argv[]) {
     if (isword)
       throw invalid_argument("-w (word mode) with -u is not yet implemented");
 
-    if (!prefixGiven)
+    if (!isprefix)
       prefix = edit_context_affix;
-    if (!suffixGiven)
+    if (!issuffix)
       suffix = edit_context_affix;
   }
 

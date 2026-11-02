@@ -27,8 +27,8 @@ namespace lcs {
   //
   // Options carries the comparison-relevant command-line parameters, so
   // File can accept options without depending on any tool's switch set.
-  // Command-line tools derive their Command class from it and add only the
-  // switches that are tool concerns.
+  // Command-line tools derive their Command class from it and add only
+  // the switches that are tool concerns.
   //
   class Options {
   public:
@@ -47,8 +47,10 @@ namespace lcs {
     std::uint32_t join = 0;
     std::uint32_t prefix = 0;
     std::uint32_t suffix = 0;
-    // The narrowest parallel heading "[1:2]" fits in five columns; widths
-    // below this minimum are rejected rather than silently clamped.
+    //
+    // The narrowest parallel heading "[1:2]" requires five columns.
+    // Widths below this minimum are rejected.
+    //
     static constexpr std::uint32_t MIN_WIDTH = 5;
     std::uint32_t width = 80;
     std::uint32_t tabsize = 8;
