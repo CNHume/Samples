@@ -45,8 +45,8 @@ namespace {
   }
 }
 
-ProgressBar::ProgressBar(bool showElapsed)
-  : showElapsed_(showElapsed) {
+ProgressBar::ProgressBar(bool showTime)
+  : showTime_(showTime) {
   stopwatch_.start();
   elapsed_.start();
 }
@@ -80,11 +80,21 @@ void ProgressBar::Draw(double fraction) {
   filled = min(filled, progressGlyphCount);
   auto percent = (int)(fraction * 100.0 + 0.5);
   percent = min(percent, 100);
-  auto elapsed = showElapsed_ ?
-    " " + metrics::Duration::Elapsed(elapsed_.elapsed_microseconds()) : string();
+
+  string time;
+  if (showTime_ && fraction > 0.0 && fraction < 1.0) {
+    //
+    // Extrapolate the total time from the fraction completed and report what
+    // remains: elapsed * (1 - fraction) / fraction.
+    //
+    auto elapsed = (double)elapsed_.elapsed_microseconds();
+    auto remaining = (int64_t)(elapsed * (1.0 - fraction) / fraction);
+    time = format(" {} remaining", metrics::Duration::Elapsed(remaining));
+  }
+
   auto bar = format("\r[{}{}] {:3d}%{}",
     string(filled, '#'), string(progressGlyphCount - filled, '-'),
-    percent, elapsed);
+    percent, time);
   auto length = bar.size() - 1;         // visible length, excluding the '\r'
   if (length < drawnLength_) {
     bar.append(drawnLength_ - length, ' ');  // overwrite any stale tail
