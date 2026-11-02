@@ -14,7 +14,7 @@
 // not just a wrong length.
 //
 #include "modes/Text.h"
-#include "Delta.h"
+#include "lcs/Delta.h"
 #include "modes/Record.h"
 
 #include <algorithm>                    // for equal, fill, max

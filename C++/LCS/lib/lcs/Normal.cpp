@@ -15,7 +15,7 @@
 //
 // 2026-10-02 CNHume  Created Normal class
 //
-#include "Normal.h"
+#include "lcs/Normal.h"
 
 #include <cctype>                       // for isspace, tolower
 

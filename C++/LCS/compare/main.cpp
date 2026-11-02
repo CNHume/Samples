@@ -28,7 +28,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "Command.h"
-#include "File.h"
+#include "lcs/File.h"
 #include "ProgressBar.h"
 #include "metrics/Statistics.h"
 

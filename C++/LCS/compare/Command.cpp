@@ -21,8 +21,8 @@
 // thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
-#include "Host.h"
-#include "SuspectDash.h"
+#include "lcs/Host.h"
+#include "lcs/SuspectDash.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno

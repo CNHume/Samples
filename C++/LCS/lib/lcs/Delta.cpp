@@ -26,7 +26,7 @@
 // 2015-01-04 CNHume  Added Coalesce()
 // 2014-12-31 CNHume  Created file
 //
-#include "Delta.h"
+#include "lcs/Delta.h"
 
 #include <algorithm>                    // for min()
 #include <format>                       // for format

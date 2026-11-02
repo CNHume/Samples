@@ -20,7 +20,7 @@
 //
 #pragma once
 
-#include "LCS.h"
+#include "lcs/LCS.h"
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr

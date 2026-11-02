@@ -27,7 +27,7 @@
 //
 #pragma once
 
-#include "LCS.h"                        // for LCS base, Pair
+#include "lcs/LCS.h"                        // for LCS base, Pair
 #include "metrics/Statistics.h"                 // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t

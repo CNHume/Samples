@@ -17,7 +17,7 @@
 // 2026-10-08 CNHume  Created TextDriver class
 //
 #include "formatters/TextDriver.h"
-#include "Encoding.h"
+#include "lcs/Encoding.h"
 
 using namespace std;
 using namespace lcs;

@@ -15,8 +15,8 @@
 //
 // 2026-10-16 CNHume  Created Diagnostic class
 //
-#include "Diagnostic.h"
-#include "Host.h"
+#include "lcs/Diagnostic.h"
+#include "lcs/Host.h"
 
 #include <algorithm>                    // for min
 #include <cmath>                        // for sqrt

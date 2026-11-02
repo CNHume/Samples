@@ -17,7 +17,7 @@
 //
 #pragma once
 
-#include "LCS.h"                        // for Algorithm
+#include "lcs/LCS.h"                        // for Algorithm
 
 #include <cstdint>                      // for uint64_t
 #include <string>                       // for string

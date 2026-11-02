@@ -20,7 +20,7 @@
 // See Myers.h for an overview.
 //
 #include "algorithms/Myers.h"
-#include "Diagnostic.h"
+#include "lcs/Diagnostic.h"
 
 #include <algorithm>                    // for min, reverse
 #include <cstdint>                      // for int64_t, uint32_t, uint64_t

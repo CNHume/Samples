@@ -26,7 +26,7 @@
 //
 #pragma once
 
-#include "LCS.h"                        // for MATCHES, Pair
+#include "lcs/LCS.h"                        // for MATCHES, Pair
 #include "metrics/Progress.h"                   // for metrics::Progress
 #include "metrics/Statistics.h"                 // for metrics::Statistics
 

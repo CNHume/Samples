@@ -30,7 +30,7 @@
 //#define SHOW_PAIRS
 //#define SHOW_PREFIXENDS
 
-#include "Delta.h"
+#include "lcs/Delta.h"
 
 #include <cstdint>                      // for uint32_t
 #include <deque>

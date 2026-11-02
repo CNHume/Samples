@@ -15,7 +15,7 @@
 //
 // 2026-10-19 CNHume  Created Host class
 //
-#include "Host.h"
+#include "lcs/Host.h"
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <format>                       // for format

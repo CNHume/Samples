@@ -17,12 +17,12 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "modes/Text.h"
-#include "Diagnostic.h"
+#include "lcs/Diagnostic.h"
 #include "metrics/Duration.h"
-#include "Encoding.h"
+#include "lcs/Encoding.h"
 #include "algorithms/HuntSzymanski.h"
 #include "algorithms/Myers.h"
-#include "Normal.h"
+#include "lcs/Normal.h"
 #include "algorithms/RickSpace.h"
 #include "algorithms/RickTime.h"
 

@@ -29,7 +29,7 @@
 #pragma once
 //#define SHOW_INTERVALS                // Delta::Context()
 
-#include "Pair.h"
+#include "lcs/Pair.h"
 
 #include <cstdint>                      // for int64_t, uint32_t
 #include <memory>                       // for shared_ptr

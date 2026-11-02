@@ -17,7 +17,7 @@
 //
 #pragma once
 
-#include "LCS.h"
+#include "lcs/LCS.h"
 #include "formatters/Format.h"
 
 #include <cstdint>                      // for uint32_t

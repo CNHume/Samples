@@ -18,7 +18,7 @@
 // See RickTime.h for an overview.
 //
 #include "algorithms/RickTime.h"
-#include "Diagnostic.h"
+#include "lcs/Diagnostic.h"
 
 #include <algorithm>                    // for lower_bound, sort
 #include <cstdint>                      // for uint64_t

@@ -16,7 +16,7 @@
 // 2015-01-17 CNHume  Added reclamation via shared_ptr<>
 // 2014-12-29 CNHume  Created file
 //
-#include "Pair.h"
+#include "lcs/Pair.h"
 
 #include <format>                       //[C++20]
 #include <iostream>                     // for cout, ostream

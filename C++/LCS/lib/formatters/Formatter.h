@@ -17,7 +17,7 @@
 //
 #pragma once
 
-#include "Delta.h"
+#include "lcs/Delta.h"
 #include "Format.h"
 
 #include <cstdint>                      // for uint32_t

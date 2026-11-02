@@ -18,7 +18,7 @@
 //
 #pragma once
 
-#include "LCS.h"
+#include "lcs/LCS.h"
 #include "metrics/Progress.h"
 #include "metrics/Statistics.h"
 

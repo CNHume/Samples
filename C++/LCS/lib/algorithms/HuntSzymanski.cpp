@@ -31,7 +31,7 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "algorithms/HuntSzymanski.h"
-#include "join.h"
+#include "lcs/join.h"
 
 #include <algorithm>                    // for lower_bound()
 #include <cstddef>                      // for ptrdiff_t

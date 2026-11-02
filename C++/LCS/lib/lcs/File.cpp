@@ -16,8 +16,8 @@
 // 2018-05-11 CNHume  Added word switch
 // 2017-07-09 CNHume  Created File class
 //
-#include "File.h"
-#include "Encoding.h"
+#include "lcs/File.h"
+#include "lcs/Encoding.h"
 #include "formatters/Edit.h"
 #include "formatters/RecordDriver.h"
 #include "formatters/TextDriver.h"
@@ -32,7 +32,8 @@ uint32_t File::Correspondence(
   metrics::Progress* progress,
   const Options& options) {
   uint32_t length(0);
-  auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
+  auto format = formatters::Formatter::Make(
+    options.format, options.width, options.tabsize);
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
@@ -78,7 +79,8 @@ uint32_t File::Difference(
   const Options& options) {
   uint32_t length(0);
   if (options.istext) {
-    auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
+    auto format = formatters::Formatter::Make(
+      options.format, options.width, options.tabsize);
     u32string s1, s2;
     if (options.isquote) {
       // Treat filename arguments as literal strings.
@@ -106,7 +108,8 @@ uint32_t File::Difference(
     auto r1 = modes::Record::Read(options.file1, options.isword);
     auto r2 = modes::Record::Read(options.file2, options.isword);
     if (options.format == formatters::Format::Edit) {
-      auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
+      auto format = formatters::Formatter::Make(
+        options.format, options.width, options.tabsize);
       formatters::EDIT_INTERVALS editIntervals;
       length = formatters::Edit::Difference(
         intervals != nullptr ? &editIntervals : nullptr,
@@ -120,7 +123,8 @@ uint32_t File::Difference(
       }
     }
     else {
-      auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
+      auto format = formatters::Formatter::Make(
+        options.format, options.width, options.tabsize);
       length = modes::Record::Difference(
         intervals, statistics, progress, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,

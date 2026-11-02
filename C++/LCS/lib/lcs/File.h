@@ -19,7 +19,7 @@
 //
 #pragma once
 
-#include "Options.h"
+#include "lcs/Options.h"
 #include "metrics/Progress.h"
 #include "metrics/Statistics.h"
 

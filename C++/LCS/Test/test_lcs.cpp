@@ -20,7 +20,7 @@
 //
 #include "doctest/doctest.h"
 #include "modes/Text.h"
-#include "Delta.h"
+#include "lcs/Delta.h"
 #include "algorithms/Myers.h"
 #include "modes/Record.h"
 
