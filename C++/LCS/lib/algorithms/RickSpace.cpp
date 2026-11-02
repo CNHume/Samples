@@ -478,8 +478,15 @@ namespace {
       // order.
       //
       if (progress && occ.contourBound > 0) {
-        auto fraction = (double)RickSpace::Contours / (double)occ.contourBound;
-        progress->Update(min(fraction, 1.0));
+        //
+        // The Hirschberg recursion adds far more contour sweeps than the pMax
+        // bound anticipates — its sweeps are cheap but numerous — so grow the
+        // bound whenever the sweep nearly fills it.  This keeps the fraction
+        // monotonic and below 100% until the recursion is actually done.
+        //
+        if (RickSpace::Contours > occ.contourBound * 7 / 8)
+          occ.contourBound = RickSpace::Contours * 8 / 7 + 1;
+        progress->Update((double)RickSpace::Contours / (double)occ.contourBound);
       }
 
       if (fCount >= 1 && bCount >= 1 && Crossed(fc, bc)) {
