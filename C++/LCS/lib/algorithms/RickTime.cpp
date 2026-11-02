@@ -175,7 +175,8 @@ namespace {
 }
 
 static uint32_t Sweep(
-  shared_ptr<Pair>* pairs, metrics::Statistics* statistics, const FlexTables& t) {
+  shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+  metrics::Progress* progress, const FlexTables& t) {
   auto m = t.m;
   auto n = t.n;
 
@@ -225,6 +226,12 @@ static uint32_t Sweep(
   // via an O(1) next1/next2 occurrence probe.
   //
   for (int64_t l = 0; l < m; l++) {
+    //
+    // Report the fraction of the single diagonal sweep completed.  The one
+    // pass over the m diagonals makes this monotonic.
+    //
+    if (progress)
+      progress->Update((double)l / (double)m);
     //
     //[Assert]On entry to diagonal l every class k < low is complete — its
     // rowThresh/colThresh values are final — because the sweep has already
@@ -351,16 +358,18 @@ static uint32_t Sweep(
 
 uint32_t RickTime::Find(
   shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const u32string& s1, const u32string& s2) {
   auto t = BuildTables(s1, s2);
-  return Sweep(pairs, statistics, t);
+  return Sweep(pairs, statistics, progress, t);
 }
 
 uint32_t RickTime::Find(
   shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+  metrics::Progress* progress,
   const MATCHES& matches, uint32_t size1, uint32_t size2) {
   auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
-  return Sweep(pairs, statistics, t);
+  return Sweep(pairs, statistics, progress, t);
 }
 
 } // namespace lcs::algorithms

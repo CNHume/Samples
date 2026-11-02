@@ -239,7 +239,7 @@ uint32_t Text::Compare(
     const auto& shorter = isswapped ? ns2 : ns1;
     const auto& longer = isswapped ? ns1 : ns2;
     length = algorithm == Algorithm::RickTime ?
-      algorithms::RickTime::Find(ppairs, statistics, shorter, longer) :
+      algorithms::RickTime::Find(ppairs, statistics, progress, shorter, longer) :
       algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
     if (algorithm == Algorithm::RickSpace && statistics && progress == nullptr)
       //

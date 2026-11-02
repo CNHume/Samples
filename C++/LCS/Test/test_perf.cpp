@@ -72,7 +72,7 @@ namespace {
     shared_ptr<Pair> pairs = nullptr;
     auto t0 = Clock::now();
     if (strcmp(argv[0], "time") == 0)
-      p = algorithms::RickTime::Find(&pairs, nullptr, a, b);
+      p = algorithms::RickTime::Find(&pairs, nullptr, nullptr, a, b);
     else
       p = algorithms::RickSpace::Find(&pairs, nullptr, nullptr, a, b);
     auto t1 = Clock::now();
@@ -327,7 +327,7 @@ namespace {
         if (dissimilar) {
           // Independent random second string: a large, uncontrolled D.
           b = regionReference(n, s, skew);
-          auto p = algorithms::RickTime::Find(nullptr, nullptr, a, b);
+          auto p = algorithms::RickTime::Find(nullptr, nullptr, nullptr, a, b);
           D = 2 * n - 2 * p;
         }
         else {

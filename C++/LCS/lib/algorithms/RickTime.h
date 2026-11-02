@@ -28,6 +28,7 @@
 #pragma once
 
 #include "lcs/LCS.h"                        // for LCS base, Pair
+#include "metrics/Progress.h"                   // for metrics::Progress
 #include "metrics/Statistics.h"                 // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t
@@ -46,6 +47,7 @@ namespace lcs::algorithms {
     //
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const std::u32string& s1, const std::u32string& s2);
     //
     // Record path: build the O(ns) tables from the shared match lists, using
@@ -54,6 +56,7 @@ namespace lcs::algorithms {
     //
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
+      metrics::Progress* progress,
       const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
   };
 

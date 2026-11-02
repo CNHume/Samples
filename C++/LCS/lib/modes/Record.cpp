@@ -217,7 +217,7 @@ uint32_t Record::Compare(
     }
     else {
       length = algorithms::RickTime::Find(
-        ppairs, statistics, indexesOf2MatchedByIndex1,
+        ppairs, statistics, progress, indexesOf2MatchedByIndex1,
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     break;
