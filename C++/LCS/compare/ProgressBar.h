@@ -17,8 +17,11 @@
 //
 #pragma once
 
+#include "metrics/Duration.h"
 #include "metrics/Progress.h"
 #include "metrics/Stopwatch.h"
+
+#include <cstddef>                      // for size_t
 
 //
 // ProgressBar renders a simple ASCII progress bar to stderr, throttled to
@@ -33,8 +36,10 @@ public:
   void Finish() override;
 
 private:
-  void Draw(double fraction) const;
+  void Draw(double fraction);
 
-  lcs::metrics::Stopwatch stopwatch_;
+  lcs::metrics::Stopwatch stopwatch_;   // throttles redraws
+  lcs::metrics::Stopwatch elapsed_;     // total elapsed time
   double latest_ = 0.0;
+  size_t drawnLength_ = 0;              // visible length of the last bar line
 };

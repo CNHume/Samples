@@ -33,7 +33,6 @@ using namespace std;
 using namespace lcs;
 
 namespace {
-  constexpr size_t progressFrameCount = 7;
   constexpr size_t progressGlyphCount = 100;    // 1% per glyph
   constexpr int64_t progressUpdateMilliseconds = 750;
 
@@ -48,6 +47,7 @@ namespace {
 
 ProgressBar::ProgressBar() {
   stopwatch_.start();
+  elapsed_.start();
 }
 
 ProgressBar::~ProgressBar() {
@@ -67,19 +67,22 @@ void ProgressBar::Update(double fraction) {
 }
 
 void ProgressBar::Finish() {
-  if (isTerminal()) {
+  if (isTerminal() && drawnLength_ > 0) {
     // Overwrite the bar line and return to the column start.
-    auto barLength = progressGlyphCount + progressFrameCount;
-    cerr << '\r' << string(barLength, ' ') << '\r' << flush;
+    cerr << '\r' << string(drawnLength_, ' ') << '\r' << flush;
+    drawnLength_ = 0;
   }
 }
 
-void ProgressBar::Draw(double fraction) const {
+void ProgressBar::Draw(double fraction) {
   auto filled = (size_t)(fraction * (double)progressGlyphCount + 0.5);
   filled = min(filled, progressGlyphCount);
   auto percent = (int)(fraction * 100.0 + 0.5);
   percent = min(percent, 100);
-  cerr << '\r' << '[' << string(filled, '#')
-    << string(progressGlyphCount - filled, '-')
-    << "] " << format("{:3d}%", percent) << flush;
+  auto elapsed = metrics::Duration::Elapsed(elapsed_.elapsed_microseconds());
+  auto bar = format("\r[{}{}] {:3d}% {}",
+    string(filled, '#'), string(progressGlyphCount - filled, '-'),
+    percent, elapsed);
+  drawnLength_ = bar.size() - 1;        // visible length, excluding the '\r'
+  cerr << bar << flush;
 }

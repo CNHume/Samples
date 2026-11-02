@@ -90,7 +90,7 @@ namespace {
     int64_t rows = 0;                   // size1
     int64_t columns = 0;                // size2
     int64_t symbols = 0;                // distinct symbols
-    uint64_t contourBound = 0;          // estimated contour sweeps, for progress
+    mutable uint64_t contourBound = 0;  // estimated contour sweeps, for progress
   };
 
   // Forward declarations (definitions follow).
@@ -119,14 +119,13 @@ namespace {
   Match Midpoint(const Contour& forward, const Contour& backward);
 
   //
-  // Estimates the total number of contour sweeps the scans will perform, used
-  // to report progress.  pMax is the count-based LCS upper bound (the sum of
-  // per-symbol minimum counts).  FindMidpoint runs fCount + bCount = p + 1
-  // sweeps, and the Hirschberg recursion about doubles that, so 2 * pMax
-  // approximates the total.
+  // Seeds the progress denominator with the count-based LCS upper bound (the
+  // sum of per-symbol minimum counts).  The top-level FindMidpoint runs about
+  // pMax sweeps; once it fixes the actual LCS length p, FindMidpoint refines
+  // the bound toward the true total (see the crossing test below).
   //
   void SetContourBound(Occurrences& occ, uint64_t pMax) {
-    occ.contourBound = 2 * pMax;
+    occ.contourBound = pMax;
   }
 
   //
@@ -487,6 +486,13 @@ namespace {
         result.hasMidpoint = true;
         result.length = (uint32_t)(fCount + bCount - 1);
         result.midpoint = Midpoint(fc, bc);
+        //
+        // Once the top-level midpoint fixes the actual LCS length p, refine the
+        // progress denominator.  The recursion contributes at most another p
+        // sweeps, so min(pMax, 2p) tightens the estimate toward the true total.
+        //
+        if (row0 == 0 && row1 == (size_t)occ.rows)
+          occ.contourBound = min(occ.contourBound, 2 * (uint64_t)result.length);
         return result;
       }
     }
