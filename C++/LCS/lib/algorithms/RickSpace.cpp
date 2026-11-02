@@ -484,8 +484,8 @@ namespace {
         // bound whenever the sweep nearly fills it.  This keeps the fraction
         // monotonic and below 100% until the recursion is actually done.
         //
-        if (RickSpace::Contours > occ.contourBound * 7 / 8)
-          occ.contourBound = RickSpace::Contours * 8 / 7 + 1;
+        if (RickSpace::Contours > occ.contourBound * 15 / 16)
+          occ.contourBound = RickSpace::Contours * 16 / 15 + 1;
         progress->Update((double)RickSpace::Contours / (double)occ.contourBound);
       }
 
