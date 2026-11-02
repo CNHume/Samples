@@ -18,6 +18,7 @@
 #include "ProgressBar.h"
 
 #include <algorithm>                    // for min
+#include <cmath>                        // for lround
 #include <cstdio>                       // for stderr
 #include <format>                       // for format
 #include <iostream>                     // for cerr
@@ -74,9 +75,9 @@ void ProgressBar::Finish() {
 }
 
 void ProgressBar::Draw(double fraction) {
-  auto filled = (size_t)(fraction * (double)progressGlyphCount + 0.5);
+  auto filled = (size_t)lround(fraction * (double)progressGlyphCount);
   filled = min(filled, progressGlyphCount);
-  auto percent = (int)(fraction * 100.0 + 0.5);
+  auto percent = (int)lround(fraction * 100.0);
   percent = min(percent, 100);
   auto bar = format("\r[{}{}] {:3d}%",
     string(filled, '#'), string(progressGlyphCount - filled, '-'),
