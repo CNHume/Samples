@@ -17,12 +17,10 @@
 //
 #pragma once
 
-#include "metrics/Duration.h"
 #include "metrics/Progress.h"
 #include "metrics/Stopwatch.h"
 
 #include <cstddef>                      // for size_t
-#include <cstdint>                      // for int64_t
 
 //
 // ProgressBar renders a simple ASCII progress bar to stderr, throttled to
@@ -30,7 +28,7 @@
 //
 class ProgressBar : public lcs::metrics::Progress {
 public:
-  ProgressBar(bool showTime);
+  ProgressBar();
   ~ProgressBar() override;
 
   void Update(double fraction) override;
@@ -40,11 +38,6 @@ private:
   void Draw(double fraction);
 
   lcs::metrics::Stopwatch stopwatch_;   // throttles redraws
-  lcs::metrics::Stopwatch elapsed_;     // elapsed time, for the ETA
   double latest_ = 0.0;
   size_t drawnLength_ = 0;              // visible length of the last bar line
-  bool showTime_ = false;               // -v: show the remaining-time estimate
-  double lastFraction_ = 0.0;           // fraction at the previous draw
-  std::int64_t lastMicros_ = 0;         // elapsed µs at the previous draw
-  double rate_ = 0.0;                   // smoothed fraction rate (per µs)
 };

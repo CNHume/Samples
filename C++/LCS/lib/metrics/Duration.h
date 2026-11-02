@@ -47,9 +47,6 @@ namespace lcs::metrics {
     // Format a duration report from raw values (name, operation count, elapsed).
     static std::string ToString(
       const char* name, long count, std::int64_t microseconds);
-
-    // Format an elapsed interval with auto-scaled units, e.g. "12.3 sec".
-    static std::string Elapsed(std::int64_t microseconds);
   };
 
 } // namespace lcs::metrics

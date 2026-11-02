@@ -196,12 +196,6 @@ std::string Duration::ToString(const char* name, long count, int64_t microsecond
     formatScaled(rateValue), rateUnitsName(rateUnit));
 }
 
-std::string Duration::Elapsed(std::int64_t microseconds) {
-  auto unit = getTimeUnits(microseconds);
-  auto value = (double)microseconds / (double)timeInterval(unit);
-  return std::format("{} {}", formatScaled(value), timeUnitsName(unit));
-}
-
 std::string Duration::WallClock() {
   using namespace std::chrono;
   auto now = system_clock::now();

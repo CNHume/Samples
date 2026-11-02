@@ -35,7 +35,6 @@ using namespace lcs;
 namespace {
   constexpr size_t progressGlyphCount = 100;    // 1% per glyph
   constexpr int64_t progressUpdateMilliseconds = 750;
-  constexpr double progressRateAlpha = 0.5;     // EMA weight for the fraction rate
 
   bool isTerminal() {
 #if defined(_WIN32)
@@ -46,10 +45,8 @@ namespace {
   }
 }
 
-ProgressBar::ProgressBar(bool showTime)
-  : showTime_(showTime) {
+ProgressBar::ProgressBar() {
   stopwatch_.start();
-  elapsed_.start();
 }
 
 ProgressBar::~ProgressBar() {
@@ -81,39 +78,9 @@ void ProgressBar::Draw(double fraction) {
   filled = min(filled, progressGlyphCount);
   auto percent = (int)(fraction * 100.0 + 0.5);
   percent = min(percent, 100);
-
-  string time;
-  if (showTime_ && fraction > 0.0 && fraction < 1.0) {
-    //
-    // Estimate the remaining time from a smoothed fraction rate rather than
-    // the all-time average, so the ETA tracks the current contour rate and
-    // stays steadier as that rate slows.
-    //
-    auto micros = elapsed_.elapsed_microseconds();
-    auto deltaFraction = fraction - lastFraction_;
-    auto deltaMicros = micros - lastMicros_;
-    if (deltaMicros > 0 && deltaFraction > 0.0) {
-      auto instant = deltaFraction / (double)deltaMicros;  // fraction per µs
-      rate_ = rate_ > 0.0 ?
-        progressRateAlpha * instant + (1.0 - progressRateAlpha) * rate_ : instant;
-    }
-    lastFraction_ = fraction;
-    lastMicros_ = micros;
-    if (rate_ > 0.0) {
-      auto remaining = (int64_t)((1.0 - fraction) / rate_);
-      time = format(" {}", metrics::Duration::Elapsed(remaining));
-    }
-  }
-
-  auto bar = format("\r[{}{}] {:3d}%{}",
+  auto bar = format("\r[{}{}] {:3d}%",
     string(filled, '#'), string(progressGlyphCount - filled, '-'),
-    percent, time);
-  auto length = bar.size() - 1;         // visible length, excluding the '\r'
-  if (length < drawnLength_) {
-    bar.append(drawnLength_ - length, ' ');  // overwrite any stale tail
-  }
-  else {
-    drawnLength_ = length;
-  }
+    percent);
+  drawnLength_ = bar.size() - 1;        // visible length, excluding the '\r'
   cerr << bar << flush;
 }

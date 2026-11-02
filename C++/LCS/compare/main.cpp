@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
       nullptr : &intervals;
 
     metrics::Statistics statistics;
-    ProgressBar progressBar(command.isverbose);
+    ProgressBar progressBar;
     auto progress = command.isprogress ? &progressBar : nullptr;
     auto length = command.iscorrespondence ?
       File::Correspondence(pintervals, &statistics, progress, command) :
