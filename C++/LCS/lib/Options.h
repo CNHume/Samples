@@ -18,6 +18,7 @@
 #pragma once
 
 #include "LCS.h"
+#include "formatters/Format.h"
 
 #include <cstdint>                      // for uint32_t
 #include <string>
@@ -33,7 +34,7 @@ namespace lcs {
   class Options {
   public:
     Algorithm algorithm = Algorithm::Automatic;
-    Format format = Format::Sequential;
+    formatters::Format format = formatters::Format::Sequential;
     std::string file1;
     std::string file2;
     bool ignorecase = false;

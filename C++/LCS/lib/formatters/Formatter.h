@@ -18,8 +18,10 @@
 #pragma once
 
 #include "Delta.h"
+#include "Format.h"
 
 #include <cstdint>                      // for uint32_t
+#include <memory>                       // for unique_ptr
 #include <string>
 #include <vector>
 
@@ -43,6 +45,13 @@ namespace lcs::formatters {
   //
   class Formatter {
   public:
+    //
+    // Build the formatter selected by the format specifier.  The parallel
+    // format takes the per-side content width and the tab size.
+    //
+    static std::unique_ptr<Formatter> Make(
+      Format format, std::uint32_t width, std::uint32_t tabsize);
+
     virtual ~Formatter() = default;
 
     // Begin a file-level result (e.g. the parallel column labels, or the

@@ -57,6 +57,9 @@
     <ClCompile Include="..\lib\formatters\Edit.cpp">
       <Filter>formatters</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\formatters\Formatter.cpp">
+      <Filter>formatters</Filter>
+    </ClCompile>
     <ClCompile Include="..\lib\Encoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="..\lib\File.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib\formatters\Format.h">
+      <Filter>formatters</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\formatters\Formatter.h">
       <Filter>formatters</Filter>

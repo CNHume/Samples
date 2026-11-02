@@ -159,7 +159,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
-          format = Format::CIGAR;
+          format = formatters::Format::CIGAR;
           isgapped = true;
         }
         break;
@@ -258,7 +258,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
-          format = Format::Edit;
+          format = formatters::Format::Edit;
           isunified = true;
         }
         break;
@@ -300,7 +300,7 @@ void Command::Parse(int argc, char* argv[]) {
         if (len > 2)                    // superfluous value specified
           usage = true;
         else {
-          format = Format::Parallel;
+          format = formatters::Format::Parallel;
           isparallel = true;
         }
         break;

@@ -49,14 +49,6 @@ namespace lcs {
     RickTime,           // Rick 1995, diagonal sweep, min{pm, p(n-p)} time
   };
 
-  // The output format selected at run time.
-  enum class Format {
-    CIGAR,              // CIGAR alignment string
-    Edit,               // GNU unified diff patch (-u)
-    Parallel,           // two columns side-by-side
-    Sequential,         // one side after the other
-  };
-
   typedef std::deque<std::shared_ptr<Pair>> PAIRS;
   typedef std::deque<std::uint32_t> INDEXES;
   typedef std::unordered_map<std::string, INDEXES> STRING_TO_INDEXES_MAP;

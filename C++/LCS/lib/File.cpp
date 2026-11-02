@@ -23,48 +23,16 @@
 #include "formatters/TextDriver.h"
 #include "modes/Record.h"
 #include "modes/Text.h"
-#include "formatters/Cigar.h"
-#include "formatters/Parallel.h"
-#include "formatters/Sequential.h"
-
-#include <stdexcept>                    // for runtime_error
 
 using namespace std;
 using namespace lcs;
-
-namespace {
-  //
-  // Build the formatter selected by the format specifier.
-  //
-  unique_ptr<formatters::Formatter> MakeFormat(
-    Format format, uint32_t width, uint32_t tabsize) {
-    unique_ptr<formatters::Formatter> formatter;
-    switch (format) {
-    case Format::CIGAR:
-      formatter = make_unique<formatters::Cigar>();
-      break;
-    case Format::Edit:
-      formatter = make_unique<formatters::Edit>();
-      break;
-    case Format::Parallel:
-      formatter = make_unique<formatters::Parallel>(width, tabsize);
-      break;
-    case Format::Sequential:
-      formatter = make_unique<formatters::Sequential>();
-      break;
-    default:
-      throw runtime_error("Unknown format");
-    }
-    return formatter;
-  }
-}
 
 uint32_t File::Correspondence(
   shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
   metrics::Progress* progress,
   const Options& options) {
   uint32_t length(0);
-  auto format = MakeFormat(options.format, options.width, options.tabsize);
+  auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
   if (options.istext) {
     u32string s1, s2;
     if (options.isquote) {
@@ -110,7 +78,7 @@ uint32_t File::Difference(
   const Options& options) {
   uint32_t length(0);
   if (options.istext) {
-    auto format = MakeFormat(options.format, options.width, options.tabsize);
+    auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
     u32string s1, s2;
     if (options.isquote) {
       // Treat filename arguments as literal strings.
@@ -137,8 +105,8 @@ uint32_t File::Difference(
   else {
     auto r1 = modes::Record::Read(options.file1, options.isword);
     auto r2 = modes::Record::Read(options.file2, options.isword);
-    if (options.format == Format::Edit) {
-      auto format = MakeFormat(options.format, options.width, options.tabsize);
+    if (options.format == formatters::Format::Edit) {
+      auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
       formatters::EDIT_INTERVALS editIntervals;
       length = formatters::Edit::Difference(
         intervals != nullptr ? &editIntervals : nullptr,
@@ -152,7 +120,7 @@ uint32_t File::Difference(
       }
     }
     else {
-      auto format = MakeFormat(options.format, options.width, options.tabsize);
+      auto format = formatters::Formatter::Make(options.format, options.width, options.tabsize);
       length = modes::Record::Difference(
         intervals, statistics, progress, r1, r2,
         options.algorithm, options.ignorecase, options.ignorespace,

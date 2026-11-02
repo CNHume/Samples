@@ -98,6 +98,7 @@
     <ClCompile Include="..\lib\Host.cpp" />
     <ClCompile Include="..\lib\formatters\Cigar.cpp" />
     <ClCompile Include="..\lib\formatters\Edit.cpp" />
+    <ClCompile Include="..\lib\formatters\Formatter.cpp" />
     <ClCompile Include="..\lib\Encoding.cpp" />
     <ClCompile Include="..\lib\File.cpp" />
     <ClCompile Include="..\lib\formatters\RecordDriver.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="..\lib\formatters\Edit.h" />
     <ClInclude Include="..\lib\Encoding.h" />
     <ClInclude Include="..\lib\File.h" />
+    <ClInclude Include="..\lib\formatters\Format.h" />
     <ClInclude Include="..\lib\formatters\Formatter.h" />
     <ClInclude Include="..\lib\formatters\RecordDriver.h" />
     <ClInclude Include="..\lib\formatters\TextDriver.h" />
