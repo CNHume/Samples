@@ -90,6 +90,7 @@ namespace {
     int64_t rows = 0;                   // size1
     int64_t columns = 0;                // size2
     int64_t symbols = 0;                // distinct symbols
+    uint64_t contourBound = 0;          // estimated contour sweeps, for progress
   };
 
   // Forward declarations (definitions follow).
@@ -102,7 +103,8 @@ namespace {
     size_t row0, size_t row1, size_t column0, size_t column1, vector<Match>& out,
     metrics::Progress* progress);
   Result FindMidpoint(const Occurrences& occ,
-    size_t row0, size_t row1, size_t column0, size_t column1);
+    size_t row0, size_t row1, size_t column0, size_t column1,
+    metrics::Progress* progress);
   Contour CutForward(const Contour& forward, const Contour& backward);
   Contour CutBackward(const Contour& backward, const Contour& forward);
   Contour FirstForward(const Occurrences& occ,
@@ -117,6 +119,17 @@ namespace {
   Match Midpoint(const Contour& forward, const Contour& backward);
 
   //
+  // Estimates the total number of contour sweeps the scans will perform, used
+  // to report progress.  pMax is the count-based LCS upper bound (the sum of
+  // per-symbol minimum counts).  FindMidpoint runs fCount + bCount = p + 1
+  // sweeps, and the Hirschberg recursion about doubles that, so 2 * pMax
+  // approximates the total.
+  //
+  void SetContourBound(Occurrences& occ, uint64_t pMax) {
+    occ.contourBound = 2 * pMax;
+  }
+
+  //
   // Runs the Hirschberg recursion over an occurrence table and, when pairs is
   // requested, reconstructs the linked list of matched positions.  When pairs is
   // null only the length is wanted, so one forward/backward contour alternation
@@ -125,7 +138,7 @@ namespace {
   uint32_t Solve(shared_ptr<Pair>* pairs, const Occurrences& occ,
     size_t size1, size_t size2, metrics::Progress* progress) {
     if (pairs == nullptr)
-      return FindMidpoint(occ, 0, size1, 0, size2).length;
+      return FindMidpoint(occ, 0, size1, 0, size2, progress).length;
 
     vector<Match> out;
     Hirschberg(occ, 0, size1, 0, size2, out, progress);
@@ -190,6 +203,22 @@ namespace {
 
     auto symbols = lists.size();
     occ.symbols = (int64_t)symbols;
+
+    //
+    // Count-based LCS upper bound: sum over symbols of min(rows, list length),
+    // used to estimate the contour-scan work for progress reporting.
+    //
+    vector<uint64_t> count1(symbols, 0);
+    for (auto rowSymbol : occ.rowId)
+      if (rowSymbol != UINT32_MAX)
+        count1[rowSymbol]++;
+    uint64_t pMax = 0;
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++) {
+      auto count2 = (uint64_t)lists[symbolId]->size();
+      pMax += min(count1[symbolId], count2);
+    }
+    SetContourBound(occ, pMax);
+
     occ.next.assign(symbols, vector<uint32_t>((size_t)size2 + 1, (uint32_t)occ.columns));
     occ.prev.assign(symbols, vector<uint32_t>((size_t)size2, UINT32_MAX));
 
@@ -281,13 +310,26 @@ namespace {
     occ.symbols = (int64_t)symbols;
     occ.colId = move(s2Id);
 
+    // Count-based LCS upper bound: sum over symbols of min(count1, count2).
+    vector<uint64_t> count1(symbols, 0);
+    vector<uint64_t> count2(symbols, 0);
+    for (auto columnSymbol : occ.colId)
+      count2[columnSymbol]++;
+
     // rowId[i] = symbol id of s1[i], or UINT32_MAX when it never occurs in s2.
     occ.rowId.assign(s1.size(), UINT32_MAX);
     for (size_t rowIndex = 0; rowIndex < s1.size(); rowIndex++) {
       auto found = charToId.find(s1[rowIndex]);
-      if (found != charToId.end())
+      if (found != charToId.end()) {
         occ.rowId[rowIndex] = found->second;
+        count1[found->second]++;
+      }
     }
+
+    uint64_t pMax = 0;
+    for (size_t symbolId = 0; symbolId < symbols; symbolId++)
+      pMax += min(count1[symbolId], count2[symbolId]);
+    SetContourBound(occ, pMax);
 
     // next[id][j] = first occurrence of symbol id at/after j (n if none).
     occ.next.assign(symbols, vector<uint32_t>((size_t)occ.columns + 1, (uint32_t)occ.columns));
@@ -333,11 +375,9 @@ namespace {
   void Hirschberg(
     const Occurrences& occ, size_t row0, size_t row1, size_t column0, size_t column1,
     vector<Match>& out, metrics::Progress* progress) {
-    if (progress && occ.rows > 0)
-      progress->Update((double)row0 / (double)occ.rows);
     if (row0 >= row1 || column0 >= column1)
       return;
-    auto result = FindMidpoint(occ, row0, row1, column0, column1);
+    auto result = FindMidpoint(occ, row0, row1, column0, column1, progress);
     if (!result.hasMidpoint)
       return;
 
@@ -380,7 +420,8 @@ namespace {
   }
 
   Result FindMidpoint(const Occurrences& occ,
-    size_t row0, size_t row1, size_t column0, size_t column1) {
+    size_t row0, size_t row1, size_t column0, size_t column1,
+    metrics::Progress* progress) {
     Result result;
     if (row0 >= row1 || column0 >= column1)
       return result;
@@ -429,6 +470,17 @@ namespace {
           bc = NextBackward(sources.empty() ? bcPrev : sources,
             occ, row0, row1, column0, column1);
         }
+      }
+
+      //
+      // Report the fraction of the estimated contour-scan work completed.
+      // RickSpace::Contours counts the sweeps run so far, so the fraction stays
+      // monotonic even though Hirschberg scans the sub-problems in left-first
+      // order.
+      //
+      if (progress && occ.contourBound > 0) {
+        auto fraction = (double)RickSpace::Contours / (double)occ.contourBound;
+        progress->Update(min(fraction, 1.0));
       }
 
       if (fCount >= 1 && bCount >= 1 && Crossed(fc, bc)) {
