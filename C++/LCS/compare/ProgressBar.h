@@ -29,7 +29,7 @@
 //
 class ProgressBar : public lcs::metrics::Progress {
 public:
-  ProgressBar();
+  ProgressBar(bool showElapsed);
   ~ProgressBar() override;
 
   void Update(double fraction) override;
@@ -42,4 +42,5 @@ private:
   lcs::metrics::Stopwatch elapsed_;     // total elapsed time
   double latest_ = 0.0;
   size_t drawnLength_ = 0;              // visible length of the last bar line
+  bool showElapsed_ = false;            // -v: show elapsed time after the percent
 };
