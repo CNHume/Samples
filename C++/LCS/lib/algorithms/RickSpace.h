@@ -26,9 +26,9 @@
 //
 #pragma once
 
-#include "lcs/LCS.h"                        // for MATCHES, Pair
-#include "metrics/Progress.h"                   // for metrics::Progress
-#include "metrics/Statistics.h"                 // for metrics::Statistics
+#include "lcs/LCS.h"                    // for MATCHES, Pair
+#include "metrics/Progress.h"           // for metrics::Progress
+#include "metrics/Statistics.h"         // for metrics::Statistics
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <memory>                       // for shared_ptr
