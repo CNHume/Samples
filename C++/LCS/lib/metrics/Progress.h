@@ -22,7 +22,7 @@ namespace lcs::metrics {
   //
   // Progress reports the fraction [0, 1] of an operation that has completed.
   // An algorithm calls Update() as it advances; a concrete renderer (such as
-  // compare's ProgressBar) supplies the display.
+  // ProgressBar) supplies the display.
   //
   class Progress {
   public:

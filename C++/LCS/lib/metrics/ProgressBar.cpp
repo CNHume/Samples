@@ -15,7 +15,7 @@
 //
 // 2026-10-30 CNHume  Created ProgressBar class
 //
-#include "ProgressBar.h"
+#include "metrics/ProgressBar.h"
 
 #include <algorithm>                    // for min
 #include <cmath>                        // for lround
@@ -31,7 +31,7 @@
 #endif
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::metrics;
 
 namespace {
   constexpr size_t progressGlyphCount = 100;    // 1% per glyph

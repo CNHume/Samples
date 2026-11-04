@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-namespace lcs {
+namespace lcs::files {
 
   class Normal {
   public:
@@ -41,4 +41,4 @@ namespace lcs {
     static char32_t ToLower(char32_t c);
   };
 
-} // namespace lcs
+} // namespace lcs::files

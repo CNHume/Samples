@@ -13,10 +13,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-16 CNHume  Created Diagnostic class
+// 2026-10-16 CNHume  Created Analysis class
+// 2026-11-03 CNHume  Renamed to Analysis; moved to lcs::algorithms
 //
-#include "lcs/Diagnostic.h"
-#include "lcs/Host.h"
+#include "algorithms/Analysis.h"
+#include "files/Host.h"
 
 #include <algorithm>                    // for min
 #include <cmath>                        // for sqrt
@@ -25,6 +26,7 @@
 
 using namespace std;
 using namespace lcs;
+using namespace lcs::algorithms;
 
 namespace {
   //
@@ -62,7 +64,7 @@ namespace {
   constexpr uint64_t autoSparseRedundancy = 100;   // r/n below which H-S is sparse
 }
 
-void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
+void Analysis::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
   auto threshold = m * n * matchPercent / 100;
   if (threshold < matchFloor)
     threshold = matchFloor;
@@ -74,7 +76,7 @@ void Diagnostic::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
   }
 }
 
-void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
+void Analysis::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
   // next1 and next2 hold symbols x (length + 2) int64_t entries each.
   auto bytes = 8 * symbols * (m + n + 4);
   if (bytes > tableByteBudget) {
@@ -85,20 +87,20 @@ void Diagnostic::WarnTableSize(uint64_t m, uint64_t n, uint64_t symbols) {
   }
 }
 
-uint64_t Diagnostic::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
+uint64_t Analysis::RecordingBudget(uint64_t m, uint64_t n, uint64_t symbols) {
   //
   // next1/next2 are uint32_t tables; byRank is m+2 vector<DomMatch> objects
   // plus the recorded matches.  Reserve a safety margin of the available RAM.
   //
   auto tableBytes = 4 * symbols * (m + n + 4);
   auto headerBytes = vectorHeaderBytes * (m + 2);
-  auto budgetBytes = (uint64_t)((double)Host::AvailableBytes() * recordingMargin);
+  auto budgetBytes = (uint64_t)((double)files::Host::AvailableBytes() * recordingMargin);
   auto room = budgetBytes > tableBytes + headerBytes ?
     budgetBytes - tableBytes - headerBytes : 0;
   return room / recordBytes;
 }
 
-void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
+void Analysis::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
   std::cerr << std::format(
     "Warning: RickTime match recording needs ~{:.3f} GB, "
     "exceeding the ~{:.3f} GB budget; use -As (RickSpace) for linear memory instead",
@@ -106,7 +108,7 @@ void Diagnostic::WarnRecordingSize(uint64_t records, uint64_t recordBudget) {
     (double)(recordBudget * recordBytes) / (1ull << 30)) << '\n';
 }
 
-void Diagnostic::SuggestRickTime(
+void Analysis::SuggestRickTime(
   uint32_t length, uint64_t shorter, uint64_t longer,
   uint64_t candidates, uint64_t symbols) {
   auto edits = shorter - length;
@@ -124,26 +126,26 @@ void Diagnostic::SuggestRickTime(
     length, shorter) << '\n';
 }
 
-uint64_t Diagnostic::MyersBudget(uint64_t m, uint64_t n) {
+uint64_t Analysis::MyersBudget(uint64_t m, uint64_t n) {
   //
   // The reconstruction stores the V frontier for every depth d = 0..D, a total
   // of (D+1)^2 int64 entries (8 bytes each).  Bound D so that history fits a
   // safety margin of available RAM; D also cannot exceed the combined length.
   //
-  auto budgetBytes = (uint64_t)((double)Host::AvailableBytes() * recordingMargin);
+  auto budgetBytes = (uint64_t)((double)files::Host::AvailableBytes() * recordingMargin);
   auto maxD = (uint64_t)sqrt((double)(budgetBytes / 8));
   auto bound = m + n;
   return min(maxD, bound);
 }
 
-void Diagnostic::WarnMyersDistance(uint64_t distance, uint64_t budget) {
+void Analysis::WarnMyersDistance(uint64_t distance, uint64_t budget) {
   std::cerr << std::format(
     "Warning: Myers edit distance {} exceeds the {} budget; "
     "use -As (RickSpace) or -At (RickTime) instead",
     distance, budget) << '\n';
 }
 
-Algorithm Diagnostic::SelectAutomatic(
+Algorithm Analysis::SelectAutomatic(
   string& reason, uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols,
   uint64_t editLowerBound) {
   auto shorter = min(m, n);

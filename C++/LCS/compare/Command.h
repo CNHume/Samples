@@ -18,17 +18,17 @@
 //
 #pragma once
 
-#include "lcs/Options.h"
+#include "files/Options.h"
 
 #include <cstdint>                      // for uint32_t
 #include <string>
 
 //
 // Command parses the compare tool's command line.  The comparison parameters
-// are inherited from lcs::Options; only the tool-specific switches are
+// are inherited from lcs::files::Options; only the tool-specific switches are
 // declared here.
 //
-class Command : public lcs::Options {
+class Command : public lcs::files::Options {
 public:
   bool iscorrespondence = false;
   bool ishelp = false;

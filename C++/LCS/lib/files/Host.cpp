@@ -15,7 +15,7 @@
 //
 // 2026-10-19 CNHume  Created Host class
 //
-#include "lcs/Host.h"
+#include "files/Host.h"
 
 #include <cstdint>                      // for uint32_t, uint64_t
 #include <format>                       // for format
@@ -31,7 +31,7 @@
 #endif
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::files;
 
 namespace {
   //

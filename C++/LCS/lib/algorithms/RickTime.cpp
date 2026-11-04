@@ -18,7 +18,7 @@
 // See RickTime.h for an overview.
 //
 #include "algorithms/RickTime.h"
-#include "lcs/Diagnostic.h"
+#include "algorithms/Analysis.h"
 
 #include <algorithm>                    // for lower_bound, sort
 #include <cstdint>                      // for uint64_t
@@ -90,7 +90,7 @@ namespace {
     // Warn before allocating the dense next tables, reusing the symbol count
     // already gathered above rather than counting distinct symbols again.
     //
-    Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
+    Analysis::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
     //
     // One extra sentinel slot so "first occurrence > j" at j == length (the
     // threshold sentinel) stays in bounds and returns length.
@@ -139,7 +139,7 @@ namespace {
     }
 
     auto s = lists.size();
-    Diagnostic::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
+    Analysis::WarnTableSize((uint64_t)t.m, (uint64_t)t.n, (uint64_t)s);
 
     //
     // id2[j] = symbol id of s2[j], inverting the match lists.  A position whose
@@ -213,7 +213,7 @@ static uint32_t Sweep(
   uint64_t records = 0;
   uint64_t recordBudget = 0;
   if (traceLCS)
-    recordBudget = Diagnostic::RecordingBudget(
+    recordBudget = Analysis::RecordingBudget(
       (uint64_t)m, (uint64_t)n, t.next1.size());
 
   //
@@ -259,7 +259,7 @@ static uint32_t Sweep(
         if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)l, .j = (uint32_t)j });
           if (records > recordBudget) {
-            Diagnostic::WarnRecordingSize(records, recordBudget);
+            Analysis::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
               "RickTime: match recording would exhaust memory; use -As (RickSpace)");
           }
@@ -295,7 +295,7 @@ static uint32_t Sweep(
         if (traceLCS) {
           byRank[(size_t)k].push_back({ .i = (uint32_t)i, .j = (uint32_t)l });
           if (records > recordBudget) {
-            Diagnostic::WarnRecordingSize(records, recordBudget);
+            Analysis::WarnRecordingSize(records, recordBudget);
             throw runtime_error(
               "RickTime: match recording would exhaust memory; use -As (RickSpace)");
           }

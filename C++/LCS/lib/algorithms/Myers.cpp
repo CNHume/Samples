@@ -20,7 +20,7 @@
 // See Myers.h for an overview.
 //
 #include "algorithms/Myers.h"
-#include "lcs/Diagnostic.h"
+#include "algorithms/Analysis.h"
 
 #include <algorithm>                    // for min, reverse
 #include <cstdint>                      // for int64_t, uint32_t, uint64_t
@@ -72,7 +72,7 @@ namespace {
     const Sequence& s1, const Sequence& s2) {
     auto m = s1.size();
     auto n = s2.size();
-    auto budget = Diagnostic::MyersBudget(m, n);
+    auto budget = Analysis::MyersBudget(m, n);
 
     //
     // Composition pre-filter: when the count-based lower bound already exceeds
@@ -80,7 +80,7 @@ namespace {
     //
     auto lower = DistanceLowerBound(s1, s2);
     if (lower > budget) {
-      Diagnostic::WarnMyersDistance(lower, budget);
+      Analysis::WarnMyersDistance(lower, budget);
       throw runtime_error(
         "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
     }
@@ -127,7 +127,7 @@ namespace {
     }
 
     if (D < 0) {
-      Diagnostic::WarnMyersDistance(budget, budget);
+      Analysis::WarnMyersDistance(budget, budget);
       throw runtime_error(
         "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
     }

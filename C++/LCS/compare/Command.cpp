@@ -21,8 +21,8 @@
 // thrown by Parse() when the command line fails to parse.
 //
 #include "Command.h"
-#include "lcs/Host.h"
-#include "lcs/SuspectDash.h"
+#include "files/Host.h"
+#include "SuspectDash.h"
 #include "Version.h"
 
 #include <cerrno>                       // for errno
@@ -324,7 +324,7 @@ void Command::Parse(int argc, char* argv[]) {
   }
 
   if (ishost) {
-    cout << Host::ToString();
+    cout << files::Host::ToString();
     exit(EXIT_SUCCESS);
   }
 

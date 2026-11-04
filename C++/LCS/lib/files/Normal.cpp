@@ -15,12 +15,12 @@
 //
 // 2026-10-02 CNHume  Created Normal class
 //
-#include "lcs/Normal.h"
+#include "files/Normal.h"
 
 #include <cctype>                       // for isspace, tolower
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::files;
 
 //
 // Normal() applies the ignorecase and ignorespace options,

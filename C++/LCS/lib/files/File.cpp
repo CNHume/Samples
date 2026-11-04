@@ -16,8 +16,8 @@
 // 2018-05-11 CNHume  Added word switch
 // 2017-07-09 CNHume  Created File class
 //
-#include "lcs/File.h"
-#include "lcs/Encoding.h"
+#include "files/File.h"
+#include "files/Encoding.h"
 #include "formatters/Edit.h"
 #include "formatters/RecordDriver.h"
 #include "formatters/TextDriver.h"
@@ -26,6 +26,7 @@
 
 using namespace std;
 using namespace lcs;
+using namespace lcs::files;
 
 uint32_t File::Correspondence(
   shared_ptr<Delta>* intervals, metrics::Statistics* statistics,

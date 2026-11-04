@@ -22,22 +22,26 @@
 
 #include <cstddef>                      // for size_t
 
-//
-// ProgressBar renders a simple ASCII progress bar to stderr, throttled to
-// progressUpdateMilliseconds between updates.
-//
-class ProgressBar : public lcs::metrics::Progress {
-public:
-  ProgressBar();
-  ~ProgressBar() override;
+namespace lcs::metrics {
 
-  void Update(double fraction) override;
-  void Finish() override;
+  //
+  // ProgressBar renders a simple ASCII progress bar to stderr, throttled to
+  // progressUpdateMilliseconds between updates.
+  //
+  class ProgressBar : public Progress {
+  public:
+    ProgressBar();
+    ~ProgressBar() override;
 
-private:
-  void Draw(double fraction);
+    void Update(double fraction) override;
+    void Finish() override;
 
-  lcs::metrics::Stopwatch stopwatch_;   // throttles redraws
-  double latest_ = 0.0;
-  size_t drawnLength_ = 0;              // visible length of the last bar line
-};
+  private:
+    void Draw(double fraction);
+
+    Stopwatch stopwatch_;               // throttles redraws
+    double latest_ = 0.0;
+    size_t drawnLength_ = 0;            // visible length of the last bar line
+  };
+
+} // namespace lcs::metrics

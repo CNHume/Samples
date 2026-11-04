@@ -17,12 +17,12 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "modes/Text.h"
-#include "lcs/Diagnostic.h"
+#include "algorithms/Analysis.h"
 #include "metrics/Duration.h"
-#include "lcs/Encoding.h"
+#include "files/Encoding.h"
 #include "algorithms/HuntSzymanski.h"
 #include "algorithms/Myers.h"
-#include "lcs/Normal.h"
+#include "files/Normal.h"
 #include "algorithms/RickSpace.h"
 #include "algorithms/RickTime.h"
 
@@ -49,11 +49,11 @@ uint64_t Text::Match(
   uint64_t count = 0;
   uint32_t index = 0;
   u32string buffer;
-  Normal::Normalize(s2, buffer, ignorecase, ignorespace);
+  files::Normal::Normalize(s2, buffer, ignorecase, ignorespace);
   for (const auto& it : buffer)
     indexesOf2MatchedByChar[it].push_back(index++);
 
-  Normal::Normalize(s1, buffer, ignorecase, ignorespace);
+  files::Normal::Normalize(s1, buffer, ignorecase, ignorespace);
   for (const auto& it : buffer) {
     auto& dq2 = indexesOf2MatchedByChar[it];
     indexesOf2MatchedByIndex1.push_back(&dq2);
@@ -88,8 +88,8 @@ uint32_t Text::Correspondence(
     //
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
-    Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
-    Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    files::Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    files::Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
     auto length = Compare(intervals, statistics, progress, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
@@ -126,8 +126,8 @@ uint32_t Text::Difference(shared_ptr<Delta>* intervals, metrics::Statistics* sta
   if (ignorespace) {
     u32string t1, t2;
     vector<uint32_t> mapBegin1, mapEnd1, mapBegin2, mapEnd2;
-    Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
-    Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
+    files::Normal::NormalSpace(s1, t1, mapBegin1, mapEnd1);
+    files::Normal::NormalSpace(s2, t2, mapBegin2, mapEnd2);
     auto length = Compare(intervals, statistics, progress, t1, t2, algorithm, ignorecase, false, isverbose);
     auto size1 = t1.size();
     auto size2 = t2.size();
@@ -192,7 +192,7 @@ uint32_t Text::Compare(
         symbols++;
     auto editLowerBound = s1.size() + s2.size() - 2 * sumMin;
     string reason;
-    algorithm = Diagnostic::SelectAutomatic(
+    algorithm = algorithms::Analysis::SelectAutomatic(
       reason, s1.size(), s2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
@@ -207,8 +207,8 @@ uint32_t Text::Compare(
     // sweep.  Find() guards the D budget and aborts on a dissimilar input.
     //
     u32string ns1, ns2;
-    Normal::Normalize(s1, ns1, ignorecase, ignorespace);
-    Normal::Normalize(s2, ns2, ignorecase, ignorespace);
+    files::Normal::Normalize(s1, ns1, ignorecase, ignorespace);
+    files::Normal::Normalize(s2, ns2, ignorecase, ignorespace);
     length = algorithms::Myers::Find(ppairs, statistics, ns1, ns2);
     break;
   }
@@ -217,7 +217,7 @@ uint32_t Text::Compare(
     MATCHES indexesOf2MatchedByIndex1;  // holds references into indexesOf2MatchedByChar
     auto count = Match(
       indexesOf2MatchedByIndex1, indexesOf2MatchedByChar, s1, s2, ignorecase, ignorespace);
-    Diagnostic::WarnMatchCount(count, s1.size(), s2.size());
+    algorithms::Analysis::WarnMatchCount(count, s1.size(), s2.size());
     length = algorithms::HuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
     if (statistics) {
       statistics->algorithm = Algorithm::Matches;
@@ -233,8 +233,8 @@ uint32_t Text::Compare(
     // whitespace collapse can change which is shorter.
     //
     u32string ns1, ns2;
-    Normal::Normalize(s1, ns1, ignorecase, ignorespace);
-    Normal::Normalize(s2, ns2, ignorecase, ignorespace);
+    files::Normal::Normalize(s1, ns1, ignorecase, ignorespace);
+    files::Normal::Normalize(s2, ns2, ignorecase, ignorespace);
     auto isswapped = ns2.size() < ns1.size();
     const auto& shorter = isswapped ? ns2 : ns1;
     const auto& longer = isswapped ? ns1 : ns2;
@@ -248,7 +248,7 @@ uint32_t Text::Compare(
       // suggestion while a progress bar is active so it cannot interleave
       // with the bar on stderr.
       //
-      Diagnostic::SuggestRickTime(
+      algorithms::Analysis::SuggestRickTime(
         length, shorter.size(), longer.size(),
         statistics->candidates, statistics->symbols);
     if (isswapped)
@@ -273,16 +273,16 @@ uint32_t Text::Compare(
 }
 
 u32string Text::Read(const string& filename) {
-  auto bytes = Encoding::ReadBytes(filename);
-  auto [encoding, bomLength] = Encoding::GetEncoding(bytes);
+  auto bytes = files::Encoding::ReadBytes(filename);
+  auto [encoding, bomLength] = files::Encoding::GetEncoding(bytes);
 
   u32string codePoints;
-  if (Encoding::IsWide(encoding))
-    codePoints = Encoding::DecodeCodePoints(bytes, encoding);
+  if (files::Encoding::IsWide(encoding))
+    codePoints = files::Encoding::DecodeCodePoints(bytes, encoding);
   else {
     if (bomLength > 0)
       bytes.erase(0, (size_t)bomLength);
-    codePoints = Encoding::DecodeUtf8(bytes);
+    codePoints = files::Encoding::DecodeUtf8(bytes);
   }
 #ifdef KEEP_CRLF
   //
@@ -295,7 +295,7 @@ u32string Text::Read(const string& filename) {
   // Normalize CRLF to LF so -t text will ignore end-of-line differences
   // as is done for Record::Read()
   //
-  return Encoding::NormalizeCrlf(codePoints);
+  return files::Encoding::NormalizeCrlf(codePoints);
 #endif
 }
 

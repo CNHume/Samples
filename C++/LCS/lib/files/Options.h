@@ -23,7 +23,7 @@
 #include <cstdint>                      // for uint32_t
 #include <string>
 
-namespace lcs {
+namespace lcs::files {
 
   //
   // Options carries the comparison-relevant command-line parameters, so
@@ -57,4 +57,4 @@ namespace lcs {
     std::uint32_t tabsize = 8;
   };
 
-} // namespace lcs
+} // namespace lcs::files

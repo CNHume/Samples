@@ -18,12 +18,12 @@
 // 2015-01-19 CNHume  Created file
 //
 #include "modes/Record.h"
-#include "lcs/Diagnostic.h"
+#include "algorithms/Analysis.h"
 #include "metrics/Duration.h"
-#include "lcs/Encoding.h"
+#include "files/Encoding.h"
 #include "algorithms/HuntSzymanski.h"
 #include "algorithms/Myers.h"
-#include "lcs/Normal.h"
+#include "files/Normal.h"
 #include "algorithms/RickSpace.h"
 #include "algorithms/RickTime.h"
 
@@ -60,12 +60,12 @@ uint64_t Record::Match(
   uint32_t index = 0;
   string buffer;
   for (const auto& it : r2) {
-    Normal::Normalize(it, buffer, ignorecase, ignorespace);
+    files::Normal::Normalize(it, buffer, ignorecase, ignorespace);
     indexesOf2MatchedByString[buffer].push_back(index++);
   }
 
   for (const auto& it : r1) {
-    Normal::Normalize(it, buffer, ignorecase, ignorespace);
+    files::Normal::Normalize(it, buffer, ignorecase, ignorespace);
     auto& dq2 = indexesOf2MatchedByString[buffer];
     indexesOf2MatchedByIndex1.push_back(&dq2);
     count += dq2.size();
@@ -156,7 +156,7 @@ uint32_t Record::Compare(
         symbols++;
     auto editLowerBound = r1.size() + r2.size() - 2 * sumMin;
     string reason;
-    algorithm = Diagnostic::SelectAutomatic(
+    algorithm = algorithms::Analysis::SelectAutomatic(
       reason, r1.size(), r2.size(), matches, symbols, editLowerBound);
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
@@ -175,11 +175,11 @@ uint32_t Record::Compare(
     nr2.reserve(r2.size());
     string buffer;
     for (const auto& it : r1) {
-      Normal::Normalize(it, buffer, ignorecase, ignorespace);
+      files::Normal::Normalize(it, buffer, ignorecase, ignorespace);
       nr1.push_back(buffer);
     }
     for (const auto& it : r2) {
-      Normal::Normalize(it, buffer, ignorecase, ignorespace);
+      files::Normal::Normalize(it, buffer, ignorecase, ignorespace);
       nr2.push_back(buffer);
     }
     length = algorithms::Myers::Find(ppairs, statistics, nr1, nr2);
@@ -203,7 +203,7 @@ uint32_t Record::Compare(
       indexesOf2MatchedByIndex1, indexesOf2MatchedByString,
       shorter, longer, ignorecase, ignorespace);
     if (algorithm == Algorithm::Matches) {
-      Diagnostic::WarnMatchCount(count, shorter.size(), longer.size());
+      algorithms::Analysis::WarnMatchCount(count, shorter.size(), longer.size());
       length = algorithms::HuntSzymanski::Find(ppairs, indexesOf2MatchedByIndex1);
       if (statistics) {
         statistics->algorithm = Algorithm::Matches;
@@ -246,10 +246,10 @@ uint32_t Record::Compare(
 // RECORDS Reader
 //
 Record::RECORDS Record::Read(const string& filename, bool isword) {
-  auto [encoding, bomLength] = Encoding::PeekEncoding(filename);
+  auto [encoding, bomLength] = files::Encoding::PeekEncoding(filename);
 
-  if (Encoding::IsWide(encoding))
-    return Encoding::ReadWide(filename, encoding, isword);
+  if (files::Encoding::IsWide(encoding))
+    return files::Encoding::ReadWide(filename, encoding, isword);
 
   ifstream input(filename, ios::binary);
 

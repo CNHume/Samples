@@ -13,32 +13,25 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-24 CNHume  Changed to accept Options rather than Command
-// 2018-05-11 CNHume  Added word switch
-// 2017-07-09 CNHume  Created File class
+// 2026-10-19 CNHume  Created Host class
 //
 #pragma once
 
-#include "lcs/Options.h"
-#include "metrics/Progress.h"
-#include "metrics/Statistics.h"
+#include <cstdint>                      // for uint64_t
+#include <string>
 
-#include <cstdint>                      // for uint32_t
-#include <memory>                       // for shared_ptr
+namespace lcs::files {
 
-namespace lcs {
-
-  class File {
+  //
+  // Host renders a report of the host machine: the host name, locale,
+  // processor type and speed, and total physical memory, for both Windows
+  // and Linux.
+  //
+  class Host {
   public:
-    static std::uint32_t Correspondence(
-      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
-      metrics::Progress* progress,
-      const Options& options);
-
-    static std::uint32_t Difference(
-      std::shared_ptr<Delta>* intervals, metrics::Statistics* statistics,
-      metrics::Progress* progress,
-      const Options& options);
+    static std::string ToString();
+    // Available physical memory in bytes, or 0 when unknown.
+    static std::uint64_t AvailableBytes();
   };
 
-} // namespace lcs
+} // namespace lcs::files

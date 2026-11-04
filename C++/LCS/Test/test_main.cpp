@@ -28,7 +28,7 @@ using namespace std;
 
 namespace {
   //
-  // The LCS library writes CLI diagnostics (such as Diagnostic::SuggestRickTime)
+  // The LCS library writes CLI diagnostics (such as Analysis::SuggestRickTime)
   // to std::cerr.  Redirect them to a null buffer so they do not flood the
   // test report; test failures still surface through doctest on std::cout.
   //

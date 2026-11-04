@@ -25,7 +25,7 @@
 #include <tuple>
 #include <vector>
 
-namespace lcs {
+namespace lcs::files {
 
   class Encoding {
   public:
@@ -48,4 +48,4 @@ namespace lcs {
     const static std::vector<Kind> encodings;
   };
 
-} // namespace lcs
+} // namespace lcs::files

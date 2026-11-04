@@ -28,6 +28,9 @@
     <Filter Include="lcs">
       <UniqueIdentifier>{B9F5E6A7-1B2C-4D3E-AF5A-1C2D3E4F5A6B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="files">
+      <UniqueIdentifier>{C1A6F7B8-2C3D-4E4F-B0A6-2D3E4F5A6B7C}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp">
@@ -36,8 +39,8 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProgressBar.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\lib\metrics\ProgressBar.cpp">
+      <Filter>metrics</Filter>
     </ClCompile>
     <ClCompile Include="Version.cpp">
       <Filter>Source Files</Filter>
@@ -45,14 +48,14 @@
     <ClCompile Include="..\lib\lcs\Delta.cpp">
       <Filter>lcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\lcs\Diagnostic.cpp">
-      <Filter>lcs</Filter>
+    <ClCompile Include="..\lib\algorithms\Analysis.cpp">
+      <Filter>algorithms</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\metrics\Duration.cpp">
       <Filter>metrics</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\lcs\Host.cpp">
-      <Filter>lcs</Filter>
+    <ClCompile Include="..\lib\files\Host.cpp">
+      <Filter>files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\formatters\Cigar.cpp">
       <Filter>formatters</Filter>
@@ -63,11 +66,11 @@
     <ClCompile Include="..\lib\formatters\Formatter.cpp">
       <Filter>formatters</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\lcs\Encoding.cpp">
-      <Filter>lcs</Filter>
+    <ClCompile Include="..\lib\files\Encoding.cpp">
+      <Filter>files</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\lcs\File.cpp">
-      <Filter>lcs</Filter>
+    <ClCompile Include="..\lib\files\File.cpp">
+      <Filter>files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\formatters\RecordDriver.cpp">
       <Filter>formatters</Filter>
@@ -81,8 +84,8 @@
     <ClCompile Include="..\lib\algorithms\Myers.cpp">
       <Filter>algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="..\lib\lcs\Normal.cpp">
-      <Filter>lcs</Filter>
+    <ClCompile Include="..\lib\files\Normal.cpp">
+      <Filter>files</Filter>
     </ClCompile>
     <ClCompile Include="..\lib\formatters\Parallel.cpp">
       <Filter>formatters</Filter>
@@ -113,8 +116,8 @@
     <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ProgressBar.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\lib\metrics\ProgressBar.h">
+      <Filter>metrics</Filter>
     </ClInclude>
     <ClInclude Include="Version.h">
       <Filter>Header Files</Filter>
@@ -122,8 +125,8 @@
     <ClInclude Include="..\lib\lcs\Delta.h">
       <Filter>lcs</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\Diagnostic.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\algorithms\Analysis.h">
+      <Filter>algorithms</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\metrics\Duration.h">
       <Filter>metrics</Filter>
@@ -131,8 +134,8 @@
     <ClInclude Include="..\lib\metrics\Statistics.h">
       <Filter>metrics</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\Host.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\files\Host.h">
+      <Filter>files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\lcs\join.h">
       <Filter>lcs</Filter>
@@ -146,11 +149,11 @@
     <ClInclude Include="..\lib\formatters\Edit.h">
       <Filter>formatters</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\Encoding.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\files\Encoding.h">
+      <Filter>files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\File.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\files\File.h">
+      <Filter>files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\formatters\Format.h">
       <Filter>formatters</Filter>
@@ -170,11 +173,11 @@
     <ClInclude Include="..\lib\algorithms\Myers.h">
       <Filter>algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\Normal.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\files\Normal.h">
+      <Filter>files</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\Options.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="..\lib\files\Options.h">
+      <Filter>files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\formatters\Parallel.h">
       <Filter>formatters</Filter>
@@ -197,8 +200,8 @@
     <ClInclude Include="..\lib\lcs\Pair.h">
       <Filter>lcs</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\lcs\SuspectDash.h">
-      <Filter>lcs</Filter>
+    <ClInclude Include="SuspectDash.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lib\metrics\Progress.h">
       <Filter>metrics</Filter>

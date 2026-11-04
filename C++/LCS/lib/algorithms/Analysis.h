@@ -13,7 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, see <https://www.gnu.org/licenses/>.
 //
-// 2026-10-16 CNHume  Created Diagnostic class
+// 2026-10-16 CNHume  Created Analysis class
+// 2026-11-03 CNHume  Renamed to Analysis; moved to lcs::algorithms
 //
 #pragma once
 
@@ -22,14 +23,14 @@
 #include <cstdint>                      // for uint64_t
 #include <string>                       // for string
 
-namespace lcs {
+namespace lcs::algorithms {
 
   //
-  // Diagnostic reports warnings when an LCS algorithm is about to hit a
-  // pathological case, so users can switch to a more suitable algorithm
-  // before paying the cost.
+  // Analysis selects the algorithm for a comparison and warns when an LCS
+  // algorithm is about to hit a pathological case, so users can switch to a
+  // more suitable algorithm before paying the cost.
   //
-  class Diagnostic {
+  class Analysis {
   public:
     // Hunt-Szymanski degenerates when the match count r is large relative
     // to the full m x n matching matrix, since it runs in O((r + n) log n).
@@ -64,4 +65,4 @@ namespace lcs {
       std::uint64_t editLowerBound);
   };
 
-} // namespace lcs
+} // namespace lcs::algorithms

@@ -17,7 +17,7 @@
 // 2026-10-08 CNHume  Created TextDriver class
 //
 #include "formatters/TextDriver.h"
-#include "lcs/Encoding.h"
+#include "files/Encoding.h"
 
 using namespace std;
 using namespace lcs;
@@ -73,7 +73,7 @@ SideSpan TextDriver::MakeSpan(
   span.begin = begin;
   span.end = end;
   span.lines.push_back(
-    Encoding::ToUtf8(s.substr(begin, end - begin)));
+    files::Encoding::ToUtf8(s.substr(begin, end - begin)));
   return span;
 }
 

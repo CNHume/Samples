@@ -15,8 +15,8 @@
 //
 // 2026-10-07 CNHume  Created Encoding class
 //
-#include "lcs/Encoding.h"
-#include "lcs/Normal.h"
+#include "files/Encoding.h"
+#include "files/Normal.h"
 
 #include <cstdint>                      // for uint32_t
 #include <format>                       // for format
@@ -25,7 +25,7 @@
 #include <stdexcept>                    // for runtime_error
 
 using namespace std;
-using namespace lcs;
+using namespace lcs::files;
 
 tuple<Encoding::Kind, int> Encoding::GetEncoding(const string& buffer) {
   for (int index = 0; index < (int)BOM.size(); index++) {

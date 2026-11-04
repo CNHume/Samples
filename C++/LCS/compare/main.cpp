@@ -28,8 +28,8 @@
 // the overview provided in "Doc/LCS Overview.md"
 //
 #include "Command.h"
-#include "lcs/File.h"
-#include "ProgressBar.h"
+#include "files/File.h"
+#include "metrics/ProgressBar.h"
 #include "metrics/Statistics.h"
 
 #include <cstdlib>                      // for EXIT_FAILURE, EXIT_SUCCESS
@@ -68,11 +68,11 @@ int main(int argc, char* argv[]) {
       nullptr : &intervals;
 
     metrics::Statistics statistics;
-    ProgressBar progressBar;
+    metrics::ProgressBar progressBar;
     auto progress = command.isprogress ? &progressBar : nullptr;
     auto length = command.iscorrespondence ?
-      File::Correspondence(pintervals, &statistics, progress, command) :
-      File::Difference(pintervals, &statistics, progress, command);
+      files::File::Correspondence(pintervals, &statistics, progress, command) :
+      files::File::Difference(pintervals, &statistics, progress, command);
 
     if (command.isverbose || command.islength)
       cerr << format(
