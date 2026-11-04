@@ -55,17 +55,21 @@ void Edit::Layout(
 void Edit::EndResult() {}
 
 //
-// Format one side of an @@ header from a semi-open [begin, end) range.  A
-// count of 0 means the block has no lines from that file, so the start is the
-// line just before the block; a count of 1 is omitted.
+// Format one side of an @@ header from a semi-open [begin, end) range.
 //
 string Edit::Range(uint32_t begin, uint32_t end) {
   auto count = end - begin;
-  if (count == 0)
-    return format("{},0", begin);       // empty: start is the line before the block
-  auto line = begin + 1;                // 1-based start line
+  if (count == 0) {
+    //
+    // A count of 0 means the block has no lines from that file,
+    // so the start is the line just before the block.
+    //
+    return format("{},{}", begin, count);
+  }       
+  auto line = begin + 1;                // start line is 1-based
   return count == 1 ?
-    format("{}", line) : format("{},{}", line, count);
+    format("{}", line) :                // A count of 1 is omitted
+    format("{},{}", line, count);
 }
 
 //
