@@ -1,6 +1,6 @@
 # LCS Library Design
 
-How the reusable C++ library in `lib/` was factored out of the `compare`
+How the reusable C++ library in `lib/` was factored out of the `nabla`
 command-line tool.
 
 ## Goal
@@ -81,7 +81,7 @@ public:
 };
 ```
 
-`compare`'s `Command` parses the full switch set.
+`nabla`'s `Command` parses the full switch set.
 
 ### LCSFile interface
 
@@ -129,7 +129,7 @@ binaries are shipped later:
 
 ## Library vs. tool boundary
 
-**Library (`lib/`)** — moved from `compare/` and wrapped in `namespace lcs`:
+**Library (`lib/`)** — moved from `nabla/` and wrapped in `namespace lcs`:
 
 - `Pair`, `Delta`
 - `LCS` (typedefs + `Algorithm`), `LCSHuntSzymanski`, `LCSRickSpace`,
@@ -140,7 +140,7 @@ binaries are shipped later:
 - `LCSFormatRecord`, `LCSFormatText`, `Statistics`
 - `Duration`, `Stopwatch`, `Diagnostic`, `Environment`, `join`
 
-**Tool (`compare/`)** — remains tool-specific:
+**Tool (`nabla/`)** — remains tool-specific:
 
 - `main.cpp` — maps `Command` → `LCSOptions`, picks `Correspondence` vs.
   `Difference`, and handles the null-interval length-only case.

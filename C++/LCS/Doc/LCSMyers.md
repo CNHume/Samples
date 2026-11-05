@@ -9,7 +9,7 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 two sequences.  The shortest edit script is the dual of the LCS — the diagonal
 "snake" runs are exactly the matched positions — and the classic algorithm
 finds it in `O(ND)` time, where `N = n + m` is the total length of the two
-sequences and `D` is the edit distance.  In `compare` it is
+sequences and `D` is the edit distance.  In `nabla` it is
 selected with `-ad` (the edit-distance case of the `-a` algorithm switch).
 
 ## Relationship to the other classes
@@ -64,7 +64,7 @@ spending `O(D²)` time and memory.
 
 ## Selection
 
-In `compare`, `-ad` selects `LCSMyers` for both the character (code-point) path
+In `nabla`, `-ad` selects `LCSMyers` for both the character (code-point) path
 (`-T -ad`) and the default record/word path.  On the record path each record is
 normalized for case/space before comparison; normalization preserves record
 indices, so the matched positions map 1:1 back to the input records.

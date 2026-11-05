@@ -24,7 +24,7 @@
 #include <string>
 
 //
-// Command parses the compare tool's command line.  The comparison parameters
+// Command parses the nabla tool's command line.  The comparison parameters
 // are inherited from lcs::files::Options; only the tool-specific switches are
 // declared here.
 //

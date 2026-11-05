@@ -1,13 +1,13 @@
-.\" Manual page for the compare command
-.TH COMPARE 1 "October 2026" "compare 1.0" "User Commands"
+.\" Manual page for the nabla command
+.TH NABLA 1 "October 2026" "nabla 1.0" "User Commands"
 .SH NAME
-compare \- longest common subsequence of two files
+nabla \- longest common subsequence of two files
 .SH SYNOPSIS
-.B compare
+.B nabla
 [\fIoptions\fR] [--]
 .I file1 file2
 .SH DESCRIPTION
-.B compare
+.B nabla
 computes the Longest Common Subsequence (LCS) of
 .I file1
 and
@@ -317,35 +317,35 @@ otherwise they are printed ungrouped.
 Compare two files line by line and show the differences:
 .nf
 .RS
-compare old.txt new.txt
+nabla old.txt new.txt
 .RE
 .fi
 .TP
 Compare side by side (parallel output) with 40-character sides and 2-space tab stops:
 .nf
 .RS
-compare -yp -W 40 -t 2 old.txt new.txt
+nabla -yp -W 40 -t 2 old.txt new.txt
 .RE
 .fi
 .TP
 Compare as text (code points), case-insensitively, showing only the length:
 .nf
 .RS
-compare -i -l -T a.fa b.fa
+nabla -i -l -T a.fa b.fa
 .RE
 .fi
 .TP
 Compare two FASTA genomes with the linear-space algorithm and show matches:
 .nf
 .RS
-compare -As -C -F ecoli_mg1655.seq ecoli_mg1655_100subs.seq
+nabla -As -C -F ecoli_mg1655.seq ecoli_mg1655_100subs.seq
 .RE
 .fi
 .TP
 Compare two literal strings rather than files:
 .nf
 .RS
-compare -Q "the quick sly fox jumped" "over the lazy brown dog"
+nabla -Q "the quick sly fox jumped" "over the lazy brown dog"
 .RE
 .fi
 .SH SEE ALSO

@@ -1,6 +1,6 @@
 # LCS Algorithm Selection
 
-`compare` ships four LCS algorithms, each with a regime where it is fastest.
+`nabla` ships four LCS algorithms, each with a regime where it is fastest.
 This documents those regimes and the heuristic that selects among them.
 Measurements come from `test perf region` on the same host as
 `LCSPerformance.md` (Intel Core i7-9700K, 8 cores, 3.60 GHz, 15 GB RAM, WSL2);

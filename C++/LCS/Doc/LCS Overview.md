@@ -158,7 +158,7 @@ making the honest time `O(ns + m + min{pm, p(n−p)})`.
 
 RickTime pays for the same `d` in *space* — it records every dominant match so
 it can reconstruct the LCS, giving `O(ns + d)` — and on a large near-identical
-input `d ≈ p(n−p)/2` can exceed RAM even when the edit count is tiny.  `compare`
+input `d ≈ p(n−p)/2` can exceed RAM even when the edit count is tiny.  `nabla`
 therefore checks the recording budget against the dominant-match count RickSpace
 just measured before recommending `-at`.
 

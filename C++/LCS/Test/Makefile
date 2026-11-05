@@ -6,7 +6,7 @@
 #
 # The test binary links the shared library sources in ../lib/ together with
 # the doctest test cases in this directory, so the tests exercise the same
-# code the compare tool ships.
+# code the nabla tool ships.
 
 CXX      ?= g++
 CPPFLAGS ?= -I../lib -I. -DTEST_DATA_DIR=\"$(abspath ../data)\"

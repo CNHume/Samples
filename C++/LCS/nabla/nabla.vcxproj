@@ -13,8 +13,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{14BD6659-EB48-4058-AD46-F8BF2E4C6916}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>compare</RootNamespace>
-    <ProjectName>compare</ProjectName>
+    <RootNamespace>nabla</RootNamespace>
+    <ProjectName>nabla</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

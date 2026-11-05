@@ -1,4 +1,4 @@
-# Makefile for compare — GNU/Linux out-of-source build.
+# Makefile for nabla — GNU/Linux out-of-source build.
 #
 #   make                                                  release build into build/
 #   make BUILD=build-debug CXXFLAGS="-std=c++20 -O0 -g -Wall -Wextra"
@@ -6,13 +6,13 @@
 #   make clean                                            remove the default build/
 #   make BUILD=build-debug clean                          remove a named build directory
 #
-# The executable lands at $(BUILD)/compare and the object files at
+# The executable lands at $(BUILD)/nabla and the object files at
 # $(BUILD)/*.o, so no artifacts are written beside the sources.  Each
 # compile also emits a build/*.d header-dependency file (DEPFLAGS), which
 # the -include below pulls in so a header edit rebuilds its dependents.
 #
 # The tool sources in this directory are linked with the shared library
-# sources in ../lib/ (the LCS library extracted from compare).
+# sources in ../lib/ (the LCS library extracted from nabla).
 #
 # CXX, CPPFLAGS, and CXXFLAGS honor environment overrides and are also
 # overridable on the make command line (GNU convention); DEPFLAGS is
@@ -29,7 +29,7 @@ OBJECTS := $(patsubst %.cpp,$(BUILD)/%.o,$(SOURCES))
 LIB_SOURCES := $(wildcard ../lib/*.cpp ../lib/*/*.cpp)
 LIB_OBJECTS := $(patsubst ../lib/%.cpp,$(BUILD)/%.o,$(LIB_SOURCES))
 DEPS    := $(OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
-TARGET  := $(BUILD)/compare
+TARGET  := $(BUILD)/nabla
 
 .PHONY: all clean
 all: $(TARGET)

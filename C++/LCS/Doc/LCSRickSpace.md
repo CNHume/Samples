@@ -5,7 +5,7 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 > Claus Rick, "Simple and fast linear space computation of longest common
 > subsequences", *Information Processing Letters* 75 (2000), pp. 275–281.
 
-`LCSRickSpace` is the Rick/Hirschberg refinement integrated into the `compare`
+`LCSRickSpace` is the Rick/Hirschberg refinement integrated into the `nabla`
 application.  It is a run-time alternative to `LCSHuntSzymanski`, selected with
 the `-as` switch in `-T` (text) mode.
 
@@ -195,7 +195,7 @@ on the resulting pairs.  `LCSRickSpace::Find()` itself is orientation-agnostic.
 
 ## Selection
 
-In `compare`, the `-a` switch selects the LCS algorithm: `-aa` (Automatic, the
+In `nabla`, the `-a` switch selects the LCS algorithm: `-aa` (Automatic, the
 default), `-am` (`LCSHuntSzymanski`), `-ad` (`LCSMyers`), `-at` (`LCSRickTime`,
 the 1995 flexible algorithm), or `-as` (`LCSRickSpace`, this algorithm).
 `LCSRickSpace` serves the character (code-point) path under `-t` and the
@@ -405,7 +405,7 @@ is benchmarked here.
 The two reverted experiments settled the question: RickSpace's linear-space
 recomputation is near-optimal, and the only lever that reaches RickTime's speed
 is RickTime's memory.  So instead of making either algorithm something it is not —
-or auto-switching between them — `compare` keeps the explicit `-am`/`-as`/`-at`
+or auto-switching between them — `nabla` keeps the explicit `-am`/`-as`/`-at`
 choice and *advises* the user when that choice is pathological for the input.
 This delivers the hybrid's value (steering toward the better algorithm) without
 its try/fail/retry: no automatic re-run, no bimodal performance, and the user
@@ -435,7 +435,7 @@ and advisory, so imprecision is acceptable — the user simply re-runs.
 
 ### Why advisory, not automatic
 
-- `compare` is already user-driven through `-am`/`-as`/`-at`; an auto mode would
+- `nabla` is already user-driven through `-am`/`-as`/`-at`; an auto mode would
   second-guess an explicit choice.
 - No try/fail/retry means no variable, bimodal performance (the objection to the
   auto-select form of this plan).
@@ -451,8 +451,8 @@ and advisory, so imprecision is acceptable — the user simply re-runs.
   free `byRank` and report "too large" instead of running on into an OOM.  This
   reuses the bail-out *detection* from the earlier auto-select design, but it
   *reports* rather than *retries*.
-- **RickSpace suggestion** — after `Find` returns `p`, compare emits the hint when
-  `min(m, n) − p ≤ threshold`; the existing `Diagnostic` machinery is the natural
+- **RickSpace suggestion** — after `Find` returns `p`, nabla emits the hint when
+  `min(m, n) − p ≤ threshold`; the existing `Analysis` machinery is the natural
   home for both hints.
 
 ### Open questions
@@ -467,17 +467,17 @@ and advisory, so imprecision is acceptable — the user simply re-runs.
 ## Build and test
 
 C++20 (uses `std::format`, `std::ssize`, and designated initializers).  From
-`../compare`:
+`../nabla`:
 
 ```sh
-g++ -std=c++20 -O2 -Wall -Wextra *.cpp -o compare
+g++ -std=c++20 -O2 -Wall -Wextra *.cpp -o nabla
 
 # Difference (Hunt-Szymanski vs. RickSpace):
-compare -t     file1 file2
-compare -as -t file1 file2
+nabla -t     file1 file2
+nabla -as -t file1 file2
 
 # Correspondence:
-compare -as -c -t file1 file2
+nabla -as -c -t file1 file2
 ```
 
 Correctness was verified against an O(m·n) dynamic-programming reference and

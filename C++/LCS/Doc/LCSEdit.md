@@ -1,6 +1,6 @@
 # LCSEdit — GNU unified diff output
 
-`compare -u` emits a GNU unified diff — a patch — of the two files.  It is the
+`nabla -u` emits a GNU unified diff — a patch — of the two files.  It is the
 `Format::Edit` output format, rendered by the `LCSEdit` formatter (an
 `LCSFormat` subclass).  Context is taken from the existing `-p`/`-s` switches,
 defaulting to 3.
@@ -231,4 +231,4 @@ drives `BeginResult`/`BeginInterval`/`Layout`/`EndResult`, passing `delta->kind`
   to `prefix`/`suffix` unless `-p`/`-s` set them; reject the conflicts above.
 - `LCSFile::Difference`: branch on `format == Edit` and drive the edit driver.
 - `LCSEdit` (an `LCSFormat` subclass) and the interval builder (index arithmetic).
-- `man/compare.1`: document `-u` and the conflicts.
+- `man/nabla.1`: document `-u` and the conflicts.

@@ -9,7 +9,7 @@ An implementation of the Longest Common Subsequence (LCS) problem based on:
 `LCSRickTime` is Rick's *"flexible"* algorithm — efficient for short,
 intermediate, and long LCS.  It reaches the `O(ns + min{pm, p(n−p)})` time
 bound at `O(ns + d)` space, where `d` is the number of dominant matches.  In
-`compare` it is selected with `-at` (the "time" case of the `-a` algorithm
+`nabla` it is selected with `-at` (the "time" case of the `-a` algorithm
 switch).
 
 ## Relationship to the other classes
@@ -54,14 +54,14 @@ match.  `FindFlexibleLength` is the length-only variant (it skips recording).
 | `LCSRickTime` | `O(ns + min{pm, p(n−p)})` | `O(ns + d)` |
 | `LCSRickSpace` (contrast) | `O(ns + min{pm, p(n−p)})` | `O(ns)`, linear |
 
-When reconstruction is requested, `compare` aborts RickTime before its `byRank`
+When reconstruction is requested, `nabla` aborts RickTime before its `byRank`
 recording passes `Diagnostic::RecordingBudget` (the available RAM less the `ns`
 tables), and the `-at` hint RickSpace emits applies the same test before
 recommending RickTime.
 
 ## Selection
 
-In `compare`, `-at` selects `LCSRickTime` for both the character (code-point)
+In `nabla`, `-at` selects `LCSRickTime` for both the character (code-point)
 path (`-T -at`) and the record/word path.  On the record path the `O(ns)`
 tables are built from the shared match lists — match-list pointer identity is
 the symbol→id compression, the same compression `LCSRickSpace` uses.
