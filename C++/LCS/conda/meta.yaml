@@ -1,0 +1,47 @@
+# Bioconda recipe for nabla.
+#
+# Drafted against the planned standalone home github.com/CNHume/nabla.
+# Once that repo exists and v1.0.0 is tagged, fill in the source sha256
+# below and submit meta.yaml + build.sh to bioconda-recipes under
+# recipes/nabla/.
+
+{% set name = "nabla" %}
+{% set version = "1.0.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/CNHume/nabla/archive/refs/tags/v{{ version }}.tar.gz
+  # TODO(release): replace with `curl -sL <url> | sha256sum` after tagging.
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - make
+    - {{ compiler('cxx') }}
+
+test:
+  commands:
+    - nabla -V
+
+about:
+  home: https://github.com/CNHume/nabla
+  license: LGPL-3.0-or-later
+  license_file:
+    - nabla/LICENSES/COPYING_LESSER.txt
+    - nabla/LICENSES/COPYING.txt
+  summary: "Longest common subsequence of two sequences or files, with FASTA input and CIGAR output."
+  description: |
+    nabla finds the longest common subsequence (LCS) of two files or
+    records, selecting among Myers, Hunt-Szymanski, RickSpace, and RickTime
+    via automatic dispatch.  It reads FASTA (-F) and emits SAM CIGAR
+    alignments (-G).
+
+extra:
+  recipe-maintainers:
+    - CNHume
