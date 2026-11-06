@@ -100,9 +100,9 @@ TEST_CASE("reconstruction is a valid LCS (fixed cases, DP cross-check)") {
   const vector<pair<string, string>> cases = {
     { "ACGTACGTACGT", "ACGTAGGTACGT" },  // the Pair destructor bug case
     { "ABCDEFGHIJ", "ABXDEFGHIJ" },      // clean substitution
-    { "AAAAAA", "AAAAAA" },              // identical, maximal redundancy
+    { "AAAAAA", "AAAAAA" },              // identical, maximal density
     { "AAAAAA", "BBBBBB" },              // disjoint
-    { "AABB", "ABAB" },                  // redundant
+    { "AABB", "ABAB" },                  // dense
     { "A", "A" },
     { "A", "B" },
     { "", "" },
@@ -140,7 +140,7 @@ TEST_CASE("reconstruction valid on random low-alphabet strings") {
   }
 }
 
-TEST_CASE("algorithms agree on larger redundant inputs") {
+TEST_CASE("algorithms agree on larger dense inputs") {
   mt19937 rng(999);
   const string ab = "ACGT";
   for (int iter = 0; iter < 30; ++iter) {

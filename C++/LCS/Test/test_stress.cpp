@@ -130,7 +130,7 @@ namespace {
   //
   // Record path (line/word): mirror the text-path fuzz over sequences of
   // records.  Records are drawn from a pool of distinct strings, so the pool
-  // size plays the role of the alphabet size and controls redundancy.
+  // size plays the role of the alphabet size and controls the match density.
   //
 
   uint32_t dpLengthRecords(const vector<string>& a, const vector<string>& b) {
@@ -245,7 +245,7 @@ int runRecordStress(int argc, char* argv[]) {
   auto seed = argc > 2 ? (uint32_t)strtoul(argv[2], nullptr, 10) : 1u;
   rngState = seed ? seed : 1u;
 
-  // Small record pool (redundant) stresses the match structure.
+  // Small record pool (dense) stresses the match structure.
   for (uint64_t t = 0; t < trials; ++t) {
     auto poolSize = (size_t)(1 + nextRand() % 4);
     auto r1 = randomRecords(nextRand() % 40, poolSize);

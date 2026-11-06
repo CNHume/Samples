@@ -191,7 +191,7 @@ namespace {
     }
     auto k = n / s;
 
-    // Block-structured identical strings: s1 = s2, redundancy = n/s.
+    // Block-structured identical strings: s1 = s2, density = 1/s.
     deque<uint32_t> s1;
     for (uint32_t sym = 0; sym < s; ++sym)
       for (uint32_t i = 0; i < k; ++i)
@@ -219,10 +219,10 @@ namespace {
 
     auto [lengthF, pairsF, timeF] = run(true);
     auto [lengthN, pairsN, timeN] = run(false);
-    printf("n=%u s=%u redundancy=%.3f r=%llu length=%u "
+    printf("n=%u s=%u density=%.4f r=%llu length=%u "
       "pairs_filt=%llu pairs_nofilt=%llu "
       "time_filt=%.6f time_nofilt=%.6f t_ratio=%.3f\n",
-      n, s, (double)r / n, (unsigned long long)r, lengthF,
+      n, s, (double)r / ((double)n * n), (unsigned long long)r, lengthF,
       (unsigned long long)pairsF, (unsigned long long)pairsN,
       timeF, timeN, timeN / timeF);
     return 0;
@@ -232,8 +232,9 @@ namespace {
   // Region benchmark: time each algorithm over a grid of (input length,
   // alphabet size) on near-identical inputs.  The substitution count sets the
   // EditDistance (D = 2*subs for substitution-only edits); the skew parameter
-  // decouples Redundancy from AlphabetSize (uniform gives rho ~ n/s, while a
-  // Zipf-like skew concentrates frequency so rho stays high even at large s).
+  // decouples density from alphabet size (uniform gives density ~ 1/s, while
+  // a Zipf-like skew concentrates frequency so density stays high even at
+  // large s).
   //
   uint32_t regionRng = 0x12345678u;
   uint32_t regionRand() {
@@ -278,7 +279,7 @@ namespace {
     return q;
   }
 
-  double regionRedundancy(const u32string& a, const u32string& b, size_t s) {
+  double regionDensity(const u32string& a, const u32string& b, size_t s) {
     vector<uint64_t> c1(s, 0), c2(s, 0);
     for (auto c : a)
       c1[(size_t)(c - U'A')]++;
@@ -287,7 +288,7 @@ namespace {
     uint64_t r = 0;
     for (size_t i = 0; i < s; ++i)
       r += c1[i] * c2[i];
-    return (double)r / a.size();       // matches per position (rho)
+    return (double)r / ((double)a.size() * (double)b.size());  // ρ = r/(mn), in [0,1]
   }
 
   double regionTime(Algorithm algo, const u32string& a, const u32string& b) {
@@ -317,7 +318,7 @@ namespace {
       Algorithm::RickTime,
     };
 
-    printf("InputLength\tAlphabetSize\tRedundancy\tEditDistance\tH-S\tMyers\tRickSpace\tRickTime\n");
+    printf("InputLength\tAlphabetSize\tDensity\tEditDistance\tH-S\tMyers\tRickSpace\tRickTime\n");
     for (auto n : lengths) {
       for (auto s : alphabets) {
         regionRng = 0x12345678u;
@@ -334,8 +335,8 @@ namespace {
           b = regionMutate(a, s, subs);
           D = 2 * subs;
         }
-        auto rho = regionRedundancy(a, b, s);
-        printf("%zu\t%zu\t%.2f\t%zu", 2 * n, s, rho, D);
+        auto density = regionDensity(a, b, s);
+        printf("%zu\t%zu\t%.4f\t%zu", 2 * n, s, density, D);
         for (auto algo : algos) {
           auto t = regionTime(algo, a, b);
           if (t < 0)
