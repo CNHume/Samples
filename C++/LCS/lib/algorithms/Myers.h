@@ -57,6 +57,17 @@ namespace lcs::algorithms {
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       const std::vector<std::string>& r1, const std::vector<std::string>& r2);
+    //
+    // Length-only probe: run the forward D-path sweep up to `budget`, keeping
+    // only the previous frontier (O(budget) memory), and return the edit
+    // distance D, or -1 when D exceeds the budget.  The -Aa dispatch uses this
+    // to test whether Myers is in its fast range before committing to its
+    // O(D^2) reconstruction history.
+    //
+    static std::int64_t ProbeDistance(
+      const std::u32string& s1, const std::u32string& s2, std::int64_t budget);
+    static std::int64_t ProbeDistance(
+      const std::vector<std::string>& r1, const std::vector<std::string>& r2, std::int64_t budget);
   };
 
 } // namespace lcs::algorithms

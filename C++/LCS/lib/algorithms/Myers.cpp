@@ -63,6 +63,47 @@ namespace {
   }
 
   //
+  // Length-only probe: forward D-path sweep keeping only the previous frontier,
+  // so memory is O(budget) rather than the O(D^2) reconstruction history.  The
+  // -Aa dispatch uses this to test whether Myers is in its fast range.
+  //
+  template <typename Sequence>
+  int64_t ProbeDistanceCore(const Sequence& s1, const Sequence& s2, int64_t budget) {
+    auto m = (int64_t)s1.size();
+    auto n = (int64_t)s2.size();
+    int64_t x = 0;
+    int64_t y = 0;
+    while (x < m && y < n && s1[(size_t)x] == s2[(size_t)y]) {
+      x++;
+      y++;
+    }
+    if (x >= m && y >= n)
+      return 0;
+    vector<int64_t> prev{ x };
+    for (int64_t d = 1; d <= budget; d++) {
+      vector<int64_t> v((size_t)(2 * d + 1), 0);
+      for (int64_t k = -d; k <= d; k += 2) {
+        if (k == -d || (k != d && prev[(size_t)(k - 1 + d - 1)] < prev[(size_t)(k + 1 + d - 1)])) {
+          x = prev[(size_t)(k + 1 + d - 1)];         // down move (insertion)
+        }
+        else {
+          x = prev[(size_t)(k - 1 + d - 1)] + 1;     // right move (deletion)
+        }
+        y = x - k;
+        while (x < m && y < n && s1[(size_t)x] == s2[(size_t)y]) {
+          x++;
+          y++;
+        }
+        v[(size_t)(k + d)] = x;
+        if (x >= m && y >= n)
+          return d;
+      }
+      prev = move(v);
+    }
+    return -1;                              // D exceeds the budget
+  }
+
+  //
   // The Myers core, templated over the sequence type so the code-point path
   // (u32string) and the record path (vector<string>) share one implementation.
   //
@@ -197,6 +238,16 @@ uint32_t Myers::Find(
   shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
   const vector<string>& r1, const vector<string>& r2) {
   return MyersFind(pairs, statistics, r1, r2);
+}
+
+int64_t Myers::ProbeDistance(
+  const u32string& s1, const u32string& s2, int64_t budget) {
+  return ProbeDistanceCore(s1, s2, budget);
+}
+
+int64_t Myers::ProbeDistance(
+  const vector<string>& r1, const vector<string>& r2, int64_t budget) {
+  return ProbeDistanceCore(r1, r2, budget);
 }
 
 } // namespace lcs::algorithms

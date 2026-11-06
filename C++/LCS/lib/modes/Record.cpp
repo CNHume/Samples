@@ -134,30 +134,37 @@ uint32_t Record::Compare(
 
   if (algorithm == Algorithm::Automatic) {
     //
-    // Heuristic dispatch over records: same decision tree as the text path,
-    // with record strings as the symbols.
+    // Heuristic dispatch over records: probe Myers with a tight band, then
+    // select among the remaining algorithms from the match count and alphabet
+    // size, with record strings as the symbols.
     //
     unordered_map<string, uint64_t> count1, count2;
     for (const auto& rec : r1)
       count1[rec]++;
     for (const auto& rec : r2)
       count2[rec]++;
-    uint64_t symbols = 0, matches = 0, sumMin = 0;
+    uint64_t symbols = 0, matches = 0;
     for (const auto& [symbol, count] : count1) {
       symbols++;
       auto found = count2.find(symbol);
-      if (found != count2.end()) {
+      if (found != count2.end())
         matches += count * found->second;
-        sumMin += min(count, found->second);
-      }
     }
     for (const auto& [symbol, count] : count2)
       if (count1.find(symbol) == count1.end())
         symbols++;
-    auto editLowerBound = r1.size() + r2.size() - 2 * sumMin;
     string reason;
-    algorithm = algorithms::Analysis::SelectAutomatic(
-      reason, r1.size(), r2.size(), matches, symbols, editLowerBound);
+    auto d = algorithms::Myers::ProbeDistance(
+      r1, r2, (int64_t)algorithms::Analysis::EditThreshold);
+    if (d >= 0) {
+      algorithm = Algorithm::EditDistance;
+      reason = format("Myers edit distance {} is within the {} threshold",
+        d, algorithms::Analysis::EditThreshold);
+    }
+    else {
+      algorithm = algorithms::Analysis::SelectAutomatic(
+        reason, r1.size(), r2.size(), matches, symbols);
+    }
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
         metrics::Statistics::NameOf(algorithm), reason);

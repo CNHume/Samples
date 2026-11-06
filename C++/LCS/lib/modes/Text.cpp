@@ -169,8 +169,8 @@ uint32_t Text::Compare(
 
   if (algorithm == Algorithm::Automatic) {
     //
-    // Heuristic dispatch: estimate the edit-distance lower bound and the match
-    // count from the symbol counts, then select per LCSAlgorithmSelection.md.
+    // Heuristic dispatch: probe Myers with a tight band, then select among the
+    // remaining algorithms from the match count and alphabet size.
     // Report the choice and its reason under verbose.
     //
     unordered_map<char32_t, uint64_t> count1, count2;
@@ -178,22 +178,28 @@ uint32_t Text::Compare(
       count1[c]++;
     for (auto c : s2)
       count2[c]++;
-    uint64_t symbols = 0, matches = 0, sumMin = 0;
+    uint64_t symbols = 0, matches = 0;
     for (const auto& [symbol, count] : count1) {
       symbols++;
       auto found = count2.find(symbol);
-      if (found != count2.end()) {
+      if (found != count2.end())
         matches += count * found->second;
-        sumMin += min(count, found->second);
-      }
     }
     for (const auto& [symbol, count] : count2)
       if (count1.find(symbol) == count1.end())
         symbols++;
-    auto editLowerBound = s1.size() + s2.size() - 2 * sumMin;
     string reason;
-    algorithm = algorithms::Analysis::SelectAutomatic(
-      reason, s1.size(), s2.size(), matches, symbols, editLowerBound);
+    auto d = algorithms::Myers::ProbeDistance(
+      s1, s2, (int64_t)algorithms::Analysis::EditThreshold);
+    if (d >= 0) {
+      algorithm = Algorithm::EditDistance;
+      reason = format("Myers edit distance {} is within the {} threshold",
+        d, algorithms::Analysis::EditThreshold);
+    }
+    else {
+      algorithm = algorithms::Analysis::SelectAutomatic(
+        reason, s1.size(), s2.size(), matches, symbols);
+    }
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",
         metrics::Statistics::NameOf(algorithm), reason);

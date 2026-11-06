@@ -55,14 +55,20 @@ namespace lcs::algorithms {
     // Warn that Myers' edit distance exceeded its budget.
     static void WarnMyersDistance(std::uint64_t distance, std::uint64_t budget);
     //
-    // Automatic (-Aa) dispatch: select the algorithm from the three metrics and
-    // record the reason in `reason` for verbose output.
+    // The edit distance below which Myers is preferred by the -Aa dispatch.
+    // The dispatcher probes Myers with this budget rather than estimating D
+    // from symbol counts, which is far too weak for balanced alphabets.
+    //
+    static constexpr std::uint64_t EditThreshold = 2000;
+    //
+    // Automatic (-Aa) dispatch: select among the non-Myers algorithms from the
+    // match count and alphabet size, and record the reason in `reason`.
+    // Myers is decided separately by a banded probe (see EditThreshold).
     //
     static Algorithm SelectAutomatic(
       std::string& reason,
       std::uint64_t m, std::uint64_t n,
-      std::uint64_t matches, std::uint64_t symbols,
-      std::uint64_t editLowerBound);
+      std::uint64_t matches, std::uint64_t symbols);
   };
 
 } // namespace lcs::algorithms
