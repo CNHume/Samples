@@ -33,9 +33,21 @@
 
 #include <cstdint>                      // for uint32_t
 #include <memory>                       // for shared_ptr
+#include <stdexcept>                    // for runtime_error
 #include <string>                       // for u32string
 
 namespace lcs::algorithms {
+
+  //
+  // Thrown when reconstruction's dominant-match recording would exceed the
+  // memory budget.  The -Aa dispatcher catches this and falls back to RickSpace
+  // (linear space), so it can run RickTime speculatively without a separate
+  // probe pass.
+  //
+  struct RickTimeBudgetExceeded : public std::runtime_error {
+    explicit RickTimeBudgetExceeded(const std::string& what)
+      : std::runtime_error(what) {}
+  };
 
   class RickTime {
   public:
@@ -57,17 +69,6 @@ namespace lcs::algorithms {
     static std::uint32_t Find(
       std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       metrics::Progress* progress,
-      const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
-    //
-    // Length-only probe: run the diagonal sweep without recording and return
-    // the number of dominant matches that reconstruction would store.  The -Aa
-    // dispatch compares this against the recording budget instead of the total
-    // match count, which over-estimates dense alphabets (e.g. DNA) by an order
-    // of magnitude.
-    //
-    static std::uint64_t ProbeRecords(
-      const std::u32string& s1, const std::u32string& s2);
-    static std::uint64_t ProbeRecords(
       const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
   };
 

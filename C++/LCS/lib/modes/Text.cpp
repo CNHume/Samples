@@ -169,25 +169,21 @@ uint32_t Text::Compare(
 
   if (algorithm == Algorithm::Automatic) {
     //
-    // Heuristic dispatch: probe Myers with a tight band, then select among the
-    // remaining algorithms from the match count and alphabet size.
-    // Report the choice and its reason under verbose.
+    // Heuristic dispatch: probe Myers with a tight band, then choose among
+    // Hunt-Szymanski (sparse matches) and a speculative RickTime run with a
+    // linear-space RickSpace fallback.  Report the choice under verbose.
     //
     unordered_map<char32_t, uint64_t> count1, count2;
     for (auto c : s1)
       count1[c]++;
     for (auto c : s2)
       count2[c]++;
-    uint64_t symbols = 0, matches = 0;
+    uint64_t matches = 0;
     for (const auto& [symbol, count] : count1) {
-      symbols++;
       auto found = count2.find(symbol);
       if (found != count2.end())
         matches += count * found->second;
     }
-    for (const auto& [symbol, count] : count2)
-      if (count1.find(symbol) == count1.end())
-        symbols++;
     string reason;
     auto d = algorithms::Myers::ProbeDistance(
       s1, s2, (int64_t)algorithms::Analysis::EditThreshold);
@@ -203,9 +199,8 @@ uint32_t Text::Compare(
         reason = format("{} matches is sparse", matches);
       }
       else {
-        auto dominant = algorithms::RickTime::ProbeRecords(s1, s2);
-        algorithm = algorithms::Analysis::SelectAutomatic(
-          reason, s1.size(), s2.size(), dominant, symbols);
+        algorithm = Algorithm::RickTime;
+        reason = format("{} matches is dense; trying RickTime", matches);
       }
     }
     if (isverbose)
@@ -252,9 +247,19 @@ uint32_t Text::Compare(
     auto isswapped = ns2.size() < ns1.size();
     const auto& shorter = isswapped ? ns2 : ns1;
     const auto& longer = isswapped ? ns1 : ns2;
-    length = algorithm == Algorithm::RickTime ?
-      algorithms::RickTime::Find(ppairs, statistics, progress, shorter, longer) :
-      algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
+    if (algorithm == Algorithm::RickTime) {
+      try {
+        length = algorithms::RickTime::Find(ppairs, statistics, progress, shorter, longer);
+      }
+      catch (const algorithms::RickTimeBudgetExceeded&) {
+        if (isverbose)
+          cerr << "RickTime: recording overflowed; fell back to RickSpace\n";
+        length = algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
+      }
+    }
+    else {
+      length = algorithms::RickSpace::Find(ppairs, statistics, progress, shorter, longer);
+    }
     if (algorithm == Algorithm::RickSpace && statistics && progress == nullptr)
       //
       // RickSpace is memory-safe but slow on near-identical inputs, the

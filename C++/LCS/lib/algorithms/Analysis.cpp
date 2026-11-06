@@ -138,17 +138,3 @@ void Analysis::WarnMyersDistance(uint64_t distance, uint64_t budget) {
     "use -As (RickSpace) or -At (RickTime) instead",
     distance, budget) << '\n';
 }
-
-Algorithm Analysis::SelectAutomatic(
-  string& reason, uint64_t m, uint64_t n, uint64_t dominantMatches, uint64_t symbols) {
-  //
-  // RickTime records dominant matches, a subset of the total match count; the
-  // dispatcher probes that count directly rather than over-estimating with r.
-  //
-  auto budget = RecordingBudget(m, n, symbols);
-  auto fits = budget >= dominantMatches;
-  reason = fits
-    ? format("RickTime recording budget {} covers {} dominant matches", budget, dominantMatches)
-    : format("RickTime recording budget {} is below {} dominant matches", budget, dominantMatches);
-  return fits ? Algorithm::RickTime : Algorithm::RickSpace;
-}

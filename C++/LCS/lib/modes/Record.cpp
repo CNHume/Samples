@@ -135,24 +135,20 @@ uint32_t Record::Compare(
   if (algorithm == Algorithm::Automatic) {
     //
     // Heuristic dispatch over records: probe Myers with a tight band, then
-    // select among the remaining algorithms from the match count and alphabet
-    // size, with record strings as the symbols.
+    // choose among Hunt-Szymanski (sparse) and a speculative RickTime run with
+    // a linear-space RickSpace fallback, with record strings as the symbols.
     //
     unordered_map<string, uint64_t> count1, count2;
     for (const auto& rec : r1)
       count1[rec]++;
     for (const auto& rec : r2)
       count2[rec]++;
-    uint64_t symbols = 0, matches = 0;
+    uint64_t matches = 0;
     for (const auto& [symbol, count] : count1) {
-      symbols++;
       auto found = count2.find(symbol);
       if (found != count2.end())
         matches += count * found->second;
     }
-    for (const auto& [symbol, count] : count2)
-      if (count1.find(symbol) == count1.end())
-        symbols++;
     string reason;
     auto d = algorithms::Myers::ProbeDistance(
       r1, r2, (int64_t)algorithms::Analysis::EditThreshold);
@@ -168,22 +164,8 @@ uint32_t Record::Compare(
         reason = format("{} matches is sparse", matches);
       }
       else {
-        //
-        // Dense matches: probe RickTime's dominant-match count.  The record
-        // path needs the shared match lists, built here and rebuilt in the
-        // switch below; the dense-record case is rare enough that the
-        // duplication is acceptable.
-        //
-        auto swapped = r2.size() < r1.size();
-        const auto& shortRecs = swapped ? r2 : r1;
-        const auto& longRecs = swapped ? r1 : r2;
-        STRING_TO_INDEXES_MAP probeIndexesByString;
-        MATCHES probeIndexesByIndex1;
-        Match(probeIndexesByIndex1, probeIndexesByString, shortRecs, longRecs, ignorecase, ignorespace);
-        auto dominant = algorithms::RickTime::ProbeRecords(
-          probeIndexesByIndex1, (uint32_t)shortRecs.size(), (uint32_t)longRecs.size());
-        algorithm = algorithms::Analysis::SelectAutomatic(
-          reason, r1.size(), r2.size(), dominant, symbols);
+        algorithm = Algorithm::RickTime;
+        reason = format("{} matches is dense; trying RickTime", matches);
       }
     }
     if (isverbose)
@@ -244,9 +226,18 @@ uint32_t Record::Compare(
         (uint32_t)shorter.size(), (uint32_t)longer.size());
     }
     else {
-      length = algorithms::RickTime::Find(
-        ppairs, statistics, progress, indexesOf2MatchedByIndex1,
-        (uint32_t)shorter.size(), (uint32_t)longer.size());
+      try {
+        length = algorithms::RickTime::Find(
+          ppairs, statistics, progress, indexesOf2MatchedByIndex1,
+          (uint32_t)shorter.size(), (uint32_t)longer.size());
+      }
+      catch (const algorithms::RickTimeBudgetExceeded&) {
+        if (isverbose)
+          cerr << "RickTime: recording overflowed; fell back to RickSpace\n";
+        length = algorithms::RickSpace::Find(
+          ppairs, statistics, progress, indexesOf2MatchedByIndex1,
+          (uint32_t)shorter.size(), (uint32_t)longer.size());
+      }
     }
     break;
   }

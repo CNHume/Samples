@@ -61,18 +61,9 @@ namespace lcs::algorithms {
     //
     static constexpr std::uint64_t EditThreshold = 2000;
     // Below this matches/shortest ratio Hunt-Szymanski is preferred; above it
-    // the matches are dense and the dispatcher chooses between the Rick engines.
+    // the matches are dense and the dispatcher runs RickTime speculatively,
+    // falling back to RickSpace when its recording exceeds the memory budget.
     static constexpr std::uint64_t SparseRedundancy = 100;
-    //
-    // Automatic (-Aa) dispatch: choose RickTime when its dominant-match
-    // recording fits the memory budget, else RickSpace.  The dominant-match
-    // count is probed directly; Myers and Hunt-Szymanski are decided
-    // separately (see EditThreshold and SparseRedundancy).
-    //
-    static Algorithm SelectAutomatic(
-      std::string& reason,
-      std::uint64_t m, std::uint64_t n,
-      std::uint64_t dominantMatches, std::uint64_t symbols);
   };
 
 } // namespace lcs::algorithms
