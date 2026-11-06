@@ -61,7 +61,7 @@ def mutate(seq, rate, rng):
   return "".join(out)
 
 
-def match_density(seq1, seq2):
+def match_count(seq1, seq2):
   """Total matched position pairs r = sum_s count1[s] * count2[s]."""
   c1 = collections.Counter(seq1)
   c2 = collections.Counter(seq2)
@@ -138,7 +138,7 @@ def main():
       fb = os.path.join(d, "mutated.seq")
       with open(fb, "w") as f:
         f.write(mutated)
-      r = match_density(base, mutated)
+      r = match_count(base, mutated)
       shortest = min(len(base), len(mutated))
 
       # Recover the LCS length p from a length-only -Aa run, so D = m+n-2p.
@@ -166,7 +166,7 @@ def main():
 
   print("\nEach cell is 'wall-time peak-RSS'; the Auto cell names the algorithm it chose.")
   print("TIMEOUT exceeded the limit; abort = budget bail-out.")
-  print("Hunt-Szymanski is ineligible whenever the match density r >> 100 * min(m, n):")
+  print("Hunt-Szymanski is ineligible whenever the match count r >> 100 * min(m, n):")
   print("its O((r+n) log n) threshold list degenerates on small alphabets (DNA: r ~ n^2/4).")
 
 

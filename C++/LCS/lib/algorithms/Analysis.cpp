@@ -30,13 +30,13 @@ using namespace lcs::algorithms;
 
 namespace {
   //
-  // Warn when the match density exceeds this percentage of the full m x n
+  // Warn when the match count exceeds this percentage of the full m x n
   // matching matrix.  Hunt-Szymanski is O((r + n) log n), so r near m*n is
   // pathological; the algorithm is meant for the sparse r = O(n) regime.
   //
   constexpr uint64_t matchPercent = 1;
 
-  // Absolute floor below which a match density is too small to matter.
+  // Absolute floor below which a match count is too small to matter.
   constexpr uint64_t matchFloor = 10'000'000;
 
   // Warn when the estimated RickTime table footprint exceeds this byte budget.

@@ -99,10 +99,10 @@ uint32_t HuntSzymanski::Find(
         (limit == prefixEnd.begin() || *prev(limit) < *next(it2));
 
       //
-      // Depending on the match density, this optimization reduces the number of
-      // Pair allocations by up to (r/n + 1)/2.  r/n is the match density ratio,
-      // the average number of matches per position.  At r/n = 1 there is no
-      // reduction.  At maximal density the factor approaches n/2.
+      // Depending on the match count, this optimization reduces the number of
+      // Pair allocations by up to (r/n + 1)/2, where r/n is the average number
+      // of matches per position.  At r/n = 1 there is no reduction.  At maximal
+      // density the factor approaches n/2.
       //
       // The wall-clock benefit is modest and decays with n: ~1.40x faster at
       // n = 10,000 vs. ~1.26x at n = 100,000, because the O(log n) lower_bound

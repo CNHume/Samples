@@ -11,12 +11,14 @@ Three independent quantities decide which algorithm wins:
 | Metric | Definition | Favors |
 |---|---|---|
 | Edit distance `D` | `m + n − 2p` | Myers (`O(ND)`) when `D` is small |
-| Match density `r` | matched position pairs | Hunt–Szymanski (`O((r+n) log n)`) when `r` is sparse |
+| Match count `r` | matched position pairs | Hunt–Szymanski (`O((r+n) log n)`) when `r` is sparse |
 | Alphabet size `s` | distinct symbols | RickTime's dense tables (`O(ns)`) and recording budget |
 
 `r` is a function of `s`, the lengths, and the symbol *distribution*: uniform
 symbols give `r ≈ n²/s`, but a skewed distribution keeps `r` high even at large
-`s`.  The three metrics are therefore genuinely independent.
+`s`.  The three metrics are therefore genuinely independent.  The normalized
+form is the match density `ρ = r/(mn)`, in the closed interval `[0,1]`: `ρ → 0`
+is sparse, `ρ → Θ(1)` is dense.
 
 ## The dispatch
 
@@ -29,8 +31,8 @@ symbols give `r ≈ n²/s`, but a skewed distribution keeps `r` high even at lar
    (`m + n − 2·Σ min(count1, count2)`) was abandoned because it collapses to ~0
    on balanced alphabets like DNA and never let the dispatcher leave Myers.
 
-2. **Sparse check** — if the match density is low (`r ≤ Analysis::SparseDensity
-   · min(m, n)`, where `SparseDensity` = 100), use Hunt–Szymanski.
+2. **Sparse check** — if the match count is low (`r ≤ Analysis::SparseMatchCount
+   · min(m, n)`, where `SparseMatchCount` = 100), use Hunt–Szymanski.
 
 3. **Dense, by phase** — otherwise the matches are dense and the Rick engines
    apply.  The choice depends on whether reconstruction is requested:
@@ -52,7 +54,7 @@ the RickTime/RickSpace branch is the only part that depends on the output phase.
 
 ```
 EditThreshold   = 2000   // Myers' fast range (the probe cap)
-SparseDensity = 100     // r / min(m,n) below which Hunt-Szymanski is sparse
+SparseMatchCount = 100  // r / min(m,n) below which Hunt-Szymanski is sparse
 RecordingBudget(m, n, s) // RickTime's dominant-match budget, RAM-derived
 ```
 

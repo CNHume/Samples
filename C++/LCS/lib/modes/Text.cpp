@@ -194,7 +194,7 @@ uint32_t Text::Compare(
     }
     else {
       auto shorter = min(s1.size(), s2.size());
-      if (matches <= algorithms::Analysis::SparseDensity * shorter) {
+      if (matches <= algorithms::Analysis::SparseMatchCount * shorter) {
         algorithm = Algorithm::Matches;
         reason = format("{} matches is sparse", matches);
       }

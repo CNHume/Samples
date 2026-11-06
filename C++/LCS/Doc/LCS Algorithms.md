@@ -5,7 +5,7 @@ where it is fastest.  This file documents the algorithms themselves; how `-Aa`
 chooses among them is in `LCS Algorithm Selection.md`.
 
 Notation: `m, n` are the sequence lengths (`m ≤ n` after swap); `p` is the LCS
-length; `D = m + n − 2p` is the edit distance; `r` is the match density (the
+length; `D = m + n − 2p` is the edit distance; `r` is the match count (the
 number of matched position pairs); `d` is the number of dominant matches; `s`
 is the alphabet size (number of distinct symbols).
 
@@ -16,7 +16,7 @@ is the alphabet size (number of distinct symbols).
 | RickSpace (2000) | `O(ns + min{pm, p(n−p)})` | `O(ns)` linear | general, never OOMs | `-As` |
 | RickTime (1995) | `O(ns + min{pm, p(n−p)})` | `O(ns + d)` | dense, fastest find | `-At` |
 
-The first two are parameterized by the *edit distance* and the *match density*
+The first two are parameterized by the *edit distance* and the *match count*
 respectively, so each has a hard failure mode (Myers degrades as `D` grows;
 Hunt–Szymanski as `r` densifies).  The two Rick algorithms are parameterized by
 the *LCS length* and the *alphabet size*, so they stay bounded across the whole
