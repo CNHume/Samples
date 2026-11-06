@@ -38,6 +38,11 @@ def load_sequence(path, n):
     return f.read().strip().upper()[:n]
 
 
+def synthetic_base(length, alphabet_size, rng):
+  """A random sequence of distinct code points, one per alphabet symbol."""
+  return "".join(chr(0x100 + rng.randrange(alphabet_size)) for _ in range(length))
+
+
 def mutate(seq, rate, rng):
   alphabet = sorted(set(seq)) or list("ACGT")
   out = []
@@ -93,20 +98,28 @@ def main():
   ap.add_argument("--rates", type=float, nargs="*", default=None)
   ap.add_argument("--base", default=os.path.join(
     os.path.dirname(__file__), "..", "data", "ecoli_mg1655.seq"))
+  ap.add_argument("--alphabet", type=int, default=0,
+                  help="generate a synthetic base over this many distinct symbols "
+                       "(0 = use --base)")
   ap.add_argument("--seed", type=int, default=1)
   args = ap.parse_args()
 
   length_only = not args.trace
   rates = args.rates if args.rates is not None else RATES
   rng = random.Random(args.seed)
-  base = load_sequence(args.base, args.length)
+  if args.alphabet:
+    base = synthetic_base(args.length, args.alphabet, rng)
+    base_label = f"synthetic alphabet s={args.alphabet}"
+  else:
+    base = load_sequence(args.base, args.length)
+    base_label = f"{args.base} (first {args.length} bases)"
 
   with tempfile.TemporaryDirectory() as d:
     fa = os.path.join(d, "base.seq")
     with open(fa, "w") as f:
       f.write(base)
 
-    print(f"Base: {args.base} (first {args.length} bases)")
+    print(f"Base: {base_label}")
     print(f"Phase: {'length-only' if length_only else 'interval reconstruction (trace)'}")
     print(f"Timeout: {args.timeout}s per run\n")
 
