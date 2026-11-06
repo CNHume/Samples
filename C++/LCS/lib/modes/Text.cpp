@@ -197,8 +197,16 @@ uint32_t Text::Compare(
         d, algorithms::Analysis::EditThreshold);
     }
     else {
-      algorithm = algorithms::Analysis::SelectAutomatic(
-        reason, s1.size(), s2.size(), matches, symbols);
+      auto shorter = min(s1.size(), s2.size());
+      if (matches <= algorithms::Analysis::SparseRedundancy * shorter) {
+        algorithm = Algorithm::Matches;
+        reason = format("{} matches is sparse", matches);
+      }
+      else {
+        auto dominant = algorithms::RickTime::ProbeRecords(s1, s2);
+        algorithm = algorithms::Analysis::SelectAutomatic(
+          reason, s1.size(), s2.size(), dominant, symbols);
+      }
     }
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",

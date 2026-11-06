@@ -1,12 +1,12 @@
 # README
 ### Code Samples by Christopher N. Hume
-### updated 2025-04-13
+### updated 2026-11-05
 
 ## What is this repository for?
 
-These samples are intended to be illustrative of my coding style. In addition to games, the other folders include implementations of Sorting and Searching and examples of more interesting algorithms as well.
+These samples are intended to be illustrative of my programming style. In addition to games, the other folders include implementations of Sorting and Searching and examples of more interesting algorithms as well.
 
-The C++/LCS folder contains three implementations of my solution to The Longest Common Subsequence (LCS) Problem, which I have offered as the C++ implementation on Rosetta Code. LCS is perhaps best known as the algorithm used to identify the changes to made to a source file in a source control system.
+The C++/LCS folder contains implementations of my solution to The Longest Common Subsequence (LCS) Problem.  The simplified LCSDemo has been offered as the C++ implementation on Rosetta Code. LCS is perhaps best known as the algorithm used to identify the changes to made to a source file in a source control system.
 
 I have held long-standing interest in Functional Programming. In the Lisp folder I have included my Allegro Common Lisp (ACL) implementation of a “graph-reducing combinator-compiler” for a head-first (a.k.a., lazy-evaluation) functional programming language that I refer to as SK.
 

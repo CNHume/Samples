@@ -1,3 +1,2 @@
-# Private correspondence is kept on disk only and never committed to the
-# repository.
+# Drafts of private correspondence not committed to the repository.
 Correspondence/

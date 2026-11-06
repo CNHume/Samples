@@ -372,4 +372,27 @@ uint32_t RickTime::Find(
   return Sweep(pairs, statistics, progress, t);
 }
 
+uint64_t RickTime::ProbeRecords(const u32string& s1, const u32string& s2) {
+  //
+  // RickTime scans the shorter string first, so swap to guarantee |first| <=
+  // |second| before building the dense tables (see the note on Find).
+  //
+  const u32string* first = &s1;
+  const u32string* second = &s2;
+  if (second->size() < first->size())
+    swap(first, second);
+  auto t = BuildTables(*first, *second);
+  metrics::Statistics statistics;
+  Sweep(nullptr, &statistics, nullptr, t);
+  return statistics.records;
+}
+
+uint64_t RickTime::ProbeRecords(
+  const MATCHES& matches, uint32_t size1, uint32_t size2) {
+  auto t = BuildTables(matches, (size_t)size1, (size_t)size2);
+  metrics::Statistics statistics;
+  Sweep(nullptr, &statistics, nullptr, t);
+  return statistics.records;
+}
+
 } // namespace lcs::algorithms

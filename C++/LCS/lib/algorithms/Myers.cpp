@@ -126,8 +126,28 @@ namespace {
         "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
     }
 
+    if (pairs == nullptr) {
+      //
+      // Length only: the prev-only sweep avoids the O(D^2) reconstruction
+      // history, keeping memory O(D) rather than O(D^2).
+      //
+      auto D = ProbeDistanceCore(s1, s2, (int64_t)budget);
+      if (D < 0) {
+        Analysis::WarnMyersDistance(budget, budget);
+        throw runtime_error(
+          "Myers: edit distance exceeds the budget; use -As (RickSpace) or -At (RickTime)");
+      }
+      auto length = (uint32_t)((m + n - (size_t)D) / 2);
+      if (statistics) {
+        statistics->algorithm = Algorithm::EditDistance;
+        statistics->edits = (uint64_t)D;
+      }
+      return length;
+    }
+
     //
-    // Forward D-path sweep.  V[d] holds the furthest x reached on each diagonal
+    // Full path: store every frontier so the edit script can be reconstructed.
+    // V[d] holds the furthest x reached on each diagonal
     // k = x - y, indexed by k + d; snakes follow the matching runs.  The first
     // d whose frontier reaches (m, n) is the minimal edit distance.
     //
@@ -178,9 +198,6 @@ namespace {
       statistics->algorithm = Algorithm::EditDistance;
       statistics->edits = (uint64_t)D;
     }
-
-    if (pairs == nullptr)
-      return length;
 
     //
     // Reconstruction: walk back from (m, n) across the stored frontiers.  Each

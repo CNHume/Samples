@@ -162,8 +162,29 @@ uint32_t Record::Compare(
         d, algorithms::Analysis::EditThreshold);
     }
     else {
-      algorithm = algorithms::Analysis::SelectAutomatic(
-        reason, r1.size(), r2.size(), matches, symbols);
+      auto shorter = min(r1.size(), r2.size());
+      if (matches <= algorithms::Analysis::SparseRedundancy * shorter) {
+        algorithm = Algorithm::Matches;
+        reason = format("{} matches is sparse", matches);
+      }
+      else {
+        //
+        // Dense matches: probe RickTime's dominant-match count.  The record
+        // path needs the shared match lists, built here and rebuilt in the
+        // switch below; the dense-record case is rare enough that the
+        // duplication is acceptable.
+        //
+        auto swapped = r2.size() < r1.size();
+        const auto& shortRecs = swapped ? r2 : r1;
+        const auto& longRecs = swapped ? r1 : r2;
+        STRING_TO_INDEXES_MAP probeIndexesByString;
+        MATCHES probeIndexesByIndex1;
+        Match(probeIndexesByIndex1, probeIndexesByString, shortRecs, longRecs, ignorecase, ignorespace);
+        auto dominant = algorithms::RickTime::ProbeRecords(
+          probeIndexesByIndex1, (uint32_t)shortRecs.size(), (uint32_t)longRecs.size());
+        algorithm = algorithms::Analysis::SelectAutomatic(
+          reason, r1.size(), r2.size(), dominant, symbols);
+      }
     }
     if (isverbose)
       cerr << format("Automatic: selected {} because {}\n",

@@ -56,11 +56,6 @@ namespace {
   // and no more than 1% of the shorter string.
   //
   constexpr uint64_t nearIdenticalEdits = 1000;
-
-  //
-  // Automatic (-Aa) dispatch thresholds.
-  //
-  constexpr uint64_t autoSparseRedundancy = 100;   // r/n below which H-S is sparse
 }
 
 void Analysis::WarnMatchCount(uint64_t matches, uint64_t m, uint64_t n) {
@@ -145,21 +140,15 @@ void Analysis::WarnMyersDistance(uint64_t distance, uint64_t budget) {
 }
 
 Algorithm Analysis::SelectAutomatic(
-  string& reason, uint64_t m, uint64_t n, uint64_t matches, uint64_t symbols) {
-  auto shorter = min(m, n);
-  if (matches <= autoSparseRedundancy * shorter) {
-    reason = format("{} matches is sparse", matches);
-    return Algorithm::Matches;
-  }
+  string& reason, uint64_t m, uint64_t n, uint64_t dominantMatches, uint64_t symbols) {
   //
-  // RickTime records dominant matches, a subset of the total match count r,
-  // so its recording fits whenever the budget covers r.  Comparing to the
-  // shorter length under-counts high-redundancy inputs, where r is O(n^2).
+  // RickTime records dominant matches, a subset of the total match count; the
+  // dispatcher probes that count directly rather than over-estimating with r.
   //
   auto budget = RecordingBudget(m, n, symbols);
-  auto fits = budget >= matches;
+  auto fits = budget >= dominantMatches;
   reason = fits
-    ? format("RickTime recording budget {} covers {} matches", budget, matches)
-    : format("RickTime recording budget {} is below {} matches", budget, matches);
+    ? format("RickTime recording budget {} covers {} dominant matches", budget, dominantMatches)
+    : format("RickTime recording budget {} is below {} dominant matches", budget, dominantMatches);
   return fits ? Algorithm::RickTime : Algorithm::RickSpace;
 }

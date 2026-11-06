@@ -58,6 +58,17 @@ namespace lcs::algorithms {
       std::shared_ptr<Pair>* pairs, metrics::Statistics* statistics,
       metrics::Progress* progress,
       const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
+    //
+    // Length-only probe: run the diagonal sweep without recording and return
+    // the number of dominant matches that reconstruction would store.  The -Aa
+    // dispatch compares this against the recording budget instead of the total
+    // match count, which over-estimates dense alphabets (e.g. DNA) by an order
+    // of magnitude.
+    //
+    static std::uint64_t ProbeRecords(
+      const std::u32string& s1, const std::u32string& s2);
+    static std::uint64_t ProbeRecords(
+      const MATCHES& matches, std::uint32_t size1, std::uint32_t size2);
   };
 
 } // namespace lcs::algorithms
