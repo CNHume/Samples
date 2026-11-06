@@ -31,8 +31,7 @@ The Python samples assume a Python 3.13 environment.
 Some of the C# projects may require C# 12 features provided by Visual Studio 2022, and the .NET
 8.0 Framework.
 
-See the following Microsoft Download link to obtain the [Free Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/), currently at version 17.10 Preview 3.  Installation includes a [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
-
+See Microsoft [Visual Studio 2026 Downloads](https://visualstudio.microsoft.com/downloads/) to obtain [Insiders Edition](https://visualstudio.microsoft.com/insiders/) [12328.396].  Installation includes the [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
 
 To **Open the PMC** via *Tools > NuGet Package Manager > Package Manager Console*.
 
