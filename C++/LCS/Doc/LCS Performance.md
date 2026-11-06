@@ -5,8 +5,9 @@ algorithms as the input crosses each boundary condition.  Every table lists all
 four engines plus `-Aa`, so the reader can see that `-Aa` tracks the winner
 without any user intervention.
 
-Notation: `D` = edit distance, `r` = matched position pairs, `s` = alphabet
-size (distinct symbols), `p` = LCS length.  Cells are `wall-time · peak-RSS`;
+Notation: `D` = edit distance, `r` = match density (matched position pairs),
+`s` = alphabet size (distinct symbols), `p` = LCS length.  Cells are
+`wall-time · peak-RSS`;
 the `-Aa` cell also names the algorithm it selected in brackets.
 `TIMEOUT` = exceeded the timeout; `abort` = the algorithm bailed out on its own
 budget.
@@ -68,7 +69,7 @@ columns.
 
 ---
 
-## Boundary 2 — sparsity (`r`)
+## Boundary 2 — density (`r`)
 
 Divergent input (40% edit), length-only, as the alphabet grows and the matches
 thin out:
@@ -114,7 +115,7 @@ Measured at 40% edit: RickTime's recording is 3.9 GB at 100 Kbp and overflows at
 ## Summary
 
 `-Aa` never runs a pathological algorithm.  Each boundary condition — divergence
-(`D = 2000`), sparsity (`r = 100·min`), and the output phase (length-only vs
+(`D = 2000`), density (`r = 100·min`), and the output phase (length-only vs
 reconstruction) — is tested up front or routed by phase, and `-Aa` lands on the
 winner every time:
 
@@ -124,5 +125,5 @@ winner every time:
 - dense, reconstruction → **RickSpace**.
 
 Because the two Rick engines are parameterized by LCS length and alphabet size
-rather than edit distance or match count, there is no input for which all four
+rather than edit distance or match density, there is no input for which all four
 engines are pathological — and `-Aa` finds the one that is not.

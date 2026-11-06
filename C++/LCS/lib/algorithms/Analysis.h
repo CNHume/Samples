@@ -32,7 +32,7 @@ namespace lcs::algorithms {
   //
   class Analysis {
   public:
-    // Hunt-Szymanski degenerates when the match count r is large relative
+    // Hunt-Szymanski degenerates when the match density r is large relative
     // to the full m x n matching matrix, since it runs in O((r + n) log n).
     static void WarnMatchCount(std::uint64_t matches, std::uint64_t m, std::uint64_t n);
     // RickTime allocates two dense s x length occurrence tables.
@@ -60,10 +60,11 @@ namespace lcs::algorithms {
     // from symbol counts, which is far too weak for balanced alphabets.
     //
     static constexpr std::uint64_t EditThreshold = 2000;
-    // Below this matches/shortest ratio Hunt-Szymanski is preferred; above it
-    // the matches are dense and the dispatcher runs RickTime speculatively,
-    // falling back to RickSpace when its recording exceeds the memory budget.
-    static constexpr std::uint64_t SparseRedundancy = 100;
+    // Below this match-density ratio (r / shortest) Hunt-Szymanski is
+    // preferred; above it the matches are dense and the dispatcher runs
+    // RickTime speculatively, falling back to RickSpace when its recording
+    // exceeds the memory budget.
+    static constexpr std::uint64_t SparseDensity = 100;
   };
 
 } // namespace lcs::algorithms

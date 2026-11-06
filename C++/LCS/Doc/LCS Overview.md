@@ -138,7 +138,7 @@ A binary search optimization due to [Hunt and Szymanski 1977][^5] can be applied
     A, B are input strings of lengths m, n respectively (m ≤ n)
     p is the length of the LCS
     M is the set of matches (i, j) such that A[i] = B[j]
-    r is the magnitude of M
+    r is the match density of M (its magnitude: the number of matched position pairs)
     s is the magnitude of the alphabet Σ of distinct symbols in A + B
     d is the number of dominant matches
     n − p is the gap: the number of positions in B not on the LCS

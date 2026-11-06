@@ -159,7 +159,7 @@ uint32_t Record::Compare(
     }
     else {
       auto shorter = min(r1.size(), r2.size());
-      if (matches <= algorithms::Analysis::SparseRedundancy * shorter) {
+      if (matches <= algorithms::Analysis::SparseDensity * shorter) {
         algorithm = Algorithm::Matches;
         reason = format("{} matches is sparse", matches);
       }

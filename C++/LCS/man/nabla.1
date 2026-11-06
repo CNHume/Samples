@@ -57,7 +57,7 @@ option specifies one of four LCS algorithms, or automatic dispatch, as follows:
 .TP
 .B a
 Automatic (the default): heuristic dispatch that selects the algorithm from
-the input's edit distance, match count, and alphabet size.
+the input's edit distance, match density, and alphabet size.
 .TP
 .B d
 Myers (1986): the O(ND) minimal edit-script algorithm
@@ -233,10 +233,10 @@ Edit distance
 .IR D :
 insertions plus deletions of the minimal edit script.
 .TP
-Redundancy \[*r]
-.IR r/n :
-average matches per position; low for sparse matches, high for skewed or
-small alphabets.
+Match density \[*r]
+.IR r :
+the number of matched position pairs; low for sparse matches, high for
+skewed or small alphabets.
 .TP
 Alphabet size
 .IR s :
@@ -264,7 +264,7 @@ recursion, so it never exhausts memory and completes when no other
 algorithm does.
 .TP
 .B t
-RickTime (time): fastest at high redundancy (high \[*r]), when its
+RickTime (time): fastest at high density (high \[*r]), when its
 dominant-match recording fits in memory.
 .PP
 Automatic dispatch (
@@ -278,7 +278,7 @@ from the symbol counts and selects in order:
 .IP 1. 4
 Myers when the edit distance lower bound is at most 2000;
 .IP 2. 4
-Hunt-Szymanski when the match count is at most 100 times the shorter
+Hunt-Szymanski when the match density is at most 100 times the shorter
 input length (sparse matches);
 .IP 3. 4
 RickTime when its recording budget covers the shorter input;

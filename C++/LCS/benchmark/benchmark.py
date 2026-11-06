@@ -166,8 +166,8 @@ def main():
 
   print("\nEach cell is 'wall-time peak-RSS'; the Auto cell names the algorithm it chose.")
   print("TIMEOUT exceeded the limit; abort = budget bail-out.")
-  print("Hunt-Szymanski is ineligible whenever r >> 100 * min(m, n): its")
-  print("O((r+n) log n) threshold list degenerates on dense alphabets (DNA: r ~ n^2/4).")
+  print("Hunt-Szymanski is ineligible whenever the match density r >> 100 * min(m, n):")
+  print("its O((r+n) log n) threshold list degenerates on small alphabets (DNA: r ~ n^2/4).")
 
 
 if __name__ == "__main__":
