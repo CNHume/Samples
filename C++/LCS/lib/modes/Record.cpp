@@ -163,9 +163,18 @@ uint32_t Record::Compare(
         algorithm = Algorithm::Matches;
         reason = format("{} matches is sparse", matches);
       }
-      else {
+      else if (intervals == nullptr) {
+        // Length-only: RickTime's find phase is fastest; the switch falls back
+        // to RickSpace when its recording would overflow memory.
         algorithm = Algorithm::RickTime;
-        reason = format("{} matches is dense; trying RickTime", matches);
+        reason = format("{} matches is dense; trying RickTime (length-only)", matches);
+      }
+      else {
+        // Interval reconstruction: RickTime's O(d log d) dominant-match sort is
+        // more expensive than RickSpace's divide-and-conquer, so reconstruct
+        // directly in linear space.
+        algorithm = Algorithm::RickSpace;
+        reason = format("{} matches is dense; RickSpace (interval reconstruction)", matches);
       }
     }
     if (isverbose)
