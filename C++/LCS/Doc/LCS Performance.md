@@ -6,7 +6,8 @@ four engines plus `-Aa`, so the reader can see that `-Aa` tracks the winner
 without any user intervention.
 
 Notation: `D` = edit distance, `r` = matched position pairs, `s` = alphabet
-size (distinct symbols), `p` = LCS length.  Cells are `wall-time · peak-RSS`.
+size (distinct symbols), `p` = LCS length.  Cells are `wall-time · peak-RSS`;
+the `-Aa` cell also names the algorithm it selected in brackets.
 `TIMEOUT` = exceeded the timeout; `abort` = the algorithm bailed out on its own
 budget.
 
@@ -33,11 +34,11 @@ ineligible throughout, at 125× its sparse threshold).  As the edit rate climbs,
 
 | rate | D | Myers `-Ad` | H-S `-Am` | RickSpace `-As` | RickTime `-At` | Auto `-Aa` |
 |---|---|---|---|---|---|---|
-| 1% | 851 | **0.00s** · 5MB | TIMEOUT | 0.06s · 8MB | 0.01s · 7MB | **0.00s** · 5MB |
-| 5% | 3,695 | 0.04s · 5MB | TIMEOUT | 0.25s · 8MB | 0.06s · 7MB | **0.06s** · 7MB |
-| 10% | 7,557 | 0.17s · 5MB | TIMEOUT | 0.51s · 8MB | 0.13s · 7MB | **0.14s** · 7MB |
-| 20% | 14,712 | 0.64s · 6MB | TIMEOUT | 1.07s · 9MB | 0.32s · 7MB | **0.34s** · 7MB |
-| 40% | 25,373 | 2.19s · 6MB | TIMEOUT | 1.98s · 9MB | 0.92s · 7MB | **0.89s** · 7MB |
+| 1% | 851 | **0.00s** · 5MB | TIMEOUT | 0.06s · 8MB | 0.01s · 7MB | **0.00s** · 5MB [Myers] |
+| 5% | 3,695 | 0.04s · 5MB | TIMEOUT | 0.25s · 8MB | 0.06s · 7MB | **0.06s** · 7MB [RickTime] |
+| 10% | 7,557 | 0.17s · 5MB | TIMEOUT | 0.51s · 8MB | 0.13s · 7MB | **0.14s** · 7MB [RickTime] |
+| 20% | 14,712 | 0.64s · 6MB | TIMEOUT | 1.07s · 9MB | 0.32s · 7MB | **0.34s** · 7MB [RickTime] |
+| 40% | 25,373 | 2.19s · 6MB | TIMEOUT | 1.98s · 9MB | 0.92s · 7MB | **0.89s** · 7MB [RickTime] |
 
 The hand-off is at the `D = 2000` probe: at 1% (`D = 851`) `-Aa` picks Myers
 instantly; from 5% up it stays on RickTime, whose single diagonal sweep is the
@@ -47,11 +48,11 @@ fastest find.  Myers, left to itself, degrades `O(ND)` — 2.19s by 40%.
 
 | rate | D | Myers `-Ad` | H-S `-Am` | RickSpace `-As` | RickTime `-At` | Auto `-Aa` |
 |---|---|---|---|---|---|---|
-| 1% | 851 | **0.01s** · 14MB | TIMEOUT | 0.15s · 12MB | 0.09s · 69MB | **0.01s** · 14MB |
-| 5% | 3,695 | 0.09s · 112MB | TIMEOUT | 0.55s · 12MB | 0.60s · 241MB | **0.58s** · 12MB |
-| 10% | 7,557 | 0.48s · 444MB | TIMEOUT | 1.12s · 12MB | 1.39s · 450MB | **1.14s** · 12MB |
-| 20% | 14,712 | 1.91s · 1.6GB | TIMEOUT | 2.23s · 11MB | 3.36s · 761MB | **2.31s** · 11MB |
-| 40% | 25,373 | 6.44s · 4.9GB | TIMEOUT | 4.15s · 11MB | 6.02s · 1.1GB | **4.16s** · 11MB |
+| 1% | 851 | **0.01s** · 14MB | TIMEOUT | 0.15s · 12MB | 0.09s · 69MB | **0.01s** · 14MB [Myers] |
+| 5% | 3,695 | 0.09s · 112MB | TIMEOUT | 0.55s · 12MB | 0.60s · 241MB | **0.58s** · 12MB [RickSpace] |
+| 10% | 7,557 | 0.48s · 444MB | TIMEOUT | 1.12s · 12MB | 1.39s · 450MB | **1.14s** · 12MB [RickSpace] |
+| 20% | 14,712 | 1.91s · 1.6GB | TIMEOUT | 2.23s · 11MB | 3.36s · 761MB | **2.31s** · 11MB [RickSpace] |
+| 40% | 25,373 | 6.44s · 4.9GB | TIMEOUT | 4.15s · 11MB | 6.02s · 1.1GB | **4.16s** · 11MB [RickSpace] |
 
 Reconstruction changes the picture in two ways the dispatcher exploits:
 
@@ -74,11 +75,11 @@ thin out:
 
 | `s` | r | Myers `-Ad` | H-S `-Am` | RickSpace `-As` | RickTime `-At` | Auto `-Aa` |
 |---|---|---|---|---|---|---|
-| 4 | 624M | 2.58s · 6MB | TIMEOUT | 2.29s · 9MB | 1.02s · 7MB | **0.98s** · 7MB |
-| 20 | 125M | 2.85s · 6MB | 6.91s · 5MB | 1.61s · 21MB | 0.34s · 13MB | **0.33s** · 13MB |
-| 100 | 25M | abort | 1.54s · 5MB | 0.51s · 82MB | 0.21s · 44MB | **0.18s** · 44MB |
-| 1,000 | 2.5M | abort | **0.16s** · 6MB | 1.21s · 768MB | 0.28s · 387MB | **0.17s** · 6MB |
-| 10,000 | 284K | abort | **0.03s** · 12MB | TIMEOUT | TIMEOUT | **0.07s** · 12MB |
+| 4 | 624M | 2.58s · 6MB | TIMEOUT | 2.29s · 9MB | 1.02s · 7MB | **0.98s** · 7MB [RickTime] |
+| 20 | 125M | 2.85s · 6MB | 6.91s · 5MB | 1.61s · 21MB | 0.34s · 13MB | **0.33s** · 13MB [RickTime] |
+| 100 | 25M | abort | 1.54s · 5MB | 0.51s · 82MB | 0.21s · 44MB | **0.18s** · 44MB [RickTime] |
+| 1,000 | 2.5M | abort | **0.16s** · 6MB | 1.21s · 768MB | 0.28s · 387MB | **0.17s** · 6MB [Hunt-Szymanski] |
+| 10,000 | 284K | abort | **0.03s** · 12MB | TIMEOUT | TIMEOUT | **0.07s** · 12MB [Hunt-Szymanski] |
 
 The hand-off is at the `r = 100·min(m,n)` boundary (5M at this length):
 

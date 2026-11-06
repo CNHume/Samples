@@ -70,6 +70,8 @@ def match_density(seq1, seq2):
 
 def measure(flag, fa, fb, timeout, length_only):
   cmd = ["/usr/bin/time", "-v", NABLA, "-T", flag]
+  if flag == "-Aa":
+    cmd.append("-v")             # report which algorithm Automatic chose
   if length_only:
     cmd.append("-l")
   cmd.extend([fa, fb])
@@ -84,9 +86,13 @@ def measure(flag, fa, fb, timeout, length_only):
     wall = re.search(r"Elapsed \(wall clock\) time \(h:mm:ss or m:ss\): ([\d:.]+)", err)
     rss = int(rss.group(1)) if rss else -1
     wall = wall.group(1) if wall else "-"
-    return ("ok" if p.returncode == 0 else "abort", wall, rss)
+    choice = ""
+    if flag == "-Aa":
+      m = re.search(r"Automatic: selected (\S+) because", err)
+      choice = m.group(1) if m else "?"
+    return ("ok" if p.returncode == 0 else "abort", wall, rss, choice)
   except subprocess.TimeoutExpired:
-    return ("TIMEOUT", f">{timeout}s", -1)
+    return ("TIMEOUT", f">{timeout}s", -1, "")
 
 
 def main():
@@ -147,15 +153,19 @@ def main():
 
       cells = []
       for name, flag in FLAGS:
-        status, wall, rss = measure(flag, fa, fb, args.timeout, length_only)
+        status, wall, rss, choice = measure(flag, fa, fb, args.timeout, length_only)
         if status == "ok":
-          cells.append(f"{wall} {rss // 1024}MB")
+          cell = f"{wall} {rss // 1024}MB"
+          if choice:
+            cell += f" [{choice}]"
+          cells.append(cell)
         else:
           cells.append(f"{status} ({wall})")
       print(" | ".join(c.ljust(20) for c in
             [f"{int(rate * 100)}%", str(D), str(r)] + cells), flush=True)
 
-  print("\nEach cell is 'wall-time peak-RSS'; TIMEOUT exceeded the limit, abort = budget bail-out.")
+  print("\nEach cell is 'wall-time peak-RSS'; the Auto cell names the algorithm it chose.")
+  print("TIMEOUT exceeded the limit; abort = budget bail-out.")
   print("Hunt-Szymanski is ineligible whenever r >> 100 * min(m, n): its")
   print("O((r+n) log n) threshold list degenerates on dense alphabets (DNA: r ~ n^2/4).")
 
