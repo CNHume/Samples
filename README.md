@@ -1,6 +1,6 @@
 # README
 ### Code Samples by Christopher N. Hume
-### updated 2026-11-05
+### updated 2026-11-08
 
 ## What is this repository for?
 
@@ -28,8 +28,7 @@ There is also a Java folder which contains a Bit-Board based Othello player.
 
 The Python samples assume a Python 3.13 environment.
 
-Some of the C# projects may require C# 12 features provided by Visual Studio 2022, and the .NET
-8.0 Framework.
+Some of the C# projects may require C# 14 features provided by Visual Studio 2026, and the .NET 10.0 Framework.
 
 See Microsoft [Visual Studio 2026 Downloads](https://visualstudio.microsoft.com/downloads/) to obtain [Insiders Edition](https://visualstudio.microsoft.com/insiders/) [12328.396].  Installation includes the [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
 
