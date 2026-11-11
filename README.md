@@ -30,7 +30,7 @@ The Python samples assume a Python 3.13 environment.
 
 Some of the C# projects may require C# 14 features provided by Visual Studio 2026, and the .NET 10.0 Framework.
 
-See Microsoft [Visual Studio 2026 Downloads](https://visualstudio.microsoft.com/downloads/) to obtain [Insiders Edition](https://visualstudio.microsoft.com/insiders/) [12328.396].  Installation includes the [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
+See Microsoft [Visual Studio 2026 Downloads](https://visualstudio.microsoft.com/downloads/) to obtain [Insiders Edition](https://visualstudio.microsoft.com/insiders/) [12409.143].  Installation includes the [current release of the .NET SDK](https://dotnet.microsoft.com/en-us/download).
 
 To **Open the PMC** via *Tools > NuGet Package Manager > Package Manager Console*.
 
